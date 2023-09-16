@@ -112,19 +112,19 @@
 #define NOGAMEWARNING               "This won't work because %s %s not playing a game."
 #define NIGHTMAREWARNING            "This won't work because %s %s playing a game in " ITALICS("Nightmare!")
 
-#define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHDEFAULT      "It is currently " BOLDER("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT        "It is currently " BOLD("%s") " by default."
-#define DEGREESCVARWITHDEFAULT      "It is currently " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
+#define DEGREESCVARWITHDEFAULT      "It is currently " BOLDER("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
 #define DEGREESCVARISDEFAULT        "It is currently " BOLD("%i") "\xB0 by default."
-#define PERCENTCVARWITHDEFAULT      "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHDEFAULT      "It is currently " BOLDER("%s%%") " and is " BOLD("%s%%") " by default."
 #define PERCENTCVARWITHNODEFAULT    "It is currently " BOLD("%s%%") "."
 #define PERCENTCVARISDEFAULT        "It is currently " BOLD("%s%%") " by default."
-#define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHDEFAULT       "It is currently " BOLDER("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is currently " BOLD("\"%s\"") " by default."
-#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT1      "It is currently " BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2      "It is currently " BOLDER(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
 #define INDENT                      "      "
 
@@ -2182,8 +2182,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             char    name[255];
             char    description[255];
 
-            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
-                consolecmds[i].name : consolecmds[i].altspelling), sizeof(name));
+            M_StringCopy(name, (english == english_american
+                || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ? consolecmds[i].name :
+                consolecmds[i].altspelling), sizeof(name));
 
             if (*parms && !wildcard(name, parms))
                 continue;
@@ -2208,8 +2209,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i") "\t%s", name, value, description);
                 }
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s",
-                        name, ammo_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s", name, ammo_default, description);
             }
             else if (M_StringCompare(name, stringize(armor)))
             {
@@ -2223,8 +2223,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\t%s", name, value, description);
                 }
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        name, armor_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, armor_default, description);
             }
             else if (M_StringCompare(name, stringize(armortype)))
             {
@@ -2241,8 +2240,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("none") "\t%s",
-                        name, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("none") "\t%s", name, description);
             }
             else if (M_StringCompare(name, stringize(health)))
             {
@@ -2256,8 +2254,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\t%s", name, value, description);
                 }
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        name, health_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, health_default, description);
             }
             else if (M_StringCompare(name, stringize(weapon)))
             {
@@ -2282,8 +2279,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
                     free(temp);
                 }
             }
@@ -2395,11 +2391,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
                 if (!hours)
                     C_TabbedOutput(tabs, BOLD("%s")
-                        "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
+                        "\t" BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         name, minutes, seconds, description);
                 else
                     C_TabbedOutput(tabs, BOLD("%s")
-                        "\t" BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
+                        "\t" BOLDER(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         name, hours, minutes, seconds, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
