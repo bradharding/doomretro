@@ -118,6 +118,7 @@
 #define MONOSPACEDOFFCHAR                   '\x1F'
 
 #define BOLD(text)                          BOLDON text BOLDOFF
+#define BOLDER(text)                        BOLDON BOLDON text BOLDOFF BOLDOFF
 #define ITALICS(text)                       ITALICSON text ITALICSOFF
 #define BOLDITALICS(text)                   ITALICS(BOLD(text))
 #define MONOSPACED(text)                    MONOSPACEDON text MONOSPACEDOFF

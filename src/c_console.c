@@ -929,6 +929,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     const bool kerning, const int index, unsigned char prevletter, unsigned char prevletter2)
 {
     bool        bold = false;
+    bool        bolder = false;
     bool        italics = false;
     bool        monospaced = false;
     int         tab = -1;
@@ -949,9 +950,19 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         unsigned char       nextletter = text[i + 1];
 
         if (letter == BOLDONCHAR)
-            bold = true;
+        {
+            if (bold)
+                bolder = true;
+            else
+                bold = true;
+        }
         else if (letter == BOLDOFFCHAR)
-            bold = false;
+        {
+            if (bolder)
+                bolder = false;
+            else
+                bold = false;
+        }
         else if (letter == ITALICSONCHAR)
             italics = true;
         else if (letter == ITALICSOFFCHAR)
@@ -1094,7 +1105,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     patch, width, (bold && italics ? (color1 == consolewarningcolor ? color1 :
                         consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ','
-                        && letter != '/' && patch != unknownchar), tinttab);
+                        && letter != '/' && patch != unknownchar), (bolder ? NULL : tinttab));
                 x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
 
                 if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)

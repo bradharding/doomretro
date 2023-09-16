@@ -2268,31 +2268,50 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
-                char    *temp = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
+                bool    value = *(bool *)consolecmds[i].variable;
+                char    *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    name, temp, description);
+                if (value == consolecmds[i].defaultnumber)
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+
                 free(temp);
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                    name, *(int *)consolecmds[i].variable, description);
+            {
+                int     value = *(int *)consolecmds[i].variable;
+
+                if (value == consolecmds[i].defaultnumber)
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\t%s", name, value, description);
+            }
             else if (consolecmds[i].flags & CF_INTEGER)
             {
-                char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
+                int     value = *(int *)consolecmds[i].variable;
+                char    *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    name, temp, description);
+                if (value == consolecmds[i].defaultnumber)
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+
                 free(temp);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
             {
+                float   value = *(float *)consolecmds[i].variable;
+
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
-                    char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+                    char    *temp = striptrailingzero(value, 1);
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s%%") "\t%s",
-                        name, temp, description);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s%%") "\t%s", name, temp, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s%%") "\t%s", name, temp, description);
+
                     free(temp);
                 }
                 else if (M_StringCompare(consolecmds[i].name, stringize(r_gamma)))
@@ -2300,32 +2319,43 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     char    buffer[128];
                     int     len;
 
-                    M_snprintf(buffer, sizeof(buffer), "%.2f", *(float *)consolecmds[i].variable);
+                    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
                     len = (int)strlen(buffer);
 
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                         buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        name, buffer, description);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, buffer, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, buffer, description);
                 }
                 else
                 {
-                    char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+                    char    *temp = striptrailingzero(value, 1);
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        name, temp, description);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+
                     free(temp);
                 }
             }
+            else if (M_StringCompare(name, stringize(version)))
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    name, *(char **)consolecmds[i].variable, description);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
-                    name,
-                    (M_StringCompare(name, stringize(version)) ? "" : "\""),
-                    *(char **)consolecmds[i].variable,
-                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""),
-                    (M_StringCompare(name, stringize(version)) ? "" : "\""),
-                    description);
+            {
+                char    *value = *(char **)consolecmds[i].variable;
+
+                if (M_StringCompare(value, consolecmds[i].defaultstring))
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("\"%.14s%s\"") "\t%s",
+                        name, value, (strlen(value) > 14 ? "..." : ""), description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("\"%.14s%s\"") "\t%s",
+                        name, value, (strlen(value) > 14 ? "..." : ""), description);
+            }
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -2345,14 +2375,19 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (consolecmds[i].flags & CF_OTHER)
             {
                 char    temp[255];
+                char    *value = *(char **)consolecmds[i].variable;
 
-                M_StringCopy(temp, *(char **)consolecmds[i].variable, sizeof(temp));
+                M_StringCopy(temp, value, sizeof(temp));
 
                 if (english == english_international)
                     M_AmericanToInternationalEnglish(temp);
 
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    name, temp, description);
+                if (M_StringCompare(value, consolecmds[i].defaultstring))
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, temp, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s",
+                        name, temp, description);
             }
         }
 }
