@@ -427,7 +427,7 @@ static void saveg_write_ticcmd_t(const ticcmd_t *str)
 //
 static void saveg_read_pspdef_t(pspdef_t *str)
 {
-    int state = saveg_read32();
+    const int   state = saveg_read32();
 
     str->state = (state > 0 && state < numstates ? &states[state] : NULL);
     str->tics = saveg_read32();

@@ -2292,9 +2292,9 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int value = *(int *)consolecmds[i].variable;
 
                 if (value == consolecmds[i].defaultnumber)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\xB0\t%s", name, value, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\xB0\t%s", name, value, description);
                 else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\xB0\t%s", name, value, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i") "\xB0\t%s", name, value, description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
