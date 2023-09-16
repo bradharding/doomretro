@@ -2,6 +2,7 @@
 
 #### DOOM Retro v5.0.2
 
+* Minor changes have been made to text that is output to the console.
 * The values of CVARs that have been changed from their defaults are now highlighted when using the `cvarlist` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

@@ -80,9 +80,9 @@ static char *GetGameControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
         return("An " ITALICS("Xbox One") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_PS3)
-        return("A " ITALICS("PlayStation 3 DualSense") " controller is connected.");
+        return("A " ITALICS("PlayStation 3 DualShock") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_PS4)
-        return("A " ITALICS("PlayStation 4 DualSense") " controller is connected.");
+        return("A " ITALICS("PlayStation 4 DualShock") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
         return("A " ITALICS("Nintendo Switch Pro") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
