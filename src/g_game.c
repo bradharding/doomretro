@@ -283,15 +283,18 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright]
+            || (gamecontrollerbuttons & gamecontrollerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
+            || (gamecontrollerbuttons & gamecontrollerleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright]
+            || (gamecontrollerbuttons & gamecontrollerright))
         {
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
@@ -309,7 +312,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 menuspindirection = SIGN(cmd->angleturn);
         }
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
+            || (gamecontrollerbuttons & gamecontrollerleft))
         {
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
@@ -334,7 +338,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(48 * ((float)gamecontrollerthumbRY / SHRT_MAX) * gamecontrollerverticalsensitivity);
+                cmd->lookdir = (int)(48 * ((float)gamecontrollerthumbRY / SHRT_MAX)
+                    * gamecontrollerverticalsensitivity);
 
                 if (!joy_invertyaxis)
                     cmd->lookdir = -cmd->lookdir;
@@ -397,7 +402,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamecontrollerbuttons & gamecontrollerjump)) && !nojump)
+    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump]
+        || (gamecontrollerbuttons & gamecontrollerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons
@@ -405,7 +411,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         skipaction = false;
     else if (!freeze)
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamecontrollerbuttons & gamecontrollerfire)))
+        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire]
+            || (gamecontrollerbuttons & gamecontrollerfire)))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]
@@ -429,7 +436,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (mousebuttons[*mouseweapons[i]])
             {
-                if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                if (viewplayer->readyweapon != i
+                    || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
@@ -438,7 +446,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (gamecontrollerbuttons & *gamecontrollerweapons[i])
             {
-                if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                if (viewplayer->readyweapon != i
+                    || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));

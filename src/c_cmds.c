@@ -112,19 +112,19 @@
 #define NOGAMEWARNING               "This won't work because %s %s not playing a game."
 #define NIGHTMAREWARNING            "This won't work because %s %s playing a game in " ITALICS("Nightmare!")
 
-#define INTEGERCVARWITHDEFAULT      "It is currently " BOLDER("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT        "It is currently " BOLD("%s") " by default."
-#define DEGREESCVARWITHDEFAULT      "It is currently " BOLDER("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
+#define DEGREESCVARWITHDEFAULT      "It is currently " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
 #define DEGREESCVARISDEFAULT        "It is currently " BOLD("%i") "\xB0 by default."
-#define PERCENTCVARWITHDEFAULT      "It is currently " BOLDER("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHDEFAULT      "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
 #define PERCENTCVARWITHNODEFAULT    "It is currently " BOLD("%s%%") "."
 #define PERCENTCVARISDEFAULT        "It is currently " BOLD("%s%%") " by default."
-#define STRINGCVARWITHDEFAULT       "It is currently " BOLDER("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is currently " BOLD("\"%s\"") " by default."
-#define TIMECVARWITHNODEFAULT1      "It is currently " BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2      "It is currently " BOLDER(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
 #define INDENT                      "      "
 
@@ -2389,7 +2389,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int minutes = ((tics %= 3600)) / 60;
                 int seconds = tics % 60;
 
-                if (!hours)
+                if (!tics)
+                    C_TabbedOutput(tabs, BOLD("%s")
+                        "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
+                        name, minutes, seconds, description);
+                else if (!hours)
                     C_TabbedOutput(tabs, BOLD("%s")
                         "\t" BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         name, minutes, seconds, description);
