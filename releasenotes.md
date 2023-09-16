@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v5.0.2
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, September 16, 2023
+
 #### DOOM Retro v5.0.1
 
 * A crash no longer occurs when loading a savegame from a [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked)-compatible WAD.
