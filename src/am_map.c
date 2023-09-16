@@ -1043,6 +1043,16 @@ bool AM_Responder(const event_t *ev)
 
                 if (!am_followmode)
                 {
+                    if (!movement)
+                    {
+                        m_paninc.x = 0;
+                        m_paninc.y = 0;
+                        mtof_zoommul = FRACUNIT;
+                        ftom_zoommul = FRACUNIT;
+                    }
+
+                    movement = false;
+
                     // pan right with left thumbstick
                     if (gamecontrollerthumbLX > 0)
                     {
@@ -1059,26 +1069,6 @@ bool AM_Responder(const event_t *ev)
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.x = (fixed_t)(FTOM(F_PANINC)
                             * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan right with right thumbstick
-                    if (gamecontrollerthumbRX > 0
-                        && gamecontrollerthumbRX > gamecontrollerthumbLX)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)gamecontrollerthumbRX / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan left with right thumbstick
-                    else if (gamecontrollerthumbRX < 0
-                        && gamecontrollerthumbRX < gamecontrollerthumbLX)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)(gamecontrollerthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
@@ -1098,37 +1088,7 @@ bool AM_Responder(const event_t *ev)
                         m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
                             * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
                     }
-
-                    // pan up with right thumbstick
-                    if (gamecontrollerthumbRY < 0
-                        && gamecontrollerthumbRY < gamecontrollerthumbLY)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
-                            * ((float)(gamecontrollerthumbRY) / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan down with right thumbstick
-                    else if (gamecontrollerthumbRY > 0
-                        && gamecontrollerthumbRY > gamecontrollerthumbLY)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
-                            * ((float)gamecontrollerthumbRY / SHRT_MAX) * 1.2f);
-                    }
                 }
-
-                if (!movement)
-                {
-                    m_paninc.x = 0;
-                    m_paninc.y = 0;
-                    mtof_zoommul = FRACUNIT;
-                    ftom_zoommul = FRACUNIT;
-                }
-                else
-                    movement = false;
             }
 
             if ((viewplayer->cheats & CF_MYPOS) && !am_followmode && (m_paninc.x || m_paninc.y))

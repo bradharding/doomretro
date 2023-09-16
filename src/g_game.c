@@ -261,6 +261,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int     forward = 0;
     int     side = 0;
 
+    if (automapactive && !am_followmode && viewplayer->health > 0)
+        return;
+
     memset(cmd, 0, sizeof(ticcmd_t));
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));

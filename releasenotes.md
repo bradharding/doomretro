@@ -3,6 +3,8 @@
 #### DOOM Retro v5.0.1
 
 * A crash no longer occurs when loading a savegame from a [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked)-compatible WAD.
+* A bug is fixed whereby no music or sound effects would play when opening *DOOM Retro* for the first time after installing it.
+* Panning around the automap using a controller’s left thumbstick when the `am_followmode` CVAR is `off` now works as intended.
 * These changes have been made when playing [*Smooth DOOM MBF21*](https://www.doomworld.com/forum/topic/133318/):
   * Ammo casings will no disappear and leave blood splats on the floor.
   * Blood splats now appear around corpses spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
