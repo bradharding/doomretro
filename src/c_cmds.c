@@ -2199,8 +2199,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s",
-                        name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description);
+                {
+                    int value = viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype];
+
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s", name, value, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i") "\t%s", name, value, description);
+                }
                 else
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s",
                         name, ammo_default, description);
@@ -2208,8 +2214,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        name, viewplayer->armor, description);
+                {
+                    int value = viewplayer->armor;
+
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\t%s", name, value, description);
+                }
                 else
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         name, armor_default, description);
@@ -2218,10 +2230,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             {
                 if (gamestate == GS_LEVEL)
                 {
-                    char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
+                    int     value = viewplayer->armortype;
+                    char    *temp = C_LookupAliasFromValue(value, ARMORTYPEVALUEALIAS);
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        name, temp, description);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+
                     free(temp);
                 }
                 else
@@ -2231,8 +2247,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        name, viewplayer->health, description);
+                {
+                    int value = viewplayer->health;
+
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\t%s", name, value, description);
+                }
                 else
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         name, health_default, description);
@@ -2246,10 +2268,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
                 if (gamestate == GS_LEVEL)
                 {
-                    char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
+                    int     value = viewplayer->readyweapon;
+                    char    *temp = C_LookupAliasFromValue(value, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        name, temp, description);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+
                     free(temp);
                 }
                 else
@@ -2263,8 +2289,12 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(name, stringize(r_fov)))
             {
-                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
-                    name, *(int *)consolecmds[i].variable, description);
+                int value = *(int *)consolecmds[i].variable;
+
+                if (value == consolecmds[i].defaultnumber)
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\xB0\t%s", name, value, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%i%%") "\xB0\t%s", name, value, description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
@@ -2280,7 +2310,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
             {
-                int     value = *(int *)consolecmds[i].variable;
+                int value = *(int *)consolecmds[i].variable;
 
                 if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
