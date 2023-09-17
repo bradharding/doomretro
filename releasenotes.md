@@ -8,6 +8,7 @@
 * A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
+* Corpses now gib even more when reacting to splash damage a second time and the `r_corpses_gib` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

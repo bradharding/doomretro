@@ -2248,19 +2248,28 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             int state = info->xdeathstate;
 
-            if (state != S_NULL && target->state < &states[state])
+            if (state != S_NULL)
             {
-                while (states[state].nextstate == state + 1)
-                    state++;
+                if (target->gibbed)
+                {
+                    P_SetMobjState(target, S_GIBS);
+                    S_StartSound(target, sfx_slop);
+                }
+                else
+                {
+                    while (states[state].nextstate == state + 1)
+                        state++;
 
-                P_SetMobjState(target, state);
-                S_StartSound(target, sfx_slop);
+                    target->gibbed = true;
+                    P_SetMobjState(target, state);
+                    S_StartSound(target, sfx_slop);
 
-                if (M_Random() & 1)
-                    target->flags2 ^= MF2_MIRRORED;
+                    if (M_Random() & 1)
+                        target->flags2 ^= MF2_MIRRORED;
 
-                if (con_obituaries)
-                    P_WriteObituary(target, inflicter, source, true, false);
+                    if (con_obituaries)
+                        P_WriteObituary(target, inflicter, source, true, false);
+                }
             }
         }
 
