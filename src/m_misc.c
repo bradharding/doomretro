@@ -1036,6 +1036,7 @@ const char *words[][2] =
     { "draft",        "draught"      },
     { "endeavor",     "endeavour"    },
     { "favor",        "favour"       },
+    { "fiber",        "fibre"        },
     { "flavor",       "flavour"      },
     { "gray",         "grey"         },
     { "harbor",       "harbour"      },
