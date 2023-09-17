@@ -698,7 +698,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(infighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles infighting amongst monsters once you die."),
     CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles giving you and monsters infinite height."),
+        "Toggles giving you and everything else in the current map infinite height."),
     CVAR_BOOL(joy_analog, joy_analogue, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles whether movement using the controller's thumbsticks is analog or digital."),
     CVAR_FLOAT(joy_deadzone_left, "", "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,

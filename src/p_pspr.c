@@ -955,8 +955,8 @@ void P_MovePlayerSprites(void)
     {
         if (weapon->state == &states[S_BFG1])
         {
-            weapon->sx = M_RandomInt(-2, 2) * FRACUNIT;
-            weapon->sy = WEAPONTOP + M_RandomInt(-1, 1) * FRACUNIT;
+            weapon->sx = M_BigRandomInt(-2, 2) * FRACUNIT;
+            weapon->sy = WEAPONTOP + M_BigRandomInt(-1, 1) * FRACUNIT;
         }
         else if (weapon->state == &states[S_BFG2])
         {

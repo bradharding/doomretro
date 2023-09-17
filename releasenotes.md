@@ -5,7 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * The values of CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
 * Voodoo dolls now move at the correct speed on very slow scrolling floors.
-* A bug is fixed whereby the BFG9000’s secondary projectiles would be fired in the wrong direction in some instances.
+* A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
