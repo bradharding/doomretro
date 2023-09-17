@@ -254,7 +254,7 @@ static void P_XYMovement(mobj_t *mo)
     if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
-    if ((!player || !(flags & MF_NOCLIP)) && mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
+    if ((!player || (!(flags & MF_NOCLIP) && !freeze)) && mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
