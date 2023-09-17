@@ -276,7 +276,7 @@ enum
 enum
 {
     english_american,
-    english_international
+    english_british
 };
 
 enum

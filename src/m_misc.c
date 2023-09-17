@@ -1093,13 +1093,13 @@ static void M_Translate(char *string, const char *word1, const char *word2)
     free(temp2);
 }
 
-void M_AmericanToInternationalEnglish(char *string)
+void M_AmericanToBritishEnglish(char *string)
 {
     for (int i = 0; *words[i][0]; i++)
         M_Translate(string, words[i][0], words[i][1]);
 }
 
-void M_InternationalToAmericanEnglish(char *string)
+void M_BritishToAmericanEnglish(char *string)
 {
     for (int i = 0; *words[i][0]; i++)
         M_Translate(string, words[i][1], words[i][0]);
@@ -1109,10 +1109,10 @@ void M_TranslateAutocomplete(void)
 {
     if (english == english_american)
         for (int i = 0; *autocompletelist[i].text; i++)
-            M_InternationalToAmericanEnglish(autocompletelist[i].text);
+            M_BritishToAmericanEnglish(autocompletelist[i].text);
     else
         for (int i = 0; *autocompletelist[i].text; i++)
-            M_AmericanToInternationalEnglish(autocompletelist[i].text);
+            M_AmericanToBritishEnglish(autocompletelist[i].text);
 }
 
 const char *dayofweek(int day, int month, int year)

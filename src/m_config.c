@@ -545,17 +545,18 @@ valuealias_t valuealiases[] =
     { "off",            0, CROSSHAIRVALUEALIAS }, { "cross",          1, CROSSHAIRVALUEALIAS },
     { "on",             1, CROSSHAIRVALUEALIAS }, { "dot",            2, CROSSHAIRVALUEALIAS },
     { "low",            0, DETAILVALUEALIAS    }, { "high",           1, DETAILVALUEALIAS    },
-    { "american",       0, ENGLISHVALUEALIAS   }, { "international",  1, ENGLISHVALUEALIAS   },
-    { "off",            1, GAMMAVALUEALIAS     }, { "other",          0, GENDERVALUEALIAS    },
-    { "male",           1, GENDERVALUEALIAS    }, { "female",         2, GENDERVALUEALIAS    },
-    { "off",            0, SUCKSVALUEALIAS     }, { "imperial",       0, UNITSVALUEALIAS     },
-    { "metric",         1, UNITSVALUEALIAS     }, { "adaptive",      -1, VSYNCVALUEALIAS     },
-    { "off",            0, VSYNCVALUEALIAS     }, { "on",             1, VSYNCVALUEALIAS     },
-    { "fists",          0, WEAPONVALUEALIAS    }, { "pistol",         1, WEAPONVALUEALIAS    },
-    { "shotgun",        2, WEAPONVALUEALIAS    }, { "chaingun",       3, WEAPONVALUEALIAS    },
-    { "rocketlauncher", 4, WEAPONVALUEALIAS    }, { "plasmarifle",    5, WEAPONVALUEALIAS    },
-    { "BFG9000",        6, WEAPONVALUEALIAS    }, { "chainsaw",       7, WEAPONVALUEALIAS    },
-    { "supershotgun",   8, WEAPONVALUEALIAS    }, { "",               0, NOVALUEALIAS        }
+    { "american",       0, ENGLISHVALUEALIAS   }, { "british",        1, ENGLISHVALUEALIAS   },
+    { "international",  1, ENGLISHVALUEALIAS   }, { "off",            1, GAMMAVALUEALIAS     },
+    { "other",          0, GENDERVALUEALIAS    }, { "male",           1, GENDERVALUEALIAS    },
+    { "female",         2, GENDERVALUEALIAS    }, { "off",            0, SUCKSVALUEALIAS     },
+    { "imperial",       0, UNITSVALUEALIAS     }, { "metric",         1, UNITSVALUEALIAS     },
+    { "adaptive",      -1, VSYNCVALUEALIAS     }, { "off",            0, VSYNCVALUEALIAS     },
+    { "on",             1, VSYNCVALUEALIAS     }, { "fists",          0, WEAPONVALUEALIAS    },
+    { "pistol",         1, WEAPONVALUEALIAS    }, { "shotgun",        2, WEAPONVALUEALIAS    },
+    { "chaingun",       3, WEAPONVALUEALIAS    }, { "rocketlauncher", 4, WEAPONVALUEALIAS    },
+    { "plasmarifle",    5, WEAPONVALUEALIAS    }, { "BFG9000",        6, WEAPONVALUEALIAS    },
+    { "chainsaw",       7, WEAPONVALUEALIAS    }, { "supershotgun",   8, WEAPONVALUEALIAS    },
+    { "",               0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)

@@ -643,7 +643,7 @@ consolecmd_t consolecmds[] =
     CCMD(endgame, "", "", game_func1, endgame_cmd_func2, false, "",
         "Ends the game."),
     CVAR_BOOL(english, "", "", english_cvar_func1, english_cvar_func2, CF_NONE, ENGLISHVALUEALIAS,
-        "Toggles the use of American or International English (" BOLD("american") " or " BOLD("international") ")."),
+        "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
     CVAR_INT(episode, "", "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD(exec, "", "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
@@ -1247,8 +1247,8 @@ static void C_ShowDescription(int index)
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
 
-    if (english == english_international)
-        M_AmericanToInternationalEnglish(description);
+    if (english == english_british)
+        M_AmericanToBritishEnglish(description);
 
     if (consolecmds[index].type == CT_CCMD)
         C_Output("This CCMD %s", description);
@@ -2043,10 +2043,10 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 
             M_StringCopy(description, consolecmds[i].description, sizeof(description));
 
-            if (english == english_international)
+            if (english == english_british)
             {
-                M_AmericanToInternationalEnglish(format);
-                M_AmericanToInternationalEnglish(description);
+                M_AmericanToBritishEnglish(format);
+                M_AmericanToBritishEnglish(description);
             }
 
             C_TabbedOutput(tabs, "%s\t" BOLDOFF ITALICSOFF "%s", format, description);
@@ -2194,8 +2194,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
             M_StringCopy(description, consolecmds[i].description, sizeof(description));
 
-            if (english == english_international)
-                M_AmericanToInternationalEnglish(description);
+            if (english == english_british)
+                M_AmericanToBritishEnglish(description);
 
             if (M_StringCompare(name, stringize(ammo)))
             {
@@ -2409,8 +2409,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
                 M_StringCopy(temp, value, sizeof(temp));
 
-                if (english == english_international)
-                    M_AmericanToInternationalEnglish(temp);
+                if (english == english_british)
+                    M_AmericanToBritishEnglish(temp);
 
                 if (M_StringCompare(value, consolecmds[i].defaultstring))
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
@@ -8793,7 +8793,7 @@ static void english_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, ENGLISHVALUEALIAS);
 
-        if ((value == english_american || value == english_international) && value != english)
+        if ((value == english_american || value == english_british) && value != english)
         {
             english = value;
             ST_InitStatBar();
@@ -10722,8 +10722,8 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
 
         M_StringCopy(temp, vid_windowpos, sizeof(temp));
 
-        if (english == english_international)
-            M_AmericanToInternationalEnglish(temp);
+        if (english == english_british)
+            M_AmericanToBritishEnglish(temp);
 
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
             C_Output(INTEGERCVARISDEFAULT, temp);

@@ -4376,12 +4376,12 @@ void D_TranslateDehStrings(void)
     {
         for (int i = 0; i < deh_numstrlookup; i++)
             if (deh_strlookup[i].assigned)
-                M_InternationalToAmericanEnglish(*deh_strlookup[i].ppstr);
+                M_BritishToAmericanEnglish(*deh_strlookup[i].ppstr);
     }
     else
         for (int i = 0; i < deh_numstrlookup; i++)
             if (deh_strlookup[i].assigned)
-                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
+                M_AmericanToBritishEnglish(*deh_strlookup[i].ppstr);
 }
 
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };
