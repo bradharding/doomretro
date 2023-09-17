@@ -881,7 +881,7 @@ static bool D_IsDehFile(const char *filename)
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
 
-static void D_CheckSupportedPWAD(char *filename)
+void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 

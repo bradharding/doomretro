@@ -438,7 +438,10 @@ bool W_AutoloadFiles(const char *folder)
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
                 || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
-                result = W_MergeFile(temp1, true);
+            {
+                if ((result = W_MergeFile(temp1, true)))
+                    D_CheckSupportedPWAD(temp1);
+            }
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
             {
