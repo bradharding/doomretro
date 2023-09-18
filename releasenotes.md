@@ -10,7 +10,7 @@
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
 * Gibbed corpses can now gib even further when reacting to splash damage and the `r_corpses_gib` CVAR is `on`.
 * A crash no longer occurs when pressing certain keys while the help screen is open.
-* The health, armor and ammo bars in the alternate widescreen HUD will now animate when starting a new map, and when changing the screen size by either pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys, or by changing the `r_screensize` CVAR in the console.
+* The health, armor and ammo bars in the alternate widescreen HUD will now animate when starting a new map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

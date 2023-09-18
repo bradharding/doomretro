@@ -9654,7 +9654,6 @@ static void r_hud_cvar_func2(char *cmd, char *parms)
         {
             r_screensize = r_screensize_max;
             C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-            P_AnimateAllStatsFromStart();
         }
 
         if (!vid_widescreen)
@@ -9898,7 +9897,6 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
                 }
 
                 M_SaveCVARs();
-                P_AnimateAllStatsFromStart();
             }
 
             if (r_playersprites)
@@ -10674,7 +10672,6 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         {
             r_screensize = r_screensize_max - 1;
             C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-            P_AnimateAllStatsFromStart();
         }
 
         if (r_hud)

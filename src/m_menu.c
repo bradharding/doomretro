@@ -2308,7 +2308,6 @@ static void M_SizeDisplay(int choice)
             C_StringCVAROutput(stringize(r_hud), "on");
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
-            P_AnimateAllStatsFromStart();
         }
         else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
         {
@@ -2344,7 +2343,6 @@ static void M_SizeDisplay(int choice)
             C_StringCVAROutput(stringize(r_hud), "off");
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
-            P_AnimateAllStatsFromStart();
         }
         else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
         {
@@ -2364,7 +2362,6 @@ static void M_SizeDisplay(int choice)
             {
                 r_hud = true;
                 C_StringCVAROutput(stringize(r_hud), "on");
-                P_AnimateAllStatsFromStart();
             }
 
             S_StartSound(NULL, sfx_stnmov);
