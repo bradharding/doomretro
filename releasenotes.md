@@ -8,8 +8,9 @@
 * A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
-* Gibbed corpses now gib further when reacting to splash damage and the `r_corpses_gib` CVAR is `on`.
-* A crash no longer occurs when pressing an alphanumeric key while the help screen is open.
+* Gibbed corpses can now gib even further when reacting to splash damage and the `r_corpses_gib` CVAR is `on`.
+* A crash no longer occurs when pressing certain keys while the help screen is open.
+* The health, armor and ammo bars in the alternate widescreen HUD will now animate when starting a new map, and when changing the screen size using either the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys, or by changing the `r_screensize` CVAR in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
