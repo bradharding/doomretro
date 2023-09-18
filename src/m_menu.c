@@ -2308,6 +2308,15 @@ static void M_SizeDisplay(int choice)
             C_StringCVAROutput(stringize(r_hud), "on");
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
+
+            if (r_althud)
+            {
+                const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+
+                P_AnimateHealth(-viewplayer->health);
+                P_AnimateArmor(-viewplayer->armor);
+                P_AnimateAmmo(-viewplayer->ammo[ammotype], ammotype);
+            }
         }
         else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
         {
@@ -2343,6 +2352,15 @@ static void M_SizeDisplay(int choice)
             C_StringCVAROutput(stringize(r_hud), "off");
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
+
+            if (r_althud)
+            {
+                const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+
+                P_AnimateHealth(-viewplayer->health);
+                P_AnimateArmor(-viewplayer->armor);
+                P_AnimateAmmo(-viewplayer->ammo[ammotype], ammotype);
+            }
         }
         else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
         {
@@ -2362,6 +2380,15 @@ static void M_SizeDisplay(int choice)
             {
                 r_hud = true;
                 C_StringCVAROutput(stringize(r_hud), "on");
+
+                if (r_althud)
+                {
+                    const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+
+                    P_AnimateHealth(-viewplayer->health);
+                    P_AnimateArmor(-viewplayer->armor);
+                    P_AnimateAmmo(-viewplayer->ammo[ammotype], ammotype);
+                }
             }
 
             S_StartSound(NULL, sfx_stnmov);
