@@ -1287,7 +1287,7 @@ static void HU_DrawAltHUD(void)
                     }
 
                 }
-                else if ((ammo = 100 * ammo / max) < HUD_AMMO_MIN)
+                else if ((ammo = 100 * ammo / max) < HUD_AMMO_MIN && ammodiff[ammotype] >= 0)
                 {
                     if (r_hud_translucency)
                     {
