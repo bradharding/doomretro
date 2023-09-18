@@ -726,7 +726,7 @@ static loaddehlast_t loaddehlast[] =
     { ""                     }
 };
 
-static void LoadDehFile(char *path)
+static void LoadDEHFile(char *path)
 {
     int         i = 0;
     char        *dehpath;
@@ -871,12 +871,18 @@ static bool D_IsUnsupportedIWAD(char *filename)
     return false;
 }
 
-static bool D_IsCfgFile(const char *filename)
+static bool D_IsWADFile(const char *filename)
+{
+    return (M_StringEndsWith(filename, ".wad") || M_StringEndsWith(filename, ".iwad")
+        || M_StringEndsWith(filename, ".pwad"));
+}
+
+static bool D_IsCFGFile(const char *filename)
 {
     return M_StringEndsWith(filename, ".cfg");
 }
 
-static bool D_IsDehFile(const char *filename)
+static bool D_IsDEHFile(const char *filename)
 {
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
@@ -1095,8 +1101,7 @@ static bool D_CheckParms(void)
 {
     bool    result = false;
 
-    if (myargc == 2
-        && (M_StringEndsWith(myargv[1], ".wad") || M_StringEndsWith(myargv[1], ".iwad") || M_StringEndsWith(myargv[1], ".pwad")))
+    if (myargc == 2 && D_IsWADFile(myargv[1]))
     {
         char    *folder = M_ExtractFolder(myargv[1]);
 
@@ -1148,7 +1153,7 @@ static bool D_CheckParms(void)
                     LoadCfgFile(myargv[1]);
 
                     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                        LoadDehFile(myargv[1]);
+                        LoadDEHFile(myargv[1]);
                 }
             }
             else
@@ -1185,7 +1190,7 @@ static bool D_CheckParms(void)
                         LoadCfgFile(myargv[1]);
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                            LoadDehFile(myargv[1]);
+                            LoadDEHFile(myargv[1]);
                     }
                 }
                 else
@@ -1206,7 +1211,7 @@ static bool D_CheckParms(void)
                             LoadCfgFile(myargv[1]);
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                LoadDehFile(myargv[1]);
+                                LoadDEHFile(myargv[1]);
                         }
                     }
                 }
@@ -1297,10 +1302,7 @@ static int D_OpenWADLauncher(void)
 #endif
             char    *folder = M_ExtractFolder(file);
 
-            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".iwad")
-                && !M_StringEndsWith(file, ".pwad") && !M_StringEndsWith(file, ".deh")
-                && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg")
-                && !strchr(file, '.'))
+            if (!D_IsWADFile(file) && !D_IsDEHFile(file) && !D_IsCFGFile(file) && !strchr(file, '.'))
             {
                 char    *temp = M_StringDuplicate(file);
 
@@ -1396,7 +1398,7 @@ static int D_OpenWADLauncher(void)
                         LoadCfgFile(file);
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                            LoadDehFile(file);
+                            LoadDEHFile(file);
 
                         if (D_IsDOOM1IWAD(fullpath))
                         {
@@ -1434,7 +1436,7 @@ static int D_OpenWADLauncher(void)
                             LoadCfgFile(file);
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                LoadDehFile(file);
+                                LoadDEHFile(file);
 
                             if (D_IsDOOM1IWAD(fullpath))
                             {
@@ -1469,7 +1471,7 @@ static int D_OpenWADLauncher(void)
                                 LoadCfgFile(file);
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                    LoadDehFile(file);
+                                    LoadDEHFile(file);
 
                                 if (D_IsDOOM1IWAD(fullpath))
                                 {
@@ -1634,7 +1636,7 @@ static int D_OpenWADLauncher(void)
                         break;
 #endif
 
-                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
+                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDEHFile(fullpath))
                     {
                         gamemission_t   iwadrequired = IWADRequiredByPWAD(fullpath);
 
@@ -1722,7 +1724,7 @@ static int D_OpenWADLauncher(void)
                         char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
-                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
+                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDEHFile(fullpath))
                         {
                             D_CheckSupportedPWAD(fullpath);
 
@@ -1737,7 +1739,7 @@ static int D_OpenWADLauncher(void)
                                 LoadCfgFile(fullpath);
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                    LoadDehFile(fullpath);
+                                    LoadDEHFile(fullpath);
 
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {
@@ -1780,7 +1782,7 @@ static int D_OpenWADLauncher(void)
                         char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
-                        if (D_IsCfgFile(fullpath))
+                        if (D_IsCFGFile(fullpath))
                             M_LoadCVARs(fullpath);
 
 #if defined(_WIN32)
@@ -1804,8 +1806,8 @@ static int D_OpenWADLauncher(void)
                         char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
-                        if (D_IsDehFile(fullpath))
-                            LoadDehFile(fullpath);
+                        if (D_IsDEHFile(fullpath))
+                            LoadDEHFile(fullpath);
 
 #if defined(_WIN32)
                         dehpass = &dehpass[lstrlen(dehpass) + 1];
@@ -2095,8 +2097,7 @@ static void D_DoomMainSetup(void)
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
 #if defined(_WIN32)
-                else if (!choseniwad && !error
-                    && (!*wad || M_StringEndsWith(wad, ".wad") || M_StringEndsWith(wad, ".iwad") || M_StringEndsWith(wad, ".pwad")))
+                else if (!choseniwad && !error && (!*wad || D_IsWADFile(wad)))
 #else
                 else if (!choseniwad && !error)
 #endif
