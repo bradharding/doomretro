@@ -3792,7 +3792,7 @@ bool M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-        else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)))
+        else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && !helpscreen)
         {
             for (int i = itemon + 1; i < currentmenu->numitems; i++)
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == '1' + i)

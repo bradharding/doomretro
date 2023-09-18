@@ -3,12 +3,13 @@
 ### DOOM Retro v5.0.2
 
 * Minor changes have been made to text that is output to the console.
-* The values of CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
+* The values of all CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
 * Voodoo dolls now move at the correct speed on very slow scrolling floors.
 * A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
-* Corpses now gib even more when reacting to splash damage a second time and the `r_corpses_gib` CVAR is `on`.
+* Gibbed corpses now gib further when reacting to splash damage and the `r_corpses_gib` CVAR is `on`.
+* A crash no longer occurs when pressing an alphanumeric key while the help screen is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
