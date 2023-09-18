@@ -504,6 +504,23 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 }
 
+void P_AnimateAllStatsFromStart(void)
+{
+    if (r_althud && animatedstats)
+    {
+        const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+
+        healthdiff = -viewplayer->health;
+        healthdiffspeed = MIN(ABS(-viewplayer->health) / 20 + 1, 20);
+
+        armordiff = -viewplayer->armor;
+        armordiffspeed = MIN(ABS(-viewplayer->armor) / 20 + 1, 20);
+
+        ammodiff[ammotype] = -viewplayer->ammo[ammotype];
+        ammodiffspeed[ammotype] = MIN(ABS(-viewplayer->ammo[ammotype]) / 20 + 1, 20);
+    }
+}
+
 void P_AnimateHealth(int diff)
 {
     if (animatedstats)

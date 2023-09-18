@@ -114,6 +114,7 @@ void P_PlayerThink(void);
 void P_ResurrectPlayer(const int health);
 void P_ChangeWeapon(weapontype_t newweapon);
 
+void P_AnimateAllStatsFromStart(void);
 void P_AnimateHealth(int diff);
 void P_AnimateArmor(int diff);
 void P_AnimateAmmo(int diff, ammotype_t type);

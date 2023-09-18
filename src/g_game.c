@@ -727,6 +727,9 @@ void G_DoLoadLevel(void)
     ammodiff[am_cell] = 0;
     armordiff = 0;
     healthdiff = 0;
+
+    if (r_screensize == r_screensize_max)
+        P_AnimateAllStatsFromStart();
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
