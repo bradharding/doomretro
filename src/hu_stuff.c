@@ -1073,7 +1073,7 @@ static void HU_DrawAltHUD(void)
     }
     else if (health < 100)
     {
-        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red2 : color);
+        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) && healthdiff >= 0 ? red2 : color);
 
         health = MAX(1, health);
 
