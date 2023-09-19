@@ -660,6 +660,9 @@ void P_MobjThinker(mobj_t *mobj)
     if (mobj->nudge > 0)
         mobj->nudge--;
 
+    if (mobj->gibtimer > 0)
+        mobj->gibtimer--;
+
     // momentum movement
     if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))
     {

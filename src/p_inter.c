@@ -2253,6 +2253,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 if (!target->gibbed)
                 {
                     target->gibbed = 1;
+                    target->gibtimer = TICRATE;
 
                     while (states[state].nextstate == state + 1)
                         state++;
@@ -2266,7 +2267,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     if (con_obituaries)
                         P_WriteObituary(target, inflicter, source, true, false);
                 }
-                else if (target->gibbed == 1)
+                else if (target->gibbed == 1 && !target->gibtimer)
                 {
                     target->gibbed++;
                     P_SetMobjState(target, S_GIBS);

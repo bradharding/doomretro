@@ -501,6 +501,7 @@ typedef struct mobj_s
     bool                madesound;
     mobjtype_t          inflicter;
     int                 gibbed;
+    int                 gibtimer;
 } mobj_t;
 
 typedef struct bloodsplat_s
