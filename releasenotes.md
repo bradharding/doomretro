@@ -4,13 +4,15 @@
 
 * Minor changes have been made to text that is output to the console.
 * The values of all CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
-* Voodoo dolls now move at the correct speed on very slow scrolling floors.
+* These changes have been made to [voodoo dolls](https://doomwiki.org/wiki/Voodoo_doll):
+  * They now move at the correct speed when on very slow scrolling floors.
+  * The angle they are facing no longer changes when they teleport.
 * A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
 * Gibbed corpses now gib even more when reacting to further splash damage if the `r_corpses_gib` CVAR is `on`.
 * A crash no longer occurs when pressing certain keys while the help screen is open.
-* The player’s health, armor and ammo in the widescreen HUD will now quickly count up from zero when entering a map if the `animatedstats` CVAR is `on`.
+* The player’s health, armor and ammo in the alternate widescreen HUD will now quickly count up from zero when entering a map if the `animatedstats` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
