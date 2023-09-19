@@ -728,7 +728,7 @@ void G_DoLoadLevel(void)
     armordiff = 0;
     healthdiff = 0;
 
-    if (r_screensize == r_screensize_max && r_althud && animatedstats)
+    if (animatedstats)
         P_AnimateAllStatsFromStart();
 }
 
