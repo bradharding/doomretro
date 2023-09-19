@@ -175,9 +175,6 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
                 if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
                     return false;
 
-                // Rotate thing according to difference in angles
-                thing->angle += angle;
-
                 // Adjust z position to be same height above ground as before
                 thing->z = z + thing->floorz;
 
@@ -200,7 +197,11 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
 
                     // Reset the delta to have the same dynamics as before
                     player->deltaviewheight = deltaviewheight;
+
+                    thing->angle += angle;
                 }
+                else
+                    thing->angle = angle;
 
                 return true;
             }
@@ -301,9 +302,6 @@ bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bo
             // two floor heights at the exit linedef.
             thing->z = z + sides[l->sidenum[stepdown]].sector->floorheight;
 
-            // Rotate thing's orientation according to difference in linedef angles
-            thing->angle += angle;
-
             // Momentum of thing crossing teleporter linedef
             x = thing->momx;
             y = thing->momy;
@@ -313,7 +311,7 @@ bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bo
             thing->momy = FixedMul(y, c) + FixedMul(x, s);
 
             // Adjust the player's view, in case there has been a height change
-            if (player)
+            if (player && player->mo == thing)
             {
                 // Save the current deltaviewheight, used in stepping
                 const fixed_t   deltaviewheight = player->deltaviewheight;
@@ -326,7 +324,11 @@ bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bo
 
                 // Reset the delta to have the same dynamics as before
                 player->deltaviewheight = deltaviewheight;
+
+                thing->angle += angle;
             }
+            else
+                thing->angle = angle;
 
             return true;
         }
