@@ -10,7 +10,7 @@
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
 * Gibbed corpses now gib even more when reacting to further splash damage if the `r_corpses_gib` CVAR is `on`.
 * A crash no longer occurs when pressing certain keys while the help screen is open.
-* The player’s health, armor and ammo will now quickly count up from zero when entering a map and the `animatedstats` CVAR is `on`.
+* The player’s health, armor and ammo in the widescreen HUD will now quickly count up from zero when entering a map if the `animatedstats` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
