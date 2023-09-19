@@ -2252,10 +2252,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             {
                 if (!target->gibbed)
                 {
+                    target->gibbed = 1;
+
                     while (states[state].nextstate == state + 1)
                         state++;
 
-                    target->gibbed = 1;
                     P_SetMobjState(target, state);
                     S_StartSound(target, sfx_slop);
 
@@ -2267,7 +2268,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 }
                 else if (target->gibbed == 1)
                 {
-                    target->gibbed = 2;
+                    target->gibbed++;
                     P_SetMobjState(target, S_GIBS);
                     S_StartSound(target, sfx_slop);
                 }
