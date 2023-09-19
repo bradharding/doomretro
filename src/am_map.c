@@ -1787,7 +1787,7 @@ static void AM_DrawThings(void)
 
     for (int i = 0; i < numsectors; i++)
         for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-            if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
+            if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP) && thing->interpolate)
             {
                 angle_t     angle = thing->angle;
                 mpoint_t    point = { 0, 0 };
