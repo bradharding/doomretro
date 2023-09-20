@@ -1108,7 +1108,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         && letter != '/' && patch != unknownchar), (bolder ? NULL : tinttab));
                 x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
 
-                if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
+                if (x >= CONSOLETEXTPIXELWIDTH + 20)
                     break;
             }
         }
