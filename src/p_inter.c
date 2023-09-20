@@ -2184,7 +2184,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     mobjinfo_t          *info = &mobjinfo[type];
     bool                justhit = false;
 
-    if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide))
+    if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide || target->gibbed == 2))
         return;
 
     if (type == MT_BARREL && corpse && target == inflicter)
