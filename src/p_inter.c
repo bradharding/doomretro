@@ -2270,6 +2270,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 else if (target->gibbed == 1 && !target->gibtimer)
                 {
                     target->gibbed++;
+                    target->flags2 &= ~MF2_CASTSHADOW;
                     P_SetMobjState(target, S_GIBS);
                     S_StartSound(target, sfx_slop);
                 }
