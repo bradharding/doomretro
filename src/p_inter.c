@@ -2447,6 +2447,7 @@ void P_ResurrectMobj(mobj_t *target)
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;
+    target->gibbed = 0;
     P_SetTarget(&target->target, NULL);
 
     P_SetTarget(&target->lastenemy, NULL);
