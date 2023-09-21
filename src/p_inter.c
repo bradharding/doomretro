@@ -2448,10 +2448,10 @@ void P_ResurrectMobj(mobj_t *target)
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;
     target->gibbed = 0;
-    P_SetTarget(&target->target, NULL);
+    target->gibtimer = 0;
 
+    P_SetTarget(&target->target, NULL);
     P_SetTarget(&target->lastenemy, NULL);
-    target->flags &= ~MF_JUSTHIT;
 
     viewplayer->killcount--;
     stat_monsterskilled_total--;

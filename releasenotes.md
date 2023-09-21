@@ -6,7 +6,7 @@
 * The values of all CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
 * These changes have been made to [voodoo dolls](https://doomwiki.org/wiki/Voodoo_doll):
   * They now move at the correct speed when on very slow scrolling floors.
-  * The angle they are facing no longer changes when they teleport.
+  * The angle they face no longer changes once they teleport.
 * A bug is fixed whereby the BFG-9000’s secondary projectiles would fire off in the wrong direction in some instances.
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.

@@ -1487,6 +1487,8 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                     corpsehit->shadowoffset = info->shadowoffset;
                     corpsehit->colfunc = info->colfunc;
                     corpsehit->altcolfunc = info->altcolfunc;
+                    corpsehit->gibbed = 0;
+                    corpsehit->gibtimer = 0;
 
                     P_SetTarget(&corpsehit->target, NULL);
 
