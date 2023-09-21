@@ -1099,7 +1099,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
             if (patch)
             {
-                const int   width = SHORT(patch->width);
+                int width = SHORT(patch->width);
 
                 consoletextfunc(x + (monospaced && width <= zerowidth ? (zerowidth - width) / 2 : 0), y,
                     patch, width, (bold && italics ? (color1 == consolewarningcolor ? color1 :
@@ -1108,8 +1108,20 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         && letter != '/' && patch != unknownchar), (bolder ? NULL : tinttab));
                 x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
 
-                if (x >= CONSOLETEXTPIXELWIDTH + 20)
+                if (x >= CONSOLETEXTPIXELWIDTH + 14)
+                {
+                    for (int j = 1; j <= 3; j++)
+                    {
+                        patch = consolefont['.' - CONSOLEFONTSTART];
+                        width = SHORT(patch->width);
+                        consoletextfunc(x, y, patch, width, (bold && italics ? (color1 == consolewarningcolor ?
+                            color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, false,
+                            (bolder ? NULL : tinttab));
+                        x += (monospaced ? zerowidth : width);
+                    }
+
                     break;
+                }
             }
         }
 
