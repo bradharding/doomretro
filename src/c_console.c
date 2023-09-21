@@ -2085,6 +2085,8 @@ bool C_Responder(event_t *ev)
                         outputhistory = -1;
                     }
                 }
+                else
+                    C_HideConsole();
 
                 break;
 
