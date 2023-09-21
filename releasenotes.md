@@ -4,6 +4,7 @@
 
 * Minor changes have been made to text that is output to the console.
 * The values of all CVARs that have been changed from their defaults are now highlighted when entering the `cvarlist` CCMD in the console.
+* Pressing the <kbd><b>ENTER</b></kbd> key now closes the console if nothing has been typed in.
 * These changes have been made to [voodoo dolls](https://doomwiki.org/wiki/Voodoo_doll):
   * They now move at the correct speed when on very slow scrolling floors.
   * The angle they face no longer changes once they teleport.
