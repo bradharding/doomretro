@@ -972,8 +972,6 @@ static void WI_UpdateStats(void)
     {
         if (acceleratestage)
         {
-            S_StartSound(NULL, sfx_sgcock);
-
             if (gamemode == commercial)
                 WI_InitNoState();
             else
@@ -1038,7 +1036,10 @@ void WI_CheckForAccelerate(void)
     if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
     {
         if (!viewplayer->attackdown)
+        {
+            S_StartSound(NULL, sfx_sgcock);
             acceleratestage = true;
+        }
 
         viewplayer->attackdown = true;
     }
@@ -1048,7 +1049,10 @@ void WI_CheckForAccelerate(void)
     if ((viewplayer->cmd.buttons & BT_USE) || keystate[SDL_SCANCODE_SPACE])
     {
         if (!viewplayer->usedown)
+        {
+            S_StartSound(NULL, sfx_sgcock);
             acceleratestage = true;
+        }
 
         viewplayer->usedown = true;
     }
