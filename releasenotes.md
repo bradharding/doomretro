@@ -12,9 +12,12 @@
 * The `english` CVAR now uses a value of `british` rather than `international`.
 * Several improvements have been made to translating certain words when the `english` CVAR is `british`.
 * Gibbed corpses now gib even more when reacting to further splash damage if the `r_corpses_gib` CVAR is `on`.
+* The vertical position of an arch-vile’s shadow when the `r_shadows` CVAR is `on` has improved.
 * A crash no longer occurs when pressing certain keys while the help screen is open.
 * The player’s health, armor and ammo in the alternate widescreen HUD will now quickly count up from zero when entering a map if the `animatedstats` CVAR is `on`.
 * A bug is fixed whereby the melee attack of monsters specified in `DEHACKED` lumps wouldn’t work if they used thing types 150 to 249.
+* The vertical positions of the text on the intermission screen have improved.
+* The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved when the `r_shadows` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
