@@ -1026,6 +1026,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         if (prevletter == '\0' && formatting)
                             x--;
                     }
+                    else if (prevletter == 'I' && italics)
+                        x++;
                 }
                 else if (letter == '"')
                 {
