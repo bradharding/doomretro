@@ -926,7 +926,7 @@ static void C_DrawBackground(void)
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
     const int boldcolor, const byte *tinttab, const int tabs[3], const bool formatting,
-    const bool kerning, const bool wrapping, const int index, unsigned char prevletter,
+    const bool kerning, const bool wrapped, const int index, unsigned char prevletter,
     unsigned char prevletter2)
 {
     bool        bold = false;
@@ -1111,7 +1111,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         && letter != '/' && patch != unknownchar), (bolder ? NULL : tinttab));
                 x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
 
-                if (x >= CONSOLETEXTPIXELWIDTH && wrapping)
+                if (x >= CONSOLETEXTPIXELWIDTH && wrapped)
                 {
                     for (int j = 1; j <= 3; j++)
                     {

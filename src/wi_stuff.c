@@ -71,7 +71,7 @@
 
 // SINGLE-PLAYER STUFF
 #define SP_STATSX   50
-#define SP_STATSY   54
+#define SP_STATSY   58
 
 #define SP_TIMEX    16
 #define SP_TIMEY    (VANILLAHEIGHT - 25)
@@ -363,7 +363,7 @@ static void WI_DrawWILV(int y, char *str)
     }
 }
 
-// Draws "<Levelname> Finished!"
+// Draws "<LevelName> Finished!"
 static void WI_DrawLF(void)
 {
     const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
