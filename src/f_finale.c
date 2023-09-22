@@ -447,28 +447,30 @@ typedef struct
     char        *name;
     char        **dehackedname;
     mobjtype_t  type;
+    int         shadowoffset;
+    int         deadshadowoffset;
 } castinfo_t;
 
 static castinfo_t castorder[CASTNUMMAX] =
 {
-    { CC_ZOMBIE,  &s_CC_ZOMBIE,  MT_POSSESSED },
-    { CC_SHOTGUN, &s_CC_SHOTGUN, MT_SHOTGUY   },
-    { CC_HEAVY,   &s_CC_HEAVY,   MT_CHAINGUY  },
-    { CC_IMP,     &s_CC_IMP,     MT_TROOP     },
-    { CC_DEMON,   &s_CC_DEMON,   MT_SERGEANT  },
-    { CC_SPECTRE, &s_CC_SPECTRE, MT_SHADOWS   },
-    { CC_LOST,    &s_CC_LOST,    MT_SKULL     },
-    { CC_CACO,    &s_CC_CACO,    MT_HEAD      },
-    { CC_HELL,    &s_CC_HELL,    MT_KNIGHT    },
-    { CC_BARON,   &s_CC_BARON,   MT_BRUISER   },
-    { CC_ARACH,   &s_CC_ARACH,   MT_BABY      },
-    { CC_PAIN,    &s_CC_PAIN,    MT_PAIN      },
-    { CC_REVEN,   &s_CC_REVEN,   MT_UNDEAD    },
-    { CC_MANCU,   &s_CC_MANCU,   MT_FATSO     },
-    { CC_ARCH,    &s_CC_ARCH,    MT_VILE      },
-    { CC_SPIDER,  &s_CC_SPIDER,  MT_SPIDER    },
-    { CC_CYBER,   &s_CC_CYBER,   MT_CYBORG    },
-    { CC_HERO,    &s_CC_HERO,    MT_PLAYER    }
+    { CC_ZOMBIE,  &s_CC_ZOMBIE,  MT_POSSESSED, 2 },
+    { CC_SHOTGUN, &s_CC_SHOTGUN, MT_SHOTGUY,   2 },
+    { CC_HEAVY,   &s_CC_HEAVY,   MT_CHAINGUY,  2 },
+    { CC_IMP,     &s_CC_IMP,     MT_TROOP,     2 },
+    { CC_DEMON,   &s_CC_DEMON,   MT_SERGEANT,  2 },
+    { CC_SPECTRE, &s_CC_SPECTRE, MT_SHADOWS,   2 },
+    { CC_LOST,    &s_CC_LOST,    MT_SKULL,     0 },
+    { CC_CACO,    &s_CC_CACO,    MT_HEAD,      4 },
+    { CC_HELL,    &s_CC_HELL,    MT_KNIGHT,    4 },
+    { CC_BARON,   &s_CC_BARON,   MT_BRUISER,   4 },
+    { CC_ARACH,   &s_CC_ARACH,   MT_BABY,      0 },
+    { CC_PAIN,    &s_CC_PAIN,    MT_PAIN,      0 },
+    { CC_REVEN,   &s_CC_REVEN,   MT_UNDEAD,    4 },
+    { CC_MANCU,   &s_CC_MANCU,   MT_FATSO,     0 },
+    { CC_ARCH,    &s_CC_ARCH,    MT_VILE,      4 },
+    { CC_SPIDER,  &s_CC_SPIDER,  MT_SPIDER,    8 },
+    { CC_CYBER,   &s_CC_CYBER,   MT_CYBORG,    4 },
+    { CC_HERO,    &s_CC_HERO,    MT_PLAYER,    0 }
 };
 
 static int      castnum;
@@ -859,12 +861,15 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                    V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2,
+                        VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
                 else
-                    V_DrawFlippedShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                    V_DrawFlippedShadowPatch(VANILLAWIDTH / 2,
+                        VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
             }
             else
-                V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2,
+                    VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
         }
 
         if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
@@ -883,12 +888,15 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                    V_DrawSpectreShadowPatch(VANILLAWIDTH / 2,
+                        VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
                 else
-                    V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                    V_DrawShadowPatch(VANILLAWIDTH / 2,
+                        VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
             }
             else
-                V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                V_DrawSolidShadowPatch(VANILLAWIDTH / 2,
+                    VANILLAHEIGHT - 32 - castorder[castnum].shadowoffset, patch);
         }
 
         if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
