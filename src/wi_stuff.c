@@ -434,8 +434,8 @@ static void WI_DrawEL(void)
     else
         V_DrawPagePatch(0, entering);
 
-    // draw level
-    y += SHORT(entering->height) + 2;
+    // draw "<LevelName>"
+    y += SHORT(entering->height) + 4;
 
     if (titlepatch > 0)
     {
