@@ -67,14 +67,14 @@
 #define NUMMAPS     9
 
 // GLOBAL LOCATIONS
-#define WI_TITLEY   2
+#define WI_TITLEY   12
 
 // SINGLE-PLAYER STUFF
 #define SP_STATSX   50
-#define SP_STATSY   50
+#define SP_STATSY   54
 
 #define SP_TIMEX    16
-#define SP_TIMEY    (VANILLAHEIGHT - 32)
+#define SP_TIMEY    (VANILLAHEIGHT - 25)
 
 typedef enum
 {
