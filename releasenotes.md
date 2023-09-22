@@ -14,6 +14,7 @@
 * Gibbed corpses now gib even more when reacting to further splash damage if the `r_corpses_gib` CVAR is `on`.
 * A crash no longer occurs when pressing certain keys while the help screen is open.
 * The player’s health, armor and ammo in the alternate widescreen HUD will now quickly count up from zero when entering a map if the `animatedstats` CVAR is `on`.
+* A bug is fixed whereby the melee attack of monsters specified in `DEHACKED` lumps wouldn’t work if they used thing types 150 to 249.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
