@@ -1471,7 +1471,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), false, VANILLAWIDTH);
+            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), false, SCREENWIDTH);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
@@ -1484,7 +1484,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), false, VANILLAWIDTH);
+            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), false, SCREENWIDTH);
         }
     }
 }
