@@ -1403,10 +1403,10 @@ static void M_DeleteSavegameResponse(int key)
         if (remove(buffer))
         {
             C_Warning(0, "\"%s\" couldn't be deleted.", temp);
-            S_StartSound(NULL, sfx_oof);
             M_CloseMenu();
             C_ShowConsole();
             D_FadeScreen(false);
+            free(temp);
             return;
         }
 
@@ -3793,8 +3793,6 @@ bool M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchn);
                 return true;
             }
-            else
-                S_StartSound(NULL, sfx_oof);
 
             return false;
         }
