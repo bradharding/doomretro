@@ -785,7 +785,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch(x, y, patch, highlight, VANILLAWIDTH);
+        V_DrawMenuPatch(x, y, patch, highlight, SCREENWIDTH);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -801,7 +801,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-            y, patch, false, VANILLAWIDTH);
+            y, patch, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -1617,7 +1617,7 @@ static void M_DrawMainMenu(void)
     {
         patch_t *patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
 
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, VANILLAWIDTH);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, SCREENWIDTH);
     }
 }
 
