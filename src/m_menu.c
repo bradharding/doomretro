@@ -1398,15 +1398,18 @@ static void M_DeleteSavegameResponse(int key)
         char        *temp;
 
         M_StringCopy(buffer, P_SaveGameFile(itemon), sizeof(buffer));
+        temp = titlecase(savegamestrings[itemon]);
 
         if (remove(buffer))
         {
-            C_Warning(0, BOLD("%s") " couldn't be deleted.", buffer);
+            C_Warning(0, "\"%s\" couldn't be deleted.", temp);
             S_StartSound(NULL, sfx_oof);
+            M_CloseMenu();
+            C_ShowConsole();
+            D_FadeScreen(false);
             return;
         }
 
-        temp = titlecase(savegamestrings[itemon]);
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
