@@ -1,5 +1,9 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.0.4
+
+###### Sunday, September 24, 2023
+
 ### DOOM Retro v5.0.3
 
 * Further improvements have been made when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
