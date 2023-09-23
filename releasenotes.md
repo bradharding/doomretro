@@ -2,6 +2,8 @@
 
 ### DOOM Retro v5.0.3
 
+* Further improvements have been made when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
+
 ###### Saturday, September 23, 2023
 
 ### DOOM Retro v5.0.2
