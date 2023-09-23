@@ -2767,10 +2767,13 @@ bool M_Responder(event_t *ev)
                 // activate menu item
                 if (ev->data1 & MOUSE_LEFTBUTTON)
                 {
-                    if ((messagetoprint || helpscreen || !usingmouse) && mousewait < I_GetTime())
+                    if (messagetoprint || helpscreen || !usingmouse)
                     {
-                        key = KEY_ENTER;
-                        mousewait = I_GetTime() + 8;
+                        if (mousewait < I_GetTime())
+                        {
+                            key = KEY_ENTER;
+                            mousewait = I_GetTime() + 8;
+                        }
                     }
                     else
                     {
