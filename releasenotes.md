@@ -3,6 +3,9 @@
 ### DOOM Retro v5.0.3
 
 * Further improvements have been made when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
+* Minor improvements have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
+* A bug is fixed whereby some elements in the menu would only cast a shadow on the left side of the screen in some instances.
+* A warning is now displayed in the console if a savegame couldn't be deleted in the save or load game menus when pressing the <kbd><b>DEL</b></kbd> key.
 
 ###### Saturday, September 23, 2023
 
