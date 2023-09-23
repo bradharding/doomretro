@@ -1,5 +1,9 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.0.3
+
+###### Saturday, September 23, 2023
+
 ### DOOM Retro v5.0.2
 
 * Minor changes have been made to text that is output to the console.
