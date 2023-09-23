@@ -1399,8 +1399,9 @@ static void M_DeleteSavegameResponse(int key)
 
         M_StringCopy(buffer, P_SaveGameFile(itemon), sizeof(buffer));
 
-        if (remove(buffer) == -1)
+        if (remove(buffer))
         {
+            C_Warning(0, BOLD("%s") " couldn't be deleted.", buffer);
             S_StartSound(NULL, sfx_oof);
             return;
         }
@@ -1421,7 +1422,7 @@ static void M_DeleteSavegameResponse(int key)
             if (savegames)
             {
                 while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
-                    itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
+                    itemon = (itemon == load1 ? currentmenu->numitems : itemon) - 1;
             }
             else
             {
