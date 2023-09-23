@@ -3324,15 +3324,13 @@ bool M_Responder(event_t *ev)
 
             keydown = key;
 
-            if (functionkey == KEY_F1)
+            if (helpscreen)
             {
                 functionkey = 0;
                 M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
                 D_FadeScreen(false);
-
-                if (helpscreen)
-                    R_SetViewSize(r_screensize);
+                R_SetViewSize(r_screensize);
             }
             else
             {
