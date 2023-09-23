@@ -775,10 +775,10 @@ void C_ShowConsole(void)
 
 void C_HideConsole(void)
 {
-    SDL_StopTextInput();
-
     if (!consoleactive)
         return;
+
+    SDL_StopTextInput();
 
     consoledirection = -1;
     consoleanim = 0;
@@ -791,10 +791,10 @@ void C_HideConsole(void)
 
 void C_HideConsoleFast(void)
 {
-    SDL_StopTextInput();
-
     if (!consoleactive)
         return;
+
+    SDL_StopTextInput();
 
     consoledirection = -1;
     consoleanim = 0;
