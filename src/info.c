@@ -5890,7 +5890,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* meleestate           */ S_NULL,
         /* missilestate         */ S_NULL,
         /* deathstate           */ S_NULL,
-        /* xdeathstate          */ S_NULL,
+        /* xdeathstate          */ S_GIBS,
         /* deathsound           */ sfx_none,
         /* droppeditem          */ MT_NULL,
         /* speed                */ 0,
