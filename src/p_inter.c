@@ -2265,9 +2265,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                     if (M_Random() & 1)
                         target->flags2 ^= MF2_MIRRORED;
-
-                    if (con_obituaries)
-                        P_WriteObituary(target, inflicter, source, true, false);
                 }
                 else if (target->gibbed == 1 && !target->gibtimer)
                 {
