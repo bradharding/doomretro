@@ -2105,6 +2105,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         P_SetMobjState(target, info->xdeathstate);
         viewplayer->monstersgibbed++;
         stat_monstersgibbed = SafeAdd(stat_monstersgibbed, 1);
+        target->gibbed = 1;
+        target->gibtimer = TICRATE;
     }
     else
         P_SetMobjState(target, info->deathstate);

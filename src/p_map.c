@@ -2151,6 +2151,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             }
 
             P_SetMobjState(thing, S_GIBS);
+            thing->gibbed = 2;
 
             if (thing->bloodcolor > REDBLOOD)
             {
