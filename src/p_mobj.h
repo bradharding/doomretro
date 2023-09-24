@@ -319,7 +319,7 @@ enum
     // Object casts a shadow
     MF2_CASTSHADOW                  = 0x00400000,
 
-    // Object's thing triangle is not displayed in automap
+    // Object isn't displayed in automap
     MF2_DONTMAP                     = 0x01000000,
 
     // Object has smoke trail

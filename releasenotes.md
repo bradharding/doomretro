@@ -2,6 +2,12 @@
 
 ### DOOM Retro v5.0.4
 
+* These changes have been made when gibbing a corpse when the `r_corpses_gib` CVAR is `on`:
+  * Gibbing already gibbed corpses now works as intended.
+  * Certain gibbed corpses spawned at the start of a map will now gib further.
+  * An obituary is no longer displayed if the player gibs a corpse.
+  * Gibbed corpses are now only randomly mirrored if the `r_corpses_mirrored` CVAR is `on`.
+
 ###### Sunday, September 24, 2023
 
 ### DOOM Retro v5.0.3
