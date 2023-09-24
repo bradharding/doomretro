@@ -2273,8 +2273,12 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 {
                     target->gibbed++;
                     target->flags2 &= ~MF2_CASTSHADOW;
+
                     P_SetMobjState(target, S_GIBS);
                     S_StartSound(target, sfx_slop);
+
+                    if (M_Random() & 1)
+                        target->flags2 ^= MF2_MIRRORED;
                 }
 
             }
