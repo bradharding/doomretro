@@ -2263,7 +2263,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     P_SetMobjState(target, state);
                     S_StartSound(target, sfx_slop);
 
-                    if (M_Random() & 1)
+                    if (r_corpses_mirrored && (M_Random() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
                 else if (target->gibbed == 1 && !target->gibtimer)
@@ -2274,7 +2274,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     P_SetMobjState(target, S_GIBS);
                     S_StartSound(target, sfx_slop);
 
-                    if (M_Random() & 1)
+                    if (r_corpses_mirrored && (M_Random() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
 
