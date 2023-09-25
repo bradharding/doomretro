@@ -1068,7 +1068,7 @@ void WI_Ticker(void)
 
     WI_LoadData();
 
-    if (!menuactive && !consoleactive && !paused)
+    if (!menuactive && !consoleactive && !paused && windowfocused)
     {
         WI_CheckForAccelerate();
 

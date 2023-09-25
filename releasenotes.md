@@ -7,6 +7,7 @@
   * Certain gibbed corpses spawned at the start of a map can now be gibbed further.
   * An obituary is no longer displayed if the player gibs a corpse.
   * Gibbed corpses are now only randomly mirrored if the `r_corpses_mirrored` CVAR is `on`.
+* The intermission and finale screens will now pause if *DOOM Retro’s* window loses focus.
 
 ###### Sunday, September 24, 2023
 

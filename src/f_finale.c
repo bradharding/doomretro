@@ -291,7 +291,7 @@ static fixed_t TextSpeed(void)
 //
 void F_Ticker(void)
 {
-    if (menuactive || paused || consoleactive)
+    if (menuactive || paused || consoleactive || !windowfocused)
         return;
 
     WI_CheckForAccelerate();
