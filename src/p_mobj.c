@@ -779,7 +779,7 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     state_t     *st = &states[info->spawnstate];
     sector_t    *sector;
 
-    if ((mobj->type = type) == MT_MISC68)
+    if ((mobj->type = type) == MT_MISC68 || type == MT_MISC69)
         mobj->gibbed = 1;
 
     mobj->info = info;
