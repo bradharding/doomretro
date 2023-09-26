@@ -766,7 +766,7 @@ void P_SetShadowColumnFunction(mobj_t *mobj)
     if ((mobj->flags & MF_FUZZ) && r_textures)
         mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawFuzzyShadowColumn : &R_DrawSolidShadowColumn);
     else
-        mobj->shadowcolfunc = (r_shadows_translucency ? &R_shadowColumn : &R_DrawSolidShadowColumn);
+        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawShadowColumn : &R_DrawSolidShadowColumn);
 }
 
 //
@@ -779,9 +779,10 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     state_t     *st = &states[info->spawnstate];
     sector_t    *sector;
 
-    if ((mobj->type = type) == MT_MISC68 || type == MT_MISC69)
+    if (type == MT_MISC68 || type == MT_MISC69)
         mobj->gibbed = 1;
 
+    mobj->type = type;
     mobj->info = info;
     mobj->x = mobj->oldx = x;
     mobj->y = mobj->oldy = y;

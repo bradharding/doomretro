@@ -329,7 +329,7 @@ void R_DrawColorDitherColumn(void)
     *dest = colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR];
 }
 
-void R_shadowColumn(void)
+void R_DrawShadowColumn(void)
 {
     int     count = dc_yh - dc_yl;
     byte    *dest = ylookup0[dc_yl] + dc_x;

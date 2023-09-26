@@ -110,7 +110,7 @@ void R_DrawTranslucentGreen33Column(void);
 void R_DrawTranslucentRed33Column(void);
 void R_DrawTranslucentBlue25Column(void);
 void R_DrawPlayerSpriteColumn(void);
-void R_shadowColumn(void);
+void R_DrawShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
 void R_DrawTranslucentBloodColumn(void);
 void R_DrawBloodSplatColumn(void);
