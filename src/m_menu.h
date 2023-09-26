@@ -129,4 +129,3 @@ extern menu_t   SaveDef;
 extern bool     customepisode;
 extern uint64_t gamecontrollerwait;
 extern uint64_t mousewait;
-extern int      highlightcount;

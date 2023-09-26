@@ -3413,7 +3413,6 @@ bool M_Responder(event_t *ev)
                 C_HideConsoleFast();
                 M_OpenMainMenu();
                 currentmenu = &SoundDef;
-                highlightcount = 10;
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
             }
@@ -3750,7 +3749,6 @@ bool M_Responder(event_t *ev)
             if (currentmenu->prevmenu && !functionkey)
             {
                 currentmenu = currentmenu->prevmenu;
-                highlightcount = 10;
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
             }
@@ -3792,7 +3790,6 @@ bool M_Responder(event_t *ev)
                 if (!savegames)
                 {
                     currentmenu = &MainDef;
-                    highlightcount = 10;
                     itemon = new_game;
                 }
 
@@ -3881,8 +3878,6 @@ bool M_Responder(event_t *ev)
     return false;
 }
 
-int highlightcount = 0;
-
 //
 // M_OpenMainMenu
 //
@@ -3894,7 +3889,6 @@ void M_OpenMainMenu(void)
 
     menuactive = true;
     currentmenu = &MainDef;
-    highlightcount = 10;
     itemon = currentmenu->laston;
 
     if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
@@ -4081,21 +4075,18 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                bool    highlight = false;
+                bool highlight;
 
-                if (!highlightcount)
-                {
-                    if (currentmenu == &OptionsDef
-                        && ((i == scrnsize && itemon == option_empty1)
-                            || (i == mousesens && itemon == option_empty2)))
-                        highlight = true;
-                    else if (currentmenu == &SoundDef
-                        && ((i == sfx_vol && itemon == sound_empty1)
-                            || (i == music_vol && itemon == sound_empty2)))
-                        highlight = true;
-                    else
-                        highlight = (itemon == i);
-                }
+                if (currentmenu == &OptionsDef
+                    && ((i == scrnsize && itemon == option_empty1)
+                        || (i == mousesens && itemon == option_empty2)))
+                    highlight = true;
+                else if (currentmenu == &SoundDef
+                    && ((i == sfx_vol && itemon == sound_empty1)
+                        || (i == music_vol && itemon == sound_empty2)))
+                    highlight = true;
+                else
+                    highlight = (itemon == i);
 
                 if (currentmenu->menuitems[i].routine)
                 {
@@ -4362,7 +4353,6 @@ void M_CloseMenu(void)
 static void M_SetupNextMenu(menu_t *menudef)
 {
     currentmenu = menudef;
-    highlightcount = 10;
     itemon = currentmenu->laston;
     whichskull = 0;
 }
@@ -4379,9 +4369,6 @@ void M_Ticker(void)
         whichskull ^= 1;
         skullanimcounter = SKULLANIMCOUNT;
     }
-
-    if (highlightcount > 0)
-        highlightcount--;
 }
 
 //
