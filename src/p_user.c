@@ -602,9 +602,6 @@ void P_PlayerThink(void)
             else if (ammodiff[i] > 0)
                 ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed[i]);
 
-            if (ammodiff[viewplayer->readyweapon])
-                ammohighlight = I_GetTimeMS() + TICRATE;
-
             if (maxammodiff[i] < 0)
                 maxammodiff[i] = MIN(maxammodiff[i] + maxammodiffspeed[i], 0);
             else if (maxammodiff[i] > 0)
