@@ -5,9 +5,11 @@
 * These changes have been made when gibbing a corpse if the `r_corpses_gib` CVAR is `on`:
   * Gibbing already gibbed corpses now always works as intended.
   * Certain gibbed corpses spawned at the start of a map can now be gibbed further.
-  * An obituary is no longer displayed if the player gibs a corpse.
+  * Obituaries are no longer displayed in the console when a corpse is gibbed.
   * Gibbed corpses are now only randomly mirrored if the `r_corpses_mirrored` CVAR is also `on`.
 * The intermission and finale screens now pause if *DOOM Retro’s* window loses focus.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, September 24, 2023
 
@@ -18,6 +20,8 @@
 * A crash no longer occurs when moving the mouse while the help screen is open.
 * A bug is fixed whereby some elements in the menu would only cast their shadow on the left side of the screen in some instances.
 * A warning is now displayed in the console if a savegame couldn't be deleted in the save or load game menus when pressing the <kbd><b>DEL</b></kbd> key.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, September 23, 2023
 
