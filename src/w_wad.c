@@ -322,6 +322,18 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
 
+    if (sigil && (M_StringCompare(file, "SIGIL_v1_21.wad")
+        || M_StringCompare(file, "SIGIL_v1_2.wad")
+        || M_StringCompare(file, "SIGIL_v1_1.wad")
+        || M_StringCompare(file, "SIGIL_v1_0.wad")
+        || M_StringCompare(file, "SIGIL.wad")))
+        return false;
+    else if (buckethead && M_StringCompare(file, "SIGIL_SHREDS.WAD")
+        || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
+        return false;
+    else if (nerve && M_StringCompare(file, "NERVE.WAD"))
+        return false;
+
     // WAD file
     W_Read(wadfile, 0, &header, sizeof(header));
 
@@ -400,6 +412,9 @@ bool W_AddFile(char *filename, bool autoloaded)
         {
             buckethead = true;
             C_Output("You'll now hear Buckethead's soundtrack while playing " ITALICS("SIGIL."));
+
+            if (!autosigil)
+                shredsloadedfirst = true;
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
             C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")

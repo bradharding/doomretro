@@ -43,6 +43,7 @@ char            gamedescription[255];
 bool            sigil;
 bool            autosigil = false;
 bool            buckethead = false;
+bool            shredsloadedfirst = false;
 bool            nerve;
 bool            bfgedition;
 bool            unity;

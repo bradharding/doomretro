@@ -605,7 +605,7 @@ void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool ma
     // get lumpnum if necessary
     if (autosigil)
     {
-        if (musicnum == mus_intro || (musicnum == mus_inter && gameepisode != 5))
+        if (musicnum == mus_intro || (musicnum == mus_inter && gameepisode != 5) || shredsloadedfirst)
             music->lumpnum = W_GetLastNumForName(namebuf);
         else
             music->lumpnum = W_CheckNumForName(namebuf);
