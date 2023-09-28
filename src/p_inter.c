@@ -1798,101 +1798,102 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 free(temp);
             }
         }
-        else if (source->player)
+        else if (source->player || source->type == MT_BFG)
         {
-            if (source->player->mo == source)
+            const weapontype_t  readyweapon = viewplayer->readyweapon;
+
+            if (source->player->mo != source)
+                return;
+
+            if (M_StringCompare(playername, playername_default))
             {
-                const weapontype_t  readyweapon = viewplayer->readyweapon;
-
-                if (M_StringCompare(playername, playername_default))
+                if (target->player)
                 {
-                    if (target->player)
-                    {
-                        if (healthcvar)
-                            C_PlayerMessage("You %s yourself!", s_KILLED);
-                        else
-                            C_PlayerMessage("You %s yourself with your own %s!",
-                                (gibbed ? s_GIBBED : s_KILLED),
-                                weaponinfo[readyweapon].name);
-                    }
+                    if (healthcvar)
+                        C_PlayerMessage("You %s yourself!", s_KILLED);
                     else
-                    {
-                        char    targetname[128];
-
-                        if (*target->name)
-                            M_StringCopy(targetname, target->name, sizeof(targetname));
-                        else
-                        {
-                            const bool  friendly = (target->flags & MF_FRIEND);
-
-                            M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                (friendly && monstercount[target->type] == 1 ? "the" :
-                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
-                                (friendly ? "friendly " : ""),
-                                (*target->info->name1 ? target->info->name1 : "monster"));
-                        }
-
-                        if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerMessage("You %s %s with your %s while %s.",
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
-                                targetname,
-                                weaponinfo[readyweapon].name,
-                                berserk);
-                        else
-                            C_PlayerMessage("You %s %s with your %s.",
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
-                                targetname,
-                                weaponinfo[readyweapon].name);
-                    }
+                        C_PlayerMessage("You %s yourself with your own %s!",
+                            (gibbed ? s_GIBBED : s_KILLED),
+                            weaponinfo[readyweapon].name);
                 }
                 else
                 {
-                    if (target->player)
-                    {
-                        if (healthcvar)
-                            C_PlayerMessage("%s %s %s!", playername, s_KILLED, preferredpronoun(reflexive));
-                        else
-                            C_PlayerMessage("%s %s %s with %s own %s!",
-                                playername,
-                                (gibbed ? s_GIBBED : s_KILLED),
-                                preferredpronoun(reflexive),
-                                preferredpronoun(possessive),
-                                weaponinfo[readyweapon].name);
-                    }
+                    char    targetname[128];
+
+                    if (*target->name)
+                        M_StringCopy(targetname, target->name, sizeof(targetname));
                     else
                     {
-                        char    targetname[128];
+                        const bool  friendly = (target->flags & MF_FRIEND);
 
-                        if (*target->name)
-                            M_StringCopy(targetname, target->name, sizeof(targetname));
-                        else
-                        {
-                            const bool  friendly = (target->flags & MF_FRIEND);
-                            const bool  corpse = (target->flags & MF_CORPSE);
-
-                            M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                (friendly && monstercount[target->type] == 1 ? "the" :
-                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
-                                (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
-                                (*target->info->name1 ? target->info->name1 : "monster"));
-                        }
-
-                        if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerMessage("%s %s %s with %s %s while %s.",
-                                playername,
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
-                                targetname,
-                                preferredpronoun(possessive),
-                                weaponinfo[readyweapon].name,
-                                berserk);
-                        else
-                            C_PlayerMessage("%s %s %s with %s %s.",
-                                playername,
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
-                                targetname,
-                                preferredpronoun(possessive),
-                                weaponinfo[readyweapon].name);
+                        M_snprintf(targetname, sizeof(targetname), "%s %s%s",
+                            (friendly && monstercount[target->type] == 1 ? "the" :
+                                (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                            (friendly ? "friendly " : ""),
+                            (*target->info->name1 ? target->info->name1 : "monster"));
                     }
+
+                    if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
+                        C_PlayerMessage("You %s %s with your %s while %s.",
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
+                            targetname,
+                            weaponinfo[readyweapon].name,
+                            berserk);
+                    else
+                        C_PlayerMessage("You %s %s with your %s.",
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
+                            targetname,
+                            weaponinfo[readyweapon].name);
+                }
+            }
+            else
+            {
+                if (target->player)
+                {
+                    if (healthcvar)
+                        C_PlayerMessage("%s %s %s!",
+                            playername, s_KILLED, preferredpronoun(reflexive));
+                    else
+                        C_PlayerMessage("%s %s %s with %s own %s!",
+                            playername,
+                            (gibbed ? s_GIBBED : s_KILLED),
+                            preferredpronoun(reflexive),
+                            preferredpronoun(possessive),
+                            weaponinfo[readyweapon].name);
+                }
+                else
+                {
+                    char    targetname[128];
+
+                    if (*target->name)
+                        M_StringCopy(targetname, target->name, sizeof(targetname));
+                    else
+                    {
+                        const bool  friendly = (target->flags & MF_FRIEND);
+                        const bool  corpse = (target->flags & MF_CORPSE);
+
+                        M_snprintf(targetname, sizeof(targetname), "%s %s%s",
+                            (friendly && monstercount[target->type] == 1 ? "the" :
+                                (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
+                            (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
+                            (*target->info->name1 ? target->info->name1 : "monster"));
+                    }
+
+                    if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
+                        C_PlayerMessage("%s %s %s with %s %s while %s.",
+                            playername,
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
+                            targetname,
+                            preferredpronoun(possessive),
+                            weaponinfo[readyweapon].name,
+                            berserk);
+                    else
+                        C_PlayerMessage("%s %s %s with %s %s.",
+                            playername,
+                            (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
+                            targetname,
+                            preferredpronoun(possessive),
+                            weaponinfo[readyweapon].name);
                 }
             }
         }
@@ -1916,9 +1917,11 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             if (target->player)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You have been %s by %s!", (gibbed ? s_GIBBED : s_KILLED), sourcename);
+                    C_PlayerMessage("You have been %s by %s!",
+                        (gibbed ? s_GIBBED : s_KILLED), sourcename);
                 else
-                    C_PlayerMessage("%s has been %s by %s!", playername, (gibbed ? s_GIBBED : s_KILLED), sourcename);
+                    C_PlayerMessage("%s has been %s by %s!",
+                        playername, (gibbed ? s_GIBBED : s_KILLED), sourcename);
             }
             else
             {
@@ -2161,7 +2164,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 static bool P_InfightingImmune(const mobj_t *target, const mobj_t *source)
 {
     // not default behavior, and same group
-    return (mobjinfo[target->type].infightinggroup != IG_DEFAULT
+    return (mobjinfo[target->type].infightinggroup
         && mobjinfo[target->type].infightinggroup == mobjinfo[source->type].infightinggroup);
 }
 
