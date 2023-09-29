@@ -11,8 +11,8 @@
 * The player will no longer continue to move across the map if they were moving when the automap was opened and the `am_followmode` CVAR was `off`.
 * A bug is fixed whereby the amount of cells the player had would always be highlighted in the widescreen HUD when their BFG-9000 was equipped.
 * Further improvements have been to the player’s view being affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
-* The correct music now plays if `SIGIL_SHREDS>WAD` is loaded before `SIGIL.WAD` at startup.
-* The obituary displayed in the console when the player explodes a barrel using their BFG-9000 is now always correct.
+* The correct music now plays when playing *SIGIL* if `SIGIL_SHREDS.WAD` is loaded before `SIGIL.WAD` at startup.
+* Obituaries displayed in the console when the player explodes a barrel using their BFG-9000 are now always correct.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

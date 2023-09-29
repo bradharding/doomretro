@@ -261,6 +261,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int     forward = 0;
     int     side = 0;
 
+    // [BH] This needs to be reset every tic, even if automap open and follow mode off
     memset(cmd, 0, sizeof(ticcmd_t));
 
     if (automapactive && !am_followmode && viewplayer->health > 0)
