@@ -2,16 +2,16 @@
 
 ### DOOM Retro v5.0.4
 
-* These changes have been made when gibbing a corpse if the `r_corpses_gib` CVAR is `on`:
+* These changes have been made when gibbing a corpse and the `r_corpses_gib` CVAR is `on`:
   * Gibbing already gibbed corpses now always works as intended.
-  * Certain gibbed corpses spawned at the start of a map can now be gibbed further.
-  * Obituaries are no longer displayed in the console when a corpse is gibbed.
+  * Certain gibbed corpses spawned at the start of the map can now be gibbed further.
+  * Obituaries are no longer displayed in the console for when a corpse is gibbed.
   * Gibbed corpses are now only randomly mirrored if the `r_corpses_mirrored` CVAR is also `on`.
 * The intermission and finale screens now pause if *DOOM Retro’s* window loses focus.
-* The player no longer continues to move across the map if they are moving when the automap is opened and the `am_followmode` CVAR is `off`.
-* A bug is fixed whereby the amount of cells the player had would always be brighter than usual in the widescreen HUD when their BFG-9000 was equipped.
-* The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
-* Buckethead’s music is now heard when playing *SIGIL* and `SIGIL_SHREDS.WAD` is loaded before `SIGIL.WAD` at startup.
+* The player no longer continues to move across the map if moving when the automap is opened and the `am_followmode` CVAR is `off`.
+* A bug is fixed whereby the amount of cells the player had would be brighter than usual in the widescreen HUD when their BFG-9000 was equipped.
+* The player’s view is no longer affected when walking over certain linedefs in liquid sectors and the `r_liquid_lowerview` CVAR is `on`.
+* Buckethead’s music is now heard when playing *SIGIL* if `SIGIL_SHREDS.WAD` happens to be loaded before `SIGIL.WAD` at startup.
 * Obituaries displayed in the console when the player explodes a barrel using their BFG-9000 are now always correct.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
