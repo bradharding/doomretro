@@ -500,7 +500,7 @@ typedef struct mobj_s
 
     bool                madesound;
     mobjtype_t          inflicter;
-    int                 gibbed;
+    int                 giblevel;
     int                 gibtimer;
 } mobj_t;
 

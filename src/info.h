@@ -253,6 +253,7 @@ typedef struct
     statenum_t  spawnstate;
     int         spawnhealth;
     int         gibhealth;
+    int         giblevel;
     statenum_t  seestate;
     int         seesound;
     int         reactiontime;

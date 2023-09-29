@@ -2108,7 +2108,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         P_SetMobjState(target, info->xdeathstate);
         viewplayer->monstersgibbed++;
         stat_monstersgibbed = SafeAdd(stat_monstersgibbed, 1);
-        target->gibbed = 1;
+        target->giblevel = 1;
         target->gibtimer = TICRATE;
     }
     else
@@ -2189,7 +2189,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     mobjinfo_t          *info = &mobjinfo[type];
     bool                justhit = false;
 
-    if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide || target->gibbed == 2))
+    if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide || target->giblevel == 2))
         return;
 
     if (type == MT_BARREL && corpse && target == inflicter)
@@ -2255,9 +2255,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             if (state != S_NULL)
             {
-                if (!target->gibbed)
+                if (!target->giblevel)
                 {
-                    target->gibbed = 1;
+                    target->giblevel = 1;
                     target->gibtimer = TICRATE;
 
                     while (states[state].nextstate == state + 1)
@@ -2269,9 +2269,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     if (r_corpses_mirrored && (M_Random() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
-                else if (target->gibbed == 1 && !target->gibtimer)
+                else if (target->giblevel == 1 && !target->gibtimer)
                 {
-                    target->gibbed++;
+                    target->giblevel = 2;
                     target->flags2 &= ~MF2_CASTSHADOW;
 
                     P_SetMobjState(target, S_GIBS);
@@ -2453,7 +2453,7 @@ void P_ResurrectMobj(mobj_t *target)
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;
-    target->gibbed = 0;
+    target->giblevel = 0;
     target->gibtimer = 0;
 
     P_SetTarget(&target->target, NULL);
