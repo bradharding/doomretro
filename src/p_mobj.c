@@ -781,6 +781,8 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
 
     if (type == MT_MISC68 || type == MT_MISC69)
         mobj->gibbed = 1;
+    else if (type == MT_MISC71)
+        mobj->gibbed = 2;
 
     mobj->type = type;
     mobj->info = info;
