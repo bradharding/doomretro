@@ -448,7 +448,6 @@ typedef struct
     char        **dehackedname;
     mobjtype_t  type;
     int         shadowoffset;
-    int         deadshadowoffset;
 } castinfo_t;
 
 static castinfo_t castorder[CASTNUMMAX] =

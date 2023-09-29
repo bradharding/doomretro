@@ -8,10 +8,10 @@
   * Obituaries are no longer displayed in the console when a corpse is gibbed.
   * Gibbed corpses are now only randomly mirrored if the `r_corpses_mirrored` CVAR is also `on`.
 * The intermission and finale screens now pause if *DOOM Retro’s* window loses focus.
-* The player will no longer continue to move across the map if they were moving when the automap was opened and the `am_followmode` CVAR was `off`.
-* A bug is fixed whereby the amount of cells the player had would always be highlighted in the widescreen HUD when their BFG-9000 was equipped.
-* Further improvements have been to the player’s view being affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
-* The correct music now plays when playing *SIGIL* if `SIGIL_SHREDS.WAD` is loaded before `SIGIL.WAD` at startup.
+* The player no longer continues to move across the map if they are moving when the automap is opened and the `am_followmode` CVAR is `off`.
+* A bug is fixed whereby the amount of cells the player had would always be brighter than usual in the widescreen HUD when their BFG-9000 was equipped.
+* The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
+* The correct music now plays when playing *SIGIL* if `SIGIL_SHREDS.WAD` loads before `SIGIL.WAD` at startup.
 * Obituaries displayed in the console when the player explodes a barrel using their BFG-9000 are now always correct.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
