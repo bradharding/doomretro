@@ -404,20 +404,20 @@ bool W_AddFile(char *filename, bool autoloaded)
             || M_StringCompare(file, "SIGIL.wad"))
         {
             autosigil = autoloaded;
-            C_Output("You can now play John Romero's " ITALICS("SIGIL")
+            C_Output("You now can play John Romero's " ITALICS("SIGIL")
                 " by selecting it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
         {
             buckethead = true;
-            C_Output("You'll now hear Buckethead's soundtrack while playing " ITALICS("SIGIL."));
+            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
 
             if (!autosigil)
                 shredsloadedfirst = true;
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
-            C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")
+            C_Output("You now can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by selecting it in the expansion menu.");
     }
 
