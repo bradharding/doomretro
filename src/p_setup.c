@@ -2842,7 +2842,7 @@ static void P_FindSelfReferencingSectors(void)
             }
         }
 
-        sec->isselfreferencing = (count >= 2);
+        sec->isselfreferencing = (count == linecount);
     }
 }
 
