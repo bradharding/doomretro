@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.1
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, September 30, 2023
+
 ### DOOM Retro v5.0.4
 
 * These changes have been made when gibbing a corpse and the `r_corpses_gib` CVAR is `on`:
