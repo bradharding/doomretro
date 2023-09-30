@@ -80,15 +80,14 @@ int M_CheckParm(const char *check)
 
 #define MAXARGVS        100
 
-static void LoadResponseFile(int argv_index, const char *filename)
+static void LoadResponseFile(size_t argv_index, const char *filename)
 {
     size_t  size;
     char    *infile;
     char    *file;
     char    **newargv;
     int     newargc;
-    int     i = 0;
-    int     k;
+    size_t  i = 0;
 
     // Read the response file into memory
     FILE    *handle = fopen(filename, "rb");
@@ -106,7 +105,7 @@ static void LoadResponseFile(int argv_index, const char *filename)
         return;
 
     while (i < size)
-        i += (int)fread(file + i, 1, size - i, handle);
+        i += fread(file + i, 1, size - i, handle);
 
     fclose(handle);
 
@@ -123,42 +122,42 @@ static void LoadResponseFile(int argv_index, const char *filename)
     {
         newargv[i] = myargv[i];
         myargv[i] = NULL;
-        ++newargc;
+        newargc++;
     }
 
     infile = file;
-    k = 0;
+    i = 0;
 
-    while (k < size)
+    while (i < size)
     {
         // Skip past space characters to the next argument
-        while (k < size && isspace(infile[k]))
-            k++;
+        while (i < size && isspace(infile[i]))
+            i++;
 
-        if (k >= size)
+        if (i >= size)
             break;
 
         // If the next argument is enclosed in quote marks, treat
         // the contents as a single argument.  This allows long filenames
         // to be specified.
-        if (infile[k] == '\"')
+        if (infile[i] == '\"')
         {
             char    *argstart;
 
             // Skip the first character (")
-            k++;
+            i++;
 
-            argstart = &infile[k];
+            argstart = &infile[i];
 
             // Read all characters between quotes
-            while (k < size && infile[k] != '\"' && infile[k] != '\n')
-                k++;
+            while (i < size && infile[i] != '\"' && infile[i] != '\n')
+                i++;
 
-            if (k >= size || infile[k] == '\n')
+            if (i >= size || infile[i] == '\n')
                 I_Error("Quotes unclosed in response file '%s'", filename);
 
             // Cut off the string at the closing quote
-            infile[k++] = '\0';
+            infile[i++] = '\0';
             newargv[newargc++] = M_StringDuplicate(argstart);
         }
         else
@@ -166,27 +165,27 @@ static void LoadResponseFile(int argv_index, const char *filename)
             char    *argstart;
 
             // Read in the next argument until a space is reached
-            argstart = &infile[k];
+            argstart = &infile[i];
 
-            while (k < size && !isspace(infile[k]))
-                k++;
+            while (i < size && !isspace(infile[i]))
+                i++;
 
             // Cut off the end of the argument at the first space
-            infile[k++] = '\0';
+            infile[i++] = '\0';
             newargv[newargc++] = M_StringDuplicate(argstart);
         }
     }
 
     // Add arguments following the response file argument
-    for (i = argv_index + 1; i < myargc; i++)
+    for (i = argv_index + 1; i < (size_t)myargc; i++)
     {
         newargv[newargc++] = myargv[i];
         myargv[i] = NULL;
     }
 
     // Free any old strings in myargv which were not moved to newargv
-    for (i = 0; i < myargc; i++)
-        if (myargv[i] != NULL)
+    for (i = 0; i < (size_t)myargc; i++)
+        if (myargv[i])
         {
             free(myargv[i]);
             myargv[i] = NULL;
