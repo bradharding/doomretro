@@ -950,46 +950,35 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // killough 09/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t  *thing = sec->thinglist;
+    mobj_t          *thing = sec->thinglist;
+    bloodsplat_t    *splat = sec->splatlist;
 
-    if ((floorheight = sec->interpfloorheight) - FRACUNIT <= viewz)
+    floorheight = sec->interpfloorheight;
+
+    if (splat && drawbloodsplats)
     {
-        bloodsplat_t    *splat = sec->splatlist;
+        spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        nextspritelights = (thing ?
+            scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
 
-        if (splat && drawbloodsplats)
+        do
         {
-            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = (thing ?
-                scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
+            R_ProjectBloodSplat(splat);
+            splat = splat->next;
+        } while (splat);
 
-            do
-            {
-                R_ProjectBloodSplat(splat);
-                splat = splat->next;
-            } while (splat);
-
-            if (!thing)
-                return;
-        }
-        else if (thing)
-        {
-            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        }
-        else
+        if (!thing)
             return;
-
-        drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
     }
     else if (thing)
     {
         spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-
-        drawshadows = false;
     }
     else
         return;
+
+    drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
 
     // Handle all things in sector.
     do
