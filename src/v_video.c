@@ -880,10 +880,10 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 
                 if (height > 0)
                 {
-                    if (highlight)
-                        *dest = source[srccol >> FRACBITS];
-                    else
-                        *dest = colormaps[0][4 * 256 + source[srccol >> FRACBITS]];
+                    const byte  dot1 = source[srccol >> FRACBITS];
+                    const byte  dot2 = colormaps[0][4 * 256 + dot1];
+
+                    *dest = (highlight ? (dot1 == dot2 ? white5[dot1] : dot1) : dot2);
                 }
 
                 dest += SCREENWIDTH;
