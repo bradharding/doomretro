@@ -328,6 +328,9 @@ bool W_AddFile(char *filename, bool autoloaded)
         || M_StringCompare(file, "SIGIL_v1_0.wad")
         || M_StringCompare(file, "SIGIL.wad")))
         return false;
+    else if (buckethead && (M_StringCompare(file, "SIGIL_SHREDS.wad")
+        || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad")))
+        return false;
     else if (nerve && M_StringCompare(file, "NERVE.WAD"))
         return false;
 
