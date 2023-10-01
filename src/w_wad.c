@@ -322,11 +322,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
 
-    if (sigil && (M_StringCompare(file, "SIGIL_v1_21.wad")
-        || M_StringCompare(file, "SIGIL_v1_2.wad")
-        || M_StringCompare(file, "SIGIL_v1_1.wad")
-        || M_StringCompare(file, "SIGIL_v1_0.wad")
-        || M_StringCompare(file, "SIGIL.wad")))
+    if (sigil && D_IsSIGILWAD(file))
         return false;
     else if (buckethead && (M_StringCompare(file, "SIGIL_SHREDS.wad")
         || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad")))
@@ -397,15 +393,11 @@ bool W_AddFile(char *filename, bool autoloaded)
             wadfile->path);
         free(temp);
 
-        if (M_StringCompare(file, "SIGIL_v1_21.wad")
-            || M_StringCompare(file, "SIGIL_v1_2.wad")
-            || M_StringCompare(file, "SIGIL_v1_1.wad")
-            || M_StringCompare(file, "SIGIL_v1_0.wad")
-            || M_StringCompare(file, "SIGIL.wad"))
+        if (D_IsSIGILWAD(file))
         {
             autosigil = autoloaded;
             C_Output("You now can play John Romero's " ITALICS("SIGIL")
-                " by selecting it in the episode menu.");
+                " by choosing it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
@@ -415,7 +407,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
             C_Output("You now can play Nerve Software's " ITALICS("No Rest For The Living")
-                " by selecting it in the expansion menu.");
+                " by choosing it in the expansion menu.");
     }
 
     if (!resourcewadadded)

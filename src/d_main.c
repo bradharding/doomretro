@@ -813,6 +813,17 @@ static bool D_IsDOOM1IWAD(char *filename)
         || M_StringCompare(file, "DOOMUNITY.WAD"));
 }
 
+bool D_IsSIGILWAD(char *filename)
+{
+    const char *file = leafname(filename);
+
+    return (M_StringCompare(file, "SIGIL_v1_21.wad")
+        || M_StringCompare(file, "SIGIL_v1_2.wad")
+        || M_StringCompare(file, "SIGIL_v1_1.wad")
+        || M_StringCompare(file, "SIGIL_v1_0.wad")
+        || M_StringCompare(file, "SIGIL.wad"));
+}
+
 static bool D_IsDOOM2IWAD(char *filename)
 {
     const char  *file = leafname(filename);
@@ -891,11 +902,7 @@ void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (M_StringCompare(leaf, "SIGIL_v1_21.wad")
-        || M_StringCompare(leaf, "SIGIL_v1_2.wad")
-        || M_StringCompare(leaf, "SIGIL_v1_1.wad")
-        || M_StringCompare(leaf, "SIGIL_v1_0.wad")
-        || M_StringCompare(leaf, "SIGIL.wad"))
+    if (D_IsSIGILWAD(filename))
     {
         sigil = true;
         episode = 5;
