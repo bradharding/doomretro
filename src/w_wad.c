@@ -429,7 +429,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-bool W_AutoloadFiles(const char *file, const char *folder)
+bool W_AutoloadFile(const char *filename, const char *folder)
 {
 #if defined(_WIN32)
     bool            result = false;
@@ -448,7 +448,7 @@ bool W_AutoloadFiles(const char *file, const char *folder)
         {
             temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
 
-            if (file && !M_StringCompare(file, FindFileData.cFileName))
+            if (filename && !M_StringCompare(filename, FindFileData.cFileName))
                 continue;
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
@@ -520,6 +520,9 @@ bool W_AutoloadFiles(const char *file, const char *folder)
         char        *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
         struct stat status;
 
+        if (filename && !M_StringCompare(filename, dir->d_name))
+            continue;
+
         if (!stat(temp1, &status) && S_ISREG(status.st_mode))
         {
             if (M_StringEndsWith(dir->d_name, ".wad")
@@ -578,6 +581,11 @@ bool W_AutoloadFiles(const char *file, const char *folder)
 #endif
 
     return result;
+}
+
+bool W_AutoloadFiles(const char *folder)
+{
+    W_AutoloadFile("", folder);
 }
 
 // Hash function used for lump names.

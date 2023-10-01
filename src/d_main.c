@@ -2237,18 +2237,22 @@ static void D_DoomMainSetup(void)
     {
         D_SetAutoloadFolder();
 
-        autoloading = W_AutoloadFiles("SIGIL_v1_21.wad", autoloadiwadsubfolder);
-        autoloading |= W_AutoloadFiles("SIGIL_v1_2.wad", autoloadiwadsubfolder);
-        autoloading |= W_AutoloadFiles("SIGIL_v1_1.wad", autoloadiwadsubfolder);
-        autoloading |= W_AutoloadFiles("SIGIL_v1_0.wad", autoloadiwadsubfolder);
-        autoloading |= W_AutoloadFiles("SIGIL.wad", autoloadiwadsubfolder);
-        autoloading |= W_AutoloadFiles("NERVE.WAD", autoloadiwadsubfolder);
+        if (gamemission == doom)
+        {
+            autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder);
+            autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder);
+            autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder);
+            autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder);
+            autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder);
+        }
+        else if (gamemission == doom2)
+            autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder);
 
-        autoloading |= W_AutoloadFiles(NULL, autoloadfolder);
-        autoloading |= W_AutoloadFiles(NULL, autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles(autoloadfolder);
+        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
 
         if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(NULL, autoloadpwadsubfolder);
+            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
     }
 
     W_Init();
