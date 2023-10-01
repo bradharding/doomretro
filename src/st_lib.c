@@ -201,9 +201,9 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 
 void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
 {
-    int num = MAX(0, *n->num + ammodiff[ammotype]);
-    int x = n->x;
-    int y = n->y;
+    int         num = MAX(0, *n->num + ammodiff[ammotype]);
+    int         x = n->x;
+    const int   y = n->y;
 
     // in the special case of 0, you draw 0
     if (!num)
@@ -219,9 +219,9 @@ void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
 
 void STlib_UpdateSmallMaxAmmoNum(st_number_t *n, ammotype_t ammotype)
 {
-    int num = MAX(0, *n->num + maxammodiff[ammotype]);
-    int x = n->x;
-    int y = n->y;
+    int         num = MAX(0, *n->num + maxammodiff[ammotype]);
+    int         x = n->x;
+    const int   y = n->y;
 
     // in the special case of 0, you draw 0
     if (!num)

@@ -78,7 +78,7 @@ int M_CheckParm(const char *check)
     return 0;
 }
 
-#define MAXARGVS        100
+#define MAXARGVS    100
 
 static void LoadResponseFile(size_t argv_index, const char *filename)
 {
