@@ -1402,7 +1402,7 @@ static int D_OpenWADLauncher(void)
 
                         if (W_CheckMultipleLumps("M_DOOM") == 2)
                         {
-                            if (D_IsDOOM1IWAD(fullpath))
+                            if (D_IsDOOM1IWAD(fullpath) && W_CheckMultipleLumps("E1M1") == 1)
                             {
                                 if (IsUltimateDOOM(fullpath))
                                 {
@@ -1443,7 +1443,7 @@ static int D_OpenWADLauncher(void)
 
                             if (W_CheckMultipleLumps("M_DOOM") == 2)
                             {
-                                if (D_IsDOOM1IWAD(fullpath))
+                                if (D_IsDOOM1IWAD(fullpath) && W_CheckMultipleLumps("E1M1") == 1)
                                 {
                                     if (IsUltimateDOOM(fullpath))
                                     {
@@ -1479,7 +1479,7 @@ static int D_OpenWADLauncher(void)
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDEHFile(file);
 
-                                if (W_CheckMultipleLumps("M_DOOM") == 2)
+                                if (W_CheckMultipleLumps("M_DOOM") == 2 && W_CheckMultipleLumps("E1M1") == 1)
                                 {
                                     if (D_IsDOOM1IWAD(fullpath))
                                     {
