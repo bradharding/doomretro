@@ -328,9 +328,6 @@ bool W_AddFile(char *filename, bool autoloaded)
         || M_StringCompare(file, "SIGIL_v1_0.wad")
         || M_StringCompare(file, "SIGIL.wad")))
         return false;
-    else if (buckethead && M_StringCompare(file, "SIGIL_SHREDS.WAD")
-        || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
-        return false;
     else if (nerve && M_StringCompare(file, "NERVE.WAD"))
         return false;
 
@@ -412,9 +409,6 @@ bool W_AddFile(char *filename, bool autoloaded)
         {
             buckethead = true;
             C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
-
-            if (!autosigil)
-                shredsloadedfirst = true;
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
             C_Output("You now can play Nerve Software's " ITALICS("No Rest For The Living")
@@ -432,7 +426,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-bool W_AutoloadFiles(const char *folder)
+bool W_AutoloadFiles(const char *file, const char *folder)
 {
 #if defined(_WIN32)
     bool            result = false;
@@ -450,6 +444,9 @@ bool W_AutoloadFiles(const char *folder)
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
             temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
+
+            if (file && !M_StringCompare(file, FindFileData.cFileName))
+                continue;
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
                 || M_StringEndsWith(FindFileData.cFileName, ".pwad"))

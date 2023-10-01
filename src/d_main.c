@@ -2237,11 +2237,18 @@ static void D_DoomMainSetup(void)
     {
         D_SetAutoloadFolder();
 
-        autoloading = W_AutoloadFiles(autoloadfolder);
-        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
+        autoloading = W_AutoloadFiles("SIGIL_v1_21.wad", autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles("SIGIL_v1_2.wad", autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles("SIGIL_v1_1.wad", autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles("SIGIL_v1_0.wad", autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles("SIGIL.wad", autoloadiwadsubfolder);
+        autoloading |= W_AutoloadFiles("NERVE.WAD", autoloadiwadsubfolder);
+
+        autoloading |= W_AutoloadFiles(NULL, autoloadfolder);
+        autoloading |= W_AutoloadFiles(NULL, autoloadiwadsubfolder);
 
         if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
+            autoloading |= W_AutoloadFiles(NULL, autoloadpwadsubfolder);
     }
 
     W_Init();

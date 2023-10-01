@@ -89,7 +89,6 @@ extern bool             freeze;
 extern bool             sigil;
 extern bool             autosigil;
 extern bool             buckethead;
-extern bool             shredsloadedfirst;
 extern bool             nerve;
 extern bool             bfgedition;
 extern bool             unity;
