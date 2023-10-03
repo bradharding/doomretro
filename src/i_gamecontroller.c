@@ -94,7 +94,7 @@ static char *GetGameControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
         return("A " ITALICS("Google Stadia") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NVIDIA_SHIELD)
-        return("An " ITALICS("Nvidia Shield") "controller is connected.");
+        return("An " ITALICS("Nvidia Shield") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
         return("A " ITALICS("Nintendo Switch's") " left joycon is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
