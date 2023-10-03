@@ -1541,7 +1541,7 @@ void C_Drawer(void)
             int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
             if (yy >= 0)
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX - 5; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
@@ -1552,7 +1552,7 @@ void C_Drawer(void)
             {
                 const byte  *tinttab = (!yy ? tinttab40 : tinttab50);
 
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX - 5; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
