@@ -522,6 +522,16 @@ static void M_DrawMenuBorder(void)
 }
 
 //
+// M_DrawMenuOverlay
+//
+void M_DrawMenuOverlay(void)
+{
+    patch_t *patch = W_CacheLumpName("DROVRLY");
+
+    V_DrawPatch(320 - 13 + (vid_widescreen ? WIDESCREENDELTA - 10 : -4), 200 - 13 - 4, 0, patch);
+}
+
+//
 // M_DrawMenuBackground
 //
 void M_DrawMenuBackground(void)
@@ -565,6 +575,8 @@ void M_DrawMenuBackground(void)
     memcpy(screens[0], blurscreen, SCREENAREA);
 
     M_DrawMenuBorder();
+
+    M_DrawMenuOverlay();
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
