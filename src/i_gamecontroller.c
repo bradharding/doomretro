@@ -100,7 +100,7 @@ static char *GetGameControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
         return("A " ITALICS("Nintendo Switch's") " right joycon is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
-        return("A " ITALICS("Nintendo Switch's") " joycon is connected.");
+        return("A " ITALICS("Nintendo Switch's") " joycons are connected.");
     else
         return GetGameControllerName();
 }

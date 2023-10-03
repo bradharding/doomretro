@@ -3,7 +3,8 @@
 ### DOOM Retro v5.1
 
 * *DOOM Retro* now uses [*SDL v2.28.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.4).
-* Blood splats are now rendered in the top half of the player’s view if they aren’t completely obscured by the map’s geometry.
+* Minor changes have been made to text that is output to the console.
+* Blood splats are now rendered in the top half of the player’s view if not completely obscured by the map’s geometry.
 * `SIGIL.WAD` is no longer autoloaded if a PWAD is loaded that contains an `E1M1` lump.
 * If `SIGIL.WAD` or `NERVE.WAD` are in the autoload folder, they are now loaded before any other PWADs.
 * Minor improvements have been made to the highlight effect in the menu.
