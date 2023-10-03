@@ -396,7 +396,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         if (D_IsSIGILWAD(file))
         {
             autosigil = autoloaded;
-            C_Output("You now can play John Romero's " ITALICS("SIGIL")
+            C_Output("You can now play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
@@ -406,7 +406,7 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
-            C_Output("You now can play Nerve Software's " ITALICS("No Rest For The Living")
+            C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
     }
 
