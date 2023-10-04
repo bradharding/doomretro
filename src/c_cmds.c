@@ -3322,9 +3322,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->cheats & CF_GODMODE)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't be killed while god mode is on.");
+                    C_Warning(0, "You can't be killed while in god mode.");
                 else
-                    C_Warning(0, "%s can't be killed while god mode is on.", playername);
+                    C_Warning(0, "%s can't be killed while in god mode.", playername);
 
                 return;
             }
@@ -3332,10 +3332,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->cheats & CF_BUDDHA)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't be killed while buddha mode is on.");
+                    C_Warning(0, "You can't be killed while in buddha mode.");
                 else
-                    C_Warning(0, "%s can't be killed while buddha mode is on.", playername);
+                    C_Warning(0, "%s can't be killed while in buddha mode.", playername);
 
+                player_cvars_func2(stringize(health), "1");
                 return;
             }
 
@@ -3365,12 +3366,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             viewplayer->attacker = NULL;
 
-            if (viewplayer->fixedcolormap == INVERSECOLORMAP)
-                viewplayer->fixedcolormap = 0;
-
             viewplayer->mo->flags2 |= MF2_MASSACRE;
-            viewplayer->cheats &= ~(CF_GODMODE | CF_BUDDHA);
-            viewplayer->powers[pw_invulnerability] = 0;
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
 
             if (M_StringCompare(playername, playername_default))
@@ -8197,7 +8193,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
-        C_Warning(0, "Changes to any CVARs won't be saved while vanilla mode is on.");
+        C_Warning(0, "Changes to any CVARs won't be saved while in vanilla mode.");
     }
     else
     {
