@@ -3322,9 +3322,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->cheats & CF_GODMODE)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't kill yourself in god mode.");
+                    C_Warning(0, "You can't kill yourself in god mode!");
                 else
-                    C_Warning(0, "%s can't kill %s in god mode.", playername, preferredpronoun(reflexive));
+                    C_Warning(0, "%s can't kill %s in god mode!", playername, preferredpronoun(reflexive));
 
                 return;
             }
@@ -3332,9 +3332,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->cheats & CF_BUDDHA)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't kill yourself in buddha mode.");
+                    C_Warning(0, "You can't kill yourself in buddha mode!");
                 else
-                    C_Warning(0, "%s can't kill %s in buddha mode.", playername, preferredpronoun(reflexive));
+                    C_Warning(0, "%s can't kill %s in buddha mode!", playername, preferredpronoun(reflexive));
 
                 player_cvars_func2(stringize(health), "1");
                 return;
@@ -3343,11 +3343,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->powers[pw_invulnerability])
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't kill yourself while you have %s %s.",
+                    C_Warning(0, "You can't kill yourself when you have %s %s!",
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
                 else
-                    C_Warning(0, "%s can't kill %s while %s %s %s %s.",
+                    C_Warning(0, "%s can't kill %s when %s %s %s %s!",
                         playername,
                         preferredpronoun(reflexive),
                         preferredpronoun(personal),
