@@ -3113,7 +3113,13 @@ static void if_cmd_func2(char *cmd, char *parms)
 
             if (consolecmds[i].type == CT_CVAR)
             {
-                if (consolecmds[i].flags & (CF_BOOLEAN | CF_INTEGER))
+                if (consolecmds[i].flags & CF_BOOLEAN)
+                {
+                    int value = C_LookupValueFromAlias(parm2, BOOLVALUEALIAS);
+
+                    condition = ((value == 0 || value == 1) && value == *(bool *)consolecmds[i].variable);
+                }
+                else if (consolecmds[i].flags & CF_INTEGER)
                 {
                     int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
