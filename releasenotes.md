@@ -6,6 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * The `if` CCMD now works with boolean CVARs.
 * Blood splats are now rendered in the top half of the player’s view if not completely obscured by the map’s geometry.
+* If the player enters `kill player` in the console while buddha mode is enabled, their health is now reduced to 1%.
 * `SIGIL.WAD` is no longer autoloaded if a PWAD is loaded that contains an `E1M1` lump.
 * If `SIGIL.WAD` or `NERVE.WAD` are in the autoload folder, they are now loaded before any other PWADs.
 * Minor improvements have been made to the highlight effect in the menu.

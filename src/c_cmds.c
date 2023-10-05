@@ -3329,17 +3329,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 return;
             }
 
-            if (viewplayer->cheats & CF_BUDDHA)
-            {
-                if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't kill yourself in buddha mode!");
-                else
-                    C_Warning(0, "%s can't kill %s in buddha mode!", playername, preferredpronoun(reflexive));
-
-                player_cvars_func2(stringize(health), "1");
-                return;
-            }
-
             if (viewplayer->powers[pw_invulnerability])
             {
                 if (M_StringCompare(playername, playername_default))
@@ -3355,6 +3344,17 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
 
+                return;
+            }
+
+            if (viewplayer->cheats & CF_BUDDHA)
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You can't kill yourself in buddha mode!");
+                else
+                    C_Warning(0, "%s can't kill %s in buddha mode!", playername, preferredpronoun(reflexive));
+
+                player_cvars_func2(stringize(health), "1");
                 return;
             }
 
