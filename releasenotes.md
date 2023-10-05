@@ -9,6 +9,7 @@
 * If the player enters `kill player` in the console while buddha mode is enabled, their health is now reduced to 1%.
 * `SIGIL.WAD` is no longer autoloaded if a PWAD is loaded that contains an `E1M1` lump.
 * If `SIGIL.WAD` or `NERVE.WAD` are in the autoload folder, they are now loaded before any other PWADs.
+* `NERVE.WAD` now loads correctly if specified on the command-line.
 * Minor improvements have been made to the highlight effect in the menu.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

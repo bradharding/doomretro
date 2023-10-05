@@ -293,6 +293,8 @@ char *W_GuessFilename(char *path, const char *string)
 bool W_AddFile(char *filename, bool autoloaded)
 {
     static bool resourcewadadded;
+    static bool sigilwadadded;
+    static bool nervewadadded;
     wadinfo_t   header;
     size_t      length;
     int         startlump;
@@ -322,12 +324,12 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
 
-    if (sigil && D_IsSIGILWAD(file))
+    if (sigilwadadded && D_IsSIGILWAD(file))
         return false;
     else if (buckethead && (M_StringCompare(file, "SIGIL_SHREDS.wad")
         || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad")))
         return false;
-    else if (nerve && M_StringCompare(file, "NERVE.WAD"))
+    else if (nervewadadded && M_StringCompare(file, "NERVE.WAD"))
         return false;
 
     // WAD file
@@ -395,6 +397,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
         if (D_IsSIGILWAD(file))
         {
+            sigilwadadded = true;
             autosigil = autoloaded;
             C_Output("You can now play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
@@ -406,8 +409,11 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
+        {
+            nervewadadded = true;
             C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
+        }
     }
 
     if (!resourcewadadded)
