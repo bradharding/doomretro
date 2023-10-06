@@ -11,6 +11,7 @@
 * If `SIGIL.WAD` or `NERVE.WAD` are in the autoload folder, they are now loaded before any other PWADs.
 * `NERVE.WAD` now loads correctly if specified on the command-line.
 * Minor improvements have been made to the highlight effect in the menu.
+* A bug is fixed whereby music changer objects would no longer work once loading a savegame.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

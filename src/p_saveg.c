@@ -282,9 +282,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->geartime = saveg_read32();
     str->giblevel = saveg_read32();
     str->gibtimer = saveg_read32();
+    str->musicid = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -363,9 +363,9 @@ static void saveg_write_mobj_t(const mobj_t *str)
     saveg_write32(str->geartime);
     saveg_write32(str->giblevel);
     saveg_write32(str->gibtimer);
+    saveg_write32(str->musicid);
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
@@ -1360,7 +1360,14 @@ void P_UnarchiveThinkers(void)
                 mobj->info = &mobjinfo[mobj->type];
                 P_SetThingPosition(mobj);
 
-                mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? &MusInfoThinker : &P_MobjThinker);
+                if (mobj->type == MT_MUSICSOURCE)
+                {
+                    musinfo.mapthing = mobj;
+                    mobj->thinker.function = &MusInfoThinker;
+                }
+                else
+                    mobj->thinker.function = &P_MobjThinker;
+
                 P_AddThinker(&mobj->thinker);
                 mobj->colfunc = mobj->info->colfunc;
                 mobj->altcolfunc = mobj->info->altcolfunc;

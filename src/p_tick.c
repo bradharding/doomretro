@@ -78,7 +78,8 @@ void P_UpdateThinker(thinker_t *thinker)
         (th->cprev = thinker->cprev)->cnext = th;
 
     // Add to appropriate thread
-    th = &thinkers[(thinker->function == &P_MobjThinker ? th_mobj : th_misc)];
+    th = &thinkers[(thinker->function == &P_MobjThinker || thinker->function == &MusInfoThinker ?
+        th_mobj : th_misc)];
     th->cprev->cnext = thinker;
     thinker->cnext = th;
     thinker->cprev = th->cprev;
