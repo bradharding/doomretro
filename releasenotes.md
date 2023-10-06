@@ -4,13 +4,16 @@
 
 * *DOOM Retro* now uses [*SDL v2.28.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.4).
 * Minor changes have been made to text that is output to the console.
-* The `if` CCMD now works with boolean CVARs.
+* Minor changes have been made to the branding in the console.
+* The `if` CCMD now works with boolean CVARs again.
 * Blood splats are now rendered in the top half of the player’s view if not completely obscured by the map’s geometry.
 * If the player enters `kill player` in the console while buddha mode is enabled, their health is now reduced to 1%.
 * `SIGIL.WAD` is no longer autoloaded if a PWAD is loaded that contains an `E1M1` lump.
-* If `SIGIL.WAD` or `NERVE.WAD` are in the autoload folder, they are now loaded before any other PWADs.
-* `NERVE.WAD` now loads correctly if specified on the command-line.
-* Minor improvements have been made to the highlight effect in the menu.
+* If `SIGIL.WAD` or `NERVE.WAD` have been placed in the `autoload` folder, they are now loaded:
+  * Before any other PWADs in the `autoload` folder,
+  * But not if those PWADs contain any conflicting lumps.
+* `NERVE.WAD` now loads correctly if specified using the `-file` parameter on the command-line.
+* Minor improvements have been made to the highlight effect in the menu in some rare instances.
 * A bug is fixed whereby music changer objects would no longer work once loading a savegame.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
