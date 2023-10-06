@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.1
+### DOOM Retro v5.0.5
 
 * *DOOM Retro* now uses [*SDL v2.28.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.4).
 * Minor changes have been made to text that is output to the console.
