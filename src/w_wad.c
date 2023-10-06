@@ -427,7 +427,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-bool W_AutoloadFile(const char *filename, const char *folder)
+bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerveorsigil)
 {
 #if defined(_WIN32)
     bool            result = false;
@@ -445,6 +445,11 @@ bool W_AutoloadFile(const char *filename, const char *folder)
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
             if (filename && !M_StringCompare(filename, FindFileData.cFileName))
+                continue;
+
+            if (nonerveorsigil
+                && (M_StringCompare(FindFileData.cFileName, "SIGIL.WAD")
+                    || D_IsSIGILWAD(FindFileData.cFileName)))
                 continue;
 
             temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
@@ -584,9 +589,9 @@ bool W_AutoloadFile(const char *filename, const char *folder)
     return result;
 }
 
-bool W_AutoloadFiles(const char *folder)
+bool W_AutoloadFiles(const char *folder, const bool nonerveorsigil)
 {
-    return W_AutoloadFile("", folder);
+    return W_AutoloadFile("", folder, nonerveorsigil);
 }
 
 // Hash function used for lump names.

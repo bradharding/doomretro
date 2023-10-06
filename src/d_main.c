@@ -2242,24 +2242,44 @@ static void D_DoomMainSetup(void)
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
+        bool nosigil = false;
+        bool nonerve = false;
+
         D_SetAutoloadFolder();
 
         if (gamemission == doom)
         {
-            autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder);
-            autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder);
-            autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder);
-            autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder);
-            autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder);
+            if (W_CheckMultipleLumps("M_DOOM") > 2
+                || W_CheckMultipleLumps("E1M1") > 1
+                || !W_CheckMultipleLumps("E4M1")
+                || W_CheckMultipleLumps("M_EPI5")
+                || W_CheckMultipleLumps("E5M1"))
+                nosigil = true;
+            else
+            {
+                autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
+            }
+
+            autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
+            autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
         }
         else if (gamemission == doom2)
-            autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder);
+        {
+            if (W_CheckMultipleLumps("M_DOOM") > 2 || W_CheckMultipleLumps("MAP01") > 1)
+                nonerve = true;
+            else
+                autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
 
-        autoloading |= W_AutoloadFiles(autoloadfolder);
-        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
+            autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
+            autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
+        }
 
         if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
+            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
     }
 
     W_Init();
