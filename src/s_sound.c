@@ -202,7 +202,7 @@ void S_Init(void)
 
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
             {
-                if (!CacheSFX(sfx) && W_CheckMultipleLumps(namebuf) > 1)
+                if (!CacheSFX(sfx) && W_GetNumLumps(namebuf) > 1)
                 {
                     sfx->lumpnum = W_GetLastNumForName(namebuf);
 

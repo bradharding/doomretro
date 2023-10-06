@@ -1477,7 +1477,7 @@ static void M_DrawHelp(void)
             M_DrawHelpBackground();
             V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), false, SCREENWIDTH);
         }
-        else if (W_CheckMultipleLumps(lumpname) > 2)
+        else if (W_GetNumLumps(lumpname) > 2)
         {
             V_DrawPagePatch(0, W_CacheWidestLumpName(lumpname));
 
@@ -4183,7 +4183,7 @@ void M_Drawer(void)
                         widest = MAX(widest, width);
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
-                    else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
+                    else if (W_GetNumLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
                         patch_t *patch = W_CacheLumpName(name);
                         int     width = SHORT(patch->width);
@@ -4412,7 +4412,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (W_CheckNumForName("M_CONSOL") < 0 && W_CheckMultipleLumps("M_SVOL") > 1)
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_SVOL") > 1)
         OptionsDef.numitems--;
 
     M_ReadSaveStrings();

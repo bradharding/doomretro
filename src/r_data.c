@@ -846,7 +846,7 @@ static void R_InitSpriteLumps(void)
 //
 static void R_InitColormaps(void)
 {
-    const bool  COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    const bool  COLORMAP = (W_GetNumLumps("COLORMAP") > 1);
     byte        *palsrc = PLAYPAL;
     wadfile_t   *colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 

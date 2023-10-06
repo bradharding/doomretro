@@ -88,7 +88,7 @@ int W_GetLastNumForName(const char *name);
 int W_GetSecondNumForName(const char *name);
 int W_GetWidestNumForName(const char *name);
 
-int W_CheckMultipleLumps(const char *name);
+int W_GetNumLumps(const char *name);
 
 int W_LumpLength(int lump);
 

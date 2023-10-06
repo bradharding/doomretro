@@ -1898,7 +1898,7 @@ static void P_LoadThings(int map, int lump)
         bool        spawn = true;
         const short type = SHORT(mt.type);
 
-        if (gamemode != commercial && type >= ArchVile && type <= MonsterSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
+        if (gamemode != commercial && type >= ArchVile && type <= MonsterSpawner && W_GetNumLumps("DEHACKED") == 1)
         {
             const int   doomednum = P_FindDoomedNum(type);
             static char buffer[128];
@@ -2865,7 +2865,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
+            else if (W_GetNumLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2882,7 +2882,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehmaptitlecount == 1)
+            else if (W_GetNumLumps(mapnum) > 1 && (!nerve || map > 9) && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2911,7 +2911,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
+            else if (W_GetNumLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2928,7 +2928,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
+            else if (W_GetNumLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -3164,7 +3164,7 @@ void P_SetupLevel(int ep, int map)
 
     mapformat = P_CheckMapFormat(lumpnum);
 
-    canmodify = ((W_CheckMultipleLumps(lumpname) == 1
+    canmodify = ((W_GetNumLumps(lumpname) == 1
         || (sigil && gamemission == doom)
         || gamemission == pack_nerve
         || (nerve && gamemission == doom2))

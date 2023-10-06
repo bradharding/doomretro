@@ -757,10 +757,10 @@ int W_CheckNumForName(const char *name)
 }
 
 //
-// W_CheckMultipleLumps
+// W_GetNumLumps
 // Check if there's more than one of the same lump.
 //
-int W_CheckMultipleLumps(const char *name)
+int W_GetNumLumps(const char *name)
 {
     int count = 0;
 

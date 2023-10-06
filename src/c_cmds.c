@@ -1316,7 +1316,7 @@ static bool cheat_func1(char *cmd, char *parms)
 
         result = (W_CheckNumForName(mapcmdlump) >= 0
             && (gamemission != pack_nerve || mapcmdmap <= 9)
-            && (!BTSX || W_CheckMultipleLumps(mapcmdlump) > 1));
+            && (!BTSX || W_GetNumLumps(mapcmdlump) > 1));
 
         if (gamestate == GS_LEVEL)
             return result;
@@ -4049,7 +4049,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
 
                 if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
                 {
-                    if (!((BTSX && W_CheckMultipleLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    if (!((BTSX && W_GetNumLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
                         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
                         {
@@ -4075,7 +4075,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                             char    lump[6];
 
                             M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
-                            result = (W_CheckMultipleLumps(lump) == 2);
+                            result = (W_GetNumLumps(lump) == 2);
                         }
                     }
                 }
@@ -4120,7 +4120,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 }
 
                 M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
-                replaced = (W_CheckMultipleLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
+                replaced = (W_GetNumLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
                 pwad = (lumpinfo[i]->wadfile->type == PWAD);
                 M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode, mapcmdmap), sizeof(mapinfoname));
 
@@ -4337,7 +4337,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         }
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
-        replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
+        replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(--ep, --map), sizeof(mapinfoname));
 
@@ -4969,7 +4969,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
         free(temp);
 
-        lumps = W_CheckMultipleLumps(namebuf);
+        lumps = W_GetNumLumps(namebuf);
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));

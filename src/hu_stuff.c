@@ -194,14 +194,14 @@ void HU_Init(void)
         M_snprintf(buffer, sizeof(buffer), "STCFN%03i", j++);
         hu_font[i] = W_CacheLumpName(buffer);
 
-        if (W_CheckMultipleLumps(buffer) > 1)
+        if (W_GetNumLumps(buffer) > 1)
             STCFNxxx = true;
     }
 
     caretcolor = FindBrightDominantColor(hu_font['A' - HU_FONTSTART]);
 
     if (W_CheckNumForName("STTMINUS") >= 0
-        && (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1))
+        && (W_GetNumLumps("STTMINUS") > 1 || W_GetNumLumps("STTNUM0") == 1))
     {
         minuspatch = W_CacheLumpName("STTMINUS");
         minuspatchtopoffset = SHORT(minuspatch->topoffset);

@@ -392,7 +392,7 @@ static void WI_DrawLF(void)
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->last);
 
-        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+        if (W_GetNumLumps(name) > 1 && !nerve)
         {
             patch_t     *patch = lnames[wbs->last];
             const short height = SHORT(patch->height);
@@ -455,7 +455,7 @@ static void WI_DrawEL(void)
         else
             M_snprintf(name, sizeof(name), "WILV%i%i", wbs->epsd, wbs->next);
 
-        if (W_CheckMultipleLumps(name) > 1 && !nerve)
+        if (W_GetNumLumps(name) > 1 && !nerve)
         {
             patch_t     *patch = lnames[wbs->next];
             const short height = SHORT(patch->height);

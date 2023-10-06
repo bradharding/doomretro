@@ -604,9 +604,9 @@ void D_DoAdvanceTitle(void)
         pagetic = PAGETICS;
     }
 
-    if (W_CheckMultipleLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
+    if (W_GetNumLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
     {
-        if (W_CheckMultipleLumps("CREDIT") > 1 && !doom4vanilla)
+        if (W_GetNumLumps("CREDIT") > 1 && !doom4vanilla)
         {
             if (++titlesequence > 2)
                 titlesequence = 1;
@@ -1407,9 +1407,9 @@ static int D_OpenWADLauncher(void)
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDEHFile(file);
 
-                        if (W_CheckMultipleLumps("M_DOOM") == 2)
+                        if (W_GetNumLumps("M_DOOM") == 2)
                         {
-                            if (D_IsDOOM1IWAD(fullpath) && W_CheckMultipleLumps("E1M1") == 1)
+                            if (D_IsDOOM1IWAD(fullpath) && W_GetNumLumps("E1M1") == 1)
                             {
                                 if (IsUltimateDOOM(fullpath))
                                 {
@@ -1419,7 +1419,7 @@ static int D_OpenWADLauncher(void)
                                         D_AutoloadSigilWAD();
                                 }
                             }
-                            else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                            else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
                                 D_AutoloadNerveWAD();
                         }
                     }
@@ -1448,9 +1448,9 @@ static int D_OpenWADLauncher(void)
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDEHFile(file);
 
-                            if (W_CheckMultipleLumps("M_DOOM") == 2)
+                            if (W_GetNumLumps("M_DOOM") == 2)
                             {
-                                if (D_IsDOOM1IWAD(fullpath) && W_CheckMultipleLumps("E1M1") == 1)
+                                if (D_IsDOOM1IWAD(fullpath) && W_GetNumLumps("E1M1") == 1)
                                 {
                                     if (IsUltimateDOOM(fullpath))
                                     {
@@ -1460,7 +1460,7 @@ static int D_OpenWADLauncher(void)
                                             D_AutoloadSigilWAD();
                                     }
                                 }
-                                else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                                else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
                                     D_AutoloadNerveWAD();
                             }
                         }
@@ -1486,7 +1486,7 @@ static int D_OpenWADLauncher(void)
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDEHFile(file);
 
-                                if (W_CheckMultipleLumps("M_DOOM") == 2 && W_CheckMultipleLumps("E1M1") == 1)
+                                if (W_GetNumLumps("M_DOOM") == 2 && W_GetNumLumps("E1M1") == 1)
                                 {
                                     if (D_IsDOOM1IWAD(fullpath))
                                     {
@@ -1498,7 +1498,7 @@ static int D_OpenWADLauncher(void)
                                                 D_AutoloadSigilWAD();
                                         }
                                     }
-                                    else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                                    else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
                                         D_AutoloadNerveWAD();
                                 }
                             }
@@ -2249,11 +2249,11 @@ static void D_DoomMainSetup(void)
 
         if (gamemission == doom)
         {
-            if (W_CheckMultipleLumps("M_DOOM") > 2
-                || W_CheckMultipleLumps("E1M1") > 1
-                || !W_CheckMultipleLumps("E4M1")
-                || W_CheckMultipleLumps("M_EPI5")
-                || W_CheckMultipleLumps("E5M1"))
+            if (W_GetNumLumps("M_DOOM") > 2
+                || W_GetNumLumps("E1M1") > 1
+                || !W_GetNumLumps("E4M1")
+                || W_GetNumLumps("M_EPI5")
+                || W_GetNumLumps("E5M1"))
                 nosigil = true;
             else
             {
@@ -2269,7 +2269,7 @@ static void D_DoomMainSetup(void)
         }
         else if (gamemission == doom2)
         {
-            if (W_CheckMultipleLumps("M_DOOM") > 2 || W_CheckMultipleLumps("MAP01") > 1)
+            if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
                 nonerve = true;
             else
                 autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
@@ -2286,34 +2286,34 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
-    STBARs = W_CheckMultipleLumps("STBAR");
+    PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_GetNumLumps("PLAYPAL"));
+    STBARs = W_GetNumLumps("STBAR");
 
-    DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
-    E1M4 = (W_CheckMultipleLumps("E1M4") > 1);
-    E1M8 = (W_CheckMultipleLumps("E1M8") > 1);
-    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2);
-    M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
-    M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
-    M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
-    M_LOADG = (W_CheckMultipleLumps("M_LOADG") > 1);
-    M_LGTTL = (W_CheckMultipleLumps("M_LGTTL") > 1);
-    M_LSCNTR = (W_CheckMultipleLumps("M_LSCNTR") > 1);
-    M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
-    M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
-    M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
-    M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
-    M_NGAME = (W_CheckMultipleLumps("M_NGAME") > 1);
-    M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
-    M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
-    M_PAUSE = (W_CheckMultipleLumps("M_PAUSE") > 1);
-    M_SAVEG = (W_CheckMultipleLumps("M_SAVEG") > 1);
-    M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
-    M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
-    M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
-    M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
-    STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
+    DSFLAMST = (W_GetNumLumps("DSFLAMST") > 1);
+    E1M4 = (W_GetNumLumps("E1M4") > 1);
+    E1M8 = (W_GetNumLumps("E1M8") > 1);
+    M_DOOM = (W_GetNumLumps("M_DOOM") > 2);
+    M_EPISOD = (W_GetNumLumps("M_EPISOD") > 1);
+    M_GDHIGH = (W_GetNumLumps("M_GDHIGH") > 1);
+    M_GDLOW = (W_GetNumLumps("M_GDLOW") > 1);
+    M_LOADG = (W_GetNumLumps("M_LOADG") > 1);
+    M_LGTTL = (W_GetNumLumps("M_LGTTL") > 1);
+    M_LSCNTR = (W_GetNumLumps("M_LSCNTR") > 1);
+    M_MSENS = (W_GetNumLumps("M_MSENS") > 1);
+    M_MSGOFF = (W_GetNumLumps("M_MSGOFF") > 1);
+    M_MSGON = (W_GetNumLumps("M_MSGON") > 1);
+    M_NEWG = (W_GetNumLumps("M_NEWG") > 1);
+    M_NGAME = (W_GetNumLumps("M_NGAME") > 1);
+    M_NMARE = (W_GetNumLumps("M_NMARE") > 1);
+    M_OPTTTL = (W_GetNumLumps("M_OPTTTL") > 1);
+    M_PAUSE = (W_GetNumLumps("M_PAUSE") > 1);
+    M_SAVEG = (W_GetNumLumps("M_SAVEG") > 1);
+    M_SGTTL = (W_GetNumLumps("M_SGTTL") > 1);
+    M_SKILL = (W_GetNumLumps("M_SKILL") > 1);
+    M_SKULL1 = (W_GetNumLumps("M_SKULL1") > 1);
+    M_SVOL = (W_GetNumLumps("M_SVOL") > 1);
+    STYSNUM0 = (W_GetNumLumps("STYSNUM0") > 1);
+    WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 
     if (gamemission == doom)
     {
@@ -2502,7 +2502,7 @@ static void D_DoomMainSetup(void)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         }
 
-        if ((BTSX && W_CheckMultipleLumps(lumpname) > 1) || W_CheckNumForName(lumpname) >= 0)
+        if ((BTSX && W_GetNumLumps(lumpname) > 1) || W_CheckNumForName(lumpname) >= 0)
         {
             autostart = true;
 
@@ -2570,8 +2570,8 @@ static void D_DoomMainSetup(void)
     }
     else
     {
-        const int   titlepics = W_CheckMultipleLumps("TITLEPIC");
-        const int   credits = W_CheckMultipleLumps("CREDIT");
+        const int   titlepics = W_GetNumLumps("TITLEPIC");
+        const int   credits = W_GetNumLumps("CREDIT");
 
         if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
             titlelump = W_CacheWidestLumpName("TITLEPIC");

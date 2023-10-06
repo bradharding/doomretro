@@ -967,7 +967,7 @@ bool ST_Responder(const event_t *ev)
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
-                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9) || (BTSX && W_CheckMultipleLumps(lump) == 1))
+                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9) || (BTSX && W_GetNumLumps(lump) == 1))
                     idclev = false;
                 else
                 {
@@ -1450,7 +1450,7 @@ void ST_InitStatBar(void)
     else
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ? W_CacheLastLumpName("STBAR") :
-            (W_CheckMultipleLumps("STBAR") > 2 ? W_CacheWidestLumpName("STBAR") : W_CacheLumpName("STBAR3")));
+            (W_GetNumLumps("STBAR") > 2 ? W_CacheWidestLumpName("STBAR") : W_CacheLumpName("STBAR3")));
         sbar2 = W_CacheLumpName("STBAR4");
     }
 
