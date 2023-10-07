@@ -278,7 +278,7 @@ static void saveg_read_mobj_t(mobj_t *str)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
-    str->inflicter = saveg_read32();
+    str->inflicter = (mobjtype_t)saveg_read_enum();
     str->geartime = saveg_read32();
     str->giblevel = saveg_read32();
     str->gibtimer = saveg_read32();
@@ -359,7 +359,7 @@ static void saveg_write_mobj_t(const mobj_t *str)
     }
 
     saveg_write32(str->madesound);
-    saveg_write32(str->inflicter);
+    saveg_write_enum(str->inflicter);
     saveg_write32(str->geartime);
     saveg_write32(str->giblevel);
     saveg_write32(str->gibtimer);

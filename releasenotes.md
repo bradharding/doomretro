@@ -17,7 +17,7 @@
 * `SIGIL.WAD` is no longer autoloaded if a PWAD is loaded that contains an `E1M1` lump.
 * If `SIGIL.WAD` or `NERVE.WAD` have been placed in the `autoload` folder:
   * They are now loaded before any other PWADs in the `autoload` folder,
-  * But not if those PWADs contain any conflicting lumps.
+  * But not if the PWADs already loaded contain any conflicting lumps.
 * `NERVE.WAD` now loads correctly if specified using the `-file` parameter on the command-line.
 * Minor improvements have been made to the highlight effect in the menu in some rare instances.
 * A bug is fixed whereby music changer objects would no longer work once loading a savegame.

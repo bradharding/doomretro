@@ -40,6 +40,7 @@
 
 #define MAPBITS         12
 #define FRACTOMAPBITS   (FRACBITS - MAPBITS)
+#define NUMMARKS        16
 #define NUMBREADCRUMBS  1024
 
 typedef struct
