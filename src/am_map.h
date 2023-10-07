@@ -88,9 +88,9 @@ typedef struct
 extern int          lastlevel;
 extern int          lastepisode;
 
-extern mpoint_t     *markpoints;
-extern int          markpointnum;
-extern int          markpointnum_max;
+extern mpoint_t     *mark;
+extern int          nummarks;
+extern int          maxmarks;
 
 extern mpoint_t     *breadcrumb;
 extern int          numbreadcrumbs;

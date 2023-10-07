@@ -159,9 +159,9 @@ static fixed_t      scale_ftom;
 int                 lastlevel = -1;
 int                 lastepisode = -1;
 
-mpoint_t            *markpoints;    // where the points are
-int                 markpointnum;   // next point to be assigned
-int                 markpointnum_max;
+mpoint_t            *mark;
+int                 nummarks;
+int                 maxmarks;
 
 mpoint_t            *breadcrumb;
 int                 numbreadcrumbs;
@@ -545,21 +545,21 @@ void AM_AddMark(void)
     const int   y = am_frame.center.y;
     char        message[32];
 
-    for (int i = 0; i < markpointnum; i++)
-        if (markpoints[i].x == x && markpoints[i].y == y)
+    for (int i = 0; i < nummarks; i++)
+        if (mark[i].x == x && mark[i].y == y)
             return;
 
-    if (markpointnum >= markpointnum_max)
+    if (nummarks >= maxmarks)
     {
-        markpointnum_max = (markpointnum_max ? markpointnum_max * 2 : 16);
-        markpoints = I_Realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+        maxmarks = (maxmarks ? maxmarks * 2 : 16);
+        mark = I_Realloc(mark, maxmarks * sizeof(*mark));
     }
 
-    markpoints[markpointnum].x = x;
-    markpoints[markpointnum].y = y;
+    mark[nummarks].x = x;
+    mark[nummarks].y = y;
 
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT,
-        ++markpointnum, x >> MAPBITS, y >> MAPBITS);
+        ++nummarks, x >> MAPBITS, y >> MAPBITS);
     C_Output(message);
     HU_SetPlayerMessage(message, false, true);
 
@@ -570,23 +570,23 @@ static int  markpress;
 
 void AM_ClearMarks(void)
 {
-    if (markpointnum)
+    if (nummarks)
     {
         if (++markpress == 5)
         {
             // clear all marks
             C_Output(s_AMSTR_MARKSCLEARED);
             HU_SetPlayerMessage(s_AMSTR_MARKSCLEARED, false, true);
-            markpointnum = 0;
-            markpointnum_max = 0;
-            markpoints = NULL;
+            nummarks = 0;
+            maxmarks = 0;
+            mark = NULL;
         }
         else if (markpress == 1)
         {
             char    message[32];
 
             // clear one mark
-            M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
+            M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, nummarks--);
             C_Output(message);
             HU_SetPlayerMessage(message, false, true);
         }
@@ -1876,13 +1876,13 @@ static void AM_DrawMarks(void)
         "221111120222221120211221120211111120221111220022222200"
     };
 
-    for (int i = 0; i < markpointnum; i++)
+    for (int i = 0; i < nummarks; i++)
     {
         int         number = i + 1;
         int         temp = number;
         int         digits = 1;
         int         x, y;
-        mpoint_t    point = { markpoints[i].x, markpoints[i].y };
+        mpoint_t    point = { mark[i].x, mark[i].y };
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -2072,7 +2072,7 @@ static void AM_SetFrameVariables(void)
     }
 }
 
-static void AM_AntiAliasing(void)
+static void AM_ApplyAntialiasing(void)
 {
     static byte dest[MAXSCREENAREA];
 
@@ -2142,13 +2142,13 @@ void AM_Drawer(void)
     if (things)
         AM_DrawThings();
 
-    if (markpointnum)
+    if (nummarks)
         AM_DrawMarks();
 
     AM_DrawPlayer();
 
     if (am_antialiasing)
-        AM_AntiAliasing();
+        AM_ApplyAntialiasing();
 
     if (!(am_followmode || consoleactive))
     {

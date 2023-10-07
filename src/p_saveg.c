@@ -1706,13 +1706,13 @@ void P_UnarchiveSpecials(void)
 void P_ArchiveMap(void)
 {
     saveg_write_bool(automapactive);
-    saveg_write32(markpointnum);
+    saveg_write32(nummarks);
 
-    if (markpointnum)
-        for (int i = 0; i < markpointnum; i++)
+    if (nummarks)
+        for (int i = 0; i < nummarks; i++)
         {
-            saveg_write32(markpoints[i].x);
-            saveg_write32(markpoints[i].y);
+            saveg_write32(mark[i].x);
+            saveg_write32(mark[i].y);
         }
 
     saveg_write32(numbreadcrumbs);
@@ -1733,14 +1733,14 @@ void P_UnarchiveMap(void)
     if ((automapactive = saveg_read_bool()) || mapwindow)
         AM_Start(automapactive);
 
-    if ((markpointnum = saveg_read32()))
+    if ((nummarks = saveg_read32()))
     {
-        markpoints = I_Realloc(markpoints, (size_t)(markpointnum_max = markpointnum * 2) * sizeof(*markpoints));
+        mark = I_Realloc(mark, (size_t)(maxmarks = nummarks * 2) * sizeof(*mark));
 
-        for (int i = 0; i < markpointnum; i++)
+        for (int i = 0; i < nummarks; i++)
         {
-            markpoints[i].x = saveg_read32();
-            markpoints[i].y = saveg_read32();
+            mark[i].x = saveg_read32();
+            mark[i].y = saveg_read32();
         }
     }
 

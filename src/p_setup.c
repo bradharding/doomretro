@@ -3252,9 +3252,9 @@ void P_SetupLevel(int ep, int map)
 
     P_CalcSegsLength();
 
-    markpointnum = 0;
-    markpointnum_max = 0;
-    markpoints = NULL;
+    nummarks = 0;
+    maxmarks = 0;
+    mark = NULL;
 
     numbreadcrumbs = 0;
     maxbreadcrumbs = NUMBREADCRUMBS;
