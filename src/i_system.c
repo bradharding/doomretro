@@ -261,7 +261,7 @@ void I_Error(const char *error, ...)
     {
         SDL_MESSAGEBOX_ERROR,
         NULL,
-        DOOMRETRO_NAME " crashed!",
+        DOOMRETRO_ERRORCAPTION,
         buffer,
         SDL_arraysize(buttons),
         buttons,
@@ -311,14 +311,17 @@ void I_Error(const char *error, ...)
         char    email[512];
 
 #if defined(_WIN32)
-        M_snprintf(email, sizeof(email), DOOMRETRO_REPORTEMAIL "%s", buffer);
+        M_snprintf(email, sizeof(email),
+            DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
 
         ShellExecute(NULL, "open", email, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-        M_snprintf(email, sizeof(email), "xdg-open " DOOMRETRO_REPORTEMAIL "%s", buffer);
+        M_snprintf(email, sizeof(email),
+            "xdg-open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
         system(email);
 #elif defined(__APPLE__)
-        M_snprintf(email, sizeof(email), "open " DOOMRETRO_REPORTEMAIL "%s", buffer);
+        M_snprintf(email, sizeof(email),
+            "open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
         system(email);
 #endif
     }
