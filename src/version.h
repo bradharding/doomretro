@@ -54,6 +54,7 @@
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
 #define DOOMRETRO_PLACEOFORIGIN         "Western Sydney, Australia"
+#define DOOMRETRO_REPORTEMAIL           "mailto:brad@doomretro.com?subject=DOOM Retro crashed!&body="
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"

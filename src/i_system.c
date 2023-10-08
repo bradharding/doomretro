@@ -35,6 +35,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <ShellAPI.h>
 #else
 #include <unistd.h>
 #endif
@@ -246,8 +247,26 @@ void I_Quit(bool shutdown)
 void I_Error(const char *error, ...)
 {
     va_list     args;
-    char        msgbuf[512];
+    char        buffer[512];
     static bool already_quitting;
+    int         buttonid = -1;
+
+    const SDL_MessageBoxButtonData buttons[] =
+    {
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Report" },
+        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "OK"     }
+    };
+
+    const SDL_MessageBoxData message =
+    {
+        SDL_MESSAGEBOX_ERROR,
+        NULL,
+        DOOMRETRO_NAME " crashed!",
+        buffer,
+        SDL_arraysize(buttons),
+        buttons,
+        NULL
+    };
 
     if (already_quitting)
         exit(-1);
@@ -281,13 +300,28 @@ void I_Error(const char *error, ...)
     fflush(stderr);
 
     va_start(args, error);
-    memset(msgbuf, 0, sizeof(msgbuf));
-    M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, args);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, error, args);
     va_end(args);
 
-    M_snprintf(msgbuf, sizeof(msgbuf), "%s\n", msgbuf);
+    SDL_ShowMessageBox(&message, &buttonid);
 
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", msgbuf, NULL);
+    if (buttonid == 1)
+    {
+        char    email[512];
+
+#if defined(_WIN32)
+        M_snprintf(email, sizeof(email), DOOMRETRO_REPORTEMAIL "%s", buffer);
+
+        ShellExecute(NULL, "open", email, NULL, NULL, SW_SHOWNORMAL);
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+        M_snprintf(email, sizeof(email), "xdg-open " DOOMRETRO_REPORTEMAIL "%s", buffer);
+        system(email);
+#elif defined(__APPLE__)
+        M_snprintf(email, sizeof(email), "open " DOOMRETRO_REPORTEMAIL "%s", buffer);
+        system(email);
+#endif
+    }
 
     exit(-1);
 }

@@ -53,7 +53,7 @@
 #endif
 
 #define I_SDLError(func, offset) \
-    I_Error("The call to %s() failed on line %s of %s with this error:\n\"%s\"", \
+    I_Error("The call to %s() failed on line %s of %s:\n\"%s\"", \
         func, commify(__LINE__ + offset), leafname(__FILE__), SDL_GetError())
 
 #if defined(_WIN32)

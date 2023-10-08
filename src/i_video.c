@@ -220,18 +220,19 @@ static void SetShowCursor(const bool show)
 
 static const int translatekey[] =
 {
-    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER,
-    KEY_ESCAPE, KEY_BACKSPACE, KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\', 0, ';', '\'', '`', ',',
-    '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10,
-    KEY_F11, KEY_F12, KEY_PRINTSCREEN, KEY_SCROLLLOCK, KEY_PAUSE, KEY_INSERT, KEY_HOME, KEY_PAGEUP,
-    KEY_DELETE, KEY_END, KEY_PAGEDOWN, KEY_RIGHTARROW, KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW,
-    KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3,
-    KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_0, KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT
+    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    '0', KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE, KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\',
+    0, ';', '\'', '`', ',', '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6,
+    KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, KEY_PRINTSCREEN, KEY_SCROLLLOCK, KEY_PAUSE,
+    KEY_INSERT, KEY_HOME, KEY_PAGEUP, KEY_DELETE, KEY_END, KEY_PAGEDOWN, KEY_RIGHTARROW,
+    KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW, KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS,
+    KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9,
+    KEYP_0, KEYP_PERIOD, 0, 0, 0, KEYP_EQUALS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT
 };
 
 bool keystate(const int key)
@@ -1277,8 +1278,8 @@ static void SetVideoMode(const bool createwindow, const bool output)
     if (nowidescreen && output)
     {
         consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
-        C_Warning(1, "The aspect ratio of display %i is too low to show " ITALICS(DOOMRETRO_NAME) " in widescreen.",
-            displayindex + 1);
+        C_Warning(1, "The aspect ratio of display %i is too low to show "
+            ITALICS(DOOMRETRO_NAME) " in widescreen.", displayindex + 1);
     }
 
     if (vid_vsync)
@@ -1343,7 +1344,8 @@ static void SetVideoMode(const bool createwindow, const bool output)
             height = screenheight;
 
             if (createwindow)
-                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME,
+                    SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                     SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                     (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
@@ -1447,18 +1449,18 @@ static void SetVideoMode(const bool createwindow, const bool output)
             char    *temp5 = commify((int64_t)upscaledwidth * SCREENWIDTH);
             char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Every frame is then scaled up from %sx%s to %sx%s using nearest-%s interpolation "
-                "and then back down to %sx%s using linear filtering.",
-                temp1, temp2, temp5, temp6, (english == english_american ? "neighbor" : "neighbour"), temp3, temp4);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation "
+                "and then back down to %sx%s using linear filtering.", temp1, temp2, temp5, temp6,
+                (english == english_american ? "neighbor" : "neighbour"), temp3, temp4);
 
             free(temp5);
             free(temp6);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Every frame is then scaled up from %sx%s to %sx%s using linear filtering.",
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.",
                 temp1, temp2, temp3, temp4);
         else
-            C_Output("Every frame is then scaled up from %sx%s to %sx%s using nearest-%s interpolation.",
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation.",
                 temp1, temp2, temp3, temp4, (english == english_american ? "neighbor" : "neighbour"));
 
         free(temp1);
@@ -1488,13 +1490,15 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
 
                 if (output)
-                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D."));
+                    C_Output("This scaling is now done using hardware acceleration with "
+                        ITALICS("Direct3D."));
 #endif
             }
             else
             {
                 if (output)
-                    C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL v%i.%i."),
+                    C_Output("This scaling is done using hardware acceleration with "
+                        ITALICS("OpenGL v%i.%i."),
                         major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
@@ -1595,9 +1599,11 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 if (vid_vsync)
                 {
                     if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
-                        C_Warning(1, "The framerate can't be synced with the display's refresh rate in software.");
+                        C_Warning(1, "The framerate can't be synced with the "
+                            "display's refresh rate in software.");
                     else
-                        C_Warning(1, "The framerate can't be synced with the display's refresh rate using this graphics card.");
+                        C_Warning(1, "The framerate can't be synced with the "
+                            "display's refresh rate using this graphics card.");
                 }
 
                 if (vid_capfps)
@@ -1618,14 +1624,13 @@ static void SetVideoMode(const bool createwindow, const bool output)
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
         if (M_StringCompare(leafname(playpalwad->path), DOOMRETRO_RESOURCEWAD))
-            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the IWAD " BOLD("%s") " is being used.",
-                (english == english_american ? "color" : "colour"),
+            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the IWAD "
+                BOLD("%s") " is being used.", (english == english_american ? "color" : "colour"),
                 lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path);
         else
-            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") " is being used.",
-                (english == english_american ? "color" : "colour"),
-                (playpalwad->type == IWAD ? "IWAD" : "PWAD"),
-                playpalwad->path);
+            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s")
+                " is being used.", (english == english_american ? "color" : "colour"),
+                (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("There is no gamma correction.");
@@ -1782,7 +1787,6 @@ void I_ToggleFullscreen(const bool output)
         menuactive = false;
         C_ShowConsole();
         C_Warning(0, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
-
         return;
     }
 
@@ -1869,10 +1873,12 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error(DOOMRETRO_NAME " requires SDL v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch);
+        I_Error(DOOMRETRO_NAME " requires SDL v%i.%i.%i.",
+            compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires SDL v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch);
+        C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires SDL v%i.%i.%i.",
+            compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
