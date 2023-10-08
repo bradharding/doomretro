@@ -1321,7 +1321,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
                     (english == english_american ? "initialized" : "initialised"));
 
             if (createwindow)
-                if ((window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                     SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                     (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
