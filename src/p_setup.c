@@ -3253,8 +3253,8 @@ void P_SetupLevel(int ep, int map)
     P_CalcSegsLength();
 
     nummarks = 0;
-    maxmarks = NUMMARKS;
-    mark = I_Realloc(mark, maxmarks * sizeof(*mark));
+    maxmarks = 0;
+    mark = NULL;
 
     numbreadcrumbs = 0;
     maxbreadcrumbs = NUMBREADCRUMBS;

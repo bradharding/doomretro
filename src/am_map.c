@@ -550,7 +550,10 @@ void AM_AddMark(void)
             return;
 
     if (nummarks >= maxmarks)
-        mark = I_Realloc(mark, (maxmarks *= 2) * sizeof(*mark));
+    {
+        maxmarks = (maxmarks ? maxmarks * 2 : 16);
+        mark = I_Realloc(mark, maxmarks * sizeof(*mark));
+    }
 
     mark[nummarks].x = x;
     mark[nummarks].y = y;
