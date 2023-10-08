@@ -52,6 +52,10 @@
 #define DESKTOP "desktop"
 #endif
 
+#define I_SDLError(func, offset) \
+    I_Error("The call to %s() failed on line %s of %s with this error:\n\"%s\"", \
+        func, commify(__LINE__ + offset), leafname(__FILE__), SDL_GetError())
+
 #if defined(_WIN32)
 void I_ShutdownWindows32(void);
 #endif

@@ -71,9 +71,6 @@ void I_InitWindows32(void);
 
 #define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
-#define I_SDLError(func, offset)    I_Error("%s() failed on line %i of %s with this error:\n%s", \
-                                    func, __LINE__ + offset, leafname(__FILE__), SDL_GetError())
-
 int                 SCREENWIDTH;
 int                 SCREENHEIGHT = VANILLAHEIGHT * 2;
 int                 SCREENAREA;
@@ -214,7 +211,7 @@ bool MouseShouldBeGrabbed(void)
     return true;
 }
 
-static void SetShowCursor(bool show)
+static void SetShowCursor(const bool show)
 {
     SDL_PumpEvents();
     SDL_SetRelativeMouseMode(!show);
@@ -237,14 +234,14 @@ static const int translatekey[] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT
 };
 
-bool keystate(int key)
+bool keystate(const int key)
 {
     const uint8_t   *state = SDL_GetKeyboardState(NULL);
 
     return state[SDL_GetScancodeFromKey(key)];
 }
 
-void I_CapFPS(int cap)
+void I_CapFPS(const int cap)
 {
 #if defined(_WIN32)
     static unsigned int CapFPSTimer;
@@ -352,7 +349,8 @@ static void I_GetEvent(void)
 
                 ev.type = ev_keydown;
 
-                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
+                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0
+                    && !SDL_IsTextInputActive())
                     ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
                 else if (scancode >= SDL_SCANCODE_A && scancode <= SDL_SCANCODE_RALT)
                     ev.data1 = translatekey[scancode];
@@ -411,7 +409,8 @@ static void I_GetEvent(void)
 
                 ev.type = ev_keyup;
 
-                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
+                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0
+                    && !SDL_IsTextInputActive())
                     ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
                 else if (scancode >= SDL_SCANCODE_A && scancode <= SDL_SCANCODE_RALT)
                     ev.data1 = translatekey[scancode];
@@ -1014,8 +1013,9 @@ bool I_CreateExternalAutomap(void)
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
     if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
-        I_SDLError("SDL_CreateWindow", -2);
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0,
+        (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
+        I_SDLError("SDL_CreateWindow", -3);
 
     MAPHEIGHT = VANILLAHEIGHT * 2;
     MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
@@ -1047,15 +1047,16 @@ bool I_CreateExternalAutomap(void)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, MAPWIDTH, MAPHEIGHT)))
-        I_SDLError("SDL_CreateTexture", -1);
+    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
+        MAPWIDTH, MAPHEIGHT)))
+        I_SDLError("SDL_CreateTexture", -2);
 
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
-            upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat,
+            SDL_TEXTUREACCESS_TARGET, upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
 
         mapblitfunc = &I_Blit_Automap_NearestLinear;
@@ -1079,9 +1080,11 @@ bool I_CreateExternalAutomap(void)
     map_rect.h = MAPHEIGHT;
 
     if ((displayname = SDL_GetDisplayName(am_display - 1)))
-        C_Output("\"%s\" (display %i of %i) is being used to show the external automap.", displayname, am_display, numdisplays);
+        C_Output("\"%s\" (display %i of %i) is being used for the external automap.",
+            displayname, am_display, numdisplays);
     else
-        C_Output("Display %i of %i is being used to show the external automap.", am_display, numdisplays);
+        C_Output("Display %i of %i is being used for the external automap.",
+            am_display, numdisplays);
 
     return true;
 }
@@ -1144,7 +1147,7 @@ void GetWindowSize(void)
     }
 }
 
-static bool ValidScreenMode(int width, int height)
+static bool ValidScreenMode(const int width, const int height)
 {
     int modes;
     
@@ -1237,7 +1240,7 @@ void I_SetMotionBlur(const int percent)
     }
 }
 
-static void SetVideoMode(bool createwindow, bool output)
+static void SetVideoMode(const bool createwindow, const bool output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
@@ -1491,7 +1494,8 @@ static void SetVideoMode(bool createwindow, bool output)
             else
             {
                 if (output)
-                    C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL v%i.%i."), major, minor);
+                    C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL v%i.%i."),
+                        major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1565,7 +1569,8 @@ static void SetVideoMode(bool createwindow, bool output)
                     I_CapFPS(0);
 
                     if (output)
-                        C_Output("The framerate is synced with the display's refresh rate of %iHz.", refreshrate);
+                        C_Output("The framerate is synced with the display's refresh rate of %iHz.",
+                            refreshrate);
                 }
                 else
                 {
@@ -1769,7 +1774,7 @@ void I_RestartGraphics(const bool recreatewindow)
         skippsprinterp = true;
 }
 
-void I_ToggleFullscreen(bool output)
+void I_ToggleFullscreen(const bool output)
 {
     if (SDL_SetWindowFullscreen(window,
         (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))) < 0)

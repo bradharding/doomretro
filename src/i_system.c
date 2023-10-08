@@ -287,7 +287,7 @@ void I_Error(const char *error, ...)
 
     M_snprintf(msgbuf, sizeof(msgbuf), "%s\n", msgbuf);
 
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME, msgbuf, NULL);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", msgbuf, NULL);
 
     exit(-1);
 }

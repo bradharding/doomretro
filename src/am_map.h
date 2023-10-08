@@ -98,5 +98,3 @@ extern int          maxbreadcrumbs;
 
 extern am_frame_t   am_frame;
 extern int          direction;
-
-bool keystate(int key);
