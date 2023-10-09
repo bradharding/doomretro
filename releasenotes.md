@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.1
+### DOOM Retro v5.0.6
 
 * If *DOOM Retro* crashes with an error, the player can now report it by clicking on the `Report` button in the dialog box displayed.
 * Minor changes have been made to text that is output to the console.
