@@ -2,6 +2,11 @@
 
 ### DOOM Retro v5.1
 
+* If *DOOM Retro* crashes with an error, the player can now report it by clicking on the `Report` button in the dialog box displayed.
+* Minor changes have been made to text that is output to the console.
+* The <kbd><b>ALT</b></kbd> key can no longer be used to open the menu from the title screen.
+* A crash no longer occurs when the player explodes a barrel using their BFG-9000 in some instances and the `con_obituaries` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 7, 2023
