@@ -1802,7 +1802,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
         {
             const weapontype_t  readyweapon = viewplayer->readyweapon;
 
-            if (source->player->mo != source)
+            if (source->player && source->player->mo != source)
                 return;
 
             if (M_StringCompare(playername, playername_default))
