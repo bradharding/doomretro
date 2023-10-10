@@ -1656,7 +1656,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // [BH] don't apply upward momentum from vile attack to player when no clipping mode on
     if (!target->player || !(target->flags & MF_NOCLIP))
-        target->momz = 1000 * FRACUNIT / target->info->mass;
+        target->momz = 1000 * FRACUNIT / MAX(1, target->info->mass);
 
     if (!(fire = actor->tracer))
         return;

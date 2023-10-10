@@ -2219,7 +2219,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             angle_t         ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
                                 target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
-            const fixed_t   thrust = damage * (FRACUNIT >> 5) * 100 / info->mass;
+            const fixed_t   thrust = damage * (FRACUNIT >> 5) * 100 / MAX(1, info->mass);
 
             target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
             target->momy += FixedMul(thrust, finesine[ang]);
@@ -2229,7 +2229,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         && (!source || !splayer || !(weaponinfo[source->player->readyweapon].flags & WPF_NOTHRUST)))
     {
         angle_t ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
-        fixed_t thrust = damage * (FRACUNIT >> 3) * 100 / (corpse ? MAX(200, info->mass) : info->mass);
+        fixed_t thrust = damage * (FRACUNIT >> 3) * 100 /  MAX((corpse ? 200 : 1), info->mass);
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
