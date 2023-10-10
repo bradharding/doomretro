@@ -580,11 +580,11 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 
     for (int col = 0; col < width; col++, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        *source = (byte *)column + 3;
-        byte        *dest = desttop;
-        int         count = column->length;
-        int         height = y + 1;
+        const column_t  *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        byte            *source = (byte *)column + 3;
+        byte            *dest = desttop;
+        int             count = column->length;
+        int             height = y + 1;
 
         while (count-- > 0)
         {
@@ -612,11 +612,11 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < width; col++, desttop++, x++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        *source = (byte *)column + 3;
-        byte        *dest = desttop;
-        int         count = column->length;
-        int         height = y + 1;
+        const column_t  *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        byte            *source = (byte *)column + 3;
+        byte            *dest = desttop;
+        int             count = column->length;
+        int             height = y + 1;
 
         if (x > SCREENWIDTH)
             return;
