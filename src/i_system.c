@@ -314,16 +314,19 @@ void I_Error(const char *error, ...)
         M_snprintf(email, sizeof(email),
             DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
 
-        ShellExecute(NULL, "open", email, NULL, NULL, SW_SHOWNORMAL);
+        if (!ShellExecute(NULL, "open", email, NULL, NULL, SW_SHOWNORMAL))
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
         M_snprintf(email, sizeof(email),
             "xdg-open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
-        system(email);
+
+        if (!system(email))
 #elif defined(__APPLE__)
         M_snprintf(email, sizeof(email),
             "open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
-        system(email);
+
+        if (!system(email))
 #endif
+            /* nop */;
     }
 
     exit(-1);
