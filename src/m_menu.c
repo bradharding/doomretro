@@ -820,21 +820,21 @@ static void M_ReadSaveStrings(void)
 
         if (!handle)
         {
-            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
+            M_StringCopy(savegamestrings[i], s_EMPTYSTRING, sizeof(savegamestrings[0]));
             LoadGameMenu[i].status = 0;
             continue;
         }
 
         if (fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle))
         {
-            if (savegamestrings[i][0])
+            if (*savegamestrings[i])
             {
                 savegames = true;
                 LoadGameMenu[i].status = 1;
             }
             else
             {
-                M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
+                M_StringCopy(savegamestrings[i], s_EMPTYSTRING, sizeof(savegamestrings[0]));
                 LoadGameMenu[i].status = 0;
             }
         }
@@ -2838,7 +2838,7 @@ bool M_Responder(event_t *ev)
                             savestringenter = false;
                             caretwait = 0;
                             showcaret = false;
-                            M_StringCopy(&savegamestrings[saveslot][0], saveoldstring, sizeof(savegamestrings[0]));
+                            M_StringCopy(savegamestrings[saveslot], saveoldstring, sizeof(savegamestrings[0]));
                             S_StartSound(NULL, sfx_swtchx);
                         }
                     }
@@ -3126,7 +3126,7 @@ bool M_Responder(event_t *ev)
                     savestringenter = false;
                     caretwait = 0;
                     showcaret = false;
-                    M_StringCopy(&savegamestrings[saveslot][0], saveoldstring, sizeof(savegamestrings[0]));
+                    M_StringCopy(savegamestrings[saveslot], saveoldstring, sizeof(savegamestrings[0]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
 
