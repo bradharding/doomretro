@@ -1301,7 +1301,7 @@ static void M_SaveSelect(int choice)
     M_StringCopy(saveoldstring, savegamestrings[saveslot], sizeof(saveoldstring));
     M_UpdateSaveGameName(saveslot);
     savecharindex = (int)strlen(savegamestrings[saveslot]);
-    showcaret = !showcaret;
+    showcaret = true;
     caretwait = I_GetTimeMS() + CARETBLINKTIME;
 }
 
