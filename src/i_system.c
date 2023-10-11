@@ -249,24 +249,6 @@ void I_Error(const char *error, ...)
     va_list     args;
     char        buffer[512];
     static bool already_quitting;
-    int         buttonid = -1;
-
-    const SDL_MessageBoxButtonData buttons[] =
-    {
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Report" },
-        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "OK"     }
-    };
-
-    const SDL_MessageBoxData message =
-    {
-        SDL_MESSAGEBOX_ERROR,
-        NULL,
-        DOOMRETRO_ERRORCAPTION,
-        buffer,
-        SDL_arraysize(buttons),
-        buttons,
-        NULL
-    };
 
     if (already_quitting)
         exit(-1);
@@ -304,30 +286,7 @@ void I_Error(const char *error, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, error, args);
     va_end(args);
 
-    SDL_ShowMessageBox(&message, &buttonid);
-
-    if (buttonid == 1)
-    {
-        char    email[512];
-
-#if defined(_WIN32)
-        M_snprintf(email, sizeof(email),
-            DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
-
-        if (!ShellExecute(NULL, "open", email, NULL, NULL, SW_SHOWNORMAL))
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-        M_snprintf(email, sizeof(email),
-            "xdg-open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
-
-        if (!system(email))
-#elif defined(__APPLE__)
-        M_snprintf(email, sizeof(email),
-            "open " DOOMRETRO_REPORTEMAIL "?subject=" DOOMRETRO_ERRORCAPTION "&body=%s", buffer);
-
-        if (!system(email))
-#endif
-            /* nop */;
-    }
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", buffer, NULL);
 
     exit(-1);
 }
