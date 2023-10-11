@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.0.6
 
+* *DOOM Retro* is now built using v17.7.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * If *DOOM Retro* crashes with an error, the player can now report it by clicking on the `Report` button in the dialog box that appears.
 * Minor changes have been made to text that is output to the console.
 * The <kbd><b>ALT</b></kbd> key can no longer be used to open the menu from the title screen.
