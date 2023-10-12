@@ -982,7 +982,8 @@ consolecmd_t consolecmds[] =
         "Toggles using the pillarboxes either side of the screen for certain effects when not in widescreen mode."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
+        "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"direct3d11\"") ", "
+        BOLD("\"direct3d12\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
 #else
     CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale each frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "

@@ -1488,12 +1488,16 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d)
+            || M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d11)
+            || M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d12))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D."));
 
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
+                && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d11
+                && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d12)
             {
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
