@@ -816,6 +816,10 @@ enum
     CDoor
 };
 
+#if defined(X11) && defined(AnyKey)
+#  undef AnyKey
+#endif
+
 // define names for the locked door Kind field of the general ceiling
 enum
 {
