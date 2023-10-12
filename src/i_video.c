@@ -669,7 +669,7 @@ static void CalculateFPS(void)
 
 void I_CapFPS(void)
 {
-    const uint64_t  targettime = 1000000Ui64 / vid_capfps;
+    const uint64_t  targettime = 1000000ull / vid_capfps;
     static uint64_t startingtime;
 
     while (1)

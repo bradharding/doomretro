@@ -67,7 +67,7 @@ uint64_t I_GetTimeUS(void)
     if (!basecounter)
         basecounter = counter;
 
-    return ((counter - basecounter) * 1000000Ui64) / performancefrequency;
+    return ((counter - basecounter) * 1000000ull) / performancefrequency;
 }
 
 //
