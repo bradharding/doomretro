@@ -40,6 +40,8 @@
 #define SDL_GetTicks64  SDL_GetTicks
 #endif
 
+static uint64_t basecounter = 0;
+
 //
 // I_GetTime
 // returns time in 1/35th second tics
@@ -55,6 +57,17 @@ uint64_t I_GetTime(void)
 uint64_t I_GetTimeMS(void)
 {
     return SDL_GetTicks64();
+}
+
+// [crispy] Get time in microseconds
+uint64_t I_GetTimeUS(void)
+{
+    uint64_t    counter = SDL_GetPerformanceCounter();
+
+    if (!basecounter)
+        basecounter = counter;
+
+    return ((counter - basecounter) * 1000000Ui64) / performancefrequency;
 }
 
 //

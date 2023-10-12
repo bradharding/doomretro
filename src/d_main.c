@@ -415,10 +415,8 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-#if defined(_WIN32)
-        if (CapFPSEvent)
-            WaitForSingleObject(CapFPSEvent, 1000);
-#endif
+        if (vid_capfps > TICRATE)
+            I_CapFPS();
 
         return;
     }
@@ -444,10 +442,8 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-#if defined(_WIN32)
-        if (CapFPSEvent)
-            WaitForSingleObject(CapFPSEvent, 1000);
-#endif
+        if (vid_capfps > TICRATE)
+            I_CapFPS();
     } while (!done);
 }
 

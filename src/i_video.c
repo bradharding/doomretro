@@ -180,10 +180,6 @@ static SDL_Rect     map_rect;
 int                 framespersecond = 0;
 int                 refreshrate;
 
-#if defined(_WIN32)
-HANDLE              CapFPSEvent;
-#endif
-
 static bool         capslock;
 
 int                 windowborderwidth = 0;
@@ -240,45 +236,6 @@ bool keystate(const int key)
     const uint8_t   *state = SDL_GetKeyboardState(NULL);
 
     return state[SDL_GetScancodeFromKey(key)];
-}
-
-void I_CapFPS(const int cap)
-{
-#if defined(_WIN32)
-    static unsigned int CapFPSTimer;
-
-    if (CapFPSTimer)
-    {
-        timeKillEvent(CapFPSTimer);
-        CapFPSTimer = 0;
-    }
-
-    if (!cap)
-    {
-        if (CapFPSEvent)
-        {
-            CloseHandle(CapFPSEvent);
-            CapFPSEvent = NULL;
-        }
-    }
-    else
-    {
-        if (!CapFPSEvent)
-            CapFPSEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
-
-        if (CapFPSEvent)
-        {
-            CapFPSTimer = timeSetEvent((unsigned int)(1000.0 / cap + 0.5), 0,
-                (LPTIMECALLBACK)CapFPSEvent, 0, (TIME_PERIODIC | TIME_CALLBACK_EVENT_SET));
-
-            if (!CapFPSTimer)
-            {
-                CloseHandle(CapFPSEvent);
-                CapFPSEvent = NULL;
-            }
-        }
-    }
-#endif
 }
 
 #if defined(_WIN32)
@@ -692,9 +649,9 @@ void (*mapblitfunc)(void);
 static void (*clearframefunc)(void);
 static void nullfunc(void) {}
 
-static uint64_t performancefrequency;
-uint64_t        starttime;
-int             frames = -1;
+uint64_t    performancefrequency;
+uint64_t    starttime;
+int         frames = -1;
 
 static void CalculateFPS(void)
 {
@@ -707,6 +664,28 @@ static void CalculateFPS(void)
         framespersecond = frames;
         frames = 0;
         starttime = currenttime;
+    }
+}
+
+void I_CapFPS(void)
+{
+    const uint64_t  targettime = 1000000Ui64 / vid_capfps;
+    static uint64_t startingtime;
+
+    while (1)
+    {
+        const uint64_t  currenttime = I_GetTimeUS();
+        const uint64_t  elapsedtime = currenttime - startingtime;
+        uint64_t        remainingtime;
+
+        if (elapsedtime >= targettime)
+        {
+            startingtime = currenttime;
+            break;
+        }
+
+        if ((remainingtime = targettime - elapsedtime) > 1000)
+            I_Sleep(((int)remainingtime - 1000) / 1000);
     }
 }
 
@@ -1570,7 +1549,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
 #endif
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
-                    I_CapFPS(0);
+                    vid_capfps = 0;
 
                     if (output)
                         C_Output("The framerate is synced with the display's refresh rate of %iHz.",
@@ -1578,8 +1557,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 }
                 else
                 {
-                    I_CapFPS(vid_capfps);
-
                     if (output)
                     {
                         char    *temp = commify(vid_capfps);
@@ -1592,8 +1569,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
         }
         else
         {
-            I_CapFPS(vid_capfps);
-
             if (output)
             {
                 if (vid_vsync)

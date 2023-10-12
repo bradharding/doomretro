@@ -81,7 +81,7 @@ void I_StartTic(void);
 // and sets up the video mode
 void I_InitGraphics(void);
 void I_RestartGraphics(const bool recreatewindow);
-void I_CapFPS(const int cap);
+void I_CapFPS(void);
 
 void I_SaveMousePointerPosition(void);
 void I_RestoreMousePointerPosition(void);
@@ -109,8 +109,6 @@ bool keystate(const int key);
 
 #if defined(_WIN32)
 void I_WindowResizeBlit(void);
-
-extern HANDLE       CapFPSEvent;
 #endif
 
 extern void (*blitfunc)(void);
@@ -163,4 +161,5 @@ extern bool         altdown;
 extern int          framespersecond;
 extern int          refreshrate;
 extern uint64_t     starttime;
+extern uint64_t     performancefrequency;
 extern int          frames;

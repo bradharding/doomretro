@@ -42,5 +42,7 @@ uint64_t I_GetTime(void);
 // returns current time in ms
 uint64_t I_GetTimeMS(void);
 
+uint64_t I_GetTimeUS(void);
+
 // Pause for a specified number of ms
 void I_Sleep(int ms);
