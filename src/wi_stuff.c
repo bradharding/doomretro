@@ -1033,9 +1033,11 @@ static void WI_DrawStats(void)
 
 void WI_CheckForAccelerate(void)
 {
-    const uint8_t   *keystate = SDL_GetKeyboardState(NULL);
+    const uint8_t   *keyboardstate = SDL_GetKeyboardState(NULL);
 
-    if ((viewplayer->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
+    if ((viewplayer->cmd.buttons & BT_ATTACK)
+        || keyboardstate[SDL_SCANCODE_RETURN]
+        || keyboardstate[SDL_SCANCODE_KP_ENTER])
     {
         if (!viewplayer->attackdown)
             acceleratestage = true;
@@ -1045,7 +1047,7 @@ void WI_CheckForAccelerate(void)
     else
         viewplayer->attackdown = false;
 
-    if ((viewplayer->cmd.buttons & BT_USE) || keystate[SDL_SCANCODE_SPACE])
+    if ((viewplayer->cmd.buttons & BT_USE) || keyboardstate[SDL_SCANCODE_SPACE])
     {
         if (!viewplayer->usedown)
             acceleratestage = true;

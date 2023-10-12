@@ -33,10 +33,7 @@
 ==============================================================================
 */
 
-#if defined(_WIN32)
-#include <Windows.h>
-#include <mmsystem.h>
-#elif defined(X11)
+#if defined(X11)
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
 #endif
@@ -247,11 +244,11 @@ static void ToggleCapsLockState(void)
 #elif defined(X11)
 static void SetCapsLockState(bool enabled)
 {
-    Display *dpy = XOpenDisplay(0);
+    Display *display = XOpenDisplay(0);
 
-    XkbLockModifiers(dpy, XkbUseCoreKbd, 2, enabled * 2);
-    XFlush(dpy);
-    XCloseDisplay(dpy);
+    XkbLockModifiers(display, XkbUseCoreKbd, 2, enabled * 2);
+    XFlush(display);
+    XCloseDisplay(display);
 }
 #endif
 
@@ -669,23 +666,26 @@ static void CalculateFPS(void)
 
 void I_CapFPS(void)
 {
-    const uint64_t  targettime = 1000000ull / vid_capfps;
+    const uint64_t  targettime = 1000000 / vid_capfps;
     static uint64_t startingtime;
 
-    while (1)
+    while (true)
     {
         const uint64_t  currenttime = I_GetTimeUS();
         const uint64_t  elapsedtime = currenttime - startingtime;
-        uint64_t        remainingtime;
 
         if (elapsedtime >= targettime)
         {
             startingtime = currenttime;
             break;
         }
+        else
+        {
+            const uint64_t  remainingtime = targettime - elapsedtime;
 
-        if ((remainingtime = targettime - elapsedtime) > 1000)
-            I_Sleep(((int)remainingtime - 1000) / 1000);
+            if (remainingtime > 1000)
+                I_Sleep(((int)remainingtime - 1000) / 1000);
+        }
     }
 }
 
