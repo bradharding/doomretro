@@ -770,8 +770,6 @@ enum
 
 #if defined(_WIN32)
 #define vid_scaleapi_direct3d              "direct3d"
-#define vid_scaleapi_direct3d11            "direct3d11"
-#define vid_scaleapi_direct3d12            "direct3d12"
 #endif
 #define vid_scaleapi_opengl                "opengl"
 #if !defined(_WIN32)

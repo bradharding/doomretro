@@ -1280,7 +1280,9 @@ static void SetVideoMode(const bool createwindow, const bool output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER,
+        (M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d) ? "direct3d11" : vid_scaleapi),
+        SDL_HINT_OVERRIDE);
 
     software = M_StringCompare(vid_scaleapi, vid_scaleapi_software);
 
@@ -1466,7 +1468,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
 
-                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, "direct3d11", SDL_HINT_OVERRIDE);
 
                 if (output)
                     C_Output("This scaling is now done using hardware acceleration with "
@@ -1488,16 +1490,12 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d)
-            || M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d11)
-            || M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d12))
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D."));
 
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-                && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d11)
-                && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d12))
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
                 vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
