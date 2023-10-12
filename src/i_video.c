@@ -1551,10 +1551,9 @@ static void SetVideoMode(const bool createwindow, const bool output)
                     if (SDL_GL_SetSwapInterval(-1) < 0)
                         C_Warning(1, "Adaptive vsync is not supported.");
 #endif
+
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {
-                    vid_capfps = 0;
-
                     if (output)
                         C_Output("The framerate is synced with the display's refresh rate of %iHz.",
                             refreshrate);
