@@ -415,8 +415,10 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (vid_capfps > TICRATE)
-            I_CapFPS();
+        if (fadecount)
+            I_CapFPS(TICRATE * 2);
+        else if (vid_capfps > TICRATE)
+            I_CapFPS(vid_capfps);
 
         return;
     }
@@ -442,8 +444,10 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (vid_capfps > TICRATE)
-            I_CapFPS();
+        if (fadecount)
+            I_CapFPS(TICRATE * 2);
+        else if (vid_capfps > TICRATE)
+            I_CapFPS(vid_capfps);
     } while (!done);
 }
 

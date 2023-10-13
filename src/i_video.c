@@ -664,9 +664,9 @@ static void CalculateFPS(void)
     }
 }
 
-void I_CapFPS(void)
+void I_CapFPS(const int cap)
 {
-    const uint64_t  targettime = 1000000 / vid_capfps;
+    const uint64_t  targettime = 1000000 / cap;
     static uint64_t startingtime;
 
     while (true)
