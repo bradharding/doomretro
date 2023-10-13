@@ -1604,7 +1604,7 @@ void G_DoLoadGame(void)
     st_facecount = 0;
 
     viewplayer->gamesloaded++;
-    stat_gamessaved = SafeAdd(stat_gamesloaded, 1);
+    stat_gamesloaded = SafeAdd(stat_gamesloaded, 1);
     M_SaveCVARs();
 
     if (consoleactive)

@@ -11,7 +11,7 @@
 * Item and teleport fogs no longer appear when using the `spawn` CCMD in the console while freeze mode is on.
 * A crash no longer occurs when the player explodes a barrel using their BFG-9000 in some instances and the `con_obituaries` CVAR is `on`.
 * Minor improvements have been made to the support for `DEHACKED` lumps.
-
+* The “Games saved” and “Games loaded” stats now update correctly in the output of the `playerstats` CCMD.
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 7, 2023
