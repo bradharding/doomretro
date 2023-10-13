@@ -248,7 +248,7 @@ void D_FadeScreenToBlack(void)
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * i));
         blitfunc();
-        I_Sleep(1);
+        I_CapFPS(60);
     }
 
     memset(screens[0], nearestblack, SCREENAREA);
@@ -416,7 +416,7 @@ void D_Display(void)
         mapblitfunc();
 
         if (splashscreen || fadecount)
-            I_CapFPS(TICRATE * 2);
+            I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
 
@@ -445,7 +445,7 @@ void D_Display(void)
         mapblitfunc();
 
         if (splashscreen || fadecount)
-            I_CapFPS(TICRATE * 2);
+            I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
     } while (!done);
