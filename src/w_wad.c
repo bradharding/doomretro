@@ -444,7 +444,7 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            if (filename && !M_StringCompare(filename, FindFileData.cFileName))
+            if (*filename && !M_StringCompare(filename, FindFileData.cFileName))
                 continue;
 
             if (nonerveorsigil
