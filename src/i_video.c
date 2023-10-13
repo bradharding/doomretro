@@ -1316,7 +1316,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("The native desktop resolution of %sx%s, with an aspect ratio of %s, is being used.",
+                C_Output("The native desktop resolution of %sx%s with an aspect ratio of %s is being used.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1494,10 +1494,21 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 #if defined(_WIN32)
+        else if (M_StringCompare(rendererinfo.name, "direct3d11"))
+        {
+            if (output)
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D v11.0."));
+
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
+            {
+                vid_scaleapi = vid_scaleapi_direct3d;
+                M_SaveCVARs();
+            }
+        }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D."));
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D v9.0."));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
