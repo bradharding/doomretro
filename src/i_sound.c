@@ -223,7 +223,8 @@ static void ReleaseSoundOnChannel(const int channel)
     if (!snd)
         return;
 
-    Mix_HaltChannel(channel);
+    if (Mix_HaltChannel(channel) == -1)
+        I_SDLError("Mix_HaltChannel", -1);
 
     channels_playing[channel] = NULL;
     UnlockAllocatedSound(snd);
@@ -319,7 +320,8 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 {
-    Mix_SetPanning(channel, (254 - sep) * vol / (MIX_MAX_VOLUME - 1), sep * vol / (MIX_MAX_VOLUME - 1));
+    if (!Mix_SetPanning(channel, (254 - sep) * vol / (MIX_MAX_VOLUME - 1), sep * vol / (MIX_MAX_VOLUME - 1)))
+        I_SDLError("Mix_SetPanning", -1);
 }
 
 //
@@ -357,7 +359,8 @@ int I_StartSound(const sfxinfo_t *sfxinfo, const int channel, const int vol, con
         LockAllocatedSound(snd);
 
     // Play sound
-    Mix_PlayChannel(channel, &snd->chunk, 0);
+    if (Mix_PlayChannel(channel, &snd->chunk, 0) == -1)
+        I_SDLError("Mix_PlayChannel", -1);
 
     channels_playing[channel] = snd;
 

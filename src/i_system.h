@@ -37,6 +37,7 @@
 
 #include "d_event.h"
 #include "doomdef.h"
+#include "m_misc.h"
 
 #if defined(_WIN32)
 #define DEVICE  "PC"
