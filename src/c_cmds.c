@@ -7449,18 +7449,17 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         }
 
                         thing->flags2 |= MF2_SPAWNEDBYPLAYER;
-
-                        if (flags & MF_NOGRAVITY)
-                        {
-                            thing->z = thing->floorz + 32 * FRACUNIT;
-                            fog = P_SpawnMobj(x, y, thing->z, MT_TFOG);
-                        }
-                        else
-                            fog = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
-
                         massacre = false;
 
-                        S_StartSound(fog, sfx_telept);
+                        if (flags & MF_NOGRAVITY)
+                            thing->z = thing->floorz + 32 * FRACUNIT;
+
+                        if (!freeze)
+                        {
+                            fog = P_SpawnMobj(x, y, (flags & MF_NOGRAVITY ? thing->z : ONFLOORZ), MT_TFOG);
+                            fog->angle = thing->angle;
+                            S_StartSound(fog, sfx_telept);
+                        }
                     }
                     else
                     {
@@ -7470,13 +7469,15 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        fog = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
-                            ((thing->flags2 & MF2_FLOATBOB) ? thing->floorz + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
-
-                        S_StartSound(fog, sfx_itmbk);
+                        if (!freeze)
+                        {
+                            fog = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
+                                ((thing->flags2 & MF2_FLOATBOB) ? thing->floorz + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
+                            fog->angle = thing->angle;
+                            S_StartSound(fog, sfx_itmbk);
+                        }
                     }
 
-                    fog->angle = thing->angle;
 
                     if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                         C_PlayerMessage("%s spawned %s.",
