@@ -1476,7 +1476,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
                 if (output)
                     C_Output("This scaling is now done using hardware acceleration with "
-                        ITALICS("Direct3D v11.0."));
+                        ITALICS("Direct3D 11."));
 #endif
             }
             else
@@ -1497,7 +1497,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
         else if (M_StringCompare(rendererinfo.name, "direct3d11"))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D v11.0."));
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D 11."));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1508,7 +1508,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D v9.0."));
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D 9."));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {

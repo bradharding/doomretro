@@ -4,6 +4,8 @@
 
 * *DOOM Retro* is now built using v17.7.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* when the `vid_scaleapi` CVAR is `direct3d`, resulting in a considerable boost in performance.
+* The handling of errors caused by [*SDL*](https://www.libsdl.org/) has improved.
+* The capping of the framerate when the `vid_capfps` CVAR is not `35` has improved.
 * Minor changes have been made to text that is output to the console.
 * The <kbd><b>ALT</b></kbd> key can no longer be used to open the menu from the title screen.
 * Item and teleport fogs no longer appear when using the `spawn` CCMD in the console while freeze mode is on.
@@ -58,7 +60,7 @@
 * Minor improvements have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * A crash no longer occurs when moving the mouse while the help screen is open.
 * A bug is fixed whereby some elements in the menu would only cast their shadow on the left side of the screen in some instances.
-* A warning is now displayed in the console if a savegame couldn't be deleted in the save or load game menus when pressing the <kbd><b>DEL</b></kbd> key.
+* A warning is now displayed in the console if a savegame couldn’t be deleted in the save or load game menus when pressing the <kbd><b>DEL</b></kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
