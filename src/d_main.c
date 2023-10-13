@@ -415,7 +415,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (fadecount)
+        if (splashscreen || fadecount)
             I_CapFPS(TICRATE * 2);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
@@ -444,7 +444,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (fadecount)
+        if (splashscreen || fadecount)
             I_CapFPS(TICRATE * 2);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
