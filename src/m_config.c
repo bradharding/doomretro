@@ -547,7 +547,7 @@ valuealias_t valuealiases[] =
     { "low",            0, DETAILVALUEALIAS    }, { "high",           1, DETAILVALUEALIAS    },
     { "american",       0, ENGLISHVALUEALIAS   }, { "british",        1, ENGLISHVALUEALIAS   },
     { "international",  1, ENGLISHVALUEALIAS   }, { "off",            1, GAMMAVALUEALIAS     },
-    { "other",          0, GENDERVALUEALIAS    }, { "male",           1, GENDERVALUEALIAS    },
+    { "unknown",        0, GENDERVALUEALIAS    }, { "male",           1, GENDERVALUEALIAS    },
     { "female",         2, GENDERVALUEALIAS    }, { "off",            0, SUCKSVALUEALIAS     },
     { "imperial",       0, UNITSVALUEALIAS     }, { "metric",         1, UNITSVALUEALIAS     },
     { "adaptive",      -1, VSYNCVALUEALIAS     }, { "off",            0, VSYNCVALUEALIAS     },
