@@ -568,6 +568,9 @@ void M_DrawMenuBackground(void)
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
+
+    if (vid_showfps && framespersecond)
+        C_UpdateFPSOverlay();
 }
 
 static byte blues[] =

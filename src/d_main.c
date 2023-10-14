@@ -360,9 +360,6 @@ void D_Display(void)
     // draw pause pic
     if ((pausedstate = paused))
     {
-        if (vid_showfps && framespersecond)
-            C_UpdateFPSOverlay();
-
         M_DrawMenuBackground();
 
         if (M_PAUSE)
@@ -381,12 +378,12 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
-        if (!paused)
+        if (!paused && !menuactive)
         {
             if (vid_showfps && !dowipe && !splashscreen && framespersecond)
                 C_UpdateFPSOverlay();
 
-            if (gamestate == GS_LEVEL && !menuactive)
+            if (gamestate == GS_LEVEL)
             {
                 if (timer)
                     C_UpdateTimerOverlay();
