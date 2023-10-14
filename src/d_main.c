@@ -415,7 +415,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (splashscreen || fadecount)
+        if (gamestate != GS_LEVEL)
             I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
@@ -444,7 +444,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (splashscreen || fadecount)
+        if (gamestate != GS_LEVEL)
             I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
