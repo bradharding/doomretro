@@ -415,7 +415,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (gamestate != GS_LEVEL || paused || consoleactive)
+        if (gamestate != GS_LEVEL || menuactive || consoleactive || paused)
             I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
@@ -443,9 +443,6 @@ void D_Display(void)
 
         blitfunc();
         mapblitfunc();
-
-        if (vid_capfps > TICRATE)
-            I_CapFPS(vid_capfps);
     } while (!done);
 }
 

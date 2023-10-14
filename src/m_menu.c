@@ -627,6 +627,9 @@ static void M_DrawHelpBackground(void)
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
+
+    if (vid_showfps && framespersecond)
+        C_UpdateFPSOverlay();
 }
 
 static const int chartoi[] =
