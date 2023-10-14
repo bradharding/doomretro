@@ -360,6 +360,9 @@ void D_Display(void)
     // draw pause pic
     if ((pausedstate = paused))
     {
+        if (vid_showfps && framespersecond)
+            C_UpdateFPSOverlay();
+
         M_DrawMenuBackground();
 
         if (M_PAUSE)
@@ -378,12 +381,12 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
-        if (vid_showfps && !dowipe && !splashscreen && framespersecond)
-            C_UpdateFPSOverlay();
-
-        if (!paused && !menuactive)
+        if (!paused)
         {
-            if (gamestate == GS_LEVEL)
+            if (vid_showfps && !dowipe && !splashscreen && framespersecond)
+                C_UpdateFPSOverlay();
+
+            if (gamestate == GS_LEVEL && !menuactive)
             {
                 if (timer)
                     C_UpdateTimerOverlay();
@@ -415,7 +418,7 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (gamestate != GS_LEVEL)
+        if (gamestate != GS_LEVEL || paused || consoleactive)
             I_CapFPS(60);
         else if (vid_capfps > TICRATE)
             I_CapFPS(vid_capfps);
