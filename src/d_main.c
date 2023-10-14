@@ -378,11 +378,11 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
+        if (vid_showfps && !dowipe && !splashscreen && framespersecond)
+            C_UpdateFPSOverlay();
+
         if (!paused && !menuactive)
         {
-            if (vid_showfps && !dowipe && !splashscreen && framespersecond)
-                C_UpdateFPSOverlay();
-
             if (gamestate == GS_LEVEL)
             {
                 if (timer)
