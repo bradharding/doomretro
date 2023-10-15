@@ -3340,7 +3340,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         playername,
                         preferredpronoun(reflexive),
                         preferredpronoun(personal),
-                        (playergender == playergender_unknown ? "have" : "has"),
+                        (playergender == playergender_other ? "have" : "has"),
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
 
