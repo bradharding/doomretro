@@ -6212,7 +6212,7 @@ static void C_PlayerStats_NoGame(void)
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t" ITALICS("%s"),
+        C_TabbedOutput(tabs, "%s skill level\t\x96\t" ITALICS("%s"),
             (english == english_american ? "Favorite" : "Favourite"), temp1);
         free(temp1);
     }
