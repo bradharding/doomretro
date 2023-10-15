@@ -6177,8 +6177,8 @@ static void C_PlayerStats_NoGame(void)
     const int       tabs[3] = { 200, 335, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
-    const int       time1 = (int)(stat_timeplayed / TICRATE);
-    int             hours1;
+    int             time1 = (int)(stat_timeplayed / TICRATE);
+    int             hours1 = time1 / 3600;
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -6326,18 +6326,23 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    if ((hours1 = time1 / 3600) >= 100)
+    if (hours1 >= 100)
     {
         temp1 = commify(hours1);
         C_TabbedOutput(tabs, "Time played\t\x96\tOver %s hours!", temp1);
         free(temp1);
     }
-    else if (hours1)
-        C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-            hours1, time1 / 60, time1 % 60);
     else
-        C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-            time1 / 60, time1 % 60);
+    {
+        time1 %= 3600;
+
+        if (hours1)
+            C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                hours1, time1 / 60, time1 % 60);
+        else
+            C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                time1 / 60, time1 % 60);
+    }
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
