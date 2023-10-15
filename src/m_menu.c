@@ -564,7 +564,8 @@ void M_DrawMenuBackground(void)
 
     memcpy(screens[0], blurscreen, SCREENAREA);
 
-    M_DrawMenuBorder();
+    if (!consoleactive)
+        M_DrawMenuBorder();
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
