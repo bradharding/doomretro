@@ -60,13 +60,7 @@ uint64_t I_GetTimeMS(void)
 // [crispy] Get time in microseconds
 uint64_t I_GetTimeUS(void)
 {
-    const uint64_t  counter = SDL_GetPerformanceCounter();
-    static uint64_t basecounter;
-
-    if (!basecounter)
-        basecounter = counter;
-
-    return ((counter - basecounter) * 1000000) / performancefrequency;
+    return ((SDL_GetPerformanceCounter() - performancecounter) * 1000000) / performancefrequency;
 }
 
 //

@@ -646,6 +646,7 @@ void (*mapblitfunc)(void);
 static void (*clearframefunc)(void);
 static void nullfunc(void) {}
 
+uint64_t    performancecounter;
 uint64_t    performancefrequency;
 uint64_t    starttime;
 int         frames = -1;
@@ -1871,6 +1872,7 @@ void I_InitGraphics(void)
         C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires SDL v%i.%i.%i.",
             compiled.major, compiled.minor, compiled.patch);
 
+    performancecounter = SDL_GetPerformanceCounter();
     performancefrequency = SDL_GetPerformanceFrequency();
 
     for (int i = 0; i < NUMKEYS; i++)

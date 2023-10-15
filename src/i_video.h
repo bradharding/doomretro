@@ -161,5 +161,6 @@ extern bool         altdown;
 extern int          framespersecond;
 extern int          refreshrate;
 extern uint64_t     starttime;
+extern uint64_t     performancecounter;
 extern uint64_t     performancefrequency;
 extern int          frames;
