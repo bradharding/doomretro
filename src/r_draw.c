@@ -1051,6 +1051,8 @@ void R_DrawFuzzColumn(void)
     if (dc_x & 1)
         return;
 
+    dc_yl += (dc_yl & 1);
+
     if (!(count = (dc_yh - dc_yl) / 2))
         return;
 
