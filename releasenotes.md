@@ -2,6 +2,10 @@
 
 ### DOOM Retro v5.0.7
 
+* A crash no longer occurs when a spectre touches the bottom of the screen in some instances.
+* Entering `vid_capfps 35` now caps the framerate at 35 FPS again.
+* Minor changes have been made to text that is output to the console.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, October 14, 2023
