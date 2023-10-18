@@ -3358,7 +3358,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 return;
             }
 
-            massacre = true;
 
             viewplayer->damagecount = MIN(viewplayer->health, 100);
             P_AnimateHealth(viewplayer->health);
@@ -3368,7 +3367,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
             viewplayer->attacker = NULL;
 
             viewplayer->mo->flags2 |= MF2_MASSACRE;
+            massacre = true;
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
+            massacre = false;
 
             if (M_StringCompare(playername, playername_default))
                 M_snprintf(buffer, sizeof(buffer), "You killed yourself!");
@@ -3430,6 +3431,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             }
                         }
                     }
+
+                massacre = false;
 
                 if (kills)
                 {
