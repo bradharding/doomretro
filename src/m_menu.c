@@ -1419,7 +1419,7 @@ static void M_DeleteSavegameResponse(int key)
         if (itemon == quicksaveslot)
             quicksaveslot = -1;
 
-        if (currentmenu == &LoadDef)
+        if (currentmenu == &LoadDef || currentmenu == &SaveDef)
         {
             if (savegames)
             {
