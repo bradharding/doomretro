@@ -1130,10 +1130,10 @@ void GetWindowSize(void)
 
 static bool ValidScreenMode(const int width, const int height)
 {
-    int modes;
-    
-    if ((modes = SDL_GetNumDisplayModes(displayindex)) <= 0)
-        I_SDLError("SDL_GetNumDisplayModes", -1);
+    const int   modes = SDL_GetNumDisplayModes(displayindex);
+
+    if (modes <= 0)
+        I_SDLError("SDL_GetNumDisplayModes", -3);
 
     for (int i = 0; i < modes; i++)
     {
@@ -1179,7 +1179,7 @@ void GetScreenResolution(void)
 
 static char *getaspectratio(int width, int height)
 {
-    int         hcf = gcd(width, height);
+    const int   hcf = gcd(width, height);
     static char ratio[10];
 
     width /= hcf;

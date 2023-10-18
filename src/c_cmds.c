@@ -3358,7 +3358,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 return;
             }
 
-
             viewplayer->damagecount = MIN(viewplayer->health, 100);
             P_AnimateHealth(viewplayer->health);
             viewplayer->health = 0;
@@ -7485,7 +7484,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             S_StartSound(fog, sfx_itmbk);
                         }
                     }
-
 
                     if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                         C_PlayerMessage("%s spawned %s.",
