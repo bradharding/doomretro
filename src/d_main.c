@@ -417,7 +417,8 @@ void D_Display(void)
 
         if (!vid_vsync)
         {
-            if (vid_capfps > 60 && (gamestate != GS_LEVEL || menuactive || consoleactive || paused))
+            if ((!vid_capfps || vid_capfps > 60)
+                && (gamestate != GS_LEVEL || menuactive || consoleactive || paused))
                 I_CapFPS(60);
             else if (vid_capfps >= TICRATE)
                 I_CapFPS(vid_capfps);
