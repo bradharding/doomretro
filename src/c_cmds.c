@@ -3111,7 +3111,36 @@ static void if_cmd_func2(char *cmd, char *parms)
 
             M_StripQuotes(parm2);
 
-            if (consolecmds[i].type == CT_CVAR)
+            if (M_StringCompare(parm1, "ammo"))
+            {
+                int value = INT_MIN;
+
+                if (sscanf(parms, "%10i", &value) == 1)
+                    condition = (value != INT_MIN
+                        && value == viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype]);
+            }
+            else if (M_StringCompare(parm1, "armor") || M_StringCompare(parm1, "armour"))
+            {
+                int value = INT_MIN;
+
+                if (sscanf(parms, "%10i", &value) == 1)
+                    condition = (value != INT_MIN && value == viewplayer->armor);
+            }
+            else if (M_StringCompare(parm1, "armortype") || M_StringCompare(parm1, "armourtype"))
+            {
+                int value = C_LookupValueFromAlias(parm2, ARMORTYPEVALUEALIAS);
+
+                if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+                    condition = (value != INT_MIN && value == viewplayer->armortype);
+            }
+            else if (M_StringCompare(parm1, "health"))
+            {
+                int value = INT_MIN;
+
+                if (sscanf(parms, "%10i", &value) == 1)
+                    condition = (value != INT_MIN && value == viewplayer->health);
+            }
+            else if (consolecmds[i].type == CT_CVAR)
             {
                 if (consolecmds[i].flags & CF_BOOLEAN)
                 {
