@@ -2836,8 +2836,8 @@ static void P_FindSelfReferencingSectors(void)
                 const side_t    *side1 = &sides[line->sidenum[0]];
                 const side_t    *side2 = &sides[line->sidenum[1]];
 
-                if (!side1->toptexture && !side1->midtexture && !side1->bottomtexture
-                    && !side2->toptexture && !side2->midtexture && !side2->bottomtexture)
+                if (!side1->toptexture && !side1->bottomtexture
+                    && !side2->toptexture && !side2->bottomtexture)
                     count++;
             }
         }
