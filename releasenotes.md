@@ -3,8 +3,13 @@
 ### DOOM Retro v5.0.7
 
 * A crash no longer occurs when a spectre touches the bottom of the screen in some instances.
-* Entering `vid_capfps 35` now caps the framerate at 35 FPS again.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the border of the menu’s background.
+* The help screen is now shown when pressing the <kbd><b>F1</b></kbd> key while playing the registered version of *DOOM*.
+* A bug is fixed whereby stairs rising up from the floor wouldn’t rise to their correct height in some instances.
+* Changing the `vid_capfps` CVAR to `35` now caps the framerate at 35 FPS again.
+* The framerate is now capped at 60 FPS when on the title screen, in the menu, in the console, or the game is paused, if the `vid_capfps` CVAR is `off` or greater than `60`, and the `vid_vsync` CVAR is `off`.
+* The number of frames per second are now displayed in the menu when the `vid_showfps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
