@@ -8,8 +8,10 @@
 * The help screen is now shown when pressing the <kbd><b>F1</b></kbd> key while playing the registered version of *DOOM*.
 * A bug is fixed whereby stairs rising up from the floor wouldn’t rise to their correct height in some instances.
 * Changing the `vid_capfps` CVAR to `35` now caps the framerate at 35 FPS again.
-* The framerate is now capped at 60 FPS when on the title screen, in the menu, in the console, or the game is paused, if the `vid_capfps` CVAR is `off` or greater than `60`, and the `vid_vsync` CVAR is `off`.
+* If the `vid_capfps` CVAR is `off` or greater than `60`, and the `vid_vsync` CVAR is `off`, the framerate is now capped at 60 FPS when on the title screen, in the menu, in the console, or the game is paused.
 * The number of frames per second are now displayed in the menu when the `vid_showfps` CVAR is `on`.
+* Minor improvements have been made to determining when to lower the player’s view if the `r_liquid_lowerview` CVAR is `on`.
+* A bug is fixed whereby entering `kill monsters` in the console could then affect splash damage to the player.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
