@@ -744,7 +744,7 @@ consolecmd_t consolecmds[] =
     CCMD(map, "", warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT1,
         "Warps you to another map."),
     CCMD(maplist, "", "", null_func1, maplist_cmd_func2, false, "",
-        "Lists all the maps in the currently loaded WADs."),
+        "Lists all of the available maps."),
     CCMD(mapstats, "", "", mapstats_cmd_func1, mapstats_cmd_func2, false, "",
         "Shows stats about the current map."),
     CVAR_TIME(maptime, "", "", game_func1, time_cvars_func2,
