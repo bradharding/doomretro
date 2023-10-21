@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.1
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, October 21, 2023
+
 ### DOOM Retro v5.0.7
 
 * A crash no longer occurs when a spectre touches the bottom of the screen in some instances.
