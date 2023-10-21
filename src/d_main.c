@@ -1080,6 +1080,17 @@ static bool D_AutoloadOtherBTSXWAD(void)
         pwadfile = M_StringDuplicate("btsx_e2a.wad");
         return W_MergeFile(path, true);
     }
+    else if (BTSXE3A && !BTSXE3B)
+    {
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3b.wad");
+        return W_MergeFile(path, true);
+    }
+    else if (!BTSXE3A && BTSXE3B)
+    {
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3a.wad");
+        pwadfile = M_StringDuplicate("btsx_e3a.wad");
+        return W_MergeFile(path, true);
+    }
 
     return false;
 }
