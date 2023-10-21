@@ -4361,7 +4361,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            if ((M_StringCompare(lump, "E1M4B") && E1M4) || (M_StringCompare(lump, "E1M8B") && E1M8))
+            if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
+                || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
                 continue;
             else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
                 continue;
