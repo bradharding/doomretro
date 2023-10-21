@@ -37,11 +37,12 @@
 
 #include "m_random.h"
 
-#define FUZZ(a, b)      fuzzrange[M_BigRandomInt(a, b) + 1]
-#define MAKEFUZZY(a, b) *dest = *(dest + 1) = *(dest + SCREENWIDTH) = *(dest + SCREENWIDTH + 1) = \
-                            fullcolormap[(a) * 256 + dest[b]]
+#define FUZZ(a, b)              fuzzrange[M_BigRandomInt(a, b) + 1]
+#define BIGFUZZYPIXEL(a, b)     *dest = *(dest + 1) = *(dest + SCREENWIDTH) = *(dest + SCREENWIDTH + 1) = \
+                                    fullcolormap[(a) * 256 + dest[b]]
+#define HALFBIGFUZZYPIXEL(a, b) *dest = *(dest + 1) = fullcolormap[(a) * 256 + dest[b]]
 
-#define NOTEXTURECOLOR  nearestcolors[LIGHTGRAY1]
+#define NOTEXTURECOLOR          nearestcolors[LIGHTGRAY1]
 
 extern lighttable_t     *dc_colormap[2];
 extern lighttable_t     *dc_nextcolormap[2];
