@@ -4601,7 +4601,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (2 of 2)", temp);
             free(temp);
 
-            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
+            C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
         }
         else
         {
@@ -4612,7 +4612,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 free(temp);
             }
 
-            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
+            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
         }
     }
     else
@@ -4625,7 +4625,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             free(temp);
         }
 
-        C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
+        C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
     }
 
     if (!M_StringCompare(maptitle, mapnum))
@@ -4639,23 +4639,23 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             if (gamemap == 11)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_11))
-                    C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_11_ALT);
+                    C_TabbedOutput(tabs, INDENT "Alternative\t" ITALICS("%s"), s_HUSTR_11_ALT);
             }
             else if (gamemap == 31)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_31))
-                    C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_31_BFG);
+                    C_TabbedOutput(tabs, INDENT "Alternative\t" ITALICS("%s"), s_HUSTR_31_BFG);
             }
             else if (gamemap == 32)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_32))
-                    C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_32_BFG);
+                    C_TabbedOutput(tabs, INDENT "Alternative\t" ITALICS("%s"), s_HUSTR_32_BFG);
             }
         }
         else if (gameepisode == 3 && gamemap == 7)
         {
             if (M_StringCompare(maptitle, s_HUSTR_E3M7))
-                C_TabbedOutput(tabs, "Alternate Title\t" ITALICS("%s"), s_HUSTR_E3M7_ALT);
+                C_TabbedOutput(tabs, INDENT "Alternative\t" ITALICS("%s"), s_HUSTR_E3M7_ALT);
         }
     }
 
