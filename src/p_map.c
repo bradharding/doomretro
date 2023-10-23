@@ -982,8 +982,12 @@ bool P_IsInLiquid(mobj_t *thing)
     if (thing->player)
     {
         for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            if (seclist->m_sector->terraintype < LIQUID)
+        {
+            const sector_t  *sector = seclist->m_sector;
+
+            if (sector->terraintype < LIQUID || sector->isselfreferencing)
                 return false;
+        }
     }
     else
     {
@@ -995,14 +999,18 @@ bool P_IsInLiquid(mobj_t *thing)
         if (flags & MF_SHOOTABLE)
         {
             for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-                if (seclist->m_sector->terraintype < LIQUID)
+            {
+                const sector_t *sector = seclist->m_sector;
+
+                if (sector->terraintype < LIQUID || sector->isselfreferencing)
                     return false;
+            }
         }
         else
         {
             const sector_t  *sector = thing->subsector->sector;
 
-            if (sector->terraintype < LIQUID)
+            if (sector->terraintype < LIQUID || sector->isselfreferencing)
                 return false;
 
             if (thing->z > sector->floorheight + FRACUNIT)
