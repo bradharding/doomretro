@@ -3,9 +3,7 @@
 ### DOOM Retro v5.1
 
 * Minor changes have been made to text that is output to the console.
-* These changes have been made to improve vanilla compatibility:
-  * Barrels now move correctly as they explode.
-  * Monsters now become non-solid at the end of their death animation.
+* Monsters now become non-solid at the end of their death animation rather than the start.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
