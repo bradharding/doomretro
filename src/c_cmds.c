@@ -77,7 +77,7 @@
 #define EXPLODECMDFORMAT            BOLD("barrels") "|" BOLD("missiles")
 #define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                     BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+#define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
@@ -3116,7 +3116,8 @@ static void if_cmd_func2(char *cmd, char *parms)
     char    parm2[64] = "";
     char    parm3[128] = "";
 
-    if (sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
+    if (sscanf(parms, "%63s is %63s then %127[^\n]", parm1, parm2, parm3) != 3
+        && sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
     {
         const int   i = C_GetIndex(cmd);
 
