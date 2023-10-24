@@ -3506,6 +3506,9 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             info = &mapinfo[ep][map];
 
+            if (compat_zombie_global == -1)
+                info->compat_zombie = true;
+
             if (SC_GetString() && !SC_Compare("LOOKUP"))
                 M_StringCopy(info->name, sc_String, sizeof(info->name));
 
