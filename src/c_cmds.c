@@ -1936,11 +1936,22 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
         if (controls[i].type == type && controls[i].value == value)
         {
-            if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
-                    (*count)++, (control[0] == '=' ? "+" : control), action);
+            if (action[0] == '+')
+            {
+                if (strlen(control) == 1)
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                        (*count)++, (control[0] == '=' ? "+" : control), action);
+                else
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
+            }
             else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
+            {
+                if (strlen(control) == 1)
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t\"%s\"",
+                        (*count)++, (control[0] == '=' ? "+" : control), action);
+                else
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t\"%s\"", (*count)++, control, action);
+            }
 
             break;
         }

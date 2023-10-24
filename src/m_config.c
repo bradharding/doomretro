@@ -563,10 +563,20 @@ valuealias_t valuealiases[] =
 
 static void SaveBind(FILE *file, char *control, char *action)
 {
-    if (strlen(control) == 1)
-        fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
+    if (action[0] == '+')
+    {
+        if (strlen(control) == 1)
+            fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
+        else
+            fprintf(file, "bind %s %s\n", control, action);
+    }
     else
-        fprintf(file, "bind %s %s\n", control, action);
+    {
+        if (strlen(control) == 1)
+            fprintf(file, "bind '%s' \"%s\"\n", (control[0] == '=' ? "+" : control), action);
+        else
+            fprintf(file, "bind %s \"%s\"\n", control, action);
+    }
 }
 
 static void SaveBindByValue(FILE *file, char *action, int value, controltype_t type)
