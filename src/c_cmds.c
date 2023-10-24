@@ -894,7 +894,7 @@ consolecmd_t consolecmds[] =
     CCMD(readme, "", "", null_func1, readme_cmd_func2, false, "",
         "Shows the accompanying readme file for the currently loaded PWAD."),
     CCMD(regenhealth, "", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles regenerating your health by 1% every second when it's below 100%."),
+        "Toggles regenerating your health by 1% every second when it's less than 100%."),
     CCMD(remove, "", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
         "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", certain "
         BOLDITALICS("items") ", or " BOLD("everything") "."),
@@ -5684,7 +5684,7 @@ static void C_PlayerStats_Game(void)
     free(temp1);
 
     temp1 = commifystat(stat_mapscompleted);
-    C_TabbedOutput(tabs, "Maps completed\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "Maps completed\t0\t%s", temp1);
     free(temp1);
 
     temp1 = commify(viewplayer->gamessaved);

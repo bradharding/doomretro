@@ -359,7 +359,7 @@ int             compat_floormove_global = -1;
 int             compat_light_global = -1;
 int             compat_limitpain_global = -1;
 int             compat_nopassover_global = -1;
-int             compat_stairs_global = 1;
+int             compat_stairs_global = -1;
 int             compat_useblocking_global = -1;
 int             compat_zombie_global = -1;
 int             nograduallighting_global = -1;
@@ -3505,6 +3505,9 @@ static bool P_ParseMapInfo(const char *scriptname)
             }
 
             info = &mapinfo[ep][map];
+
+            if (compat_stairs_global == -1)
+                info->compat_stairs = true;
 
             if (compat_zombie_global == -1)
                 info->compat_zombie = true;
