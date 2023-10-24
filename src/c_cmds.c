@@ -1936,22 +1936,11 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
         if (controls[i].type == type && controls[i].value == value)
         {
-            if (action[0] == '+')
-            {
-                if (strlen(control) == 1)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
-                        (*count)++, (control[0] == '=' ? "+" : control), action);
-                else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
-            }
+            if (strlen(control) == 1)
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                    (*count)++, (control[0] == '=' ? "+" : control), action);
             else
-            {
-                if (strlen(control) == 1)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t\"%s\"",
-                        (*count)++, (control[0] == '=' ? "+" : control), action);
-                else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t\"%s\"", (*count)++, control, action);
-            }
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
 
             break;
         }
@@ -1983,10 +1972,10 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
             const char  *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t\"%s\"",
                     count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
             else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, control, keyactionlist[value]);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t\"%s\"", count++, control, keyactionlist[value]);
         }
     }
 
