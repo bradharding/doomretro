@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.1
 
+* *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * Monsters now become non-solid at the end of their death animation rather than the start.
 
