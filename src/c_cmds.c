@@ -5617,7 +5617,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
                 }
                 else
                 {
-                    char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
+                    char    *temp = striptrailingzero(feet / FEETPERMILE, 1);
 
                     M_snprintf(result, sizeof(result), "%s miles", temp);
                     free(temp);
@@ -5634,7 +5634,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
             {
                 if (meters < METERSPERKILOMETER)
                 {
-                    char    *temp = striptrailingzero(meters, 1);
+                    char    *temp = striptrailingzero(meters, 2);
 
                     if (!M_StringCompare(temp, "0.0"))
                         M_snprintf(result, sizeof(result), "%s %s",
@@ -5644,7 +5644,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
                 }
                 else
                 {
-                    char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+                    char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 1);
 
                     M_snprintf(result, sizeof(result), "%s %s",
                         temp, (english == english_american ? "kilometers" : "kilometres"));
