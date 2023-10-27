@@ -109,6 +109,9 @@ void P_ExplodeMissile(mobj_t *mo)
     {
         mo->colfunc = tlcolfunc;
         mo->flags2 &= ~MF2_CASTSHADOW;
+
+        if (M_BigRandom() & 1)
+            mo->flags2 |= MF2_MIRRORED;
     }
 
     if (mo->info->deathsound)
