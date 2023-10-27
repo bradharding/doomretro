@@ -1452,7 +1452,9 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
 //
 void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target)
 {
-    if (target->bloodcolor)
+    if (vanilla)
+        P_SpawnMobj(x, y, z, MT_BLOOD);
+    else if (target->bloodcolor)
     {
         const int   minz = target->z;
         const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
