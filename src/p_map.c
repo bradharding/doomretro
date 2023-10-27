@@ -2164,7 +2164,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (M_Random() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
                 && (thing->type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
@@ -2221,7 +2221,9 @@ static void PIT_ChangeSector(mobj_t *thing)
 
                 mo->momx = M_SubRandom() << 11;
                 mo->momy = M_SubRandom() << 11;
-                mo->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
+
+                if (!vanilla)
+                    mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
 
                 if (fuzz)
                 {

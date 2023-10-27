@@ -2033,7 +2033,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (M_Random() & 1) && !(target->flags2 & MF2_NOMIRROREDCORPSE)
+        if (r_corpses_mirrored && (M_BigRandom() & 1) && !(target->flags2 & MF2_NOMIRROREDCORPSE)
             && (type != MT_PAIN || !doom4vanilla))
             target->flags2 |= MF2_MIRRORED;
     }
@@ -2152,7 +2152,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         mo->geartime = MAXGEARTIME;
         mo->floatbob = (M_BigRandom() & 63);
 
-        if (r_mirroredweapons && (M_Random() & 1))
+        if (r_mirroredweapons && (M_BigRandom() & 1))
             mo->flags2 |= MF2_MIRRORED;
 
         if (massacre)
@@ -2266,7 +2266,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     P_SetMobjState(target, state);
                     S_StartSound(target, sfx_slop);
 
-                    if (r_corpses_mirrored && (M_Random() & 1))
+                    if (r_corpses_mirrored && (M_BigRandom() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
                 else if (target->giblevel == 1 && !target->gibtimer)
@@ -2277,7 +2277,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     P_SetMobjState(target, S_GIBS);
                     S_StartSound(target, sfx_slop);
 
-                    if (r_corpses_mirrored && (M_Random() & 1))
+                    if (r_corpses_mirrored && (M_BigRandom() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
 

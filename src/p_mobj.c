@@ -34,6 +34,7 @@
 */
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -1313,7 +1314,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     }
 
     // [BH] randomly mirror weapons
-    if (r_mirroredweapons && (M_Random() & 1)
+    if (r_mirroredweapons && (M_BigRandom() & 1)
         && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)))
         mobj->flags2 |= MF2_MIRRORED;
 
@@ -1403,7 +1404,10 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
-    th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+    th->flags2 = info->flags2;
+
+    if (!vanilla && (M_BigRandom() & 1))
+        th->flags2 |= MF2_MIRRORED;
 
     th->state = st;
     th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
@@ -1439,7 +1443,7 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
-    th->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
+    th->flags2 |= MF2_MIRRORED;
 }
 
 //
@@ -1473,7 +1477,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
             th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
             th->flags = info->flags;
-            th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+            th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
 
             th->state = st;
             th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
