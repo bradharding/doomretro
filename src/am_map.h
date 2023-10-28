@@ -57,6 +57,7 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_ClearFB(void);
 
+void AM_InitPixelSize(void);
 void AM_Start(const bool mainwindow);
 void AM_ClearMarks(void);
 void AM_ToggleFollowMode(const bool value);

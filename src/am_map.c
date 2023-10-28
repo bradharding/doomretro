@@ -187,6 +187,7 @@ static void (*putbigdot2)(unsigned int, unsigned int, const byte *);
 static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
 static inline void PUTDOT2(unsigned int x, unsigned int y, const byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
+static void PUTBIGDOT2(unsigned int x, unsigned int y, const byte *color);
 
 static void AM_ActivateNewScale(void)
 {
@@ -425,6 +426,22 @@ void AM_Stop(void)
     D_FadeScreen(false);
 }
 
+void AM_InitPixelSize(void)
+{
+    if (r_detail == r_detail_high)
+    {
+        putbigdot = &PUTDOT;
+        putbigdot2 = &PUTDOT2;
+        putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
+    }
+    else
+    {
+        putbigdot = &PUTBIGDOT;
+        putbigdot2 = &PUTBIGDOT2;
+        putbigwalldot = &PUTBIGDOT;
+    }
+}
+
 void AM_Start(const bool mainwindow)
 {
     if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
@@ -439,19 +456,7 @@ void AM_Start(const bool mainwindow)
     if (viewplayer)
         viewplayer->automapopened++;
 
-    if (r_detail == r_detail_high)
-    {
-        putbigdot = &PUTDOT;
-        putbigdot2 = &PUTDOT2;
-        putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
-    }
-    else
-    {
-        putbigdot = &PUTBIGDOT;
-        putbigdot2 = &PUTBIGDOT;
-        putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
-    }
-
+    AM_InitPixelSize();
     AM_InitVariables(mainwindow);
     HU_ClearMessages();
     D_FadeScreen(false);
@@ -1328,6 +1333,41 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
             dot += MAPWIDTH;
             *dot = *(*dot + color);
         }
+    }
+}
+
+static inline void PUTBIGDOT2(unsigned int x, unsigned int y, const byte *color)
+{
+    if (x < (unsigned int)MAPWIDTH)
+    {
+        byte        *dot = mapscreen + y + x;
+        const bool  attop = (y < MAPAREA);
+        const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
+
+        if (attop)
+            *dot = *color;
+
+        if (atbottom)
+            *(dot + MAPWIDTH) = *color;
+
+        if (x + 1 < (unsigned int)MAPWIDTH)
+        {
+            if (attop)
+                *(dot + 1) = *color;
+
+            if (atbottom)
+                *(dot + MAPWIDTH + 1) = *color;
+        }
+    }
+    else if (++x < (unsigned int)MAPWIDTH)
+    {
+        byte    *dot = mapscreen + y + x;
+
+        if (y < MAPAREA)
+            *dot = *color;
+
+        if (y < (unsigned int)MAPBOTTOM)
+            *(dot + MAPWIDTH) = *color;
     }
 }
 

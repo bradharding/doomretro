@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * Monsters now only become non-solid at the end of their death animation rather than the start.
+* The automap is now shown in low detail when the `r_detail` CVAR is `low`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -19,7 +20,7 @@
 * A bug is fixed whereby stairs rising up from the floor wouldn’t rise to their correct height in some instances.
 * Changing the `vid_capfps` CVAR to `35` now caps the framerate at 35 FPS again.
 * If the `vid_capfps` CVAR is `off` or greater than `60`, and the `vid_vsync` CVAR is `off`, the framerate is now capped at 60 FPS when on the title screen, in the menu, in the console, or the game is paused.
-* The number of frames per second are now displayed in the menu when the `vid_showfps` CVAR is `on`.
+* The frames per second are now displayed in the menu when the `vid_showfps` CVAR is `on`.
 * Minor improvements have been made to determining when to lower the player’s view if the `r_liquid_lowerview` CVAR is `on`.
 * A bug is fixed whereby entering `kill monsters` in the console could then affect splash damage to the player.
 
