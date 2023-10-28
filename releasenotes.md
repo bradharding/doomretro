@@ -11,6 +11,7 @@
   * Blood and bullet puffs are no longer randomly mirrored.
 * Rocket explosions are now randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
+* The crosshair is now displayed correctly when the `crosshair` CVAR is `on` and the `r_hud_translucency` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
