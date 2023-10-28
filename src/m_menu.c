@@ -3480,8 +3480,7 @@ bool M_Responder(event_t *ev)
     }
 
     // Toggle graphic detail
-    if (key == KEY_F5 && !functionkey && gamestate == GS_LEVEL
-        && (r_screensize < r_screensize_max || !automapactive) && !keydown)
+    if (key == KEY_F5 && !functionkey && gamestate == GS_LEVEL && !keydown)
     {
         keydown = key;
         functionkey = KEY_F5;
