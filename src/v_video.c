@@ -1652,7 +1652,7 @@ static void V_LowGraphicDetail_Antialiased(int left, int top, int width, int hei
         }
 }
 
-static void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += 2 * SCREENWIDTH)
         for (int x = left; x < width; x += 2)
@@ -1666,7 +1666,7 @@ static void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int
         }
 }
 
-static void V_LowGraphicDetail_2x2_Antialiased(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+void V_LowGraphicDetail_2x2_Antialiased(int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += 2 * SCREENWIDTH)
         for (int x = left; x < width; x += 2)

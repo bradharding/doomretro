@@ -8311,6 +8311,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         C_HideConsole();
 
     I_RestartGraphics(false);
+    AM_InitPixelSize();
 
     nobindoutput = false;
     togglingvanilla = false;

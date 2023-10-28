@@ -53,6 +53,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "st_stuff.h"
+#include "v_video.h"
 
 // Automap color priorities
 #define WALLPRIORITY            9
@@ -1304,7 +1305,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
         const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
 
         if (attop)
-            *dot = *(*dot + color);
+            _PUTDOT(dot, color);
 
         if (atbottom)
             _PUTDOT(dot + MAPWIDTH, color);
@@ -1315,10 +1316,7 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
                 _PUTDOT(dot + 1, color);
 
             if (atbottom)
-            {
-                dot += (size_t)MAPWIDTH + 1;
-                *dot = *(*dot + color);
-            }
+                _PUTDOT(dot + MAPWIDTH + 1, color);
         }
     }
     else if (++x < (unsigned int)MAPWIDTH)
@@ -1326,13 +1324,10 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
         byte    *dot = mapscreen + y + x;
 
         if (y < MAPAREA)
-            *dot = *(*dot + color);
+            _PUTDOT(dot, color);
 
         if (y < (unsigned int)MAPBOTTOM)
-        {
-            dot += MAPWIDTH;
-            *dot = *(*dot + color);
-        }
+            _PUTDOT(dot + MAPWIDTH, color);
     }
 }
 
@@ -2198,12 +2193,22 @@ void AM_Drawer(void)
     if (things)
         AM_DrawThings();
 
-    if (nummarks)
+    if (nummarks && r_detail == r_detail_high)
         AM_DrawMarks();
 
     AM_DrawPlayer();
 
-    if (am_antialiasing)
+    if (r_detail == r_detail_low)
+    {
+        if (am_antialiasing)
+            V_LowGraphicDetail_2x2_Antialiased(0, 0, MAPWIDTH, MAPAREA, 2, 2);
+        else
+            V_LowGraphicDetail_2x2(0, 0, MAPWIDTH, MAPAREA, 2, 2);
+
+        if (nummarks)
+            AM_DrawMarks();
+    }
+    else if (am_antialiasing)
         AM_ApplyAntialiasing();
 
     if (!(am_followmode || consoleactive))
