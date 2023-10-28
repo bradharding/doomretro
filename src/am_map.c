@@ -2030,46 +2030,97 @@ static void AM_DrawPath(void)
     }
 }
 
+#define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
+#define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < r_screensize_max)) / 2)
+
+void AM_DrawScaledPixel(const int x, const int y, byte *color)
+{
+    byte    *dest = &screens[0][(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
+
+    *dest = *(*dest + color);
+    dest++;
+    *dest = *(*dest + color);
+    dest += MAPWIDTH;
+    *dest = *(*dest + color);
+    dest--;
+    *dest = *(*dest + color);
+}
+
+void AM_DrawScaledPixel2(const int x, const int y, byte color)
+{
+    byte    *dest = &screens[0][(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
+
+    *dest = color;
+    dest++;
+    *dest = color;
+    dest += MAPWIDTH;
+    *dest = color;
+    dest--;
+    *dest = color;
+}
+
 static void AM_DrawCrosshair(void)
 {
-    byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+    if (r_detail == r_detail_low)
+    {
+        AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
+        AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
+        AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
+        AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
+        AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
+    }
+    else
+    {
+        byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
 
-    *dot = *(*dot + am_crosshaircolor2);
-    dot += MAPWIDTH;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot += (size_t)MAPWIDTH - 2;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot++;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot++;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot++;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot++;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot += (size_t)MAPWIDTH - 2;
-    *dot = *(*dot + am_crosshaircolor2);
-    dot += MAPWIDTH;
-    *dot = *(*dot + am_crosshaircolor2);
+        *dot = *(*dot + am_crosshaircolor2);
+        dot += MAPWIDTH;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot += (size_t)MAPWIDTH - 2;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot++;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot++;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot++;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot++;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot += (size_t)MAPWIDTH - 2;
+        *dot = *(*dot + am_crosshaircolor2);
+        dot += MAPWIDTH;
+        *dot = *(*dot + am_crosshaircolor2);
+    }
 }
 
 static void AM_DrawSolidCrosshair(void)
 {
-    byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+    if (r_detail == r_detail_low)
+    {
+        AM_DrawScaledPixel2(CENTERX - 1, CENTERY, am_crosshaircolor);
+        AM_DrawScaledPixel2(CENTERX, CENTERY, am_crosshaircolor);
+        AM_DrawScaledPixel2(CENTERX + 1, CENTERY, am_crosshaircolor);
+        AM_DrawScaledPixel2(CENTERX, CENTERY - 1, am_crosshaircolor);
+        AM_DrawScaledPixel2(CENTERX, CENTERY + 1, am_crosshaircolor);
+    }
+    else
+    {
+        byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
 
-    *dot = am_crosshaircolor;
-    dot += MAPWIDTH;
-    *dot = am_crosshaircolor;
-    dot += (size_t)MAPWIDTH - 2;
-    *dot++ = am_crosshaircolor;
-    *dot++ = am_crosshaircolor;
-    *dot++ = am_crosshaircolor;
-    *dot++ = am_crosshaircolor;
-    *dot = am_crosshaircolor;
-    dot += (size_t)MAPWIDTH - 2;
-    *dot = am_crosshaircolor;
-    dot += MAPWIDTH;
-    *dot = am_crosshaircolor;
+        *dot = am_crosshaircolor;
+        dot += MAPWIDTH;
+        *dot = am_crosshaircolor;
+        dot += (size_t)MAPWIDTH - 2;
+        *dot++ = am_crosshaircolor;
+        *dot++ = am_crosshaircolor;
+        *dot++ = am_crosshaircolor;
+        *dot++ = am_crosshaircolor;
+        *dot = am_crosshaircolor;
+        dot += (size_t)MAPWIDTH - 2;
+        *dot = am_crosshaircolor;
+        dot += MAPWIDTH;
+        *dot = am_crosshaircolor;
+    }
 }
 
 void AM_StatusBarShadow(void)
