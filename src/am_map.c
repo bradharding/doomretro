@@ -183,7 +183,9 @@ static bool         isteleportline[NUMLINESPECIALS];
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void (*putbigwalldot)(unsigned int, unsigned int, const byte *);
 static void (*putbigdot)(unsigned int, unsigned int, const byte *);
+static void (*putbigdot2)(unsigned int, unsigned int, const byte *);
 static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
+static inline void PUTDOT2(unsigned int x, unsigned int y, const byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
 
 static void AM_ActivateNewScale(void)
@@ -437,7 +439,18 @@ void AM_Start(const bool mainwindow)
     if (viewplayer)
         viewplayer->automapopened++;
 
-    putbigdot = (r_detail == r_detail_high ? &PUTDOT : &PUTBIGDOT);
+    if (r_detail == r_detail_high)
+    {
+        putbigdot = &PUTDOT;
+        putbigdot2 = &PUTDOT2;
+        putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
+    }
+    else
+    {
+        putbigdot = &PUTBIGDOT;
+        putbigdot2 = &PUTBIGDOT;
+        putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
+    }
 
     AM_InitVariables(mainwindow);
     HU_ClearMessages();
@@ -1445,7 +1458,7 @@ static void AM_DrawGrid(void)
         mline_t mline = { { x, starty }, { x, starty + minlen } };
 
         mline = rotatelinefunc(mline);
-        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, &PUTDOT2);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
     }
 
     end = starty + minlen;
@@ -1456,7 +1469,7 @@ static void AM_DrawGrid(void)
         mline_t mline = { { startx, y }, { startx + minlen, y } };
 
         mline = rotatelinefunc(mline);
-        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, &PUTDOT2);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
     }
 }
 
@@ -1659,7 +1672,7 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, putbigdot2);
     }
 }
 
@@ -1708,7 +1721,7 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, putbigdot2);
     }
 }
 
@@ -1956,11 +1969,11 @@ static void AM_DrawPath(void)
 
             AM_RotatePoint(&start);
             AM_RotatePoint(&end);
-            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
+            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
         }
 
         AM_RotatePoint(&player);
-        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
+        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
     }
     else
     {
@@ -1974,11 +1987,11 @@ static void AM_DrawPath(void)
             if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                 continue;
 
-            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
+            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
             start = end;
         }
 
-        AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
+        AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, putbigdot2);
     }
 }
 

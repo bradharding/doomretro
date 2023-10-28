@@ -2297,6 +2297,7 @@ static void M_ChangeDetail(int choice)
     M_SaveCVARs();
     STLib_Init();
     R_InitColumnFunctions();
+    AM_Start(automapactive);
 }
 
 static void M_SizeDisplay(int choice)

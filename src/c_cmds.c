@@ -9560,6 +9560,8 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
             free(temp2);
         }
 
+        AM_Start(automapactive);
+
         free(temp1);
 
         C_ShowWarning(i);
