@@ -8371,7 +8371,7 @@ static void color_cvars_func2(char *cmd, char *parms)
 {
     int_cvars_func2(cmd, parms);
 
-    if (*parms && M_StringStartsWith(parms, "am_"))
+    if (M_StringStartsWith(cmd, "am_"))
         AM_SetColors();
 }
 
