@@ -5,11 +5,12 @@
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * The automap is now shown in low detail when the `r_detail` CVAR is `low`.
+* A bug is fixed whereby the result of changing a color CVAR for the automap in the console wouldn’t be effective immediately.
 * These changes have been made when vanilla mode is enabled:
-  * Extra blood is longer spawned.
+  * Extra blood is no longer spawned.
   * Blood and bullet puffs are no longer randomly mirrored.
 * Rocket explosions are now randomly mirrored.
-* Monsters now only become non-solid at the end of their death animation rather than at the start.
+* Monsters now only become non-solid at the end of their death sequence rather than at the start.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

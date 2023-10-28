@@ -2001,25 +2001,31 @@ static void D_DoomMainSetup(void)
         D_InitWADfolder();
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
-        C_Output("A " BOLD("-respawn") " parameter was found on the command-line. Monsters will now respawn.");
+        C_Output("A " BOLD("-respawn") " parameter was found on the command-line. "
+            "Monsters will now respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("A " BOLD("-respawnmonsters") " parameter was found on the command-line. Monsters will now respawn.");
+        C_Output("A " BOLD("-respawnmonsters") " parameter was found on the command-line. "
+            "Monsters will now respawn.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. No monsters will now be spawned.");
+        C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. "
+            "No monsters will now be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
         C_Output("A " BOLD("-pistolstart") " parameter was found on the command-line. "
-            "The player will now start each map with 100%% health, no armor, and only a pistol with 50 bullets.");
+            "The player will now start each map with 100%% health, no armor, "
+            "and only a pistol with 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
-        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will now be fast.");
+        C_Output("A " BOLD("-fast") " parameter was found on the command-line. "
+            "Monsters will now be fast.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
-        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will now be fast.");
+        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. "
+            "Monsters will now be fast.");
 
     if ((solonet = M_CheckParm("-solonet")))
         C_Output("A " BOLD("-solonet") " parameter was found on the command-line. "
@@ -2131,7 +2137,8 @@ static void D_DoomMainSetup(void)
                     char    buffer[256];
 
 #if defined(_WIN32)
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.\n", (*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.\n",
+                        (*wad ? wad : "any IWADs"));
 
                     if (previouswad)
                         wad = M_StringDuplicate(previouswad);
@@ -2187,7 +2194,8 @@ static void D_DoomMainSetup(void)
                         iwadrequired = doom2;
 
                     // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s",
+                        folder, iwadsrequired[iwadrequired]);
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
@@ -2207,7 +2215,8 @@ static void D_DoomMainSetup(void)
                     else
                     {
                         // otherwise try the wadfolder CVAR
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadsrequired[iwadrequired]);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s",
+                            wadfolder, iwadsrequired[iwadrequired]);
                         D_IdentifyIWADByName(fullpath);
 
                         if (W_AddFile(fullpath, true))
@@ -2443,8 +2452,8 @@ static void D_DoomMainSetup(void)
             M_StringReplaceAll(string, ".", "", false);
             M_StringReplaceAll(string, "!", "", false);
 
-            C_Output("A " BOLD("%s") " parameter was found on the command-line. The skill level is now " ITALICS("%s."),
-                myargv[p], string);
+            C_Output("A " BOLD("%s") " parameter was found on the command-line. "
+                "The skill level is now " ITALICS("%s."), myargv[p], string);
             free(string);
         }
     }
@@ -2461,8 +2470,8 @@ static void D_DoomMainSetup(void)
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
-            C_Output("An " BOLD("-episode") " parameter was found on the command-line. The episode is now " ITALICS("%s."),
-                *episodes[episode - 1]);
+            C_Output("An " BOLD("-episode") " parameter was found on the command-line. "
+                "The episode is now " ITALICS("%s."), *episodes[episode - 1]);
         }
     }
 
@@ -2477,8 +2486,8 @@ static void D_DoomMainSetup(void)
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An " BOLD("-expansion") " parameter was found on the command-line. The expansion is now " ITALICS("%s."),
-                *expansions[expansion - 1]);
+            C_Output("An " BOLD("-expansion") " parameter was found on the command-line. "
+                "The expansion is now " ITALICS("%s."), *expansions[expansion - 1]);
         }
     }
 
@@ -2653,25 +2662,22 @@ static void D_DoomMainSetup(void)
     {
         C_AddConsoleDivider();
 
-        if (*startup1)
+        D_ParseStartupString(startup1);
+
+        if (*startup2)
         {
-            D_ParseStartupString(startup1);
+            D_ParseStartupString(startup2);
 
-            if (*startup2)
+            if (*startup3)
             {
-                D_ParseStartupString(startup2);
+                D_ParseStartupString(startup3);
 
-                if (*startup3)
+                if (*startup4)
                 {
-                    D_ParseStartupString(startup3);
+                    D_ParseStartupString(startup4);
 
-                    if (*startup4)
-                    {
-                        D_ParseStartupString(startup4);
-
-                        if (*startup5)
-                            D_ParseStartupString(startup5);
-                    }
+                    if (*startup5)
+                        D_ParseStartupString(startup5);
                 }
             }
         }
