@@ -2534,6 +2534,16 @@ static void D_DoomMainSetup(void)
         }
     }
 
+    if (M_CheckParm("-dog"))
+        P_InitHelperDogs(1);
+    else if ((p = M_CheckParmWithArgs("-dogs", 1)))
+    {
+        const int   dogs = strtol(myargv[p + 1], NULL, 10);
+
+        if (dogs > 0 && dogs <= 4)
+            P_InitHelperDogs(dogs);
+    }
+
     M_Init();
     R_Init();
     P_Init();

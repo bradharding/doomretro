@@ -1143,6 +1143,15 @@ void P_LookForFriends(void)
             }
 }
 
+void P_InitHelperDogs(const int dogs)
+{
+    for (int i = 0; i < dogs; i++)
+    {
+        friendtype[numfriends] = MT_DOGS;
+        friendhealth[numfriends++] = mobjinfo[MT_DOGS].spawnhealth;
+    }
+}
+
 static void P_SpawnFriend(const mapthing_t *mthing)
 {
     const short playerstart = mthing->type;

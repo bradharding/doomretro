@@ -153,6 +153,7 @@ void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnMoreBlood(mobj_t *mobj);
 void P_LookForFriends(void);
+void P_InitHelperDogs(const int dogs);
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters);
 void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
 void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
