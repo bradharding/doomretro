@@ -322,8 +322,9 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
 
 void C_Warning(const int minwarninglevel, const char *string, ...)
 {
-    va_list args;
-    char    buffer[CONSOLETEXTMAXLENGTH];
+    va_list     args;
+    char        buffer[CONSOLETEXTMAXLENGTH];
+    const int   i = numconsolestrings - 1;
 
     if (warninglevel < minwarninglevel && !devparm)
         return;
@@ -332,7 +333,9 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (!numconsolestrings || !M_StringCompare(console[numconsolestrings - 1].string, buffer))
+    if (console[i].stringtype == warningstring && M_StringCompare(console[i].string, buffer))
+        console[i].count++;
+    else
     {
         if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -340,9 +343,11 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].indent = WARNINGWIDTH + 2;
         console[numconsolestrings].wrap = 0;
-        console[numconsolestrings++].stringtype = warningstring;
-        outputhistory = -1;
+        console[numconsolestrings].stringtype = warningstring;
+        console[numconsolestrings++].count = 1;
     }
+
+    outputhistory = -1;
 }
 
 void C_PlayerMessage(const char *string, ...)
@@ -1637,8 +1642,23 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor, NOBACKGROUNDCOLOR,
                     consoleboldcolor, tinttab75, notabs, true, true, false, i, '\0', '\0');
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor, NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+            {
+                const int   count = console[i].count;
+
+                if (count > 1)
+                {
+                    char    buffer[CONSOLETEXTMAXLENGTH];
+                    char    *temp = commify(count);
+
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
+                        consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+                    free(temp);
+                }
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor, NOBACKGROUNDCOLOR,
+                        consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+            }
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH - 3);
