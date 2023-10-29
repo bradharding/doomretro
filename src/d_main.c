@@ -2540,7 +2540,7 @@ static void D_DoomMainSetup(void)
     {
         const int   dogs = strtol(myargv[p + 1], NULL, 10);
 
-        if (dogs > 0 && dogs <= 4)
+        if (dogs > 0 && dogs <= 8)
             P_InitHelperDogs(dogs);
     }
 
