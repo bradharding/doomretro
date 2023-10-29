@@ -1026,7 +1026,7 @@ int dsdh_GetOriginalSpriteIndex(const char *key)
         if (!isdigit(*c))
             return -1;
 
-    limit = atoi(key);
+    limit = strtol(key, NULL, 10);
     EnsureSpritesCapacity(limit);
 
     return limit;

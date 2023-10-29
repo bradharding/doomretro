@@ -52,6 +52,8 @@
 #define MAXGEAR                 (OVERDRIVE + 16)
 #define MAXGEARTIME             15
 
+#define MAXFRIENDS              8
+
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
 #define sentient(mobj)          (mobj->health > 0 && mobj->info->seestate)

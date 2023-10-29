@@ -5,14 +5,15 @@
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * The automap is now shown in low detail when the `r_detail` CVAR is `low`.
-* A bug is fixed whereby the result of changing a color CVAR for the automap in the console wouldn’t be effective immediately.
+* A bug is fixed whereby the effect of changing a color CVAR for the automap in the console wouldn’t be immediate.
+* Rocket explosions from the player and cyberdemons are now randomly mirrored.
 * These changes have been made when vanilla mode is enabled:
-  * Extra blood is no longer spawned.
+  * Extra blood is no longer spawned when a monster is injured.
   * Blood and bullet puffs are no longer randomly mirrored.
-* Rocket explosions are now randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
-* The crosshair is now displayed correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
-* The shadow cast by a monster is now slightly lighter as they fire their weapon or a projectile and the `r_shadows` CVAR is `on`.
+* Shadows cast by monsters are now slightly lighter while they attack and the `r_shadows` CVAR is `on`.
+* The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
+* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line will now spawn one or more [*MBF*](https://doomwiki.org/wiki/MBF) helper dogs at the start of the game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

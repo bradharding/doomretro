@@ -1120,8 +1120,6 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     }
 }
 
-#define MAXFRIENDS  8
-
 int                 numfriends = 0;
 static mobjtype_t   friendtype[MAXFRIENDS];
 static char         friendname[MAXFRIENDS][33];

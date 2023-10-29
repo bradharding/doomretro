@@ -203,7 +203,7 @@ bool SC_GetNumber(void)
 {
     if (SC_GetString())
     {
-        sc_Number = strtol(sc_String, NULL, 0);
+        sc_Number = strtol(sc_String, NULL, 10);
         return true;
     }
     else
