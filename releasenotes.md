@@ -12,6 +12,7 @@
 * Rocket explosions are now randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
 * The crosshair is now displayed correctly when the `crosshair` CVAR is `on` and the `r_hud_translucency` CVAR is `off`.
+* The shadow cast by a monster is now slightly lighter as they fire a projectile and the `r_shadows` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
