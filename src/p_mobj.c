@@ -1164,7 +1164,9 @@ static void P_SpawnFriend(const mapthing_t *mthing)
         M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
         mobj->health = friendhealth[playerstart - 2];
 
-        if (*mobj->name)
+        if (gamemap == 1)
+            C_Warning(0, "A friendly %s entered this map with %s!", mobjinfo[mobj->type].name1, playername);
+        else if (*mobj->name)
             C_Warning(0, "%s followed %s into this map!", mobj->name, playername);
         else
             C_Warning(0, "A friendly %s followed %s into this map!", mobjinfo[mobj->type].name1, playername);

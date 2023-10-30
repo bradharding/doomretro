@@ -13,7 +13,7 @@
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
 * Shadows cast by monsters are now slightly lighter while they attack and the `r_shadows` CVAR is `on`.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
-* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line will now spawn one or more [*MBF*](https://doomwiki.org/wiki/MBF) helper dogs at the start of the game.
+* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF* helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

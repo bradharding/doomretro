@@ -2540,8 +2540,8 @@ static void D_DoomMainSetup(void)
     {
         const int   dogs = strtol(myargv[p + 1], NULL, 10);
 
-        if (dogs > 0 && dogs <= MAXFRIENDS)
-            P_InitHelperDogs(dogs);
+        if (dogs >= 1)
+            P_InitHelperDogs(MIN(dogs, MAXFRIENDS));
     }
     else if (M_CheckParm("-dogs"))
         P_InitHelperDogs(MAXFRIENDS);
