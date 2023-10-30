@@ -2535,16 +2535,38 @@ static void D_DoomMainSetup(void)
     }
 
     if (M_CheckParm("-dog"))
+    {
         P_InitHelperDogs(1);
+
+        C_Output("A " BOLD("-dog") " parameter was found on the command-line. "
+            "A friendly dog will enter the game with %s.", playername);
+    }
     else if ((p = M_CheckParmWithArgs("-dogs", 1)))
     {
         const int   dogs = strtol(myargv[p + 1], NULL, 10);
 
-        if (dogs >= 1)
+        if (dogs == 1)
+        {
+            P_InitHelperDogs(1);
+
+            C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
+                "A friendly dog will enter the game with %s.", playername);
+        }
+        else if (dogs > 1)
+        {
             P_InitHelperDogs(MIN(dogs, MAXFRIENDS));
+
+            C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
+                "Up to %i friendly dogs will enter the game with %s.", MIN(dogs, MAXFRIENDS), playername);
+        }
     }
     else if (M_CheckParm("-dogs"))
+    {
         P_InitHelperDogs(MAXFRIENDS);
+
+        C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
+            "Up to %i friendly dogs will enter the game with %s.", MAXFRIENDS, playername);
+    }
 
     M_Init();
     R_Init();
