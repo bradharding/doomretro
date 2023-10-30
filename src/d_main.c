@@ -2543,6 +2543,8 @@ static void D_DoomMainSetup(void)
         if (dogs > 0 && dogs <= MAXFRIENDS)
             P_InitHelperDogs(dogs);
     }
+    else if (M_CheckParm("-dogs"))
+        P_InitHelperDogs(MAXFRIENDS);
 
     M_Init();
     R_Init();
