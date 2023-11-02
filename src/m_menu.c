@@ -3329,33 +3329,8 @@ bool M_Responder(event_t *ev)
     }
     else if ((!menuactive || functionkey) && !paused && !splashscreen)
     {
-        // Help key
-        if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
-        {
-            if (gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
-                return false;
-
-            keydown = key;
-
-            if (helpscreen)
-            {
-                functionkey = 0;
-                M_CloseMenu();
-                S_StartSound(NULL, sfx_swtchx);
-                D_FadeScreen(false);
-                R_SetViewSize(r_screensize);
-            }
-            else
-            {
-                C_HideConsoleFast();
-                M_ShowHelp(0);
-            }
-
-            return true;
-        }
-
         // Save
-        else if (key == KEY_F2 && (!functionkey || functionkey == KEY_F2) && (viewactive || automapactive)
+        if (key == KEY_F2 && (!functionkey || functionkey == KEY_F2) && (viewactive || automapactive)
             && !keydown && viewplayer->health > 0)
         {
             keydown = key;
@@ -3489,6 +3464,29 @@ bool M_Responder(event_t *ev)
             M_QuitDOOM(0);
             return true;
         }
+    }
+
+    // Help key
+    if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
+    {
+        keydown = key;
+
+        if (helpscreen)
+        {
+            functionkey = 0;
+            M_CloseMenu();
+            S_StartSound(NULL, sfx_swtchx);
+            D_FadeScreen(false);
+            R_SetViewSize(r_screensize);
+        }
+        else
+        {
+            C_HideConsoleFast();
+            D_FadeScreen(false);
+            M_ShowHelp(0);
+        }
+
+        return false;
     }
 
     // Toggle graphic detail
