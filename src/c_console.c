@@ -2273,11 +2273,14 @@ bool C_Responder(event_t *ev)
                                     || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                     || (spaces1 == 3 && !endspace1)))
                             {
+                                char    *temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
+
                                 C_AddToUndoHistory();
-                                M_StringCopy(consoleinput, output, sizeof(consoleinput));
+                                M_StringCopy(consoleinput, temp, sizeof(consoleinput));
                                 caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
                                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                                 showcaret = true;
+                                free(temp);
                                 return true;
                             }
                         }
