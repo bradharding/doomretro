@@ -707,6 +707,28 @@ char *sentencecase(const char *str)
     return newstr;
 }
 
+bool isuppercase(const char *str)
+{
+    const int   len = (int)strlen(str);
+
+    for (int i = 1; i < len; i++)
+        if (islower(str[i]))
+            return false;
+
+    return true;
+}
+
+bool islowercase(const char *str)
+{
+    const int   len = (int)strlen(str);
+
+    for (int i = 1; i < len; i++)
+        if (isupper(str[i]))
+            return false;
+
+    return true;
+}
+
 char *commify(int64_t value)
 {
     char    result[64];

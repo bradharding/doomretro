@@ -225,6 +225,7 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Ultimate Doom\\base"
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
     "steamapps\\common\\Final Doom\\base",
+    "steamapps\\common\\Master Levels of Doom\\doom2",
     "steamapps\\common\\DOOMEternal\\base\\classicwads"
 };
 
