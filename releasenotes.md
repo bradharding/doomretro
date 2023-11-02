@@ -3,6 +3,7 @@
 ### DOOM Retro v5.1
 
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
 * Minor changes have been made to text that is output to the console.
 * The automap is now shown in low detail when the `r_detail` CVAR is `low`.
 * A bug is fixed whereby the effect of changing a color CVAR for the automap in the console wouldn’t be immediate.
