@@ -437,8 +437,6 @@ typedef struct mobj_s
     dirtype_t           movedir;                // 0-7
     int                 movecount;              // when 0, select a new dir
 
-    short               strafecount;            // killough 09/08/98: monster strafing
-
     // Thing being chased/attacked (or NULL),
     // also the originator for missiles.
     struct mobj_s       *target;

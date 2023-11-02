@@ -620,14 +620,6 @@ static void P_NewChaseDir(mobj_t *actor)
 {
     mobj_t  *target;
     fixed_t deltax, deltay;
-    fixed_t dist;
-
-    // killough 8/8/98: sometimes move away from target, keeping distance
-    //
-    // 1) Stay a certain distance away from a friend, to avoid being in their way
-    // 2) Take advantage over an enemy without missiles, by keeping distance
-
-    actor->strafecount = 0;
 
     // Move away from dropoff
     if (actor->floorz - actor->dropoffz > 24 * FRACUNIT
@@ -646,41 +638,18 @@ static void P_NewChaseDir(mobj_t *actor)
     target = actor->target;
     deltax = target->x - actor->x;
     deltay = target->y - actor->y;
-    dist = P_ApproxDistance(deltax, deltay);
 
     // Move away from friends when too close, except in certain situations (e.g. a crowded lift)
     if ((actor->flags & target->flags & MF_FRIEND)
         && !actor->subsector->sector->islift
-        && dist < DISTFRIEND
+        && P_ApproxDistance(deltax, deltay) < DISTFRIEND
         && !P_IsUnderDamage(actor))
     {
         deltax = -deltax;
         deltay = -deltay;
     }
-    else if (target->health > 0 && (actor->flags ^ target->flags) & MF_FRIEND)
-    {
-        // Live enemy target
-        if (actor->info->missilestate
-            && actor->type != MT_SKULL
-            && ((!target->info->missilestate && dist < target->info->meleerange * 2)
-                || (target->player
-                    && dist < target->player->mo->info->meleerange * 3
-                    && (weaponinfo[target->player->readyweapon].flags & WPF_FLEEMELEE))))
-        {
-            // Back away from melee attacker
-            actor->strafecount = M_Random() & 15;
-            deltax = -deltax;
-            deltay = -deltay;
-        }
-    }
 
     P_DoNewChaseDir(actor, deltax, deltay);
-
-    // If strafing, set movecount to strafecount so that old Doom
-// logic still works the same, except in the strafing part
-
-    if (actor->strafecount)
-        actor->movecount = actor->strafecount;
 }
 
 static bool P_LookForMonsters(mobj_t *actor)
@@ -975,10 +944,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // turn towards movement direction if not there yet
-    // killough 09/07/98: keep facing towards target if strafing or backing out
-    if (actor->strafecount)
-        A_FaceTarget(actor, NULL, NULL);
-    else if (actor->movedir < 8)
+    if (actor->movedir < 8)
     {
         const int   delta = (actor->angle &= (7u << 29)) - (actor->movedir << 29);
 
@@ -1064,9 +1030,6 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             }
         }
     }
-
-    if (actor->strafecount)
-        actor->strafecount--;
 
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))

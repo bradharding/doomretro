@@ -271,7 +271,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->pitch = saveg_read32();
     str->id = saveg_read32();
     str->pursuecount = saveg_read16();
-    str->strafecount = saveg_read16();
+    saveg_read16(); // deprecated
 
     if (str->flags & MF_SHOOTABLE)
         for (int i = 0, len = sizeof(str->name); i < len; i++)
@@ -345,7 +345,7 @@ static void saveg_write_mobj_t(const mobj_t *str)
     saveg_write32(str->pitch);
     saveg_write32(str->id);
     saveg_write16(str->pursuecount);
-    saveg_write16(str->strafecount);
+    saveg_write16(0);   // deprecated
 
     if (str->flags & MF_SHOOTABLE)
     {
