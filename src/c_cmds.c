@@ -3584,10 +3584,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                     if (M_StringCompare(playername, playername_default))
                         M_snprintf(buffer, sizeof(buffer), "You %s %s item%s.",
-                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            killed, temp, (kills == 1 ? "" : "s"));
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s %s item%s.",
-                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_Output(buffer);
                     C_HideConsole();
@@ -3615,10 +3615,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                     if (M_StringCompare(playername, playername_default))
                         M_snprintf(buffer, sizeof(buffer), "You %s %s decoration%s.",
-                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            killed, temp, (kills == 1 ? "" : "s"));
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s %s decoration%s.",
-                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_Output(buffer);
                     C_HideConsole();
@@ -5238,8 +5238,9 @@ static void name_cmd_func2(char *cmd, char *parms)
         {
             M_StripQuotes(namecmdnew);
 
-            C_PlayerMessage("The nearest %s%s has been %s " BOLD("%s") ".",
-                (namecmdfriendly ? "friendly " : ""), namecmdold, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+            C_PlayerMessage("The nearest %s%s to %s has been %s " BOLD("%s") ".",
+                (namecmdfriendly ? "friendly " : ""), namecmdold, playername,
+                (*bestmobj->name ? "renamed" : "named"), namecmdnew);
 
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }

@@ -771,7 +771,7 @@ void S_ParseMusInfo(const char *lumpname)
                 // Check number in range
                 if (M_StrToInt(sc_String, (int *)&num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
                 {
-                    int lumpnum = W_CheckNumForName(sc_String);
+                    const int   lumpnum = W_CheckNumForName(sc_String);
 
                     if (lumpnum >= 0)
                     {
@@ -808,7 +808,7 @@ void T_MAPMusic(void)
 
         if (arraypt >= 0 && arraypt < MAX_MUS_ENTRIES)
         {
-            int lumpnum = musinfo.items[arraypt];
+            const int   lumpnum = musinfo.items[arraypt];
 
             if (lumpnum > 0 && lumpnum < numlumps)
                 S_ChangeMusInfoMusic(lumpnum, true);

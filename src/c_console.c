@@ -2292,16 +2292,16 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_UPARROW:
-                // scroll output up
                 if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES)
                 {
+                    // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
                     outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - scrollspeed / TICRATE));
                 }
-                // previous input
                 else
                 {
+                    // previous input
                     if (inputhistory == -1)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
@@ -2322,18 +2322,17 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_DOWNARROW:
-                // scroll output down
                 if ((modstate & KMOD_CTRL) && outputhistory != -1)
                 {
+                    // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
                     if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
                         outputhistory = -1;
                 }
-
-                // next input
                 else
                 {
+                    // next input
                     if (inputhistory != -1)
                     {
                         for (i = inputhistory + 1; i < numconsolestrings; i++)
