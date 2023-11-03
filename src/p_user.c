@@ -519,6 +519,8 @@ void P_AnimateAllStatsFromStart(void)
 
 void P_AnimateHealth(int diff)
 {
+    diff = BETWEEN(-maxhealth, diff, maxhealth);
+
     if (animatedstats)
     {
         healthdiff = diff;
