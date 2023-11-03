@@ -517,18 +517,16 @@ void P_AnimateAllStatsFromStart(void)
     ammodiffspeed[ammotype] = MIN(ABS(-viewplayer->ammo[ammotype]) / 20 + 1, 20);
 }
 
-void P_AnimateHealth(int diff)
+void P_AnimateHealth(const int diff)
 {
-    diff = BETWEEN(-maxhealth, diff, maxhealth);
-
     if (animatedstats)
     {
-        healthdiff = diff;
-        healthdiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+        healthdiff = BETWEEN(-maxhealth, diff, maxhealth);
+        healthdiffspeed = MIN(ABS(healthdiff) / 20 + 1, 20);
     }
 }
 
-void P_AnimateArmor(int diff)
+void P_AnimateArmor(const int diff)
 {
     if (animatedstats)
     {
@@ -537,7 +535,7 @@ void P_AnimateArmor(int diff)
     }
 }
 
-void P_AnimateAmmo(int diff, ammotype_t type)
+void P_AnimateAmmo(const int diff, const ammotype_t type)
 {
     if (animatedstats)
     {
@@ -546,7 +544,7 @@ void P_AnimateAmmo(int diff, ammotype_t type)
     }
 }
 
-void P_AnimateMaxAmmo(int diff, ammotype_t type)
+void P_AnimateMaxAmmo(const int diff, const ammotype_t type)
 {
     if (animatedstats)
     {

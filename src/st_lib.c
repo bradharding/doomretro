@@ -241,7 +241,7 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
     p->p = percent;
 }
 
-void STlib_UpdateBigArmor(st_percent_t *per, int refresh)
+void STlib_UpdateBigArmor(st_percent_t *per, bool refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
@@ -249,7 +249,7 @@ void STlib_UpdateBigArmor(st_percent_t *per, int refresh)
     STlib_UpdateBigArmorNum(&per->n);
 }
 
-void STlib_UpdateBigHealth(st_percent_t *per, int refresh)
+void STlib_UpdateBigHealth(st_percent_t *per, bool refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
