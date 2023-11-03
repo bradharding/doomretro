@@ -600,17 +600,29 @@ static void HU_DrawHUD(void)
 
         if (healthhighlight > currenttime)
         {
-            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc2);
-
-            if (!emptytallpercent)
+            if (emptytallpercent)
+            {
+                health_x -= 4;
+                DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc2);
+            }
+            else
+            {
+                DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc2);
                 hudnumfunc2(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            }
         }
         else
         {
-            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
-
-            if (!emptytallpercent)
+            if (emptytallpercent)
+            {
+                health_x -= 4;
+                DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
+            }
+            else
+            {
+                DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
                 hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            }
         }
     }
 
