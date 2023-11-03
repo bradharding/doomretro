@@ -15,7 +15,9 @@
 * Shadows cast by monsters are now slightly lighter while they attack and the `r_shadows` CVAR is `on`.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF* helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game.
-* Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key now works again if a semi-colon has been entered.
+* Autocompleting text in the console by pressing the <kbd><b>TAB</b></kbd> key now works correctly again if a semi-colon has been entered.
+* The help screen can now be shown while the menu is open by pressing the <kbd><b>F1</b></kbd> key.
+* The player's health now animates correctly in the status bar and widescreen HUD if they are telefragged and the `animatedstats` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
