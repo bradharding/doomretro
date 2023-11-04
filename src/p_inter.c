@@ -2251,7 +2251,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         // [BH] gib corpse if enough damage
         if (r_corpses_gib && damage >= 25)
         {
-            int state = info->xdeathstate;
+            statenum_t  state = info->xdeathstate;
 
             if (state != S_NULL)
             {
@@ -2280,7 +2280,17 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     if (r_corpses_mirrored && (M_BigRandom() & 1))
                         target->flags2 ^= MF2_MIRRORED;
                 }
+            }
+            else
+            {
+                target->giblevel = 2;
+                target->flags2 &= ~MF2_CASTSHADOW;
 
+                P_SetMobjState(target, S_GIBS);
+                S_StartSound(target, sfx_slop);
+
+                if (r_corpses_mirrored && (M_BigRandom() & 1))
+                    target->flags2 ^= MF2_MIRRORED;
             }
         }
 
