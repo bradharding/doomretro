@@ -2281,7 +2281,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                         target->flags2 ^= MF2_MIRRORED;
                 }
             }
-            else
+            else if (type != MT_BARREL && info->mass <= 500)
             {
                 target->giblevel = 2;
                 target->flags2 &= ~MF2_CASTSHADOW;
