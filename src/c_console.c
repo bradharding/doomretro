@@ -2064,7 +2064,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_ENTER:
-                // confirm input
+                // validate input
                 if (consoleinput[0] != '\0')
                 {
                     bool    result = false;
@@ -2176,8 +2176,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
-                    // scroll to top of console
-                    outputhistory = 0;
+                    outputhistory = 0;  // scroll to top
                 else if (caretpos > 0)
                 {
                     // move caret to start
@@ -2191,8 +2190,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_END:
                 if (outputhistory != -1 && numconsolestrings > CONSOLELINES)
-                    // scroll to bottom of console
-                    outputhistory = -1;
+                    outputhistory = -1; // scroll to bottom
                 else if (caretpos < len)
                 {
                     // move caret to end

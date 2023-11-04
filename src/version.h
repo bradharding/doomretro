@@ -47,7 +47,6 @@
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962023 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
-#define DOOMRETRO_ERRORCAPTION          "DOOM Retro crashed!"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
