@@ -58,7 +58,7 @@ int P_PointOnLineSide(const fixed_t x, const fixed_t y, const line_t *line)
 {
     return (!line->dx ? (x <= line->v1->x ? line->dy > 0 : line->dy < 0) :
         (!line->dy ? (y <= line->v1->y ? line->dx < 0 : line->dx > 0) :
-        ((int64_t)y - line->v1->y) * line->dx >= line->dy * ((int64_t)x - line->v1->x)));
+        FixedMul(y - line->v1->y, line->dx >> FRACBITS) >= FixedMul(line->dy >> FRACBITS, x - line->v1->x)));
 }
 
 //
