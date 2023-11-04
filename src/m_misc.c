@@ -711,8 +711,8 @@ bool isuppercase(const char *str)
 {
     const int   len = (int)strlen(str);
 
-    for (int i = 1; i < len; i++)
-        if (islower(str[i]))
+    for (int i = 0; i < len; i++)
+        if (!isupper(str[i]))
             return false;
 
     return true;
@@ -722,8 +722,8 @@ bool islowercase(const char *str)
 {
     const int   len = (int)strlen(str);
 
-    for (int i = 1; i < len; i++)
-        if (isupper(str[i]))
+    for (int i = 0; i < len; i++)
+        if (!islower(str[i]))
             return false;
 
     return true;

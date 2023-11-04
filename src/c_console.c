@@ -2273,7 +2273,14 @@ bool C_Responder(event_t *ev)
                                     || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                     || (spaces1 == 3 && !endspace1)))
                             {
-                                char    *temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
+                                char    *temp;
+
+                                if (isuppercase(input))
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(uppercase(output), input, input), NULL);
+                                else if (islowercase(input))
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(lowercase(output), input, input), NULL);
+                                else
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
 
                                 C_AddToUndoHistory();
                                 M_StringCopy(consoleinput, temp, sizeof(consoleinput));
