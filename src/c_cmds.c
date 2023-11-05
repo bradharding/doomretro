@@ -107,13 +107,13 @@
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
                                     BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("BFG9000") ")."
 
-#define DEADPLAYERWARNING1          "This won't work because you're dead."
-#define DEADPLAYERWARNING2          "This won't work because %s is dead."
+#define DEADPLAYERWARNING1          "This won't work right now because you're dead."
+#define DEADPLAYERWARNING2          "This won't work right now because %s is dead."
 #define NEXTMAPWARNING              "This won't work until the next map."
-#define NOGAMEWARNING1              "This won't work because you're not playing a game."
-#define NOGAMEWARNING2              "This won't work because %s isn't playing a game."
-#define NIGHTMAREWARNING1           "This won't work because you're playing a game in " ITALICS("Nightmare!")
-#define NIGHTMAREWARNING2           "This won't work because %s is playing a game in " ITALICS("Nightmare!")
+#define NOGAMEWARNING1              "This won't work right now because you're not playing a game."
+#define NOGAMEWARNING2              "This won't work right now because %s isn't playing a game."
+#define NIGHTMAREWARNING1           "This won't work right now because you're playing a game in " ITALICS("Nightmare!")
+#define NIGHTMAREWARNING2           "This won't work right now because %s is playing a game in " ITALICS("Nightmare!")
 
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
