@@ -2281,17 +2281,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                         target->flags2 ^= MF2_MIRRORED;
                 }
             }
-            else if (type != MT_BARREL && info->mass <= 500)
-            {
-                target->giblevel = 2;
-                target->flags2 &= ~MF2_CASTSHADOW;
-
-                P_SetMobjState(target, S_GIBS);
-                S_StartSound(target, sfx_slop);
-
-                if (r_corpses_mirrored && (M_BigRandom() & 1))
-                    target->flags2 ^= MF2_MIRRORED;
-            }
         }
 
         return;
