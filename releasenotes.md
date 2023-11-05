@@ -12,14 +12,14 @@
   * Extra blood is no longer spawned when a monster is injured.
   * Blood and bullet puffs are no longer randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
-* Shadows cast by monsters are now slightly lighter while they are fullbright and the `r_shadows` CVAR is `on`.
+* Shadows cast by monsters are now slightly lighter when they are fullbright and the `r_shadows` CVAR is `on`.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
-* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game.
+* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now matches the original text.
   * The text to the left of any semi-colon is no longer cleared.
-* The help screen can now be shown while the menu is open by pressing the <kbd><b>F1</b></kbd> key.
-* The player's health now animates correctly in the status bar and widescreen HUD if they are telefragged and the `animatedstats` CVAR is `on`.
+* The help screen can now be shown opened the menu is open by pressing the <kbd><b>F1</b></kbd> key.
+* If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
