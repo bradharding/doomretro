@@ -779,6 +779,10 @@ static char *SaveGameIWADName(void)
         return (gamemode == commercial ? "freedoom2" : "freedoom");
     else if (hacx)
         return "hacx";
+    else if (chex)
+        return "chex";
+    else if (REKKRSA)
+        return "rekkrsa";
 
     for (size_t i = 0; iwads[i].name[0]; i++)
         if (gamemission == iwads[i].mission)
