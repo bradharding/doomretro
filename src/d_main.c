@@ -1151,7 +1151,8 @@ static bool D_CheckParms(void)
                 iwadrequired = doom2;
 
             // try the current folder first
-            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
+            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder,
+                (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
             D_IdentifyIWADByName(fullpath);
 
             if (W_AddFile(fullpath, true))
@@ -1177,17 +1178,20 @@ static bool D_CheckParms(void)
             {
                 // otherwise try the wadfolder CVAR
 #if defined(_WIN32) || defined(__OpenBSD__) || defined(__HAIKU__)
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadsrequired[iwadrequired]);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
+                    (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
 #else
                 wordexp_t   p;
 
                 if (!wordexp(wadfolder, &p, 0) && p.we_wordc > 0)
                 {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0], iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", p.we_wordv[0],
+                        (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
                     wordfree(&p);
                 }
                 else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
+                        (M_StringCompare(leafname(myargv[1]), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
 #endif
 
                 D_IdentifyIWADByName(fullpath);
@@ -1213,7 +1217,8 @@ static bool D_CheckParms(void)
                 else
                 {
                     // still nothing? try some common installation folders
-                    if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
+                    if (W_AddFile(D_FindWADByName((M_StringCompare(leafname(myargv[1]), "chex2.wad") ?
+                        "chex.wad" : iwadsrequired[iwadrequired])), true))
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
@@ -1396,7 +1401,8 @@ static int D_OpenWADLauncher(void)
 #endif
 
                 // try the current folder first
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, iwadsrequired[iwadrequired]);
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder,
+                    (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1437,7 +1443,8 @@ static int D_OpenWADLauncher(void)
                 else
                 {
                     // otherwise try the wadfolder CVAR
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, iwadsrequired[iwadrequired]);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, 
+                        (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
                     D_IdentifyIWADByName(fullpath);
 
                     if (W_AddFile(fullpath, true))
