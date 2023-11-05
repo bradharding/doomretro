@@ -5873,14 +5873,14 @@ static void C_PlayerStats_Game(void)
         + viewplayer->itemspickedup_ammo_rockets + viewplayer->itemspickedup_ammo_cells);
     temp2 = commify(stat_itemspickedup_ammo_bullets + stat_itemspickedup_ammo_shells
         + stat_itemspickedup_ammo_rockets + stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "Ammo picked up\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, INDENT "Ammo\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].ammoplural);
     temp2 = commify(viewplayer->itemspickedup_ammo_bullets);
     temp3 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, INDENT "%s\t%s\t%s", temp1, temp2, temp3);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t%s\t%s", temp1, temp2, temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5888,7 +5888,7 @@ static void C_PlayerStats_Game(void)
     temp1 = sentencecase(weaponinfo[wp_shotgun].ammoplural);
     temp2 = commify(viewplayer->itemspickedup_ammo_shells);
     temp3 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, INDENT "%s\t%s\t%s", temp1, temp2, temp3);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t%s\t%s", temp1, temp2, temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5896,7 +5896,7 @@ static void C_PlayerStats_Game(void)
     temp1 = sentencecase(weaponinfo[wp_missile].ammoplural);
     temp2 = commify(viewplayer->itemspickedup_ammo_rockets);
     temp3 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, INDENT "%s\t%s\t%s", temp1, temp2, temp3);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t%s\t%s", temp1, temp2, temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5906,7 +5906,7 @@ static void C_PlayerStats_Game(void)
         temp1 = sentencecase(weaponinfo[wp_plasma].ammoplural);
         temp2 = commify(viewplayer->itemspickedup_ammo_cells);
         temp3 = commifystat(stat_itemspickedup_ammo_cells);
-        C_TabbedOutput(tabs, INDENT "%s\t%s\t%s", temp1, temp2, temp3);
+        C_TabbedOutput(tabs, INDENT INDENT "%s\t%s\t%s", temp1, temp2, temp3);
         free(temp1);
         free(temp2);
         free(temp3);
@@ -5914,14 +5914,14 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_armor);
     temp2 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "%s picked up\t%s\t%s",
+    C_TabbedOutput(tabs, INDENT "%s\t%s\t%s",
         (english == english_american ? "Armor" : "Armour"), temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_health);
     temp2 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "Health picked up\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, INDENT "Health\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -6375,24 +6375,24 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = commify(stat_itemspickedup_ammo_bullets + stat_itemspickedup_ammo_shells
         + stat_itemspickedup_ammo_rockets + stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "Ammo picked up\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, INDENT "Ammo\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = sentencecase(weaponinfo[wp_pistol].ammoplural);
     temp2 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(weaponinfo[wp_shotgun].ammoplural);
     temp2 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(weaponinfo[wp_missile].ammoplural);
     temp2 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, INDENT INDENT "%s\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -6400,17 +6400,18 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].ammoplural);
         temp2 = commifystat(stat_itemspickedup_ammo_cells);
-        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, INDENT INDENT "%s\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "%s picked up\t\x96\t%s", (english == english_american ? "Armor" : "Armour"), temp1);
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s",
+        (english == english_american ? "Armor" : "Armour"), temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "Health picked up\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, INDENT "Health\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_secretsfound);
