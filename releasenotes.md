@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * The automap is now shown in low detail when the `r_detail` CVAR is `low`.
 * A bug is fixed whereby the effect of changing a color CVAR for the automap in the console wouldn’t be immediate.
 * Rocket explosions from the player and cyberdemons are now randomly mirrored.
@@ -16,10 +16,11 @@
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
-  * The case of the autocompleted text now matches the original text.
+  * The case of the autocompleted text now always matches the original text.
   * The text to the left of any semi-colon is no longer cleared.
 * The help screen can now be shown opened the menu is open by pressing the <kbd><b>F1</b></kbd> key.
 * If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2: Flemoids Take Chextropolis*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
