@@ -5777,42 +5777,40 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    if (gamemode == commercial)
-    {
-        ShowMonsterKillStat_Game(tabs, MT_BABY);
-        ShowMonsterKillStat_Game(tabs, MT_VILE);
-    }
-
-    ShowMonsterKillStat_Game(tabs, MT_BRUISER);
-    ShowMonsterKillStat_Game(tabs, MT_HEAD);
+    ShowMonsterKillStat_Game(tabs, MT_POSSESSED);
+    ShowMonsterKillStat_Game(tabs, MT_SHOTGUY);
+    ShowMonsterKillStat_Game(tabs, MT_TROOP);
+    ShowMonsterKillStat_Game(tabs, MT_SERGEANT);
+    ShowMonsterKillStat_Game(tabs, MT_SHADOWS);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_CHAINGUY);
 
-    if (gamemode != shareware)
-        ShowMonsterKillStat_Game(tabs, MT_CYBORG);
-
-    if (gamemode == commercial)
-        ShowMonsterKillStat_Game(tabs, MT_KNIGHT);
-
-    ShowMonsterKillStat_Game(tabs, MT_TROOP);
     ShowMonsterKillStat_Game(tabs, MT_SKULL);
+    ShowMonsterKillStat_Game(tabs, MT_HEAD);
 
     if (gamemode == commercial)
     {
-        ShowMonsterKillStat_Game(tabs, MT_FATSO);
+        ShowMonsterKillStat_Game(tabs, MT_KNIGHT);
         ShowMonsterKillStat_Game(tabs, MT_PAIN);
+        ShowMonsterKillStat_Game(tabs, MT_FATSO);
     }
 
-    ShowMonsterKillStat_Game(tabs, MT_SERGEANT);
+    ShowMonsterKillStat_Game(tabs, MT_BRUISER);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_Game(tabs, MT_BABY);
+
     ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
-    ShowMonsterKillStat_Game(tabs, MT_SHOTGUY);
-    ShowMonsterKillStat_Game(tabs, MT_SHADOWS);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_Game(tabs, MT_VILE);
 
     if (gamemode != shareware)
+    {
+        ShowMonsterKillStat_Game(tabs, MT_CYBORG);
         ShowMonsterKillStat_Game(tabs, MT_SPIDER);
-
-    ShowMonsterKillStat_Game(tabs, MT_POSSESSED);
+    }
 
     temp1 = commify(viewplayer->infightcount);
     temp2 = commifystat(stat_monsterskilled_infighting);
@@ -6301,42 +6299,40 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Monsters %s %s\t\x96\t%s", playername, s_KILLED, temp1);
     free(temp1);
 
-    if (gamemode == commercial)
-    {
-        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
-        ShowMonsterKillStat_NoGame(tabs, MT_VILE);
-    }
-
-    ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
-    ShowMonsterKillStat_NoGame(tabs, MT_HEAD);
+    ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
+    ShowMonsterKillStat_NoGame(tabs, MT_SHOTGUY);
+    ShowMonsterKillStat_NoGame(tabs, MT_TROOP);
+    ShowMonsterKillStat_NoGame(tabs, MT_SERGEANT);
+    ShowMonsterKillStat_NoGame(tabs, MT_SHADOWS);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_CHAINGUY);
 
-    if (gamemode != shareware)
-        ShowMonsterKillStat_NoGame(tabs, MT_CYBORG);
-
-    if (gamemode == commercial)
-        ShowMonsterKillStat_NoGame(tabs, MT_KNIGHT);
-
-    ShowMonsterKillStat_NoGame(tabs, MT_TROOP);
     ShowMonsterKillStat_NoGame(tabs, MT_SKULL);
+    ShowMonsterKillStat_NoGame(tabs, MT_HEAD);
 
     if (gamemode == commercial)
     {
-        ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
+        ShowMonsterKillStat_NoGame(tabs, MT_KNIGHT);
         ShowMonsterKillStat_NoGame(tabs, MT_PAIN);
+        ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
     }
 
-    ShowMonsterKillStat_NoGame(tabs, MT_SERGEANT);
+    ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
+
     ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
-    ShowMonsterKillStat_NoGame(tabs, MT_SHOTGUY);
-    ShowMonsterKillStat_NoGame(tabs, MT_SHADOWS);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_NoGame(tabs, MT_VILE);
 
     if (gamemode != shareware)
+    {
+        ShowMonsterKillStat_NoGame(tabs, MT_CYBORG);
         ShowMonsterKillStat_NoGame(tabs, MT_SPIDER);
-
-    ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
+    }
 
     temp1 = commifystat(stat_monsterskilled_infighting);
     C_TabbedOutput(tabs, "Monsters %s while infighting\t\x96\t%s", s_KILLED, temp1);
