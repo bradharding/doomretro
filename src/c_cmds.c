@@ -4657,7 +4657,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         {
             temp = titlecase(*episodes[gameepisode - 1]);
             C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
+                temp, gameepisode,
+                (gamemode == retail ? (sigil ? 5 : 4) : (gamemode == shareware ? 1 : 3)));
             free(temp);
         }
 
