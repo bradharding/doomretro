@@ -214,7 +214,7 @@ extern bool     weaponrecoil;
 
 extern uint64_t stat_automapopened;
 extern uint64_t stat_barrelsexploded;
-extern uint64_t stat_cheated;
+extern uint64_t stat_cheats;
 extern uint64_t stat_damageinflicted;
 extern uint64_t stat_damagereceived;
 extern uint64_t stat_deaths;

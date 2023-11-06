@@ -2018,7 +2018,7 @@ static void D_DoomMainSetup(void)
     {
         C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. "
             "No monsters will now be spawned.");
-        stat_cheated = SafeAdd(stat_cheated, 1);
+        stat_cheats = SafeAdd(stat_cheats, 1);
         M_SaveCVARs();
     }
 
@@ -2067,7 +2067,7 @@ static void D_DoomMainSetup(void)
 
         if (scale > turbo_default)
         {
-            stat_cheated = SafeAdd(stat_cheated, 1);
+            stat_cheats = SafeAdd(stat_cheats, 1);
             M_SaveCVARs();
         }
     }
@@ -2535,7 +2535,7 @@ static void D_DoomMainSetup(void)
 
             if (startmap > 1)
             {
-                stat_cheated = SafeAdd(stat_cheated, 1);
+                stat_cheats = SafeAdd(stat_cheats, 1);
                 M_SaveCVARs();
             }
         }
