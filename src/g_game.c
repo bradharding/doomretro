@@ -1461,7 +1461,7 @@ static void G_DoCompleted(void)
     viewactive = false;
     automapactive = false;
 
-    stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
+    stat_mapsfinished = SafeAdd(stat_mapsfinished, 1);
     M_SaveCVARs();
 
     if (!numconsolestrings || (!M_StringCompare(console[numconsolestrings - 1].string, "exitmap")))

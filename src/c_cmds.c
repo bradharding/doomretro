@@ -5719,10 +5719,10 @@ static void C_PlayerStats_Game(void)
     else
         C_TabbedOutput(tabs, "Map explored\t%i%%\t\x96", nummappedlines * 100 / numvisiblelines);
 
-    temp1 = commifystat(stat_mapscompleted);
+    temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
-    C_TabbedOutput(tabs, "Maps completed\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, stat_mapscompleted * 100 / stat_mapsstarted);
+    C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
+        temp1, temp2, stat_mapsfinished * 100 / stat_mapsstarted);
     free(temp1);
     free(temp2);
 
@@ -6267,10 +6267,10 @@ static void C_PlayerStats_NoGame(void)
 
     C_Header(tabs, playerstats, PLAYERSTATSHEADER);
 
-    temp1 = commifystat(stat_mapscompleted);
+    temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
-    C_TabbedOutput(tabs, "Maps completed\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, stat_mapscompleted * 100 / stat_mapsstarted);
+    C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
+        temp1, temp2, stat_mapsfinished * 100 / stat_mapsstarted);
     free(temp1);
     free(temp2);
 

@@ -229,7 +229,7 @@ extern uint64_t stat_itemspickedup_ammo_rockets;
 extern uint64_t stat_itemspickedup_ammo_shells;
 extern uint64_t stat_itemspickedup_armor;
 extern uint64_t stat_itemspickedup_health;
-extern uint64_t stat_mapscompleted;
+extern uint64_t stat_mapsfinished;
 extern uint64_t stat_mapsstarted;
 extern uint64_t stat_monstersgibbed;
 extern uint64_t stat_monsterskilled_total;
