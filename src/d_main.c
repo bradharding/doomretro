@@ -1065,6 +1065,17 @@ static void D_AutoloadSigil2WAD(void)
 
     if (W_MergeFile(path, true))
         sigil2 = true;
+
+    if (sigil2 && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+    {
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2_SHREDS.wad");
+
+        if (!W_MergeFile(path, true))
+        {
+            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2_SHREDS_COMPAT.wad");
+            W_MergeFile(path, true);
+        }
+    }
 }
 
 static void D_AutoloadNerveWAD(void)
@@ -2508,7 +2519,7 @@ static void D_DoomMainSetup(void)
         const int   temp = myargv[p + 1][0] - '0';
 
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered && temp <= 3)
-            || (gamemode == retail && temp <= 4) || (sigil && temp <= 5))))
+            || (gamemode == retail && temp <= 4) || (sigil && temp <= 5) || (sigil2 && temp <= 6))))
         {
             startepisode = temp;
             episode = temp;

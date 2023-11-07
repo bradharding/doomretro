@@ -2402,7 +2402,8 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     else
         fclose(infile.f);                                       // close real file
 
-    dehcount++;
+    if (!D_IsSIGILWAD(leafname(filename)) && !D_IsSIGIL2WAD(leafname(filename)))
+        dehcount++;
 
     if (addtodehmaptitlecount)
         dehmaptitlecount++;
