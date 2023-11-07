@@ -4123,7 +4123,7 @@ void M_Drawer(void)
                         currentmenu->menuitems[i].y = y + OFFSET;
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
-                    else if (W_CheckNumForName(name) < 0 && **text)
+                    else if ((W_CheckNumForName(name) < 0 && **text) || (sigil2 && M_StringCompare(name, "M_EPI5")))
                     {
                         int width = M_BigStringWidth(*text);
 
