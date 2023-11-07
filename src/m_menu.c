@@ -4088,27 +4088,7 @@ void M_Drawer(void)
                     const char  *name = currentmenu->menuitems[i].name;
                     char        **text = currentmenu->menuitems[i].text;
 
-                    if (M_StringCompare(name, "M_EPI5") && sigil)
-                    {
-                        patch_t *patch = W_CacheLumpName(name);
-
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
-                    }
-                    else if (M_StringCompare(name, "M_EPI6") && sigil2)
-                    {
-                        patch_t *patch = W_CacheLumpName(name);
-
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
-                    }
-                    else if (M_StringCompare(name, "M_NMARE"))
+                    if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
                         {

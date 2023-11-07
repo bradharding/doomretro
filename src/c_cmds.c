@@ -658,7 +658,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(english, "", "", english_cvar_func1, english_cvar_func2, CF_NONE, ENGLISHVALUEALIAS,
         "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
     CVAR_INT(episode, "", "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("5") ")."),
+        "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("6") ")."),
     CCMD(exec, "", "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
         "Executes all commands in a file."),
     CCMD(exitmap, "", "", alive_func1, exitmap_cmd_func2, false, "",
@@ -3982,7 +3982,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             {
                 if (gamemap == 8)
                 {
-                    if (gameepisode != (gamemode == retail ? (sigil ? 5 : 4) : (gamemode == shareware || chex ? 1 : 3)))
+                    if (gameepisode != (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : (gamemode == shareware || chex ? 1 : 3)))
                     {
                         mapcmdepisode = gameepisode + 1;
                         mapcmdmap = 1;
@@ -4036,7 +4036,17 @@ static bool map_cmd_func1(char *cmd, char *parms)
             }
             else if (gamemode == retail)
             {
-                if (sigil)
+                if (sigil2)
+                {
+                    if (!(gameepisode == 6 && gamemap == 8))
+                    {
+                        mapcmdepisode = 6;
+                        mapcmdmap = 8;
+                        M_StringCopy(mapcmdlump, "E6M8", sizeof(mapcmdlump));
+                        result = true;
+                    }
+                }
+                else if (sigil)
                 {
                     if (!(gameepisode == 5 && gamemap == 8))
                     {
@@ -4077,7 +4087,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             else
             {
                 mapcmdepisode = (gamemode == shareware || chex ? 1 :
-                    M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
+                    M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : 3), gameepisode));
                 mapcmdmap = M_BigRandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
 
                 if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && gamemode != shareware && !E1M4)
@@ -4658,7 +4668,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             temp = titlecase(*episodes[gameepisode - 1]);
             C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
                 temp, gameepisode,
-                (gamemode == retail ? (sigil ? 5 : 4) : (gamemode == shareware ? 1 : 3)));
+                (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : (gamemode == shareware ? 1 : 3)));
             free(temp);
         }
 
@@ -5049,6 +5059,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), musictitle);
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
+        else if (sigil2 && gameepisode == 6)
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
             || gamemode == shareware
@@ -5059,6 +5071,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", musicartist);
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
+        else if (sigil2 && gameepisode == 6)
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", (thorr ? "Thorr" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
             || gamemode == shareware

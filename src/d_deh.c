@@ -319,6 +319,15 @@ char    *s_HUSTR_E5M6 = "";
 char    *s_HUSTR_E5M7 = "";
 char    *s_HUSTR_E5M8 = "";
 char    *s_HUSTR_E5M9 = "";
+char    *s_HUSTR_E6M1 = "";
+char    *s_HUSTR_E6M2 = "";
+char    *s_HUSTR_E6M3 = "";
+char    *s_HUSTR_E6M4 = "";
+char    *s_HUSTR_E6M5 = "";
+char    *s_HUSTR_E6M6 = "";
+char    *s_HUSTR_E6M7 = "";
+char    *s_HUSTR_E6M8 = "";
+char    *s_HUSTR_E6M9 = "";
 char    *s_HUSTR_1 = HUSTR_1;
 char    *s_HUSTR_2 = HUSTR_2;
 char    *s_HUSTR_3 = HUSTR_3;
@@ -926,6 +935,15 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_E5M7,                  "HUSTR_E5M7"                  },
     { &s_HUSTR_E5M8,                  "HUSTR_E5M8"                  },
     { &s_HUSTR_E5M9,                  "HUSTR_E5M9"                  },
+    { &s_HUSTR_E6M1,                  "HUSTR_E6M1"                  },
+    { &s_HUSTR_E6M2,                  "HUSTR_E6M2"                  },
+    { &s_HUSTR_E6M3,                  "HUSTR_E6M3"                  },
+    { &s_HUSTR_E6M4,                  "HUSTR_E6M4"                  },
+    { &s_HUSTR_E6M5,                  "HUSTR_E6M5"                  },
+    { &s_HUSTR_E6M6,                  "HUSTR_E6M6"                  },
+    { &s_HUSTR_E6M7,                  "HUSTR_E6M7"                  },
+    { &s_HUSTR_E6M8,                  "HUSTR_E6M8"                  },
+    { &s_HUSTR_E6M9,                  "HUSTR_E6M9"                  },
     { &s_HUSTR_1,                     "HUSTR_1"                     },
     { &s_HUSTR_2,                     "HUSTR_2"                     },
     { &s_HUSTR_3,                     "HUSTR_3"                     },
@@ -1382,7 +1400,16 @@ char **mapnames[] =
     &s_HUSTR_E5M6,
     &s_HUSTR_E5M7,
     &s_HUSTR_E5M8,
-    &s_HUSTR_E5M9
+    &s_HUSTR_E5M9,
+    &s_HUSTR_E6M1,
+    &s_HUSTR_E6M2,
+    &s_HUSTR_E6M3,
+    &s_HUSTR_E6M4,
+    &s_HUSTR_E6M5,
+    &s_HUSTR_E6M6,
+    &s_HUSTR_E6M7,
+    &s_HUSTR_E6M8,
+    &s_HUSTR_E6M9
 };
 
 // DOOM 2 map names.

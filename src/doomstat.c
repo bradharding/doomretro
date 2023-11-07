@@ -45,6 +45,7 @@ bool            sigil2;
 bool            autosigil = false;
 bool            autosigil2 = false;
 bool            buckethead = false;
+bool            thorr = false;
 bool            nerve;
 bool            bfgedition;
 bool            unity;

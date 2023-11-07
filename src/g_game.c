@@ -1335,7 +1335,7 @@ static void G_DoCompleted(void)
             case 8:
                 // [BH] this episode is complete, so select the next episode in the menu
                 if ((gamemode == registered && gameepisode < 3)
-                    || (gamemode == retail && gameepisode < (sigil ? 5 : 4)))
+                    || (gamemode == retail && gameepisode < (sigil ? (sigil2 ? 6 : 5) : 4)))
                 {
                     episode++;
                     EpiDef.laston++;
@@ -1843,7 +1843,12 @@ void G_InitNew(skill_t skill, int ep, int map)
     {
         if (gamemode == retail)
         {
-            if (sigil)
+            if (sigil2)
+            {
+                if (ep > 6)
+                    ep = 6;
+            }
+            else if (sigil)
             {
                 if (ep > 5)
                     ep = 5;

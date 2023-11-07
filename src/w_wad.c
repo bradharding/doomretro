@@ -402,6 +402,12 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can now play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
         }
+        else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
+            || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
+        {
+            buckethead = true;
+            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
+        }
         else if (D_IsSIGIL2WAD(file))
         {
             sigilwadadded = true;
@@ -409,11 +415,10 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can now play John Romero's " ITALICS("SIGIL II")
                 " by choosing it in the episode menu.");
         }
-        else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
-            || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
+        else if (M_StringCompare(file, "SIGIL2_SHREDS.WAD"))
         {
-            buckethead = true;
-            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
+            thorr = true;
+            C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II."));
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
         {

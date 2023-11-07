@@ -307,6 +307,8 @@ static int S_GetMusicNum(void)
                 (gameepisode - 1) * 9 + gamemap) - 1);
         else if (gameepisode == 5 && sigil)
             return (mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
+        else if (gameepisode == 6 && sigil2)
+            return (mus_e6m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
         else
         {
             const int   spmus[] =

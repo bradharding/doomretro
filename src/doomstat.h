@@ -91,6 +91,7 @@ extern bool             sigil2;
 extern bool             autosigil;
 extern bool             autosigil2;
 extern bool             buckethead;
+extern bool             thorr;
 extern bool             nerve;
 extern bool             bfgedition;
 extern bool             unity;
