@@ -613,8 +613,6 @@ static void P_NightmareRespawn(mobj_t *mobj)
     mo->spawnpoint = mobj->spawnpoint;
     mo->angle = ANG45 * (mthing->angle / 45);
 
-    mo->flags &= ~MF_COUNTKILL;
-
     if (mthing->options & MTF_AMBUSH)
         mo->flags |= MF_AMBUSH;
 
