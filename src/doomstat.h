@@ -87,7 +87,9 @@ extern char             speciallumpname[6];
 extern bool             freeze;
 
 extern bool             sigil;
+extern bool             sigil2;
 extern bool             autosigil;
+extern bool             autosigil2;
 extern bool             buckethead;
 extern bool             nerve;
 extern bool             bfgedition;

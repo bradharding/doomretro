@@ -41,7 +41,9 @@ gamemission_t   gamemission = doom;
 char            gamedescription[255];
 
 bool            sigil;
+bool            sigil2;
 bool            autosigil = false;
+bool            autosigil2 = false;
 bool            buckethead = false;
 bool            nerve;
 bool            bfgedition;

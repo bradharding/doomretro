@@ -402,6 +402,13 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can now play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
         }
+        else if (D_IsSIGIL2WAD(file))
+        {
+            sigilwadadded = true;
+            autosigil2 = autoloaded;
+            C_Output("You can now play John Romero's " ITALICS("SIGIL II")
+                " by choosing it in the episode menu.");
+        }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
         {

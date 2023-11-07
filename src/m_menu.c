@@ -4098,6 +4098,16 @@ void M_Drawer(void)
                         widest = MAX(widest, SHORT(patch->width));
                         currentmenu->menuitems[i].height = SHORT(patch->height);
                     }
+                    else if (M_StringCompare(name, "M_EPI6") && sigil2)
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
+                        widest = MAX(widest, SHORT(patch->width));
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                    }
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
@@ -4421,6 +4431,8 @@ void M_Init(void)
         NewDef.prevmenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems = 3;
+    else if (gamemode == retail && sigil2)
+        EpiDef.numitems = 6;
     else if (gamemode == retail && sigil)
         EpiDef.numitems = 5;
     else

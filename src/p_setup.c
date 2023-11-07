@@ -3166,6 +3166,7 @@ void P_SetupLevel(int ep, int map)
 
     canmodify = ((W_GetNumLumps(lumpname) == 1
         || (sigil && gamemission == doom)
+        || (sigil2 && gamemission == doom)
         || gamemission == pack_nerve
         || (nerve && gamemission == doom2))
         && !FREEDOOM
@@ -3382,7 +3383,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     file = leafname(lumpinfo[lumpnum]->wadfile->path);
 
-    if (M_StringCompare(file, "NERVE.wad") || D_IsSIGILWAD(file))
+    if (M_StringCompare(file, "NERVE.wad") || D_IsSIGILWAD(file) || D_IsSIGIL2WAD(file))
         return false;
 
     MAPINFO = lumpnum;
@@ -3449,9 +3450,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             break;
 
                         case MCMD_NOJUMP:
-                            if (!autosigil)
-                                nojump = true;
-
+                            nojump = true;
                             break;
 
                         case MCMD_NOFREELOOK:

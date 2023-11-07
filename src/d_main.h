@@ -84,5 +84,6 @@ void D_StartTitle(int page);
 void D_FadeScreenToBlack(void);
 void D_FadeScreen(bool screenshot);
 bool D_IsSIGILWAD(char *filename);
+bool D_IsSIGIL2WAD(char *filename);
 bool D_IsDOOMIWAD(char *filename);
 void D_CheckSupportedPWAD(char *filename);
