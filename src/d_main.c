@@ -1061,6 +1061,9 @@ static void D_AutoloadSigil2WAD(void)
 {
     char    path[MAX_PATH];
 
+    if (!sigil)
+        return;
+
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2.wad");
 
     if (W_MergeFile(path, true))
