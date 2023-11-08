@@ -294,6 +294,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 {
     static bool resourcewadadded;
     static bool sigilwadadded;
+    static bool sigil2wadadded;
     static bool nervewadadded;
     wadinfo_t   header;
     size_t      length;
@@ -328,6 +329,11 @@ bool W_AddFile(char *filename, bool autoloaded)
         return false;
     else if (buckethead && (M_StringCompare(file, "SIGIL_SHREDS.wad")
         || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad")))
+        return false;
+    else if (sigil2wadadded && D_IsSIGIL2WAD(file))
+        return false;
+    else if (thorr && (M_StringCompare(file, "SIGIL2_SHREDS.wad")
+        || M_StringCompare(file, "SIGIL2_SHREDS_COMPAT.wad")))
         return false;
     else if (nervewadadded && M_StringCompare(file, "NERVE.WAD"))
         return false;
@@ -410,7 +416,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (D_IsSIGIL2WAD(file))
         {
-            sigilwadadded = true;
+            sigil2wadadded = true;
             autosigil2 = autoloaded;
             C_Output("You can now play John Romero's " ITALICS("SIGIL II")
                 " by choosing it in the episode menu.");
