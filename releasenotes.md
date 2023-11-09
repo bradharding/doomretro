@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v17.7.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
+* Support has been added for John Romero's newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
 * The automap is now shown in low detail when the `r_detail` CVAR is `low`.
 * A bug is fixed whereby the effect of changing a color CVAR for the automap in the console wouldn’t be immediate.
@@ -21,7 +22,7 @@
 * The help screen can now be shown opened the menu is open by pressing the <kbd><b>F1</b></kbd> key.
 * If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2: Flemoids Take Chextropolis*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
-* A bug is fixed whereby monsters would only respawn once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
+* A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

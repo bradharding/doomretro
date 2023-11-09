@@ -4810,6 +4810,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
             || M_StringCompare(wadname, "SIGIL_v1_2.wad"))
             C_TabbedOutput(tabs, INDENT "Release date\tSeptember 10, 2019");
+        else if (M_StringCompare(wadname, "SIGIL2.wad"))
+            C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 2023");
         else if (M_StringCompare(wadname, "DOOM2.WAD"))
         {
             if (unity)

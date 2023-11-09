@@ -519,6 +519,7 @@ char    *s_E2TEXT = E2TEXT;
 char    *s_E3TEXT = E3TEXT;
 char    *s_E4TEXT = E4TEXT;
 char    *s_E5TEXT = "";
+char    *s_E6TEXT = "";
 char    *s_C1TEXT = C1TEXT;
 char    *s_C2TEXT = C2TEXT;
 char    *s_C3TEXT = C3TEXT;
@@ -638,6 +639,7 @@ char    *bgflatE2 = "SFLR6_1";
 char    *bgflatE3 = "MFLR8_4";
 char    *bgflatE4 = "MFLR8_3";
 char    *bgflatE5 = "FLOOR4_8";
+char    *bgflatE6 = "FLOOR4_8";
 char    *bgflat06 = "SLIME16";
 char    *bgflat11 = "RROCK14";
 char    *bgflat20 = "RROCK07";
@@ -1132,6 +1134,7 @@ deh_strs deh_strlookup[] =
     { &s_E3TEXT,                      "E3TEXT"                      },
     { &s_E4TEXT,                      "E4TEXT"                      },
     { &s_E5TEXT,                      "E5TEXT"                      },
+    { &s_E6TEXT,                      "E6TEXT"                      },
     { &s_C1TEXT,                      "C1TEXT"                      },
     { &s_C2TEXT,                      "C2TEXT"                      },
     { &s_C3TEXT,                      "C3TEXT"                      },
@@ -1251,6 +1254,7 @@ deh_strs deh_strlookup[] =
     { &bgflatE3,                      "BGFLATE3"                    },
     { &bgflatE4,                      "BGFLATE4"                    },
     { &bgflatE5,                      "BGFLATE5"                    },
+    { &bgflatE6,                      "BGFLATE6"                    },
     { &bgflat06,                      "BGFLAT06"                    },
     { &bgflat11,                      "BGFLAT11"                    },
     { &bgflat15,                      "BGFLAT15"                    },
