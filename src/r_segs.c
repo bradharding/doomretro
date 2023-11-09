@@ -583,19 +583,21 @@ unsigned int maxdrawsegs;
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t dx, dy;
-    int64_t dx1, dy1;
-    int64_t len;
-    int     worldtop;
-    int     worldbottom;
-    int     worldhigh = 0;
-    int     worldlow = 0;
-    side_t  *sidedef;
+    int64_t         dx, dy;
+    int64_t         dx1, dy1;
+    int64_t         len;
+    int             worldtop;
+    int             worldbottom;
+    int             worldhigh = 0;
+    int             worldlow = 0;
+    side_t          *sidedef;
+    unsigned short  flags;
 
     linedef = curline->linedef;
+    flags = linedef->flags;
 
     // mark the segment as visible for automap
-    if (!menuactive && !(linedef->flags & ML_MAPPED))
+    if (!menuactive && !(flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
     {
         nummappedlines++;
         linedef->flags |= ML_MAPPED;
