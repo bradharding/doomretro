@@ -569,11 +569,6 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
             mobj->colfunc = tl50colfunc;
             mobj->altcolfunc = tl50colfunc;
         }
-        else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        {
-            mobj->colfunc = tlredwhitecolfunc1;
-            mobj->altcolfunc = tlred33colfunc;
-        }
         else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
         {
             mobj->colfunc = tlblue25colfunc;
@@ -918,11 +913,6 @@ void R_InitColumnFunctions(void)
         {
             info->colfunc = tl50colfunc;
             info->altcolfunc = tl50colfunc;
-        }
-        else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        {
-            info->colfunc = tlredwhitecolfunc1;
-            info->altcolfunc = tlred33colfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
         {

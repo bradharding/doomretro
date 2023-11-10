@@ -279,9 +279,6 @@ enum
     // Apply 50% alpha translucency
     MF2_TRANSLUCENT_50              = 0x00000020,
 
-    // Apply additive translucency on all red to white
-    MF2_TRANSLUCENT_REDWHITEONLY    = 0x00000040,
-
     // Don't randomly mirror this object when a corpse
     MF2_NOMIRROREDCORPSE            = 0x00000080,
 

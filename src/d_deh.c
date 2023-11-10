@@ -1776,23 +1776,22 @@ static const struct deh_flag_s deh_mobjflags[] =
 
 static const struct deh_flag_s deh_mobjflags2[] =
 {
-    { "TRANSLUCENT",               MF2_TRANSLUCENT              },
-    { "TRANSLUCENT_REDONLY",       MF2_TRANSLUCENT_REDONLY      },
-    { "TRANSLUCENT_GREENONLY",     MF2_TRANSLUCENT_GREENONLY    },
-    { "TRANSLUCENT_BLUEONLY",      MF2_TRANSLUCENT_BLUEONLY     },
-    { "TRANSLUCENT_33",            MF2_TRANSLUCENT_33           },
-    { "TRANSLUCENT_50",            MF2_TRANSLUCENT_50           },
-    { "TRANSLUCENT_REDWHITEONLY",  MF2_TRANSLUCENT_REDWHITEONLY },
-    { "NOMIRROREDCORPSE",          MF2_NOMIRROREDCORPSE         },
-    { "TRANSLUCENT_BLUE_25",       MF2_TRANSLUCENT_BLUE_25      },
-    { "FLOATBOB",                  MF2_FLOATBOB                 },
-    { "PASSMOBJ",                  MF2_PASSMOBJ                 },
-    { "FOOTCLIP",                  MF2_FOOTCLIP                 },
-    { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB              },
-    { "CASTSHADOW",                MF2_CASTSHADOW               },
-    { "DONTMAP",                   MF2_DONTMAP                  },
-    { "CRUSHABLE",                 MF2_CRUSHABLE                },
-    { "DECORATION",                MF2_DECORATION               }
+    { "TRANSLUCENT",           MF2_TRANSLUCENT              },
+    { "TRANSLUCENT_REDONLY",   MF2_TRANSLUCENT_REDONLY      },
+    { "TRANSLUCENT_GREENONLY", MF2_TRANSLUCENT_GREENONLY    },
+    { "TRANSLUCENT_BLUEONLY",  MF2_TRANSLUCENT_BLUEONLY     },
+    { "TRANSLUCENT_33",        MF2_TRANSLUCENT_33           },
+    { "TRANSLUCENT_50",        MF2_TRANSLUCENT_50           },
+    { "NOMIRROREDCORPSE",      MF2_NOMIRROREDCORPSE         },
+    { "TRANSLUCENT_BLUE_25",   MF2_TRANSLUCENT_BLUE_25      },
+    { "FLOATBOB",              MF2_FLOATBOB                 },
+    { "PASSMOBJ",              MF2_PASSMOBJ                 },
+    { "FOOTCLIP",              MF2_FOOTCLIP                 },
+    { "NOLIQUIDBOB",           MF2_NOLIQUIDBOB              },
+    { "CASTSHADOW",            MF2_CASTSHADOW               },
+    { "DONTMAP",               MF2_DONTMAP                  },
+    { "CRUSHABLE",             MF2_CRUSHABLE                },
+    { "DECORATION",            MF2_DECORATION               }
 };
 
 #define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
