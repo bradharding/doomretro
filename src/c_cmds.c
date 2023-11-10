@@ -3002,9 +3002,12 @@ static void give_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM."),
+                    {
+                        C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM.")
+                            " You can buy the full version on " ITALICS("Steam") ", etc.",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                    }
                     else
                     {
                         bool    old_freeze = freeze;
@@ -3844,7 +3847,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 mobjinfo[type].plural1, gamedescription);
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                             C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM."),
-                                mobjinfo[type].plural1);
+                                " You can buy the full version on " ITALICS("Steam") ", etc.", mobjinfo[type].plural1);
                     }
                     else
                         C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1,
@@ -7358,7 +7361,8 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                         }
                         else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM."),
+                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM.")
+                                " You can buy the full version on " ITALICS("Steam") ", etc.",
                                 mobjinfo[type].plural1, gamedescription);
                             return;
                         }
@@ -7506,7 +7510,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM."), buffer);
+                C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM.")
+                    " You can buy the full version on " ITALICS("Steam") ", etc.", buffer);
                 spawn = false;
             }
         }

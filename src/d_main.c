@@ -2448,8 +2448,8 @@ static void D_DoomMainSetup(void)
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
 
     if (gamemode == shareware)
-        C_Warning(0, "This is the shareware version of " ITALICS("DOOM") ". "
-            "You can buy the full version on " ITALICS("Steam") ", etc.");
+        C_Warning(0, "This is the shareware version of " ITALICS("DOOM.")
+            " You can buy the full version on " ITALICS("Steam") ", etc.");
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
