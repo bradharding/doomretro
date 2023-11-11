@@ -129,7 +129,7 @@
 #define TIMECVARWITHNODEFAULT1      "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 #define TIMECVARWITHNODEFAULT2      "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
-#define INDENT                      "      "
+#define INDENT                      "       "
 
 alias_t     aliases[MAXALIASES];
 
