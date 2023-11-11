@@ -5820,22 +5820,20 @@ static void C_PlayerStats_Game(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_CHAINGUY);
 
-    ShowMonsterKillStat_Game(tabs, MT_SKULL);
     ShowMonsterKillStat_Game(tabs, MT_HEAD);
+    ShowMonsterKillStat_Game(tabs, MT_SKULL);
 
     if (gamemode == commercial)
-    {
         ShowMonsterKillStat_Game(tabs, MT_KNIGHT);
-        ShowMonsterKillStat_Game(tabs, MT_PAIN);
-        ShowMonsterKillStat_Game(tabs, MT_FATSO);
-    }
 
     ShowMonsterKillStat_Game(tabs, MT_BRUISER);
 
     if (gamemode == commercial)
     {
-        ShowMonsterKillStat_Game(tabs, MT_BABY);
         ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
+        ShowMonsterKillStat_Game(tabs, MT_BABY);
+        ShowMonsterKillStat_Game(tabs, MT_FATSO);
+        ShowMonsterKillStat_Game(tabs, MT_PAIN);
         ShowMonsterKillStat_Game(tabs, MT_VILE);
     }
 
@@ -6341,22 +6339,20 @@ static void C_PlayerStats_NoGame(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_CHAINGUY);
 
-    ShowMonsterKillStat_NoGame(tabs, MT_SKULL);
     ShowMonsterKillStat_NoGame(tabs, MT_HEAD);
+    ShowMonsterKillStat_NoGame(tabs, MT_SKULL);
 
     if (gamemode == commercial)
-    {
         ShowMonsterKillStat_NoGame(tabs, MT_KNIGHT);
-        ShowMonsterKillStat_NoGame(tabs, MT_PAIN);
-        ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
-    }
 
     ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
 
     if (gamemode == commercial)
     {
-        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
         ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
+        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
+        ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
+        ShowMonsterKillStat_NoGame(tabs, MT_PAIN);
         ShowMonsterKillStat_NoGame(tabs, MT_VILE);
     }
 
