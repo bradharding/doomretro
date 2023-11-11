@@ -401,7 +401,26 @@ bool W_AddFile(char *filename, bool autoloaded)
             wadfile->path);
         free(temp);
 
-        if (D_IsSIGILWAD(file))
+        if (D_IsDOOM1IWAD(file))
+        {
+            if (M_StringCompare(file, "DOOM1.WAD"))
+                C_Warning(0, "This is the shareware version of " ITALICS("DOOM") "."
+                    " You can buy the full version on " ITALICS("Steam") ", etc.");
+            else if (!E1M4)
+            {
+                if (!E1M8)
+                    C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                        " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
+                        BOLD("map E1M8B") ".");
+                else
+                    C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                        " by entering " BOLD("map E1M4B") ".");
+            }
+            else if (!E1M8)
+                C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
+                    " by entering " BOLD("map E1M8B") ".");
+        }
+        else if (D_IsSIGILWAD(file))
         {
             sigilwadadded = true;
             autosigil = autoloaded;
@@ -412,7 +431,7 @@ bool W_AddFile(char *filename, bool autoloaded)
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
         {
             buckethead = true;
-            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL."));
+            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL") ".");
         }
         else if (D_IsSIGIL2WAD(file))
         {
@@ -421,10 +440,11 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can now play John Romero's " ITALICS("SIGIL II")
                 " by choosing it in the episode menu.");
         }
-        else if (M_StringCompare(file, "SIGIL2_SHREDS.WAD"))
+        else if (M_StringCompare(file, "SIGIL2_SHREDS.WAD")
+            || M_StringCompare(file, "SIGIL_SHREDS2_COMPAT.wad"))
         {
             thorr = true;
-            C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II."));
+            C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II") ".");
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
         {

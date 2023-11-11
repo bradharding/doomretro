@@ -800,7 +800,7 @@ static void LoadCfgFile(char *path)
         M_LoadCVARs(cfgpath);
 }
 
-static bool D_IsDOOM1IWAD(char *filename)
+bool D_IsDOOM1IWAD(char *filename)
 {
     const char  *file = leafname(filename);
 
@@ -1311,8 +1311,6 @@ static int D_OpenWADLauncher(void)
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.deh;*.bex;*.cfg\0";
     ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
@@ -2394,23 +2392,6 @@ static void D_DoomMainSetup(void)
     STYSNUM0 = (W_GetNumLumps("STYSNUM0") > 1);
     WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 
-    if (gamemission == doom)
-    {
-        if (!E1M4)
-        {
-            if (!E1M8)
-                C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
-                    " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
-                    BOLD("map E1M8B") ".");
-            else
-                C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
-                    " by entering " BOLD("map E1M4B") ".");
-        }
-        else if (!E1M8)
-            C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
-                " by entering " BOLD("map E1M8B") ".");
-    }
-
     I_InitGraphics();
     I_InitGameController();
 
@@ -2446,10 +2427,6 @@ static void D_DoomMainSetup(void)
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
-
-    if (gamemode == shareware)
-        C_Warning(0, "This is the shareware version of " ITALICS("DOOM") "."
-            " You can buy the full version on " ITALICS("Steam") ", etc.");
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
