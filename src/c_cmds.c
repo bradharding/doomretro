@@ -4852,8 +4852,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
-        (mbf21compatible ? ITALICS("MBF21") : (mbfcompatible ? ITALICS("MBF") : (boomcompatible ? ITALICS("BOOM") :
-        (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
+        (mbf21compatible ? ITALICS("MBF21") :
+            (mbfcompatible ? ITALICS("MBF") :
+                (boomcompatible ? ITALICS("BOOM") :
+                    (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
     {
         const int   partime = G_GetParTime();
@@ -5831,12 +5833,11 @@ static void C_PlayerStats_Game(void)
     ShowMonsterKillStat_Game(tabs, MT_BRUISER);
 
     if (gamemode == commercial)
+    {
         ShowMonsterKillStat_Game(tabs, MT_BABY);
-
-    ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
-
-    if (gamemode == commercial)
+        ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
         ShowMonsterKillStat_Game(tabs, MT_VILE);
+    }
 
     if (gamemode != shareware)
     {
@@ -6353,12 +6354,11 @@ static void C_PlayerStats_NoGame(void)
     ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
 
     if (gamemode == commercial)
+    {
         ShowMonsterKillStat_NoGame(tabs, MT_BABY);
-
-    ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
-
-    if (gamemode == commercial)
+        ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
         ShowMonsterKillStat_NoGame(tabs, MT_VILE);
+    }
 
     if (gamemode != shareware)
     {
