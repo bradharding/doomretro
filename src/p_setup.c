@@ -3555,27 +3555,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                     if ((name1 && SC_Compare(name1))
                                         || (name2 && SC_Compare(name2))
                                         || (name3 && SC_Compare(name3)))
-                                    {
-                                        if (name1)
-                                            free(name1);
-
-                                        if (name2)
-                                            free(name2);
-
-                                        if (name3)
-                                            free(name3);
-
                                         break;
-                                    }
-
-                                    if (name1)
-                                        free(name1);
-
-                                    if (name2)
-                                        free(name2);
-
-                                    if (name3)
-                                        free(name3);
                                 }
 
                                 if (i < NUMMOBJTYPES)
