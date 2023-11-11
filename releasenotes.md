@@ -13,7 +13,7 @@
   * Extra blood is no longer spawned when a monster is injured.
   * Blood and bullet puffs are no longer randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
-* Shadows cast by monsters are now slightly lighter when they are fullbright and the `r_shadows` CVAR is `on`.
+* When the `r_shadows` CVAR is `on`, if a monster becomes fullbright when attacking, the shadow they cast now momentarily becomes slightly lighter.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
@@ -23,7 +23,7 @@
 * If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
-* The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has improved.
+* The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has now been fixed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
