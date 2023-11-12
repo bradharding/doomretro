@@ -368,7 +368,7 @@ static void WI_DrawLF(void)
 {
     const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd, wbs->last + 1);
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->last + 1);
 
     // draw <LevelName>
     if (titlepatch > 0)
@@ -426,7 +426,7 @@ static void WI_DrawEL(void)
 {
     const int   x = (VANILLAWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd, wbs->next + 1);
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->next + 1);
 
     // draw "Entering"
     if (SHORT(entering->height) < VANILLAHEIGHT)
