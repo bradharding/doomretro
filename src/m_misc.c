@@ -885,7 +885,7 @@ char *removenonalpha(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
-            if (!isspace((unsigned char)*input) && *input != '-' && *input != '(' && *input != ')')
+            if (isalnum((unsigned char)*input))
                 *p2++ = *input++;
             else
                 input++;

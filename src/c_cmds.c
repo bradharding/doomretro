@@ -5480,13 +5480,13 @@ static char *playcmdname;
 
 static bool play_cmd_func1(char *cmd, char *parms)
 {
-    char    namebuf[9];
-
     if (!*parms)
         return true;
 
     for (int i = 1; i < NUMSFX; i++)
     {
+        char    namebuf[9];
+
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", s_sfx[i].name2);
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
@@ -5500,6 +5500,8 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
     for (int i = 1; i < NUMMUSIC; i++)
     {
+        char    namebuf[9];
+
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
@@ -5508,6 +5510,48 @@ static bool play_cmd_func1(char *cmd, char *parms)
             playcmdtype = 2;
             playcmdname = uppercase(namebuf);
             return true;
+        }
+
+        if (!M_StringCompare(s_music[i].title1, "n/a"))
+        {
+            char    *titlebuf = removenonalpha(s_music[i].title1);
+
+            if (M_StringCompare(parms, titlebuf))
+            {
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
+
+                if (W_CheckNumForName(namebuf) >= 0)
+                {
+                    playcmdid = i;
+                    playcmdtype = 3;
+                    playcmdname = M_StringDuplicate(s_music[i].title1);
+                    free(titlebuf);
+                    return true;
+                }
+            }
+
+            free(titlebuf);
+
+            if (!M_StringCompare(s_music[i].title1, s_music[i].title2))
+            {
+                titlebuf = removenonalpha(s_music[i].title2);
+
+                if (M_StringCompare(parms, titlebuf))
+                {
+                    M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
+
+                    if (W_CheckNumForName(namebuf) >= 0)
+                    {
+                        playcmdid = i;
+                        playcmdtype = 3;
+                        playcmdname = M_StringDuplicate(s_music[i].title1);
+                        free(titlebuf);
+                        return true;
+                    }
+                }
+
+                free(titlebuf);
+            }
         }
     }
 
@@ -5526,11 +5570,21 @@ static void play_cmd_func2(char *cmd, char *parms)
     else
     {
         if (playcmdtype == 1)
+        {
             S_StartSound(NULL, playcmdid);
-        else
+            C_Output("Playing " BOLD("%s") "...", playcmdname);
+        }
+        else if (playcmdtype == 2)
+        {
             S_ChangeMusic(playcmdid, true, true, false);
+            C_Output("Playing " BOLD("%s") "...", playcmdname);
+        }
+        else if (playcmdtype == 3)
+        {
+            S_ChangeMusic(playcmdid, true, true, false);
+            C_Output("Playing " ITALICS("%s") "...", playcmdname);
+        }
 
-        C_Output("Playing " BOLD("%s") "...", playcmdname);
         free(playcmdname);
     }
 }
