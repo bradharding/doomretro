@@ -7,7 +7,7 @@
 * Support has been added for John Romero's newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
 * The automap is now also shown in low detail when the `r_detail` CVAR is `low`.
-* A bug is fixed whereby the effect of changing a color CVAR for the automap in the console wouldn’t be immediate.
+* A bug is fixed whereby the effects of changing any color CVAR for the automap in the console wouldn’t be immediate.
 * Rocket explosions from the player and cyberdemons are now randomly mirrored.
 * These changes have been made when vanilla mode is enabled:
   * Extra blood is no longer spawned when a monster is injured.
@@ -22,7 +22,7 @@
   * The text to the left of any semi-colon is no longer cleared.
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
-* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Harmony Compatible*](https://www.doomworld.com/idgames/levels/doom2/Ports/g-i/harmonyc) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
 * The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has now been fixed.
 
