@@ -2339,6 +2339,9 @@ static void D_DoomMainSetup(void)
                 autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
+
+                if (autoloading)
+                    autoloading |= W_AutoloadFile("SIGIL2.wad", autoloadiwadsubfolder, false);
             }
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
@@ -2410,7 +2413,7 @@ static void D_DoomMainSetup(void)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
                 BOLD("%s") ", " BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
                 autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
-        else if (!M_CheckParm("-noautoload") && gamemode != shareware)
+        else
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
                 BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
                 autoloadfolder, autoloadiwadsubfolder);
