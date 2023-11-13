@@ -5577,11 +5577,19 @@ static void play_cmd_func2(char *cmd, char *parms)
         else if (playcmdtype == 2)
         {
             S_ChangeMusic(playcmdid, true, true, false);
+
+            if (consoleactive)
+                S_LowerMusicVolume();
+
             C_Output("Playing " BOLD("%s") "...", playcmdname);
         }
         else if (playcmdtype == 3)
         {
             S_ChangeMusic(playcmdid, true, true, false);
+
+            if (consoleactive)
+                S_LowerMusicVolume();
+
             C_Output("Playing " ITALICS("%s") "...", playcmdname);
         }
 
