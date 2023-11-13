@@ -131,6 +131,7 @@ extern bool             doomzero;
 extern bool             earthless;
 extern bool             ganymede;
 extern bool             harmony;
+extern bool             harmonyc;
 extern bool             neis;
 extern bool             revolution;
 extern bool             scientist;

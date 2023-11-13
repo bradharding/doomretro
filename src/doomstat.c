@@ -85,6 +85,7 @@ bool            doomzero;
 bool            earthless;
 bool            ganymede;
 bool            harmony;
+bool            harmonyc;
 bool            neis;
 bool            revolution;
 bool            scientist;
