@@ -415,9 +415,12 @@ static void ST_RefreshBackground(void)
     }
 }
 
-static void ST_PlayerCheated(const char *cheat, const char *output, const bool warning)
+static void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning)
 {
-    C_Cheat(cheat);
+    char    *temp = M_StringJoin(cheat, parm, NULL);
+
+    C_Cheat(temp);
+    free(temp);
 
     if (output)
         C_Output(output);
@@ -486,13 +489,13 @@ bool ST_Responder(const event_t *ev)
                     if (oldhealth < initial_health)
                         P_AddBonus();
 
-                    ST_PlayerCheated(cheat_god.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_god.sequence, "", NULL, true);
                     C_Output(s_STSTR_DQDON);
                     HU_SetPlayerMessage(s_STSTR_DQDON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_god.sequence, NULL, false);
+                    ST_PlayerCheated(cheat_god.sequence, "", NULL, false);
                     C_Output(s_STSTR_DQDOFF);
                     HU_SetPlayerMessage(s_STSTR_DQDOFF, false, false);
 
@@ -536,7 +539,7 @@ bool ST_Responder(const event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_ammonokey.sequence, "", NULL, true);
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
                     message_dontfuckwithme = true;
@@ -579,7 +582,7 @@ bool ST_Responder(const event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    ST_PlayerCheated(cheat_ammo.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_ammo.sequence, "", NULL, true);
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
                     message_dontfuckwithme = true;
@@ -618,8 +621,7 @@ bool ST_Responder(const event_t *ev)
                             S_StartSound(NULL, sfx_getpow);
 
                             S_ChangeMusic(musnum, 1, true, false);
-
-                            ST_PlayerCheated(cheat_mus_xy.sequence, NULL, false);
+                            ST_PlayerCheated(cheat_mus_xy.sequence, "xy", NULL, false);
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
@@ -648,13 +650,13 @@ bool ST_Responder(const event_t *ev)
 
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
-                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, true);
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), "", NULL, true);
                     C_Output(s_STSTR_NCON);
                     HU_SetPlayerMessage(s_STSTR_NCON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, false);
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), "", NULL, false);
                     C_Output(s_STSTR_NCOFF);
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
                 }
@@ -713,7 +715,7 @@ bool ST_Responder(const event_t *ev)
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
-                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, true);
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, "x", buffer, true);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
@@ -762,7 +764,7 @@ bool ST_Responder(const event_t *ev)
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
-                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, "x", buffer, false);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
@@ -854,7 +856,7 @@ bool ST_Responder(const event_t *ev)
                     P_GivePower(pw_invulnerability);
                     viewplayer->powers[pw_invulnerability] = -1;
 
-                    ST_PlayerCheated(cheat_choppers.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_choppers.sequence, "", NULL, true);
                     C_Output(s_STSTR_CHOPPERS);
                     HU_SetPlayerMessage(s_STSTR_CHOPPERS, false, false);
 
@@ -874,7 +876,7 @@ bool ST_Responder(const event_t *ev)
                     viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
 
-                    ST_PlayerCheated(cheat_choppers.sequence, NULL, false);
+                    ST_PlayerCheated(cheat_choppers.sequence, "", NULL, false);
                 }
             }
 
@@ -885,7 +887,7 @@ bool ST_Responder(const event_t *ev)
 
                 // [BH] message stays on screen until toggled off again using cheat.
                 viewplayer->cheats ^= CF_MYPOS;
-                ST_PlayerCheated(cheat_mypos.sequence, NULL, (viewplayer->cheats & CF_MYPOS));
+                ST_PlayerCheated(cheat_mypos.sequence, "", NULL, (viewplayer->cheats & CF_MYPOS));
             }
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
@@ -899,13 +901,13 @@ bool ST_Responder(const event_t *ev)
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
-                    ST_PlayerCheated(cheat_buddha.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_buddha.sequence, "", NULL, true);
                     C_Output(s_STSTR_BUDDHAON);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_buddha.sequence, NULL, false);
+                    ST_PlayerCheated(cheat_buddha.sequence, "", NULL, false);
                     C_Output(s_STSTR_BUDDHAOFF);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAOFF, false, false);
                 }
@@ -921,17 +923,17 @@ bool ST_Responder(const event_t *ev)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP;
                     viewplayer->cheats |= CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
                 }
                 else if (viewplayer->cheats & CF_ALLMAP_THINGS)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, NULL, false);
+                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, false);
                 }
                 else
                 {
                     viewplayer->cheats |= CF_ALLMAP;
-                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
                 }
             }
 
@@ -974,7 +976,7 @@ bool ST_Responder(const event_t *ev)
                     static char message[128];
 
                     S_StartSound(NULL, sfx_getpow);
-                    ST_PlayerCheated(cheat_clev_xy.sequence, NULL, true);
+                    ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
