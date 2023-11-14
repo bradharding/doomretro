@@ -5360,9 +5360,8 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
                 while (thing)
                 {
                     const mobjtype_t    type = thing->type;
-                    const int           flags = thing->flags;
 
-                    if (((flags & MF_SHOOTABLE) || (thing->flags2 & MF2_MONSTERMISSILE))
+                    if (((thing->flags & MF_SHOOTABLE) || (thing->flags2 & MF2_MONSTERMISSILE))
                         && type != MT_PLAYER && type != MT_BARREL && type != MT_BOSSBRAIN)
                         P_RemoveMobj(thing);
 
