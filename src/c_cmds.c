@@ -5480,7 +5480,9 @@ static char *playcmdname;
 
 static bool play_cmd_func1(char *cmd, char *parms)
 {
-    if (!*parms)
+    char    *parm = removenonalpha(parms);
+
+    if (!*parm)
         return true;
 
     for (int i = 1; i < NUMSFX; i++)
@@ -5489,7 +5491,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", s_sfx[i].name2);
 
-        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
+        if (M_StringCompare(parm, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 1;
@@ -5504,7 +5506,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
-        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
+        if (M_StringCompare(parm, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 2;
@@ -5516,7 +5518,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
         {
             char    *titlebuf = removenonalpha(s_music[i].title1);
 
-            if (M_StringCompare(parms, titlebuf))
+            if (M_StringCompare(parm, titlebuf))
             {
                 M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
@@ -5536,7 +5538,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
             {
                 titlebuf = removenonalpha(s_music[i].title2);
 
-                if (M_StringCompare(parms, titlebuf))
+                if (M_StringCompare(parm, titlebuf))
                 {
                     M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
@@ -10372,7 +10374,10 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         {
             s_musicvolume = value;
             musicvolume = (s_musicvolume * 31 + 50) / 100;
-            S_LowerMusicVolume();
+
+            if (consoleactive)
+                S_LowerMusicVolume();
+
             M_SaveCVARs();
         }
         else if (s_sfxvolume != value)
