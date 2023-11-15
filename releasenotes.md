@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.1
 
-* *DOOM Retro* is now built using v17.8 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.8.0 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
 * Support has been added for John Romero's newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
@@ -18,14 +18,14 @@
 * Minor improvements have been made to the parsing of `MAPINFO` lumps.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
-  * The case of the autocompleted text now always matches the original text.
+  * The case of the autocompleted text now always matches the text already entered.
   * The text to the left of any semi-colon is no longer cleared.
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * If the `animatedstats` CVAR is `on` and the player is telefragged, their health now animates correctly in the status bar and widescreen HUD.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Harmony Compatible*](https://www.doomworld.com/idgames/levels/doom2/Ports/g-i/harmonyc) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
 * The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has now been fixed.
-* The `play` CCMD now accepts music titles as a value, such as `atdoomsgate` and `runningfromevil`.
+* The `play` CCMD now accepts a music title as a value, such as `atdoomsgate` and `runningfromevil`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

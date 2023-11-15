@@ -1489,7 +1489,7 @@ static int D_OpenWADLauncher(void)
                 else
                 {
                     // otherwise try the wadfolder CVAR
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder, 
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", wadfolder,
                         (M_StringCompare(leafname(file), "chex2.wad") ? "chex.wad" : iwadsrequired[iwadrequired]));
                     D_IdentifyIWADByName(fullpath);
 
