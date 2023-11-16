@@ -5080,10 +5080,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
-        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2)
-            || gamemode == shareware
-            || gamemission == pack_nerve)
+        else if (!M_StringCompare(mus_playing->title1, "n/a")
+            && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
+                || (gamemode != commercial && gameepisode == 1 && lumps == 2)
+                || gamemode == shareware
+                || gamemission == pack_nerve))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
         if (*musicartist)
