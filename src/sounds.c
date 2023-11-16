@@ -48,7 +48,7 @@
 musicinfo_t s_music[] =
 {
     { "",        "",        "",                                "",                                0, 0, 0 },
-    { "e1m1",    "e1m1",    "At Doom's Gate",                  "At Doom's Gate",                  0, 0, 0 },
+    { "e1m1",    "e1m1",    "At DOOM's Gate",                  "At DOOM's Gate",                  0, 0, 0 },
     { "e1m2",    "e1m2",    "The Imp's Song",                  "The Imp's Song",                  0, 0, 0 },
     { "e1m3",    "e1m3",    "Dark Halls",                      "Dark Halls",                      0, 0, 0 },
     { "e1m4",    "e1m4",    "Kitchen Ace (And Taking Names)",  "Kitchen Ace (And Taking Names)",  0, 0, 0 },

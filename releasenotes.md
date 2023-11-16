@@ -13,7 +13,7 @@
   * Extra blood is no longer spawned when a monster is injured.
   * Blood and bullet puffs are no longer randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
-* When the `r_shadows` CVAR is `on`, if a monster becomes fullbright when attacking, the shadow they cast now momentarily becomes slightly lighter.
+* When the `r_shadows` CVAR is `on`, if a monster is fullbright when attacking, the shadow they cast now momentarily becomes slightly lighter.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
 * Minor improvements have been made to the parsing of `MAPINFO` lumps.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.

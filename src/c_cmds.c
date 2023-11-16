@@ -4239,7 +4239,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                         {
                             if (BTSX)
                             {
-                                if (!M_StringCompare(wadname, "DOOM2.WAD"))
+                                if (!D_IsDOOM2IWAD(wadname))
                                 {
                                     temp2 = removenonalpha(*mapnames2[mapcmdmap - 1]);
 
@@ -4468,7 +4468,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     if (BTSX)
                     {
-                        if (!M_StringCompare(wadname, "DOOM2.WAD"))
+                        if (!D_IsDOOM2IWAD(wadname))
                         {
                             temp = titlecase(M_StringReplaceFirst(*mapnames2[map], ": ", MONOSPACEDOFF "\t" ITALICSON));
                             removemapnum(temp);
@@ -4644,7 +4644,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
-        if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD")
+        if (D_IsDOOM2IWAD(lumpinfo[lump]->wadfile->path)
             || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "chex.wad")
             || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
             wadtype = IWAD;
@@ -4806,7 +4806,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         if (M_StringCompare(wadname, "DOOM1.WAD"))
             C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
-        else if (M_StringCompare(wadname, "DOOM.WAD"))
+        else if (D_IsDOOM1IWAD(wadname))
         {
             if (unity)
                 C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
@@ -4827,7 +4827,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Release date\tSeptember 10, 2019");
         else if (M_StringCompare(wadname, "SIGIL2.wad"))
             C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 2023");
-        else if (M_StringCompare(wadname, "DOOM2.WAD"))
+        else if (D_IsDOOM2IWAD(wadname))
         {
             if (unity)
                 C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
