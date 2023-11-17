@@ -337,21 +337,24 @@ static void WI_DrawWILV(int y, char *str)
     int         width = 0;
     int         x;
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0, j; i < len; i++)
     {
-        int j = chartoi[(int)str[i]];
+        if (str[i] == '\'' && (!i || str[i - 1] == ' '))
+            j = 41;
+        else
+            j = chartoi[(int)str[i]];
 
         width += (j == -1 ? 6 : ((int)strlen(wilv[j]) / 13 - 2));
     }
 
-    x = (VANILLAWIDTH - width - 1) / 2;
+    x = (VANILLAWIDTH - width) / 2 + 1;
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0, j; i < len; i++)
     {
-        int j = chartoi[(int)str[i]];
-
         if (str[i] == '\'' && (!i || str[i - 1] == ' '))
             j = 41;
+        else
+            j = chartoi[(int)str[i]];
 
         if (j == -1)
             x += 6;

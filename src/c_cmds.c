@@ -4600,7 +4600,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 #define TH2     "Ty Halderman"
 #define TM      "Tom Mustaine"
 #define TW      "Tim Willits"
-#define WW      "William D. Whitaker"
+#define WW      "William D Whitaker"
 #define AMSP    AM " and " SP
 #define BKTH2   BK " and " TH2
 #define DC2DB   DC2 " and " DB
@@ -4784,7 +4784,17 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             /* 56 */ { JR,    "",   "",    "",   "" },
             /* 57 */ { JR,    "",   "",    "",   "" },
             /* 58 */ { JR,    "",   "",    "",   "" },
-            /* 59 */ { JR,    "",   "",    "",   "" }
+            /* 59 */ { JR,    "",   "",    "",   "" },
+            /* 60 */ { "",    "",   "",    "",   "" },
+            /* 61 */ { JR,    "",   "",    "",   "" },
+            /* 62 */ { JR,    "",   "",    "",   "" },
+            /* 63 */ { JR,    "",   "",    "",   "" },
+            /* 64 */ { JR,    "",   "",    "",   "" },
+            /* 65 */ { JR,    "",   "",    "",   "" },
+            /* 66 */ { JR,    "",   "",    "",   "" },
+            /* 67 */ { JR,    "",   "",    "",   "" },
+            /* 68 */ { JR,    "",   "",    "",   "" },
+            /* 69 */ { JR,    "",   "",    "",   "" }
         };
 
         const char  *author = P_GetMapAuthor(gameepisode, gamemap);
