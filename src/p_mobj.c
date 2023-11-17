@@ -1205,6 +1205,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (type == Player1Start)
     {
         P_SpawnPlayer(mthing);
+        player1starts++;
         viewplayer->mo->id = thingid;
         return NULL;
     }

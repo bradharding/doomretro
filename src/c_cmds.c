@@ -4893,6 +4893,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, INDENT "Barrels\t%s", temp);
     free(temp);
 
+    if (player1starts > 1)
+    {
+        temp = commify(player1starts);
+        C_TabbedOutput(tabs, INDENT "Voodoo dolls\t%s", temp);
+        free(temp);
+    }
+
     temp = commify(numlines);
     C_TabbedOutput(tabs, "Lines\t%s", temp);
     free(temp);

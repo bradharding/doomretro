@@ -3089,6 +3089,7 @@ void P_SetupLevel(int ep, int map)
     totalpickups = 0;
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
     barrelcount = 0;
+    player1starts = 0;
     wminfo.partime = 0;
     viewplayer->killcount = 0;
     viewplayer->secretcount = 0;

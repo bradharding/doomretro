@@ -91,6 +91,7 @@ int             totalsecrets;
 int             totalpickups;
 int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
+int             player1starts;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 

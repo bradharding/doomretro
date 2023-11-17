@@ -211,6 +211,7 @@ extern int              totalsecrets;
 extern int              totalpickups;
 extern int              monstercount[NUMMOBJTYPES];
 extern int              barrelcount;
+extern int              player1starts;
 
 // Timer, for scores.
 extern int              maptime;        // tics in game play for par
