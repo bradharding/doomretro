@@ -936,25 +936,17 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tintt
 
 static int AltHUDNumberWidth(int val)
 {
-    static int  widths[HUD_NUMBER_MAX + 1];
+    int width = 0;
 
-    if (widths[val])
-        return widths[val];
-    else
+    if (val >= 100)
     {
-        int         width = 0;
-        const int   val2 = val;
-
-        if (val >= 100)
-        {
-            width = SHORT(altnum[val / 100]->width) + 2;
-            width += SHORT(altnum[(val %= 100) / 10]->width) + 2;
-        }
-        else if (val >= 10)
-            width = SHORT(altnum[val / 10]->width) + 2;
-
-        return ((widths[val2] = width + SHORT(altnum[val % 10]->width)));
+        width = SHORT(altnum[val / 100]->width) + 2;
+        width += SHORT(altnum[(val %= 100) / 10]->width) + 2;
     }
+    else if (val >= 10)
+        width = SHORT(altnum[val / 10]->width) + 2;
+
+    return (width + SHORT(altnum[val % 10]->width));
 }
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab)
@@ -987,25 +979,17 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
 
 static int AltHUDNumber2Width(int val)
 {
-    static int  widths[HUD_NUMBER_MAX + 1];
+    int width = 0;
 
-    if (widths[val])
-        return widths[val];
-    else
+    if (val >= 100)
     {
-        int         width = 0;
-        const int   val2 = val;
-
-        if (val >= 100)
-        {
-            width = SHORT(altnum2[val / 100]->width) + 2;
-            width += SHORT(altnum2[(val %= 100) / 10]->width) + 2;
-        }
-        else if (val >= 10)
-            width = SHORT(altnum2[val / 10]->width) + 2;
-
-        return ((widths[val2] = width + SHORT(altnum2[val % 10]->width)));
+        width = SHORT(altnum2[val / 100]->width) + 2;
+        width += SHORT(altnum2[(val %= 100) / 10]->width) + 2;
     }
+    else if (val >= 10)
+        width = SHORT(altnum2[val / 10]->width) + 2;
+
+    return ((width + SHORT(altnum2[val % 10]->width)));
 }
 
 static void HU_DrawAltHUD(void)
