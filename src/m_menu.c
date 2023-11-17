@@ -556,7 +556,7 @@ void M_DrawMenuBackground(void)
 
     memcpy(screens[0], blurscreen, SCREENAREA);
 
-    if (!consoleactive)
+    if (!consoleactive && vid_fullscreen)
         M_DrawMenuBorder();
 
     if (mapwindow)

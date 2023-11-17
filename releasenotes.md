@@ -20,6 +20,7 @@
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now always matches the text that’s already been entered.
   * The text to the left of any semi-colon is no longer cleared.
+* The border of the menu’s background is now only displayed if the `vid_fullscreen` CVAR is `on`.
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * When the `animatedstats` CVAR is `on`:
   * The player’s health now animates correctly if they are telefragged.
