@@ -510,8 +510,8 @@ void P_AnimateAllStatsFromStart(void)
     healthdiffspeed = MIN(ABS(-viewplayer->health) / 20 + 1, 20);
     healthdiff = -viewplayer->health - healthdiffspeed;
 
-    armordiff = -viewplayer->armor;
     armordiffspeed = MIN(ABS(-viewplayer->armor) / 20 + 1, 20);
+    armordiff = -viewplayer->armor - armordiffspeed;
 
     ammodiffspeed[ammotype] = MIN(ABS(-viewplayer->ammo[ammotype]) / 20 + 1, 20);
     ammodiff[ammotype] = -viewplayer->ammo[ammotype] - ammodiffspeed[ammotype];

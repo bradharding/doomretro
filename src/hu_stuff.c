@@ -989,7 +989,7 @@ static int AltHUDNumber2Width(int val)
     else if (val >= 10)
         width = SHORT(altnum2[val / 10]->width) + 2;
 
-    return ((width + SHORT(altnum2[val % 10]->width)));
+    return (width + SHORT(altnum2[val % 10]->width));
 }
 
 static void HU_DrawAltHUD(void)
