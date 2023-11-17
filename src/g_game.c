@@ -1614,6 +1614,20 @@ void G_DoLoadGame(void)
         C_Output(BOLD("%s") " loaded.", savename);
         C_HideConsoleFast();
     }
+
+    ammohighlight = 0;
+    armorhighlight = 0;
+    healthhighlight = 0;
+
+    ammodiff[am_clip] = 0;
+    ammodiff[am_shell] = 0;
+    ammodiff[am_misl] = 0;
+    ammodiff[am_cell] = 0;
+    armordiff = 0;
+    healthdiff = 0;
+
+    if (r_screensize == r_screensize_max && animatedstats)
+        P_AnimateAllStatsFromStart();
 }
 
 void G_LoadedGameMessage(void)

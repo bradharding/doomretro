@@ -507,14 +507,14 @@ void P_AnimateAllStatsFromStart(void)
 {
     const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
-    healthdiff = -viewplayer->health - 6;
     healthdiffspeed = MIN(ABS(-viewplayer->health) / 20 + 1, 20);
+    healthdiff = -viewplayer->health - healthdiffspeed;
 
     armordiff = -viewplayer->armor;
     armordiffspeed = MIN(ABS(-viewplayer->armor) / 20 + 1, 20);
 
-    ammodiff[ammotype] = -viewplayer->ammo[ammotype] - 3;
     ammodiffspeed[ammotype] = MIN(ABS(-viewplayer->ammo[ammotype]) / 20 + 1, 20);
+    ammodiff[ammotype] = -viewplayer->ammo[ammotype] - ammodiffspeed[ammotype];
 }
 
 void P_AnimateHealth(const int diff)
