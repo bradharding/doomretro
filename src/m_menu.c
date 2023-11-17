@@ -1706,18 +1706,25 @@ void M_SetWindowCaption(void)
         if (gamemode == commercial)
         {
             if (nerve)
+            {
+                char    *temp = titlecase(*expansions[gameepisode - 1]);
+
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                    mapnumandtitle, *expansions[gameepisode - 1], gamedescription, DOOMRETRO_NAME);
+                    mapnumandtitle, temp, gamedescription, DOOMRETRO_NAME);
+                free(temp);
+            }
             else
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, DOOMRETRO_NAME);
         }
-        else if (gamemode == shareware)
-            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
-                mapnumandtitle, gamedescription, DOOMRETRO_NAME);
         else
+        {
+            char    *temp = titlecase(*episodes[gameepisode - 1]);
+
             M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                mapnumandtitle, *episodes[gameepisode - 1], gamedescription, DOOMRETRO_NAME);
+                mapnumandtitle, temp, gamedescription, DOOMRETRO_NAME);
+            free(temp);
+        }
     }
     else
         M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
