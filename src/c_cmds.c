@@ -2774,7 +2774,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given all your weapons.");
                 else
                     C_PlayerMessage("%s has been given all %s weapons.",
-                        playername, preferredpronoun(possessive));
+                        playername, pronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2784,7 +2784,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     C_Warning(0, "You already have all your weapons.");
                 else
                     C_Warning(0, "%s already has all %s weapons.",
-                        playername, preferredpronoun(possessive));
+                        playername, pronoun(possessive));
 
                 free(parm);
                 return;
@@ -2802,7 +2802,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given full ammo for all %s weapons.",
-                        playername, preferredpronoun(possessive));
+                        playername, pronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2815,7 +2815,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given a backpack and full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
-                        playername, preferredpronoun(possessive));
+                        playername, pronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2825,7 +2825,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     C_Warning(0, "You already have full ammo for all your weapons.");
                 else
                     C_Warning(0, "%s already has full ammo for all %s weapons.",
-                        playername, preferredpronoun(possessive));
+                        playername, pronoun(possessive));
 
                 free(parm);
                 return;
@@ -3403,7 +3403,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You can't kill yourself in god mode!");
                 else
-                    C_Warning(0, "%s can't kill %s in god mode!", playername, preferredpronoun(reflexive));
+                    C_Warning(0, "%s can't kill %s in god mode!", playername, pronoun(reflexive));
 
                 return;
             }
@@ -3417,8 +3417,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "%s can't kill %s when %s %s %s %s!",
                         playername,
-                        preferredpronoun(reflexive),
-                        preferredpronoun(personal),
+                        pronoun(reflexive),
+                        pronoun(personal),
                         (playergender == playergender_other ? "have" : "has"),
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
@@ -3431,7 +3431,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You can't kill yourself in buddha mode!");
                 else
-                    C_Warning(0, "%s can't kill %s in buddha mode!", playername, preferredpronoun(reflexive));
+                    C_Warning(0, "%s can't kill %s in buddha mode!", playername, pronoun(reflexive));
 
                 player_cvars_func2(stringize(health), "1");
                 return;
@@ -3452,7 +3452,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 M_snprintf(buffer, sizeof(buffer), "You killed yourself!");
             else
-                M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, preferredpronoun(reflexive));
+                M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, pronoun(reflexive));
 
             C_PlayerMessage(buffer);
             C_HideConsole();
@@ -7343,7 +7343,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             P_ResurrectPlayer(initial_health);
             M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
                 playername,
-                (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
+                (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
             buffer[0] = toupper(buffer[0]);
             C_PlayerMessage(buffer);
             C_HideConsole();
@@ -7855,7 +7855,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You killed yourself.");
                 else
-                    C_PlayerMessage("%s killed %s.", playername, preferredpronoun(reflexive));
+                    C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
 
                 C_HideConsole();
             }
@@ -9336,7 +9336,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         P_AddBonus();
                         M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
                             playername,
-                            (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
+                            (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
                         C_PlayerMessage(buffer);
                     }

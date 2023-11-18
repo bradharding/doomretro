@@ -1018,18 +1018,22 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                lump = (gamemode == retail ? creditlump : W_CacheWidestLumpName(REKKRSL ? "HELP2W" : "HELP2"));
+                lump = (gamemode == retail ? creditlump :
+                    W_CacheWidestLumpName(REKKRSL ? "HELP2W" : "HELP2"));
                 break;
 
             case 2:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheWidestLumpName(REKKRSL ? "VICTORW2" : "VICTORY2"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") :
+                    W_CacheWidestLumpName(REKKRSL ? "VICTORW2" : "VICTORY2"));
                 break;
 
             case 4:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheWidestLumpName(REKKRSL ? "ENDPICW" : "ENDPIC"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") :
+                    W_CacheWidestLumpName(REKKRSL ? "ENDPICW" : "ENDPIC"));
                 break;
 
             case 5:
+            case 6:
                 lump = W_CacheLumpName("SIGILEND");
                 break;
 

@@ -965,7 +965,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                     M_snprintf(buffer, sizeof(buffer),
                         s_GOTMEDINEED,
                         playername,
-                        (M_StringCompare(playername, playername_default) ? playername_default : preferredpronoun(personal)));
+                        (M_StringCompare(playername, playername_default) ? playername_default : pronoun(personal)));
 
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
@@ -1725,7 +1725,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
-                            preferredpronoun(personal));
+                            pronoun(personal));
                 }
                 else
                 {
@@ -1852,13 +1852,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 {
                     if (healthcvar)
                         C_PlayerMessage("%s %s %s!",
-                            playername, s_KILLED, preferredpronoun(reflexive));
+                            playername, s_KILLED, pronoun(reflexive));
                     else
                         C_PlayerMessage("%s %s %s with %s own %s!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
-                            preferredpronoun(reflexive),
-                            preferredpronoun(possessive),
+                            pronoun(reflexive),
+                            pronoun(possessive),
                             weaponinfo[readyweapon].name);
                 }
                 else
@@ -1884,7 +1884,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             playername,
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                             targetname,
-                            preferredpronoun(possessive),
+                            pronoun(possessive),
                             weaponinfo[readyweapon].name,
                             berserk);
                     else
@@ -1892,7 +1892,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             playername,
                             (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                             targetname,
-                            preferredpronoun(possessive),
+                            pronoun(possessive),
                             weaponinfo[readyweapon].name);
                 }
             }
