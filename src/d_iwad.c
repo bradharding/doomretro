@@ -1013,7 +1013,7 @@ void D_SetGameDescription(void)
         else if (nerve)
             M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
         else if (gamemission == doom2)
-            M_snprintf(gamedescription, sizeof(gamedescription), "%s: %s", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH);
+            M_snprintf(gamedescription, sizeof(gamedescription), "%s: %s", s_CAPTION_DOOM2, s_CAPTION_EXPANSION1);
         else if (gamemission == pack_plut)
             M_StringCopy(gamedescription, s_CAPTION_PLUTONIA, sizeof(gamedescription));
         else if (gamemission == pack_tnt)

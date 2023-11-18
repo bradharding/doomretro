@@ -601,8 +601,14 @@ char    *s_M_MORE = "";
 
 char    *s_CAPTION_DOOM = "";
 char    *s_CAPTION_DOOM2 = "";
-char    *s_CAPTION_HELLONEARTH = "";
-char    *s_CAPTION_NERVE = "";
+char    *s_CAPTION_EPISODE1 = "";
+char    *s_CAPTION_EPISODE2 = "";
+char    *s_CAPTION_EPISODE3 = "";
+char    *s_CAPTION_EPISODE4 = "";
+char    *s_CAPTION_EPISODE5 = "";
+char    *s_CAPTION_EPISODE6 = "";
+char    *s_CAPTION_EXPANSION1 = "";
+char    *s_CAPTION_EXPANSION2 = "";
 char    *s_CAPTION_BFGEDITION = "";
 char    *s_CAPTION_PLUTONIA = "";
 char    *s_CAPTION_TNT = "";
@@ -1216,8 +1222,14 @@ deh_strs deh_strlookup[] =
 
     { &s_CAPTION_DOOM,                "CAPTION_DOOM"                },
     { &s_CAPTION_DOOM2,               "CAPTION_DOOM2"               },
-    { &s_CAPTION_HELLONEARTH,         "CAPTION_HELLONEARTH"         },
-    { &s_CAPTION_NERVE,               "CAPTION_NERVE"               },
+    { &s_CAPTION_EPISODE1,            "CAPTION_EPISODE1"            },
+    { &s_CAPTION_EPISODE2,            "CAPTION_EPISODE2"            },
+    { &s_CAPTION_EPISODE3,            "CAPTION_EPISODE3"            },
+    { &s_CAPTION_EPISODE4,            "CAPTION_EPISODE4"            },
+    { &s_CAPTION_EPISODE5,            "CAPTION_EPISODE5"            },
+    { &s_CAPTION_EPISODE6,            "CAPTION_EPISODE6"            },
+    { &s_CAPTION_EXPANSION1,          "CAPTION_EXPANSION1"          },
+    { &s_CAPTION_EXPANSION2,          "CAPTION_EXPANSION2"          },
     { &s_CAPTION_BFGEDITION,          "CAPTION_BFGEDITION"          },
     { &s_CAPTION_PLUTONIA,            "CAPTION_PLUTONIA"            },
     { &s_CAPTION_TNT,                 "CAPTION_TNT"                 },

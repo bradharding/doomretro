@@ -94,18 +94,18 @@
 
 char **episodes[] =
 {
-    &s_M_EPISODE1,
-    &s_M_EPISODE2,
-    &s_M_EPISODE3,
-    &s_M_EPISODE4,
-    &s_M_EPISODE5,
-    &s_M_EPISODE6
+    &s_CAPTION_EPISODE1,
+    &s_CAPTION_EPISODE2,
+    &s_CAPTION_EPISODE3,
+    &s_CAPTION_EPISODE4,
+    &s_CAPTION_EPISODE5,
+    &s_CAPTION_EPISODE6
 };
 
 char **expansions[] =
 {
-    &s_M_EXPANSION1,
-    &s_M_EXPANSION2
+    &s_CAPTION_EXPANSION1,
+    &s_CAPTION_EXPANSION2
 };
 
 char **skilllevels[] =

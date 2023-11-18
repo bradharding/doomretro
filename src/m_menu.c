@@ -1705,27 +1705,17 @@ void M_SetWindowCaption(void)
     {
         if (gamemode == commercial)
         {
-            if (nerve)
-            {
-                char    *temp = titlecase(*expansions[gameepisode - 1]);
-
-                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                    mapnumandtitle, temp, gamedescription, DOOMRETRO_NAME);
-                free(temp);
-            }
-            else
+            if (gamemission == pack_plut || gamemission == pack_tnt)
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, DOOMRETRO_NAME);
+            else
+                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s: %s \xC2\xB7 %s",
+                    mapnumandtitle, gamedescription, *expansions[(gamemission == pack_nerve ? ex2 : ex1)],
+                    DOOMRETRO_NAME);
         }
         else
-        {
-            char    *temp = (gameepisode >= 5 ? uppercase(*episodes[gameepisode - 1]) :
-                        titlecase(*episodes[gameepisode - 1]));
-
             M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                mapnumandtitle, temp, gamedescription, DOOMRETRO_NAME);
-            free(temp);
-        }
+                mapnumandtitle, *episodes[gameepisode - 1], gamedescription, DOOMRETRO_NAME);
     }
     else
         M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
