@@ -1719,7 +1719,8 @@ void M_SetWindowCaption(void)
         }
         else
         {
-            char    *temp = titlecase(*episodes[gameepisode - 1]);
+            char    *temp = (gameepisode >= 5 ? uppercase(*episodes[gameepisode - 1]) :
+                        titlecase(*episodes[gameepisode - 1]));
 
             M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
                 mapnumandtitle, temp, gamedescription, DOOMRETRO_NAME);

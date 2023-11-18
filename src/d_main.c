@@ -1012,7 +1012,7 @@ static bool D_IsUnsupportedPWAD(char *filename)
     return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
-static void D_AutoloadSigilWAD(void)
+static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
 
@@ -1059,7 +1059,7 @@ static void D_AutoloadSigilWAD(void)
     }
 }
 
-static void D_AutoloadSigil2WAD(void)
+static void D_AutoloadSIGIL2WAD(void)
 {
     char    path[MAX_PATH];
 
@@ -1174,8 +1174,8 @@ static bool D_CheckParms(void)
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (D_IsDOOM1IWAD(myargv[1]) && IsUltimateDOOM(myargv[1]))
                 {
-                    D_AutoloadSigilWAD();
-                    D_AutoloadSigil2WAD();
+                    D_AutoloadSIGILWAD();
+                    D_AutoloadSIGIL2WAD();
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                 else if (D_IsDOOM2IWAD(myargv[1]))
@@ -1420,8 +1420,8 @@ static int D_OpenWADLauncher(void)
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
                     {
-                        D_AutoloadSigilWAD();
-                        D_AutoloadSigil2WAD();
+                        D_AutoloadSIGILWAD();
+                        D_AutoloadSIGIL2WAD();
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                     else if (D_IsDOOM2IWAD(file))
@@ -1475,10 +1475,10 @@ static int D_OpenWADLauncher(void)
                                     W_Init();
 
                                     if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                        D_AutoloadSigilWAD();
+                                        D_AutoloadSIGILWAD();
 
                                     if (W_CheckNumForName("M_EPI6") < 0 && W_CheckNumForName("E6M1") < 0)
-                                        D_AutoloadSigil2WAD();
+                                        D_AutoloadSIGIL2WAD();
                                 }
                             }
                             else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
@@ -1520,10 +1520,10 @@ static int D_OpenWADLauncher(void)
                                         W_Init();
 
                                         if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                            D_AutoloadSigilWAD();
+                                            D_AutoloadSIGILWAD();
 
                                         if (W_CheckNumForName("M_EPI6") < 0 && W_CheckNumForName("E6M1") < 0)
-                                            D_AutoloadSigil2WAD();
+                                            D_AutoloadSIGIL2WAD();
                                     }
                                 }
                                 else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
@@ -1561,10 +1561,10 @@ static int D_OpenWADLauncher(void)
                                             W_Init();
 
                                             if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                                D_AutoloadSigilWAD();
+                                                D_AutoloadSIGILWAD();
 
                                             if (W_CheckNumForName("M_EPI6") < 0 && W_CheckNumForName("E6M1") < 0)
-                                                D_AutoloadSigil2WAD();
+                                                D_AutoloadSIGIL2WAD();
                                         }
                                     }
                                     else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
