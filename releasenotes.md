@@ -27,7 +27,7 @@
   * The player’s health now animates correctly if they are telefragged.
   * The player’s health, armor and ammo now animate correctly when loading a savegame.
 * A bug is fixed whereby numbers in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
-* * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Harmony Compatible*](https://www.doomworld.com/idgames/levels/doom2/Ports/g-i/harmonyc) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Harmony Compatible*](https://www.doomworld.com/idgames/levels/doom2/Ports/g-i/harmonyc) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
 * The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has now been fixed.
 * The `mapstats` CCMD now shows the number of voodoo dolls in the current map.

@@ -1002,7 +1002,7 @@ consolecmd_t consolecmds[] =
         BOLD("\"software\"") ")."),
 #endif
     CVAR_STR(vid_scalefilter, "", "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
-        "The filter used to scale each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
+        "The filter applied when scaling each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_cvar_func2, CF_STARTUPRESET, BOOLVALUEALIAS,
