@@ -454,6 +454,7 @@ static void I_GetEvent(void)
                             if (!windowfocused)
                             {
                                 windowfocused = true;
+                                paused = false;
                                 S_ResumeMusic();
                                 I_InitKeyboard();
                             }
