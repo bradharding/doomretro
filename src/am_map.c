@@ -1482,26 +1482,25 @@ static mline_t AM_DoNotRotateLine(mline_t mline)
 //
 static void AM_DrawGrid(void)
 {
-    const fixed_t   minlen = (fixed_t)(sqrt((double)m_w * m_w + (double)m_h * m_h));
+    const fixed_t   minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
     const fixed_t   startx = m_x - (minlen - m_w) / 2;
     const fixed_t   starty = m_y - (minlen - m_h) / 2;
-    fixed_t         end = startx + minlen;
+    const fixed_t   endx = startx + minlen;
+    const fixed_t   endy = starty + minlen;
 
     // Draw vertical gridlines
-    for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < end; x += gridwidth)
+    for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
     {
-        mline_t mline = { { x, starty }, { x, starty + minlen } };
+        mline_t mline = { { x, starty }, { x, endy } };
 
         mline = rotatelinefunc(mline);
         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
     }
 
-    end = starty + minlen;
-
     // Draw horizontal gridlines
-    for (fixed_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < end; y += gridheight)
+    for (fixed_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < endy; y += gridheight)
     {
-        mline_t mline = { { startx, y }, { startx + minlen, y } };
+        mline_t mline = { { startx, y }, { endx, y } };
 
         mline = rotatelinefunc(mline);
         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
