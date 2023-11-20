@@ -4619,10 +4619,98 @@ static bool mapstats_cmd_func1(char *cmd, char *parms)
 
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
+    const char *authors[][6] =
+    {
+        /* xy      doom   doom2 tnt    plut  nerve */
+        /* 00 */ { "",    "",   "",    DCMC, "" },
+        /* 01 */ { "",    SP,   TM,    DCMC, RM },
+        /* 02 */ { "",    AM,   JW,    DCMC, AI },
+        /* 03 */ { "",    AM,   RPJM2, DCMC, RM },
+        /* 04 */ { "",    AM,   TH2,   DCMC, RM },
+        /* 05 */ { "",    AM,   JD,    DCMC, AI },
+        /* 06 */ { "",    AM,   JSTH2, DCMC, AI },
+        /* 07 */ { "",    AMSP, AD,    DCMC, AI },
+        /* 08 */ { "",    SP,   JM2,   DCMC, AI },
+        /* 09 */ { "",    SP,   JSTH2, DCMC, RM },
+        /* 10 */ { "",    SPTH, TM,    DCMC, "" },
+        /* 11 */ { JR,    JR,   DJ,    DCMC, "" },
+        /* 12 */ { JR,    SP,   JL,    DCMC, "" },
+        /* 13 */ { JR,    SP,   BKTH2, DCMC, "" },
+        /* 14 */ { JRTH,  AM,   RP,    DCMC, "" },
+        /* 15 */ { JR,    JR,   WW,    DCMC, "" },
+        /* 16 */ { JR,    SP,   AA,    DCMC, "" },
+        /* 17 */ { JR,    JR,   TM,    DCMC, "" },
+        /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "" },
+        /* 19 */ { JR,    SP,   TH2,   DCMC, "" },
+        /* 20 */ { DC2DB, JR,   DO,    DCMC, "" },
+        /* 21 */ { SPTH,  SP,   DO,    DCMC, "" },
+        /* 22 */ { SPTH,  AM,   CB,    DCMC, "" },
+        /* 23 */ { SPTH,  SP,   PT,    DCMC, "" },
+        /* 24 */ { SPTH,  SP,   DJ,    DCMC, "" },
+        /* 25 */ { SP,    SG,   JM,    DCMC, "" },
+        /* 26 */ { SP,    JR,   MSJL,  DCMC, "" },
+        /* 27 */ { SPTH,  SP,   DO,    DCMC, "" },
+        /* 28 */ { SP,    SP,   MC,    DCMC, "" },
+        /* 29 */ { SP,    JR,   JS,    DCMC, "" },
+        /* 30 */ { "",    SP,   JS,    DCMC, "" },
+        /* 31 */ { SP,    SP,   DC,    DCMC, "" },
+        /* 32 */ { SP,    SP,   DC,    DCMC, "" },
+        /* 33 */ { SPTH,  MB,   "",    "",   "" },
+        /* 34 */ { SP,    "",   "",    "",   "" },
+        /* 35 */ { SP,    "",   "",    "",   "" },
+        /* 36 */ { SP,    "",   "",    "",   "" },
+        /* 37 */ { SPTH,  "",   "",    "",   "" },
+        /* 38 */ { SP,    "",   "",    "",   "" },
+        /* 39 */ { SP,    "",   "",    "",   "" },
+        /* 40 */ { "",    "",   "",    "",   "" },
+        /* 41 */ { AM,    "",   "",    "",   "" },
+        /* 42 */ { JR,    "",   "",    "",   "" },
+        /* 43 */ { SG,    "",   "",    "",   "" },
+        /* 44 */ { AM,    "",   "",    "",   "" },
+        /* 45 */ { TW,    "",   "",    "",   "" },
+        /* 46 */ { JR,    "",   "",    "",   "" },
+        /* 47 */ { JA,    "",   "",    "",   "" },
+        /* 48 */ { SG,    "",   "",    "",   "" },
+        /* 49 */ { TW,    "",   "",    "",   "" },
+        /* 50 */ { "",    "",   "",    "",   "" },
+        /* 51 */ { JR,    "",   "",    "",   "" },
+        /* 52 */ { JR,    "",   "",    "",   "" },
+        /* 53 */ { JR,    "",   "",    "",   "" },
+        /* 54 */ { JR,    "",   "",    "",   "" },
+        /* 55 */ { JR,    "",   "",    "",   "" },
+        /* 56 */ { JR,    "",   "",    "",   "" },
+        /* 57 */ { JR,    "",   "",    "",   "" },
+        /* 58 */ { JR,    "",   "",    "",   "" },
+        /* 59 */ { JR,    "",   "",    "",   "" },
+        /* 60 */ { "",    "",   "",    "",   "" },
+        /* 61 */ { JR,    "",   "",    "",   "" },
+        /* 62 */ { JR,    "",   "",    "",   "" },
+        /* 63 */ { JR,    "",   "",    "",   "" },
+        /* 64 */ { JR,    "",   "",    "",   "" },
+        /* 65 */ { JR,    "",   "",    "",   "" },
+        /* 66 */ { JR,    "",   "",    "",   "" },
+        /* 67 */ { JR,    "",   "",    "",   "" },
+        /* 68 */ { JR,    "",   "",    "",   "" },
+        /* 69 */ { JR,    "",   "",    "",   "" }
+    };
+
     const int   tabs[3] = { 120, 240, 0 };
     char        *temp;
     int         lump;
     int         wadtype;
+    const char  *author = P_GetMapAuthor(gameepisode, gamemap);
+    char        wadname[MAX_PATH];
+    const int   partime = G_GetParTime();
+    int         outside = 0;
+    int         min_x = INT_MAX;
+    int         max_x = INT_MIN;
+    int         min_y = INT_MAX;
+    int         max_y = INT_MIN;
+    int         max_ceilingheight = INT_MIN;
+    int         min_floorheight = INT_MAX;
+    int         width;
+    int         height;
+    int         depth;
 
     if (FREEDOOM1)
     {
@@ -4721,145 +4809,62 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
     }
 
+    if (*author)
+        C_TabbedOutput(tabs, "Author\t%s", author);
+    else if (canmodify && *authors[gameepisode][gamemission])
+        C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode][gamemission]);
+    else if (REKKR)
+        C_TabbedOutput(tabs, "Author\tMatthew Little");
+
+    M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
+
+    C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
+
+    if (M_StringCompare(wadname, "DOOM1.WAD"))
+        C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
+    else if (D_IsDOOM1IWAD(wadname))
     {
-        const char *authors[][6] =
-        {
-            /* xy      doom   doom2 tnt    plut  nerve */
-            /* 00 */ { "",    "",   "",    DCMC, "" },
-            /* 01 */ { "",    SP,   TM,    DCMC, RM },
-            /* 02 */ { "",    AM,   JW,    DCMC, AI },
-            /* 03 */ { "",    AM,   RPJM2, DCMC, RM },
-            /* 04 */ { "",    AM,   TH2,   DCMC, RM },
-            /* 05 */ { "",    AM,   JD,    DCMC, AI },
-            /* 06 */ { "",    AM,   JSTH2, DCMC, AI },
-            /* 07 */ { "",    AMSP, AD,    DCMC, AI },
-            /* 08 */ { "",    SP,   JM2,   DCMC, AI },
-            /* 09 */ { "",    SP,   JSTH2, DCMC, RM },
-            /* 10 */ { "",    SPTH, TM,    DCMC, "" },
-            /* 11 */ { JR,    JR,   DJ,    DCMC, "" },
-            /* 12 */ { JR,    SP,   JL,    DCMC, "" },
-            /* 13 */ { JR,    SP,   BKTH2, DCMC, "" },
-            /* 14 */ { JRTH,  AM,   RP,    DCMC, "" },
-            /* 15 */ { JR,    JR,   WW,    DCMC, "" },
-            /* 16 */ { JR,    SP,   AA,    DCMC, "" },
-            /* 17 */ { JR,    JR,   TM,    DCMC, "" },
-            /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "" },
-            /* 19 */ { JR,    SP,   TH2,   DCMC, "" },
-            /* 20 */ { DC2DB, JR,   DO,    DCMC, "" },
-            /* 21 */ { SPTH,  SP,   DO,    DCMC, "" },
-            /* 22 */ { SPTH,  AM,   CB,    DCMC, "" },
-            /* 23 */ { SPTH,  SP,   PT,    DCMC, "" },
-            /* 24 */ { SPTH,  SP,   DJ,    DCMC, "" },
-            /* 25 */ { SP,    SG,   JM,    DCMC, "" },
-            /* 26 */ { SP,    JR,   MSJL,  DCMC, "" },
-            /* 27 */ { SPTH,  SP,   DO,    DCMC, "" },
-            /* 28 */ { SP,    SP,   MC,    DCMC, "" },
-            /* 29 */ { SP,    JR,   JS,    DCMC, "" },
-            /* 30 */ { "",    SP,   JS,    DCMC, "" },
-            /* 31 */ { SP,    SP,   DC,    DCMC, "" },
-            /* 32 */ { SP,    SP,   DC,    DCMC, "" },
-            /* 33 */ { SPTH,  MB,   "",    "",   "" },
-            /* 34 */ { SP,    "",   "",    "",   "" },
-            /* 35 */ { SP,    "",   "",    "",   "" },
-            /* 36 */ { SP,    "",   "",    "",   "" },
-            /* 37 */ { SPTH,  "",   "",    "",   "" },
-            /* 38 */ { SP,    "",   "",    "",   "" },
-            /* 39 */ { SP,    "",   "",    "",   "" },
-            /* 40 */ { "",    "",   "",    "",   "" },
-            /* 41 */ { AM,    "",   "",    "",   "" },
-            /* 42 */ { JR,    "",   "",    "",   "" },
-            /* 43 */ { SG,    "",   "",    "",   "" },
-            /* 44 */ { AM,    "",   "",    "",   "" },
-            /* 45 */ { TW,    "",   "",    "",   "" },
-            /* 46 */ { JR,    "",   "",    "",   "" },
-            /* 47 */ { JA,    "",   "",    "",   "" },
-            /* 48 */ { SG,    "",   "",    "",   "" },
-            /* 49 */ { TW,    "",   "",    "",   "" },
-            /* 50 */ { "",    "",   "",    "",   "" },
-            /* 51 */ { JR,    "",   "",    "",   "" },
-            /* 52 */ { JR,    "",   "",    "",   "" },
-            /* 53 */ { JR,    "",   "",    "",   "" },
-            /* 54 */ { JR,    "",   "",    "",   "" },
-            /* 55 */ { JR,    "",   "",    "",   "" },
-            /* 56 */ { JR,    "",   "",    "",   "" },
-            /* 57 */ { JR,    "",   "",    "",   "" },
-            /* 58 */ { JR,    "",   "",    "",   "" },
-            /* 59 */ { JR,    "",   "",    "",   "" },
-            /* 60 */ { "",    "",   "",    "",   "" },
-            /* 61 */ { JR,    "",   "",    "",   "" },
-            /* 62 */ { JR,    "",   "",    "",   "" },
-            /* 63 */ { JR,    "",   "",    "",   "" },
-            /* 64 */ { JR,    "",   "",    "",   "" },
-            /* 65 */ { JR,    "",   "",    "",   "" },
-            /* 66 */ { JR,    "",   "",    "",   "" },
-            /* 67 */ { JR,    "",   "",    "",   "" },
-            /* 68 */ { JR,    "",   "",    "",   "" },
-            /* 69 */ { JR,    "",   "",    "",   "" }
-        };
-
-        const char  *author = P_GetMapAuthor(gameepisode, gamemap);
-
-        if (*author)
-            C_TabbedOutput(tabs, "Author\t%s", author);
-        else if (canmodify && *authors[gameepisode][gamemission])
-            C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode][gamemission]);
-        else if (REKKR)
-            C_TabbedOutput(tabs, "Author\tMatthew Little");
-    }
-
-    {
-        char    wadname[MAX_PATH];
-
-        M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
-
-        C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
-
-        if (M_StringCompare(wadname, "DOOM1.WAD"))
+        if (unity)
+            C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
+        else if (bfgedition)
+            C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
+        else if (gamemode == registered)
+            C_TabbedOutput(tabs, INDENT "Release date\tApril 30, 1995");
+        else
             C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
-        else if (D_IsDOOM1IWAD(wadname))
-        {
-            if (unity)
-                C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
-            else if (bfgedition)
-                C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
-            else if (gamemode == registered)
-                C_TabbedOutput(tabs, INDENT "Release date\tApril 30, 1995");
-            else
-                C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
-        }
-        else if (M_StringCompare(wadname, "SIGIL_v1_0.wad")
-            || M_StringCompare(wadname, "SIGIL.wad"))
-            C_TabbedOutput(tabs, INDENT "Release date\tMay 1, 2019");
-        else if (M_StringCompare(wadname, "SIGIL_v1_1.wad"))
-            C_TabbedOutput(tabs, INDENT "Release date\tMay 31, 2019");
-        else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
-            || M_StringCompare(wadname, "SIGIL_v1_2.wad"))
-            C_TabbedOutput(tabs, INDENT "Release date\tSeptember 10, 2019");
-        else if (M_StringCompare(wadname, "SIGIL2.wad"))
-            C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 2023");
-        else if (D_IsDOOM2IWAD(wadname))
-        {
-            if (unity)
-                C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
-            else if (bfgedition)
-                C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
-            else
-                C_TabbedOutput(tabs, INDENT "Release date\tSeptember 30, 1994");
-        }
-        else if (M_StringCompare(wadname, "NERVE.WAD"))
-            C_TabbedOutput(tabs, INDENT "Release date\tMay 26, 2010");
-        else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
-            C_TabbedOutput(tabs, INDENT "Release date\tJune 17, 1996");
-        else if (onehumanity)
-            C_TabbedOutput(tabs, INDENT "Release date\tMarch 2, 2022");
-        else if (REKKRSL)
-            C_TabbedOutput(tabs, INDENT "Release date\tOctober 11, 2021");
-        else if (REKKR)
-            C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
-
-        if (wadtype == PWAD)
-            C_TabbedOutput(tabs, "IWAD\t%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
     }
+    else if (M_StringCompare(wadname, "SIGIL_v1_0.wad")
+        || M_StringCompare(wadname, "SIGIL.wad"))
+        C_TabbedOutput(tabs, INDENT "Release date\tMay 1, 2019");
+    else if (M_StringCompare(wadname, "SIGIL_v1_1.wad"))
+        C_TabbedOutput(tabs, INDENT "Release date\tMay 31, 2019");
+    else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
+        || M_StringCompare(wadname, "SIGIL_v1_2.wad"))
+        C_TabbedOutput(tabs, INDENT "Release date\tSeptember 10, 2019");
+    else if (M_StringCompare(wadname, "SIGIL2.wad"))
+        C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 2023");
+    else if (D_IsDOOM2IWAD(wadname))
+    {
+        if (unity)
+            C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
+        else if (bfgedition)
+            C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
+        else
+            C_TabbedOutput(tabs, INDENT "Release date\tSeptember 30, 1994");
+    }
+    else if (M_StringCompare(wadname, "NERVE.WAD"))
+        C_TabbedOutput(tabs, INDENT "Release date\tMay 26, 2010");
+    else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
+        C_TabbedOutput(tabs, INDENT "Release date\tJune 17, 1996");
+    else if (onehumanity)
+        C_TabbedOutput(tabs, INDENT "Release date\tMarch 2, 2022");
+    else if (REKKRSL)
+        C_TabbedOutput(tabs, INDENT "Release date\tOctober 11, 2021");
+    else if (REKKR)
+        C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
+
+    if (wadtype == PWAD)
+        C_TabbedOutput(tabs, "IWAD\t%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
         (mbf21compatible ? ITALICS("MBF21") :
@@ -4867,20 +4872,16 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 (boomcompatible ? ITALICS("BOOM") :
                     (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
+    if (partime)
     {
-        const int   partime = G_GetParTime();
+        const int   hours = partime / 3600;
 
-        if (partime)
-        {
-            const int   hours = partime / 3600;
-
-            if (hours)
-                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                    hours, partime / 60, partime % 60);
-            else
-                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                    partime / 60, partime % 60);
-        }
+        if (hours)
+            C_TabbedOutput(tabs, "Par time\t" MONOSPACED("i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                hours, partime / 60, partime % 60);
+        else
+            C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                partime / 60, partime % 60);
     }
 
     temp = commify(numspawnedthings);
@@ -4944,20 +4945,16 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Sectors\t%s", temp);
     free(temp);
 
+    for (int i = 0; i < numsubsectors; i++)
     {
-        int outside = 0;
+        const short picnum = subsectors[i].sector->ceilingpic;
 
-        for (int i = 0; i < numsubsectors; i++)
-        {
-            const short picnum = subsectors[i].sector->ceilingpic;
-
-            if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
-                outside++;
-        }
-
-        outside = outside * 100 / numsubsectors;
-        C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
+        if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
+            outside++;
     }
+
+    outside = outside * 100 / numsubsectors;
+    C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
 
     temp = commify(totalsecrets);
     C_TabbedOutput(tabs, INDENT "Secret\t%s", temp);
@@ -4974,102 +4971,90 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     if (blockmaprebuilt)
         C_TabbedOutput(tabs, "Blockmap\tRebuilt");
 
+    for (int i = 0; i < numvertexes; i++)
     {
-        int min_x = INT_MAX;
-        int max_x = INT_MIN;
-        int min_y = INT_MAX;
-        int max_y = INT_MIN;
-        int max_ceilingheight = INT_MIN;
-        int min_floorheight = INT_MAX;
-        int width;
-        int height;
-        int depth;
+        const fixed_t   x = vertexes[i].x;
+        const fixed_t   y = vertexes[i].y;
 
-        for (int i = 0; i < numvertexes; i++)
+        if (x < min_x)
+            min_x = x;
+        else if (x > max_x)
+            max_x = x;
+
+        if (y < min_y)
+            min_y = y;
+        else if (y > max_y)
+            max_y = y;
+    }
+
+    width = ((max_x >> FRACBITS) - (min_x >> FRACBITS)) / UNITSPERFOOT;
+    height = ((max_y >> FRACBITS) - (min_y >> FRACBITS)) / UNITSPERFOOT;
+
+    for (int i = 0; i < numsectors; i++)
+    {
+        if (max_ceilingheight < sectors[i].ceilingheight)
+            max_ceilingheight = sectors[i].ceilingheight;
+
+        if (min_floorheight > sectors[i].floorheight)
+            min_floorheight = sectors[i].floorheight;
+    }
+
+    depth = ((max_ceilingheight >> FRACBITS) - (min_floorheight >> FRACBITS)) / UNITSPERFOOT;
+
+    if (units == units_metric)
+    {
+        const float metricwidth = width / FEETPERMETER;
+        const float metricheight = height / FEETPERMETER;
+        const float metricdepth = depth / FEETPERMETER;
+
+        if (metricwidth < METERSPERKILOMETER && metricheight < METERSPERKILOMETER && metricdepth < METERSPERKILOMETER)
         {
-            const fixed_t   x = vertexes[i].x;
-            const fixed_t   y = vertexes[i].y;
+            char    *temp1 = striptrailingzero(metricwidth, 1);
+            char    *temp2 = striptrailingzero(metricheight, 1);
+            char    *temp3 = striptrailingzero(metricdepth, 1);
 
-            if (x < min_x)
-                min_x = x;
-            else if (x > max_x)
-                max_x = x;
-
-            if (y < min_y)
-                min_y = y;
-            else if (y > max_y)
-                max_y = y;
-        }
-
-        width = ((max_x >> FRACBITS) - (min_x >> FRACBITS)) / UNITSPERFOOT;
-        height = ((max_y >> FRACBITS) - (min_y >> FRACBITS)) / UNITSPERFOOT;
-
-        for (int i = 0; i < numsectors; i++)
-        {
-            if (max_ceilingheight < sectors[i].ceilingheight)
-                max_ceilingheight = sectors[i].ceilingheight;
-
-            if (min_floorheight > sectors[i].floorheight)
-                min_floorheight = sectors[i].floorheight;
-        }
-
-        depth = ((max_ceilingheight >> FRACBITS) - (min_floorheight >> FRACBITS)) / UNITSPERFOOT;
-
-        if (units == units_metric)
-        {
-            const float metricwidth = width / FEETPERMETER;
-            const float metricheight = height / FEETPERMETER;
-            const float metricdepth = depth / FEETPERMETER;
-
-            if (metricwidth < METERSPERKILOMETER && metricheight < METERSPERKILOMETER && metricdepth < METERSPERKILOMETER)
-            {
-                char    *temp1 = striptrailingzero(metricwidth, 1);
-                char    *temp2 = striptrailingzero(metricheight, 1);
-                char    *temp3 = striptrailingzero(metricdepth, 1);
-
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
-                    temp1, temp2, temp3, (english == english_american ? "meters" : "metres"));
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
-            else
-            {
-                char    *temp1 = striptrailingzero(metricwidth / METERSPERKILOMETER, 2);
-                char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
-                char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
-
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
-                    temp1, temp2, temp3, (english == english_american ? "kilometers" : "kilometres"));
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
+            C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                temp1, temp2, temp3, (english == english_american ? "meters" : "metres"));
+            free(temp1);
+            free(temp2);
+            free(temp3);
         }
         else
         {
-            if (width < FEETPERMILE && height < FEETPERMILE)
-            {
-                char    *temp1 = commify(width);
-                char    *temp2 = commify(height);
-                char    *temp3 = commify(depth);
+            char    *temp1 = striptrailingzero(metricwidth / METERSPERKILOMETER, 2);
+            char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
+            char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s feet", temp1, temp2, temp3);
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
-            else
-            {
-                char    *temp1 = striptrailingzero((float)width / FEETPERMILE, 2);
-                char    *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
-                char    *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
+            C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                temp1, temp2, temp3, (english == english_american ? "kilometers" : "kilometres"));
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+    }
+    else
+    {
+        if (width < FEETPERMILE && height < FEETPERMILE)
+        {
+            char    *temp1 = commify(width);
+            char    *temp2 = commify(height);
+            char    *temp3 = commify(depth);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s miles", temp1, temp2, temp3);
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
+            C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s feet", temp1, temp2, temp3);
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+        else
+        {
+            char    *temp1 = striptrailingzero((float)width / FEETPERMILE, 2);
+            char    *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
+            char    *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
+
+            C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s miles", temp1, temp2, temp3);
+            free(temp1);
+            free(temp2);
+            free(temp3);
         }
     }
 

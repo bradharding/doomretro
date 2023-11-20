@@ -7,7 +7,7 @@
 * Support has been added for John Romero’s newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
 * The automap is now also shown in low detail when the `r_detail` CVAR is `low`.
-* A bug is fixed whereby the effects of changing any color CVAR for the automap in the console wouldn’t be immediate.
+* A bug is fixed whereby the effects of changing a color CVAR for the automap wouldn’t be immediate.
 * Rocket explosions from the player and cyberdemons are now randomly mirrored.
 * These changes have been made when vanilla mode is enabled:
   * Extra blood is no longer spawned when a monster is injured.
@@ -19,7 +19,7 @@
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now always matches the text that’s already been entered.
-  * The text to the left of any semi-colon is no longer cleared.
+  * Any text to the left of a semi-colon is no longer cleared.
 * The border of the menu’s background is now only displayed if the `vid_fullscreen` CVAR is `on`.
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * The window’s caption now includes the current episode or expansion when playing a game.
