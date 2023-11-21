@@ -1785,6 +1785,7 @@ void I_ToggleFullscreen(const bool output)
 
     vid_fullscreen = !vid_fullscreen;
     I_RestartGraphics(vid_fullscreen && !vid_borderlesswindow);
+    S_StartSound(NULL, sfx_stnmov);
     M_SaveCVARs();
 
     if (nearestlinear)
