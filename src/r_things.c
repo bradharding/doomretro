@@ -692,7 +692,7 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     // too far off the side?
-    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > (tz << 2))
+    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > ((int64_t)tz << 2))
         return;
 
     // decide which patch to use for sprite relative to player
@@ -900,7 +900,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     // too far off the side?
-    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > (tz << 2))
+    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > ((int64_t)tz << 2))
         return;
 
     // calculate edges of the shape

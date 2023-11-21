@@ -738,10 +738,10 @@ static void P_LoadVertexes(int lump)
             vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
             // Apply any map-specific fixes.
-            if (canmodify && r_fixmaperrors)
+            if (canmodify && r_fixmaperrors && gamemode != shareware)
                 for (int j = 0; vertexfix[j].mission != -1; j++)
                     if (gamemission == vertexfix[j].mission && gameepisode == vertexfix[j].episode && gamemap == vertexfix[j].map
-                        && gamemode != shareware && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
+                        && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
                         && vertexes[i].y == vertexfix[j].oldy << FRACBITS)
                     {
                         char    *temp = commify(vertexfix[j].vertex);
@@ -977,10 +977,10 @@ static void P_LoadSegs(int lump)
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         // [BH] Apply any map-specific fixes.
-        if (canmodify && r_fixmaperrors)
+        if (canmodify && r_fixmaperrors && gamemode != shareware)
             for (int j = 0; linefix[j].mission != -1; j++)
                 if (gamemission == linefix[j].mission && gameepisode == linefix[j].episode && gamemap == linefix[j].map
-                    && gamemode != shareware && linedefnum == linefix[j].linedef && side == linefix[j].side
+                    && linedefnum == linefix[j].linedef && side == linefix[j].side
                     && !linefix[j].fixed)
                 {
                     linefix[j].fixed = true;
@@ -1402,10 +1402,10 @@ static void P_LoadSectors(int lump)
         ss->prevsec = -1;
 
         // [BH] Apply any level-specific fixes.
-        if (canmodify && r_fixmaperrors)
+        if (canmodify && r_fixmaperrors && gamemode != shareware)
             for (int j = 0; sectorfix[j].mission != -1; j++)
                 if (gamemission == sectorfix[j].mission && gameepisode == sectorfix[j].episode && gamemap == sectorfix[j].map
-                    && gamemode != shareware && i == sectorfix[j].sector)
+                    && i == sectorfix[j].sector)
                 {
                     if (*sectorfix[j].floorpic)
                     {
@@ -1922,10 +1922,10 @@ static void P_LoadThings(int map, int lump)
         mt.options = SHORT(mt.options);
 
         // [BH] Apply any level-specific fixes.
-        if (canmodify && r_fixmaperrors)
+        if (canmodify && r_fixmaperrors && gamemode != shareware)
             for (int j = 0; thingfix[j].mission != -1; j++)
                 if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].episode && gamemap == thingfix[j].map
-                    && gamemode != shareware && thingid == thingfix[j].thing && mt.type == thingfix[j].type
+                    && thingid == thingfix[j].thing && mt.type == thingfix[j].type
                     && mt.x == thingfix[j].oldx && mt.y == thingfix[j].oldy)
                 {
                     char    *temp = commify(thingid);
@@ -3288,8 +3288,7 @@ void P_SetupLevel(int ep, int map)
 
     S_Start();
 
-    if (gamemode != shareware)
-        S_ParseMusInfo(lumpname);
+    S_ParseMusInfo(lumpname);
 
     compat_corpsegibs = (compat_corpsegibs_global != -1 ? compat_corpsegibs_global : mapinfo[ep][map].compat_corpsegibs);
     compat_floormove = (compat_floormove_global != -1 ? compat_floormove_global : mapinfo[ep][map].compat_floormove);

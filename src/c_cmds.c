@@ -928,7 +928,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(s_lowermenumusic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles lowering the music's volume in the menu and console."),
     CVAR_BOOL(s_musicinbackground, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME) " loses focus."),
+        "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME) "'s window loses focus."),
     CVAR_INT(s_musicvolume, "", "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(s_randommusic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
