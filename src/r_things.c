@@ -1287,19 +1287,16 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
 
 static void R_SortVisSprites(void)
 {
-    if (num_vissprite)
-    {
-        static unsigned int num_vissprite_ptrs;
+    static unsigned int num_vissprite_ptrs;
 
-        if (num_vissprite_ptrs < num_vissprite * 2)
-            vissprite_ptrs = I_Realloc(vissprite_ptrs,
-                (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
+    if (num_vissprite_ptrs < num_vissprite * 2)
+        vissprite_ptrs = I_Realloc(vissprite_ptrs,
+            (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
 
-        for (int i = num_vissprite - 1; i >= 0; i--)
-            vissprite_ptrs[i] = vissprites + i;
+    for (int i = num_vissprite - 1; i >= 0; i--)
+        vissprite_ptrs[i] = vissprites + i;
 
-        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
-    }
+    msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
 }
 
 static void R_DrawSprite(const vissprite_t *spr)
@@ -1436,13 +1433,13 @@ void R_DrawMasked(void)
     for (int i = num_vissplat - 1; i >= 0; i--)
         R_DrawBloodSplatSprite(&vissplats[i]);
 
-    R_SortVisSprites();
-
     for (int i = 0; i < DS_RANGES_COUNT; i++)
         drawsegs_xranges[i].count = 0;
 
-    if (num_vissprite > 0)
+    if (num_vissprite)
     {
+        R_SortVisSprites();
+
         if (drawsegs_xrange_size < maxdrawsegs)
         {
             drawsegs_xrange_size = 2 * maxdrawsegs;
@@ -1474,30 +1471,30 @@ void R_DrawMasked(void)
 
                 drawsegs_xranges[0].count++;
             }
-    }
 
-    // draw all other vissprites back to front
-    for (int i = num_vissprite - 1; i >= 0; i--)
-    {
-        const vissprite_t   *spr = vissprite_ptrs[i];
+        // draw all other vissprites back to front
+        for (int i = num_vissprite - 1; i >= 0; i--)
+        {
+            const vissprite_t   *spr = vissprite_ptrs[i];
 
-        if (spr->x2 < centerx)
-        {
-            drawsegs_xrange = drawsegs_xranges[1].items;
-            drawsegs_xrange_count = drawsegs_xranges[1].count;
-        }
-        else if (spr->x1 >= centerx)
-        {
-            drawsegs_xrange = drawsegs_xranges[2].items;
-            drawsegs_xrange_count = drawsegs_xranges[2].count;
-        }
-        else
-        {
-            drawsegs_xrange = drawsegs_xranges[0].items;
-            drawsegs_xrange_count = drawsegs_xranges[0].count;
-        }
+            if (spr->x2 < centerx)
+            {
+                drawsegs_xrange = drawsegs_xranges[1].items;
+                drawsegs_xrange_count = drawsegs_xranges[1].count;
+            }
+            else if (spr->x1 >= centerx)
+            {
+                drawsegs_xrange = drawsegs_xranges[2].items;
+                drawsegs_xrange_count = drawsegs_xranges[2].count;
+            }
+            else
+            {
+                drawsegs_xrange = drawsegs_xranges[0].items;
+                drawsegs_xrange_count = drawsegs_xranges[0].count;
+            }
 
-        R_DrawSprite(spr);
+            R_DrawSprite(spr);
+        }
     }
 
     // render any remaining masked midtextures
