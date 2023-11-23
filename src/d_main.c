@@ -349,8 +349,9 @@ void D_Display(void)
                 R_DrawViewBorder();
 
             if (r_detail == r_detail_low)
-                postprocessfunc(viewwindowx, viewwindowy * SCREENWIDTH, viewwindowx + viewwidth,
-                    (viewwindowy + viewheight) * SCREENWIDTH, lowpixelwidth, lowpixelheight);
+                postprocessfunc(screens[0], SCREENWIDTH, viewwindowx, viewwindowy * SCREENWIDTH,
+                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH,
+                    lowpixelwidth, lowpixelheight);
         }
 
         HU_Drawer();

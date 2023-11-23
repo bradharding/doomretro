@@ -59,7 +59,7 @@ byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
 int     lowpixelheight;
 
-void (*postprocessfunc)(int, int, int, int, int, int);
+void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[CR_LIMIT];
 byte    *redtogold;
@@ -1588,7 +1588,8 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
 }
 
-static void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
+    int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += pixelheight)
         for (int x = left; x < width; x += pixelwidth)
@@ -1605,7 +1606,8 @@ static void V_LowGraphicDetail(int left, int top, int width, int height, int pix
         }
 }
 
-static void V_LowGraphicDetail_Antialiased(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+static void V_LowGraphicDetail_Antialiased(byte *screen, int screenwidth,
+    int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += pixelheight)
         for (int x = left; x < width; x += pixelwidth)
@@ -1652,28 +1654,30 @@ static void V_LowGraphicDetail_Antialiased(int left, int top, int width, int hei
         }
 }
 
-void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+void V_LowGraphicDetail_2x2(byte *screen, int screenwidth, int left,
+    int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    for (int y = top; y < height; y += 2 * SCREENWIDTH)
+    for (int y = top; y < height; y += 2 * screenwidth)
         for (int x = left; x < width; x += 2)
         {
-            byte        *dot = *screens + y + x;
+            byte        *dot = screen + y + x;
             const byte  color = *dot;
 
             *(++dot) = color;
-            *(dot += SCREENWIDTH) = color;
+            *(dot += screenwidth) = color;
             *(--dot) = color;
         }
 }
 
-void V_LowGraphicDetail_2x2_Antialiased(int left, int top, int width, int height, int pixelwidth, int pixelheight)
+void V_LowGraphicDetail_2x2_Antialiased(byte *screen, int screenwidth,
+    int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    for (int y = top; y < height; y += 2 * SCREENWIDTH)
+    for (int y = top; y < height; y += 2 * screenwidth)
         for (int x = left; x < width; x += 2)
         {
-            byte        *dot1 = *screens + y + x;
+            byte        *dot1 = screen + y + x;
             byte        *dot2 = dot1 + 1;
-            byte        *dot3 = dot2 + SCREENWIDTH;
+            byte        *dot3 = dot2 + screenwidth;
             byte        *dot4 = dot3 - 1;
             const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
 

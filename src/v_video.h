@@ -56,7 +56,7 @@ extern byte *screens[NUMSCREENS];
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
 
-extern void (*postprocessfunc)(int, int, int, int, int, int);
+extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 enum
 {
@@ -132,8 +132,8 @@ void V_DrawPagePatch(int screen, patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow);
 
-void V_LowGraphicDetail_2x2(int left, int top, int width, int height, int pixelwidth, int pixelheight);
-void V_LowGraphicDetail_2x2_Antialiased(int left, int top, int width, int height, int pixelwidth, int pixelheight);
+void V_LowGraphicDetail_2x2(byte *screen, int screenwidth, int left, int top, int width, int height, int pixelwidth, int pixelheight);
+void V_LowGraphicDetail_2x2_Antialiased(byte *screen, int screenwidth, int left, int top, int width, int height, int pixelwidth, int pixelheight);
 
 void GetPixelSize(void);
 void V_InvertScreen(void);
