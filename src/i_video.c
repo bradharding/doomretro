@@ -1068,6 +1068,8 @@ bool I_CreateExternalAutomap(void)
         C_Output("Display %i of %i is being used for the external automap.",
             am_display, numdisplays);
 
+    SDL_RaiseWindow(window);
+
     return true;
 }
 
