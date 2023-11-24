@@ -681,7 +681,7 @@ static void HU_DrawHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        const int   neededcard = viewplayer->neededcard;
+        const card_t    neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
         {
@@ -1278,7 +1278,6 @@ static void HU_DrawAltHUD(void)
                             althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, nearestwhite, NULL);
                         }
                     }
-
                 }
                 else if ((ammo = 100 * ammo / max) < HUD_AMMO_MIN && ammodiff[ammotype] >= 0)
                 {
@@ -1349,8 +1348,8 @@ static void HU_DrawAltHUD(void)
 
         if (viewplayer->neededcardflash)
         {
-            const bool  gamepaused = (consoleactive || freeze);
-            const int   neededcard = viewplayer->neededcard;
+            const bool      gamepaused = (consoleactive || freeze);
+            const card_t    neededcard = viewplayer->neededcard;
 
             if (neededcard == it_allkeys)
             {

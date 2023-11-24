@@ -136,7 +136,7 @@ typedef struct player_s
     int             powers[NUMPOWERS];
 
     int             cards[NUMCARDS];
-    int             neededcard;
+    card_t          neededcard;
     int             neededcardflash;
     bool            backpack;
 

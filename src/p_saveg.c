@@ -467,7 +467,7 @@ static void saveg_read_player_t(void)
         if ((viewplayer->cards[i] = saveg_read32()) > 0)
             cardsfound++;
 
-    viewplayer->neededcard = saveg_read32();
+    viewplayer->neededcard = (card_t)saveg_read32();
     viewplayer->neededcardflash = saveg_read32();
     viewplayer->backpack = saveg_read_bool();
     viewplayer->readyweapon = (weapontype_t)saveg_read_enum();
@@ -587,7 +587,7 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMCARDS; i++)
         saveg_write32(viewplayer->cards[i]);
 
-    saveg_write32(viewplayer->neededcard);
+    saveg_write_enum(viewplayer->neededcard);
     saveg_write32(viewplayer->neededcardflash);
     saveg_write_bool(viewplayer->backpack);
     saveg_write_enum(viewplayer->readyweapon);

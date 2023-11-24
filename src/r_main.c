@@ -945,7 +945,6 @@ void R_InitColumnFunctions(void)
                 mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherColumn;
                 mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherColumn;
             }
-
         }
     }
     else
