@@ -24,6 +24,7 @@
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * The window’s caption now includes the current episode or expansion when playing a game.
 * *DOOM Retro* no longer remains paused when its window regains focus.
+* A bug is fixed whereby the main window would lose focus and the splash screen would become corrupted if the `am_external` CVAR was `on` at startup.
 * When the `animatedstats` CVAR is `on`:
   * The player’s health now animates correctly if they are telefragged.
   * The player’s health, armor and ammo now animate correctly when loading a savegame.
