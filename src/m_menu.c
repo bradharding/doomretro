@@ -3918,18 +3918,21 @@ void M_OpenMainMenu(void)
 
         S_StopSounds();
 
-        playerangle = viewplayer->mo->angle;
-        playerviewz = viewplayer->viewz;
-        menuspinspeed = 0;
+        if (menuspin)
+        {
+            playerangle = viewplayer->mo->angle;
+            playerviewz = viewplayer->viewz;
+            menuspinspeed = 0;
 
-        playerlookdir = viewplayer->lookdir;
+            playerlookdir = viewplayer->lookdir;
 
-        if (!helpscreen)
-            viewplayer->lookdir = 0;
+            if (!helpscreen)
+                viewplayer->lookdir = 0;
+        }
 
         R_SetViewSize(r_screensize_max);
 
-        if (!helpscreen)
+        if (menuspin && !helpscreen)
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
 
         I_RestoreMousePointerPosition();
@@ -4323,12 +4326,15 @@ void M_CloseMenu(void)
     {
         I_SetPalette(&PLAYPAL[st_palette * 768]);
 
-        viewplayer->mo->angle = playerangle;
-        viewplayer->lookdir = playerlookdir;
-        viewplayer->viewz = playerviewz;
+        if (menuspin)
+        {
+            viewplayer->mo->angle = playerangle;
+            viewplayer->lookdir = playerlookdir;
+            viewplayer->viewz = playerviewz;
 
-        if (!helpscreen)
-            R_SetViewSize(r_screensize);
+            if (!helpscreen)
+                R_SetViewSize(r_screensize);
+        }
 
         AM_SetAutomapSize(r_screensize);
 
