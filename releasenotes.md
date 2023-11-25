@@ -21,10 +21,11 @@
   * The case of the autocompleted text now always matches the text that’s already been entered.
   * Any text to the left of a semi-colon is no longer cleared.
 * The border of the menu’s background is now only displayed if the `vid_fullscreen` CVAR is `on`.
+* The spin of the player’s view in the menu’s background can now be disabled using the new `menuspin` CVAR, which is `on` by default.
 * The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
 * The window’s caption now includes the current episode or expansion when playing a game.
 * *DOOM Retro* no longer remains paused when its window regains focus.
-* A bug is fixed whereby the main window would lose focus and the splash screen would become corrupted if the `am_external` CVAR was `on` at startup.
+* A bug is fixed whereby the main window would lose focus and the splash screen would be corrupted if an external automap was successfully created at startup because the `am_external` CVAR was `on`.
 * When the `animatedstats` CVAR is `on`:
   * The player’s health now animates correctly if they are telefragged.
   * The player’s health, armor and ammo now animate correctly when loading a savegame.

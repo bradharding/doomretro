@@ -163,6 +163,7 @@ int                 lastepisode = -1;
 mpoint_t            *mark;
 int                 nummarks;
 int                 maxmarks;
+static int          markpress;
 
 mpoint_t            *breadcrumb;
 int                 numbreadcrumbs;
@@ -587,8 +588,6 @@ void AM_AddMark(void)
 
     message_dontfuckwithme = true;
 }
-
-static int  markpress;
 
 void AM_ClearMarks(void)
 {

@@ -2633,8 +2633,6 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    splashpal = W_CacheLastLumpName("SPLSHPAL");
-
     for (int i = 0; i < 18; i++)
     {
         char    buffer[9];
@@ -2729,33 +2727,9 @@ static void D_DoomMainSetup(void)
             D_StartTitle(1);
         }
         else
-            D_StartTitle(0);
-    }
-
-    // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
-    // The expectation is that these will be set in a .bex file
-    if (*startup1 && !FREEDOOM)
-    {
-        C_AddConsoleDivider();
-
-        D_ParseStartupString(startup1);
-
-        if (*startup2)
         {
-            D_ParseStartupString(startup2);
-
-            if (*startup3)
-            {
-                D_ParseStartupString(startup3);
-
-                if (*startup4)
-                {
-                    D_ParseStartupString(startup4);
-
-                    if (*startup5)
-                        D_ParseStartupString(startup5);
-                }
-            }
+            splashpal = W_CacheLastLumpName("SPLSHPAL");
+            D_StartTitle(0);
         }
     }
 
