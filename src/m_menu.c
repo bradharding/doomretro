@@ -4331,10 +4331,10 @@ void M_CloseMenu(void)
             viewplayer->mo->angle = playerangle;
             viewplayer->lookdir = playerlookdir;
             viewplayer->viewz = playerviewz;
-
-            if (!helpscreen)
-                R_SetViewSize(r_screensize);
         }
+
+        if (!helpscreen)
+            R_SetViewSize(r_screensize);
 
         AM_SetAutomapSize(r_screensize);
 

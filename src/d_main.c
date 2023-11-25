@@ -2721,6 +2721,8 @@ static void D_DoomMainSetup(void)
         }
         else if (M_CheckParm("-nosplash"))
         {
+            C_Warning(0, "A " BOLD("-nosplash") " parameter was found on the command-line. "
+                DOOMRETRO_NAME "'s splash screen wasn't displayed.");
             menuactive = false;
             splashscreen = false;
             D_FadeScreen(false);
