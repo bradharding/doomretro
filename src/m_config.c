@@ -43,6 +43,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamecontroller.h"
+#include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "z_zone.h"
@@ -685,13 +686,15 @@ void M_SaveCVARs(void)
             }
 
             case DEFAULT_UINT64:
-            {
-                char    *temp = commify(*(uint64_t *)cvars[i].location);
+                if (!M_CheckParm("-nostats"))
+                {
+                    char    *temp = commify(*(uint64_t *)cvars[i].location);
 
-                fputs(temp, file);
-                free(temp);
+                    fputs(temp, file);
+                    free(temp);
+                }
+
                 break;
-            }
 
             case DEFAULT_INT32_PERCENT:
             {
