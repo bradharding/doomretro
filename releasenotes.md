@@ -22,9 +22,9 @@
   * Any text to the left of a semi-colon is no longer cleared.
 * The border of the menu’s background is now only displayed if the `vid_fullscreen` CVAR is `on`.
 * The spin of the player’s view in the menu’s background can now be disabled using the new `menuspin` CVAR, which is `on` by default.
-* The help screen can now be shown by pressing the <kbd><b>F1</b></kbd> key when the menu is open.
+* The help screen can now be shown when the menu is open by pressing the <kbd><b>F1</b></kbd> key.
 * The window’s caption now includes the current episode or expansion when playing a game.
-* *DOOM Retro* no longer remains paused when its window regains focus.
+* *DOOM Retro* no longer remains paused once its window regains focus.
 * A bug is fixed whereby the main window would lose focus and the splash screen would be corrupted if an external automap was successfully created at startup because the `am_external` CVAR was `on`.
 * When the `animatedstats` CVAR is `on`:
   * The player’s health now animates correctly if they are telefragged.
@@ -32,9 +32,9 @@
 * A bug is fixed whereby numbers in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
 * Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Harmony Compatible*](https://www.doomworld.com/idgames/levels/doom2/Ports/g-i/harmonyc) and [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * A bug is fixed whereby monsters would respawn only once when playing on *Nightmare!* or if the `respawnmonsters` CCMD was used.
-* The accuracy of the “Map explored” stat displayed by the `playerstats` CCMD has now been fixed.
+* The “Map explored” stat displayed by the `playerstats` CCMD is now accurate.
 * The `mapstats` CCMD now shows the number of voodoo dolls in the current map.
-* The `play` CCMD now accepts a music title as a value, such as `atdoomsgate` or `runningfromevil`.
+* The `play` CCMD now also accepts a music title as its value, such as `atdoomsgate` or `runningfromevil`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
