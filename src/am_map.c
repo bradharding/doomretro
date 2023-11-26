@@ -2281,18 +2281,16 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
+    if (am_antialiasing)
+        AM_ApplyAntialiasing();
+
     if (r_detail == r_detail_low)
     {
-        if (am_antialiasing)
-            V_LowGraphicDetail_2x2_Antialiased(mapscreen, MAPWIDTH, 0, 0, MAPWIDTH, MAPAREA, 2, 2);
-        else
-            V_LowGraphicDetail_2x2(mapscreen, MAPWIDTH, 0, 0, MAPWIDTH, MAPAREA, 2, 2);
+        V_LowGraphicDetail_2x2(mapscreen, MAPWIDTH, 0, 0, MAPWIDTH, MAPAREA, 2, 2);
 
         if (nummarks)
             AM_DrawMarks(bigmarknums);
     }
-    else if (am_antialiasing)
-        AM_ApplyAntialiasing();
 
     if (!(am_followmode || consoleactive))
     {
