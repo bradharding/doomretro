@@ -143,6 +143,12 @@ extern int          windowwidth;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
+extern uint32_t     rmask;
+extern uint32_t     gmask;
+extern uint32_t     bmask;
+extern uint32_t     amask;
+extern int          bpp;
+
 extern bool         usinggamecontroller;
 extern bool         usingmouse;
 extern bool         windowfocused;

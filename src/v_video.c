@@ -1761,7 +1761,8 @@ static bool V_SavePNG(SDL_Renderer *sdlrenderer, const char *path)
 
     if (!SDL_GetRendererOutputSize(sdlrenderer, &width, &height))
     {
-        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3), height, 32, 0, 0, 0, 0);
+        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3), height,
+                        bpp, rmask, gmask, bmask, amask);
 
         if (screenshot)
         {

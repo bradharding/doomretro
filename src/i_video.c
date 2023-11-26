@@ -141,6 +141,12 @@ int                 windowheight;
 int                 windowx;
 int                 windowy;
 
+uint32_t            rmask;
+uint32_t            gmask;
+uint32_t            bmask;
+uint32_t            amask;
+int                 bpp = 0;
+
 static int          displaywidth;
 static int          displayheight;
 static int          displaycenterx;
@@ -1230,11 +1236,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
     int                 windowflags = (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     int                 width, height;
     uint32_t            pixelformat;
-    uint32_t            rmask;
-    uint32_t            gmask;
-    uint32_t            bmask;
-    uint32_t            amask;
-    int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
     bool                instead = false;
