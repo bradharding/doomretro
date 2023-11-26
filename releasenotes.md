@@ -15,7 +15,7 @@
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
 * When the `r_shadows` CVAR is `on`, if a monster is fullbright when attacking, the shadow they cast now momentarily becomes slightly lighter.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
-* Minor improvements have been made to the parsing of `MAPINFO` lumps.
+* Minor improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
 * Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now always matches the text that’s already been entered.

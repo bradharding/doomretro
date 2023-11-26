@@ -4087,7 +4087,7 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                bool highlight;
+                bool    highlight;
 
                 if (currentmenu == &OptionsDef
                     && ((i == scrnsize && itemon == option_empty1)

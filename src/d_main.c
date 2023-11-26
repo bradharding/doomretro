@@ -2325,7 +2325,7 @@ static void D_DoomMainSetup(void)
 
         if (gamemission == doom)
         {
-            bool nosigil = false;
+            bool    nosigil = false;
 
             if (W_GetNumLumps("M_DOOM") > 2
                 || W_GetNumLumps("E1M1") > 1
@@ -2350,7 +2350,7 @@ static void D_DoomMainSetup(void)
         }
         else if (gamemission == doom2)
         {
-            bool nonerve = false;
+            bool    nonerve = false;
 
             if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
                 nonerve = true;
