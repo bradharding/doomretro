@@ -1757,22 +1757,20 @@ char    lbmpath2[MAX_PATH];
 
 static bool V_SavePNG(SDL_Renderer *sdlrenderer, const char *path)
 {
-    bool    result = false;
-    int     width;
-    int     height;
+    bool        result = false;
+    int         width;
+    int         height;
+    SDL_Surface *screenshot;
 
-    if (!SDL_GetRendererOutputSize(sdlrenderer, &width, &height))
+    SDL_GetWindowSize(window, &width, &height);
+
+    if ((screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3), height,
+        bpp, rmask, gmask, bmask, amask)))
     {
-        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3), height,
-                        bpp, rmask, gmask, bmask, amask);
+        if (!SDL_RenderReadPixels(sdlrenderer, NULL, 0, screenshot->pixels, screenshot->pitch))
+            result = !IMG_SavePNG(screenshot, path);
 
-        if (screenshot)
-        {
-            if (!SDL_RenderReadPixels(sdlrenderer, NULL, 0, screenshot->pixels, screenshot->pitch))
-                result = !IMG_SavePNG(screenshot, path);
-
-            SDL_FreeSurface(screenshot);
-        }
+        SDL_FreeSurface(screenshot);
     }
 
     return result;
