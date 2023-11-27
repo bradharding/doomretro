@@ -72,7 +72,7 @@ static int  linecount;
 int         dehcount = 0;
 int         dehmaptitlecount = 0;
 bool        dehacked = false;
-bool        norocketsmoke = false;
+bool        norockettrails = false;
 
 extern byte *defined_codeptr_args;
 
@@ -3842,7 +3842,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
                 mobjinfo[MT_BARREL].frames = 2;
             }
             else if (i == SPR_RSMK)
-                norocketsmoke = true;
+                norockettrails = true;
         }
     }
 
@@ -4140,7 +4140,7 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
                 mobjinfo[MT_BARREL].frames = 2;
             }
             else if (match == SPR_RSMK)
-                norocketsmoke = true;
+                norockettrails = true;
 
             sprnames[match] = M_StringDuplicate(candidate);
         }
@@ -4456,7 +4456,7 @@ void D_PostProcessDeh(void)
                 states[i].args[j] = bexptr_match->default_args[j];
     }
 
-    norocketsmoke |= (!states[S_TRAIL].dehacked && !states[S_TRAIL2].dehacked
+    norockettrails |= (!states[S_TRAIL].dehacked && !states[S_TRAIL2].dehacked
         && !states[S_TRAIL3].dehacked && !states[S_TRAIL4].dehacked);
 
     dsdh_FreeTables();
