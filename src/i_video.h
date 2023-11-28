@@ -147,6 +147,7 @@ extern uint32_t     rmask;
 extern uint32_t     gmask;
 extern uint32_t     bmask;
 extern uint32_t     amask;
+extern uint32_t     pixelformat;
 extern int          bpp;
 
 extern bool         usinggamecontroller;
