@@ -1755,7 +1755,8 @@ char    lbmname1[MAX_PATH];
 char    lbmpath1[MAX_PATH];
 char    lbmpath2[MAX_PATH];
 
-static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, const char *path)
+static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, int sdlpixelformat,
+    int sdlbpp, int sdlrmask, int sdlgmask, int sdlbmask, int sdlamask, const char *path)
 {
     bool        result = false;
     int         width = 0;
@@ -1765,9 +1766,9 @@ static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, const ch
     SDL_GetWindowSize(sdlwindow, &width, &height);
 
     if (width && height && (screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3),
-        height, bpp, rmask, gmask, bmask, amask)))
+        height, sdlbpp, sdlrmask, sdlgmask, sdlbmask, sdlamask)))
     {
-        if (!SDL_RenderReadPixels(sdlrenderer, NULL, pixelformat, screenshot->pixels, screenshot->pitch))
+        if (!SDL_RenderReadPixels(sdlrenderer, NULL, sdlpixelformat, screenshot->pixels, screenshot->pitch))
             result = !IMG_SavePNG(screenshot, path);
 
         SDL_FreeSurface(screenshot);
@@ -1849,7 +1850,7 @@ bool V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, renderer, lbmpath1);
+    result = V_SavePNG(window, renderer, pixelformat, bpp, rmask, gmask, bmask, amask, lbmpath1);
 
     if (result && mapwindow && gamestate == GS_LEVEL)
     {
@@ -1863,7 +1864,7 @@ bool V_ScreenShot(void)
             free(temp2);
         } while (M_FileExists(lbmpath2));
 
-        V_SavePNG(mapwindow, maprenderer, lbmpath2);
+        V_SavePNG(mapwindow, maprenderer, mappixelformat, mapbpp, maprmask, mapgmask, mapbmask, mapamask, lbmpath2);
     }
 
     free(temp1);

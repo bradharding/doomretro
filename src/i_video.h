@@ -150,6 +150,13 @@ extern uint32_t     amask;
 extern uint32_t     pixelformat;
 extern int          bpp;
 
+extern uint32_t     maprmask;
+extern uint32_t     mapgmask;
+extern uint32_t     mapbmask;
+extern uint32_t     mapamask;
+extern uint32_t     mappixelformat;
+extern int          mapbpp;
+
 extern bool         usinggamecontroller;
 extern bool         usingmouse;
 extern bool         windowfocused;
