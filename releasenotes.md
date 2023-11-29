@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.1
 
-* *DOOM Retro* is now built using v17.8.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.8.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
 * Support has been added for John Romero’s newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
