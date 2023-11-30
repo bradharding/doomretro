@@ -20,7 +20,7 @@
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now always matches the text that’s already been entered.
   * Any text to the left of a semi-colon is no longer cleared.
-* The border of the menu’s background is now only displayed if the `vid_fullscreen` CVAR is `on`.
+* The border of the menu’s background is no longer displayed if the `vid_fullscreen` CVAR is `off` and the `vid_widescreen` CVAR is `on`.
 * The spin of the player’s view in the menu’s background can now be disabled using the new `menuspin` CVAR, which is `on` by default.
 * The help screen can now be shown when the menu is open by pressing the <kbd><b>F1</b></kbd> key.
 * The window’s caption now includes the current episode or expansion when playing a game.
