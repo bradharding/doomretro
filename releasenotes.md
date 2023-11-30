@@ -3,7 +3,7 @@
 ### DOOM Retro v5.1
 
 * *DOOM Retro* is now built using v17.8.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5).
+* *DOOM Retro* now uses [*SDL v2.28.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5) and [*SDL_image v2.7.1*](https://github.com/libsdl-org/SDL_image/releases/tag/prerelease-2.7.1).
 * Support has been added for John Romero’s newly released [*SIGIL II*](https://romero.com/sigil).
 * Several changes have been made to text that is output to the console.
 * The automap is now also shown in low detail when the `r_detail` CVAR is `low`.

@@ -42,8 +42,8 @@ extern "C" {
  * Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
  */
 #define SDL_IMAGE_MAJOR_VERSION 2
-#define SDL_IMAGE_MINOR_VERSION 6
-#define SDL_IMAGE_PATCHLEVEL    3
+#define SDL_IMAGE_MINOR_VERSION 7
+#define SDL_IMAGE_PATCHLEVEL    1
 
 /**
  * This macro can be used to fill a version structure with the compile-time
@@ -113,12 +113,12 @@ typedef enum
  *
  * Currently, these flags are:
  *
- * - `_INIT_JPG`
- * - `_INIT_PNG`
- * - `_INIT_TIF`
- * - `_INIT_WEBP`
- * - `_INIT_JXL`
- * - `_INIT_AVIF`
+ * - `IMG_INIT_JPG`
+ * - `IMG_INIT_PNG`
+ * - `IMG_INIT_TIF`
+ * - `IMG_INIT_WEBP`
+ * - `IMG_INIT_JXL`
+ * - `IMG_INIT_AVIF`
  *
  * More flags may be added in a future SDL_image release.
  *
@@ -2149,6 +2149,26 @@ extern DECLSPEC void SDLCALL IMG_FreeAnimation(IMG_Animation *anim);
  * \sa IMG_FreeAnimation
  */
 extern DECLSPEC IMG_Animation * SDLCALL IMG_LoadGIFAnimation_RW(SDL_RWops *src);
+
+/**
+ * Load a WEBP animation directly.
+ *
+ * If you know you definitely have a WEBP image, you can call this function,
+ * which will skip SDL_image's file format detection routines. Generally it's
+ * better to use the abstract interfaces; also, there is only an SDL_RWops
+ * interface available here.
+ *
+ * \param src an SDL_RWops that data will be read from.
+ * \returns a new IMG_Animation, or NULL on error.
+ *
+ * \since This function is available since SDL_image 2.6.0.
+ *
+ * \sa IMG_LoadAnimation
+ * \sa IMG_LoadAnimation_RW
+ * \sa IMG_LoadAnimationTyped_RW
+ * \sa IMG_FreeAnimation
+ */
+extern DECLSPEC IMG_Animation * SDLCALL IMG_LoadWEBPAnimation_RW(SDL_RWops *src);
 
 /**
  * Report SDL_image errors
