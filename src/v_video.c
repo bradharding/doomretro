@@ -1756,23 +1756,26 @@ char        lbmpath1[MAX_PATH];
 static char lbmname2[MAX_PATH];
 char        lbmpath2[MAX_PATH];
 
-static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, int sdlpixelformat,
-    int sdlbpp, int sdlrmask, int sdlgmask, int sdlbmask, int sdlamask, const char *path)
+static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, const char *path)
 {
-    bool        result = false;
-    int         width = 0;
-    int         height = 0;
-    SDL_Surface *screenshot;
+    bool    result = false;
+    int     width = 0;
+    int     height = 0;
 
     SDL_GetWindowSize(sdlwindow, &width, &height);
 
-    if (width && height && (screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3),
-        height, sdlbpp, sdlrmask, sdlgmask, sdlbmask, sdlamask)))
+    if (width > 0 && height > 0)
     {
-        if (!SDL_RenderReadPixels(sdlrenderer, NULL, sdlpixelformat, screenshot->pixels, screenshot->pitch))
-            result = !IMG_SavePNG(screenshot, path);
+        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3),
+                        height, 32, 0, 0, 0, 0);
 
-        SDL_FreeSurface(screenshot);
+        if (screenshot)
+        {
+            if (!SDL_RenderReadPixels(sdlrenderer, NULL, 0, screenshot->pixels, screenshot->pitch))
+                result = !IMG_SavePNG(screenshot, path);
+
+            SDL_FreeSurface(screenshot);
+        }
     }
 
     return result;
@@ -1851,7 +1854,7 @@ bool V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, renderer, pixelformat, bpp, rmask, gmask, bmask, amask, lbmpath1);
+    result = V_SavePNG(window, renderer, lbmpath1);
 
     if (result && mapwindow && gamestate == GS_LEVEL)
     {
@@ -1873,7 +1876,7 @@ bool V_ScreenShot(void)
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", screenshotfolder, lbmname2);
         } while (M_FileExists(lbmpath2));
 
-        V_SavePNG(mapwindow, maprenderer, mappixelformat, mapbpp, maprmask, mapgmask, mapbmask, mapamask, lbmpath2);
+        V_SavePNG(mapwindow, maprenderer, lbmpath2);
     }
 
     free(temp1);

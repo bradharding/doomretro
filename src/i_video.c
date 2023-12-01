@@ -141,20 +141,6 @@ int                 windowheight;
 int                 windowx;
 int                 windowy;
 
-uint32_t            rmask;
-uint32_t            gmask;
-uint32_t            bmask;
-uint32_t            amask;
-uint32_t            pixelformat;
-int                 bpp = 0;
-
-uint32_t            maprmask;
-uint32_t            mapgmask;
-uint32_t            mapbmask;
-uint32_t            mapamask;
-uint32_t            mappixelformat;
-int                 mapbpp = 0;
-
 static int          displaywidth;
 static int          displayheight;
 static int          displaycenterx;
@@ -976,6 +962,13 @@ static void GetDisplays(void)
 bool I_CreateExternalAutomap(void)
 {
     const char  *displayname;
+    uint32_t    rmask;
+    uint32_t    gmask;
+    uint32_t    bmask;
+    uint32_t    amask;
+    uint32_t    pixelformat;
+    int         bpp = 0;
+
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1020,13 +1013,13 @@ bool I_CreateExternalAutomap(void)
     if (!(mapsurface = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface", -1);
 
-    if ((mappixelformat = SDL_GetWindowPixelFormat(mapwindow)) == SDL_PIXELFORMAT_UNKNOWN)
+    if ((pixelformat = SDL_GetWindowPixelFormat(mapwindow)) == SDL_PIXELFORMAT_UNKNOWN)
         I_SDLError("SDL_GetWindowPixelFormat", -1);
 
-    if (!SDL_PixelFormatEnumToMasks(mappixelformat, &mapbpp, &maprmask, &mapgmask, &mapbmask, &mapamask))
+    if (!SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))
         I_SDLError("SDL_PixelFormatEnumToMasks", -1);
 
-    if (!(mapbuffer = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, mapbpp, maprmask, mapgmask, mapbmask, mapamask)))
+    if (!(mapbuffer = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, bpp, rmask, gmask, bmask, amask)))
         I_SDLError("SDL_CreateRGBSurface", -1);
 
     mappitch = mapbuffer->pitch;
@@ -1037,7 +1030,7 @@ bool I_CreateExternalAutomap(void)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, mappixelformat, SDL_TEXTUREACCESS_STREAMING,
+    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
         MAPWIDTH, MAPHEIGHT)))
         I_SDLError("SDL_CreateTexture", -2);
 
@@ -1045,7 +1038,7 @@ bool I_CreateExternalAutomap(void)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, mappixelformat,
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat,
             SDL_TEXTUREACCESS_TARGET, upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
 
@@ -1240,6 +1233,12 @@ static void SetVideoMode(const bool createwindow, const bool output)
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
     bool                instead = false;
+    uint32_t            rmask;
+    uint32_t            gmask;
+    uint32_t            bmask;
+    uint32_t            amask;
+    uint32_t            pixelformat;
+    int                 bpp = 0;
 
     if (displayindex >= numdisplays)
     {
