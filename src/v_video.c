@@ -1751,9 +1751,10 @@ void V_Init(void)
         screens[i] = &base[i * MAXSCREENAREA];
 }
 
-char    lbmname1[MAX_PATH];
-char    lbmpath1[MAX_PATH];
-char    lbmpath2[MAX_PATH];
+char        lbmname1[MAX_PATH];
+char        lbmpath1[MAX_PATH];
+static char lbmname2[MAX_PATH];
+char        lbmpath2[MAX_PATH];
 
 static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, int sdlpixelformat,
     int sdlbpp, int sdlrmask, int sdlgmask, int sdlbmask, int sdlamask, const char *path)
@@ -1858,10 +1859,18 @@ bool V_ScreenShot(void)
 
         do
         {
-            char    *temp2 = commify(count++);
+            if (!count)
+                M_StringCopy(lbmname2, "External Automap.png", sizeof(lbmname2));
+            else
+            {
+                char    *temp2 = commify(count);
 
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s (%s).png", screenshotfolder, temp1, temp2);
-            free(temp2);
+                M_snprintf(lbmname2, sizeof(lbmname2), "External Automap (%s).png", temp2);
+                free(temp2);
+            }
+
+            count++;
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", screenshotfolder, lbmname2);
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(mapwindow, maprenderer, mappixelformat, mapbpp, maprmask, mapgmask, mapbmask, mapamask, lbmpath2);
