@@ -35,6 +35,7 @@
 * The “Map explored” stat displayed by the `playerstats` CCMD is now accurate.
 * The `mapstats` CCMD now shows the number of voodoo dolls in the current map.
 * The `play` CCMD now also accepts a music title as its value, such as `atdoomsgate` or `runningfromevil`.
+* A bug is fixed whereby the screenshots taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key would become corrupted in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
