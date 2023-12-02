@@ -1756,7 +1756,7 @@ char        lbmpath1[MAX_PATH];
 static char lbmname2[MAX_PATH];
 char        lbmpath2[MAX_PATH];
 
-static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, const char *path)
+static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 {
     bool    result = false;
     int     width = 0;
@@ -1771,7 +1771,7 @@ static bool V_SavePNG(SDL_Window *sdlwindow, SDL_Renderer *sdlrenderer, const ch
 
         if (screenshot)
         {
-            if (!SDL_RenderReadPixels(sdlrenderer, NULL, 0, screenshot->pixels, screenshot->pitch))
+            if (!SDL_RenderReadPixels(SDL_GetRenderer(sdlwindow), NULL, 0, screenshot->pixels, screenshot->pitch))
                 result = !IMG_SavePNG(screenshot, path);
 
             SDL_FreeSurface(screenshot);
@@ -1786,6 +1786,7 @@ bool V_ScreenShot(void)
     bool    result = false;
     char    mapname[128];
     char    *temp1;
+    char    *temp2;
     int     count = 0;
 
     if (consoleactive)
@@ -1812,26 +1813,21 @@ bool V_ScreenShot(void)
                 break;
 
             default:
-            {
-                char    *temp2 = titlecase(maptitle);
-
+                temp2 = titlecase(maptitle);
                 M_StringCopy(mapname, temp2, sizeof(mapname));
                 free(temp2);
                 break;
-            }
         }
 
     if (M_StringStartsWith(mapname, "The "))
     {
-        char    *temp2 = M_SubString(mapname, 4, strlen(mapname) - 4);
-
+        temp2 = M_SubString(mapname, 4, strlen(mapname) - 4);
         M_snprintf(mapname, sizeof(mapname), "%s, The", temp2);
         free(temp2);
     }
     else if (M_StringStartsWith(mapname, "A "))
     {
-        char    *temp2 = M_SubString(mapname, 2, strlen(mapname) - 2);
-
+        temp2 = M_SubString(mapname, 2, strlen(mapname) - 2);
         M_snprintf(mapname, sizeof(mapname), "%s, A", temp2);
         free(temp2);
     }
@@ -1844,8 +1840,7 @@ bool V_ScreenShot(void)
             M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", temp1);
         else
         {
-            char    *temp2 = commify(count);
-
+            temp2 = commify(count);
             M_snprintf(lbmname1, sizeof(lbmname1), "%s (%s).png", temp1, temp2);
             free(temp2);
         }
@@ -1854,11 +1849,12 @@ bool V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, renderer, lbmpath1);
+    result = V_SavePNG(window, lbmpath1);
 
     if (result && mapwindow && gamestate == GS_LEVEL)
     {
         lbmpath2[0] = '\0';
+        count = 0;
 
         do
         {
@@ -1866,8 +1862,7 @@ bool V_ScreenShot(void)
                 M_StringCopy(lbmname2, "External Automap.png", sizeof(lbmname2));
             else
             {
-                char    *temp2 = commify(count);
-
+                temp2 = commify(count);
                 M_snprintf(lbmname2, sizeof(lbmname2), "External Automap (%s).png", temp2);
                 free(temp2);
             }
@@ -1876,7 +1871,7 @@ bool V_ScreenShot(void)
             M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", screenshotfolder, lbmname2);
         } while (M_FileExists(lbmpath2));
 
-        V_SavePNG(mapwindow, maprenderer, lbmpath2);
+        V_SavePNG(mapwindow, lbmpath2);
     }
 
     free(temp1);

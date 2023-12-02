@@ -88,7 +88,7 @@ static bool         manuallypositioning;
 
 SDL_Window          *window = NULL;
 static int          windowid;
-SDL_Renderer        *renderer;
+static SDL_Renderer *renderer;
 static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
 static SDL_Surface  *surface;
@@ -101,7 +101,7 @@ byte                *PLAYPAL;
 
 byte                *mapscreen;
 SDL_Window          *mapwindow = NULL;
-SDL_Renderer        *maprenderer;
+static SDL_Renderer *maprenderer;
 static SDL_Texture  *maptexture;
 static SDL_Texture  *maptexture_upscaled;
 static SDL_Surface  *mapsurface;
