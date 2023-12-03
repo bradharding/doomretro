@@ -131,6 +131,7 @@ typedef struct
     int     tics;
     int     currentitem;
     int     items[MAX_MUS_ENTRIES];
+    bool    fromsavegame;
 } musinfo_t;
 
 extern musinfo_t    musinfo;

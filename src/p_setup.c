@@ -3286,7 +3286,10 @@ void P_SetupLevel(int ep, int map)
     // preload graphics
     R_PrecacheLevel();
 
-    S_Start();
+    if (!musinfo.fromsavegame)
+        S_Start();
+
+    musinfo.fromsavegame = false;
 
     S_ParseMusInfo(lumpname);
 
