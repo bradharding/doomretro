@@ -106,7 +106,7 @@ bool I_InitMusic(void)
 }
 
 // Set music volume (0 - 127)
-void I_SetMusicVolume(int volume)
+void I_SetMusicVolume(const int volume)
 {
     // Internal state variable.
     current_music_volume = volume;
@@ -127,7 +127,7 @@ void I_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-void I_PlaySong(void *handle, bool looping)
+void I_PlaySong(void *handle, const bool looping)
 {
     if (!music_initialized)
         return;

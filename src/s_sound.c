@@ -488,7 +488,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, sfxnum_t sfxnum, int pitch)
         channels[cnum].handle = handle;
 }
 
-void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum)
+void S_StartSound(mobj_t *mobj, const sfxnum_t sfxnum)
 {
     if (mobj)
     {
@@ -499,7 +499,7 @@ void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum)
         S_StartSoundAtVolume(NULL, sfxnum, NORM_PITCH);
 }
 
-void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum)
+void S_StartSectorSound(degenmobj_t *degenmobj, const sfxnum_t sfxnum)
 {
     S_StartSoundAtVolume((mobj_t *)degenmobj, sfxnum, NORM_PITCH);
 }
@@ -575,17 +575,18 @@ void S_RestoreMusicVolume(void)
     I_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
 }
 
-void S_SetSfxVolume(int volume)
+void S_SetSfxVolume(const int volume)
 {
     snd_sfxvolume = volume;
 }
 
-void S_StartMusic(musicnum_t musicnum)
+void S_StartMusic(const musicnum_t musicnum)
 {
     S_ChangeMusic(musicnum, false, false, false);
 }
 
-void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool mapstart)
+void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
+    const bool allowrestart, const bool mapstart)
 {
     musicinfo_t *music = &s_music[musicnum];
     char        namebuf[9];
@@ -688,7 +689,7 @@ void S_StopMusic(void)
     mus_playing = NULL;
 }
 
-void S_ChangeMusInfoMusic(int lumpnum, int looping)
+void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
 {
     musicinfo_t *music;
     void        *handle;

@@ -46,7 +46,8 @@
 #if !defined(__HAIKU__)
 #define DEFAULT_DEVICE              NULL
 #if defined(__sun)
-#define Mix_OpenAudioDevice(freq, format, channels, chunk, dev, chgs)   Mix_OpenAudio(freq, format, channels, chunk)
+#define Mix_OpenAudioDevice(freq, format, channels, chunk, dev, chgs) \
+    Mix_OpenAudio(freq, format, channels, chunk)
 #endif
 #else
 // Triggers a segfault if no name is provided even though the default device is empty
@@ -57,18 +58,19 @@ bool I_InitSound(void);
 void I_ShutdownSound(void);
 bool CacheSFX(sfxinfo_t *sfxinfo);
 void I_UpdateSoundParms(const int channel, const int vol, const int sep);
-int I_StartSound(const sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch);
+int I_StartSound(const sfxinfo_t *sfxinfo, const int channel,
+    const int vol, const int sep, const int pitch);
 void I_StopSound(const int channel);
 bool I_SoundIsPlaying(const int channel);
 
 bool I_InitMusic(void);
 void I_ShutdownMusic(void);
-void I_SetMusicVolume(int volume);
+void I_SetMusicVolume(const int volume);
 void I_PauseSong(void);
 void I_ResumeSong(void);
 void *I_RegisterSong(void *data, int size);
 void I_UnregisterSong(void *handle);
-void I_PlaySong(void *handle, bool looping);
+void I_PlaySong(void *handle, const bool looping);
 void I_StopSong(void);
 bool I_AnySoundStillPlaying(void);
 
@@ -95,16 +97,17 @@ void S_Start(void);
 // Start sound for thing at <origin_p>
 //  using <sfxnum> from sounds.h
 //
-void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum);
-void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum);
+void S_StartSound(mobj_t *mobj, const sfxnum_t sfxnum);
+void S_StartSectorSound(degenmobj_t *degenmobj, const sfxnum_t sfxnum);
 void S_UnlinkSound(const mobj_t *origin);
 
 // Start music using <musicnum> from sounds.h
-void S_StartMusic(musicnum_t musicnum);
+void S_StartMusic(const musicnum_t musicnum);
 
 // Start music using <musicnum> from sounds.h,
 //  and set whether looping
-void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool mapstart);
+void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
+    const bool allowrestart, const bool mapstart);
 
 // Stops the music for sure.
 void S_StopMusic(void);
@@ -120,7 +123,7 @@ void S_UpdateSounds(void);
 
 void S_LowerMusicVolume(void);
 void S_RestoreMusicVolume(void);
-void S_SetSfxVolume(int volume);
+void S_SetSfxVolume(const int volume);
 
 #define MAX_MUS_ENTRIES 64
 
@@ -136,7 +139,7 @@ typedef struct
 
 extern musinfo_t    musinfo;
 
-void S_ChangeMusInfoMusic(int lumpnum, int looping);
+void S_ChangeMusInfoMusic(const int lumpnum, const bool looping);
 void S_ParseMusInfo(const char *lumpname);
 void MusInfoThinker(mobj_t *thing);
 void T_MAPMusic(void);

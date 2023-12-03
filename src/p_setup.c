@@ -3288,8 +3288,8 @@ void P_SetupLevel(int ep, int map)
 
     if (!musinfo.fromsavegame)
         S_Start();
-
-    musinfo.fromsavegame = false;
+    else
+        musinfo.fromsavegame = false;
 
     S_ParseMusInfo(lumpname);
 
