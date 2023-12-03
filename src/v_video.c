@@ -1754,7 +1754,7 @@ void V_Init(void)
 char        lbmname1[MAX_PATH];
 char        lbmpath1[MAX_PATH];
 static char lbmname2[MAX_PATH];
-char        lbmpath2[MAX_PATH];
+char        lbmpath2[MAX_PATH] = "";
 
 static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 {
@@ -1853,7 +1853,6 @@ bool V_ScreenShot(void)
 
     if (result && mapwindow && gamestate == GS_LEVEL)
     {
-        lbmpath2[0] = '\0';
         count = 0;
 
         do

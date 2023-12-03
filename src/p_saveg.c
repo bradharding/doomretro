@@ -545,10 +545,8 @@ static void saveg_read_player_t(void)
     viewplayer->bounce = saveg_read32();
     viewplayer->bouncemax = saveg_read32();
 
-    if ((musinfo.currentitem = saveg_read32()))
+    if ((musinfo.currentitem = saveg_read32()) != -1)
         musinfo.fromsavegame = true;
-    else
-        musinfo.currentitem = -1;
 
     viewplayer->infightcount = saveg_read32();
     viewplayer->resurrectioncount = saveg_read32();
