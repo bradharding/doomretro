@@ -2320,6 +2320,9 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
 
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum);
         filename = lumpinfo[lumpnum]->wadfile->path;
+
+        if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename)))
+            return;
     }
 
     // loop until end of file
@@ -2415,8 +2418,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     else
         fclose(infile.f);                                       // close real file
 
-    if (!D_IsSIGILWAD(leafname(filename)) && !D_IsSIGIL2WAD(leafname(filename)))
-        dehcount++;
+    dehcount++;
 
     if (addtodehmaptitlecount)
         dehmaptitlecount++;
