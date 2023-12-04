@@ -1858,11 +1858,11 @@ bool V_ScreenShot(void)
         do
         {
             if (!count)
-                M_StringCopy(lbmname2, "External Automap.png", sizeof(lbmname2));
+                M_StringCopy(lbmname2, "Automap.png", sizeof(lbmname2));
             else
             {
                 temp2 = commify(count);
-                M_snprintf(lbmname2, sizeof(lbmname2), "External Automap (%s).png", temp2);
+                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%s).png", temp2);
                 free(temp2);
             }
 

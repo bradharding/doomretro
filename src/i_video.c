@@ -988,7 +988,12 @@ bool I_CreateExternalAutomap(void)
     else if (am_display > numdisplays)
     {
         if (!togglingvanilla)
-            C_Warning(1, "The external automap can't be shown. Display %i wasn't found.", am_display);
+        {
+            if (numdisplays == 1)
+                C_Warning(1, "The external automap can't be shown. There is only 1 display.");
+            else
+                C_Warning(1, "The external automap can't be shown. There are only %i displays.", numdisplays);
+        }
 
         return false;
     }
