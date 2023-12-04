@@ -1013,9 +1013,15 @@ void M_LoadCVARs(char *filename)
 
     if (!file)
     {
-        M_SaveCVARs();
         C_Output("All settings will be saved in " BOLD("%s") ".", filename);
         cvarsloaded = true;
+
+        if (M_CheckParm("-norun"))
+        {
+            M_SaveCVARs();
+            exit(0);
+        }
+
         return;
     }
 
