@@ -969,7 +969,6 @@ bool I_CreateExternalAutomap(void)
     uint32_t    pixelformat;
     int         bpp = 0;
 
-
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
 
@@ -981,7 +980,7 @@ bool I_CreateExternalAutomap(void)
     if (am_display == vid_display)
     {
         if (!togglingvanilla)
-            C_Warning(1, "The external automap can't be shown on this display.");
+            C_Warning(1, "The external automap can't be shown on display %i.", am_display);
 
         return false;
     }
@@ -990,9 +989,11 @@ bool I_CreateExternalAutomap(void)
         if (!togglingvanilla)
         {
             if (numdisplays == 1)
-                C_Warning(1, "The external automap can't be shown. There is only 1 display.");
+                C_Warning(1, "The external automap can't be shown on display %i. There is only 1 display.",
+                    am_display);
             else
-                C_Warning(1, "The external automap can't be shown. There are only %i displays.", numdisplays);
+                C_Warning(1, "The external automap can't be shown on display %i. There are only %i displays.",
+                    am_display, numdisplays);
         }
 
         return false;

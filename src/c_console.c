@@ -1334,9 +1334,12 @@ void C_UpdatePathOverlay(void)
                 y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
         }
 
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
-            (r_hud_translucency ? tinttab70 : NULL), distance,
-            (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), true);
+        if (r_hud_translucency)
+            C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
+                tinttab70, distance, consoleoverlaycolor, true);
+        else
+            C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
+                NULL, distance, nearestlightgray, true);
 
         pathoverlay = true;
     }
