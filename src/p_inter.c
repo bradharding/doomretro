@@ -1646,9 +1646,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             }
 
             if (M_StringCompare(playername, playername_default))
-                C_PlayerMessage("You have been telefragged by %s!", sourcename);
+                C_PlayerMessage("You were telefragged by %s!", sourcename);
             else
-                C_PlayerMessage("%s has been telefragged by %s!", playername, sourcename);
+                C_PlayerMessage("%s was telefragged by %s!", playername, sourcename);
         }
         else if (source->player)
         {
@@ -1715,12 +1715,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (inflicter->inflicter == MT_PLAYER)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You have been %s by %s %s you exploded!",
+                        C_PlayerMessage("You were %s by %s %s you exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
-                        C_PlayerMessage("%s has been %s by %s %s %s exploded!",
+                        C_PlayerMessage("%s was %s by %s %s %s exploded!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1730,7 +1730,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You have been %s by %s %s that %s %s exploded!",
+                        C_PlayerMessage("You were %s by %s %s that %s %s exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
@@ -1739,7 +1739,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
                     else
-                        C_PlayerMessage("%s has been %s by %s %s that %s %s exploded!",
+                        C_PlayerMessage("%s was %s by %s %s that %s %s exploded!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1917,10 +1917,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             if (target->player)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You have been %s by %s!",
+                    C_PlayerMessage("You were %s by %s!",
                         (gibbed ? s_GIBBED : s_KILLED), sourcename);
                 else
-                    C_PlayerMessage("%s has been %s by %s!",
+                    C_PlayerMessage("%s was %s by %s!",
                         playername, (gibbed ? s_GIBBED : s_KILLED), sourcename);
             }
             else
@@ -1958,9 +1958,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
         {
             if (M_StringCompare(playername, playername_default))
-                C_PlayerMessage("You have been crushed to death!");
+                C_PlayerMessage("You were crushed to death!");
             else
-                C_PlayerMessage("%s has been crushed to death!", playername);
+                C_PlayerMessage("%s was crushed to death!", playername);
         }
         else
         {

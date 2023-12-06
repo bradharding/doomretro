@@ -6106,7 +6106,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->cheated);
     temp2 = commifystat(stat_cheats);
-    C_TabbedOutput(tabs, "Cheats\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "Cheats entered\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -6543,7 +6543,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_cheats);
-    C_TabbedOutput(tabs, "Cheats\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "Cheats entered\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commify((shotssuccessful = stat_shotssuccessful_fists + stat_shotssuccessful_chainsaw + stat_shotssuccessful_pistol

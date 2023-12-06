@@ -1987,21 +1987,6 @@ static void D_ProcessDehInWad(void)
     }
 }
 
-static void D_ParseStartupString(const char *string)
-{
-    const size_t    len = strlen(string);
-
-    for (size_t i = 0, start = 0; i < len; i++)
-        if (string[i] == '\n' || i == len - 1)
-        {
-            char    *temp = M_SubString(string, start, i - start);
-
-            C_Output(temp);
-            start = i + 1;
-            free(temp);
-        }
-}
-
 //
 // D_DoomMainSetup
 //
