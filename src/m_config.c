@@ -1073,7 +1073,7 @@ void M_LoadCVARs(char *filename)
         if (M_StringCompare(cvar, "bind"))
         {
             nobindoutput = isconfigfile;
-            bind_cmd_func2("bind", value);
+            bind_func2("bind", value);
             nobindoutput = false;
             bindcount++;
             continue;
@@ -1081,7 +1081,7 @@ void M_LoadCVARs(char *filename)
         else if (M_StringCompare(cvar, "alias"))
         {
             if (!togglingvanilla)
-                alias_cmd_func2("alias", value);
+                alias_func2("alias", value);
 
             continue;
         }
