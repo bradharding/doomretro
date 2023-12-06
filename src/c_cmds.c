@@ -8753,11 +8753,11 @@ static void am_external_cvar_func2(char *cmd, char *parms)
         }
         else
         {
+            if (mapwindow && gamestate == GS_LEVEL)
+                AM_Stop();
+
             I_DestroyExternalAutomap();
             mapscreen = *screens;
-
-            if (gamestate == GS_LEVEL)
-                AM_Stop();
         }
 
         AM_SetAutomapSize(r_screensize);
