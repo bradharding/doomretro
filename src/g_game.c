@@ -143,9 +143,9 @@ bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static bool     mousearray[MAX_MOUSE_BUTTONS + 1];
+static bool     mousearray[MAXMOUSEBUTTONS + 1];
 bool            *mousebuttons = &mousearray[1]; // allow [-1]
-char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255] = { "" };
+char            mouseactionlist[MAXMOUSEBUTTONS + 2][255] = { "" };
 
 bool            skipaction = false;
 
@@ -898,7 +898,7 @@ bool G_Responder(const event_t *ev)
         {
             const int   mousebutton = ev->data1;
 
-            for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
+            for (int i = 0, j = 1; i < MAXMOUSEBUTTONS; i++, j <<= 1)
                 mousebuttons[i] = !!(mousebutton & j);
 
             if (mousebuttons[mousealwaysrun])
@@ -909,9 +909,9 @@ bool G_Responder(const event_t *ev)
 
             if (!automapactive && !menuactive && !paused && !freeze)
             {
-                if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
+                if (mousenextweapon < MAXMOUSEBUTTONS && mousebuttons[mousenextweapon])
                     G_NextWeapon();
-                else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
+                else if (mouseprevweapon < MAXMOUSEBUTTONS && mousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
 

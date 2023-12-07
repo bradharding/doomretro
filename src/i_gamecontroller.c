@@ -213,14 +213,13 @@ void I_ReadGameController(void)
             || gamecontrollerthumbRY
             || gamecontrollerbuttons != prevgamecontrollerbuttons)
         {
-            event_t ev = { 0 };
+            event_t ev = { ev_controller, 0, 0, 0 };
 
             if (gamestate != GS_LEVEL)
                 I_SaveMousePointerPosition();
 
             keydown = 0;
             usingmouse = false;
-            ev.type = ev_controller;
             D_PostEvent(&ev);
         }
 

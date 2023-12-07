@@ -125,7 +125,7 @@ static int          mousepointerx, mousepointery;
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
 
-static const int buttons[MAX_MOUSE_BUTTONS + 1] =
+static const int buttons[MAXMOUSEBUTTONS + 1] =
 {
     0x0000, 0x0001, 0x0004, 0x0002, 0x0008, 0x0010, 0x0020, 0x0040, 0x0080
 };
@@ -564,10 +564,7 @@ static void I_ReadMouse(void)
 
     if (x || y || (mousebuttonstate != prevmousebuttonstate || (mousebuttonstate && menuactive)))
     {
-        event_t ev = { 0 };
-
-        ev.type = ev_mouse;
-        ev.data1 = mousebuttonstate;
+        event_t ev = { ev_mouse, mousebuttonstate, 0, 0 };
 
         if (((menuactive && !helpscreen) || consoleactive || gamestate == GS_TITLESCREEN)
             && !splashscreen && m_pointer)

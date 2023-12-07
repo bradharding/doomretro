@@ -429,7 +429,7 @@ static void ST_PlayerCheated(const char *cheat, const char *parm, const char *ou
     {
         C_Warning(0, "%s cheated!",
             (M_StringCompare(playername, playername_default) ? "You" : playername));
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         viewplayer->cheated++;
         M_SaveCVARs();
     }

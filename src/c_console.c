@@ -766,7 +766,7 @@ void C_ShowConsole(void)
     caretwait = 0;
     skipaction = false;
 
-    for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
+    for (int i = 0; i < MAXMOUSEBUTTONS; i++)
         mousebuttons[i] = false;
 
     if (gamestate == GS_LEVEL)

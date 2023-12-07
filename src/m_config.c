@@ -225,7 +225,7 @@ bool        weaponrecoil = weaponrecoil_default;
 
 uint64_t    stat_automapopened = 0;
 uint64_t    stat_barrelsexploded = 0;
-uint64_t    stat_cheats = 0;
+uint64_t    stat_cheatsentered = 0;
 uint64_t    stat_damageinflicted = 0;
 uint64_t    stat_damagereceived = 0;
 uint64_t    stat_deaths = 0;
@@ -467,7 +467,7 @@ static default_t cvars[] =
     COMMENT("; player stats\n"),
     CVAR_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                  NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                NOVALUEALIAS       ),
-    CVAR_INT_UNSIGNED (cheats,                           cheated,                               stat_cheats,                         NOVALUEALIAS       ),
+    CVAR_INT_UNSIGNED (cheatsentered,                    stat_cheats,                           stat_cheatsentered,                  NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (damageinflicted,                  stat_damageinflicted,                  stat_damageinflicted,                NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (damagereceived,                   stat_damagereceived,                   stat_damagereceived,                 NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (deaths,                           stat_deaths,                           stat_deaths,                         NOVALUEALIAS       ),
@@ -1055,7 +1055,7 @@ void M_LoadCVARs(char *filename)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
-        for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
+        for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
             mouseactionlist[i][0] = '\0';
     }
 

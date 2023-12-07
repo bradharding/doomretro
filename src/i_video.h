@@ -61,7 +61,7 @@
 #define MAXHEIGHT           ((VANILLAHEIGHT + 1) * 2)
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
-#define MAX_MOUSE_BUTTONS   8
+#define MAXMOUSEBUTTONS     8
 
 #define GAMMALEVELS         21
 

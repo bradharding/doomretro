@@ -2535,7 +2535,7 @@ static void exitmap_func2(char *cmd, char *parms)
     G_ExitLevel();
     C_HideConsoleFast();
     viewplayer->cheated++;
-    stat_cheats = SafeAdd(stat_cheats, 1);
+    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
     M_SaveCVARs();
 }
 
@@ -2598,7 +2598,7 @@ static void freeze_func2(char *cmd, char *parms)
         C_Output(s_STSTR_FON);
         HU_SetPlayerMessage(s_STSTR_FON, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
 
         mo->momx = 0;
@@ -3078,7 +3078,7 @@ static void give_func2(char *cmd, char *parms)
         }
 
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
         free(parm);
     }
@@ -3107,7 +3107,7 @@ static void god_func2(char *cmd, char *parms)
     {
         C_Output(s_STSTR_GODON);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -3543,7 +3543,7 @@ static void kill_func2(char *cmd, char *parms)
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
-                    stat_cheats = SafeAdd(stat_cheats, 1);
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                     free(temp);
                 }
@@ -3576,7 +3576,7 @@ static void kill_func2(char *cmd, char *parms)
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
-                    stat_cheats = SafeAdd(stat_cheats, 1);
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                     free(temp);
                 }
@@ -3641,7 +3641,7 @@ static void kill_func2(char *cmd, char *parms)
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
-                    stat_cheats = SafeAdd(stat_cheats, 1);
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                     free(temp);
                 }
@@ -3692,7 +3692,7 @@ static void kill_func2(char *cmd, char *parms)
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
-                    stat_cheats = SafeAdd(stat_cheats, 1);
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                 }
                 else
@@ -3758,7 +3758,7 @@ static void kill_func2(char *cmd, char *parms)
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
                 viewplayer->cheated++;
-                stat_cheats = SafeAdd(stat_cheats, 1);
+                stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                 M_SaveCVARs();
                 free(temp);
             }
@@ -3848,7 +3848,7 @@ static void kill_func2(char *cmd, char *parms)
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
-                    stat_cheats = SafeAdd(stat_cheats, 1);
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                     free(temp);
                 }
@@ -4372,7 +4372,7 @@ static void map_func2(char *cmd, char *parms)
     }
 
     viewplayer->cheated++;
-    stat_cheats = SafeAdd(stat_cheats, 1);
+    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
     M_SaveCVARs();
 }
 
@@ -5326,7 +5326,7 @@ static void noclip_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NCON);
         HU_SetPlayerMessage(s_STSTR_NCON, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -5377,7 +5377,7 @@ static void nomonsters_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NMON);
         HU_SetPlayerMessage(s_STSTR_NMON, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -5431,7 +5431,7 @@ static void notarget_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NTON);
         HU_SetPlayerMessage(s_STSTR_NTON, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -6105,7 +6105,7 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 
     temp1 = commify(viewplayer->cheated);
-    temp2 = commifystat(stat_cheats);
+    temp2 = commifystat(stat_cheatsentered);
     C_TabbedOutput(tabs, "Cheats entered\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
@@ -6542,7 +6542,7 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Suicides\t\x96\t%s", temp1);
     free(temp1);
 
-    temp1 = commifystat(stat_cheats);
+    temp1 = commifystat(stat_cheatsentered);
     C_TabbedOutput(tabs, "Cheats entered\t\x96\t%s", temp1);
     free(temp1);
 
@@ -6764,7 +6764,7 @@ static void regenhealth_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RHON);
         HU_SetPlayerMessage(s_STSTR_RHON, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -6980,7 +6980,7 @@ static void C_VerifyResetAll(const int key)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
-        for (int i = 0; i < MAX_MOUSE_BUTTONS + 2; i++)
+        for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
             mouseactionlist[i][0] = '\0';
 
         // reset stretched sky
@@ -7141,7 +7141,7 @@ static void respawnitems_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RION);
         HU_SetPlayerMessage(s_STSTR_RION, false, false);
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
     else
@@ -7454,7 +7454,7 @@ static void resurrect_func2(char *cmd, char *parms)
         if (cheated)
         {
             viewplayer->cheated++;
-            stat_cheats = SafeAdd(stat_cheats, 1);
+            stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
             M_SaveCVARs();
         }
     }
@@ -7638,7 +7638,7 @@ static void spawn_func2(char *cmd, char *parms)
                         if (spawncmdfriendly)
                         {
                             thing->flags |= MF_FRIEND;
-                            stat_cheats = SafeAdd(stat_cheats, 1);
+                            stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                             M_SaveCVARs();
                         }
 
@@ -7659,7 +7659,7 @@ static void spawn_func2(char *cmd, char *parms)
                     {
                         if (flags & MF_COUNTITEM)
                         {
-                            stat_cheats = SafeAdd(stat_cheats, 1);
+                            stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                             M_SaveCVARs();
                         }
 
@@ -8151,7 +8151,7 @@ static void teleport_func2(char *cmd, char *parms)
                 viewplayer->oldrecoil = 0;
 
                 viewplayer->cheated++;
-                stat_cheats = SafeAdd(stat_cheats, 1);
+                stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                 M_SaveCVARs();
 
                 if (z == ONFLOORZ)
@@ -8839,7 +8839,7 @@ static void am_path_func2(char *cmd, char *parms)
     if (am_path)
     {
         viewplayer->cheated++;
-        stat_cheats = SafeAdd(stat_cheats, 1);
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
     }
 }
@@ -10521,7 +10521,7 @@ static void turbo_func2(char *cmd, char *parms)
             if (turbo > turbo_default)
             {
                 viewplayer->cheated++;
-                stat_cheats = SafeAdd(stat_cheats, 1);
+                stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
             }
 
             M_SaveCVARs();
