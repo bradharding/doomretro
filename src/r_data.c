@@ -358,17 +358,28 @@ static void R_InitBrightmaps(void)
                 *sc_String = '\0';
             }
 
-            if (texture >= 0
-                && (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+            if (texture >= 0)
+            {
+                if (SC_Compare("NOBRIGHTMAP"))
+                {
+                    for (int i = 0; i < nummasks; i++)
+                        if (M_StringCompare(maskname, masknames[i]))
+                        {
+                            nobrightmap[texture] = true;
+                            break;
+                        }
+                }
+                else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
                     || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
-                    || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1"))))
-                for (int i = 0; i < nummasks; i++)
-                    if (M_StringCompare(maskname, masknames[i]))
-                    {
-                        brightmap[texture] = masks[i];
-                        numbrightmaps++;
-                        break;
-                    }
+                    || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
+                    for (int i = 0; i < nummasks; i++)
+                        if (M_StringCompare(maskname, masknames[i]))
+                        {
+                            brightmap[texture] = masks[i];
+                            numbrightmaps++;
+                            break;
+                        }
+            }
         }
         else if (SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
         {
