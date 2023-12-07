@@ -1360,13 +1360,7 @@ void P_UnarchiveThinkers(void)
                 mobj->info = &mobjinfo[mobj->type];
                 P_SetThingPosition(mobj);
 
-                if (mobj->type == MT_MUSICSOURCE)
-                {
-                    musinfo.mapthing = mobj;
-                    mobj->thinker.function = &MusInfoThinker;
-                }
-                else
-                    mobj->thinker.function = &P_MobjThinker;
+                mobj->thinker.function = (mobj->type == MT_MUSICSOURCE ? &MusInfoThinker : &P_MobjThinker);
 
                 P_AddThinker(&mobj->thinker);
                 mobj->colfunc = mobj->info->colfunc;
