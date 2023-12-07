@@ -1000,7 +1000,7 @@ static void M_CheckCVARs(void)
 //
 // M_LoadCVARs
 //
-void M_LoadCVARs(char *filename)
+void M_LoadCVARs(const char *filename)
 {
     const bool  isconfigfile = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
     int         bindcount = 0;
@@ -1086,10 +1086,6 @@ void M_LoadCVARs(char *filename)
             continue;
         }
 
-        // Strip off trailing non-printable characters (\r characters from DOS text files)
-        while (*value && !isprint((unsigned char)value[strlen(value) - 1]))
-            value[strlen(value) - 1] = '\0';
-
         if (togglingvanilla)
         {
             char    *temp1 = uncommify(value);
@@ -1121,12 +1117,9 @@ void M_LoadCVARs(char *filename)
                 }
 
                 case DEFAULT_BOOL:
-                {
                     *(bool *)cvars[i].location = ParseBoolParameter(cvars[i].name, value, cvars[i].valuealiastype);
                     cvarcount++;
-
                     break;
-                }
 
                 case DEFAULT_INT32:
                 {
