@@ -3492,7 +3492,7 @@ bool M_Responder(event_t *ev)
     }
 
     // Toggle graphic detail
-    if (key == KEY_F5 && !functionkey && gamestate == GS_LEVEL && !keydown)
+    if (key == KEY_F5 && !functionkey && gamestate == GS_LEVEL && !menuactive && !keydown)
     {
         keydown = key;
         functionkey = KEY_F5;
