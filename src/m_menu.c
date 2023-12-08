@@ -3261,7 +3261,7 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == KEY_MINUS)
+    if (key == '-')
     {
         // Screen size down
         if (consoleactive || paused || splashscreen || automapactive || fadecount)
@@ -3298,7 +3298,7 @@ bool M_Responder(event_t *ev)
 
         return false;
     }
-    else if (key == KEY_EQUALS)
+    else if (key == '=')
     {
         // Screen size up
         if (consoleactive || paused || splashscreen || automapactive || fadecount)

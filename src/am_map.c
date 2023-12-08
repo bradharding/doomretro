@@ -764,7 +764,7 @@ bool AM_Responder(const event_t *ev)
 
                 // zoom out
                 else if (key == keyboardzoomout && !movement
-                    && (!mapwindow || keyboardzoomout != KEY_MINUS))
+                    && (!mapwindow || keyboardzoomout != '-'))
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
@@ -772,7 +772,7 @@ bool AM_Responder(const event_t *ev)
 
                 // zoom in
                 else if (key == keyboardzoomin && !movement
-                    && (!mapwindow || keyboardzoomin != KEY_EQUALS))
+                    && (!mapwindow || keyboardzoomin != '='))
                 {
                     keydown = key;
                     AM_ToggleZoomIn();

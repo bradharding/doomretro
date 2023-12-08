@@ -63,9 +63,6 @@
 #define KEY_BACKSPACE   0x7F
 #define KEY_PAUSE       0xFF
 
-#define KEY_EQUALS      0x3D
-#define KEY_MINUS       0x2D
-
 #define KEY_SHIFT       (0x80 + 0x36)
 #define KEY_CTRL        (0x80 + 0x1D)
 #define KEY_ALT         (0x80 + 0x38)
@@ -93,11 +90,3 @@
 #define KEYP_7          (0x80 + 0x87)
 #define KEYP_8          (0x80 + 0x88)
 #define KEYP_9          (0x80 + 0x89)
-
-#define KEYP_DIVIDE     '/'
-#define KEYP_PLUS       KEY_EQUALS
-#define KEYP_MINUS      KEY_MINUS
-#define KEYP_MULTIPLY   '*'
-#define KEYP_PERIOD     0x010A
-#define KEYP_EQUALS     KEY_EQUALS
-#define KEYP_ENTER      KEY_ENTER
