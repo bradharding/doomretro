@@ -8,15 +8,15 @@
 * Several changes have been made to text that is output to the console.
 * The automap is now also shown in low detail when the `r_detail` CVAR is `low`.
 * A bug is fixed whereby the effects of changing a color CVAR for the automap wouldn’t be immediate.
-* Rocket explosions from the player and cyberdemons are now randomly mirrored.
+* Explosions from rockets fired by the player and cyberdemons are now randomly mirrored.
 * These changes have been made when vanilla mode is enabled:
   * Extra blood is no longer spawned when a monster is injured.
   * Blood and bullet puffs are no longer randomly mirrored.
 * Monsters now only become non-solid at the end of their death sequence rather than at the start.
-* When the `r_shadows` CVAR is `on`, if a monster is fullbright when attacking, the shadow they cast now momentarily becomes slightly lighter.
+* When the `r_shadows` CVAR is `on`, if a monster is fullbright when they attack, the shadow they cast now momentarily becomes slightly lighter.
 * The player’s crosshair now displays correctly when the `crosshair` CVAR is `cross` and the `r_hud_translucency` CVAR is `off`.
 * Minor improvements have been made to the parsing of `DEHACKED`, `MAPINFO`, `MUSINFO` and `BRGHTMPS` lumps.
-* Specifying `-dog`, or `-dogs 1` to `-dogs 8`, on the command-line now spawns one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those that survive each map will follow the player into the next.
+* The `-dog` parameter, as well as `-dogs 1` to `-dogs 8`, can now be used on the command-line to spawn one or more [*MBF*-compatible helper dogs](https://doomwiki.org/wiki/Helper_dog) at the start of the game. Those dogs that survive each map will then follow the player into the next.
 * These changes have been made when pressing the <kbd><b>TAB</b></kbd> key to autocomplete text in the console:
   * The case of the autocompleted text now always matches the text that’s already been entered.
   * Any text to the left of a semi-colon is no longer cleared.
@@ -36,7 +36,7 @@
 * The `mapstats` CCMD now shows the number of voodoo dolls in the current map.
 * The `play` CCMD now also accepts a music title as its value, such as `atdoomsgate` or `runningfromevil`.
 * A bug is fixed whereby the screenshots taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key would become corrupted in some rare instances.
-* Actions may now be bound to the numeric key pad using the `bind` CCMD and the values `numpad0` to `numpad9`.
+* Actions may now be bound to the numeric keypad using the `bind` CCMD and the values `numpad0` to `numpad9`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
