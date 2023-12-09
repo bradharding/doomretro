@@ -215,11 +215,13 @@ void I_ReadGameController(void)
         {
             event_t ev = { ev_controller, 0, 0, 0 };
 
-            if (gamestate != GS_LEVEL)
+            if (gamestate != GS_LEVEL && usingmouse)
+            {
                 I_SaveMousePointerPosition();
+                usingmouse = false;
+            }
 
             keydown = 0;
-            usingmouse = false;
             D_PostEvent(&ev);
         }
 
