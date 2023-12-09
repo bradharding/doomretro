@@ -116,6 +116,7 @@ extern bool     firstevent;
 extern bool     savegames;
 extern bool     helpscreen;
 extern bool     quitting;
+extern bool     reopenautomap;
 extern int      menuspindirection;
 extern int      menuspinspeed;
 extern int      quicksaveslot;

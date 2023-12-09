@@ -98,7 +98,7 @@ bool            menuactive;
 bool            savegames;
 bool            quitting;
 
-static bool     reopenautomap;
+bool            reopenautomap;
 
 char            savegamestrings[savegame_max][SAVESTRINGSIZE];
 

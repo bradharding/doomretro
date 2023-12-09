@@ -1081,6 +1081,13 @@ void G_Ticker(void)
 
                     if (windowfocused)
                         S_RestoreMusicVolume();
+
+                    if (reopenautomap)
+                    {
+                        reopenautomap = false;
+                        AM_Start(true);
+                        viewactive = false;
+                    }
                 }
 
                 break;

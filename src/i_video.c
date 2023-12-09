@@ -456,7 +456,15 @@ static void I_GetEvent(void)
                                 windowfocused = true;
                                 paused = false;
                                 S_ResumeMusic();
+                                S_StartSound(NULL, sfx_swtchx);
                                 I_InitKeyboard();
+
+                                if (reopenautomap)
+                                {
+                                    reopenautomap = false;
+                                    AM_Start(true);
+                                    viewactive = false;
+                                }
                             }
 
                             break;
@@ -468,8 +476,10 @@ static void I_GetEvent(void)
                             if (!s_musicinbackground)
                                 S_PauseMusic();
 
-                            if (gamestate == GS_LEVEL && !menuactive && !automapactive && !consoleactive && !paused)
+                            if (gamestate == GS_LEVEL && !menuactive && !consoleactive && !paused)
                                 sendpause = true;
+                            else
+                                S_StartSound(NULL, sfx_swtchn);
 
                             I_ShutdownKeyboard();
                             break;
