@@ -21,7 +21,7 @@
   * The case of the autocompleted text now always matches the text that’s already been entered.
   * Any text to the left of a semi-colon is no longer cleared.
 * The border of the menu’s background is no longer displayed if the `vid_fullscreen` CVAR is `off` and the `vid_widescreen` CVAR is `on`.
-* The spin of the player’s view in the menu’s background can now be disabled using the new `menuspin` CVAR, which is `on` by default.
+* The spin of the player’s view in the menu’s background can now be disabled by changing the new `menuspin` CVAR, which is `on` by default.
 * The help screen can now be shown when the menu is open by pressing the <kbd><b>F1</b></kbd> key.
 * The window’s caption now includes the current episode or expansion when playing a game.
 * *DOOM Retro* no longer remains paused once its window regains focus.
@@ -35,8 +35,8 @@
 * The “Map explored” stat displayed by the `playerstats` CCMD is now accurate.
 * The `mapstats` CCMD now shows the number of voodoo dolls in the current map.
 * The `play` CCMD now also accepts a music title as its value, such as `atdoomsgate` or `runningfromevil`.
-* A bug is fixed whereby the screenshots taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key would become corrupted in some rare instances.
-* Actions may now be bound to the numeric keypad using the `bind` CCMD and the values `numpad0` to `numpad9`.
+* A bug is fixed whereby screenshots taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key would become corrupted in some rare instances.
+* Actions may now be bound to the numeric keypad using the `bind` CCMD with a value `numpad0` to `numpad9`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
