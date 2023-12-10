@@ -4431,12 +4431,8 @@ void M_Init(void)
         NewDef.prevmenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems = 3;
-    else if (gamemode == retail && sigil2)
-        EpiDef.numitems = 6;
-    else if (gamemode == retail && sigil)
-        EpiDef.numitems = 5;
-    else
-        EpiDef.numitems = 4;
+    else if (gamemode == retail)
+        EpiDef.numitems = 4 + sigil + sigil2;
 
     if (EpiDef.laston >= EpiDef.numitems)
     {

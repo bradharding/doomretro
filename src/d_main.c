@@ -829,7 +829,7 @@ bool D_IsSIGIL2WAD(char *filename)
 {
     const char *file = leafname(filename);
 
-    return (M_StringCompare(file, "SIGIL2.wad"));
+    return (M_StringCompare(file, "SIGIL_II_V1_0.WAD"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)
@@ -1017,6 +1017,9 @@ static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
 
+    if (sigil || sigil2)
+        return;
+
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
 
     if (W_MergeFile(path, true))
@@ -1064,10 +1067,10 @@ static void D_AutoloadSIGIL2WAD(void)
 {
     char    path[MAX_PATH];
 
-    if (!sigil)
+    if (!autosigil)
         return;
 
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2.wad");
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_II_V1_0.WAD");
 
     if (W_MergeFile(path, true))
         sigil2 = true;
@@ -2327,7 +2330,7 @@ static void D_DoomMainSetup(void)
                 autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
 
                 if (autoloading)
-                    autoloading |= W_AutoloadFile("SIGIL2.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
             }
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);

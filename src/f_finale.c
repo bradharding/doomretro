@@ -1033,6 +1033,9 @@ static void F_ArtScreenDrawer(void)
                 break;
 
             case 5:
+                lump = W_CacheLastLumpName("SIGILEND");
+                break;
+
             case 6:
                 lump = W_CacheLumpName("SIGILEND");
                 break;
