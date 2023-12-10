@@ -4140,7 +4140,17 @@ void M_Drawer(void)
                         currentmenu->menuitems[i].y = y + OFFSET;
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
-                    else if ((W_CheckNumForName(name) < 0 && **text) || (sigil2 && M_StringCompare(name, "M_EPI5")))
+                    else if (M_StringCompare(name, "M_EPI6") && sigil2)
+                    {
+                        patch_t *patch = W_CacheLastLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
+                        widest = MAX(widest, SHORT(patch->width));
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                    }
+                    else if ((W_CheckNumForName(name) < 0 && **text) || (M_StringCompare(name, "M_EPI5") && sigil2))
                     {
                         int width = M_BigStringWidth(*text);
 
