@@ -827,9 +827,7 @@ bool D_IsSIGILWAD(char *filename)
 
 bool D_IsSIGIL2WAD(char *filename)
 {
-    const char *file = leafname(filename);
-
-    return (M_StringCompare(file, "SIGIL_II_V1_0.WAD"));
+    return (M_StringStartsWith(leafname(filename), "SIGIL_II_V"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)

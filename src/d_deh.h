@@ -463,7 +463,6 @@ extern char         *s_M_CONSOLE;
 extern char         *s_M_SFXVOLUME;
 extern char         *s_M_MUSICVOLUME;
 extern char         *s_M_PAUSED;
-extern char         *s_M_MORE;
 
 extern char         *s_CAPTION_DOOM;
 extern char         *s_CAPTION_DOOM2;
@@ -475,6 +474,7 @@ extern char         *s_CAPTION_EPISODE5;
 extern char         *s_CAPTION_EPISODE6;
 extern char         *s_CAPTION_EXPANSION1;
 extern char         *s_CAPTION_EXPANSION2;
+extern char         *s_CAPTION_EXPANSION3;
 extern char         *s_CAPTION_PLUTONIA;
 extern char         *s_CAPTION_TNT;
 extern char         *s_CAPTION_CHEX;
