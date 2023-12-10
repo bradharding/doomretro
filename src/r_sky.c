@@ -105,6 +105,10 @@ void R_InitSkyMap(void)
                 case 5:
                     skytexture = R_TextureNumForName(R_CheckTextureNumForName("SKY5_ZD") != -1 ? "SKY5_ZD" : "SKY5");
                     break;
+
+                case 6:
+                    skytexture = R_TextureNumForName(R_CheckTextureNumForName("SKY6_ZD") != -1 ? "SKY6_ZD" : "SKY6");
+                    break;
             }
         }
     }
