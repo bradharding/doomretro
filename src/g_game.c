@@ -1436,6 +1436,7 @@ static void G_DoCompleted(void)
             switch (gameepisode)
             {
                 case 1:
+                case 6:
                     wminfo.next = 3;
                     break;
 
