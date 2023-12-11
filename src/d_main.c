@@ -816,7 +816,7 @@ bool D_IsDOOM1IWAD(char *filename)
 
 bool D_IsSIGILWAD(char *filename)
 {
-    const char *file = leafname(filename);
+    const char  *file = leafname(filename);
 
     return (M_StringCompare(file, "SIGIL_v1_21.wad")
         || M_StringCompare(file, "SIGIL_v1_2.wad")
@@ -827,7 +827,10 @@ bool D_IsSIGILWAD(char *filename)
 
 bool D_IsSIGIL2WAD(char *filename)
 {
-    return (M_StringStartsWith(leafname(filename), "SIGIL_II_V"));
+    const char  *file = leafname(filename);
+
+    return ((M_StringCompare(file, "SIGIL_II_MP3_V1_0.WAD")
+        || M_StringCompare(file, "SIGIL_II_V1_0.WAD")));
 }
 
 bool D_IsDOOM2IWAD(char *filename)
@@ -1037,11 +1040,13 @@ static void D_AutoloadSIGILWAD(void)
             else
             {
                 M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_0.wad");
+
                 if (W_MergeFile(path, true))
                     sigil = true;
                 else
                 {
                     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL.wad");
+
                     if (W_MergeFile(path, true))
                         sigil = true;
                 }
@@ -1068,20 +1073,17 @@ static void D_AutoloadSIGIL2WAD(void)
     if (!autosigil)
         return;
 
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_II_V1_0.WAD");
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_II_MP3_V1_0.WAD");
 
     if (W_MergeFile(path, true))
         sigil2 = true;
-
-    if (sigil2 && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+    else
     {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2_SHREDS.wad");
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_II_V1_0.WAD");
+        W_MergeFile(path, true);
 
-        if (!W_MergeFile(path, true))
-        {
-            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2_SHREDS_COMPAT.wad");
-            W_MergeFile(path, true);
-        }
+        if (W_MergeFile(path, true))
+            sigil = true;
     }
 }
 
@@ -2328,7 +2330,10 @@ static void D_DoomMainSetup(void)
                 autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
 
                 if (autoloading)
+                {
+                    autoloading |= W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
                     autoloading |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
+                }
             }
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);

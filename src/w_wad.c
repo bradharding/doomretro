@@ -47,6 +47,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
@@ -332,9 +333,6 @@ bool W_AddFile(char *filename, bool autoloaded)
         return false;
     else if (sigil2wadadded && D_IsSIGIL2WAD(file))
         return false;
-    else if (thorr && (M_StringCompare(file, "SIGIL2_SHREDS.wad")
-        || M_StringCompare(file, "SIGIL2_SHREDS_COMPAT.wad")))
-        return false;
     else if (nervewadadded && M_StringCompare(file, "NERVE.WAD"))
         return false;
 
@@ -393,7 +391,8 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s %s been %s from the %s " BOLD("%s") ".",
+        C_Output("%s%s %s been %s from the %s " BOLD("%s") ".",
+            (autoloaded ? "An additional " : ""), 
             temp,
             (numlumps - startlump == 1 ? "lump has" : "lumps have"),
             (autoloaded ? "automatically added" : "added"),
@@ -439,12 +438,13 @@ bool W_AddFile(char *filename, bool autoloaded)
             autosigil2 = autoloaded;
             C_Output("You can now play John Romero's " ITALICS("SIGIL II")
                 " by choosing it in the episode menu.");
-        }
-        else if (M_StringCompare(file, "SIGIL2_SHREDS.WAD")
-            || M_StringCompare(file, "SIGIL_SHREDS2_COMPAT.wad"))
-        {
-            thorr = true;
-            C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II") ".");
+
+            if (M_StringCompare(file, "SIGIL_II_MP3_V1_0.WAD")
+                && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+            {
+                thorr = true;
+                C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II") ".");
+            }
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
         {
