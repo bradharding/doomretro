@@ -1,8 +1,20 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.1.2
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Monday, December 11, 2023
+
 ### DOOM Retro v5.1.1
 
-* Improvements have been made to the support for John Romero’s [*SIGIL II*](https://romero.com/sigil).
+* These improvements have been made to the support for John Romero’s [*SIGIL II*](https://romero.com/sigil):
+  * The registered version of *SIGIL II* is now supported.
+  * The correct sky is now displayed.
+  * The correct background is now displayed on the intermission screen, and a crash no longer occurs if *SIGIL* hasn’t also been loaded.
+  * Improvements have been made to the “SIGIL II” text in the episode menu.
+  * The player now warps to the correct map after finishing the secret map.
+  * The titles of [Thorr’s](https://music.apple.com/us/artist/thorr/1325613495) music are now displayed by the `mapstats` CCMD when playing the registered version of *SIGIL II*.
 * Minor improvements have been made to the parsing of `bossaction` in `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
