@@ -2881,6 +2881,11 @@ bool M_Responder(event_t *ev)
                                     || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                                     continue;
                             }
+                            else if (currentmenu == &EpiDef)
+                            {
+                                if (i == ep5 && !sigil)
+                                    continue;
+                            }
                             else if (currentmenu == &ExpDef)
                             {
                                 if (gamestate != GS_LEVEL)
@@ -3575,6 +3580,11 @@ bool M_Responder(event_t *ev)
                         if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                             itemon++;
                     }
+                    else if (currentmenu == &EpiDef)
+                    {
+                        if (itemon == ep5 && !sigil)
+                            itemon++;
+                    }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
                         itemon++;
 
@@ -3627,6 +3637,11 @@ bool M_Responder(event_t *ev)
                             itemon--;
 
                         if (itemon == load_game && !savegames)
+                            itemon--;
+                    }
+                    else if (currentmenu == &EpiDef)
+                    {
+                        if (itemon == ep5 && !sigil)
                             itemon--;
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
@@ -3821,7 +3836,12 @@ bool M_Responder(event_t *ev)
                     {
                         if ((i == load_game && !savegames) || (i == save_game
                             && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
-                            return true;
+                            continue;
+                    } 
+                    else if (currentmenu == &EpiDef)
+                    {
+                        if (i == ep5 && !sigil)
+                            continue;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
                         return true;
@@ -3856,7 +3876,12 @@ bool M_Responder(event_t *ev)
                     {
                         if ((i == load_game && !savegames) || (i == save_game
                             && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
-                            return true;
+                            continue;
+                    }
+                    else if (currentmenu == &EpiDef)
+                    {
+                        if (i == ep5 && !sigil)
+                            continue;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
                         return true;
@@ -4452,6 +4477,12 @@ void M_Init(void)
     {
         EpiDef.laston = 0;
         episode = 1;
+        M_SaveCVARs();
+    }
+    else if (EpiDef.laston == ep5 && !sigil && sigil2)
+    {
+        EpiDef.laston = 5;
+        episode = 6;
         M_SaveCVARs();
     }
 
