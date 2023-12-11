@@ -3549,7 +3549,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             {
                                 int i;
 
-                                for (i = 0; i < NUMMOBJTYPES; i++)
+                                for (i = 0; i < nummobjtypes; i++)
                                 {
                                     char    *name1 = removenonalpha(mobjinfo[i].name1);
                                     char    *name2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
@@ -3561,7 +3561,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                         break;
                                 }
 
-                                if (i < NUMMOBJTYPES)
+                                if (i < nummobjtypes)
                                 {
                                     int special;
                                     int tag;
