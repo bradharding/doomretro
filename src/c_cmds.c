@@ -4811,12 +4811,22 @@ static void mapstats_func2(char *cmd, char *parms)
         }
     }
 
-    if (*author)
-        C_TabbedOutput(tabs, "Author\t%s", author);
-    else if (canmodify && *authors[gameepisode][gamemission])
-        C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode][gamemission]);
-    else if (REKKR)
-        C_TabbedOutput(tabs, "Author\tMatthew Little");
+    if (gamemission == doom)
+    {
+        if (*author)
+            C_TabbedOutput(tabs, "Author\t%s", author);
+        else if (canmodify && *authors[gameepisode * 10 + gamemap][gamemission])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode * 10 + gamemap][gamemission]);
+        else if (REKKR)
+            C_TabbedOutput(tabs, "Author\tMatthew Little");
+    }
+    else
+    {
+        if (*author)
+            C_TabbedOutput(tabs, "Author\t%s", author);
+        else if (canmodify && *authors[gamemap][gamemission])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gamemap][gamemission]);
+    }
 
     M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
