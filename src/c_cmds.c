@@ -5550,13 +5550,34 @@ static bool play_func1(char *cmd, char *parms)
                     {
                         playcmdid = i;
                         playcmdtype = 3;
-                        playcmdname = M_StringDuplicate(s_music[i].title1);
+                        playcmdname = M_StringDuplicate(s_music[i].title2);
                         free(titlebuf);
                         return true;
                     }
                 }
 
                 free(titlebuf);
+
+                if (*s_music[i].title3)
+                {
+                    titlebuf = removenonalpha(s_music[i].title3);
+
+                    if (M_StringCompare(parm, titlebuf))
+                    {
+                        M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
+
+                        if (W_CheckNumForName(namebuf) >= 0)
+                        {
+                            playcmdid = i;
+                            playcmdtype = 3;
+                            playcmdname = M_StringDuplicate(s_music[i].title3);
+                            free(titlebuf);
+                            return true;
+                        }
+                    }
+
+                    free(titlebuf);
+                }
             }
         }
     }

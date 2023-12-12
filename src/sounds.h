@@ -81,6 +81,7 @@ typedef struct
 
     char            title1[32];
     char            title2[32];
+    char            title3[32];
 
     // lump number of music
     int             lumpnum;
