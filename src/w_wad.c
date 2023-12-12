@@ -408,48 +408,48 @@ bool W_AddFile(char *filename, bool autoloaded)
             else if (!E1M4)
             {
                 if (!E1M8)
-                    C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                    C_Output("You can play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
                         " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
                         BOLD("map E1M8B") ".");
                 else
-                    C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                    C_Output("You can play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
                         " by entering " BOLD("map E1M4B") ".");
             }
             else if (!E1M8)
-                C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
+                C_Output("You can play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
                     " by entering " BOLD("map E1M8B") ".");
         }
         else if (D_IsSIGILWAD(file))
         {
             sigilwadadded = true;
             autosigil = autoloaded;
-            C_Output("You can now play John Romero's " ITALICS("SIGIL")
+            C_Output("You can play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
         {
             buckethead = true;
-            C_Output("You'll now hear Buckethead's music while playing " ITALICS("SIGIL") ".");
+            C_Output("Buckethead's music will be heard while playing " ITALICS("SIGIL") ".");
         }
         else if (D_IsSIGIL2WAD(file))
         {
             sigil2wadadded = true;
             autosigil2 = autoloaded;
-            C_Output("You can now play John Romero's " ITALICS("SIGIL II")
+            C_Output("You can play John Romero's " ITALICS("SIGIL II")
                 " by choosing it in the episode menu.");
 
             if (M_StringCompare(file, "SIGIL_II_MP3_V1_0.WAD")
                 && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
             {
                 thorr = true;
-                C_Output("You'll now hear Thorr's music while playing " ITALICS("SIGIL II") ".");
+                C_Output("Thorr's music will be heard while playing " ITALICS("SIGIL II") ".");
             }
         }
         else if (M_StringCompare(file, "NERVE.WAD"))
         {
             nervewadadded = true;
-            C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")
+            C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
         }
     }
