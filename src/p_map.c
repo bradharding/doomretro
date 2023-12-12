@@ -650,6 +650,14 @@ static bool PIT_CheckThing(mobj_t *thing)
         return !(flags & MF_SOLID);
     }
 
+    // [BH] don't hit if either thing is a corpse, which may still be solid if
+    // they are still going through their death sequence.
+    if (!(thing->flags2 & MF2_RESURRECTING)
+        && (corpse || (tmflags & MF_CORPSE))
+        && type != MT_BARREL
+        && tmtype != MT_BARREL)
+        return true;
+
     // RjY
     // an attempt to handle blocking hanging bodies
     // A solid hanging body will allow sufficiently small things underneath it.
