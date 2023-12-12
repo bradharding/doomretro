@@ -2,9 +2,10 @@
 
 ### DOOM Retro v5.1.2
 
+* Minor changes have been made to text that is output to the console.
 * “SIGIL” can no longer be selected in the episode menu if *SIGIL* isn’t loaded but *SIGIL II* is.
-* The author of the current map is now displayed by the `mapstats` CCMD if known.
-* A bug is fixed whereby the corpses of monsters could become solid, blocking the player’s path, in some rare instances.
+* If known, the author of the current map is now displayed by the `mapstats` CCMD.
+* A bug is fixed whereby the corpses of monsters could remain solid, blocking the player’s path, in some rare instances.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
