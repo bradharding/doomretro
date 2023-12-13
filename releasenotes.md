@@ -10,6 +10,7 @@
 * If known, the author of the current map is now displayed by the `mapstats` CCMD.
 * A bug is fixed whereby the corpses of monsters could remain solid, blocking the player’s path, in some rare instances.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Minor improvements have been made to the parsing of `enterpic` in `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -1275,7 +1275,7 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 
     wbs = wbstartstruct;
 
-    enterpic = P_GetMapEnterPic(wbs->epsd, wbs->next + 1);
+    enterpic = P_GetMapEnterPic(wbs->epsd + 1, wbs->next + 1);
     exitpic = P_GetMapExitPic(gameepisode, gamemap);
 
     acceleratestage = false;
