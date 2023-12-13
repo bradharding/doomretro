@@ -829,8 +829,8 @@ bool D_IsSIGIL2WAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return ((M_StringStartsWith(file, "SIGIL_II_MP3_V")
-        || M_StringStartsWith(file, "SIGIL_II_V")));
+    return (M_StringStartsWith(file, "SIGIL_II_MP3_V")
+        || M_StringStartsWith(file, "SIGIL_II_V"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)

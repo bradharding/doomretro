@@ -121,7 +121,7 @@ void I_SetMusicVolume(const int volume)
             Mix_VolumeMusic(current_music_volume);
     }
     else
-        Mix_VolumeMusic(sigil2 && gameepisode == 6 ? current_music_volume : current_music_volume / 3);
+        Mix_VolumeMusic(current_music_volume / (sigil2 && gameepisode == 6 ? 2 : 3));
 #else
     Mix_VolumeMusic(current_music_volume);
 #endif

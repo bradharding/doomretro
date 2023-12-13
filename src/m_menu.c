@@ -2883,7 +2883,7 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &EpiDef)
                             {
-                                if (i == ep5 && !sigil)
+                                if (i == ep5 && !sigil && sigil2)
                                     continue;
                             }
                             else if (currentmenu == &ExpDef)
@@ -3582,7 +3582,7 @@ bool M_Responder(event_t *ev)
                     }
                     else if (currentmenu == &EpiDef)
                     {
-                        if (itemon == ep5 && !sigil)
+                        if (itemon == ep5 && !sigil && sigil2)
                             itemon++;
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
@@ -3641,7 +3641,7 @@ bool M_Responder(event_t *ev)
                     }
                     else if (currentmenu == &EpiDef)
                     {
-                        if (itemon == ep5 && !sigil)
+                        if (itemon == ep5 && !sigil && sigil2)
                             itemon--;
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
@@ -3840,7 +3840,7 @@ bool M_Responder(event_t *ev)
                     } 
                     else if (currentmenu == &EpiDef)
                     {
-                        if (i == ep5 && !sigil)
+                        if (i == ep5 && !sigil && sigil2)
                             continue;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
@@ -3880,7 +3880,7 @@ bool M_Responder(event_t *ev)
                     }
                     else if (currentmenu == &EpiDef)
                     {
-                        if (i == ep5 && !sigil)
+                        if (i == ep5 && !sigil && sigil2)
                             continue;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
