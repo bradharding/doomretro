@@ -3,7 +3,10 @@
 ### DOOM Retro v5.1.2
 
 * Minor changes have been made to text that is output to the console.
-* “SIGIL” can no longer be selected in the episode menu if *SIGIL* isn’t loaded but *SIGIL II* is.
+* These improvements have been made to the support for John Romero’s [*SIGIL II*](https://romero.com/sigil):
+  * “SIGIL” can no longer be selected in the episode menu if *SIGIL* isn’t loaded but *SIGIL II* is.
+  * The Spider Mastermind’s health in *E6M8: Abyss Of Despair* is now correct.
+  * [Thorr’s](https://music.apple.com/us/artist/thorr/1325613495) music is now louder.
 * If known, the author of the current map is now displayed by the `mapstats` CCMD.
 * A bug is fixed whereby the corpses of monsters could remain solid, blocking the player’s path, in some rare instances.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
