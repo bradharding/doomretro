@@ -7590,6 +7590,7 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
             mobjinfo[i].splashgroup = SG_DEFAULT;
             mobjinfo[i].altspeed = NO_ALTSPEED;
             mobjinfo[i].meleerange = MELEERANGE;
+            M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
         }
     }
 }
