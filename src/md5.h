@@ -35,27 +35,19 @@
 
 #pragma once
 
-#ifdef _MSC_VER
-#include <windows.h>
+#include <stdint.h>
 
-#define UWORD32 DWORD
-#else
-#include <inttypes.h>
-
-#define UWORD32 uint32_t
-#endif
-
-#define md5byte unsigned char
+#include "doomtype.h"
 
 typedef struct
 {
-    UWORD32 buf[4];
-    UWORD32 bytes[2];
-    UWORD32 in[16];
+    uint32_t    buf[4];
+    uint32_t    bytes[2];
+    uint32_t    in[16];
 } MD5Context;
 
 void MD5Init(MD5Context *context);
-void MD5Update(MD5Context *context, md5byte const *buf, unsigned len);
-void MD5Final(md5byte digest[16], MD5Context *context);
-void MD5Transform(UWORD32 buf[4], UWORD32 const in[16]);
+void MD5Update(MD5Context *context, byte const *buf, unsigned len);
+void MD5Final(byte digest[16], MD5Context *context);
+void MD5Transform(uint32_t buf[4], uint32_t const in[16]);
 char *MD5(const char *filename);

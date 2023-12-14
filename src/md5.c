@@ -37,24 +37,22 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "doomtype.h"
 #include "m_misc.h"
 #include "md5.h"
 
 #ifdef WORDS_BIGENDIAN
-void byteSwap(UWORD32 *buf, unsigned words)
+void byteswap(uint32_t *buf, unsigned int words)
 {
-    md5byte *p = (md5byte *)buf;
+    byte *p = (byte *)buf;
 
     do
     {
-        *buf++ = (UWORD32)((unsigned)p[3] << 8 | p[2]) << 16 |
-                ((unsigned)p[1] << 8 | p[0]);
+        *buf++ = (uint32_t)((unsigned int)p[3] << 8 | p[2]) << 16 | ((unsigned int)p[1] << 8 | p[0]);
         p += 4;
     } while (--words);
 }
 #else
-#define byteSwap(buf, words)
+#define byteswap(buf, words)
 #endif
 
 // Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
@@ -73,9 +71,9 @@ void MD5Init(MD5Context *ctx)
 
  // Update context to reflect the concatenation of another buffer full
  // of bytes.
-void MD5Update(MD5Context *ctx, md5byte const *buf, unsigned len)
+void MD5Update(MD5Context *ctx, byte const *buf, unsigned len)
 {
-    UWORD32 t = ctx->bytes[0];
+    uint32_t    t = ctx->bytes[0];
 
     // Update byte count
     if ((ctx->bytes[0] = t + len) < t)
@@ -85,13 +83,13 @@ void MD5Update(MD5Context *ctx, md5byte const *buf, unsigned len)
 
     if (t > len)
     {
-        memcpy((md5byte *)ctx->in + 64 - t, buf, len);
+        memcpy((byte *)ctx->in + 64 - t, buf, len);
         return;
     }
 
     // First chunk is an odd size
-    memcpy((md5byte *)ctx->in + 64 - t, buf, t);
-    byteSwap(ctx->in, 16);
+    memcpy((byte *)ctx->in + 64 - t, buf, t);
+    byteswap(ctx->in, 16);
     MD5Transform(ctx->buf, ctx->in);
     buf += t;
     len -= t;
@@ -100,7 +98,7 @@ void MD5Update(MD5Context *ctx, md5byte const *buf, unsigned len)
     while (len >= 64)
     {
         memcpy(ctx->in, buf, 64);
-        byteSwap(ctx->in, 16);
+        byteswap(ctx->in, 16);
         MD5Transform(ctx->buf, ctx->in);
         buf += 64;
         len -= 64;
@@ -113,10 +111,10 @@ void MD5Update(MD5Context *ctx, md5byte const *buf, unsigned len)
 // Final wrap-up - pad to 64-byte boundary with the bit pattern
 // 1 0* (64-bit count of bits processed, MSB-first)
 
-void MD5Final(md5byte digest[16], MD5Context *ctx)
+void MD5Final(byte digest[16], MD5Context *ctx)
 {
     int     count = ctx->bytes[0] & 0x3f;   // Number of bytes in ctx->in
-    md5byte *p = (md5byte *)ctx->in + count;
+    byte    *p = (byte *)ctx->in + count;
 
     // Set the first char of padding to 0x80.  There is always room.
     *p++ = 0x80;
@@ -128,21 +126,21 @@ void MD5Final(md5byte digest[16], MD5Context *ctx)
     {
         // Padding forces an extra block
         memset(p, 0, count + 8);
-        byteSwap(ctx->in, 16);
+        byteswap(ctx->in, 16);
         MD5Transform(ctx->buf, ctx->in);
-        p = (md5byte *)ctx->in;
+        p = (byte *)ctx->in;
         count = 56;
     }
 
     memset(p, 0, count);
-    byteSwap(ctx->in, 14);
+    byteswap(ctx->in, 14);
 
     // Append length in bits and transform
     ctx->in[14] = ctx->bytes[0] << 3;
     ctx->in[15] = (ctx->bytes[1] << 3 | ctx->bytes[0] >> 29);
     MD5Transform(ctx->buf, ctx->in);
 
-    byteSwap(ctx->buf, 4);
+    byteswap(ctx->buf, 4);
     memcpy(digest, ctx->buf, 16);
     memset(ctx, 0, sizeof(*ctx));   // In case it's sensitive
 }
@@ -157,17 +155,17 @@ void MD5Final(md5byte digest[16], MD5Context *ctx)
 #define F4(x, y, z) (y ^ (x | ~z))
 
 // This is the central step in the MD5 algorithm.
-#define MD5STEP(f,w,x,y,z,in,s) (w += f(x,y,z) + in, w = (w<<s | w>>(32-s)) + x)
+#define MD5STEP(f, w, x, y, z, in, s) (w += f(x, y, z) + in, w = (w << s | w >> (32 - s)) + x)
 
  // The core of the MD5 algorithm, this alters an existing MD5 hash to
  // reflect the addition of 16 longwords of new data.  MD5Update blocks
  // the data and converts bytes into longwords for this routine.
-void MD5Transform(UWORD32 buf[4], UWORD32 const in[16])
+void MD5Transform(uint32_t buf[4], uint32_t const in[16])
 {
-    UWORD32 a = buf[0];
-    UWORD32 b = buf[1];
-    UWORD32 c = buf[2];
-    UWORD32 d = buf[3];
+    uint32_t    a = buf[0];
+    uint32_t    b = buf[1];
+    uint32_t    c = buf[2];
+    uint32_t    d = buf[3];
 
     MD5STEP(F1, a, b, c, d, in[0] + 0xd76aa478, 7);
     MD5STEP(F1, d, a, b, c, in[1] + 0xe8c7b756, 12);
@@ -253,7 +251,7 @@ char *MD5(const char *filename)
     {
         MD5Context  md5;
         byte        buffer[8192];
-        size_t len;
+        size_t      len;
 
         MD5Init(&md5);
 

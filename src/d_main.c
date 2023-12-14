@@ -818,19 +818,19 @@ bool D_IsSIGILWAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return (M_StringCompare(file, "SIGIL_v1_21.wad")
-        || M_StringCompare(file, "SIGIL_v1_2.wad")
-        || M_StringCompare(file, "SIGIL_v1_1.wad")
-        || M_StringCompare(file, "SIGIL_v1_0.wad")
-        || M_StringCompare(file, "SIGIL.wad"));
+    return ((M_StringStartsWith(file, "SIGIL_V") && M_StringEndsWith(file, ".WAD"))
+        || M_StringCompare(file, "SIGIL.WAD"));
 }
 
 bool D_IsSIGIL2WAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return (M_StringStartsWith(file, "SIGIL_II_MP3_V")
-        || M_StringStartsWith(file, "SIGIL_II_V"));
+    return ((M_StringStartsWith(file, "SIGIL_II_MP3_V") && M_StringEndsWith(file, ".WAD"))
+        || (M_StringStartsWith(file, "SIGIL_II_V") && M_StringEndsWith(file, ".WAD"))
+        || M_StringCompare(file, "SIGIL2.WAD")
+        || M_StringCompare(file, "SIGILII.WAD")
+        || M_StringCompare(file, "SIGIL_II.WAD"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)
