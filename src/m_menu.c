@@ -3704,7 +3704,7 @@ bool M_Responder(event_t *ev)
                 return true;
             }
 
-            if (currentmenu == &EpiDef && !customepisode)
+            if (currentmenu == &EpiDef)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
