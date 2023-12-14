@@ -1458,6 +1458,13 @@ static int D_OpenWADLauncher(void)
                     wadfolder = M_StringDuplicate(folder);
                     D_CheckSupportedPWAD(file);
 
+                    if (D_IsSIGIL2WAD(file))
+                    {
+                        sigil2 = false;
+                        D_AutoloadSIGILWAD();
+                        sigil2 = true;
+                    }
+
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
