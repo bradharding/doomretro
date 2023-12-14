@@ -348,6 +348,7 @@
     <ClInclude Include="..\src\i_video.h" />
     <ClInclude Include="..\src\info.h" />
     <ClInclude Include="..\src\i_winmusic.h" />
+    <ClInclude Include="..\src\md5.h" />
     <ClInclude Include="..\src\memio.h" />
     <ClInclude Include="..\src\midifile.h" />
     <ClInclude Include="..\src\m_argv.h" />
@@ -425,6 +426,7 @@
     <ClCompile Include="..\src\i_video.c" />
     <ClCompile Include="..\src\info.c" />
     <ClCompile Include="..\src\i_winmusic.c" />
+    <ClCompile Include="..\src\md5.c" />
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\m_argv.c" />
