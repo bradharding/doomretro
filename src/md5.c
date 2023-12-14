@@ -37,6 +37,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "doomtype.h"
 #include "m_misc.h"
 #include "md5.h"
 
@@ -246,23 +247,23 @@ void MD5Transform(UWORD32 buf[4], UWORD32 const in[16])
 char *MD5(const char *filename)
 {
     char    checksum[32] = "";
-    FILE *file = fopen(filename, "rb");
+    FILE    *file = fopen(filename, "rb");
+
+    if (file)
     {
-        MD5Context md5;
-        BYTE readbuf[8192];
+        MD5Context  md5;
+        byte        buffer[8192];
         size_t len;
 
         MD5Init(&md5);
 
-        while ((len = fread(readbuf, 1, sizeof(readbuf), file)) > 0)
-            MD5Update(&md5, readbuf, (unsigned int)len);
+        while ((len = fread(buffer, 1, sizeof(buffer), file)) > 0)
+            MD5Update(&md5, buffer, (unsigned int)len);
 
-        MD5Final(readbuf, &md5);
+        MD5Final(buffer, &md5);
 
-        for (int j = 0; j < 16; ++j)
-        {
-            M_snprintf(checksum, sizeof(checksum), "%s%02x", checksum, readbuf[j]);
-        }
+        for (int i = 0; i < 16; i++)
+            M_snprintf(checksum, sizeof(checksum), "%s%02x", checksum, buffer[i]);
 
         fclose(file);
     }
