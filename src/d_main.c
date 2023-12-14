@@ -1018,7 +1018,7 @@ static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
 
-    if (sigil || sigil2)
+    if (sigil)
         return;
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
