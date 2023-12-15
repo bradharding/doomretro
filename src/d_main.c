@@ -1001,6 +1001,8 @@ void D_CheckSupportedPWAD(char *filename)
     }
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
+    else if (M_StringCompare(leaf, "TTP.wad"))
+        TTP = true;
 
     if (BTSX || REKKR)
         moreblood = true;

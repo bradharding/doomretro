@@ -137,6 +137,7 @@ extern bool             revolution;
 extern bool             scientist;
 extern bool             SD21;
 extern bool             syringe;
+extern bool             TTP;
 
 extern bool             moreblood;
 

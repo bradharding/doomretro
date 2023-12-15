@@ -636,6 +636,7 @@ char    *s_CAPTION_NEIS = "";
 char    *s_CAPTION_REVOLUTION = "";
 char    *s_CAPTION_SCIENTIST = "";
 char    *s_CAPTION_SYRINGE = "";
+char    *s_CAPTION_TTP = "";
 
 char    *s_AUTHOR_ROMERO = "";
 
@@ -1256,6 +1257,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_REVOLUTION,          "CAPTION_REVOLUTION"          },
     { &s_CAPTION_SCIENTIST,           "CAPTION_SCIENTIST"           },
     { &s_CAPTION_SYRINGE,             "CAPTION_SYRINGE"             },
+    { &s_CAPTION_TTP,                 "CAPTION_TTP"                 },
 
     { &s_AUTHOR_ROMERO,               "AUTHOR_ROMERO"               },
 

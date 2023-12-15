@@ -982,6 +982,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_SCIENTIST, sizeof(gamedescription));
     else if (syringe)
         M_StringCopy(gamedescription, s_CAPTION_SYRINGE, sizeof(gamedescription));
+    else if (TTP)
+        M_StringCopy(gamedescription, s_CAPTION_TTP, sizeof(gamedescription));
     else if (gamemission == doom)
     {
         // DOOM 1. But which version?

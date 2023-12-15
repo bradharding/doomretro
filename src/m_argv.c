@@ -138,16 +138,14 @@ static void LoadResponseFile(size_t argv_index, const char *filename)
             break;
 
         // If the next argument is enclosed in quote marks, treat
-        // the contents as a single argument.  This allows long filenames
+        // the contents as a single argument. This allows long filenames
         // to be specified.
         if (infile[i] == '\"')
         {
             char    *argstart;
 
             // Skip the first character (")
-            i++;
-
-            argstart = &infile[i];
+            argstart = &infile[++i];
 
             // Read all characters between quotes
             while (i < size && infile[i] != '\"' && infile[i] != '\n')

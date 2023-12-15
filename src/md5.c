@@ -55,7 +55,7 @@ void byteswap(uint32_t *buf, unsigned int words)
 #define byteswap(buf, words)
 #endif
 
-// Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
+// Start MD5 accumulation. Set bit count to 0 and buffer to mysterious
 // initialization constants.
 
 void MD5Init(MD5Context *ctx)
@@ -116,7 +116,7 @@ void MD5Final(byte digest[16], MD5Context *ctx)
     int     count = ctx->bytes[0] & 0x3f;   // Number of bytes in ctx->in
     byte    *p = (byte *)ctx->in + count;
 
-    // Set the first char of padding to 0x80.  There is always room.
+    // Set the first char of padding to 0x80. There is always room.
     *p++ = 0x80;
 
     // Bytes of padding needed to make 56 bytes (-8..55)
@@ -157,9 +157,9 @@ void MD5Final(byte digest[16], MD5Context *ctx)
 // This is the central step in the MD5 algorithm.
 #define MD5STEP(f, w, x, y, z, in, s) (w += f(x, y, z) + in, w = (w << s | w >> (32 - s)) + x)
 
- // The core of the MD5 algorithm, this alters an existing MD5 hash to
- // reflect the addition of 16 longwords of new data.  MD5Update blocks
- // the data and converts bytes into longwords for this routine.
+// The core of the MD5 algorithm, this alters an existing MD5 hash to
+// reflect the addition of 16 longwords of new data. MD5Update blocks
+// the data and converts bytes into longwords for this routine.
 void MD5Transform(uint32_t buf[4], uint32_t const in[16])
 {
     uint32_t    a = buf[0];

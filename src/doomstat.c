@@ -91,6 +91,7 @@ bool            revolution;
 bool            scientist;
 bool            SD21;
 bool            syringe;
+bool            TTP;
 
 bool            moreblood = false;
 
