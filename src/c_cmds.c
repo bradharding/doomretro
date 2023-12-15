@@ -4615,7 +4615,7 @@ static void maplist_func2(char *cmd, char *parms)
 #define RPJM2   RP " and " JM2
 #define SPTH    SP " and " TH
 
-static OutputReleaseDate(const int tabs[3], char *wadname)
+static void OutputReleaseDate(const int tabs[3], char *wadname)
 {
     if (M_StringCompare(wadname, "DOOM1.WAD"))
         C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");

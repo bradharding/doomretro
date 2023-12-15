@@ -644,7 +644,7 @@ char *strndup(const char *s, size_t n)
         return NULL;
 
     new[len] = '\0';
-    return memcpy(new, s, len);
+    return (char *)memcpy(new, s, len);
 }
 #endif
 

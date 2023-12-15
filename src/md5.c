@@ -244,7 +244,7 @@ void MD5Transform(uint32_t buf[4], uint32_t const in[16])
 
 char *MD5(const char *filename)
 {
-    char    checksum[32] = "";
+    char    checksum[33] = "";
     FILE    *file = fopen(filename, "rb");
 
     if (file)
