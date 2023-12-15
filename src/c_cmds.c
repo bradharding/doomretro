@@ -4625,7 +4625,7 @@ static void OutputReleaseDate(const int tabs[3], char *wadname)
             C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
         else if (bfgedition)
             C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
-        else if (gamemode == registered)
+        else if (gamemode == retail)
             C_TabbedOutput(tabs, INDENT "Release date\tApril 30, 1995");
         else
             C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
