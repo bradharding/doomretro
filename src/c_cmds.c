@@ -4881,7 +4881,9 @@ static void mapstats_func2(char *cmd, char *parms)
 
     if (wadtype == PWAD)
     {
-        C_TabbedOutput(tabs, "IWAD\t%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
+        M_StringCopy(wadname, leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path), sizeof(wadname));
+
+        C_TabbedOutput(tabs, "IWAD\t%s", wadname);
 
         OutputReleaseDate(tabs, wadname);
 
