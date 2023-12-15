@@ -1206,6 +1206,13 @@ static bool D_CheckParms(void)
                 wadfolder = M_StringDuplicate(folder);
                 D_CheckSupportedPWAD(myargv[1]);
 
+                if (D_IsSIGIL2WAD(myargv[1]))
+                {
+                    sigil2 = false;
+                    D_AutoloadSIGILWAD();
+                    sigil2 = true;
+                }
+
                 if (W_MergeFile(myargv[1], false))
                 {
                     modifiedgame = true;
@@ -1246,6 +1253,13 @@ static bool D_CheckParms(void)
                     result = true;
                     D_CheckSupportedPWAD(myargv[1]);
 
+                    if (D_IsSIGIL2WAD(myargv[1]))
+                    {
+                        sigil2 = false;
+                        D_AutoloadSIGILWAD();
+                        sigil2 = true;
+                    }
+
                     if (W_MergeFile(myargv[1], false))
                     {
                         modifiedgame = true;
@@ -1267,6 +1281,13 @@ static bool D_CheckParms(void)
                     {
                         result = true;
                         D_CheckSupportedPWAD(myargv[1]);
+
+                        if (D_IsSIGIL2WAD(myargv[1]))
+                        {
+                            sigil2 = false;
+                            D_AutoloadSIGILWAD();
+                            sigil2 = true;
+                        }
 
                         if (W_MergeFile(myargv[1], false))
                         {
@@ -2230,6 +2251,13 @@ static void D_DoomMainSetup(void)
                 {
                     D_CheckSupportedPWAD(file);
 
+                    if (D_IsSIGIL2WAD(file))
+                    {
+                        sigil2 = false;
+                        D_AutoloadSIGILWAD();
+                        sigil2 = true;
+                    }
+
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
@@ -2258,6 +2286,13 @@ static void D_DoomMainSetup(void)
                         wadfolder = M_StringDuplicate(folder);
                         D_CheckSupportedPWAD(file);
 
+                        if (D_IsSIGIL2WAD(file))
+                        {
+                            sigil2 = false;
+                            D_AutoloadSIGILWAD();
+                            sigil2 = true;
+                        }
+
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
@@ -2278,6 +2313,13 @@ static void D_DoomMainSetup(void)
                             iwadfile = M_StringDuplicate(fullpath);
                             D_CheckSupportedPWAD(file);
 
+                            if (D_IsSIGIL2WAD(file))
+                            {
+                                sigil2 = false;
+                                D_AutoloadSIGILWAD();
+                                sigil2 = true;
+                            }
+
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
@@ -2293,6 +2335,13 @@ static void D_DoomMainSetup(void)
                             {
                                 iwadfile = M_StringDuplicate(fullpath);
                                 D_CheckSupportedPWAD(file);
+
+                                if (D_IsSIGIL2WAD(file))
+                                {
+                                    sigil2 = false;
+                                    D_AutoloadSIGILWAD();
+                                    sigil2 = true;
+                                }
 
                                 if (W_MergeFile(file, false))
                                 {
