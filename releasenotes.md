@@ -8,6 +8,7 @@
 * Further improvements have been made to the parsing of `bossaction` in `MAPINFO` lumps.
 * A bug is fixed whereby selecting an episode in the menu wouldn’t change the `episode` CVAR in some instances.
 * *SIGIL* will now still be automatically loaded if found and *SIGIL II* is manually loaded.
+* Improvements have been made to recognizing the *SIGIL* and *SIGIL II* WAD files if they have been renamed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
