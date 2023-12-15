@@ -818,16 +818,16 @@ bool D_IsSIGILWAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return ((M_StringStartsWith(file, "SIGIL_V") && M_StringEndsWith(file, ".WAD"))
-        || M_StringCompare(file, "SIGIL.WAD"));
+    return (M_StringStartsWith(file, "SIGIL") && M_StringEndsWith(file, "WAD")
+        && !D_IsSIGIL2WAD(filename));
 }
 
 bool D_IsSIGIL2WAD(char *filename)
 {
-    const char  *file = leafname(filename);
+    const char *file = leafname(filename);
 
-    return ((M_StringStartsWith(file, "SIGIL_II_MP3_V") && M_StringEndsWith(file, ".WAD"))
-        || (M_StringStartsWith(file, "SIGIL_II_V") && M_StringEndsWith(file, ".WAD")));
+    return ((M_StringStartsWith(file, "SIGIL_II") || M_StringStartsWith(file, "SIGILII")
+        || M_StringStartsWith(file, "SIGIL2")) && M_StringEndsWith(file, "WAD"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)
