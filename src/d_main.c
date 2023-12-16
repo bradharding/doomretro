@@ -824,7 +824,7 @@ bool D_IsSIGILWAD(char *filename)
 
 bool D_IsSIGIL2WAD(char *filename)
 {
-    const char *file = leafname(filename);
+    const char  *file = leafname(filename);
 
     return ((M_StringStartsWith(file, "SIGIL_II") || M_StringStartsWith(file, "SIGILII")
         || M_StringStartsWith(file, "SIGIL2")) && M_StringEndsWith(file, "WAD"));
@@ -908,17 +908,7 @@ void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
 
-    if (D_IsSIGILWAD(filename))
-    {
-        sigil = true;
-        episode = 5;
-    }
-    else if (D_IsSIGIL2WAD(filename))
-    {
-        sigil2 = true;
-        episode = 6;
-    }
-    else if (M_StringCompare(leaf, "NERVE.WAD"))
+    if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
         expansion = 2;

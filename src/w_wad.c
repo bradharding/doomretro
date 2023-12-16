@@ -421,6 +421,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (D_IsSIGILWAD(file))
         {
+            sigil = true;
             sigilwadadded = true;
             autosigil = autoloaded;
             C_Output("You can play John Romero's " ITALICS("SIGIL")
@@ -445,6 +446,7 @@ bool W_AddFile(char *filename, bool autoloaded)
                 C_Output("You can play John Romero's " ITALICS("SIGIL II")
                     " by choosing it in the episode menu.");
 
+            sigil2 = true;
             sigil2wadadded = true;
             autosigil2 = autoloaded;
 
