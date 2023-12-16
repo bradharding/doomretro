@@ -407,8 +407,11 @@ void C_PlayerWarning(const char *string, ...)
 
     outputhistory = -1;
 
-    if (con_obituaries && !vanilla)
+    if (con_obituaries)
+    {
         HU_SetPlayerMessage(buffer, false, false);
+        message_warning = true;
+    }
 }
 
 void C_ResetWrappedLines(void)

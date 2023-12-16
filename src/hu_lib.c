@@ -182,14 +182,16 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     unsigned char   prevletter2 = '\0';
     int             x = HU_ALTHUDMSGX;
     int             y = HU_ALTHUDMSGY;
-    int             color = (message_secret ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
+    int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
+                        (r_hud_translucency ? nearestwhite : nearestlightgray)));
     const int       len = l->len;
     byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
 
     if (!automapactive)
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
             colormaps[0][32 * 256 + color] : color) : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-            colormaps[0][32 * 256 + color] : (message_secret ? nearestgold : nearestblack)));
+            colormaps[0][32 * 256 + color] : (message_secret ? nearestgold : (message_warning ?
+            nearestred : nearestblack))));
 
     if (fade)
     {

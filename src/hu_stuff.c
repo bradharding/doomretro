@@ -67,6 +67,7 @@ bool                    message_on;
 bool                    message_fadeon;
 bool                    message_dontfuckwithme;
 bool                    message_secret;
+bool                    message_warning;
 static bool             message_external;
 static bool             message_nottobefuckedwith;
 
@@ -259,6 +260,7 @@ void HU_Start(void)
     message_on = false;
     message_dontfuckwithme = false;
     message_secret = false;
+    message_warning = false;
     message_nottobefuckedwith = false;
     message_external = false;
 
@@ -1568,12 +1570,13 @@ void HU_Ticker(void)
         message_on = false;
         message_nottobefuckedwith = false;
         message_secret = false;
+        message_warning = false;
     }
 
     // display message if necessary
     else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if (messages || message_dontfuckwithme || message_secret)
+        if (messages || message_dontfuckwithme || message_secret || message_warning)
         {
             char    message[133];
 
@@ -1627,7 +1630,7 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, bool group, bool external)
 {
-    if (message_secret || !viewplayer || togglingvanilla)
+    if (message_secret || message_warning || !viewplayer || togglingvanilla)
         return;
 
     M_StringReplaceAll(message, "%%", "%", false);
@@ -1704,4 +1707,5 @@ void HU_ClearMessages(void)
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
     message_secret = false;
+    message_warning = false;
 }
