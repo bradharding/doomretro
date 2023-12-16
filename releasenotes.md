@@ -2,6 +2,9 @@
 
 ### DOOM Retro v5.1.4
 
+* If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and as a player message when the `messages` CVAR is `on`.
+* A bug is fixed whereby Buckethead’s music wouldn’t autoload when `SIGIL_SHREDS.WAD` was found.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, December 16, 2023
