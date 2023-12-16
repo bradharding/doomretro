@@ -406,6 +406,9 @@ void C_PlayerWarning(const char *string, ...)
     console[numconsolestrings++].count = 1;
 
     outputhistory = -1;
+
+    if (con_obituaries && !vanilla)
+        HU_SetPlayerMessage(buffer, false, false);
 }
 
 void C_ResetWrappedLines(void)
