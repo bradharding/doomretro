@@ -819,7 +819,7 @@ bool D_IsSIGILWAD(char *filename)
     const char  *file = leafname(filename);
 
     return (M_StringStartsWith(file, "SIGIL") && M_StringEndsWith(file, "WAD")
-        && !D_IsSIGIL2WAD(filename));
+        && !D_IsSIGIL2WAD(filename) && !M_StrCaseStr(file, "SHREDS"));
 }
 
 bool D_IsSIGIL2WAD(char *filename)
