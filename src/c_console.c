@@ -1227,7 +1227,7 @@ char *C_CreateTimeStamp(const int index)
     return console[index].timestamp;
 }
 
-static void C_DrawTimeStamp(int x, const int y, const char timestamp[9])
+static void C_DrawTimeStamp(int x, const int y, const char timestamp[9], const int color)
 {
     for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {
@@ -1237,7 +1237,7 @@ static void C_DrawTimeStamp(int x, const int y, const char timestamp[9])
 
         x -= (ch == ':' ? width : zerowidth);
         V_DrawConsoleTextPatch(x + (ch == '1') - (ch == '4'), y, patch,
-            width, consoleplayermessagecolor, NOBACKGROUNDCOLOR, false, tinttab33);
+            width, color, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
 
@@ -1665,7 +1665,7 @@ void C_Drawer(void)
                     C_CreateTimeStamp(i);
 
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
-                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
+                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp, consoleplayermessagecolor);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor, NOBACKGROUNDCOLOR,
@@ -1713,7 +1713,7 @@ void C_Drawer(void)
                     C_CreateTimeStamp(i);
 
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
-                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
+                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp, consolewarningboldcolor);
             }
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
