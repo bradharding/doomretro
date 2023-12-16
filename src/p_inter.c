@@ -1642,7 +1642,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (friendly && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
-                    (*source->info->name1 ? source->info->name1 : "monster"));
+                    (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
             }
 
             if (M_StringCompare(playername, playername_default))
@@ -1664,7 +1664,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (friendly && monstercount[target->type] == 1 ? "the" :
                         (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
-                    (*target->info->name1 ? target->info->name1 : "monster"));
+                    (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
             }
 
             C_PlayerMessage("%s telefragged %s.",
@@ -1685,7 +1685,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (friendly && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
-                    (*source->info->name1 ? source->info->name1 : "monster"));
+                    (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
             }
 
             if (*target->name)
@@ -1698,7 +1698,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (friendly && monstercount[target->type] == 1 ? "the" :
                         (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
-                    (*target->info->name1 ? target->info->name1 : "monster"));
+                    (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
             }
 
             C_PlayerMessage("%s was telefragged by %s.", targetname, sourcename);
@@ -1737,7 +1737,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (inflicter->type == inflicter->inflicter
                                 || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
-                            (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
+                            (*mobjinfo[inflicter->inflicter].name1 && !M_StringStartsWith(mobjinfo[inflicter->inflicter].name1, "Deh_Actor_") ?
+                                mobjinfo[inflicter->inflicter].name1 : "monster"));
                     else
                         C_PlayerWarning("%s was %s by %s %s that %s %s exploded!",
                             playername,
@@ -1747,7 +1748,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (inflicter->type == inflicter->inflicter
                                 || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
-                            (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
+                            (*mobjinfo[inflicter->inflicter].name1 && !M_StringStartsWith(mobjinfo[inflicter->inflicter].name1, "Deh_Actor_") ?
+                                mobjinfo[inflicter->inflicter].name1 : "monster"));
                 }
             }
             else
@@ -1766,7 +1768,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         (friendly && monstercount[target->type] == 1 ? "the" :
                             (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
                         (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
-                        (*target->info->name1 ? target->info->name1 : "monster"));
+                        (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
                 }
 
                 temp = sentencecase(targetname);
@@ -1793,7 +1795,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         (inflicter->type == inflicter->inflicter
                             || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                             (*mobjinfo[inflicter->inflicter].name1 && isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
-                        (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
+                        (*mobjinfo[inflicter->inflicter].name1 && !M_StringStartsWith(mobjinfo[inflicter->inflicter].name1, "Deh_Actor_") ?
+                            mobjinfo[inflicter->inflicter].name1 : "monster"));
 
                 free(temp);
             }
@@ -1830,7 +1833,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (friendly && monstercount[target->type] == 1 ? "the" :
                                 (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                             (friendly ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                            (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
                     }
 
                     if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
@@ -1876,7 +1879,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (friendly && monstercount[target->type] == 1 ? "the" :
                                 (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
                             (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+                            (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
                     }
 
                     if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
@@ -1911,7 +1914,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (friendly && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
-                    (*source->info->name1 ? source->info->name1 : "monster"));
+                    (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
             }
 
             if (target->player)
@@ -1939,7 +1942,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (friendly && monstercount[target->type] == 1 ? "the" :
                             (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a"))),
                         (friendly ? "friendly " : ""),
-                        (*target->info->name1 ? target->info->name1 : "monster"));
+                        (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
 }
 
                 C_PlayerMessage("%s %s %s.",
