@@ -384,6 +384,29 @@ void C_PlayerMessage(const char *string, ...)
 
     outputhistory = -1;
 }
+void C_PlayerWarning(const char *string, ...)
+{
+    va_list     args;
+    char        buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
+
+    if (numconsolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].stringtype = playerwarningstring;
+    console[numconsolestrings].tics = gametime;
+    console[numconsolestrings].timestamp[0] = '\0';
+    console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
+    console[numconsolestrings].indent = WARNINGWIDTH + 2;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].count = 1;
+
+    outputhistory = -1;
+}
 
 void C_ResetWrappedLines(void)
 {
@@ -715,12 +738,14 @@ void C_Init(void)
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
+    consolecolors[playerwarningstring] = consolewarningcolor;
 
     consoleboldcolors[inputstring] = consoleboldcolor;
     consoleboldcolors[cheatstring] = consoleboldcolor;
     consoleboldcolors[outputstring] = consoleboldcolor;
     consoleboldcolors[warningstring] = consolewarningboldcolor;
     consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
+    consoleboldcolors[playerwarningstring] = consolewarningboldcolor;
 
     brand = W_CacheLastLumpName("DRBRAND");
 
@@ -944,7 +969,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     y -= CONSOLEHEIGHT - consoleheight;
 
-    if (console[index].stringtype == warningstring)
+    if (console[index].stringtype == warningstring
+        || console[index].stringtype == playerwarningstring)
     {
         V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
         x += (text[0] == 'T' ? WARNINGWIDTH : WARNINGWIDTH + 1);
@@ -1584,7 +1610,7 @@ void C_Drawer(void)
                     char    *temp = M_SubString(console[i].string, 0, wrap);
                     int     width;
 
-                    if (stringtype == warningstring)
+                    if (stringtype == warningstring || stringtype == playerwarningstring)
                         width = indent + C_TextWidth(temp, true, true);
                     else
                         width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
@@ -1661,6 +1687,30 @@ void C_Drawer(void)
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor, NOBACKGROUNDCOLOR,
                         consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+            }
+            else if (stringtype == playerwarningstring)
+            {
+                const int   count = console[i].count;
+
+                if (count > 1)
+                {
+                    char    buffer[CONSOLETEXTMAXLENGTH];
+                    char *temp = commify(count);
+
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
+                        consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+                    free(temp);
+                }
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor, NOBACKGROUNDCOLOR,
+                        consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0');
+
+                if (!*console[i].timestamp)
+                    C_CreateTimeStamp(i);
+
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
+                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
             }
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),

@@ -152,6 +152,7 @@ typedef enum
     outputstring,
     dividerstring,
     warningstring,
+    playerwarningstring,
     playermessagestring,
     headerstring,
     STRINGTYPES
@@ -245,6 +246,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...);
 void C_Header(const int tabs[3], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
+void C_PlayerWarning(const char *string, ...);
 void C_ResetWrappedLines(void);
 void C_AddConsoleDivider(void);
 void C_ClearConsole(void);
