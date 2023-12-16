@@ -6,8 +6,8 @@
 
 ==============================================================================
 
-    Copyright © 1993-2023 by id Software LLC, a ZeniMax Media company.
-    Copyright © 2013-2023 by Brad Harding <mailto:brad@doomretro.com>.
+    Copyright © 1993-2024 by id Software LLC, a ZeniMax Media company.
+    Copyright © 2013-2024 by Brad Harding <mailto:brad@doomretro.com>.
 
     This file is a part of DOOM Retro.
 
@@ -44,7 +44,7 @@
 #define DOOMRETRO_AUTOLOADFOLDER        "autoload"
 #define DOOMRETRO_CONFIG                "doomretro.cfg"
 #define DOOMRETRO_CONSOLEFOLDER         "console"
-#define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962023 by Brad Harding. All rights reserved."
+#define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962024 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
