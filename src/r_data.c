@@ -887,7 +887,8 @@ static void R_InitColormaps(void)
             C_Output("The " BOLD("COLORMAP") " lump and %i more in the %s " BOLD("%s") " are being used.",
                 numcolormaps - 1, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
         else
-            C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s") " and %i more in the %s " BOLD("%s") " are being used.",
+            C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s")
+                " and %i more in the %s " BOLD("%s") " are being used.",
                 (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
                 (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }

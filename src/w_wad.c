@@ -392,7 +392,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     {
         temp = commify((int64_t)numlumps - startlump);
         C_Output("%s%s %s been %s from the %s " BOLD("%s") ".",
-            (autoloaded ? "An additional " : ""), 
+            (autoloaded ? "An additional " : ""),
             temp,
             (numlumps - startlump == 1 ? "lump has" : "lumps have"),
             (autoloaded ? "automatically added" : "added"),
