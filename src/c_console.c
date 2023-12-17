@@ -1312,7 +1312,7 @@ void C_UpdatePlayerPositionOverlay(void)
 
         M_snprintf(angle, sizeof(angle), "%i\xB0", direction);
         M_snprintf(coordinates, sizeof(coordinates), "(%i, %i, %i)",
-            xx, yy, R_PointInSubsector(xx, yy)->sector->floorheight >> FRACBITS);
+            xx, yy, R_PointInSubsector(xx << FRACBITS, yy << FRACBITS)->sector->floorheight >> FRACBITS);
     }
     else
     {
