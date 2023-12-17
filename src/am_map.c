@@ -176,7 +176,6 @@ static bool         bigstate;
 static bool         movement;
 static bool         speedtoggle;
 static SDL_Keymod   modstate;
-int                 direction;
 
 am_frame_t          am_frame;
 
@@ -651,7 +650,7 @@ bool AM_Responder(const event_t *ev)
 {
     int rc = false;
 
-    direction = 0;
+    am_frame.angle = 0;
     modstate = SDL_GetModState();
 
     if (!menuactive && !paused)
@@ -1123,8 +1122,8 @@ bool AM_Responder(const event_t *ev)
                 if ((m_y == min_y - m_h / 2 && y < 0.0) || (m_y == max_y - m_h / 2 && y > 0.0))
                     y = 0.0;
 
-                if ((direction = (int)(atan2(y, x) * 180.0 / M_PI)) < 0)
-                    direction += 360;
+                if ((am_frame.angle = (int)(atan2(y, x) * 180.0 / M_PI)) < 0)
+                    am_frame.angle += 360;
             }
         }
     }

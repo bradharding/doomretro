@@ -84,6 +84,7 @@ typedef struct
     fixed_t     sin;
     fixed_t     cos;
     fixed_t     bbox[4];
+    int         angle;
 } am_frame_t;
 
 extern int          lastlevel;
@@ -98,4 +99,3 @@ extern int          numbreadcrumbs;
 extern int          maxbreadcrumbs;
 
 extern am_frame_t   am_frame;
-extern int          direction;

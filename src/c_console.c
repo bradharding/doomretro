@@ -1310,13 +1310,13 @@ void C_UpdatePlayerPositionOverlay(void)
         const int       xx = center.x >> MAPBITS;
         const int       yy = center.y >> MAPBITS;
 
-        M_snprintf(angle, sizeof(angle), "%i\xB0", direction);
-        M_snprintf(coordinates, sizeof(coordinates), "(%i, %i, %i)",
-            xx, yy, R_PointInSubsector(xx << FRACBITS, yy << FRACBITS)->sector->floorheight >> FRACBITS);
+        M_snprintf(angle, sizeof(angle), "%i\xB0", am_frame.angle);
+        M_snprintf(coordinates, sizeof(coordinates), "(%i, %i, %i)", xx, yy,
+            R_PointInSubsector(xx << FRACBITS, yy << FRACBITS)->sector->floorheight >> FRACBITS);
     }
     else
     {
-        const int       an = (int)(viewangle * 90.0 / ANG90);
+        const int       an = viewangle * 90 / ANG90;
         const mobj_t    *mo = viewplayer->mo;
         fixed_t         z = MAX(mo->floorz, mo->z);
 

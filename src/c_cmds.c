@@ -7693,7 +7693,7 @@ static void spawn_func2(char *cmd, char *parms)
 
                         if (!freeze)
                         {
-                            fog = P_SpawnMobj(x, y, (flags & MF_NOGRAVITY ? thing->z : ONFLOORZ), MT_TFOG);
+                            fog = P_SpawnMobj(x, y, ((flags & MF_NOGRAVITY) ? thing->z : ONFLOORZ), MT_TFOG);
                             fog->angle = thing->angle;
                             S_StartSound(fog, sfx_telept);
                         }
