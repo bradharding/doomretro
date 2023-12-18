@@ -1646,9 +1646,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             }
 
             if (M_StringCompare(playername, playername_default))
-                C_PlayerWarning("You were telefragged by %s!", sourcename);
+                C_PlayerObituary("You were telefragged by %s!", sourcename);
             else
-                C_PlayerWarning("%s was telefragged by %s!", playername, sourcename);
+                C_PlayerObituary("%s was telefragged by %s!", playername, sourcename);
         }
         else if (source->player)
         {
@@ -1715,12 +1715,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (inflicter->inflicter == MT_PLAYER)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerWarning("You were %s by %s %s you exploded!",
+                        C_PlayerObituary("You were %s by %s %s you exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
-                        C_PlayerWarning("%s was %s by %s %s %s exploded!",
+                        C_PlayerObituary("%s was %s by %s %s %s exploded!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1730,7 +1730,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerWarning("You were %s by %s %s that %s %s exploded!",
+                        C_PlayerObituary("You were %s by %s %s that %s %s exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
@@ -1740,7 +1740,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (*mobjinfo[inflicter->inflicter].name1 && !M_StringStartsWith(mobjinfo[inflicter->inflicter].name1, "Deh_Actor_") ?
                                 mobjinfo[inflicter->inflicter].name1 : "monster"));
                     else
-                        C_PlayerWarning("%s was %s by %s %s that %s %s exploded!",
+                        C_PlayerObituary("%s was %s by %s %s that %s %s exploded!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1813,9 +1813,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (target->player)
                 {
                     if (healthcvar)
-                        C_PlayerWarning("You %s yourself!", s_KILLED);
+                        C_PlayerObituary("You %s yourself!", s_KILLED);
                     else
-                        C_PlayerWarning("You %s yourself with your own %s!",
+                        C_PlayerObituary("You %s yourself with your own %s!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             weaponinfo[readyweapon].name);
                 }
@@ -1854,10 +1854,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (target->player)
                 {
                     if (healthcvar)
-                        C_PlayerWarning("%s %s %s!",
+                        C_PlayerObituary("%s %s %s!",
                             playername, s_KILLED, pronoun(reflexive));
                     else
-                        C_PlayerWarning("%s %s %s with %s own %s!",
+                        C_PlayerObituary("%s %s %s with %s own %s!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             pronoun(reflexive),
@@ -1920,10 +1920,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             if (target->player)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerWarning("You were %s by %s!",
+                    C_PlayerObituary("You were %s by %s!",
                         (gibbed ? s_GIBBED : s_KILLED), sourcename);
                 else
-                    C_PlayerWarning("%s was %s by %s!",
+                    C_PlayerObituary("%s was %s by %s!",
                         playername, (gibbed ? s_GIBBED : s_KILLED), sourcename);
             }
             else
@@ -1961,9 +1961,9 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
         {
             if (M_StringCompare(playername, playername_default))
-                C_PlayerWarning("You were crushed to death!");
+                C_PlayerObituary("You were crushed to death!");
             else
-                C_PlayerWarning("%s was crushed to death!", playername);
+                C_PlayerObituary("%s was crushed to death!", playername);
         }
         else
         {
@@ -1984,7 +1984,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     { "sludge",     "sludge"     }
                 };
 
-                C_PlayerMessage("%s died in %s.",
+                C_PlayerObituary("%s died in %s.",
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
                     liquids[sector->terraintype - LIQUID][english]);
             }
@@ -1993,10 +1993,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const short floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
-                    C_PlayerWarning("%s died on molten rock.",
+                    C_PlayerObituary("%s died on molten rock.",
                         (M_StringCompare(playername, playername_default) ? "You" : playername));
                 else
-                    C_PlayerWarning("%s died.", (M_StringCompare(playername, playername_default) ? "You" : playername));
+                    C_PlayerObituary("%s died.", (M_StringCompare(playername, playername_default) ? "You" : playername));
             }
         }
     }

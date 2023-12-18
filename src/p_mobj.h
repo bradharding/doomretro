@@ -56,7 +56,7 @@
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
-#define sentient(mobj)          (mobj->health > 0 && mobj->info->seestate)
+#define sentient(mobj)          (mobj->health > 0 && mobj->info->seestate != S_NULL)
 
 enum
 {

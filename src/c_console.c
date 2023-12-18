@@ -384,7 +384,8 @@ void C_PlayerMessage(const char *string, ...)
 
     outputhistory = -1;
 }
-void C_PlayerWarning(const char *string, ...)
+
+void C_PlayerObituary(const char *string, ...)
 {
     va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
@@ -412,6 +413,30 @@ void C_PlayerWarning(const char *string, ...)
         HU_SetPlayerMessage(buffer, false, false);
         message_warning = true;
     }
+}
+
+void C_PlayerWarning(const char *string, ...)
+{
+    va_list     args;
+    char        buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
+
+    if (numconsolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].stringtype = playerwarningstring;
+    console[numconsolestrings].tics = gametime;
+    console[numconsolestrings].timestamp[0] = '\0';
+    console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
+    console[numconsolestrings].indent = WARNINGWIDTH + 2;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].count = 1;
+
+    outputhistory = -1;
 }
 
 void C_ResetWrappedLines(void)
