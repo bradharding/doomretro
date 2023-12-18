@@ -12,7 +12,7 @@
 
 ### DOOM Retro v5.1.3
 
-* *DOOM Retro* now uses [*SDL_image v2.8.1*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.0).
+* *DOOM Retro* now uses [*SDL_image v2.8.1*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.1).
 * Minor changes have been made to text that is output to the console.
 * The MD5 hash value of the current map’s WAD is now displayed by the `mapstats` CCMD.
 * Further improvements have been made to the parsing of `bossaction` in `MAPINFO` lumps.
