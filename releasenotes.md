@@ -4,8 +4,8 @@
 
 * If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t autoload when `SIGIL_SHREDS.WAD` was present.
-* The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the player is in the automap and the `am_followmode` CVAR is `off`.
-* Right-clicking the mouse in the menu will now hide the mouse pointer if the `m_pointer` CVAR is `on`.
+* The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
+* Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -18,7 +18,7 @@
 * The MD5 hash value of the current map’s WAD is now displayed by the `mapstats` CCMD.
 * Further improvements have been made to the parsing of `bossaction` in `MAPINFO` lumps.
 * A bug is fixed whereby selecting an episode in the menu wouldn’t change the `episode` CVAR in some instances.
-* *SIGIL* will now still be automatically loaded if found and *SIGIL II* is manually loaded.
+* *SIGIL* is now still automatically loaded if found and *SIGIL II* is manually loaded.
 * Improvements have been made to recognizing the *SIGIL* and *SIGIL II* WAD files if they have been renamed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
