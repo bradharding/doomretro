@@ -402,7 +402,7 @@ static void I_GetEvent(void)
 
                 mousebuttonstate |= button;
 
-                if (menuactive && button == MOUSE_RIGHTBUTTON)
+                if ((menuactive || consoleactive) && button == MOUSE_RIGHTBUTTON)
                     usingmouse = false;
 
                 break;

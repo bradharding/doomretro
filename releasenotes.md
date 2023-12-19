@@ -5,7 +5,7 @@
 * If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t autoload when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
-* Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
+* Right-clicking the mouse in the menu or console now hides the mouse pointer if the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
