@@ -386,6 +386,9 @@ static void I_GetEvent(void)
             }
 
             case SDL_MOUSEBUTTONDOWN:
+            {
+                const int   button = buttons[Event->button.button];
+
                 idclev = false;
                 idmus = false;
 
@@ -397,8 +400,13 @@ static void I_GetEvent(void)
                     C_Output(s_STSTR_BEHOLD);
                 }
 
-                mousebuttonstate |= buttons[Event->button.button];
+                mousebuttonstate |= button;
+
+                if (menuactive && button == MOUSE_RIGHTBUTTON)
+                    usingmouse = false;
+
                 break;
+            }
 
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
