@@ -11025,7 +11025,7 @@ static bool weapon_func1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
-    else if (gamestate != GS_LEVEL || viewplayer->pendingweapon != wp_nochange)
+    else if (gamestate != GS_LEVEL || viewplayer->pendingweapon != wp_nochange || viewplayer->health <= 0)
         return false;
     else
     {
