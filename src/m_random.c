@@ -49,7 +49,7 @@ unsigned int    bigseed;
 //
 int P_RandomHitscanAngle(const fixed_t spread)
 {
-    return (int)(((int64_t)(spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread)) * M_SubRandom()) / 255);
+    return (int)(((int64_t)FixedToAngle(ABS(spread)) * M_SubRandom()) / 255);
 }
 
 //

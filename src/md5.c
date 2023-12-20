@@ -57,7 +57,6 @@ void byteswap(uint32_t *buf, unsigned int words)
 
 // Start MD5 accumulation. Set bit count to 0 and buffer to mysterious
 // initialization constants.
-
 void MD5Init(MD5Context *ctx)
 {
     ctx->buf[0] = 0x67452301;
@@ -110,7 +109,6 @@ void MD5Update(MD5Context *ctx, byte const *buf, unsigned len)
 
 // Final wrap-up - pad to 64-byte boundary with the bit pattern
 // 1 0* (64-bit count of bits processed, MSB-first)
-
 void MD5Final(byte digest[16], MD5Context *ctx)
 {
     int     count = ctx->bytes[0] & 0x3f;   // Number of bytes in ctx->in
@@ -148,14 +146,13 @@ void MD5Final(byte digest[16], MD5Context *ctx)
 #ifndef ASM_MD5
 
 // The four core functions - F1 is optimized somewhat
-
 #define F1(x, y, z) (z ^ (x & (y ^ z)))
 #define F2(x, y, z) F1(z, x, y)
 #define F3(x, y, z) (x ^ y ^ z)
 #define F4(x, y, z) (y ^ (x | ~z))
 
 // This is the central step in the MD5 algorithm.
-#define MD5STEP(f, w, x, y, z, in, s) (w += f(x, y, z) + in, w = (w << s | w >> (32 - s)) + x)
+#define MD5STEP(f, w, x, y, z, in, s)   (w += f(x, y, z) + in, w = (w << s | w >> (32 - s)) + x)
 
 // The core of the MD5 algorithm, this alters an existing MD5 hash to
 // reflect the addition of 16 longwords of new data. MD5Update blocks

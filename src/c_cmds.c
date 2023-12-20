@@ -5097,9 +5097,6 @@ static void mapstats_func2(char *cmd, char *parms)
 
         lumps = W_GetNumLumps(namebuf);
 
-        if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
-            C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
-
         if (*musictitle)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), musictitle);
         else if (sigil && gameepisode == 5)
@@ -5139,6 +5136,9 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Format\tFLAC");
         else if (musictype == MUS_MOD)
             C_TabbedOutput(tabs, INDENT "Format\tMOD");
+
+        if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
+            C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
     }
 }
 
