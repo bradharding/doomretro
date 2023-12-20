@@ -3457,9 +3457,8 @@ static void kill_func2(char *cmd, char *parms)
             else
                 M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, pronoun(reflexive));
 
-            C_PlayerMessage(buffer);
+            C_PlayerObituary(buffer);
             C_HideConsole();
-            HU_SetPlayerMessage(buffer, false, false);
         }
         else
         {
