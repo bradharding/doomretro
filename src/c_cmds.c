@@ -669,7 +669,7 @@ consolecmd_t consolecmds[] =
     CCMD(explode, "", "", kill_func1, kill_func2, true, EXPLODECMDFORMAT,
         "Explodes all " BOLD("barrels") " or " BOLD("missiles") "."),
     CVAR_INT(facebackcolor, facebackcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The background color of your face in the status bar (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of your face's background in the status bar (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(fade, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a fading effect when transitioning between some screens."),
     CCMD(fastmonsters, "", "", nightmare_func1, fastmonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",

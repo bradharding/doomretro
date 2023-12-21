@@ -70,7 +70,7 @@ void MD5Init(MD5Context *ctx)
 
  // Update context to reflect the concatenation of another buffer full
  // of bytes.
-void MD5Update(MD5Context *ctx, byte const *buf, unsigned len)
+void MD5Update(MD5Context *ctx, const byte *buf, unsigned int len)
 {
     uint32_t    t = ctx->bytes[0];
 
@@ -157,7 +157,7 @@ void MD5Final(byte digest[16], MD5Context *ctx)
 // The core of the MD5 algorithm, this alters an existing MD5 hash to
 // reflect the addition of 16 longwords of new data. MD5Update blocks
 // the data and converts bytes into longwords for this routine.
-void MD5Transform(uint32_t buf[4], uint32_t const in[16])
+void MD5Transform(uint32_t buf[4], const uint32_t in[16])
 {
     uint32_t    a = buf[0];
     uint32_t    b = buf[1];

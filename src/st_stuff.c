@@ -468,7 +468,7 @@ bool ST_Responder(const event_t *ev)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
-            bool cheatfailed = false;
+            bool    cheatfailed = false;
 
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicvolume)
                 idmus = true;
@@ -625,11 +625,12 @@ bool ST_Responder(const event_t *ev)
 
                         if (musnum != mus_none)
                         {
-                            static char msg[80];
-                            char        *lump = uppercase(s_music[musnum].name1);
+                            char    *lump = uppercase(s_music[musnum].name1);
 
                             if (W_CheckNumForName(lump) >= 0)
                             {
+                                static char msg[80];
+
                                 S_StartSound(NULL, sfx_getpow);
 
                                 S_ChangeMusic(musnum, 1, true, false);
@@ -638,8 +639,9 @@ bool ST_Responder(const event_t *ev)
                                 C_Output(msg);
                                 HU_SetPlayerMessage(msg, false, false);
                                 message_dontfuckwithme = true;
-                                free(lump);
                             }
+
+                            free(lump);
                         }
                         else
                             idmus = false;

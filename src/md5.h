@@ -47,7 +47,7 @@ typedef struct
 } MD5Context;
 
 void MD5Init(MD5Context *context);
-void MD5Update(MD5Context *context, byte const *buf, unsigned len);
+void MD5Update(MD5Context *context, const byte *buf, unsigned int len);
 void MD5Final(byte digest[16], MD5Context *context);
-void MD5Transform(uint32_t buf[4], uint32_t const in[16]);
+void MD5Transform(uint32_t buf[4], const uint32_t in[16]);
 char *MD5(const char *filename);
