@@ -3,10 +3,11 @@
 ### DOOM Retro v5.1.4
 
 * If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
-* A bug is fixed whereby Buckethead’s music wouldn’t autoload when `SIGIL_SHREDS.WAD` was present.
+* A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
-* The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if present.
+* The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
 * Right-clicking the mouse in the menu or console now hides the mouse pointer if the `m_pointer` CVAR is `on`.
+* A bug is fixed whereby a monster’s width could be miscalculated in some rare instances, which could cause certain line specials not to be triggered when they should.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

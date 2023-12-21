@@ -43,7 +43,7 @@
 #ifdef WORDS_BIGENDIAN
 void byteswap(uint32_t *buf, unsigned int words)
 {
-    byte *p = (byte *)buf;
+    byte    *p = (byte *)buf;
 
     do
     {

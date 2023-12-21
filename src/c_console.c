@@ -1726,7 +1726,7 @@ void C_Drawer(void)
                 if (count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
-                    char *temp = commify(count);
+                    char    *temp = commify(count);
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
@@ -1866,7 +1866,7 @@ void C_Drawer(void)
 
         if (showcaret)
         {
-            byte *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
+            byte    *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
 
             for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
             {
