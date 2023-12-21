@@ -156,7 +156,7 @@
 #define ST_MAXAMMO3X        ST_MAXAMMO0X
 #define ST_MAXAMMO3Y        191
 
-#define IDMUS_MAX           60
+#define IDMUS_MAX           70
 
 // ST_Start() has just been called
 static bool             st_firsttime;
@@ -375,7 +375,17 @@ static const int mus[IDMUS_MAX][6] =
     /* 56 */ { mus_none,   mus_none,   mus_none,   mus_e5m6,   mus_none,   mus_none   },
     /* 57 */ { mus_none,   mus_none,   mus_none,   mus_e5m7,   mus_none,   mus_none   },
     /* 58 */ { mus_none,   mus_none,   mus_none,   mus_e5m8,   mus_none,   mus_none   },
-    /* 59 */ { mus_none,   mus_none,   mus_none,   mus_e5m9,   mus_none,   mus_none   }
+    /* 59 */ { mus_none,   mus_none,   mus_none,   mus_e5m9,   mus_none,   mus_none   },
+    /* 60 */ { mus_none,   mus_none,   mus_none,   mus_none,   mus_none,   mus_none   },
+    /* 61 */ { mus_none,   mus_none,   mus_none,   mus_e6m1,   mus_none,   mus_none   },
+    /* 62 */ { mus_none,   mus_none,   mus_none,   mus_e6m2,   mus_none,   mus_none   },
+    /* 63 */ { mus_none,   mus_none,   mus_none,   mus_e6m3,   mus_none,   mus_none   },
+    /* 64 */ { mus_none,   mus_none,   mus_none,   mus_e6m4,   mus_none,   mus_none   },
+    /* 65 */ { mus_none,   mus_none,   mus_none,   mus_e6m5,   mus_none,   mus_none   },
+    /* 66 */ { mus_none,   mus_none,   mus_none,   mus_e6m6,   mus_none,   mus_none   },
+    /* 67 */ { mus_none,   mus_none,   mus_none,   mus_e6m7,   mus_none,   mus_none   },
+    /* 68 */ { mus_none,   mus_none,   mus_none,   mus_e6m8,   mus_none,   mus_none   },
+    /* 69 */ { mus_none,   mus_none,   mus_none,   mus_e6m9,   mus_none,   mus_none   }
 };
 
 //
@@ -616,18 +626,20 @@ bool ST_Responder(const event_t *ev)
                         if (musnum != mus_none)
                         {
                             static char msg[80];
-                            char        *temp = uppercase(s_music[musnum].name1);
+                            char        *lump = uppercase(s_music[musnum].name1);
 
-                            S_StartSound(NULL, sfx_getpow);
+                            if (W_CheckNumForName(lump) >= 0)
+                            {
+                                S_StartSound(NULL, sfx_getpow);
 
-                            S_ChangeMusic(musnum, 1, true, false);
-                            ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
-                            M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
-                            C_Output(msg);
-                            HU_SetPlayerMessage(msg, false, false);
-                            message_dontfuckwithme = true;
-
-                            free(temp);
+                                S_ChangeMusic(musnum, 1, true, false);
+                                ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
+                                M_snprintf(msg, sizeof(msg), s_STSTR_MUS, lump);
+                                C_Output(msg);
+                                HU_SetPlayerMessage(msg, false, false);
+                                message_dontfuckwithme = true;
+                                free(lump);
+                            }
                         }
                         else
                             idmus = false;
