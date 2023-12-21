@@ -745,6 +745,9 @@ char *D_FindIWAD(void)
         // Search through IWAD directories for an IWAD with the given name.
         char    *iwadfile = myargv[iwadparm + 1];
 
+        if (!M_StringEndsWith(iwadfile, ".wad"))
+            iwadfile = M_StringJoin(iwadfile, ".wad", NULL);
+
         if (!(result = D_FindWADByName(iwadfile)))
             I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
