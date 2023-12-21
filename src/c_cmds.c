@@ -7374,9 +7374,8 @@ static void resurrect_func2(char *cmd, char *parms)
                 playername,
                 (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
             buffer[0] = toupper(buffer[0]);
-            C_PlayerMessage(buffer);
+            C_PlayerObituary(buffer);
             C_HideConsole();
-            HU_SetPlayerMessage(buffer, false, false);
             cheated = true;
         }
         else
@@ -9370,7 +9369,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                             playername,
                             (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
-                        C_PlayerMessage(buffer);
+                        C_PlayerObituary(buffer);
                     }
                 }
                 else
