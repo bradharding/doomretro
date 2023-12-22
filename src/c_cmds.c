@@ -4434,7 +4434,7 @@ static void maplist_func2(char *cmd, char *parms)
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(--ep, --map), sizeof(mapinfoname));
+        M_StringCopy(mapinfoname, P_GetMapName(ep--, map--), sizeof(mapinfoname));
 
         switch (gamemission)
         {
