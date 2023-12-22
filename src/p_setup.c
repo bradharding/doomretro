@@ -3079,10 +3079,6 @@ void P_SetupLevel(int ep, int map)
     static int  prevlumpnum = -1;
     char        *temp1;
 
-    boomcompatible = false;
-    mbfcompatible = false;
-    mbf21compatible = false;
-
     totalkills = 0;
     totalitems = 0;
     totalsecrets = 0;
