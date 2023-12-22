@@ -2679,6 +2679,9 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
                     mobjinfo[indexnum].flags = value; // e6y
                 }
+
+                // [BH] Clip everything by default. Can then be overridden by specifying "Retro bits".
+                mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
             }
             else if (M_StringCompare(key, "Retro bits"))
             {
