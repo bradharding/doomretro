@@ -7,7 +7,8 @@
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
 * The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
 * Right-clicking the mouse in the menu or console now hides the mouse pointer if the `m_pointer` CVAR is `on`.
-* A bug is fixed whereby a monster’s width could be miscalculated in some rare instances, which could cause certain line specials not to be triggered when they should.
+* A bug is fixed whereby a monster’s width was being miscalculated in some rare instances, which in turn could cause any nearby line specials to not trigger when they should have.
+* Minor improvements have been made to the parsing of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
