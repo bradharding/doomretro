@@ -1247,37 +1247,42 @@ void M_UpdateSaveGameName(int i)
             int map;
 
             if (M_CheckSaveGame(&ep, &map, i))
+            {
+                char    mapinfoname[128];
+
+                M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
+
                 switch (gamemission)
                 {
                     case doom:
                         if ((map == 10 && M_StringCompare(savegamestrings[i], s_HUSTR_E1M4B))
                             || (map == 11 && M_StringCompare(savegamestrings[i], s_HUSTR_E1M8B))
-                            || M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnames[(ep - 1) * 9 + map - 1])))
+                            || M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1])))
                             match = true;
 
                         break;
 
                     case doom2:
                         if (M_StringCompare(savegamestrings[i],
-                            RemoveMapNum(bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1])))
+                            RemoveMapNum(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]))))
                             match = true;
 
                         break;
 
                     case pack_nerve:
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesn[map - 1])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnamesn[map - 1])))
                             match = true;
 
                         break;
 
                     case pack_plut:
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamesp[map - 1])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnamesp[map - 1])))
                             match = true;
 
                         break;
 
                     case pack_tnt:
-                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapnamest[map - 1])))
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnamest[map - 1])))
                             match = true;
 
                         break;
@@ -1285,6 +1290,7 @@ void M_UpdateSaveGameName(int i)
                     default:
                         break;
                 }
+            }
         }
     }
 
