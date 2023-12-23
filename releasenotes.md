@@ -8,7 +8,13 @@
 * The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
 * Right-clicking the mouse in the menu or console now hides the mouse pointer if the `m_pointer` CVAR is `on`.
 * A bug is fixed whereby the widths of monsters were being miscalculated in some rare instances, which in turn could cause any nearby line specials not to trigger.
-* Minor improvements have been made to the parsing of `DEHACKED` lumps.
+* These improvements have been made to the parsing of `DEHACKED` lumps:
+  * All things greater than 150 now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`, and cast a shadow if the `r_shadows` CVAR is `on`. This can be overridden by specifying `Retro bits`.
+  * If a name is specified in parentheses when declaring a thing, it will be used in obituaries when the `con_obituaries` CVAR is `on`.
+  * Smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` are no longer spawned if certain states or sprites are changed.
+* The `mapstats` CCMD now correctly indicates if a map is `BOOM`, `MBF` or `MBF21` compatible.
+* The `maplist` CCMD now lists the correct map titles if they were obtained from a `MAPINFO` lump.
+* Savegame descriptions now update when progressing to the next map and the `autoload` CVAR is `on`, and if map titles were obtained from a `MAPINFO` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
