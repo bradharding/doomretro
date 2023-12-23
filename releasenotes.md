@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.1.4
+### DOOM Retro v5.2
 
 * If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
