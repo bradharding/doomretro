@@ -2552,14 +2552,19 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     int     ix;
     char    *strval;
     bool    namechange = false;
+    char    name[64] = "";
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if ((ix = sscanf(inbuffer, "%s %i", key, &indexnum)) != 2)
-    {
-        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
-        return;
-    }
+    if ((ix = sscanf(inbuffer, "%s %i (%[^)]", key, &indexnum, name)) != 3)
+        if ((ix = sscanf(inbuffer, "%s %i", key, &indexnum)) != 2)
+        {
+            C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+            return;
+        }
+
+    if (*name && name[0] == '_')
+        strcpy(&name[0], &name[1]);
 
     if (devparm)
     {
@@ -2622,6 +2627,12 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         }
         else if ((string = M_StringCompare(key, "Plural3")))
             M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural3));
+        else if (*name)
+        {
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(name)), sizeof(mobjinfo[0].name1));
+            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
+            namechange = true;
+        }
 
         if (string)
         {
