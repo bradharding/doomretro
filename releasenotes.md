@@ -8,7 +8,7 @@
 * The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
 * A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [romero.com/sigil](https://romero.com/sigil) instead.
 * Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
-* The skull cursor is now displayed in the bottom right corner of the help screen.
+* Improvements have been made to the help screen opened by pressing the <kbd><b>F1</b></kbd> key.
 * A bug is fixed whereby the widths of monsters were being miscalculated in some rare instances, which in turn could cause any nearby line specials not to trigger.
 * These improvements have been made to the parsing of `DEHACKED` lumps:
   * All things that are declared now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`, and cast a shadow if the `r_shadows` CVAR is `on`. This can be overridden by specifying `Retro bits`.

@@ -4061,7 +4061,7 @@ void M_Drawer(void)
     // DRAW SKULL
     if (currentmenu == &HelpDef)
         V_DrawMenuPatch(VANILLAWIDTH - SHORT(skullpatch->width) - 2,
-            VANILLAHEIGHT - SHORT(skullpatch->height) - 4, skullpatch, true, SCREENWIDTH);
+            VANILLAHEIGHT - SHORT(skullpatch->height) - 3, skullpatch, true, SCREENWIDTH);
     else if (currentmenu == &LoadDef || currentmenu == &SaveDef)
     {
         if (currentmenu == &LoadDef)
