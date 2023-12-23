@@ -441,7 +441,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
             if ((i = W_CheckNumForName("DMAPINFO")) >= 0 && D_IsSIGIL2WAD(lumpinfo[i]->wadfile->path))
                 C_Warning(0, "This version of " ITALICS("SIGIL II") " is unsupported! "
-                    "Please download a copy from " BOLD("https://romero.com/sigil") ".");
+                    "Please download it from " BOLD("https://romero.com/sigil") ".");
             else
                 C_Output("You can play John Romero's " ITALICS("SIGIL II")
                     " by choosing it in the episode menu.");

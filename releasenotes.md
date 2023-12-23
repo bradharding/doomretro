@@ -2,19 +2,23 @@
 
 ### DOOM Retro v5.2
 
-* If the player dies, their obituary is now displayed in red in the console when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
+* If the player dies, their obituary is now displayed in the console in red when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
 * The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
-* Right-clicking the mouse in the menu or console now hides the mouse pointer if the `m_pointer` CVAR is `on`.
+* A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [romero.com/sigil](https://romero.com/sigil) instead.
+* Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
 * A bug is fixed whereby the widths of monsters were being miscalculated in some rare instances, which in turn could cause any nearby line specials not to trigger.
 * These improvements have been made to the parsing of `DEHACKED` lumps:
-  * All things greater than 150 now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`, and cast a shadow if the `r_shadows` CVAR is `on`. This can be overridden by specifying `Retro bits`.
-  * If a name is specified in parentheses when declaring a thing, it will be used in obituaries when the `con_obituaries` CVAR is `on`.
+  * All things that are declared now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`, and cast a shadow if the `r_shadows` CVAR is `on`. This can be overridden by specifying `Retro bits`.
+  * If a name is specified in parentheses when declaring a thing, it is now used in obituaries when the `con_obituaries` CVAR is `on`.
   * Smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` are no longer spawned if certain states or sprites are changed.
 * The `mapstats` CCMD now correctly indicates if a map is `BOOM`, `MBF` or `MBF21` compatible.
-* The `maplist` CCMD now lists the correct map titles if they were obtained from a `MAPINFO` lump.
-* Savegame descriptions now update when progressing to the next map and the `autoload` CVAR is `on`, and if map titles were obtained from a `MAPINFO` lump.
+* If map titles are obtained from a `MAPINFO` lump:
+  * The `maplist` CCMD now lists them correctly.
+  * When exiting a map and the `autosave` CVAR is `on`, the description of the current savegame is now updated with the title of the next map.
+* The `.wad` file extension no longer needs to be included when using the `-iwad` or `-file` command-line parameters.
+* The `weapon` CVAR can no longer be changed while the player is dead.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

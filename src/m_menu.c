@@ -63,11 +63,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define SPACEWIDTH          7
-#define LINEHEIGHT         17
-#define OFFSET             17
-#define SKULLANIMCOUNT      8
-#define MAXSKULLANIMCOUNT  32
+#define SPACEWIDTH       7
+#define LINEHEIGHT      17
+#define OFFSET          17
+#define SKULLANIMCOUNT  10
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
