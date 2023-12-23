@@ -3996,8 +3996,6 @@ static void M_DrawNightmare(bool highlight)
 void M_Drawer(void)
 {
     static short    x, y;
-    const char      *skullname[] = { "M_SKULL1", "M_SKULL2" };
-    patch_t         *skullpatch = W_CacheLumpName(skullname[whichskull]);
 
     // Center string and print it.
     if (messagetoprint)
@@ -4058,89 +4056,124 @@ void M_Drawer(void)
     x = currentmenu->x;
     y = currentmenu->y;
 
-    // DRAW SKULL
-    if (currentmenu == &HelpDef)
-        V_DrawMenuPatch(VANILLAWIDTH - SHORT(skullpatch->width) - 2,
-            VANILLAHEIGHT - SHORT(skullpatch->height) - 3, skullpatch, true, SCREENWIDTH);
-    else if (currentmenu == &LoadDef || currentmenu == &SaveDef)
+    if (currentmenu != &HelpDef)
     {
-        if (currentmenu == &LoadDef)
+        // DRAW SKULL
+        const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };
+        patch_t     *skullpatch = W_CacheLumpName(skullname[whichskull]);
+
+        if (currentmenu == &LoadDef || currentmenu == &SaveDef)
         {
-            const int   old = itemon;
-
-            while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
-                itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
-
-            if (itemon != old)
-                SaveDef.laston = itemon;
-        }
-
-        if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, true);
-        else
-            M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, true);
-    }
-    else
-    {
-        const int   max = currentmenu->numitems;
-        int         item = itemon;
-        int         widest = 0;
-        int         yy;
-
-        if (currentmenu == &OptionsDef)
-        {
-            if (item == endgame && gamestate != GS_LEVEL)
-                item++;
-            else if (item == option_empty1 || item == option_empty2)
-                item--;
-        }
-        else if (currentmenu == &SoundDef && (item == sound_empty1 || item == sound_empty2))
-            item--;
-
-        if (M_SKULL1)
-        {
-            yy = y + item * (LINEHEIGHT - 1) - (chex || REKKR ? 4 : 5);
-
-            if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
-                yy += OFFSET;
-
-            M_DrawPatchWithShadow((REKKR && currentmenu == &EpiDef ? x : x - 30), yy, skullpatch, true);
-        }
-        else
-        {
-            yy = y + item * (LINEHEIGHT - 1) - 3;
-
-            if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
-                yy += OFFSET;
-
-            M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
-        }
-
-        for (int i = 0; i < max; i++)
-        {
-            bool    highlight;
-
-            if (currentmenu == &OptionsDef
-                && ((i == scrnsize && itemon == option_empty1)
-                    || (i == mousesens && itemon == option_empty2)))
-                highlight = true;
-            else if (currentmenu == &SoundDef
-                && ((i == sfx_vol && itemon == sound_empty1)
-                    || (i == music_vol && itemon == sound_empty2)))
-                highlight = true;
-            else
-                highlight = (itemon == i);
-
-            if (currentmenu->menuitems[i].routine)
+            if (currentmenu == &LoadDef)
             {
-                const char  *name = currentmenu->menuitems[i].name;
-                char        **text = currentmenu->menuitems[i].text;
+                const int   old = itemon;
 
-                if (M_StringCompare(name, "M_NMARE"))
+                while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
+                    itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
+
+                if (itemon != old)
+                    SaveDef.laston = itemon;
+            }
+
+            if (M_SKULL1)
+                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, true);
+            else
+                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, true);
+        }
+        else
+        {
+            const int   max = currentmenu->numitems;
+            int         item = itemon;
+            int         widest = 0;
+            int         yy;
+
+            if (currentmenu == &OptionsDef)
+            {
+                if (item == endgame && gamestate != GS_LEVEL)
+                    item++;
+                else if (item == option_empty1 || item == option_empty2)
+                    item--;
+            }
+            else if (currentmenu == &SoundDef && (item == sound_empty1 || item == sound_empty2))
+                item--;
+
+            if (M_SKULL1)
+            {
+                yy = y + item * (LINEHEIGHT - 1) - (chex || REKKR ? 4 : 5);
+
+                if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
+                    yy += OFFSET;
+
+                M_DrawPatchWithShadow((REKKR && currentmenu == &EpiDef ? x : x - 30), yy, skullpatch, true);
+            }
+            else
+            {
+                yy = y + item * (LINEHEIGHT - 1) - 3;
+
+                if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
+                    yy += OFFSET;
+
+                M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
+            }
+
+            for (int i = 0; i < max; i++)
+            {
+                bool    highlight;
+
+                if (currentmenu == &OptionsDef
+                    && ((i == scrnsize && itemon == option_empty1)
+                        || (i == mousesens && itemon == option_empty2)))
+                    highlight = true;
+                else if (currentmenu == &SoundDef
+                    && ((i == sfx_vol && itemon == sound_empty1)
+                        || (i == music_vol && itemon == sound_empty2)))
+                    highlight = true;
+                else
+                    highlight = (itemon == i);
+
+                if (currentmenu->menuitems[i].routine)
                 {
-                    if (M_NMARE)
+                    const char  *name = currentmenu->menuitems[i].name;
+                    char        **text = currentmenu->menuitems[i].text;
+
+                    if (M_StringCompare(name, "M_NMARE"))
                     {
-                        patch_t *patch = W_CacheLumpName(name);
+                        if (M_NMARE)
+                        {
+                            patch_t *patch = W_CacheLumpName(name);
+
+                            M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                            currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                            currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
+                            widest = MAX(widest, SHORT(patch->width));
+                            currentmenu->menuitems[i].height = SHORT(patch->height);
+                        }
+                        else
+                        {
+                            M_DrawNightmare(highlight);
+                            widest = MAX(widest, currentmenu->menuitems[nightmare].width);
+                        }
+                    }
+                    else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                    {
+                        if (usinggamecontroller)
+                        {
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, highlight, true);
+                            widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
+                        }
+                        else
+                        {
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, highlight, true);
+                            widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
+                        }
+
+                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
+                    else if (M_StringCompare(name, "M_EPI6") && sigil2)
+                    {
+                        patch_t *patch = W_CacheLastLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                         currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
@@ -4148,199 +4181,167 @@ void M_Drawer(void)
                         widest = MAX(widest, SHORT(patch->width));
                         currentmenu->menuitems[i].height = SHORT(patch->height);
                     }
-                    else
+                    else if ((W_CheckNumForName(name) < 0 && **text) || (M_StringCompare(name, "M_EPI5") && sigil2))
                     {
-                        M_DrawNightmare(highlight);
-                        widest = MAX(widest, currentmenu->menuitems[nightmare].width);
+                        int width = M_BigStringWidth(*text);
+
+                        M_DrawString(x, y + OFFSET, *text, highlight, true);
+                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_MSGON)
+                                {
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
+
+                                    width += SHORT(MAX(on->width, off->width));
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
+                            }
+                            else if (i == detail)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_GDLOW)
+                                {
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
+
+                                    width += SHORT(MAX(high->width, low->width));
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
+                            }
+                            else
+                                width = M_BigStringWidth(*text);
+                        }
+
+                        widest = MAX(widest, width);
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
+                    else if (W_GetNumLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+                        int     width = SHORT(patch->width);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
+                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_MSGON)
+                                {
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
+
+                                    width += SHORT(MAX(on->width, off->width));
+
+                                    if (REKKR)
+                                        width -= 26;
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
+                            }
+                            else if (i == detail)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_GDLOW)
+                                {
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
+
+                                    width += SHORT(MAX(high->width, low->width));
+
+                                    if (REKKR)
+                                        width -= 26;
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
+                            }
+                            else
+                                width = M_BigStringWidth(*text);
+                        }
+
+                        widest = MAX(widest, width);
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                    }
+                    else if (**text)
+                    {
+                        int width = M_BigStringWidth(*text) + 1;
+
+                        yy = y;
+
+                        if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
+                            yy += OFFSET;
+
+                        M_DrawString(x, yy, *text, highlight, true);
+                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = yy;
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_MSGON)
+                                {
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
+
+                                    width += SHORT(MAX(on->width, off->width));
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
+                            }
+                            else if (i == detail)
+                            {
+                                width += SPACEWIDTH;
+
+                                if (M_GDLOW)
+                                {
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
+
+                                    width += SHORT(MAX(high->width, low->width));
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
+                            }
+                            else
+                                width = M_BigStringWidth(*text);
+                        }
+
+                        widest = MAX(widest, width);
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                 }
-                else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                else if (currentmenu->menuitems[i].status == -1)
                 {
-                    if (usinggamecontroller)
-                    {
-                        M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, highlight, true);
-                        widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
-                    }
-                    else
-                    {
-                        M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, highlight, true);
-                        widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
-                    }
-
                     currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                     currentmenu->menuitems[i].y = y + OFFSET;
                     currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                 }
-                else if (M_StringCompare(name, "M_EPI6") && sigil2)
-                {
-                    patch_t *patch = W_CacheLastLumpName(name);
 
-                    M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                    currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                    currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-                    widest = MAX(widest, SHORT(patch->width));
-                    currentmenu->menuitems[i].height = SHORT(patch->height);
-                }
-                else if ((W_CheckNumForName(name) < 0 && **text) || (M_StringCompare(name, "M_EPI5") && sigil2))
-                {
-                    int width = M_BigStringWidth(*text);
-
-                    M_DrawString(x, y + OFFSET, *text, highlight, true);
-                    currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                    currentmenu->menuitems[i].y = y + OFFSET;
-
-                    if (currentmenu == &OptionsDef)
-                    {
-                        if (i == msgs)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_MSGON)
-                            {
-                                const patch_t   *on = W_CacheLumpName("M_MSGON");
-                                const patch_t   *off = W_CacheLumpName("M_MSGOFF");
-
-                                width += SHORT(MAX(on->width, off->width));
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
-                        }
-                        else if (i == detail)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_GDLOW)
-                            {
-                                const patch_t   *high = W_CacheLumpName("M_GDHIGH");
-                                const patch_t   *low = W_CacheLumpName("M_GDLOW");
-
-                                width += SHORT(MAX(high->width, low->width));
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
-                        }
-                        else
-                            width = M_BigStringWidth(*text);
-                    }
-
-                    widest = MAX(widest, width);
-                    currentmenu->menuitems[i].height = LINEHEIGHT - 1;
-                }
-                else if (W_GetNumLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
-                {
-                    patch_t *patch = W_CacheLumpName(name);
-                    int     width = SHORT(patch->width);
-
-                    M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                    currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                    currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-
-                    if (currentmenu == &OptionsDef)
-                    {
-                        if (i == msgs)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_MSGON)
-                            {
-                                const patch_t   *on = W_CacheLumpName("M_MSGON");
-                                const patch_t   *off = W_CacheLumpName("M_MSGOFF");
-
-                                width += SHORT(MAX(on->width, off->width));
-
-                                if (REKKR)
-                                    width -= 26;
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
-                        }
-                        else if (i == detail)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_GDLOW)
-                            {
-                                const patch_t   *high = W_CacheLumpName("M_GDHIGH");
-                                const patch_t   *low = W_CacheLumpName("M_GDLOW");
-
-                                width += SHORT(MAX(high->width, low->width));
-
-                                if (REKKR)
-                                    width -= 26;
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
-                        }
-                        else
-                            width = M_BigStringWidth(*text);
-                    }
-
-                    widest = MAX(widest, width);
-                    currentmenu->menuitems[i].height = SHORT(patch->height);
-                }
-                else if (**text)
-                {
-                    int width = M_BigStringWidth(*text) + 1;
-
-                    yy = y;
-
-                    if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
-                        yy += OFFSET;
-
-                    M_DrawString(x, yy, *text, highlight, true);
-                    currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                    currentmenu->menuitems[i].y = yy;
-
-                    if (currentmenu == &OptionsDef)
-                    {
-                        if (i == msgs)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_MSGON)
-                            {
-                                const patch_t   *on = W_CacheLumpName("M_MSGON");
-                                const patch_t   *off = W_CacheLumpName("M_MSGOFF");
-
-                                width += SHORT(MAX(on->width, off->width));
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
-                        }
-                        else if (i == detail)
-                        {
-                            width += SPACEWIDTH;
-
-                            if (M_GDLOW)
-                            {
-                                const patch_t   *high = W_CacheLumpName("M_GDHIGH");
-                                const patch_t   *low = W_CacheLumpName("M_GDLOW");
-
-                                width += SHORT(MAX(high->width, low->width));
-                            }
-                            else
-                                width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
-                        }
-                        else
-                            width = M_BigStringWidth(*text);
-                    }
-
-                    widest = MAX(widest, width);
-                    currentmenu->menuitems[i].height = LINEHEIGHT - 1;
-                }
-            }
-            else if (currentmenu->menuitems[i].status == -1)
-            {
-                currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                currentmenu->menuitems[i].y = y + OFFSET;
-                currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                y += LINEHEIGHT - 1;
             }
 
-            y += LINEHEIGHT - 1;
+            for (int i = 0; i < max; i++)
+                currentmenu->menuitems[i].width = widest;
         }
-
-        for (int i = 0; i < max; i++)
-            currentmenu->menuitems[i].width = widest;
     }
 }
 
