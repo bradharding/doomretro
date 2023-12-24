@@ -789,27 +789,28 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
 
-            // killough 03/07/98: Add checks for (x,y) offsets
+            // killough 03/07/98: add checks for (x,y) offsets
             || backsector->floorxoffset != frontsector->floorxoffset
             || backsector->flooryoffset != frontsector->flooryoffset
 
-            // killough 04/15/98: prevent 2s normals
-            // from bleeding through deep water
+            // killough 04/15/98: prevent 2s normals from bleeding through deep water
             || frontsector->heightsec
 
             // killough 04/17/98: draw floors if different light levels
-            || backsector->floorlightsec != frontsector->floorlightsec);
+            || backsector->floorlightsec != frontsector->floorlightsec
+
+            // draw floors if different specials
+            || backsector->special != frontsector->special);
 
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel
 
-            // killough 03/07/98: Add checks for (x,y) offsets
+            // killough 03/07/98: add checks for (x,y) offsets
             || backsector->ceilingxoffset != frontsector->ceilingxoffset
             || backsector->ceilingyoffset != frontsector->ceilingyoffset
 
-            // killough 04/15/98: prevent 2s normals
-            // from bleeding through fake ceilings
+            // killough 04/15/98: prevent 2s normals from bleeding through fake ceilings
             || (frontsector->heightsec && frontsector->ceilingpic != skyflatnum)
 
             // killough 04/17/98: draw ceilings if different light levels
