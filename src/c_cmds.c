@@ -7540,7 +7540,13 @@ static bool spawn_func1(char *cmd, char *parms)
     {
         int num = -1;
 
-        if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
+        spawncmdfriendly = false;
+
+        if (M_StringCompare(parm, "unfriendlydog"))
+            M_StringReplaceAll(parm, "unfriendly", "", false);
+        else if (M_StringCompare(parm, "dog"))
+            spawncmdfriendly = true;
+        else if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
             M_StringReplaceAll(parm, "friendly", "", false);
 
         for (int i = 0; i < NUMMOBJTYPES; i++)

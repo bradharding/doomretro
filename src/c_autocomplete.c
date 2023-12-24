@@ -8098,6 +8098,7 @@ autocomplete_t autocompletelist[] =
     { "spawn teleportdestination",                   DOOM1AND2 },
     { "spawn torchedtree",                           DOOM1AND2 },
     { "spawn twitchingimpaledhuman",                 DOOM1AND2 },
+    { "spawn unfriendly dog",                        DOOM1AND2 },
     { "spawn wolfensteinss",                         DOOM2ONLY },
     { "spawn yellowkeycard",                         DOOM1AND2 },
     { "spawn yellowskullkey",                        DOOM1AND2 },
