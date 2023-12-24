@@ -94,7 +94,7 @@
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
 #define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define SAVECMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define SPAWNCMDFORMAT              BOLDITALICS("item") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define SPAWNCMDFORMAT              BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                     BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define TELEPORTCMDFORMAT           BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
@@ -7546,8 +7546,13 @@ static bool spawn_func1(char *cmd, char *parms)
             M_StringReplaceAll(parm, "unfriendly", "", false);
         else if (M_StringCompare(parm, "dog"))
             spawncmdfriendly = true;
-        else if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
+        else if (M_StringStartsWith(parm, "friendly"))
+        {
+            spawncmdfriendly = true;
             M_StringReplaceAll(parm, "friendly", "", false);
+        }
+        else if (M_StringStartsWith(parm, "unfriendly"))
+            M_StringReplaceAll(parm, "unfriendly", "", false);
 
         for (int i = 0; i < NUMMOBJTYPES; i++)
         {
