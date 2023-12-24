@@ -8231,7 +8231,7 @@ static void thinglist_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
         char    name[128];
-        char    *temp1;
+        char    *temp;
 
         if (mobj == viewplayer->mo)
             M_StringCopy(name, playername, sizeof(name));
@@ -8245,27 +8245,16 @@ static void thinglist_func2(char *cmd, char *parms)
                 (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")),
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
-        temp1 = sentencecase(name);
+        temp = sentencecase(name);
 
         if (mobj->id >= 0)
-        {
-            if (mobj->id < 1000)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t(%i, %i, %i)", mobj->id,
-                    temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
-            else
-            {
-                char    *temp2 = commify(mobj->id);
-
-                C_TabbedOutput(tabs, MONOSPACED("%s") ".\t%s\t(%i, %i, %i)", temp2,
-                    temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
-                free(temp2);
-            }
-        }
+            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)", mobj->id,
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         else
             C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)",
-                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
 
-        free(temp1);
+        free(temp);
     }
 }
 
