@@ -2694,9 +2694,6 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
                 // [BH] Clip feet, cast shadow by default. Can then be overridden by specifying "Retro bits".
                 mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
-
-                if (!(mobjinfo[indexnum].flags & MF_SPAWNCEILING))
-                    mobjinfo[indexnum].flags2 |= MF2_CASTSHADOW;
             }
             else if (M_StringCompare(key, "Retro bits"))
             {
