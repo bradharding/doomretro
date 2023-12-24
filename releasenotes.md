@@ -5,16 +5,16 @@
 * If the player dies, their obituary is now displayed in the console in red when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
-* The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if available.
-* A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [romero.com/sigil](https://romero.com/sigil) instead.
+* The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if it is available.
+* A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [here](https://romero.com/sigil) instead.
 * Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
-* Improvements have been made to the help screen opened by pressing the <kbd><b>F1</b></kbd> key.
-* A bug is fixed whereby the widths of monsters were being miscalculated in some rare instances, which in turn could cause any nearby line specials not to trigger.
+* Minor improvements have been made to the help screen opened by pressing the <kbd><b>F1</b></kbd> key.
+* A bug is fixed whereby the width of monsters was being miscalculated in some rare instances, which in turn could cause nearby line specials not to trigger as intended.
 * These improvements have been made to the parsing of `DEHACKED` lumps:
-  * All things that are declared now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`.
-  * All monsters that are declared now cast a shadow if the `r_shadows` CVAR is `on`.
+  * All things declared now have their sprites clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`.
+  * All monsters declared now cast a shadow if the `r_shadows` CVAR is `on`.
   * If a name is specified in parentheses when declaring a thing, it is now used in obituaries when the `con_obituaries` CVAR is `on`.
-  * Smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` are no longer spawned if certain states or sprites are changed.
+  * The smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` is no longer spawned if certain states or sprites have been changed.
 * The `mapstats` CCMD now correctly indicates if a map is `BOOM`, `MBF` or `MBF21` compatible.
 * If map titles are obtained from a `MAPINFO` lump:
   * The `maplist` CCMD now lists them correctly.
