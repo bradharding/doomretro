@@ -2552,6 +2552,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     int     ix;
     char    *strval;
     bool    namechange = false;
+    bool    gibhealth = false;
     char    name[64] = "";
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
@@ -2587,7 +2588,6 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     {
         // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
         int     bGetData;
-        bool    gibhealth = false;
         bool    string = false;
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
@@ -2691,9 +2691,6 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
                     mobjinfo[indexnum].flags = value; // e6y
                 }
-
-                // [BH] Clip feet, cast shadow by default. Can then be overridden by specifying "Retro bits".
-                mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
             }
             else if (M_StringCompare(key, "Retro bits"))
             {
@@ -2807,9 +2804,18 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             mobjinfo[indexnum].dehacked = true;
             break;
         }
+    }
 
-        if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
-            mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
+    if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
+        mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
+
+    // [BH] Clip feet, cast shadow if no "Retro bits" set.
+    if (!mobjinfo[indexnum].flags2)
+    {
+        mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+
+        if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
+            mobjinfo[indexnum].flags2 |= MF2_CASTSHADOW;
     }
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup

@@ -11,7 +11,8 @@
 * Improvements have been made to the help screen opened by pressing the <kbd><b>F1</b></kbd> key.
 * A bug is fixed whereby the widths of monsters were being miscalculated in some rare instances, which in turn could cause any nearby line specials not to trigger.
 * These improvements have been made to the parsing of `DEHACKED` lumps:
-  * All things that are declared now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`. This can be overridden by specifying `Retro bits`.
+  * All things that are declared now have their sprite clipped in liquid sectors if the `r_liquid_clipsprites` CVAR is `on`.
+  * All monsters that are declared now cast a shadow if the `r_shadows` CVAR is `on`.
   * If a name is specified in parentheses when declaring a thing, it is now used in obituaries when the `con_obituaries` CVAR is `on`.
   * Smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` are no longer spawned if certain states or sprites are changed.
 * The `mapstats` CCMD now correctly indicates if a map is `BOOM`, `MBF` or `MBF21` compatible.
