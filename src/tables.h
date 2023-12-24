@@ -80,11 +80,6 @@ CONSTATTR inline static angle_t FixedToAngle(fixed_t a)
     return (angle_t)(((uint64_t)a * ANG1) >> FRACBITS);
 }
 
-CONSTATTR inline static fixed_t AngleToFixed(angle_t a)
-{
-    return (fixed_t)(((uint64_t)a << FRACBITS) / ANG1);
-}
-
 // [XA] Clamped angle->slope, for convenience
 CONSTATTR inline static fixed_t AngleToSlope(int a)
 {

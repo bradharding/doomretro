@@ -315,7 +315,8 @@ static void R_InitTextureMapping(void)
 
         // [crispy] calculate sky angle for drawing horizontally linear skies.
         // Taken from GZDoom and refactored for integer math.
-        linearskyangle[x] = ((viewwidth / 2 - x) * ((SCREENWIDTH << FRACBITS) / viewwidth)) * (ANG90 / (NONWIDEWIDTH << FRACBITS));
+        linearskyangle[x] = (viewwidth / 2 - x) * ((SCREENWIDTH << FRACBITS) / viewwidth)
+            * (ANG90 / (NONWIDEWIDTH << FRACBITS));
     }
 
     // Take out the fencepost cases from viewangletox.
