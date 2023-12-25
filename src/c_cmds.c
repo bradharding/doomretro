@@ -3264,6 +3264,7 @@ static void if_func2(char *cmd, char *parms)
 //
 // kill CCMD
 //
+static bool     killcmdfriendly;
 static int      killcmdtype = NUMMOBJTYPES;
 static mobj_t   *killcmdmobj;
 bool            massacre;
@@ -3278,6 +3279,11 @@ static bool kill_func1(char *cmd, char *parms)
 
     killcmdmobj = NULL;
 
+    if ((killcmdfriendly = M_StringStartsWith(parm, "friendly")))
+        M_StringReplaceAll(parm, "friendly", "", false);
+    else if (M_StringStartsWith(parm, "unfriendly"))
+        M_StringReplaceAll(parm, "unfriendly", "", false);
+
     if (M_StringCompare(cmd, "explode"))
         result = (M_StringCompare(parm, "barrel") || M_StringCompare(parm, "barrels")
             || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"));
@@ -3285,7 +3291,6 @@ static bool kill_func1(char *cmd, char *parms)
         result = (viewplayer->health > 0);
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-        || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters")
         || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
         || M_StringCompare(parm, "item") || M_StringCompare(parm, "items")
         || M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations")
@@ -3463,7 +3468,7 @@ static void kill_func2(char *cmd, char *parms)
         else
         {
             const bool  friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-                            || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters"));
+                            || ((M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters")) && killcmdfriendly));
             const bool  enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
             const bool  all = M_StringCompare(parm, "all");
             int         kills = 0;
@@ -3765,10 +3770,11 @@ static void kill_func2(char *cmd, char *parms)
             else
             {
                 const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
+                C_Output("%i", killcmdfriendly);
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                        if (type == thing->type)
+                        if (type == thing->type && !!(thing->flags & MF_FRIEND) == killcmdfriendly)
                         {
                             if (type == MT_PAIN)
                             {
@@ -5168,11 +5174,9 @@ static bool name_func1(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
     {
-        namecmdfriendly = false;
-
         if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
             M_StringReplaceAll(parm, "friendly", "", false);
-        else if ((namecmdfriendly = M_StringStartsWith(parm, "unfriendly")))
+        else if (M_StringStartsWith(parm, "unfriendly"))
             M_StringReplaceAll(parm, "unfriendly", "", false);
 
         if (M_StringStartsWith(parm, "monster"))
