@@ -3751,6 +3751,8 @@ static void kill_func2(char *cmd, char *parms)
             {
                 char    *temp = sentencecase(parm);
 
+                massacre = true;
+
                 killcmdmobj->flags2 |= MF2_MASSACRE;
                 P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
 
@@ -3766,11 +3768,13 @@ static void kill_func2(char *cmd, char *parms)
                 stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                 M_SaveCVARs();
                 free(temp);
+                massacre = false;
             }
             else
             {
                 const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
-                C_Output("%i", killcmdfriendly);
+
+                massacre = true;
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
@@ -3809,6 +3813,8 @@ static void kill_func2(char *cmd, char *parms)
                                 P_RemoveMobj(thing);
                                 kills++;
                             }
+
+                            massacre = false;
                         }
 
                 if (kills)
