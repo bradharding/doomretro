@@ -23,6 +23,8 @@
 * The `weapon` CVAR can no longer be changed while the player is dead.
 * [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console are now friendly by default. Use `spawn unfriendly dog` to spawn a dog that will attack the player.
 * The player may now use the term `unfriendly` to refer to monsters that will attack the player when entering the `kill`, `name`, `resurrect` and `spawn` CCMDs in the console.
+* Killing a certain type of monster using the `kill` CCMD no longer thrusts those monsters away from the player.
+* A bug is fixed whereby some midtextures weren’t being clipped in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
