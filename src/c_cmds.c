@@ -3753,22 +3753,51 @@ static void kill_func2(char *cmd, char *parms)
 
                 massacre = true;
 
-                killcmdmobj->flags2 |= MF2_MASSACRE;
-                P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
+                if (killcmdmobj->type == MT_PAIN)
+                {
+                    if (killcmdmobj->health > 0)
+                    {
+                        A_Fall(killcmdmobj, NULL, NULL);
+                        P_SetMobjState(killcmdmobj, S_PAIN_DIE6);
+                        viewplayer->monsterskilled[MT_PAIN]++;
+                        stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
+                        viewplayer->killcount++;
+                        stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
 
-                if (M_StringCompare(playername, playername_default))
-                    M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
+                        if (M_StringCompare(playername, playername_default))
+                            M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
+                        else
+                            M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
+
+                        C_Output(buffer);
+                        C_HideConsole();
+                        HU_SetPlayerMessage(buffer, false, false);
+                        viewplayer->cheated++;
+                        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
+                        M_SaveCVARs();
+                        free(temp);
+                        massacre = false;
+                    }
+                }
                 else
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
+                {
+                    killcmdmobj->flags2 |= MF2_MASSACRE;
+                    P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
 
-                C_Output(buffer);
-                C_HideConsole();
-                HU_SetPlayerMessage(buffer, false, false);
-                viewplayer->cheated++;
-                stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
-                M_SaveCVARs();
-                free(temp);
-                massacre = false;
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
+
+                    C_Output(buffer);
+                    C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    viewplayer->cheated++;
+                    stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
+                    M_SaveCVARs();
+                    free(temp);
+                    massacre = false;
+                }
             }
             else
             {
