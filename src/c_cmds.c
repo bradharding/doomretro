@@ -80,19 +80,19 @@
                                     BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
-#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
                                     BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define MAPCMDFORMAT2               BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
                                     BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
-#define NAMECMDFORMAT               "[" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
+#define NAMECMDFORMAT               "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
 #define PRINTCMDFORMAT              "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
 #define REMOVECMDFORMAT             BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
                                     BOLDITALICS("item") "|" BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
-#define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define SAVECMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define SPAWNCMDFORMAT              BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
@@ -5152,7 +5152,7 @@ static int  namecmdtype = NUMMOBJTYPES;
 
 static bool name_func1(char *cmd, char *parms)
 {
-    char    *parm = M_StringDuplicate(parms);
+    char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
         return true;
@@ -5161,23 +5161,25 @@ static bool name_func1(char *cmd, char *parms)
     {
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
         M_StringReplaceAll(parm, "player", "", false);
-        M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+        M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
 
         return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
     }
 
     if (gamestate == GS_LEVEL)
     {
-        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly ")))
-            M_StringReplaceAll(parm, "friendly ", "", false);
-        else if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
+        namecmdfriendly = false;
+
+        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
             M_StringReplaceAll(parm, "friendly", "", false);
+        else if ((namecmdfriendly = M_StringStartsWith(parm, "unfriendly")))
+            M_StringReplaceAll(parm, "unfriendly", "", false);
 
         if (M_StringStartsWith(parm, "monster"))
         {
             M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
             M_StringReplaceAll(parm, "monster", "", false);
-            M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+            M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
             namecmdanymonster = true;
 
             return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 64);
