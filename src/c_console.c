@@ -1341,7 +1341,7 @@ void C_UpdatePlayerPositionOverlay(void)
     }
     else
     {
-        const int       an = viewangle * 90 / ANG90;
+        const int       an = (int)(viewangle * 90.0 / ANG90);
         const mobj_t    *mo = viewplayer->mo;
         fixed_t         z = MAX(mo->floorz, mo->z);
 
