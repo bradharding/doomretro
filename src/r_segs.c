@@ -94,6 +94,9 @@ static lighttable_t **walllightsnext;
 
 static int          *maskedtexturecol;  // dropoff overflow
 
+unsigned int        maxdrawsegs;
+
+
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -574,8 +577,6 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 
     return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
-
-unsigned int maxdrawsegs;
 
 //
 // R_StoreWallRange

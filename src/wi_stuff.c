@@ -795,7 +795,7 @@ static int  sp_state;
 
 static void WI_InitStats(void)
 {
-    const int   tabs[3] = { 85, 0, 0 };
+    const int   tabs[MAXTABS] = { 85 };
     char        *temp1;
     char        *temp2;
 

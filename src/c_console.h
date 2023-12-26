@@ -137,6 +137,8 @@
 #define SDL_IMAGE_FILENAME                  "SDL2_image.so"
 #endif
 
+#define MAXTABS                             10
+
 #define BINDLISTHEADER                      "\tCONTROL\tTYPE\t+ACTION/COMMAND(S)"
 #define CMDLISTHEADER                       "CCMD\tDESCRIPTION"
 #define CVARLISTHEADER                      "CVAR\tVALUE\tDESCRIPTION"
@@ -166,7 +168,7 @@ typedef struct
     int             wrap;
     int             indent;
     patch_t         *header;
-    int             tabs[3];
+    int             tabs[MAXTABS];
     int             tics;
     char            timestamp[9];
 } console_t;
@@ -242,8 +244,8 @@ void C_PercentCVAROutput(const char *cvar, const int value);
 void C_StringCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
 bool C_OutputNoRepeat(const char *string, ...);
-void C_TabbedOutput(const int tabs[3], const char *string, ...);
-void C_Header(const int tabs[3], patch_t *header, const char *string);
+void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
+void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_PlayerObituary(const char *string, ...);

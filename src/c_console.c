@@ -287,7 +287,7 @@ bool C_OutputNoRepeat(const char *string, ...)
     return false;
 }
 
-void C_TabbedOutput(const int tabs[3], const char *string, ...)
+void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
 {
     va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH];
@@ -307,7 +307,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
     outputhistory = -1;
 }
 
-void C_Header(const int tabs[3], patch_t *header, const char *string)
+void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
 {
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -986,7 +986,7 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
-    const int boldcolor, const byte *tinttab, const int tabs[3], const bool formatting,
+    const int boldcolor, const byte *tinttab, const int tabs[MAXTABS], const bool formatting,
     const bool kerning, const bool wrapped, const int index, unsigned char prevletter,
     unsigned char prevletter2)
 {
@@ -1512,7 +1512,7 @@ void C_Drawer(void)
     const bool      prevconsoleactive = consoleactive;
     static uint64_t consolewait;
     const uint64_t  tics = I_GetTimeMS();
-    const int       notabs[3] = { 0 };
+    const int       notabs[MAXTABS] = { 0 };
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
 

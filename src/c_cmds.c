@@ -1953,7 +1953,7 @@ void bind_func2(char *cmd, char *parms)
 //
 static void C_DisplayBinds(const char *action, const int value, const controltype_t type, int *count)
 {
-    const int   tabs[3] = { 40, 130, 210 };
+    const int   tabs[MAXTABS] = { 40, 130, 210 };
 
     for (int i = 0; controls[i].type; i++)
     {
@@ -1974,7 +1974,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 130, 0 };
+    const int   tabs[MAXTABS] = { 40, 130 };
     int         count = 1;
 
     C_Header(tabs, bindlist, BINDLISTHEADER);
@@ -2039,7 +2039,7 @@ static void clear_func2(char *cmd, char *parms)
 //
 static void cmdlist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 326, 0, 0 };
+    const int   tabs[MAXTABS] = { 326 };
     const int   columnwidth = tabs[0] - 15;
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
@@ -2219,7 +2219,7 @@ static void condump_func2(char *cmd, char *parms)
 //
 static void cvarlist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 180, 289, 0 };
+    const int   tabs[MAXTABS] = { 180, 289 };
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
@@ -4437,7 +4437,7 @@ static void removemapnum(char *title)
 
 static void maplist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 93, 370 };
+    const int   tabs[MAXTABS] = { 40, 93, 370 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
 
@@ -4655,7 +4655,7 @@ static void maplist_func2(char *cmd, char *parms)
 #define RPJM2   RP " and " JM2
 #define SPTH    SP " and " TH
 
-static void OutputReleaseDate(const int tabs[3], char *wadname)
+static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
 {
     if (M_StringCompare(wadname, "DOOM1.WAD"))
         C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
@@ -4784,7 +4784,7 @@ static void mapstats_func2(char *cmd, char *parms)
         /* 69 */ { JR,    "",   "",    "",   "" }
     };
 
-    const int   tabs[3] = { 120, 240, 0 };
+    const int   tabs[MAXTABS] = { 120, 240 };
     char        *temp;
     int         lump;
     int         wadtype;
@@ -5858,7 +5858,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
 //
 // playerstats CCMD
 //
-static void ShowMonsterKillStat_Game(const int tabs[3], const mobjtype_t type)
+static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t type)
 {
     char    *temp1 = sentencecase(mobjinfo[type].plural1);
     char    *temp2 = commify(viewplayer->monsterskilled[type]);
@@ -5877,7 +5877,7 @@ static void ShowMonsterKillStat_Game(const int tabs[3], const mobjtype_t type)
 
 static void C_PlayerStats_Game(void)
 {
-    const int       tabs[3] = { 200, 335, 0 };
+    const int       tabs[MAXTABS] = { 200, 335 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
@@ -6423,7 +6423,7 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 }
 
-static void ShowMonsterKillStat_NoGame(const int tabs[3], const mobjtype_t type)
+static void ShowMonsterKillStat_NoGame(const int tabs[MAXTABS], const mobjtype_t type)
 {
     char    *temp1 = sentencecase(mobjinfo[type].plural1);
     char    *temp2 = commifystat(stat_monsterskilled[type]);
@@ -6435,7 +6435,7 @@ static void ShowMonsterKillStat_NoGame(const int tabs[3], const mobjtype_t type)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int       tabs[3] = { 200, 335, 0 };
+    const int       tabs[MAXTABS] = { 200, 335 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
     int             time1 = (int)(stat_timeplayed / TICRATE);
@@ -8275,7 +8275,7 @@ static void teleport_func2(char *cmd, char *parms)
 //
 static void thinglist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 50, 300, 450 };
+    const int   tabs[MAXTABS] = { 50, 300, 450, 510 };
 
     C_Header(tabs, thinglist, THINGLISTHEADER);
 
@@ -8284,7 +8284,8 @@ static void thinglist_func2(char *cmd, char *parms)
         mobj_t      *mobj = (mobj_t *)th;
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
         char        name[128];
-        char        *temp;
+        char        *temp1;
+        char        *temp2 = commify(mobj->flags);
 
         if (mobj == viewplayer->mo)
             M_StringCopy(name, playername, sizeof(name));
@@ -8298,16 +8299,19 @@ static void thinglist_func2(char *cmd, char *parms)
                 (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")),
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
-        temp = sentencecase(name);
+        temp1 = sentencecase(name);
 
         if (mobj->id >= 0)
-            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0", mobj->id,
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
+            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0\t%s", mobj->id,
+                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
+                (angle == 360 ? 0 : angle), temp2);
         else
-            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0",
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
+            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0\t%s",
+                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
+                (angle == 360 ? 0 : angle), temp2);
 
-        free(temp);
+        free(temp1);
+        free(temp2);
     }
 }
 
