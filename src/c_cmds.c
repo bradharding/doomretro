@@ -8275,15 +8275,16 @@ static void teleport_func2(char *cmd, char *parms)
 //
 static void thinglist_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 50, 300, 0 };
+    const int   tabs[3] = { 50, 300, 450 };
 
     C_Header(tabs, thinglist, THINGLISTHEADER);
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *mobj = (mobj_t *)th;
-        char    name[128];
-        char    *temp;
+        mobj_t      *mobj = (mobj_t *)th;
+        const int   angle = (int)(mobj->angle * 90.0 / ANG90);
+        char        name[128];
+        char        *temp;
 
         if (mobj == viewplayer->mo)
             M_StringCopy(name, playername, sizeof(name));
@@ -8300,11 +8301,11 @@ static void thinglist_func2(char *cmd, char *parms)
         temp = sentencecase(name);
 
         if (mobj->id >= 0)
-            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)", mobj->id,
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0", mobj->id,
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
         else
-            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)",
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0",
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
 
         free(temp);
     }
