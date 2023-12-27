@@ -3387,17 +3387,20 @@ static void kill_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm || gamestate != GS_LEVEL)
+    if (!*parm)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowFormat(i);
         C_ShowDescription(i);
 
-        if (M_StringCompare(playername, playername_default))
-            C_Warning(0, NOGAMEWARNING1);
-        else
-            C_Warning(0, NOGAMEWARNING2, playername);
+        if (gamestate != GS_LEVEL)
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING1);
+            else
+                C_Warning(0, NOGAMEWARNING2, playername);
+        }
     }
     else
     {
@@ -8212,9 +8215,9 @@ static void teleport_func2(char *cmd, char *parms)
             if (x == oldx && y == oldy)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You are already there.");
+                    C_Warning(0, "You are already there!");
                 else
-                    C_Warning(0, "%s is already there.", playername);
+                    C_Warning(0, "%s is already there!", playername);
             }
             else if (P_TeleportMove(mo, x, y, z, false))
             {
@@ -8282,10 +8285,10 @@ static void thinglist_func2(char *cmd, char *parms)
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t      *mobj = (mobj_t *)th;
-        const int   angle = (int)(mobj->angle * 90.0 / ANG90);
         char        name[128];
         char        *temp1;
         char        *temp2 = commify(mobj->flags);
+        const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
             M_StringCopy(name, playername, sizeof(name));
