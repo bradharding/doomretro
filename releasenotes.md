@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.2
 
+* Minor changes have been made to text that is output to the console.
 * If the player dies, their obituary is now displayed in the console in red when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
@@ -25,7 +26,8 @@
 * The player may now use the term `unfriendly` to refer to monsters that will attack the player when entering the `kill`, `name`, `resurrect` and `spawn` CCMDs in the console.
 * Killing a certain type of monster using the `kill` CCMD no longer thrusts those monsters away from the player.
 * A bug is fixed whereby midtextures weren’t being clipped in some rare instances.
-* The `thinglist` CCMD now displays the angle of every thing in the map.
+* The `thinglist` CCMD now displays the angle and flags of every thing in the current map.
+* Opening the console while entering a savegame description in the save game menu now works correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -5179,6 +5179,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Format\tFLAC");
         else if (musictype == MUS_MOD)
             C_TabbedOutput(tabs, INDENT "Format\tMOD");
+        else if (musictype == MUS_OPUS)
+            C_TabbedOutput(tabs, INDENT "Format\tOpus");
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
@@ -7453,7 +7455,7 @@ static void resurrect_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(resurrected);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s%s monster%s in this map %s been resurrected.",
+                    M_snprintf(buffer, sizeof(buffer), "%s%s dead monster%s in this map %s been resurrected.",
                         (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
                     C_Output(buffer);
                     C_HideConsole();
@@ -7461,7 +7463,7 @@ static void resurrect_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no monsters in this map to resurrect.");
+                    C_Warning(0, "There are no dead monsters in this map to resurrect.");
             }
             else if (resurrectcmdmobj)
             {
