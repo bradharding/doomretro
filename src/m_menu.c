@@ -3053,6 +3053,8 @@ bool M_Responder(event_t *ev)
         if (menuactive)
         {
             functionkey = 0;
+            SDL_StopTextInput();
+            savestringenter = false;
             M_CloseMenu();
             D_FadeScreen(false);
 
