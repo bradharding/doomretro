@@ -608,8 +608,17 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     // get lumpnum if necessary
     if (autosigil)
     {
-        if (musicnum == mus_intro || (musicnum == mus_inter && gameepisode != 5))
+        if (musicnum == mus_intro)
             music->lumpnum = W_GetLastNumForName(namebuf);
+        else if (musicnum == mus_inter && sigil && sigil2)
+        {
+            if (gameepisode == 5)
+                music->lumpnum = W_GetXNumForName(namebuf, (buckethead ? 4 : 2));
+            else if (gameepisode == 6)
+                music->lumpnum = W_GetXNumForName(namebuf, (thorr && buckethead ? 5 : 3));
+            else
+                music->lumpnum = W_CheckNumForName(namebuf);
+        }
         else
             music->lumpnum = W_CheckNumForName(namebuf);
     }
