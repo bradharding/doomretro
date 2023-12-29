@@ -1306,7 +1306,7 @@ int G_GetParTime(void)
         else
             return cpars[gamemap - 1];
     }
-    else if (gameepisode <= 5 && gamemap <= 9)
+    else if (gameepisode <= 6 && gamemap <= 9)
         return pars[gameepisode][gamemap];
     else
         return 0;
