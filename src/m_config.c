@@ -138,6 +138,7 @@ int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 bool        r_brightmaps = r_brightmaps_default;
 bool        r_corpses_color = r_corpses_color_default;
+bool        r_corpses_fuzz = r_corpses_fuzz_default;
 bool        r_corpses_gib = r_corpses_gib_default;
 bool        r_corpses_mirrored = r_corpses_mirrored_default;
 bool        r_corpses_moreblood = r_corpses_moreblood_default;
@@ -379,6 +380,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                        BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                     BOOLVALUEALIAS     ),
+    CVAR_BOOL         (r_corpses_fuzz,                   r_corpses_fuzz,                        r_corpses_fuzz,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                  BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_moreblood,              r_corpses_moreblood,                   r_corpses_moreblood,                 BOOLVALUEALIAS     ),

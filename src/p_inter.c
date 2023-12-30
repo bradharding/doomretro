@@ -2014,6 +2014,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
+    if ((target->flags & MF_FUZZ) && !r_corpses_fuzz)
+    {
+        target->colfunc = &R_DrawColumn;
+        target->altcolfunc = &R_DrawColumn;
+    }
+
     if (type == MT_SKULL)
     {
         target->momx = 0;
@@ -2452,6 +2458,13 @@ void P_ResurrectMobj(mobj_t *target)
     target->height = info->height;
     target->radius = info->radius;
     target->flags = (info->flags | (target->flags & MF_FRIEND));
+
+    if ((target->flags & MF_FUZZ) && !r_corpses_fuzz)
+    {
+        target->colfunc = &R_DrawFuzzColumn;
+        target->altcolfunc = &R_DrawFuzzColumn;
+    }
+
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
     target->shadowoffset = info->shadowoffset;

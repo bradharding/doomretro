@@ -70,6 +70,7 @@ r_blood_melee off
 r_bloodsplats_max 0
 r_brightmaps off
 r_corpses_color off
+r_corpses_fuzz on
 r_corpses_gib off
 r_corpses_mirrored off
 r_corpses_moreblood off
