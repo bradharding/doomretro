@@ -617,7 +617,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
             else if (gameepisode == 6)
                 music->lumpnum = W_GetXNumForName(namebuf, (thorr && buckethead ? 5 : 3));
             else
-                music->lumpnum = W_CheckNumForName(namebuf);
+                music->lumpnum = W_GetLastNumForName(namebuf);
         }
         else
             music->lumpnum = W_CheckNumForName(namebuf);
