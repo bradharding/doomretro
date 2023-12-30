@@ -883,21 +883,6 @@ int W_GetLastNumForName(const char *name)
     return i;
 }
 
-int W_GetSecondNumForName(const char *name)
-{
-    int count = 0;
-    int i;
-
-    for (i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8) && ++count == 2)
-            break;
-
-    if (i == numlumps)
-        I_Error("W_GetSecondNumForName: %s not found!", name);
-
-    return i;
-}
-
 int W_GetXNumForName(const char *name, const int x)
 {
     int count = 0;

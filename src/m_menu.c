@@ -1478,7 +1478,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), false, SCREENWIDTH);
+            V_DrawMenuPatch(0, 0, W_CacheXLumpName(lumpname, 2), false, SCREENWIDTH);
         }
         else if (W_GetNumLumps(lumpname) > 2)
         {
