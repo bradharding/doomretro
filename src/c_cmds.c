@@ -821,8 +821,6 @@ consolecmd_t consolecmds[] =
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_gib, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles some corpses gibbing when barrels or rockets explode nearby."),
-    CVAR_BOOL(r_corpses_fuzz, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles spectres keeping their fuzz effect when they die."),
     CVAR_BOOL(r_corpses_mirrored, "", "", bool_cvars_func1, r_corpses_mirrored_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly mirrored corpses."),
     CVAR_BOOL(r_corpses_moreblood, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
