@@ -6,8 +6,11 @@
 * If the player dies, their obituary is now displayed in the console in red when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
 * A bug is fixed whereby Buckethead’s music wouldn’t be autoloaded when `SIGIL_SHREDS.WAD` was present.
 * The z-coordinate displayed by the `IDMYPOS` cheat is now correct when the automap is open and the `am_followmode` CVAR is `off`.
-* The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if it is available.
-* A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [here](https://romero.com/sigil) instead.
+* These improvements have been made to the support for John Romero’s [*SIGIL II*](https://romero.com/sigil):
+  * A warning is now displayed in the console when attempting to load *SIGIL II* extracted from the official *DOOM* port. Please download *SIGIL II* from [here](https://romero.com/sigil) instead.
+  * Par times are now displayed on the intermission screen.
+  * The correct intermission music is now played when both *SIGIL* and *SIGIL II* are loaded.
+  * The `IDMUS` cheat can now be used to change to *SIGIL II’s* music if it is available.
 * Right-clicking the mouse in the menu now hides the mouse pointer if the `m_pointer` CVAR is `on`.
 * Minor improvements have been made to the help screen opened by pressing the <kbd><b>F1</b></kbd> key.
 * A bug is fixed whereby the width of monsters was being miscalculated in some rare instances, which in turn could cause nearby line specials not to trigger as intended.
