@@ -201,7 +201,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
         {
             tinttabs[1] = tinttab10;
             tinttabs[2] = tinttab25;
-            tinttabs[MAXTABS] = tinttab40;
+            tinttabs[3] = tinttab40;
             tinttabs[4] = tinttab60;
         }
 
