@@ -2990,7 +2990,6 @@ static void give_func2(char *cmd, char *parms)
                     C_Warning(0, "You already have all the power-ups.");
                 else
                     C_Warning(0, "%s already has all the power-ups.", playername);
-
             }
 
             free(parm);
@@ -4702,7 +4701,6 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tOctober 11, 2021");
     else if (REKKR)
         C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
-
 }
 
 static bool mapstats_func1(char *cmd, char *parms)

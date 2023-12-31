@@ -617,6 +617,8 @@ static void M_DrawHelpBackground(void)
             *dot4 = color;
         }
 
+    M_BigSeed((unsigned int)time(NULL));
+
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
