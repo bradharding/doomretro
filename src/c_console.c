@@ -904,13 +904,19 @@ static void C_DrawBackground(void)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
+    M_BigSeed(666);
+
     // tint background
     if (inverted)
         for (int i = 0; i < height; i++)
-            screens[0][i] = consolebackcolor2[blurscreen[i]];
+            screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
+                + consolebackcolor2[blurscreen[i]]];
     else
         for (int i = 0; i < height; i++)
-            screens[0][i] = consolebackcolor1[blurscreen[i]];
+            screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
+                + consolebackcolor1[blurscreen[i]]];
+
+    M_BigSeed((unsigned int)time(NULL));
 
     // apply corrugated glass effect to background
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
