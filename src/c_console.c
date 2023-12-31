@@ -2298,7 +2298,11 @@ bool C_Responder(event_t *ev)
                     bool        endspace1;
 
                     for (i = len - 1; i >= 0; i--)
-                        if (consoleinput[i] == ';')
+                        if ((consoleinput[i] == ';'
+                            && M_StringStartsWith(consoleinput, "bind")
+                            && M_StringStartsWith(consoleinput, "unbind"))
+                            || (consoleinput[i] == '"'
+                                && M_StringStartsWith(consoleinput, "bind")))
                             break;
 
                     if (i == len)
