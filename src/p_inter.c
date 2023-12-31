@@ -2046,16 +2046,19 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         // count all monster deaths, even those caused by other monsters
         viewplayer->killcount++;
 
-        if ((source && source->player) || massacre)
+        if (type < NUMMOBJTYPES)
         {
-            stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
-            viewplayer->monsterskilled[type]++;
-            stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
-        }
-        else
-        {
-            viewplayer->infightcount++;
-            stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
+            if ((source && source->player) || massacre)
+            {
+                stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
+                viewplayer->monsterskilled[type]++;
+                stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
+            }
+            else
+            {
+                viewplayer->infightcount++;
+                stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
+            }
         }
     }
     else if (type == MT_BARREL)
@@ -2465,6 +2468,9 @@ void P_ResurrectMobj(mobj_t *target)
     stat_monsterskilled_total--;
     viewplayer->resurrectioncount++;
     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
-    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
+
+    if (type < NUMMOBJTYPES)
+        stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
+
     P_UpdateThinker(&target->thinker);
 }
