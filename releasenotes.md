@@ -21,6 +21,7 @@
   * If a name is specified in parentheses when declaring a thing, it is now used in obituaries when the `con_obituaries` CVAR is `on`.
   * The smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` is no longer spawned if certain states or sprites have been changed.
 * The `mapstats` CCMD now correctly indicates if a map is <i>`BOOM`</i>, <i>`MBF`</i> or <i>`MBF21`</i> compatible.
+* Minor improvements have been made to the console’s background.
 * If map titles are obtained from a `MAPINFO` lump:
   * The `maplist` CCMD now lists them correctly.
   * When exiting a map and the `autosave` CVAR is `on`, the description of the current savegame is now updated with the title of the next map.
@@ -28,7 +29,7 @@
 * The `weapon` CVAR can no longer be changed while the player is dead.
 * [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console are now friendly by default. Use `spawn unfriendly dog` to spawn a dog that will attack the player.
 * The player may now use the term `unfriendly` to refer to monsters that will attack the player when entering the `kill`, `name`, `resurrect` and `spawn` CCMDs in the console.
-* Killing a certain type of monster using the `kill` CCMD no longer thrusts those monsters away from the player.
+* Using the `kill` CCMD with a value specifying a type of monster no longer thrusts those monsters away from the player.
 * A bug is fixed whereby midtextures weren’t being clipped in some rare instances.
 * The `thinglist` CCMD now displays the angle and flags of every thing in the current map.
 * Opening the console while entering a savegame description in the save game menu now works correctly.
