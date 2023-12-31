@@ -908,11 +908,11 @@ static void C_DrawBackground(void)
 
     // tint background
     if (inverted)
-        for (int i = 0; i < height; i++)
+        for (int i = height; i >= 0; i--)
             screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
                 + consolebackcolor2[blurscreen[i]]];
     else
-        for (int i = 0; i < height; i++)
+        for (int i = height; i >= 0; i--)
             screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
                 + consolebackcolor1[blurscreen[i]]];
 
