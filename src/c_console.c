@@ -873,6 +873,17 @@ static void C_DrawBackground(void)
     static byte blurscreen[MAXSCREENAREA];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
+    M_BigSeed(666);
+
+    for (int i = height; i >= 0; i--)
+    {
+        byte    *dot = *screens + i;
+
+        *dot = colormaps[0][M_BigRandomInt(0, 7) * 256 + *dot];
+    }
+
+    M_BigSeed((unsigned int)time(NULL));
+
     // blur background
     memcpy(blurscreen, screens[0], height);
 
@@ -904,19 +915,13 @@ static void C_DrawBackground(void)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
-    M_BigSeed(666);
-
     // tint background
     if (inverted)
-        for (int i = height; i >= 0; i--)
-            screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
-                + consolebackcolor2[blurscreen[i]]];
+        for (int i = 0; i < height; i++)
+            screens[0][i] = consolebackcolor2[blurscreen[i]];
     else
-        for (int i = height; i >= 0; i--)
-            screens[0][i] = colormaps[0][M_BigRandomInt(0, 3) * 256
-                + consolebackcolor1[blurscreen[i]]];
-
-    M_BigSeed((unsigned int)time(NULL));
+        for (int i = 0; i < height; i++)
+            screens[0][i] = consolebackcolor1[blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
