@@ -21,7 +21,7 @@
   * If a name is specified in parentheses when declaring a thing, it is now used in obituaries when the `con_obituaries` CVAR is `on`.
   * The smoke that trails rockets fired by cyberdemons when the `r_rockettrails` CVAR is `on` is no longer spawned if certain states or sprites have been changed.
 * The `mapstats` CCMD now correctly indicates if a map is <i>`BOOM`</i>, <i>`MBF`</i> or <i>`MBF21`</i> compatible.
-* Minor improvements have been made to the console’s background.
+* Improvements have been made to the console’s background.
 * If map titles are obtained from a `MAPINFO` lump:
   * The `maplist` CCMD now lists them correctly.
   * When exiting a map and the `autosave` CVAR is `on`, the description of the current savegame is now updated with the title of the next map.

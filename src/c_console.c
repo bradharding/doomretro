@@ -870,17 +870,14 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     const bool  inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    static byte blurscreen[MAXSCREENAREA];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
+    static byte blurscreen[MAXSCREENAREA];
 
+    // apply random noise to background
     M_BigSeed(666);
 
     for (int i = height; i >= 0; i--)
-    {
-        byte    *dot = *screens + i;
-
-        *dot = colormaps[0][M_BigRandomInt(0, 7) * 256 + *dot];
-    }
+        screens[0][i] = colormaps[0][M_BigRandomInt(0, 7) * 256 + screens[0][i]];
 
     M_BigSeed((unsigned int)time(NULL));
 
@@ -927,25 +924,13 @@ static void C_DrawBackground(void)
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
         for (int x = y + 2; x < y + SCREENWIDTH - 1; x += 3)
-        {
-            byte    *dot = *screens + x;
-
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
-        }
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
 
         for (int x = (y += SCREENWIDTH) + 1; x < y + SCREENWIDTH - 1; x += 3)
-        {
-            byte    *dot = *screens + x;
-
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
-        }
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
 
         for (int x = (y += SCREENWIDTH); x < y + SCREENWIDTH - 1; x += 3)
-        {
-            byte    *dot = *screens + x;
-
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
-        }
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
     }
 
     // draw branding
@@ -954,11 +939,7 @@ static void C_DrawBackground(void)
 
     // draw bottom edge
     for (int i = height - 3 * SCREENWIDTH; i < height; i++)
-    {
-        byte    *dot = *screens + i;
-
-        *dot = tinttab60[consolebrandingcolor + *dot];
-    }
+        screens[0][i] = tinttab60[consolebrandingcolor + screens[0][i]];
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)
