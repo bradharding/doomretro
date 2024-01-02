@@ -1431,8 +1431,16 @@ static void M_DeleteSavegameResponse(int key)
         {
             if (savegames)
             {
-                while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
-                    itemon = (itemon == load1 ? currentmenu->numitems : itemon) - 1;
+                int previtem = itemon;
+                int nextitem = itemon;
+
+                while (M_StringCompare(savegamestrings[previtem], s_EMPTYSTRING))
+                    previtem = (previtem == load1 ? load8 : previtem - 1);
+
+                while (M_StringCompare(savegamestrings[nextitem], s_EMPTYSTRING))
+                    nextitem = (nextitem == load8 ? load1 : nextitem + 1);
+
+                itemon = (itemon - previtem < nextitem - itemon ? previtem : nextitem);
             }
             else
             {
