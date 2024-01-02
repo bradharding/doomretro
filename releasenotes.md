@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.2
 
+* *DOOM Retro* now uses [*SDL_image v2.8.2*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.2).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * If the player dies, their obituary is now displayed in the console in red when the `con_obituaries` CVAR is `on`, and also as a player message when the `messages` CVAR is `on`.
