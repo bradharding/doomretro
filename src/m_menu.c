@@ -1427,26 +1427,23 @@ static void M_DeleteSavegameResponse(int key)
         if (itemon == quicksaveslot)
             quicksaveslot = -1;
 
-        if (currentmenu == &LoadDef || currentmenu == &SaveDef)
+        if (savegames)
         {
-            if (savegames)
-            {
-                int previtem = itemon;
-                int nextitem = itemon;
+            int previtem = itemon;
+            int nextitem = itemon;
 
-                while (M_StringCompare(savegamestrings[previtem], s_EMPTYSTRING))
-                    previtem = (previtem == load1 ? load8 : previtem - 1);
+            while (M_StringCompare(savegamestrings[previtem], s_EMPTYSTRING))
+                previtem = (previtem == load1 ? load8 : previtem - 1);
 
-                while (M_StringCompare(savegamestrings[nextitem], s_EMPTYSTRING))
-                    nextitem = (nextitem == load8 ? load1 : nextitem + 1);
+            while (M_StringCompare(savegamestrings[nextitem], s_EMPTYSTRING))
+                nextitem = (nextitem == load8 ? load1 : nextitem + 1);
 
-                itemon = (itemon - previtem < nextitem - itemon ? previtem : nextitem);
-            }
-            else
-            {
-                M_SetupNextMenu(&MainDef);
-                MainDef.laston = itemon = new_game;
-            }
+            itemon = (itemon - previtem < nextitem - itemon ? previtem : nextitem);
+        }
+        else
+        {
+            M_SetupNextMenu(&MainDef);
+            MainDef.laston = itemon = new_game;
         }
     }
 }
