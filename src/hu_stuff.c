@@ -294,7 +294,6 @@ void HU_Start(void)
         HUlib_AddCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
-    free(p);
 }
 
 static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
