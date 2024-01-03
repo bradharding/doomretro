@@ -252,7 +252,6 @@ void HU_Start(void)
     char        *s = M_StringDuplicate(automaptitle);
     int         len = (int)strlen(s);
     const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / 2) - HU_MSGX * 2;
-    char        *p = s;
 
     if (headsupactive)
         HU_Stop();
@@ -269,26 +268,6 @@ void HU_Start(void)
 
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
-
-    while (M_StringWidth(s) > maxwidth)
-    {
-        if (len >= 2 && s[len - 2] == ' ')
-        {
-            s[len - 2] = '.';
-            s[len - 1] = '.';
-            s[len] = '.';
-            s[len + 1] = '\0';
-        }
-        else
-        {
-            s[len - 1] = '.';
-            s[len] = '.';
-            s[len + 1] = '.';
-            s[len + 2] = '\0';
-        }
-
-        len--;
-    }
 
     while (*s && *s != '\r' && *s != '\n')
         HUlib_AddCharToTextLine(&w_title, *(s++));

@@ -44,6 +44,8 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
+#include "m_menu.h"
+#include "m_misc.h"
 #include "p_setup.h"
 #include "v_data.h"
 #include "v_video.h"
@@ -520,11 +522,24 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     unsigned char   prev = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
-    const int       len = l->len;
+    char            s[513];
+    const int       maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / 2) - HU_MSGX * 2;
+    int             len = l->len;
+
+    M_StringCopy(s, l->l, sizeof(s));
+
+    while (M_StringWidth(s) > maxwidth)
+    {
+        s[len - 4] = '.';
+        s[len - 3] = '.';
+        s[len - 2] = '.';
+        s[len - 1] = '\0';
+        len--;
+    }
 
     for (int i = 0; i < len; i++)
     {
-        const unsigned char c = toupper(l->l[i]);
+        const unsigned char c = toupper(s[i]);
 
         if (c == ' ')
             x += (vanilla ? 8 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 10 : 6));
@@ -533,7 +548,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             int j = c - '!';
 
             // [BH] have matching curly single and double quotes
-            if (!i || l->l[i - 1] == ' ')
+            if (!i || s[i - 1] == ' ')
             {
                 if (c == '"')
                     j = 64;
