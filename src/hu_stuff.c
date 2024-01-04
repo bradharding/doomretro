@@ -249,9 +249,7 @@ static void HU_Stop(void)
 
 void HU_Start(void)
 {
-    char        *s = M_StringDuplicate(automaptitle);
-    int         len = (int)strlen(s);
-    const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / 2) - HU_MSGX * 2;
+    char    *s = M_StringDuplicate(automaptitle);
 
     if (headsupactive)
         HU_Stop();

@@ -530,11 +530,12 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
     while (M_StringWidth(s) > maxwidth)
     {
-        s[len - 4] = '.';
+        len--;
+
         s[len - 3] = '.';
         s[len - 2] = '.';
-        s[len - 1] = '\0';
-        len--;
+        s[len - 1] = '.';
+        s[len] = '\0';
     }
 
     for (int i = 0; i < len; i++)
