@@ -34,7 +34,7 @@
 * A bug is fixed whereby midtextures weren’t being clipped in some rare instances.
 * The `thinglist` CCMD now displays the angle and flags of every thing in the current map.
 * Opening the console while entering a savegame description in the save game menu now works correctly.
-* When deleting a savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key, the closest remaining savegame in the menu will now be selected.
+* When deleting a savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key, the closest remaining savegame in the menu is now selected.
 * A crash no longer occurs if a map’s title needs to be truncated in the automap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
