@@ -995,6 +995,9 @@ bool AM_Responder(const event_t *ev)
             }
             else if (ev->type == ev_controller && gamecontrollerwait < I_GetTime())
             {
+                mtof_zoommul = FRACUNIT;
+                ftom_zoommul = FRACUNIT;
+
                 if ((gamecontrollerbuttons & gamecontrollerautomap) && !backbuttondown)
                 {
                     gamecontrollerwait = I_GetTime() + 8;
@@ -1006,18 +1009,12 @@ bool AM_Responder(const event_t *ev)
                 // zoom out
                 else if ((gamecontrollerbuttons & gamecontrollerzoomout)
                     && !(gamecontrollerbuttons & gamecontrollerzoomin))
-                {
-                    movement = true;
                     AM_ToggleZoomOut();
-                }
 
                 // zoom in
                 else if ((gamecontrollerbuttons & gamecontrollerzoomin)
                     && !(gamecontrollerbuttons & gamecontrollerzoomout))
-                {
-                    movement = true;
                     AM_ToggleZoomIn();
-                }
 
                 // toggle maximum zoom
                 else if ((gamecontrollerbuttons & gamecontrollermaxzoom) && !idclev && !idmus)
@@ -1063,16 +1060,6 @@ bool AM_Responder(const event_t *ev)
 
                 if (!am_followmode)
                 {
-                    if (!movement)
-                    {
-                        m_paninc.x = 0;
-                        m_paninc.y = 0;
-                        mtof_zoommul = FRACUNIT;
-                        ftom_zoommul = FRACUNIT;
-                    }
-
-                    movement = false;
-
                     // pan right with left thumbstick
                     if (gamecontrollerthumbLX > 0)
                     {
@@ -2063,7 +2050,7 @@ static void AM_DrawPath(void)
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
 #define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < r_screensize_max)) / 2)
 
-void AM_DrawScaledPixel(const int x, const int y, byte *color)
+static void AM_DrawScaledPixel(const int x, const int y, byte *color)
 {
     byte    *dest = &screens[0][(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
 
@@ -2076,7 +2063,7 @@ void AM_DrawScaledPixel(const int x, const int y, byte *color)
     *dest = *(*dest + color);
 }
 
-void AM_DrawScaledPixel2(const int x, const int y, byte color)
+static void AM_DrawScaledPixel2(const int x, const int y, byte color)
 {
     byte    *dest = &screens[0][(y * 2 - 1) * MAPWIDTH + x * 2 - 1];
 
@@ -2153,7 +2140,7 @@ static void AM_DrawSolidCrosshair(void)
     }
 }
 
-void AM_StatusBarShadow(void)
+static void AM_StatusBarShadow(void)
 {
     for (int i = 24, y = 0; y < 6; i -= 4, y++)
     {
