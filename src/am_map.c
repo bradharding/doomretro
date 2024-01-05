@@ -2018,11 +2018,10 @@ static void AM_DrawMarks(const char *nums[])
 static void AM_DrawPath(void)
 {
     mpoint_t    end = { 0, 0 };
+    mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
 
     if (am_rotatemode)
     {
-        mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
-
         for (int i = 1; i < numbreadcrumbs; i++)
         {
             mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
@@ -2039,7 +2038,6 @@ static void AM_DrawPath(void)
         }
 
         AM_RotatePoint(&player);
-        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
     }
     else
     {
@@ -2056,9 +2054,10 @@ static void AM_DrawPath(void)
             AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
             start = end;
         }
-
-        AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, putbigdot2);
     }
+
+    if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
+        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
 }
 
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
