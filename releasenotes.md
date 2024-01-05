@@ -2,6 +2,9 @@
 
 ### DOOM Retro v5.3
 
+* The player’s path in the automap is now drawn correctly if they have just teleported and the `am_path` CVAR is `on`.
+* Zooming in and out in the automap using a controller’s left and right shoulder buttons now works as intended.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 5, 2024
