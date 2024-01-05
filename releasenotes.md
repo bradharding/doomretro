@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.3
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, January 5, 2024
+
 ### DOOM Retro v5.2
 
 * *DOOM Retro* now uses [*SDL_image v2.8.2*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.2).
