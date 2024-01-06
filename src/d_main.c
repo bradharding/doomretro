@@ -1080,6 +1080,9 @@ static void D_AutoloadNerveWAD(void)
 {
     char    path[MAX_PATH];
 
+    if (BTSX)
+        return;
+
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "NERVE.WAD");
 
     if (W_MergeFile(path, true))
