@@ -624,7 +624,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     // remove the old monster
     P_RemoveMobj(mobj);
 
-    if (con_obituaries)
+    if (obituaries)
         C_PlayerMessage("%s dead%s%s has respawned.",
             ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
             ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
@@ -1001,7 +1001,7 @@ void P_RespawnSpecials(void)
     mo->spawnpoint = *mthing;
     mo->angle = ANG45 * (mthing->angle / 45);
 
-    if (con_obituaries)
+    if (obituaries)
         C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
 
     // pull it from the queue

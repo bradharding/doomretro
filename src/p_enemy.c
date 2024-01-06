@@ -1506,7 +1506,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                         stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
 
                     // [BH] display an obituary message in the console
-                    if (con_obituaries)
+                    if (obituaries)
                     {
                         char    actorname[128];
                         char    corpsehitname[128];

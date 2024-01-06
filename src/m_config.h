@@ -79,7 +79,6 @@ extern bool     autosave;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
-extern bool     con_obituaries;
 extern int      crosshair;
 extern int      crosshaircolor;
 extern int      english;
@@ -115,6 +114,7 @@ extern bool     messages;
 extern bool     mouselook;
 extern int      movebob;
 extern bool     negativehealth;
+extern bool     obituaries;
 extern int      playergender;
 extern char     *playername;
 extern bool     r_althud;
@@ -317,630 +317,630 @@ enum
     vid_vsync_on
 };
 
-#define alwaysrun_default                  false
+#define alwaysrun_default                   false
 
-#define am_allmapcdwallcolor_min           0
-#define am_allmapcdwallcolor_default       109
-#define am_allmapcdwallcolor_max           255
+#define am_allmapcdwallcolor_min            0
+#define am_allmapcdwallcolor_default        109
+#define am_allmapcdwallcolor_max            255
 
-#define am_allmapfdwallcolor_min           0
-#define am_allmapfdwallcolor_default       110
-#define am_allmapfdwallcolor_max           255
+#define am_allmapfdwallcolor_min            0
+#define am_allmapfdwallcolor_default        110
+#define am_allmapfdwallcolor_max            255
 
-#define am_allmapwallcolor_min             0
-#define am_allmapwallcolor_default         108
-#define am_allmapwallcolor_max             255
+#define am_allmapwallcolor_min              0
+#define am_allmapwallcolor_default          108
+#define am_allmapwallcolor_max              255
 
-#define am_antialiasing_default            false
+#define am_antialiasing_default             false
 
-#define am_backcolor_min                   0
-#define am_backcolor_default               0
-#define am_backcolor_max                   255
+#define am_backcolor_min                    0
+#define am_backcolor_default                0
+#define am_backcolor_max                    255
 
-#define am_bloodsplatcolor_min             0
-#define am_bloodsplatcolor_default         124
-#define am_bloodsplatcolor_max             255
+#define am_bloodsplatcolor_min              0
+#define am_bloodsplatcolor_default          124
+#define am_bloodsplatcolor_max              255
 
-#define am_bluedoorcolor_min               0
-#define am_bluedoorcolor_default           am_cdwallcolor_default
-#define am_bluedoorcolor_max               255
+#define am_bluedoorcolor_min                0
+#define am_bluedoorcolor_default            am_cdwallcolor_default
+#define am_bluedoorcolor_max                255
 
-#define am_bluekeycolor_min                0
-#define am_bluekeycolor_default            am_thingcolor_default
-#define am_bluekeycolor_max                255
+#define am_bluekeycolor_min                 0
+#define am_bluekeycolor_default             am_thingcolor_default
+#define am_bluekeycolor_max                 255
 
-#define am_cdwallcolor_min                 0
-#define am_cdwallcolor_default             160
-#define am_cdwallcolor_max                 255
+#define am_cdwallcolor_min                  0
+#define am_cdwallcolor_default              160
+#define am_cdwallcolor_max                  255
 
-#define am_corpsecolor_min                 0
-#define am_corpsecolor_default             116
-#define am_corpsecolor_max                 255
+#define am_corpsecolor_min                  0
+#define am_corpsecolor_default              116
+#define am_corpsecolor_max                  255
 
-#define am_crosshaircolor_min              0
-#define am_crosshaircolor_default          4
-#define am_crosshaircolor_max              255
+#define am_crosshaircolor_min               0
+#define am_crosshaircolor_default           4
+#define am_crosshaircolor_max               255
 
-#define am_display_min                     1
-#define am_display_default                 2
-#define am_display_max                     INT_MAX
+#define am_display_min                      1
+#define am_display_default                  2
+#define am_display_max                      INT_MAX
 
-#define am_external_default                false
+#define am_external_default                 false
 
-#define am_fdwallcolor_min                 0
-#define am_fdwallcolor_default             64
-#define am_fdwallcolor_max                 255
+#define am_fdwallcolor_min                  0
+#define am_fdwallcolor_default              64
+#define am_fdwallcolor_max                  255
 
-#define am_followmode_default              true
+#define am_followmode_default               true
 
-#define am_grid_default                    false
+#define am_grid_default                     false
 
-#define am_gridcolor_min                   0
-#define am_gridcolor_default               6
-#define am_gridcolor_max                   255
+#define am_gridcolor_min                    0
+#define am_gridcolor_default                6
+#define am_gridcolor_max                    255
 
-#define am_gridsize_default                "128x128"
+#define am_gridsize_default                 "128x128"
 
-#define am_markcolor_min                   0
-#define am_markcolor_default               89
-#define am_markcolor_max                   255
+#define am_markcolor_min                    0
+#define am_markcolor_default                89
+#define am_markcolor_max                    255
 
-#define am_path_default                    false
+#define am_path_default                     false
 
-#define am_pathcolor_min                   0
-#define am_pathcolor_default               89
-#define am_pathcolor_max                   255
+#define am_pathcolor_min                    0
+#define am_pathcolor_default                89
+#define am_pathcolor_max                    255
 
-#define am_playercolor_min                 0
-#define am_playercolor_default             4
-#define am_playercolor_max                 255
+#define am_playercolor_min                  0
+#define am_playercolor_default              4
+#define am_playercolor_max                  255
 
-#define am_playerstats_default             false
+#define am_playerstats_default              false
 
-#define am_reddoorcolor_min                0
-#define am_reddoorcolor_default            am_cdwallcolor_default
-#define am_reddoorcolor_max                255
+#define am_reddoorcolor_min                 0
+#define am_reddoorcolor_default             am_cdwallcolor_default
+#define am_reddoorcolor_max                 255
 
-#define am_redkeycolor_min                 0
-#define am_redkeycolor_default             am_thingcolor_default
-#define am_redkeycolor_max                 255
+#define am_redkeycolor_min                  0
+#define am_redkeycolor_default              am_thingcolor_default
+#define am_redkeycolor_max                  255
 
-#define am_rotatemode_default              true
+#define am_rotatemode_default               true
 
-#define am_teleportercolor_min             0
-#define am_teleportercolor_default         184
-#define am_teleportercolor_max             255
+#define am_teleportercolor_min              0
+#define am_teleportercolor_default          184
+#define am_teleportercolor_max              255
 
-#define am_thingcolor_min                  0
-#define am_thingcolor_default              112
-#define am_thingcolor_max                  255
+#define am_thingcolor_min                   0
+#define am_thingcolor_default               112
+#define am_thingcolor_max                   255
 
-#define am_tswallcolor_min                 0
-#define am_tswallcolor_default             104
-#define am_tswallcolor_max                 255
+#define am_tswallcolor_min                  0
+#define am_tswallcolor_default              104
+#define am_tswallcolor_max                  255
 
-#define am_wallcolor_min                   0
-#define am_wallcolor_default               176
-#define am_wallcolor_max                   255
+#define am_wallcolor_min                    0
+#define am_wallcolor_default                176
+#define am_wallcolor_max                    255
 
-#define am_yellowdoorcolor_min             0
-#define am_yellowdoorcolor_default         am_cdwallcolor_default
-#define am_yellowdoorcolor_max             255
+#define am_yellowdoorcolor_min              0
+#define am_yellowdoorcolor_default          am_cdwallcolor_default
+#define am_yellowdoorcolor_max              255
 
-#define am_yellowkeycolor_min              0
-#define am_yellowkeycolor_default          am_thingcolor_default
-#define am_yellowkeycolor_max              255
+#define am_yellowkeycolor_min               0
+#define am_yellowkeycolor_default           am_thingcolor_default
+#define am_yellowkeycolor_max               255
 
-#define ammo_min                           0
-#define ammo_default                       50
-#define ammo_max                           INT_MAX
+#define ammo_min                            0
+#define ammo_default                        50
+#define ammo_max                            INT_MAX
 
-#define animatedstats_default              true
+#define animatedstats_default               true
 
-#define armor_min                          0
-#define armor_default                      0
-#define armor_max                          INT_MAX
+#define armor_min                           0
+#define armor_default                       0
+#define armor_max                           INT_MAX
 
-#define armortype_min                      armortype_none
-#define armortype_default                  armortype_none
-#define armortype_max                      armortype_blue
+#define armortype_min                       armortype_none
+#define armortype_default                   armortype_none
+#define armortype_max                       armortype_blue
 
-#define autoaim_default                    true
+#define autoaim_default                     true
 
-#define autoload_default                   true
+#define autoload_default                    true
 
-#define autosave_default                   true
+#define autosave_default                    true
 
-#define autotilt_default                   false
+#define autotilt_default                    false
 
-#define autouse_default                    false
+#define autouse_default                     false
 
-#define centerweapon_default               true
+#define centerweapon_default                true
 
-#define con_obituaries_default             true
+#define crosshair_min                       crosshair_none
+#define crosshair_default                   crosshair_none
+#define crosshair_max                       crosshair_dot
 
-#define crosshair_min                      crosshair_none
-#define crosshair_default                  crosshair_none
-#define crosshair_max                      crosshair_dot
+#define crosshaircolor_min                  0
+#define crosshaircolor_default              4
+#define crosshaircolor_max                  255
 
-#define crosshaircolor_min                 0
-#define crosshaircolor_default             4
-#define crosshaircolor_max                 255
+#define english_default                     english_american
 
-#define english_default                    english_american
+#define episode_min                         1
+#define episode_default                     1
+#define episode_max                         6
 
-#define episode_min                        1
-#define episode_default                    1
-#define episode_max                        6
+#define expansion_min                       1
+#define expansion_default                   1
+#define expansion_max                       2
 
-#define expansion_min                      1
-#define expansion_default                  1
-#define expansion_max                      2
+#define facebackcolor_min                   0
+#define facebackcolor_default               5
+#define facebackcolor_max                   255
 
-#define facebackcolor_min                  0
-#define facebackcolor_default              5
-#define facebackcolor_max                  255
+#define fade_default                        true
 
-#define fade_default                       true
+#define flashkeys_default                   true
 
-#define flashkeys_default                  true
+#define groupmessages_default               true
 
-#define groupmessages_default              true
+#define health_min                          INT_MIN
+#define health_default                      100
+#define health_max                          INT_MAX
 
-#define health_min                         INT_MIN
-#define health_default                     100
-#define health_max                         INT_MAX
+#define infighting_default                  true
 
-#define infighting_default                 true
-
-#define infiniteheight_default             false
+#define infiniteheight_default              false
 
 #if defined(_WIN32)
-#define wadfolder_default                  "C:\\"
+#define wadfolder_default                   "C:\\"
 #else
-#define wadfolder_default                  "/"
+#define wadfolder_default                   "/"
 #endif
 
-#define joy_analog_default                 true
+#define joy_analog_default                  true
 
-#define joy_deadzone_left_min              0.0f
-#define joy_deadzone_left_default          15.0f
-#define joy_deadzone_left_max              30.0f
+#define joy_deadzone_left_min               0.0f
+#define joy_deadzone_left_default           15.0f
+#define joy_deadzone_left_max               30.0f
 
-#define joy_deadzone_right_min             0.0f
-#define joy_deadzone_right_default         15.0f
-#define joy_deadzone_right_max             30.0f
+#define joy_deadzone_right_min              0.0f
+#define joy_deadzone_right_default          15.0f
+#define joy_deadzone_right_max              30.0f
 
-#define joy_invertyaxis_default            false
+#define joy_invertyaxis_default             false
 
-#define joy_rumble_pickup_default          true
+#define joy_rumble_pickup_default           true
 
-#define joy_rumble_damage_min              0
-#define joy_rumble_damage_default          100
-#define joy_rumble_damage_max              200
+#define joy_rumble_damage_min               0
+#define joy_rumble_damage_default           100
+#define joy_rumble_damage_max               200
 
-#define joy_rumble_barrels_min             0
-#define joy_rumble_barrels_default         100
-#define joy_rumble_barrels_max             200
+#define joy_rumble_barrels_min              0
+#define joy_rumble_barrels_default          100
+#define joy_rumble_barrels_max              200
 
-#define joy_rumble_weapons_min             0
-#define joy_rumble_weapons_default         100
-#define joy_rumble_weapons_max             200
+#define joy_rumble_weapons_min              0
+#define joy_rumble_weapons_default          100
+#define joy_rumble_weapons_max              200
 
-#define joy_sensitivity_horizontal_min     0.0f
-#define joy_sensitivity_horizontal_default 64.0f
-#define joy_sensitivity_horizontal_max     128.0f
+#define joy_sensitivity_horizontal_min      0.0f
+#define joy_sensitivity_horizontal_default  64.0f
+#define joy_sensitivity_horizontal_max      128.0f
 
-#define joy_sensitivity_vertical_min       0.0f
-#define joy_sensitivity_vertical_default   64.0f
-#define joy_sensitivity_vertical_max       128.0f
+#define joy_sensitivity_vertical_min        0.0f
+#define joy_sensitivity_vertical_default    64.0f
+#define joy_sensitivity_vertical_max        128.0f
 
-#define joy_swapthumbsticks_default        false
+#define joy_swapthumbsticks_default         false
 
-#define joy_thumbsticks_min                1
-#define joy_thumbsticks_default            2
-#define joy_thumbsticks_max                2
+#define joy_thumbsticks_min                 1
+#define joy_thumbsticks_default             2
+#define joy_thumbsticks_max                 2
 
-#define m_acceleration_default             true
+#define m_acceleration_default              true
 
-#define m_doubleclick_use_default          false
+#define m_doubleclick_use_default           false
 
-#define m_invertyaxis_default              false
+#define m_invertyaxis_default               false
 
-#define m_novertical_default               true
+#define m_novertical_default                true
 
-#define m_pointer_default                  true
+#define m_pointer_default                   true
 
-#define m_sensitivity_min                  0.0f
-#define m_sensitivity_default              16.0f
-#define m_sensitivity_max                  128.0f
+#define m_sensitivity_min                   0.0f
+#define m_sensitivity_default               16.0f
+#define m_sensitivity_max                   128.0f
 
-#define melt_default                       true
+#define melt_default                        true
 
-#define menuspin_default                   true
+#define menuspin_default                    true
 
-#define messages_default                   true
+#define messages_default                    true
 
-#define mouselook_default                  false
+#define mouselook_default                   false
 
-#define movebob_min                        0
-#define movebob_default                    75
-#define movebob_max                        100
+#define movebob_min                         0
+#define movebob_default                     75
+#define movebob_max                         100
 
-#define negativehealth_default             true
+#define negativehealth_default              true
 
-#define playergender_min                   playergender_other
-#define playergender_default               playergender_male
-#define playergender_max                   playergender_female
+#define obituaries_default                  true
 
-#define playername_default                 "you"
+#define playergender_min                    playergender_other
+#define playergender_default                playergender_male
+#define playergender_max                    playergender_female
 
-#define r_althud_default                   false
+#define playername_default                  "you"
 
-#define r_antialiasing_default             false
+#define r_althud_default                    false
 
-#define r_berserkeffect_min                0
-#define r_berserkeffect_default            3
-#define r_berserkeffect_max                8
+#define r_antialiasing_default              false
 
-#define r_blood_min                        r_blood_none
-#define r_blood_default                    r_blood_nofuzz
-#define r_blood_max                        r_blood_nofuzz
+#define r_berserkeffect_min                 0
+#define r_berserkeffect_default             3
+#define r_berserkeffect_max                 8
 
-#define r_blood_melee_default              true
+#define r_blood_min                         r_blood_none
+#define r_blood_default                     r_blood_nofuzz
+#define r_blood_max                         r_blood_nofuzz
 
-#define r_bloodsplats_max_min              0
-#define r_bloodsplats_max_default          131072
-#define r_bloodsplats_max_max              1048576
+#define r_blood_melee_default               true
 
-#define r_bloodsplats_total_min            0
-#define r_bloodsplats_total_default        0
-#define r_bloodsplats_total_max            0
+#define r_bloodsplats_max_min               0
+#define r_bloodsplats_max_default           131072
+#define r_bloodsplats_max_max               1048576
 
-#define r_bloodsplats_translucency_default true
+#define r_bloodsplats_total_min             0
+#define r_bloodsplats_total_default         0
+#define r_bloodsplats_total_max             0
 
-#define r_brightmaps_default               true
+#define r_bloodsplats_translucency_default  true
 
-#define r_corpses_color_default            true
+#define r_brightmaps_default                true
 
-#define r_corpses_gib_default              true
+#define r_corpses_color_default             true
 
-#define r_corpses_mirrored_default         true
+#define r_corpses_gib_default               true
 
-#define r_corpses_moreblood_default        true
+#define r_corpses_mirrored_default          true
 
-#define r_corpses_nudge_default            true
+#define r_corpses_moreblood_default         true
 
-#define r_corpses_slide_default            true
+#define r_corpses_nudge_default             true
 
-#define r_corpses_smearblood_default       true
+#define r_corpses_slide_default             true
 
-#define r_damageeffect_default             true
+#define r_corpses_smearblood_default        true
 
-#define r_detail_default                   r_detail_high
+#define r_damageeffect_default              true
 
-#define r_diskicon_default                 false
+#define r_detail_default                    r_detail_high
 
-#define r_ditheredlighting_default         true
+#define r_diskicon_default                  false
 
-#define r_fixmaperrors_default             true
+#define r_ditheredlighting_default          true
 
-#define r_fixspriteoffsets_default         true
+#define r_fixmaperrors_default              true
 
-#define r_floatbob_default                 true
+#define r_fixspriteoffsets_default          true
 
-#define r_fov_min                          45
-#define r_fov_default                      90
-#define r_fov_max                          135
+#define r_floatbob_default                  true
 
-#define r_gamma_min                        gammalevels[0]
-#define r_gamma_default                    0.90f
-#define r_gamma_max                        gammalevels[GAMMALEVELS - 1]
+#define r_fov_min                           45
+#define r_fov_default                       90
+#define r_fov_max                           135
 
-#define r_graduallighting_default          true
+#define r_gamma_min                         gammalevels[0]
+#define r_gamma_default                     0.90f
+#define r_gamma_max                         gammalevels[GAMMALEVELS - 1]
 
-#define r_homindicator_default             false
+#define r_graduallighting_default           true
 
-#define r_hud_default                      false
+#define r_homindicator_default              false
 
-#define r_hud_translucency_default         true
+#define r_hud_default                       false
 
-#define r_linearskies_default              false
+#define r_hud_translucency_default          true
 
-#define r_liquid_bob_default               true
+#define r_linearskies_default               false
 
-#define r_liquid_bobsprites_default        true
+#define r_liquid_bob_default                true
 
-#define r_liquid_clipsprites_default       true
+#define r_liquid_bobsprites_default         true
 
-#define r_liquid_current_default           true
+#define r_liquid_clipsprites_default        true
 
-#define r_liquid_lowerview_default         true
+#define r_liquid_current_default            true
 
-#define r_liquid_swirl_default             true
+#define r_liquid_lowerview_default          true
 
-#define r_lowpixelsize_default             "2x2"
+#define r_liquid_swirl_default              true
 
-#define r_mirroredweapons_default          false
+#define r_lowpixelsize_default              "2x2"
 
-#define r_pickupeffect_default             true
+#define r_mirroredweapons_default           false
 
-#define r_playersprites_default            true
+#define r_pickupeffect_default              true
 
-#define r_radsuiteffect_default            true
+#define r_playersprites_default             true
 
-#define r_randomstartframes_default        true
+#define r_radsuiteffect_default             true
 
-#define r_rockettrails_default             true
+#define r_randomstartframes_default         true
 
-#define r_saturation_min                   0
-#define r_saturation_default               100
-#define r_saturation_max                   200
+#define r_rockettrails_default              true
 
-#define r_screensize_min                   0
-#define r_screensize_default               7
-#define r_screensize_max                   8
+#define r_saturation_min                    0
+#define r_saturation_default                100
+#define r_saturation_max                    200
 
-#define r_shadows_default                  true
+#define r_screensize_min                    0
+#define r_screensize_default                7
+#define r_screensize_max                    8
 
-#define r_shadows_translucency_default     true
+#define r_shadows_default                   true
 
-#define r_shake_barrels_default            true
+#define r_shadows_translucency_default      true
 
-#define r_shake_berserk_default            true
+#define r_shake_barrels_default             true
 
-#define r_shake_damage_min                 0
-#define r_shake_damage_default             50
-#define r_shake_damage_max                 100
+#define r_shake_berserk_default             true
 
-#define r_sprites_translucency_default     true
+#define r_shake_damage_min                  0
+#define r_shake_damage_default              50
+#define r_shake_damage_max                  100
 
-#define r_textures_default                 true
+#define r_sprites_translucency_default      true
 
-#define r_textures_translucency_default    true
+#define r_textures_default                  true
 
-#define s_channels_min                     8
-#define s_channels_default                 32
-#define s_channels_max                     64
+#define r_textures_translucency_default     true
 
-#define s_lowermenumusic_default           true
+#define s_channels_min                      8
+#define s_channels_default                  32
+#define s_channels_max                      64
 
-#define s_musicinbackground_default        false
+#define s_lowermenumusic_default            true
 
-#define s_musicvolume_min                  0
-#define s_musicvolume_default              100
-#define s_musicvolume_max                  100
+#define s_musicinbackground_default         false
 
-#define s_randommusic_default              false
+#define s_musicvolume_min                   0
+#define s_musicvolume_default               100
+#define s_musicvolume_max                   100
 
-#define s_randompitch_default              false
+#define s_randommusic_default               false
 
-#define s_sfxvolume_min                    0
-#define s_sfxvolume_default                100
-#define s_sfxvolume_max                    100
+#define s_randompitch_default               false
 
-#define s_stereo_default                   true
+#define s_sfxvolume_min                     0
+#define s_sfxvolume_default                 100
+#define s_sfxvolume_max                     100
 
-#define savegame_min                       1
-#define savegame_default                   1
-#define savegame_max                       8
+#define s_stereo_default                    true
 
-#define secretmessages_default             true
+#define savegame_min                        1
+#define savegame_default                    1
+#define savegame_max                        8
 
-#define skilllevel_min                     1
-#define skilllevel_default                 3
-#define skilllevel_max                     5
+#define secretmessages_default              true
 
-#define stillbob_min                       0
-#define stillbob_default                   0
-#define stillbob_max                       100
+#define skilllevel_min                      1
+#define skilllevel_default                  3
+#define skilllevel_max                      5
 
-#define sucktime_min                       0
-#define sucktime_default                   1
-#define sucktime_max                       24
+#define stillbob_min                        0
+#define stillbob_default                    0
+#define stillbob_max                        100
 
-#define tossdrop_default                   true
+#define sucktime_min                        0
+#define sucktime_default                    1
+#define sucktime_max                        24
 
-#define turbo_min                          10
-#define turbo_default                      100
-#define turbo_max                          400
+#define tossdrop_default                    true
 
-#define units_default                      units_imperial
+#define turbo_min                           10
+#define turbo_default                       100
+#define turbo_max                           400
 
-#define version_default                    DOOMRETRO_VERSIONSTRING
+#define units_default                       units_imperial
 
-#define vid_borderlesswindow_default       true
+#define version_default                     DOOMRETRO_VERSIONSTRING
 
-#define vid_capfps_min                     0
-#define vid_capfps_default                 200
-#define vid_capfps_max                     1000
+#define vid_borderlesswindow_default        true
 
-#define vid_display_min                    1
-#define vid_display_default                1
-#define vid_display_max                    8
+#define vid_capfps_min                      0
+#define vid_capfps_default                  200
+#define vid_capfps_max                      1000
+
+#define vid_display_min                     1
+#define vid_display_default                 1
+#define vid_display_max                     8
 
 #if !defined(_WIN32)
-#define vid_driver_default                 ""
+#define vid_driver_default                  ""
 #endif
 
-#define vid_fullscreen_default             true
+#define vid_fullscreen_default              true
 
-#define vid_motionblur_min                 0
-#define vid_motionblur_default             0
-#define vid_motionblur_max                 100
+#define vid_motionblur_min                  0
+#define vid_motionblur_default              0
+#define vid_motionblur_max                  100
 
-#define vid_pillarboxes_default            false
+#define vid_pillarboxes_default             false
 
 #if defined(_WIN32)
-#define vid_scaleapi_direct3d9             "direct3d9"
-#define vid_scaleapi_direct3d11            "direct3d11"
+#define vid_scaleapi_direct3d9              "direct3d9"
+#define vid_scaleapi_direct3d11             "direct3d11"
 #endif
-#define vid_scaleapi_opengl                "opengl"
+#define vid_scaleapi_opengl                 "opengl"
 #if !defined(_WIN32)
-#define vid_scaleapi_opengles              "opengles"
-#define vid_scaleapi_opengles2             "opengles2"
+#define vid_scaleapi_opengles               "opengles"
+#define vid_scaleapi_opengles2              "opengles2"
 #endif
-#define vid_scaleapi_software              "software"
+#define vid_scaleapi_software               "software"
 #if defined(_WIN32)
-#define vid_scaleapi_default               vid_scaleapi_direct3d11
+#define vid_scaleapi_default                vid_scaleapi_direct3d11
 #else
-#define vid_scaleapi_default               vid_scaleapi_opengl
+#define vid_scaleapi_default                vid_scaleapi_opengl
 #endif
 
-#define vid_scalefilter_linear             "linear"
-#define vid_scalefilter_nearest            "nearest"
-#define vid_scalefilter_nearest_linear     "nearest_linear"
-#define vid_scalefilter_default            vid_scalefilter_nearest_linear
+#define vid_scalefilter_linear              "linear"
+#define vid_scalefilter_nearest             "nearest"
+#define vid_scalefilter_nearest_linear      "nearest_linear"
+#define vid_scalefilter_default             vid_scalefilter_nearest_linear
 
-#define vid_screenresolution_desktop       "desktop"
-#define vid_screenresolution_default       vid_screenresolution_desktop
+#define vid_screenresolution_desktop        "desktop"
+#define vid_screenresolution_default        vid_screenresolution_desktop
 
-#define vid_showfps_default                false
+#define vid_showfps_default                 false
 
 #if defined(__APPLE__)
-#define vid_vsync_min                      vid_vsync_off
+#define vid_vsync_min                       vid_vsync_off
 #else
-#define vid_vsync_min                      vid_vsync_adaptive
+#define vid_vsync_min                       vid_vsync_adaptive
 #endif
-#define vid_vsync_default                  vid_vsync_off
-#define vid_vsync_max                      vid_vsync_on
+#define vid_vsync_default                   vid_vsync_off
+#define vid_vsync_max                       vid_vsync_on
 
-#define vid_widescreen_default             false
+#define vid_widescreen_default              false
 
-#define vid_windowpos_centered             "centered"
-#define vid_windowpos_centred              "centred"
-#define vid_windowpos_default              vid_windowpos_centered
+#define vid_windowpos_centered              "centered"
+#define vid_windowpos_centred               "centred"
+#define vid_windowpos_default               vid_windowpos_centered
 
-#define vid_windowsize_default             "854x480"
+#define vid_windowsize_default              "854x480"
 
 #if defined(_WIN32)
-#define wad_default                        ""
+#define wad_default                         ""
 #endif
 
-#define warninglevel_min                   0
-#define warninglevel_default               1
-#define warninglevel_max                   2
+#define warninglevel_min                    0
+#define warninglevel_default                1
+#define warninglevel_max                    2
 
-#define weapon_min                         wp_fist
-#define weapon_default                     wp_pistol
-#define weapon_max                         wp_supershotgun
+#define weapon_min                          wp_fist
+#define weapon_default                      wp_pistol
+#define weapon_max                          wp_supershotgun
 
-#define weaponbob_min                      0
-#define weaponbob_default                  75
-#define weaponbob_max                      100
+#define weaponbob_min                       0
+#define weaponbob_default                   75
+#define weaponbob_max                       100
 
-#define weaponbounce_default               true
+#define weaponbounce_default                true
 
-#define weaponrecoil_default               false
+#define weaponrecoil_default                false
 
-#define GAMECONTROLLERALWAYSRUN_DEFAULT    GAMECONTROLLER_LEFT_THUMB
-#define GAMECONTROLLERAUTOMAP_DEFAULT      GAMECONTROLLER_BACK
-#define GAMECONTROLLERBACK_DEFAULT         0
-#define GAMECONTROLLERCLEARMARK_DEFAULT    0
-#define GAMECONTROLLERCONSOLE_DEFAULT      0
-#define GAMECONTROLLERFIRE_DEFAULT         GAMECONTROLLER_RIGHT_TRIGGER
-#define GAMECONTROLLERFOLLOWMODE_DEFAULT   0
-#define GAMECONTROLLERFORWARD_DEFAULT      0
-#define GAMECONTROLLERGRID_DEFAULT         0
-#define GAMECONTROLLERJUMP_DEFAULT         0
-#define GAMECONTROLLERLEFT_DEFAULT         0
-#define GAMECONTROLLERMARK_DEFAULT         0
-#define GAMECONTROLLERMAXZOOM_DEFAULT      0
-#define GAMECONTROLLERMENU_DEFAULT         GAMECONTROLLER_START
-#define GAMECONTROLLERMOUSELOOK_DEFAULT    0
-#define GAMECONTROLLERNEXTWEAPON_DEFAULT   GAMECONTROLLER_RIGHT_SHOULDER
-#define GAMECONTROLLERPREVWEAPON_DEFAULT   GAMECONTROLLER_LEFT_SHOULDER
-#define GAMECONTROLLERRIGHT_DEFAULT        0
-#define GAMECONTROLLERROTATEMODE_DEFAULT   0
-#define GAMECONTROLLERRUN_DEFAULT          GAMECONTROLLER_LEFT_TRIGGER
-#define GAMECONTROLLERSCREENSHOT_DEFAULT   0
-#define GAMECONTROLLERSTRAFE_DEFAULT       0
-#define GAMECONTROLLERSTRAFELEFT_DEFAULT   0
-#define GAMECONTROLLERSTRAFERIGHT_DEFAULT  0
-#define GAMECONTROLLERUSE_DEFAULT          GAMECONTROLLER_A
-#define GAMECONTROLLERUSE2_DEFAULT         GAMECONTROLLER_RIGHT_THUMB
-#define GAMECONTROLLERWEAPON_DEFAULT       0
-#define GAMECONTROLLERZOOMIN_DEFAULT       GAMECONTROLLER_RIGHT_SHOULDER
-#define GAMECONTROLLERZOOMOUT_DEFAULT      GAMECONTROLLER_LEFT_SHOULDER
+#define GAMECONTROLLERALWAYSRUN_DEFAULT     GAMECONTROLLER_LEFT_THUMB
+#define GAMECONTROLLERAUTOMAP_DEFAULT       GAMECONTROLLER_BACK
+#define GAMECONTROLLERBACK_DEFAULT          0
+#define GAMECONTROLLERCLEARMARK_DEFAULT     0
+#define GAMECONTROLLERCONSOLE_DEFAULT       0
+#define GAMECONTROLLERFIRE_DEFAULT          GAMECONTROLLER_RIGHT_TRIGGER
+#define GAMECONTROLLERFOLLOWMODE_DEFAULT    0
+#define GAMECONTROLLERFORWARD_DEFAULT       0
+#define GAMECONTROLLERGRID_DEFAULT          0
+#define GAMECONTROLLERJUMP_DEFAULT          0
+#define GAMECONTROLLERLEFT_DEFAULT          0
+#define GAMECONTROLLERMARK_DEFAULT          0
+#define GAMECONTROLLERMAXZOOM_DEFAULT       0
+#define GAMECONTROLLERMENU_DEFAULT          GAMECONTROLLER_START
+#define GAMECONTROLLERMOUSELOOK_DEFAULT     0
+#define GAMECONTROLLERNEXTWEAPON_DEFAULT    GAMECONTROLLER_RIGHT_SHOULDER
+#define GAMECONTROLLERPREVWEAPON_DEFAULT    GAMECONTROLLER_LEFT_SHOULDER
+#define GAMECONTROLLERRIGHT_DEFAULT         0
+#define GAMECONTROLLERROTATEMODE_DEFAULT    0
+#define GAMECONTROLLERRUN_DEFAULT           GAMECONTROLLER_LEFT_TRIGGER
+#define GAMECONTROLLERSCREENSHOT_DEFAULT    0
+#define GAMECONTROLLERSTRAFE_DEFAULT        0
+#define GAMECONTROLLERSTRAFELEFT_DEFAULT    0
+#define GAMECONTROLLERSTRAFERIGHT_DEFAULT   0
+#define GAMECONTROLLERUSE_DEFAULT           GAMECONTROLLER_A
+#define GAMECONTROLLERUSE2_DEFAULT          GAMECONTROLLER_RIGHT_THUMB
+#define GAMECONTROLLERWEAPON_DEFAULT        0
+#define GAMECONTROLLERZOOMIN_DEFAULT        GAMECONTROLLER_RIGHT_SHOULDER
+#define GAMECONTROLLERZOOMOUT_DEFAULT       GAMECONTROLLER_LEFT_SHOULDER
 
-#define KEYALWAYSRUN_DEFAULT               KEY_CAPSLOCK
-#define KEYAUTOMAP_DEFAULT                 KEY_TAB
-#define KEYCLEARMARK_DEFAULT               'c'
-#define KEYCONSOLE_DEFAULT                 '`'
-#define KEYDOWN2_DEFAULT                   's'
-#define KEYDOWN_DEFAULT                    KEY_DOWNARROW
-#define KEYFIRE_DEFAULT                    KEY_CTRL
-#define KEYFOLLOWMODE_DEFAULT              'f'
-#define KEYGRID_DEFAULT                    'g'
-#define KEYJUMP_DEFAULT                    0
-#define KEYLEFT_DEFAULT                    KEY_LEFTARROW
-#define KEYMARK_DEFAULT                    'm'
-#define KEYMAXZOOM_DEFAULT                 '0'
-#define KEYMENU_DEFAULT                    KEY_ESCAPE
-#define KEYMOUSELOOK_DEFAULT               0
-#define KEYNEXTWEAPON_DEFAULT              0
-#define KEYPREVWEAPON_DEFAULT              0
-#define KEYRIGHT_DEFAULT                   KEY_RIGHTARROW
-#define KEYROTATEMODE_DEFAULT              'r'
-#define KEYRUN_DEFAULT                     KEY_SHIFT
+#define KEYALWAYSRUN_DEFAULT                KEY_CAPSLOCK
+#define KEYAUTOMAP_DEFAULT                  KEY_TAB
+#define KEYCLEARMARK_DEFAULT                'c'
+#define KEYCONSOLE_DEFAULT                  '`'
+#define KEYDOWN2_DEFAULT                    's'
+#define KEYDOWN_DEFAULT                     KEY_DOWNARROW
+#define KEYFIRE_DEFAULT                     KEY_CTRL
+#define KEYFOLLOWMODE_DEFAULT               'f'
+#define KEYGRID_DEFAULT                     'g'
+#define KEYJUMP_DEFAULT                     0
+#define KEYLEFT_DEFAULT                     KEY_LEFTARROW
+#define KEYMARK_DEFAULT                     'm'
+#define KEYMAXZOOM_DEFAULT                  '0'
+#define KEYMENU_DEFAULT                     KEY_ESCAPE
+#define KEYMOUSELOOK_DEFAULT                0
+#define KEYNEXTWEAPON_DEFAULT               0
+#define KEYPREVWEAPON_DEFAULT               0
+#define KEYRIGHT_DEFAULT                    KEY_RIGHTARROW
+#define KEYROTATEMODE_DEFAULT               'r'
+#define KEYRUN_DEFAULT                      KEY_SHIFT
 #if defined(_WIN32)
-#define KEYSCREENSHOT_DEFAULT              KEY_PRINTSCREEN
+#define KEYSCREENSHOT_DEFAULT               KEY_PRINTSCREEN
 #else
-#define KEYSCREENSHOT_DEFAULT              0
+#define KEYSCREENSHOT_DEFAULT               0
 #endif
-#define KEYSTRAFELEFT2_DEFAULT             'a'
-#define KEYSTRAFELEFT_DEFAULT              ','
-#define KEYSTRAFERIGHT2_DEFAULT            'd'
-#define KEYSTRAFERIGHT_DEFAULT             '.'
-#define KEYSTRAFE_DEFAULT                  KEY_ALT
-#define KEYUP2_DEFAULT                     'w'
-#define KEYUP_DEFAULT                      KEY_UPARROW
-#define KEYUSE2_DEFAULT                    'e'
-#define KEYUSE_DEFAULT                     ' '
-#define KEYWEAPON1_DEFAULT                 '1'
-#define KEYWEAPON2_DEFAULT                 '2'
-#define KEYWEAPON3_DEFAULT                 '3'
-#define KEYWEAPON4_DEFAULT                 '4'
-#define KEYWEAPON5_DEFAULT                 '5'
-#define KEYWEAPON6_DEFAULT                 '6'
-#define KEYWEAPON7_DEFAULT                 '7'
-#define KEYZOOMIN_DEFAULT                  '='
-#define KEYZOOMOUT_DEFAULT                 '-'
+#define KEYSTRAFELEFT2_DEFAULT              'a'
+#define KEYSTRAFELEFT_DEFAULT               ','
+#define KEYSTRAFERIGHT2_DEFAULT             'd'
+#define KEYSTRAFERIGHT_DEFAULT              '.'
+#define KEYSTRAFE_DEFAULT                   KEY_ALT
+#define KEYUP2_DEFAULT                      'w'
+#define KEYUP_DEFAULT                       KEY_UPARROW
+#define KEYUSE2_DEFAULT                     'e'
+#define KEYUSE_DEFAULT                      ' '
+#define KEYWEAPON1_DEFAULT                  '1'
+#define KEYWEAPON2_DEFAULT                  '2'
+#define KEYWEAPON3_DEFAULT                  '3'
+#define KEYWEAPON4_DEFAULT                  '4'
+#define KEYWEAPON5_DEFAULT                  '5'
+#define KEYWEAPON6_DEFAULT                  '6'
+#define KEYWEAPON7_DEFAULT                  '7'
+#define KEYZOOMIN_DEFAULT                   '='
+#define KEYZOOMOUT_DEFAULT                  '-'
 
-#define MOUSEALWAYSRUN_DEFAULT            -1
-#define MOUSEAUTOMAP_DEFAULT              -1
-#define MOUSEBACK_DEFAULT                 -1
-#define MOUSECLEARMARK_DEFAULT            -1
-#define MOUSECONSOLE_DEFAULT              -1
-#define MOUSEFIRE_DEFAULT                  0
-#define MOUSEFOLLOWMODE_DEFAULT           -1
-#define MOUSEFORWARD_DEFAULT              -1
-#define MOUSEGRID_DEFAULT                 -1
-#define MOUSEJUMP_DEFAULT                 -1
-#define MOUSELEFT_DEFAULT                 -1
-#define MOUSEMARK_DEFAULT                 -1
-#define MOUSEMAXZOOM_DEFAULT              -1
-#define MOUSEMENU_DEFAULT                 -1
-#define MOUSEMOUSELOOK_DEFAULT            -1
-#define MOUSENEXTWEAPON_DEFAULT            MOUSE_WHEELDOWN
-#define MOUSEPREVWEAPON_DEFAULT            MOUSE_WHEELUP
-#define MOUSERIGHT_DEFAULT                -1
-#define MOUSEROTATEMODE_DEFAULT           -1
-#define MOUSERUN_DEFAULT                  -1
-#define MOUSESCREENSHOT_DEFAULT           -1
-#define MOUSESTRAFE_DEFAULT               -1
-#define MOUSESTRAFELEFT_DEFAULT           -1
-#define MOUSESTRAFERIGHT_DEFAULT          -1
-#define MOUSEUSE_DEFAULT                  -1
-#define MOUSEWEAPON1_DEFAULT              -1
-#define MOUSEWEAPON2_DEFAULT              -1
-#define MOUSEWEAPON3_DEFAULT              -1
-#define MOUSEWEAPON4_DEFAULT              -1
-#define MOUSEWEAPON5_DEFAULT              -1
-#define MOUSEWEAPON6_DEFAULT              -1
-#define MOUSEWEAPON7_DEFAULT              -1
-#define MOUSEZOOMIN_DEFAULT               -1
-#define MOUSEZOOMOUT_DEFAULT              -1
+#define MOUSEALWAYSRUN_DEFAULT              -1
+#define MOUSEAUTOMAP_DEFAULT                -1
+#define MOUSEBACK_DEFAULT                   -1
+#define MOUSECLEARMARK_DEFAULT              -1
+#define MOUSECONSOLE_DEFAULT                -1
+#define MOUSEFIRE_DEFAULT                   0
+#define MOUSEFOLLOWMODE_DEFAULT             -1
+#define MOUSEFORWARD_DEFAULT                -1
+#define MOUSEGRID_DEFAULT                   -1
+#define MOUSEJUMP_DEFAULT                   -1
+#define MOUSELEFT_DEFAULT                   -1
+#define MOUSEMARK_DEFAULT                   -1
+#define MOUSEMAXZOOM_DEFAULT                -1
+#define MOUSEMENU_DEFAULT                   -1
+#define MOUSEMOUSELOOK_DEFAULT              -1
+#define MOUSENEXTWEAPON_DEFAULT             MOUSE_WHEELDOWN
+#define MOUSEPREVWEAPON_DEFAULT             MOUSE_WHEELUP
+#define MOUSERIGHT_DEFAULT                  -1
+#define MOUSEROTATEMODE_DEFAULT             -1
+#define MOUSERUN_DEFAULT                    -1
+#define MOUSESCREENSHOT_DEFAULT             -1
+#define MOUSESTRAFE_DEFAULT                 -1
+#define MOUSESTRAFELEFT_DEFAULT             -1
+#define MOUSESTRAFERIGHT_DEFAULT            -1
+#define MOUSEUSE_DEFAULT                    -1
+#define MOUSEWEAPON1_DEFAULT                -1
+#define MOUSEWEAPON2_DEFAULT                -1
+#define MOUSEWEAPON3_DEFAULT                -1
+#define MOUSEWEAPON4_DEFAULT                -1
+#define MOUSEWEAPON5_DEFAULT                -1
+#define MOUSEWEAPON6_DEFAULT                -1
+#define MOUSEWEAPON7_DEFAULT                -1
+#define MOUSEZOOMIN_DEFAULT                 -1
+#define MOUSEZOOMOUT_DEFAULT                -1
 
 typedef enum
 {

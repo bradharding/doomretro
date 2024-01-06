@@ -408,7 +408,7 @@ void C_PlayerObituary(const char *string, ...)
 
     outputhistory = -1;
 
-    if (con_obituaries)
+    if (obituaries)
     {
         HU_SetPlayerMessage(buffer, false, false);
         message_warning = true;

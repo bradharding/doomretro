@@ -34,7 +34,6 @@ autosave off
 autotilt off
 autouse off
 centerweapon off
-con_obituaries off
 crosshair none
 english american
 facebackcolor 5
@@ -62,6 +61,7 @@ messages on
 mouselook off
 movebob 100%
 negativehealth off
+obituaries off
 playername "you"
 r_althud off
 r_antialiasing off

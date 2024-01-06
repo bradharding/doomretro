@@ -89,7 +89,6 @@ bool        autosave = autosave_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
-bool        con_obituaries = con_obituaries_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
 int         english = english_default;
@@ -126,6 +125,7 @@ bool        messages = messages_default;
 bool        mouselook = mouselook_default;
 int         movebob = movebob_default;
 bool        negativehealth = negativehealth_default;
+bool        obituaries = obituaries_default;
 int         playergender = playergender_default;
 char        *playername = playername_default;
 bool        r_althud = r_althud_default;
@@ -332,7 +332,6 @@ static default_t cvars[] =
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                             BOOLVALUEALIAS     ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                        BOOLVALUEALIAS     ),
-    CVAR_BOOL         (con_obituaries,                   con_obituaries,                        con_obituaries,                      BOOLVALUEALIAS     ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                           CROSSHAIRVALUEALIAS),
     CVAR_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                      NOVALUEALIAS       ),
     CVAR_BOOL         (english,                          english,                               english,                             ENGLISHVALUEALIAS  ),
@@ -368,6 +367,7 @@ static default_t cvars[] =
     CVAR_BOOL         (mouselook,                        mouselook,                             mouselook,                           BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (movebob,                          movebob,                               movebob,                             NOVALUEALIAS       ),
     CVAR_BOOL         (negativehealth,                   negativehealth,                        negativehealth,                      BOOLVALUEALIAS     ),
+    CVAR_BOOL         (obituaries,                       con_obituaries,                        obituaries,                          BOOLVALUEALIAS     ),
     CVAR_INT          (playergender,                     playergender,                          playergender,                        GENDERVALUEALIAS   ),
     CVAR_STRING       (playername,                       playername,                            playername,                          NOVALUEALIAS       ),
     CVAR_BOOL         (r_althud,                         r_althud,                              r_althud,                            BOOLVALUEALIAS     ),

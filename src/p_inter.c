@@ -2128,7 +2128,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
         target->flags2 &= ~MF2_CASTSHADOW;
 
-    if (con_obituaries && !hacx && (!massacre || type == MT_BARREL))
+    if (obituaries && !hacx && (!massacre || type == MT_BARREL))
         P_WriteObituary(target, inflicter, source, gibbed, telefragged);
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);

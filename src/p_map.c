@@ -2250,7 +2250,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         P_DamageMobj(thing, NULL, NULL, 10, true, false);
 
-        if (thing->health <= 0 && !thing->player && con_obituaries)
+        if (thing->health <= 0 && !thing->player && obituaries)
         {
             char    name[128];
 

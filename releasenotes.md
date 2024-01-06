@@ -2,11 +2,12 @@
 
 ### DOOM Retro v5.3
 
-* *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* by default to scale every frame, resulting in a considerable boost in performance. This can be changed using the `vid_scaleapi` CVAR, which is now set to `direct3d9` or `direct3d11` instead of just `direct3d`.
+* *DOOM Retro* now uses *Direct3D 11* by default rather than *Direct3D 9* to scale every frame, resulting in a considerable boost in performance. This can be changed using the `vid_scaleapi` CVAR, which is now set to `direct3d9` or `direct3d11` instead of just `direct3d`.
 * IT, S3M, XM and MOD music lumps now play again.
 * These changes have been made in the automap:
   * The player’s path is now drawn correctly if they have just teleported and the `am_path` CVAR is `on`.
   * A controller’s left and right shoulder buttons can now be held down to zoom in and out as intended.
+* The `con_obituaries` CVAR has been renamed `obituaries`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
