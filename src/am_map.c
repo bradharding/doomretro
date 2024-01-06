@@ -2285,6 +2285,6 @@ void AM_Drawer(void)
             AM_DrawSolidCrosshair();
     }
 
-    if (r_screensize < r_screensize_max && !vanilla)
+    if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
         AM_StatusBarShadow();
 }
