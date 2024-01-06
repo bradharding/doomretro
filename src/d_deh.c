@@ -4481,8 +4481,8 @@ void D_PostProcessDeh(void)
                 states[i].args[j] = bexptr_match->default_args[j];
     }
 
-    norockettrails |= (!states[S_TRAIL].dehacked && !states[S_TRAIL2].dehacked
-        && !states[S_TRAIL3].dehacked && !states[S_TRAIL4].dehacked);
+    norockettrails |= (states[S_TRAIL].dehacked || states[S_TRAIL2].dehacked
+        || states[S_TRAIL3].dehacked || states[S_TRAIL4].dehacked);
 
     dsdh_FreeTables();
 }
