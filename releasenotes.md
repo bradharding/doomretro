@@ -7,7 +7,11 @@
 * These changes have been made in the automap:
   * The player’s path is now drawn correctly if they have just teleported and the `am_path` CVAR is `on`.
   * A controller’s left and right shoulder buttons can now be held down to zoom in and out as intended.
+  * The subtle shadow cast by the status bar is now only visible when the `am_backcolor` CVAR is its default of `0`.
 * The `con_obituaries` CVAR has been renamed `obituaries`.
+* When the `r_rockettrails` CVAR is `on`:
+  * Smoke will now appear again behind rockets fired by you and cyberdemons.
+  * Smoke that trails rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
