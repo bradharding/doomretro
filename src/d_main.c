@@ -2339,16 +2339,36 @@ static void D_DoomMainSetup(void)
                 nosigil = true;
             else
             {
-                autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
+
+                autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL.wad", autoloadfolder, false);
+
+                if (!autoloading)
+                {
+                    autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
+                }
 
                 if (autoloading)
                 {
-                    autoloading |= W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
+                    bool    autoloading2 = false;
+
+                    autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadfolder, false);
+                    autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadfolder, false);
+
+                    if (!autoloading2)
+                    {
+                        autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
+                        autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
+                    }
+
+                    autoloading |= autoloading2;
                 }
             }
 
