@@ -2245,7 +2245,7 @@ static void M_ChangeSensitivity(int choice)
 
                 joy_sensitivity_horizontal -= 2.0f;
                 I_SetGameControllerHorizontalSensitivity();
-                C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
+                C_IntegerCVAROutputNoRepeat(stringize(joy_sensitivity_horizontal),
                     (int)joy_sensitivity_horizontal);
                 M_SliderSound();
                 M_SaveCVARs();
@@ -2260,7 +2260,7 @@ static void M_ChangeSensitivity(int choice)
 
                 joy_sensitivity_horizontal += 2.0f;
                 I_SetGameControllerHorizontalSensitivity();
-                C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
+                C_IntegerCVAROutputNoRepeat(stringize(joy_sensitivity_horizontal),
                     (int)joy_sensitivity_horizontal);
                 M_SliderSound();
                 M_SaveCVARs();
@@ -2277,7 +2277,7 @@ static void M_ChangeSensitivity(int choice)
                     m_sensitivity++;
 
                 m_sensitivity -= 2.0f;
-                C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity), (int)m_sensitivity);
                 M_SliderSound();
                 M_SaveCVARs();
             }
@@ -2290,7 +2290,7 @@ static void M_ChangeSensitivity(int choice)
                     m_sensitivity--;
 
                 m_sensitivity += 2.0f;
-                C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity), (int)m_sensitivity);
                 M_SliderSound();
                 M_SaveCVARs();
             }
@@ -2348,7 +2348,7 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize > r_screensize_min)
         {
-            C_IntegerCVAROutput(stringize(r_screensize), --r_screensize);
+            C_IntegerCVAROutputNoRepeat(stringize(r_screensize), --r_screensize);
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
@@ -2383,7 +2383,7 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize < r_screensize_max)
         {
-            C_IntegerCVAROutput(stringize(r_screensize), ++r_screensize);
+            C_IntegerCVAROutputNoRepeat(stringize(r_screensize), ++r_screensize);
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 

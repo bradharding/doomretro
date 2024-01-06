@@ -645,7 +645,7 @@ consolecmd_t consolecmds[] =
     CCMD(cmdlist, "", ccmdlist, null_func1, cmdlist_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console commands."),
     CVAR_BOOL(obituaries, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles obituaries when you or monsters are killed."),
+        "Toggles displaying obituaries when you or monsters are killed."),
     CCMD(condump, "", "", condump_func1, condump_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
         "Dumps the contents of the console to a file."),
     CVAR_INT(crosshair, "", "", crosshair_func1, crosshair_func2, CF_NONE, CROSSHAIRVALUEALIAS,
