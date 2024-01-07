@@ -2264,11 +2264,6 @@ void AM_Drawer(void)
     if (nummarks && r_detail == r_detail_high)
         AM_DrawMarks(marknums);
 
-    AM_DrawPlayer();
-
-    if (am_antialiasing)
-        AM_ApplyAntialiasing();
-
     if (r_detail == r_detail_low)
     {
         V_LowGraphicDetail_2x2(mapscreen, MAPWIDTH, 0, 0, MAPWIDTH, MAPAREA, 2, 2);
@@ -2276,6 +2271,11 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(bigmarknums);
     }
+
+    AM_DrawPlayer();
+
+    if (am_antialiasing)
+        AM_ApplyAntialiasing();
 
     if (!(am_followmode || consoleactive))
     {
