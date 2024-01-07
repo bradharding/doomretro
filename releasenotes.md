@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.3
+### DOOM Retro v5.2.1
 
 * *DOOM Retro* now uses *Direct3D 11* by default rather than *Direct3D 9* to scale every frame, resulting in a considerable boost in performance. This can be changed using the `vid_scaleapi` CVAR, which is now set to `direct3d9` or `direct3d11` instead of just `direct3d`.
 * IT, S3M, XM and MOD music lumps now play again.
