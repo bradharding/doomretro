@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.2.1
 
-* *DOOM Retro* now uses *Direct3D 11* by default rather than *Direct3D 9* to scale every frame, resulting in a considerable boost in performance. This can be changed using the `vid_scaleapi` CVAR, which is now set to `direct3d9` or `direct3d11` instead of just `direct3d`.
+* *DOOM Retro* now uses *Direct3D 11* by default rather than *Direct3D 9* to scale every frame on the screen, resulting in a considerable boost in performance. This can be changed using the `vid_scaleapi` CVAR, which is now set to `direct3d9` or `direct3d11` instead of just `direct3d`.
 * IT, S3M, XM and MOD music lumps now play again.
 * These changes have been made in the automap:
   * The player’s path is now drawn correctly if they have just teleported and the `am_path` CVAR is `on`.
@@ -10,8 +10,8 @@
   * The subtle shadow cast by the status bar is now only visible when the `am_backcolor` CVAR is its default of `0`.
 * The `con_obituaries` CVAR has been renamed `obituaries`.
 * When the `r_rockettrails` CVAR is `on`:
-  * Smoke will now appear again behind rockets fired by you and cyberdemons.
-  * Smoke that trails rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
+  * Smoke will now trail behind rockets fired by you and cyberdemons again.
+  * Smoke trailing behind rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

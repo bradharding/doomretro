@@ -350,7 +350,6 @@ bool I_Windows_InitMusic(void)
 
     hBufferReturnEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     hExitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
     return true;
 }
 
