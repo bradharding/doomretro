@@ -1992,7 +1992,7 @@ static void AM_DrawMarks(const char *nums[])
                 }
             }
 
-            x -= MARKWIDTH - 1;
+            x -= MARKWIDTH - 2;
 
             if (r_detail == r_detail_low)
                 x--;
