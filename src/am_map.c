@@ -2261,6 +2261,11 @@ void AM_Drawer(void)
     if (things)
         AM_DrawThings();
 
+    AM_DrawPlayer();
+
+    if (am_antialiasing)
+        AM_ApplyAntialiasing();
+
     if (nummarks && r_detail == r_detail_high)
         AM_DrawMarks(marknums);
 
@@ -2271,11 +2276,6 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(bigmarknums);
     }
-
-    AM_DrawPlayer();
-
-    if (am_antialiasing)
-        AM_ApplyAntialiasing();
 
     if (!(am_followmode || consoleactive))
     {
