@@ -1979,15 +1979,12 @@ static void AM_DrawMarks(const char *nums[])
                     if (fy < MAPHEIGHT)
                     {
                         const char  src = nums[digit][j];
+                        byte        *dest = &mapscreen[fy * MAPWIDTH + fx];
 
                         if (src == '1')
-                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
+                            *dest = tinttab80[(markcolor << 8) + *dest];
                         else if (src == '2')
-                        {
-                            byte    *dest = &mapscreen[fy * MAPWIDTH + fx];
-
-                            *dest = *(*dest + tinttab66);
-                        }
+                            *dest = *(*dest + tinttab33);
                     }
                 }
             }
