@@ -11,7 +11,7 @@
   * Marks added by pressing the <kbd><b>M</b></kbd> key are now drawn over the player’s arrow when the `r_detail` CVAR is `high`.
 * The `con_obituaries` CVAR has been renamed to just `obituaries`.
 * When the `r_rockettrails` CVAR is `on`:
-  * Smoke now trails behind rockets again fired by you and cyberdemons.
+  * A bug is fixed whereby smoke wasn’t trailing behind rockets fired by the player and cyberdemons.
   * Smoke trailing behind rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
