@@ -379,7 +379,6 @@ extern char         *s_STSTR_SUCKS;
 extern char         *s_STSTR_KILLS;
 extern char         *s_STSTR_ITEMS;
 extern char         *s_STSTR_SECRETS;
-extern char         *s_STSTR_MARKS;
 
 extern char         *s_E1TEXT;
 extern char         *s_E2TEXT;

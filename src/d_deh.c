@@ -513,7 +513,6 @@ char    *s_STSTR_SUCKS = "";
 char    *s_STSTR_KILLS = "";
 char    *s_STSTR_ITEMS = "";
 char    *s_STSTR_SECRETS = "";
-char    *s_STSTR_MARKS = "";
 
 char    *s_E1TEXT = E1TEXT;
 char    *s_E2TEXT = E2TEXT;
@@ -1135,7 +1134,6 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_KILLS,                 "STSTR_KILLS"                 },
     { &s_STSTR_ITEMS,                 "STSTR_ITEMS"                 },
     { &s_STSTR_SECRETS,               "STSTR_SECRETS"               },
-    { &s_STSTR_MARKS,                 "STSTR_MARKS"                 },
 
     { &s_E1TEXT,                      "E1TEXT"                      },
     { &s_E2TEXT,                      "E2TEXT"                      },

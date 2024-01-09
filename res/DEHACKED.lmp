@@ -324,7 +324,6 @@ STSTR_SUCKS = SUCKS!
 STSTR_KILLS = %s of %s kills
 STSTR_ITEMS = %s of %s items
 STSTR_SECRETS = %s of %s secrets
-STSTR_MARKS = %s mark%s
 CC_ZOMBIE = The Zombieman
 CC_SHOTGUN = The Shotgun Guy
 CC_HEAVY = The Chaingunner

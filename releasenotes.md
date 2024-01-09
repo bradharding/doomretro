@@ -9,10 +9,9 @@
   * A controller’s left and right shoulder buttons can now be held down to zoom in and out.
   * The subtle shadow cast by the status bar is now only visible when the `am_backcolor` CVAR is its default of `0`.
   * Marks added by pressing the <kbd><b>M</b></kbd> key are now drawn over the player’s arrow when the `r_detail` CVAR is `high`.
-  * The number of marks added in the automap are now displayed when the `am_playerstats` CVAR is `on`.
 * The `con_obituaries` CVAR has been renamed to just `obituaries`.
 * When the `r_rockettrails` CVAR is `on`:
-  * Smoke now trails behind rockets fired by the player and cyberdemons again.
+  * Smoke now trails behind rockets again fired by you and cyberdemons.
   * Smoke trailing behind rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

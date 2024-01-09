@@ -1491,19 +1491,6 @@ void C_UpdatePlayerStatsOverlay(void)
             tinttab, secrets, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
         free(temp1);
         free(temp2);
-
-        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
-    }
-
-    if (nummarks)
-    {
-        char    marks[32];
-        char    *temp = commify(nummarks);
-
-        M_snprintf(marks, sizeof(marks), s_STSTR_MARKS, temp, (nummarks == 1 ? "" : "s"));
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(marks, false), y,
-            tinttab, marks, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
-        free(temp);
     }
 }
 
