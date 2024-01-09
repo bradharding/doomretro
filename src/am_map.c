@@ -1979,12 +1979,15 @@ static void AM_DrawMarks(const char *nums[])
                     if (fy < MAPHEIGHT)
                     {
                         const char  src = nums[digit][j];
-                        byte        *dest = &mapscreen[fy * MAPWIDTH + fx];
 
                         if (src == '1')
-                            *dest = tinttab80[(markcolor << 8) + *dest];
+                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
                         else if (src == '2')
-                            *dest = *(*dest + tinttab33);
+                        {
+                            byte    *dest = &mapscreen[fy * MAPWIDTH + fx];
+
+                            *dest = *(*dest + tinttab40);
+                        }
                     }
                 }
             }
@@ -1993,9 +1996,7 @@ static void AM_DrawMarks(const char *nums[])
 
             if (r_detail == r_detail_low)
                 x--;
-
-            number /= 10;
-        } while (number > 0);
+        } while ((number /= 10) > 0);
     }
 }
 
@@ -2075,65 +2076,67 @@ static void AM_DrawScaledPixel2(const int x, const int y, byte color)
 
 static void AM_DrawCrosshair(void)
 {
-    if (r_detail == r_detail_low)
+    if (r_hud_translucency)
     {
-        AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
-        AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
-        AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
-        AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
-        AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
+        if (r_detail == r_detail_low)
+        {
+            AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
+        }
+        else
+        {
+            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += MAPWIDTH;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += (size_t)MAPWIDTH - 2;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += (size_t)MAPWIDTH - 2;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += MAPWIDTH;
+            *dot = *(*dot + am_crosshaircolor2);
+        }
     }
     else
     {
-        byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+        if (r_detail == r_detail_low)
+        {
+            AM_DrawScaledPixel2(CENTERX - 1, CENTERY, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX, CENTERY, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX + 1, CENTERY, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX, CENTERY - 1, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX, CENTERY + 1, am_crosshaircolor);
+        }
+        else
+        {
+            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
 
-        *dot = *(*dot + am_crosshaircolor2);
-        dot += MAPWIDTH;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot += (size_t)MAPWIDTH - 2;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot++;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot++;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot++;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot++;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot += (size_t)MAPWIDTH - 2;
-        *dot = *(*dot + am_crosshaircolor2);
-        dot += MAPWIDTH;
-        *dot = *(*dot + am_crosshaircolor2);
-    }
-}
-
-static void AM_DrawSolidCrosshair(void)
-{
-    if (r_detail == r_detail_low)
-    {
-        AM_DrawScaledPixel2(CENTERX - 1, CENTERY, am_crosshaircolor);
-        AM_DrawScaledPixel2(CENTERX, CENTERY, am_crosshaircolor);
-        AM_DrawScaledPixel2(CENTERX + 1, CENTERY, am_crosshaircolor);
-        AM_DrawScaledPixel2(CENTERX, CENTERY - 1, am_crosshaircolor);
-        AM_DrawScaledPixel2(CENTERX, CENTERY + 1, am_crosshaircolor);
-    }
-    else
-    {
-        byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
-
-        *dot = am_crosshaircolor;
-        dot += MAPWIDTH;
-        *dot = am_crosshaircolor;
-        dot += (size_t)MAPWIDTH - 2;
-        *dot++ = am_crosshaircolor;
-        *dot++ = am_crosshaircolor;
-        *dot++ = am_crosshaircolor;
-        *dot++ = am_crosshaircolor;
-        *dot = am_crosshaircolor;
-        dot += (size_t)MAPWIDTH - 2;
-        *dot = am_crosshaircolor;
-        dot += MAPWIDTH;
-        *dot = am_crosshaircolor;
+            *dot = am_crosshaircolor;
+            dot += MAPWIDTH;
+            *dot = am_crosshaircolor;
+            dot += (size_t)MAPWIDTH - 2;
+            *dot++ = am_crosshaircolor;
+            *dot++ = am_crosshaircolor;
+            *dot++ = am_crosshaircolor;
+            *dot++ = am_crosshaircolor;
+            *dot = am_crosshaircolor;
+            dot += (size_t)MAPWIDTH - 2;
+            *dot = am_crosshaircolor;
+            dot += MAPWIDTH;
+            *dot = am_crosshaircolor;
+        }
     }
 }
 
@@ -2275,12 +2278,7 @@ void AM_Drawer(void)
     }
 
     if (!(am_followmode || consoleactive))
-    {
-        if (r_hud_translucency)
-            AM_DrawCrosshair();
-        else
-            AM_DrawSolidCrosshair();
-    }
+        AM_DrawCrosshair();
 
     if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
         AM_StatusBarShadow();
