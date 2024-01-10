@@ -1951,6 +1951,9 @@ bool C_ExecuteInputString(const char *input)
         strings[++j] = strtok(NULL, ";");
     }
 
+    if (M_StringStartsWith(input, "toggle"))
+        S_StartSound(NULL, sfx_swtchn);
+
     return true;
 }
 
