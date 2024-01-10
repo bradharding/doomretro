@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.2.1
 
+* *DOOM Retro* is now built using v17.8.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses *Direct3D 11* by default rather than *Direct3D 9* to scale every frame on the screen, resulting in a considerable boost in performance. The `vid_scaleapi` CVAR can now be `direct3d9`, `direct3d11`, `opengl` or `software`.
 * IT, S3M, XM and MOD music lumps now play again.
 * These changes have been made in the automap:
@@ -12,7 +13,7 @@
 * The `con_obituaries` CVAR has been renamed to just `obituaries`.
 * When the `r_rockettrails` CVAR is `on`:
   * A bug is fixed whereby smoke wasn’t trailing behind rockets fired by the player and cyberdemons.
-  * Smoke trailing behind rockets fired by cyberdemons is no longer spawned if certain states or sprites have been changed in a `DEHACKED` lump.
+  * Smoke trailing behind rockets fired by cyberdemons won’t be spawned if certain states or sprites have been changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
