@@ -9257,23 +9257,20 @@ static void mouselook_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (mouselook != mouselook_old)
+    if (mouselook != mouselook_old && gamestate == GS_LEVEL)
     {
-        if (gamestate == GS_LEVEL)
+        suppresswarnings = true;
+        R_InitSkyMap();
+        suppresswarnings = false;
+
+        R_InitColumnFunctions();
+
+        if (!mouselook)
         {
-            suppresswarnings = true;
-            R_InitSkyMap();
-            suppresswarnings = false;
-
-            R_InitColumnFunctions();
-
-            if (!mouselook)
-            {
-                viewplayer->lookdir = 0;
-                viewplayer->oldlookdir = 0;
-                viewplayer->recoil = 0;
-                viewplayer->oldrecoil = 0;
-            }
+            viewplayer->lookdir = 0;
+            viewplayer->oldlookdir = 0;
+            viewplayer->recoil = 0;
+            viewplayer->oldrecoil = 0;
         }
     }
 }
@@ -9931,7 +9928,8 @@ static void r_gamma_func2(char *cmd, char *parms)
             if (len >= 2 && buffer2[len - 1] == '0' && buffer2[len - 2] == '0')
                 buffer2[len - 1] = '\0';
 
-            C_Output(INTEGERCVARWITHDEFAULT, (r_gamma == 1.0f ? "off" : buffer1), (r_gamma_default == 1.0f ? "off" : buffer2));
+            C_Output(INTEGERCVARWITHDEFAULT, (r_gamma == 1.0f ? "off" : buffer1),
+                (r_gamma_default == 1.0f ? "off" : buffer2));
         }
 
         C_ShowWarning(i);
@@ -10596,7 +10594,8 @@ static bool turbo_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    return ((sscanf(parms, "%10i%%", &value) == 1 || sscanf(parms, "%10i", &value) == 1) && value >= turbo_min && value <= turbo_max);
+    return ((sscanf(parms, "%10i%%", &value) == 1 || sscanf(parms, "%10i", &value) == 1)
+        && value >= turbo_min && value <= turbo_max);
 }
 
 static void turbo_func2(char *cmd, char *parms)
