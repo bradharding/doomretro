@@ -9,11 +9,12 @@
   * The player’s path is now drawn correctly if the `am_path` CVAR is `on` and they have just teleported.
   * A controller’s left and right shoulder buttons can now be held down to zoom in and out.
   * The subtle shadow cast by the status bar is now only visible when the `am_backcolor` CVAR is its default of `0`.
-  * Marks added by pressing the <kbd><b>M</b></kbd> key are now drawn over the player’s arrow when the `r_detail` CVAR is `high`.
+  * Minor improvements have been made to drawing marks added by pressing the <kbd><b>M</b></kbd> key.
 * The `con_obituaries` CVAR has been renamed to just `obituaries`.
 * When the `r_rockettrails` CVAR is `on`:
-  * A bug is fixed whereby smoke wasn’t trailing behind rockets fired by the player and cyberdemons.
+  * A bug is fixed whereby no smoke was trailing behind rockets fired by the player and cyberdemons.
   * Smoke trailing behind rockets fired by cyberdemons won’t be spawned if certain states or sprites have been changed in a `DEHACKED` lump.
+* A sound effect is now played when using a control that has been bound to the `toggle` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
