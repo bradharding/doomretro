@@ -454,10 +454,6 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (thing == tmthing)
         return true;
 
-    // killough 11/98: add touchy things
-    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
-        return true;
-
     // [BH] nudge corpse or dropped item when walked over
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && thing->floorz == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
@@ -475,6 +471,10 @@ static bool PIT_CheckThing(mobj_t *thing)
                 thing->momy /= 2;
             }
         }
+
+    // killough 11/98: add touchy things
+    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
+        return true;
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
