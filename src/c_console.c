@@ -1939,6 +1939,7 @@ bool C_ExecuteInputString(const char *input)
     char    *string = M_StringDuplicate(input);
     char    *strings[255] = { "" };
     int     j = 0;
+    bool    makesound = false;
 
     M_StripQuotes(string);
     strings[0] = strtok(string, ";");
@@ -1948,12 +1949,16 @@ bool C_ExecuteInputString(const char *input)
         if (!C_ValidateInput(trimwhitespace(strings[j])))
             break;
 
+        if (M_StringStartsWith(strings[j], "toggle"))
+            makesound = true;
+
         strings[++j] = strtok(NULL, ";");
     }
 
-    if (M_StringStartsWith(input, "toggle"))
+    if (makesound)
         S_StartSound(NULL, sfx_swtchn);
 
+    free(string);
     return true;
 }
 
