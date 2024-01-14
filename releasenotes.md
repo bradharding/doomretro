@@ -2,9 +2,9 @@
 
 ### DOOM Retro v5.2.2
 
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* A bug is fixed whereby corpses weren't being nudged as intended when the player or a monster moved over them and the `r_corpses_nudge` CVAR was `on`.
-* The player message is now always correct when using the `IDCLEV` cheat to restart the current map.
+* Minor changes have been made to further improve the stability of *DOOM Retro*.
+* A bug is fixed whereby corpses weren't being nudged as intended whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
+* When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

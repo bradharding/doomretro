@@ -161,8 +161,8 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/m_misc.h" />
-		<Unit filename="../src/m_random.c">	
-			<Option compilerVar="CC" />	
+		<Unit filename="../src/m_random.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/m_random.h" />
 		<Unit filename="../src/memio.c">
