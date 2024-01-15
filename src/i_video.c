@@ -80,8 +80,8 @@ static int          WIDESCREENWIDTH;
 bool                nowidescreen = false;
 
 int                 MAPWIDTH;
-unsigned int        MAPHEIGHT = VANILLAHEIGHT * 2;
-unsigned int        MAPAREA;
+int                 MAPHEIGHT = VANILLAHEIGHT * 2;
+int                 MAPAREA;
 int                 MAPBOTTOM;
 
 static bool         manuallypositioning;
