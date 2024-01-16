@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.2.2
 
+* *DOOM Retro* now uses [*SDL_mixer v2.7.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/prerelease-2.7.2).
 * Minor changes have been made to further improve the stability of *DOOM Retro*.
 * A bug is fixed whereby corpses weren't being nudged as intended whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
