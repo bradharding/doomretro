@@ -5169,20 +5169,26 @@ static void mapstats_func2(char *cmd, char *parms)
 
         if (musmusictype)
             C_TabbedOutput(tabs, INDENT "Format\tMUS");
+        else if (musictype == MUS_WAV)
+            C_TabbedOutput(tabs, INDENT "Format\tWAV");
+        else if (musictype == MUS_MOD)
+            C_TabbedOutput(tabs, INDENT "Format\tMOD");
         else if (midimusictype || musictype == MUS_MID)
             C_TabbedOutput(tabs, INDENT "Format\tMIDI");
         else if (musictype == MUS_OGG)
             C_TabbedOutput(tabs, INDENT "Format\tOgg Vorbis");
         else if (musictype == MUS_MP3)
             C_TabbedOutput(tabs, INDENT "Format\tMP3");
-        else if (musictype == MUS_WAV)
-            C_TabbedOutput(tabs, INDENT "Format\tWAV");
         else if (musictype == MUS_FLAC)
             C_TabbedOutput(tabs, INDENT "Format\tFLAC");
-        else if (musictype == MUS_MOD)
-            C_TabbedOutput(tabs, INDENT "Format\tMOD");
         else if (musictype == MUS_OPUS)
             C_TabbedOutput(tabs, INDENT "Format\tOpus");
+#if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MAJOR_VERSION == 2 && SDL_MIXER_MINOR_VERSION >= 7)
+        else if (musictype == MUS_WAVPACK)
+            C_TabbedOutput(tabs, INDENT "Format\tWavPack");
+        else if (musictype == MUS_GME)
+            C_TabbedOutput(tabs, INDENT "Format\tGME");
+#endif
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
