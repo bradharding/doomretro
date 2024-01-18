@@ -1289,10 +1289,10 @@ static inline void PUTDOT2(int x, int y, const byte *color)
 
 static inline void PUTBIGDOT(int x, int y, const byte *color)
 {
-    if (x < 0 || y < -MAPWIDTH)
+    if (x < -1 || y < -MAPWIDTH)
         return;
 
-    if (x < MAPWIDTH)
+    if (x >= 0 && x < MAPWIDTH)
     {
         byte        *dot = mapscreen + y + x;
         const bool  attop = (y < MAPAREA);
