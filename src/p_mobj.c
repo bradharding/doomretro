@@ -1451,7 +1451,9 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
-    th->flags2 |= MF2_MIRRORED;
+
+    if (M_BigRandom() & 1)
+        th->flags2 |= MF2_MIRRORED;
 }
 
 //
