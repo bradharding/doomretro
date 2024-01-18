@@ -7,6 +7,7 @@
 * Minor changes have been made to further improve the stability of *DOOM Retro*.
 * A bug is fixed whereby corpses weren't being nudged as intended whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
+* Minor improvements have been made to drawing solid walls in the automap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
