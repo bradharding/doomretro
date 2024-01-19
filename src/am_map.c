@@ -1839,7 +1839,7 @@ static void AM_DrawThings(void)
         for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
             if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP) && thing->interpolate)
             {
-                angle_t     angle = thing->angle;
+                angle_t     angle;
                 mpoint_t    point = { 0, 0 };
                 int         flags = thing->flags;
                 int         fx, fy;
@@ -1847,12 +1847,13 @@ static void AM_DrawThings(void)
 
                 if (consoleactive || paused || freeze)
                 {
+                    angle = thing->angle;
                     point.x = thing->x >> FRACTOMAPBITS;
                     point.y = thing->y >> FRACTOMAPBITS;
                 }
                 else
                 {
-                    angle = R_InterpolateAngle(thing->oldangle, angle, fractionaltic);
+                    angle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
                     point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
                     point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
                 }

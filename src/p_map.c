@@ -2230,8 +2230,8 @@ static void PIT_ChangeSector(mobj_t *thing)
                 mo->momx = M_SubRandom() << 11;
                 mo->momy = M_SubRandom() << 11;
 
-                if (!vanilla)
-                    mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+                if (!vanilla && (M_BigRandom() & 1))
+                    mo->flags2 |= MF2_MIRRORED;
 
                 if (fuzz)
                 {

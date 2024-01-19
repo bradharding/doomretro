@@ -4,10 +4,12 @@
 
 * *DOOM Retro* is now built using v17.8.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL_mixer v2.7.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/prerelease-2.7.2).
+* Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to further improve the stability of *DOOM Retro*.
 * A bug is fixed whereby corpses weren't being nudged as intended whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
-* Minor improvements have been made to drawing solid walls in the automap.
+* Solid walls in the automap are now always drawn correctly if they touch the top or left edges of the screen.
+* Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on`is now randomly mirrored.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
