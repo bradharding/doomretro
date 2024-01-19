@@ -1396,9 +1396,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, const byte *color,
             x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
             x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
 
-            y0 *= MAPWIDTH;
-
-            putdot(x0, y0, color);
+            putdot(x0, (y0 *= MAPWIDTH), color);
 
             while (x0 != x1)
                 putdot((x0 += sx), y0, color);
