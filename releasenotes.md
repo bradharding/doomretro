@@ -6,11 +6,13 @@
 * *DOOM Retro* now uses [*SDL_mixer v2.7.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/prerelease-2.7.2).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to further improve the stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby corpses weren't being nudged as intended whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
 * Solid walls now always clip correctly when against the top and left edges of the automap.
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD will no longer spawn something if the ceiling is too low in front of the player.
+* The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise to their correct heights.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

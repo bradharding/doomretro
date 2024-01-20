@@ -3298,6 +3298,9 @@ void P_SetupLevel(int ep, int map)
     compat_useblocking = (compat_useblocking_global != -1 ? compat_useblocking_global : mapinfo[ep][map].compat_useblocking);
     compat_zombie = (compat_zombie_global != -1 ? compat_zombie_global : mapinfo[ep][map].compat_zombie);
     nograduallighting = (nograduallighting_global != -1 ? nograduallighting_global : mapinfo[ep][map].nograduallighting);
+
+    if (gamemission == pack_tnt)
+        compat_stairs = true;
 }
 
 static int  liquidlumps;
