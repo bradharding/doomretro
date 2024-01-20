@@ -7711,16 +7711,14 @@ static void spawn_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            fixed_t x = viewx + 100 * viewcos;
-            fixed_t y = viewy + 100 * viewsin;
+            fixed_t     x = viewx + 100 * viewcos;
+            fixed_t     y = viewy + 100 * viewsin;
+            sector_t    *sector = R_PointInSubsector(x, y)->sector;
 
-            if (P_CheckLineSide(viewplayer->mo, x, y))
-            {
-                if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You are too close to that wall.");
-                else
-                    C_Warning(0, "%s is too close to that wall.", playername);
-            }
+            if (mobjinfo[type].height > sector->ceilingheight - sector->floorheight
+                || P_CheckLineSide(viewplayer->mo, x, y))
+                C_Warning(0, "There isn't enough room in front of %s to spawn a %s.",
+                    playername, mobjinfo[type].name1);
             else
             {
                 mapthing_t  mthing = { 0 };
