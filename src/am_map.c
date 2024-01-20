@@ -1260,11 +1260,6 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
     return !(outcode1 & outcode2);
 }
 
-static inline void _PUTDOT(byte *dot, const byte *color)
-{
-    *dot = *(*dot + color);
-}
-
 static inline void PUTDOT(int x, int y, const byte *color)
 {
     if (x < 0 || y < 0)
@@ -1299,18 +1294,18 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
         const bool  atbottom = (y < MAPBOTTOM);
 
         if (attop)
-            _PUTDOT(dot, color);
+            PUTDOT(x, y, color);
 
         if (atbottom)
-            _PUTDOT(dot + MAPWIDTH, color);
+            PUTDOT(x, y + MAPWIDTH, color);
 
         if (x + 1 < MAPWIDTH)
         {
             if (attop)
-                _PUTDOT(dot + 1, color);
+                PUTDOT(x + 1, y, color);
 
             if (atbottom)
-                _PUTDOT(dot + MAPWIDTH + 1, color);
+                PUTDOT(x + MAPWIDTH, y + 1, color);
         }
     }
     else if (++x < MAPWIDTH)
@@ -1318,10 +1313,10 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
         byte    *dot = mapscreen + y + x;
 
         if (y < MAPAREA)
-            _PUTDOT(dot, color);
+            PUTDOT(x, y, color);
 
         if (y < MAPBOTTOM)
-            _PUTDOT(dot + MAPWIDTH, color);
+            PUTDOT(x, y + MAPWIDTH, color);
     }
 }
 
