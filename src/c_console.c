@@ -1972,10 +1972,10 @@ bool C_ValidateInput(char *input)
 
         if (consolecmds[i].type == CT_CHEAT)
         {
+            input = trimwhitespace(input);
+
             if (consolecmds[i].parameters)
             {
-                input = trimwhitespace(input);
-
                 if (isdigit((int)input[length - 2]) && isdigit((int)input[length - 1]))
                 {
                     consolecheatparm[0] = input[length - 2];
