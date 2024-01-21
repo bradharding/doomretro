@@ -1305,7 +1305,7 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
                 PUTDOT(x + 1, y, color);
 
             if (atbottom)
-                PUTDOT(x + MAPWIDTH, y + 1, color);
+                PUTDOT(x + 1, y + MAPWIDTH, color);
         }
     }
     else if (++x < MAPWIDTH)
