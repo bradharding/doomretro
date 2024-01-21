@@ -1262,10 +1262,7 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 
 static inline void PUTDOT(int x, int y, const byte *color)
 {
-    if (x < 0 || y < 0)
-        return;
-
-    if (x < MAPWIDTH && y < MAPAREA)
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1275,10 +1272,7 @@ static inline void PUTDOT(int x, int y, const byte *color)
 
 static inline void PUTDOT2(int x, int y, const byte *color)
 {
-    if (x < 0 || y < 0)
-        return;
-
-    if (x < MAPWIDTH && y < MAPAREA)
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
         *(mapscreen + y + x) = *color;
 }
 
@@ -1289,7 +1283,6 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
 
     if (x >= 0 && x < MAPWIDTH)
     {
-        byte        *dot = mapscreen + y + x;
         const bool  attop = (y < MAPAREA);
         const bool  atbottom = (y < MAPBOTTOM);
 
@@ -1299,19 +1292,17 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
         if (atbottom)
             PUTDOT(x, y + MAPWIDTH, color);
 
-        if (x + 1 < MAPWIDTH)
+        if (++x < MAPWIDTH)
         {
             if (attop)
-                PUTDOT(x + 1, y, color);
+                PUTDOT(x, y, color);
 
             if (atbottom)
-                PUTDOT(x + 1, y + MAPWIDTH, color);
+                PUTDOT(x, y + MAPWIDTH, color);
         }
     }
     else if (++x < MAPWIDTH)
     {
-        byte    *dot = mapscreen + y + x;
-
         if (y < MAPAREA)
             PUTDOT(x, y, color);
 
@@ -1360,10 +1351,7 @@ static inline void PUTBIGDOT2(int x, int y, const byte *color)
 
 static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
 {
-    if (x < 0 || y < 0)
-        return;
-
-    if (x < MAPWIDTH && y < MAPAREA)
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
