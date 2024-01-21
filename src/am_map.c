@@ -1278,33 +1278,17 @@ static inline void PUTDOT2(int x, int y, const byte *color)
 
 static inline void PUTBIGDOT(int x, int y, const byte *color)
 {
-    if (x < -1 || y < -MAPWIDTH)
-        return;
-
     if (x >= 0 && x < MAPWIDTH)
     {
-        const bool  attop = (y < MAPAREA);
-        const bool  atbottom = (y < MAPBOTTOM);
+        PUTDOT(x, y, color);
 
-        if (attop)
-            PUTDOT(x, y, color);
-
-        if (atbottom)
+        if (y < MAPBOTTOM)
             PUTDOT(x, y + MAPWIDTH, color);
-
-        if (++x < MAPWIDTH)
-        {
-            if (attop)
-                PUTDOT(x, y, color);
-
-            if (atbottom)
-                PUTDOT(x, y + MAPWIDTH, color);
-        }
     }
-    else if (++x < MAPWIDTH)
+
+    if (++x < MAPWIDTH)
     {
-        if (y < MAPAREA)
-            PUTDOT(x, y, color);
+        PUTDOT(x, y, color);
 
         if (y < MAPBOTTOM)
             PUTDOT(x, y + MAPWIDTH, color);
@@ -1313,39 +1297,14 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
 
 static inline void PUTBIGDOT2(int x, int y, const byte *color)
 {
-    if (x < 0 || y < 0)
-        return;
-
-    if (x < MAPWIDTH)
-    {
-        byte        *dot = mapscreen + y + x;
-        const bool  attop = (y < MAPAREA);
-        const bool  atbottom = (y < MAPBOTTOM);
-
-        if (attop)
-            *dot = *color;
-
-        if (atbottom)
-            *(dot + MAPWIDTH) = *color;
-
-        if (x + 1 < MAPWIDTH)
-        {
-            if (attop)
-                *(dot + 1) = *color;
-
-            if (atbottom)
-                *(dot + MAPWIDTH + 1) = *color;
-        }
-    }
-    else if (++x < MAPWIDTH)
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (y < MAPAREA)
-            *dot = *color;
-
-        if (y < MAPBOTTOM)
-            *(dot + MAPWIDTH) = *color;
+        *dot = *color;
+        *(dot + 1) = *color;
+        *(dot + MAPWIDTH) = *color;
+        *(dot + MAPWIDTH + 1) = *color;
     }
 }
 
