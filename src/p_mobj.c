@@ -1584,7 +1584,9 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        if (sec->terraintype == SOLID && (!usemaxheight || sec->interpfloorheight <= maxheight))
+        if (sec->terraintype == SOLID
+            && (!usemaxheight || sec->interpfloorheight <= maxheight)
+            && !P_CheckLineSide(target, x, y))
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
 
