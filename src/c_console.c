@@ -2168,7 +2168,7 @@ bool C_Responder(event_t *ev)
 
                         while (strings[i])
                         {
-                            if (C_ValidateInput(trimwhitespace(strings[i])))
+                            if (C_ValidateInput(strings[i]))
                                 result = true;
 
                             strings[++i] = strtok(NULL, ";");
