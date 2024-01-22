@@ -1278,15 +1278,24 @@ static inline void PUTDOT2(int x, int y, const byte *color)
 
 static inline void PUTBIGDOT(int x, int y, const byte *color)
 {
-    if (x >= 0 && x < MAPWIDTH)
+    if (x >= 0)
     {
         PUTDOT(x, y, color);
 
         if (y < MAPBOTTOM)
+        {
             PUTDOT(x, y + MAPWIDTH, color);
-    }
 
-    if (++x < MAPWIDTH)
+            if (++x < MAPWIDTH)
+            {
+                PUTDOT(x, y, color);
+                PUTDOT(x, y + MAPWIDTH, color);
+            }
+        }
+        else if (++x < MAPWIDTH)
+            PUTDOT(x, y, color);
+    }
+    else if (++x < MAPWIDTH)
     {
         PUTDOT(x, y, color);
 
