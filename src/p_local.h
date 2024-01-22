@@ -159,8 +159,8 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
 void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
 void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target);
 void P_SetBloodSplatColor(bloodsplat_t *splat);
-void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
-    const bool usemaxheight, const fixed_t maxheight, mobj_t *target);
+void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
+    const bool checklineside, const fixed_t maxheight, mobj_t *target);
 bool P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, const mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);

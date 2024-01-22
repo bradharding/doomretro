@@ -276,7 +276,7 @@ static void P_XYMovement(mobj_t *mo)
 
             for (int i = 0; i < max; i++)
                 P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), color, true, floorz, mo);
+                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), color, true, false, floorz, mo);
         }
     }
 
@@ -475,7 +475,7 @@ floater:
             if (r_bloodsplats_max)
             {
                 if (flags & MF_FUZZ)
-                    P_SpawnBloodSplat(mo->x, mo->y, FUZZYBLOOD, false, 0, NULL);
+                    P_SpawnBloodSplat(mo->x, mo->y, FUZZYBLOOD, false, false, 0, NULL);
                 else if (mo->bloodcolor > NOBLOOD)
                 {
                     const fixed_t   x = mo->x;
@@ -486,9 +486,9 @@ floater:
                     const fixed_t   y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
                     const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
 
-                    P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
-                    P_SpawnBloodSplat(x + x1, y + y1, bloodcolor, false, 0, NULL);
-                    P_SpawnBloodSplat(x - x2, y - y2, bloodcolor, false, 0, NULL);
+                    P_SpawnBloodSplat(x, y, bloodcolor, false, false, 0, NULL);
+                    P_SpawnBloodSplat(x + x1, y + y1, bloodcolor, false, false, 0, NULL);
+                    P_SpawnBloodSplat(x - x2, y - y2, bloodcolor, false, false, 0, NULL);
                 }
             }
 
@@ -1113,7 +1113,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
             fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
             fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-            P_SpawnBloodSplat(fx, fy, bloodcolor, true, floorz, mobj);
+            P_SpawnBloodSplat(fx, fy, bloodcolor, true, true, floorz, mobj);
         }
     }
 }
@@ -1575,8 +1575,8 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
-    const bool usemaxheight, const fixed_t maxheight, mobj_t *target)
+void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
+    const bool checklineside, const fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
@@ -1586,7 +1586,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
 
         if (sec->terraintype == SOLID
             && (!usemaxheight || sec->interpfloorheight <= maxheight)
-            && !P_CheckLineSide(target, x, y))
+            && (!checklineside || !P_CheckLineSide(target, x, y)))
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
 

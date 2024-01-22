@@ -2158,7 +2158,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                 const angle_t   angle = M_BigRandomInt(0, FINEANGLES - 1);
 
                 P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
-                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), color, true, floorz, NULL);
+                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), color, true, false, floorz, NULL);
             }
 
             P_SetMobjState(thing, S_GIBS);
