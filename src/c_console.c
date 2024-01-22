@@ -1972,8 +1972,6 @@ bool C_ValidateInput(char *input)
 
         if (consolecmds[i].type == CT_CHEAT)
         {
-            input = trimwhitespace(input);
-
             if (consolecmds[i].parameters)
             {
                 if (isdigit((int)input[length - 2]) && isdigit((int)input[length - 1]))
@@ -2170,7 +2168,7 @@ bool C_Responder(event_t *ev)
 
                         while (strings[i])
                         {
-                            if (C_ValidateInput(strings[i]))
+                            if (C_ValidateInput(trimwhitespace(strings[i])))
                                 result = true;
 
                             strings[++i] = strtok(NULL, ";");
