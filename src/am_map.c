@@ -2162,20 +2162,20 @@ static void AM_ApplyAntialiasing(void)
 
     memcpy(dest, mapscreen, MAPAREA);
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 2; x++)
+    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+        for (int x = y + 1; x <= y + MAPWIDTH - 2; x++)
             dest[x] = tinttab33[(dest[x + 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
         for (int x = y + MAPWIDTH - 2; x > y; x--)
             dest[x] = tinttab33[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y + 1; x <= y + MAPWIDTH - 1; x++)
             dest[x] = tinttab33[(dest[x + MAPWIDTH] << 8) + dest[x]];
 
-    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+    for (int y = MAPAREA - MAPWIDTH * 2; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y + 1; x <= y + MAPWIDTH - 1; x++)
             dest[x] = tinttab33[(dest[x - MAPWIDTH] << 8) + dest[x]];
 
     memcpy(mapscreen, dest, MAPAREA);
