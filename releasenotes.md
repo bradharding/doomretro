@@ -13,7 +13,7 @@
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD no longer spawns something if the ceiling in front of the player is too low.
 * The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise to their correct heights.
-* Blood splats that are spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be close to a wall.
+* The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

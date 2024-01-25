@@ -1458,7 +1458,7 @@ static void AM_DrawGrid(void)
 
 static byte *AM_DoorColor(unsigned short special)
 {
-    if (GenLockedBase <= special && special < GenDoorBase)
+    if (special >= GenLockedBase && special < GenDoorBase)
     {
         if (!(special = ((special - GenLockedBase) & LockedKey) >> LockedKeyShift) || special == AllKeys)
             return cdwallcolor;

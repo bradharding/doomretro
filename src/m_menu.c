@@ -3041,12 +3041,15 @@ bool M_Responder(event_t *ev)
     else if (ev->type == ev_keyup)
     {
         if (ev->data1 == keyboardscreenshot
-            && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive))
-            && !splashscreen)
+            && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
             S_StartSound(NULL, sfx_scrsht);
-            memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen(true);
+
+            if (!splashscreen)
+            {
+                memset(screens[0], nearestwhite, SCREENAREA);
+                D_FadeScreen(true);
+            }
         }
 
         return false;

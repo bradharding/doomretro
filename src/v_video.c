@@ -1797,6 +1797,8 @@ bool V_ScreenShot(void)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
     else if (paused)
         M_StringCopy(mapname, "Paused", sizeof(mapname));
+    else if (splashscreen)
+        M_StringCopy(mapname, "Splash Screen", sizeof(mapname));
     else
         switch (gamestate)
         {
