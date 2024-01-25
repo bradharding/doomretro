@@ -3530,7 +3530,7 @@ bool M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL) && !splashscreen)
+    if (key == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
     {
         G_ScreenShot();
         return false;
