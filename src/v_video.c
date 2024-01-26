@@ -1791,14 +1791,16 @@ bool V_ScreenShot(void)
 
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));
+    else if (helpscreen)
+        M_StringCopy(mapname, "Help", sizeof(mapname));
     else if (menuactive)
-        M_StringCopy(mapname, (helpscreen ? "Help" : "Menu"), sizeof(mapname));
+        M_StringCopy(mapname, "Menu", sizeof(mapname));
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
     else if (paused)
         M_StringCopy(mapname, "Paused", sizeof(mapname));
     else if (splashscreen)
-        M_StringCopy(mapname, "Splash Screen", sizeof(mapname));
+        M_StringCopy(mapname, "Splash", sizeof(mapname));
     else
         switch (gamestate)
         {
