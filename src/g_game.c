@@ -305,10 +305,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX > 0)
         {
-            const fixed_t   x = gamecontrollerthumbRX;
-
             cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbRX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
@@ -324,10 +322,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX < 0)
         {
-            const fixed_t   x = gamecontrollerthumbRX;
-
             cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbRX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
@@ -375,10 +371,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            const fixed_t   x = gamecontrollerthumbLX;
-
             cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbLX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
@@ -394,10 +388,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            const fixed_t   x = gamecontrollerthumbLX;
-
             cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbLX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
