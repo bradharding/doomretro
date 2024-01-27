@@ -193,7 +193,9 @@ static const char *root_path_subdirs[] =
 // Location where the Bethesda.net Launcher is installed
 static registryvalue_t bethesda_install_location =
 {
-    HKEY_LOCAL_MACHINE, SOFTWARE_KEY "Bethesda Softworks\\Bethesda.net", "installLocation"
+    HKEY_LOCAL_MACHINE,
+    SOFTWARE_KEY "Bethesda Softworks\\Bethesda.net",
+    "installLocation"
 };
 
 // Subdirs of the Bethesda.net Launcher install directory where IWADs are found
@@ -311,7 +313,7 @@ static void CheckInstallRootPaths(void)
 // Check for DOOM downloaded via the Bethesda.net Launcher
 static void CheckBethesdaEdition(void)
 {
-    char    * path = GetRegistryString(&bethesda_install_location);
+    char    *path = GetRegistryString(&bethesda_install_location);
 
     if (!path)
         return;
@@ -330,7 +332,7 @@ static void CheckSteamEdition(void)
 {
     for (size_t i = 0; i < arrlen(steam_install_locations); i++)
     {
-        char    * path = GetRegistryString(&steam_install_locations[i]);
+        char    *path = GetRegistryString(&steam_install_locations[i]);
 
         if (!path)
             continue;
