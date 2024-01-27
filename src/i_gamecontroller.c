@@ -259,12 +259,14 @@ void I_StopGameControllerRumble(void)
 
 void I_SetGameControllerHorizontalSensitivity(void)
 {
-    gamecontrollerhorizontalsensitivity = joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
+    gamecontrollerhorizontalsensitivity = (!joy_sensitivity_horizontal ? 0.0f :
+        4.0f * joy_sensitivity_horizontal / joy_sensitivity_horizontal_max + 0.2f);
 }
 
 void I_SetGameControllerVerticalSensitivity(void)
 {
-    gamecontrollerverticalsensitivity = joy_sensitivity_vertical / joy_sensitivity_vertical_max;
+    gamecontrollerverticalsensitivity = (!joy_sensitivity_vertical ? 0.0f :
+        4.0f * joy_sensitivity_vertical / joy_sensitivity_vertical_max + 0.2f);
 }
 
 void I_SetGameControllerLeftDeadZone(void)
