@@ -64,6 +64,7 @@ typedef struct
     byte    *lump;
     int     size;
     FILE    *f;
+    bool    resourcewad;
 } DEHFILE;
 
 static bool addtodehmaptitlecount;
@@ -2323,6 +2324,8 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum);
         filename = lumpinfo[lumpnum]->wadfile->path;
 
+        infile.resourcewad = M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD);
+
         if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename)))
             return;
     }
@@ -3957,7 +3960,8 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
                                         // holds the final result of the string after concatenation
     static char *holdstring;
 
-    boomcompatible = true;
+    if (!fpin->resourcewad)
+        boomcompatible = true;
 
     if (devparm)
         C_Output("Processing extended string substitution");
