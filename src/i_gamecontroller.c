@@ -170,31 +170,42 @@ void I_ReadGameController(void)
 {
     if (gamecontroller)
     {
+        float       LX, LY;
+        float       RX, RY;
+        float       magnitude;
+        float       normalizedmagnitude;
+
         static int  prevgamecontrollerbuttons;
 
-        float       LX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
-        float       LY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
-        float       RX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX);
-        float       RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
-        float       magnitude = sqrtf(LX * LX + LY * LY);
+        if (joy_swapthumbsticks)
+        {
+            LX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX);
+            LY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
+            RX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
+            RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
+        }
+        else
+        {
+            LX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
+            LY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
+            RX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX);
+            RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
+        }
 
-        float       normalizedLX = LX / magnitude;
-        float       normalizedLY = LY / magnitude;
-
-        float       normalizedMagnitude = 0;
+        magnitude = sqrtf(LX * LX + LY * LY);
 
         if (magnitude > gamecontrollerleftdeadzone)
         {
-            if (magnitude > 32767)
-                magnitude = 32767;
+            if (magnitude > SHRT_MAX)
+                magnitude = SHRT_MAX;
 
             magnitude -= gamecontrollerleftdeadzone;
-            normalizedMagnitude = magnitude / (32767 - gamecontrollerleftdeadzone);
-            magnitude = normalizedMagnitude;
-            normalizedMagnitude = powf(normalizedMagnitude, 3.0);
+            normalizedmagnitude = magnitude / (SHRT_MAX - gamecontrollerleftdeadzone);
+            magnitude = normalizedmagnitude;
+            normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
 
-            gamecontrollerthumbLX = magnitude * LX / normalizedMagnitude;
-            gamecontrollerthumbLY = magnitude * LY / normalizedMagnitude;
+            gamecontrollerthumbLX = (short)(normalizedmagnitude * LX / magnitude);
+            gamecontrollerthumbLY = (short)(normalizedmagnitude * LY / magnitude);
         }
         else
         {
@@ -206,16 +217,16 @@ void I_ReadGameController(void)
 
         if (magnitude > gamecontrollerrightdeadzone)
         {
-            if (magnitude > 32767)
-                magnitude = 32767;
+            if (magnitude > SHRT_MAX)
+                magnitude = SHRT_MAX;
 
             magnitude -= gamecontrollerrightdeadzone;
-            normalizedMagnitude = magnitude / (32767 - gamecontrollerrightdeadzone);
-            magnitude = normalizedMagnitude;
-            normalizedMagnitude = powf(normalizedMagnitude, 3.0);
+            normalizedmagnitude = magnitude / (SHRT_MAX - gamecontrollerrightdeadzone);
+            magnitude = normalizedmagnitude;
+            normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
 
-            gamecontrollerthumbRX = normalizedMagnitude * RX / magnitude;
-            gamecontrollerthumbRY = normalizedMagnitude * RY / magnitude;
+            gamecontrollerthumbRX = (short)(normalizedmagnitude * RX / magnitude);
+            gamecontrollerthumbRY = (short)(normalizedmagnitude * RY / magnitude);
         }
         else
         {
