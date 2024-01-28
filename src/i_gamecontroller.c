@@ -163,15 +163,15 @@ void I_GameControllerRumble(const int low, const int high)
     if (!gamecontrollerrumbles)
         return;
 
-    SDL_GameControllerRumble(gamecontroller, MIN(low, UINT16_MAX), MIN(high, UINT16_MAX), UINT32_MAX);
+    SDL_GameControllerRumble(gamecontroller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
 }
 
 void I_ReadGameController(void)
 {
     if (gamecontroller)
     {
-        float       LX, LY;
-        float       RX, RY;
+        short       LX, LY;
+        short       RX, RY;
         float       magnitude;
         float       normalizedmagnitude;
 
@@ -192,7 +192,15 @@ void I_ReadGameController(void)
             RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
         }
 
-        magnitude = sqrtf(LX * LX + LY * LY);
+        if (!joy_analog)
+        {
+            LX = SIGN(LX) * SDL_JOYSTICK_AXIS_MAX;
+            LY = SIGN(LY) * SDL_JOYSTICK_AXIS_MAX;
+            RX = SIGN(RX) * SDL_JOYSTICK_AXIS_MAX;
+            RY = SIGN(RY) * SDL_JOYSTICK_AXIS_MAX;
+        }
+
+        magnitude = sqrtf((float)LX * LX + LY * LY);
 
         if (magnitude > gamecontrollerleftdeadzone)
         {
@@ -213,7 +221,7 @@ void I_ReadGameController(void)
             gamecontrollerthumbLY = 0;
         }
 
-        magnitude = sqrtf(RX * RX + RY * RY);
+        magnitude = sqrtf((float)RX * RX + RY * RY);
 
         if (magnitude > gamecontrollerrightdeadzone)
         {

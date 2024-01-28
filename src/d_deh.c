@@ -2314,6 +2314,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
             return;                         // should be checked up front anyway
 
         infile.lump = NULL;
+        infile.resourcewad = false;
     }
     else
     {
@@ -2433,7 +2434,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         char    *temp1 = commify(linecount);
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
-        if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
+        if (!infile.resourcewad && !devparm)
             C_Output("%s line%s %s been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
                 temp1, (linecount == 1 ? "" : "s"), (linecount == 1 ? "has" : "have"), temp2,
                 (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename, (dehfileignored ? " instead" : ""));
