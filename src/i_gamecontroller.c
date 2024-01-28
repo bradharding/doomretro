@@ -166,32 +166,61 @@ void I_GameControllerRumble(const int low, const int high)
     SDL_GameControllerRumble(gamecontroller, MIN(low, UINT16_MAX), MIN(high, UINT16_MAX), UINT32_MAX);
 }
 
-static short inline GetAxis(short value, const short deadzone)
-{
-    value = SDL_GameControllerGetAxis(gamecontroller, value);
-
-    return (ABS(value) < deadzone ? 0 : (joy_analog ? value : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
-}
-
 void I_ReadGameController(void)
 {
     if (gamecontroller)
     {
         static int  prevgamecontrollerbuttons;
 
-        if (joy_swapthumbsticks)
+        float       LX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
+        float       LY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
+        float       RX = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX);
+        float       RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
+        float       magnitude = sqrtf(LX * LX + LY * LY);
+
+        float       normalizedLX = LX / magnitude;
+        float       normalizedLY = LY / magnitude;
+
+        float       normalizedMagnitude = 0;
+
+        if (magnitude > gamecontrollerleftdeadzone)
         {
-            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerrightdeadzone);
-            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerrightdeadzone);
-            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerleftdeadzone);
-            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerleftdeadzone);
+            if (magnitude > 32767)
+                magnitude = 32767;
+
+            magnitude -= gamecontrollerleftdeadzone;
+            normalizedMagnitude = magnitude / (32767 - gamecontrollerleftdeadzone);
+            magnitude = normalizedMagnitude;
+            normalizedMagnitude = powf(normalizedMagnitude, 3.0);
+
+            gamecontrollerthumbLX = magnitude * LX / normalizedMagnitude;
+            gamecontrollerthumbLY = magnitude * LY / normalizedMagnitude;
         }
         else
         {
-            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerleftdeadzone);
-            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerleftdeadzone);
-            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerrightdeadzone);
-            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerrightdeadzone);
+            gamecontrollerthumbLX = 0;
+            gamecontrollerthumbLY = 0;
+        }
+
+        magnitude = sqrtf(RX * RX + RY * RY);
+
+        if (magnitude > gamecontrollerrightdeadzone)
+        {
+            if (magnitude > 32767)
+                magnitude = 32767;
+
+            magnitude -= gamecontrollerrightdeadzone;
+            normalizedMagnitude = magnitude / (32767 - gamecontrollerrightdeadzone);
+            magnitude = normalizedMagnitude;
+            normalizedMagnitude = powf(normalizedMagnitude, 3.0);
+
+            gamecontrollerthumbRX = normalizedMagnitude * RX / magnitude;
+            gamecontrollerthumbRY = normalizedMagnitude * RY / magnitude;
+        }
+        else
+        {
+            gamecontrollerthumbRX = 0;
+            gamecontrollerthumbRY = 0;
         }
 
         prevgamecontrollerbuttons = gamecontrollerbuttons;
@@ -259,14 +288,12 @@ void I_StopGameControllerRumble(void)
 
 void I_SetGameControllerHorizontalSensitivity(void)
 {
-    gamecontrollerhorizontalsensitivity = (!joy_sensitivity_horizontal ? 0.0f :
-        4.0f * joy_sensitivity_horizontal / joy_sensitivity_horizontal_max + 0.2f);
+    gamecontrollerhorizontalsensitivity = joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
 }
 
 void I_SetGameControllerVerticalSensitivity(void)
 {
-    gamecontrollerverticalsensitivity = (!joy_sensitivity_vertical ? 0.0f :
-        4.0f * joy_sensitivity_vertical / joy_sensitivity_vertical_max + 0.2f);
+    gamecontrollerverticalsensitivity = joy_sensitivity_vertical / joy_sensitivity_vertical_max;
 }
 
 void I_SetGameControllerLeftDeadZone(void)
