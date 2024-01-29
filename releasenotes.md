@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.2.2
+### DOOM Retro v5.3
 
 * *DOOM Retro* is now built using v17.8.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.29.3*](https://github.com/libsdl-org/SDL/releases/tag/prerelease-2.29.3) and [*SDL_mixer v2.8.0*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.0).
