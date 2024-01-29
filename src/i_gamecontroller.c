@@ -158,7 +158,7 @@ void I_ShutdownGameController(void)
     SDL_GameControllerClose(gamecontroller);
 }
 
-void I_GameControllerRumble(const int low, const int high)
+void I_GameControllerRumble(const short low, const short high)
 {
     if (!gamecontrollerrumbles)
         return;
@@ -204,11 +204,11 @@ void I_ReadGameController(void)
 
         if (magnitude > gamecontrollerleftdeadzone)
         {
-            if (magnitude > SHRT_MAX)
-                magnitude = SHRT_MAX;
+            if (magnitude > SDL_JOYSTICK_AXIS_MAX)
+                magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-            magnitude -= gamecontrollerleftdeadzone;
-            normalizedmagnitude = magnitude / (SHRT_MAX - gamecontrollerleftdeadzone);
+            normalizedmagnitude = (magnitude - gamecontrollerleftdeadzone)
+                / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerleftdeadzone);
             magnitude = normalizedmagnitude;
             normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
 
@@ -225,11 +225,11 @@ void I_ReadGameController(void)
 
         if (magnitude > gamecontrollerrightdeadzone)
         {
-            if (magnitude > SHRT_MAX)
-                magnitude = SHRT_MAX;
+            if (magnitude > SDL_JOYSTICK_AXIS_MAX)
+                magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-            magnitude -= gamecontrollerrightdeadzone;
-            normalizedmagnitude = magnitude / (SHRT_MAX - gamecontrollerrightdeadzone);
+            normalizedmagnitude = (magnitude - gamecontrollerrightdeadzone)
+                / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerrightdeadzone);
             magnitude = normalizedmagnitude;
             normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
 
@@ -307,20 +307,20 @@ void I_StopGameControllerRumble(void)
 
 void I_SetGameControllerHorizontalSensitivity(void)
 {
-    gamecontrollerhorizontalsensitivity = joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
+    gamecontrollerhorizontalsensitivity = 2.0f * joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
 }
 
 void I_SetGameControllerVerticalSensitivity(void)
 {
-    gamecontrollerverticalsensitivity = joy_sensitivity_vertical / joy_sensitivity_vertical_max;
+    gamecontrollerverticalsensitivity = 2.0f * joy_sensitivity_vertical / joy_sensitivity_vertical_max;
 }
 
 void I_SetGameControllerLeftDeadZone(void)
 {
-    gamecontrollerleftdeadzone = (short)(joy_deadzone_left * SHRT_MAX / 100.0f);
+    gamecontrollerleftdeadzone = (short)(joy_deadzone_left * SDL_JOYSTICK_AXIS_MAX / 100.0f);
 }
 
 void I_SetGameControllerRightDeadZone(void)
 {
-    gamecontrollerrightdeadzone = (short)(joy_deadzone_right * SHRT_MAX / 100.0f);
+    gamecontrollerrightdeadzone = (short)(joy_deadzone_right * SDL_JOYSTICK_AXIS_MAX / 100.0f);
 }

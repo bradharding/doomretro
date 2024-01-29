@@ -92,7 +92,7 @@ extern short    gamecontrollerrightdeadzone;
 
 void I_InitGameController(void);
 void I_ShutdownGameController(void);
-void I_GameControllerRumble(const int low, const int high);
+void I_GameControllerRumble(const short low, const short high);
 void I_ReadGameController(void);
 void I_StopGameControllerRumble(void);
 void I_SetGameControllerHorizontalSensitivity(void);
