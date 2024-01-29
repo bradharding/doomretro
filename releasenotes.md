@@ -15,7 +15,8 @@
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD no longer spawns something if the ceiling in front of the player is too low.
 * The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise to their correct heights.
-* A bug is fixed whereby the player’s angle wouldn’t be correct when passing through a *BOOM*-compatible silent teleporter.
+* A bug is fixed whereby the player’s angle would be slightly off after passing through a *BOOM*-compatible silent teleporter.
+* The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
