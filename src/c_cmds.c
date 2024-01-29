@@ -4492,7 +4492,7 @@ static void maplist_func2(char *cmd, char *parms)
                         lump[0] = 'C';
 
                     if (replaced && dehcount == 1 && !*mapinfoname)
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s",
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
                             lump, wadname);
                     else
                     {
@@ -4528,7 +4528,7 @@ static void maplist_func2(char *cmd, char *parms)
                     else
                     {
                         if (replaced && dehcount == 1 && !nerve && !*mapinfoname)
-                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s",
+                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
                                 lump, wadname);
                         else
                         {
