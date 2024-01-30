@@ -4488,9 +4488,6 @@ static void maplist_func2(char *cmd, char *parms)
             case doom:
                 if (!replaced || pwad)
                 {
-                    if (FREEDOOM1 && strlen(lump) == 4)
-                        lump[0] = 'C';
-
                     if (replaced && dehcount == 1 && !*mapinfoname)
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
                             lump, wadname);
