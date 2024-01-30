@@ -11,11 +11,12 @@
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
+* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the top and left edges of the automap.
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD no longer spawns something if the ceiling in front of the player is too low.
 * The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise to their correct heights.
-* A bug is fixed whereby the player’s angle would be slightly off after passing through a *BOOM*-compatible silent teleporter.
+* A bug is fixed whereby the player’s angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
