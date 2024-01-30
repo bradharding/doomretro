@@ -308,7 +308,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         if (M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
             return;
 
-        if (chex && (M_StringCompare(lump->name, "MEDIA0") || M_StringCompare(lump->name, "STIMA0")))
+        if ((chex || FREEDOOM) && (M_StringCompare(lump->name, "MEDIA0") || M_StringCompare(lump->name, "STIMA0")))
             return;
     }
 
