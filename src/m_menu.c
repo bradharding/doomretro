@@ -36,6 +36,7 @@
 #include <ctype.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
@@ -3284,7 +3285,10 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == '-')
+    if (key == KEY_ENTER && viewplayer->prevmessage && !consoleactive
+        && messages && !IsControlBound(keyboardcontrol, KEY_ENTER))
+        HU_SetPlayerMessage(viewplayer->prevmessage, false, false);
+    else if (key == '-')
     {
         // Screen size down
         if (consoleactive || paused || splashscreen || automapactive || fadecount)

@@ -1542,6 +1542,34 @@ void alias_func2(char *cmd, char *parms)
         }
 }
 
+bool IsControlBound(const controltype_t type, const int control)
+{
+    for (int i = 0; *actions[i].action; i++)
+        if (type == keyboardcontrol)
+        {
+            if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
+                return true;
+
+            if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
+                return true;
+        }
+        else if (type == mousecontrol)
+        {
+            if (actions[i].mouse1 && controls[control].value == *(int *)actions[i].mouse1)
+                return true;
+        }
+        else if (type == gamecontrollercontrol)
+        {
+            if (actions[i].gamecontroller1 && controls[control].value == *(int *)actions[i].gamecontroller1)
+                return true;
+
+            if (actions[i].gamecontroller2 && controls[control].value == *(int *)actions[i].gamecontroller2)
+                return true;
+        }
+
+    return false;
+}
+
 //
 // bind CCMD
 //
