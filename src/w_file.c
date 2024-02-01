@@ -42,7 +42,7 @@
 #include "w_file.h"
 #include "z_zone.h"
 
-wadfile_t *W_OpenFile(char *path)
+wadfile_t *W_OpenFile(const char *path)
 {
     wadfile_t   *result;
     FILE        *fstream = fopen(path, "rb");

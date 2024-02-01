@@ -81,7 +81,7 @@ static int              sprite_frames_alloced = 128;
 // Linear search (slow!)
 //
 // Returns -1 if not found
-static int FindInList(searchlist_t *list, char *name)
+static int FindInList(const searchlist_t *list, const char *name)
 {
     for (int i = 0; i < list->numlumps; i++)
         if (!strncasecmp(list->lumps[i]->name, name, 8))
@@ -157,7 +157,7 @@ static bool ValidSpriteLumpName(const char *name)
 }
 
 // Find a sprite frame
-static sprite_frame_t *FindSpriteFrame(char *name, char frame)
+static sprite_frame_t *FindSpriteFrame(const char *name, char frame)
 {
     sprite_frame_t  *result;
 

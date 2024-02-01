@@ -886,7 +886,7 @@ void I_UpdateBlitFunc(const bool shaking)
 //
 // I_SetPalette
 //
-void I_SetPalette(byte *playpal)
+void I_SetPalette(const byte *playpal)
 {
     const byte  *gamma = gammatable[gammaindex];
 
@@ -931,7 +931,7 @@ void I_SetExternalAutomapPalette(void)
     }
 }
 
-void I_SetPaletteWithBrightness(byte *playpal, const float brightness)
+void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
 {
     const byte  *gamma = gammatable[gammaindex];
 

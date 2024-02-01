@@ -839,7 +839,7 @@ int gcd(int a, int b)
     return (!b ? a : gcd(b, a % b));
 }
 
-int numspaces(char *str)
+int numspaces(const char *str)
 {
     int         result = 0;
     const int   len = (int)strlen(str);

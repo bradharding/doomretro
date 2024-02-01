@@ -545,7 +545,7 @@ static char *SearchDirectoryForIWAD(char *dir)
 
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
-void D_IdentifyIWADByName(char *name)
+void D_IdentifyIWADByName(const char *name)
 {
     // Trim down the name to just the filename, ignoring the path.
     char    *p = strrchr(name, '\\');

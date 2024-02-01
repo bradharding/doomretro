@@ -912,7 +912,7 @@ static void R_InitColormaps(void)
 
 // killough 04/04/98: get colormap number from name
 // killough 04/11/98: changed to return -1 for illegal names
-int R_ColormapNumForName(char *name)
+int R_ColormapNumForName(const char *name)
 {
     int i = 0;
 
@@ -971,7 +971,7 @@ int R_FlatNumForName(const char *name)
 // R_CheckFlatNumForName
 // Retrieval, get a flat number for a flat name. No error.
 //
-int R_CheckFlatNumForName(char *name)
+int R_CheckFlatNumForName(const char *name)
 {
     for (int i = firstflat; i <= lastflat; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
@@ -985,7 +985,7 @@ int R_CheckFlatNumForName(char *name)
 // Check whether texture is available.
 // Filter out NoTexture indicator.
 //
-int R_CheckTextureNumForName(char *name)
+int R_CheckTextureNumForName(const char *name)
 {
     int i = 0;
 
@@ -1005,7 +1005,7 @@ int R_CheckTextureNumForName(char *name)
 // Calls R_CheckTextureNumForName,
 //  aborts with error message.
 //
-int R_TextureNumForName(char *name)
+int R_TextureNumForName(const char *name)
 {
     const int   i = R_CheckTextureNumForName(name);
 

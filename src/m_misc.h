@@ -98,7 +98,7 @@ char *commifystat(uint64_t value);
 char *uncommify(const char *input);
 bool wildcard(char *input, char *pattern);
 int gcd(int a, int b);
-int numspaces(char *str);
+int numspaces(const char *str);
 char *removespaces(const char *input);
 char *removenonalpha(const char *input);
 char *trimwhitespace(char *input);

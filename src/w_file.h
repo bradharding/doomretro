@@ -57,7 +57,7 @@ typedef struct
 
 // Open the specified file. Returns a pointer to a new wadfile_t
 // handle for the WAD file, or NULL if it could not be opened.
-wadfile_t *W_OpenFile(char *path);
+wadfile_t *W_OpenFile(const char *path);
 
 // Close the specified WAD file.
 void W_CloseFile(wadfile_t *wad);

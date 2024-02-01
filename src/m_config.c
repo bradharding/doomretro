@@ -564,7 +564,7 @@ valuealias_t valuealiases[] =
     { "",               0, NOVALUEALIAS        }
 };
 
-static void SaveBind(FILE *file, char *control, char *action)
+static void SaveBind(FILE *file, const char *control, const char *action)
 {
     if (action[0] == '+')
     {

@@ -161,7 +161,7 @@ static void M_DrawSave(void);
 static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth, float dot, float factor, int offset, bool highlight);
-static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow);
+static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow);
 static int M_CharacterWidth(char ch, char prev);
 
 //
@@ -2465,7 +2465,7 @@ static int M_CharacterWidth(char ch, char prev)
 //
 // Find string width
 //
-int M_StringWidth(char *string)
+int M_StringWidth(const char *string)
 {
     const int   len = (int)strlen(string);
     int         width;
@@ -2484,7 +2484,7 @@ int M_StringWidth(char *string)
 //
 // Find string height
 //
-static int M_StringHeight(char *string)
+static int M_StringHeight(const char *string)
 {
     const int   len = (int)strlen(string);
     int         height = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
@@ -2511,7 +2511,7 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow)
+static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow)
 {
     int     width;
     char    letter;

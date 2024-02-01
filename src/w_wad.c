@@ -203,7 +203,7 @@ char *GetCorrectCase(char *path)
 }
 
 #if defined(_WIN32)
-static int LevenshteinDistance(char *string1, char *string2)
+static int LevenshteinDistance(const char *string1, const char *string2)
 {
     const size_t    length1 = strlen(string1);
     const size_t    length2 = strlen(string2);
