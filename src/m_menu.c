@@ -3285,7 +3285,7 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == KEY_ENTER && viewplayer->prevmessage && !consoleactive
+    if (key == KEY_ENTER && *viewplayer->prevmessage && !consoleactive
         && messages && !IsControlBound(keyboardcontrol, KEY_ENTER))
         HU_SetPlayerMessage(viewplayer->prevmessage, false, false);
     else if (key == '-')
