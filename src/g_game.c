@@ -336,7 +336,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(48 * ((float)gamecontrollerthumbRY / SHRT_MAX)
+                cmd->lookdir = (int)(96 * ((float)gamecontrollerthumbRY / SHRT_MAX)
                     * gamecontrollerverticalsensitivity);
 
                 if (!joy_invertyaxis)
