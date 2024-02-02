@@ -137,7 +137,7 @@ void I_InitGameController(void)
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
             else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons))
-                C_Warning(1, "This controller won't rumble.");
+                C_Warning(1, "This controller doesn't rumble.");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();
@@ -200,17 +200,14 @@ void I_ReadGameController(void)
             RY = SIGN(RY) * SDL_JOYSTICK_AXIS_MAX;
         }
 
-        magnitude = sqrtf((float)LX * LX + LY * LY);
-
-        if (magnitude > gamecontrollerleftdeadzone)
+        if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > gamecontrollerleftdeadzone)
         {
             if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                 magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-            normalizedmagnitude = (magnitude - gamecontrollerleftdeadzone)
+            magnitude = (magnitude - gamecontrollerleftdeadzone)
                 / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerleftdeadzone);
-            magnitude = normalizedmagnitude;
-            normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
+            normalizedmagnitude = powf(magnitude, 3.0f);
 
             gamecontrollerthumbLX = (short)(normalizedmagnitude * LX / magnitude);
             gamecontrollerthumbLY = (short)(normalizedmagnitude * LY / magnitude);
@@ -221,17 +218,14 @@ void I_ReadGameController(void)
             gamecontrollerthumbLY = 0;
         }
 
-        magnitude = sqrtf((float)RX * RX + RY * RY);
-
-        if (magnitude > gamecontrollerrightdeadzone)
+        if ((magnitude = sqrtf((float)RX * RX + RY * RY)) > gamecontrollerrightdeadzone)
         {
             if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                 magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-            normalizedmagnitude = (magnitude - gamecontrollerrightdeadzone)
+            magnitude = (magnitude - gamecontrollerrightdeadzone)
                 / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerrightdeadzone);
-            magnitude = normalizedmagnitude;
-            normalizedmagnitude = powf(normalizedmagnitude, 3.0f);
+            normalizedmagnitude = powf(magnitude, 3.0f);
 
             gamecontrollerthumbRX = (short)(normalizedmagnitude * RX / magnitude);
             gamecontrollerthumbRY = (short)(normalizedmagnitude * RY / magnitude);
