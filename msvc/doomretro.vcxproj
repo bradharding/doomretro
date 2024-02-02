@@ -102,7 +102,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.29.3\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.0\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -127,7 +127,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateMapFile>false</GenerateMapFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.29.3\lib\x86;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x86;$(ProjectDir)..\SDL2_image-2.8.2\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.30.0\lib\x86;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x86;$(ProjectDir)..\SDL2_image-2.8.2\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -143,7 +143,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.29.3\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.0\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -168,7 +168,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <GenerateMapFile>false</GenerateMapFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.29.3\lib\x64;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x64;$(ProjectDir)..\SDL2_image-2.8.2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.30.0\lib\x64;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x64;$(ProjectDir)..\SDL2_image-2.8.2\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -185,7 +185,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.29.3\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.0\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -235,7 +235,7 @@
       <EnableUAC>false</EnableUAC>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.29.3\lib\x86;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x86;$(ProjectDir)..\SDL2_image-2.8.2\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.30.0\lib\x86;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x86;$(ProjectDir)..\SDL2_image-2.8.2\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
@@ -252,7 +252,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.29.3\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.0\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -302,7 +302,7 @@
       <EnableUAC>false</EnableUAC>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.29.3\lib\x64;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x64;$(ProjectDir)..\SDL2_image-2.8.2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.30.0\lib\x64;$(ProjectDir)..\SDL2_mixer-2.8.0\lib\x64;$(ProjectDir)..\SDL2_image-2.8.2\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>

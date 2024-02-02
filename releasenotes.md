@@ -3,7 +3,7 @@
 ### DOOM Retro v5.3
 
 * *DOOM Retro* is now built using v17.8.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.29.3*](https://github.com/libsdl-org/SDL/releases/tag/prerelease-2.29.3) and [*SDL_mixer v2.8.0*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.0).
+* *DOOM Retro* now uses [*SDL v2.30.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.0) and [*SDL_mixer v2.8.0*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.0).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to moving the player using a controller.
@@ -11,7 +11,7 @@
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * When using the `IDCLEV` cheat to restart the current map, the player message displayed is now always correct.
-* Restoring a feature present in the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
+* Restoring a feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the top and left edges of the automap.
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
