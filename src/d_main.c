@@ -2325,6 +2325,9 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
+    W_Init();
+    D_IdentifyVersion();
+
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
         D_SetAutoloadFolder();
@@ -2394,8 +2397,6 @@ static void D_DoomMainSetup(void)
             autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
     }
 
-    W_Init();
-
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
     PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_GetNumLumps("PLAYPAL"));
@@ -2430,7 +2431,6 @@ static void D_DoomMainSetup(void)
     I_InitGraphics();
     I_InitGameController();
 
-    D_IdentifyVersion();
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
     D_PostProcessDeh();
