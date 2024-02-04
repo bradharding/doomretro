@@ -296,7 +296,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 // calculate lighting
                 if (!fixedcolormap)
                 {
-                    const int   index = MIN((int)(spryscale / (90.0 / r_fov)) >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                    const int   index = MIN((int)(spryscale / fovdiff) >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                     dc_colormap[0] = walllights[index];
                     dc_nextcolormap[0] = walllightsnext[index];
@@ -377,7 +377,7 @@ static void R_RenderSegLoop(void)
 
             if (!fixedcolormap)
             {
-                const int   index = MIN((int)(rw_scale / (90.0 / r_fov)) >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                const int   index = MIN((int)(rw_scale / fovdiff) >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];

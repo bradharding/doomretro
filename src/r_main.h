@@ -57,6 +57,8 @@ extern fixed_t  viewheightfrac;
 extern bool     usebrightmaps;
 extern int      validcount;
 
+extern double   fovdiff;
+
 //
 // Lighting LUT.
 // Used for z-depth cuing per column/row,
