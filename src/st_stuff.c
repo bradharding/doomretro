@@ -728,7 +728,7 @@ bool ST_Responder(const event_t *ev)
                         }
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
-                            s_STSTR_BEHOLD, tolower(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                            s_STSTR_BEHOLD, cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]);
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, "", buffer, true);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
@@ -777,7 +777,7 @@ bool ST_Responder(const event_t *ev)
                         }
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
-                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                            s_STSTR_BEHOLD, cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]);
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, "", buffer, false);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
@@ -994,8 +994,6 @@ bool ST_Responder(const event_t *ev)
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
-                    else if (FREEDOOM && gamemode != commercial)
-                        M_snprintf(lump, sizeof(lump), "C%cM%c", buffer[0], buffer[1]);
 
                     if (M_StringCompare(lump, mapnum))
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
