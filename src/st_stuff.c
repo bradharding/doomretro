@@ -728,8 +728,8 @@ bool ST_Responder(const event_t *ev)
                         }
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
-                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
-                        ST_PlayerCheated(cheat_powerup[NUMPOWERS - 1].sequence, "", buffer, true);
+                            s_STSTR_BEHOLD, tolower(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, "", buffer, true);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
