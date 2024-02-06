@@ -2744,7 +2744,7 @@ static void give_func2(char *cmd, char *parms)
                 result = true;
 
             for (int i = 0; i < NUMPOWERS; i++)
-                if (P_GivePower(i))
+                if (P_GivePower(i, false))
                     result = true;
 
             if (result)
@@ -3001,7 +3001,7 @@ static void give_func2(char *cmd, char *parms)
             bool    result = false;
 
             for (int i = 0; i < NUMPOWERS; i++)
-                if (P_GivePower(i))
+                if (P_GivePower(i, false))
                     result = true;
 
             if (result)
@@ -6142,6 +6142,12 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    temp1 = commify(viewplayer->itemspickedup_powerups);
+    temp2 = commifystat(stat_itemspickedup_powerups);
+    C_TabbedOutput(tabs, INDENT "Power-ups\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     temp1 = commify(viewplayer->secretcount);
     temp2 = commify(totalsecrets);
     temp3 = commifystat(stat_secretsfound);
@@ -6623,6 +6629,10 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = commifystat(stat_itemspickedup_health);
     C_TabbedOutput(tabs, INDENT "Health\t\x96\t%s", temp1);
+    free(temp1);
+
+    temp1 = commifystat(stat_itemspickedup_powerups);
+    C_TabbedOutput(tabs, INDENT "Power-ups\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_secretsfound);

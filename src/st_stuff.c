@@ -523,7 +523,7 @@ bool ST_Responder(const event_t *ev)
             {
                 bool    ammogiven;
                 bool    armorgiven = false;
-                bool    berserkgiven = P_GivePower(pw_strength);
+                bool    berserkgiven = P_GivePower(pw_strength, false);
                 bool    weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] note if player doesn't have full armor before giving it
@@ -565,7 +565,7 @@ bool ST_Responder(const event_t *ev)
             {
                 bool    ammogiven;
                 bool    armorgiven = false;
-                bool    berserkgiven = P_GivePower(pw_strength);
+                bool    berserkgiven = P_GivePower(pw_strength, false);
                 bool    weaponsgiven = P_GiveAllWeapons();
                 bool    keysgiven = P_GiveAllCardsInMap();
 
@@ -698,7 +698,7 @@ bool ST_Responder(const event_t *ev)
                             viewplayer->cheats &= ~CF_GODMODE;
                         }
 
-                        P_GivePower(i);
+                        P_GivePower(i, false);
 
                         // [BH] set to -1 so power-up won't run out, but can still be toggled off using cheat
                         if (i != pw_strength)
@@ -867,7 +867,7 @@ bool ST_Responder(const event_t *ev)
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
-                    P_GivePower(pw_invulnerability);
+                    P_GivePower(pw_invulnerability, false);
                     viewplayer->powers[pw_invulnerability] = -1;
 
                     ST_PlayerCheated(cheat_choppers.sequence, "", NULL, true);

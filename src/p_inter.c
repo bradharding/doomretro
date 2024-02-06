@@ -692,10 +692,16 @@ bool P_GiveAllCardsInMap(void)
     return result;
 }
 
+void P_UpdatePowerupsStat(void)
+{
+    viewplayer->itemspickedup_powerups++;
+    stat_itemspickedup_powerups = SafeAdd(stat_itemspickedup_powerups, 1);
+}
+
 //
 // P_GivePower
 //
-bool P_GivePower(const int power)
+bool P_GivePower(const int power, const bool stat)
 {
     const int tics[] =
     {
@@ -739,7 +745,9 @@ bool P_GivePower(const int power)
             break;
     }
 
-    given = (viewplayer->powers[power] <= 0);
+    if ((given = (viewplayer->powers[power] <= 0)) && stat)
+        P_UpdatePowerupsStat();
+
     viewplayer->powers[power] = tics[power];
 
     return given;
@@ -980,7 +988,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // invulnerability power-up
         case SPR_PINV:
-            P_GivePower(pw_invulnerability);
+            P_GivePower(pw_invulnerability, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
@@ -993,7 +1001,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         {
             const int   strength = viewplayer->powers[pw_strength];
 
-            P_GivePower(pw_strength);
+            P_GivePower(pw_strength, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
@@ -1014,7 +1022,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // partial invisibility power-up
         case SPR_PINS:
-            P_GivePower(pw_invisibility);
+            P_GivePower(pw_invisibility, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVIS, true, false);
@@ -1024,7 +1032,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // radiation shielding suit power-up
         case SPR_SUIT:
-            P_GivePower(pw_ironfeet);
+            P_GivePower(pw_ironfeet, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSUIT, true, false);
@@ -1034,7 +1042,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // computer area map power-up
         case SPR_PMAP:
-            P_GivePower(pw_allmap);
+            P_GivePower(pw_allmap, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMAP, true, false);
@@ -1044,7 +1052,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // light amplification visor power-up
         case SPR_PVIS:
-            P_GivePower(pw_infrared);
+            P_GivePower(pw_infrared, stat);
 
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTVISOR, true, false);

@@ -42,7 +42,7 @@ bool P_GiveAllCards(void);
 bool P_GiveAllKeyCards(void);
 bool P_GiveAllSkullKeys(void);
 bool P_GiveAllCardsInMap(void);
-bool P_GivePower(const int power);
+bool P_GivePower(const int power, const bool stat);
 bool P_GiveAllWeapons(void);
 bool P_GiveBackpack(const bool giveammo, const bool stat);
 bool P_GiveFullAmmo(void);

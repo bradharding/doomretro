@@ -617,6 +617,7 @@ void G_DoLoadLevel(void)
     viewplayer->itemspickedup_ammo_shells = 0;
     viewplayer->itemspickedup_armor = 0;
     viewplayer->itemspickedup_health = 0;
+    viewplayer->itemspickedup_powerups = 0;
     memset(viewplayer->monsterskilled, 0, sizeof(viewplayer->monsterskilled));
     viewplayer->prevmessage[0] = '\0';
     viewplayer->prevmessagetics = 0;

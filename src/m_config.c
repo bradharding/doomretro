@@ -240,6 +240,7 @@ uint64_t    stat_itemspickedup_ammo_rockets = 0;
 uint64_t    stat_itemspickedup_ammo_shells = 0;
 uint64_t    stat_itemspickedup_armor = 0;
 uint64_t    stat_itemspickedup_health = 0;
+uint64_t    stat_itemspickedup_powerups = 0;
 uint64_t    stat_mapsfinished = 0;
 uint64_t    stat_mapsstarted = 0;
 uint64_t    stat_monstersgibbed = 0;
@@ -482,6 +483,7 @@ static default_t cvars[] =
     CVAR_INT_UNSIGNED (itemspickedup_ammo_cells,         stat_itemspickedup_ammo_cells,         stat_itemspickedup_ammo_cells,       NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (itemspickedup_armor,              stat_itemspickedup_armor,              stat_itemspickedup_armor,            NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (itemspickedup_health,             stat_itemspickedup_health,             stat_itemspickedup_health,           NOVALUEALIAS       ),
+    CVAR_INT_UNSIGNED (itemspickedup_powerups,           stat_itemspickedup_powerups,           stat_itemspickedup_powerups,         NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (mapsfinished,                     mapscompleted,                         stat_mapsfinished,                   NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (mapsstarted,                      stat_mapsstarted,                      stat_mapsstarted,                    NOVALUEALIAS       ),
     CVAR_INT_UNSIGNED (monstersgibbed,                   stat_monstersgibbed,                   stat_monstersgibbed,                 NOVALUEALIAS       ),
