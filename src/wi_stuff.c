@@ -369,7 +369,7 @@ static void WI_DrawWILV(int y, char *str)
 // Draws "<LevelName> Finished!"
 static void WI_DrawLF(void)
 {
-    const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
+    const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2 + 1;
     int         y = WI_TITLEY;
     const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->last + 1);
 
