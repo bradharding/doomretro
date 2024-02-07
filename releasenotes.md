@@ -21,6 +21,7 @@
 * A bug is fixed whereby the player’s angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * Lighting is no longer affected when the `r_fov` CVAR is changed from its default of `90`°.
+* The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
