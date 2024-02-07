@@ -7718,8 +7718,14 @@ static void spawn_func2(char *cmd, char *parms)
             }
 
             if (gamemode == shareware
-                && (spawncmdtype == Cyberdemon || spawncmdtype == SpiderMastermind
-                    || spawncmdtype == Berserk || spawncmdtype == HelperDog))
+                && (spawncmdtype == SpiderMastermind
+                    || spawncmdtype == Cyberdemon
+                    || spawncmdtype == CellPack
+                    || spawncmdtype == HelperDog
+                    || spawncmdtype == PlasmaRifle
+                    || spawncmdtype == BFG9000
+                    || spawncmdtype == Berserk
+                    || spawncmdtype == Cell))
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 
