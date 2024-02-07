@@ -773,8 +773,7 @@ enum
 #define vid_pillarboxes_default             false
 
 #if defined(_WIN32)
-#define vid_scaleapi_direct3d9              "direct3d9"
-#define vid_scaleapi_direct3d11             "direct3d11"
+#define vid_scaleapi_direct3d               "direct3d"
 #endif
 #define vid_scaleapi_opengl                 "opengl"
 #if !defined(_WIN32)
@@ -783,7 +782,7 @@ enum
 #endif
 #define vid_scaleapi_software               "software"
 #if defined(_WIN32)
-#define vid_scaleapi_default                vid_scaleapi_direct3d11
+#define vid_scaleapi_default                vid_scaleapi_direct3d
 #else
 #define vid_scaleapi_default                vid_scaleapi_opengl
 #endif

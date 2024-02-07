@@ -975,8 +975,7 @@ static void M_CheckCVARs(void)
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d9)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d11)
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
 #else
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
