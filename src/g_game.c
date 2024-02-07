@@ -1097,7 +1097,7 @@ void G_Ticker(void)
     if (oldgamestate == GS_INTERMISSION && gamestate != GS_INTERMISSION)
         WI_End();
     else if (oldgamestate == GS_LEVEL && gamestate == GS_INTERMISSION)
-        I_Sleep(700);
+        I_Sleep(500);
 
     oldgamestate = gamestate;
 
