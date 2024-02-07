@@ -353,9 +353,12 @@ static void P_XYMovement(mobj_t *mo)
 //
 static void P_ZMovement(mobj_t *mo)
 {
-    player_t        *player = mo->player;
-    const int       flags = mo->flags;
-    const fixed_t   floorz = mo->floorz;
+    player_t    *player = mo->player;
+    const int   flags = mo->flags;
+    fixed_t     floorz = mo->floorz;
+
+    if (P_IsInLiquid(mo))
+        floorz -= FOOTCLIPSIZE;
 
     // killough 07/11/98:
     // BFG fireballs bounced on floors and ceilings in Pre-Beta DOOM
