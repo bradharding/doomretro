@@ -1096,6 +1096,8 @@ void G_Ticker(void)
     // Have we just finished displaying an intermission screen?
     if (oldgamestate == GS_INTERMISSION && gamestate != GS_INTERMISSION)
         WI_End();
+    else if (oldgamestate == GS_LEVEL && gamestate == GS_INTERMISSION)
+        I_Sleep(700);
 
     oldgamestate = gamestate;
 
@@ -1315,8 +1317,6 @@ static void G_DoCompleted(void)
     gameaction = ga_nothing;
 
     I_UpdateBlitFunc(false);
-
-    I_Sleep(700);
 
     G_PlayerFinishLevel();      // take away cards and stuff
 
