@@ -131,7 +131,6 @@ extern alias_t          aliases[MAXALIASES];
 extern bool             executingalias;
 extern bool             healthcvar;
 extern bool             massacre;
-extern bool             firstkill;
 extern bool             nobindoutput;
 extern bool             parsingcfgfile;
 extern bool             quitcmd;

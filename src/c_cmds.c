@@ -3295,8 +3295,7 @@ static void if_func2(char *cmd, char *parms)
 static bool     killcmdfriendly;
 static int      killcmdtype = NUMMOBJTYPES;
 static mobj_t   *killcmdmobj;
-bool            massacre = false;
-bool            firstkill = false;
+bool            massacre;
 
 static bool kill_func1(char *cmd, char *parms)
 {
@@ -3508,7 +3507,6 @@ static void kill_func2(char *cmd, char *parms)
             if (friends || enemies || all)
             {
                 massacre = true;
-                firstkill = true;
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)

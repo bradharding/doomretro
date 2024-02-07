@@ -1900,13 +1900,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
     else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
         sound = sfx_bgdth1 + M_Random() % 2;
 
-    if ((actor->flags2 & MF2_MASSACRE) && firstkill)
-    {
-        firstkill = false;
-        S_StartSound(NULL, sound);
-    }
-    else
-        S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor), sound);
+    S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor), sound);
 }
 
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp)
