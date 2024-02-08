@@ -43,7 +43,7 @@
 #include "z_zone.h"
 
 int         maptime;
-int         totaltime = 0;
+int         totaltime;
 
 //
 // THINKERS

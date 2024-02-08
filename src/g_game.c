@@ -1762,6 +1762,7 @@ void G_DeferredInitNew(skill_t skill, int ep, int map)
     d_map = map;
     gameaction = ga_newgame;
     infight = false;
+    totaltime = 0;
 
     if (skill == sk_baby)
         stat_skilllevel_imtooyoungtodie = SafeAdd(stat_skilllevel_imtooyoungtodie, 1);
