@@ -2969,7 +2969,7 @@ void P_MapName(int ep, int map)
             const int   index = (int)(pos - maptitle) + 1;
             char        *temp;
 
-            if ((toupper(maptitle[0]) == 'C' || toupper(maptitle[0]) == 'Z') && isdigit(maptitle[1])
+            if (toupper(maptitle[0]) == 'Z' && isdigit(maptitle[1])
                 && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]))
             {
                 M_StringCopy(mapnum, maptitle, 5);
@@ -3090,10 +3090,6 @@ void P_SetupLevel(int ep, int map)
     viewplayer->killcount = 0;
     viewplayer->secretcount = 0;
     viewplayer->itemcount = 0;
-
-    // Initial height of PointOfView
-    // will be set by player think.
-    viewplayer->viewz = 1;
 
     idclev = false;
     idclevtics = 0;
