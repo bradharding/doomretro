@@ -216,6 +216,7 @@ extern int              player1starts;
 
 // Timer, for scores.
 extern int              maptime;        // tics in game play for par
+extern int              totaltime;
 
 // ?
 extern gamestate_t      gamestate;

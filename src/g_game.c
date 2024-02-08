@@ -1153,6 +1153,8 @@ static void G_PlayerFinishLevel(void)
         viewplayer->readyweapon = wp_chainsaw;
 
     viewplayer->fistorchainsaw = (viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
+
+    totaltime += maptime;
 }
 
 //

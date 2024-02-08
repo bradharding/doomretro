@@ -860,6 +860,10 @@ static void WI_InitStats(void)
         C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
             wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
+    if (totaltime > maptime)
+        C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+            totaltime / TICRATE / 60, totaltime / TICRATE % 60);
+
     WI_InitAnimatedBack();
 }
 
