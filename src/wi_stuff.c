@@ -1016,7 +1016,7 @@ static void WI_DrawStats(void)
     if (totalsecrets)
     {
         if (!WISCRT2)
-            M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets", false, true);
+            M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 2, "secrets", false, true);
         else
             V_DrawMenuPatch(SP_STATSX, SP_STATSY + 2 * lh + 1, sp_secret, false, VANILLAWIDTH);
 
