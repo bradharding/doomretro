@@ -1007,10 +1007,10 @@ static void WI_DrawStats(void)
 
     WI_DrawLF();
 
-    V_DrawMenuPatch(SP_STATSX + 1, SP_STATSY + 1, kills, false, VANILLAWIDTH);
+    V_DrawMenuPatch(SP_STATSX, SP_STATSY + 1, kills, false, VANILLAWIDTH);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
 
-    V_DrawMenuPatch(SP_STATSX + 1, SP_STATSY + lh + 1, items, false, VANILLAWIDTH);
+    V_DrawMenuPatch(SP_STATSX, SP_STATSY + lh + 1, items, false, VANILLAWIDTH);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
 
     if (totalsecrets)
@@ -1018,7 +1018,7 @@ static void WI_DrawStats(void)
         if (!WISCRT2)
             M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets", false, true);
         else
-            V_DrawMenuPatch(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false, VANILLAWIDTH);
+            V_DrawMenuPatch(SP_STATSX, SP_STATSY + 2 * lh + 1, sp_secret, false, VANILLAWIDTH);
 
         WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
     }
