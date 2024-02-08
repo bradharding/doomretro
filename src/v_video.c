@@ -1543,7 +1543,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
                 const byte  src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
-                    *dest = tinttab33[(*dest << 8) + src];
+                    *dest = tinttab25[(*dest << 8) + src];
 
                 dest += SCREENWIDTH;
                 srccol += DYI;
