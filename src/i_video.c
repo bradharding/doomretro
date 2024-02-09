@@ -66,7 +66,7 @@
 void I_InitWindows32(void);
 #endif
 
-#define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+#define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 200000.0)
 
 int                 SCREENWIDTH;
 int                 SCREENHEIGHT = VANILLAHEIGHT * 2;

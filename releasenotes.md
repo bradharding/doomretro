@@ -24,6 +24,7 @@
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
 * A bug is fixed whereby the screen would sometimes glitch slightly when the player exited a map.
 * Minor improvements have been made to the intermission screen.
+* The severity of the screen shaking when the player receives damage and the `r_shake_damage` CVAR is `on` has been reduced.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
