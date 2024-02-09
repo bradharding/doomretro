@@ -1040,7 +1040,7 @@ static void WI_DrawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3),
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 7),
             SP_TIMEY + 1, par, false, VANILLAWIDTH);
         WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par);
     }
