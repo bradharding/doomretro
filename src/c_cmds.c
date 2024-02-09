@@ -4967,16 +4967,8 @@ static void mapstats_func2(char *cmd, char *parms)
                     (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
     if (partime)
-    {
-        const int   hours = partime / 3600;
-
-        if (hours)
-            C_TabbedOutput(tabs, "Par time\t" MONOSPACED("i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                hours, partime / 60, partime % 60);
-        else
-            C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                partime / 60, partime % 60);
-    }
+        C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+            partime / 60, partime % 60);
 
     temp = commify(numspawnedthings);
     C_TabbedOutput(tabs, "Things\t%s", temp);
