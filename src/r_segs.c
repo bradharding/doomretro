@@ -96,7 +96,6 @@ static int          *maskedtexturecol;  // dropoff overflow
 
 unsigned int        maxdrawsegs;
 
-
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
