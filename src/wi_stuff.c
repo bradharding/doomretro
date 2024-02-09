@@ -861,8 +861,16 @@ static void WI_InitStats(void)
             wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     if (totaltime > maptime)
-        C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-            totaltime / TICRATE / 60, totaltime / TICRATE % 60);
+    {
+        const int   hours = totaltime / TICRATE / 3600;
+
+        if (hours)
+            C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                hours, hours / TICRATE / 60, hours / TICRATE % 60);
+        else
+            C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                totaltime / TICRATE / 60, totaltime / TICRATE % 60);
+    }
 
     WI_InitAnimatedBack();
 }
