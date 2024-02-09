@@ -628,6 +628,7 @@ void G_DoLoadLevel(void)
     viewplayer->automapopened = 0;
     viewplayer->monstersgibbed = 0;
 
+    prevmessage[0] = '\0';
     freeze = false;
 
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);

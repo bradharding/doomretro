@@ -71,6 +71,8 @@ static bool             message_on;
 static bool             message_external;
 static bool             message_nottobefuckedwith;
 
+char                    prevmessage[133];
+
 bool                    idbehold = false;
 bool                    s_STSTR_BEHOLD2;
 
@@ -1638,6 +1640,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
         viewplayer->prevmessagetics = gametime;
     }
 
+    M_StringCopy(prevmessage, viewplayer->message, sizeof(prevmessage));
     message_external = (external && mapwindow);
 }
 
