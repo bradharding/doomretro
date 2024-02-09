@@ -663,7 +663,7 @@ static void WI_DrawTime(int x, int y, int t)
     x += (SHORT(num[0]->width) - 11) * 4;
 
     if (sucktime && t > sucktime * 61 * 59)
-        V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false, VANILLAWIDTH);
+        V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 12, y + 1, sucks, false, VANILLAWIDTH);
     else
     {
         int div = 1;
