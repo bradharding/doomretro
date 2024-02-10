@@ -2569,8 +2569,16 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         }
 
     // [BH] make use of name in parentheses on thing line if present (it often is)
-    if (*name && name[0] == '_')
-        strcpy(&name[0], &name[1]);
+    if (*name)
+    {
+        char    *ptr = strchr(name, '(');
+
+        if (name[0] == '_')
+            strcpy(&name[0], &name[1]);
+
+        if (ptr)
+            *ptr = '\0';
+    }
 
     if (devparm)
     {
