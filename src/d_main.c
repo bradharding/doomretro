@@ -2342,14 +2342,13 @@ static void D_DoomMainSetup(void)
                 nosigil = true;
             else
             {
-
                 autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL.wad", autoloadfolder, false);
 
-                if (!autoloading)
+                if (!autoloading && !REKKRSL)
                 {
                     autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
                     autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);

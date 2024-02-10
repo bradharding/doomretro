@@ -3701,7 +3701,6 @@ bool M_Responder(event_t *ev)
 
         else if (key == KEY_RIGHTARROW && !helpscreen)
         {
-
             // Slide slider right
             if (currentmenu->menuitems[itemon].status == 2 && currentmenu->menuitems[itemon].routine)
                 currentmenu->menuitems[itemon].routine(1);
