@@ -9466,12 +9466,11 @@ static void player_cvars_func2(char *cmd, char *parms)
                         viewplayer->damagecount = viewplayer->health - value;
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
+                        healthcvar = true;
 
                         if (value <= 0)
                         {
-                            healthcvar = true;
                             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
-                            healthcvar = false;
                             C_HideConsole();
                         }
                         else

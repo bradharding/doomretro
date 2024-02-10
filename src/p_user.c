@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -291,6 +292,8 @@ static void P_ReduceDamageCount(void)
         if (r_shake_damage)
             I_UpdateBlitFunc(viewplayer->damagecount);
     }
+    else
+        healthcvar = false;
 }
 
 //
@@ -611,7 +614,12 @@ void P_PlayerThink(void)
     if (consoleactive)
     {
         if (viewplayer->damagecount)
-            viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+        {
+            if (!healthcvar)
+                viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+
+            P_ReduceDamageCount();
+        }
 
         return;
     }
