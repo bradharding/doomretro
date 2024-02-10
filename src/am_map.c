@@ -1502,10 +1502,10 @@ static void AM_DrawWalls(void)
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
+        if (lbbox[BOXLEFT] <= am_frame.bbox[BOXRIGHT]
+            && lbbox[BOXRIGHT] >= am_frame.bbox[BOXLEFT]
+            && lbbox[BOXBOTTOM]  <= am_frame.bbox[BOXTOP]
+            && lbbox[BOXTOP] >= am_frame.bbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
@@ -1551,10 +1551,10 @@ static void AM_DrawWalls_AllMap(void)
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
+        if (lbbox[BOXLEFT] <= am_frame.bbox[BOXRIGHT]
+            && lbbox[BOXRIGHT] >= am_frame.bbox[BOXLEFT]
+            && lbbox[BOXBOTTOM] <= am_frame.bbox[BOXTOP]
+            && lbbox[BOXTOP] >= am_frame.bbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
@@ -1603,10 +1603,10 @@ static void AM_DrawWalls_Cheating(void)
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
+        if (lbbox[BOXLEFT] <= am_frame.bbox[BOXRIGHT]
+            && lbbox[BOXRIGHT] >= am_frame.bbox[BOXLEFT]
+            && lbbox[BOXBOTTOM] <= am_frame.bbox[BOXTOP]
+            && lbbox[BOXTOP] >= am_frame.bbox[BOXBOTTOM])
         {
             mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
                                               { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
@@ -2138,19 +2138,19 @@ static void AM_SetFrameVariables(void)
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];
 
-        am_frame.bbox[BOXLEFT] = x - r;
-        am_frame.bbox[BOXRIGHT] = x + r;
-        am_frame.bbox[BOXBOTTOM] = y - r;
-        am_frame.bbox[BOXTOP] = y + r;
+        am_frame.bbox[BOXLEFT] = (x - r) << FRACTOMAPBITS;
+        am_frame.bbox[BOXRIGHT] = (x + r) << FRACTOMAPBITS;
+        am_frame.bbox[BOXBOTTOM] = (y - r) << FRACTOMAPBITS;
+        am_frame.bbox[BOXTOP] = (y + r) << FRACTOMAPBITS;
 
         rotatelinefunc = &AM_RotateLine;
     }
     else
     {
-        am_frame.bbox[BOXLEFT] = m_x;
-        am_frame.bbox[BOXRIGHT] = m_x + m_w;
-        am_frame.bbox[BOXBOTTOM] = m_y;
-        am_frame.bbox[BOXTOP] = m_y + m_h;
+        am_frame.bbox[BOXLEFT] = m_x << FRACTOMAPBITS;
+        am_frame.bbox[BOXRIGHT] = (m_x + m_w) << FRACTOMAPBITS;
+        am_frame.bbox[BOXBOTTOM] = m_y << FRACTOMAPBITS;
+        am_frame.bbox[BOXTOP] = (m_y + m_h) << FRACTOMAPBITS;
 
         rotatelinefunc = &AM_DoNotRotateLine;
     }
