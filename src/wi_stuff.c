@@ -493,9 +493,9 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
 
     if (fits && i < 2)
     {
-        if (c[i] == *splat)
+        if (c[i] == splat[0] || c[i] == splat[1])
             V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, c[i]);
-        else if (c[i] == *yah)
+        else if (c[i] == yah[0] || c[i] == yah[1])
             V_DrawNoGreenPatchWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1, c[i]);
         else
             V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, 0, c[i]);
