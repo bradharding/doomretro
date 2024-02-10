@@ -2028,6 +2028,9 @@ static void D_DoomMainSetup(void)
     dsdh_InitTables();
     D_BuildBEXTables();
 
+    // Load configuration files before initializing other subsystems.
+    M_LoadCVARs(configfile);
+
 #if defined(_WIN32)
     C_PrintCompileDate();
     I_PrintWindowsVersion();
@@ -2035,9 +2038,6 @@ static void D_DoomMainSetup(void)
 
     I_PrintSystemInfo();
     C_PrintSDLVersions();
-
-    // Load configuration files before initializing other subsystems.
-    M_LoadCVARs(configfile);
 
     SDL_Init(SDL_INIT_EVERYTHING);
 
