@@ -3838,7 +3838,7 @@ static void kill_func2(char *cmd, char *parms)
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                        if (type == thing->type && !!(thing->flags & MF_FRIEND) == killcmdfriendly)
+                        if (type == thing->type && (!!(thing->flags & MF_FRIEND) == killcmdfriendly || type == MT_DOGS))
                         {
                             if (type == MT_PAIN)
                             {
