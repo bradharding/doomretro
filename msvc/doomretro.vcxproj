@@ -491,7 +491,6 @@
     <None Include="..\.github\FUNDING.yml" />
     <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
-    <None Include="..\codeblocks\doomretro.cbp" />
     <None Include="..\CODEOWNERS" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
