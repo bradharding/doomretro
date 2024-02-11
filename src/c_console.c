@@ -1111,7 +1111,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (letter == '-')
                         x++;
-                    else if (letter == '\'')
+                    else if (letter == '\'' && prevletter != 'M')
                         x--;
                     else if (letter == 'v' && prevletter == '-')
                         x--;
