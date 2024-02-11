@@ -2670,7 +2670,7 @@ static void D_DoomMainSetup(void)
     logowidth = SHORT(logolump[0]->width);
     logoheight = SHORT(logolump[0]->height);
     logox = (SCREENWIDTH - logowidth) / 2;
-    logoy = (SCREENHEIGHT - logoheight) / 2;
+    logoy = (SCREENHEIGHT - logoheight) / 2 - 1;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     fineprintwidth = SHORT(fineprintlump->width);
