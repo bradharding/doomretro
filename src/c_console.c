@@ -2713,16 +2713,16 @@ bool C_Responder(event_t *ev)
 #if defined(_WIN32)
 void C_PrintCompileDate(void)
 {
-    char    mth[4] = "";
+    char    shortmonthname[4] = "";
     int     minute, hour, day, year;
 
-    if (sscanf(__DATE__, "%3s %2i %4i", mth, &day, &year) == 3
+    if (sscanf(__DATE__, "%3s %2i %4i", shortmonthname, &day, &year) == 3
         && sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2)
     {
-        const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-        const int   month = (int)(strstr(mths, mth) - mths) / 3;
+        const char  shortmonthnames[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+        const int   month = (int)(strstr(shortmonthnames, shortmonthname) - shortmonthnames) / 3;
 
-        const char *months[] =
+        const char *monthnames[] =
         {
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -2732,7 +2732,7 @@ void C_PrintCompileDate(void)
             " was built with love by %s at %i:%02i%s on %s, %s %i, %i in %s.",
             8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
-            dayofweek(day, month + 1, year), months[month], day, year, DOOMRETRO_PLACEOFORIGIN);
+            dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_PLACEOFORIGIN);
     }
 
 #if defined(__clang__)
@@ -2744,13 +2744,11 @@ void C_PrintCompileDate(void)
     C_Output("It was compiled using the " ITALICS("Intel C++ Compiler."));
 #elif defined(_MSC_FULL_VER) && defined(_MSC_BUILD)
     if (_MSC_BUILD)
-        C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000,
-            _MSC_BUILD, (english == english_american ? "Optimizing" : "Optimising"));
+        C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD);
     else
-        C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000,
-            (english == english_american ? "Optimizing" : "Optimising"));
+        C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
 #endif
 }
 #endif

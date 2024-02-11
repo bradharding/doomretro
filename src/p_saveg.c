@@ -541,7 +541,6 @@ static void saveg_read_player_t(void)
     viewplayer->itemspickedup_armor = saveg_read32();
     viewplayer->itemspickedup_health = saveg_read32();
     viewplayer->suicides = saveg_read32();
-
     viewplayer->bounce = saveg_read32();
     viewplayer->bouncemax = saveg_read32();
 
@@ -653,7 +652,6 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->itemspickedup_armor);
     saveg_write32(viewplayer->itemspickedup_health);
     saveg_write32(viewplayer->suicides);
-
     saveg_write32(viewplayer->bounce);
     saveg_write32(viewplayer->bouncemax);
 
