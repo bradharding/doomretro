@@ -3506,8 +3506,6 @@ static void kill_func2(char *cmd, char *parms)
 
             if (friends || enemies || all)
             {
-                massacre = true;
-
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
@@ -3537,7 +3535,9 @@ static void kill_func2(char *cmd, char *parms)
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
+                                    massacre = true;
                                     P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
+                                    massacre = false;
 
                                     if (r_corpses_moreblood && !(flags & MF_NOBLOOD) && type != MT_SKULL && type != MT_SHADOWS)
                                         P_SpawnMoreBlood(thing);
@@ -3547,8 +3547,6 @@ static void kill_func2(char *cmd, char *parms)
                             }
                         }
                     }
-
-                massacre = false;
 
                 if (kills)
                 {
@@ -3782,7 +3780,6 @@ static void kill_func2(char *cmd, char *parms)
             {
                 char    *temp = sentencecase(parm);
 
-                massacre = true;
 
                 if (killcmdmobj->type == MT_PAIN)
                 {
@@ -3807,13 +3804,14 @@ static void kill_func2(char *cmd, char *parms)
                         stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                         M_SaveCVARs();
                         free(temp);
-                        massacre = false;
                     }
                 }
                 else
                 {
                     killcmdmobj->flags2 |= MF2_MASSACRE;
+                    massacre = true;
                     P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
+                    massacre = false;
 
                     if (M_StringCompare(playername, playername_default))
                         M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
@@ -3827,7 +3825,6 @@ static void kill_func2(char *cmd, char *parms)
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                     M_SaveCVARs();
                     free(temp);
-                    massacre = false;
                 }
             }
             else
@@ -3856,7 +3853,9 @@ static void kill_func2(char *cmd, char *parms)
                             else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
+                                massacre = true;
                                 P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
+                                massacre = false;
                                 kills++;
                             }
                             else if (thing->flags & MF_SPECIAL)
@@ -3873,8 +3872,6 @@ static void kill_func2(char *cmd, char *parms)
                                 P_RemoveMobj(thing);
                                 kills++;
                             }
-
-                            massacre = false;
                         }
 
                 if (kills)
