@@ -2235,9 +2235,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (!(flags & MF_NOBLOOD))
         {
             angle_t ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
-                        target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
+                target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y) >> ANGLETOFINESHIFT;
 
-            target->momx += FixedMul(MASSACRETHRUST, finecosine[(ang >>= ANGLETOFINESHIFT)]);
+            target->momx += FixedMul(MASSACRETHRUST, finecosine[ang]);
             target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
         }
     }

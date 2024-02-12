@@ -111,7 +111,7 @@ bool isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
-char *pronoun(pronoun_t type);
+const char *pronoun(const pronoun_t type);
 void M_AmericanToBritishEnglish(char *string);
 void M_BritishToAmericanEnglish(char *string);
 void M_TranslateAutocomplete(void);

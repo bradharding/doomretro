@@ -1024,7 +1024,7 @@ void M_NormalizeSlashes(char *str)
                 p++;
 }
 
-char *pronoun(pronoun_t type)
+const char *pronoun(const pronoun_t type)
 {
     if (type == personal)
         return (playergender == playergender_male ? "he" :
