@@ -2054,7 +2054,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     if (target->flags & MF_COUNTKILL)
     {
         // count all monster deaths, even those caused by other monsters
-        viewplayer->killcount++;
+        if (!(target->flags & MF_FRIEND))
+            viewplayer->killcount++;
 
         if (type < NUMMOBJTYPES)
         {

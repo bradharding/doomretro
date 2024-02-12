@@ -3528,7 +3528,10 @@ static void kill_func2(char *cmd, char *parms)
                                     P_SetMobjState(thing, S_PAIN_DIE6);
                                     viewplayer->monsterskilled[MT_PAIN]++;
                                     stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
-                                    viewplayer->killcount++;
+
+                                    if (!(flags & MF_FRIEND))
+                                        viewplayer->killcount++;
+
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
                                     kills++;
                                 }
@@ -3785,7 +3788,10 @@ static void kill_func2(char *cmd, char *parms)
                         P_SetMobjState(killcmdmobj, S_PAIN_DIE6);
                         viewplayer->monsterskilled[MT_PAIN]++;
                         stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
-                        viewplayer->killcount++;
+
+                        if (!(killcmdmobj->flags & MF_FRIEND))
+                            viewplayer->killcount++;
+
                         stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
 
                         if (M_StringCompare(playername, playername_default))
@@ -3841,7 +3847,10 @@ static void kill_func2(char *cmd, char *parms)
                                     P_SetMobjState(thing, S_PAIN_DIE6);
                                     viewplayer->monsterskilled[MT_PAIN]++;
                                     stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
-                                    viewplayer->killcount++;
+
+                                    if (!(thing->flags & MF_FRIEND))
+                                        viewplayer->killcount++;
+
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
                                     kills++;
                                 }
