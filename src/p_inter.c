@@ -52,7 +52,7 @@
 #include "s_sound.h"
 #include "st_stuff.h"
 
-#define MASSACRETHRUST  (20 * (FRACUNIT >> 5))
+#define MASSACRETHRUST  (40 * (FRACUNIT >> 5))
 
 // Ty 03/07/98 - add deh externals
 // Maximums and such were hardcoded values. Need to externalize those for
@@ -2239,6 +2239,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             target->momx += FixedMul(MASSACRETHRUST, finecosine[ang]);
             target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
+            P_SpawnMoreBlood(target);
         }
     }
     else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)

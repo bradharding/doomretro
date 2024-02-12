@@ -1161,6 +1161,7 @@ static void P_SpawnFriend(const mapthing_t *mthing)
         mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
         M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
         mobj->health = friendhealth[playerstart - 2];
+        mobj->bloodsplats = CORPSEBLOODSPLATS;
 
         if (gamemap == 1)
             C_Warning(0, "A friendly %s entered this map with %s!", mobjinfo[mobj->type].name1, playername);
