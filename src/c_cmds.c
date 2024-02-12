@@ -3538,10 +3538,6 @@ static void kill_func2(char *cmd, char *parms)
                                     massacre = true;
                                     P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
                                     massacre = false;
-
-                                    if (r_corpses_moreblood && !(flags & MF_NOBLOOD) && type != MT_SKULL && type != MT_SHADOWS)
-                                        P_SpawnMoreBlood(thing);
-
                                     kills++;
                                 }
                             }

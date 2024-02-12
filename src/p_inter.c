@@ -52,6 +52,8 @@
 #include "s_sound.h"
 #include "st_stuff.h"
 
+#define MASSACRETHRUST  (20 * (FRACUNIT >> 5))
+
 // Ty 03/07/98 - add deh externals
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
@@ -2231,12 +2233,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     {
         if (!(flags & MF_NOBLOOD))
         {
-            angle_t         ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
-                                target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
-            const fixed_t   thrust = damage * (FRACUNIT >> 5) * 100 / MAX(1, info->mass);
+            angle_t ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
+                        target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
 
-            target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
-            target->momy += FixedMul(thrust, finesine[ang]);
+            target->momx += FixedMul(MASSACRETHRUST, finecosine[(ang >>= ANGLETOFINESHIFT)]);
+            target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
         }
     }
     else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
