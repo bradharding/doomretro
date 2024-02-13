@@ -3312,10 +3312,7 @@ static bool kill_func1(char *cmd, char *parms)
     else if (M_StringStartsWith(parm, "unfriendly"))
         M_StringReplaceAll(parm, "unfriendly", "", false);
 
-    if (M_StringCompare(cmd, "explode"))
-        result = (M_StringCompare(parm, "barrel") || M_StringCompare(parm, "barrels")
-            || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"));
-    else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+    if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         result = (viewplayer->health > 0);
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
