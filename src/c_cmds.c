@@ -3311,6 +3311,8 @@ static bool kill_func1(char *cmd, char *parms)
         M_StringReplaceAll(parm, "friendly", "", false);
     else if (M_StringStartsWith(parm, "unfriendly"))
         M_StringReplaceAll(parm, "unfriendly", "", false);
+    else if (M_StringCompare(parm, "dog") || M_StringCompare(parm, "dogs"))
+        killcmdfriendly = true;
 
     if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         result = (viewplayer->health > 0);
@@ -3834,7 +3836,7 @@ static void kill_func2(char *cmd, char *parms)
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                        if (type == thing->type && (!!(thing->flags & MF_FRIEND) == killcmdfriendly || type == MT_DOGS))
+                        if (type == thing->type && !!(thing->flags & MF_FRIEND) == killcmdfriendly)
                         {
                             if (type == MT_PAIN)
                             {
