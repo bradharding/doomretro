@@ -3885,36 +3885,28 @@ static void kill_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "You %s the only %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only %s in this map.",
                                 killed,
-                                mobjinfo[type].name1,
-                                (viewplayer->monsterskilled[type] == 1 || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
-                                    "in" : "left in"));
+                                mobjinfo[type].name1);
                         else
-                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %s in this map.",
                                 killed,
                                 temp,
-                                mobjinfo[type].plural1,
-                                (viewplayer->monsterskilled[type] == kills || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
-                                    "in" : "left in"));
+                                mobjinfo[type].plural1);
                     }
                     else
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %s in this map.",
                                 playername,
                                 killed,
-                                mobjinfo[type].name1,
-                                (viewplayer->monsterskilled[type] == 1 || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
-                                    "in" : "left in"));
+                                mobjinfo[type].name1);
                         else
-                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %s in this map.",
                                 playername,
                                 killed,
                                 temp,
-                                mobjinfo[type].plural1,
-                                (viewplayer->monsterskilled[type] == kills || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
-                                    "in" : "left in"));
+                                mobjinfo[type].plural1);
                     }
 
                     C_PlayerMessage(buffer);
@@ -3935,10 +3927,11 @@ static void kill_func2(char *cmd, char *parms)
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                             C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") "."
                                 " You can buy the full version on " ITALICS("Steam") ", etc.", mobjinfo[type].plural1);
+                        else
+                            C_Warning(0, "There are no %s to %s.", mobjinfo[type].plural1, cmd);
                     }
                     else
-                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1,
-                            (viewplayer->monsterskilled[type] ? "left to" : "to"), cmd);
+                        C_Warning(0, "There are no %s to %s.", mobjinfo[type].plural1, cmd);
                 }
             }
         }

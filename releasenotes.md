@@ -12,7 +12,7 @@
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * These changes have been when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
-  * If invalid parameters are entered (such as if `IDCLEV01` is entered in *DOOM*), the player will no longer equip their fists.
+  * If invalid parameters are entered (such as if `IDCLEV01` is entered in *DOOM*), the player no longer equips their fists.
 * Minor improvements have been made to the parsing of `DEHACKED` lumps.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
