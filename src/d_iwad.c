@@ -842,7 +842,7 @@ void D_SetSaveGameFolder(bool output)
         const int   numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
-            C_Output("All savegames will be placed in " BOLD("%s") ".", savegamefolder);
+            C_Output("Savegames are placed in " BOLD("%s") ".", savegamefolder);
         else if (numsavegames == 1)
             C_Output("There is 1 savegame in " BOLD("%s") ".", savegamefolder);
         else
@@ -899,7 +899,7 @@ void D_SetScreenshotsFolder(void)
 
     M_MakeDirectory(screenshotfolder);
 
-    C_Output("All screenshots taken will be placed in " BOLD("%s") ".", screenshotfolder);
+    C_Output("Screenshots taken are placed in " BOLD("%s") ".", screenshotfolder);
 }
 
 //

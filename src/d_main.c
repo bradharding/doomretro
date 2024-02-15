@@ -2469,7 +2469,7 @@ static void D_DoomMainSetup(void)
 
     D_SetScreenshotsFolder();
 
-    C_Output("All files created using the " BOLD("condump") " CCMD will be placed in "
+    C_Output("Files created using the " BOLD("condump") " CCMD are placed in "
         BOLD("%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER DIR_SEPARATOR_S) ".", appdatafolder);
 
     free(appdatafolder);
