@@ -177,7 +177,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Sound is now muted.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. No sound effects or music will be played.");
         nomusic = true;
         nosfx = true;
     }
@@ -185,13 +185,13 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music is now muted.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. No music will be played.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects are now muted.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. No sound effects will be played.");
             nosfx = true;
         }
     }
@@ -212,7 +212,7 @@ void S_Init(void)
         sfxvolume = (s_sfxvolume * 31 + 50) / 100;
         S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
 
-        // Allocating the internal channels for mixing (the maximum number of sounds rendered simultaneously) within zone memory.
+        // Allocating the internal channels for mixing (the maximum number of sounds played simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
         sobjs = Z_Malloc(s_channels_max * sizeof(sobj_t), PU_STATIC, NULL);
 
@@ -229,6 +229,8 @@ void S_Init(void)
 
             if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
             {
+                char    *temp = uppercase(namebuf);
+
                 if (!CacheSFX(sfx) && W_GetNumLumps(namebuf) > 1)
                 {
                     sfx->lumpnum = W_GetLastNumForName(namebuf);
@@ -236,21 +238,13 @@ void S_Init(void)
                     if (!CacheSFX(sfx))
                         sfx->lumpnum = -1;
                     else
-                    {
-                        char    *temp = uppercase(namebuf);
-
                         C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format.", temp);
-                        free(temp);
-                    }
                 }
 
                 if (sfx->lumpnum == -1)
-                {
-                    char    *temp = uppercase(namebuf);
-
                     C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format and won't be played.", temp);
-                    free(temp);
-                }
+
+                free(temp);
             }
         }
     }

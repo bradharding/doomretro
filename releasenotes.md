@@ -10,19 +10,19 @@
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
-* These changes have been when entering the `IDCLEV` cheat:
+* These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
 * Minor improvements have been made to the parsing of `DEHACKED` lumps.
-* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing episode 4 of *DOOM*.
-* When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder.
+* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
+* When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the left and top edges of the automap.
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD no longer spawns something if the ceiling in front of the player is too low.
-* The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now raise to their correct heights.
-* A bug is fixed whereby the player’s angle would be slightly off after they teleported.
+* The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise up to their correct heights.
+* A bug is fixed whereby the player’s view angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * Lighting is now correct when the `r_fov` CVAR has changed from its default of `90`°.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
