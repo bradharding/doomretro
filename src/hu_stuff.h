@@ -114,6 +114,7 @@ extern int      message_counter;
 extern bool     message_dontfuckwithme;
 extern bool     message_secret;
 extern bool     message_warning;
+extern bool     message_on;
 extern bool     message_fadeon;
 extern char     prevmessage[133];
 extern short    minuspatchtopoffset;

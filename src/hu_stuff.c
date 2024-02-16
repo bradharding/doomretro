@@ -67,7 +67,7 @@ bool                    message_fadeon;
 bool                    message_dontfuckwithme;
 bool                    message_secret;
 bool                    message_warning;
-static bool             message_on;
+bool                    message_on;
 static bool             message_external;
 static bool             message_nottobefuckedwith;
 
