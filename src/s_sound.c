@@ -113,7 +113,7 @@ bool                nomusic;
 
 musinfo_t           musinfo;
 
-const int   spmus[] =
+const int spmus[] =
 {
     // Song - Who? - Where?
     mus_e3m4,   // American     E4M1
@@ -125,6 +125,19 @@ const int   spmus[] =
     mus_e2m6,   // J.Anderson   E4M7 CHIRON.WAD
     mus_e2m5,   // Shawn        E4M8
     mus_e1m9    // Tim          E4M9
+};
+
+const int nmus[] =
+{
+    mus_messag,
+    mus_ddtblu,
+    mus_doom,
+    mus_shawn,
+    mus_in_cit,
+    mus_the_da,
+    mus_in_cit,
+    mus_shawn,
+    mus_ddtblu
 };
 
 // Initialize sound effects.
@@ -261,7 +274,10 @@ void S_Init(void)
             M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
 
             if (W_CheckNumForName(namebuf) == -1)
+            {
                 M_StringCopy(music->name1, s_music[spmus[j]].name1, sizeof(music->name1));
+                M_StringCopy(music->title1, s_music[spmus[j]].title1, sizeof(music->title1));
+            }
         }
     }
 }
@@ -306,22 +322,7 @@ static int S_GetMusicNum(void)
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-        {
-            const int   nmus[] =
-            {
-                mus_messag,
-                mus_ddtblu,
-                mus_doom,
-                mus_shawn,
-                mus_in_cit,
-                mus_the_da,
-                mus_in_cit,
-                mus_shawn,
-                mus_ddtblu
-            };
-
             return nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
-        }
         else
             return (mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1);
     }
