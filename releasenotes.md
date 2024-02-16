@@ -14,13 +14,14 @@
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered (such as if `IDCLEV01` is entered in *DOOM*), the player no longer equips their fists.
 * Minor improvements have been made to the parsing of `DEHACKED` lumps.
+* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now played when in episode 4 of *DOOM*.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the left and top edges of the automap.
 * Smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now randomly mirrored.
 * The `spawn` CCMD no longer spawns something if the ceiling in front of the player is too low.
-* The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise to their correct heights.
+* The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now raise to their correct heights.
 * A bug is fixed whereby the player’s angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * Lighting is no longer affected when the `r_fov` CVAR is changed from its default of `90`°.
