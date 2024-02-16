@@ -3580,8 +3580,7 @@ static void kill_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no %smonsters %s %s.",
-                        (friends ? "friendly " : ""), (viewplayer->killcount ? "left to" : "to"), cmd);
+                    C_Warning(0, "There are no %smonsters to %s.", (friends ? "friendly " : ""), cmd);
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
@@ -3728,7 +3727,7 @@ static void kill_func2(char *cmd, char *parms)
                     M_SaveCVARs();
                 }
                 else
-                    C_Warning(0, "There is nothing left to %s.", cmd);
+                    C_Warning(0, "There is nothing to %s.", cmd);
             }
             else if (M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses"))
             {
