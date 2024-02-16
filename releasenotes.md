@@ -12,9 +12,9 @@
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * These changes have been when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
-  * If invalid parameters are entered (such as if `IDCLEV01` is entered in *DOOM*), the player no longer equips their fists.
+  * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
 * Minor improvements have been made to the parsing of `DEHACKED` lumps.
-* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now played when in episode 4 of *DOOM*.
+* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing episode 4 of *DOOM*.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
@@ -24,10 +24,10 @@
 * The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now raise to their correct heights.
 * A bug is fixed whereby the player’s angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
-* Lighting is no longer affected when the `r_fov` CVAR is changed from its default of `90`°.
+* Lighting is now correct when the `r_fov` CVAR has changed from its default of `90`°.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
-* A bug is fixed whereby the screen would sometimes glitch slightly when the player exited a map.
-* Minor improvements have been made to some elements on the intermission screen.
+* A bug is fixed whereby a slight ghosting effect would appear on the screen as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
+* Minor improvements have been made to several elements on the intermission screen.
 * The total amount of time played is now displayed in the console each time the player exits a map.
 * The severity of shaking the screen has been reduced when the player receives damage and the `r_shake_damage` CVAR is greater than `0%`.
 * These changes have been made when using the `kill` CCMD in the console:
