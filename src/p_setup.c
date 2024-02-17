@@ -869,14 +869,8 @@ static void P_LoadSegs(int lump)
         line_t                  *ldef;
 
         if (linedefnum >= numlines)
-        {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(linedefnum);
-
-            I_Error("Seg %s references an invalid linedef of %s.", temp1, temp2);
-            free(temp1);
-            free(temp2);
-        }
+            I_Error("Seg %s references an invalid linedef of %s.",
+                commify(i), commify(linedefnum));
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
@@ -894,16 +888,8 @@ static void P_LoadSegs(int lump)
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-        {
-            char    *temp1 = commify(linedefnum);
-            char    *temp2 = commify(i);
-            char    *temp3 = commify(ldef->sidenum[side]);
-
-            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.", temp1, temp2, temp3);
-            free(temp1);
-            free(temp2);
-            free(temp3);
-        }
+            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 
@@ -1203,14 +1189,7 @@ static void P_LoadSegs_V4(int lump)
 
         // e6y: check for wrong indexes
         if (linedefnum >= numlines)
-        {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(linedefnum);
-
-            I_Error("Seg %s references an invalid linedef of %s.", temp1, temp2);
-            free(temp1);
-            free(temp2);
-        }
+            I_Error("Seg %s references an invalid linedef of %s.", commify(i), commify(linedefnum));
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
@@ -1228,16 +1207,8 @@ static void P_LoadSegs_V4(int lump)
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-        {
-            char    *temp1 = commify(linedefnum);
-            char    *temp2 = commify(i);
-            char    *temp3 = commify(ldef->sidenum[side]);
-
-            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.", temp1, temp2, temp3);
-            free(temp1);
-            free(temp2);
-            free(temp3);
-        }
+            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 
@@ -1666,14 +1637,8 @@ static void P_LoadZSegs(const byte *data)
 
         // e6y: check for wrong indexes
         if (linedefnum >= (unsigned int)numlines)
-        {
-            char    *temp1 = commify(i);
-            char    *temp2 = commify(linedefnum);
-
-            I_Error("Seg %s references an invalid linedef of %s.", temp1, temp2);
-            free(temp1);
-            free(temp2);
-        }
+            I_Error("Seg %s references an invalid linedef of %s.",
+                commify(i), commify(linedefnum));
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
@@ -1691,16 +1656,8 @@ static void P_LoadZSegs(const byte *data)
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-        {
-            char    *temp1 = commify(linedefnum);
-            char    *temp2 = commify(i);
-            char    *temp3 = commify(ldef->sidenum[side]);
-
-            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.", temp1, temp2, temp3);
-            free(temp1);
-            free(temp2);
-            free(temp3);
-        }
+            I_Error("Linedef %s for seg %s references an invalid sidedef of %s.",
+                commify(linedefnum), commify(i), commify(ldef->sidenum[side]));
 
         li->sidedef = sides + ldef->sidenum[side];
 
@@ -2639,12 +2596,7 @@ static void P_GroupLines(void)
         }
 
         if (!subsectors[i].sector)
-        {
-            char    *temp = commify(i);
-
-            I_Error("Subsector %s is not a part of any sector.", temp);
-            free(temp);
-        }
+            I_Error("Subsector %s is not a part of any sector.", commify(i));
     }
 
     // count number of lines in each sector

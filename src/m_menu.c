@@ -847,7 +847,7 @@ static void M_ReadSaveStrings(void)
 
 static byte saveg_read8(FILE *file)
 {
-    byte    result = -1;
+    byte    result = 0;
 
     if (fread(&result, 1, 1, file) < 1)
         return 0;

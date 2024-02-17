@@ -87,7 +87,7 @@ int                 MAPBOTTOM;
 static bool         manuallypositioning;
 
 SDL_Window          *window = NULL;
-static int          windowid;
+static unsigned int windowid;
 static SDL_Renderer *renderer;
 static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
@@ -581,8 +581,8 @@ static int AccelerateMouse(int value)
 
 static void I_ReadMouse(void)
 {
-    int         x, y;
-    static int  prevmousebuttonstate;
+    int                 x, y;
+    static unsigned int prevmousebuttonstate;
 
     SDL_GetRelativeMouseState(&x, &y);
 

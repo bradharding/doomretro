@@ -926,7 +926,7 @@ void P_RemoveBloodSplats(void)
 // Finds a mobj type with a matching doomednum
 // killough 08/24/98: rewrote to use hashing
 //
-mobjtype_t P_FindDoomedNum(const unsigned int type)
+mobjtype_t P_FindDoomedNum(const int type)
 {
     static struct
     {
@@ -1471,7 +1471,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
         const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
         mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
         const bool  fuzz = ((target->flags & MF_FUZZ) && r_blood == r_blood_all);
-        int         color;
+        int         color = REDBLOOD;
         state_t     *st = &states[info->spawnstate];
 
         if (!fuzz)

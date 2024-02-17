@@ -125,7 +125,7 @@ static void CreatePatch(int patchnum)
 {
     rpatch_t            *patch;
     const patch_t       *oldpatch;
-    const column_t      *oldcolumn;
+    const column_t      *oldcolumn = NULL;
     int                 pixeldatasize;
     int                 columnsdatasize;
     int                 postsdatasize;

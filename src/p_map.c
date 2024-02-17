@@ -2218,7 +2218,7 @@ static void PIT_ChangeSector(mobj_t *thing)
         {
             bool        fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
             const int   z = thing->z + thing->height * 2 / 3;
-            int         color;
+            int         color = REDBLOOD;
 
             if (!fuzz)
                 color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : thing->bloodcolor));
