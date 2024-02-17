@@ -3286,8 +3286,13 @@ bool M_Responder(event_t *ev)
     }
 
     if (key == KEY_ENTER && *prevmessage && !consoleactive
-        && messages && !message_on && !IsControlBound(keyboardcontrol, KEY_ENTER))
-        HU_SetPlayerMessage(prevmessage, false, false);
+        && messages && !IsControlBound(keyboardcontrol, KEY_ENTER))
+    {
+        if (message_on)
+            message_counter = 4;
+        else
+            HU_SetPlayerMessage(prevmessage, false, false);
+    }
     else if (key == '-')
     {
         // Screen size down
