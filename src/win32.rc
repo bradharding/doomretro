@@ -58,9 +58,9 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "CompanyName",      DOOMRETRO_CREATORANDEMAIL
-            VALUE "FileDescription",  DOOMRETRO_NAME
+            VALUE "FileDescription",  DOOMRETRO_DESCRIPTION
             VALUE "FileVersion",      DOOMRETRO_VERSIONSTRING
-            VALUE "InternalName",     DOOMRETRO
+            VALUE "InternalName",     DOOMRETRO_NAME
             VALUE "LegalCopyright",   DOOMRETRO_COPYRIGHT
             VALUE "LegalTrademarks",  DOOMRETRO_TRADEMARKS
             VALUE "OriginalFilename", DOOMRETRO_FILENAME
