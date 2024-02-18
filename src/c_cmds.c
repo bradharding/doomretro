@@ -626,7 +626,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autoaim, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles vertical autoaiming as you fire your weapon while using mouselook."),
     CVAR_BOOL(autoload, "", "", bool_cvars_func1, bool_cvars_func2, CF_PISTOLSTART, BOOLVALUEALIAS,
-        "Toggles automatically loading the last savegame if you die."),
+        "Toggles automatically loading the last savegame when you die."),
     CVAR_BOOL(autosave, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles automatically saving the game at the start of each map."),
     CVAR_BOOL(autotilt, "", "", bool_cvars_func1, autotilt_func2, CF_NONE, BOOLVALUEALIAS,
@@ -2339,8 +2339,8 @@ static void cvarlist_func2(char *cmd, char *parms)
 
                 if (gamestate == GS_LEVEL)
                 {
-                    int     value = viewplayer->readyweapon;
-                    char    *temp = C_LookupAliasFromValue(value, WEAPONVALUEALIAS);
+                    const int   value = viewplayer->readyweapon;
+                    char        *temp = C_LookupAliasFromValue(value, WEAPONVALUEALIAS);
 
                     if (value == consolecmds[i].defaultnumber)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
@@ -2359,7 +2359,7 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(name, stringize(r_fov)))
             {
-                int value = *(int *)consolecmds[i].variable;
+                const int   value = *(int *)consolecmds[i].variable;
 
                 if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\xB0\t%s", name, value, description);
@@ -2368,8 +2368,8 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
-                bool    value = *(bool *)consolecmds[i].variable;
-                char    *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
+                const bool  value = *(bool *)consolecmds[i].variable;
+                char        *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                 if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
@@ -2380,7 +2380,7 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
             {
-                int value = *(int *)consolecmds[i].variable;
+                const int   value = *(int *)consolecmds[i].variable;
 
                 if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
@@ -2389,8 +2389,8 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_INTEGER)
             {
-                int     value = *(int *)consolecmds[i].variable;
-                char    *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
+                const int   value = *(int *)consolecmds[i].variable;
+                char        *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                 if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
@@ -2401,7 +2401,7 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_FLOAT)
             {
-                float   value = *(float *)consolecmds[i].variable;
+                const float value = *(float *)consolecmds[i].variable;
 
                 if (consolecmds[i].flags & CF_PERCENT)
                 {
@@ -2447,7 +2447,7 @@ static void cvarlist_func2(char *cmd, char *parms)
                     name, *(char **)consolecmds[i].variable, description);
             else if (consolecmds[i].flags & CF_STRING)
             {
-                char    *value = *(char **)consolecmds[i].variable;
+                const char  *value = *(char **)consolecmds[i].variable;
 
                 if (M_StringCompare(value, consolecmds[i].defaultstring))
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("\"%.14s%s\"") "\t%s",
@@ -2478,8 +2478,8 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_OTHER)
             {
-                char    temp[255];
-                char    *value = *(char **)consolecmds[i].variable;
+                char        temp[255];
+                const char  *value = *(char **)consolecmds[i].variable;
 
                 M_StringCopy(temp, value, sizeof(temp));
 
@@ -3553,20 +3553,20 @@ static void kill_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster %s this map.",
-                                killed, (friends ? "friendly " : ""), (viewplayer->killcount == 1 ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster in this map.",
+                                killed, (friends ? "friendly " : ""));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %smonsters %s this map.",
-                                killed, temp, (friends ? "friendly " : ""), (viewplayer->killcount == kills ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %smonsters in this map.",
+                                killed, temp, (friends ? "friendly " : ""));
                     }
                     else
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %smonster %s this map.",
-                                playername, killed, (friends ? "friendly " : ""), (viewplayer->killcount == 1 ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %smonster in this map.",
+                                playername, killed, (friends ? "friendly " : ""));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters %s this map.",
-                                playername, killed, temp, (friends ? "friendly " : ""), (viewplayer->killcount == kills ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters in this map.",
+                                playername, killed, temp, (friends ? "friendly " : ""));
 
                         buffer[0] = toupper(buffer[0]);
                     }
