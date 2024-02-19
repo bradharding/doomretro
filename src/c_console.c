@@ -2743,7 +2743,7 @@ void C_PrintCompileDate(void)
             " was built with love by %s at %i:%02i%s on %s, %s %i, %i in %s.",
             8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
-            dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_PLACEOFORIGIN);
+            dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
     }
 
 #if defined(__clang__)

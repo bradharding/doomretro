@@ -36,7 +36,7 @@
 #pragma once
 
 #define DOOMRETRO_VERSION               5,3,0,0
-#define DOOMRETRO_VERSIONSTRING         "5.3"
+#define DOOMRETRO_VERSIONSTRING         "v5.3"
 #define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v5.3"
 #define DOOMRETRO_SAVEGAMEVERSIONSTRING "DOOM Retro v3.6"
 
@@ -47,14 +47,13 @@
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962024 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
-#define DOOMRETRO_DESCRIPTION           "The classic, refined DOOM source port. For Windows PC."
 #define DOOMRETRO_FILENAME              "doomretro.exe"
+#define DOOMRETRO_HOMEOFCREATOR         "Western Sydney, Australia"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
 #define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/LICENSE"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
-#define DOOMRETRO_PLACEOFORIGIN         "Western Sydney, Australia"
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"
