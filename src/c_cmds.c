@@ -3586,7 +3586,10 @@ static void kill_func2(char *cmd, char *parms)
             {
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                        if (thing->flags2 & MF2_MONSTERMISSILE)
+                        if ((thing->flags2 & MF2_MONSTERMISSILE)
+                            || thing->type == MT_ROCKET
+                            || thing->type == MT_PLASMA
+                            || thing->type == MT_BFG)
                         {
                             P_ExplodeMissile(thing);
                             kills++;

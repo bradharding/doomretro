@@ -31,10 +31,11 @@
 * The total amount of time played is now displayed in the console each time the player exits a map.
 * The severity of shaking the screen has been reduced when the player receives damage and the `r_shake_damage` CVAR is greater than `0%`.
 * These changes have been made when using the `kill` CCMD in the console:
-  * The distance the corpses of monsters slide upon their death, and the amount of blood splats that are spawned, is now consistent.
+  * The distance the corpses of monsters slide upon their death, and the amount of blood splats that is spawned, is now consistent.
   * Friendly monsters no longer affect the total number of monsters killed in the current map.
   * A bug is fixed whereby invalid obituaries would be displayed in some instances.
 * Entering `explode barrels` in the console now works as intended.
+* Entering `explode missiles` in the console now also explodes any projectiles that the player has fired.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
