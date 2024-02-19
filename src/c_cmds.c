@@ -3319,6 +3319,7 @@ static bool kill_func1(char *cmd, char *parms)
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
         || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
+        || M_StringCompare(parm, "projectile") || M_StringCompare(parm, "projectiles")
         || M_StringCompare(parm, "item") || M_StringCompare(parm, "items")
         || M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations")
         || M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses")
@@ -3512,7 +3513,10 @@ static void kill_func2(char *cmd, char *parms)
 
                         if (all || !!(flags & MF_FRIEND) == friends)
                         {
-                            if (thing->flags2 & MF2_MONSTERMISSILE)
+                            if (thing->flags2 & MF2_MONSTERMISSILE
+                                || thing->type == MT_ROCKET
+                                || thing->type == MT_PLASMA
+                                || thing->type == MT_BFG)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
                                 P_ExplodeMissile(thing);
@@ -3582,7 +3586,8 @@ static void kill_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "There are no %smonsters to %s.", (friends ? "friendly " : ""), cmd);
             }
-            else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
+            else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
+                || M_StringCompare(parm, "projectile") || M_StringCompare(parm, "projectiles"))
             {
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
@@ -3697,14 +3702,11 @@ static void kill_func2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                             kills++;
                         }
-                        else if ((flags & MF_SPECIAL) || (flags2 & MF2_MONSTERMISSILE))
-                        {
-                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
-                            S_StartSound(thing, sfx_itmbk);
-                            P_RemoveMobj(thing);
-                            kills++;
-                        }
-                        else if (flags2 & MF2_MONSTERMISSILE)
+                        else if ((flags & MF_SPECIAL)
+                            || (flags2 & MF2_MONSTERMISSILE)
+                            || thing->type == MT_ROCKET
+                            || thing->type == MT_PLASMA
+                            || thing->type == MT_BFG)
                         {
                             P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
                             S_StartSound(thing, sfx_itmbk);
