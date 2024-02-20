@@ -2277,7 +2277,11 @@ void D_BuildBEXTables(void)
     }
 
     for (i = MT_EXTRA00; i <= MT_EXTRA99; i++)
+    {
         M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
+        M_snprintf(mobjinfo[i].name2, sizeof(mobjinfo[0].name2), "Deh_Actor_%i", i);
+        M_snprintf(mobjinfo[i].name3, sizeof(mobjinfo[0].name3), "Deh_Actor_%i", i);
+    }
 
     for (i = 1; i < NUMMUSIC; i++)
         deh_musicnames[i] = M_StringDuplicate(s_music[i].name1);
