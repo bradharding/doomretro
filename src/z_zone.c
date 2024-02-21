@@ -149,12 +149,6 @@ void Z_Free(void *ptr)
 
 void Z_FreeTags(unsigned char lowtag, unsigned char hightag)
 {
-    if (lowtag <= PU_FREE)
-        lowtag = PU_FREE + 1;
-
-    if (hightag > PU_CACHE)
-        hightag = PU_CACHE;
-
     for (; lowtag <= hightag; lowtag++)
     {
         memblock_t  *block = blockbytag[lowtag];

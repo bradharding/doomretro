@@ -13,7 +13,7 @@
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
-* Minor improvements have been made to the parsing of `DEHACKED` lumps.
+* Minor improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
 * If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. (Also, pressing that same key while a player message is being displayed will hide that message.)

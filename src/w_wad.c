@@ -403,8 +403,8 @@ bool W_AddFile(char *filename, bool autoloaded)
         if (D_IsDOOM1IWAD(file))
         {
             if (M_StringCompare(file, "DOOM1.WAD"))
-                C_Warning(0, "This is the shareware version of " ITALICS("DOOM") "."
-                    " You can buy the full version on " ITALICS("Steam") ", etc.");
+                C_Warning(0, "This is the shareware version of " ITALICS("DOOM") ". "
+                    "You can buy the full version on " ITALICS("Steam") ", etc.");
             else if (!E1M4)
             {
                 if (!E1M8)
