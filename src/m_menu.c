@@ -3285,9 +3285,11 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == KEY_ENTER && *prevmessage && !consoleactive
+    if (key == KEY_ENTER && !keydown && *prevmessage && !consoleactive
         && messages && !IsControlBound(keyboardcontrol, KEY_ENTER))
     {
+        keydown = key;
+
         if (message_on)
             message_counter = 4;
         else
