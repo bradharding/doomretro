@@ -24,7 +24,6 @@
 * The stairs in *MAP30: Last Call* of *Final DOOM: TNT - Evilution* now rise up to their correct heights.
 * A bug is fixed whereby the player’s view angle would be slightly off after they teleported.
 * The player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
-* Lighting is now correct when the `r_fov` CVAR has changed from its default of `90`°.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
 * A bug is fixed whereby a slight ghosting effect would appear on the screen as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
 * Minor improvements have been made to several elements on the intermission screen.

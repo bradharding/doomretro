@@ -114,7 +114,6 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
-double              fovdiff;
 static fixed_t      fovscale;
 
 //
@@ -399,7 +398,6 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !helpscreen && menuspin ? r_fov_max : r_fov)
         + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
-    fovdiff = (double)r_fov_default / r_fov;
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << (FRACBITS + 2);
 
