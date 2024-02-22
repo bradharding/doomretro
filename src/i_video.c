@@ -151,6 +151,7 @@ bool                usingmouse = false;
 bool                windowfocused = true;
 
 int                 keydown = 0;
+int                 keydown2 = 0;
 
 static bool         keys[NUMKEYS];
 
@@ -375,6 +376,7 @@ static void I_GetEvent(void)
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
+                keydown2 = 0;
 
 #if !defined(_WIN32)
                 // Handle ALT+ENTER on non-Windows systems

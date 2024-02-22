@@ -132,6 +132,7 @@ extern bool         sendpause;
 extern bool         waspaused;
 
 extern int          keydown;
+extern int          keydown2;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
