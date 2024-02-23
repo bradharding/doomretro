@@ -1018,7 +1018,7 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                lump = (gamemode == retail ? creditlump :
+                lump = (gamemode == retail || gamemode == commercial ? creditlump :
                     W_CacheWidestLumpName(REKKRSL ? "HELP2W" : "HELP2"));
                 break;
 
