@@ -87,5 +87,6 @@ bool D_IsDOOMIWAD(char *filename);
 bool D_IsDOOM1IWAD(char *filename);
 bool D_IsDOOM2IWAD(char *filename);
 bool D_IsSIGILWAD(char *filename);
+bool D_IsSIGILSHREDSWAD(char *filename);
 bool D_IsSIGIL2WAD(char *filename);
 void D_CheckSupportedPWAD(char *filename);

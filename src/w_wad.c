@@ -328,8 +328,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     if (sigilwadadded && D_IsSIGILWAD(file))
         return false;
-    else if (buckethead && (M_StringCompare(file, "SIGIL_SHREDS.wad")
-        || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad")))
+    else if (buckethead && D_IsSIGILSHREDSWAD(file))
         return false;
     else if (sigil2wadadded && D_IsSIGIL2WAD(file))
         return false;
@@ -427,8 +426,7 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
         }
-        else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
-            || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
+        else if (D_IsSIGILSHREDSWAD(file))
         {
             buckethead = true;
             C_Output("Buckethead's music will be heard while playing " ITALICS("SIGIL") ".");
@@ -497,8 +495,9 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
                 continue;
 
             if (nonerveorsigil
-                && (M_StringCompare(FindFileData.cFileName, "SIGIL.WAD")
-                    || D_IsSIGILWAD(FindFileData.cFileName)))
+                && (D_IsSIGILWAD(FindFileData.cFileName)
+                    || D_IsSIGIL2WAD(FindFileData.cFileName)
+                    || D_IsSIGILSHREDSWAD(FindFileData.cFileName)))
                 continue;
 
             temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
