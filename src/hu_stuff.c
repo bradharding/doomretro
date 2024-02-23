@@ -876,21 +876,16 @@ static void HU_AltInit(void)
                     lumps++;
             }
 
-            if (lumps >= NUMWEAPONS - 1)
+            if (lumps == NUMWEAPONS)
                 weaponschanged = false;
         }
 
         if (!weaponschanged)
-        {
-            if (W_CheckNumForName("DRHUDWP0") >= 0)
-                altweapon[wp_fist].patch = W_CacheLumpName("DRHUDWP0");
-
-            for (int i = 1; i < NUMWEAPONS; i++)
+            for (int i = 0; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
                 altweapon[i].patch = W_CacheLumpName(buffer);
             }
-        }
     }
 
     gray = nearestcolors[GRAY1];
