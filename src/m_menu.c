@@ -1644,8 +1644,11 @@ bool            customepisode = false;
 static short    epsiodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    epsiodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
-void M_AddEpisode(const int map, const int ep, const char *lumpname, const char *string)
+void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
+    if (gamemode == commercial)
+        map -= (ep - 1) * 10;
+
     if (!customepisode)
     {
         customepisode = true;
@@ -1664,11 +1667,11 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
-            if (epsiodemenuepisode[EpiDef.numitems] == ep && epsiodemenumap[EpiDef.numitems] == map - (ep - 1) * 10)
+            if (epsiodemenuepisode[EpiDef.numitems] == ep && epsiodemenumap[EpiDef.numitems] == map)
                 return;
 
         epsiodemenuepisode[EpiDef.numitems] = ep;
-        epsiodemenumap[EpiDef.numitems] = map - (ep - 1) * 10;
+        epsiodemenumap[EpiDef.numitems] = map;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
         *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
