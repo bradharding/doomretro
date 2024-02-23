@@ -865,20 +865,16 @@ static void HU_AltInit(void)
                 }
 
         if (weaponschanged)
-        {
-            int lumps = 1;
-
             for (int i = 0; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
                 if (W_GetNumLumps(buffer) > 1)
-                    lumps++;
+                {
+                    weaponschanged = false;
+                    break;
+                }
             }
-
-            if (lumps == NUMWEAPONS)
-                weaponschanged = false;
-        }
 
         if (!weaponschanged)
             for (int i = 0; i < NUMWEAPONS; i++)
