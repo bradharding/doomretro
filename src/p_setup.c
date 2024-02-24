@@ -3776,7 +3776,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 free(buffer);
                             }
 
-                            info->next = (nextepisode - 1) * 10 + nextmap;
+                            info->next = nextmap;
                             break;
                         }
 
@@ -3850,7 +3850,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 free(buffer);
                             }
 
-                            info->secretnext = (nextepisode - 1) * 10 + nextmap;
+                            info->secretnext = nextmap;
                             break;
                         }
 
