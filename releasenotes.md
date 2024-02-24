@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.9.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.30.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.0) and [*SDL_mixer v2.8.0*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.0).
 * Changes have been made to *DOOM Retro’s* splash screen.
-* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to moving the player using a controller.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
@@ -13,7 +13,7 @@
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
-* Minor improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
+* Several improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. (Also, pressing that same key while a player message is being displayed will hide that message.)

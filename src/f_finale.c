@@ -1019,7 +1019,7 @@ static void F_ArtScreenDrawer(void)
         {
             case 1:
                 lump = (gamemode == retail || gamemode == commercial ? creditlump :
-                    W_CacheWidestLumpName(REKKRSL ? "HELP2W" : "HELP2"));
+                    W_CacheWidestLumpName("HELP2"));
                 break;
 
             case 2:

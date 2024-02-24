@@ -1553,10 +1553,6 @@ void P_UnarchiveSpecials(void)
 
         switch (tclass)
         {
-            case tc_endspecials:
-                // end of list
-                return;
-
             case tc_ceiling:
             {
                 ceiling_t   *ceiling = Z_Calloc(1, sizeof(*ceiling), PU_LEVSPEC, NULL);
@@ -1687,6 +1683,10 @@ void P_UnarchiveSpecials(void)
                 P_StartButton(button->line, button->bwhere, button->btexture, button->btimer);
                 break;
             }
+
+            case tc_endspecials:
+                // end of list
+                return;
 
             default:
                 I_Error("%s is invalid.", savename);

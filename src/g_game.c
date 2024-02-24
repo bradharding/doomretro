@@ -1239,7 +1239,7 @@ void G_ScreenShot(void)
 
 bool    newpars = false;
 
-// DOOM Par Times
+// DOOM par times
 int pars[10][10] =
 {
     { 0 },
@@ -1247,13 +1247,13 @@ int pars[10][10] =
     { 0,  90,  90,  90, 120,  90, 360, 240, 135, 170 },
     { 0,  90,  45,  90, 150,  90,  90, 165, 105, 135 },
 
-    // [BH] Episode 4, 5 and 6 Par Times
+    // [BH] Episode 4, 5 and 6 par times
     { 0, 165, 255, 135, 150, 180, 390, 135, 360, 180 },
     { 0,  90, 150, 360, 420, 780, 420, 780, 300, 660 },
     { 0, 480, 300, 360, 240, 510, 840, 960, 390, 450 }
 };
 
-// DOOM II Par Times
+// DOOM II par times
 int cpars[100] =
 {
      30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   // 01-10
@@ -1262,7 +1262,7 @@ int cpars[100] =
     120,  30,   0                                       // 31-32
 };
 
-// [BH] No Rest For The Living Par Times
+// [BH] No Rest For The Living par times
 static const int npars[9] =
 {
      75, 105, 120, 105, 210, 105, 165, 105, 135
