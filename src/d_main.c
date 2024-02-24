@@ -956,7 +956,8 @@ void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "d1spfx18.wad")
         || M_StringCompare(leaf, "d2spfx18.wad"))
         sprfix18 = true;
-    else if (M_StringCompare(leaf, "eviternity.wad"))
+    else if (M_StringCompare(leaf, "eviternity.wad")
+        || M_StringStartsWith(leaf, "Eviternity II"))
         eviternity = true;
     else if (M_StringCompare(leaf, "d4v.wad"))
         doom4vanilla = true;

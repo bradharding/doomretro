@@ -848,7 +848,7 @@ static void HU_AltInit(void)
         weaponschanged = true;
     else
     {
-        if (!BTSX)
+        if (!BTSX && !eviternity)
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (*weaponinfo[i].spritename)
                 {
