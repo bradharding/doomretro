@@ -57,6 +57,11 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
+#define TEXTSPEED       (3 * FRACUNIT)          // original value
+#define TEXTWAIT        (250 * FRACUNIT)        // original value
+#define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value
+#define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value
+
 typedef enum
 {
     F_STAGE_TEXT,
@@ -67,14 +72,10 @@ typedef enum
 // Stage of animation:
 static finalestage_t    finalestage;
 static int              finalecount;
-
-#define TEXTSPEED       (3 * FRACUNIT)          // original value
-#define TEXTWAIT        (250 * FRACUNIT)        // original value
-#define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value
-#define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value
-
 static char             *finaletext;
 static char             *finaleflat;
+
+static bool             midstage;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
@@ -82,8 +83,6 @@ static bool F_CastResponder(const event_t *ev);
 
 void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
-
-static bool             midstage;               // whether we're in "mid-stage"
 
 //
 // F_ConsoleFinaleText
@@ -211,11 +210,12 @@ void F_StartFinale(void)
             case commercial:
                 S_ChangeMusic(mus_read_m, true, false, false);
 
-                switch (gamemap)      // This is regular DOOM II
+                switch (gamemap)
                 {
                     case 6:
                         finaleflat = bgflat06;
-                        finaletext = (gamemission == pack_tnt ? s_T1TEXT : (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T1TEXT :
+                            (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
                         break;
 
                     case 8:
@@ -229,27 +229,32 @@ void F_StartFinale(void)
 
                     case 11:
                         finaleflat = bgflat11;
-                        finaletext = (gamemission == pack_tnt ? s_T2TEXT : (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T2TEXT :
+                            (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
                         break;
 
                     case 20:
                         finaleflat = bgflat20;
-                        finaletext = (gamemission == pack_tnt ? s_T3TEXT : (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T3TEXT :
+                            (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
                         break;
 
                     case 30:
                         finaleflat = bgflat30;
-                        finaletext = (gamemission == pack_tnt ? s_T4TEXT : (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T4TEXT :
+                            (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
                         break;
 
                     case 15:
                         finaleflat = bgflat15;
-                        finaletext = (gamemission == pack_tnt ? s_T5TEXT : (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T5TEXT :
+                            (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
                         break;
 
                     case 31:
                         finaleflat = bgflat31;
-                        finaletext = (gamemission == pack_tnt ? s_T6TEXT : (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
+                        finaletext = (gamemission == pack_tnt ? s_T6TEXT :
+                            (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
                         break;
                 }
 

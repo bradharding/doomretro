@@ -88,29 +88,28 @@
 #define MCMD_INTERMUSIC             22
 #define MCMD_INTERTEXT              23
 #define MCMD_INTERTEXTSECRET        24
-#define MCMD_LABEL                  25
-#define MCMD_LEVELNAME              26
-#define MCMD_LEVELPIC               27
-#define MCMD_LIQUID                 28
-#define MCMD_MUSIC                  29
-#define MCMD_MUSICARTIST            30
-#define MCMD_MUSICTITLE             31
-#define MCMD_NEXT                   32
-#define MCMD_NEXTSECRET             33
-#define MCMD_NOBRIGHTMAP            34
-#define MCMD_NOFREELOOK             35
-#define MCMD_NOGRADUALLIGHTING      36
-#define MCMD_NOINTERMISSION         37
-#define MCMD_NOJUMP                 38
-#define MCMD_NOLIQUID               39
-#define MCMD_NOMOUSELOOK            40
-#define MCMD_PAR                    41
-#define MCMD_PARTIME                42
-#define MCMD_PISTOLSTART            43
-#define MCMD_SECRETNEXT             44
-#define MCMD_SKY1                   45
-#define MCMD_SKYTEXTURE             46
-#define MCMD_TITLEPATCH             47
+#define MCMD_LEVELNAME              25
+#define MCMD_LEVELPIC               26
+#define MCMD_LIQUID                 27
+#define MCMD_MUSIC                  28
+#define MCMD_MUSICARTIST            29
+#define MCMD_MUSICTITLE             30
+#define MCMD_NEXT                   31
+#define MCMD_NEXTSECRET             32
+#define MCMD_NOBRIGHTMAP            33
+#define MCMD_NOFREELOOK             34
+#define MCMD_NOGRADUALLIGHTING      35
+#define MCMD_NOINTERMISSION         36
+#define MCMD_NOJUMP                 37
+#define MCMD_NOLIQUID               38
+#define MCMD_NOMOUSELOOK            39
+#define MCMD_PAR                    40
+#define MCMD_PARTIME                41
+#define MCMD_PISTOLSTART            42
+#define MCMD_SECRETNEXT             43
+#define MCMD_SKY1                   44
+#define MCMD_SKYTEXTURE             45
+#define MCMD_TITLEPATCH             46
 
 typedef struct
 {
@@ -267,7 +266,6 @@ static char *mapcmdnames[] =
     "INTERMUSIC",
     "INTERTEXT",
     "INTERTEXTSECRET",
-    "LABEL",
     "LEVELNAME",
     "LEVELPIC",
     "LIQUID",
@@ -319,7 +317,6 @@ static int mapcmdids[] =
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
     MCMD_INTERTEXTSECRET,
-    MCMD_LABEL,
     MCMD_LEVELNAME,
     MCMD_LEVELPIC,
     MCMD_LIQUID,

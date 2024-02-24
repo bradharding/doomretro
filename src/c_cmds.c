@@ -3606,10 +3606,10 @@ static void kill_func2(char *cmd, char *parms)
 
                     if (M_StringCompare(playername, playername_default))
                         M_snprintf(buffer, sizeof(buffer), "You %s %s missile%s.",
-                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            killed, temp, (kills == 1 ? "" : "s"));
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s %s missile%s.",
-                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                            playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_PlayerMessage(buffer);
                     C_HideConsole();
