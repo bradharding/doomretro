@@ -13,9 +13,18 @@
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
-* Several improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
+* Improvements have been made to parsing custom monster names in `DEHACKED` lumps.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * `BOSSACTION` now always works as intended.
+  * `NEXT` and `SECRETNEXT` now always work as intended.
+  * Custom episodes greater than 4 now work as intended when playing *DOOM*.
+  * A crash no longer occurs when `ENDGAME = TRUE` is used in some instances.
 * If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
+* These changes have been made to the weapon silhouettes in the alternate widescreen HUD:
+  * The `DRHUDWP0 lump can now be changed in a PWAD to display a weapon silhouette when the player has their fists equipped.
+  * If any of the player weapon sprites have changed in a PWAD, the weapon silhouettes can now be displayed if the `DRHUDWP0` to `DRHUDWP8` lumps are also changed.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
+* A bug is fixed whereby the presence of `SIGIL_SHREDS.WAD` in the `autoload` folder would cause a crash in some instances.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. (Also, pressing that same key while a player message is being displayed will hide that message.)
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the left and top edges of the automap.
