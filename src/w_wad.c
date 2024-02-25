@@ -835,6 +835,25 @@ int W_RangeCheckNumForName(int min, int max, const char *name)
     return -1;
 }
 
+static bool W_IsPNGLump(const int lump)
+{
+    const int   size = W_LumpLength(lump);
+    bool        result = false;
+
+    if (size >= 13)
+    {
+        const patch_t *patch = W_CacheLumpNum(lump);
+        const unsigned char *magic = (const unsigned char *)patch;
+
+        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
+            result = true;
+
+        W_ReleaseLumpNum(lump);
+    }
+
+    return result;
+}
+
 void W_Init(void)
 {
     for (int i = 0; i < numlumps; i++)
@@ -851,6 +870,14 @@ void W_Init(void)
         lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
         lumpinfo[j]->index = i;
     }
+
+    if (W_IsPNGLump(W_GetNumForName("TITLEPIC")))
+        I_Error("W_Init: The " BOLD("TITLEPIC") " lump is in the unsupported PNG format!");
+
+    for (int i = 0; i < numlumps; i++)
+        if (W_IsPNGLump(i))
+            C_Warning(1, "The " BOLD("%.8s") " lump is in the unsupported PNG format.",
+                lumpinfo[i]->name);
 }
 
 //

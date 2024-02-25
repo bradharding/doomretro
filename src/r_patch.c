@@ -86,9 +86,7 @@ static bool CheckIfPatch(const int lump)
         const patch_t       *patch = W_CacheLumpNum(lump);
         const unsigned char *magic = (const unsigned char *)patch;
 
-        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
-            C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump.", lumpinfo[lump]->name);
-        else
+        if (!(magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G'))
         {
             const short width = SHORT(patch->width);
             const short height = SHORT(patch->height);
@@ -106,10 +104,6 @@ static bool CheckIfPatch(const int lump)
                     if (offset < (unsigned int)width * 4 + 8 || offset >= (unsigned int)size)
                     {
                         result = false;
-
-                        if (lumpinfo[lump]->size > 0)
-                            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[lump]->name);
-
                         break;
                     }
                 }
