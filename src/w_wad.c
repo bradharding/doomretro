@@ -870,11 +870,11 @@ void W_Init(void)
     }
 
     if (W_IsPNGLump(W_GetNumForName("TITLEPIC")))
-        I_Error("The TITLEPIC lump is an unsupported PNG graphic!");
+        I_Error("The TITLEPIC lump is an unsupported PNG image!");
 
     for (int i = 0; i < numlumps; i++)
         if (W_IsPNGLump(i))
-            C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported PNG graphic.",
+            C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported PNG image.",
                 lumpinfo[i]->name);
 }
 

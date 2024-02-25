@@ -470,5 +470,4 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
 
     return result;
 }
-
 #endif

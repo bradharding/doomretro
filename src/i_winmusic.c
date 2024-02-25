@@ -495,11 +495,6 @@ void I_Windows_ShutdownMusic(void)
     I_Windows_StopSong();
     I_Windows_UnregisterSong();
 
-    // [BH] The following line is commented out because it can cause
-    // the game to hang on exit. It also causes issues with ASan.
-    // See <https://developercommunity.visualstudio.com/t/1597288>.
-    //midiOutUnprepareHeader((HMIDIOUT)hMidiStream, &buffer.MidiStreamHdr, sizeof(MIDIHDR));
-
     midiStreamClose(hMidiStream);
 
     hMidiStream = NULL;
@@ -507,5 +502,4 @@ void I_Windows_ShutdownMusic(void)
     CloseHandle(hBufferReturnEvent);
     CloseHandle(hExitEvent);
 }
-
 #endif

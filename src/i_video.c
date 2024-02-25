@@ -1272,7 +1272,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
     if (displayindex >= numdisplays)
     {
         if (output)
-            C_Warning(1, "Display %i couldn't be found.", vid_display);
+            C_Warning(1, "Display %i wasn't found.", vid_display);
 
         displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
         instead = true;
@@ -1280,12 +1280,21 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if (output)
     {
-        if (displayname)
-            C_Output("\"%s\" (display %i of %i) is being used%s.",
-                displayname, displayindex + 1, numdisplays, (instead ? " instead" : ""));
+        if (numdisplays == 1)
+        {
+            if (displayname)
+                C_Output("\"%s\" is being used%s.",
+                    displayname, (instead ? " instead" : ""));
+        }
         else
-            C_Output("Display %i of %i is being used%s.",
-                displayindex + 1, numdisplays, (instead ? " instead" : ""));
+        {
+            if (displayname)
+                C_Output("\"%s\" (display %i of %i) is being used%s.",
+                    displayname, displayindex + 1, numdisplays, (instead ? " instead" : ""));
+            else
+                C_Output("Display %i of %i is being used%s.",
+                    displayindex + 1, numdisplays, (instead ? " instead" : ""));
+        }
     }
 
     if (nowidescreen && output)

@@ -9,6 +9,7 @@
 * Improvements have been made to moving the player using a controller.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
+* A warning is now displayed in the console at startup if a lump in a PWAD is an unsupported PNG image.
 * The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
