@@ -837,15 +837,13 @@ int W_RangeCheckNumForName(int min, int max, const char *name)
 
 static bool W_IsPNGLump(const int lump)
 {
-    const int   size = W_LumpLength(lump);
-    bool        result = false;
+    bool    result = false;
 
-    if (size >= 13)
+    if (W_LumpLength(lump) >= 13)
     {
-        const patch_t *patch = W_CacheLumpNum(lump);
-        const unsigned char *magic = (const unsigned char *)patch;
+        const unsigned char *patch = (const unsigned char *)W_CacheLumpNum(lump);
 
-        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
+        if (patch[0] == 0x89 && patch[1] == 'P' && patch[2] == 'N' && patch[3] == 'G')
             result = true;
 
         W_ReleaseLumpNum(lump);
@@ -867,16 +865,16 @@ void W_Init(void)
         // hash function:
         const int   j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
 
-        lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
+        lumpinfo[i]->next = lumpinfo[j]->index;       // prepend to list
         lumpinfo[j]->index = i;
     }
 
     if (W_IsPNGLump(W_GetNumForName("TITLEPIC")))
-        I_Error("W_Init: The " BOLD("TITLEPIC") " lump is in the unsupported PNG format!");
+        I_Error("The TITLEPIC lump is an unsupported PNG graphic!");
 
     for (int i = 0; i < numlumps; i++)
         if (W_IsPNGLump(i))
-            C_Warning(1, "The " BOLD("%.8s") " lump is in the unsupported PNG format.",
+            C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported PNG graphic.",
                 lumpinfo[i]->name);
 }
 

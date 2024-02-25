@@ -761,38 +761,32 @@ static altkeypic_t altkeypics[NUMCARDS] =
     { RED2,    NULL, NULL }
 };
 
-typedef struct
-{
-    patch_t *patch;
-} altweapon_t;
+static patch_t  *altweaponpatch[NUMWEAPONS];
+static patch_t  *altnumpatch[10];
+static patch_t  *altnumpatch2[10];
+static patch_t  *altminuspatch;
+static patch_t  *altendpatch;
+static patch_t  *altleftpatch1;
+static patch_t  *altleftpatch2;
+static patch_t  *altrightpatch;
+static patch_t  *altmarkpatch;
+static patch_t  *altmark2patch;
 
-static altweapon_t  altweapon[NUMWEAPONS];
+static short    altminuspatchwidth;
 
-static patch_t      *altnum[10];
-static patch_t      *altnum2[10];
-static patch_t      *altminuspatch;
-static patch_t      *altendpatch;
-static patch_t      *altleftpatch1;
-static patch_t      *altleftpatch2;
-static patch_t      *altrightpatch;
-static patch_t      *altmarkpatch;
-static patch_t      *altmark2patch;
+static int      gray;
+static int      darkgray;
+static int      green1;
+static int      green2;
+static int      green3;
+static int      blue1;
+static int      blue2;
+static int      blue3;
+static int      red2;
+static int      yellow1;
+static int      yellow2;
 
-static short        altminuspatchwidth;
-
-static int          gray;
-static int          darkgray;
-static int          green1;
-static int          green2;
-static int          green3;
-static int          blue1;
-static int          blue2;
-static int          blue3;
-static int          red2;
-static int          yellow1;
-static int          yellow2;
-
-static bool         weaponschanged;
+static bool     weaponschanged;
 
 static void HU_AltInit(void)
 {
@@ -803,9 +797,9 @@ static void HU_AltInit(void)
     for (int i = 0; i <= 9; i++)
     {
         M_snprintf(buffer, sizeof(buffer), "DRHUD%iA", i);
-        altnum[i] = W_CacheLumpName(buffer);
+        altnumpatch[i] = W_CacheLumpName(buffer);
         M_snprintf(buffer, sizeof(buffer), "DRHUD%iB", i);
-        altnum2[i] = W_CacheLumpName(buffer);
+        altnumpatch2[i] = W_CacheLumpName(buffer);
     }
 
     altminuspatch = W_CacheLumpName("DRHUDNEG");
@@ -880,7 +874,7 @@ static void HU_AltInit(void)
             for (int i = 0; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-                altweapon[i].patch = W_CacheLumpName(buffer);
+                altweaponpatch[i] = W_CacheLumpName(buffer);
             }
     }
 
@@ -908,22 +902,22 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tintt
 
     if (val >= 100)
     {
-        patch_t *patch = altnum[val / 100];
+        patch_t *patch = altnumpatch[val / 100];
 
         althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
-        althudfunc(x, y, (patch = altnum[(val %= 100) / 10]), WHITE, color, tinttab);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color, tinttab);
+        althudfunc(x, y, (patch = altnumpatch[(val %= 100) / 10]), WHITE, color, tinttab);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab);
     }
     else if (val >= 10)
     {
-        patch_t *patch = altnum[val / 10];
+        patch_t *patch = altnumpatch[val / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color, tinttab);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab);
     }
     else
-        althudfunc(x, y, altnum[val % 10], WHITE, color, tinttab);
+        althudfunc(x, y, altnumpatch[val % 10], WHITE, color, tinttab);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -932,13 +926,13 @@ static int AltHUDNumberWidth(int val)
 
     if (val >= 100)
     {
-        width = SHORT(altnum[val / 100]->width) + 2;
-        width += SHORT(altnum[(val %= 100) / 10]->width) + 2;
+        width = SHORT(altnumpatch[val / 100]->width) + 2;
+        width += SHORT(altnumpatch[(val %= 100) / 10]->width) + 2;
     }
     else if (val >= 10)
-        width = SHORT(altnum[val / 10]->width) + 2;
+        width = SHORT(altnumpatch[val / 10]->width) + 2;
 
-    return (width + SHORT(altnum[val % 10]->width));
+    return (width + SHORT(altnumpatch[val % 10]->width));
 }
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab)
@@ -948,25 +942,25 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
 
     if (val >= 100)
     {
-        patch_t *patch = altnum2[val / 100];
+        patch_t *patch = altnumpatch2[val / 100];
 
         althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
 
-        patch = altnum2[(val %= 100) / 10];
+        patch = altnumpatch2[(val %= 100) / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
     }
     else if (val >= 10)
     {
-        patch_t *patch = altnum2[val / 10];
+        patch_t *patch = altnumpatch2[val / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
     }
 
-    althudfunc(x, y, altnum2[val % 10], WHITE, color, tinttab);
+    althudfunc(x, y, altnumpatch2[val % 10], WHITE, color, tinttab);
 }
 
 static int AltHUDNumber2Width(int val)
@@ -975,13 +969,13 @@ static int AltHUDNumber2Width(int val)
 
     if (val >= 100)
     {
-        width = SHORT(altnum2[val / 100]->width) + 2;
-        width += SHORT(altnum2[(val %= 100) / 10]->width) + 2;
+        width = SHORT(altnumpatch2[val / 100]->width) + 2;
+        width += SHORT(altnumpatch2[(val %= 100) / 10]->width) + 2;
     }
     else if (val >= 10)
-        width = SHORT(altnum2[val / 10]->width) + 2;
+        width = SHORT(altnumpatch2[val / 10]->width) + 2;
 
-    return (width + SHORT(altnum2[val % 10]->width));
+    return (width + SHORT(altnumpatch2[val % 10]->width));
 }
 
 static void HU_DrawAltHUD(void)
@@ -1319,7 +1313,7 @@ static void HU_DrawAltHUD(void)
         else
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
-        if ((patch = altweapon[weapon].patch))
+        if ((patch = altweaponpatch[weapon]))
             althudfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y - 15, patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
