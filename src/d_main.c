@@ -826,8 +826,8 @@ bool D_IsSIGILSHREDSWAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return (M_StringCompare(filename, "SIGIL_SHREDS.WAD")
-        || M_StringCompare(filename, "SIGIL_SHREDS_COMPAT.WAD"));
+    return (M_StringCompare(file, "SIGIL_SHREDS.WAD")
+        || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.WAD"));
 }
 
 bool D_IsSIGIL2WAD(char *filename)

@@ -108,9 +108,9 @@ void *Z_Malloc(size_t size, unsigned char tag, void **user)
     return block;
 }
 
-void *Z_Calloc(size_t n1, size_t n2, unsigned char tag, void **user)
+void *Z_Calloc(size_t size1, size_t size2, unsigned char tag, void **user)
 {
-    return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
+    return ((size1 *= size2) ? memset(Z_Malloc(size1, tag, user), 0, size1) : NULL);
 }
 
 char *Z_StringDuplicate(const char *s, unsigned char tag, void **user)

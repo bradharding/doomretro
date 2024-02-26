@@ -99,7 +99,7 @@ static int          channel_volume[MIDI_CHANNELS_PER_TRACK];
 static buffer_t     buffer;
 
 // Message for midiStream errors.
-static void MidiErrorMessage(DWORD dwError)
+static void MidiErrorMessage(MMRESULT dwError)
 {
     char    szErrorBuf[MAXERRORLENGTH] = "";
 
@@ -114,7 +114,7 @@ static void FillBuffer(void)
 
     for (i = 0; i < STREAM_MAX_EVENTS; i++)
     {
-        native_event_t  *ev = &buffer.events[i];
+        native_event_t  *event = &buffer.events[i];
 
         if (song.position >= song.num_events)
         {
@@ -124,15 +124,16 @@ static void FillBuffer(void)
                 break;
         }
 
-        *ev = song.native_events[song.position];
+        *event = song.native_events[song.position];
 
-        if (MIDIEVENT_TYPE(ev->dwEvent) == MIDI_EVENT_CONTROLLER
-            && MIDIEVENT_DATA1(ev->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
+        if (MIDIEVENT_TYPE(event->dwEvent) == MIDI_EVENT_CONTROLLER
+            && MIDIEVENT_DATA1(event->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
         {
-            const int   volume = MIDIEVENT_VOLUME(ev->dwEvent);
+            const int   volume = MIDIEVENT_VOLUME(event->dwEvent);
 
-            channel_volume[MIDIEVENT_CHANNEL(ev->dwEvent)] = volume;
-            ev->dwEvent = ((ev->dwEvent & 0xFF00FFFF) | (((int)((float)volume * volume_factor) & 0x7F) << 16));
+            channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
+            event->dwEvent = ((event->dwEvent & 0xFF00FFFF)
+                | (((int)((float)volume * volume_factor) & 0x7F) << 16));
         }
 
         song.position++;
@@ -229,10 +230,8 @@ static void MIDItoStream(midi_file_t *file)
             int             idx = -1;
 
             // Look for an event with a minimal delta time.
-            for (int i = 0; i < num_tracks; i++)
+            for (int i = 0, time; i < num_tracks; i++)
             {
-                int time;
-
                 if (!tracks[i].iter)
                     continue;
 
@@ -255,7 +254,6 @@ static void MIDItoStream(midi_file_t *file)
             {
                 free(tracks[idx].iter);
                 tracks[idx].iter = NULL;
-
                 continue;
             }
 
@@ -494,6 +492,8 @@ void I_Windows_ShutdownMusic(void)
 {
     I_Windows_StopSong();
     I_Windows_UnregisterSong();
+
+    //midiOutUnprepareHeader((HMIDIOUT)hMidiStream, &buffer.MidiStreamHdr, sizeof(MIDIHDR));
 
     midiStreamClose(hMidiStream);
 

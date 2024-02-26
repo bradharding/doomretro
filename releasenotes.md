@@ -19,7 +19,7 @@
   * `BOSSACTION` now always works as intended.
   * `NEXT` and `SECRETNEXT` now always work as intended.
   * Custom episodes greater than 4 now work as intended when playing *DOOM*.
-  * A crash no longer occurs when `ENDGAME = TRUE` is used in some instances.
+  * A crash no longer occurs during the finale when playing *DOOM II* and `ENDGAME = TRUE` is used.
 * If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
 * These changes have been made to the weapon silhouettes in the alternate widescreen HUD:
   * The `DRHUDWP0 lump can now be changed in a PWAD to display a weapon silhouette when the player has their fists equipped.
