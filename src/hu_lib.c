@@ -214,7 +214,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     }
 
     if (idbehold)
-        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0],
+        althudtextfunc(x, y + 12, screens[0],
             altunderscores, false, color, SCREENWIDTH, tinttab);
 
     for (int i = 0; i < len; i++)
