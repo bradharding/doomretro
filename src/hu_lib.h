@@ -42,7 +42,7 @@
 #define HU_MAXLINELENGTH    512
 
 #define HU_ALTHUDMSGX       (OVERLAYTEXTX - 1)
-#define HU_ALTHUDMSGY       12
+#define HU_ALTHUDMSGY       18
 
 //
 // Typedefs of widgets
