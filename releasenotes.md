@@ -24,6 +24,7 @@
 * These changes have been made to the weapon silhouettes in the alternate widescreen HUD:
   * The `DRHUDWP0` lump can now be changed in a PWAD to display a weapon silhouette when the player has their fists equipped.
   * If any of the player weapon sprites have changed in a PWAD, the weapon silhouettes can now be displayed if the `DRHUDWP0` to `DRHUDWP8` lumps are also changed.
+* The vertical positions of player messages and the current map’s title in the automap have improved when the `r_althud` and `vid_widescreen` CVARs are both `on`.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * A bug is fixed whereby the presence of `SIGIL_SHREDS.WAD` in the `autoload` folder would cause a crash in some instances.
 * Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. (Also, pressing that same key while a player message is being displayed will hide that message.)
