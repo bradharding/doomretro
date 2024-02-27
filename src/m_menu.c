@@ -3296,7 +3296,15 @@ bool M_Responder(event_t *ev)
         if (message_on)
             message_counter = 4;
         else
+        {
+            char    buffer[133] = "";
+
             HU_SetPlayerMessage(prevmessage, false, false);
+            M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, playername);
+
+            if (M_StringCompare(prevmessage, buffer))
+                message_secret = true;
+        }
     }
     else if (key == '-')
     {

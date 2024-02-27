@@ -2226,7 +2226,7 @@ static void P_SecretFound(void)
 
     if (messages && secretmessages)
     {
-        viewplayer->message = M_StringDuplicate(buffer);
+        HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
         message_secret = true;
         S_StartSound(NULL, sfx_secret);
