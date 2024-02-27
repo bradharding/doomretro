@@ -3288,8 +3288,8 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == KEY_ENTER && *prevmessage && !consoleactive && messages
-        && !IsControlBound(keyboardcontrol, KEY_ENTER) && !keydown2)
+    if (key == KEY_ENTER && *prevmessage && viewplayer->health > 0 && !consoleactive
+        && messages && !IsControlBound(keyboardcontrol, KEY_ENTER) && !keydown2)
     {
         keydown2 = key;
 
