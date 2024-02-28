@@ -1940,11 +1940,11 @@ static void AM_DrawMarks(const char *nums[])
             {
                 const int   fx = x + j % MARKWIDTH;
 
-                if (fx < MAPWIDTH)
+                if (fx > 0 && fx < MAPWIDTH)
                 {
                     const int   fy = y + j / MARKWIDTH;
 
-                    if (fy < MAPHEIGHT)
+                    if (fy > 0 && fy < MAPHEIGHT)
                     {
                         const char  src = nums[digit][j];
 
