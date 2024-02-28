@@ -429,16 +429,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             }
             else
             {
-                if ((prev == '-' || (prev2 == '.' && prev == ' ' && c == '(')))
-                    x -= 2;
-                else
-                    // [BH] apply kerning to certain character pairs
-                    for (int k = 0; kern[k].char1; k++)
-                        if (prev == kern[k].char1 && c == kern[k].char2)
-                        {
-                            x += kern[k].adjust * 2;
-                            break;
-                        }
+                // [BH] apply kerning to certain character pairs
+                for (int k = 0; kern[k].char1; k++)
+                    if (prev == kern[k].char1 && c == kern[k].char2)
+                    {
+                        x += kern[k].adjust * 2;
+                        break;
+                    }
 
                 // [BH] draw individual character
                 charwidth = (short)strlen(smallcharset[j]) / 10 - 1;
@@ -569,16 +566,13 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             }
             else
             {
-                if (prev == '-' || (prev2 == '.' && prev == ' ' && c == '('))
-                    x -= 2;
-                else
-                    // [BH] apply kerning to certain character pairs
-                    for (int k = 0; kern[k].char1; k++)
-                        if (prev == kern[k].char1 && c == kern[k].char2)
-                        {
-                            x += kern[k].adjust * 2;
-                            break;
-                        }
+                // [BH] apply kerning to certain character pairs
+                for (int k = 0; kern[k].char1; k++)
+                    if (prev == kern[k].char1 && c == kern[k].char2)
+                    {
+                        x += kern[k].adjust * 2;
+                        break;
+                    }
 
                 if (secretmap)
                 {
