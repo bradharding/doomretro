@@ -1938,13 +1938,13 @@ static void AM_DrawMarks(const char *nums[])
 
             for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
             {
-                const int   fx = x + j % MARKWIDTH;
+                const unsigned int  fx = x + j % MARKWIDTH;
 
-                if (fx > 0 && fx < MAPWIDTH)
+                if (fx < (unsigned int)MAPWIDTH)
                 {
-                    const int   fy = y + j / MARKWIDTH;
+                    const unsigned int  fy = y + j / MARKWIDTH;
 
-                    if (fy > 0 && fy < MAPHEIGHT)
+                    if (fy < (unsigned int)MAPHEIGHT)
                     {
                         const char  src = nums[digit][j];
 
