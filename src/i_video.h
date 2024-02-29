@@ -124,8 +124,8 @@ extern int          WIDEFOVDELTA;
 extern bool         nowidescreen;
 
 extern int          MAPWIDTH;
-extern int          MAPHEIGHT;
-extern int          MAPAREA;
+extern unsigned int MAPHEIGHT;
+extern unsigned int MAPAREA;
 extern int          MAPBOTTOM;
 
 extern bool         sendpause;

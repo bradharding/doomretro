@@ -182,13 +182,13 @@ am_frame_t          am_frame;
 static bool         isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
-static void (*putbigwalldot)(int, int, const byte *);
-static void (*putbigdot)(int, int, const byte *);
-static void (*putbigdot2)(int, int, const byte *);
-static void PUTDOT(int x, int y, const byte *color);
-static inline void PUTDOT2(int x, int y, const byte *color);
-static void PUTBIGDOT(int x, int y, const byte *color);
-static void PUTBIGDOT2(int x, int y, const byte *color);
+static void (*putbigwalldot)(unsigned int, unsigned int, const byte *);
+static void (*putbigdot)(unsigned int, unsigned int, const byte *);
+static void (*putbigdot2)(unsigned int, unsigned int, const byte *);
+static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
+static inline void PUTDOT2(unsigned int x, unsigned int y, const byte *color);
+static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
+static void PUTBIGDOT2(unsigned int x, unsigned int y, const byte *color);
 
 static void AM_ActivateNewScale(void)
 {
@@ -1228,12 +1228,12 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
     *x0 = CXMTOF(*x0);
     *x1 = CXMTOF(*x1);
 
-    if (*x0 < -1)
+    if (*x0 < 0)
         outcode1 = LEFT;
     else if (*x0 >= MAPWIDTH)
         outcode1 = RIGHT;
 
-    if (*x1 < -1)
+    if (*x1 < 0)
         outcode2 = LEFT;
     else if (*x1 >= MAPWIDTH)
         outcode2 = RIGHT;
@@ -1247,22 +1247,27 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
     if (!((*x0 - *x1) | (*y0 - *y1)))
         return false;
 
-    if (*y0 < -1)
+    if (*y0 < 0)
         outcode1 |= TOP;
-    else if (*y0 >= MAPHEIGHT)
+    else if (*y0 >= (int)MAPHEIGHT)
         outcode1 |= BOTTOM;
 
-    if (*y1 < -1)
+    if (*y1 < 0)
         outcode2 |= TOP;
-    else if (*y1 >= MAPHEIGHT)
+    else if (*y1 >= (int)MAPHEIGHT)
         outcode2 |= BOTTOM;
 
     return !(outcode1 & outcode2);
 }
 
-static inline void PUTDOT(int x, int y, const byte *color)
+static inline void _PUTDOT(byte *dot, const byte *color)
 {
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
+    *dot = *(*dot + color);
+}
+
+static inline void PUTDOT(unsigned int x, unsigned int y, const byte *color)
+{
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1270,56 +1275,85 @@ static inline void PUTDOT(int x, int y, const byte *color)
     }
 }
 
-static inline void PUTDOT2(int x, int y, const byte *color)
+static inline void PUTDOT2(unsigned int x, unsigned int y, const byte *color)
 {
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
         *(mapscreen + y + x) = *color;
 }
 
-static inline void PUTBIGDOT(int x, int y, const byte *color)
+static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
 {
-    if (x >= 0)
+    if (x < (unsigned int)MAPWIDTH)
     {
-        PUTDOT(x, y, color);
+        byte        *dot = mapscreen + y + x;
+        const bool  attop = (y < MAPAREA);
+        const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
 
-        if (y < MAPBOTTOM)
+        if (attop)
+            _PUTDOT(dot, color);
+
+        if (atbottom)
+            _PUTDOT(dot + MAPWIDTH, color);
+
+        if (x + 1 < (unsigned int)MAPWIDTH)
         {
-            PUTDOT(x, y + MAPWIDTH, color);
+            if (attop)
+                _PUTDOT(dot + 1, color);
 
-            if (++x < MAPWIDTH)
-            {
-                PUTDOT(x, y, color);
-                PUTDOT(x, y + MAPWIDTH, color);
-            }
+            if (atbottom)
+                _PUTDOT(dot + MAPWIDTH + 1, color);
         }
-        else if (++x < MAPWIDTH)
-            PUTDOT(x, y, color);
     }
-    else if (++x < MAPWIDTH)
-    {
-        PUTDOT(x, y, color);
-
-        if (y < MAPBOTTOM)
-            PUTDOT(x, y + MAPWIDTH, color);
-    }
-}
-
-static inline void PUTBIGDOT2(int x, int y, const byte *color)
-{
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
+    else if (++x < (unsigned int)MAPWIDTH)
     {
         byte    *dot = mapscreen + y + x;
 
-        *dot = *color;
-        *(dot + 1) = *color;
-        *(dot + MAPWIDTH) = *color;
-        *(dot + MAPWIDTH + 1) = *color;
+        if (y < MAPAREA)
+            _PUTDOT(dot, color);
+
+        if (y < (unsigned int)MAPBOTTOM)
+            _PUTDOT(dot + MAPWIDTH, color);
     }
 }
 
-static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
+static inline void PUTBIGDOT2(unsigned int x, unsigned int y, const byte *color)
 {
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
+    if (x < (unsigned int)MAPWIDTH)
+    {
+        byte        *dot = mapscreen + y + x;
+        const bool  attop = (y < MAPAREA);
+        const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
+
+        if (attop)
+            *dot = *color;
+
+        if (atbottom)
+            *(dot + MAPWIDTH) = *color;
+
+        if (x + 1 < (unsigned int)MAPWIDTH)
+        {
+            if (attop)
+                *(dot + 1) = *color;
+
+            if (atbottom)
+                *(dot + MAPWIDTH + 1) = *color;
+        }
+    }
+    else if (++x < (unsigned int)MAPWIDTH)
+    {
+        byte    *dot = mapscreen + y + x;
+
+        if (y < MAPAREA)
+            *dot = *color;
+
+        if (y < (unsigned int)MAPBOTTOM)
+            *(dot + MAPWIDTH) = *color;
+    }
+}
+
+static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, const byte *color)
+{
+    if (x < (unsigned int)MAPWIDTH && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
@@ -1332,7 +1366,7 @@ static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_DrawFline(int x0, int y0, int x1, int y1, const byte *color,
-    void (*putdot)(int, int, const byte *))
+    void (*putdot)(unsigned int, unsigned int, const byte *))
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
@@ -1824,7 +1858,7 @@ static void AM_DrawThings(void)
                 }
 
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
-                    && (fy = CYMTOF(point.y)) >= -width && fy <= MAPHEIGHT + width)
+                    && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
                     AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
                         point.x, point.y, ((thing->flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor));
             }
@@ -1844,7 +1878,7 @@ static void AM_DrawBloodSplats(void)
                 AM_RotatePoint(&point);
 
             if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
-                && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= MAPHEIGHT + BLOODSPLATWIDTH)
+                && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
                 AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
                     (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
         }
@@ -1944,7 +1978,7 @@ static void AM_DrawMarks(const char *nums[])
                 {
                     const unsigned int  fy = y + j / MARKWIDTH;
 
-                    if (fy < (unsigned int)MAPHEIGHT)
+                    if (fy < MAPHEIGHT)
                     {
                         const char  src = nums[digit][j];
 
@@ -2165,15 +2199,15 @@ static void AM_ApplyAntialiasing(void)
 
     memcpy(dest, mapscreen, MAPAREA);
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
         for (int x = y; x <= y + MAPWIDTH - 2; x++)
             dest[x] = tinttab33[(dest[x + 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
         for (int x = y + MAPWIDTH - 2; x > y; x--)
             dest[x] = tinttab33[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
         for (int x = y; x <= y + MAPWIDTH - 1; x++)
             dest[x] = tinttab33[(dest[x + MAPWIDTH] << 8) + dest[x]];
 
@@ -2186,14 +2220,14 @@ static void AM_ApplyAntialiasing(void)
     for (int x = 0; x < MAPWIDTH; x++)
         mapscreen[x] = tinttab33[mapscreen[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
         mapscreen[y] = tinttab33[mapscreen[y]];
 
-    for (int y = MAPWIDTH - 1; y <= MAPAREA - 1; y += MAPWIDTH)
+    for (int y = MAPWIDTH - 1; y <= (int)MAPAREA - 1; y += MAPWIDTH)
         mapscreen[y] = tinttab33[mapscreen[y]];
 
     if (r_screensize == r_screensize_max)
-        for (int x = MAPAREA - MAPWIDTH; x < MAPAREA; x++)
+        for (int x = MAPAREA - MAPWIDTH; x < (int)MAPAREA; x++)
             mapscreen[x] = tinttab33[mapscreen[x]];
 }
 
