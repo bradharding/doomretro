@@ -148,7 +148,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                     if (src == PINK)
                         *dest = black40[*dest];
                     else if (src != ' ')
-                        *dest = tinttab80[(src << 8) + *dest];
+                        *dest = tinttab70[(src << 8) + *dest];
                 }
         }
 }
@@ -172,7 +172,7 @@ static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int s
                     if (src == PINK)
                         *dest = black40[*dest];
                     else if (src != ' ')
-                        *dest = tinttab80[(redtogold[src] << 8) + *dest];
+                        *dest = tinttab70[(redtogold[src] << 8) + *dest];
                 }
         }
 }
@@ -374,8 +374,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
-    byte            *tinttab1 = tinttab50;
-    byte            *tinttab2 = tinttab80;
+    byte            *tinttab1 = tinttab40;
+    byte            *tinttab2 = tinttab70;
     const int       black = (nearestblack << 8);
     const int       len = l->len;
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
