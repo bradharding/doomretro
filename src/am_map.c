@@ -1306,7 +1306,7 @@ static inline void PUTBIGDOT(int x, int y, const byte *color)
 
 static inline void PUTBIGDOT2(int x, int y, const byte *color)
 {
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
+    if (x >= 0 && x < MAPWIDTH - 1 && y >= 0 && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
 
