@@ -148,7 +148,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                     if (src == PINK)
                         *dest = black40[*dest];
                     else if (src != ' ')
-                        *dest = tinttab70[(src << 8) + *dest];
+                        *dest = tinttab75[(src << 8) + *dest];
                 }
         }
 }
@@ -172,7 +172,7 @@ static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int s
                     if (src == PINK)
                         *dest = black40[*dest];
                     else if (src != ' ')
-                        *dest = tinttab70[(redtogold[src] << 8) + *dest];
+                        *dest = tinttab75[(redtogold[src] << 8) + *dest];
                 }
         }
 }
@@ -187,7 +187,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
                         (r_hud_translucency ? nearestwhite : nearestlightgray)));
     const int       len = l->len;
-    byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
+    byte            *tinttab = (automapactive ? tinttab75 : tinttab50);
 
     if (!automapactive)
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
@@ -375,7 +375,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     byte            *tinttab1 = tinttab40;
-    byte            *tinttab2 = tinttab70;
+    byte            *tinttab2 = tinttab75;
     const int       black = (nearestblack << 8);
     const int       len = l->len;
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
