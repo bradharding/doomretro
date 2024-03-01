@@ -4945,13 +4945,19 @@ static void mapstats_func2(char *cmd, char *parms)
 
     OutputReleaseDate(tabs, wadname);
 
+    if (wadtype == PWAD)
+    {
+        if (W_GetNumLumps("DEHACKED") > 1)
+            C_TabbedOutput(tabs, INDENT "DEHACKED\tYes");
+
+        if (*mapinfolump)
+            C_TabbedOutput(tabs, INDENT "%s\tYes", mapinfolump);
+    }
+
     C_TabbedOutput(tabs, INDENT "MD5\t%s", MD5(lumpinfo[lump]->wadfile->path));
 
     if (wadtype == PWAD)
     {
-        if (*mapinfolump)
-            C_TabbedOutput(tabs, INDENT "%s\tYes", mapinfolump);
-
         M_StringCopy(wadname, leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path), sizeof(wadname));
 
         C_TabbedOutput(tabs, "IWAD\t%s", wadname);
