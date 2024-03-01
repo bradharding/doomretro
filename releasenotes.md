@@ -25,10 +25,10 @@
 * These changes have been made to the weapon silhouettes in the alternate widescreen HUD:
   * The `DRHUDWP0` lump can now be changed in a PWAD to display a weapon silhouette when the player has their fists equipped.
   * If any of the player weapon sprites have changed in a PWAD, the weapon silhouettes can now be displayed if the `DRHUDWP0` to `DRHUDWP8` lumps are also changed.
-* The vertical positions of player messages, as well as the current map’s title in the automap, have improved when the `vid_widescreen` CVAR is `on`.
+* The vertical position and translucency of player messages, as well as the current map’s title in the automap, have improved when the `vid_widescreen` CVAR is `on`.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * A bug is fixed whereby the presence of `SIGIL_SHREDS.WAD` in the `autoload` folder would cause a crash in some instances.
-* Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. (Also, pressing that same key while a player message is being displayed will hide that message.)
+* Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. Also, pressing the <kbd><b>ENTER</b></kbd> key while a player message is displayed will now hide that message.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the left and top edges of the automap.
 * The puffs of smoke that trail behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` are now randomly mirrored.
@@ -37,12 +37,12 @@
 * A bug is fixed whereby the player’s view angle would be slightly off after they teleported.
 * Both the player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
-* A bug is fixed whereby a slight ghosting effect would appear on the screen as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
+* A bug is fixed whereby the screen would glitch slightly as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
 * Minor improvements have been made to the position and translucency of several elements on the intermission screen.
 * The total amount of time played is now displayed in the console each time the player exits a map.
-* The severity of shaking the screen has been reduced when the player receives damage and the `r_shake_damage` CVAR is greater than `0%`.
+* The amount the screen shakes when the player receives damage has been reduced if the `r_shake_damage` CVAR is greater than `0%`.
 * These changes have been made when using the `kill` CCMD in the console:
-  * The distance monsters slide upon their death, and the amount of blood splats that are spawned, are now consistent regardless of the size of the monster.
+  * The distance a monster slides upon their death, and the amount of blood splats that are spawned, are now consistent regardless of the size of the monster.
   * Friendly monsters no longer affect the total number of monsters killed in the current map.
   * A bug is fixed whereby invalid obituaries would be displayed in some instances.
 * Entering `explode barrels` in the console now works as intended.

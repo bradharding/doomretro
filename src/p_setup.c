@@ -3330,7 +3330,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     file = leafname(lumpinfo[lumpnum]->wadfile->path);
 
-    if (M_StringCompare(file, "NERVE.wad") || D_IsSIGILWAD(file) || D_IsSIGIL2WAD(file))
+    if (M_StringCompare(file, "NERVE.WAD") || D_IsSIGILWAD(file) || D_IsSIGIL2WAD(file))
         return false;
 
     MAPINFO = lumpnum;
