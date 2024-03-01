@@ -49,6 +49,8 @@ extern bool         skipblstart;
 extern bool         transferredsky;
 extern const char   *linespecials[];
 
+extern char         *mapinfolump;
+
 extern bool         allowmonstertelefrags;
 extern bool         compat_corpsegibs;
 extern bool         compat_floormove;

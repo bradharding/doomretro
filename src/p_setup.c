@@ -363,7 +363,9 @@ int             nograduallighting_global = -1;
 
 bool            canmodify;
 bool            transferredsky;
+
 static int      MAPINFO;
+char            *mapinfolump = "";
 
 bool            samelevel;
 bool            secretmap;
@@ -3327,6 +3329,8 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     if ((lumpnum = W_CheckNumForName(scriptname)) < 0)
         return false;
+
+    mapinfolump = uppercase(scriptname);
 
     file = leafname(lumpinfo[lumpnum]->wadfile->path);
 
