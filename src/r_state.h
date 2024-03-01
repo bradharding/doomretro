@@ -113,7 +113,8 @@ typedef enum
 {
     DOOMBSP,
     DEEPBSP,
-    ZDBSPX
+    ZDBSPX,
+    ZDBSPZ
 } mapformat_t;
 
 extern mapformat_t  mapformat;

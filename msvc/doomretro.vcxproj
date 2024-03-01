@@ -351,6 +351,7 @@
     <ClInclude Include="..\src\md5.h" />
     <ClInclude Include="..\src\memio.h" />
     <ClInclude Include="..\src\midifile.h" />
+    <ClInclude Include="..\src\miniz\miniz.h" />
     <ClInclude Include="..\src\m_argv.h" />
     <ClInclude Include="..\src\m_bbox.h" />
     <ClInclude Include="..\src\m_cheat.h" />
@@ -429,6 +430,7 @@
     <ClCompile Include="..\src\md5.c" />
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
+    <ClCompile Include="..\src\miniz\miniz.c" />
     <ClCompile Include="..\src\m_argv.c" />
     <ClCompile Include="..\src\m_bbox.c" />
     <ClCompile Include="..\src\m_cheat.c" />

@@ -50,6 +50,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "miniz/miniz.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "p_setup.h"
@@ -376,7 +377,8 @@ const char *mapformats[] =
 {
     "Vanilla",
     ITALICS("DeeP"),
-    ITALICS("ZDOOM") " extended (uncompressed)"
+    ITALICS("ZDOOM") " extended (uncompressed)",
+    ITALICS("ZDOOM") " extended (compressed)",
 };
 
 bool            boomcompatible;
@@ -1701,9 +1703,10 @@ static void P_LoadZSegs(const byte *data)
 
 // MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
 // <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
-static void P_LoadZNodes(int lump)
+static void P_LoadZNodes(int lump, bool compressed)
 {
     byte            *data = W_CacheLumpNum(lump);
+    byte            *output = NULL;
     unsigned int    orgVerts;
     unsigned int    newVerts;
     unsigned int    numSubs;
@@ -1712,8 +1715,59 @@ static void P_LoadZNodes(int lump)
     unsigned int    numNodes;
     vertex_t        *newvertarray = NULL;
 
-    // skip header
-    data += 4;
+    if (compressed)
+    {
+        const int   len = W_LumpLength(lump);
+        int         outlen;
+        int         err;
+        z_stream    *zstream;
+
+        // first estimate for compression rate:
+        // output buffer size == 2.5 * input size
+        outlen = 2.5 * len;
+        output = I_Malloc(outlen);
+
+        // initialize stream state for decompression
+        zstream = I_Malloc(sizeof(*zstream));
+        memset(zstream, 0, sizeof(*zstream));
+        zstream->next_in = data + 4;
+        zstream->avail_in = len - 4;
+        zstream->next_out = output;
+        zstream->avail_out = outlen;
+
+        if (inflateInit(zstream) != Z_OK)
+            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression "
+                "initialization!");
+
+        // resize if output buffer runs full
+        while ((err = inflate(zstream, Z_SYNC_FLUSH)) == Z_OK)
+        {
+            int outlen_old = outlen;
+
+            outlen = 2 * outlen_old;
+            output = I_Realloc(output, outlen);
+            zstream->next_out = output + outlen_old;
+            zstream->avail_out = outlen - outlen_old;
+        }
+
+        if (err != Z_STREAM_END)
+            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression!");
+
+        data = output;
+
+        if (inflateEnd(zstream) != Z_OK)
+            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression "
+                "shut-down!");
+
+        // release the original data lump
+        W_CacheLumpNum(lump);
+        free(zstream);
+    }
+    else
+    {
+        // skip header
+        data += 4;
+    }
 
     // Read extra vertexes added during node building
     orgVerts = LONG(*((const unsigned int *)data));
@@ -1822,7 +1876,10 @@ static void P_LoadZNodes(int lump)
         }
     }
 
-    W_ReleaseLumpNum(lump);
+    if (compressed && output)
+        free(output);
+    else
+        W_ReleaseLumpNum(lump);
 
     P_CheckLinedefs();
 }
@@ -3008,10 +3065,13 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     {
         if (!memcmp(n, "xNd4\0\0\0\0", 8))
             format = DEEPBSP;
-        else if (!memcmp(n, "XNOD", 4) && !W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
-            format = ZDBSPX;
-        else if (!memcmp(n, "ZNOD", 4))
-            I_Error("Compressed ZDBSP nodes are not supported.");
+        else if (!W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
+        {
+            if (!memcmp(n, "XNOD", 4))
+                format = ZDBSPX;
+            else if (!memcmp(n, "ZNOD", 4))
+                format = ZDBSPZ;
+        }
     }
 
     if (n)
@@ -3176,7 +3236,9 @@ void P_SetupLevel(int ep, int map)
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
     if (mapformat == ZDBSPX)
-        P_LoadZNodes(lumpnum + ML_NODES);
+        P_LoadZNodes(lumpnum + ML_NODES, false);
+    else if (mapformat == ZDBSPZ)
+        P_LoadZNodes(lumpnum + ML_NODES, true);
     else if (mapformat == DEEPBSP)
     {
         P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
