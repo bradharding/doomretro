@@ -1641,8 +1641,8 @@ static void M_DrawMainMenu(void)
 //
 static int      epi;
 bool            customepisode = false;
-static short    epsiodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
-static short    epsiodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
+static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
@@ -1667,11 +1667,11 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
-            if (epsiodemenuepisode[EpiDef.numitems] == ep && epsiodemenumap[EpiDef.numitems] == map)
+            if (episodemenuepisode[EpiDef.numitems] == ep && episodemenumap[EpiDef.numitems] == map)
                 return;
 
-        epsiodemenuepisode[EpiDef.numitems] = ep;
-        epsiodemenumap[EpiDef.numitems] = map;
+        episodemenuepisode[EpiDef.numitems] = ep;
+        episodemenumap[EpiDef.numitems] = map;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
         *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
@@ -1819,7 +1819,7 @@ static void M_ChooseSkill(int choice)
     else if (!customepisode)
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);
     else
-        G_DeferredInitNew((skill_t)choice, epsiodemenuepisode[epi], epsiodemenumap[epi]);
+        G_DeferredInitNew((skill_t)choice, episodemenuepisode[epi], episodemenumap[epi]);
 }
 
 static void M_Episode(int choice)

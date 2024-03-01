@@ -37,6 +37,7 @@
 * A bug is fixed whereby the player’s view angle would be slightly off after they teleported.
 * Both the player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
+* The use of `DEHACKED` and `MAPINFO` lumps is now displayed by the `mapstats` CCMD.
 * A bug is fixed whereby the screen would glitch slightly as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
 * Minor improvements have been made to the position and translucency of several elements on the intermission screen.
 * The total amount of time played is now displayed in the console each time the player exits a map.
