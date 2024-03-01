@@ -14,6 +14,7 @@
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
+* The `IDMUS` cheat now works as intended.
 * Improvements have been made to parsing custom monster names in `DEHACKED` lumps.
 * These changes have been made to the support of `MAPINFO` lumps:
   * `BOSSACTION` now always works as intended.

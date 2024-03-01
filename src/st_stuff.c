@@ -625,7 +625,10 @@ bool ST_Responder(const event_t *ev)
 
                         if (musnum != mus_none)
                         {
-                            char    *lump = uppercase(s_music[musnum].name1);
+                            char    lump[9];
+                            char    *temp = uppercase(s_music[musnum].name1);
+
+                            M_snprintf(lump, sizeof(lump), "D_%s", temp);
 
                             if (W_CheckNumForName(lump) >= 0)
                             {
@@ -635,13 +638,13 @@ bool ST_Responder(const event_t *ev)
 
                                 S_ChangeMusic(musnum, 1, true, false);
                                 ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
-                                M_snprintf(msg, sizeof(msg), s_STSTR_MUS, lump);
+                                M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                                 C_Output(msg);
                                 HU_SetPlayerMessage(msg, false, false);
                                 message_dontfuckwithme = true;
                             }
 
-                            free(lump);
+                            free(temp);
                         }
                         else
                             idmus = false;
