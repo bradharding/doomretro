@@ -5207,12 +5207,6 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Format\tFLAC");
         else if (musictype == MUS_OPUS)
             C_TabbedOutput(tabs, INDENT "Format\tOpus");
-#if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MAJOR_VERSION == 2 && SDL_MIXER_MINOR_VERSION >= 7)
-        else if (musictype == MUS_WAVPACK)
-            C_TabbedOutput(tabs, INDENT "Format\tWavPack");
-        else if (musictype == MUS_GME)
-            C_TabbedOutput(tabs, INDENT "Format\tGME");
-#endif
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));

@@ -30,7 +30,7 @@
 * Several improvements have been made to the position, translucency and truncation of player messages and the current map’s title in the automap.
 * When playing *DOOM (Shareware)*, files no longer attempt to autoload from the `autoload` folder during startup.
 * A bug is fixed whereby the presence of `SIGIL_SHREDS.WAD` in the `autoload` folder would cause a crash in some instances.
-* Restoring an undocumented feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. Also, pressing the <kbd><b>ENTER</b></kbd> key while a player message is displayed will now hide that message.
+* Restoring a lesser known feature from the original *DOOM*, pressing the <kbd><b>ENTER</b></kbd> key now displays the previous player message if the `messages` CVAR is `on`. Also, pressing the <kbd><b>ENTER</b></kbd> key while a player message is displayed will now hide that message.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Solid walls now always clip correctly against the left and top edges of the automap.
 * The puffs of smoke that trail behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` are now randomly mirrored.
