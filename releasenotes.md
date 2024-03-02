@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL v2.30.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.0) and [*SDL_mixer v2.8.0*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.0).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Support has been added for maps with [compressed, extended nodes](https://zdoom.org/wiki/Node#ZDoom_extended_nodes).
 * A warning is now displayed in the console at startup if a lump in a PWAD is an unsupported PNG image, since trying to display it would cause *DOOM Retro* to crash.
 * Minor changes have been made to text that is output to the console.
 * Improvements have been made when the player moves using a controller.

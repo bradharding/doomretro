@@ -1723,8 +1723,8 @@ static void P_LoadZNodes(int lump, bool compressed)
         z_stream    *zstream;
 
         // first estimate for compression rate:
-        // output buffer size == 2.5 * input size
-        outlen = 2.5 * len;
+        // output buffer size == input size * 2.5
+        outlen = (int)(len * 2.5);
         output = I_Malloc(outlen);
 
         // initialize stream state for decompression
@@ -1736,15 +1736,14 @@ static void P_LoadZNodes(int lump, bool compressed)
         zstream->avail_out = outlen;
 
         if (inflateInit(zstream) != Z_OK)
-            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression "
-                "initialization!");
+            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression initialization!");
 
         // resize if output buffer runs full
         while ((err = inflate(zstream, Z_SYNC_FLUSH)) == Z_OK)
         {
             int outlen_old = outlen;
 
-            outlen = 2 * outlen_old;
+            outlen = outlen_old * 2;
             output = I_Realloc(output, outlen);
             zstream->next_out = output + outlen_old;
             zstream->avail_out = outlen - outlen_old;
@@ -1756,8 +1755,7 @@ static void P_LoadZNodes(int lump, bool compressed)
         data = output;
 
         if (inflateEnd(zstream) != Z_OK)
-            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression "
-                "shut-down!");
+            I_Error("P_LoadZNodes: Error during ZNOD nodes decompression shutdown!");
 
         // release the original data lump
         W_CacheLumpNum(lump);
