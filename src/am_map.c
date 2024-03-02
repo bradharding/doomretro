@@ -1681,7 +1681,7 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
 }
 
 static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
-    const angle_t angle, const fixed_t x, const fixed_t y, const byte color)
+    const angle_t angle, const fixed_t x, const fixed_t y, const byte color, void (*putdot)(int, int, const byte *))
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1707,7 +1707,7 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, putbigdot2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, putdot);
     }
 }
 
@@ -1826,7 +1826,8 @@ static void AM_DrawThings(void)
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                     && (fy = CYMTOF(point.y)) >= -width && fy <= MAPHEIGHT + width)
                     AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
-                        point.x, point.y, ((thing->flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor));
+                        point.x, point.y, ((flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor),
+                        ((flags & MF_FUZZ) ? PUTTRANSLUCENTDOT : putbigdot2));
             }
 }
 
@@ -1846,7 +1847,7 @@ static void AM_DrawBloodSplats(void)
             if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
                 && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= MAPHEIGHT + BLOODSPLATWIDTH)
                 AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
-                    (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
+                    (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor, putbigdot2);
         }
 }
 
