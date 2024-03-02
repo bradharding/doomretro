@@ -1323,8 +1323,8 @@ static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
     {
         byte    *dot = mapscreen + y + x;
 
-        if (*dot != tinttab66[*color])
-            *dot = tinttab66[(*dot << 8) + *color];
+        if (*dot != tinttab50[*color])
+            *dot = tinttab50[(*dot << 8) + *color];
     }
 }
 
