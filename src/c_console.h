@@ -93,10 +93,11 @@
 
 #define CONSOLEINPUTPIXELWIDTH              (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define OVERLAYTEXTX                        (vid_widescreen && !mapwindow ? MAXWIDESCREENDELTA - 24 : 12)
+#define OVERLAYTEXTX                        (vid_widescreen ? 35 : 18)
 #define OVERLAYTEXTY                        (vid_widescreen && r_screensize == r_screensize_max ? 18 : 12)
 #define OVERLAYLINEHEIGHT                   14
 #define OVERLAYSPACING                      7
+#define MAPOVERLAYTEXTX                     18
 #define MAPOVERLAYTEXTY                     18
 
 #define WARNINGWIDTH                        13

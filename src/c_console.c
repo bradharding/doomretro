@@ -1380,12 +1380,17 @@ void C_UpdatePathOverlay(void)
 
     if (*distance)
     {
+        int x;
         int y;
 
         if (mapwindow)
+        {
+            x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
             y = MAPOVERLAYTEXTY;
+        }
         else
         {
+            x = MAPWIDTH - OVERLAYTEXTX + 1;
             y = OVERLAYTEXTY;
 
             if (vid_showfps && framespersecond)
@@ -1399,10 +1404,10 @@ void C_UpdatePathOverlay(void)
         }
 
         if (r_hud_translucency)
-            C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
+            C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
                 tinttab70, distance, consoleoverlaycolor, true);
         else
-            C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
+            C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
                 NULL, distance, nearestlightgray, true);
 
         pathoverlay = true;
@@ -1413,7 +1418,7 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    const int   x = MAPWIDTH - OVERLAYTEXTX + 1;
+    int         x;
     int         y;
     const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
@@ -1422,9 +1427,13 @@ void C_UpdatePlayerStatsOverlay(void)
     static int  color;
 
     if (mapwindow)
+    {
+        x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
         y = MAPOVERLAYTEXTY;
+    }
     else
     {
+        x = MAPWIDTH - OVERLAYTEXTX + 1;
         y = OVERLAYTEXTY;
 
         if (vid_showfps && framespersecond)
