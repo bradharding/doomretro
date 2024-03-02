@@ -783,7 +783,7 @@ enum
 #endif
 #define vid_scaleapi_software               "software"
 #if defined(_WIN32)
-#define vid_scaleapi_default                vid_scaleapi_direct3d11
+#define vid_scaleapi_default                vid_scaleapi_direct3d9
 #else
 #define vid_scaleapi_default                vid_scaleapi_opengl
 #endif

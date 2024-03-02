@@ -40,6 +40,7 @@
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
 * The use of `DEHACKED` and `MAPINFO` lumps is now displayed by the `mapstats` CCMD.
 * A bug is fixed whereby the screen would glitch slightly as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
+* The `vid_scale_api` CVAR is now `direct3d9` by default.
 * Minor improvements have been made to the position and translucency of several elements on the intermission screen.
 * The total amount of time played is now displayed in the console each time the player exits a map.
 * The amount the screen shakes when the player receives damage has been reduced if the `r_shake_damage` CVAR is greater than `0%`.
