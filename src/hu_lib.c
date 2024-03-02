@@ -520,7 +520,8 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     unsigned char   prev2 = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
     char            s[513];
-    const int       maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / 2);
+    const int       maxwidth = (external ? MAPWIDTH / 2 :
+                        (r_screensize == r_screensize_max ? SCREENWIDTH / 2 : VANILLAWIDTH));
     int             len = l->len;
 
     M_StringCopy(s, l->l, sizeof(s));
