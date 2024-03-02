@@ -97,6 +97,7 @@
 #define OVERLAYTEXTY                        (vid_widescreen && r_screensize == r_screensize_max ? 18 : 12)
 #define OVERLAYLINEHEIGHT                   14
 #define OVERLAYSPACING                      7
+#define MAPOVERLAYTEXTY                     18
 
 #define WARNINGWIDTH                        13
 

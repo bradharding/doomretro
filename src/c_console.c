@@ -1380,10 +1380,14 @@ void C_UpdatePathOverlay(void)
 
     if (*distance)
     {
-        int y = OVERLAYTEXTY;
+        int y;
 
-        if (!mapwindow)
+        if (mapwindow)
+            y = MAPOVERLAYTEXTY;
+        else
         {
+            y = OVERLAYTEXTY;
+
             if (vid_showfps && framespersecond)
                 y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
@@ -1410,15 +1414,19 @@ void C_UpdatePathOverlay(void)
 void C_UpdatePlayerStatsOverlay(void)
 {
     const int   x = MAPWIDTH - OVERLAYTEXTX + 1;
-    int         y = OVERLAYTEXTY;
+    int         y;
     const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
     static int  width;
     static int  color;
 
-    if (!mapwindow)
+    if (mapwindow)
+        y = MAPOVERLAYTEXTY;
+    else
     {
+        y = OVERLAYTEXTY;
+
         if (vid_showfps && framespersecond)
             y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
