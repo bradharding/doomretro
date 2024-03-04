@@ -44,7 +44,7 @@
 // Patches.
 // A patch holds one or more columns.
 // Patches are used for sprites and all masked pictures,
-// and we compose textures from the TEXTURE1/2 lists  of patches.
+// and we compose textures from the TEXTURE1/2 lists of patches.
 //
 
 // Re-engineered patch support

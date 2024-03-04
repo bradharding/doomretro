@@ -835,6 +835,24 @@ int W_RangeCheckNumForName(int min, int max, const char *name)
     return -1;
 }
 
+void W_Init(void)
+{
+    for (int i = 0; i < numlumps; i++)
+        lumpinfo[i]->index = -1;                       // mark slots empty
+
+    // Insert nodes to the beginning of each chain, in first-to-last
+    // lump order, so that the last lump of a given name appears first
+    // in any chain, observing PWAD ordering rules. -- killough
+    for (int i = 0; i < numlumps; i++)
+    {
+        // hash function:
+        const int   j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
+
+        lumpinfo[i]->next = lumpinfo[j]->index;       // prepend to list
+        lumpinfo[j]->index = i;
+    }
+}
+
 static bool W_IsPNGLump(const int lump)
 {
     bool    result = false;
@@ -850,24 +868,6 @@ static bool W_IsPNGLump(const int lump)
     }
 
     return result;
-}
-
-void W_Init(void)
-{
-    for (int i = 0; i < numlumps; i++)
-        lumpinfo[i]->index = -1;                       // mark slots empty
-
-    // Insert nodes to the beginning of each chain, in first-to-last
-    // lump order, so that the last lump of a given name appears first
-    // in any chain, observing PWAD ordering rules. killough
-    for (int i = 0; i < numlumps; i++)
-    {
-        // hash function:
-        const int   j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
-
-        lumpinfo[i]->next = lumpinfo[j]->index;       // prepend to list
-        lumpinfo[j]->index = i;
-    }
 }
 
 void W_CheckForPNGLumps(void)
