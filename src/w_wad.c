@@ -868,7 +868,10 @@ void W_Init(void)
         lumpinfo[i]->next = lumpinfo[j]->index;       // prepend to list
         lumpinfo[j]->index = i;
     }
+}
 
+void W_CheckForPNGLumps(void)
+{
     if (W_IsPNGLump(W_GetNumForName("TITLEPIC")))
         I_Error("The TITLEPIC lump is an unsupported PNG image!");
 

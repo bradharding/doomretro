@@ -100,6 +100,7 @@ void *W_CacheLumpNum(int lumpnum);
 #define W_CacheWidestLumpName(name) W_CacheLumpNum(W_GetWidestNumForName(name))
 
 void W_Init(void);
+void W_CheckForPNGLumps(void);
 
 unsigned int W_LumpNameHash(const char *s);
 
