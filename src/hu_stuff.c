@@ -1675,13 +1675,8 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
-    if (gamestate == GS_LEVEL)
-    {
-        if (!message_dontfuckwithme)
-            HU_SetPlayerMessage(buffer, group, external);
-
-        M_StringCopy(prevmessage, buffer, sizeof(prevmessage));
-    }
+    if (gamestate == GS_LEVEL && !message_dontfuckwithme)
+        HU_SetPlayerMessage(buffer, group, external);
 
     viewplayer->prevmessagetics = gametime;
 }
