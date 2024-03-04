@@ -2332,6 +2332,7 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
+    W_Init();
     D_IdentifyVersion();
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
