@@ -2332,7 +2332,6 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
-    W_Init();
     D_IdentifyVersion();
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
@@ -2402,6 +2401,8 @@ static void D_DoomMainSetup(void)
         if (autoloadpwadsubfolder)
             autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
     }
+
+    W_Init();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
