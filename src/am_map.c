@@ -304,7 +304,7 @@ void AM_SetColors(void)
     pathcolor = nearestcolors[am_pathcolor];
     gridcolor = nearestcolors[am_gridcolor];
 
-    for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)
+    for (mobjtype_t i = 0; i < nummobjtypes; i++)
         mobjinfo[i].automapcolor = thingcolor;
 
     mobjinfo[MT_MISC4].automapcolor = bluekeycolor;
