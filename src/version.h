@@ -42,7 +42,7 @@
 
 #define DOOMRETRO                       "doomretro"
 #define DOOMRETRO_AUTOLOADFOLDER        "autoload"
-#define DOOMRETRO_CONFIG                "doomretro.cfg"
+#define DOOMRETRO_CONFIGFILE            "doomretro.cfg"
 #define DOOMRETRO_CONSOLEFOLDER         "console"
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962024 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"

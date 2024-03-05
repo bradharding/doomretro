@@ -4,7 +4,7 @@
 
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* A bug is fixed whereby grouping wasn’t being applied to the previous player message, displayed when pressing the <kbd><b>ENTER</b></kbd> key, if both the `messages` and `groupmessages` CVARs were `on`.
+* A bug is fixed whereby grouping wasn’t being applied to the previous player message when pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

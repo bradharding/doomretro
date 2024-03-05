@@ -865,7 +865,7 @@ static int ParseBoolParameter(const char *cvar, const char *value, const int val
     index = C_GetIndex(cvar);
     defaultnumber = (int)consolecmds[index].defaultnumber;
 
-    C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is invalid and has been reset "
+    C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is invalid and has been reset "
         "to its default of " BOLD("%s") ".", consolecmds[index].name, (defaultnumber ? "on" : "off"));
 
     return defaultnumber;
@@ -891,7 +891,7 @@ static int ParseIntParameter(const char *cvar, const char *strparm, const int va
         int     defaultnumber = (int)consolecmds[index].defaultnumber;
         char    *temp = C_LookupAliasFromValue(defaultnumber, consolecmds[index].aliases);
 
-        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("%s%s") ".",
             consolecmds[index].name, temp, (consolecmds[index].flags == CF_PERCENT ? "%%" : ""));
         free(temp);
@@ -924,7 +924,7 @@ static float ParseFloatParameter(const char *cvar, const char *strparm, const in
         float   defaultnumber = consolecmds[index].defaultnumber;
         char    *temp = striptrailingzero(*(float *)consolecmds[index].variable, 1);
 
-        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("%s%s") ".",
             consolecmds[index].name, temp, (consolecmds[index].flags == CF_PERCENT ? "%%" : ""));
         free(temp);
@@ -984,7 +984,7 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
     {
         vid_scaleapi = vid_scaleapi_default;
-        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
             stringize(vid_scaleapi), stringize(vid_scaleapi_default));
     }
@@ -994,7 +994,7 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
     {
         vid_scalefilter = vid_scalefilter_default;
-        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
             stringize(vid_scalefilter), stringize(vid_scalefilter_default));
     }
@@ -1005,7 +1005,7 @@ static void M_CheckCVARs(void)
 //
 void M_LoadCVARs(const char *filename)
 {
-    const bool  isconfigfile = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    const bool  isconfigfile = M_StringEndsWith(filename, DOOMRETRO_CONFIGFILE);
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;

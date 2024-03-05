@@ -2030,7 +2030,7 @@ static void D_DoomMainSetup(void)
     free(resourcefolder);
 
     M_MakeDirectory(appdatafolder);
-    configfile = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
+    configfile = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIGFILE, NULL));
 
     C_ClearConsole();
 
@@ -2401,9 +2401,11 @@ static void D_DoomMainSetup(void)
 
         if (autoloadpwadsubfolder)
             autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
+
+        if (autoloading)
+            W_Init();
     }
 
-    W_Init();
     W_CheckForPNGLumps();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
