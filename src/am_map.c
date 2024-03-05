@@ -1813,14 +1813,14 @@ static void AM_DrawThings(void)
                 if (am_rotatemode)
                     AM_RotatePoint(&point);
 
-                if (flags & MF_SPECIAL)
+                if (!(flags & MF_SHOOTABLE))
                     width = (12 << FRACBITS) >> FRACTOMAPBITS;
                 else
                 {
                     const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
 
-                    width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[sprite], spriteheight[sprite]),
-                        80 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                    width = (BETWEEN(65 << FRACBITS, MIN(spritewidth[sprite], spriteheight[sprite]),
+                        80 << FRACBITS) >> FRACTOMAPBITS) / 3;
                 }
 
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
