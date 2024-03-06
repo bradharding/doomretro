@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.3.1
 
+* *DOOM Retro* now uses [*SDL v2.30.1*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.1).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby grouping wasn’t being applied to the previous player message when pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
