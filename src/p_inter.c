@@ -505,7 +505,9 @@ void P_LookForCards(void)
         for (int i = 0; i < NUMCARDS; i++)
             if (mo->sprite == cardsprites[i])
             {
-                viewplayer->cards[i] = CARDNOTFOUNDYET;
+                if (!viewplayer->cards[i])
+                    viewplayer->cards[i] = CARDNOTFOUNDYET;
+
                 break;
             }
     }
