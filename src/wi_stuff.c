@@ -722,8 +722,6 @@ static void WI_InitShowNextLoc(void)
     cnt = SHOWNEXTLOCDELAY * TICRATE;
 
     D_FadeScreen(false);
-
-    WI_InitAnimatedBack();
 }
 
 static void WI_UpdateShowNextLoc(void)
