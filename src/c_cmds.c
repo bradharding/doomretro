@@ -1354,9 +1354,7 @@ static bool cheat_func1(char *cmd, char *parms)
             return result;
         else if (result)
         {
-            C_Input("%s%s", cmd, parms);
             map_func2("map", mapcmdlump);
-
             return true;
         }
     }
