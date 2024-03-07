@@ -502,7 +502,7 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
     }
 }
 
-static void WI_InitAnimatedBack(void)
+static void WI_InitAnimatedBack(bool firstcall)
 {
     if (exitpic > 0 || (enterpic > 0 && entering))
         return;
@@ -518,7 +518,10 @@ static void WI_InitAnimatedBack(void)
         anim_t  *a = &anims[wbs->epsd][i];
 
         // init variables
-        a->ctr = -1;
+        // [JN] Do not reset animation timers upon switching to "Entering" state
+        // (WI_initShowNextLoc). Fixes notable blinking of Tower of Babel drawing.
+        if (firstcall)
+            a->ctr = -1;
 
         // specify the next time to draw it
         if (a->type == ANIM_ALWAYS)
@@ -722,6 +725,8 @@ static void WI_InitShowNextLoc(void)
     cnt = SHOWNEXTLOCDELAY * TICRATE;
 
     D_FadeScreen(false);
+
+    WI_InitAnimatedBack(false);
 }
 
 static void WI_UpdateShowNextLoc(void)
@@ -870,7 +875,7 @@ static void WI_InitStats(void)
                 totaltime / TICRATE / 60, totaltime / TICRATE % 60);
     }
 
-    WI_InitAnimatedBack();
+    WI_InitAnimatedBack(true);
 }
 
 static void WI_UpdateStats(void)
