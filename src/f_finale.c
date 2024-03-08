@@ -343,7 +343,7 @@ void F_Ticker(void)
             }
             else if (midstage)
             {
-                if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))
+                if (gamemap == 30 && !P_GetMapNext(gameepisode, gamemap) || (gamemission == pack_nerve && gamemap == 8))
                     F_StartCast();
                 else
                     gameaction = ga_worlddone;
