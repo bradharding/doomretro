@@ -183,7 +183,7 @@ bool                    emptytallpercent;
 static patch_t          *shortnum[10];
 
 // 3 key-cards, 3 skulls
-static patch_t          *keys[NUMCARDS];
+static patch_t          *keys[NUMCARDS + 3];
 
 // face status patches
 patch_t                 *faces[ST_NUMFACES];
@@ -1223,11 +1223,14 @@ static void ST_UpdateWidgets(void)
     w_ready.data = readyweapon;
 
     // update keycard multiple widgets
-    keyboxes[0] = (viewplayer->cards[it_bluecard] > 0 ? it_bluecard :
+    keyboxes[0] = (viewplayer->cards[it_bluecard] > 0 ?
+        (viewplayer->cards[it_blueskull] > 0 && !vanilla ? it_blueskull + 3 : it_bluecard) :
         (viewplayer->cards[it_blueskull] > 0 ? it_blueskull : -1));
-    keyboxes[1] = (viewplayer->cards[it_yellowcard] > 0 ? it_yellowcard :
+    keyboxes[1] = (viewplayer->cards[it_yellowcard] > 0 ?
+        (viewplayer->cards[it_yellowskull] > 0 && !vanilla ? it_yellowskull + 3 : it_yellowcard) :
         (viewplayer->cards[it_yellowskull] > 0 ? it_yellowskull : -1));
-    keyboxes[2] = (viewplayer->cards[it_redcard] > 0 ? it_redcard :
+    keyboxes[2] = (viewplayer->cards[it_redcard] > 0 ?
+        (viewplayer->cards[it_redskull] > 0 && !vanilla ? it_redskull + 3 : it_redcard) :
         (viewplayer->cards[it_redskull] > 0 ? it_redskull : -1));
 
     // refresh everything if this is him coming back to life
@@ -1507,7 +1510,7 @@ static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
     tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
 
     // key cards
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < NUMCARDS + 3; i++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "STKEYS%i", i);
         callback(namebuf, &keys[i]);
