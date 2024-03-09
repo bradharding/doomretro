@@ -1667,7 +1667,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
-            if (episodemenuepisode[EpiDef.numitems] == ep && episodemenumap[EpiDef.numitems] == map)
+            if (episodemenuepisode[i] == ep && episodemenumap[i] == map)
                 return;
 
         episodemenuepisode[EpiDef.numitems] = ep;
