@@ -3480,7 +3480,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
             {
-                char    *temp = uppercase(sc_String);
+                char    *temp = removenonalpha(sc_String);
 
                 if (gamemode == commercial)
                 {
@@ -3521,9 +3521,6 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             if (compat_zombie_global == -1)
                 info->compat_zombie = true;
-
-            if (SC_GetString() && !SC_Compare("LOOKUP"))
-                M_StringCopy(info->name, sc_String, sizeof(info->name));
 
             // Process optional tokens
             while (SC_GetString())
