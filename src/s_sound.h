@@ -84,6 +84,7 @@ void S_Init(void);
 // Shut down sound
 void S_Shutdown(void);
 
+void S_StopSound(const sfxnum_t sfxnum);
 void S_StopSounds(void);
 
 //

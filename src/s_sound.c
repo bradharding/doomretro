@@ -302,6 +302,16 @@ static void S_StopChannel(int cnum)
     }
 }
 
+void S_StopSound(const sfxnum_t sfxnum)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; cnum++)
+        if (channels[cnum].sfxinfo == &s_sfx[sfxnum])
+            S_StopChannel(cnum);
+}
+
 void S_StopSounds(void)
 {
     if (nosfx)

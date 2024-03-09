@@ -249,7 +249,10 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_SetMobjState(player->mo, S_PLAY);
 
     if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
+    {
+        S_StopSound(sfx_sawup);
         S_StartSound(actor, sfx_sawidl);
+    }
 
     // check for change
     //  if player is dead, put the weapon away
