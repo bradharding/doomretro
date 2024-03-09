@@ -9,7 +9,8 @@
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
 * Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
-* Minor improvements have been made to the parsing of `MAPINFO` lumps.
+* Further improvements have been made to the parsing of `MAPINFO` lumps.
+* The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

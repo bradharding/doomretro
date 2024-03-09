@@ -8325,9 +8325,10 @@ static void thinglist_func2(char *cmd, char *parms)
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t      *mobj = (mobj_t *)th;
+        const int   flags = mobj->flags;
         char        name[128];
         char        *temp1;
-        char        *temp2 = commify(mobj->flags);
+        char        *temp2 = commify(flags);
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
@@ -8335,12 +8336,11 @@ static void thinglist_func2(char *cmd, char *parms)
         else if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
-            M_snprintf(name, sizeof(name), "%s%s%s",
-                ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
-                    ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " :
-                    ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")),
-                ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
+            M_snprintf(name, sizeof(name), "%s%s",
+                ((flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
+                    ((flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " :
+                    ((flags & MF_DROPPED) ? "dropped " : ""))),
+                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")));
 
         temp1 = sentencecase(name);
 
