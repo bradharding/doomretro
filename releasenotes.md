@@ -7,8 +7,9 @@
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby grouping wasn’t being applied to the previous player message when displayed by pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
 * Minor improvements have been made to certain animations on the intermission screen.
-* The status bar now shows when the player has picked up both a keycard and a skull key of the same color, by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
+* The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
 * Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
+* Minor improvements have been made to the parsing of `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
