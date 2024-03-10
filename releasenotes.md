@@ -11,6 +11,7 @@
 * Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
 * Further improvements have been made to the parsing of `MAPINFO` lumps.
 * The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
+* The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

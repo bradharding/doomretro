@@ -304,12 +304,19 @@ static void S_StopChannel(int cnum)
 
 void S_StopSound(const sfxnum_t sfxnum)
 {
+    sfxinfo_t   *sfx;
+
     if (nosfx)
         return;
 
+    sfx = &s_sfx[sfxnum];
+
     for (int cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo == &s_sfx[sfxnum])
+        if (channels[cnum].sfxinfo == sfx)
+        {
             S_StopChannel(cnum);
+            break;
+        }
 }
 
 void S_StopSounds(void)
@@ -381,8 +388,8 @@ void S_UnlinkSound(const mobj_t *origin)
 }
 
 //
-// S_GetChannel :
-//   If none available, return -1. Otherwise channel #.
+// S_GetChannel
+// If none available, return -1. Otherwise channel #.
 //
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {

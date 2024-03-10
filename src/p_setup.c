@@ -3480,20 +3480,16 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
             {
-                char    *temp = removenonalpha(sc_String);
-
                 if (gamemode == commercial)
                 {
-                    if (sscanf(temp, "MAP0%1i", &map) != 1 && sscanf(temp, "MAP%2i", &map) != 1)
+                    if (sscanf(sc_String, "MAP0%1i", &map) != 1 && sscanf(sc_String, "MAP%2i", &map) != 1)
                         continue;
                 }
                 else
                 {
-                    if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
+                    if (sscanf(sc_String, "E%1iM%i", &ep, &map) != 2)
                         continue;
                 }
-
-                free(temp);
             }
 
             if (map < 0 || map > 99)
