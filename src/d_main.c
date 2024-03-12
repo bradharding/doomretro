@@ -543,7 +543,6 @@ void D_PageTicker(void)
 //
 void D_SplashDrawer(void)
 {
-    I_Sleep(20);
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(poweredbyx, poweredbyy, poweredbywidth, poweredbyheight, poweredbylump);
@@ -551,6 +550,7 @@ void D_SplashDrawer(void)
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
     blitfunc();
+    I_Sleep(20);
 }
 
 //

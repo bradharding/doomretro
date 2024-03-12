@@ -297,6 +297,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     static bool sigilwadadded;
     static bool sigil2wadadded;
     static bool nervewadadded;
+    static int  wadcount;
     wadinfo_t   header;
     size_t      length;
     int         startlump;
@@ -395,7 +396,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
         if (!count)
             C_Warning(0, "%s%s %s been %s from the %s " BOLD("%s") ".",
-                (autoloaded && wadfile->type == PWAD ? "An additional " : ""),
+                (wadcount++ ? "An additional " : ""),
                 temp,
                 (numlumps - startlump == 1 ? "lump has" : "lumps have"),
                 (autoloaded ? "automatically added" : "added"),
@@ -403,7 +404,7 @@ bool W_AddFile(char *filename, bool autoloaded)
                 wadfile->path);
         else
             C_Output("%s%s %s been %s from the %s " BOLD("%s") ".",
-                (autoloaded && wadfile->type == PWAD ? "An additional " : ""),
+                (wadcount++ ? "An additional " : ""),
                 temp,
                 (numlumps - startlump == 1 ? "lump has" : "lumps have"),
                 (autoloaded ? "automatically added" : "added"),
