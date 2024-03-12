@@ -490,6 +490,7 @@ patch_t         *creditlump;
 
 static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
+static patch_t  *poweredbylump;
 static patch_t  *titlelump;
 static byte     *splashpal;
 static short    fineprintx;
@@ -500,6 +501,10 @@ static short    logox;
 static short    logoy;
 static short    logowidth;
 static short    logoheight;
+static short    poweredbyx;
+static short    poweredbyy;
+static short    poweredbywidth;
+static short    poweredbyheight;
 
 //
 // D_PageTicker
@@ -541,6 +546,7 @@ void D_SplashDrawer(void)
     I_Sleep(20);
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
+    V_DrawBigPatch(poweredbyx, poweredbyy, poweredbywidth, poweredbyheight, poweredbylump);
     V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
@@ -2685,6 +2691,12 @@ static void D_DoomMainSetup(void)
     logoheight = SHORT(logolump[0]->height);
     logox = (SCREENWIDTH - logowidth) / 2;
     logoy = (SCREENHEIGHT - logoheight) / 2 - 1;
+
+    poweredbylump = W_CacheLastLumpName("DRPWRDBY");
+    poweredbywidth = SHORT(poweredbylump->width);
+    poweredbyheight = SHORT(poweredbylump->height);
+    poweredbyx = (SCREENWIDTH - poweredbywidth) / 2;
+    poweredbyy = logoy - poweredbyheight - 2;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     fineprintwidth = SHORT(fineprintlump->width);
