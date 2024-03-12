@@ -2696,7 +2696,7 @@ static void D_DoomMainSetup(void)
     poweredbywidth = SHORT(poweredbylump->width);
     poweredbyheight = SHORT(poweredbylump->height);
     poweredbyx = (SCREENWIDTH - poweredbywidth) / 2;
-    poweredbyy = logoy - poweredbyheight - 2;
+    poweredbyy = logoy - poweredbyheight - 6;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     fineprintwidth = SHORT(fineprintlump->width);
