@@ -2690,13 +2690,13 @@ static void D_DoomMainSetup(void)
     logowidth = SHORT(logolump[0]->width);
     logoheight = SHORT(logolump[0]->height);
     logox = (SCREENWIDTH - logowidth) / 2;
-    logoy = (SCREENHEIGHT - logoheight) / 2 - 1;
+    logoy = (SCREENHEIGHT - logoheight) / 2 + 8;
 
     poweredbylump = W_CacheLastLumpName("DRPWRDBY");
     poweredbywidth = SHORT(poweredbylump->width);
     poweredbyheight = SHORT(poweredbylump->height);
     poweredbyx = (SCREENWIDTH - poweredbywidth) / 2;
-    poweredbyy = logoy - poweredbyheight - 6;
+    poweredbyy = logoy - poweredbyheight - 4;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     fineprintwidth = SHORT(fineprintlump->width);
