@@ -227,23 +227,12 @@ void S_Init(void)
 
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
 
-            if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0)
+            if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0 && !CacheSFX(sfx))
             {
                 char    *temp = uppercase(namebuf);
 
-                if (!CacheSFX(sfx) && W_GetNumLumps(namebuf) > 1)
-                {
-                    sfx->lumpnum = W_GetLastNumForName(namebuf);
-
-                    if (!CacheSFX(sfx))
-                        sfx->lumpnum = -1;
-                    else
-                        C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format.", temp);
-                }
-
-                if (sfx->lumpnum == -1)
-                    C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format and won't be played.", temp);
-
+                sfx->lumpnum = -1;
+                C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format.", temp);
                 free(temp);
             }
         }
