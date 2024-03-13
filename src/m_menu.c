@@ -1723,19 +1723,19 @@ void M_SetWindowCaption(void)
         {
             if ((gamemission == doom2 && !nerve) || gamemission == pack_plut
                 || gamemission == pack_tnt || M_StringEndsWith(gamedescription, ".wad"))
-                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 Powered by %s",
+                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, DOOMRETRO_NAME);
             else
-                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s: %s \xC2\xB7 Powered by %s",
+                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s: %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, *expansions[(gamemission == pack_nerve ? ex2 : ex1)],
                     DOOMRETRO_NAME);
         }
         else
-            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 Powered by %s",
+            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
                 mapnumandtitle, *episodes[gameepisode - 1], gamedescription, DOOMRETRO_NAME);
     }
     else
-        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 Powered by %s", gamedescription, DOOMRETRO_NAME);
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
 
     SDL_SetWindowTitle(window, caption);
 }
