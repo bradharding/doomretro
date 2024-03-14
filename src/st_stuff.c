@@ -174,12 +174,13 @@ static short            sbar2width;
 patch_t                 *tallnum[10];
 short                   tallnum0width;
 short                   tallnum1width;
+
 // tall % sign
 patch_t                 *tallpercent;
 short                   tallpercentwidth;
 bool                    emptytallpercent;
 
-// 0-9, short, yellow (,different!) numbers
+// 0-9, short, yellow, (different!) numbers
 static patch_t          *shortnum[10];
 
 // 3 key-cards, 3 skulls

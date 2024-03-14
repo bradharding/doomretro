@@ -13,7 +13,7 @@
 * Further improvements have been made to the parsing of `MAPINFO` lumps.
 * The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
-* If a sound effect lump in a PWAD has been made 0 bytes in size, rather than playing the IWAD’s lump it replaces, no sound effect is played.
+* If a sound effect lump in a PWAD is 0 bytes in size, rather than playing the IWAD’s lump it replaces, no sound effect is now played.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

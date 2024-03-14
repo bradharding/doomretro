@@ -220,20 +220,21 @@ void S_Init(void)
         for (int i = 1; i < numsfx; i++)
         {
             sfxinfo_t   *sfx = &s_sfx[i];
-            char        namebuf[9];
 
-            if (!*s_sfx[i].name1)
-                continue;
-
-            M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
-
-            if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0 && !CacheSFX(sfx))
+            if (*s_sfx[i].name1)
             {
-                char    *temp = uppercase(namebuf);
+                char    namebuf[9];
 
-                sfx->lumpnum = -1;
-                C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format.", temp);
-                free(temp);
+                M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
+
+                if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0 && !CacheSFX(sfx))
+                {
+                    char    *temp = uppercase(namebuf);
+
+                    sfx->lumpnum = -1;
+                    C_Warning(1, "The " BOLD("%s") " sound effect lump won't be played.", temp);
+                    free(temp);
+                }
             }
         }
     }
