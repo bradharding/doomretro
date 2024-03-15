@@ -293,6 +293,9 @@ bool F_Responder(const event_t *ev)
 
 static fixed_t TextSpeed(void)
 {
+    if (acceleratestage)
+        S_StartSound(NULL, sfx_swtchn);
+
     return (midstage ? NEWTEXTSPEED : ((midstage = acceleratestage) ? (acceleratestage = false), NEWTEXTSPEED : TEXTSPEED));
 }
 
