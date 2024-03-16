@@ -9171,7 +9171,8 @@ static void episode_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (episode != episode_old && gamemode != commercial)
-        EpiDef.laston = (gamemode == registered ? MIN(episode, episode_max - 1) : (gamemode == retail ? episode : 1)) - 1;
+        EpiDef.laston = MIN(episode, (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) :
+            (gamemode == shareware || chex ? 1 : 3))) - 1;
 }
 
 //

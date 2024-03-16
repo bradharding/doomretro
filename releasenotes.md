@@ -14,6 +14,9 @@
 * The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
+* A sound effect is now played when advancing the text on intermission text screens.
+* The <kbd><b>F1</b></kbd> key can no longer be pressed to interrupt the splash screen.
+* The console can no longer be opened while a menu confirmation message is displayed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
