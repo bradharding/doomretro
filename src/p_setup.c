@@ -1133,21 +1133,21 @@ static void P_LoadSegs(int lump)
                     if (linefix[j].tag != DEFAULT)
                     {
                         char    *temp1 = commify(linedefnum);
+                        char    *temp2 = commify(li->linedef->tag);
 
                         if (linefix[j].tag)
                         {
-                            char    *temp2 = commify(li->linedef->tag);
                             char    *temp3 = commify(linefix[j].tag);
 
-                            C_Warning(2, "The tag of linedef %s has been changed from %s to %s.", temp1, temp2, temp3);
-                            free(temp2);
+                            C_Warning(2, "Linedef %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
                             free(temp3);
                         }
                         else
-                            C_Warning(2, "The tag of linedef %s has been removed.", temp1);
+                            C_Warning(2, "Linedef %s's tag of %s has been removed.", temp1, temp2);
 
                         li->linedef->tag = linefix[j].tag;
                         free(temp1);
+                        free(temp2);
                     }
 
                     break;
@@ -1451,7 +1451,9 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->tag);
                         char    *temp3 = commify(sectorfix[j].tag);
 
-                        if (ss->tag)
+                        if (!sectorfix[j].tag)
+                            C_Warning(2, "Sector %s's tag of %s has been removed.", temp1, temp2);
+                        else if (ss->tag)
                             C_Warning(2, "Sector %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
                         else
                             C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
