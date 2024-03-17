@@ -17,6 +17,7 @@
 * A sound effect is now played when advancing the text on intermission text screens.
 * The <kbd><b>F1</b></kbd> key can no longer be pressed to interrupt the splash screen.
 * The console can no longer be opened while a menu confirmation message is displayed.
+* Minor improvements have been made to the position of player messages.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

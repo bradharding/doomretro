@@ -441,17 +441,7 @@ static void HU_DrawCrosshair(void)
             HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
         }
         else
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
-
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot += SCREENWIDTH;
-            *dot = *(*dot + color);
-            dot--;
-            *dot = *(*dot + color);
-        }
+            HU_DrawScaledPixel(CENTERX, CENTERY, color);
     }
     else
     {
@@ -488,7 +478,7 @@ static void HU_DrawCrosshair(void)
 
 static void HU_DrawSolidCrosshair(void)
 {
-    int color = nearestcolors[crosshaircolor];
+    const int   color = nearestcolors[crosshaircolor];
 
     if (r_detail == r_detail_low)
     {
@@ -501,17 +491,7 @@ static void HU_DrawSolidCrosshair(void)
             HU_DrawSolidScaledPixel(CENTERX, CENTERY + 1, color);
         }
         else
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 1) * SCREENWIDTH / 2 - 1;
-
-            *dot = color;
-            dot++;
-            *dot = color;
-            dot += SCREENWIDTH;
-            *dot = color;
-            dot--;
-            *dot = color;
-        }
+            HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
     }
     else
     {
