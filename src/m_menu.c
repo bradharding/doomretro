@@ -1674,6 +1674,9 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         episodemenumap[EpiDef.numitems] = map;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
         *EpisodeMenu[EpiDef.numitems++].text = M_StringDuplicate(string);
+
+        if (*string)
+            *episodes[EpiDef.numitems - 1] = M_StringDuplicate(string);
     }
 
     NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : &MainDef);

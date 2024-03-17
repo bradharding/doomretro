@@ -4870,7 +4870,14 @@ static void mapstats_func2(char *cmd, char *parms)
         }
         else
         {
-            if (nerve)
+            if (customepisode)
+            {
+                temp = titlecase(*episodes[gameepisode - 1]);
+                C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                    temp, gameepisode, EpiDef.numitems);
+                free(temp);
+            }
+            else if (nerve)
             {
                 temp = titlecase(*expansions[0]);
                 C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (1 of 2)", temp);
