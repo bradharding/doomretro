@@ -1426,14 +1426,30 @@ static void P_LoadSectors(int lump)
                     if (sectorfix[j].special != DEFAULT)
                     {
                         char    *temp = commify(sectorfix[j].sector);
+                        char    oldspecial[18];
+                        char    newspecial[18];
+
+                        M_StringCopy(oldspecial, sectorspecials[ss->special], sizeof(oldspecial));
+                        M_StringCopy(newspecial, sectorspecials[sectorfix[j].special], sizeof(newspecial));
+
+                        if (english == english_british)
+                        {
+                            M_AmericanToBritishEnglish(oldspecial);
+                            M_AmericanToBritishEnglish(newspecial);
+                        }
 
                         if (ss->special)
-                            C_Warning(2, "Sector %s's special has been changed from %i (\"%s\") to %i (\"%s\").",
-                                temp, ss->special, sectorspecials[ss->special],
-                                sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+                        {
+                            if (sectorfix[j].special)
+                                C_Warning(2, "Sector %s's special has been changed from %i (\"%s\") to %i (\"%s\").",
+                                    temp, ss->special, oldspecial, sectorfix[j].special, newspecial);
+                            else
+                                C_Warning(2, "Sector %s's special of %i (\"%s\") has been removed.",
+                                    temp, ss->special, oldspecial);
+                        }
                         else
                             C_Warning(2, "Sector %s now has a special of %i (\"%s\").",
-                                temp, sectorfix[j].special, sectorspecials[sectorfix[j].special]);
+                                temp, sectorfix[j].special, newspecial);
 
                         ss->special = sectorfix[j].special;
                         free(temp);
@@ -1945,7 +1961,7 @@ static void P_LoadThings(int map, int lump)
                     }
                     else
                     {
-                        C_Warning(2, "The position of thing %s has been changed from (%i, %i) to (%i, %i).",
+                        C_Warning(2, "Thing %s has been moved from (%i, %i) to (%i, %i).",
                             temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
                         mt.x = thingfix[j].newx;
@@ -1953,7 +1969,7 @@ static void P_LoadThings(int map, int lump)
 
                         if (thingfix[j].angle != DEFAULT)
                         {
-                            C_Warning(2, "The angle of thing %s has been changed from %i\xB0 to %i\xB0.",
+                            C_Warning(2, "Thing %s has been turned from %i\xB0 to %i\xB0.",
                                 temp, mt.angle, thingfix[j].angle);
 
                             mt.angle = thingfix[j].angle;
@@ -1961,7 +1977,7 @@ static void P_LoadThings(int map, int lump)
 
                         if (thingfix[j].options != DEFAULT)
                         {
-                            C_Warning(2, "The flags of thing %s have been changed from %i to %i.",
+                            C_Warning(2, "Thing %s's flags have been changed from %i to %i.",
                                 temp, mt.options, thingfix[j].options);
 
                             mt.options = thingfix[j].options;

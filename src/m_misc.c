@@ -1063,10 +1063,11 @@ const char *words[][2] =
     { "savior",     "saviour"    }, { "savor",      "savour"     },
     { "skeptic",    "sceptic"    }, { "specializ",  "specialis"  },
     { "stabiliz",   "stabilis"   }, { "standardiz", "standardis" },
-    { "theater",    "theatre"    }, { "traveled",   "travelled"  },
-    { "traveling",  "travelling" }, { "utiliz",     "utilis"     },
-    { "vapor",      "vapour"     }, { "whiskey",    "whisky"     },
-    { "yogurt",     "yoghurt"    }, { "",           ""           }
+    { "synchroniz", "synchronis" }, { "theater",    "theatre"    },
+    { "traveled",   "travelled"  }, { "traveling",  "travelling" },
+    { "utiliz",     "utilis"     }, { "vapor",      "vapour"     },
+    { "whiskey",    "whisky"     }, { "yogurt",     "yoghurt"    },
+    { "",           ""           }
 };
 
 static void M_Translate(char *string, const char *word1, const char *word2)
