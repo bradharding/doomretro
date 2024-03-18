@@ -371,14 +371,14 @@ char            *mapinfolump = "";
 bool            samelevel;
 bool            secretmap;
 
-mapformat_t     mapformat;
+nodeformat_t    nodeformat;
 
-const char *mapformats[] =
+const char *nodeformats[] =
 {
     "Vanilla",
     ITALICS("DeeP"),
-    ITALICS("ZDOOM") " extended (uncompressed)",
-    ITALICS("ZDOOM") " extended (compressed)",
+    ITALICS("ZDoom") " extended",
+    ITALICS("ZDoom") " extended"
 };
 
 bool            boomcompatible;
@@ -3046,11 +3046,11 @@ void P_MapName(int ep, int map)
     }
 }
 
-static mapformat_t P_CheckMapFormat(int lumpnum)
+static nodeformat_t P_CheckNodeFormat(int lumpnum)
 {
-    mapformat_t format = DOOMBSP;
-    byte        *n = NULL;
-    int         b = lumpnum + ML_BLOCKMAP + 1;
+    nodeformat_t    format = DOOMBSP;
+    byte            *n = NULL;
+    int             b = lumpnum + ML_BLOCKMAP + 1;
 
     if (b < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
         I_Error("Hexen format maps are not supported.");
@@ -3160,7 +3160,7 @@ void P_SetupLevel(int ep, int map)
 
     prevlumpnum = lumpnum;
 
-    mapformat = P_CheckMapFormat(lumpnum);
+    nodeformat = P_CheckNodeFormat(lumpnum);
 
     canmodify = ((W_GetNumLumps(lumpname) == 1
         || (sigil && gamemission == doom)
@@ -3229,11 +3229,11 @@ void P_SetupLevel(int ep, int map)
     else
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    if (mapformat == ZDBSPX)
+    if (nodeformat == ZDBSPX)
         P_LoadZNodes(lumpnum + ML_NODES, false);
-    else if (mapformat == ZDBSPZ)
+    else if (nodeformat == ZDBSPZ)
         P_LoadZNodes(lumpnum + ML_NODES, true);
-    else if (mapformat == DEEPBSP)
+    else if (nodeformat == DEEPBSP)
     {
         P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
         P_LoadNodes_V4(lumpnum + ML_NODES);

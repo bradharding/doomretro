@@ -115,10 +115,10 @@ typedef enum
     DEEPBSP,
     ZDBSPX,
     ZDBSPZ
-} mapformat_t;
+} nodeformat_t;
 
-extern mapformat_t  mapformat;
-extern const char   *mapformats[];
+extern nodeformat_t nodeformat;
+extern const char   *nodeformats[];
 
 extern bool         boomcompatible;
 extern bool         mbfcompatible;
