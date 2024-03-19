@@ -1210,12 +1210,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         viewplayer->mo->id = thingid;
         return NULL;
     }
-    else if (type >= Player2Start && type <= Player4Start)
+    else if ((type >= Player2Start && type <= Player4Start)
+        || (type >= Player5Start && type <= Player8Start))
     {
         P_SpawnFriend(mthing);
         return NULL;
     }
-    else if ((type >= Player5Start && type <= Player8Start) || type == PlayerDeathmatchStart)
+    else if (type == PlayerDeathmatchStart)
         return NULL;
 
     if (type == Nothing || type == VisualModeCamera)
