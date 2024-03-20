@@ -1405,11 +1405,11 @@ static void ST_DrawWidgets(bool refresh)
             if (neededcard == it_allkeys)
             {
                 for (int i = 0; i < NUMCARDS / 2; i++)
-                    if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                    if (viewplayer->cards[i] <= 0 || viewplayer->cards[i + 3] <= 0)
                     {
                         const st_multicon_t *keybox = &w_keyboxes[i];
 
-                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[(togglekey ? i + 3 : i)]);
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + 6]);
                     }
             }
             else
