@@ -2,10 +2,10 @@
 
 ### DOOM Retro v5.3.1
 
-* *DOOM Retro* is now built using v17.9.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.9.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.30.1*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.1).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * A bug is fixed whereby grouping wasn’t being applied to the previous player message when displayed by pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
