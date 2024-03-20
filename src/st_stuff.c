@@ -1414,9 +1414,20 @@ static void ST_DrawWidgets(bool refresh)
             }
             else
             {
-                const st_multicon_t *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
+                if (neededcard <= it_redcard)
+                {
+                    const st_multicon_t *keybox = &w_keyboxes[neededcard];
 
-                V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[neededcard]);
+                    V_DrawPatch(keybox->x, keybox->y, 0,
+                        keybox->patch[(viewplayer->cards[neededcard + 3] > 0 ? neededcard + 6 : neededcard)]);
+                }
+                else
+                {
+                    const st_multicon_t *keybox = &w_keyboxes[neededcard - 3];
+
+                    V_DrawPatch(keybox->x, keybox->y, 0,
+                        keybox->patch[(viewplayer->cards[neededcard - 3] > 0 ? neededcard + 3 : neededcard)]);
+                }
             }
         }
     }
