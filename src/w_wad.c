@@ -297,7 +297,6 @@ bool W_AddFile(char *filename, bool autoloaded)
     static bool sigilwadadded;
     static bool sigil2wadadded;
     static bool nervewadadded;
-    static int  wadcount;
     wadinfo_t   header;
     size_t      length;
     int         startlump;
@@ -380,17 +379,18 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
-    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD))
+    if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD))
     {
         if (wadsloaded)
-            wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
+            wadsloaded = M_StringJoin(wadsloaded, ", ", file, NULL);
         else
-            wadsloaded = M_StringDuplicate(leafname(filename));
+            wadsloaded = M_StringDuplicate(file);
     }
 
-    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
+    if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD) || devparm)
     {
         const int   count = numlumps - startlump;
+        static int  wadcount;
 
         temp = commify((int64_t)count);
 

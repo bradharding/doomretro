@@ -7579,7 +7579,7 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
             mobjinfo = I_Realloc(mobjinfo, nummobjtypes * sizeof(*mobjinfo));
 
         memset(mobjinfo + old_nummobjtypes, 0,
-            (nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
+            ((size_t)nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
 
         for (int i = old_nummobjtypes; i < nummobjtypes; i++)
         {

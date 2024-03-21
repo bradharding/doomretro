@@ -1087,7 +1087,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         // rocket
         case SPR_ROCK:
         {
-            int ammogiven = P_GiveAmmo(am_misl, 1, stat);
+            const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
 
             if (!ammogiven)
                 return false;
@@ -1116,7 +1116,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         // cell
         case SPR_CELL:
         {
-            int ammogiven = P_GiveAmmo(am_cell, 1, stat);
+            const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
 
             if (!ammogiven)
                 return false;
@@ -1145,7 +1145,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         // shells
         case SPR_SHEL:
         {
-            int ammogiven = P_GiveAmmo(am_shell, 1, stat);
+            const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
 
             if (!ammogiven)
                 return false;

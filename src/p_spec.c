@@ -976,7 +976,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1000,7 +999,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1024,7 +1022,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1048,7 +1045,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1072,7 +1068,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1096,7 +1091,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1120,7 +1114,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1145,7 +1138,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1167,7 +1159,6 @@ bool P_CanUnlockGenDoor(const line_t *line)
 
                 HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
-
                 return false;
             }
 
@@ -1265,10 +1256,10 @@ bool P_CheckTag(const line_t *line)
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
         case Scroll_ScrollWallUsingSidedefOffsets:
         case Translucent_MiddleTexture:
-            return true;        // zero tag allowed
+            return true;    // zero tag allowed
     }
 
-    return false;               // zero tag not allowed
+    return false;           // zero tag not allowed
 }
 
 //
