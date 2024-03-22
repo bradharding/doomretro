@@ -724,7 +724,7 @@ void G_DoLoadLevel(void)
     armordiff = 0;
     healthdiff = 0;
 
-    if (animatedstats)
+    if (r_screensize == r_screensize_max && animatedstats)
         P_AnimateAllStatsFromStart();
 }
 
@@ -1630,7 +1630,7 @@ void G_DoLoadGame(void)
     armordiff = 0;
     healthdiff = 0;
 
-    if (animatedstats)
+    if (r_screensize == r_screensize_max && animatedstats)
         P_AnimateAllStatsFromStart();
 }
 
