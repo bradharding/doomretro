@@ -280,8 +280,8 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        int blockx = P_GetSafeBlockX(thing->x - bmaporgx);
-        int blocky = P_GetSafeBlockY(thing->y - bmaporgy);
+        const int   blockx = P_GetSafeBlockX(thing->x - bmaporgx);
+        const int   blocky = P_GetSafeBlockY(thing->y - bmaporgy);
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {

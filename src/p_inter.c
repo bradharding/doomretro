@@ -2439,7 +2439,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         // if not intent on another player, chase after this one
         if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
-            P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
+            P_SetTarget(&target->lastenemy, target->target);    // remember last enemy -- killough
 
         P_SetTarget(&target->target, source);                   // killough 11/98
         target->threshold = BASETHRESHOLD;

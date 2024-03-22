@@ -648,7 +648,7 @@ void AM_ToggleRotateMode(const bool value)
 //
 bool AM_Responder(const event_t *ev)
 {
-    int rc = false;
+    bool    result = false;
 
     am_frame.angle = 0;
     modstate = SDL_GetModState();
@@ -677,7 +677,7 @@ bool AM_Responder(const event_t *ev)
                 backbuttondown = true;
                 AM_Start(true);
                 viewactive = false;
-                rc = true;
+                result = true;
             }
         }
         else
@@ -686,7 +686,7 @@ bool AM_Responder(const event_t *ev)
 
             if (ev->type == ev_keydown)
             {
-                rc = true;
+                result = true;
                 key = ev->data1;
 
                 // pan right
@@ -699,7 +699,7 @@ bool AM_Responder(const event_t *ev)
                     if (am_followmode)
                     {
                         m_paninc.x = 0;
-                        rc = false;
+                        result = false;
                     }
                     else
                     {
@@ -718,7 +718,7 @@ bool AM_Responder(const event_t *ev)
                     if (am_followmode)
                     {
                         m_paninc.x = 0;
-                        rc = false;
+                        result = false;
                     }
                     else
                     {
@@ -735,7 +735,7 @@ bool AM_Responder(const event_t *ev)
                     if (am_followmode)
                     {
                         m_paninc.y = 0;
-                        rc = false;
+                        result = false;
                     }
                     else
                     {
@@ -752,7 +752,7 @@ bool AM_Responder(const event_t *ev)
                     if (am_followmode)
                     {
                         m_paninc.y = 0;
-                        rc = false;
+                        result = false;
                     }
                     else
                     {
@@ -840,7 +840,7 @@ bool AM_Responder(const event_t *ev)
                     }
                 }
                 else
-                    rc = false;
+                    result = false;
             }
             else if (ev->type == ev_keyup)
             {
@@ -1115,7 +1115,7 @@ bool AM_Responder(const event_t *ev)
         }
     }
 
-    return rc;
+    return result;
 }
 
 //
@@ -2224,7 +2224,7 @@ void AM_Drawer(void)
     else
         AM_DrawWalls();
 
-    if (am_path && numbreadcrumbs > 1)
+    if (am_path)
         AM_DrawPath();
 
     if (things)
