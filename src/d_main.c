@@ -1394,7 +1394,7 @@ static int D_OpenWADLauncher(void)
             }
 
 #if defined(_WIN32)
-            // if WAD doesn't exist, it was entered manually and there may be a typo, so guess what was intended
+            // if WAD doesn't exist, it was entered manually, there may be a typo, so guess what was intended
             if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
                 char    *temp = W_GuessFilename(folder, leafname(file));
@@ -1404,7 +1404,7 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(0, "\"%s\" wasn't found so " BOLD("%s") " was loaded instead.",
+                        C_Warning(0, BOLD("\"%s\"") " wasn't found so " BOLD("%s") " was loaded instead.",
                             leafname((char *)ofn.lpstrFile), temp);
 
                     file = M_StringDuplicate(temp);

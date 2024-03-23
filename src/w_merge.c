@@ -477,14 +477,14 @@ static void DoMerge(void)
 
             case SECTION_FLATS:
                 // PWAD flats are ignored (already merged)
-                if (!strncasecmp(lump->name, "FF_END", 8) || !strncasecmp(lump->name, "F_END", 8))
+                if (!strncasecmp(lump->name, "F_END", 8) || !strncasecmp(lump->name, "FF_END", 8))
                     current_section = SECTION_NORMAL;   // end of section
 
                 break;
 
             case SECTION_SPRITES:
                 // PWAD sprites are ignored (already merged)
-                if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
+                if (!strncasecmp(lump->name, "S_END", 8) || !strncasecmp(lump->name, "SS_END", 8))
                     current_section = SECTION_NORMAL;   // end of section
 
                 break;
