@@ -1031,7 +1031,7 @@ static void M_DrawLoad(void)
         }
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
-            && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
+            && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
             savegamestrings[i], (itemon == i), false);
     }
 }
@@ -1158,7 +1158,7 @@ static void M_DrawSave(void)
                 left[j] = savegamestrings[i][j];
 
             left[savecharindex] = '\0';
-            M_WriteText(x, y - !M_LSCNTR, left, true, false);
+            M_WriteText(x, y, left, true, false);
             x += M_StringWidth(left);
 
             // draw text to right of text caret
@@ -1166,7 +1166,7 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
-            M_WriteText(x + 1, y - !M_LSCNTR, right, true, false);
+            M_WriteText(x + 1, y, right, true, false);
 
             // draw text caret
             if (caretwait < I_GetTimeMS())
@@ -1185,7 +1185,7 @@ static void M_DrawSave(void)
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
-                && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
+                && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
                 savegamestrings[i], (itemon == i), false);
     }
 }
