@@ -564,9 +564,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
 
                 if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y - 1, fb, l->f[c - l->sc], width);
+                    V_DrawTranslucentHUDText(x, y, fb, l->f[c - l->sc], width);
                 else
-                    V_DrawHUDText(x, y - 1, fb, l->f[c - l->sc], width);
+                    V_DrawHUDText(x, y, fb, l->f[c - l->sc], width);
             }
             else
             {
@@ -581,19 +581,20 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                             x += kern[k].adjust * 2;
                             break;
                         }
+
                 if (secretmap)
                 {
                     if (r_hud_translucency)
-                        HU_DrawTranslucentGoldChar(x / 2, y / 2 - 1, j, fb, width);
+                        HU_DrawTranslucentGoldChar(x / 2, y / 2, j, fb, width);
                     else
-                        HU_DrawGoldChar(x / 2, y / 2 - 1, j, fb, width);
+                        HU_DrawGoldChar(x / 2, y / 2, j, fb, width);
                 }
                 else
                 {
                     if (r_hud_translucency)
-                        HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, width);
+                        HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width);
                     else
-                        HU_DrawChar(x / 2, y / 2 - 1, j, fb, width);
+                        HU_DrawChar(x / 2, y / 2, j, fb, width);
                 }
             }
 
