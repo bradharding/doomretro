@@ -3555,19 +3555,19 @@ static void kill_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster in this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster in this map!",
                                 killed, (friends ? "friendly " : ""));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %smonsters in this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %smonsters in this map!",
                                 killed, temp, (friends ? "friendly " : ""));
                     }
                     else
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %smonster in this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %smonster in this map!",
                                 playername, killed, (friends ? "friendly " : ""));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters in this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters in this map!",
                                 playername, killed, temp, (friends ? "friendly " : ""));
 
                         buffer[0] = toupper(buffer[0]);

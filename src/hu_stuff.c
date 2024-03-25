@@ -759,7 +759,6 @@ static int      darkgray;
 static int      green1;
 static int      green2;
 static int      green3;
-static int      blue1;
 static int      blue2;
 static int      blue3;
 static int      red2;
@@ -969,7 +968,6 @@ static void HU_DrawAltHUD(void)
 
     if (inverted)
     {
-        blue1 = nearestblack;
         blue2 = nearestblack;
         blue3 = nearestblack;
         green1 = nearestblack;
@@ -983,13 +981,11 @@ static void HU_DrawAltHUD(void)
     {
         if (BTSX)
         {
-            blue1 = BLUE1;
             blue2 = BLUE2;
             blue3 = BLUE3;
         }
         else
         {
-            blue1 = nearestcolors[BLUE1];
             blue2 = nearestcolors[BLUE2];
             blue3 = nearestcolors[BLUE3];
         }
