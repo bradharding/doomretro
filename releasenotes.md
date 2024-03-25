@@ -18,6 +18,7 @@
 * The <kbd><b>F1</b></kbd> key can no longer be pressed to interrupt the splash screen.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Minor improvements have been made to the position of player messages.
+* If the <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -34,7 +35,7 @@
 * Minor changes have been made to text that is output to the console.
 * Improvements have been made when the player moves using a controller.
 * A bug is fixed whereby corpses weren’t being nudged whenever the player or a monster walked over them and the `r_corpses_nudge` CVAR was `on`.
-* The blood splats spawned around a corpse at the start of a map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
+* The blood splats spawned around a corpse at the start of each map when the `r_corpses_moreblood` CVAR is `on` are no longer spawned outside of the map if the corpse happens to be too close to a wall.
 * These changes have been made when entering the `IDCLEV` cheat:
   * If it is used to restart the current map, the player message displayed is now always correct.
   * If invalid parameters are entered, such as if `IDCLEV01` is entered while playing *DOOM* instead of *DOOM II*, the player no longer equips their fists because the <kbd>1</kbd> key was pressed.
@@ -46,7 +47,7 @@
   * `NEXT` and `SECRETNEXT` now always work as intended.
   * Custom episodes greater than episode 4 now work as intended when playing *DOOM*.
   * A crash no longer occurs during the finale when playing *DOOM II* and `ENDGAME = TRUE` is present.
-* If music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
+* If the music lumps `D_E4M1` to `D_E4M9` are found in a PWAD, they are now heard when playing maps in episode 4 of *DOOM*.
 * These changes have been made to the weapon silhouettes in the alternate widescreen HUD:
   * The `DRHUDWP0` lump can now be changed in a PWAD to display a weapon silhouette when the player has their fists equipped.
   * If any of the player weapon sprites have changed in a PWAD, the weapon silhouettes can now be displayed if the `DRHUDWP0` to `DRHUDWP8` lumps are also changed.
