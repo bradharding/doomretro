@@ -1527,7 +1527,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                             M_StringCopy(corpsehitname, corpsehit->name, sizeof(corpsehitname));
                         else
                             M_snprintf(corpsehitname, sizeof(corpsehitname), "%s dead%s%s",
-                                ((corpsehit->flags & MF_FRIEND) && actor->type < NUMMOBJTYPES && monstercount[corpsehit->type] == 1 ? "the" : "a"),
+                                ((corpsehit->flags & MF_FRIEND) && corpsehit->type < NUMMOBJTYPES && monstercount[corpsehit->type] == 1 ? "the" : "a"),
                                 ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
                                 (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
 
