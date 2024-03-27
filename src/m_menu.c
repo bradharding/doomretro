@@ -520,7 +520,7 @@ void M_DrawMenuBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
 
-    if (automapactive)
+    if (automapactive && !messagetoprint)
     {
         automapactive = false;
         reopenautomap = true;
