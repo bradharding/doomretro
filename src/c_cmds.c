@@ -677,7 +677,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(flashkeys, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles flashing the required keycard or skull key when you try to open a locked door."),
     CVAR_BOOL(freelook, mouselook, "", bool_cvars_func1, freelook_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles freelook."),
+        "Toggles freely looking up and down using the mouse or a controller."),
     CCMD(freeze, "", "", game_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
