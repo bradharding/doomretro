@@ -143,10 +143,10 @@ typedef struct
     char            musictitle[128];
     char            name[128];
     int             next;
+    bool            nofreelook;
     bool            nograduallighting;
     bool            nojump;
     int             noliquid[NUMLIQUIDS];
-    bool            nomouselook;
     int             par;
     bool            pistolstart;
     int             secretnext;
@@ -385,8 +385,8 @@ bool            boomcompatible;
 bool            mbfcompatible;
 bool            mbf21compatible = false;
 bool            blockmaprebuilt;
+bool            nofreelook = false;
 bool            nojump = false;
-bool            nomouselook = false;
 
 const char *linespecials[NUMLINESPECIALS] =
 {
@@ -3354,8 +3354,8 @@ static void P_InitMapInfo(void)
             mapinfo[i][j].musictitle[0] = '\0';
             mapinfo[i][j].name[0] = '\0';
             mapinfo[i][j].next = 0;
+            mapinfo[i][j].nofreelook = false;
             mapinfo[i][j].nojump = false;
-            mapinfo[i][j].nomouselook = false;
             mapinfo[i][j].par = 0;
             mapinfo[i][j].pistolstart = false;
             mapinfo[i][j].secretnext = 0;
@@ -3478,7 +3478,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_NOFREELOOK:
                         case MCMD_NOMOUSELOOK:
-                            nomouselook = true;
+                            nofreelook = true;
                             break;
                     }
                 }
@@ -3876,7 +3876,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_NOFREELOOK:
                         case MCMD_NOMOUSELOOK:
-                            info->nomouselook = true;
+                            info->nofreelook = true;
                             break;
 
                         case MCMD_PAR:
@@ -4218,8 +4218,8 @@ void P_Init(void)
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 
-        if (nomouselook)
-            C_Warning(1, "This %s has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.",
+        if (nofreelook)
+            C_Warning(1, "This %s has disabled use of the " BOLD("freelook") " CVAR and " BOLD("+freelook") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
     }
 

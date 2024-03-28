@@ -160,7 +160,8 @@ static void M_DrawSave(void);
 
 static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
 static void M_SetupNextMenu(menu_t *menudef);
-static void M_DrawSlider(int x, int y, int width, int shadowwidth, float dot, float factor, int offset, bool highlight);
+static void M_DrawSlider(int x, int y, int width, int shadowwidth,
+    float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow);
 static int M_CharacterWidth(char ch, char prev);
 

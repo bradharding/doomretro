@@ -248,7 +248,7 @@ void P_MovePlayer(void)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    if (autotilt && !(mouselook || freeze || (viewplayer->cheats & MF_NOCLIP)))
+    if (autotilt && !(freelook || freeze || (viewplayer->cheats & MF_NOCLIP)))
     {
         if (!P_CheckForSteps(STEP1DISTANCE) && !P_CheckForSteps(STEP2DISTANCE))
         {
@@ -261,13 +261,13 @@ void P_MovePlayer(void)
                 viewplayer->lookdir = 0;
         }
     }
-    else if (canmouselook)
+    else if (canfreelook)
     {
         if (cmd->lookdir)
             viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir,
                 LOOKDIRMAX * MLOOKUNIT);
 
-        if (viewplayer->lookdir && !usemouselook)
+        if (viewplayer->lookdir && !usefreelook)
         {
             if (viewplayer->lookdir > 0)
             {
@@ -318,7 +318,7 @@ static void P_DeathThink(void)
     // fall to the ground
     if (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
     {
-        if (canmouselook)
+        if (canfreelook)
         {
             static int  inc;
 

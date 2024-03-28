@@ -124,8 +124,8 @@ extern bool         boomcompatible;
 extern bool         mbfcompatible;
 extern bool         mbf21compatible;
 extern bool         blockmaprebuilt;
+extern bool         nofreelook;
 extern bool         nojump;
-extern bool         nomouselook;
 
 //
 // POV data.

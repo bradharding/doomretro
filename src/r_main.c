@@ -587,7 +587,7 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
+        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canfreelook ?
             &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
 
         if (r_ditheredlighting)
@@ -1039,7 +1039,7 @@ static void R_SetupFrame(void)
         viewz = viewplayer->oldviewz + FixedMul(viewplayer->viewz - viewplayer->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (canmouselook)
+        if (canfreelook)
             pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
@@ -1054,7 +1054,7 @@ static void R_SetupFrame(void)
         viewz = viewplayer->viewz;
         viewangle = mo->angle;
 
-        if (canmouselook)
+        if (canfreelook)
             pitch = viewplayer->lookdir / MLOOKUNIT;
 
         if (weaponrecoil)

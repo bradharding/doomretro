@@ -87,6 +87,7 @@ extern int      expansion;
 extern int      facebackcolor;
 extern bool     fade;
 extern bool     flashkeys;
+extern bool     freelook;
 extern bool     groupmessages;
 extern bool     infighting;
 extern bool     infiniteheight;
@@ -111,7 +112,6 @@ extern float    m_sensitivity;
 extern bool     melt;
 extern bool     menuspin;
 extern bool     messages;
-extern bool     mouselook;
 extern int      movebob;
 extern bool     negativehealth;
 extern bool     obituaries;
@@ -484,6 +484,8 @@ enum
 
 #define flashkeys_default                   true
 
+#define freelook_default                    false
+
 #define groupmessages_default               true
 
 #define health_min                          INT_MIN
@@ -559,8 +561,6 @@ enum
 #define menuspin_default                    true
 
 #define messages_default                    true
-
-#define mouselook_default                   false
 
 #define movebob_min                         0
 #define movebob_default                     75
@@ -842,13 +842,13 @@ enum
 #define GAMECONTROLLERFIRE_DEFAULT          GAMECONTROLLER_RIGHT_TRIGGER
 #define GAMECONTROLLERFOLLOWMODE_DEFAULT    0
 #define GAMECONTROLLERFORWARD_DEFAULT       0
+#define GAMECONTROLLERFREELOOK_DEFAULT      0
 #define GAMECONTROLLERGRID_DEFAULT          0
 #define GAMECONTROLLERJUMP_DEFAULT          0
 #define GAMECONTROLLERLEFT_DEFAULT          0
 #define GAMECONTROLLERMARK_DEFAULT          0
 #define GAMECONTROLLERMAXZOOM_DEFAULT       0
 #define GAMECONTROLLERMENU_DEFAULT          GAMECONTROLLER_START
-#define GAMECONTROLLERMOUSELOOK_DEFAULT     0
 #define GAMECONTROLLERNEXTWEAPON_DEFAULT    GAMECONTROLLER_RIGHT_SHOULDER
 #define GAMECONTROLLERPREVWEAPON_DEFAULT    GAMECONTROLLER_LEFT_SHOULDER
 #define GAMECONTROLLERRIGHT_DEFAULT         0
@@ -872,13 +872,13 @@ enum
 #define KEYDOWN_DEFAULT                     KEY_DOWNARROW
 #define KEYFIRE_DEFAULT                     KEY_CTRL
 #define KEYFOLLOWMODE_DEFAULT               'f'
+#define KEYFREELOOK_DEFAULT                 0
 #define KEYGRID_DEFAULT                     'g'
 #define KEYJUMP_DEFAULT                     0
 #define KEYLEFT_DEFAULT                     KEY_LEFTARROW
 #define KEYMARK_DEFAULT                     'm'
 #define KEYMAXZOOM_DEFAULT                  '0'
 #define KEYMENU_DEFAULT                     KEY_ESCAPE
-#define KEYMOUSELOOK_DEFAULT                0
 #define KEYNEXTWEAPON_DEFAULT               0
 #define KEYPREVWEAPON_DEFAULT               0
 #define KEYRIGHT_DEFAULT                    KEY_RIGHTARROW
@@ -916,13 +916,13 @@ enum
 #define MOUSEFIRE_DEFAULT                   0
 #define MOUSEFOLLOWMODE_DEFAULT             -1
 #define MOUSEFORWARD_DEFAULT                -1
+#define MOUSEFREELOOK_DEFAULT               -1
 #define MOUSEGRID_DEFAULT                   -1
 #define MOUSEJUMP_DEFAULT                   -1
 #define MOUSELEFT_DEFAULT                   -1
 #define MOUSEMARK_DEFAULT                   -1
 #define MOUSEMAXZOOM_DEFAULT                -1
 #define MOUSEMENU_DEFAULT                   -1
-#define MOUSEMOUSELOOK_DEFAULT              -1
 #define MOUSENEXTWEAPON_DEFAULT             MOUSE_WHEELDOWN
 #define MOUSEPREVWEAPON_DEFAULT             MOUSE_WHEELUP
 #define MOUSERIGHT_DEFAULT                  -1

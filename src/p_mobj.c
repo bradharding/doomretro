@@ -1692,7 +1692,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     fixed_t slope;
     int     speed;
 
-    if (usemouselook && !autoaim)
+    if (usefreelook && !autoaim)
         slope = PLAYERSLOPE(source->player);
     else
     {
@@ -1715,7 +1715,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
                     if (!linetarget)
                     {
                         an = source->angle;
-                        slope = (usemouselook ? PLAYERSLOPE(source->player) : 0);
+                        slope = (usefreelook ? PLAYERSLOPE(source->player) : 0);
                     }
                 }
             }

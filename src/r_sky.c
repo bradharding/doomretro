@@ -50,17 +50,17 @@ int     skyscrolldelta;
 
 fixed_t skyiscale;
 
-bool    canmouselook = false;
+bool    canfreelook = false;
 
 void R_InitSkyMap(void)
 {
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(gameepisode, gamemap);
-    canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt
-        || (weaponrecoil && r_screensize == r_screensize_max)) && !nomouselook);
+    canfreelook = ((freelook || keyboardfreelook || mousefreelook != -1 || autotilt
+        || (weaponrecoil && r_screensize == r_screensize_max)) && !nofreelook);
 
-    if (!skytexture || (BTSX && !canmouselook))
+    if (!skytexture || (BTSX && !canfreelook))
     {
         if (gamemode == commercial)
         {
@@ -115,7 +115,7 @@ void R_InitSkyMap(void)
 
     skyscrolldelta = P_GetMapSky1ScrollDelta(gameepisode, gamemap);
 
-    if (canmouselook)
+    if (canfreelook)
     {
         const int   skyheight = textureheight[skytexture] >> FRACBITS;
 

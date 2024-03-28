@@ -509,7 +509,7 @@ static void saveg_read_player_t(void)
     viewplayer->oldrecoil = saveg_read32();
     viewplayer->jumptics = saveg_read32();
 
-    if (!mouselook)
+    if (!freelook)
     {
         viewplayer->lookdir = 0;
         viewplayer->oldlookdir = 0;

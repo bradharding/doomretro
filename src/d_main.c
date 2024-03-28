@@ -1404,8 +1404,8 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(0, BOLD("\"%s\"") " wasn't found so " BOLD("%s") " was loaded instead.",
-                            leafname((char *)ofn.lpstrFile), temp);
+                        C_Warning(0, BOLD("%s%s") " wasn't found so " BOLD("%s") " was loaded instead.",
+                            (char *)ofn.lpstrFile, (M_StringEndsWith((char *)ofn.lpstrFile, ".wad") ? "" : ".wad"), temp);
 
                     file = M_StringDuplicate(temp);
                     wad = M_StringDuplicate(leafname(temp));

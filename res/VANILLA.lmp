@@ -39,6 +39,7 @@ english american
 facebackcolor 5
 fade off
 flashkeys off
+freelook off
 groupmessages off
 infighting off
 infiniteheight on
@@ -58,7 +59,6 @@ m_pointer off
 m_sensitivity 8
 melt on
 messages on
-mouselook off
 movebob 100%
 negativehealth off
 obituaries off

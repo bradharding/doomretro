@@ -322,13 +322,13 @@ action_t actions[] =
     { "+fire",        true,  false, fire_action_func,        &keyboardfire,        NULL,                  &mousefire,        &gamecontrollerfire,        NULL                },
     { "+followmode",  true,  false, followmode_action_func,  &keyboardfollowmode,  NULL,                  &mousefollowmode,  &gamecontrollerfollowmode,  NULL                },
     { "+forward",     true,  false, forward_action_func,     &keyboardforward,     &keyboardforward2,     &mouseforward,     &gamecontrollerforward,     NULL                },
+    { "+freelook",    true,  false, NULL,                    &keyboardfreelook,    NULL,                  &mousefreelook,    &gamecontrollerfreelook,    NULL                },
     { "+grid",        true,  true,  grid_action_func,        &keyboardgrid,        NULL,                  &mousegrid,        &gamecontrollergrid,        NULL                },
     { "+jump",        true,  false, jump_action_func,        &keyboardjump,        NULL,                  &mousejump,        &gamecontrollerjump,        NULL                },
     { "+left",        true,  false, left_action_func,        &keyboardleft,        NULL,                  &mouseleft,        &gamecontrollerleft,        NULL                },
     { "+mark",        true,  true,  mark_action_func,        &keyboardmark,        NULL,                  &mousemark,        &gamecontrollermark,        NULL                },
     { "+maxzoom",     true,  true,  maxzoom_action_func,     &keyboardmaxzoom,     NULL,                  &mousemaxzoom,     &gamecontrollermaxzoom,     NULL                },
     { "+menu",        true,  false, menu_action_func,        &keyboardmenu,        NULL,                  &mousemenu,        &gamecontrollermenu,        NULL                },
-    { "+mouselook",   true,  false, NULL,                    &keyboardmouselook,   NULL,                  &mousemouselook,   &gamecontrollermouselook,   NULL                },
     { "+nextweapon",  true,  false, nextweapon_action_func,  &keyboardnextweapon,  NULL,                  &mousenextweapon,  &gamecontrollernextweapon,  NULL                },
     { "+prevweapon",  true,  false, prevweapon_action_func,  &keyboardprevweapon,  NULL,                  &mouseprevweapon,  &gamecontrollerprevweapon,  NULL                },
     { "+right",       true,  false, right_action_func,       &keyboardright,       NULL,                  &mouseright,       &gamecontrollerright,       NULL                },
@@ -441,10 +441,10 @@ static bool english_func1(char *cmd, char *parms);
 static void english_func2(char *cmd, char *parms);
 static void episode_func2(char *cmd, char *parms);
 static void expansion_func2(char *cmd, char *parms);
+static void freelook_func2(char *cmd, char *parms);
 static bool joy_deadzone_cvars_func1(char *cmd, char *parms);
 static void joy_deadzone_cvars_func2(char *cmd, char *parms);
 static void joy_sensitivity_cvars_func2(char *cmd, char *parms);
-static void mouselook_func2(char *cmd, char *parms);
 static bool player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
 static bool playergender_func1(char *cmd, char *parms);
@@ -624,7 +624,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(armortype, armourtype, "", armortype_func1, armortype_func2, CF_NONE, ARMORTYPEVALUEALIAS,
         "Your armor type (" BOLD("none") ", " BOLD("green") " or " BOLD("blue") ")."),
     CVAR_BOOL(autoaim, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles vertical autoaiming as you fire your weapon while using mouselook."),
+        "Toggles vertical autoaiming as you fire your weapon while using freelook."),
     CVAR_BOOL(autoload, "", "", bool_cvars_func1, bool_cvars_func2, CF_PISTOLSTART, BOOLVALUEALIAS,
         "Toggles automatically loading the last savegame when you die."),
     CVAR_BOOL(autosave, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -676,6 +676,8 @@ consolecmd_t consolecmds[] =
         "Toggles fast monsters."),
     CVAR_BOOL(flashkeys, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles flashing the required keycard or skull key when you try to open a locked door."),
+    CVAR_BOOL(freelook, mouselook, "", bool_cvars_func1, freelook_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles freelook."),
     CCMD(freeze, "", "", game_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
@@ -748,7 +750,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(m_doubleclick_use, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles double-clicking a mouse button to perform the " BOLD("+use") " action."),
     CVAR_BOOL(m_invertyaxis, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles inverting the mouse's vertical axis when using mouselook."),
+        "Toggles inverting the mouse's vertical axis when using freelook."),
     CVAR_BOOL(m_novertical, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
     CVAR_BOOL(m_pointer, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -769,8 +771,6 @@ consolecmd_t consolecmds[] =
         "Toggles spinning your view in the menu's background."),
     CVAR_BOOL(messages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles displaying player messages at the top of the screen."),
-    CVAR_BOOL(mouselook, "", "", bool_cvars_func1, mouselook_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles mouselook."),
     CVAR_INT(movebob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount your view bobs as you move (" BOLD("0%") " to " BOLD("100%") ")."),
     CCMD(name, "", "", name_func1, name_func2, true, NAMECMDFORMAT,
@@ -1643,7 +1643,7 @@ void bind_func2(char *cmd, char *parms)
     int         action = 0;
     char        parm1[128] = "";
     char        parm2[128] = "";
-    const bool  mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
+    const bool  freelookcontrols = (keyboardfreelook || gamecontrollerfreelook || mousefreelook != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -1962,7 +1962,7 @@ void bind_func2(char *cmd, char *parms)
         return;
     }
 
-    if (mouselookcontrols != (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1))
+    if (freelookcontrols != (keyboardfreelook || gamecontrollerfreelook || mousefreelook != -1))
     {
         if (gamestate == GS_LEVEL)
         {
@@ -7138,13 +7138,13 @@ static void C_VerifyResetAll(const int key)
         keyboardfollowmode = KEYFOLLOWMODE_DEFAULT;
         keyboardforward = KEYUP_DEFAULT;
         keyboardforward2 = KEYUP2_DEFAULT;
+        keyboardfreelook = KEYFREELOOK_DEFAULT;
         keyboardgrid = KEYGRID_DEFAULT;
         keyboardjump = KEYJUMP_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardmark = KEYMARK_DEFAULT;
         keyboardmaxzoom = KEYMAXZOOM_DEFAULT;
         keyboardmenu = KEYMENU_DEFAULT;
-        keyboardmouselook = KEYMOUSELOOK_DEFAULT;
         keyboardnextweapon = KEYNEXTWEAPON_DEFAULT;
         keyboardprevweapon = KEYPREVWEAPON_DEFAULT;
         keyboardright = KEYRIGHT_DEFAULT;
@@ -7172,9 +7172,9 @@ static void C_VerifyResetAll(const int key)
         mouseback = MOUSEBACK_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
+        mousefreelook = MOUSEFREELOOK_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
         mouseleft = MOUSELEFT_DEFAULT;
-        mousemouselook = MOUSEMOUSELOOK_DEFAULT;
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
         mouseright = MOUSERIGHT_DEFAULT;
@@ -7200,13 +7200,13 @@ static void C_VerifyResetAll(const int key)
         gamecontrollerfire = GAMECONTROLLERFIRE_DEFAULT;
         gamecontrollerfollowmode = GAMECONTROLLERFOLLOWMODE_DEFAULT;
         gamecontrollerforward = GAMECONTROLLERFORWARD_DEFAULT;
+        gamecontrollerfreelook = GAMECONTROLLERFREELOOK_DEFAULT;
         gamecontrollergrid = GAMECONTROLLERGRID_DEFAULT;
         gamecontrollerjump = GAMECONTROLLERJUMP_DEFAULT;
         gamecontrollerleft = GAMECONTROLLERLEFT_DEFAULT;
         gamecontrollermark = GAMECONTROLLERMARK_DEFAULT;
         gamecontrollermaxzoom = GAMECONTROLLERMAXZOOM_DEFAULT;
         gamecontrollermenu = GAMECONTROLLERMENU_DEFAULT;
-        gamecontrollermouselook = GAMECONTROLLERMOUSELOOK_DEFAULT;
         gamecontrollernextweapon = GAMECONTROLLERNEXTWEAPON_DEFAULT;
         gamecontrollerprevweapon = GAMECONTROLLERPREVWEAPON_DEFAULT;
         gamecontrollerright = GAMECONTROLLERRIGHT_DEFAULT;
@@ -9206,6 +9206,33 @@ static void expansion_func2(char *cmd, char *parms)
 }
 
 //
+// freelook CVAR
+//
+static void freelook_func2(char *cmd, char *parms)
+{
+    const bool  freelook_old = freelook;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (freelook != freelook_old && gamestate == GS_LEVEL)
+    {
+        suppresswarnings = true;
+        R_InitSkyMap();
+        suppresswarnings = false;
+
+        R_InitColumnFunctions();
+
+        if (!freelook)
+        {
+            viewplayer->lookdir = 0;
+            viewplayer->oldlookdir = 0;
+            viewplayer->recoil = 0;
+            viewplayer->oldrecoil = 0;
+        }
+    }
+}
+
+//
 // joy_deadzone_left and joy_deadzone_right CVARs
 //
 static bool joy_deadzone_cvars_func1(char *cmd, char *parms)
@@ -9298,33 +9325,6 @@ static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
         I_SetGameControllerHorizontalSensitivity();
     else if (joy_sensitivity_vertical != joy_sensitivity_vertical_old)
         I_SetGameControllerVerticalSensitivity();
-}
-
-//
-// mouselook CVAR
-//
-static void mouselook_func2(char *cmd, char *parms)
-{
-    const bool  mouselook_old = mouselook;
-
-    bool_cvars_func2(cmd, parms);
-
-    if (mouselook != mouselook_old && gamestate == GS_LEVEL)
-    {
-        suppresswarnings = true;
-        R_InitSkyMap();
-        suppresswarnings = false;
-
-        R_InitColumnFunctions();
-
-        if (!mouselook)
-        {
-            viewplayer->lookdir = 0;
-            viewplayer->oldlookdir = 0;
-            viewplayer->recoil = 0;
-            viewplayer->oldrecoil = 0;
-        }
-    }
 }
 
 //

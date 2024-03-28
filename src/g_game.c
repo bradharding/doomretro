@@ -152,7 +152,7 @@ bool            skipaction = false;
 static int      mousex;
 static int      mousey;
 
-bool            usemouselook = false;
+bool            usefreelook = false;
 
 static int      dclicktime;
 static bool     dclickstate;
@@ -272,8 +272,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         || (gamecontrollerbuttons & gamecontrollerstrafe));
     run = ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
         || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
-    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
-        || (gamecontrollerbuttons & gamecontrollermouselook));
+    usefreelook = (freelook || gamekeydown[keyboardfreelook] || mousebuttons[mousefreelook]
+        || (gamecontrollerbuttons & gamecontrollerfreelook));
 
     // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
@@ -332,7 +332,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (gamecontrollerthumbRY)
     {
-        if (usemouselook && joy_thumbsticks == 2)
+        if (usefreelook && joy_thumbsticks == 2)
         {
             if (!automapactive)
             {
@@ -516,7 +516,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (mousey)
     {
-        if (usemouselook && !automapactive)
+        if (usefreelook && !automapactive)
             cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey / 2;

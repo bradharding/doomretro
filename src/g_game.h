@@ -110,7 +110,7 @@ extern char         mouseactionlist[MAXMOUSEBUTTONS + 2][255];
 extern int          st_facecount;
 extern bool         skipaction;
 extern char         savename[MAX_PATH];
-extern bool         usemouselook;
+extern bool         usefreelook;
 extern bool         secretexit;
 extern gameaction_t loadaction;
 extern bool         newpars;

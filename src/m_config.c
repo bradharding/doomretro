@@ -97,6 +97,7 @@ int         expansion = expansion_default;
 int         facebackcolor = facebackcolor_default;
 bool        fade = fade_default;
 bool        flashkeys = flashkeys_default;
+bool        freelook = freelook_default;
 bool        groupmessages = groupmessages_default;
 bool        infighting = infighting_default;
 bool        infiniteheight = infiniteheight_default;
@@ -122,7 +123,6 @@ float       m_sensitivity = m_sensitivity_default;
 bool        melt = melt_default;
 bool        menuspin = menuspin_default;
 bool        messages = messages_default;
-bool        mouselook = mouselook_default;
 int         movebob = movebob_default;
 bool        negativehealth = negativehealth_default;
 bool        obituaries = obituaries_default;
@@ -341,6 +341,7 @@ static default_t cvars[] =
     CVAR_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                       NOVALUEALIAS       ),
     CVAR_BOOL         (fade,                             fade,                                  fade,                                BOOLVALUEALIAS     ),
     CVAR_BOOL         (flashkeys,                        flashkeys,                             flashkeys,                           BOOLVALUEALIAS     ),
+    CVAR_BOOL         (freelook,                         mouselook,                             freelook,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (groupmessages,                    groupmessages,                         groupmessages,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (infighting,                       infighting,                            infighting,                          BOOLVALUEALIAS     ),
     CVAR_BOOL         (infiniteheight,                   infiniteheight,                        infiniteheight,                      BOOLVALUEALIAS     ),
@@ -365,7 +366,6 @@ static default_t cvars[] =
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS     ),
     CVAR_BOOL         (menuspin,                         menuspin,                              menuspin,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS     ),
-    CVAR_BOOL         (mouselook,                        mouselook,                             mouselook,                           BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (movebob,                          movebob,                               movebob,                             NOVALUEALIAS       ),
     CVAR_BOOL         (negativehealth,                   negativehealth,                        negativehealth,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (obituaries,                       con_obituaries,                        obituaries,                          BOOLVALUEALIAS     ),
