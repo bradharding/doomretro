@@ -7168,16 +7168,23 @@ static void C_VerifyResetAll(const int key)
         keyboardzoomin = KEYZOOMIN_DEFAULT;
         keyboardzoomout = KEYZOOMOUT_DEFAULT;
 
+        mousealwaysrun = MOUSEALWAYSRUN_DEFAULT;
         mouseautomap = MOUSEAUTOMAP_DEFAULT;
         mouseback = MOUSEBACK_DEFAULT;
+        mouseclearmark = MOUSECLEARMARK_DEFAULT;
+        mouseconsole = MOUSECONSOLE_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
+        mousefollowmode = MOUSEFOLLOWMODE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
         mousefreelook = MOUSEFREELOOK_DEFAULT;
+        mousegrid = MOUSEGRID_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
         mouseleft = MOUSELEFT_DEFAULT;
+        mousemark = MOUSEMARK_DEFAULT;
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
         mouseright = MOUSERIGHT_DEFAULT;
+        mouserotatemode = MOUSEROTATEMODE_DEFAULT;
         mouserun = MOUSERUN_DEFAULT;
         mousescreenshot = MOUSESCREENSHOT_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
@@ -7191,6 +7198,8 @@ static void C_VerifyResetAll(const int key)
         mouseweapon5 = MOUSEWEAPON5_DEFAULT;
         mouseweapon6 = MOUSEWEAPON6_DEFAULT;
         mouseweapon7 = MOUSEWEAPON7_DEFAULT;
+        mousezoomin = MOUSEZOOMIN_DEFAULT;
+        mousezoomout = MOUSEZOOMOUT_DEFAULT;
 
         gamecontrolleralwaysrun = GAMECONTROLLERALWAYSRUN_DEFAULT;
         gamecontrollerautomap = GAMECONTROLLERAUTOMAP_DEFAULT;
