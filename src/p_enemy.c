@@ -1154,7 +1154,6 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, damage, true, false);
         P_SpawnBloodOnMelee(target, damage);
-
         return;
     }
 

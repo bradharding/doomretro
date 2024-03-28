@@ -20,8 +20,10 @@
 * Minor improvements have been made to the position of player messages.
 * If the <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
 * The `mouselook` CVAR and `+mouselook` action have been renamed `freelook` and `+freelook`.
-* A bug is fixed whereby some actions bound to the mouse weren’t being reset by the `resetall` CCMD.
-* A bug is fixed whereby the sky wouldn’t be stretched if the `+freelook` action was bound to button on a controller.
+* These changes have been made when using the `resetall` CCMD:
+  * A bug is fixed whereby some actions bound to the mouse weren’t being reset.
+  * The automap no longer closes if it was open.
+* A bug is fixed whereby the sky wouldn’t be stretched if the `+freelook` action was bound to a button on a controller.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
