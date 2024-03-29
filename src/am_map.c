@@ -2111,17 +2111,30 @@ static void AM_DrawCrosshair(void)
 
 static void AM_StatusBarShadow(void)
 {
-    for (int i = 24, y = 0; y < 6; i -= 4, y++)
-    {
-        byte    *colormap = &colormaps[0][i * 256];
-
-        for (int x = 0; x < MAPWIDTH; x++)
+    if (r_detail == r_detail_high)
+        for (int i = 24, y = 0; y < 6; i -= 4, y++)
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
+            byte    *colormap = &colormaps[0][i * 256];
 
-            *dot = *(*dot + colormap);
+            for (int x = 0; x < MAPWIDTH; x++)
+            {
+                byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
+
+                *dot = *(*dot + colormap);
+            }
         }
-    }
+    else
+        for (int i = 24, y = 0; y < 3; i -= 8, y++)
+        {
+            byte    *colormap = &colormaps[0][i * 256];
+
+            for (int x = 0; x < MAPWIDTH * 2; x++)
+            {
+                byte    *dot = &mapscreen[(MAPHEIGHT - y * 2 - 2) * MAPWIDTH + x];
+
+                *dot = *(*dot + colormap);
+            }
+        }
 }
 
 static void AM_SetFrameVariables(void)
