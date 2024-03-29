@@ -10,6 +10,7 @@
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
 * Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
+* The shadow cast by the status bar in the automap is now in low detail when the `r_detail` CVAR is `low`.
 * Further improvements have been made to the parsing of `MAPINFO` lumps.
 * The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.

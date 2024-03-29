@@ -443,7 +443,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         else if (D_IsSIGILSHREDSWAD(file))
         {
             buckethead = true;
-            C_Output("Buckethead's music will be heard while playing " ITALICS("SIGIL") ".");
+            C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL") ".");
         }
         else if (D_IsSIGIL2WAD(file))
         {
@@ -466,7 +466,7 @@ bool W_AddFile(char *filename, bool autoloaded)
                 && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
             {
                 thorr = true;
-                C_Output("Thorr's music will be heard while playing " ITALICS("SIGIL II") ".");
+                C_Output("Thorr's music will be heard while you play " ITALICS("SIGIL II") ".");
             }
         }
         else if (M_StringCompare(file, "NERVE.WAD"))

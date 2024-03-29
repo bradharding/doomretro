@@ -2111,30 +2111,32 @@ static void AM_DrawCrosshair(void)
 
 static void AM_StatusBarShadow(void)
 {
-    if (r_detail == r_detail_high)
-        for (int i = 24, y = 0; y < 6; i -= 4, y++)
+    for (int i = 24, y = 0; y < 6; i -= 4, y++)
+    {
+        byte    *colormap = &colormaps[0][i * 256];
+
+        for (int x = 0; x < MAPWIDTH; x++)
         {
-            byte    *colormap = &colormaps[0][i * 256];
+            byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
 
-            for (int x = 0; x < MAPWIDTH; x++)
-            {
-                byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
-
-                *dot = *(*dot + colormap);
-            }
+            *dot = *(*dot + colormap);
         }
-    else
-        for (int i = 24, y = 0; y < 3; i -= 8, y++)
+    }
+}
+
+static void AM_LowStatusBarShadow(void)
+{
+    for (int i = 24, y = 0; y < 3; i -= 8, y++)
+    {
+        byte    *colormap = &colormaps[0][i * 256];
+
+        for (int x = 0; x < MAPWIDTH * 2; x++)
         {
-            byte    *colormap = &colormaps[0][i * 256];
+            byte    *dot = &mapscreen[(MAPHEIGHT - y * 2 - 2) * MAPWIDTH + x];
 
-            for (int x = 0; x < MAPWIDTH * 2; x++)
-            {
-                byte    *dot = &mapscreen[(MAPHEIGHT - y * 2 - 2) * MAPWIDTH + x];
-
-                *dot = *(*dot + colormap);
-            }
+            *dot = *(*dot + colormap);
         }
+    }
 }
 
 static void AM_SetFrameVariables(void)
@@ -2257,11 +2259,13 @@ void AM_Drawer(void)
 
         if (nummarks)
             AM_DrawMarks(bigmarknums);
+
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
+            AM_LowStatusBarShadow();
     }
+    else if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
+        AM_StatusBarShadow();
 
     if (!(am_followmode || consoleactive))
         AM_DrawCrosshair();
-
-    if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
-        AM_StatusBarShadow();
 }
