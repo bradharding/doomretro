@@ -1462,10 +1462,10 @@ void HU_Drawer(void)
             if (vid_widescreen)
             {
                 w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 4 : 16);
+                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 16);
             }
             else
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 4;
+                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 6;
 
             HUlib_DrawAutomapTextLine(&w_title, false);
         }
