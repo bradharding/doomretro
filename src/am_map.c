@@ -2111,28 +2111,28 @@ static void AM_DrawCrosshair(void)
 
 static void AM_StatusBarShadow(void)
 {
-    for (int i = 24 * 256, y = 0; y < 6; i -= 4 * 256, y++)
+    for (int i = 24 * 256, y = 1; y < 7; i -= 4 * 256, y++)
     {
         byte    *colormap = &colormaps[0][i];
 
         for (int x = 0; x < MAPWIDTH; x++)
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
+            byte    *dot = &mapscreen[MAPAREA - y * MAPWIDTH + x];
 
             *dot = *(*dot + colormap);
         }
     }
 }
 
-static void AM_LowStatusBarShadow(void)
+static void AM_BigStatusBarShadow(void)
 {
-    for (int i = 24 * 256, y = 0; y < 6; i -= 8 * 256, y += 2)
+    for (int i = 24 * 256, y = 2; y < 8; i -= 8 * 256, y += 2)
     {
         byte    *colormap = &colormaps[0][i];
 
         for (int x = 0; x < MAPWIDTH * 2; x++)
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - y - 2) * MAPWIDTH + x];
+            byte    *dot = &mapscreen[MAPAREA - y * MAPWIDTH + x];
 
             *dot = *(*dot + colormap);
         }
@@ -2261,7 +2261,7 @@ void AM_Drawer(void)
             AM_DrawMarks(bigmarknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
-            AM_LowStatusBarShadow();
+            AM_BigStatusBarShadow();
     }
     else if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
         AM_StatusBarShadow();
