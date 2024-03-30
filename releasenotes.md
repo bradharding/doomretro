@@ -19,7 +19,7 @@
 * The <kbd><b>F1</b></kbd> key can no longer be pressed to interrupt the splash screen.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Minor improvements have been made to the position of player messages.
-* If the <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
+* If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
 * The `mouselook` CVAR and `+mouselook` action have been renamed `freelook` and `+freelook`.
 * These changes have been made when using the `resetall` CCMD:
   * A bug is fixed whereby some actions bound to the mouse weren’t being reset.

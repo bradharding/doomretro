@@ -2111,9 +2111,9 @@ static void AM_DrawCrosshair(void)
 
 static void AM_StatusBarShadow(void)
 {
-    for (int i = 24, y = 0; y < 6; i -= 4, y++)
+    for (int i = 24 * 256, y = 0; y < 6; i -= 4 * 256, y++)
     {
-        byte    *colormap = &colormaps[0][i * 256];
+        byte    *colormap = &colormaps[0][i];
 
         for (int x = 0; x < MAPWIDTH; x++)
         {
@@ -2126,13 +2126,13 @@ static void AM_StatusBarShadow(void)
 
 static void AM_LowStatusBarShadow(void)
 {
-    for (int i = 24, y = 0; y < 3; i -= 8, y++)
+    for (int i = 24 * 256, y = 0; y < 6; i -= 8 * 256, y += 2)
     {
-        byte    *colormap = &colormaps[0][i * 256];
+        byte    *colormap = &colormaps[0][i];
 
         for (int x = 0; x < MAPWIDTH * 2; x++)
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - y * 2 - 2) * MAPWIDTH + x];
+            byte    *dot = &mapscreen[(MAPHEIGHT - y - 2) * MAPWIDTH + x];
 
             *dot = *(*dot + colormap);
         }
