@@ -649,12 +649,11 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 
 static void C_DrawScrollbar(void)
 {
-    int trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
-    int facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-        MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-        MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
-    int faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-        * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+                    MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
+                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
+    int         faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
     if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
@@ -662,8 +661,7 @@ static void C_DrawScrollbar(void)
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
         const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH - offset;
-
-        trackend = MAX(0, trackend - offset);
+        const int   trackend = MAX(0, CONSOLESCROLLBARHEIGHT * SCREENWIDTH - offset);
 
         // draw scrollbar track
         for (int y = 0; y < trackend; y += SCREENWIDTH)
