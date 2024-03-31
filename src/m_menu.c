@@ -3312,7 +3312,8 @@ bool M_Responder(event_t *ev)
     else if (key == '-')
     {
         // Screen size down
-        if (consoleactive || paused || splashscreen || automapactive || fadecount)
+        if ((consoleactive && !(SDL_GetModState() & KMOD_CTRL)) || paused
+            || splashscreen || automapactive || fadecount)
             return false;
 
         keydown = key;
@@ -3349,7 +3350,8 @@ bool M_Responder(event_t *ev)
     else if (key == '=')
     {
         // Screen size up
-        if (consoleactive || paused || splashscreen || automapactive || fadecount)
+        if ((consoleactive && !(SDL_GetModState() & KMOD_CTRL)) || paused
+            || splashscreen || automapactive || fadecount)
             return false;
 
         keydown = key;
