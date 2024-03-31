@@ -1046,7 +1046,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             else if (letter == '\t')
             {
                 if (vid_widescreen)
-                    x = (x > tabs[++tab] + 18 ? x + spacewidth : tabs[tab] + 18);
+                    x = (x > tabs[++tab] + 24 ? x + spacewidth : tabs[tab] + 24);
                 else
                     x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             }
