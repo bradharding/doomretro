@@ -27,6 +27,7 @@
 * A bug is fixed whereby the sky wouldn’t be stretched if the `+freelook` action was bound to a button on a controller.
 * The text in the console has been brought in from the left and right edges of the screen slightly when the `vid_widescreen` CVAR is `on`, and even more so on ultra-wide displays.
 * Improvements have been made to the position of some elements of the alternate widescreen HUD.
+* The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

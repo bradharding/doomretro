@@ -2030,7 +2030,7 @@ static void M_DrawOptions(void)
 static void M_Options(int choice)
 {
     if (!OptionsDef.change)
-        OptionsDef.laston = (gamestate == GS_LEVEL ? endgame : msgs);
+        OptionsDef.laston = (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION ? endgame : msgs);
 
     M_SetupNextMenu(&OptionsDef);
 }
@@ -2110,7 +2110,7 @@ static void M_EndGameResponse(int key)
 
 static void M_EndGame(int choice)
 {
-    if (gamestate != GS_LEVEL)
+    if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
         return;
 
     if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
@@ -3689,7 +3689,8 @@ bool M_Responder(event_t *ev)
                         if (itemon == ep5 && !sigil && sigil2)
                             itemon--;
                     }
-                    else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && itemon == endgame
+                        && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         itemon = currentmenu->numitems - 1;
 
                     if (currentmenu->menuitems[itemon].status != -1)
@@ -3782,7 +3783,7 @@ bool M_Responder(event_t *ev)
                     currentmenu->menuitems[itemon].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL
+                    if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION
                         && ((currentmenu == &MainDef && itemon == save_game)
                             || (currentmenu == &OptionsDef && itemon == endgame)))
                         return true;
@@ -3887,7 +3888,8 @@ bool M_Responder(event_t *ev)
                         if (i == ep5 && !sigil && sigil2)
                             continue;
                     }
-                    else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && i == endgame
+                        && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -3927,7 +3929,8 @@ bool M_Responder(event_t *ev)
                         if (i == ep5 && !sigil && sigil2)
                             continue;
                     }
-                    else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && i == endgame
+                        && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -4127,7 +4130,7 @@ void M_Drawer(void)
 
             if (currentmenu == &OptionsDef)
             {
-                if (item == endgame && gamestate != GS_LEVEL)
+                if (item == endgame && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                     item++;
                 else if (item == option_empty1 || item == option_empty2)
                     item--;
