@@ -2503,7 +2503,7 @@ static int M_StringHeight(const char *string)
 }
 
 //
-//  Write a char
+// Write a char
 //
 void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 {
@@ -2576,7 +2576,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             if (cx + width > VANILLAWIDTH)
                 break;
 
-            M_DrawSmallChar(cx, cy, c, highlight, shadow);
+            M_DrawSmallChar(cx, cy - 1, c, highlight, shadow);
         }
 
         prev = letter;
