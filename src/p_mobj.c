@@ -340,7 +340,7 @@ static void P_XYMovement(mobj_t *mo)
         // killough 10/98: Always decrease player bobbing by ORIG_FRICTION.
         // This prevents problems with bobbing on ice, where it was not being
         // reduced fast enough, leading to all sorts of kludges being developed.
-        if (player && player->mo == mo)     //  Not voodoo dolls
+        if (player && player->mo == mo) // Not voodoo dolls
         {
             player->momx = FixedMul(player->momx, ORIG_FRICTION);
             player->momy = FixedMul(player->momy, ORIG_FRICTION);

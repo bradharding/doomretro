@@ -1095,7 +1095,7 @@ static void M_SetCaretPos(int pointerx)
 }
 
 //
-//  M_SaveGame
+// M_SaveGame
 //
 static void M_DrawSave(void)
 {

@@ -145,7 +145,7 @@
 #define GSCREENSHOT         "screen shot"
 
 //
-//  hu_stuff.c
+// hu_stuff.c
 //
 #define HUSTR_MSGU          "[Message unsent]"
 
@@ -337,7 +337,7 @@
 #define AMSTR_MARKSCLEARED  "All Marks Cleared"
 
 //
-//  st_stuff.c
+// st_stuff.c
 //
 #define STSTR_MUS           "Music Change"
 #define STSTR_NOMUS         "IMPOSSIBLE SELECTION"
@@ -359,7 +359,7 @@
 #define STSTR_CLEV          "Changing Level..."
 
 //
-//  f_finale.c
+// f_finale.c
 //
 #define E1TEXT \
 "Once you beat the big badasses and\n"\

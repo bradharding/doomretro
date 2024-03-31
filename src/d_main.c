@@ -479,7 +479,7 @@ static void D_DoomLoop(void)
 }
 
 //
-//  TITLE LOOP
+// TITLE LOOP
 //
 int             titlesequence = 0;
 int             pagetic = 3 * TICRATE;

@@ -26,6 +26,7 @@
   * The automap no longer closes if it was open.
 * A bug is fixed whereby the sky wouldn’t be stretched if the `+freelook` action was bound to a button on a controller.
 * The text in the console has been brought in from the left and right edges of the screen slightly when the `vid_widescreen` CVAR is `on`, and even more so on ultra-wide displays.
+* Improvements have been made to the position of some elements of the alternate widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

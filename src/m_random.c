@@ -45,7 +45,7 @@ unsigned int    bigseed;
 //
 // P_RandomHitscanAngle
 // Outputs a random angle between (-spread, spread), as an int ('cause it can be negative).
-//   spread: Maximum angle (degrees, in fixed point -- not BAM!)
+//  spread: Maximum angle (degrees, in fixed point -- not BAM!)
 //
 int P_RandomHitscanAngle(const fixed_t spread)
 {
@@ -55,7 +55,7 @@ int P_RandomHitscanAngle(const fixed_t spread)
 //
 // P_RandomHitscanSlope
 // Outputs a random angle between (-spread, spread), converted to values used for slope
-//   spread: Maximum vertical angle (degrees, in fixed point -- not BAM!)
+//  spread: Maximum vertical angle (degrees, in fixed point -- not BAM!)
 //
 int P_RandomHitscanSlope(const fixed_t spread)
 {
