@@ -1763,7 +1763,7 @@ void C_Drawer(void)
             }
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, CONSOLETEXTPIXELWIDTH - 3);
+                    console[i].header, CONSOLETEXTPIXELWIDTH + 3);
 
             if (wrap < len && i < bottomline)
             {
