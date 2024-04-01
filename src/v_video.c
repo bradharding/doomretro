@@ -632,6 +632,10 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
                     *dest = tinttab60[*dest];
                 else if (height == 2)
                     *dest = tinttab30[*dest];
+
+                if (col == width - 1)
+                    for (int xx = 1; xx < SCREENWIDTH - x; xx++)
+                        *(dest + xx) = tinttab60[consolebrandingcolor + *(dest + xx)];
             }
 
             source++;
