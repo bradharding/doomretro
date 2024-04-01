@@ -363,6 +363,7 @@ static void cmdlist_func2(char *cmd, char *parms);
 static bool condump_func1(char *cmd, char *parms);
 static void condump_func2(char *cmd, char *parms);
 static void cvarlist_func2(char *cmd, char *parms);
+static bool endgame_func1(char *cmd, char *parms);
 static void endgame_func2(char *cmd, char *parms);
 static void exitmap_func2(char *cmd, char *parms);
 static void fastmonsters_func2(char *cmd, char *parms);
@@ -654,7 +655,7 @@ consolecmd_t consolecmds[] =
         "The color of your crosshair (" BOLD("0") " to " BOLD("255") ")."),
     CCMD(cvarlist, "", "", null_func1, cvarlist_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console variables."),
-    CCMD(endgame, "", "", game_func1, endgame_func2, false, "",
+    CCMD(endgame, "", "", endgame_func1, endgame_func2, false, "",
         "Ends the game."),
     CVAR_BOOL(english, "", "", english_func1, english_func2, CF_NONE, ENGLISHVALUEALIAS,
         "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
@@ -2497,6 +2498,11 @@ static void cvarlist_func2(char *cmd, char *parms)
 //
 // endgame CCMD
 //
+static bool endgame_func1(char *cmd, char *parms)
+{
+    return (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION);
+}
+
 static void endgame_func2(char *cmd, char *parms)
 {
     M_EndingGame();
