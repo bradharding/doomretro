@@ -2214,7 +2214,7 @@ static void condump_func2(char *cmd, char *parms)
                     }
                 }
 
-                if (console[i].stringtype == playermessagestring)
+                if (console[i].stringtype == playermessagestring || console[i].stringtype == playerwarningstring)
                 {
                     char    buffer[9];
 
