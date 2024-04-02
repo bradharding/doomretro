@@ -2164,10 +2164,13 @@ static void condump_func2(char *cmd, char *parms)
 
     if ((file = fopen(filename, "wt")))
     {
-        char    *temp = commify((int64_t)numconsolestrings - 2);
+        char    *temp = commify((int64_t)numconsolestrings - CONSOLEBLANKLINES - 1);
 
         for (int i = 1; i < numconsolestrings - 1; i++)
-            if (console[i].stringtype == dividerstring)
+        {
+            stringtype_t    type = console[i].stringtype;
+
+            if (type == dividerstring)
                 fprintf(file, "%s\n", DIVIDERSTRING);
             else
             {
@@ -2179,7 +2182,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (!len)
                     continue;
 
-                if (console[i].stringtype == warningstring || console[i].stringtype == playerwarningstring)
+                if (type == warningstring || type == playerwarningstring)
                     fputs("! ", file);
 
                 for (int inpos = 0; inpos < len; inpos++)
@@ -2214,11 +2217,11 @@ static void condump_func2(char *cmd, char *parms)
                     }
                 }
 
-                if (console[i].stringtype == playermessagestring || console[i].stringtype == playerwarningstring)
+                if (type == playermessagestring || type == playerwarningstring)
                 {
                     char    buffer[9];
 
-                    for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
+                    for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < 92 - outpos; spaces++)
                         fputc(' ', file);
 
                     M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
@@ -2232,6 +2235,7 @@ static void condump_func2(char *cmd, char *parms)
                 fputc('\n', file);
                 free(string);
             }
+        }
 
         fclose(file);
 
