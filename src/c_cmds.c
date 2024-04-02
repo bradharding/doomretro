@@ -2179,7 +2179,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (!len)
                     continue;
 
-                if (console[i].stringtype == warningstring)
+                if (console[i].stringtype == warningstring || console[i].stringtype == playerwarningstring)
                     fputs("! ", file);
 
                 for (int inpos = 0; inpos < len; inpos++)
