@@ -1126,3 +1126,30 @@ const char *dayofweek(int day, int month, int year)
 
     return days[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
 }
+
+void M_RedactFolderNames(char *path)
+{
+    char    *p = path;
+    bool    redact = false;
+
+    while (*p)
+    {
+        if (*p == DIR_SEPARATOR)
+            redact = !!strchr(++p, DIR_SEPARATOR);
+        else
+        {
+            if (M_StringStartsWith(p, DOOMRETRO_AUTOLOADFOLDER)
+                || M_StringStartsWith(p, DOOMRETRO_CONSOLEFOLDER)
+                || M_StringStartsWith(p, DOOMRETRO_SAVEGAMESFOLDER)
+                || M_StringStartsWith(p, DOOMRETRO_SCREENSHOTSFOLDER))
+            {
+                p = strchr(p, DIR_SEPARATOR);
+                redact = false;
+            }
+            else if (redact)
+                *p = '*';
+
+            p++;
+        }
+    }
+}
