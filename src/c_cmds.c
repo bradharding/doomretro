@@ -2182,8 +2182,6 @@ static void condump_func2(char *cmd, char *parms)
                 if (!len)
                     continue;
 
-                M_RedactFolderNames(string);
-
                 if (type == warningstring || type == playerwarningstring)
                     fputs("! ", file);
 

@@ -116,4 +116,3 @@ void M_AmericanToBritishEnglish(char *string);
 void M_BritishToAmericanEnglish(char *string);
 void M_TranslateAutocomplete(void);
 const char *dayofweek(int day, int month, int year);
-void M_RedactFolderNames(char *path);
