@@ -1624,7 +1624,7 @@ void C_Drawer(void)
             int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
             if (yy >= 0)
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 2; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 7; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
@@ -1635,7 +1635,7 @@ void C_Drawer(void)
             {
                 const byte  *tinttab = (!yy ? tinttab40 : tinttab50);
 
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 2; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 7; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
@@ -1762,8 +1762,8 @@ void C_Drawer(void)
                     y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp, consolewarningboldcolor);
             }
             else
-                V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, CONSOLETEXTPIXELWIDTH + 3);
+                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    console[i].header, CONSOLETEXTPIXELWIDTH + 7);
 
             if (wrap < len && i < bottomline)
             {
