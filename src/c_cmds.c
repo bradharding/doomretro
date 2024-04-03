@@ -4882,9 +4882,9 @@ static void mapstats_func2(char *cmd, char *parms)
         {
             if (customepisode)
             {
-                temp = titlecase(*episodes[gameepisode - 1]);
+                temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
                 C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                    temp, gameepisode, EpiDef.numitems);
+                    temp, maptoepisode[gamemap], EpiDef.numitems);
                 free(temp);
             }
             else if (nerve)
@@ -4901,9 +4901,9 @@ static void mapstats_func2(char *cmd, char *parms)
     {
         if (!chex && !hacx)
         {
-            temp = titlecase(*episodes[gameepisode - 1]);
+            temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
             C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                temp, gameepisode,
+                temp, maptoepisode[gamemap],
                 (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : (gamemode == shareware ? 1 : 3)));
             free(temp);
         }
