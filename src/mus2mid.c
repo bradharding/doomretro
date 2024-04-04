@@ -121,7 +121,7 @@ static const byte controller_map[] =
     0x40, 0x43, 0x78, 0x7B, 0x7E, 0x7F, 0x79
 };
 
-static int channel_map[NUM_CHANNELS];
+static int  channel_map[NUM_CHANNELS];
 
 // Write timestamp to a MIDI file
 static bool WriteTime(unsigned int time, MEMFILE *midioutput)

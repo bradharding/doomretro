@@ -1652,7 +1652,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
 
     if (gamemode == commercial)
     {
-        static int episodecount = 0;
+        static int  episodecount = 0;
 
         maptoepisode[map] = ++episodecount;
         map -= (ep - 1) * 10;

@@ -3790,7 +3790,6 @@ static void kill_func2(char *cmd, char *parms)
             {
                 char    *temp = sentencecase(parm);
 
-
                 if (killcmdmobj->type == MT_PAIN)
                 {
                     if (killcmdmobj->health > 0)

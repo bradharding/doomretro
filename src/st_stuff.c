@@ -937,20 +937,21 @@ bool ST_Responder(const event_t *ev)
             {
                 S_StartSound(NULL, sfx_getpow);
 
-                if (viewplayer->cheats & CF_ALLMAP)
-                {
-                    viewplayer->cheats &= ~CF_ALLMAP;
-                    viewplayer->cheats |= CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
-                }
-                else if (viewplayer->cheats & CF_ALLMAP_THINGS)
+                if (viewplayer->cheats & CF_ALLMAP_THINGS)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP_THINGS;
                     ST_PlayerCheated(cheat_amap.sequence, "", NULL, false);
                 }
                 else
                 {
-                    viewplayer->cheats |= CF_ALLMAP;
+                    if (viewplayer->cheats & CF_ALLMAP)
+                    {
+                        viewplayer->cheats &= ~CF_ALLMAP;
+                        viewplayer->cheats |= CF_ALLMAP_THINGS;
+                    }
+                    else
+                        viewplayer->cheats |= CF_ALLMAP;
+
                     ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
                 }
             }
