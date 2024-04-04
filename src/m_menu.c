@@ -1660,8 +1660,6 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
     else
         maptoepisode[map] = ep;
 
-    C_Output("maptoepisode[%i] = %i, %s", map, ep, string);
-
     if (!customepisode)
     {
         customepisode = true;
