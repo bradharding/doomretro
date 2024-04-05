@@ -339,15 +339,16 @@ void AM_GetGridSize(void)
     int height = -1;
 
     if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2
-        && width >= 4 && width <= 4096 && height >= 4 && height <= 4096)
+        && width >= am_gridsize_width_min && width <= am_gridsize_width_max
+        && height >= am_gridsize_height_min && height <= am_gridsize_height_max)
     {
         gridwidth = width << MAPBITS;
         gridheight = height << MAPBITS;
     }
     else
     {
-        gridwidth = 128 << MAPBITS;
-        gridheight = 128 << MAPBITS;
+        gridwidth = am_gridsize_width_default << MAPBITS;
+        gridheight = am_gridsize_width_default << MAPBITS;
         am_gridsize = am_gridsize_default;
         M_SaveCVARs();
     }

@@ -382,6 +382,13 @@ enum
 
 #define am_gridsize_default                 "128x128"
 
+#define am_gridsize_width_min               4
+#define am_gridsize_height_min              4
+#define am_gridsize_width_default           128
+#define am_gridsize_height_default          128
+#define am_gridsize_width_max               4096
+#define am_gridsize_height_max              4096
+
 #define am_markcolor_min                    0
 #define am_markcolor_default                89
 #define am_markcolor_max                    255
