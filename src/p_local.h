@@ -138,7 +138,7 @@ void P_RespawnSpecials(void);
 
 void P_SetPlayerViewHeight(void);
 
-void P_LookForCards(const bool init);
+void P_LookForCards(void);
 void P_InitCards(void);
 
 mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mobjtype_t type);
