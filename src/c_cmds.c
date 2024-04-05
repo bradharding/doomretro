@@ -6154,11 +6154,10 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->itemspickedup_keys);
-    temp2 = commifystat(stat_itemspickedup_keys);
-    C_TabbedOutput(tabs, INDENT "Keycards and skull keys\t%s\t%s", temp1, temp2);
+    temp1 = commifystat(stat_itemspickedup_keys);
+    C_TabbedOutput(tabs, INDENT "Keycards and skull keys\t%i of %i\t%s",
+        viewplayer->itemspickedup_keys, numcardsinmap, temp1);
     free(temp1);
-    free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_powerups);
     temp2 = commifystat(stat_itemspickedup_powerups);
@@ -8104,7 +8103,7 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                P_LookForCards();
+                P_LookForCards(true);
                 C_PlayerMessage("All keycards and skull keys have been taken from %s.", playername);
                 C_HideConsole();
             }
@@ -8120,7 +8119,7 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_bluecard] = 0;
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
-                P_LookForCards();
+                P_LookForCards(true);
                 C_PlayerMessage("All keycards have been taken from %s.", playername);
                 C_HideConsole();
             }
@@ -8136,7 +8135,7 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_blueskull] = 0;
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
-                P_LookForCards();
+                P_LookForCards(true);
                 C_PlayerMessage("All skull keys have been taken from %s.", playername);
                 C_HideConsole();
             }

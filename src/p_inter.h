@@ -54,3 +54,4 @@ void P_UpdateHealthStat(const int num);
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged);
 
 extern int  cardsfound;
+extern int  numcardsinmap;
