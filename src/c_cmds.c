@@ -6154,6 +6154,12 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    temp1 = commify(viewplayer->itemspickedup_keys);
+    temp2 = commifystat(stat_itemspickedup_keys);
+    C_TabbedOutput(tabs, INDENT "Keycards and skull keys\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     temp1 = commify(viewplayer->itemspickedup_powerups);
     temp2 = commifystat(stat_itemspickedup_powerups);
     C_TabbedOutput(tabs, INDENT "Power-ups\t%s\t%s", temp1, temp2);
@@ -6641,6 +6647,10 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = commifystat(stat_itemspickedup_health);
     C_TabbedOutput(tabs, INDENT "Health\t\x96\t%s", temp1);
+    free(temp1);
+
+    temp1 = commifystat(stat_itemspickedup_keys);
+    C_TabbedOutput(tabs, INDENT "Keycards and skull keys\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_powerups);

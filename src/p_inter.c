@@ -591,12 +591,15 @@ static void P_GiveCard(const card_t card)
         viewplayer->neededcard = 0;
         viewplayer->neededcardflash = 0;
     }
+
+    viewplayer->itemspickedup_keys++;
+    stat_itemspickedup_keys = SafeAdd(stat_itemspickedup_keys, 1);
 }
 
 //
 // P_GiveAllCards
 //
-bool P_GiveAllCards(void)
+bool P_GiveAllCards(const bool stat)
 {
     bool    result = false;
 

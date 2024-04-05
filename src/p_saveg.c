@@ -558,8 +558,9 @@ static void saveg_read_player_t(void)
 
     totaltime = saveg_read32();
 
+    viewplayer->itemspickedup_keys = saveg_read32();
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -668,8 +669,9 @@ static void saveg_write_player_t(void)
 
     saveg_write32(totaltime);
 
+    saveg_write32(viewplayer->itemspickedup_keys);
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
