@@ -2748,7 +2748,7 @@ static void give_func2(char *cmd, char *parms)
             if (P_GiveArmor(blue_armor_class, false))
                 result = true;
 
-            if (P_GiveAllCardsInMap())
+            if (P_GiveAllCards())
                 result = true;
 
             for (int i = 0; i < NUMPOWERS; i++)
