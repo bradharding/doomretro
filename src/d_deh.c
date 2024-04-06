@@ -607,6 +607,7 @@ char    *s_CAPTION_EPISODE3 = "";
 char    *s_CAPTION_EPISODE4 = "";
 char    *s_CAPTION_EPISODE5 = "";
 char    *s_CAPTION_EPISODE6 = "";
+char    *s_CAPTION_EPISODE7 = "";
 char    *s_CAPTION_EXPANSION1 = "";
 char    *s_CAPTION_EXPANSION2 = "";
 char    *s_CAPTION_EXPANSION3 = "";
@@ -1228,6 +1229,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_EPISODE4,            "CAPTION_EPISODE4"            },
     { &s_CAPTION_EPISODE5,            "CAPTION_EPISODE5"            },
     { &s_CAPTION_EPISODE6,            "CAPTION_EPISODE6"            },
+    { &s_CAPTION_EPISODE7,            "CAPTION_EPISODE7"            },
     { &s_CAPTION_EXPANSION1,          "CAPTION_EXPANSION1"          },
     { &s_CAPTION_EXPANSION2,          "CAPTION_EXPANSION2"          },
     { &s_CAPTION_EXPANSION3,          "CAPTION_EXPANSION3"          },

@@ -472,6 +472,7 @@ extern char         *s_CAPTION_EPISODE3;
 extern char         *s_CAPTION_EPISODE4;
 extern char         *s_CAPTION_EPISODE5;
 extern char         *s_CAPTION_EPISODE6;
+extern char         *s_CAPTION_EPISODE7;
 extern char         *s_CAPTION_EXPANSION1;
 extern char         *s_CAPTION_EXPANSION2;
 extern char         *s_CAPTION_EXPANSION3;

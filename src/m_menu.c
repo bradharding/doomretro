@@ -121,7 +121,7 @@ static fixed_t  playerviewz;
 static patch_t  *menuborder;
 static short    titleheight;
 
-int             maptoepisode[100];
+int             maptoepisode[100] = { 0 };
 
 //
 // PROTOTYPES
@@ -1649,12 +1649,18 @@ static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
+    static int  episodecount = 0;
 
     if (gamemode == commercial)
     {
-        static int  episodecount = 0;
-
         maptoepisode[map] = ++episodecount;
+
+        for (int i = map - 1; i >= 0; i--)
+            if (!maptoepisode[i])
+                maptoepisode[i] = episodecount - 1;
+            else
+                break;
+
         map -= (ep - 1) * 10;
     }
     else
@@ -1689,6 +1695,9 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         if (*string)
             *episodes[EpiDef.numitems - 1] = M_StringDuplicate(string);
     }
+
+    for (int i = 0; i < 100; i++)
+        C_Output("maptoepisode[%i] = %i", i, maptoepisode[i]);
 
     NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : &MainDef);
 }
