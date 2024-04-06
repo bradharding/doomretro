@@ -1042,12 +1042,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             if (letter == ' ' && formatting)
                 x += (monospaced ? zerowidth : spacewidth);
             else if (letter == '\t')
-            {
-                if (vid_widescreen)
-                    x = (x > tabs[++tab] + 25 ? x + spacewidth : tabs[tab] + 25);
-                else
-                    x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-            }
+                x = (x > tabs[++tab] + CONSOLETEXTX - 10 ? x + spacewidth : tabs[tab] + CONSOLETEXTX - 10);
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
                 && formatting)
             {
