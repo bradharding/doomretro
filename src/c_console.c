@@ -2407,7 +2407,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_UPARROW:
-                if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES)
+                if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES && scrollbardrawn)
                 {
                     // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
@@ -2437,7 +2437,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_DOWNARROW:
-                if ((modstate & KMOD_CTRL) && outputhistory != -1)
+                if ((modstate & KMOD_CTRL) && outputhistory != -1 && scrollbardrawn)
                 {
                     // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
@@ -2476,7 +2476,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_PAGEUP:
                 // scroll output up
-                if (!topofconsole && numconsolestrings > CONSOLELINES)
+                if (!topofconsole && numconsolestrings > CONSOLELINES && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
                     outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
@@ -2487,7 +2487,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                if (outputhistory != -1)
+                if (outputhistory != -1 && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
@@ -2683,7 +2683,7 @@ bool C_Responder(event_t *ev)
         else if (ev->data1 & MOUSE_RIGHTBUTTON)
             C_HideConsole();
     }
-    else if (ev->type == ev_mousewheel)
+    else if (ev->type == ev_mousewheel && scrollbardrawn)
     {
         // scroll output up
         if (ev->data1 > 0)
