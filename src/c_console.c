@@ -183,7 +183,7 @@ void C_Input(const char *string, ...)
 
 void C_Cheat(const char *string)
 {
-    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    char        buffer[CONSOLETEXTMAXLENGTH];
     const int   len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
@@ -216,7 +216,7 @@ void C_IntegerCVAROutput(const char *cvar, const int value)
 
 void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
 {
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
     char    *temp = commify(value);
 
     M_snprintf(buffer, sizeof(buffer), "%s %s", cvar, temp);
@@ -244,7 +244,7 @@ void C_StringCVAROutput(const char *cvar, const char *string)
 void C_Output(const char *string, ...)
 {
     va_list args;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     if (!*string || togglingvanilla)
         return;
@@ -267,7 +267,7 @@ void C_Output(const char *string, ...)
 bool C_OutputNoRepeat(const char *string, ...)
 {
     va_list args;
-    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);

@@ -16,7 +16,7 @@
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
 * A sound effect is now played when advancing the text on intermission text screens.
-* The <kbd><b>F1</b></kbd> key can no longer be pressed to interrupt the splash screen.
+* The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen when pressed.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Further improvements have been made to the position of player messages in some instances.
 * If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.

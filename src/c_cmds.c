@@ -4904,7 +4904,20 @@ static void mapstats_func2(char *cmd, char *parms)
     }
     else
     {
-        if (!chex && !hacx)
+        if (customepisode)
+        {
+            if (**episodes[maptoepisode[gamemap] - 1])
+            {
+                temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
+                C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                    temp, maptoepisode[gamemap], EpiDef.numitems);
+                free(temp);
+            }
+            else
+                C_TabbedOutput(tabs, "Episode\t%i of %i",
+                    maptoepisode[gamemap], EpiDef.numitems);
+        }
+        else if (!chex && !hacx)
         {
             temp = titlecase(*episodes[gameepisode - 1]);
             C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
