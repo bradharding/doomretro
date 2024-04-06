@@ -1814,7 +1814,7 @@ static void AM_DrawThings(void)
                 if (am_rotatemode)
                     AM_RotatePoint(&point);
 
-                if (!(flags & MF_SHOOTABLE))
+                if (!(flags & MF_SHOOTABLE) && !(flags & MF_CORPSE))
                     width = (12 << FRACBITS) >> FRACTOMAPBITS;
                 else
                 {
