@@ -1457,7 +1457,7 @@ static void M_DeleteSavegame(void)
     static char buffer[160];
 
     S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveslot]);
+    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[itemon]);
     M_SplitString(buffer);
     M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
         buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
