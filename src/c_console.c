@@ -725,6 +725,7 @@ void C_ClearConsole(void)
     numconsolestrings = 0;
     consolestringsmax = CONSOLESTRINGSMAX;
     console = I_Realloc(console, consolestringsmax * sizeof(*console));
+    memset(console, 0, consolestringsmax * sizeof(*console));
 
     for (int i = 0; i < CONSOLEBLANKLINES; i++)
     {
