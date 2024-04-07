@@ -4870,65 +4870,12 @@ static void mapstats_func2(char *cmd, char *parms)
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-        {
             C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
-
-            temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (2 of 2)", temp);
-            free(temp);
-        }
         else
-        {
             C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
-
-            if (customepisode)
-            {
-                if (**episodes[maptoepisode[gamemap] - 1])
-                {
-                    temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
-                    C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                        temp, maptoepisode[gamemap], EpiDef.numitems);
-                    free(temp);
-                }
-                else
-                    C_TabbedOutput(tabs, "Episode\t%i of %i",
-                        maptoepisode[gamemap], EpiDef.numitems);
-            }
-            else if (nerve)
-            {
-                temp = titlecase(*expansions[0]);
-                C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (1 of 2)", temp);
-                free(temp);
-            }
-        }
     }
     else
-    {
         C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
-
-        if (customepisode)
-        {
-            if (**episodes[maptoepisode[gamemap] - 1])
-            {
-                temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
-                C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                    temp, maptoepisode[gamemap], EpiDef.numitems);
-                free(temp);
-            }
-            else
-                C_TabbedOutput(tabs, "Episode\t%i of %i",
-                    maptoepisode[gamemap], EpiDef.numitems);
-        }
-        else if (!chex && !hacx)
-        {
-            temp = titlecase(*episodes[gameepisode - 1]);
-            C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                temp, gameepisode,
-                (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : (gamemode == shareware ? 1 : 3)));
-            free(temp);
-        }
-
-    }
 
     if (!M_StringCompare(maptitle, mapnum))
     {
@@ -4972,6 +4919,62 @@ static void mapstats_func2(char *cmd, char *parms)
     }
     else if (canmodify && *authors[gamemap][gamemission])
         C_TabbedOutput(tabs, "Author\t%s", authors[gamemap][gamemission]);
+
+    if (gamemode == commercial)
+    {
+        if (gamemission == pack_nerve)
+        {
+            temp = titlecase(*expansions[1]);
+            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (2 of 2)", temp);
+            free(temp);
+        }
+        else
+        {
+            if (customepisode)
+            {
+                if (**episodes[maptoepisode[gamemap] - 1])
+                {
+                    temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
+                    C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                        temp, maptoepisode[gamemap], EpiDef.numitems);
+                    free(temp);
+                }
+                else
+                    C_TabbedOutput(tabs, "Episode\t%i of %i",
+                        maptoepisode[gamemap], EpiDef.numitems);
+            }
+            else if (nerve)
+            {
+                temp = titlecase(*expansions[0]);
+                C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (1 of 2)", temp);
+                free(temp);
+            }
+        }
+    }
+    else
+    {
+        if (customepisode)
+        {
+            if (**episodes[maptoepisode[gamemap] - 1])
+            {
+                temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
+                C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                    temp, maptoepisode[gamemap], EpiDef.numitems);
+                free(temp);
+            }
+            else
+                C_TabbedOutput(tabs, "Episode\t%i of %i",
+                    maptoepisode[gamemap], EpiDef.numitems);
+        }
+        else if (!chex && !hacx)
+        {
+            temp = titlecase(*episodes[gameepisode - 1]);
+            C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                temp, gameepisode,
+                (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) : (gamemode == shareware ? 1 : 3)));
+            free(temp);
+        }
+    }
 
     M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
