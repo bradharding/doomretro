@@ -87,7 +87,6 @@ static void (*messageroutine)(int);
 
 // we are going to be entering a savegame string
 static bool     savestringenter;
-static int      saveslot;               // which slot to save in
 static int      savecharindex;          // which char we're editing
 
 // old save description before edit
@@ -1081,13 +1080,13 @@ int             caretcolor;
 
 static void M_SetCaretPos(int pointerx)
 {
-    const int   len = (int)strlen(savegamestrings[saveslot]);
+    const int   len = (int)strlen(savegamestrings[itemon]);
     int         x = LoadDef.x - 2 + MAXWIDESCREENDELTA;
 
     for (savecharindex = 0; savecharindex < len; savecharindex++)
     {
-        const int   width = M_CharacterWidth(savegamestrings[saveslot][savecharindex],
-                        (!savecharindex ? '\0' : savegamestrings[saveslot][savecharindex - 1]));
+        const int   width = M_CharacterWidth(savegamestrings[itemon][savecharindex],
+                        (!savecharindex ? '\0' : savegamestrings[itemon][savecharindex - 1]));
 
         if (pointerx < (x += width / 2))
             break;
@@ -1150,7 +1149,7 @@ static void M_DrawSave(void)
         }
 
         // draw save game description
-        if (savestringenter && i == saveslot)
+        if (savestringenter && i == itemon)
         {
             char    left[256] = "";
             char    right[256] = "";
@@ -1308,10 +1307,10 @@ static void M_SaveSelect(int choice)
     // we are going to be intercepting all chars
     SDL_StartTextInput();
     savestringenter = true;
-    saveslot = choice;
-    M_StringCopy(saveoldstring, savegamestrings[saveslot], sizeof(saveoldstring));
-    M_UpdateSaveGameName(saveslot);
-    savecharindex = (int)strlen(savegamestrings[saveslot]);
+    itemon = choice;
+    M_StringCopy(saveoldstring, savegamestrings[itemon], sizeof(saveoldstring));
+    M_UpdateSaveGameName(itemon);
+    savecharindex = (int)strlen(savegamestrings[itemon]);
     showcaret = true;
     caretwait = I_GetTimeMS() + CARETBLINKTIME;
 }
@@ -2894,7 +2893,7 @@ bool M_Responder(event_t *ev)
                             savestringenter = false;
                             caretwait = 0;
                             showcaret = false;
-                            M_StringCopy(savegamestrings[saveslot], saveoldstring, sizeof(savegamestrings[0]));
+                            M_StringCopy(savegamestrings[itemon], saveoldstring, sizeof(savegamestrings[0]));
                             S_StartSound(NULL, sfx_swtchx);
                         }
                     }
@@ -3118,17 +3117,17 @@ bool M_Responder(event_t *ev)
         {
             const int   ch = toupper(ev->data1);
 
-            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot])
+            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[itemon])
                 + M_CharacterWidth(ch, '\0') <= SAVESTRINGPIXELWIDTH)
             {
-                const int   len = (int)strlen(savegamestrings[saveslot]);
+                const int   len = (int)strlen(savegamestrings[itemon]);
 
-                savegamestrings[saveslot][len + 1] = '\0';
+                savegamestrings[itemon][len + 1] = '\0';
 
                 for (int i = len; i > savecharindex; i--)
-                    savegamestrings[saveslot][i] = savegamestrings[saveslot][i - 1];
+                    savegamestrings[itemon][i] = savegamestrings[itemon][i - 1];
 
-                savegamestrings[saveslot][savecharindex++] = ch;
+                savegamestrings[itemon][savecharindex++] = ch;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
 
@@ -3152,10 +3151,10 @@ bool M_Responder(event_t *ev)
 
                 if (savecharindex > 0)
                 {
-                    const int   len = (int)strlen(savegamestrings[saveslot]);
+                    const int   len = (int)strlen(savegamestrings[itemon]);
 
                     for (int j = savecharindex - 1; j < len; j++)
-                        savegamestrings[saveslot][j] = savegamestrings[saveslot][j + 1];
+                        savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
                     savecharindex--;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -3167,14 +3166,14 @@ bool M_Responder(event_t *ev)
             // delete character right of caret
             case KEY_DELETE:
             {
-                const int   len = (int)strlen(savegamestrings[saveslot]);
+                const int   len = (int)strlen(savegamestrings[itemon]);
 
                 keydown = key;
 
                 if (savecharindex < len)
                 {
                     for (int j = savecharindex; j < len; j++)
-                        savegamestrings[saveslot][j] = savegamestrings[saveslot][j + 1];
+                        savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -3192,7 +3191,7 @@ bool M_Responder(event_t *ev)
                     savestringenter = false;
                     caretwait = 0;
                     showcaret = false;
-                    M_StringCopy(savegamestrings[saveslot], saveoldstring, sizeof(savegamestrings[0]));
+                    M_StringCopy(savegamestrings[itemon], saveoldstring, sizeof(savegamestrings[0]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
 
@@ -3202,22 +3201,22 @@ bool M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    const int   len = (int)strlen(savegamestrings[saveslot]);
+                    const int   len = (int)strlen(savegamestrings[itemon]);
                     bool        allspaces = true;
 
                     keydown = key;
 
                     for (int i = 0; i < len; i++)
-                        if (savegamestrings[saveslot][i] != ' ')
+                        if (savegamestrings[itemon][i] != ' ')
                             allspaces = false;
 
-                    if (savegamestrings[saveslot][0] && !allspaces)
+                    if (savegamestrings[itemon][0] && !allspaces)
                     {
                         SDL_StopTextInput();
                         savestringenter = false;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
-                        M_DoSave(saveslot);
+                        M_DoSave(itemon);
                         D_FadeScreen(false);
 
                         if (savegame != itemon + 1)
@@ -3244,7 +3243,7 @@ bool M_Responder(event_t *ev)
 
             // move caret right
             case KEY_RIGHTARROW:
-                if (savecharindex < (int)strlen(savegamestrings[saveslot]))
+                if (savecharindex < (int)strlen(savegamestrings[itemon]))
                 {
                     savecharindex++;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -3267,7 +3266,7 @@ bool M_Responder(event_t *ev)
             // move caret to end
             case KEY_END:
             {
-                const int   len = (int)strlen(savegamestrings[saveslot]);
+                const int   len = (int)strlen(savegamestrings[itemon]);
 
                 if (savecharindex < len)
                 {
