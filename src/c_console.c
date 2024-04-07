@@ -1758,7 +1758,7 @@ void C_Drawer(void)
                     y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp, consolewarningboldcolor);
             }
             else
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 7);
 
             if (wrap < len && i < bottomline)

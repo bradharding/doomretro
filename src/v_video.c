@@ -605,6 +605,47 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
     }
 }
 
+void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
+{
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    const int   width = MIN(SHORT(patch->width), maxwidth);
+    int         color;
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        const column_t  *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        byte            *source = (byte *)column + 3;
+        byte            *dest = desttop;
+        int             count = column->length;
+        int             height = y + 1;
+
+        while (count-- > 0)
+        {
+            if (height > 0)
+            {
+                *dest = tinttab60[(color = (nearestcolors[*source] << 8)) + *dest];
+
+                if (height == 1)
+                    *dest = tinttab60[*dest];
+                else if (height == 2)
+                    *dest = tinttab30[*dest];
+
+                if (col == width - 1)
+                    for (int xx = 1; xx <= maxwidth - width; xx++)
+                    {
+                        byte    *dot = dest + xx;
+
+                        *dot = tinttab60[color + *dot];
+                    }
+            }
+
+            source++;
+            dest += SCREENWIDTH;
+            height++;
+        }
+    }
+}
+
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
