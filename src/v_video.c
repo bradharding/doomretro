@@ -685,6 +685,11 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
                         byte    *dot = dest + xx;
 
                         *dot = tinttab60[consolebrandingcolor + *dot];
+
+                        if (height == 1)
+                            *dot = tinttab60[*dot];
+                        else if (height == 2)
+                            *dot = tinttab30[*dot];
                     }
             }
 
