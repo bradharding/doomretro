@@ -636,6 +636,11 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
                         byte    *dot = dest + xx;
 
                         *dot = tinttab60[color + *dot];
+
+                        if (height == 1)
+                            *dot = tinttab60[*dot];
+                        else if (height == 2)
+                            *dot = tinttab30[*dot];
                     }
             }
 
