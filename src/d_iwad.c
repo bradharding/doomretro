@@ -994,7 +994,7 @@ void D_SetGameDescription(void)
         // DOOM 1. But which version?
         if (modifiedgame && *pwadfile)
         {
-            M_StringCopy(gamedescription, uppercase(pwadfile), sizeof(gamedescription));
+            M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
             return;
         }
         else if (FREEDOOM)
@@ -1011,7 +1011,7 @@ void D_SetGameDescription(void)
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
             else
             {
-                M_StringCopy(gamedescription, uppercase(pwadfile), sizeof(gamedescription));
+                M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
                 return;
             }
         }
