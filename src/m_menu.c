@@ -1447,6 +1447,7 @@ static void M_DeleteSavegameResponse(int key)
         {
             M_SetupNextMenu(&MainDef);
             MainDef.laston = itemon = new_game;
+            SaveDef.laston = 0;
         }
     }
 }
