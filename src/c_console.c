@@ -944,7 +944,7 @@ static void C_DrawBackground(void)
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - (vid_widescreen ? 69 : 44),
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
         consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
