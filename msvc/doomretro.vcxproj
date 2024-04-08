@@ -106,7 +106,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include;$(ProjectDir)..\miniz\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -147,7 +147,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include;$(ProjectDir)..\miniz\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -189,7 +189,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include;$(ProjectDir)..\miniz\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -256,7 +256,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include;$(ProjectDir)..\miniz\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.30.2\include;$(ProjectDir)..\SDL2_mixer-2.8.0\include;$(ProjectDir)..\SDL2_image-2.8.2\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -320,7 +320,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\miniz\miniz.h" />
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
@@ -356,6 +355,7 @@
     <ClInclude Include="..\src\md5.h" />
     <ClInclude Include="..\src\memio.h" />
     <ClInclude Include="..\src\midifile.h" />
+    <ClInclude Include="..\src\miniz\miniz.h" />
     <ClInclude Include="..\src\m_argv.h" />
     <ClInclude Include="..\src\m_bbox.h" />
     <ClInclude Include="..\src\m_cheat.h" />
@@ -405,7 +405,6 @@
     <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\miniz\miniz.c" />
     <ClCompile Include="..\src\am_map.c" />
     <ClCompile Include="..\src\c_autocomplete.c" />
     <ClCompile Include="..\src\c_cmds.c" />
@@ -435,6 +434,7 @@
     <ClCompile Include="..\src\md5.c" />
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
+    <ClCompile Include="..\src\miniz\miniz.c" />
     <ClCompile Include="..\src\m_argv.c" />
     <ClCompile Include="..\src\m_bbox.c" />
     <ClCompile Include="..\src\m_cheat.c" />

@@ -50,7 +50,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "miniz.h"
+#include "miniz/miniz.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "p_setup.h"
