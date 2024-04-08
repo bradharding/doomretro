@@ -1234,7 +1234,7 @@ void G_ScreenShot(void)
     }
     else
     {
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, "A screenshot couldn't be taken.");
     }
 }
@@ -1561,7 +1561,7 @@ void G_DoLoadGame(void)
     if (!(save_stream = fopen(savename, "rb")))
     {
         menuactive = false;
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
         return;
@@ -1679,7 +1679,7 @@ static void G_DoSaveGame(void)
     if (!(save_stream = fopen(temp_savegame_file, "wb")))
     {
         menuactive = false;
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, BOLD("%s") " couldn't be saved.", savegame_file);
     }
     else

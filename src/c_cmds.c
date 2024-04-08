@@ -1093,7 +1093,7 @@ static void console_action_func(void)
     if (consoleactive)
         C_HideConsole();
     else
-        C_ShowConsole();
+        C_ShowConsole(false);
 }
 
 static void fire_action_func(void)

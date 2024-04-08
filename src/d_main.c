@@ -597,7 +597,7 @@ void D_DoAdvanceTitle(void)
         S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
 
         if (devparm)
-            C_ShowConsole();
+            C_ShowConsole(false);
     }
     else if (titlesequence == 2)
     {

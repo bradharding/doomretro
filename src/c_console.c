@@ -823,7 +823,7 @@ void C_Init(void)
     M_TranslateAutocomplete();
 }
 
-void C_ShowConsole(void)
+void C_ShowConsole(bool reset)
 {
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
@@ -831,6 +831,17 @@ void C_ShowConsole(void)
     showcaret = true;
     caretwait = 0;
     skipaction = false;
+
+    if (reset)
+    {
+        consoleinput[0] = '\0';
+        caretpos = 0;
+        selectstart = 0;
+        selectend = 0;
+        undolevels = 0;
+        inputhistory = -1;
+        outputhistory = -1;
+    }
 
     for (int i = 0; i < MAXMOUSEBUTTONS; i++)
         mousebuttons[i] = false;

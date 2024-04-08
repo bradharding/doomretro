@@ -1038,7 +1038,7 @@ bool P_ReadSaveGameHeader(char *description)
     {
         menuactive = false;
         quicksaveslot = -1;
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
 
         return false;   // bad version
@@ -1116,7 +1116,7 @@ void P_ReadSaveGameFooter(void)
 
         menuactive = false;
         quicksaveslot = -1;
-        C_ShowConsole();
+        C_ShowConsole(false);
         M_StringReplaceAll(temp, ", ", BOLDOFF ", " BOLDON, false);
         C_Warning(0, "This savegame was created while %s were loaded.",
             M_StringReplaceLast(temp, ",", " and"));

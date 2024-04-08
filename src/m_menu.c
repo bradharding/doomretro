@@ -1058,7 +1058,7 @@ static void M_LoadSelect(int choice)
     }
     else
     {
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, "This savegame requires a different WAD.");
     }
 
@@ -1414,7 +1414,7 @@ static void M_DeleteSavegameResponse(int key)
         {
             C_Warning(0, "\"%s\" couldn't be deleted.", temp);
             M_CloseMenu();
-            C_ShowConsole();
+            C_ShowConsole(false);
             D_FadeScreen(false);
             free(temp);
             return;
@@ -2152,7 +2152,7 @@ static void M_EndGame(int choice)
 static void M_Console(int choice)
 {
     M_CloseMenu();
-    C_ShowConsole();
+    C_ShowConsole(true);
     D_FadeScreen(false);
     S_StartSound(NULL, sfx_pistol);
 }
@@ -2797,7 +2797,7 @@ bool M_Responder(event_t *ev)
             {
                 gamecontrollerwait = I_GetTime() + 2;
                 usinggamecontroller = true;
-                C_ShowConsole();
+                C_ShowConsole(false);
                 return false;
             }
 
@@ -3104,7 +3104,7 @@ bool M_Responder(event_t *ev)
         }
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
-            C_ShowConsole();
+            C_ShowConsole(false);
         else
             C_HideConsole();
 

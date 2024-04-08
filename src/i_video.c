@@ -1818,7 +1818,7 @@ void I_ToggleFullscreen(const bool output)
         (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))) < 0)
     {
         menuactive = false;
-        C_ShowConsole();
+        C_ShowConsole(false);
         C_Warning(0, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
         return;
     }
