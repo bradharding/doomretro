@@ -20,16 +20,16 @@
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Further improvements have been made to the position of player messages in some instances.
 * If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
-* The `mouselook` CVAR and `+mouselook` action have been renamed `freelook` and `+freelook`.
+* The `mouselook` CVAR and the `+mouselook` action have been renamed `freelook` and `+freelook`.
 * These changes have been made when using the `resetall` CCMD:
-  * A bug is fixed whereby some actions bound to the mouse weren’t being reset.
+  * A bug is fixed whereby certain actions bound to a mouse button weren’t being reset.
   * The automap no longer closes if it was open.
 * A bug is fixed whereby the sky wouldn’t be stretched if the `+freelook` action was bound to a button on a controller.
-* The text in the console has been brought in from the left and right edges of the screen slightly when the `vid_widescreen` CVAR is `on`, and even more so on ultra-wide displays.
+* The text in the console has been brought in slightly from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`, and even more so on ultra-wide displays.
 * Improvements have been made to the position of some elements of the alternate widescreen HUD.
 * The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 * The number of keycards and skull keys the player has picked up is now displayed by the `playerstats` CCMD.
-* The translucency of the trail of smoke behind rockets fired by you and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
