@@ -468,6 +468,7 @@ static void r_hud_translucency_func2(char *cmd, char *parms);
 static void r_lowpixelsize_func2(char *cmd, char *parms);
 static void r_mirroredweapons_func2(char *cmd, char *parms);
 static void r_randomstartframes_func2(char *cmd, char *parms);
+static void r_rockettrails_translucency_func2(char *cmd, char *parms);
 static void r_saturation_func2(char *cmd, char *parms);
 static void r_screensize_func2(char *cmd, char *parms);
 static void r_shadows_translucency_func2(char *cmd, char *parms);
@@ -886,7 +887,7 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the start frames of certain sprites."),
     CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by you and cyberdemons."),
-    CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, r_rockettrails_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of the trail of smoke behind rockets fired by you and cyberdemons."),
     CVAR_INT(r_saturation, "", "", int_cvars_func1, r_saturation_func2, CF_PERCENT, NOVALUEALIAS,
         "The saturation of the colors on the screen (" BOLD("0%") " to " BOLD("200%") ")."),
@@ -10448,6 +10449,19 @@ static void r_antialiasing_func2(char *cmd, char *parms)
         free(temp1);
         C_ShowWarning(i);
     }
+}
+
+//
+// r_rockettrails_translucency CVAR
+//
+static void r_rockettrails_translucency_func2(char *cmd, char *parms)
+{
+    const bool  r_rockettrails_translucency_old = r_rockettrails_translucency;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_rockettrails_translucency != r_rockettrails_translucency_old && gamestate == GS_LEVEL)
+        R_InitColumnFunctions();
 }
 
 //

@@ -929,7 +929,7 @@ void R_InitColumnFunctions(void)
 
     if (r_ditheredlighting)
     {
-        if (r_sprites_translucency)
+        if (r_rockettrails_translucency)
         {
             mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
             mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
@@ -950,7 +950,7 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        if (r_sprites_translucency)
+        if (r_rockettrails_translucency)
         {
             mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
             mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
