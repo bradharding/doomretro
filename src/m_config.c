@@ -171,6 +171,7 @@ bool        r_playersprites = r_playersprites_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
 bool        r_randomstartframes = r_randomstartframes_default;
 bool        r_rockettrails = r_rockettrails_default;
+bool        r_rockettrails_translucency = r_rockettrails_translucency_default;
 int         r_saturation = r_saturation_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
@@ -414,6 +415,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                 BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                      BOOLVALUEALIAS     ),
+    CVAR_BOOL         (r_rockettrails_translucency,      r_rockettrails_translucency,           r_rockettrails_translucency,         BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (r_saturation,                     r_color,                               r_saturation,                        NOVALUEALIAS       ),
     CVAR_INT          (r_screensize,                     r_screensize,                          r_screensize,                        NOVALUEALIAS       ),
     CVAR_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                           BOOLVALUEALIAS     ),

@@ -160,6 +160,7 @@ extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
 extern bool     r_randomstartframes;
 extern bool     r_rockettrails;
+extern bool     r_rockettrails_translucency;
 extern int      r_saturation;
 extern int      r_screensize;
 extern bool     r_shadows;
@@ -681,6 +682,8 @@ enum
 #define r_randomstartframes_default         true
 
 #define r_rockettrails_default              true
+
+#define r_rockettrails_translucency_default true
 
 #define r_saturation_min                    0
 #define r_saturation_default                100

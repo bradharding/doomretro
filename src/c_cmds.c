@@ -886,6 +886,8 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the start frames of certain sprites."),
     CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by you and cyberdemons."),
+    CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles the translucency of the trail of smoke behind rockets fired by you and cyberdemons."),
     CVAR_INT(r_saturation, "", "", int_cvars_func1, r_saturation_func2, CF_PERCENT, NOVALUEALIAS,
         "The saturation of the colors on the screen (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(r_screensize, "", "", int_cvars_func1, r_screensize_func2, CF_NONE, NOVALUEALIAS,
