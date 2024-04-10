@@ -29,6 +29,7 @@
 * Improvements have been made to the position of some elements of the alternate widescreen HUD.
 * The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 * The number of keycards and skull keys the player has picked up is now displayed by the `playerstats` CCMD.
+* The translucency of the trail of smoke behind rockets fired by you and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
