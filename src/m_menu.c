@@ -3336,13 +3336,13 @@ bool M_Responder(event_t *ev)
     else if (key == '-')
     {
         // Screen size down
-        if (((consoleactive || automapactive) && !(SDL_GetModState() & KMOD_CTRL))
-            || paused || splashscreen || fadecount)
+        if ((consoleactive && !(SDL_GetModState() & KMOD_CTRL)) || paused
+            || splashscreen || automapactive || fadecount)
             return false;
 
         keydown = key;
 
-        if ((viewactive || automapactive) && !menuactive)
+        if (viewactive && !menuactive)
             M_SizeDisplay(0);
         else if (vid_widescreen)
         {
@@ -3374,13 +3374,13 @@ bool M_Responder(event_t *ev)
     else if (key == '=')
     {
         // Screen size up
-        if (((consoleactive || automapactive) && !(SDL_GetModState() & KMOD_CTRL))
-            || paused || splashscreen || fadecount)
+        if ((consoleactive && !(SDL_GetModState() & KMOD_CTRL)) || paused
+            || splashscreen || automapactive || fadecount)
             return false;
 
         keydown = key;
 
-        if ((viewactive || automapactive) && !menuactive)
+        if (viewactive && !menuactive)
             M_SizeDisplay(1);
         else if (!vid_widescreen && !nowidescreen)
         {
