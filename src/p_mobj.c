@@ -1454,9 +1454,6 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
 
-    if (!r_rockettrails_translucency)
-        th->flags2 &= ~MF2_TRANSLUCENT_50;
-
     if (M_BigRandom() & 1)
         th->flags2 |= MF2_MIRRORED;
 }

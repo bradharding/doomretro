@@ -10460,7 +10460,7 @@ static void r_rockettrails_translucency_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (r_rockettrails_translucency != r_rockettrails_translucency_old && gamestate == GS_LEVEL)
+    if (r_rockettrails_translucency != r_rockettrails_translucency_old)
         R_InitColumnFunctions();
 }
 
