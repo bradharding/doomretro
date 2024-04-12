@@ -1429,7 +1429,7 @@ void HU_Drawer(void)
         else if ((r_screensize == r_screensize_max && !r_althud) || message_external)
         {
             w_message.l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
-            w_message.l.y = HU_MSGY + 5;
+            w_message.l.y = HU_MSGY + 4;
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
@@ -1440,12 +1440,12 @@ void HU_Drawer(void)
             else
                 w_message.l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
 
-            w_message.l.y = HU_MSGY;
+            w_message.l.y = HU_MSGY + 1;
         }
         else
         {
             w_message.l.x = HU_MSGX;
-            w_message.l.y = HU_MSGY;
+            w_message.l.y = HU_MSGY + 1;
         }
 
         HUlib_DrawSText(&w_message, message_external);
