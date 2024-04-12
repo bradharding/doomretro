@@ -655,9 +655,12 @@ bool P_GiveAllSkullKeys(void)
 //
 // P_GiveAllCards
 //
-bool P_GiveAllCards(const bool stat)
+bool P_GiveAllCards(void)
 {
-    return (P_GiveAllKeyCards() && P_GiveAllSkullKeys());
+    const bool  result1 = P_GiveAllKeyCards();
+    const bool  result2 = P_GiveAllSkullKeys();
+
+    return (result1 || result2);
 }
 
 //
