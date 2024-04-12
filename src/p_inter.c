@@ -603,7 +603,7 @@ bool P_GiveAllCards(const bool stat)
 {
     bool    result = false;
 
-    for (int i = 0; i < NUMCARDS; i++)
+    for (int i = NUMCARDS - 1; i >= 0; i--)
         if (viewplayer->cards[i] <= 0)
         {
             P_GiveCard(i);
@@ -620,9 +620,9 @@ bool P_GiveAllKeyCards(void)
 {
     bool    result = false;
 
-    if (viewplayer->cards[it_bluecard] <= 0)
+    if (viewplayer->cards[it_redcard] <= 0)
     {
-        P_GiveCard(it_bluecard);
+        P_GiveCard(it_redcard);
         result = true;
     }
 
@@ -632,9 +632,9 @@ bool P_GiveAllKeyCards(void)
         result = true;
     }
 
-    if (viewplayer->cards[it_redcard] <= 0)
+    if (viewplayer->cards[it_bluecard] <= 0)
     {
-        P_GiveCard(it_redcard);
+        P_GiveCard(it_bluecard);
         result = true;
     }
 
@@ -648,9 +648,9 @@ bool P_GiveAllSkullKeys(void)
 {
     bool    result = false;
 
-    if (viewplayer->cards[it_blueskull] <= 0)
+    if (viewplayer->cards[it_redskull] <= 0)
     {
-        P_GiveCard(it_blueskull);
+        P_GiveCard(it_redskull);
         result = true;
     }
 
@@ -660,9 +660,9 @@ bool P_GiveAllSkullKeys(void)
         result = true;
     }
 
-    if (viewplayer->cards[it_redskull] <= 0)
+    if (viewplayer->cards[it_blueskull] <= 0)
     {
-        P_GiveCard(it_redskull);
+        P_GiveCard(it_blueskull);
         result = true;
     }
 
