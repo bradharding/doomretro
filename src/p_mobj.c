@@ -1415,6 +1415,7 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
     th->angle = angle;
     th->flags = info->flags;
     th->flags2 = info->flags2;
+    th->mbf21flags = info->mbf21flags;
 
     if (!vanilla && (M_BigRandom() & 1))
         th->flags2 |= MF2_MIRRORED;
@@ -1492,6 +1493,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
             th->flags = info->flags;
             th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
+            th->mbf21flags = info->mbf21flags;
 
             th->state = st;
             th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
