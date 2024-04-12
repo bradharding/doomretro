@@ -597,23 +597,6 @@ static void P_GiveCard(const card_t card)
 }
 
 //
-// P_GiveAllCards
-//
-bool P_GiveAllCards(const bool stat)
-{
-    bool    result = false;
-
-    for (int i = NUMCARDS - 1; i >= 0; i--)
-        if (viewplayer->cards[i] <= 0)
-        {
-            P_GiveCard(i);
-            result = true;
-        }
-
-    return result;
-}
-
-//
 // P_GiveAllKeyCards
 //
 bool P_GiveAllKeyCards(void)
@@ -667,6 +650,14 @@ bool P_GiveAllSkullKeys(void)
     }
 
     return result;
+}
+
+//
+// P_GiveAllCards
+//
+bool P_GiveAllCards(const bool stat)
+{
+    return (P_GiveAllKeyCards() && P_GiveAllSkullKeys());
 }
 
 //
