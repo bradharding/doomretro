@@ -1765,7 +1765,7 @@ void C_Drawer(void)
                 if (!*console[i].timestamp)
                     C_CreateTimeStamp(i);
 
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
                     y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp, consolewarningboldcolor);
             }
             else
