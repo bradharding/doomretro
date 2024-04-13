@@ -12,14 +12,16 @@
 * Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
 * The shadow cast by the status bar in the automap is now in low detail when the `r_detail` CVAR is `low`.
 * Further improvements have been made to the parsing of `MAPINFO` lumps.
-* The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys.
+* The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys. The order in which they are given to the player has also improved.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
 * A sound effect is now played when advancing the text on intermission text screens.
 * The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen when pressed.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Further improvements have been made to the position of player messages in some instances.
-* If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the text in the save and load game menus is now displayed correctly.
+* These changes have been made to the save and load game menus:
+  * If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the savegame descriptions are now displayed correctly.
+  * The correct savegame description is now always displayed in the confirmation message when pressing <kbd><b>DEL</b></kbd> to delete a savegame.
 * The `mouselook` CVAR and the `+mouselook` action have been renamed `freelook` and `+freelook`.
 * These changes have been made when using the `resetall` CCMD:
   * A bug is fixed whereby certain actions bound to a mouse button weren’t being reset.
@@ -30,6 +32,8 @@
 * The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 * The number of keycards and skull keys the player picks up is now displayed by the `playerstats` CCMD.
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The dead marine at the very start of *E1M1: Hangar* is now always green again.
+* Any boss actions now occur when entering `kill all` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
