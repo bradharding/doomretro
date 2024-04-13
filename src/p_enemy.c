@@ -2198,8 +2198,7 @@ void A_BrainExplode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BrainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!(actor->flags2 & MF2_MASSACRE))
-        G_ExitLevel();
+    G_ExitLevel();
 }
 
 static mobj_t *A_NextBrainTarget(void)
@@ -2240,7 +2239,7 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (gameskill <= sk_easy && !easy)
         return;
 
-    if (nomonsters || massacre)
+    if (nomonsters)
         return;
 
     // shoot a cube at current target
@@ -2281,7 +2280,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    if (!nomonsters && !massacre)
+    if (!nomonsters)
     {
         mobj_t      *fog;
         mobj_t      *newmobj;
