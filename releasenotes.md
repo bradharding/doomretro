@@ -9,9 +9,10 @@
 * A bug is fixed whereby grouping wasn’t being applied to the previous player message when displayed by pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
-* Improvements have been made to drawing thing triangles in the automap when using the `IDDT` cheat.
+* Improvements have been made to drawing thing triangles in the automap when the `IDDT` cheat has been entered.
+* The underscores in the message displayed when the `IDBEHOLD` cheat has been entered now always line up.
 * The shadow cast by the status bar in the automap is now in low detail when the `r_detail` CVAR is `low`.
-* Further improvements have been made to the parsing of `MAPINFO` lumps.
+* Further improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
 * The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys. The order in which they are given to the player has also improved.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
@@ -33,7 +34,7 @@
 * The number of keycards and skull keys the player picks up is now displayed by the `playerstats` CCMD.
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The dead marine at the very start of *E1M1: Hangar* is now always green again.
-* Any boss actions now occur when entering `kill all` in the console.
+* Boss actions now occur when entering `kill all` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
