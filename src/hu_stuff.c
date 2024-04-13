@@ -1444,7 +1444,7 @@ void HU_Drawer(void)
         }
         else
         {
-            w_message.l.x = HU_MSGX;
+            w_message.l.x = (!vid_widescreen && automapactive ? 0 : HU_MSGX);
             w_message.l.y = HU_MSGY + 1;
         }
 
