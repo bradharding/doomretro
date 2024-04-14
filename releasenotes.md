@@ -1986,7 +1986,7 @@
 * Several improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * A bug has been fixed whereby the wrong music could be played in some rare instances.
 * The randomness of the music chosen when the `s_randommusic` CVAR is `on` has been improved.
-* A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/LICENSE) in the default browser.
+* A new `license` CCMD has been implemented that displays the [*GNU General Public License*](https://github.com/bradharding/doomretro/wiki/License) in the default browser.
 * A message is now displayed in the console whenever an item or monster respawns.
 * A new `r_supersampling` CVAR has been implemented that applies supersampling to the player’s view when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is `2×2`. This CVAR is `on` by default and `off` when vanilla mode is on.
 * Corpses can now trigger teleporter line specials.
@@ -2575,7 +2575,7 @@
   * All animated flats present in the original IWADs (with the exception of `RROCK05` to `RROCK08` and `SLIME09` to `SLIME12`),
   * All animated flats specified in an `ANIMATED` lump in a PWAD that include keywords such as “WATER”, “BLOOD”, “LAVA”, etc. (or certain abbreviations of those) in their names,
   * Certain animated flats specified in an `ANIMATED` lump in a PWAD that are part of the [*Community Chest 4*](https://doomwiki.org/wiki/Community_Chest_4) and [*OTEX*](https://doom.ukiro.com/about-otex/) texture packs.
-  * A few animated flats from [a curated list of PWADs](https://github.com/bradharding/doomretro/wiki/RECOMMENDED-WADS).
+  * A few animated flats from [a curated list of PWADs](https://github.com/bradharding/doomretro/wiki/Recommended-WADs).
   * All animated flats specified using a `LIQUID` entry in a `MAPINFO` lump in a PWAD.
 * The blockmap of every map will now be rebuilt when loaded if `-blockmap` is specified on the command-line.
 * The following changes have been made to the `playerstats` CCMD:

@@ -51,7 +51,7 @@
 #define DOOMRETRO_HOMEOFCREATOR         "Western Sydney, Australia"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
-#define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/LICENSE"
+#define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/License"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
