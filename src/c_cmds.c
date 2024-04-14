@@ -1982,10 +1982,8 @@ void bind_func2(char *cmd, char *parms)
 //
 // bindlist CCMD
 //
-static void C_DisplayBinds(const char *action, const int value, const controltype_t type, int *count)
+static void C_DisplayBinds(const char *action, const int value, const controltype_t type, const int *tabs)
 {
-    const int   tabs[MAXTABS] = { 40, 130, 210 };
-
     for (int i = 0; controls[i].type; i++)
     {
         const char  *control = controls[i].control;
@@ -1993,10 +1991,9 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
         if (controls[i].type == type && controls[i].value == value)
         {
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
-                    (*count)++, (control[0] == '=' ? "+" : control), action);
+                C_TabbedOutput(tabs, "'%s'\t%s", (control[0] == '=' ? "+" : control), action);
             else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
+                C_TabbedOutput(tabs, "%s\t%s", control, action);
 
             break;
         }
@@ -2005,18 +2002,17 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_func2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 40, 130 };
-    int         count = 1;
+    const int   tabs[MAXTABS] = { 110 };
 
     C_Header(tabs, bindlist, BINDLISTHEADER);
 
     for (int i = 0; *actions[i].action; i++)
     {
         if (actions[i].keyboard1)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol, &count);
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol, tabs);
 
         if (actions[i].keyboard2)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol, &count);
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol, tabs);
     }
 
     for (int i = 0; controls[i].type; i++)
@@ -2028,32 +2024,31 @@ static void bindlist_func2(char *cmd, char *parms)
             const char  *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t\"%s\"",
-                    count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
+                C_TabbedOutput(tabs, "'%s'\t\"%s\"", (control[0] == '=' ? "+" : control), keyactionlist[value]);
             else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t\"%s\"", count++, control, keyactionlist[value]);
+                C_TabbedOutput(tabs, "%s\t\"%s\"", control, keyactionlist[value]);
         }
     }
 
     for (int i = 0; *actions[i].action; i++)
         if (actions[i].mouse1)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].mouse1, mousecontrol, &count);
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].mouse1, mousecontrol, tabs);
 
     for (int i = 0; controls[i].type; i++)
     {
         const int   value = controls[i].value;
 
         if (controls[i].type == mousecontrol && mouseactionlist[value][0])
-            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, controls[i].control, mouseactionlist[value]);
+            C_TabbedOutput(tabs, "%s\t%s", controls[i].control, mouseactionlist[value]);
     }
 
     for (int i = 0; *actions[i].action; i++)
     {
         if (actions[i].gamecontroller1)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol, &count);
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol, tabs);
 
         if (actions[i].gamecontroller2)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol, &count);
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol, tabs);
     }
 }
 
