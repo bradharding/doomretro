@@ -33,8 +33,9 @@
 * The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 * The number of keycards and skull keys the player picks up is now displayed by the `playerstats` CCMD.
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separate from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
-* The dead marine at the very start of *E1M1: Hangar* is now always green again.
+* The dead marine at the very start of *E1M1: Hangar* is now always green again when the `r_corpses_color` CVAR is `on`.
 * Boss actions now occur when entering `kill all` in the console.
+* Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
