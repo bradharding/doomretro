@@ -141,7 +141,7 @@
 
 #define MAXTABS                             10
 
-#define BINDLISTHEADER                      "CONTROL\tTYPE\t+ACTION/COMMAND(S)"
+#define BINDLISTHEADER                      "CONTROL\t+ACTION/COMMAND(S)"
 #define CMDLISTHEADER                       "CCMD\tDESCRIPTION"
 #define CVARLISTHEADER                      "CVAR\tVALUE\tDESCRIPTION"
 #define MAPLISTHEADER                       "\tMAP\tTITLE\tWAD"
