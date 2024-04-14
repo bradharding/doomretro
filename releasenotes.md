@@ -10,18 +10,18 @@
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
 * Improvements have been made to drawing thing triangles in the automap when the `IDDT` cheat has been entered.
-* The underscores in the message displayed when the `IDBEHOLD` cheat has been entered now always line up.
+* The underscores of the message displayed when the `IDBEHOLD` cheat has been entered now always line up.
 * The shadow cast by the status bar in the automap is now in low detail when the `r_detail` CVAR is `low`.
 * Further improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
-* The status bar and widescreen HUD are now always correctly updated when using the `give` or `take` CCMDs to give or take keycards and skull keys. The order in which they are given to the player has also improved.
+* The status bar and widescreen HUD are now always correctly updated when the `give` or `take` CCMDs are used to give or take keycards and skull keys to or from the player. The order in which they are given to them has also improved.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
 * A sound effect is now played when advancing the text on intermission text screens.
-* The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen when pressed.
+* The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen if pressed.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Further improvements have been made to the position of player messages in some instances.
-* These changes have been made to the save and load game menus:
-  * If any <code>STCFN<i>xxx</i></code> lumps have been changed in a PWAD, the savegame descriptions are now displayed correctly.
+* These changes have been made to the load and save game menus:
+  * If any <code>STCFN<i>xxx</i></code> lumps are present in a PWAD, the savegame descriptions are now correctly positioned vertically.
   * The correct savegame description is now always displayed in the confirmation message when pressing <kbd><b>DEL</b></kbd> to delete a savegame.
 * The `mouselook` CVAR and the `+mouselook` action have been renamed `freelook` and `+freelook`.
 * These changes have been made when using the `resetall` CCMD:
@@ -36,6 +36,7 @@
 * The dead marine at the very start of *E1M1: Hangar* is now always green again when the `r_corpses_color` CVAR is `on`.
 * Boss actions now occur when entering `kill all` in the console.
 * Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
+* Improvements have been made to the contents of files created using the `condump` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
