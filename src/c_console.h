@@ -56,7 +56,6 @@
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
 #define CONSOLEOUTPUTCOLOR                  88
-#define CONSOLEOVERLAYCOLOR                 4
 #define CONSOLEOVERLAYWARNINGCOLOR          176
 #define CONSOLEPLAYERMESSAGECOLOR           161
 #define CONSOLESCROLLBARFACECOLOR           96

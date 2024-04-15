@@ -136,7 +136,6 @@ static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
 static int              consoleoutputcolor;
-static int              consoleoverlaycolor;
 static int              consoleoverlaywarningcolor;
 static int              consoleplayermessagecolor;
 static int              consolescrollbarfacecolor;
@@ -764,7 +763,6 @@ void C_Init(void)
     consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
-    consoleoverlaycolor = nearestcolors[CONSOLEOVERLAYCOLOR];
     consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
     consoleplayermessagecolor = (harmony ? 226 : nearestcolors[CONSOLEPLAYERMESSAGECOLOR]);
     consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR];
@@ -1288,7 +1286,7 @@ void C_UpdateFPSOverlay(void)
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
         TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
-        && !automapactive ? nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray))), true);
+        && !automapactive ? nearestblack : nearestcolors[am_playerstatscolor])), true);
     free(temp);
 }
 
@@ -1318,7 +1316,7 @@ void C_UpdateTimerOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
         buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-        nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray)), true);
+        nearestblack : nearestcolors[am_playerstatscolor]), true);
 }
 
 void C_UpdatePlayerPositionOverlay(void)
@@ -1326,7 +1324,7 @@ void C_UpdatePlayerPositionOverlay(void)
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-                    nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray));
+                    nearestblack : nearestcolors[am_playerstatscolor]);
     const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
@@ -1410,7 +1408,7 @@ void C_UpdatePathOverlay(void)
 
         if (r_hud_translucency)
             C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
-                tinttab70, distance, consoleoverlaycolor, true);
+                tinttab70, distance, nearestcolors[am_playerstatscolor], true);
         else
             C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
                 NULL, distance, nearestlightgray, true);
@@ -1463,7 +1461,7 @@ void C_UpdatePlayerStatsOverlay(void)
         if (!hours)
         {
             M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
-            color = (r_hud_translucency ? consoleoverlaycolor : nearestlightgray);
+            color = nearestcolors[am_playerstatscolor];
             width = timewidth;
         }
         else if (sucktime && hours >= sucktime)
@@ -1475,7 +1473,7 @@ void C_UpdatePlayerStatsOverlay(void)
         else
         {
             M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
-            color = (r_hud_translucency ? consoleoverlaycolor : nearestlightgray);
+            color = nearestcolors[am_playerstatscolor];
             width = C_OverlayWidth(time, true);
         }
     }
@@ -1491,7 +1489,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(kills, sizeof(kills), s_STSTR_KILLS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(kills, false), y,
-            tinttab, kills, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
+            tinttab, kills, nearestcolors[am_playerstatscolor], false);
         free(temp1);
         free(temp2);
 
@@ -1506,7 +1504,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(items, sizeof(items), s_STSTR_ITEMS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(items, false), y,
-            tinttab, items, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
+            tinttab, items, nearestcolors[am_playerstatscolor], false);
         free(temp1);
         free(temp2);
 
@@ -1521,7 +1519,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(secrets, sizeof(secrets), s_STSTR_SECRETS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(secrets, false), y,
-            tinttab, secrets, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
+            tinttab, secrets, nearestcolors[am_playerstatscolor], false);
         free(temp1);
         free(temp2);
     }

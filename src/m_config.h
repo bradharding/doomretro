@@ -63,6 +63,7 @@ extern bool     am_path;
 extern int      am_pathcolor;
 extern int      am_playercolor;
 extern bool     am_playerstats;
+extern int      am_playerstatscolor;
 extern int      am_reddoorcolor;
 extern int      am_redkeycolor;
 extern bool     am_rotatemode;
@@ -406,6 +407,10 @@ enum
 #define am_playercolor_max                  255
 
 #define am_playerstats_default              false
+
+#define am_playerstatscolor_min             0
+#define am_playerstatscolor_default         4
+#define am_playerstatscolor_max             255
 
 #define am_reddoorcolor_min                 0
 #define am_reddoorcolor_default             am_cdwallcolor_default

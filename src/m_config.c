@@ -73,6 +73,7 @@ bool        am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
 int         am_playercolor = am_playercolor_default;
 bool        am_playerstats = am_playerstats_default;
+int         am_playerstatscolor = am_playerstatscolor_default;
 int         am_reddoorcolor = am_reddoorcolor_default;
 int         am_redkeycolor = am_redkeycolor_default;
 bool        am_rotatemode = am_rotatemode_default;
@@ -319,6 +320,7 @@ static default_t cvars[] =
     CVAR_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                        NOVALUEALIAS       ),
     CVAR_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                      NOVALUEALIAS       ),
     CVAR_BOOL         (am_playerstats,                   am_playerstats,                        am_playerstats,                      BOOLVALUEALIAS     ),
+    CVAR_INT          (am_playerstatscolor,              am_playerstatscolour,                  am_playerstatscolor,                 NOVALUEALIAS       ),
     CVAR_INT          (am_reddoorcolor,                  am_reddoorcolour,                      am_reddoorcolor,                     NOVALUEALIAS       ),
     CVAR_INT          (am_redkeycolor,                   am_redkeycolour,                       am_redkeycolor,                      NOVALUEALIAS       ),
     CVAR_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                       BOOLVALUEALIAS     ),

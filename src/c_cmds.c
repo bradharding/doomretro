@@ -599,6 +599,8 @@ consolecmd_t consolecmds[] =
         "The color of your arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_playerstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles your stats in the automap."),
+    CVAR_INT(am_playerstatscolor, am_playerstatscolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The color of your stats in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_reddoorcolor, am_reddoorcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked with a red keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_redkeycolor, am_redkeycolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
