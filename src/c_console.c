@@ -1427,7 +1427,7 @@ void C_UpdatePlayerStatsOverlay(void)
     static char time[10];
     static int  prevmaptime = -1;
     static int  width;
-    static int  color;
+    static bool sucks;
 
     if (mapwindow)
     {
@@ -1458,27 +1458,28 @@ void C_UpdatePlayerStatsOverlay(void)
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 
+        sucks = false;
+
         if (!hours)
         {
             M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
-            color = nearestcolors[am_playerstatscolor];
             width = timewidth;
         }
         else if (sucktime && hours >= sucktime)
         {
             M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
-            color = consoleoverlaywarningcolor;
+            sucks = true;
             width = suckswidth;
         }
         else
         {
             M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
-            color = nearestcolors[am_playerstatscolor];
             width = C_OverlayWidth(time, true);
         }
     }
 
-    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time, color, true);
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time,
+        (sucks ? consoleoverlaywarningcolor : nearestcolors[am_playerstatscolor]), true);
     y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
