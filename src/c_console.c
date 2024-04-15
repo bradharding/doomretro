@@ -1286,7 +1286,7 @@ void C_UpdateFPSOverlay(void)
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
         TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
-        && !automapactive ? nearestblack : nearestcolors[am_playerstatscolor])), true);
+        && !automapactive ? nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)])), true);
     free(temp);
 }
 
@@ -1316,7 +1316,7 @@ void C_UpdateTimerOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
         buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-        nearestblack : nearestcolors[am_playerstatscolor]), true);
+        nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)]), true);
 }
 
 void C_UpdatePlayerPositionOverlay(void)
@@ -1324,7 +1324,7 @@ void C_UpdatePlayerPositionOverlay(void)
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-                    nearestblack : nearestcolors[am_playerstatscolor]);
+                    nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)]);
     const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
@@ -1406,12 +1406,8 @@ void C_UpdatePathOverlay(void)
                 y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
         }
 
-        if (r_hud_translucency)
-            C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
-                tinttab70, distance, nearestcolors[am_playerstatscolor], true);
-        else
-            C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y,
-                NULL, distance, nearestlightgray, true);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, (r_hud_translucency ? tinttab70 : NULL),
+            distance, nearestcolors[am_playerstatscolor], true);
 
         pathoverlay = true;
     }
