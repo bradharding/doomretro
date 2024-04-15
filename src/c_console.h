@@ -56,7 +56,6 @@
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
 #define CONSOLEOUTPUTCOLOR                  88
-#define CONSOLEOVERLAYCOLOR                 4
 #define CONSOLEOVERLAYWARNINGCOLOR          176
 #define CONSOLEPLAYERMESSAGECOLOR           161
 #define CONSOLESCROLLBARFACECOLOR           96
@@ -224,6 +223,8 @@ extern size_t           consolestringsmax;
 extern int              caretpos;
 extern int              selectstart;
 extern int              selectend;
+
+extern bool             pathoverlay;
 
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];

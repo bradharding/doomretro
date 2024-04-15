@@ -109,7 +109,7 @@ int                     caretpos;
 int                     selectstart;
 int                     selectend;
 
-static bool             pathoverlay;
+bool                    pathoverlay;
 
 char                    consolecheat[255];
 char                    consolecheatparm[3];
@@ -1286,7 +1286,7 @@ void C_UpdateFPSOverlay(void)
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
         TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
-        && !automapactive ? nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)])), true);
+        && !automapactive ? nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : am_playerstatscolor_default)])), true);
     free(temp);
 }
 
@@ -1316,7 +1316,7 @@ void C_UpdateTimerOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
         buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-        nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)]), true);
+        nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : am_playerstatscolor_default)]), true);
 }
 
 void C_UpdatePlayerPositionOverlay(void)
@@ -1324,7 +1324,7 @@ void C_UpdatePlayerPositionOverlay(void)
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
-                    nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : CONSOLEOVERLAYCOLOR)]);
+                    nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : am_playerstatscolor_default)]);
     const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
