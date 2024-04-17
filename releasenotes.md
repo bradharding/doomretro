@@ -11,7 +11,7 @@
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
 * Improvements have been made to drawing thing triangles in the automap when the `IDDT` cheat has been entered.
 * The underscores of the message displayed when the `IDBEHOLD` cheat has been entered now always line up.
-* The shadow cast by the status bar in the automap is now in low detail when the `r_detail` CVAR is `low`.
+* The shadow cast by the status bar in the automap is now low detail when the `r_detail` CVAR is `low`.
 * The color of the player stats shown in the automap when the `am_playerstats` CVAR is `on` can now be changed using the new `am_playerstatscolor` CVAR, which is `4` by default.
 * Further improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
 * The status bar and widescreen HUD are now always correctly updated when the `give` or `take` CCMDs are used to give or take keycards and skull keys to or from the player. The order in which they are given to them has also improved.

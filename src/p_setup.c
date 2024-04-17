@@ -114,9 +114,8 @@
 
 typedef struct
 {
-    bool            allowmonstertelefrags;
+    int             allowmonstertelefrags;
     char            author[128];
-    int             numbossactions;
     bossaction_t    *bossactions;
     int             cluster;
     bool            compat_corpsegibs;
@@ -147,6 +146,7 @@ typedef struct
     bool            nograduallighting;
     bool            nojump;
     int             noliquid[NUMLIQUIDS];
+    int             numbossactions;
     int             par;
     bool            pistolstart;
     int             secretnext;
@@ -3332,13 +3332,24 @@ static void P_InitMapInfo(void)
         {
             mapinfo[i][j].allowmonstertelefrags = -1;
             mapinfo[i][j].author[0] = '\0';
+            mapinfo[i][j].bossactions->special = 0;
+            mapinfo[i][j].bossactions->tag = 0;
+            mapinfo[i][j].bossactions->type = 0;
+            mapinfo[i][j].cluster = 0;
+            mapinfo[i][j].compat_corpsegibs = false;
+            mapinfo[i][j].compat_floormove = false;
+            mapinfo[i][j].compat_light = false;
+            mapinfo[i][j].compat_limitpain = false;
+            mapinfo[i][j].compat_nopassover = false;
+            mapinfo[i][j].compat_stairs = false;
+            mapinfo[i][j].compat_useblocking = false;
+            mapinfo[i][j].compat_zombie = false;
             mapinfo[i][j].endbunny = false;
             mapinfo[i][j].endcast = false;
             mapinfo[i][j].endgame = false;
             mapinfo[i][j].endpic = 0;
             mapinfo[i][j].enterpic = 0;
             mapinfo[i][j].exitpic = 0;
-            mapinfo[i][j].cluster = 0;
             mapinfo[i][j].interbackdrop[0] = '\0';
             mapinfo[i][j].intermusic = 0;
             mapinfo[i][j].intertext[0] = '\0';
@@ -3356,7 +3367,9 @@ static void P_InitMapInfo(void)
             mapinfo[i][j].name[0] = '\0';
             mapinfo[i][j].next = 0;
             mapinfo[i][j].nofreelook = false;
+            mapinfo[i][j].nograduallighting = false;
             mapinfo[i][j].nojump = false;
+            mapinfo[i][j].numbossactions = 0;
             mapinfo[i][j].par = 0;
             mapinfo[i][j].pistolstart = false;
             mapinfo[i][j].secretnext = 0;
