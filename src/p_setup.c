@@ -3332,9 +3332,6 @@ static void P_InitMapInfo(void)
         {
             mapinfo[i][j].allowmonstertelefrags = -1;
             mapinfo[i][j].author[0] = '\0';
-            mapinfo[i][j].bossactions->special = 0;
-            mapinfo[i][j].bossactions->tag = 0;
-            mapinfo[i][j].bossactions->type = 0;
             mapinfo[i][j].cluster = 0;
             mapinfo[i][j].compat_corpsegibs = false;
             mapinfo[i][j].compat_floormove = false;
