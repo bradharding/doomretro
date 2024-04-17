@@ -218,8 +218,9 @@ bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed
     int             yh;
     const sector_t  *newsec;
     const fixed_t   radius = thing->radius;
+    const int       allowmonstertelefrags = P_GetAllowMonsterTelefrags(gameepisode, gamemap);
 
-    telefrag = (thing->player || boss || P_GetAllowMonsterTelefrags(gameepisode, gamemap));
+    telefrag = (boss ? allowmonstertelefrags != 0 : (thing->player || allowmonstertelefrags == 1));
 
     // kill anything occupying the position
     tmthing = thing;

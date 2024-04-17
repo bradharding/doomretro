@@ -3330,6 +3330,7 @@ static void P_InitMapInfo(void)
     for (int i = 0; i < 10; i++)
         for (int j = 0; j < 100; j++)
         {
+            mapinfo[i][j].allowmonstertelefrags = -1;
             mapinfo[i][j].author[0] = '\0';
             mapinfo[i][j].endbunny = false;
             mapinfo[i][j].endcast = false;
