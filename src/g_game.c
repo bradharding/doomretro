@@ -535,7 +535,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     {
         sendpause = false;
         cmd->buttons = (BT_SPECIAL | BTS_PAUSE);
-        C_PlayerWarning(ITALICS(DOOMRETRO_NAME) " has been paused.");
     }
 
     if (sendsave)
