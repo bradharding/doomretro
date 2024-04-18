@@ -4521,7 +4521,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_SVOL") > 1)
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1)
         OptionsDef.numitems--;
 
     M_ReadSaveStrings();
