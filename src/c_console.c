@@ -136,7 +136,6 @@ static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
 static int              consoleoutputcolor;
-static int              consoleoverlaywarningcolor;
 static int              consoleplayermessagecolor;
 static int              consolescrollbarfacecolor;
 static int              consolescrollbartrackcolor;
@@ -763,7 +762,6 @@ void C_Init(void)
     consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
-    consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
     consoleplayermessagecolor = (harmony ? 226 : nearestcolors[CONSOLEPLAYERMESSAGECOLOR]);
     consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR];
     consolescrollbartrackcolor = nearestcolors[CONSOLESCROLLBARTRACKCOLOR] << 8;
@@ -1257,7 +1255,7 @@ char *C_CreateTimeStamp(const int index)
         hours %= 12;
 
     M_snprintf(console[index].timestamp, sizeof(console[0].timestamp), "%i:%02i:%02i",
-        (!hours ? 12 : hours), minutes, seconds);
+        (hours ? hours : 12), minutes, seconds);
     return console[index].timestamp;
 }
 
@@ -1284,9 +1282,8 @@ void C_UpdateFPSOverlay(void)
     M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
-        TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
-        && !automapactive ? nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : am_playerstatscolor_default)])), true);
+        OVERLAYTEXTY, tinttab, buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
+        && !automapactive ? nearestblack : nearestcolors[(automapactive ? am_playerstatscolor : am_playerstatscolor_default)]), true);
     free(temp);
 }
 
@@ -1306,10 +1303,10 @@ void C_UpdateTimerOverlay(void)
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 
-        if (!hours)
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds % 60);
-        else
+        if (hours)
             M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds % 60);
+        else
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds % 60);
 
         timerwidth = C_OverlayWidth(buffer, true);
     }
@@ -1456,26 +1453,29 @@ void C_UpdatePlayerStatsOverlay(void)
 
         sucks = false;
 
-        if (!hours)
+        if (hours)
+        {
+            if (sucktime && hours >= sucktime)
+            {
+                M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
+                sucks = true;
+                width = suckswidth;
+            }
+            else
+            {
+                M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
+                width = C_OverlayWidth(time, true);
+            }
+        }
+        else
         {
             M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
             width = timewidth;
         }
-        else if (sucktime && hours >= sucktime)
-        {
-            M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
-            sucks = true;
-            width = suckswidth;
-        }
-        else
-        {
-            M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
-            width = C_OverlayWidth(time, true);
-        }
     }
 
-    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time,
-        (sucks ? consoleoverlaywarningcolor : nearestcolors[am_playerstatscolor]), true);
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab,
+        time, nearestcolors[am_playerstatscolor], true);
     y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
