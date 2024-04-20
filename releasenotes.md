@@ -38,6 +38,7 @@
 * Boss actions now occur when entering `kill all` in the console.
 * Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
 * Improvements have been made to the contents of files created using the `condump` CCMD.
+* Liquid sectors are now rendered correctly when their floor height is in line with the player's view height and the `r_liquid_bob` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
