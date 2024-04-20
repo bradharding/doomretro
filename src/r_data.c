@@ -961,8 +961,7 @@ int R_FlatNumForName(const char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning((M_StringStartsWith(name, "AASTINKY") || M_StringStartsWith(name, "AASHITTY") ? 2 : 1),
-                "The " BOLD("%.8s") " texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
             free(temp);
         }
 
@@ -1020,8 +1019,7 @@ int R_TextureNumForName(const char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning((M_StringStartsWith(name, "AASTINKY") || M_StringStartsWith(name, "AASHITTY") ? 2 : 1),
-                "The " BOLD("%.8s") " texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
             free(temp);
         }
 
