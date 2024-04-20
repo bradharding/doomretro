@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "m_config.h"
@@ -113,7 +114,7 @@ void R_InitSkyMap(void)
         }
     }
 
-    skyscrolldelta = (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT);
+    skyscrolldelta = (vanilla ? 0 : (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT));
 
     if (canfreelook)
     {
