@@ -113,7 +113,7 @@ void R_InitSkyMap(void)
         }
     }
 
-    skyscrolldelta = P_GetMapSky1ScrollDelta(gameepisode, gamemap);
+    skyscrolldelta = (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT);
 
     if (canfreelook)
     {

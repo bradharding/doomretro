@@ -46,7 +46,7 @@
 #define ASCII_ESCAPE    '\\'
 
 char            *sc_String;
-int             sc_Number;
+float           sc_Number;
 int             sc_Line;
 
 static char     *ScriptBuffer;
@@ -203,7 +203,9 @@ bool SC_GetNumber(void)
 {
     if (SC_GetString())
     {
-        sc_Number = strtol(sc_String, NULL, 10);
+        char    *stopstring;
+
+        sc_Number = strtof(sc_String, &stopstring);
         return true;
     }
     else

@@ -151,7 +151,7 @@ typedef struct
     bool            pistolstart;
     int             secretnext;
     int             sky1texture;
-    int             sky1scrolldelta;
+    float           sky1scrolldelta;
     int             titlepatch;
 } mapinfo_t;
 
@@ -3440,47 +3440,47 @@ static bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_COMPAT_CORPSEGIBS:
                         case MCMD_COMPAT_VILEGHOSTS:
                             SC_MustGetNumber();
-                            compat_corpsegibs_global = sc_Number;
+                            compat_corpsegibs_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_LIMITPAIN:
                             SC_MustGetNumber();
-                            compat_limitpain_global = sc_Number;
+                            compat_limitpain_global = (int)sc_Number;
                             break;
 
                         case MCMD_NOGRADUALLIGHTING:
                             SC_MustGetNumber();
-                            nograduallighting_global = sc_Number;
+                            nograduallighting_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_FLOORMOVE:
                             SC_MustGetNumber();
-                            compat_floormove_global = sc_Number;
+                            compat_floormove_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_LIGHT:
                             SC_MustGetNumber();
-                            compat_light_global = sc_Number;
+                            compat_light_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_NOPASSOVER:
                             SC_MustGetNumber();
-                            compat_nopassover_global = sc_Number;
+                            compat_nopassover_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_STAIRS:
                             SC_MustGetNumber();
-                            compat_stairs_global = sc_Number;
+                            compat_stairs_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_USEBLOCKING:
                             SC_MustGetNumber();
-                            compat_useblocking_global = sc_Number;
+                            compat_useblocking_global = (int)sc_Number;
                             break;
 
                         case MCMD_COMPAT_ZOMBIE:
                             SC_MustGetNumber();
-                            compat_zombie_global = sc_Number;
+                            compat_zombie_global = (int)sc_Number;
                             break;
 
                         case MCMD_NOJUMP:
@@ -3592,10 +3592,10 @@ static bool P_ParseMapInfo(const char *scriptname)
                                     int tag;
 
                                     SC_MustGetNumber();
-                                    special = sc_Number;
+                                    special = (int)sc_Number;
 
                                     SC_MustGetNumber();
-                                    tag = sc_Number;
+                                    tag = (int)sc_Number;
 
                                     if (tag
                                         || special == S1_ExitLevel
@@ -3622,7 +3622,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_CLUSTER:
                             SC_MustGetNumber();
-                            info->cluster = sc_Number;
+                            info->cluster = (int)sc_Number;
                             break;
 
                         case MCMD_ENDBUNNY:
@@ -3893,7 +3893,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_PAR:
                         case MCMD_PARTIME:
                             SC_MustGetNumber();
-                            info->par = sc_Number;
+                            info->par = (int)sc_Number;
 
                             break;
 
@@ -3936,7 +3936,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             info->sky1texture = R_TextureNumForName(sc_String);
 
                             if (SC_GetNumber())
-                                info->sky1scrolldelta = sc_Number << 8;
+                                info->sky1scrolldelta = sc_Number;
 
                             break;
 
@@ -3953,59 +3953,56 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_ALLOWMONSTERTELEFRAGS:
                             SC_MustGetNumber();
-                            info->allowmonstertelefrags = !!sc_Number;
+                            info->allowmonstertelefrags = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_CORPSEGIBS:
                         case MCMD_COMPAT_VILEGHOSTS:
                             SC_MustGetNumber();
-                            info->compat_corpsegibs = !!sc_Number;
+                            info->compat_corpsegibs = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_LIMITPAIN:
                             SC_MustGetNumber();
-                            info->compat_limitpain = !!sc_Number;
+                            info->compat_limitpain = !!((int)sc_Number);
                             break;
 
                         case MCMD_NOGRADUALLIGHTING:
                             SC_MustGetNumber();
-                            info->nograduallighting = !!sc_Number;
+                            info->nograduallighting = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_FLOORMOVE:
                             SC_MustGetNumber();
-                            info->compat_floormove = !!sc_Number;
+                            info->compat_floormove = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_LIGHT:
                             SC_MustGetNumber();
-                            info->compat_light = !!sc_Number;
+                            info->compat_light = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_NOPASSOVER:
                             SC_MustGetNumber();
-                            info->compat_nopassover = !!sc_Number;
+                            info->compat_nopassover = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_STAIRS:
                             SC_MustGetNumber();
-                            info->compat_stairs = !!sc_Number;
+                            info->compat_stairs = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_USEBLOCKING:
                             SC_MustGetNumber();
-                            info->compat_useblocking = !!sc_Number;
+                            info->compat_useblocking = !!((int)sc_Number);
                             break;
 
                         case MCMD_COMPAT_ZOMBIE:
                             SC_MustGetNumber();
-                            info->compat_zombie = !!sc_Number;
+                            info->compat_zombie = !!((int)sc_Number);
                             break;
                     }
             }
-
-            if (REKKR && ep <= 2)
-                info->sky1scrolldelta = 15 << 8;
 
             mapmax = MAX(map, mapmax);
         }
@@ -4191,7 +4188,7 @@ int P_GetMapSky1Texture(const int ep, const int map)
     return mapinfo[ep][map].sky1texture;
 }
 
-int P_GetMapSky1ScrollDelta(const int ep, const int map)
+float P_GetMapSky1ScrollDelta(const int ep, const int map)
 {
     return mapinfo[ep][map].sky1scrolldelta;
 }

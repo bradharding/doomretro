@@ -37,9 +37,9 @@
 
 #include "doomtype.h"
 
-extern char *sc_String;
-extern int  sc_Number;
-extern int  sc_Line;
+extern char     *sc_String;
+extern float    sc_Number;
+extern int      sc_Line;
 
 void SC_Open(const char *name);
 void SC_Close(void);
