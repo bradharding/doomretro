@@ -4004,6 +4004,9 @@ static bool P_ParseMapInfo(const char *scriptname)
                     }
             }
 
+            if (REKKR && ep <= 2)
+                info->sky1scrolldelta = 0.05f;
+
             mapmax = MAX(map, mapmax);
         }
         else if (SC_Compare("EPISODE"))
