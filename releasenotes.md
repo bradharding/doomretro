@@ -13,11 +13,17 @@
 * The underscores of the message displayed when the `IDBEHOLD` cheat has been entered now always line up.
 * The shadow cast by the status bar in the automap is now low detail when the `r_detail` CVAR is `low`.
 * The color of the player stats shown in the automap when the `am_playerstats` CVAR is `on` can now be changed using the new `am_playerstatscolor` CVAR, which is `4` by default.
-* Further improvements have been made to the parsing of `DEHACKED` and `MAPINFO` lumps.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * Scrolling skies are now supported if a value is specified with `SKY1`.
+  * `ALLOWMONSTERTELEFRAGS = 0` now works on all maps.
+  * A bug is fixed whereby map names wouldn’t be used in some instances.
+* Minor improvements have been made to the parsing of `DEHACKED` lumps.
 * The status bar and widescreen HUD are now always correctly updated when the `give` or `take` CCMDs are used to give or take keycards and skull keys to or from the player. The order in which they are given has also improved.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
-* A sound effect is now played when advancing the text on intermission text screens.
+* These changes have been made to drawing text on intermission text screens:
+  * A sound effect is now played when a key is pressed to advance the text.
+  * A crash no longer occurs if the text is too long.
 * The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen if pressed.
 * The console can no longer be opened while a menu confirmation message is displayed.
 * Further improvements have been made to the position of player messages in some instances.
@@ -35,7 +41,7 @@
 * The number of keycards and skull keys the player picks up is now displayed by the `playerstats` CCMD.
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separately from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The dead marine at the very start of *E1M1: Hangar* is now always green again when the `r_corpses_color` CVAR is `on`.
-* Boss actions now occur when entering `kill all` in the console.
+* Boss actions now occur when using the `kill` CCMD in the console.
 * Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
 * Improvements have been made to the contents of files created using the `condump` CCMD.
 * Liquid sectors are now rendered correctly when their floor height is in line with the player's view height and the `r_liquid_bob` CVAR is `on`.
