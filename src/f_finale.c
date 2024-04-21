@@ -391,7 +391,6 @@ static void F_TextWrite(void)
     {
         char    letter = *ch++;
         int     c;
-        int     width;
 
         if (!letter)
             break;
@@ -401,7 +400,6 @@ static void F_TextWrite(void)
             cx = 12;
             cy += (prev == '\n' ? 8 : 11);
             prev = letter;
-
             continue;
         }
 
@@ -411,7 +409,6 @@ static void F_TextWrite(void)
         {
             cx += (prev == '.' || prev == '!' || prev == '?' || prev == '"' ? 5 : 3);
             prev = letter;
-
             continue;
         }
 
@@ -420,8 +417,11 @@ static void F_TextWrite(void)
 
         if (STCFNxxx)
         {
-            width = SHORT(hu_font[c]->width);
+            if (cy + SHORT(hu_font[c]->height) > VANILLAHEIGHT)
+                break;
+
             V_DrawMenuPatch(cx + 1, cy + 1, hu_font[c], false, VANILLAWIDTH);
+            cx += SHORT(hu_font[c]->width);
         }
         else
         {
@@ -440,12 +440,14 @@ static void F_TextWrite(void)
                     break;
                 }
 
-            width = (int)strlen(smallcharset[c]) / 10 - 1;
+            if (cy + 10 > VANILLAHEIGHT)
+                break;
+
             M_DrawSmallChar(cx + 1, cy + 1, c, false, true);
+            cx += (int)strlen(smallcharset[c]) / 10 - 1;
         }
 
         prev = letter;
-        cx += width;
     }
 }
 
