@@ -4436,13 +4436,12 @@ static void map_func2(char *cmd, char *parms)
     }
 
     gamemap = mapcmdmap;
-
     quicksaveslot = -1;
+    drawdisk = true;
 
     if (gamestate == GS_LEVEL)
     {
         idclevtics = TICRATE;
-        drawdisk = true;
         C_HideConsole();
     }
     else

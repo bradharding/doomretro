@@ -22,6 +22,7 @@
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
 * Explosions now cast shadows if the `r_shadows` CVAR is `on`.
+* These changes have been made to intermission text screens:
   * A sound effect is now played when a key is pressed to advance the text.
   * A crash no longer occurs if the text is too long.
 * The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen if pressed.
