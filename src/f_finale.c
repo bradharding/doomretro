@@ -871,7 +871,7 @@ static void F_CastDrawer(void)
     {
         patch->leftoffset = (spritewidth[lump] - (r_fixspriteoffsets ? newspriteoffset[lump] : spriteoffset[lump])) >> FRACBITS;
 
-        if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        if (r_shadows)
         {
             if (r_shadows_translucency)
             {
@@ -898,7 +898,7 @@ static void F_CastDrawer(void)
     {
         patch->leftoffset = (r_fixspriteoffsets ? newspriteoffset[lump] : spriteoffset[lump]) >> FRACBITS;
 
-        if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        if (r_shadows)
         {
             if (r_shadows_translucency)
             {

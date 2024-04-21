@@ -109,7 +109,6 @@ void P_ExplodeMissile(mobj_t *mo)
     if (mo->type == MT_ROCKET)
     {
         mo->colfunc = tlcolfunc;
-        mo->flags2 &= ~MF2_CASTSHADOW;
 
         if (M_BigRandom() & 1)
             mo->flags2 |= MF2_MIRRORED;

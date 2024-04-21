@@ -21,7 +21,7 @@
 * The status bar and widescreen HUD are now always correctly updated when the `give` or `take` CCMDs are used to give or take keycards and skull keys to or from the player. The order in which they are given has also improved.
 * The `DSSAWUP` sound effect is no longer heard in its entirety when the player equips their chainsaw.
 * If a sound effect lump in a PWAD is 0 bytes in size, now rather than playing the IWAD’s lump it replaces, nothing is played.
-* These changes have been made to drawing text on intermission text screens:
+* Explosions now cast shadows if the `r_shadows` CVAR is `on`.
   * A sound effect is now played when a key is pressed to advance the text.
   * A crash no longer occurs if the text is too long.
 * The <kbd><b>F1</b></kbd> key no longer interrupts the splash screen if pressed.
