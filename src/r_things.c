@@ -507,6 +507,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
+    const int       flags2 = mobj->flags2;
     const int       translation = (flags & MF_TRANSLATION);
 
     spryscale = vis->scale;
@@ -523,7 +524,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         dc_black33 = &tinttab20[dc_black << 8];
         dc_black40 = &tinttab25[dc_black << 8];
     }
-    else if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_sprites_translucency)
+    else if (((flags2 & MF2_TRANSLUCENT_33) || (flags2 & MF2_EXPLODING)) && r_sprites_translucency)
     {
         dc_black33 = &tinttab10[dc_black << 8];
         dc_black40 = &tinttab25[dc_black << 8];
