@@ -3873,7 +3873,7 @@ static void kill_func2(char *cmd, char *parms)
                                 massacre = false;
                                 kills++;
                             }
-                            else if (thing->type == MT_BARREL)
+                            else if (type == MT_BARREL)
                             {
                                 P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
                                 kills++;

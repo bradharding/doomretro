@@ -43,7 +43,6 @@
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separately from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * The dead marine at the very start of *E1M1: Hangar* is now always green again when the `r_corpses_color` CVAR is `on`.
 * Boss actions now occur when using the `kill` CCMD in the console.
-* Entering `explode barrels` in the console now explodes barrels rather than removing them.
 * Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
 * Improvements have been made to the contents of files created using the `condump` CCMD.
 * Liquid sectors are now rendered correctly when their floor height is in line with the player's view height and the `r_liquid_bob` CVAR is `on`.
