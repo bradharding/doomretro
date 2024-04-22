@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL v2.30.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.2).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
+* A slightly brighter color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed whereby grouping wasn’t being applied to the previous player message when displayed by pressing the <kbd><b>ENTER</b></kbd> key if both the `messages` and `groupmessages` CVARs were `on`.
 * Minor improvements have been made to certain animations on the intermission screen.
 * The status bar now shows when the player has picked up both a keycard and a skull key of the same color by introducing support for *BOOM’s* `STKEYS6`, `STKEYS7` and `STKEYS8` lumps.
