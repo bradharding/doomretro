@@ -8025,13 +8025,13 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("Everything was taken from %s.", playername);
+                C_PlayerWarning("Everything was taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have anything to take.");
+                C_Warning(0, "You don't have anything!");
             else
-                C_Warning(0, "%s doesn't have anything to take.", playername);
+                C_Warning(0, "%s doesn't have anything!", playername);
         }
         else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth"))
         {
@@ -8043,18 +8043,18 @@ static void take_func2(char *cmd, char *parms)
                 healthcvar = false;
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You killed yourself.");
+                    C_PlayerWarning("You killed yourself!");
                 else
-                    C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
+                    C_PlayerWarning("%s killed %s!", playername, pronoun(reflexive));
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You are already dead.");
+                    C_Warning(0, "You are already dead!");
                 else
-                    C_Warning(0, "%s is already dead.", playername);
+                    C_Warning(0, "%s is already dead!", playername);
             }
         }
         else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
@@ -8071,13 +8071,13 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("All weapons have been taken from %s.", playername);
+                C_PlayerWarning("All weapons have been taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any weapons to take.");
+                C_Warning(0, "You don't have any weapons!");
             else
-                C_Warning(0, "%s doesn't have any weapons to take.", playername);
+                C_Warning(0, "%s doesn't have any weapons!", playername);
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo")
                 || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "allammunition"))
@@ -8093,13 +8093,13 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("All ammo was taken from %s.", playername);
+                C_PlayerWarning("All ammo was taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any ammo to take.");
+                C_Warning(0, "You don't have any ammo!");
             else
-                C_Warning(0, "%s doesn't have any ammo to take.", playername);
+                C_Warning(0, "%s doesn't have any ammo!", playername);
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
                 || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour"))
@@ -8109,15 +8109,15 @@ static void take_func2(char *cmd, char *parms)
                 P_AnimateArmor(viewplayer->armor);
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
-                C_PlayerMessage("All %s was taken from %s.",
+                C_PlayerWarning("All %s was taken from %s!",
                     (english == english_american ? "armor" : "armour"), playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any %s to take.",
+                C_Warning(0, "You don't have any %s!",
                     (english == english_american ? "armor" : "armour"));
             else
-                C_Warning(0, "%s doesn't have any %s to take.",
+                C_Warning(0, "%s doesn't have any %s!",
                     playername, (english == english_american ? "armor" : "armour"));
         }
         else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
@@ -8132,13 +8132,13 @@ static void take_func2(char *cmd, char *parms)
             if (result)
             {
                 P_LookForCards();
-                C_PlayerMessage("All keycards and skull keys have been taken from %s.", playername);
+                C_PlayerWarning("All keycards and skull keys have been taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any keycards or skull keys to take.");
+                C_Warning(0, "You don't have any keycards or skull keys!");
             else
-                C_Warning(0, "%s doesn't have any keycards or skull keys to take.", playername);
+                C_Warning(0, "%s doesn't have any keycards or skull keys!", playername);
         }
         else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
@@ -8148,13 +8148,13 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
                 P_LookForCards();
-                C_PlayerMessage("All keycards have been taken from %s.", playername);
+                C_PlayerWarning("All keycards have been taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any keycards to take.");
+                C_Warning(0, "You don't have any keycards!");
             else
-                C_Warning(0, "%s doesn't have any keycards to take.", playername);
+                C_Warning(0, "%s doesn't have any keycards!", playername);
         }
         else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
@@ -8164,13 +8164,13 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
                 P_LookForCards();
-                C_PlayerMessage("All skull keys have been taken from %s.", playername);
+                C_PlayerWarning("All skull keys have been taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any skull keys to take.");
+                C_Warning(0, "You don't have any skull keys!");
             else
-                C_Warning(0, "%s doesn't have any skull keys to take.", playername);
+                C_Warning(0, "%s doesn't have any skull keys!", playername);
         }
         else if (M_StringCompare(parm, "pistol"))
         {
@@ -8181,13 +8181,13 @@ static void take_func2(char *cmd, char *parms)
 
                 P_CheckAmmo(viewplayer->readyweapon);
 
-                C_PlayerMessage("A pistol was taken from %s.", playername);
+                C_PlayerWarning("A pistol was taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have a pistol to take.");
+                C_Warning(0, "You don't have a pistol!");
             else
-                C_Warning(0, "%s doesn't have a pistol.", playername);
+                C_Warning(0, "%s doesn't have a pistol!", playername);
         }
         else if (M_StringCompare(parm, "powerups"))
         {
@@ -8200,13 +8200,13 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("All power-ups have been taken from %s.", playername);
+                C_PlayerWarning("All power-ups have been taken from %s!", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any power-ups to take.");
+                C_Warning(0, "You don't have any power-ups!");
             else
-                C_Warning(0, "%s doesn't have any power-ups to take.", playername);
+                C_Warning(0, "%s doesn't have any power-ups!", playername);
         }
         else
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
@@ -8227,11 +8227,11 @@ static void take_func2(char *cmd, char *parms)
                         {
                             char    *temp4 = sentencecase(mobjinfo[i].name1);
 
-                            C_PlayerMessage("%s was taken from %s.", temp4, playername);
+                            C_PlayerWarning("%s was taken from %s!", temp4, playername);
                             free(temp4);
                         }
                         else
-                            C_PlayerMessage("%s %s was taken from %s.",
+                            C_PlayerWarning("%s %s was taken from %s!",
                                 (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
 
                         if (viewplayer->health <= 0)
@@ -8245,10 +8245,10 @@ static void take_func2(char *cmd, char *parms)
                         result = true;
                     }
                     else if (M_StringCompare(playername, playername_default))
-                        C_Warning(0, "You don't have %s %s to take.",
+                        C_Warning(0, "You don't have %s %s!",
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                     else
-                        C_Warning(0, "%s doesn't have %s %s to take.",
+                        C_Warning(0, "%s doesn't have %s %s!",
                             playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                 }
 

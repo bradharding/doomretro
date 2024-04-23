@@ -2444,11 +2444,10 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
         if (!infile.resourcewad && !devparm)
-            C_Output("%s line%s %s been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
+            C_Output("%s line%s %s been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
                 temp1, (linecount == 1 ? "" : "s"), (linecount == 1 ? "has" : "have"), temp2,
-                (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename, (dehfileignored ? " instead" : ""));
+                (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
 
-        dehfileignored = false;
         free(temp1);
         free(temp2);
     }

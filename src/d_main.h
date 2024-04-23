@@ -51,7 +51,6 @@ extern char     *pwadfile;
 extern bool     advancetitle;
 extern bool     splashscreen;
 extern bool     dowipe;
-extern bool     dehfileignored;
 extern int      logotic;
 extern int      pagetic;
 extern int      titlesequence;
