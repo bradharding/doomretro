@@ -573,38 +573,6 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
     }
 }
 
-void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
-{
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   width = MIN(SHORT(patch->width), maxwidth);
-
-    for (int col = 0; col < width; col++, desttop++)
-    {
-        const column_t  *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte            *source = (byte *)column + 3;
-        byte            *dest = desttop;
-        int             count = column->length;
-        int             height = y + 1;
-
-        while (count-- > 0)
-        {
-            if (height > 0)
-            {
-                *dest = tinttab60[(nearestcolors[*source] << 8) + *dest];
-
-                if (height == 1)
-                    *dest = tinttab60[*dest];
-                else if (height == 2)
-                    *dest = tinttab30[*dest];
-            }
-
-            source++;
-            dest += SCREENWIDTH;
-            height++;
-        }
-    }
-}
-
 void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];

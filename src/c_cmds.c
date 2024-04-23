@@ -1988,10 +1988,10 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 {
     for (int i = 0; controls[i].type; i++)
     {
-        const char  *control = controls[i].control;
-
         if (controls[i].type == type && controls[i].value == value)
         {
+            const char  *control = controls[i].control;
+
             if (strlen(control) == 1)
                 C_TabbedOutput(tabs, "'%s'\t%s", (control[0] == '=' ? "+" : control), action);
             else

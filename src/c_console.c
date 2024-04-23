@@ -1420,7 +1420,6 @@ void C_UpdatePlayerStatsOverlay(void)
     static char time[10];
     static int  prevmaptime = -1;
     static int  width;
-    static bool sucks;
 
     if (mapwindow)
     {
@@ -1451,14 +1450,11 @@ void C_UpdatePlayerStatsOverlay(void)
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 
-        sucks = false;
-
         if (hours)
         {
             if (sucktime && hours >= sucktime)
             {
                 M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
-                sucks = true;
                 width = suckswidth;
             }
             else
