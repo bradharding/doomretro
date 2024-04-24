@@ -371,7 +371,6 @@ static void freeze_func2(char *cmd, char *parms);
 static bool give_func1(char *cmd, char *parms);
 static void give_func2(char *cmd, char *parms);
 static void god_func2(char *cmd, char *parms);
-static void help_func2(char *cmd, char *parms);
 static void if_func2(char *cmd, char *parms);
 static bool kill_func1(char *cmd, char *parms);
 static void kill_func2(char *cmd, char *parms);
@@ -415,6 +414,7 @@ static void timer_func2(char *cmd, char *parms);
 static void toggle_func2(char *cmd, char *parms);
 static void unbind_func2(char *cmd, char *parms);
 static void vanilla_func2(char *cmd, char *parms);
+static void wiki_func2(char *cmd, char *parms);
 
 static bool bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
@@ -695,8 +695,6 @@ consolecmd_t consolecmds[] =
         "Toggles the grouping of identical player messages."),
     CVAR_INT(health, "", "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "Your health (" BOLD("-99%") " to " BOLD("200%") ")."),
-    CCMD(help, "", "", null_func1, help_func2, false, "",
-        "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
     CMD_CHEAT(idbeholdl, false),
@@ -1048,6 +1046,8 @@ consolecmd_t consolecmds[] =
         "Toggles the bounce of your weapon when you land after a fall."),
     CVAR_BOOL(weaponrecoil, "", "", bool_cvars_func1, weaponrecoil_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the recoil of your weapon when you fire it."),
+    CCMD(wiki, help, "", null_func1, wiki_func2, false, "",
+        "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
 
     { "", "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
@@ -3152,21 +3152,6 @@ static void god_func2(char *cmd, char *parms)
 }
 
 //
-// help CCMD
-//
-static void help_func2(char *cmd, char *parms)
-{
-#if defined(_WIN32)
-    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL))
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    if (!system("xdg-open " DOOMRETRO_WIKIURL))
-#elif defined(__APPLE__)
-    if (!system("open " DOOMRETRO_WIKIURL))
-#endif
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open.");
-}
-
-//
 // if CCMD
 //
 static bool match(bool value, const char *toggle)
@@ -3961,6 +3946,8 @@ static void kill_func2(char *cmd, char *parms)
 //
 static void license_func2(char *cmd, char *parms)
 {
+    C_Output("Opening the " ITALICS(DOOMRETRO_LICENSE) "...");
+
 #if defined(_WIN32)
     if (!ShellExecute(NULL, "open", DOOMRETRO_LICENSEURL, NULL, NULL, SW_SHOWNORMAL))
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
@@ -8619,6 +8606,23 @@ static void vanilla_func2(char *cmd, char *parms)
 
     nobindoutput = false;
     togglingvanilla = false;
+}
+
+//
+// wiki CCMD
+//
+static void wiki_func2(char *cmd, char *parms)
+{
+    C_Output("Opening the " ITALICS(DOOMRETRO_WIKINAME) "...");
+
+#if defined(_WIN32)
+    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL))
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+    if (!system("xdg-open " DOOMRETRO_WIKIURL))
+#elif defined(__APPLE__)
+    if (!system("open " DOOMRETRO_WIKIURL))
+#endif
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open.");
 }
 
 //
