@@ -498,7 +498,7 @@
     <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
     <None Include="..\CODEOWNERS" />
-    <None Include="..\LICENSE" />
+    <None Include="..\LICENSE.md" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
     <None Include="..\res\BRGHTMPS.lmp" />
