@@ -676,7 +676,8 @@ void R_StoreWallRange(const int start, const int stop)
 
     // [BH] animate liquid sectors
     if (frontsector->terraintype >= LIQUID
-        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight + FRACUNIT * 4)
+        && viewz > frontsector->interpfloorheight + FRACUNIT * 2
+        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight + FRACUNIT * 2)
         && r_liquid_bob)
         worldbottom += animatedliquiddiff;
 
@@ -778,7 +779,8 @@ void R_StoreWallRange(const int start, const int stop)
         // [BH] animate liquid sectors
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight + FRACUNIT * 4)
+            && viewz > backsector->interpfloorheight + FRACUNIT * 2
+            && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight + FRACUNIT * 2)
             && r_liquid_bob)
         {
             liquidoffset = animatedliquiddiff;
