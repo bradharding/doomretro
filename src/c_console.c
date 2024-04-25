@@ -1082,8 +1082,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                        || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
+                    if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
+                        || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                        || prevletter == '{' || prevletter == '<' || prevletter == '"'
                         || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                             && prevletter2 != '.' && nextletter != '.'))
                     {
@@ -1097,8 +1098,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                        || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
+                    if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
+                        || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                        || prevletter == '{' || prevletter == '<' || prevletter == '\''
                         || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
                             && prevletter2 != '.' && nextletter != '.'))
                     {
