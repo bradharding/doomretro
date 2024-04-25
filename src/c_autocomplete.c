@@ -5530,7 +5530,6 @@ autocomplete_t autocompletelist[] =
     { "health 0%",                                   DOOM1AND2 },
     { "health 100%",                                 DOOM1AND2 },
     { "health 200%",                                 DOOM1AND2 },
-    { "help",                                        DOOM1AND2 },
     { "if ",                                         DOOM1AND2 },
     { "if alwaysrun ",                               DOOM1AND2 },
     { "if alwaysrun off ",                           DOOM1AND2 },
@@ -8616,6 +8615,7 @@ autocomplete_t autocompletelist[] =
     { "weaponrecoil ",                               DOOM1AND2 },
     { "weaponrecoil off",                            DOOM1AND2 },
     { "weaponrecoil on",                             DOOM1AND2 },
+    { "wiki",                                        DOOM1AND2 },
     { "+zoomin",                                     DOOM1AND2 },
     { "+zoomout",                                    DOOM1AND2 },
     { "",                                            0,        }
