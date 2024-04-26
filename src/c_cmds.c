@@ -1418,7 +1418,7 @@ static bool game_func1(char *cmd, char *parms)
             C_Warning(0, NOGAMEWARNING1);
         else
             C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                (playergender == playergender_other ? "are" : "is"));
+                (playergender == playergender_other ? "aren't" : "isn't"));
 
         consoleinput[0] = '\0';
     }
@@ -2729,7 +2729,7 @@ static void give_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -3426,7 +3426,7 @@ static void kill_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -5361,7 +5361,7 @@ static void name_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else if (M_StringCompare(namecmdold, "player")
@@ -7511,7 +7511,7 @@ static void resurrect_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -7757,7 +7757,7 @@ static void spawn_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -7972,7 +7972,7 @@ static void take_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -8306,7 +8306,7 @@ static void teleport_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
     else
@@ -9468,7 +9468,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     C_Warning(0, NOGAMEWARNING1);
                 else
                     C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                        (playergender == playergender_other ? "are" : "is"));
+                        (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
             free(temp);
@@ -9513,7 +9513,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     C_Warning(0, NOGAMEWARNING1);
                 else
                     C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                        (playergender == playergender_other ? "are" : "is"));
+                        (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
             free(temp);
@@ -9595,7 +9595,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     C_Warning(0, NOGAMEWARNING1);
                 else
                     C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                        (playergender == playergender_other ? "are" : "is"));
+                        (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
             free(temp);
@@ -11338,7 +11338,8 @@ static void weapon_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
 
         free(temp);
