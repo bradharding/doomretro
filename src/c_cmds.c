@@ -109,13 +109,13 @@
                                     BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("BFG9000") ")."
 
 #define DEADPLAYERWARNING1          "You can't change this CVAR right now because you're dead."
-#define DEADPLAYERWARNING2          "%s can't change this CVAR right now because %s is dead."
+#define DEADPLAYERWARNING2          "%s can't change this CVAR right now because %s %s dead."
 #define NEXTMAPWARNING1             "You won't see the results of changing this CVAR until the next map."
 #define NEXTMAPWARNING2             "%s won't see the results of changing this CVAR until the next map."
 #define NOGAMEWARNING1              "You can't change this CVAR right now because you're not playing a game."
-#define NOGAMEWARNING2              "%s can't change this CVAR right now because %s isn't playing a game."
+#define NOGAMEWARNING2              "%s can't change this CVAR right now because %s %s playing a game."
 #define NIGHTMAREWARNING1           "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
-#define NIGHTMAREWARNING2           "%s can't change this CVAR right now because %s is playing a game in " ITALICS("Nightmare!")
+#define NIGHTMAREWARNING2           "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
 
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
@@ -1326,7 +1326,8 @@ static bool alive_func1(char *cmd, char *parms)
         if (M_StringCompare(playername, playername_default))
             C_Warning(0, DEADPLAYERWARNING1);
         else
-            C_Warning(0, DEADPLAYERWARNING2, playername, pronoun(personal));
+            C_Warning(0, DEADPLAYERWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "are" : "is"));
 
         consoleinput[0] = '\0';
 
@@ -1416,7 +1417,8 @@ static bool game_func1(char *cmd, char *parms)
         if (M_StringCompare(playername, playername_default))
             C_Warning(0, NOGAMEWARNING1);
         else
-            C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+            C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "are" : "is"));
 
         consoleinput[0] = '\0';
     }
@@ -1438,7 +1440,8 @@ static bool nightmare_func1(char *cmd, char *parms)
     if (M_StringCompare(playername, playername_default))
         C_Warning(0, NIGHTMAREWARNING1);
     else
-        C_Warning(0, NIGHTMAREWARNING2, playername, pronoun(personal));
+        C_Warning(0, NIGHTMAREWARNING2, playername, pronoun(personal),
+            (playergender == playergender_other ? "are" : "is"));
 
     consoleinput[0] = '\0';
 
@@ -2725,7 +2728,8 @@ static void give_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -3421,7 +3425,8 @@ static void kill_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -5355,7 +5360,8 @@ static void name_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else if (M_StringCompare(namecmdold, "player")
@@ -7504,7 +7510,8 @@ static void resurrect_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -7749,7 +7756,8 @@ static void spawn_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -7963,7 +7971,8 @@ static void take_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -8296,7 +8305,8 @@ static void teleport_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_Warning(0, NOGAMEWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    (playergender == playergender_other ? "are" : "is"));
         }
     }
     else
@@ -9457,7 +9467,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, NOGAMEWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                        (playergender == playergender_other ? "are" : "is"));
             }
 
             free(temp);
@@ -9501,7 +9512,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, NOGAMEWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                        (playergender == playergender_other ? "are" : "is"));
             }
 
             free(temp);
@@ -9582,7 +9594,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, NOGAMEWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal));
+                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                        (playergender == playergender_other ? "are" : "is"));
             }
 
             free(temp);
