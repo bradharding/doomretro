@@ -1408,7 +1408,7 @@ void HU_DrawDisk(void)
     if (r_diskicon && stdisk && drawdisktics)
     {
         V_DrawPatch(SCREENWIDTH / 2 - HU_MSGX * (vid_widescreen ? 2 : 1) - stdiskwidth - WIDESCREENDELTA,
-            HU_MSGY, 0, stdisk);
+            HU_MSGY - 1, 0, stdisk);
 
         if (!--drawdisktics || dowipe)
             drawdisk = false;
