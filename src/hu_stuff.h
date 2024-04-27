@@ -81,6 +81,8 @@
                                         - (weaponschanged && !fixspriteoffsets ? 76 : 128))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
+#define DRAWDISKTICS                (12 * TICRATE)
+
 //
 // HEADS UP TEXT
 //
@@ -109,6 +111,7 @@ extern int      maxammodiff[NUMAMMO];
 extern int      armordiff;
 extern int      healthdiff;
 extern bool     drawdisk;
+extern int      drawdisktics;
 extern bool     idbehold;
 extern int      message_counter;
 extern bool     message_dontfuckwithme;

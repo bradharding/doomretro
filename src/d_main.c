@@ -287,7 +287,6 @@ void D_Display(void)
     // save the current screen if about to wipe
     if ((dowipe = (gamestate != wipegamestate || forcewipe)))
     {
-        drawdisk = false;
         fadecount = 0;
 
         if (melt)

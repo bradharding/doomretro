@@ -1037,6 +1037,7 @@ bool ST_Responder(const event_t *ev)
                     idclevtics = TICRATE;
                     quicksaveslot = -1;
                     drawdisk = true;
+                    drawdisktics = DRAWDISKTICS;
                 }
             }
         }

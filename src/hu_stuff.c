@@ -90,7 +90,8 @@ static patch_t          *bluearmorpatch;
 static patch_t          *stdisk;
 static short            stdiskwidth;
 static short            stdiskheight;
-bool                    drawdisk;
+bool                    drawdisk = false;
+int                     drawdisktics;
 
 static int              coloroffset;
 
@@ -1404,9 +1405,14 @@ static void HU_DrawAltHUD(void)
 
 void HU_DrawDisk(void)
 {
-    if (r_diskicon && stdisk)
+    if (r_diskicon && stdisk && drawdisktics)
+    {
         V_DrawPatch(SCREENWIDTH / 2 - HU_MSGX * (vid_widescreen ? 2 : 1) - stdiskwidth - WIDESCREENDELTA,
             HU_MSGY, 0, stdisk);
+
+        if (!--drawdisktics)
+            drawdisk = false;
+    }
 }
 
 void HU_Drawer(void)

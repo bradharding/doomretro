@@ -590,6 +590,8 @@ void G_DoLoadLevel(void)
     int     ep;
     bool    resetplayer;
 
+    drawdisk = true;
+    drawdisktics = DRAWDISKTICS;
     HU_DrawDisk();
 
     if (timer)
@@ -1664,6 +1666,7 @@ void G_SaveGame(const int slot, const char *description, const char *name)
     M_StringCopy(savedescription, description, sizeof(savedescription));
     sendsave = true;
     drawdisk = true;
+    drawdisktics = DRAWDISKTICS;
 }
 
 static void G_DoSaveGame(void)
@@ -1750,7 +1753,6 @@ static void G_DoSaveGame(void)
     }
 
     gameaction = ga_nothing;
-    drawdisk = false;
 }
 
 static skill_t  d_skill;
