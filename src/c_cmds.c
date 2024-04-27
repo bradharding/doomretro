@@ -117,19 +117,19 @@
 #define NIGHTMAREWARNING1           "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
 #define NIGHTMAREWARNING2           "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
 
-#define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
-#define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
-#define INTEGERCVARISDEFAULT        "It is currently " BOLD("%s") " by default."
-#define DEGREESCVARWITHDEFAULT      "It is currently " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
-#define DEGREESCVARISDEFAULT        "It is currently " BOLD("%i") "\xB0 by default."
-#define PERCENTCVARWITHDEFAULT      "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
-#define PERCENTCVARWITHNODEFAULT    "It is currently " BOLD("%s%%") "."
-#define PERCENTCVARISDEFAULT        "It is currently " BOLD("%s%%") " by default."
-#define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
-#define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
-#define STRINGCVARISDEFAULT         "It is currently " BOLD("\"%s\"") " by default."
-#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define INTEGERCVARWITHDEFAULT      "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHNODEFAULT    "It is currently set to " BOLD("%s") "."
+#define INTEGERCVARISDEFAULT        "It is currently set to its default of " BOLD("%s") "."
+#define DEGREESCVARWITHDEFAULT      "It is currently set to " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
+#define DEGREESCVARISDEFAULT        "It is currently set to its default of " BOLD("%i") "\xB0."
+#define PERCENTCVARWITHDEFAULT      "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHNODEFAULT    "It is currently set to " BOLD("%s%%") "."
+#define PERCENTCVARISDEFAULT        "It is currently set to its default of " BOLD("%s%%") "."
+#define STRINGCVARWITHDEFAULT       "It is currently set to " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHNODEFAULT     "It is currently set to " BOLD("%s%s%s") "."
+#define STRINGCVARISDEFAULT         "It is currently set to its default of " BOLD("\"%s\"") "."
+#define TIMECVARWITHNODEFAULT1      "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2      "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
 #define INDENT                      "       "
 
@@ -11339,7 +11339,7 @@ static void weapon_func2(char *cmd, char *parms)
                 C_Warning(0, NOGAMEWARNING1);
             else
                 C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
-                    (playergender == playergender_other ? "are" : "is"));
+                    (playergender == playergender_other ? "aren't" : "isn't"));
         }
 
         free(temp);
