@@ -81,7 +81,7 @@
                                         - (weaponschanged && !fixspriteoffsets ? 76 : 128))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
-#define DRAWDISKTICS                (8 * TICRATE)
+#define DRAWDISKTICS                (12 * TICRATE)
 
 //
 // HEADS UP TEXT

@@ -284,6 +284,9 @@ void D_Display(void)
         oldgamestate = GS_NONE; // force background redraw
     }
 
+    if (drawdisk)
+        HU_DrawDisk();
+
     // save the current screen if about to wipe
     if ((dowipe = (gamestate != wipegamestate || forcewipe)))
     {
@@ -443,9 +446,6 @@ void D_Display(void)
             tics = nowtime - wipestart;
             I_Sleep(1);
         } while (tics <= 0);
-
-        if (drawdisk)
-            HU_DrawDisk();
 
         wipestart = nowtime;
         done = Wipe_ScreenWipe();

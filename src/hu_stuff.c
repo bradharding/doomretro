@@ -1410,7 +1410,7 @@ void HU_DrawDisk(void)
         V_DrawPatch(SCREENWIDTH / 2 - HU_MSGX * (vid_widescreen ? 2 : 1) - stdiskwidth - WIDESCREENDELTA,
             HU_MSGY, 0, stdisk);
 
-        if (!--drawdisktics)
+        if (!--drawdisktics || dowipe)
             drawdisk = false;
     }
 }
