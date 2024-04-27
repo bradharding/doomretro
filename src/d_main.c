@@ -444,6 +444,9 @@ void D_Display(void)
             I_Sleep(1);
         } while (tics <= 0);
 
+        if (drawdisk)
+            HU_DrawDisk();
+
         wipestart = nowtime;
         done = Wipe_ScreenWipe();
 

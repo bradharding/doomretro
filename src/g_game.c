@@ -592,7 +592,6 @@ void G_DoLoadLevel(void)
 
     drawdisk = true;
     drawdisktics = DRAWDISKTICS;
-    HU_DrawDisk();
 
     if (timer)
         P_SetTimer(timer);
