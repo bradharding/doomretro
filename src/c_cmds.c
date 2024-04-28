@@ -373,6 +373,7 @@ static bool give_func1(char *cmd, char *parms);
 static void give_func2(char *cmd, char *parms);
 static void god_func2(char *cmd, char *parms);
 static void if_func2(char *cmd, char *parms);
+static void infiniteammo_func2(char *cmd, char *parms);
 static bool kill_func1(char *cmd, char *parms);
 static void kill_func2(char *cmd, char *parms);
 static void license_func2(char *cmd, char *parms);
@@ -716,6 +717,8 @@ consolecmd_t consolecmds[] =
         "Executes a string of " BOLDITALICS("commands") " if a " BOLDITALICS("CVAR") " equals a " BOLDITALICS("value") "."),
     CVAR_BOOL(infighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles infighting amongst monsters once you die."),
+    CCMD(infiniteammo, "", "", null_func1, infiniteammo_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+        "Toggles infinite ammo for all your weapons."),
     CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles giving you and everything else in the current map infinite height."),
     CVAR_BOOL(joy_analog, joy_analogue, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -3249,6 +3252,8 @@ static void if_func2(char *cmd, char *parms)
                 condition = match(freeze, parm2);
             else if (M_StringCompare(parm1, "god"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_GODMODE)), parm2);
+            else if (M_StringCompare(parm1, "infiniteammo"))
+                condition = match(infiniteammo, parm2);
             else if (M_StringCompare(parm1, "noclip"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_NOCLIP)), parm2);
             else if (M_StringCompare(parm1, "nomonsters"))
@@ -3285,6 +3290,40 @@ static void if_func2(char *cmd, char *parms)
 
             break;
         }
+}
+
+//
+// infiniteammo CCMD
+//
+static void infiniteammo_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if (value == 0 && infiniteammo)
+            infiniteammo = false;
+        else if (value == 1 && !infiniteammo)
+            infiniteammo = true;
+        else
+            return;
+    }
+    else
+        infiniteammo = !infiniteammo;
+
+    if (infiniteammo)
+    {
+        C_Output(s_STSTR_IAON);
+        HU_SetPlayerMessage(s_STSTR_IAON, false, false);
+        viewplayer->cheated++;
+        stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
+        M_SaveCVARs();
+    }
+    else
+    {
+        C_Output(s_STSTR_IAOFF);
+        HU_SetPlayerMessage(s_STSTR_IAOFF, false, false);
+    }
 }
 
 //

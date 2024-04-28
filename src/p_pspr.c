@@ -177,30 +177,32 @@ bool P_CheckAmmo(const weapontype_t weapon)
 //
 static void P_SubtractAmmo(void)
 {
-    const weapontype_t  readyweapon = viewplayer->readyweapon;
-    const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
-
-    if (ammotype != am_noammo)
+    if (!infiniteammo)
     {
-        const   int value = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[readyweapon].ammopershot);
+        const weapontype_t  readyweapon = viewplayer->readyweapon;
+        const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
 
-        P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
-        viewplayer->ammo[ammotype] = value;
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        if (ammotype != am_noammo)
+        {
+            const int   value = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[readyweapon].ammopershot);
+
+            P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
+            viewplayer->ammo[ammotype] = value;
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        }
     }
 }
 
-static void P_RumbleWeapon(void)
+//
+// P_RumbleWeapon
+//
+static void P_RumbleWeapon(const weapontype_t weapon)
 {
-    const weapontype_t  readyweapon = viewplayer->readyweapon;
-
-    if (joy_rumble_weapons && readyweapon != wp_fist)
+    if (joy_rumble_weapons && weapon != wp_fist)
     {
-        const int   lowrumble = weaponinfo[readyweapon].lowrumble * joy_rumble_weapons / 100;
-        const int   highrumble = weaponinfo[readyweapon].highrumble * joy_rumble_weapons / 100;
-
-        I_GameControllerRumble(lowrumble, highrumble);
-        weaponrumbletics = weaponinfo[readyweapon].tics;
+        I_GameControllerRumble(weaponinfo[weapon].lowrumble * joy_rumble_weapons / 100,
+            weaponinfo[weapon].highrumble * joy_rumble_weapons / 100);
+        weaponrumbletics = weaponinfo[weapon].tics;
     }
 }
 
@@ -512,7 +514,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_ROCKET);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_missile);
 
     player->shotsfired[wp_missile]++;
     stat_shotsfired_rocketlauncher = SafeAdd(stat_shotsfired_rocketlauncher, 1);
@@ -525,7 +527,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_BFG);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_bfg);
 }
 
 //
@@ -604,7 +606,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     } while (type != MT_PLASMA2 && (type = MT_PLASMA2));  // killough: obfuscated!
 
     A_Recoil(wp_bfg);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_bfg);
 }
 
 //
@@ -618,7 +620,7 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     player->shotsfired[wp_plasma]++;
     stat_shotsfired_plasmarifle = SafeAdd(stat_shotsfired_plasmarifle, 1);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_plasma);
 }
 
 //
@@ -693,7 +695,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_pistol);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_pistol);
 
     player->shotsfired[wp_pistol]++;
     stat_shotsfired_pistol = SafeAdd(stat_shotsfired_pistol, 1);
@@ -727,7 +729,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_GunShot(actor, false);
 
     A_Recoil(wp_shotgun);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_shotgun);
 
     player->shotsfired[wp_shotgun]++;
     stat_shotsfired_shotgun = SafeAdd(stat_shotsfired_shotgun, 1);
@@ -764,7 +766,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
             bulletslope + (M_SubRandom() << 5), 5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_supershotgun);
 
     player->shotsfired[wp_supershotgun]++;
     stat_shotsfired_supershotgun = SafeAdd(stat_shotsfired_supershotgun, 1);
@@ -819,7 +821,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_chaingun);
-    P_RumbleWeapon();
+    P_RumbleWeapon(wp_chaingun);
 
     player->shotsfired[wp_chaingun]++;
     stat_shotsfired_chaingun = SafeAdd(stat_shotsfired_chaingun, 1);
@@ -1037,7 +1039,7 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     // baddie the player is actually aiming at. ;)
     mo->tracer = linetarget;
 
-    P_RumbleWeapon();
+    P_RumbleWeapon(player->readyweapon);
 }
 
 //
@@ -1051,15 +1053,16 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     numbullets;
-    state_t *state = psp->state;
+    int                 numbullets;
+    state_t             *state = psp->state;
+    const weapontype_t  readyweapon = player->readyweapon;
 
     if (!state)
         return;
 
     numbullets = state->args[2];
 
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     P_BulletSlope(player->mo);
@@ -1068,7 +1071,7 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(state->args[0]), MISSILERANGE,
             bulletslope + P_RandomHitscanSlope(state->args[1]), (M_Random() % state->args[4] + 1) * state->args[3]);
 
-    P_RumbleWeapon();
+    P_RumbleWeapon(readyweapon);
 }
 
 //
@@ -1082,11 +1085,12 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     range;
-    angle_t angle;
-    int     slope;
-    int     damage;
-    state_t *state = psp->state;
+    int             range;
+    angle_t         angle;
+    int             slope;
+    int             damage;
+    state_t         *state = psp->state;
+    weapontype_t    readyweapon;
 
     if (!state)
         return;
@@ -1115,7 +1119,7 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!linetarget)
         return;
 
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[(readyweapon = player->readyweapon)].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     // un-missed!
@@ -1124,7 +1128,7 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
 
-    P_RumbleWeapon();
+    P_RumbleWeapon(readyweapon);
 }
 
 //

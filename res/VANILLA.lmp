@@ -135,6 +135,7 @@ weaponrecoil off
 
 ; CCMDs
 freeze off
+infiniteammo off
 notarget off
 pistolstart off
 regenhealth off

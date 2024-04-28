@@ -149,6 +149,7 @@ char        *previouswad;
 bool        devparm;            // started game with -devparm
 bool        fastparm;           // checkparm of -fast
 bool        freeze;
+bool        infiniteammo;
 bool        nomonsters;         // checkparm of -nomonsters
 bool        pistolstart;        // [BH] checkparm of -pistolstart
 bool        regenhealth;

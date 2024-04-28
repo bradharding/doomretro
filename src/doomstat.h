@@ -47,6 +47,7 @@
 // ------------------------
 // Command line parameters.
 //
+extern bool             infiniteammo;
 extern bool             nomonsters;             // checkparm of -nomonsters
 extern bool             regenhealth;
 extern bool             respawnitems;

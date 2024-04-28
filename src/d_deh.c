@@ -506,6 +506,8 @@ char    *s_STSTR_RMON = "";
 char    *s_STSTR_RMOFF = "";
 char    *s_STSTR_FON = "";
 char    *s_STSTR_FOFF = "";
+char    *s_STSTR_IAON = "";
+char    *s_STSTR_IAOFF = "";
 char    *s_STSTR_RHON = "";
 char    *s_STSTR_RHOFF = "";
 char    *s_STSTR_VON = "";
@@ -1128,6 +1130,8 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_RMOFF,                 "STSTR_RMOFF"                 },
     { &s_STSTR_FON,                   "STSTR_FON"                   },
     { &s_STSTR_FOFF,                  "STSTR_FOFF"                  },
+    { &s_STSTR_IAON,                  "STSTR_IAON"                  },
+    { &s_STSTR_IAOFF,                 "STSTR_IAOFF"                 },
     { &s_STSTR_RHON,                  "STSTR_RHON"                  },
     { &s_STSTR_RHOFF,                 "STSTR_RHOFF"                 },
     { &s_STSTR_VON,                   "STSTR_VON"                   },
