@@ -140,7 +140,7 @@ bool P_CheckAmmo(const weapontype_t weapon)
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     // Some do not need ammunition anyway.
-    if (ammotype == am_noammo)
+    if (ammotype == am_noammo || infiniteammo)
         return true;
 
     // Return if current ammunition sufficient.
