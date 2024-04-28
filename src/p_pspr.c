@@ -190,6 +190,20 @@ static void P_SubtractAmmo(void)
     }
 }
 
+static void P_RumbleWeapon(void)
+{
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+
+    if (joy_rumble_weapons && readyweapon != wp_fist)
+    {
+        const int   lowrumble = weaponinfo[readyweapon].lowrumble * joy_rumble_weapons / 100;
+        const int   highrumble = weaponinfo[readyweapon].highrumble * joy_rumble_weapons / 100;
+
+        I_GameControllerRumble(lowrumble, highrumble);
+        weaponrumbletics = weaponinfo[readyweapon].tics;
+    }
+}
+
 //
 // P_FireWeapon
 //
@@ -202,15 +216,6 @@ void P_FireWeapon(void)
 
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
-
-    if (joy_rumble_weapons && readyweapon != wp_fist)
-    {
-        const int   lowrumble = weaponinfo[readyweapon].lowrumble * joy_rumble_weapons / 100;
-        const int   highrumble = weaponinfo[readyweapon].highrumble * joy_rumble_weapons / 100;
-
-        I_GameControllerRumble(lowrumble, highrumble);
-        weaponrumbletics = weaponinfo[readyweapon].tics;
-    }
 
     if (centerweapon)
     {
@@ -507,6 +512,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_ROCKET);
+    P_RumbleWeapon();
 
     player->shotsfired[wp_missile]++;
     stat_shotsfired_rocketlauncher = SafeAdd(stat_shotsfired_rocketlauncher, 1);
@@ -519,6 +525,7 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_BFG);
+    P_RumbleWeapon();
 }
 
 //
@@ -597,6 +604,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     } while (type != MT_PLASMA2 && (type = MT_PLASMA2));  // killough: obfuscated!
 
     A_Recoil(wp_bfg);
+    P_RumbleWeapon();
 }
 
 //
@@ -610,6 +618,7 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     player->shotsfired[wp_plasma]++;
     stat_shotsfired_plasmarifle = SafeAdd(stat_shotsfired_plasmarifle, 1);
+    P_RumbleWeapon();
 }
 
 //
@@ -684,6 +693,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_pistol);
+    P_RumbleWeapon();
 
     player->shotsfired[wp_pistol]++;
     stat_shotsfired_pistol = SafeAdd(stat_shotsfired_pistol, 1);
@@ -717,6 +727,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_GunShot(actor, false);
 
     A_Recoil(wp_shotgun);
+    P_RumbleWeapon();
 
     player->shotsfired[wp_shotgun]++;
     stat_shotsfired_shotgun = SafeAdd(stat_shotsfired_shotgun, 1);
@@ -753,6 +764,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
             bulletslope + (M_SubRandom() << 5), 5 * (M_Random() % 3 + 1));
 
     A_Recoil(wp_supershotgun);
+    P_RumbleWeapon();
 
     player->shotsfired[wp_supershotgun]++;
     stat_shotsfired_supershotgun = SafeAdd(stat_shotsfired_supershotgun, 1);
@@ -807,6 +819,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_GunShot(actor, !player->refire);
     A_Recoil(wp_chaingun);
+    P_RumbleWeapon();
 
     player->shotsfired[wp_chaingun]++;
     stat_shotsfired_chaingun = SafeAdd(stat_shotsfired_chaingun, 1);
@@ -1023,6 +1036,8 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     // so player seeker missiles prioritizing the
     // baddie the player is actually aiming at. ;)
     mo->tracer = linetarget;
+
+    P_RumbleWeapon();
 }
 
 //
@@ -1052,6 +1067,8 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     for (int i = 0; i < numbullets; i++)
         P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(state->args[0]), MISSILERANGE,
             bulletslope + P_RandomHitscanSlope(state->args[1]), (M_Random() % state->args[4] + 1) * state->args[3]);
+
+    P_RumbleWeapon();
 }
 
 //
@@ -1106,6 +1123,8 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
+
+    P_RumbleWeapon();
 }
 
 //
