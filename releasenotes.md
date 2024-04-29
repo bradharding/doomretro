@@ -49,7 +49,7 @@
 * Liquid sectors are now rendered correctly when their floor height is in line with the player’s view height and the `r_liquid_bob` CVAR is `on`.
 * The `help` CCMD has been renamed `wiki`.
 * Player messages no longer cast shadows when vanilla mode is enabled.
-* Infinite ammo for all of the player’s weapons can be enabled by using the new `infiniteammo` CCMD.
+* An infinite amount of ammo for all of the player’s weapons can now be enabled by using the new `infiniteammo` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

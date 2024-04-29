@@ -64,7 +64,6 @@ bool            BTSXE2B = false;
 bool            BTSXE3 = false;
 bool            BTSXE3A = false;
 bool            BTSXE3B = false;
-bool            BTSXE3PR = false;
 bool            E1M4B = false;
 bool            E1M8B = false;
 bool            KDIKDIZD = false;
