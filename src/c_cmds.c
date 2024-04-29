@@ -3323,6 +3323,7 @@ static void infiniteammo_func2(char *cmd, char *parms)
     {
         C_Output(s_STSTR_IAOFF);
         HU_SetPlayerMessage(s_STSTR_IAOFF, false, false);
+        P_CheckAmmo(viewplayer->readyweapon);
     }
 }
 
