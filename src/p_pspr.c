@@ -804,7 +804,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
 
     // [BH] Fix <https://doomwiki.org/wiki/Chaingun_makes_two_sounds_firing_single_bullet>.
-    if (!player->ammo[readyweapon.ammotype])
+    if (!player->ammo[readyweapon.ammotype] && !infiniteammo)
         return;
 
     P_SetMobjState(player->mo, S_PLAY_ATK2);

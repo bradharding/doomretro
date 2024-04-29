@@ -477,7 +477,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
         // Don't switch to a weapon without any or enough ammo.
         const ammotype_t    ammotype = weaponinfo[newweapon].ammotype;
 
-        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].ammopershot)
+        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].ammopershot && !infiniteammo)
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.
