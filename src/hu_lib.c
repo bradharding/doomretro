@@ -436,7 +436,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                     for (int k = 0; kern[k].char1; k++)
                         if (prev == kern[k].char1 && c == kern[k].char2)
                         {
-                            x += kern[k].adjust * 2;
+                            x += kern[k].adjust;
                             break;
                         }
 
