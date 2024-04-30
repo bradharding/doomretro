@@ -241,7 +241,7 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
                 && !(weaponinfo[i].flags & WPF_NOAUTOSWITCHTO)
                 && weaponinfo[i].ammotype == ammotype
                 && weaponinfo[i].ammopershot > oldammo
-                && weaponinfo[i].ammopershot <= viewplayer->ammo[ammotype])
+                && (weaponinfo[i].ammopershot <= viewplayer->ammo[ammotype] || infiniteammo))
             {
                 if (i == wp_supershotgun && viewplayer->weaponowned[wp_shotgun] && viewplayer->preferredshotgun == wp_shotgun)
                     viewplayer->pendingweapon = wp_shotgun;

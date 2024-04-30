@@ -643,7 +643,6 @@ consolecmd_t consolecmds[] =
         "Binds an " BOLDITALICS("+action") " or a string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
     CCMD(bindlist, "", "", null_func1, bindlist_func2, false, "",
         "Lists all controls bound to an " BOLDITALICS("+action") " or a string of commands."),
-    CMD_CHEAT(brad, false),
     CVAR_BOOL(centerweapon, centreweapon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles centering your weapon when fired."),
     CCMD(clear, "", "", null_func1, clear_func2, false, "",
@@ -715,6 +714,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idspispopd, false),
     CCMD(if, "", "", null_func1, if_func2, true, IFCMDFORMAT,
         "Executes a string of " BOLDITALICS("commands") " if a " BOLDITALICS("CVAR") " equals a " BOLDITALICS("value") "."),
+    CMD_CHEAT(ijwtbha, false),
     CVAR_BOOL(infighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles infighting amongst monsters once you die."),
     CCMD(infiniteammo, "", "", null_func1, infiniteammo_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -11305,7 +11305,7 @@ static bool weapon_func1(char *cmd, char *parms)
             && value != viewplayer->readyweapon
             && viewplayer->weaponowned[value]
             && (viewplayer->ammo[weaponinfo[value].ammotype] >= weaponinfo[value].ammopershot
-                || weaponinfo[value].ammotype == am_noammo));
+                || weaponinfo[value].ammotype == am_noammo) || infiniteammo);
     }
 }
 
