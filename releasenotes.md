@@ -3,7 +3,7 @@
 ### DOOM Retro v5.4
 
 * *DOOM Retro* is now built using v17.9.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.30.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.2).
+* *DOOM Retro* now uses [*SDL v2.30.3*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.3).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * A slightly brighter color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
