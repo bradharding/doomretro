@@ -97,8 +97,11 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
-                    if (src == PINK && !vanilla)
-                        *dest = 0;
+                    if (src == PINK)
+                    {
+                        if (!vanilla)
+                            *dest = 0;
+                    }
                     else if (src != ' ')
                         *dest = src;
                 }
@@ -145,8 +148,11 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
-                    if (src == PINK && !vanilla)
-                        *dest = black40[*dest];
+                    if (src == PINK)
+                    {
+                        if (!vanilla)
+                            *dest = black40[*dest];
+                    }
                     else if (src != ' ')
                         *dest = tinttab75[(src << 8) + *dest];
                 }
