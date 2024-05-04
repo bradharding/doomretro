@@ -40,13 +40,13 @@
 // This is the stuff configured by Setup.Exe.
 // Most key data are simple ASCII (uppercased).
 //
-#define KEY_RIGHTARROW  0xAE
+#define KEY_TAB         0x09
+#define KEY_ENTER       0x0D
+#define KEY_ESCAPE      0x1B
 #define KEY_LEFTARROW   0xAC
 #define KEY_UPARROW     0xAD
+#define KEY_RIGHTARROW  0xAE
 #define KEY_DOWNARROW   0xAF
-#define KEY_ESCAPE      0x1B
-#define KEY_ENTER       0x0D
-#define KEY_TAB         0x09
 #define KEY_F1          (0x80 + 0x3B)
 #define KEY_F2          (0x80 + 0x3C)
 #define KEY_F3          (0x80 + 0x3D)
@@ -63,8 +63,8 @@
 #define KEY_BACKSPACE   0x7F
 #define KEY_PAUSE       0xFF
 
-#define KEY_SHIFT       (0x80 + 0x36)
 #define KEY_CTRL        (0x80 + 0x1D)
+#define KEY_SHIFT       (0x80 + 0x36)
 #define KEY_ALT         (0x80 + 0x38)
 
 // new keys:
@@ -73,8 +73,8 @@
 #define KEY_SCROLLLOCK  (0x80 + 0x46)
 
 #define KEY_HOME        (0x80 + 0x47)
-#define KEY_END         (0x80 + 0x4F)
 #define KEY_PAGEUP      (0x80 + 0x49)
+#define KEY_END         (0x80 + 0x4F)
 #define KEY_PAGEDOWN    (0x80 + 0x51)
 #define KEY_INSERT      (0x80 + 0x52)
 #define KEY_PRINTSCREEN (0x80 + 0x59)

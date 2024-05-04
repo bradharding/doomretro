@@ -3193,13 +3193,14 @@ void P_SetupLevel(int ep, int map)
     temp1 = sentencecase(playername);
 
     if (M_StringCompare(maptitle, mapnumandtitle))
-        C_PlayerMessage("%s %sentered %s.", temp1, (samelevel ? "re" : ""), maptitle);
+        C_PlayerMessage("%s %s %s.", temp1, (samelevel ? "reentered" : "entered"), maptitle);
     else
     {
         char    *temp2 = titlecase(maptitle);
 
-        C_PlayerMessage("%s %sentered " ITALICS("%s") "%s",
-            temp1, (samelevel ? "re" : ""), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
+        C_PlayerMessage("%s %s " ITALICS("%s") "%s",
+            temp1, (samelevel ? "reentered" : "entered"), temp2,
+            (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
 
         free(temp2);
     }

@@ -787,14 +787,14 @@ void C_Init(void)
     brand = W_CacheLastLumpName("DRBRAND");
 
     unknownchar = W_CacheLastLumpName("DRFON000");
-    lsquote = consolefont[145 - CONSOLEFONTSTART];
-    ldquote = consolefont[147 - CONSOLEFONTSTART];
-    endash = consolefont[150 - CONSOLEFONTSTART];
-    trademark = consolefont[153 - CONSOLEFONTSTART];
-    copyright = consolefont[169 - CONSOLEFONTSTART];
-    regomark = consolefont[174 - CONSOLEFONTSTART];
-    degree = consolefont[176 - CONSOLEFONTSTART];
-    multiply = consolefont[215 - CONSOLEFONTSTART];
+    lsquote = consolefont[0x91 - CONSOLEFONTSTART];
+    ldquote = consolefont[0x93 - CONSOLEFONTSTART];
+    endash = consolefont[0x96 - CONSOLEFONTSTART];
+    trademark = consolefont[0x99 - CONSOLEFONTSTART];
+    copyright = consolefont[0xA9 - CONSOLEFONTSTART];
+    regomark = consolefont[0xAE - CONSOLEFONTSTART];
+    degree = consolefont[0xB0 - CONSOLEFONTSTART];
+    multiply = consolefont[0xD7 - CONSOLEFONTSTART];
 
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");
