@@ -1324,8 +1324,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     }
 
     // [BH] randomly mirror weapons
-    if (r_mirroredweapons && (M_Random() & 1)
-        && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)))
+    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000))
+        && (M_BigRandom() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
     info = mobj->info;

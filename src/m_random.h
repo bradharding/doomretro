@@ -37,7 +37,7 @@
 
 #include "m_fixed.h"
 
-#define BIGSEED 143
+#define BIGSEED 1
 
 #define RAND    rndtable[(seed = (seed + 1) & 255)]
 #define BIGRAND ((bigseed = 214013 * bigseed + 2531011) >> 16)
