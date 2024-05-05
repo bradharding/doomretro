@@ -2,6 +2,9 @@
 
 ### DOOM Retro v5.4.1
 
+* Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
+* A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, May 2, 2024
@@ -48,7 +51,6 @@
 * The game may now be ended during intermission by either using the `endgame` CCMD in the console or selecting “End Game” in the options menu.
 * The number of keycards and skull keys the player picks up is now displayed by the `playerstats` CCMD.
 * The translucency of the trail of smoke behind rockets fired by the player and cyberdemons can now be toggled separately from other sprites by using the new `r_rockettrails_translucency` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
-* The dead marine at the very start of *E1M1: Hangar* is now always green again when the `r_corpses_color` CVAR is `on`.
 * Boss actions now occur when using the `kill` CCMD in the console.
 * Improvements have been made to displaying the disk icon when the `r_diskicon` CVAR is `on`.
 * Improvements have been made to the contents of files created using the `condump` CCMD.
