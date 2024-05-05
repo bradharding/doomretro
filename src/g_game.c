@@ -544,19 +544,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
-static void G_SetInitialWeapon(void)
-{
-    viewplayer->weaponowned[wp_fist] = true;
-    viewplayer->weaponowned[wp_pistol] = true;
-    viewplayer->ammo[am_clip] = initial_bullets;
-    viewplayer->readyweapon = (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo ?
-        wp_fist : wp_pistol);
-    viewplayer->pendingweapon = viewplayer->readyweapon;
-
-    for (ammotype_t i = 0; i < NUMAMMO; i++)
-        viewplayer->maxammo[i] = maxammo[i];
-}
-
 //
 // G_ResetPlayer
 // [BH] Reset player's health, armor, weapons and ammo
@@ -572,14 +559,7 @@ static void G_ResetPlayer(void)
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
 
-    viewplayer->weaponowned[wp_fist] = true;
-    viewplayer->weaponowned[wp_pistol] = true;
-    viewplayer->ammo[am_clip] = 50;
-    viewplayer->readyweapon = wp_pistol;
-    viewplayer->pendingweapon = wp_pistol;
-
-    for (ammotype_t i = 0; i < NUMAMMO; i++)
-        viewplayer->maxammo[i] = maxammo[i];
+    G_SetInitialWeapon();
 }
 
 //
