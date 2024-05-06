@@ -470,6 +470,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
     A_Recoil(wp_chainsaw);
+    P_RumbleWeapon(wp_chainsaw);
 
     if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
