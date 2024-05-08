@@ -4,6 +4,7 @@
 
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
+* Controllers now rumble correctly again when the player uses their chainsaw or BFG-9000 and the `joy_rumble_weapons` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
