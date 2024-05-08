@@ -219,6 +219,9 @@ void P_FireWeapon(void)
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
+    if (readyweapon == wp_bfg)
+        P_RumbleWeapon(wp_bfg);
+
     if (centerweapon)
     {
         pspdef_t        *psp = &viewplayer->psprites[ps_weapon];
@@ -528,7 +531,6 @@ void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_BFG);
-    P_RumbleWeapon(wp_bfg);
 }
 
 //
@@ -607,7 +609,6 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
     } while (type != MT_PLASMA2 && (type = MT_PLASMA2));  // killough: obfuscated!
 
     A_Recoil(wp_bfg);
-    P_RumbleWeapon(wp_bfg);
 }
 
 //
