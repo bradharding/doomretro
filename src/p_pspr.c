@@ -198,7 +198,7 @@ static void P_SubtractAmmo(void)
 //
 static void P_RumbleWeapon(const weapontype_t weapon)
 {
-    if (joy_rumble_weapons && weapon != wp_fist)
+    if (joy_rumble_weapons)
     {
         const weaponinfo_t  readyweaponinfo = weaponinfo[weapon];
 
@@ -447,19 +447,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
             shake = I_GetTimeMS() + shakeduration;
         }
 
-        if (joy_rumble_damage)
-        {
-            const weaponinfo_t  readyweaponinfo = weaponinfo[readyweapon];
-            const int           lowrumble = readyweaponinfo.lowrumble * joy_rumble_weapons / 100;
-            const int           highrumble = readyweaponinfo.highrumble * joy_rumble_weapons / 100;
-
-            if (isberserk)
-                I_GameControllerRumble(lowrumble, highrumble);
-            else
-                I_GameControllerRumble(lowrumble * 2, highrumble * 2);
-
-            weaponrumbletics = weaponinfo[readyweapon].tics;
-        }
+        P_RumbleWeapon(readyweapon);
     }
 }
 
