@@ -4,7 +4,8 @@
 
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
-* Controllers now rumble correctly again when the player uses their chainsaw or BFG-9000 and the `joy_rumble_weapons` CVAR is `on`.
+* The value specified by “Initial Bullets” in a `DEHACKED` lump will now be applied at the start of each map if the `pistolstart` CCMD is used.
+* Improvements have been made to the rumbling of controllers when the player fires a weapon and the `joy_rumble_weapons` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
