@@ -742,31 +742,49 @@ static altkeypic_t altkeypics[NUMCARDS] =
     { RED2,    NULL, NULL }
 };
 
-static patch_t  *altweaponpatch[NUMWEAPONS];
-static patch_t  *altnumpatch[10];
-static patch_t  *altnumpatch2[10];
-static patch_t  *altminuspatch;
-static patch_t  *altendpatch;
-static patch_t  *altleftpatch1;
-static patch_t  *altleftpatch2;
-static patch_t  *altrightpatch;
-static patch_t  *altmarkpatch;
-static patch_t  *altmark2patch;
+typedef struct
+{
+    int     offset;
+    patch_t *patch;
+} altweapon_t;
 
-static short    altminuspatchwidth;
+static altweapon_t altweapons[NUMWEAPONS] =
+{
+    {   0, NULL },
+    {   6, NULL },
+    {   8, NULL },
+    {   4, NULL },
+    {   3, NULL },
+    {   5, NULL },
+    { -15, NULL },
+    {  -2, NULL },
+    {   8, NULL }
+};
 
-static int      gray;
-static int      darkgray;
-static int      green1;
-static int      green2;
-static int      green3;
-static int      blue2;
-static int      blue3;
-static int      red2;
-static int      yellow1;
-static int      yellow2;
+static patch_t      *altnumpatch[10];
+static patch_t      *altnumpatch2[10];
+static patch_t      *altminuspatch;
+static patch_t      *altendpatch;
+static patch_t      *altleftpatch1;
+static patch_t      *altleftpatch2;
+static patch_t      *altrightpatch;
+static patch_t      *altmarkpatch;
+static patch_t      *altmark2patch;
 
-static bool     weaponschanged;
+static short        altminuspatchwidth;
+
+static int          gray;
+static int          darkgray;
+static int          green1;
+static int          green2;
+static int          green3;
+static int          blue2;
+static int          blue3;
+static int          red2;
+static int          yellow1;
+static int          yellow2;
+
+static bool         weaponschanged;
 
 static void HU_AltInit(void)
 {
@@ -854,7 +872,7 @@ static void HU_AltInit(void)
             for (int i = 0; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-                altweaponpatch[i] = W_CacheLumpName(buffer);
+                altweapons[i].patch = W_CacheLumpName(buffer);
             }
     }
 
@@ -1290,8 +1308,8 @@ static void HU_DrawAltHUD(void)
         else
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
-        if ((patch = altweaponpatch[weapon]))
-            althudfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y - 15, patch, WHITE, color, tinttab60);
+        if ((patch = altweapons[weapon].patch))
+            althudfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + altweapons[weapon].offset, patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
