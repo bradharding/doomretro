@@ -81,7 +81,7 @@
 #define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define LOADCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define LOADCMDFORMAT               BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
                                     BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define MAPCMDFORMAT2               BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
@@ -93,7 +93,7 @@
                                     BOLDITALICS("item") "|" BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
 #define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define SAVECMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define SAVECMDFORMAT               BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define SPAWNCMDFORMAT              BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                     BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
@@ -750,7 +750,7 @@ consolecmd_t consolecmds[] =
     CCMD(license, licence, "", null_func1, license_func2, false, "",
         "Shows the " ITALICS(DOOMRETRO_LICENSE ".")),
     CCMD(load, "", "", null_func1, load_func2, true, LOADCMDFORMAT,
-        "Loads a savegame from a file."),
+        "Loads a savegame."),
     CVAR_BOOL(m_acceleration, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the acceleration of mouse movement."),
     CVAR_BOOL(m_doubleclick_use, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -951,7 +951,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(s_stereo, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles playing sound effects in mono or stereo."),
     CCMD(save, "", "", alive_func1, save_func2, true, SAVECMDFORMAT,
-        "Saves the game to a file."),
+        "Saves the game."),
     CVAR_INT(savegame, "", "", int_cvars_func1, savegame_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu (" BOLD("1") " to " BOLD("8") ")."),
     CVAR_BOOL(secretmessages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -4020,9 +4020,17 @@ static void load_func2(char *cmd, char *parms)
         return;
     }
 
-    M_snprintf(buffer, sizeof(buffer), "%s%s%s",
-        (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
-    G_LoadGame(buffer);
+    if (strlen(parms) == 1 && parms[0] >= '1' && parms[0] <= '8')
+    {
+        M_snprintf(buffer, sizeof(buffer), "%s" DOOMRETRO_SAVEGAME, savegamefolder, parms[0] - '1');
+        G_LoadGame(buffer);
+    }
+    else
+    {
+        M_snprintf(buffer, sizeof(buffer), "%s%s%s",
+            (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
+        G_LoadGame(buffer);
+    }
 }
 
 //
@@ -7710,9 +7718,18 @@ static void save_func2(char *cmd, char *parms)
         return;
     }
 
-    M_snprintf(buffer, sizeof(buffer), "%s%s%s",
-        (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
-    G_SaveGame(-1, "", buffer);
+    if (strlen(parms) == 1 && parms[0] >= '1' && parms[0] <= '8')
+    {
+        M_snprintf(buffer, sizeof(buffer), "%s" DOOMRETRO_SAVEGAME, savegamefolder, parms[0] - '1');
+        G_SaveGame(parms[0] - '1', maptitle, buffer);
+    }
+    else
+    {
+        M_snprintf(buffer, sizeof(buffer), "%s%s%s",
+            (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder),
+            parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
+        G_SaveGame(-1, "", buffer);
+    }
 }
 
 //
