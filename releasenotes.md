@@ -2,6 +2,8 @@
 
 ### DOOM Retro v5.4.1
 
+* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The mouse no longer has any effect when *DOOM Retro’s* window doesn’t have focus.
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
 * The value specified by “Initial Bullets” in a `DEHACKED` lump will now be applied at the start of each map if the `pistolstart` CCMD is used.

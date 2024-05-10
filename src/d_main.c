@@ -181,7 +181,7 @@ struct tm   gamestarttime;
 //
 void D_PostEvent(event_t *ev)
 {
-    if (dowipe)
+    if (dowipe || !windowfocused)
         return;
 
     if (M_Responder(ev))
