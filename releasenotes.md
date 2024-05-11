@@ -9,6 +9,7 @@
 * The value specified by “Initial Bullets” in a `DEHACKED` lump will now be applied at the start of each map if the `pistolstart` CCMD is used.
 * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
 * Pressing the <kbd><b>ENTER</b></kbd> key to close the help screen no longer causes the previous player message to be displayed.
+* The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

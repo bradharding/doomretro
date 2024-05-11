@@ -46,6 +46,7 @@
 
 #define MAXSPRITEFRAMES 29
 #define MINZ            (4 * FRACUNIT)
+#define MAXZ            (8192 * FRACUNIT)
 #define BASEYCENTER     (VANILLAHEIGHT / 2)
 
 #define MAXVISSPRITES   256
@@ -690,8 +691,8 @@ static void R_ProjectSprite(mobj_t *thing)
     tr_y = fy - viewy;
     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
-    // thing is behind view plane?
-    if (tz < MINZ)
+    // thing is behind view plane or too far away?
+    if (tz < MINZ || tz > MAXZ)
         return;
 
     // too far off the side?
@@ -898,8 +899,8 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     const fixed_t   tr_y = fy - viewy;
     const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
-    // splat is behind view plane?
-    if (tz < MINZ)
+    // splat is behind view plane or too far away?
+    if (tz < MINZ || tz > MAXZ)
         return;
 
     // too far off the side?
