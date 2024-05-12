@@ -2146,7 +2146,7 @@ static void D_DoomMainSetup(void)
                 "July", "August", "September", "October", "November", "December"
             };
 
-            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE " since %s, %s %i, %i.",
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE " since it was installed on %s, %s %i, %i.",
                 temp, dayofweek(day, month, year), months[month - 1], day, year);
         }
         else
