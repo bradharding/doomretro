@@ -192,48 +192,50 @@ void I_ReadGameController(void)
             RY = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
         }
 
-        if (!joy_analog)
+        if (joy_analog)
         {
-            LX = SIGN(LX) * SDL_JOYSTICK_AXIS_MAX;
-            LY = SIGN(LY) * SDL_JOYSTICK_AXIS_MAX;
-            RX = SIGN(RX) * SDL_JOYSTICK_AXIS_MAX;
-            RY = SIGN(RY) * SDL_JOYSTICK_AXIS_MAX;
-        }
+            if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > gamecontrollerleftdeadzone)
+            {
+                if (magnitude > SDL_JOYSTICK_AXIS_MAX)
+                    magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-        if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > gamecontrollerleftdeadzone)
-        {
-            if (magnitude > SDL_JOYSTICK_AXIS_MAX)
-                magnitude = SDL_JOYSTICK_AXIS_MAX;
+                magnitude = (magnitude - gamecontrollerleftdeadzone)
+                    / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerleftdeadzone);
+                normalizedmagnitude = powf(magnitude, 3.0f);
 
-            magnitude = (magnitude - gamecontrollerleftdeadzone)
-                / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerleftdeadzone);
-            normalizedmagnitude = powf(magnitude, 3.0f);
+                gamecontrollerthumbLX = (short)(normalizedmagnitude * LX / magnitude);
+                gamecontrollerthumbLY = (short)(normalizedmagnitude * LY / magnitude);
+            }
+            else
+            {
+                gamecontrollerthumbLX = 0;
+                gamecontrollerthumbLY = 0;
+            }
 
-            gamecontrollerthumbLX = (short)(normalizedmagnitude * LX / magnitude);
-            gamecontrollerthumbLY = (short)(normalizedmagnitude * LY / magnitude);
+            if ((magnitude = sqrtf((float)RX * RX + RY * RY)) > gamecontrollerrightdeadzone)
+            {
+                if (magnitude > SDL_JOYSTICK_AXIS_MAX)
+                    magnitude = SDL_JOYSTICK_AXIS_MAX;
+
+                magnitude = (magnitude - gamecontrollerrightdeadzone)
+                    / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerrightdeadzone);
+                normalizedmagnitude = powf(magnitude, 3.0f);
+
+                gamecontrollerthumbRX = (short)(normalizedmagnitude * RX / magnitude);
+                gamecontrollerthumbRY = (short)(normalizedmagnitude * RY / magnitude);
+            }
+            else
+            {
+                gamecontrollerthumbRX = 0;
+                gamecontrollerthumbRY = 0;
+            }
         }
         else
         {
-            gamecontrollerthumbLX = 0;
-            gamecontrollerthumbLY = 0;
-        }
-
-        if ((magnitude = sqrtf((float)RX * RX + RY * RY)) > gamecontrollerrightdeadzone)
-        {
-            if (magnitude > SDL_JOYSTICK_AXIS_MAX)
-                magnitude = SDL_JOYSTICK_AXIS_MAX;
-
-            magnitude = (magnitude - gamecontrollerrightdeadzone)
-                / (SDL_JOYSTICK_AXIS_MAX - gamecontrollerrightdeadzone);
-            normalizedmagnitude = powf(magnitude, 3.0f);
-
-            gamecontrollerthumbRX = (short)(normalizedmagnitude * RX / magnitude);
-            gamecontrollerthumbRY = (short)(normalizedmagnitude * RY / magnitude);
-        }
-        else
-        {
-            gamecontrollerthumbRX = 0;
-            gamecontrollerthumbRY = 0;
+            gamecontrollerthumbLX = (ABS(LX) < gamecontrollerleftdeadzone ? 0 : SIGN(LX) * SDL_JOYSTICK_AXIS_MAX);
+            gamecontrollerthumbLY = (ABS(LY) < gamecontrollerleftdeadzone ? 0 : SIGN(LY) * SDL_JOYSTICK_AXIS_MAX);
+            gamecontrollerthumbRX = (ABS(RX) < gamecontrollerrightdeadzone ? 0 : SIGN(RX) * SDL_JOYSTICK_AXIS_MAX);
+            gamecontrollerthumbRY = (ABS(RY) < gamecontrollerrightdeadzone ? 0 : SIGN(RY) * SDL_JOYSTICK_AXIS_MAX);
         }
 
         prevgamecontrollerbuttons = gamecontrollerbuttons;
