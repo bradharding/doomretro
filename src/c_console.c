@@ -1886,7 +1886,7 @@ void C_Drawer(void)
         {
             byte    *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
 
-            for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
+            for (int yy = 0; yy < CONSOLELINEHEIGHT * SCREENWIDTH; yy += SCREENWIDTH)
             {
                 *(dest + yy) = consolecaretcolor;
                 *(dest + yy + 1) = consolecaretcolor;

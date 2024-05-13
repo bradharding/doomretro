@@ -65,9 +65,9 @@ static char *GetGameControllerName(void)
     const char  *name = SDL_GameControllerName(gamecontroller);
 
     if (name)
-        return(M_StringJoin("A controller called \"", name, "\" is connected.", NULL));
+        return M_StringJoin("A controller called \"", name, "\" is connected.", NULL);
     else
-        return("A controller is connected.");
+        return "A controller is connected.";
 }
 
 #if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
@@ -76,31 +76,31 @@ static char *GetGameControllerType(void)
     SDL_GameControllerType  type = SDL_GameControllerGetType(gamecontroller);
 
     if (type == SDL_CONTROLLER_TYPE_XBOX360)
-        return("An " ITALICS("Xbox 360") " controller is connected.");
+        return "An " ITALICS("Xbox 360") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
-        return("An " ITALICS("Xbox One") " controller is connected.");
+        return "An " ITALICS("Xbox One") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS3)
-        return("A " ITALICS("PlayStation 3 DualShock") " controller is connected.");
+        return "A " ITALICS("PlayStation 3 DualShock") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS4)
-        return("A " ITALICS("PlayStation 4 DualShock") " controller is connected.");
+        return "A " ITALICS("PlayStation 4 DualShock") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
-        return("A " ITALICS("Nintendo Switch Pro") " controller is connected.");
+        return "A " ITALICS("Nintendo Switch Pro") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
-        return("A virtual controller is connected.");
+        return "A virtual controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS5)
-        return("A " ITALICS("PlayStation 5 DualSense") " controller is connected.");
+        return "A " ITALICS("PlayStation 5 DualSense") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
-        return("An " ITALICS("Amazon Luna") " controller is connected.");
+        return "An " ITALICS("Amazon Luna") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
-        return("A " ITALICS("Google Stadia") " controller is connected.");
+        return "A " ITALICS("Google Stadia") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_NVIDIA_SHIELD)
-        return("An " ITALICS("Nvidia Shield") " controller is connected.");
+        return "An " ITALICS("Nvidia Shield") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
-        return("A " ITALICS("Nintendo Switch's") " left joycon is connected.");
+        return "A " ITALICS("Nintendo Switch's") " left joycon is connected.";
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
-        return("A " ITALICS("Nintendo Switch's") " right joycon is connected.");
+        return "A " ITALICS("Nintendo Switch's") " right joycon is connected.";
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
-        return("A " ITALICS("Nintendo Switch's") " left and right joycons are connected.");
+        return "A " ITALICS("Nintendo Switch's") " left and right joycons are connected.";
     else
         return GetGameControllerName();
 }
@@ -124,15 +124,13 @@ void I_InitGameController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i) && (gamecontroller = SDL_GameControllerOpen(i)))
         {
-            bool    repeated;
+#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
+            bool    repeated = C_OutputNoRepeat(GetGameControllerType());
+#else
+            bool    repeated = C_OutputNoRepeat(GetGameControllerName());
+#endif
 
             gamecontrollerconnected = true;
-
-#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
-            repeated = C_OutputNoRepeat(GetGameControllerType());
-#else
-            repeated = C_OutputNoRepeat(GetGameControllerName());
-#endif
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;

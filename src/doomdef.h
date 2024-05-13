@@ -112,7 +112,7 @@ typedef enum
 // State updates, number of tics/second.
 #define TICRATE         35
 
-#define CARETBLINKTIME 350
+#define CARETBLINKTIME 400
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
