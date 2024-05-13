@@ -753,11 +753,11 @@ static altweapon_t altweapons[NUMWEAPONS] =
     {   0, NULL },
     {   6, NULL },
     {   8, NULL },
-    {   4, NULL },
     {   3, NULL },
-    {   5, NULL },
+    {   3, NULL },
+    {   3, NULL },
     { -15, NULL },
-    {  -2, NULL },
+    {  -3, NULL },
     {   8, NULL }
 };
 
