@@ -3,14 +3,15 @@
 ### DOOM Retro v5.4.1
 
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
 * The value specified by “Initial Bullets” in a `DEHACKED` lump will now be applied at the start of each map if the `pistolstart` CCMD is used.
 * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
+* A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled) and a controller was connected.
 * Pressing the <kbd><b>ENTER</b></kbd> key to close the help screen no longer causes the previous player message to be displayed.
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
-* A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled) and a controller was connected.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -100,7 +100,7 @@ static char *GetGameControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
         return("A " ITALICS("Nintendo Switch's") " right joycon is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
-        return("A " ITALICS("Nintendo Switch's") " joycons are connected.");
+        return("A " ITALICS("Nintendo Switch's") " left and right joycons are connected.");
     else
         return GetGameControllerName();
 }
@@ -232,19 +232,19 @@ void I_ReadGameController(void)
         }
         else
         {
-            gamecontrollerthumbLX = (ABS(LX) < gamecontrollerleftdeadzone ? 0 : SIGN(LX) * SDL_JOYSTICK_AXIS_MAX);
-            gamecontrollerthumbLY = (ABS(LY) < gamecontrollerleftdeadzone ? 0 : SIGN(LY) * SDL_JOYSTICK_AXIS_MAX);
-            gamecontrollerthumbRX = (ABS(RX) < gamecontrollerrightdeadzone ? 0 : SIGN(RX) * SDL_JOYSTICK_AXIS_MAX);
-            gamecontrollerthumbRY = (ABS(RY) < gamecontrollerrightdeadzone ? 0 : SIGN(RY) * SDL_JOYSTICK_AXIS_MAX);
+            gamecontrollerthumbLX = (ABS(LX) > gamecontrollerleftdeadzone ? SIGN(LX) * SDL_JOYSTICK_AXIS_MAX : 0);
+            gamecontrollerthumbLY = (ABS(LY) > gamecontrollerleftdeadzone ? SIGN(LY) * SDL_JOYSTICK_AXIS_MAX : 0);
+            gamecontrollerthumbRX = (ABS(RX) > gamecontrollerrightdeadzone ? SIGN(RX) * SDL_JOYSTICK_AXIS_MAX : 0);
+            gamecontrollerthumbRY = (ABS(RY) > gamecontrollerrightdeadzone ? SIGN(RY) * SDL_JOYSTICK_AXIS_MAX : 0);
         }
 
         prevgamecontrollerbuttons = gamecontrollerbuttons;
         gamecontrollerbuttons = 0;
 
-        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
             gamecontrollerbuttons = GAMECONTROLLER_LEFT_TRIGGER;
 
-        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
             gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
 
         for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
