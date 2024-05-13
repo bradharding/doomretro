@@ -862,9 +862,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t              *mo = actor->target;
     angle_t             an = actor->angle - ANG90 / 2;
-    const weapontype_t  readyweapon = player->readyweapon;
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[wp_bfg].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     // offset angles from its attack angle
@@ -891,12 +890,12 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_DamageMobj(linetarget, mo, mo, damage, true, false);
     }
 
-    viewplayer->shotsfired[readyweapon]++;
+    viewplayer->shotsfired[wp_bfg]++;
     stat_shotsfired_bfg9000 = SafeAdd(stat_shotsfired_bfg9000, 1);
 
     if (successfulshot)
     {
-        viewplayer->shotssuccessful[readyweapon]++;
+        viewplayer->shotssuccessful[wp_bfg]++;
         stat_shotssuccessful_bfg9000 = SafeAdd(stat_shotssuccessful_bfg9000, 1);
     }
 
