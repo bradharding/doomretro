@@ -40,7 +40,6 @@
 #include "m_misc.h"
 
 static SDL_GameController   *gamecontroller;
-static bool                 gamecontrollerconnected;
 static bool                 gamecontrollerrumbles;
 
 int                         gamecontrollerbuttons = 0;
@@ -108,9 +107,6 @@ static char *GetGameControllerType(void)
 
 void I_InitGameController(void)
 {
-    if (gamecontrollerconnected)
-        return;
-
 #if defined(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
 #endif
@@ -125,16 +121,14 @@ void I_InitGameController(void)
         if (SDL_IsGameController(i) && (gamecontroller = SDL_GameControllerOpen(i)))
         {
 #if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
-            bool    repeated = C_OutputNoRepeat(GetGameControllerType());
+            C_Output(GetGameControllerType());
 #else
-            bool    repeated = C_OutputNoRepeat(GetGameControllerName());
+            C_Output(GetGameControllerName());
 #endif
-
-            gamecontrollerconnected = true;
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
-            else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons))
+            else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
                 C_Warning(1, "This controller doesn't rumble.");
 
             I_SetGameControllerLeftDeadZone();

@@ -439,6 +439,14 @@ static void I_GetEvent(void)
                 break;
             }
 
+            case SDL_CONTROLLERDEVICEADDED:
+                I_InitGameController();
+                break;
+
+            case SDL_CONTROLLERDEVICEREMOVED:
+                I_ShutdownGameController();
+                break;
+
             case SDL_QUIT:
                 if (!quitting && !splashscreen)
                 {

@@ -75,8 +75,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return true;
         }
     }
-    else if (msg == WM_DEVICECHANGE)
-        I_InitGameController();
     else if (msg == WM_SIZE)
     {
         if (!vid_fullscreen)
