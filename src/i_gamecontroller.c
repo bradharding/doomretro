@@ -149,6 +149,7 @@ void I_ShutdownGameController(void)
     if (!gamecontroller)
         return;
 
+    C_Warning(1, "The controller was disconnected.");
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
     SDL_GameControllerClose(gamecontroller);
     gamecontroller = NULL;
