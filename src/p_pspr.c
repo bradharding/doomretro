@@ -860,8 +860,8 @@ void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t              *mo = actor->target;
-    angle_t             an = actor->angle - ANG90 / 2;
+    mobj_t  *mo = actor->target;
+    angle_t an = actor->angle - ANG90 / 2;
 
     if (!(weaponinfo[wp_bfg].flags & WPF_SILENT))
         P_NoiseAlert(actor);

@@ -246,7 +246,6 @@ void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value);
 void C_PercentCVAROutput(const char *cvar, const int value);
 void C_StringCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
-bool C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);

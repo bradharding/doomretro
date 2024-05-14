@@ -107,6 +107,9 @@ static char *GetGameControllerType(void)
 
 void I_InitGameController(void)
 {
+    if (gamecontroller)
+        return;
+
 #if defined(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
 #endif
@@ -148,6 +151,7 @@ void I_ShutdownGameController(void)
 
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
     SDL_GameControllerClose(gamecontroller);
+    gamecontroller = NULL;
 }
 
 void I_GameControllerRumble(const short low, const short high)

@@ -262,29 +262,6 @@ void C_Output(const char *string, ...)
     outputhistory = -1;
 }
 
-bool C_OutputNoRepeat(const char *string, ...)
-{
-    va_list args;
-    char    buffer[CONSOLETEXTMAXLENGTH];
-
-    va_start(args, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
-    va_end(args);
-
-    if (numconsolestrings && M_StringCompare(console[numconsolestrings - 1].string, buffer))
-        return true;
-
-    if (numconsolestrings >= (int)consolestringsmax)
-        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
-    console[numconsolestrings].indent = 0;
-    console[numconsolestrings].wrap = 0;
-    console[numconsolestrings++].stringtype = outputstring;
-    outputhistory = -1;
-    return false;
-}
-
 void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
 {
     va_list args;
