@@ -132,7 +132,7 @@ void I_InitGameController(void)
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
             else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
-                C_Warning(1, "This controller doesn't rumble.");
+                C_Warning(1, "This controller doesn't rumble!");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();
@@ -149,7 +149,7 @@ void I_ShutdownGameController(void)
     if (!gamecontroller)
         return;
 
-    C_Warning(1, "The controller was disconnected.");
+    C_Warning(1, "The controller was disconnected!");
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
     SDL_GameControllerClose(gamecontroller);
     gamecontroller = NULL;
@@ -169,8 +169,6 @@ void I_ReadGameController(void)
     {
         short       LX, LY;
         short       RX, RY;
-        float       magnitude;
-        float       normalizedmagnitude;
 
         static int  prevgamecontrollerbuttons;
 
@@ -191,6 +189,9 @@ void I_ReadGameController(void)
 
         if (joy_analog)
         {
+            float   magnitude;
+            float   normalizedmagnitude;
+
             if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > gamecontrollerleftdeadzone)
             {
                 if (magnitude > SDL_JOYSTICK_AXIS_MAX)
@@ -236,10 +237,11 @@ void I_ReadGameController(void)
         }
 
         prevgamecontrollerbuttons = gamecontrollerbuttons;
-        gamecontrollerbuttons = 0;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
             gamecontrollerbuttons = GAMECONTROLLER_LEFT_TRIGGER;
+        else
+            gamecontrollerbuttons = 0;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
             gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
