@@ -832,15 +832,15 @@ void R_DrawTranslucent50ColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = ylookup0[dc_yl] + dc_x;
-    const byte  color = dc_colormap[0][NOTEXTURECOLOR];
+    const byte  color = NOTEXTURECOLOR << 8;
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + color];
+        *dest = tranmap[*dest + color];
         dest += SCREENWIDTH;
     }
 
-    *dest = tranmap[(*dest << 8) + color];
+    *dest = tranmap[*dest + color];
 }
 
 void R_DrawTranslucent50ColorDitherLowColumn(void)

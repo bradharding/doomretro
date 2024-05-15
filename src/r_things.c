@@ -1074,9 +1074,9 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     if (freelook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->lookdir * 0x0520;
 
-    if (invisibility && r_textures)
+    if (invisibility)
     {
-        vis->colfunc = psprcolfunc;
+        vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50ColorColumn);
         vis->colormap = NULL;
     }
     else
@@ -1085,7 +1085,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             if (!r_textures)
             {
-                vis->colfunc = (psp == &viewplayer->psprites[1] || invisibility ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+                vis->colfunc = (psp == &viewplayer->psprites[1] ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
                 vis->colormap = NULL;
             }
             else if (spr == SPR_SHT2)
@@ -1164,7 +1164,7 @@ static void R_DrawPlayerSprites(void)
         return;
 
     // add all active psprites
-    if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)) && r_textures)
+    if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
     {
         fuzzpos = 0;
 
