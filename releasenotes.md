@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.4.1
 
+* *DOOM Retro* is now built using v17.9.7 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
