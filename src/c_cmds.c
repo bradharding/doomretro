@@ -3393,7 +3393,7 @@ static bool kill_func1(char *cmd, char *parms)
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss)
                         result = false;
                     else
-                        result = ((mobjinfo[i].flags & MF_COUNTKILL)
+                        result = ((mobjinfo[i].flags & MF_SHOOTABLE)
                             || (mobjinfo[i].flags & MF_SPECIAL)
                             || (mobjinfo[i].flags2 & MF2_DECORATION));
                 }
@@ -3577,7 +3577,7 @@ static void kill_func2(char *cmd, char *parms)
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
                                     kills++;
                                 }
-                                else if ((flags & MF_COUNTKILL) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
+                                else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
                                     massacre = true;
@@ -3734,7 +3734,7 @@ static void kill_func2(char *cmd, char *parms)
                         const int   flags = thing->flags;
                         const int   flags2 = thing->flags2;
 
-                        if (((flags & MF_COUNTKILL) && !thing->player) || (flags & MF_CORPSE) || (flags2 & MF2_DECORATION))
+                        if (((flags & MF_SHOOTABLE) && !thing->player) || (flags & MF_CORPSE) || (flags2 & MF2_DECORATION))
                         {
                             P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
                             S_StartSound(thing, sfx_telept);
@@ -3896,7 +3896,7 @@ static void kill_func2(char *cmd, char *parms)
                                     kills++;
                                 }
                             }
-                            else if ((thing->flags & MF_COUNTKILL) && thing->health > 0)
+                            else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
                                 massacre = true;

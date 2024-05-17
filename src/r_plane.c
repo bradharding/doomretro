@@ -451,17 +451,17 @@ void R_DrawPlanes(void)
                     // Allows scrolling and/or animated skies, as well as
                     // arbitrary multiple skies per level without having
                     // to use info lumps.
-                    angle_t         an = viewangle;
+                    angle_t         angle = viewangle;
 
                     if (picnum & PL_SKYFLAT)
                     {
                         // Sky linedef
-                        const line_t    *l = lines + (picnum & ~PL_SKYFLAT);
+                        const line_t    *line = lines + (picnum & ~PL_SKYFLAT);
 
                         // Sky transferred from first sidedef
-                        const side_t    *s = sides + *l->sidenum;
+                        const side_t    *side = sides + *line->sidenum;
 
-                        if (s->missingtoptexture)
+                        if (side->missingtoptexture)
                         {
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                                 if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
@@ -472,16 +472,16 @@ void R_DrawPlanes(void)
                         }
 
                         // Texture comes from upper texture of reference sidedef
-                        texture = texturetranslation[s->toptexture];
+                        texture = texturetranslation[side->toptexture];
 
                         // Horizontal offset is turned into an angle offset,
                         // to allow sky rotation as well as careful positioning.
                         // However, the offset is scaled very small, so that it
                         // allows a long-period of sky rotation.
-                        an += s->textureoffset;
+                        angle += side->textureoffset;
 
                         // Vertical offset allows careful sky positioning.
-                        dc_texturemid = s->rowoffset - 28 * FRACUNIT;
+                        dc_texturemid = side->rowoffset - 28 * FRACUNIT;
 
                         dc_texheight = textureheight[texture] >> FRACBITS;
 
@@ -493,7 +493,7 @@ void R_DrawPlanes(void)
                         // DOOM always flipped the picture, so we make it optional,
                         // to make it easier to use the new feature, while to still
                         // allow old sky textures to be used.
-                        if (l->special != TransferSkyTextureToTaggedSectors_Flipped)
+                        if (line->special != TransferSkyTextureToTaggedSectors_Flipped)
                             flip = ~0U;
                     }
                     else
@@ -511,11 +511,9 @@ void R_DrawPlanes(void)
                         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
                             && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
-                            const angle_t   angle = (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x]);
-
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((an + angle) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))
-                                + skycolumnoffset) / FRACUNIT);
+                                ((((angle + (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x])) ^ flip)
+                                    / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
                         }
