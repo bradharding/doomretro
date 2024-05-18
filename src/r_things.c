@@ -38,6 +38,7 @@
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_system.h"
+#include "m_array.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "v_video.h"
@@ -80,6 +81,8 @@ static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
 static drawseg_xrange_item_t    *drawsegs_xrange;
 static unsigned int             drawsegs_xrange_size;
 static int                      drawsegs_xrange_count;
+
+static mobj_t                   **nearby_sprites;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
@@ -995,6 +998,39 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         R_ProjectSprite(thing);
         thing = thing->snext;
     } while (thing);
+
+    for (msecnode_t *n = sec->touching_thinglist; n; n = n->m_snext)
+    {
+        thing = n->m_thing;
+
+        // [FG] sprites in sector have already been projected
+        if (thing->subsector->sector->validcount != validcount)
+            array_push(nearby_sprites, thing);
+    }
+}
+
+void R_DrawNearbySprites(void)
+{
+    const int   size = array_size(nearby_sprites);
+
+    for (int i = 0; i < size; i++)
+    {
+        mobj_t      *thing = nearby_sprites[i];
+        sector_t    *sec = thing->subsector->sector;
+
+        // [FG] sprites in sector have already been projected
+        if (sec->validcount != validcount)
+        {
+            const short lightlevel = sec->lightlevel;
+
+            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+
+            R_ProjectSprite(thing);
+        }
+    }
+
+    array_clear(nearby_sprites);
 }
 
 //

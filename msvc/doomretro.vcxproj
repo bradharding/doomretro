@@ -357,6 +357,7 @@
     <ClInclude Include="..\src\midifile.h" />
     <ClInclude Include="..\src\miniz\miniz.h" />
     <ClInclude Include="..\src\m_argv.h" />
+    <ClInclude Include="..\src\m_array.h" />
     <ClInclude Include="..\src\m_bbox.h" />
     <ClInclude Include="..\src\m_cheat.h" />
     <ClInclude Include="..\src\m_config.h" />
