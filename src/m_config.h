@@ -588,7 +588,7 @@ enum
 #define playergender_default                playergender_male
 #define playergender_max                    playergender_female
 
-#define playername_default                  "you"
+#define playername_default                  ""
 
 #define r_althud_default                    false
 

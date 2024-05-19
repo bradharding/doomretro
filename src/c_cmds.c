@@ -452,7 +452,6 @@ static bool player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
 static bool playergender_func1(char *cmd, char *parms);
 static void playergender_func2(char *cmd, char *parms);
-static void playername_func2(char *cmd, char *parms);
 static bool r_blood_func1(char *cmd, char *parms);
 static void r_blood_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
@@ -797,7 +796,7 @@ consolecmd_t consolecmds[] =
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
     CVAR_INT(playergender, "", "", playergender_func1, playergender_func2, CF_NONE, GENDERVALUEALIAS,
         "Your gender (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
-    CVAR_STR(playername, "", "", null_func1, playername_func2, CF_NONE,
+    CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE,
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
@@ -9702,25 +9701,6 @@ static void playergender_func2(char *cmd, char *parms)
 
         C_ShowWarning(i);
     }
-}
-
-//
-// playername CVAR
-//
-static void playername_func2(char *cmd, char *parms)
-{
-    char    *temp;
-
-    str_cvars_func2(cmd, (M_StringCompare(parms, EMPTYVALUE) ? playername_default : parms));
-
-    temp = M_StringDuplicate(playername);
-
-    if (M_StringCompare(temp, playername_default))
-        temp = lowercase(temp);
-    else
-        temp[0] = toupper(temp[0]);
-
-    playername = temp;
 }
 
 //

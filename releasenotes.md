@@ -17,6 +17,7 @@
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 * The player’s weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites sometimes wouldn’t be rendered at all if partially obscured by a wall in some rare instances.
+* The `playername` CVAR is now `“”` rather than `“you”` by default, but has no effect on text that is output to the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

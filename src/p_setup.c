@@ -3190,7 +3190,7 @@ void P_SetupLevel(int ep, int map)
 
     C_AddConsoleDivider();
 
-    temp1 = sentencecase(playername);
+    temp1 = sentencecase(*playername ? playername : "you");
 
     if (M_StringCompare(maptitle, mapnumandtitle))
         C_PlayerMessage("%s %s %s.", temp1, (samelevel ? "reentered" : "entered"), maptitle);

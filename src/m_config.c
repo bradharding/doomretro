@@ -944,20 +944,6 @@ static void M_CheckCVARs(void)
     if (!*wadfolder || M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
         D_InitWADfolder();
 
-    if (!*playername)
-        playername = M_StringDuplicate(playername_default);
-    else
-    {
-        char    *temp = M_StringDuplicate(playername);
-
-        if (M_StringCompare(temp, playername_default))
-            temp = lowercase(temp);
-        else
-            temp[0] = toupper(temp[0]);
-
-        playername = temp;
-    }
-
     I_SetGamma(r_gamma);
 
     if (r_screensize < r_screensize_max)
