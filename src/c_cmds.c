@@ -795,7 +795,7 @@ consolecmd_t consolecmds[] =
     CCMD(play, "", "", play_func1, play_func2, true, PLAYCMDFORMAT,
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
     CVAR_INT(playergender, "", "", playergender_func1, playergender_func2, CF_NONE, GENDERVALUEALIAS,
-        "Your gender (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
+        "Your gender (" BOLD("man") ", " BOLD("woman") " or " BOLD("other") ")."),
     CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE,
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
