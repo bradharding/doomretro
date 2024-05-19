@@ -9,12 +9,14 @@
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
 * The value specified by “Initial Bullets” in a `DEHACKED` lump will now be applied at the start of each map if the `pistolstart` CCMD is used.
-* Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
-* A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled) and a controller was connected.
+* These changes have been made to the support for controllers:
+  * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
+  * A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled) and a controller was connected.
+  * The hot-plugging of controllers now always works again.
 * Pressing the <kbd><b>ENTER</b></kbd> key to close the help screen no longer causes the previous player message to be displayed.
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 * The player’s weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
-* A bug is fixed, present in the original *DOOM*, whereby sprites sometimes wouldn’t be rendered if partially obscured by a wall in some rare instances.
+* A bug is fixed, present in the original *DOOM*, whereby sprites sometimes wouldn’t be rendered at all if partially obscured by a wall in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
