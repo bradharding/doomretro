@@ -567,7 +567,7 @@ valuealias_t valuealiases[] =
     { "on",             1, VSYNCVALUEALIAS     }, { "fists",          0, WEAPONVALUEALIAS    },
     { "pistol",         1, WEAPONVALUEALIAS    }, { "shotgun",        2, WEAPONVALUEALIAS    },
     { "chaingun",       3, WEAPONVALUEALIAS    }, { "rocketlauncher", 4, WEAPONVALUEALIAS    },
-    { "plasmarifle",    5, WEAPONVALUEALIAS    }, { "BFG9000",        6, WEAPONVALUEALIAS    },
+    { "plasmarifle",    5, WEAPONVALUEALIAS    }, { "bfg9000",        6, WEAPONVALUEALIAS    },
     { "chainsaw",       7, WEAPONVALUEALIAS    }, { "supershotgun",   8, WEAPONVALUEALIAS    },
     { "",               0, NOVALUEALIAS        }
 };

@@ -1657,7 +1657,8 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     M_StringReplaceAll(message, "_ ", ITALICSOFF " ", false);
 
     if (len >= 2 && message[0] == '%' && message[1] == 's')
-        M_snprintf(buffer, sizeof(buffer), message, (*playername ? playername : "you"));
+        M_snprintf(buffer, sizeof(buffer), message,
+            M_StringCompare(playername, playername_default) ? "you" : playername);
     else
         for (int i = 0, j = 0; i < len; i++)
         {
