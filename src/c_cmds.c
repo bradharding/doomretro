@@ -334,7 +334,7 @@ action_t actions[] =
     { "+prevweapon",  true,  false, prevweapon_action_func,  &keyboardprevweapon,  NULL,                  &mouseprevweapon,  &gamecontrollerprevweapon,  NULL                },
     { "+right",       true,  false, right_action_func,       &keyboardright,       NULL,                  &mouseright,       &gamecontrollerright,       NULL                },
     { "+rotatemode",  true,  true,  rotatemode_action_func,  &keyboardrotatemode,  NULL,                  &mouserotatemode,  &gamecontrollerrotatemode,  NULL                },
-    { "+run",         true,  false, NULL,                    &keyboardrun,         NULL,                  &mouserun,         &gamecontrollerrun,         NULL                },
+    { "+run",         true,  false, NULL,                    &keyboardrun,         NULL,                  &mouserun,         &gamecontrollerrun,         &gamecontrollerrun2 },
     { "+screenshot",  false, false, screenshot_action_func,  &keyboardscreenshot,  NULL,                  &mousescreenshot,  &gamecontrollerscreenshot,  NULL                },
     { "+strafe",      true,  false, NULL,                    &keyboardstrafe,      NULL,                  &mousestrafe,      &gamecontrollerstrafe,      NULL                },
     { "+strafeleft",  true,  false, strafeleft_action_func,  &keyboardstrafeleft,  &keyboardstrafeleft2,  &mousestrafeleft,  &gamecontrollerstrafeleft,  NULL                },
@@ -1058,7 +1058,7 @@ consolecmd_t consolecmds[] =
 static bool run(void)
 {
     return ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
-        || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+        || (gamecontrollerbuttons & (gamecontrollerrun | gamecontrollerrun2))) ^ alwaysrun);
 }
 
 static bool strafe(void)
@@ -7319,6 +7319,7 @@ static void C_VerifyResetAll(const int key)
         gamecontrollerright = GAMECONTROLLERRIGHT_DEFAULT;
         gamecontrollerrotatemode = GAMECONTROLLERROTATEMODE_DEFAULT;
         gamecontrollerrun = GAMECONTROLLERRUN_DEFAULT;
+        gamecontrollerrun2 = GAMECONTROLLERRUN2_DEFAULT;
         gamecontrollerstrafe = GAMECONTROLLERSTRAFE_DEFAULT;
         gamecontrollerstrafeleft = GAMECONTROLLERSTRAFELEFT_DEFAULT;
         gamecontrollerstraferight = GAMECONTROLLERSTRAFERIGHT_DEFAULT;

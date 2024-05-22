@@ -130,6 +130,7 @@ int gamecontrollerprevweapon = GAMECONTROLLERPREVWEAPON_DEFAULT;
 int gamecontrollerright = GAMECONTROLLERRIGHT_DEFAULT;
 int gamecontrollerrotatemode = GAMECONTROLLERROTATEMODE_DEFAULT;
 int gamecontrollerrun = GAMECONTROLLERRUN_DEFAULT;
+int gamecontrollerrun2 = GAMECONTROLLERRUN2_DEFAULT;
 int gamecontrollerscreenshot = GAMECONTROLLERSCREENSHOT_DEFAULT;
 int gamecontrollerstrafe = GAMECONTROLLERSTRAFE_DEFAULT;
 int gamecontrollerstrafeleft = GAMECONTROLLERSTRAFELEFT_DEFAULT;
