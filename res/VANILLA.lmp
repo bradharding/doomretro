@@ -62,7 +62,7 @@ messages on
 movebob 100%
 negativehealth off
 obituaries off
-playername "you"
+playername ""
 r_althud off
 r_antialiasing off
 r_blood red
