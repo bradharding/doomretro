@@ -18,7 +18,6 @@
 * The player’s weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites sometimes wouldn’t be rendered at all if partially obscured by a wall in some rare instances.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
-* The `playergender` CVAR is now set to `man` or `woman` rather than `male` or `female`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
