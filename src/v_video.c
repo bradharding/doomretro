@@ -1583,13 +1583,11 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
-    x += WIDESCREENDELTA;
-
     if (color == PINK)
     {
         if (shadow)
         {
-            byte        *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+            byte        *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
             const byte  *black = (highlight ? black45 : black40);
 
             *dot = black[*dot];
@@ -1603,7 +1601,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
 
         if (!highlight)
             color = colormaps[0][4 * 256 + color];

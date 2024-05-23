@@ -1000,13 +1000,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     } while (thing);
 
     for (msecnode_t *n = sec->touching_thinglist; n; n = n->m_snext)
-    {
-        thing = n->m_thing;
-
-        // [FG] sprites in sector have already been projected
-        if (thing->subsector->sector->validcount != validcount)
+        if ((thing = n->m_thing)->subsector->sector->validcount != validcount)
             array_push(nearby_sprites, thing);
-    }
 }
 
 void R_DrawNearbySprites(void)
