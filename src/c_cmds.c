@@ -3073,7 +3073,18 @@ static void give_func2(char *cmd, char *parms)
 
                         freeze = false;
 
-                        if (P_TouchSpecialThing(thing, viewplayer->mo, false, false))
+                        if (viewplayer->health <= 0)
+                        {
+                            if (M_StringCompare(playername, playername_default))
+                                C_Warning(0, "You can't be given %s when you're dead!", mobjinfo[i].name1);
+                            else if (playergender == playergender_other)
+                                C_Warning(0, "%s can't be given %s when %s are dead!",
+                                    playername, mobjinfo[i].name1, pronoun(personal));
+                            else
+                                C_Warning(0, "%s can't be given %s when %s is dead!",
+                                    playername, mobjinfo[i].name1, pronoun(personal));
+                        }
+                        else if (P_TouchSpecialThing(thing, viewplayer->mo, false, false))
                         {
                             if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                             {
@@ -3096,7 +3107,7 @@ static void give_func2(char *cmd, char *parms)
                         }
                         else
                         {
-                            C_Warning(0, "%s can't be given another %s.",
+                            C_Warning(0, "%s can't be given another %s!",
                                 (M_StringCompare(playername, playername_default) ? "You" : playername), mobjinfo[i].name1);
 
                             P_RemoveMobj(thing);
