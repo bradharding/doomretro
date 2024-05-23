@@ -538,17 +538,20 @@ int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
-    int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
-    static bool     healthanim;
-    const bool      gamepaused = (consoleactive || freeze);
-    byte            *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
-                               || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
-    patch_t         *patch = faces[st_faceindex];
-    const uint64_t  currenttime = I_GetTimeMS();
-    int             keypic_x = HUD_KEYS_X;
-    static uint64_t keywait;
-    static bool     showkey;
+    const int           health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    int                 armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
+    static bool         healthanim;
+    const bool          gamepaused = (consoleactive || freeze);
+    byte                *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
+                            || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
+    patch_t             *patch = faces[st_faceindex];
+    const uint64_t      currenttime = I_GetTimeMS();
+    int                 keypic_x = HUD_KEYS_X;
+    static uint64_t     keywait;
+    static bool         showkey;
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  weapon = (pendingweapon == wp_nochange ? viewplayer->readyweapon : pendingweapon);
+    const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab80);
@@ -681,45 +684,38 @@ static void HU_DrawHUD(void)
         keywait = 0;
     }
 
-    if (health > 0)
+    if (ammotype != am_noammo)
     {
-        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-        const weapontype_t  weapon = (pendingweapon == wp_nochange ? viewplayer->readyweapon : pendingweapon);
-        const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
+        int         ammo = viewplayer->ammo[ammotype] + ammodiff[ammotype];
+        int         ammo_x = HUDNumberWidth(ammo);
+        static bool ammoanim;
 
-        if (ammotype != am_noammo)
+        ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
+        tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
+
+        if ((patch = ammopic[ammotype].patch))
+            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
+
+        if (r_hud_translucency || !ammoanim)
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
+                (ammohighlight > currenttime ? hudnumfunc2 : hudnumfunc));
+
+        if (!gamepaused)
         {
-            int         ammo = viewplayer->ammo[ammotype] + ammodiff[ammotype];
-            int         ammo_x = HUDNumberWidth(ammo);
-            static bool ammoanim;
+            static uint64_t ammowait;
 
-            ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
-            tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
-
-            if ((patch = ammopic[ammotype].patch))
-                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
-
-            if (r_hud_translucency || !ammoanim)
-                DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
-                    (ammohighlight > currenttime ? hudnumfunc2 : hudnumfunc));
-
-            if (!gamepaused)
+            if (ammo < HUD_AMMO_MIN)
             {
-                static uint64_t ammowait;
-
-                if (ammo < HUD_AMMO_MIN)
+                if (ammowait < currenttime)
                 {
-                    if (ammowait < currenttime)
-                    {
-                        ammoanim = !ammoanim;
-                        ammowait = currenttime + HUD_AMMO_WAIT;
-                    }
+                    ammoanim = !ammoanim;
+                    ammowait = currenttime + HUD_AMMO_WAIT;
                 }
-                else
-                {
-                    ammoanim = false;
-                    ammowait = 0;
-                }
+            }
+            else
+            {
+                ammoanim = false;
+                ammowait = 0;
             }
         }
     }

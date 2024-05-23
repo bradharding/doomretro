@@ -19,6 +19,7 @@
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered at all if the sector they were on wasn’t in the player’s line of sight.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
+* A bug is fixed whereby the ammo the player had for their currently equipped weapon wasn’t displayed in the widescreen HUD when they were dead.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
