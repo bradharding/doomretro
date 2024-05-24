@@ -3055,16 +3055,17 @@ static void give_func2(char *cmd, char *parms)
                         || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
-                        C_Warning(0, "%s can't be given %s %s in " ITALICS("%s") ".",
+                        C_Warning(0, "%s can't be given %s %s in " ITALICS("%s") "!",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
-                        C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM") ". "
-                            "You can buy the full version on " ITALICS("Steam") ", etc.",
+                        C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM") "! "
+                            "%s can buy the full version on " ITALICS("Steam") ", etc.",
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1,
+                            (M_StringCompare(playername, playername_default) ? "You" : titlecase(pronoun(personal))));
                     }
                     else
                     {
@@ -3076,13 +3077,12 @@ static void give_func2(char *cmd, char *parms)
                         if (viewplayer->health <= 0)
                         {
                             if (M_StringCompare(playername, playername_default))
-                                C_Warning(0, "You can't be given %s when you're dead!", mobjinfo[i].name1);
-                            else if (playergender == playergender_other)
-                                C_Warning(0, "%s can't be given %s when %s are dead!",
-                                    playername, mobjinfo[i].name1, pronoun(personal));
+                                C_Warning(0, "You can't be given %s %s when you are dead!",
+                                    (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                             else
-                                C_Warning(0, "%s can't be given %s when %s is dead!",
-                                    playername, mobjinfo[i].name1, pronoun(personal));
+                                C_Warning(0, "%s can't be given %s %s when %s %s dead!",
+                                    playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1,
+                                    pronoun(personal), (playergender == playergender_other ? "are" : "is"));
                         }
                         else if (P_TouchSpecialThing(thing, viewplayer->mo, false, false))
                         {
