@@ -955,6 +955,17 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->colormap = (fixedcolormap ? fixedcolormap : spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
 }
 
+static void R_CheckForNearbySprites(sector_t *sec)
+{
+    for (msecnode_t *n = sec->touching_thinglist; n; n = n->m_snext)
+    {
+        mobj_t  *thing = n->m_thing;
+
+        if (thing->subsector->sector->validcount != validcount)
+            array_push(nearby_sprites, thing);
+    }
+}
+
 //
 // R_AddSprites
 // During BSP traversal, this adds sprites by sector.
@@ -980,7 +991,10 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         } while (splat);
 
         if (!thing)
+        {
+            R_CheckForNearbySprites(sec);
             return;
+        }
     }
     else if (thing)
     {
@@ -988,7 +1002,10 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     }
     else
+    {
+        R_CheckForNearbySprites(sec);
         return;
+    }
 
     drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
 
@@ -999,9 +1016,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         thing = thing->snext;
     } while (thing);
 
-    for (msecnode_t *n = sec->touching_thinglist; n; n = n->m_snext)
-        if ((thing = n->m_thing)->subsector->sector->validcount != validcount)
-            array_push(nearby_sprites, thing);
+    R_CheckForNearbySprites(sec);
 }
 
 void R_DrawNearbySprites(void)

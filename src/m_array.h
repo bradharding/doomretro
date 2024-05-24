@@ -40,7 +40,7 @@
 
 #include "i_system.h"
 
-#define M_ARRAY_INIT_CAPACITY   8
+#define M_ARRAY_INIT_CAPACITY   128
 
 typedef struct
 {
