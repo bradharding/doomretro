@@ -982,24 +982,16 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     {
         spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
-        if (thing)
+        do
         {
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            R_ProjectBloodSplat(splat);
+            splat = splat->next;
+        } while (splat);
 
-            do
-            {
-                R_ProjectBloodSplat(splat);
-                splat = splat->next;
-            } while (splat);
-        }
+        if (thing)
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         else
         {
-            do
-            {
-                R_ProjectBloodSplat(splat);
-                splat = splat->next;
-            } while (splat);
-
             R_CheckForNearbySprites(sec);
             return;
         }
