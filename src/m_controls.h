@@ -134,7 +134,6 @@ extern int  gamecontrollernextweapon;
 extern int  gamecontrollerprevweapon;
 extern int  gamecontrollerright;
 extern int  gamecontrollerrun;
-extern int  gamecontrollerrun2;
 extern int  gamecontrollerscreenshot;
 extern int  gamecontrollerstrafe;
 extern int  gamecontrollerstrafeleft;

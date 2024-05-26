@@ -13,7 +13,7 @@
   * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
   * A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled).
   * Hotplugging controllers now always works.
-  * The left thumbstick of a controller is now bound to the `+run` action rather than the `+alwaysrun` action by default.
+  * Pressing the left thumbstick of a controller is no longer bound to the `+alwaysrun` action by default.
 * Pressing the <kbd><b>ENTER</b></kbd> key to close the help screen no longer causes the previous player message to be displayed.
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
