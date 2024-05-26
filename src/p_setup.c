@@ -771,7 +771,9 @@ static void P_CheckLinedefs(void)
 
     for (int i = numlines; i--; ld++)
     {
-        if (!ld->special)
+        unsigned short  special = ld->special;
+
+        if (!special)
         {
             if (ld->tag)
             {
@@ -792,20 +794,22 @@ static void P_CheckLinedefs(void)
             if (!P_CheckTag(ld))
             {
                 char    *temp1 = commify(ld->id);
-                char    *temp2 = commify(ld->special);
+                char    *temp2 = commify(special);
 
-                if (ld->special < NUMLINESPECIALS)
+                if (special < NUMLINESPECIALS)
                 {
-                    if (linespecials[ld->special])
+                    if (linespecials[special])
                         C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but no tag.",
-                            temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
-                            "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
-                            "-compatible"))), temp2, linespecials[ld->special]);
+                            temp1, (special < BOOMLINESPECIALS ? "a" : (special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
+                            "-compatible" : (special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
+                            "-compatible"))), temp2, linespecials[special]);
                     else
                         C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
                 }
-                else
+                else if (special >= GenCrusherBase && special < GenEnd)
                     C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but no tag.", temp1, temp2);
+                else
+                    C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
@@ -813,22 +817,24 @@ static void P_CheckLinedefs(void)
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
             {
                 char    *temp1 = commify(ld->id);
-                char    *temp2 = commify(ld->special);
+                char    *temp2 = commify(special);
                 char    *temp3 = commify(ld->tag);
 
-                if (ld->special < NUMLINESPECIALS)
+                if (special < NUMLINESPECIALS)
                 {
-                    if (linespecials[ld->special])
+                    if (linespecials[special])
                         C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unknown tag of %s.",
-                            temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
-                            "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
-                            "-compatible"))), temp2, linespecials[ld->special], temp3);
+                            temp1, (special < BOOMLINESPECIALS ? "a" : (special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
+                            "-compatible" : (special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
+                            "-compatible"))), temp2, linespecials[special], temp3);
                     else
                         C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
                 }
-                else
+                else if (special >= GenCrusherBase && special < GenEnd)
                     C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but an unknown tag of %s.",
                         temp1, temp2, temp3);
+                else
+                    C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
