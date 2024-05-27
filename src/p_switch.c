@@ -218,7 +218,7 @@ void P_ChangeSwitchTexture(line_t *line, bool useagain)
 //
 bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bossaction)
 {
-    int special;
+    unsigned short  special;
 
     if (side)
         return false;

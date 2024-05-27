@@ -171,12 +171,12 @@ bool SC_GetString(void)
     else
         while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
-            if (*ScriptPtr == '{' || *ScriptPtr == '}')
+            if (*ScriptPtr == '}')
                 ScriptPtr++;
 
             *text++ = *ScriptPtr++;
 
-            if (*ScriptPtr == '=' || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
+            if (*ScriptPtr == '{' || *ScriptPtr == '=' || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
             {
                 ScriptPtr++;
                 break;
