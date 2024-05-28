@@ -7,7 +7,9 @@
 * Minor changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
-* A bug is fixed whereby map names wouldn’t be parsed correctly in `MAPINFO` lumps in some instances.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
+  * `EPISODE` is now parsed correctly in more instances.
 * The value specified by “Initial Bullets” in a `DEHACKED` lump will now be used at the start of each map if the `pistolstart` CCMD is used.
 * These changes have been made to the support for controllers:
   * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
