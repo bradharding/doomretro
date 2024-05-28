@@ -3504,6 +3504,37 @@ static bool P_ParseMapInfo(const char *scriptname)
                     break;
             }
         }
+        else if (SC_Compare("EPISODE"))
+        {
+            SC_MustGetString();
+
+            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
+            {
+                char    *temp = uppercase(sc_String);
+
+                if (gamemode == commercial)
+                {
+                    C_Output(temp);
+                    if (sscanf(temp, "MAP0%1i", &map) != 1)
+                        sscanf(temp, "MAP%2i", &map);
+                }
+                else
+                    sscanf(temp, "E%1iM%i", &ep, &map);
+
+                free(temp);
+            }
+
+            if (map >= 0 && map <= 99)
+            {
+                SC_MustGetString();
+
+                if (SC_Compare("PICNAME"))
+                {
+                    SC_MustGetString();
+                    M_AddEpisode(map, ep, sc_String, "");
+                }
+            }
+        }
         else if (SC_Compare("MAP"))
         {
             SC_MustGetString();
