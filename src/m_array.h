@@ -59,11 +59,6 @@ inline static int array_size(const void *v)
     return (v ? array_ptr(v)->size : 0);
 }
 
-inline static int array_capacity(const void *v)
-{
-    return (v ? array_ptr(v)->capacity : 0);
-}
-
 inline static void array_clear(const void *v)
 {
     if (v)

@@ -681,7 +681,6 @@ bool HasDehackedLump(const char *pwadname)
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump = { 0 };
     wadinfo_t   header;
-    const char  *n = lump.name;
     int         result = false;
 
     if (!fp)
@@ -690,6 +689,8 @@ bool HasDehackedLump(const char *pwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
+        const char  *n = lump.name;
+
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)

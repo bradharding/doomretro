@@ -3514,7 +3514,6 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                 if (gamemode == commercial)
                 {
-                    C_Output(temp);
                     if (sscanf(temp, "MAP0%1i", &map) != 1)
                         sscanf(temp, "MAP%2i", &map);
                 }
