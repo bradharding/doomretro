@@ -892,7 +892,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
-        if (!vid_widescreen && x + i > NONWIDEWIDTH - MAXWIDESCREENDELTA + 2)
+        if (x + i > SCREENWIDTH - MAXWIDESCREENDELTA + 2)
             continue;
 
         // step through the posts in a column

@@ -10,7 +10,7 @@
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
   * `EPISODE` is now parsed correctly in more instances.
-* The value specified by “Initial Bullets” in a `DEHACKED` lump will now be used at the start of each map if the `pistolstart` CCMD is used.
+* The value specified by “Initial Bullets” in a `DEHACKED` lump will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
 * These changes have been made to the support for controllers:
   * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
   * A bug is fixed whereby the player would continually turn to their right if the `joy_analog` CVAR was `off` (including when vanilla mode was enabled).
@@ -21,7 +21,7 @@
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were on wasn’t in the player’s line of sight.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
-* A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t being displayed in the widescreen HUD while they were dead.
+* A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

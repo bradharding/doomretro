@@ -267,7 +267,6 @@ void I_Error(const char *error, ...)
 
     I_ShutdownKeyboard();
     I_ShutdownGameController();
-    SDL_Quit();
 
     W_CloseFiles();
 
@@ -287,6 +286,8 @@ void I_Error(const char *error, ...)
     va_end(args);
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", buffer, NULL);
+
+    SDL_Quit();
 
     exit(-1);
 }
