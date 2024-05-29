@@ -22,6 +22,7 @@
 * A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were on wasn’t in the player’s line of sight.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
+* Minor improvements have been made to the highlight effect in the menu in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

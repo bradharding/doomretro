@@ -1810,7 +1810,7 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 
 bool V_ScreenShot(void)
 {
-    bool    result = false;
+    bool    result;
     char    mapname[128];
     char    *temp1;
     char    *temp2;
@@ -1880,9 +1880,9 @@ bool V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
-    result = V_SavePNG(window, lbmpath1);
+    free(temp1);
 
-    if (result && mapwindow && gamestate == GS_LEVEL)
+    if ((result = V_SavePNG(window, lbmpath1)) && mapwindow && gamestate == GS_LEVEL)
     {
         count = 0;
 
@@ -1903,8 +1903,6 @@ bool V_ScreenShot(void)
 
         V_SavePNG(mapwindow, lbmpath2);
     }
-
-    free(temp1);
 
     return result;
 }
