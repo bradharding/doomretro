@@ -188,9 +188,10 @@ static void P_SubtractAmmo(void)
 
             P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
             viewplayer->ammo[ammotype] = value;
-            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
     }
+
+    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 }
 
 //
