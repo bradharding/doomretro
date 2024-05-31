@@ -19,7 +19,7 @@
 * Pressing the <kbd><b>ENTER</b></kbd> key to close the help screen no longer causes the previous player message to be displayed.
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
-* A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were on wasn’t in the player’s line of sight.
+* A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were in wasn’t in the player’s line of sight.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * Minor improvements have been made to the highlight effect in the menu in some instances.

@@ -750,7 +750,6 @@ bool P_GivePower(const int power, const bool stat)
         P_UpdatePowerupsStat();
 
     viewplayer->powers[power] = tics[power];
-
     return given;
 }
 
