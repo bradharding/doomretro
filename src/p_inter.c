@@ -724,7 +724,6 @@ bool P_GivePower(const int power, const bool stat)
     {
         case pw_invulnerability:
             viewplayer->fixedcolormap = INVERSECOLORMAP;
-            D_FadeScreen(false);
             break;
 
         case pw_strength:
@@ -736,9 +735,6 @@ bool P_GivePower(const int power, const bool stat)
             break;
 
         case pw_allmap:
-            if (automapactive)
-                D_FadeScreen(false);
-
             break;
 
         case pw_infrared:
