@@ -1405,7 +1405,7 @@ static void HU_DrawAltHUD(void)
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if (powerup != -1 && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
+        if (powertics && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
             const int   color2 = (r_hud_translucency ? color : darkgray);
 
