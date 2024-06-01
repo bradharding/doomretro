@@ -157,7 +157,7 @@ void I_ShutdownGameController(void)
 
 void I_GameControllerRumble(const short low, const short high)
 {
-    if (!gamecontrollerrumbles)
+    if (!gamecontrollerrumbles || !usinggamecontroller)
         return;
 
     SDL_GameControllerRumble(gamecontroller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
@@ -239,16 +239,25 @@ void I_ReadGameController(void)
         prevgamecontrollerbuttons = gamecontrollerbuttons;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
+        {
             gamecontrollerbuttons = GAMECONTROLLER_LEFT_TRIGGER;
+            usinggamecontroller = true;
+        }
         else
             gamecontrollerbuttons = 0;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > GAMECONTROLLER_TRIGGER_THRESHOLD)
+        {
             gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
+            usinggamecontroller = true;
+        }
 
         for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
             if (SDL_GameControllerGetButton(gamecontroller, i))
+            {
                 gamecontrollerbuttons |= (1 << i);
+                usinggamecontroller = true;
+            }
 
         if (gamecontrollerthumbLX
             || gamecontrollerthumbLY
@@ -265,6 +274,7 @@ void I_ReadGameController(void)
             }
 
             keydown = 0;
+            usinggamecontroller = true;
             D_PostEvent(&ev);
         }
 

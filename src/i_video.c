@@ -357,6 +357,7 @@ static void I_GetEvent(void)
                         I_SaveMousePointerPosition();
 
                     usingmouse = false;
+                    usinggamecontroller = false;
                 }
 
                 break;
