@@ -5975,7 +5975,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
             {
                 if (meters < METERSPERKILOMETER)
                 {
-                    char    *temp = striptrailingzero(meters, 2);
+                    char    *temp = striptrailingzero(meters, 1);
 
                     if (!M_StringCompare(temp, "0.0"))
                         M_snprintf(result, sizeof(result), "%s %s",
@@ -9983,7 +9983,7 @@ static void r_diskicon_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, temp1);
         else
         {
-            char *temp2 = C_LookupAliasFromValue(r_diskicon_default, BOOLVALUEALIAS);
+            char    *temp2 = C_LookupAliasFromValue(r_diskicon_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
