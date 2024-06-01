@@ -459,6 +459,7 @@ static void r_brightmaps_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_func2(char *cmd, char *parms);
 static bool r_detail_func1(char *cmd, char *parms);
 static void r_detail_func2(char *cmd, char *parms);
+static void r_diskicon_func2(char *cmd, char *parms);
 static void r_ditheredlighting_func2(char *cmd, char *parms);
 static void r_fixmaperrors_func2(char *cmd, char *parms);
 static void r_fov_func2(char *cmd, char *parms);
@@ -840,7 +841,7 @@ consolecmd_t consolecmds[] =
         "Toggles the red effect when you take damage."),
     CVAR_BOOL(r_detail, "", "", r_detail_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
         "Toggles the graphic detail (" BOLD("high") " or " BOLD("low") ")."),
-    CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, r_diskicon_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL(r_ditheredlighting, "", "", bool_cvars_func1, r_ditheredlighting_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles dithered lighting cast on textures and sprites."),
@@ -9944,6 +9945,49 @@ static void r_detail_func2(char *cmd, char *parms)
         }
 
         AM_InitPixelSize();
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// r_diskicon CVAR
+//
+static void r_diskicon_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_diskicon)
+        {
+            if ((r_diskicon = value))
+            {
+                drawdisk = true;
+                drawdisktics = TICRATE;
+            }
+
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(r_diskicon, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (r_diskicon == r_diskicon_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char *temp2 = C_LookupAliasFromValue(r_diskicon_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
 
         free(temp1);
 
