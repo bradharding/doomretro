@@ -54,6 +54,7 @@ extern short    firstbloodsplatlump;
 extern bool     allowwolfensteinss;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
+void R_AddNearbySprites(sector_t *sec);
 void R_InitSprites(void);
 void R_ClearSprites(void);
 void R_DrawMasked(void);

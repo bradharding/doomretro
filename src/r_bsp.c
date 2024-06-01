@@ -545,6 +545,7 @@ static void R_Subsector(int num)
     {
         sector->validcount = validcount;
         R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
+        R_AddNearbySprites(sector);
     }
 
     while (count--)
