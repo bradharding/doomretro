@@ -1036,8 +1036,12 @@ bool ST_Responder(const event_t *ev)
                     gamemap = map;
                     idclevtics = TICRATE;
                     quicksaveslot = -1;
-                    drawdisk = true;
-                    drawdisktics = DRAWDISKTICS;
+
+                    if (r_diskicon)
+                    {
+                        drawdisk = true;
+                        drawdisktics = DRAWDISKTICS;
+                    }
                 }
             }
         }

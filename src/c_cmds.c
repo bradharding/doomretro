@@ -4493,8 +4493,12 @@ static void map_func2(char *cmd, char *parms)
 
     gamemap = mapcmdmap;
     quicksaveslot = -1;
-    drawdisk = true;
-    drawdisktics = DRAWDISKTICS;
+
+    if (r_diskicon)
+    {
+        drawdisk = true;
+        drawdisktics = DRAWDISKTICS;
+    }
 
     if (gamestate == GS_LEVEL)
     {
