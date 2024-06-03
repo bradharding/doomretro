@@ -69,7 +69,7 @@ static char *GetGameControllerName(void)
         return "A controller is connected.";
 }
 
-#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
+#if SDL_VERSION_ATLEAST(2, 12, 0)
 static char *GetGameControllerType(void)
 {
     SDL_GameControllerType  type = SDL_GameControllerGetType(gamecontroller);
@@ -123,23 +123,29 @@ void I_InitGameController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i) && (gamecontroller = SDL_GameControllerOpen(i)))
         {
-#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
+#if SDL_VERSION_ATLEAST(2, 12, 0)
             C_Output(GetGameControllerType());
 #else
             C_Output(GetGameControllerName());
 #endif
 
+#if SDL_VERSION_ATLEAST(2, 18, 0)
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
-            else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
-                C_Warning(1, "This controller doesn't rumble!");
+            else
+#endif
+                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
+                    C_Warning(1, "This controller doesn't rumble!");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();
             I_SetGameControllerHorizontalSensitivity();
             I_SetGameControllerVerticalSensitivity();
 
+#if SDL_VERSION_ATLEAST(2, 14, 0)
             SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
+#endif
+
             return;
         }
 }
@@ -150,7 +156,11 @@ void I_ShutdownGameController(void)
         return;
 
     C_Warning(1, "The controller was disconnected!");
+
+#if SDL_VERSION_ATLEAST(2, 14, 0)
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
+#endif
+
     SDL_GameControllerClose(gamecontroller);
     gamecontroller = NULL;
 }

@@ -36,8 +36,8 @@
 #include "doomdef.h"
 #include "SDL.h"
 
-#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION < 18)
-#define SDL_GetTicks64  SDL_GetTicks
+#if SDL_VERSION_ATLEAST(2, 18, 0)
+#define SDL_GetTicks  SDL_GetTicks64
 #endif
 
 //
@@ -46,7 +46,7 @@
 //
 uint64_t I_GetTime(void)
 {
-    return (SDL_GetTicks64() * TICRATE / 1000);
+    return (SDL_GetTicks() * TICRATE / 1000);
 }
 
 //
@@ -54,7 +54,7 @@ uint64_t I_GetTime(void)
 //
 uint64_t I_GetTimeMS(void)
 {
-    return SDL_GetTicks64();
+    return SDL_GetTicks();
 }
 
 // [crispy] Get time in microseconds

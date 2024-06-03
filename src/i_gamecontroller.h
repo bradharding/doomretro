@@ -65,14 +65,6 @@
 
 #define IDLE_CHAINSAW_RUMBLE_STRENGTH       10000
 
-#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION < 14)
-#define SDL_GameControllerSetLED(gamecontroller, red, green, blue)
-#endif
-
-#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION < 18)
-#define SDL_GameControllerHasRumble(gamecontroller) !SDL_GameControllerRumble(gamecontroller, 0, 0, 0)
-#endif
-
 extern int      barrelrumbletics;
 extern int      damagerumbletics;
 extern int      pickuprumbletics;
