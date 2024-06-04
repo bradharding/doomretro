@@ -4468,7 +4468,8 @@ static void map_func2(char *cmd, char *parms)
     if ((samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && !*speciallumpname)))
         M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEVSAME, mapcmdlump);
     else
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV, playername, mapcmdlump);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV,
+            (M_StringCompare(playername, playername_default) ? "you" : playername), mapcmdlump);
 
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);

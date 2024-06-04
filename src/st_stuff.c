@@ -1003,7 +1003,8 @@ bool ST_Responder(const event_t *ev)
                     if (M_StringCompare(lump, mapnum))
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
-                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, playername, lump);
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEV,
+                            (M_StringCompare(playername, playername_default) ? "you" : playername), lump);
 
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);

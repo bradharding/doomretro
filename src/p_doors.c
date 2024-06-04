@@ -258,8 +258,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -269,8 +271,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
@@ -300,8 +304,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -311,8 +317,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
@@ -342,8 +350,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -353,8 +363,10 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
@@ -524,8 +536,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -535,8 +549,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
@@ -569,8 +585,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -580,8 +598,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
@@ -614,8 +634,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, "You", "", s_PD_SKULLKEY);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername, "s", s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -625,8 +647,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
 
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, "You", "", s_PD_KEYCARD);
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername, "s", s_PD_KEYCARD);
                 }
 
                 if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
