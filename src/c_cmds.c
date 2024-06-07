@@ -3062,11 +3062,15 @@ static void give_func2(char *cmd, char *parms)
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
-                        C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM") "! "
-                            "%s can buy the full version on " ITALICS("Steam") ", etc.",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1,
-                            (M_StringCompare(playername, playername_default) ? "You" : titlecase(pronoun(personal))));
+                        if (M_StringCompare(playername, playername_default))
+                            C_Warning(0, "You can't be given %s %s in the shareware version of " ITALICS("DOOM") "! "
+                                "You can buy the full version on " ITALICS("Steam") ", etc.",
+                                (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                        else
+                            C_Warning(0, "%s can't be given %s %s in the shareware version of " ITALICS("DOOM") "! "
+                                "%s can buy the full version on " ITALICS("Steam") ", etc.",
+                                playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"),
+                                mobjinfo[i].name1, titlecase(pronoun(personal)));
                     }
                     else
                     {
@@ -6101,7 +6105,8 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled_total);
     C_TabbedOutput(tabs, "Monsters %s %s\t%s of %s (%i%%)\t%s",
-        playername, s_KILLED, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+        (M_StringCompare(playername, playername_default) ? "you" : playername), s_KILLED,
+        temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -6634,7 +6639,8 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters %s %s\t\x96\t%s", playername, s_KILLED, temp1);
+    C_TabbedOutput(tabs, "Monsters %s %s\t\x96\t%s",
+        (M_StringCompare(playername, playername_default) ? "you" : playername), s_KILLED, temp1);
     free(temp1);
 
     ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
@@ -7895,7 +7901,8 @@ static void spawn_func2(char *cmd, char *parms)
             if (mobjinfo[type].height > sector->ceilingheight - sector->floorheight
                 || P_CheckLineSide(viewplayer->mo, x, y))
                 C_Warning(0, "There isn't enough room in front of %s to spawn a %s.",
-                    playername, mobjinfo[type].name1);
+                    (M_StringCompare(playername, playername_default) ? "you" : playername),
+                    mobjinfo[type].name1);
             else
             {
                 mapthing_t  mthing = { 0 };
@@ -8104,7 +8111,8 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("Everything was taken from %s!", playername);
+                C_PlayerWarning("Everything was taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8150,7 +8158,8 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All weapons have been taken from %s!", playername);
+                C_PlayerWarning("All weapons have been taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8172,7 +8181,8 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All ammo was taken from %s!", playername);
+                C_PlayerWarning("All ammo was taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8189,7 +8199,8 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 C_PlayerWarning("All %s was taken from %s!",
-                    (english == english_american ? "armor" : "armour"), playername);
+                    (english == english_american ? "armor" : "armour"),
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8211,7 +8222,8 @@ static void take_func2(char *cmd, char *parms)
             if (result)
             {
                 P_LookForCards();
-                C_PlayerWarning("All keycards and skull keys have been taken from %s!", playername);
+                C_PlayerWarning("All keycards and skull keys have been taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8227,7 +8239,8 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
                 P_LookForCards();
-                C_PlayerWarning("All keycards have been taken from %s!", playername);
+                C_PlayerWarning("All keycards have been taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8243,7 +8256,8 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
                 P_LookForCards();
-                C_PlayerWarning("All skull keys have been taken from %s!", playername);
+                C_PlayerWarning("All skull keys have been taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8260,7 +8274,8 @@ static void take_func2(char *cmd, char *parms)
 
                 P_CheckAmmo(viewplayer->readyweapon);
 
-                C_PlayerWarning("A pistol was taken from %s!", playername);
+                C_PlayerWarning("A pistol was taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8279,7 +8294,8 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All power-ups have been taken from %s!", playername);
+                C_PlayerWarning("All power-ups have been taken from %s!",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername));
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -8306,12 +8322,14 @@ static void take_func2(char *cmd, char *parms)
                         {
                             char    *temp4 = sentencecase(mobjinfo[i].name1);
 
-                            C_PlayerWarning("%s was taken from %s!", temp4, playername);
+                            C_PlayerWarning("%s was taken from %s!", temp4,
+                                (M_StringCompare(playername, playername_default) ? "you" : playername));
                             free(temp4);
                         }
                         else
                             C_PlayerWarning("%s %s was taken from %s!",
-                                (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
+                                (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1,
+                                (M_StringCompare(playername, playername_default) ? "you" : playername));
 
                         if (viewplayer->health <= 0)
                         {
@@ -8541,20 +8559,22 @@ static void timer_func2(char *cmd, char *parms)
             }
             else
             {
-                char    *temp = commify(value);
+                char    *temp1 = commify(value);
+                char    *temp2 = titlecase(playername);
 
                 if (timer)
                     C_Output("The timer has been %s to %s minute%s. "
                         "%s will automatically exit each map once the timer runs out.",
-                        (value == timer ? "reset" : "changed"), temp, (value == 1 ? "" : "s"),
-                        (M_StringCompare(playername, playername_default) ? "You" : playername));
+                        (value == timer ? "reset" : "changed"), temp1, (value == 1 ? "" : "s"),
+                        (M_StringCompare(playername, playername_default) ? "You" : temp2));
                 else
                     C_Output("A timer has been set for %s minute%s. "
                         "%s will automatically exit each map once the timer runs out.",
-                        temp, (value == 1 ? "" : "s"),
-                        (M_StringCompare(playername, playername_default) ? "You" : playername));
+                        temp1, (value == 1 ? "" : "s"),
+                        (M_StringCompare(playername, playername_default) ? "You" : temp2));
 
-                free(temp);
+                free(temp1);
+                free(temp2);
             }
         }
 

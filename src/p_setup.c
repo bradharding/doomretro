@@ -3103,7 +3103,6 @@ void P_SetupLevel(int ep, int map)
     char        lumpname[6];
     int         lumpnum;
     static int  prevlumpnum = -1;
-    char        *temp1;
 
     totalkills = 0;
     totalitems = 0;
@@ -3195,22 +3194,21 @@ void P_SetupLevel(int ep, int map)
 
     C_AddConsoleDivider();
 
-    temp1 = sentencecase(*playername ? playername : "you");
-
     if (M_StringCompare(maptitle, mapnumandtitle))
-        C_PlayerMessage("%s %s %s.", temp1, (samelevel ? "reentered" : "entered"), maptitle);
+        C_PlayerMessage("%s %s %s.",
+            (M_StringCompare(playername, playername_default) ? "You" : playername),
+            (samelevel ? "reentered" : "entered"), maptitle);
     else
     {
-        char    *temp2 = titlecase(maptitle);
+        char    *temp = titlecase(maptitle);
 
         C_PlayerMessage("%s %s " ITALICS("%s") "%s",
-            temp1, (samelevel ? "reentered" : "entered"), temp2,
-            (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
+            (M_StringCompare(playername, playername_default) ? "You" : playername),
+            (samelevel ? "reentered" : "entered"), temp,
+            (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
-        free(temp2);
+        free(temp);
     }
-
-    free(temp1);
 
     maptime = 0;
     animatedtic = 0;

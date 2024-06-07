@@ -2613,7 +2613,8 @@ static void D_DoomMainSetup(void)
         P_InitHelperDogs(1);
 
         C_Output("A " BOLD("-dog") " parameter was found on the command-line. "
-            "A friendly dog will enter the game with %s.", playername);
+            "A friendly dog will enter the game with %s.",
+            (M_StringCompare(playername, playername_default) ? "you" : playername));
     }
     else if ((p = M_CheckParmWithArgs("-dogs", 1)))
     {
@@ -2624,14 +2625,16 @@ static void D_DoomMainSetup(void)
             P_InitHelperDogs(1);
 
             C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-                "A friendly dog will enter the game with %s.", playername);
+                "A friendly dog will enter the game with %s.",
+                (M_StringCompare(playername, playername_default) ? "you" : playername));
         }
         else if (dogs > 1)
         {
             P_InitHelperDogs(MIN(dogs, MAXFRIENDS));
 
             C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-                "Up to %i friendly dogs will enter the game with %s.", MIN(dogs, MAXFRIENDS), playername);
+                "Up to %i friendly dogs will enter the game with %s.", MIN(dogs, MAXFRIENDS),
+                (M_StringCompare(playername, playername_default) ? "you" : playername));
         }
     }
     else if (M_CheckParm("-dogs"))
@@ -2639,7 +2642,8 @@ static void D_DoomMainSetup(void)
         P_InitHelperDogs(MAXFRIENDS);
 
         C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-            "Up to %i friendly dogs will enter the game with %s.", MAXFRIENDS, playername);
+            "Up to %i friendly dogs will enter the game with %s.", MAXFRIENDS,
+            (M_StringCompare(playername, playername_default) ? "you" : playername));
     }
 
     M_Init();

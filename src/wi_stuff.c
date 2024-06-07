@@ -813,21 +813,12 @@ static void WI_InitStats(void)
     cnt_pause = TICRATE;
 
     if (M_StringCompare(maptitle, mapnumandtitle))
-    {
-        if (M_StringCompare(playername, playername_default))
-            C_PlayerMessage("You finished %s!", mapname);
-        else
-            C_PlayerMessage("%s finished %s!", playername, mapname);
-    }
+        C_PlayerMessage("%s finished %s!",
+            (M_StringCompare(playername, playername_default) ? "You" : playername), mapname);
     else
-    {
-        if (M_StringCompare(playername, playername_default))
-            C_PlayerMessage("You finished " ITALICS("%s%s"),
-                mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
-        else
-            C_PlayerMessage("%s finished " ITALICS("%s%s"),
-                playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
-    }
+        C_PlayerMessage("%s finished " ITALICS("%s%s"),
+            (M_StringCompare(playername, playername_default) ? "you" : playername), mapname,
+            (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
 
     temp1 = commify(wbs->skills);
     temp2 = commify(wbs->maxkills);
