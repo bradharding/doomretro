@@ -966,13 +966,10 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 {
                     static char buffer[1024];
 
-                    M_snprintf(buffer, sizeof(buffer),
-                        s_GOTMEDINEED,
-                        playername,
-                        (M_StringCompare(playername, playername_default) ? playername_default : pronoun(personal)));
-
-                    if (buffer[0])
-                        buffer[0] = toupper(buffer[0]);
+                    if (M_StringCompare(playername, playername_default))
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
 
                     HU_PlayerMessage(buffer, true, false);
                 }

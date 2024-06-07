@@ -3621,8 +3621,6 @@ static void kill_func2(char *cmd, char *parms)
                         else
                             M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters in this map!",
                                 playername, killed, temp, (friends ? "friendly " : ""));
-
-                        buffer[0] = toupper(buffer[0]);
                     }
 
                     C_PlayerMessage(buffer);
@@ -7587,10 +7585,12 @@ static void resurrect_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
-            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
-                playername,
-                (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
-            buffer[0] = toupper(buffer[0]);
+
+            if (M_StringCompare(playername, playername_default))
+                M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
+            else
+                M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
+
             C_PlayerObituary(buffer);
             C_HideConsole();
             cheated = true;
@@ -7850,7 +7850,6 @@ static void spawn_func2(char *cmd, char *parms)
                 if (!*buffer)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
-                buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in " ITALICS("%s") ".", buffer, gamedescription);
                 spawn = false;
             }
@@ -7870,7 +7869,6 @@ static void spawn_func2(char *cmd, char *parms)
                 if (!*buffer)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
-                buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM") ". "
                     "You can buy the full version on " ITALICS("Steam") ", etc.", buffer);
                 spawn = false;
@@ -9620,10 +9618,12 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         P_ResurrectPlayer(value);
                         P_AddBonus();
-                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
-                            playername,
-                            (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
-                        buffer[0] = toupper(buffer[0]);
+
+                        if (M_StringCompare(playername, playername_default))
+                            M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
+                        else
+                            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
+
                         C_PlayerObituary(buffer);
                     }
                 }

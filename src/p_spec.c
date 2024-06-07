@@ -2234,7 +2234,6 @@ static void P_SecretFound(void)
 
     M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE,
         (M_StringCompare(playername, playername_default) ? "you" : playername));
-    buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
     if (messages && secretmessages)

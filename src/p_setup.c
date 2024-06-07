@@ -1937,7 +1937,6 @@ static void P_LoadThings(int map, int lump)
             if (!*buffer)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
-            buffer[0] = toupper(buffer[0]);
             C_Warning(2, "%s can't be spawned in " ITALICS("%s."), buffer, gamedescription);
 
             continue;
