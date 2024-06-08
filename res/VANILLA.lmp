@@ -124,6 +124,7 @@ sucktime 1
 tossdrop off
 turbo 100%
 units imperial
+vid_aspectratio auto
 vid_capfps 35
 vid_motionblur 0%
 vid_pillarboxes off

@@ -488,6 +488,8 @@ static bool turbo_func1(char *cmd, char *parms);
 static void turbo_func2(char *cmd, char *parms);
 static bool units_func1(char *cmd, char *parms);
 static void units_func2(char *cmd, char *parms);
+static bool vid_aspectratio_func1(char *cmd, char *parms);
+static void vid_aspectratio_func2(char *cmd, char *parms);
 static void vid_borderlesswindow_func2(char *cmd, char *parms);
 static bool vid_capfps_func1(char *cmd, char *parms);
 static void vid_capfps_func2(char *cmd, char *parms);
@@ -987,6 +989,9 @@ consolecmd_t consolecmds[] =
         "Toggles vanilla mode."),
     CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
+    CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
+        "The aspect ratio of the display (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
+        BOLD("32:9") " or " BOLD("auto") ")."),
     CVAR_BOOL(vid_borderlesswindow, "", "", bool_cvars_func1, vid_borderlesswindow_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", "", vid_capfps_func1, vid_capfps_func2, CF_NONE, CAPVALUEALIAS,
@@ -10946,6 +10951,50 @@ static void units_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(units_default, UNITSVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// vid_aspectratio CVAR
+//
+static bool vid_aspectratio_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, RATIOVALUEALIAS) != INT_MIN);
+}
+
+static void vid_aspectratio_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, RATIOVALUEALIAS);
+
+        if (value != INT_MIN && vid_aspectratio != value)
+        {
+            vid_aspectratio = value;
+            I_RestartGraphics(false);
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(vid_aspectratio, RATIOVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (vid_aspectratio == vid_aspectratio_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(vid_aspectratio_default, RATIOVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);

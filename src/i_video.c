@@ -173,6 +173,7 @@ const float gammalevels[GAMMALEVELS] =
 int                 gammaindex;
 
 static SDL_Rect     src_rect;
+static SDL_Rect     dest_rect;
 static SDL_Rect     map_rect;
 
 int                 framespersecond = 0;
@@ -676,7 +677,6 @@ static void GetUpscaledTextureSize(int width, int height)
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-static void (*clearframefunc)(void);
 static void nullfunc(void) {}
 
 uint64_t    performancecounter;
@@ -730,18 +730,18 @@ void I_WindowResizeBlit(void)
         CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
 
     if (nearestlinear)
     {
         SDL_SetRenderTarget(renderer, texture_upscaled);
-        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
         SDL_SetRenderTarget(renderer, NULL);
         SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
     }
     else
-        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
 }
@@ -752,9 +752,9 @@ static void I_Blit(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -763,12 +763,12 @@ static void I_Blit_NearestLinear(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -778,9 +778,9 @@ static void I_Blit_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -790,12 +790,12 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -804,9 +804,9 @@ static void I_Blit_Shake(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
@@ -815,12 +815,12 @@ static void I_Blit_NearestLinear_Shake(void)
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, NULL, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -830,9 +830,9 @@ static void I_Blit_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
 
@@ -842,12 +842,12 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, NULL, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
@@ -856,7 +856,7 @@ static void I_Blit_Automap(void)
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
-    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
+    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
     SDL_RenderPresent(maprenderer);
 }
 
@@ -866,7 +866,7 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
-    SDL_RenderCopy(maprenderer, maptexture, &map_rect, NULL);
+    SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
     SDL_SetRenderTarget(maprenderer, NULL);
     SDL_RenderCopy(maprenderer, maptexture_upscaled, NULL, NULL);
     SDL_RenderPresent(maprenderer);
@@ -1739,11 +1739,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
     src_rect.h = SCREENHEIGHT;
 }
 
-static void I_ClearFrame(void)
-{
-    SDL_RenderClear(renderer);
-}
-
 static void I_GetScreenDimensions(void)
 {
     int width;
@@ -1753,12 +1748,6 @@ static void I_GetScreenDimensions(void)
     {
         width = displays[displayindex].w;
         height = displays[displayindex].h;
-
-#if defined(_WIN32)
-        clearframefunc = &nullfunc;
-#else
-        clearframefunc = &I_ClearFrame;
-#endif
     }
     else
     {
@@ -1766,30 +1755,50 @@ static void I_GetScreenDimensions(void)
 
         width = windowwidth;
         height = windowheight;
-
-        clearframefunc = &I_ClearFrame;
     }
 
     if (vid_widescreen)
     {
-        SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
+        dest_rect.w = width;
+
+        if (vid_aspectratio == vid_aspectratio_auto)
+        {
+            dest_rect.h = height;
+            dest_rect.y = 0;
+        }
+        else
+        {
+            if (vid_aspectratio == vid_aspectratio_16_9)
+                dest_rect.h = width * 9 / 16;
+            else if (vid_aspectratio == vid_aspectratio_16_10)
+                dest_rect.h = width * 10 / 16;
+            else if (vid_aspectratio == vid_aspectratio_21_9)
+                dest_rect.h = width * 9 / 21;
+            else if (vid_aspectratio == vid_aspectratio_32_9)
+                dest_rect.h = width * 9 / 32;
+
+            dest_rect.y = (height - dest_rect.h) / 2;
+        }
+
+        SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h +1) & ~3), MAXWIDTH);
         WIDESCREENWIDTH = SCREENWIDTH;
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
-        WIDEFOVDELTA = MIN((int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2,
+        WIDEFOVDELTA = MIN((int)(atan(dest_rect.w / (dest_rect.h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2,
             MAXWIDEFOVDELTA);
         WIDESCREENDELTA = SCREENWIDTH / 4 - VANILLAWIDTH / 2;
         MAXWIDESCREENDELTA = MAX(53, WIDESCREENDELTA);
     }
     else
     {
+        dest_rect.w = NONWIDEWIDTH;
+        dest_rect.h = ACTUALHEIGHT;
+
         SCREENWIDTH = NONWIDEWIDTH;
-        WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
+        WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h + 1) & ~3), MAXWIDTH);
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
         MAXWIDESCREENDELTA = 53;
-
-        clearframefunc = &I_ClearFrame;
     }
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;

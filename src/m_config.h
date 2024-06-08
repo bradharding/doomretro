@@ -189,6 +189,7 @@ extern bool     tossdrop;
 extern int      turbo;
 extern int      units;
 extern char     *version;
+extern int      vid_aspectratio;
 extern bool     vid_borderlesswindow;
 extern int      vid_capfps;
 extern int      vid_display;
@@ -310,6 +311,15 @@ enum
 {
     units_imperial,
     units_metric
+};
+
+enum
+{
+    vid_aspectratio_auto,
+    vid_aspectratio_16_9,
+    vid_aspectratio_16_10,
+    vid_aspectratio_21_9,
+    vid_aspectratio_32_9
 };
 
 enum
@@ -766,6 +776,10 @@ enum
 
 #define version_default                     DOOMRETRO_VERSIONSTRING
 
+#define vid_aspectratio_min                 vid_aspectratio_auto
+#define vid_aspectratio_default             vid_aspectratio_auto
+#define vid_aspectratio_max                 vid_aspectratio_32_9
+
 #define vid_borderlesswindow_default        true
 
 #define vid_capfps_min                      0
@@ -983,6 +997,7 @@ typedef enum
     ENGLISHVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
+    RATIOVALUEALIAS,
     SCALEVALUEALIAS,
     SUCKSVALUEALIAS,
     UNITSVALUEALIAS,
