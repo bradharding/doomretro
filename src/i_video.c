@@ -78,6 +78,7 @@ int                 WIDEFOVDELTA;
 static int          WIDESCREENWIDTH;
 
 bool                nowidescreen = false;
+bool                vid_widescreen_copy;
 
 int                 MAPWIDTH;
 int                 MAPHEIGHT = VANILLAHEIGHT * 2;
@@ -1963,6 +1964,9 @@ void I_InitGraphics(void)
 #if defined(_DEBUG)
     vid_fullscreen = false;
 #endif
+
+    vid_widescreen_copy = vid_widescreen;
+    vid_widescreen = false;
 
     I_GetScreenDimensions();
 

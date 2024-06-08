@@ -124,6 +124,7 @@ extern int          MAXWIDESCREENDELTA;
 extern int          WIDEFOVDELTA;
 
 extern bool         nowidescreen;
+extern bool         vid_widescreen_copy;
 
 extern int          MAPWIDTH;
 extern int          MAPHEIGHT;

@@ -25,6 +25,7 @@
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.
 * Minor improvements have been made to the highlight effect in the menu in some instances.
+* The aspect ratio of the display when in widescreen mode can now be forced by changing the new `vid_aspectratio` CVAR. This CVAR is `auto` by default and can be set to `16:9`, `16:10`, `21:9` or `32:9`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -990,7 +990,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
     CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
-        "The aspect ratio of the display (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
+        "The aspect ratio of the display when in widescreen mode (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
         BOLD("32:9") " or " BOLD("auto") ")."),
     CVAR_BOOL(vid_borderlesswindow, "", "", bool_cvars_func1, vid_borderlesswindow_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
