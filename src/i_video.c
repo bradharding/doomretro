@@ -1765,19 +1765,45 @@ static void I_GetScreenDimensions(void)
         if (vid_aspectratio == vid_aspectratio_auto)
         {
             dest_rect.h = height;
+            dest_rect.x = 0;
             dest_rect.y = 0;
         }
         else
         {
             if (vid_aspectratio == vid_aspectratio_16_9)
-                dest_rect.h = width * 9 / 16;
+            {
+                if ((dest_rect.h = width * 9 / 16) > height)
+                {
+                    dest_rect.w = height * 16 / 9;
+                    dest_rect.h = height;
+                }
+            }
             else if (vid_aspectratio == vid_aspectratio_16_10)
-                dest_rect.h = width * 10 / 16;
+            {
+                if ((dest_rect.h = width * 10 / 16) > height)
+                {
+                    dest_rect.w = height * 16 / 10;
+                    dest_rect.h = height;
+                }
+            }
             else if (vid_aspectratio == vid_aspectratio_21_9)
-                dest_rect.h = width * 9 / 21;
+            {
+                if ((dest_rect.h = width * 9 / 21) > height)
+                {
+                    dest_rect.w = height * 21 / 9;
+                    dest_rect.h = height;
+                }
+            }
             else if (vid_aspectratio == vid_aspectratio_32_9)
-                dest_rect.h = width * 9 / 32;
+            {
+                if ((dest_rect.h = width * 9 / 32) > height)
+                {
+                    dest_rect.w = height * 32 / 9;
+                    dest_rect.h = height;
+                }
+            }
 
+            dest_rect.x = (width - dest_rect.w) / 2;
             dest_rect.y = (height - dest_rect.h) / 2;
         }
 
@@ -1794,6 +1820,7 @@ static void I_GetScreenDimensions(void)
     {
         dest_rect.w = NONWIDEWIDTH;
         dest_rect.h = ACTUALHEIGHT;
+        dest_rect.x = 0;
         dest_rect.y = 0;
 
         SCREENWIDTH = NONWIDEWIDTH;
