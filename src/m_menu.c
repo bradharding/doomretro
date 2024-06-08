@@ -1392,12 +1392,13 @@ static void M_QuickLoad(void)
     {
         static char line1[160];
         static char line2[160];
+        static char loadstring[320];
 
         M_snprintf(line1, sizeof(line1), s_QLPROMPT, savegamestrings[quicksaveslot]);
         M_SplitString(line1);
         M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-        M_snprintf(line2, sizeof(line2), "%s\n\n%s", line1, line2);
-        M_StartMessage(line2, &M_QuickLoadResponse, true);
+        M_snprintf(loadstring, sizeof(loadstring), "%s\n\n%s", line1, line2);
+        M_StartMessage(loadstring, &M_QuickLoadResponse, true);
     }
 }
 
@@ -1457,12 +1458,13 @@ static void M_DeleteSavegame(void)
 {
     static char line1[160];
     static char line2[160];
+    static char deletestring[320];
 
     M_snprintf(line1, sizeof(line1), s_DELPROMPT, savegamestrings[itemon]);
     M_SplitString(line1);
     M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-    M_snprintf(line2, sizeof(line2), "%s\n\n%s", line1, line2);
-    M_StartMessage(line2, &M_DeleteSavegameResponse, true);
+    M_snprintf(deletestring, sizeof(deletestring), "%s\n\n%s", line1, line2);
+    M_StartMessage(deletestring, &M_DeleteSavegameResponse, true);
 }
 
 //

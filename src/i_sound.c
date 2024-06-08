@@ -43,6 +43,8 @@
 #include "version.h"
 #include "w_wad.h"
 
+#define DMXPADSIZE  16
+
 typedef struct allocated_sound_s
 {
     sfxinfo_t                   *sfxinfo;
@@ -307,7 +309,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
         // needs further investigation to better understand the correct behavior.
         if (length > 48 && length <= lumplen - 8)
         {
-            ExpandSoundData(sfxinfo, data + 16, (data[2] | (data[3] << 8)), 8, length - 32);
+            ExpandSoundData(sfxinfo, data + DMXPADSIZE, (data[2] | (data[3] << 8)), 8, length - DMXPADSIZE * 2);
             return true;
         }
     }
