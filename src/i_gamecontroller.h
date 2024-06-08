@@ -82,6 +82,8 @@ extern float    gamecontrollerverticalsensitivity;
 extern short    gamecontrollerleftdeadzone;
 extern short    gamecontrollerrightdeadzone;
 
+extern char     *selectbutton;
+
 void I_InitGameController(void);
 void I_ShutdownGameController(void);
 void I_GameControllerRumble(const short low, const short high);

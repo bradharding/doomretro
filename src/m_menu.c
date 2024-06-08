@@ -1390,13 +1390,14 @@ static void M_QuickLoad(void)
         M_StartMessage(s_QLPROMPT, &M_QuickLoadResponse, true);
     else
     {
-        static char buffer[160];
+        static char line1[160];
+        static char line2[160];
 
-        M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quicksaveslot]);
-        M_SplitString(buffer);
-        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
-            buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(buffer, &M_QuickLoadResponse, true);
+        M_snprintf(line1, sizeof(line1), s_QLPROMPT, savegamestrings[quicksaveslot]);
+        M_SplitString(line1);
+        M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+        M_snprintf(line2, sizeof(line2), "%s\n\n%s", line1, line2);
+        M_StartMessage(line2, &M_QuickLoadResponse, true);
     }
 }
 
@@ -1454,14 +1455,14 @@ static void M_DeleteSavegameResponse(int key)
 
 static void M_DeleteSavegame(void)
 {
-    static char buffer[160];
+    static char line1[160];
+    static char line2[160];
 
-    S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[itemon]);
-    M_SplitString(buffer);
-    M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
-        buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
-    M_StartMessage(buffer, &M_DeleteSavegameResponse, true);
+    M_snprintf(line1, sizeof(line1), s_DELPROMPT, savegamestrings[itemon]);
+    M_SplitString(line1);
+    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+    M_snprintf(line2, sizeof(line2), "%s\n\n%s", line1, line2);
+    M_StartMessage(line2, &M_DeleteSavegameResponse, true);
 }
 
 //
@@ -1825,8 +1826,8 @@ static void M_ChooseSkill(int choice)
         {
             static char buffer[160];
 
-            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
-                s_NIGHTMARE, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
+            M_snprintf(buffer, sizeof(buffer), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, buffer);
             M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
@@ -1859,8 +1860,8 @@ static void M_Episode(int choice)
             {
                 static char buffer[160];
 
-                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
-                    s_SWSTRING, (usinggamecontroller ? s_PRESSA : s_PRESSKEY));
+                M_snprintf(buffer, sizeof(buffer), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, buffer);
                 M_StartMessage(buffer, NULL, false);
             }
 
@@ -2141,8 +2142,8 @@ static void M_EndGame(int choice)
     {
         static char buffer[160];
 
-        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s",
-            s_ENDGAME, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
+        M_snprintf(buffer, sizeof(buffer), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, buffer);
         M_StartMessage(buffer, &M_EndGameResponse, true);
     }
 }
@@ -2245,7 +2246,11 @@ void M_QuitDOOM(int choice)
             M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
     }
 
-    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOP);
+    if (usinggamecontroller)
+        M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
+    else
+        M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
+
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
     M_StartMessage(endstring, &M_QuitResponse, true);
 }

@@ -59,6 +59,8 @@ int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
 
+char                        *selectbutton = "A";
+
 static char *GetGameControllerName(void)
 {
     const char  *name = SDL_GameControllerName(gamecontroller);
@@ -79,15 +81,24 @@ static char *GetGameControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
         return "An " ITALICS("Xbox One") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS3)
+    {
+        selectbutton = "X";
         return "A " ITALICS("PlayStation 3 DualShock") " controller is connected.";
+    }
     else if (type == SDL_CONTROLLER_TYPE_PS4)
+    {
+        selectbutton = "X";
         return "A " ITALICS("PlayStation 4 DualShock") " controller is connected.";
+    }
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
         return "A " ITALICS("Nintendo Switch Pro") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
         return "A virtual controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS5)
+    {
+        selectbutton = "X";
         return "A " ITALICS("PlayStation 5 DualSense") " controller is connected.";
+    }
     else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
         return "An " ITALICS("Amazon Luna") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
