@@ -1793,6 +1793,7 @@ static void I_GetScreenDimensions(void)
     {
         dest_rect.w = NONWIDEWIDTH;
         dest_rect.h = ACTUALHEIGHT;
+        dest_rect.y = 0;
 
         SCREENWIDTH = NONWIDEWIDTH;
         WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h + 1) & ~3), MAXWIDTH);
