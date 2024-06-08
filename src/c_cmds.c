@@ -4540,7 +4540,7 @@ static void removemapnum(char *title)
 
 static void maplist_func2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 40, 93, 370 };
+    const int   tabs[MAXTABS] = { 40, 93, 385 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
 
