@@ -808,7 +808,7 @@ consolecmd_t consolecmds[] =
     CCMD(quit, "", exit, null_func1, quit_func2, false, "",
         "Quits to the " DESKTOP "."),
     CVAR_BOOL(r_althud, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles an alternate heads-up display when in widescreen mode."),
+        "Toggles an alternate heads-up display when in widescreen."),
     CVAR_INT(r_berserkeffect, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the red effect when you have a berserk power-up and your fists equipped (" BOLD("0") " to " BOLD("8")
         ")."),
@@ -862,9 +862,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_homindicator, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a flashing \"Hall Of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", "", bool_cvars_func1, r_hud_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles a heads-up display in widescreen mode."),
+        "Toggles a heads-up display when in widescreen."),
     CVAR_BOOL(r_hud_translucency, "", "", bool_cvars_func1, r_hud_translucency_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the translucency of the heads-up display in widescreen mode."),
+        "Toggles the translucency of the heads-up display when in widescreen."),
     CVAR_BOOL(r_linearskies, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles horizontally linear skies."),
     CVAR_BOOL(r_liquid_bob, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -990,7 +990,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
     CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
-        "The aspect ratio of the display when in widescreen mode (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
+        "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
         BOLD("32:9") " or " BOLD("auto") ")."),
     CVAR_BOOL(vid_borderlesswindow, "", "", bool_cvars_func1, vid_borderlesswindow_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
@@ -1008,7 +1008,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_motionblur, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when you turn quickly (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(vid_pillarboxes, "", "", bool_cvars_func1, vid_pillarboxes_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles using the pillarboxes either side of the screen for certain effects when not in widescreen mode."),
+        "Toggles using the pillarboxes either side of the screen for certain effects when not in widescreen."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE,
         "The API used to scale every frame (" BOLD("\"direct3d9\"") ", " BOLD("\"direct3d11\"") ", "
@@ -1032,7 +1032,7 @@ consolecmd_t consolecmds[] =
         "Toggles vertical sync with the display's refresh rate (" BOLD("on") ", " BOLD("off") " or " BOLD("adaptive") ")."),
 #endif
     CVAR_BOOL(vid_widescreen, "", "", bool_cvars_func1, vid_widescreen_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles widescreen mode."),
+        "Toggles widescreen."),
     CVAR_OTHER(vid_windowpos, "", vid_windowposition, null_func1, vid_windowpos_func2,
         "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") BOLDITALICS("x") BOLD(",") BOLDITALICS("y")
         BOLD(")") ")."),
