@@ -976,7 +976,7 @@ consolecmd_t consolecmds[] =
     CCMD(timer, "", "", null_func1, timer_func2, true, TIMERCMDFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
     CCMD(toggle, "", "", null_func1, toggle_func2, true, TOGGLECMDFORMAT,
-        "Toggles a " BOLDITALICS("CVAR") " between " BOLD("on") " and " BOLD("off") "."),
+        "Toggles a " BOLDITALICS("CVAR") " " BOLD("on") " and " BOLD("off") "."),
     CVAR_BOOL(tossdrop, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when they die."),
     CVAR_INT(turbo, "", "", turbo_func1, turbo_func2, CF_PERCENT, NOVALUEALIAS,
@@ -5442,8 +5442,10 @@ static void name_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(playername, playername_default))
             C_PlayerMessage("You have been named " BOLD("%s") ".", namecmdnew);
-        else
+        else if (*namecmdnew)
             C_PlayerMessage("%s has been renamed " BOLD("%s") ".", playername, namecmdnew);
+        else
+            C_PlayerMessage("You longer have a name.");
 
         M_StripQuotes(namecmdnew);
         playername = M_StringDuplicate(namecmdnew);
