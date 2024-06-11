@@ -614,8 +614,8 @@ static void I_ReadMouse(void)
 
             SDL_GetMouseState(&x, &y);
 
-            ev.data2 = x * WIDESCREENWIDTH / displaywidth / 2;
-            ev.data3 = y * SCREENHEIGHT / displayheight / 2;
+            ev.data2 = (x - dest_rect.x) * WIDESCREENWIDTH / dest_rect.w / 2;
+            ev.data3 = (y - dest_rect.y) * SCREENHEIGHT / dest_rect.h / 2;
         }
         else
         {
@@ -1807,7 +1807,7 @@ static void I_GetScreenDimensions(void)
             dest_rect.y = (height - dest_rect.h) / 2;
         }
 
-        SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h +1) & ~3), MAXWIDTH);
+        SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h + 1) & ~3), MAXWIDTH);
         WIDESCREENWIDTH = SCREENWIDTH;
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
