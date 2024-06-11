@@ -75,8 +75,6 @@ int                 WIDESCREENDELTA;
 int                 MAXWIDESCREENDELTA;
 int                 WIDEFOVDELTA;
 
-static int          WIDESCREENWIDTH;
-
 bool                nowidescreen = false;
 bool                vid_widescreen_copy;
 
@@ -121,7 +119,8 @@ static int          displayindex;
 static int          numdisplays;
 static SDL_Rect     displays[vid_display_max];
 
-static int          mousepointerx, mousepointery;
+static int          mousepointerx;
+static int          mousepointery;
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -144,8 +143,6 @@ int                 windowy;
 
 static int          displaywidth;
 static int          displayheight;
-static int          displaycenterx;
-static int          displaycentery;
 
 bool                usinggamecontroller = false;
 bool                usingmouse = false;
@@ -528,8 +525,6 @@ static void I_GetEvent(void)
 
                                 displaywidth = windowwidth;
                                 displayheight = windowheight;
-                                displaycenterx = displaywidth / 2;
-                                displaycentery = displayheight / 2;
 
                                 free(temp1);
                                 free(temp2);
@@ -614,8 +609,16 @@ static void I_ReadMouse(void)
 
             SDL_GetMouseState(&x, &y);
 
-            ev.data2 = (x - dest_rect.x) * WIDESCREENWIDTH / dest_rect.w / 2;
-            ev.data3 = (y - dest_rect.y) * SCREENHEIGHT / dest_rect.h / 2;
+            if (vid_widescreen)
+            {
+                ev.data2 = (x - dest_rect.x) * SCREENWIDTH / dest_rect.w / 2;
+                ev.data3 = (y - dest_rect.y) * SCREENHEIGHT / dest_rect.h / 2;
+            }
+            else
+            {
+                ev.data2 = x * NONWIDEWIDTH / displaywidth / 2;
+                ev.data3 = y * SCREENHEIGHT / displayheight / 2;
+            }
         }
         else
         {
@@ -1450,8 +1453,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
     windowid = SDL_GetWindowID(window);
 
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
-    displaycenterx = displaywidth / 2;
-    displaycentery = displayheight / 2;
 
     if (createwindow && !(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
     {
@@ -1808,7 +1809,6 @@ static void I_GetScreenDimensions(void)
         }
 
         SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h + 1) & ~3), MAXWIDTH);
-        WIDESCREENWIDTH = SCREENWIDTH;
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = MIN((int)(atan(dest_rect.w / (dest_rect.h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2,
@@ -1824,7 +1824,6 @@ static void I_GetScreenDimensions(void)
         dest_rect.y = 0;
 
         SCREENWIDTH = NONWIDEWIDTH;
-        WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((dest_rect.w * ACTUALHEIGHT / dest_rect.h + 1) & ~3), MAXWIDTH);
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
         MAXWIDESCREENDELTA = 53;
@@ -1892,8 +1891,6 @@ void I_ToggleFullscreen(const bool output)
 
         displaywidth = windowwidth;
         displayheight = windowheight;
-        displaycenterx = displaywidth / 2;
-        displaycentery = displayheight / 2;
 
         PositionOnCurrentDisplay();
     }
