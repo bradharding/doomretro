@@ -1007,7 +1007,7 @@ static void M_CheckCVARs(void)
         vid_scaleapi = vid_scaleapi_default;
         C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
-            stringize(vid_scaleapi), stringize(vid_scaleapi_default));
+            stringize(vid_scaleapi), vid_scaleapi_default);
     }
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
@@ -1017,7 +1017,7 @@ static void M_CheckCVARs(void)
         vid_scalefilter = vid_scalefilter_default;
         C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIGFILE) " is "
             "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
-            stringize(vid_scalefilter), stringize(vid_scalefilter_default));
+            stringize(vid_scalefilter), vid_scalefilter_default);
     }
 }
 

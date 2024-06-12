@@ -307,8 +307,6 @@ static void I_GetEvent(void)
             {
                 const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
-                ev.type = ev_keydown;
-
                 if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0
                     && !SDL_IsTextInputActive())
                     ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
@@ -324,6 +322,8 @@ static void I_GetEvent(void)
 
                 if (ev.data1)
                 {
+                    ev.type = ev_keydown;
+
                     if (altdown && ev.data1 == KEY_F4)
                         M_QuitResponse('y');
 
@@ -368,8 +368,6 @@ static void I_GetEvent(void)
             {
                 const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
-                ev.type = ev_keyup;
-
                 if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0
                     && !SDL_IsTextInputActive())
                     ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
@@ -387,7 +385,10 @@ static void I_GetEvent(void)
 #endif
 
                 if (ev.data1)
+                {
+                    ev.type = ev_keyup;
                     D_PostEvent(&ev);
+                }
 
                 break;
             }
