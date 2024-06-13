@@ -10982,6 +10982,7 @@ static void vid_aspectratio_func2(char *cmd, char *parms)
         {
             vid_aspectratio = value;
             I_RestartGraphics(false);
+            S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
         }
     }
