@@ -3104,6 +3104,7 @@ void P_SetupLevel(int ep, int map)
     int         lumpnum;
     static int  prevlumpnum = -1;
 
+    nummappedlines = 0;
     totalkills = 0;
     totalitems = 0;
     totalsecrets = 0;
