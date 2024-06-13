@@ -151,6 +151,7 @@ void I_InitWindows32(void)
     HWND            hwnd;
 
     SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+    SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
     SDL_VERSION(&info.version);
 
