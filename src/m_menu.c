@@ -2996,6 +2996,26 @@ bool M_Responder(event_t *ev)
 
                             itemon = i;
                             usinggamecontroller = false;
+
+                            if (currentmenu == &EpiDef)
+                            {
+                                episode = itemon + 1;
+                                M_SaveCVARs();
+                                C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
+                            }
+                            else if (currentmenu == &ExpDef)
+                            {
+                                expansion = itemon + 1;
+                                M_SaveCVARs();
+                                C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
+                            }
+                            else if (currentmenu == &NewDef)
+                            {
+                                skilllevel = itemon + 1;
+                                M_SaveCVARs();
+                                C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                            }
+
                             break;
                         }
                     }
@@ -3657,8 +3677,25 @@ bool M_Responder(event_t *ev)
                     {
                         if (itemon == ep5 && !sigil && sigil2)
                             itemon++;
+
+                        episode = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
                     }
-                    else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
+                    else if (currentmenu == &ExpDef)
+                    {
+                        expansion = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
+                    }
+                    else if (currentmenu == &NewDef)
+                    {
+                        skilllevel = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                    }
+                    else if (currentmenu == &OptionsDef && itemon == endgame
+                        && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         itemon++;
 
                     if (currentmenu->menuitems[itemon].status != -1)
@@ -3716,6 +3753,22 @@ bool M_Responder(event_t *ev)
                     {
                         if (itemon == ep5 && !sigil && sigil2)
                             itemon--;
+
+                        episode = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
+                    }
+                    else if (currentmenu == &ExpDef)
+                    {
+                        expansion = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
+                    }
+                    else if (currentmenu == &NewDef)
+                    {
+                        skilllevel = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame
                         && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
@@ -3928,10 +3981,26 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &ExpDef)
+                    if (currentmenu == &EpiDef)
+                    {
+                        episode = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
+                    }
+                    else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+
+                        expansion = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
+                    }
+                    else if (currentmenu == &NewDef)
+                    {
+                        skilllevel = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
                         LoadDef.laston = itemon;
@@ -3969,10 +4038,26 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &ExpDef)
+                    if (currentmenu == &EpiDef)
+                    {
+                        episode = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
+                    }
+                    else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+
+                        expansion = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
+                    }
+                    else if (currentmenu == &NewDef)
+                    {
+                        skilllevel = itemon + 1;
+                        M_SaveCVARs();
+                        C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
                         LoadDef.laston = itemon;

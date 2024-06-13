@@ -5844,7 +5844,7 @@ static void play_func2(char *cmd, char *parms)
 static skill_t favoriteskilllevel(void)
 {
     uint64_t    skilllevelstat = 0;
-    skill_t     favorite = skilllevel - 1;
+    skill_t     favorite = gameskill;
 
     if (skilllevelstat < stat_skilllevel_imtooyoungtodie)
     {
@@ -6079,7 +6079,7 @@ static void C_PlayerStats_Game(void)
 
     if (favoriteskilllevel1 == sk_none)
     {
-        temp1 = titlecase(*skilllevels[skilllevel - 1]);
+        temp1 = titlecase(*skilllevels[gameskill]);
 
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
@@ -6089,7 +6089,7 @@ static void C_PlayerStats_Game(void)
     }
     else
     {
-        temp1 = titlecase(*skilllevels[skilllevel - 1]);
+        temp1 = titlecase(*skilllevels[gameskill]);
         temp2 = titlecase(*skilllevels[favoriteskilllevel1]);
 
         if (temp1[strlen(temp1) - 1] == '.')
