@@ -4100,6 +4100,13 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     SC_Close();
 
+    if (customepisode && EpiDef.laston >= EpiDef.numitems)
+    {
+        EpiDef.laston = 0;
+        episode = 1;
+        M_SaveCVARs();
+    }
+
     temp1 = commify(sc_Line);
     temp2 = uppercase(scriptname);
     C_Output("%s line%s have been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
