@@ -11293,12 +11293,14 @@ static void vid_widescreen_func2(char *cmd, char *parms)
         {
             r_screensize = r_screensize_max - 1;
             C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+            M_SaveCVARs();
         }
 
         if (r_hud)
         {
             r_hud = false;
             C_StringCVAROutput(stringize(r_hud), "off");
+            M_SaveCVARs();
         }
 
         R_SetViewSize(r_screensize);
