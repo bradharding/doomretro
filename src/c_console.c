@@ -220,9 +220,10 @@ void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
     M_snprintf(buffer, sizeof(buffer), "%s %s", cvar, temp);
 
     if (numconsolestrings && M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
-        return;
+        M_StringCopy(console[numconsolestrings - 1].string, buffer, sizeof(console[0].string));
+    else
+        C_Input(buffer);
 
-    C_Input(buffer);
     free(temp);
 }
 
