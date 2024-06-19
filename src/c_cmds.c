@@ -8504,7 +8504,7 @@ static void thinglist_func2(char *cmd, char *parms)
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
-            M_StringCopy(name, playername, sizeof(name));
+            M_StringCopy(name, (M_StringCompare(playername, playername_default) ? "You" : playername), sizeof(name));
         else if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
