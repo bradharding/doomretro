@@ -789,7 +789,7 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
     mobj->mbf21flags = info->mbf21flags;
-    mobj->health = info->spawnhealth;
+    mobj->health = (type == MT_SPIDER && sigil2 && gameepisode == 6 ? SIGIL2SPIDERHEALTH : info->spawnhealth);
     mobj->giblevel = info->giblevel;
 
     if (gameskill != sk_nightmare)

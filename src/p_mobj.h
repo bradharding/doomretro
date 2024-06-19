@@ -40,6 +40,8 @@
 #include "states.h"
 #include "tables.h"
 
+#define SIGIL2SPIDERHEALTH   9000
+
 #define REDBLOODSPLATCOLOR    184
 #define GREENBLOODSPLATCOLOR  122
 

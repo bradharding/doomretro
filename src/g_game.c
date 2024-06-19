@@ -1906,7 +1906,5 @@ void G_InitNew(skill_t skill, int ep, int map)
             && !autostart))
         C_Input("newgame");
 
-    mobjinfo[MT_SPIDER].spawnhealth = (sigil2 && ep == 6 ? 9000 : 3000);
-
     G_DoLoadLevel();
 }
