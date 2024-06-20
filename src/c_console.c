@@ -2043,22 +2043,21 @@ bool C_ValidateInput(char *input)
     if (C_ExecuteAlias(input))
         return true;
 
-    if (gamestate == GS_LEVEL)
-        for (int i = 0; *actions[i].action; i++)
-            if (M_StringCompare(input, actions[i].action))
+    for (int i = 0; *actions[i].action; i++)
+        if (M_StringCompare(input, actions[i].action))
+        {
+            C_Input("%s", input);
+
+            if (actions[i].func)
             {
-                C_Input("%s", input);
+                if (consoleactive && actions[i].hideconsole)
+                    C_HideConsoleFast();
 
-                if (actions[i].func)
-                {
-                    if (consoleactive && actions[i].hideconsole)
-                        C_HideConsoleFast();
-
-                    actions[i].func();
-                }
-
-                return true;
+                actions[i].func();
             }
+
+            return true;
+        }
 
     return false;
 }

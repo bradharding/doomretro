@@ -1081,7 +1081,7 @@ static void alwaysrun_action_func(void)
 
 static void automap_action_func(void)
 {
-    if (mapwindow)
+    if (gamestate != GS_LEVEL || mapwindow)
         return;
 
     if (!automapactive)
@@ -1092,13 +1092,16 @@ static void automap_action_func(void)
 
 static void back_action_func(void)
 {
-    viewplayer->cmd.forwardmove -= forwardmove[run()];
-    P_MovePlayer();
+    if (gamestate == GS_LEVEL)
+    {
+        viewplayer->cmd.forwardmove -= forwardmove[run()];
+        P_MovePlayer();
+    }
 }
 
 static void clearmark_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ClearMarks();
 }
 
@@ -1112,50 +1115,57 @@ static void console_action_func(void)
 
 static void fire_action_func(void)
 {
-    P_FireWeapon();
+    if (gamestate == GS_LEVEL)
+        P_FireWeapon();
 }
 
 static void followmode_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleFollowMode(!am_followmode);
 }
 
 static void forward_action_func(void)
 {
-    viewplayer->cmd.forwardmove += forwardmove[run()];
-    P_MovePlayer();
+    if (gamestate == GS_LEVEL)
+    {
+        viewplayer->cmd.forwardmove += forwardmove[run()];
+        P_MovePlayer();
+    }
 }
 
 static void grid_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleGrid();
 }
 
 static void jump_action_func(void)
 {
-    if (!nojump)
+    if (gamestate == GS_LEVEL && !nojump)
         viewplayer->cmd.buttons |= BT_JUMP;
 }
 
 static void left_action_func(void)
 {
-    if (strafe())
-        viewplayer->cmd.sidemove -= sidemove[run()];
-    else
-        viewplayer->cmd.angleturn -= angleturn[run()];
+    if (gamestate == GS_LEVEL)
+    {
+        if (strafe())
+            viewplayer->cmd.sidemove -= sidemove[run()];
+        else
+            viewplayer->cmd.angleturn -= angleturn[run()];
+    }
 }
 
 static void mark_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_AddMark();
 }
 
 static void maxzoom_action_func(void)
 {
-    if (automapactive)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleMaxZoom();
 }
 
@@ -1167,25 +1177,30 @@ static void menu_action_func(void)
 
 static void nextweapon_action_func(void)
 {
-    G_NextWeapon();
+    if (gamestate == GS_LEVEL)
+        G_NextWeapon();
 }
 
 static void prevweapon_action_func(void)
 {
-    G_PrevWeapon();
+    if (gamestate == GS_LEVEL)
+        G_PrevWeapon();
 }
 
 static void right_action_func(void)
 {
-    if (strafe())
-        viewplayer->cmd.sidemove += sidemove[run()];
-    else
-        viewplayer->cmd.angleturn += angleturn[run()];
+    if (gamestate == GS_LEVEL)
+    {
+        if (strafe())
+            viewplayer->cmd.sidemove += sidemove[run()];
+        else
+            viewplayer->cmd.angleturn += angleturn[run()];
+    }
 }
 
 static void rotatemode_action_func(void)
 {
-    if (automapactive || mapwindow)
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleRotateMode(!am_rotatemode);
 }
 
@@ -1199,62 +1214,74 @@ static void screenshot_action_func(void)
 
 static void strafeleft_action_func(void)
 {
-    viewplayer->cmd.sidemove -= sidemove[run()];
+    if (gamestate == GS_LEVEL)
+        viewplayer->cmd.sidemove -= sidemove[run()];
 }
 
 static void straferight_action_func(void)
 {
-    viewplayer->cmd.sidemove += sidemove[run()];
+    if (gamestate == GS_LEVEL)
+        viewplayer->cmd.sidemove += sidemove[run()];
 }
 
 static void use_action_func(void)
 {
-    P_UseLines();
+    if (gamestate == GS_LEVEL)
+        P_UseLines();
 }
 
 static void weapon1_action_func(void)
 {
-    P_ChangeWeapon(wp_fist);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_fist);
 }
 
 static void weapon2_action_func(void)
 {
-    P_ChangeWeapon(wp_pistol);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_pistol);
 }
 
 static void weapon3_action_func(void)
 {
-    P_ChangeWeapon(wp_shotgun);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_shotgun);
 }
 
 static void weapon4_action_func(void)
 {
-    P_ChangeWeapon(wp_chaingun);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_chaingun);
 }
 
 static void weapon5_action_func(void)
 {
-    P_ChangeWeapon(wp_missile);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_missile);
 }
 
 static void weapon6_action_func(void)
 {
-    P_ChangeWeapon(wp_plasma);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_plasma);
 }
 
 static void weapon7_action_func(void)
 {
-    P_ChangeWeapon(wp_bfg);
+    if (gamestate == GS_LEVEL)
+        P_ChangeWeapon(wp_bfg);
 }
 
 static void zoomin_action_func(void)
 {
-    AM_ToggleZoomIn();
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
+        AM_ToggleZoomIn();
 }
 
 static void zoomout_action_func(void)
 {
-    AM_ToggleZoomOut();
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
+        AM_ToggleZoomOut();
 }
 
 int C_GetIndex(const char *cmd)
