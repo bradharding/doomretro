@@ -73,6 +73,7 @@ static const byte filter[256] =
 #define BLUES   B
 #define EXTRAS  X
 
+byte    *tinttab4;
 byte    *tinttab5;
 byte    *tinttab10;
 byte    *tinttab15;
@@ -117,6 +118,7 @@ byte    nearestwhite;
 byte    *black25;
 byte    *black40;
 byte    *black45;
+byte    *gold4;
 byte    *white5;
 byte    *white25;
 byte    *white33;
@@ -172,6 +174,7 @@ void FindNearestColors(byte *palette)
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
     black45 = &tinttab45[nearestblack << 8];
+    gold4 = &tinttab4[nearestgold << 8];
     white5 = &tinttab5[nearestwhite << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
@@ -329,6 +332,7 @@ void I_InitTintTables(byte *palette)
 {
     const int   lump = W_CheckNumForName("TRANMAP");
 
+    tinttab4 = GenerateTintTable(palette, 4, ALL);
     tinttab5 = GenerateTintTable(palette, 5, ALL);
     tinttab10 = GenerateTintTable(palette, 10, ALL);
     tinttab15 = GenerateTintTable(palette, 15, ALL);

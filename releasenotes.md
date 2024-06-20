@@ -28,7 +28,7 @@
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.
-* Minor improvements have been made to the highlight effect in the menu in some instances.
+* Minor improvements have been made to the highlight effect in the menu.
 * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 

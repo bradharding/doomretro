@@ -912,7 +912,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                 {
                     const byte  dot = source[srccol >> FRACBITS];
 
-                    *dest = (highlight ? white5[dot] : colormaps[0][6 * 256 + dot]);
+                    *dest = (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]);
                 }
 
                 dest += SCREENWIDTH;
@@ -1605,7 +1605,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
 
-        color = (highlight ? white5[color] : colormaps[0][6 * 256 + color]);
+        color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
 
         *(dot++) = color;
         *dot = color;
