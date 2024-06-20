@@ -184,7 +184,9 @@ void M_StringCopy(char *dest, const char *src, const size_t dest_size)
     if (dest_size >= 1)
     {
         dest[dest_size - 1] = '\0';
-        strncpy(dest, src, dest_size - 1);
+
+        if (dest_size > 1)
+            strncpy(dest, src, dest_size - 1);
     }
 }
 

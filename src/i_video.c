@@ -2015,6 +2015,8 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
+    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+
 #if defined(_WIN32)
     I_InitWindows32();
 #endif
