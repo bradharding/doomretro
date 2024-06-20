@@ -1811,6 +1811,7 @@ static void M_VerifyNightmare(int key)
         M_SetupNextMenu(&NewDef);
     else
     {
+        HU_DrawDisk();
         quicksaveslot = -1;
         M_CloseMenu();
         viewplayer->cheats = 0;
@@ -1822,17 +1823,12 @@ static void M_ChooseSkill(int choice)
 {
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
-        if (M_StringEndsWith(s_NIGHTMARE, s_PRESSYN))
-            M_StartMessage(s_NIGHTMARE, &M_VerifyNightmare, true);
-        else
-        {
-            static char buffer[160];
+        static char line2[160];
+        static char nightmarestring[320];
 
-            M_snprintf(buffer, sizeof(buffer), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, buffer);
-            M_StartMessage(buffer, &M_VerifyNightmare, true);
-        }
-
+        M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+        M_snprintf(nightmarestring, sizeof(nightmarestring), "%s\n\n%s", s_NIGHTMARE, line2);
+        M_StartMessage(nightmarestring, &M_VerifyNightmare, true);
         return;
     }
 
