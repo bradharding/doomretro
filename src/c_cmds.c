@@ -8490,7 +8490,7 @@ static void teleport_func2(char *cmd, char *parms)
 //
 static void thinglist_func2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 50, 300, 450, 510 };
+    const int   tabs[MAXTABS] = { 50, 300, 450 };
 
     C_Header(tabs, thinglist, THINGLISTHEADER);
 
@@ -8499,8 +8499,7 @@ static void thinglist_func2(char *cmd, char *parms)
         mobj_t      *mobj = (mobj_t *)th;
         const int   flags = mobj->flags;
         char        name[128];
-        char        *temp1;
-        char        *temp2 = commify(flags);
+        char        *temp;
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
@@ -8514,19 +8513,18 @@ static void thinglist_func2(char *cmd, char *parms)
                     ((flags & MF_DROPPED) ? "dropped " : ""))),
                 (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")));
 
-        temp1 = sentencecase(name);
+        temp = sentencecase(name);
 
         if (mobj->id >= 0)
-            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0\t%s", mobj->id,
-                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
-                (angle == 360 ? 0 : angle), temp2);
+            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0", mobj->id,
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
+                (angle == 360 ? 0 : angle));
         else
-            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0\t%s",
-                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
-                (angle == 360 ? 0 : angle), temp2);
+            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0",
+                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
+                (angle == 360 ? 0 : angle));
 
-        free(temp1);
-        free(temp2);
+        free(temp);
     }
 }
 
