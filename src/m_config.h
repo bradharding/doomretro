@@ -126,6 +126,7 @@ extern bool     r_blood_melee;
 extern int      r_bloodsplats_max;
 extern int      r_bloodsplats_total;
 extern bool     r_bloodsplats_translucency;
+extern int      r_blue;
 extern bool     r_brightmaps;
 extern int      r_contrast;
 extern bool     r_corpses_color;
@@ -145,6 +146,7 @@ extern bool     r_floatbob;
 extern int      r_fov;
 extern float    r_gamma;
 extern bool     r_graduallighting;
+extern int      r_green;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
@@ -161,6 +163,7 @@ extern bool     r_pickupeffect;
 extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
 extern bool     r_randomstartframes;
+extern int      r_red;
 extern bool     r_rockettrails;
 extern bool     r_rockettrails_translucency;
 extern int      r_saturation;
@@ -625,6 +628,10 @@ enum
 
 #define r_bloodsplats_translucency_default  true
 
+#define r_blue_min                          0
+#define r_blue_default                      100
+#define r_blue_max                          100
+
 #define r_brightmaps_default                true
 
 #define r_contrast_min                      -100
@@ -669,6 +676,10 @@ enum
 
 #define r_graduallighting_default           true
 
+#define r_green_min                         0
+#define r_green_default                     100
+#define r_green_max                         100
+
 #define r_homindicator_default              false
 
 #define r_hud_default                       false
@@ -700,6 +711,10 @@ enum
 #define r_radsuiteffect_default             true
 
 #define r_randomstartframes_default         true
+
+#define r_red_min                           0
+#define r_red_default                       100
+#define r_red_max                           100
 
 #define r_rockettrails_default              true
 

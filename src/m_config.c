@@ -137,6 +137,7 @@ bool        r_blood_melee = r_blood_melee_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+int         r_blue = r_blue_default;
 bool        r_brightmaps = r_brightmaps_default;
 int         r_contrast = r_contrast_default;
 bool        r_corpses_color = r_corpses_color_default;
@@ -156,6 +157,7 @@ bool        r_floatbob = r_floatbob_default;
 int         r_fov = r_fov_default;
 float       r_gamma = r_gamma_default;
 bool        r_graduallighting = r_graduallighting_default;
+int         r_green = r_green_default;
 bool        r_homindicator = r_homindicator_default;
 bool        r_hud = r_hud_default;
 bool        r_hud_translucency = r_hud_translucency_default;
@@ -172,6 +174,7 @@ bool        r_pickupeffect = r_pickupeffect_default;
 bool        r_playersprites = r_playersprites_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
 bool        r_randomstartframes = r_randomstartframes_default;
+int         r_red = r_red_default;
 bool        r_rockettrails = r_rockettrails_default;
 bool        r_rockettrails_translucency = r_rockettrails_translucency_default;
 int         r_saturation = r_saturation_default;
@@ -385,6 +388,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_blood_melee,                    r_blood_melee,                         r_blood_melee,                       BOOLVALUEALIAS     ),
     CVAR_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                   NOVALUEALIAS       ),
     CVAR_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_blue,                           r_blue,                                r_blue,                              NOVALUEALIAS       ),
     CVAR_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                        BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (r_contrast,                       r_contrast,                            r_contrast,                          NOVALUEALIAS       ),
     CVAR_BOOL         (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                     BOOLVALUEALIAS     ),
@@ -404,6 +408,7 @@ static default_t cvars[] =
     CVAR_INT          (r_fov,                            r_fov,                                 r_fov,                               NOVALUEALIAS       ),
     CVAR_FLOAT        (r_gamma,                          r_gamma,                               r_gamma,                             GAMMAVALUEALIAS    ),
     CVAR_BOOL         (r_graduallighting,                r_graduallighting,                     r_graduallighting,                   BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_green,                          r_green,                               r_green,                             NOVALUEALIAS       ),
     CVAR_BOOL         (r_homindicator,                   r_homindicator,                        r_homindicator,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_hud,                            r_hud,                                 r_hud,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                  BOOLVALUEALIAS     ),
@@ -420,6 +425,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_playersprites,                  r_playersprites,                       r_playersprites,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                 BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_red,                            r_red,                                 r_red,                               NOVALUEALIAS       ),
     CVAR_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_rockettrails_translucency,      r_rockettrails_translucency,           r_rockettrails_translucency,         BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (r_saturation,                     r_color,                               r_saturation,                        NOVALUEALIAS       ),

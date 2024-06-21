@@ -452,9 +452,11 @@ static bool player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
 static bool playergender_func1(char *cmd, char *parms);
 static void playergender_func2(char *cmd, char *parms);
+static void r_antialiasing_func2(char *cmd, char *parms);
 static bool r_blood_func1(char *cmd, char *parms);
 static void r_blood_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
+static void r_blue_func2(char *cmd, char *parms);
 static void r_brightmaps_func2(char *cmd, char *parms);
 static void r_contrast_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_func2(char *cmd, char *parms);
@@ -466,17 +468,18 @@ static void r_fixmaperrors_func2(char *cmd, char *parms);
 static void r_fov_func2(char *cmd, char *parms);
 static bool r_gamma_func1(char *cmd, char *parms);
 static void r_gamma_func2(char *cmd, char *parms);
+static void r_green_func2(char *cmd, char *parms);
 static void r_hud_func2(char *cmd, char *parms);
 static void r_hud_translucency_func2(char *cmd, char *parms);
 static void r_lowpixelsize_func2(char *cmd, char *parms);
 static void r_mirroredweapons_func2(char *cmd, char *parms);
 static void r_randomstartframes_func2(char *cmd, char *parms);
+static void r_red_func2(char *cmd, char *parms);
 static void r_rockettrails_translucency_func2(char *cmd, char *parms);
 static void r_saturation_func2(char *cmd, char *parms);
 static void r_screensize_func2(char *cmd, char *parms);
 static void r_shadows_translucency_func2(char *cmd, char *parms);
 static void r_sprites_translucency_func2(char *cmd, char *parms);
-static void r_antialiasing_func2(char *cmd, char *parms);
 static void r_textures_func2(char *cmd, char *parms);
 static void r_textures_translucency_func2(char *cmd, char *parms);
 static bool s_volume_cvars_func1(char *cmd, char *parms);
@@ -824,6 +827,8 @@ consolecmd_t consolecmds[] =
         "The total number of blood splats in the current map."),
     CVAR_BOOL(r_bloodsplats_translucency, "", "", bool_cvars_func1, r_bloodsplats_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of blood splats."),
+    CVAR_INT(r_blue, "", "", int_cvars_func1, r_blue_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of blue on the screen (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_brightmaps, "", "", bool_cvars_func1, r_brightmaps_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles brightmaps on some wall textures."),
     CVAR_INT(r_contrast, "", "", int_cvars_func1, r_contrast_func2, CF_PERCENT, NOVALUEALIAS,
@@ -862,6 +867,8 @@ consolecmd_t consolecmds[] =
         "The screen's gamma correction level (" BOLD("off") ", or " BOLD("0.50") " to " BOLD("2.0") ")."),
     CVAR_BOOL(r_graduallighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles gradual lighting under doors and crushing sectors."),
+    CVAR_INT(r_green, "", "", int_cvars_func1, r_green_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of green on the screen (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_homindicator, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a flashing \"Hall Of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", "", bool_cvars_func1, r_hud_func2, CF_NONE, BOOLVALUEALIAS,
@@ -894,6 +901,8 @@ consolecmd_t consolecmds[] =
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
     CVAR_BOOL(r_randomstartframes, "", "", bool_cvars_func1, r_randomstartframes_func2, CF_NEXTMAP, BOOLVALUEALIAS,
         "Toggles randomizing the start frames of certain sprites."),
+    CVAR_INT(r_red, "", "", int_cvars_func1, r_red_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of red on the screen (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by you and cyberdemons."),
     CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, r_rockettrails_translucency_func2, CF_NONE, BOOLVALUEALIAS,
@@ -9867,6 +9876,19 @@ static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
 }
 
 //
+// r_blue CVAR
+//
+static void r_blue_func2(char *cmd, char *parms)
+{
+    const int   r_blue_old = r_blue;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_blue != r_blue_old)
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
+}
+
+//
 // r_brightmaps CVAR
 //
 static void r_brightmaps_func2(char *cmd, char *parms)
@@ -10242,6 +10264,19 @@ static void r_gamma_func2(char *cmd, char *parms)
 }
 
 //
+// r_green CVAR
+//
+static void r_green_func2(char *cmd, char *parms)
+{
+    const int   r_green_old = r_green;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_green != r_green_old)
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
+}
+
+//
 // r_hud CVAR
 //
 static void r_hud_func2(char *cmd, char *parms)
@@ -10447,6 +10482,19 @@ static void r_randomstartframes_func2(char *cmd, char *parms)
 
         free(temp1);
     }
+}
+
+//
+// r_red CVAR
+//
+static void r_red_func2(char *cmd, char *parms)
+{
+    const int   r_red_old = r_red;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_red != r_red_old)
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
 }
 
 //

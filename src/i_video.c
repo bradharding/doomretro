@@ -912,10 +912,14 @@ void I_SetPalette(const byte *playpal)
 
     for (int i = 0; i < 256; i++)
     {
-        byte        r = gamma[*playpal++];
-        byte        g = gamma[*playpal++];
-        byte        b = gamma[*playpal++];
+        byte        r = (byte)(gamma[*playpal++] * r_red / 100.0f);
+        byte        g = (byte)(gamma[*playpal++] * r_green / 100.0f);
+        byte        b = (byte)(gamma[*playpal++] * r_blue / 100.0f);
         const float p = saturationtable[r][g][b];
+
+        r = (byte)BETWEENF(0.0f, r * (r_red / 100.0f), 255.0f);
+        g = (byte)BETWEENF(0.0f, g * (r_green / 100.0f), 255.0f);
+        b = (byte)BETWEENF(0.0f, b * (r_blue / 100.0f), 255.0f);
 
         r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
         g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
@@ -949,9 +953,9 @@ void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
 
     for (int i = 0; i < 256; i++)
     {
-        byte        r = gamma[*playpal++];
-        byte        g = gamma[*playpal++];
-        byte        b = gamma[*playpal++];
+        byte        r = (byte)(gamma[*playpal++] * r_red / 100.0f);
+        byte        g = (byte)(gamma[*playpal++] * r_green / 100.0f);
+        byte        b = (byte)(gamma[*playpal++] * r_blue / 100.0f);
         const float p = saturationtable[r][g][b];
 
         r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
