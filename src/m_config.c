@@ -284,6 +284,7 @@ uint64_t    stat_suicides = 0;
 uint64_t    stat_timeplayed = 0;
 
 static bool cvarsloaded;
+static int  widestcvar;
 
 #define COMMENT(text)                                   { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 #define BLANKLINE                                       { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
@@ -671,7 +672,7 @@ void M_SaveCVARs(void)
         }
 
         // Print the name
-        fprintf(file, "%s ", cvars[i].name);
+        fprintf(file, "%-*s ", widestcvar, cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)
@@ -1239,4 +1240,7 @@ void M_LoadCVARs(const char *filename)
     }
 
     M_CheckCVARs();
+
+    for (int i = 0; i < numcvars; i++)
+        widestcvar = MAX(widestcvar, (int)strlen(cvars[i].name));
 }
