@@ -901,7 +901,7 @@ void I_UpdateBlitFunc(const bool shaking)
     }
 }
 
-static byte     *gamma;
+static byte     *gammalevel;
 static float    saturation;
 static float    contrast;
 static float    red;
@@ -910,7 +910,7 @@ static float    blue;
 
 void I_UpdateColors(void)
 {
-    gamma = gammatable[gammaindex];
+    gammalevel = gammatable[gammaindex];
     saturation = r_saturation / 100.0f;
     contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
     red = r_red / 100.0f;
@@ -930,9 +930,9 @@ void I_SetPalette(const byte *playpal)
 {
     for (int i = 0; i < 256; i++)
     {
-        byte        r = (byte)(gamma[*playpal++] * red);
-        byte        g = (byte)(gamma[*playpal++] * green);
-        byte        b = (byte)(gamma[*playpal++] * blue);
+        byte        r = (byte)(gammalevel[*playpal++] * red);
+        byte        g = (byte)(gammalevel[*playpal++] * green);
+        byte        b = (byte)(gammalevel[*playpal++] * blue);
         const float p = saturationtable[r][g][b];
 
         r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
@@ -961,15 +961,11 @@ void I_SetExternalAutomapPalette(void)
 
 void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
 {
-    const byte  *gamma = gammatable[gammaindex];
-    const float saturation = r_saturation / 100.0f;
-    const float contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
-
     for (int i = 0; i < 256; i++)
     {
-        byte        r = (byte)(gamma[*playpal++] * r_red / 100.0f);
-        byte        g = (byte)(gamma[*playpal++] * r_green / 100.0f);
-        byte        b = (byte)(gamma[*playpal++] * r_blue / 100.0f);
+        byte        r = (byte)(gammalevel[*playpal++] * red);
+        byte        g = (byte)(gammalevel[*playpal++] * green);
+        byte        b = (byte)(gammalevel[*playpal++] * blue);
         const float p = saturationtable[r][g][b];
 
         r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
