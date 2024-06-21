@@ -1521,7 +1521,7 @@ void HU_Drawer(void)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 8;
+                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 16;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
