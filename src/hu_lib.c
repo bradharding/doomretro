@@ -287,7 +287,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
-    int             x = HU_ALTHUDMSGX;
+    int             x = (mapwindow ? 17 : HU_ALTHUDMSGX);
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
     int             color = (secretmap ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
