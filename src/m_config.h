@@ -127,6 +127,7 @@ extern int      r_bloodsplats_max;
 extern int      r_bloodsplats_total;
 extern bool     r_bloodsplats_translucency;
 extern bool     r_brightmaps;
+extern int      r_contrast;
 extern bool     r_corpses_color;
 extern bool     r_corpses_gib;
 extern bool     r_corpses_mirrored;
@@ -625,6 +626,10 @@ enum
 #define r_bloodsplats_translucency_default  true
 
 #define r_brightmaps_default                true
+
+#define r_contrast_min                      -100
+#define r_contrast_default                  0
+#define r_contrast_max                      100
 
 #define r_corpses_color_default             true
 

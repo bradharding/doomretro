@@ -907,31 +907,23 @@ void I_UpdateBlitFunc(const bool shaking)
 void I_SetPalette(const byte *playpal)
 {
     const byte  *gamma = gammatable[gammaindex];
+    const float saturation = r_saturation / 100.0f;
+    const float contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
 
-    if (r_saturation == r_saturation_default)
+    for (int i = 0; i < 256; i++)
     {
-        for (int i = 0; i < 256; i++)
-        {
-            colors[i].r = gamma[*playpal++];
-            colors[i].g = gamma[*playpal++];
-            colors[i].b = gamma[*playpal++];
-        }
-    }
-    else
-    {
-        const float saturation = r_saturation / 100.0f;
+        const byte  r = gamma[*playpal++];
+        const byte  g = gamma[*playpal++];
+        const byte  b = gamma[*playpal++];
+        const float p = saturationtable[r][g][b];
 
-        for (int i = 0; i < 256; i++)
-        {
-            const byte  r = gamma[*playpal++];
-            const byte  g = gamma[*playpal++];
-            const byte  b = gamma[*playpal++];
-            const float p = saturationtable[r][g][b];
+        colors[i].r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
+        colors[i].g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
+        colors[i].b = (byte)BETWEENF(0.0f, p + (b - p) * saturation, 255.0f);
 
-            colors[i].r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
-            colors[i].g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
-            colors[i].b = (byte)BETWEENF(0.0f, p + (b - p) * saturation, 255.0f);
-        }
+        colors[i].r = (byte)BETWEENF(0.0f, contrast * (r - 128) + 128, 255.0f);
+        colors[i].g = (byte)BETWEENF(0.0f, contrast * (g - 128) + 128, 255.0f);
+        colors[i].b = (byte)BETWEENF(0.0f, contrast * (b - 128) + 128, 255.0f);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
@@ -952,31 +944,23 @@ void I_SetExternalAutomapPalette(void)
 void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
 {
     const byte  *gamma = gammatable[gammaindex];
+    const float saturation = r_saturation / 100.0f;
+    const float contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
 
-    if (r_saturation == r_saturation_default)
+    for (int i = 0; i < 256; i++)
     {
-        for (int i = 0; i < 256; i++)
-        {
-            colors[i].r = (byte)(gamma[*playpal++] * brightness);
-            colors[i].g = (byte)(gamma[*playpal++] * brightness);
-            colors[i].b = (byte)(gamma[*playpal++] * brightness);
-        }
-    }
-    else
-    {
-        const float saturation = r_saturation / 100.0f;
+        const byte  r = gamma[*playpal++];
+        const byte  g = gamma[*playpal++];
+        const byte  b = gamma[*playpal++];
+        const float p = saturationtable[r][g][b];
 
-        for (int i = 0; i < 256; i++)
-        {
-            const byte  r = gamma[*playpal++];
-            const byte  g = gamma[*playpal++];
-            const byte  b = gamma[*playpal++];
-            const float p = saturationtable[r][g][b];
+        colors[i].r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
+        colors[i].g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
+        colors[i].b = (byte)BETWEENF(0.0f, p + (b - p) * saturation, 255.0f);
 
-            colors[i].r = (byte)(BETWEENF(0.0f, p + (r - p) * saturation, 255.0f) * brightness);
-            colors[i].g = (byte)(BETWEENF(0.0f, p + (g - p) * saturation, 255.0f) * brightness);
-            colors[i].b = (byte)(BETWEENF(0.0f, p + (b - p) * saturation, 255.0f) * brightness);
-        }
+        colors[i].r = (byte)(BETWEENF(0.0f, contrast * (r - 128) + 128, 255.0f) * brightness);
+        colors[i].g = (byte)(BETWEENF(0.0f, contrast * (g - 128) + 128, 255.0f) * brightness);
+        colors[i].b = (byte)(BETWEENF(0.0f, contrast * (b - 128) + 128, 255.0f) * brightness);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
