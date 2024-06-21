@@ -33,7 +33,9 @@
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * The contrast of the colors on the screen can now be changed using the new `r_contrast` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* The intensity of red, green and blue on the screen can now be changed using the new `r_red`, `r_green` and `r_blue` CVARs. These CVARs can be between `0%` and `100%`, and are `100%` by default and when vanilla mode is enabled.
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
+
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

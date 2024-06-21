@@ -102,7 +102,7 @@ bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(const bool output);
-void I_SetPillarboxes(void);
+void I_UpdateColors(void);
 void I_SetMotionBlur(const int percent);
 
 void I_SetGamma(const float value);

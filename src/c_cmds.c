@@ -9885,7 +9885,7 @@ static void r_blue_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_blue != r_blue_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        I_UpdateColors();
 }
 
 //
@@ -9938,7 +9938,7 @@ static void r_contrast_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_contrast != r_contrast_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        I_UpdateColors();
 }
 
 //
@@ -10225,7 +10225,7 @@ static void r_gamma_func2(char *cmd, char *parms)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
-            I_SetPalette(&PLAYPAL[st_palette * 768]);
+            I_UpdateColors();
             M_SaveCVARs();
         }
     }
@@ -10273,7 +10273,7 @@ static void r_green_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_green != r_green_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        I_UpdateColors();
 }
 
 //
@@ -10494,7 +10494,7 @@ static void r_red_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_red != r_red_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        I_UpdateColors();
 }
 
 //
@@ -10507,7 +10507,7 @@ static void r_saturation_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_saturation != r_saturation_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        I_UpdateColors();
 }
 
 //
@@ -11186,7 +11186,7 @@ static void vid_pillarboxes_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (vid_pillarboxes != vid_pillarboxes_old)
-        I_SetPillarboxes();
+        I_UpdateColors();
 }
 
 //
