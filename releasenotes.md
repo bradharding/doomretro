@@ -31,6 +31,9 @@
 * Minor improvements have been made to the highlight effect in the menu.
 * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
+* Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
+* The contrast of the colors on the screen can now be changed using the new `r_contrast` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* The `vid_scaleapi` CVAR is now `direct3d11` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -130,8 +133,8 @@
 * Both the player and monsters can no longer move under corpses hanging from the ceiling if the `infiniteheight` CVAR is `on`.
 * The number of power-ups the player picks up is now displayed by the `playerstats` CCMD.
 * The use of `DEHACKED` and `MAPINFO` lumps is now displayed by the `mapstats` CCMD.
-* A bug is fixed whereby the screen would glitch slightly as the player exited a map if the `vid_scale_api` CVAR was `direct3d11`.
-* The `vid_scale_api` CVAR is now `direct3d9` by default.
+* A bug is fixed whereby the screen would glitch slightly as the player exited a map if the `vid_scaleapi` CVAR was `direct3d11`.
+* The `vid_scaleapi` CVAR is now `direct3d9` by default.
 * Minor improvements have been made to the position and translucency of several elements on the intermission screen.
 * The total amount of time played is now displayed in the console each time the player exits a map.
 * The amount the screen shakes when the player receives damage has been reduced if the `r_shake_damage` CVAR is greater than `0%`.
