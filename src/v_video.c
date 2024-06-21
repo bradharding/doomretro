@@ -879,7 +879,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
     byte        *desttop;
-    const byte  *black = (highlight ? black45 : black40);
+    const byte  *black = (highlight ? black40 : black45);
     const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
@@ -1590,7 +1590,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
         if (shadow)
         {
             byte        *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
-            const byte  *black = (highlight ? black45 : black40);
+            const byte  *black = (highlight ? black40 : black45);
 
             *dot = black[*dot];
             dot++;
