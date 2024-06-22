@@ -980,9 +980,9 @@ void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
         b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
 
         // contrast and brightness
-        colors[i].r = BETWEEN(0, (int)(128 + (r - 128) * contrast * brightness), 255);
-        colors[i].g = BETWEEN(0, (int)(128 + (g - 128) * contrast * brightness), 255);
-        colors[i].b = BETWEEN(0, (int)(128 + (b - 128) * contrast * brightness), 255);
+        colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255);
+        colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255);
+        colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
