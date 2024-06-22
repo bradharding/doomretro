@@ -68,7 +68,7 @@ r_antialiasing off
 r_blood red
 r_blood_melee off
 r_bloodsplats_max 0
-r_blue 100%
+r_blue 0%
 r_brightmaps off
 r_contrast 0%
 r_corpses_color off
@@ -88,7 +88,7 @@ r_floatbob off
 r_fov 90
 r_gamma off
 r_graduallighting off
-r_green 100%
+r_green 0%
 r_homindicator off
 r_hud off
 r_hud_translucency off
@@ -105,7 +105,7 @@ r_pickupeffect on
 r_playersprites on
 r_radsuiteffect on
 r_randomstartframes off
-r_red 100%
+r_red 0%
 r_rockettrails off
 r_rockettrails_translucency off
 r_saturation 100%

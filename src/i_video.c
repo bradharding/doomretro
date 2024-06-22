@@ -913,9 +913,9 @@ void I_UpdateColors(void)
     gammalevel = gammatable[gammaindex];
     saturation = r_saturation / 100.0f;
     contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
-    red = r_red / 100.0f;
-    green = r_green / 100.0f;
-    blue = r_blue / 100.0f;
+    red = 255.0f * r_red / 100.0f;
+    green = 255.0f * r_green / 100.0f;
+    blue = 255.0f * r_blue / 100.0f;
 
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 
@@ -930,18 +930,22 @@ void I_SetPalette(const byte *playpal)
 {
     for (int i = 0; i < 256; i++)
     {
-        byte        r = (byte)(gammalevel[*playpal++] * red);
-        byte        g = (byte)(gammalevel[*playpal++] * green);
-        byte        b = (byte)(gammalevel[*playpal++] * blue);
+        // gamma correction and red/green/blue intensity
+        byte        r = BETWEEN(0, (int)(gammalevel[*playpal++] + red), 255);
+        byte        g = BETWEEN(0, (int)(gammalevel[*playpal++] + green), 255);
+        byte        b = BETWEEN(0, (int)(gammalevel[*playpal++] + blue), 255);
+
+        // saturation
         const float p = saturationtable[r][g][b];
 
-        r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
-        g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
-        b = (byte)BETWEENF(0.0f, p + (b - p) * saturation, 255.0f);
+        r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
+        g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
+        b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
 
-        colors[i].r = (byte)BETWEENF(0.0f, 128 + (r - 128) * contrast, 255.0f);
-        colors[i].g = (byte)BETWEENF(0.0f, 128 + (g - 128) * contrast, 255.0f);
-        colors[i].b = (byte)BETWEENF(0.0f, 128 + (b - 128) * contrast, 255.0f);
+        // contrast
+        colors[i].r = BETWEEN(0, (int)(128 + (r - 128) * contrast), 255);
+        colors[i].g = BETWEEN(0, (int)(128 + (g - 128) * contrast), 255);
+        colors[i].b = BETWEEN(0, (int)(128 + (b - 128) * contrast), 255);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
@@ -963,18 +967,22 @@ void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
 {
     for (int i = 0; i < 256; i++)
     {
-        byte        r = (byte)(gammalevel[*playpal++] * red);
-        byte        g = (byte)(gammalevel[*playpal++] * green);
-        byte        b = (byte)(gammalevel[*playpal++] * blue);
+        // gamma correction and red/green/blue intensity
+        byte        r = BETWEEN(0, (int)(gammalevel[*playpal++] + red), 255);
+        byte        g = BETWEEN(0, (int)(gammalevel[*playpal++] + green), 255);
+        byte        b = BETWEEN(0, (int)(gammalevel[*playpal++] + blue), 255);
+
+        // saturation
         const float p = saturationtable[r][g][b];
 
-        r = (byte)BETWEENF(0.0f, p + (r - p) * saturation, 255.0f);
-        g = (byte)BETWEENF(0.0f, p + (g - p) * saturation, 255.0f);
-        b = (byte)BETWEENF(0.0f, p + (b - p) * saturation, 255.0f);
+        r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
+        g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
+        b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
 
-        colors[i].r = (byte)(BETWEENF(0.0f, 128 + (r - 128) * contrast, 255.0f) * brightness);
-        colors[i].g = (byte)(BETWEENF(0.0f, 128 + (g - 128) * contrast, 255.0f) * brightness);
-        colors[i].b = (byte)(BETWEENF(0.0f, 128 + (b - 128) * contrast, 255.0f) * brightness);
+        // contrast and brightness
+        colors[i].r = BETWEEN(0, (int)(128 + (r - 128) * contrast * brightness), 255);
+        colors[i].g = BETWEEN(0, (int)(128 + (g - 128) * contrast * brightness), 255);
+        colors[i].b = BETWEEN(0, (int)(128 + (b - 128) * contrast * brightness), 255);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
@@ -1737,7 +1745,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
         I_SDLError("SDL_SetSurfacePalette", -1);
 
     I_UpdateColors();
-    I_SetPalette(&PLAYPAL[st_palette * 768]);
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT;

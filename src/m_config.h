@@ -628,8 +628,8 @@ enum
 
 #define r_bloodsplats_translucency_default  true
 
-#define r_blue_min                          0
-#define r_blue_default                      100
+#define r_blue_min                          -100
+#define r_blue_default                      0
 #define r_blue_max                          100
 
 #define r_brightmaps_default                true
@@ -676,8 +676,8 @@ enum
 
 #define r_graduallighting_default           true
 
-#define r_green_min                         0
-#define r_green_default                     100
+#define r_green_min                         -100
+#define r_green_default                     0
 #define r_green_max                         100
 
 #define r_homindicator_default              false
@@ -712,8 +712,8 @@ enum
 
 #define r_randomstartframes_default         true
 
-#define r_red_min                           0
-#define r_red_default                       100
+#define r_red_min                           -100
+#define r_red_default                       0
 #define r_red_max                           100
 
 #define r_rockettrails_default              true
