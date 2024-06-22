@@ -32,8 +32,10 @@
 * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
-* The contrast of the colors on the screen can now be changed using the new `r_contrast` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
-* The intensity of red, green and blue on the screen can now be changed using the new `r_red`, `r_green` and `r_blue` CVARs. These CVARs can be between `-100%` and `100%`, and are `0%` by default and when vanilla mode is enabled.
+* The brightness of the colors on the screen can now be changed using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* The contrast of the colors on the screen can now be changed using the new `vid_contrast` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* The intensity of red, green and blue on the screen can now be changed using the new `vid_red`, `vid_green` and `vid_blue` CVARs. These CVARs can be between `-100%` and `100%`, and are `0%` by default and when vanilla mode is enabled.
+* The `r_saturation` CVAR is renamed `vid_saturation` and is now a value between `-100%` and `100%` and is `0%` by default.
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
 * The map title in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 

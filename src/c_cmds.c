@@ -456,10 +456,7 @@ static void r_antialiasing_func2(char *cmd, char *parms);
 static bool r_blood_func1(char *cmd, char *parms);
 static void r_blood_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
-static void r_blue_func2(char *cmd, char *parms);
 static void r_brightmaps_func2(char *cmd, char *parms);
-static void r_brightness_func2(char *cmd, char *parms);
-static void r_contrast_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_func2(char *cmd, char *parms);
 static bool r_detail_func1(char *cmd, char *parms);
 static void r_detail_func2(char *cmd, char *parms);
@@ -469,15 +466,12 @@ static void r_fixmaperrors_func2(char *cmd, char *parms);
 static void r_fov_func2(char *cmd, char *parms);
 static bool r_gamma_func1(char *cmd, char *parms);
 static void r_gamma_func2(char *cmd, char *parms);
-static void r_green_func2(char *cmd, char *parms);
 static void r_hud_func2(char *cmd, char *parms);
 static void r_hud_translucency_func2(char *cmd, char *parms);
 static void r_lowpixelsize_func2(char *cmd, char *parms);
 static void r_mirroredweapons_func2(char *cmd, char *parms);
 static void r_randomstartframes_func2(char *cmd, char *parms);
-static void r_red_func2(char *cmd, char *parms);
 static void r_rockettrails_translucency_func2(char *cmd, char *parms);
-static void r_saturation_func2(char *cmd, char *parms);
 static void r_screensize_func2(char *cmd, char *parms);
 static void r_shadows_translucency_func2(char *cmd, char *parms);
 static void r_sprites_translucency_func2(char *cmd, char *parms);
@@ -495,12 +489,18 @@ static bool units_func1(char *cmd, char *parms);
 static void units_func2(char *cmd, char *parms);
 static bool vid_aspectratio_func1(char *cmd, char *parms);
 static void vid_aspectratio_func2(char *cmd, char *parms);
+static void vid_blue_func2(char *cmd, char *parms);
 static void vid_borderlesswindow_func2(char *cmd, char *parms);
+static void vid_brightness_func2(char *cmd, char *parms);
 static bool vid_capfps_func1(char *cmd, char *parms);
 static void vid_capfps_func2(char *cmd, char *parms);
+static void vid_contrast_func2(char *cmd, char *parms);
 static void vid_display_func2(char *cmd, char *parms);
 static void vid_fullscreen_func2(char *cmd, char *parms);
+static void vid_green_func2(char *cmd, char *parms);
 static void vid_pillarboxes_func2(char *cmd, char *parms);
+static void vid_red_func2(char *cmd, char *parms);
+static void vid_saturation_func2(char *cmd, char *parms);
 static bool vid_scaleapi_func1(char *cmd, char *parms);
 static void vid_scaleapi_func2(char *cmd, char *parms);
 static bool vid_scalefilter_func1(char *cmd, char *parms);
@@ -828,14 +828,8 @@ consolecmd_t consolecmds[] =
         "The total number of blood splats in the current map."),
     CVAR_BOOL(r_bloodsplats_translucency, "", "", bool_cvars_func1, r_bloodsplats_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of blood splats."),
-    CVAR_INT(r_blue, "", "", int_cvars_func1, r_blue_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of blue on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_brightmaps, "", "", bool_cvars_func1, r_brightmaps_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles brightmaps on some wall textures."),
-    CVAR_INT(r_brightness, "", "", int_cvars_func1, r_brightness_func2, CF_PERCENT, NOVALUEALIAS,
-        "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(r_contrast, "", "", int_cvars_func1, r_contrast_func2, CF_PERCENT, NOVALUEALIAS,
-        "The contrast of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_corpses_color, r_corpses_colour, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_gib, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -870,8 +864,6 @@ consolecmd_t consolecmds[] =
         "The screen's gamma correction level (" BOLD("off") ", or " BOLD("0.50") " to " BOLD("2.0") ")."),
     CVAR_BOOL(r_graduallighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles gradual lighting under doors and crushing sectors."),
-    CVAR_INT(r_green, "", "", int_cvars_func1, r_green_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of green on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_homindicator, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a flashing \"Hall Of Mirrors\" indicator."),
     CVAR_BOOL(r_hud, "", "", bool_cvars_func1, r_hud_func2, CF_NONE, BOOLVALUEALIAS,
@@ -904,14 +896,10 @@ consolecmd_t consolecmds[] =
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
     CVAR_BOOL(r_randomstartframes, "", "", bool_cvars_func1, r_randomstartframes_func2, CF_NEXTMAP, BOOLVALUEALIAS,
         "Toggles randomizing the start frames of certain sprites."),
-    CVAR_INT(r_red, "", "", int_cvars_func1, r_red_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of red on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by you and cyberdemons."),
     CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, r_rockettrails_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of the trail of smoke behind rockets fired by you and cyberdemons."),
-    CVAR_INT(r_saturation, "", "", int_cvars_func1, r_saturation_func2, CF_PERCENT, NOVALUEALIAS,
-        "The saturation of the colors on the screen (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(r_screensize, "", "", int_cvars_func1, r_screensize_func2, CF_NONE, NOVALUEALIAS,
         "The screen size (" BOLD("0") " to " BOLD("8") ")."),
     CVAR_BOOL(r_shadows, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -1007,11 +995,17 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
         "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
         BOLD("32:9") " or " BOLD("auto") ")."),
+    CVAR_INT(vid_blue, "", "", int_cvars_func1, vid_blue_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of blue on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(vid_borderlesswindow, "", "", bool_cvars_func1, vid_borderlesswindow_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
+    CVAR_INT(vid_brightness, "", "", int_cvars_func1, vid_brightness_func2, CF_PERCENT, NOVALUEALIAS,
+        "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(vid_capfps, "", "", vid_capfps_func1, vid_capfps_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
         "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
+    CVAR_INT(vid_contrast, "", "", int_cvars_func1, vid_contrast_func2, CF_PERCENT, NOVALUEALIAS,
+        "The contrast of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(vid_display, "", "", int_cvars_func1, vid_display_func2, CF_NONE, NOVALUEALIAS,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
@@ -1020,10 +1014,16 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL(vid_fullscreen, "", "", bool_cvars_func1, vid_fullscreen_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles between fullscreen and a window."),
+    CVAR_INT(vid_green, "", "", int_cvars_func1, vid_green_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of green on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(vid_motionblur, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount of motion blur when you turn quickly (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(vid_pillarboxes, "", "", bool_cvars_func1, vid_pillarboxes_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using the pillarboxes either side of the screen for certain effects when not in widescreen."),
+    CVAR_INT(vid_red, "", "", int_cvars_func1, vid_red_func2, CF_PERCENT, NOVALUEALIAS,
+        "The intensity of red on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
+    CVAR_INT(vid_saturation, "", "", int_cvars_func1, vid_saturation_func2, CF_PERCENT, NOVALUEALIAS,
+        "The saturation of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE,
         "The API used to scale every frame (" BOLD("\"direct3d9\"") ", " BOLD("\"direct3d11\"") ", "
@@ -9879,19 +9879,6 @@ static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
 }
 
 //
-// r_blue CVAR
-//
-static void r_blue_func2(char *cmd, char *parms)
-{
-    const int   r_blue_old = r_blue;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_blue != r_blue_old)
-        I_UpdateColors();
-}
-
-//
 // r_brightmaps CVAR
 //
 static void r_brightmaps_func2(char *cmd, char *parms)
@@ -9929,32 +9916,6 @@ static void r_brightmaps_func2(char *cmd, char *parms)
 
         C_ShowWarning(i);
     }
-}
-
-//
-// r_brightness CVAR
-//
-static void r_brightness_func2(char *cmd, char *parms)
-{
-    const int   r_brightness_old = r_brightness;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_brightness != r_brightness_old)
-        I_UpdateColors();
-}
-
-//
-// r_contrast CVAR
-//
-static void r_contrast_func2(char *cmd, char *parms)
-{
-    const int   r_contrast_old = r_contrast;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_contrast != r_contrast_old)
-        I_UpdateColors();
 }
 
 //
@@ -10280,19 +10241,6 @@ static void r_gamma_func2(char *cmd, char *parms)
 }
 
 //
-// r_green CVAR
-//
-static void r_green_func2(char *cmd, char *parms)
-{
-    const int   r_green_old = r_green;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_green != r_green_old)
-        I_UpdateColors();
-}
-
-//
 // r_hud CVAR
 //
 static void r_hud_func2(char *cmd, char *parms)
@@ -10498,32 +10446,6 @@ static void r_randomstartframes_func2(char *cmd, char *parms)
 
         free(temp1);
     }
-}
-
-//
-// r_red CVAR
-//
-static void r_red_func2(char *cmd, char *parms)
-{
-    const int   r_red_old = r_red;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_red != r_red_old)
-        I_UpdateColors();
-}
-
-//
-// r_saturation CVAR
-//
-static void r_saturation_func2(char *cmd, char *parms)
-{
-    const int   r_saturation_old = r_saturation;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_saturation != r_saturation_old)
-        I_UpdateColors();
 }
 
 //
@@ -11115,6 +11037,19 @@ static void vid_aspectratio_func2(char *cmd, char *parms)
 }
 
 //
+// vid_blue CVAR
+//
+static void vid_blue_func2(char *cmd, char *parms)
+{
+    const int   vid_blue_old = vid_blue;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_blue != vid_blue_old)
+        I_UpdateColors();
+}
+
+//
 // vid_borderlesswindow CVAR
 //
 static void vid_borderlesswindow_func2(char *cmd, char *parms)
@@ -11125,6 +11060,19 @@ static void vid_borderlesswindow_func2(char *cmd, char *parms)
 
     if (vid_borderlesswindow != vid_borderlesswindow_old && vid_fullscreen)
         I_RestartGraphics(true);
+}
+
+//
+// vid_brightness CVAR
+//
+static void vid_brightness_func2(char *cmd, char *parms)
+{
+    const int   vid_brightness_old = vid_brightness;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_brightness != vid_brightness_old)
+        I_UpdateColors();
 }
 
 //
@@ -11164,6 +11112,19 @@ static void vid_capfps_func2(char *cmd, char *parms)
 }
 
 //
+// vid_contrast CVAR
+//
+static void vid_contrast_func2(char *cmd, char *parms)
+{
+    const int   vid_contrast_old = vid_contrast;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_contrast != vid_contrast_old)
+        I_UpdateColors();
+}
+
+//
 // vid_display CVAR
 //
 static void vid_display_func2(char *cmd, char *parms)
@@ -11193,6 +11154,19 @@ static void vid_fullscreen_func2(char *cmd, char *parms)
 }
 
 //
+// vid_green CVAR
+//
+static void vid_green_func2(char *cmd, char *parms)
+{
+    const int   vid_green_old = vid_green;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_green != vid_green_old)
+        I_UpdateColors();
+}
+
+//
 // vid_pillarboxes CVAR
 //
 static void vid_pillarboxes_func2(char *cmd, char *parms)
@@ -11202,6 +11176,32 @@ static void vid_pillarboxes_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (vid_pillarboxes != vid_pillarboxes_old)
+        I_UpdateColors();
+}
+
+//
+// vid_red CVAR
+//
+static void vid_red_func2(char *cmd, char *parms)
+{
+    const int   vid_red_old = vid_red;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_red != vid_red_old)
+        I_UpdateColors();
+}
+
+//
+// vid_saturation CVAR
+//
+static void vid_saturation_func2(char *cmd, char *parms)
+{
+    const int   vid_saturation_old = vid_saturation;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_saturation != vid_saturation_old)
         I_UpdateColors();
 }
 

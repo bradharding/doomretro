@@ -126,10 +126,7 @@ extern bool     r_blood_melee;
 extern int      r_bloodsplats_max;
 extern int      r_bloodsplats_total;
 extern bool     r_bloodsplats_translucency;
-extern int      r_blue;
 extern bool     r_brightmaps;
-extern int      r_brightness;
-extern int      r_contrast;
 extern bool     r_corpses_color;
 extern bool     r_corpses_gib;
 extern bool     r_corpses_mirrored;
@@ -147,7 +144,6 @@ extern bool     r_floatbob;
 extern int      r_fov;
 extern float    r_gamma;
 extern bool     r_graduallighting;
-extern int      r_green;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
@@ -164,10 +160,8 @@ extern bool     r_pickupeffect;
 extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
 extern bool     r_randomstartframes;
-extern int      r_red;
 extern bool     r_rockettrails;
 extern bool     r_rockettrails_translucency;
-extern int      r_saturation;
 extern int      r_screensize;
 extern bool     r_shadows;
 extern bool     r_shadows_translucency;
@@ -195,15 +189,21 @@ extern int      turbo;
 extern int      units;
 extern char     *version;
 extern int      vid_aspectratio;
+extern int      vid_blue;
 extern bool     vid_borderlesswindow;
+extern int      vid_brightness;
 extern int      vid_capfps;
+extern int      vid_contrast;
 extern int      vid_display;
 #if !defined(_WIN32)
 extern char     *vid_driver;
 #endif
 extern bool     vid_fullscreen;
+extern int      vid_green;
 extern int      vid_motionblur;
 extern bool     vid_pillarboxes;
+extern int      vid_red;
+extern int      vid_saturation;
 extern char     *vid_scaleapi;
 extern char     *vid_scalefilter;
 extern char     *vid_screenresolution;
@@ -629,19 +629,7 @@ enum
 
 #define r_bloodsplats_translucency_default  true
 
-#define r_blue_min                          -100
-#define r_blue_default                      0
-#define r_blue_max                          100
-
 #define r_brightmaps_default                true
-
-#define r_brightness_min                    -100
-#define r_brightness_default                0
-#define r_brightness_max                    100
-
-#define r_contrast_min                      -100
-#define r_contrast_default                  0
-#define r_contrast_max                      100
 
 #define r_corpses_color_default             true
 
@@ -681,10 +669,6 @@ enum
 
 #define r_graduallighting_default           true
 
-#define r_green_min                         -100
-#define r_green_default                     0
-#define r_green_max                         100
-
 #define r_homindicator_default              false
 
 #define r_hud_default                       false
@@ -717,17 +701,9 @@ enum
 
 #define r_randomstartframes_default         true
 
-#define r_red_min                           -100
-#define r_red_default                       0
-#define r_red_max                           100
-
 #define r_rockettrails_default              true
 
 #define r_rockettrails_translucency_default true
-
-#define r_saturation_min                    0
-#define r_saturation_default                100
-#define r_saturation_max                    200
 
 #define r_screensize_min                    0
 #define r_screensize_default                7
@@ -805,11 +781,23 @@ enum
 #define vid_aspectratio_default             vid_aspectratio_auto
 #define vid_aspectratio_max                 vid_aspectratio_32_9
 
+#define vid_blue_min                        -100
+#define vid_blue_default                    0
+#define vid_blue_max                        100
+
 #define vid_borderlesswindow_default        true
+
+#define vid_brightness_min                  -100
+#define vid_brightness_default              0
+#define vid_brightness_max                  100
 
 #define vid_capfps_min                      0
 #define vid_capfps_default                  200
 #define vid_capfps_max                      1000
+
+#define vid_contrast_min                    -100
+#define vid_contrast_default                0
+#define vid_contrast_max                    100
 
 #define vid_display_min                     1
 #define vid_display_default                 1
@@ -821,11 +809,23 @@ enum
 
 #define vid_fullscreen_default              true
 
+#define vid_green_min                       -100
+#define vid_green_default                   0
+#define vid_green_max                       100
+
 #define vid_motionblur_min                  0
 #define vid_motionblur_default              0
 #define vid_motionblur_max                  100
 
 #define vid_pillarboxes_default             false
+
+#define vid_red_min                         -100
+#define vid_red_default                     0
+#define vid_red_max                         100
+
+#define vid_saturation_min                  -100
+#define vid_saturation_default              0
+#define vid_saturation_max                  100
 
 #if defined(_WIN32)
 #define vid_scaleapi_direct3d9              "direct3d9"

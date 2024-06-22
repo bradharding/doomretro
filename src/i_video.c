@@ -912,12 +912,12 @@ float           brightness;
 void I_UpdateColors(void)
 {
     gammalevel = gammatable[gammaindex];
-    red = 255.0f * r_red / 100.0f;
-    green = 255.0f * r_green / 100.0f;
-    blue = 255.0f * r_blue / 100.0f;
-    saturation = r_saturation / 100.0f;
-    contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
-    brightness = (r_brightness + 110.0f) / 110.0f;
+    red = 255.0f * vid_red / 100.0f;
+    green = 255.0f * vid_green / 100.0f;
+    blue = 255.0f * vid_blue / 100.0f;
+    saturation = (vid_saturation + 100.0f) / 100.0f;
+    contrast = (259.0f * (vid_contrast + 255.0f)) / (255.0f * (259.0f - vid_contrast));
+    brightness = (vid_brightness + 110.0f) / 110.0f;
 
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 

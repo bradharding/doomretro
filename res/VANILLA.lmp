@@ -68,10 +68,7 @@ r_antialiasing off
 r_blood red
 r_blood_melee off
 r_bloodsplats_max 0
-r_blue 0%
 r_brightmaps off
-r_brightness 0%
-r_contrast 0%
 r_corpses_color off
 r_corpses_gib off
 r_corpses_mirrored off
@@ -89,7 +86,6 @@ r_floatbob off
 r_fov 90
 r_gamma off
 r_graduallighting off
-r_green 0%
 r_homindicator off
 r_hud off
 r_hud_translucency off
@@ -106,10 +102,8 @@ r_pickupeffect on
 r_playersprites on
 r_radsuiteffect on
 r_randomstartframes off
-r_red 0%
 r_rockettrails off
 r_rockettrails_translucency off
-r_saturation 100%
 r_screensize 6
 r_shadows off
 r_shake_barrels off
@@ -130,9 +124,15 @@ tossdrop off
 turbo 100%
 units imperial
 vid_aspectratio auto
+vid_blue 0%
+vid_brightness 0%
 vid_capfps 35
+vid_contrast 0%
+vid_green 0%
 vid_motionblur 0%
 vid_pillarboxes off
+vid_red 0%
+vid_saturation 0%
 vid_showfps off
 vid_widescreen off
 weaponbob 100%
