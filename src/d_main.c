@@ -245,11 +245,11 @@ void D_FadeScreenToBlack(void)
     if (!fade)
         return;
 
-    for (float i = 0.95f; i >= 0.0f; i -= 0.05f)
+    for (brightness = 0.95f; brightness >= 0.0f; brightness -= 0.05f)
     {
-        I_SetPaletteWithBrightness(palette, i);
+        I_SetPalette(palette);
         I_SetExternalAutomapPalette();
-        I_SetMusicVolume((int)(current_music_volume * i));
+        I_SetMusicVolume((int)(current_music_volume * brightness));
         blitfunc();
         I_CapFPS(60);
     }

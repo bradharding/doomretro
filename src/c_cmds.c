@@ -458,6 +458,7 @@ static void r_blood_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
 static void r_blue_func2(char *cmd, char *parms);
 static void r_brightmaps_func2(char *cmd, char *parms);
+static void r_brightness_func2(char *cmd, char *parms);
 static void r_contrast_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_func2(char *cmd, char *parms);
 static bool r_detail_func1(char *cmd, char *parms);
@@ -831,6 +832,8 @@ consolecmd_t consolecmds[] =
         "The intensity of blue on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_brightmaps, "", "", bool_cvars_func1, r_brightmaps_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles brightmaps on some wall textures."),
+    CVAR_INT(r_brightness, "", "", int_cvars_func1, r_brightness_func2, CF_PERCENT, NOVALUEALIAS,
+        "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(r_contrast, "", "", int_cvars_func1, r_contrast_func2, CF_PERCENT, NOVALUEALIAS,
         "The contrast of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_corpses_color, r_corpses_colour, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -9926,6 +9929,19 @@ static void r_brightmaps_func2(char *cmd, char *parms)
 
         C_ShowWarning(i);
     }
+}
+
+//
+// r_brightness CVAR
+//
+static void r_brightness_func2(char *cmd, char *parms)
+{
+    const int   r_brightness_old = r_brightness;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_brightness != r_brightness_old)
+        I_UpdateColors();
 }
 
 //

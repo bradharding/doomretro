@@ -139,6 +139,7 @@ int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 int         r_blue = r_blue_default;
 bool        r_brightmaps = r_brightmaps_default;
+int         r_brightness = r_brightness_default;
 int         r_contrast = r_contrast_default;
 bool        r_corpses_color = r_corpses_color_default;
 bool        r_corpses_gib = r_corpses_gib_default;
@@ -390,6 +391,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (r_blue,                           r_blue,                                r_blue,                              NOVALUEALIAS       ),
     CVAR_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                        BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_brightness,                     r_brightness,                          r_brightness,                        NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (r_contrast,                       r_contrast,                            r_contrast,                          NOVALUEALIAS       ),
     CVAR_BOOL         (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                       BOOLVALUEALIAS     ),

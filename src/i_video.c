@@ -902,20 +902,22 @@ void I_UpdateBlitFunc(const bool shaking)
 }
 
 static byte     *gammalevel;
-static float    saturation;
-static float    contrast;
 static float    red;
 static float    green;
 static float    blue;
+static float    saturation;
+static float    contrast;
+float           brightness;
 
 void I_UpdateColors(void)
 {
     gammalevel = gammatable[gammaindex];
-    saturation = r_saturation / 100.0f;
-    contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
     red = 255.0f * r_red / 100.0f;
     green = 255.0f * r_green / 100.0f;
     blue = 255.0f * r_blue / 100.0f;
+    saturation = r_saturation / 100.0f;
+    contrast = (259.0f * (r_contrast + 255.0f)) / (255.0f * (259.0f - r_contrast));
+    brightness = (r_brightness + 110.0f) / 110.0f;
 
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 
@@ -942,10 +944,10 @@ void I_SetPalette(const byte *playpal)
         g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
         b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
 
-        // contrast
-        colors[i].r = BETWEEN(0, (int)(128 + (r - 128) * contrast), 255);
-        colors[i].g = BETWEEN(0, (int)(128 + (g - 128) * contrast), 255);
-        colors[i].b = BETWEEN(0, (int)(128 + (b - 128) * contrast), 255);
+        // contrast and brightness
+        colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255);
+        colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255);
+        colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
@@ -961,31 +963,6 @@ void I_SetExternalAutomapPalette(void)
         SDL_SetPaletteColors(mappalette, colors, 0, 256);
         mapblitfunc();
     }
-}
-
-void I_SetPaletteWithBrightness(const byte *playpal, const float brightness)
-{
-    for (int i = 0; i < 256; i++)
-    {
-        // gamma correction and red/green/blue intensity
-        byte        r = BETWEEN(0, (int)(gammalevel[*playpal++] + red), 255);
-        byte        g = BETWEEN(0, (int)(gammalevel[*playpal++] + green), 255);
-        byte        b = BETWEEN(0, (int)(gammalevel[*playpal++] + blue), 255);
-
-        // saturation
-        const float p = saturationtable[r][g][b];
-
-        r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
-        g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
-        b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
-
-        // contrast and brightness
-        colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255);
-        colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255);
-        colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
-    }
-
-    SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
 static void GetDisplays(void)

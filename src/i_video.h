@@ -95,7 +95,6 @@ void GetScreenResolution(void);
 // Takes full 8 bit values.
 void I_SetPalette(const byte *playpal);
 void I_SetExternalAutomapPalette(void);
-void I_SetPaletteWithBrightness(const byte *playpal, const float brightness);
 
 void I_UpdateBlitFunc(const bool shaking);
 bool I_CreateExternalAutomap(void);
@@ -139,6 +138,7 @@ extern int          keydown2;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];
+extern float        brightness;
 
 extern int          windowx;
 extern int          windowy;

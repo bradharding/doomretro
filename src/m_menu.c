@@ -1840,10 +1840,10 @@ static void M_ChooseSkill(int choice)
 
     if (KDIKDIZD)
         G_DeferredInitNew((skill_t)choice, 1, 13);
-    else if (!customepisode)
-        G_DeferredInitNew((skill_t)choice, epi + 1, 1);
-    else
+    else if (customepisode)
         G_DeferredInitNew((skill_t)choice, episodemenuepisode[epi], episodemenumap[epi]);
+    else
+        G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 
 static void M_Episode(int choice)
