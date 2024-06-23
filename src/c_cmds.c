@@ -8715,6 +8715,9 @@ static void vanilla_func2(char *cmd, char *parms)
 
     if (vanilla)
     {
+        hud = r_hud;
+        showfps = vid_showfps;
+
         SC_Open("VANILLA");
 
         while (SC_GetString())
@@ -8733,9 +8736,6 @@ static void vanilla_func2(char *cmd, char *parms)
 
         if ((buddha = (viewplayer->cheats & CF_BUDDHA)))
             viewplayer->cheats &= ~CF_BUDDHA;
-
-        hud = r_hud;
-        showfps = vid_showfps;
 
         if ((nomousestrafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
             bind_func2("bind", "mouse2 +strafe");
