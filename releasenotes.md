@@ -12,7 +12,7 @@
   * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
   * `EPISODE` is now parsed correctly in more instances.
 * These changes have been made to the support of `DEHACKED` lumps:
-  * The value specified using `Initial bullets` will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
+  * The values specified using `Initial health` and `Initial bullets` will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
   * A bug is fixed whereby the health of spiderdemons would always be 3,000 even if a value was specified using `Hit points`.
 * These changes have been made to the support for controllers:
   * Improvements have been made to the rumbling of controllers when the player uses certain weapons and the `joy_rumble_weapons` CVAR is `on`.
