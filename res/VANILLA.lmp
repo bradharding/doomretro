@@ -89,6 +89,7 @@ r_graduallighting off
 r_homindicator off
 r_hud off
 r_hud_translucency off
+r_levelbrightness 0%
 r_linearskies off
 r_liquid_bob off
 r_liquid_bobsprites off

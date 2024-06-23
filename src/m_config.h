@@ -147,6 +147,7 @@ extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
+extern int      r_levelbrightness;
 extern bool     r_linearskies;
 extern bool     r_liquid_bob;
 extern bool     r_liquid_bobsprites;
@@ -674,6 +675,10 @@ enum
 #define r_hud_default                       false
 
 #define r_hud_translucency_default          true
+
+#define r_levelbrightness_min               0
+#define r_levelbrightness_default           0
+#define r_levelbrightness_max               100
 
 #define r_linearskies_default               false
 

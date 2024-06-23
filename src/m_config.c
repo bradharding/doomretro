@@ -158,6 +158,7 @@ bool        r_graduallighting = r_graduallighting_default;
 bool        r_homindicator = r_homindicator_default;
 bool        r_hud = r_hud_default;
 bool        r_hud_translucency = r_hud_translucency_default;
+int         r_levelbrightness = r_levelbrightness_default;
 bool        r_linearskies = r_linearskies_default;
 bool        r_liquid_bob = r_liquid_bob_default;
 bool        r_liquid_bobsprites = r_liquid_bobsprites_default;
@@ -410,6 +411,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_homindicator,                   r_homindicator,                        r_homindicator,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_hud,                            r_hud,                                 r_hud,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                  BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_levelbrightness,                r_levelbrightness,                     r_levelbrightness,                   NOVALUEALIAS       ),
     CVAR_BOOL         (r_linearskies,                    r_linearskies,                         r_linearskies,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_liquid_bob,                     r_liquid_bob,                          r_liquid_bob,                        BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_liquid_bobsprites,              r_liquid_bobsprites,                   r_liquid_bobsprites,                 BOOLVALUEALIAS     ),
