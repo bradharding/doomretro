@@ -8739,10 +8739,6 @@ static void vanilla_func2(char *cmd, char *parms)
 
         if ((nomousestrafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
             bind_func2("bind", "mouse2 +strafe");
-
-        C_Output(s_STSTR_VON);
-        HU_SetPlayerMessage(s_STSTR_VON, false, false);
-        C_Warning(0, "Changes to any CVARs won't be saved while in vanilla mode.");
     }
     else
     {
@@ -8756,8 +8752,6 @@ static void vanilla_func2(char *cmd, char *parms)
             bind_func2("unbind", "mouse2 +strafe");
 
         M_LoadCVARs(configfile);
-        C_Output(s_STSTR_VOFF);
-        HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
     }
 
     if (gamestate == GS_LEVEL)
@@ -8768,6 +8762,18 @@ static void vanilla_func2(char *cmd, char *parms)
 
     nobindoutput = false;
     togglingvanilla = false;
+
+    if (vanilla)
+    {
+        C_Output(s_STSTR_VON);
+        HU_SetPlayerMessage(s_STSTR_VON, false, false);
+        C_Warning(0, "Changes to any CVARs won't be saved while in vanilla mode.");
+    }
+    else
+    {
+        C_Output(s_STSTR_VOFF);
+        HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
+    }
 }
 
 //
