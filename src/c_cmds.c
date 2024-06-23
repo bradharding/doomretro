@@ -1005,7 +1005,7 @@ consolecmd_t consolecmds[] =
         "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
         "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_contrast, "", "", int_cvars_func1, vid_contrast_func2, CF_PERCENT, NOVALUEALIAS,
-        "The contrast of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
+        "The screen's contrast (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(vid_display, "", "", int_cvars_func1, vid_display_func2, CF_NONE, NOVALUEALIAS,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
@@ -1023,7 +1023,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_red, "", "", int_cvars_func1, vid_red_func2, CF_PERCENT, NOVALUEALIAS,
         "The intensity of red on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
     CVAR_INT(vid_saturation, "", "", int_cvars_func1, vid_saturation_func2, CF_PERCENT, NOVALUEALIAS,
-        "The saturation of the colors on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
+        "The screen's saturation (" BOLD("-100%") " to " BOLD("100%") ")."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE,
         "The API used to scale every frame (" BOLD("\"direct3d9\"") ", " BOLD("\"direct3d11\"") ", "
