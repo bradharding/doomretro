@@ -804,7 +804,6 @@ void C_ShowConsole(bool reset)
     consoleanim = 0;
     showcaret = true;
     caretwait = 0;
-    skipaction = false;
 
     if (reset)
     {

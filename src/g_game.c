@@ -147,8 +147,6 @@ static bool     mousearray[MAXMOUSEBUTTONS + 1];
 bool            *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAXMOUSEBUTTONS + 2][255] = { "" };
 
-bool            skipaction = false;
-
 static int      mousex;
 static int      mousey;
 
@@ -401,9 +399,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         cmd->buttons |= BT_JUMP;
 
     // buttons
-    if (skipaction)
-        skipaction = false;
-    else if (!freeze)
+    if (!freeze)
     {
         if ((mousebuttons[mousefire] || gamekeydown[keyboardfire]
             || (gamecontrollerbuttons & gamecontrollerfire)))

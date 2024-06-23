@@ -108,7 +108,6 @@ extern char         lbmpath2[MAX_PATH];
 extern char         keyactionlist[NUMKEYS][255];
 extern char         mouseactionlist[MAXMOUSEBUTTONS + 2][255];
 extern int          st_facecount;
-extern bool         skipaction;
 extern char         savename[MAX_PATH];
 extern bool         usefreelook;
 extern bool         secretexit;

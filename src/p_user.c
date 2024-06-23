@@ -390,7 +390,6 @@ static void P_DeathThink(void)
         damagerumbletics = 1;
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
-        skipaction = true;
         gamekeydown[' '] = false;
         gamekeydown[KEY_ENTER] = false;
 

@@ -3879,9 +3879,8 @@ bool M_Responder(event_t *ev)
                 }
             }
 
-            skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
             keywait = I_GetTime() + 5;
-            return skipaction;
+            return (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
         }
 
         else if ((key == keyboardmenu || key == KEY_BACKSPACE) && !keydown)
