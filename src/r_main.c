@@ -1083,7 +1083,7 @@ static void R_SetupFrame(void)
     if (pitch)
         centery += pitch * 2 * (r_screensize + 3) / 10;
 
-    extralight = (viewplayer->extralight << 2) + r_levelbrightness;
+    extralight = (viewplayer->extralight << 2) + r_levelbrightness / 3;
 
     centeryfrac = centery << FRACBITS;
     yslope = yslopes[LOOKDIRMAX + pitch];

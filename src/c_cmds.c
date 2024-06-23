@@ -871,7 +871,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_hud_translucency, "", "", bool_cvars_func1, r_hud_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display when in widescreen."),
     CVAR_INT(r_levelbrightness, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The additional brightness applied to the current map (" BOLD("0%") " to " BOLD("100%") ")."),
+        "The additional brightness applied to the lighting in the current map (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_linearskies, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles horizontally linear skies."),
     CVAR_BOOL(r_liquid_bob, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
