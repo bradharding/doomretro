@@ -3,7 +3,7 @@
 ### DOOM Retro v5.5
 
 * *DOOM Retro* is now built using v17.10.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.30.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.3).
+* *DOOM Retro* now uses [*SDL v2.30.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.4).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
@@ -35,7 +35,7 @@
 * The screen’s brightness can now be adjusted using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
 * The screen’s contrast can now be adjusted using the new `vid_contrast` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
 * The screen’s red, green and blue levels can now be adjusted using the new `vid_red`, `vid_green` and `vid_blue` CVARs. These CVARs can be between `-100%` and `100%`, and are `0%` by default and when vanilla mode is enabled.
-* The `r_saturation` CVAR is renamed `vid_saturation` and is now a value between `-100%` and `100%` and is `0%` by default.
+* The `r_saturation` CVAR is renamed `vid_saturation`, is now a value between `-100%` and `100%` and is `0%` by default.
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
 * The map title in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * Additional brightness can now be applied to the lighting in the current map using the new `r_levelbrightness` CVAR. This CVAR can be between `0%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
