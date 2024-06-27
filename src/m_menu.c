@@ -2138,11 +2138,12 @@ static void M_EndGame(int choice)
         M_StartMessage(s_ENDGAME, &M_EndGameResponse, true);
     else
     {
-        static char buffer[160];
+        static char line2[160];
+        static char endgamestring[320];
 
-        M_snprintf(buffer, sizeof(buffer), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, buffer);
-        M_StartMessage(buffer, &M_EndGameResponse, true);
+        M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+        M_snprintf(endgamestring, sizeof(endgamestring), "%s\n\n%s", s_ENDGAME, line2);
+        M_StartMessage(endgamestring, &M_EndGameResponse, true);
     }
 }
 
