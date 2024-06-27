@@ -2110,8 +2110,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         }
     }
 
-    if ((gibbed = (gibhealth < 0 && target->health < gibhealth
-        && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
+    if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate != S_NULL)))
     {
         P_SetMobjState(target, info->xdeathstate);
         viewplayer->monstersgibbed++;

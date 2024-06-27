@@ -201,7 +201,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
         const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * topdelta + 1;
 
         if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT - 1) >> FRACBITS))) <= dc_yh)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;

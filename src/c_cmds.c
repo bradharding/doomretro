@@ -7421,11 +7421,14 @@ static void C_VerifyResetAll(const int key)
 
 static void resetall_func2(char *cmd, char *parms)
 {
-    static char buffer[128];
+    static char line2[160];
+    static char resetallstring[320];
 
-    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all CVARs\nand controls to their defaults?\n\n%s",
-        s_PRESSYN);
-    M_StartMessage(buffer, &C_VerifyResetAll, true);
+    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+    M_snprintf(resetallstring, sizeof(resetallstring),
+        "Are you sure you want to reset all CVARs\nand controls to their defaults?\n\n%s", line2);
+    M_StartMessage(resetallstring, &C_VerifyResetAll, true);
+
     SDL_StopTextInput();
     S_StartSound(NULL, sfx_swtchn);
 }
