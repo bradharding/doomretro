@@ -66,8 +66,6 @@
 void I_InitWindows32(void);
 #endif
 
-#define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 200000.0)
-
 int                 SCREENWIDTH;
 int                 SCREENHEIGHT = VANILLAHEIGHT * 2;
 int                 SCREENAREA;
@@ -79,6 +77,8 @@ static int          WIDESCREENWIDTH;
 
 bool                nowidescreen = false;
 bool                vid_widescreen_copy;
+
+int                 shakedamage;
 
 int                 MAPWIDTH;
 int                 MAPHEIGHT = VANILLAHEIGHT * 2;
@@ -808,43 +808,79 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
 static void I_Blit_Shake(void)
 {
+    int x = dest_rect.x;
+    int y = dest_rect.y;
+
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+
+    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+
     SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear_Shake(void)
 {
+    int x = dest_rect.x;
+    int y = dest_rect.y;
+
     UpdateGrab();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, NULL, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
+
+    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+
     SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_ShowFPS_Shake(void)
 {
+    int x = dest_rect.x;
+    int y = dest_rect.y;
+
     UpdateGrab();
     CalculateFPS();
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+
+    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+
     SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
+    int x = dest_rect.x;
+    int y = dest_rect.y;
+
     UpdateGrab();
     CalculateFPS();
 
@@ -852,7 +888,15 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopyEx(renderer, texture, NULL, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
+
+    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+
+    dest_rect.x = x;
+    dest_rect.y = y;
+
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
@@ -1971,6 +2015,8 @@ void I_InitGraphics(void)
 
     vid_widescreen_copy = vid_widescreen;
     vid_widescreen = false;
+
+    shakedamage = (int)(7.0f * r_shake_damage / 100.0f) + 1;
 
     I_GetScreenDimensions();
 

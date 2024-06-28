@@ -125,6 +125,8 @@ extern int          WIDEFOVDELTA;
 extern bool         nowidescreen;
 extern bool         vid_widescreen_copy;
 
+extern int          shakedamage;
+
 extern int          MAPWIDTH;
 extern int          MAPHEIGHT;
 extern int          MAPAREA;

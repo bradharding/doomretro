@@ -474,6 +474,7 @@ static void r_randomstartframes_func2(char *cmd, char *parms);
 static void r_rockettrails_translucency_func2(char *cmd, char *parms);
 static void r_screensize_func2(char *cmd, char *parms);
 static void r_shadows_translucency_func2(char *cmd, char *parms);
+static void r_shake_damage_func2(char *cmd, char *parms);
 static void r_sprites_translucency_func2(char *cmd, char *parms);
 static void r_textures_func2(char *cmd, char *parms);
 static void r_textures_translucency_func2(char *cmd, char *parms);
@@ -912,7 +913,7 @@ consolecmd_t consolecmds[] =
         "Toggles shaking your view when you are near an exploding barrel."),
     CVAR_BOOL(r_shake_berserk, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles shaking your view when you have a berserk power-up and punch something."),
-    CVAR_INT(r_shake_damage, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    CVAR_INT(r_shake_damage, "", "", int_cvars_func1, r_shake_damage_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount your view shakes when you take damage (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_sprites_translucency, "", "", bool_cvars_func1, r_sprites_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain sprites."),
@@ -10658,6 +10659,19 @@ static void r_rockettrails_translucency_func2(char *cmd, char *parms)
 
     if (r_rockettrails_translucency != r_rockettrails_translucency_old)
         R_InitColumnFunctions();
+}
+
+//
+// r_shake_damage CVAR
+//
+static void r_shake_damage_func2(char *cmd, char *parms)
+{
+    const int   r_shake_damage_old = r_shake_damage;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_shake_damage != r_shake_damage_old)
+        shakedamage = (int)(7.0f * r_shake_damage / 100.0f) + 1;
 }
 
 //
