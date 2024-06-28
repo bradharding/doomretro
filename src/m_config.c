@@ -179,7 +179,7 @@ bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
 bool        r_shake_barrels = r_shake_barrels_default;
 bool        r_shake_berserk = r_shake_berserk_default;
-int         r_shake_damage = r_shake_damage_default;
+bool        r_shake_damage = r_shake_damage_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
@@ -432,7 +432,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                     BOOLVALUEALIAS     ),
-    CVAR_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS       ),
+    CVAR_BOOL         (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                          BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,             BOOLVALUEALIAS     ),

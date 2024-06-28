@@ -78,8 +78,6 @@ static int          WIDESCREENWIDTH;
 bool                nowidescreen = false;
 bool                vid_widescreen_copy;
 
-int                 shakedamage;
-
 int                 MAPWIDTH;
 int                 MAPHEIGHT = VANILLAHEIGHT * 2;
 int                 MAPAREA;
@@ -817,8 +815,8 @@ static void I_Blit_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
 
-    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
-    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
 
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 
@@ -842,8 +840,8 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
 
-    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
-    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
 
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 
@@ -865,8 +863,8 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
 
-    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
-    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
 
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 
@@ -889,8 +887,8 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
 
-    dest_rect.x += M_BigRandomInt(-shakedamage, shakedamage);
-    dest_rect.y += M_BigRandomInt(-shakedamage, shakedamage);
+    dest_rect.x += M_BigRandomInt(-2, 2);
+    dest_rect.y += M_BigRandomInt(-2, 2);
 
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 
@@ -2015,8 +2013,6 @@ void I_InitGraphics(void)
 
     vid_widescreen_copy = vid_widescreen;
     vid_widescreen = false;
-
-    shakedamage = (int)(7.0f * r_shake_damage / 100.0f) + 1;
 
     I_GetScreenDimensions();
 

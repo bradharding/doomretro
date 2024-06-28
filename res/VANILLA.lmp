@@ -109,7 +109,7 @@ r_screensize 6
 r_shadows off
 r_shake_barrels off
 r_shake_berserk off
-r_shake_damage 0%
+r_shake_damage off
 r_sprites_translucency off
 r_textures on
 r_textures_translucency off

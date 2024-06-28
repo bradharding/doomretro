@@ -168,7 +168,7 @@ extern bool     r_shadows;
 extern bool     r_shadows_translucency;
 extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
-extern int      r_shake_damage;
+extern bool     r_shake_damage;
 extern bool     r_sprites_translucency;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
@@ -722,9 +722,7 @@ enum
 
 #define r_shake_berserk_default             true
 
-#define r_shake_damage_min                  0
-#define r_shake_damage_default              50
-#define r_shake_damage_max                  100
+#define r_shake_damage_default              true
 
 #define r_sprites_translucency_default      true
 
