@@ -38,7 +38,7 @@
 #include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
@@ -821,7 +821,7 @@ static void P_ShakeOnExplode(const mobj_t *actor)
             {
                 const int   strength = 20000 * joy_rumble_barrels / 100;
 
-                I_GameControllerRumble(strength, strength);
+                I_ControllerRumble(strength, strength);
                 barrelrumbletics = TICRATE;
             }
         }

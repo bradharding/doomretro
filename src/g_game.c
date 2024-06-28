@@ -45,7 +45,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -95,14 +95,10 @@ int             player1starts;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-#define MAXPLMOVE               forwardmove[1]
-#define GAMECONTROLLERANGLETURN 5120
-
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
 
-#define NUMWEAPONKEYS   7
 
 static const int *keyboardweapons[NUMWEAPONKEYS] =
 {
@@ -126,18 +122,16 @@ static const int *mouseweapons[NUMWEAPONKEYS] =
     &mouseweapon7
 };
 
-static const int *gamecontrollerweapons[NUMWEAPONKEYS] =
+static const int *controllerweapons[NUMWEAPONKEYS] =
 {
-    &gamecontrollerweapon1,
-    &gamecontrollerweapon2,
-    &gamecontrollerweapon3,
-    &gamecontrollerweapon4,
-    &gamecontrollerweapon5,
-    &gamecontrollerweapon6,
-    &gamecontrollerweapon7
+    &controllerweapon1,
+    &controllerweapon2,
+    &controllerweapon3,
+    &controllerweapon4,
+    &controllerweapon5,
+    &controllerweapon6,
+    &controllerweapon7
 };
-
-#define SLOWTURNTICS    6
 
 bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
@@ -267,15 +261,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         return;
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
-        || (gamecontrollerbuttons & gamecontrollerstrafe));
+        || (controllerbuttons & controllerstrafe));
     run = ((gamekeydown[keyboardrun] | mousebuttons[mouserun]
-        | (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+        | (controllerbuttons & controllerrun)) ^ alwaysrun);
     usefreelook = (freelook || gamekeydown[keyboardfreelook] || mousebuttons[mousefreelook]
-        || (gamecontrollerbuttons & gamecontrollerfreelook));
+        || (controllerbuttons & controllerfreelook));
 
     // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
-        || (gamecontrollerbuttons & (gamecontrollerleft | gamecontrollerright)))
+        || (controllerbuttons & (controllerleft | controllerright)))
         turnheld++;
     else
         turnheld = 0;
@@ -284,58 +278,58 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (strafe)
     {
         if (gamekeydown[keyboardright] || mousebuttons[mouseright]
-            || (gamecontrollerbuttons & gamecontrollerright))
+            || (controllerbuttons & controllerright))
             side += sidemove[run];
 
         if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
-            || (gamecontrollerbuttons & gamecontrollerleft))
+            || (controllerbuttons & controllerleft))
             side -= sidemove[run];
     }
     else
     {
         if (gamekeydown[keyboardright] || mousebuttons[mouseright]
-            || (gamecontrollerbuttons & gamecontrollerright))
+            || (controllerbuttons & controllerright))
         {
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
         }
-        else if (gamecontrollerthumbRX > 0)
+        else if (controllerthumbRX > 0)
         {
-            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbRX));
+            cmd->angleturn -= FixedMul(CONTROLLERANGLETURN,
+                (fixed_t)(controllerhorizontalsensitivity * controllerthumbRX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
         }
 
         if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
-            || (gamecontrollerbuttons & gamecontrollerleft))
+            || (controllerbuttons & controllerleft))
         {
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
         }
-        else if (gamecontrollerthumbRX < 0)
+        else if (controllerthumbRX < 0)
         {
-            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbRX));
+            cmd->angleturn -= FixedMul(CONTROLLERANGLETURN,
+                (fixed_t)(controllerhorizontalsensitivity * controllerthumbRX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if (gamecontrollerthumbRY)
+    if (controllerthumbRY)
     {
         if (usefreelook && joy_thumbsticks == 2)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(96 * ((float)gamecontrollerthumbRY / SHRT_MAX)
-                    * gamecontrollerverticalsensitivity);
+                cmd->lookdir = (int)(96 * ((float)controllerthumbRY / SHRT_MAX)
+                    * controllerverticalsensitivity);
 
                 if (!joy_invertyaxis)
                     cmd->lookdir = -cmd->lookdir;
@@ -344,33 +338,33 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         else if (joy_thumbsticks == 1)
         {
             cmd->lookdir = 0;
-            forward = (int)(forwardmove[run] * (float)gamecontrollerthumbRY / SHRT_MAX);
+            forward = (int)(forwardmove[run] * (float)controllerthumbRY / SHRT_MAX);
         }
     }
 
     if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2]
-        || mousebuttons[mouseforward] || (gamecontrollerbuttons & gamecontrollerforward))
+        || mousebuttons[mouseforward] || (controllerbuttons & controllerforward))
         forward += forwardmove[run];
-    else if (gamecontrollerthumbLY < 0)
-        forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
+    else if (controllerthumbLY < 0)
+        forward -= (int)(forwardmove[run] * (float)controllerthumbLY / SHRT_MAX);
 
     if (gamekeydown[keyboardback] || gamekeydown[keyboardback2]
-        || mousebuttons[mouseback] || (gamecontrollerbuttons & gamecontrollerback))
+        || mousebuttons[mouseback] || (controllerbuttons & controllerback))
         forward -= forwardmove[run];
-    else if (gamecontrollerthumbLY > 0)
-        forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
+    else if (controllerthumbLY > 0)
+        forward -= (int)(forwardmove[run] * (float)controllerthumbLY / SHRT_MAX);
 
     if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2]
-        || mousebuttons[mousestraferight] || (gamecontrollerbuttons & gamecontrollerstraferight))
+        || mousebuttons[mousestraferight] || (controllerbuttons & controllerstraferight))
         side += sidemove[run];
-    else if (gamecontrollerthumbLX > 0)
+    else if (controllerthumbLX > 0)
     {
         if (joy_thumbsticks == 2)
-            side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
+            side += (int)(sidemove[run] * (float)controllerthumbLX / SHRT_MAX);
         else
         {
-            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbLX));
+            cmd->angleturn -= FixedMul(CONTROLLERANGLETURN,
+                (fixed_t)(controllerhorizontalsensitivity * controllerthumbLX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
@@ -378,16 +372,16 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
-        || mousebuttons[mousestrafeleft] || (gamecontrollerbuttons & gamecontrollerstrafeleft))
+        || mousebuttons[mousestrafeleft] || (controllerbuttons & controllerstrafeleft))
         side -= sidemove[run];
-    else if (gamecontrollerthumbLX < 0)
+    else if (controllerthumbLX < 0)
     {
         if (joy_thumbsticks == 2)
-            side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
+            side += (int)(sidemove[run] * (float)controllerthumbLX / SHRT_MAX);
         else
         {
-            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
-                (fixed_t)(gamecontrollerhorizontalsensitivity * gamecontrollerthumbLX));
+            cmd->angleturn -= FixedMul(CONTROLLERANGLETURN,
+                (fixed_t)(controllerhorizontalsensitivity * controllerthumbLX));
 
             if (!menuactive)
                 menuspindirection = SIGN(cmd->angleturn);
@@ -395,18 +389,18 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump]
-        || (gamecontrollerbuttons & gamecontrollerjump)) && !nojump)
+        || (controllerbuttons & controllerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons
     if (!freeze)
     {
         if ((mousebuttons[mousefire] || gamekeydown[keyboardfire]
-            || (gamecontrollerbuttons & gamecontrollerfire)))
+            || (controllerbuttons & controllerfire)))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]
-            || (gamecontrollerbuttons & (gamecontrolleruse | gamecontrolleruse2)))
+            || (controllerbuttons & (controlleruse | controlleruse2)))
         {
             cmd->buttons |= BT_USE;
             dclicks = 0;
@@ -434,7 +428,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                     break;
                 }
             }
-            else if (gamecontrollerbuttons & *gamecontrollerweapons[i])
+            else if (controllerbuttons & *controllerweapons[i])
             {
                 if (viewplayer->readyweapon != i
                     || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
@@ -786,8 +780,8 @@ bool G_Responder(const event_t *ev)
                 && ev->data1 != keyboardscreenshot)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1 && !(ev->data1 & MOUSE_RIGHTBUTTON))
             || (ev->type == ev_controller
-                && gamecontrollerwait < I_GetTime()
-                && gamecontrollerbuttons)))
+                && controllerwait < I_GetTime()
+                && controllerbuttons)))
         {
             if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
             {
@@ -799,9 +793,9 @@ bool G_Responder(const event_t *ev)
             else
             {
                 keydown = ev->data1;
-                gamecontrollerbuttons = 0;
+                controllerbuttons = 0;
                 mousewait = I_GetTime() + 5;
-                gamecontrollerwait = mousewait + 3;
+                controllerwait = mousewait + 3;
 
                 if (splashscreen)
                 {
@@ -943,34 +937,34 @@ bool G_Responder(const event_t *ev)
                 static uint64_t wait;
                 uint64_t        time = I_GetTime();
 
-                if ((gamecontrollerbuttons & gamecontrollernextweapon) && wait < time && !freeze)
+                if ((controllerbuttons & controllernextweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
-                    if (!gamecontrollerpress || gamecontrollerwait < time)
+                    if (!controllerpress || controllerwait < time)
                     {
                         G_NextWeapon();
-                        gamecontrollerpress = false;
+                        controllerpress = false;
                     }
                 }
-                else if ((gamecontrollerbuttons & gamecontrollerprevweapon) && wait < time && !freeze)
+                else if ((controllerbuttons & controllerprevweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
-                    if (!gamecontrollerpress || gamecontrollerwait < time)
+                    if (!controllerpress || controllerwait < time)
                     {
                         G_PrevWeapon();
-                        gamecontrollerpress = false;
+                        controllerpress = false;
                     }
                 }
-                else if ((gamecontrollerbuttons & gamecontrolleralwaysrun) && wait < time)
+                else if ((controllerbuttons & controlleralwaysrun) && wait < time)
                 {
                     wait = time + 7;
 
-                    if (!gamecontrollerpress || gamecontrollerwait < time)
+                    if (!controllerpress || controllerwait < time)
                     {
                         G_ToggleAlwaysRun(ev_controller);
-                        gamecontrollerpress = false;
+                        controllerpress = false;
                     }
                 }
             }
@@ -1056,7 +1050,7 @@ void G_Ticker(void)
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
-                    I_StopGameControllerRumble();
+                    I_StopControllerRumble();
 
                     if (windowfocused)
                         S_LowerMusicVolume();

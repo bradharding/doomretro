@@ -36,7 +36,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_random.h"
@@ -203,7 +203,7 @@ static void P_RumbleWeapon(const weapontype_t weapon)
     {
         const weaponinfo_t  readyweaponinfo = weaponinfo[weapon];
 
-        I_GameControllerRumble(readyweaponinfo.lowrumble * joy_rumble_weapons / 100,
+        I_ControllerRumble(readyweaponinfo.lowrumble * joy_rumble_weapons / 100,
             readyweaponinfo.highrumble * joy_rumble_weapons / 100);
         weaponrumbletics = readyweaponinfo.tics;
     }
@@ -276,12 +276,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (pendingweapon == wp_chainsaw && !REKKR)
             {
                 idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
-                I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
+                I_ControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
             }
             else if (idlechainsawrumblestrength)
             {
                 idlechainsawrumblestrength = 0;
-                I_StopGameControllerRumble();
+                I_StopControllerRumble();
             }
         }
 
@@ -306,7 +306,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (joy_rumble_weapons && readyweapon == wp_chainsaw && !REKKR)
         {
             idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
-            I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
+            I_ControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
         }
     }
 }

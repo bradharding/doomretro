@@ -42,7 +42,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -877,11 +877,11 @@ void M_SaveCVARs(void)
 
     for (int i = 0; *actions[i].action; i++)
     {
-        if (actions[i].gamecontroller1 && *(int *)actions[i].gamecontroller1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol);
+        if (actions[i].controller1 && *(int *)actions[i].controller1)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller1, controllercontrol);
 
-        if (actions[i].gamecontroller2 && *(int *)actions[i].gamecontroller2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol);
+        if (actions[i].controller2 && *(int *)actions[i].controller2)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller2, controllercontrol);
     }
 
     for (int i = 0; i < MAXALIASES; i++)
@@ -1082,11 +1082,11 @@ void M_LoadCVARs(const char *filename)
             if (actions[i].mouse1)
                 *(int *)actions[i].mouse1 = -1;
 
-            if (actions[i].gamecontroller1)
-                *(int *)actions[i].gamecontroller1 = 0;
+            if (actions[i].controller1)
+                *(int *)actions[i].controller1 = 0;
 
-            if (actions[i].gamecontroller2)
-                *(int *)actions[i].gamecontroller2 = 0;
+            if (actions[i].controller2)
+                *(int *)actions[i].controller2 = 0;
         }
 
         for (int i = 0; i < NUMKEYS; i++)

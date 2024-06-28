@@ -39,13 +39,21 @@
 #include "i_video.h"
 #include "w_file.h"
 
-#define NUMKEYS         512
+#define NUMKEYS             512
 
-#define FORWARDMOVE0    0x19
-#define FORWARDMOVE1    0x32
+#define FORWARDMOVE0        0x19
+#define FORWARDMOVE1        0x32
 
-#define SIDEMOVE0       0x18
-#define SIDEMOVE1       0x28
+#define SIDEMOVE0           0x18
+#define SIDEMOVE1           0x28
+
+#define CONTROLLERANGLETURN 5120
+
+#define MAXPLMOVE           forwardmove[1]
+
+#define NUMWEAPONKEYS       7
+
+#define SLOWTURNTICS        6
 
 //
 // GAME
@@ -101,7 +109,7 @@ extern fixed_t      sidemove[2];
 extern fixed_t      angleturn[3];
 extern bool         gamekeydown[NUMKEYS];
 extern bool         *mousebuttons;
-extern bool         gamecontrollerpress;
+extern bool         controllerpress;
 extern char         lbmname1[MAX_PATH];
 extern char         lbmpath1[MAX_PATH];
 extern char         lbmpath2[MAX_PATH];

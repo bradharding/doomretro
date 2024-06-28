@@ -146,7 +146,7 @@ int                 windowy;
 static int          displaywidth;
 static int          displayheight;
 
-bool                usinggamecontroller = false;
+bool                usingcontroller = false;
 bool                usingmouse = false;
 bool                windowfocused = true;
 
@@ -200,7 +200,7 @@ bool MouseShouldBeGrabbed(void)
 
     // when menu is active, release the mouse
     if (((menuactive && !helpscreen) || consoleactive || gamestate == GS_TITLESCREEN)
-        && m_pointer && usingmouse && !usinggamecontroller)
+        && m_pointer && usingmouse && !usingcontroller)
         return false;
 
     return true;
@@ -358,7 +358,7 @@ static void I_GetEvent(void)
                         I_SaveMousePointerPosition();
 
                     usingmouse = false;
-                    usinggamecontroller = false;
+                    usingcontroller = false;
                 }
 
                 break;
@@ -443,11 +443,11 @@ static void I_GetEvent(void)
             }
 
             case SDL_CONTROLLERDEVICEADDED:
-                I_InitGameController();
+                I_InitController();
                 break;
 
             case SDL_CONTROLLERDEVICEREMOVED:
-                I_ShutdownGameController();
+                I_ShutdownController();
                 break;
 
             case SDL_QUIT:
@@ -607,7 +607,7 @@ static void I_ReadMouse(void)
             if (x || y)
             {
                 usingmouse = true;
-                usinggamecontroller = false;
+                usingcontroller = false;
             }
 
             SDL_GetMouseState(&x, &y);
@@ -651,7 +651,7 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    I_ReadGameController();
+    I_ReadController();
 }
 
 static void UpdateGrab(void)

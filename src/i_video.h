@@ -149,7 +149,7 @@ extern int          windowwidth;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
-extern bool         usinggamecontroller;
+extern bool         usingcontroller;
 extern bool         usingmouse;
 extern bool         windowfocused;
 

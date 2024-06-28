@@ -459,7 +459,7 @@ extern char         *s_M_HIGH;
 extern char         *s_M_LOW;
 extern char         *s_M_SCREENSIZE;
 extern char         *s_M_MOUSESENSITIVITY;
-extern char         *s_M_GAMECONTROLLERSENSITIVITY;
+extern char         *s_M_CONTROLLERSENSITIVITY;
 extern char         *s_M_SOUNDVOLUME;
 extern char         *s_M_CONSOLE;
 extern char         *s_M_SFXVOLUME;

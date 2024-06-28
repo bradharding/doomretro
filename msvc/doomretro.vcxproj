@@ -345,7 +345,7 @@
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\i_colors.h" />
-    <ClInclude Include="..\src\i_gamecontroller.h" />
+    <ClInclude Include="..\src\i_controller.h" />
     <ClInclude Include="..\src\i_swap.h" />
     <ClInclude Include="..\src\i_system.h" />
     <ClInclude Include="..\src\i_timer.h" />
@@ -424,7 +424,7 @@
     <ClCompile Include="..\src\hu_lib.c" />
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\i_colors.c" />
-    <ClCompile Include="..\src\i_gamecontroller.c" />
+    <ClCompile Include="..\src\i_controller.c" />
     <ClCompile Include="..\src\i_music.c" />
     <ClCompile Include="..\src\i_sound.c" />
     <ClCompile Include="..\src\i_system.c" />

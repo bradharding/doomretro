@@ -46,7 +46,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -1576,7 +1576,7 @@ void C_Drawer(void)
         else
             idlechainsawrumblestrength = restoredrumblestrength;
 
-        I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
+        I_ControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
     }
 
     // cancel any screen shake
@@ -2682,27 +2682,27 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_controller)
     {
-        if (((gamecontrollerbuttons & gamecontrollerconsole)
-            || (gamecontrollerbuttons & GAMECONTROLLER_B)) && gamecontrollerwait < I_GetTime())
+        if (((controllerbuttons & controllerconsole)
+            || (controllerbuttons & CONTROLLER_B)) && controllerwait < I_GetTime())
         {
-            gamecontrollerwait = I_GetTime() + 2;
+            controllerwait = I_GetTime() + 2;
             C_HideConsole();
         }
-        else if ((gamecontrollerthumbLY < 0
-            || gamecontrollerthumbRY < 0
-            || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_UP)) && gamecontrollerwait < I_GetTime())
+        else if ((controllerthumbLY < 0
+            || controllerthumbRY < 0
+            || (controllerbuttons & CONTROLLER_DPAD_UP)) && controllerwait < I_GetTime())
         {
-            gamecontrollerwait = I_GetTime() + 2;
+            controllerwait = I_GetTime() + 2;
 
             if (!topofconsole && numconsolestrings > CONSOLELINES)
                 outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
                     MAX(0, outputhistory - 1));
         }
-        else if ((gamecontrollerthumbLY > 0
-            || gamecontrollerthumbRY > 0
-            || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_DOWN)) && gamecontrollerwait < I_GetTime())
+        else if ((controllerthumbLY > 0
+            || controllerthumbRY > 0
+            || (controllerbuttons & CONTROLLER_DPAD_DOWN)) && controllerwait < I_GetTime())
         {
-            gamecontrollerwait = I_GetTime() + 2;
+            controllerwait = I_GetTime() + 2;
 
             if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numconsolestrings)
                 outputhistory = -1;

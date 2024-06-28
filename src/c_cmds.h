@@ -49,9 +49,9 @@
 
 typedef enum
 {
-    keyboardcontrol       = 1,
-    mousecontrol          = 2,
-    gamecontrollercontrol = 3
+    keyboardcontrol   = 1,
+    mousecontrol      = 2,
+    controllercontrol = 3
 } controltype_t;
 
 typedef struct
@@ -70,8 +70,8 @@ typedef struct
     void    *keyboard1;
     void    *keyboard2;
     void    *mouse1;
-    void    *gamecontroller1;
-    void    *gamecontroller2;
+    void    *controller1;
+    void    *controller2;
 } action_t;
 
 typedef enum

@@ -4277,7 +4277,7 @@ void P_Init(void)
                         if (!M_CheckParm("-nodmapinfo"))
                             P_ParseMapInfo("DMAPINFO");
 
-        if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
+        if (nojump && (keyboardjump || mousejump != -1 || controllerjump))
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 

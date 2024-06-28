@@ -43,7 +43,7 @@
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
@@ -228,7 +228,7 @@ void I_Quit(bool shutdown)
         M_SaveCVARs();
 
         I_ShutdownKeyboard();
-        I_ShutdownGameController();
+        I_ShutdownController();
         SDL_Quit();
     }
 
@@ -266,7 +266,7 @@ void I_Error(const char *error, ...)
     M_SaveCVARs();
 
     I_ShutdownKeyboard();
-    I_ShutdownGameController();
+    I_ShutdownController();
 
     W_CloseFiles();
 

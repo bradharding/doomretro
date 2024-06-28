@@ -44,7 +44,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
@@ -487,7 +487,7 @@ static void AM_MaxOutWindowScale(void)
 static bool AM_GetSpeedToggle(void)
 {
     return ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
-        || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+        || (controllerbuttons & controllerrun)) ^ alwaysrun);
 }
 
 void AM_ToggleZoomOut(void)
@@ -658,7 +658,7 @@ bool AM_Responder(const event_t *ev)
     {
         static bool backbuttondown;
 
-        if (!(gamecontrollerbuttons & gamecontrollerautomap))
+        if (!(controllerbuttons & controllerautomap))
             backbuttondown = false;
 
         if (!automapactive && !mapwindow)
@@ -671,7 +671,7 @@ bool AM_Responder(const event_t *ev)
                     && mouseautomap >= 0
                     && (ev->data1 & mouseautomap))
                 || (ev->type == ev_controller
-                    && (gamecontrollerbuttons & gamecontrollerautomap)
+                    && (controllerbuttons & controllerautomap)
                     && !backbuttondown))
             {
                 keydown = keyboardautomap;
@@ -994,107 +994,107 @@ bool AM_Responder(const event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-            else if (ev->type == ev_controller && gamecontrollerwait < I_GetTime())
+            else if (ev->type == ev_controller && controllerwait < I_GetTime())
             {
                 mtof_zoommul = FRACUNIT;
                 ftom_zoommul = FRACUNIT;
 
-                if ((gamecontrollerbuttons & gamecontrollerautomap) && !backbuttondown)
+                if ((controllerbuttons & controllerautomap) && !backbuttondown)
                 {
-                    gamecontrollerwait = I_GetTime() + 8;
+                    controllerwait = I_GetTime() + 8;
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
                 }
 
                 // zoom out
-                else if ((gamecontrollerbuttons & gamecontrollerzoomout)
-                    && !(gamecontrollerbuttons & gamecontrollerzoomin))
+                else if ((controllerbuttons & controllerzoomout)
+                    && !(controllerbuttons & controllerzoomin))
                     AM_ToggleZoomOut();
 
                 // zoom in
-                else if ((gamecontrollerbuttons & gamecontrollerzoomin)
-                    && !(gamecontrollerbuttons & gamecontrollerzoomout))
+                else if ((controllerbuttons & controllerzoomin)
+                    && !(controllerbuttons & controllerzoomout))
                     AM_ToggleZoomIn();
 
                 // toggle maximum zoom
-                else if ((gamecontrollerbuttons & gamecontrollermaxzoom) && !idclev && !idmus)
+                else if ((controllerbuttons & controllermaxzoom) && !idclev && !idmus)
                 {
                     AM_ToggleMaxZoom();
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 // toggle follow mode
-                else if (gamecontrollerbuttons & gamecontrollerfollowmode)
+                else if (controllerbuttons & controllerfollowmode)
                 {
                     AM_ToggleFollowMode(!am_followmode);
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 // toggle grid
-                else if (gamecontrollerbuttons & gamecontrollergrid)
+                else if (controllerbuttons & controllergrid)
                 {
                     AM_ToggleGrid();
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 // mark spot
-                else if ((gamecontrollerbuttons & gamecontrollermark))
+                else if ((controllerbuttons & controllermark))
                 {
                     AM_AddMark();
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 // clear mark(s)
-                else if (gamecontrollerbuttons & gamecontrollerclearmark)
+                else if (controllerbuttons & controllerclearmark)
                 {
                     AM_ClearMarks();
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 // toggle rotate mode
-                else if (gamecontrollerbuttons & gamecontrollerrotatemode)
+                else if (controllerbuttons & controllerrotatemode)
                 {
                     AM_ToggleRotateMode(!am_rotatemode);
-                    gamecontrollerwait = I_GetTime() + 12;
+                    controllerwait = I_GetTime() + 12;
                 }
 
                 if (!am_followmode)
                 {
                     // pan right with left thumbstick
-                    if (gamecontrollerthumbLX > 0)
+                    if (controllerthumbLX > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)gamecontrollerthumbLX / SHRT_MAX) * 1.2f);
+                            * ((float)controllerthumbLX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with left thumbstick
-                    else if (gamecontrollerthumbLX < 0)
+                    else if (controllerthumbLX < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
+                            * ((float)(controllerthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
-                    if (gamecontrollerthumbLY < 0)
+                    if (controllerthumbLY < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.y = (fixed_t)(FTOM(F_PANINC)
-                            * (-(float)(gamecontrollerthumbLY) / SHRT_MAX) * 1.2f);
+                            * (-(float)(controllerthumbLY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with left thumbstick
-                    else if (gamecontrollerthumbLY > 0)
+                    else if (controllerthumbLY > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
                         m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
-                            * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
+                            * ((float)controllerthumbLY / SHRT_MAX) * 1.2f);
                     }
                 }
             }

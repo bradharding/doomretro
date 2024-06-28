@@ -57,7 +57,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -2439,7 +2439,7 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 
     I_InitGraphics();
-    I_InitGameController();
+    I_InitController();
 
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();

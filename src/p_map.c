@@ -644,7 +644,7 @@ static bool PIT_CheckThing(mobj_t *thing)
             && P_TouchSpecialThing(thing, tmthing, (tmthing->player->mo == tmthing), true)
             && joy_rumble_pickup)
         {
-            I_GameControllerRumble(PICKUP_RUMBLE_STRENGTH, PICKUP_RUMBLE_STRENGTH);
+            I_ControllerRumble(PICKUP_RUMBLE_STRENGTH, PICKUP_RUMBLE_STRENGTH);
             pickuprumbletics = PICKUP_RUMBLE_TICS;
         }
 

@@ -41,7 +41,6 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"

@@ -43,7 +43,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
+#include "i_controller.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -727,7 +727,7 @@ static bool F_CastResponder(const event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
-    if (ev->type == ev_controller && !(gamecontrollerbuttons & gamecontrollerfire) && !(gamecontrollerbuttons & gamecontrolleruse))
+    if (ev->type == ev_controller && !(controllerbuttons & controllerfire) && !(controllerbuttons & controlleruse))
         return false;
 
     if (castdeath)
