@@ -132,7 +132,7 @@ static void M_ChooseSkill(int choice);
 static void M_LoadGame(int choice);
 static void M_SaveGame(int choice);
 static void M_Options(int choice);
-static void M_EndGame(int choice);
+void M_EndGame(int choice);
 static void M_Console(int choice);
 
 static void M_ChangeMessages(int choice);
@@ -2108,6 +2108,9 @@ static void M_EndGameResponse(int key)
 {
     messagetoprint = false;
 
+    if (consoleactive)
+        SDL_StartTextInput();
+
     if (key != 'y')
     {
         if (functionkey == KEY_F7)
@@ -2120,6 +2123,7 @@ static void M_EndGameResponse(int key)
 
     currentmenu->laston = itemon + 1;
     S_StopMusic();
+    C_HideConsoleFast();
     M_CloseMenu();
     viewactive = false;
     automapactive = false;
@@ -2129,7 +2133,7 @@ static void M_EndGameResponse(int key)
     M_EndingGame();
 }
 
-static void M_EndGame(int choice)
+void M_EndGame(int choice)
 {
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
         return;
@@ -2144,6 +2148,9 @@ static void M_EndGame(int choice)
         M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_PRESSA : s_PRESSYN), selectbutton);
         M_snprintf(endgamestring, sizeof(endgamestring), "%s\n\n%s", s_ENDGAME, line2);
         M_StartMessage(endgamestring, &M_EndGameResponse, true);
+
+        SDL_StopTextInput();
+        S_StartSound(NULL, sfx_swtchn);
     }
 }
 

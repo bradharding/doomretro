@@ -2565,8 +2565,7 @@ static bool endgame_func1(char *cmd, char *parms)
 
 static void endgame_func2(char *cmd, char *parms)
 {
-    M_EndingGame();
-    C_HideConsoleFast();
+    M_EndGame(0);
 }
 
 //

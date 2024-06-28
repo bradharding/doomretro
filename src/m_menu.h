@@ -88,7 +88,7 @@ void M_Init(void);
 // does nothing if menu is already up.
 void M_OpenMainMenu(void);
 void M_CloseMenu(void);
-void M_EndingGame(void);
+void M_EndGame(int choice);
 
 void M_DrawMenuBackground(void);
 void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow);
