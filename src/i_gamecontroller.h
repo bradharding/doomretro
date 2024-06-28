@@ -64,6 +64,8 @@
 #define GAMECONTROLLER_TRIGGER_THRESHOLD    3855
 
 #define IDLE_CHAINSAW_RUMBLE_STRENGTH       10000
+#define PICKUP_RUMBLE_STRENGTH              15000
+#define PICKUP_RUMBLE_TICS                  10
 
 extern int      barrelrumbletics;
 extern int      damagerumbletics;
