@@ -987,9 +987,12 @@ void I_SetPalette(const byte *playpal)
         b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
 
         // contrast and brightness
-        colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255);
-        colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255);
-        colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
+
+        // Zero out the bottom two bits of each channel - the PC VGA
+        // controller only supports 6 bits of accuracy.
+        colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255) & ~3;
+        colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3;
+        colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3;
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
