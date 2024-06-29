@@ -129,7 +129,7 @@ fixed_t openbottom;
 fixed_t openrange;
 fixed_t lowfloor;
 
-void P_LineOpening(line_t *line)
+void P_LineOpening(const line_t *line)
 {
     sector_t    *front;
     sector_t    *back;

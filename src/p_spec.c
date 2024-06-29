@@ -976,7 +976,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1002,7 +1005,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1028,7 +1034,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1054,7 +1063,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1080,7 +1092,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1106,7 +1121,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1132,7 +1150,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1157,7 +1178,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 
@@ -1179,7 +1203,10 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
-                S_StartSound(viewplayer->mo, sfx_noway);
+
+                if (P_DoorClosed(line))
+                    S_StartSound(viewplayer->mo, sfx_noway);
+
                 return false;
             }
 

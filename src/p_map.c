@@ -1958,7 +1958,7 @@ static bool PTR_NoWayTraverse(intercept_t *in)
             || opentop < usething->z + usething->height))));
 }
 
-bool P_DoorClosed(line_t *line)
+bool P_DoorClosed(const line_t *line)
 {
     P_LineOpening(line);
 

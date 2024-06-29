@@ -214,7 +214,7 @@ extern fixed_t  openbottom;
 extern fixed_t  openrange;
 extern fixed_t  lowfloor;
 
-void P_LineOpening(line_t *line);
+void P_LineOpening(const line_t *line);
 
 bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *));
 bool P_BlockThingsIterator(const int x, const int y, bool func(mobj_t *));
@@ -265,7 +265,7 @@ bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed
 void P_SlideMove(mobj_t *mo);
 bool P_CheckSight(mobj_t *t1, mobj_t *t2);
 bool P_CheckFOV(const mobj_t *t1, const mobj_t *t2, const angle_t fov);
-bool P_DoorClosed(line_t *line);
+bool P_DoorClosed(const line_t *line);
 void P_UseLines(void);
 
 bool P_ChangeSector(sector_t *sector, const bool crunch);

@@ -350,7 +350,11 @@ void F_Ticker(void)
                     || (gamemission == pack_nerve && gamemap == 8))
                     F_StartCast();
                 else
+                {
+                    viewplayer->attackdown = true;
+                    viewplayer->usedown = true;
                     gameaction = ga_worlddone;
+                }
             }
         }
     }
