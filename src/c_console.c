@@ -716,6 +716,7 @@ void C_Init(void)
 {
     char    *appdatafolder = M_GetAppDataFolder();
     char    consolefolder[MAX_PATH];
+    char    buffer[9];
 
     M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
@@ -723,8 +724,6 @@ void C_Init(void)
 
     for (int i = 0, j = CONSOLEFONTSTART; i < CONSOLEFONTSIZE; i++)
     {
-        char    buffer[9];
-
         M_snprintf(buffer, sizeof(buffer), "DRFON%03i", j++);
         consolefont[i] = W_CacheLastLumpName(W_CheckNumForName(buffer) >= 0 ? buffer : "DRFON000");
     }
@@ -747,6 +746,16 @@ void C_Init(void)
     consoleselectedinputcolor = nearestcolors[CONSOLESELECTEDINPUTCOLOR];
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
+
+    consolebrandingcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
+
+    for (int i = 1; i <= 9; i++)
+    {
+        M_snprintf(buffer, sizeof(buffer), "STTNUM%i", i);
+        consolebrandingcolor = (consolebrandingcolor + FindBrightDominantColor(W_CacheLumpName(buffer))) / 2;
+    }
+
+    consolebrandingcolor <<= 8;
 
     consolecolors[inputstring] = consoleinputcolor;
     consolecolors[cheatstring] = consoleinputcolor;
