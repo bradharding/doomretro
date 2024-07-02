@@ -131,7 +131,8 @@ static byte             *consolebevelcolor1;
 static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
-int                     consolebrandingcolor;
+int                     consolebrandingcolor1;
+int                     consolebrandingcolor2;
 static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
@@ -747,15 +748,24 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
-    consolebrandingcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
-
-    for (int i = 1; i <= 9; i++)
+    if (W_GetNumLumps("STTNUM0") >= 2)
     {
-        M_snprintf(buffer, sizeof(buffer), "STTNUM%i", i);
-        consolebrandingcolor = (consolebrandingcolor + FindBrightDominantColor(W_CacheLumpName(buffer))) / 2;
-    }
+        consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
-    consolebrandingcolor <<= 8;
+        for (int i = 1; i <= 9; i++)
+        {
+            M_snprintf(buffer, sizeof(buffer), "STTNUM%i", i);
+            consolebrandingcolor1 = (consolebrandingcolor1 + FindBrightDominantColor(W_CacheLumpName(buffer))) / 2;
+        }
+
+        consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
+        consolebrandingcolor1 <<= 8;
+    }
+    else
+    {
+        consolebrandingcolor1 = nearestcolors[CONSOLEBRANDINGCOLOR1] << 8;
+        consolebrandingcolor2 = nearestcolors[CONSOLEBRANDINGCOLOR2] << 8;
+    }
 
     consolecolors[inputstring] = consoleinputcolor;
     consolecolors[cheatstring] = consoleinputcolor;
@@ -942,7 +952,7 @@ static void C_DrawBackground(void)
 
     // draw bottom edge
     for (int i = height - 3 * SCREENWIDTH; i < height; i++)
-        screens[0][i] = tinttab60[consolebrandingcolor + screens[0][i]];
+        screens[0][i] = tinttab60[consolebrandingcolor1 + screens[0][i]];
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)

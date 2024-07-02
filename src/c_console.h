@@ -52,6 +52,8 @@
 #define CONSOLEBEVELCOLOR                   0
 #define CONSOLEBOLDCOLOR                    80
 #define CONSOLEBOLDITALICSCOLOR             93
+#define CONSOLEBRANDINGCOLOR1               176
+#define CONSOLEBRANDINGCOLOR2               182
 #define CONSOLECARETCOLOR                   4
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
@@ -230,7 +232,8 @@ extern char             consolecheat[255];
 extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
-extern int              consolebrandingcolor;
+extern int              consolebrandingcolor1;
+extern int              consolebrandingcolor2;
 
 extern bool             scrollbardrawn;
 
