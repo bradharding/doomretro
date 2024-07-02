@@ -116,6 +116,10 @@ bool                drawbloodsplats;
 
 static fixed_t      fovscale;
 
+// [ceski] [JN] Higher than 21:9 aspect ratios require an extended range
+// of 'tx' value, used by R_ProjectSprite for sprite projection.
+fixed_t             fovtx;
+
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -398,6 +402,7 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !helpscreen && menuspin ? r_fov_max : r_fov)
         + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fovtx = (vid_aspectratio >= vid_aspectratio_21_9 && r_fov >= 90 ? 4 : 2);
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << (FRACBITS + 2);
 

@@ -41,3 +41,5 @@
 #include "r_plane.h"
 #include "r_things.h"
 #include "r_draw.h"
+
+extern fixed_t  fovtx;

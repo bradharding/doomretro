@@ -699,7 +699,8 @@ static void R_ProjectSprite(mobj_t *thing)
         return;
 
     // too far off the side?
-    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > ((int64_t)tz << 2))
+    // [ceski] [JN] Possibly use an extended value (fovtx) and prevent overflows (int64_t).
+    if ((int64_t)(ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) >> fovtx) > ((int64_t)tz << 2))
         return;
 
     // decide which patch to use for sprite relative to player
