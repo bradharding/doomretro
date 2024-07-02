@@ -751,13 +751,6 @@ void C_Init(void)
     if (W_GetNumLumps("STTNUM0") >= 2)
     {
         consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
-
-        for (int i = 1; i <= 9; i++)
-        {
-            M_snprintf(buffer, sizeof(buffer), "STTNUM%i", i);
-            consolebrandingcolor1 = (consolebrandingcolor1 + FindBrightDominantColor(W_CacheLumpName(buffer))) / 2;
-        }
-
         consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
         consolebrandingcolor1 <<= 8;
     }
