@@ -10172,7 +10172,6 @@ static void r_fov_func2(char *cmd, char *parms)
         {
             r_fov = value;
             M_SaveCVARs();
-            R_SetViewSize(r_screensize);
             I_RestartGraphics(false);
 
             if (gamestate == GS_LEVEL)

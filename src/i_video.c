@@ -1884,7 +1884,7 @@ void I_RestartGraphics(const bool recreatewindow)
 
     C_ResetWrappedLines();
 
-    setsizeneeded = true;
+    R_SetViewSize(r_screensize);
 
     if (r_playersprites)
         skippsprinterp = true;

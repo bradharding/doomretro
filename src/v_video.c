@@ -639,8 +639,12 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
         {
             if (*source && height > 0)
             {
-                *dest = (*source == WHITE || *source == LIGHTGRAY2 ? nearestcolors[*source] :
-                    tinttab60[(*source == CONSOLEBRANDINGCOLOR2 ? consolebrandingcolor2 : consolebrandingcolor1) + *dest]);
+                if (*source == WHITE || *source == LIGHTGRAY2)
+                    *dest = nearestcolors[*source];
+                else if (*source == CONSOLEBRANDINGCOLOR2)
+                    *dest = tinttab60[consolebrandingcolor2 + *dest];
+                else
+                    *dest = tinttab60[consolebrandingcolor1 + *dest];
 
                 if (height == 1)
                     *dest = tinttab60[*dest];

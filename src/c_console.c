@@ -713,6 +713,34 @@ void C_ClearConsole(void)
     }
 }
 
+static void C_InitBrandingColors(void)
+{
+    consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
+
+    if (W_GetNumLumps("STTNUM0") >= 2
+        && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
+    {
+        consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
+        consolebrandingcolor1 <<= 8;
+    }
+    else
+    {
+        consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
+
+        if (W_GetNumLumps("M_NGAME") >= 2
+            && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
+        {
+            consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
+            consolebrandingcolor1 <<= 8;
+        }
+        else
+        {
+            consolebrandingcolor1 = nearestcolors[CONSOLEBRANDINGCOLOR1] << 8;
+            consolebrandingcolor2 = nearestcolors[CONSOLEBRANDINGCOLOR2] << 8;
+        }
+    }
+}
+
 void C_Init(void)
 {
     char    *appdatafolder = M_GetAppDataFolder();
@@ -748,30 +776,7 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
-    consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
-
-    if (W_GetNumLumps("STTNUM0") >= 2
-        && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
-    {
-        consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
-        consolebrandingcolor1 <<= 8;
-    }
-    else
-    {
-        consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
-
-        if (W_GetNumLumps("M_NGAME") >= 2
-            && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
-        {
-            consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
-            consolebrandingcolor1 <<= 8;
-        }
-        else
-        {
-            consolebrandingcolor1 = nearestcolors[CONSOLEBRANDINGCOLOR1] << 8;
-            consolebrandingcolor2 = nearestcolors[CONSOLEBRANDINGCOLOR2] << 8;
-        }
-    }
+    C_InitBrandingColors();
 
     consolecolors[inputstring] = consoleinputcolor;
     consolecolors[cheatstring] = consoleinputcolor;
