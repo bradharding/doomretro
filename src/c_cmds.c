@@ -112,8 +112,10 @@
 #define DEADPLAYERWARNING2          "%s can't change this CVAR right now because %s %s dead."
 #define NEXTMAPWARNING1             "You won't see the results of changing this CVAR until the next map."
 #define NEXTMAPWARNING2             "%s won't see the results of changing this CVAR until the next map."
-#define NOGAMEWARNING1              "You can't change this CVAR right now because you're not playing a game."
-#define NOGAMEWARNING2              "%s can't change this CVAR right now because %s %s playing a game."
+#define NOGAMECCMDWARNING1          "You can't use this CCMD right now because you're not playing a game."
+#define NOGAMECCMDWARNING2          "%s can't use this CCMD right now because %s %s playing a game."
+#define NOGAMECVARWARNING1          "You can't change this CVAR right now because you're not playing a game."
+#define NOGAMECVARWARNING2          "%s can't change this CVAR right now because %s %s playing a game."
 #define NIGHTMAREWARNING1           "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
 #define NIGHTMAREWARNING2           "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
 
@@ -354,7 +356,8 @@ action_t actions[] =
 
 static bool alive_func1(char *cmd, char *parms);
 static bool cheat_func1(char *cmd, char *parms);
-static bool game_func1(char *cmd, char *parms);
+static bool game_ccmd_func1(char *cmd, char *parms);
+static bool game_cvar_func1(char *cmd, char *parms);
 static bool nightmare_func1(char *cmd, char *parms);
 static bool null_func1(char *cmd, char *parms);
 
@@ -364,7 +367,6 @@ static void cmdlist_func2(char *cmd, char *parms);
 static bool condump_func1(char *cmd, char *parms);
 static void condump_func2(char *cmd, char *parms);
 static void cvarlist_func2(char *cmd, char *parms);
-static bool endgame_func1(char *cmd, char *parms);
 static void endgame_func2(char *cmd, char *parms);
 static void exitmap_func2(char *cmd, char *parms);
 static void fastmonsters_func2(char *cmd, char *parms);
@@ -381,7 +383,6 @@ static void load_func2(char *cmd, char *parms);
 static bool map_func1(char *cmd, char *parms);
 static void map_func2(char *cmd, char *parms);
 static void maplist_func2(char *cmd, char *parms);
-static bool mapstats_func1(char *cmd, char *parms);
 static void mapstats_func2(char *cmd, char *parms);
 static bool name_func1(char *cmd, char *parms);
 static void name_func2(char *cmd, char *parms);
@@ -590,7 +591,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_followmode, "", "", game_func1, am_followmode_func2, CF_MAPRESET, BOOLVALUEALIAS,
+    CVAR_BOOL(am_followmode, "", "", game_cvar_func1, am_followmode_func2, CF_MAPRESET, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
@@ -666,7 +667,7 @@ consolecmd_t consolecmds[] =
         "The color of your crosshair (" BOLD("0") " to " BOLD("255") ")."),
     CCMD(cvarlist, "", "", null_func1, cvarlist_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console variables."),
-    CCMD(endgame, "", "", endgame_func1, endgame_func2, false, "",
+    CCMD(endgame, "", "", null_func1, endgame_func2, false, "",
         "Ends the game."),
     CVAR_BOOL(english, "", "", english_func1, english_func2, CF_NONE, ENGLISHVALUEALIAS,
         "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
@@ -690,7 +691,7 @@ consolecmd_t consolecmds[] =
         "Toggles flashing the required keycard or skull key when you try to open a locked door."),
     CVAR_BOOL(freelook, mouselook, "", bool_cvars_func1, freelook_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles freely looking up and down using the mouse or a controller."),
-    CCMD(freeze, "", "", game_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(freeze, "", "", game_ccmd_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
@@ -774,9 +775,9 @@ consolecmd_t consolecmds[] =
         "Warps you to another map."),
     CCMD(maplist, "", "", null_func1, maplist_func2, false, "",
         "Lists all of the maps available to play."),
-    CCMD(mapstats, "", "", mapstats_func1, mapstats_func2, false, "",
+    CCMD(mapstats, "", "", null_func1, mapstats_func2, false, "",
         "Shows stats about the current map."),
-    CVAR_TIME(maptime, "", "", game_func1, time_cvars_func2,
+    CVAR_TIME(maptime, "", "", null_func1, time_cvars_func2,
         "The amount of time you have been in the current map."),
     CVAR_BOOL(melt, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a melting effect when transitioning between some screens."),
@@ -792,11 +793,11 @@ consolecmd_t consolecmds[] =
         "Toggles showing your health as less than " BOLD("0%") " when you die."),
     CCMD(newgame, "", "", null_func1, newgame_func2, true, "",
         "Starts a new game."),
-    CCMD(noclip, "", "", game_func1, noclip_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(noclip, "", "", game_ccmd_func1, noclip_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles no clipping mode."),
     CCMD(nomonsters, "", "", null_func1, nomonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the presence of monsters in maps."),
-    CCMD(notarget, "", "", game_func1, notarget_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(notarget, "", "", game_ccmd_func1, notarget_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles monsters not targeting you."),
     CCMD(pistolstart, "", "", null_func1, pistolstart_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles you starting each map with 100% health, no armor, and only your pistol with 50 bullets."),
@@ -808,7 +809,7 @@ consolecmd_t consolecmds[] =
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
-    CCMD(print, "", "", game_func1, print_func2, true, PRINTCMDFORMAT,
+    CCMD(print, "", "", game_ccmd_func1, print_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, "", exit, null_func1, quit_func2, false, "",
         "Quits to the " DESKTOP "."),
@@ -937,7 +938,7 @@ consolecmd_t consolecmds[] =
         "Toggles respawning items."),
     CCMD(respawnmonsters, "", "", nightmare_func1, respawnmonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning monsters."),
-    CCMD(restartmap, "", "", game_func1, restartmap_func2, false, "",
+    CCMD(restartmap, "", "", game_ccmd_func1, restartmap_func2, false, "",
         "Restarts the current map."),
     CCMD(resurrect, "", "", resurrect_func1, resurrect_func2, true, RESURRECTCMDFORMAT,
         "Resurrects the " BOLD("player") ", " BOLD("all") " monsters, or a type of " BOLDITALICS("monster") "."),
@@ -976,7 +977,7 @@ consolecmd_t consolecmds[] =
         " or certain " BOLDITALICS("items") " away from you."),
     CCMD(teleport, "", "", teleport_func1, teleport_func2, true, TELEPORTCMDFORMAT,
         "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),
-    CCMD(thinglist, "", "", game_func1, thinglist_func2, false, "",
+    CCMD(thinglist, "", "", game_ccmd_func1, thinglist_func2, false, "",
         "Lists all things in the current map."),
     CCMD(timer, "", "", null_func1, timer_func2, true, TIMERCMDFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
@@ -1367,7 +1368,7 @@ static void C_ShowWarning(int index)
 static bool alive_func1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
-        return game_func1(cmd, parms);
+        return game_ccmd_func1(cmd, parms);
     else if (viewplayer->health > 0)
         return true;
     else
@@ -1456,7 +1457,7 @@ static bool cheat_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool game_func1(char *cmd, char *parms)
+static bool game_cvar_func1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
         return true;
@@ -1467,9 +1468,31 @@ static bool game_func1(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(cmd));
 
         if (M_StringCompare(playername, playername_default))
-            C_Warning(0, NOGAMEWARNING1);
+            C_Warning(0, NOGAMECVARWARNING1);
         else
-            C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+            C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "aren't" : "isn't"));
+
+        consoleinput[0] = '\0';
+    }
+
+    return false;
+}
+
+static bool game_ccmd_func1(char *cmd, char *parms)
+{
+    if (gamestate == GS_LEVEL)
+        return true;
+
+    if (!togglingvanilla)
+    {
+        C_Input(consoleinput);
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMECCMDWARNING1);
+        else
+            C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                 (playergender == playergender_other ? "aren't" : "isn't"));
 
         consoleinput[0] = '\0';
@@ -1481,7 +1504,7 @@ static bool game_func1(char *cmd, char *parms)
 static bool nightmare_func1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
-        return game_func1(cmd, parms);
+        return game_ccmd_func1(cmd, parms);
 
     if (gameskill != sk_nightmare)
         return true;
@@ -2558,14 +2581,23 @@ static void cvarlist_func2(char *cmd, char *parms)
 //
 // endgame CCMD
 //
-static bool endgame_func1(char *cmd, char *parms)
-{
-    return (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION);
-}
-
 static void endgame_func2(char *cmd, char *parms)
 {
-    M_EndGame(0);
+    if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
+    {
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowFormat(i);
+        C_ShowDescription(i);
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMECCMDWARNING1);
+        else
+            C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "aren't" : "isn't"));
+    }
+    else
+        M_EndGame(0);
 }
 
 //
@@ -2777,9 +2809,9 @@ static void give_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -3526,9 +3558,9 @@ static void kill_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -4849,11 +4881,6 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
 }
 
-static bool mapstats_func1(char *cmd, char *parms)
-{
-    return (gamestate == GS_INTERMISSION || game_func1(cmd, parms));
-}
-
 static void mapstats_func2(char *cmd, char *parms)
 {
     const char *authors[][6] =
@@ -4948,6 +4975,22 @@ static void mapstats_func2(char *cmd, char *parms)
     int         width;
     int         height;
     int         depth;
+
+    if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
+    {
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowFormat(i);
+        C_ShowDescription(i);
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMECCMDWARNING1);
+        else
+            C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "aren't" : "isn't"));
+
+        return;
+    }
 
     if (FREEDOOM1)
     {
@@ -5473,9 +5516,9 @@ static void name_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -7630,9 +7673,9 @@ static void resurrect_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -7887,9 +7930,9 @@ static void spawn_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -8101,9 +8144,9 @@ static void take_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -8446,9 +8489,9 @@ static void teleport_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECCMDWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
     }
@@ -9614,9 +9657,9 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (gamestate != GS_LEVEL)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, NOGAMEWARNING1);
+                    C_Warning(0, NOGAMECVARWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
                         (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
@@ -9659,9 +9702,9 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (gamestate != GS_LEVEL)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, NOGAMEWARNING1);
+                    C_Warning(0, NOGAMECVARWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
                         (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
@@ -9743,9 +9786,9 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (gamestate != GS_LEVEL)
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, NOGAMEWARNING1);
+                    C_Warning(0, NOGAMECVARWARNING1);
                 else
-                    C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                    C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
                         (playergender == playergender_other ? "aren't" : "isn't"));
             }
 
@@ -11622,9 +11665,9 @@ static void weapon_func2(char *cmd, char *parms)
         if (gamestate != GS_LEVEL)
         {
             if (M_StringCompare(playername, playername_default))
-                C_Warning(0, NOGAMEWARNING1);
+                C_Warning(0, NOGAMECVARWARNING1);
             else
-                C_Warning(0, NOGAMEWARNING2, playername, pronoun(personal),
+                C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
                     (playergender == playergender_other ? "aren't" : "isn't"));
         }
 

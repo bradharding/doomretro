@@ -2127,6 +2127,7 @@ static void M_EndGameResponse(int key)
     M_CloseMenu();
     viewactive = false;
     automapactive = false;
+    maptime = 0;
     S_StartSound(NULL, sfx_swtchx);
     MainDef.laston = 0;
     st_palette = 0;

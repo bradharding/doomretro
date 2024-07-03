@@ -42,7 +42,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-int         maptime;
+int         maptime = 0;
 int         totaltime;
 
 //
