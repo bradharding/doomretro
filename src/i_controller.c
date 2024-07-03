@@ -131,6 +131,15 @@ void I_InitController(void)
 
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
 
+    SDL_EventState(SDL_CONTROLLERAXISMOTION, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERBUTTONDOWN, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERBUTTONUP, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERDEVICEREMAPPED, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERTOUCHPADDOWN, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERTOUCHPADMOTION, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERTOUCHPADUP, SDL_IGNORE);
+    SDL_EventState(SDL_CONTROLLERSENSORUPDATE, SDL_IGNORE);
+
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i) && (controller = SDL_GameControllerOpen(i)))
         {
