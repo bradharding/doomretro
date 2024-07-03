@@ -577,7 +577,6 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = MIN(SHORT(patch->width), maxwidth);
-    int         color;
 
     for (int col = 0; col < width; col++, desttop++)
     {
@@ -591,7 +590,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
         {
             if (height > 0)
             {
-                *dest = tinttab60[(color = (nearestcolors[*source] << 8)) + *dest];
+                *dest = (*source == WHITE ? nearestwhite : tinttab60[consolebrandingcolor1 + *dest]);
 
                 if (height == 1)
                     *dest = tinttab60[*dest];
@@ -603,7 +602,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
                     {
                         byte    *dot = dest + xx;
 
-                        *dot = tinttab60[color + *dot];
+                        *dot = tinttab60[consolebrandingcolor1 + *dot];
 
                         if (height == 1)
                             *dot = tinttab60[*dot];
