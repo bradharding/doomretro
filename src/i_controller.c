@@ -38,6 +38,7 @@
 #include "i_controller.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "SDL.h"
 
 static SDL_GameController   *controller;
 static bool                 controllerrumbles;
