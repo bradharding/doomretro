@@ -1179,13 +1179,11 @@ static void M_DrawSave(void)
 
             if (showcaret || !windowfocused)
             {
-                const int   height = --y + SHORT(hu_font[0]->height) + 2;
+                byte        *dot = *screens + ((size_t)--y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+                const int   height = (SHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
 
-                while (y < height)
-                {
-                    V_DrawPixel(x + 1, y, caretcolor, false, false);
-                    V_DrawPixel(x, y++, caretcolor, false, false);
-                }
+                for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)
+                    *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3) = caretcolor;
             }
         }
         else
