@@ -725,7 +725,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(ijwtbha, false),
     CVAR_BOOL(infighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles infighting amongst monsters once you die."),
-    CCMD(infiniteammo, "", "", null_func1, infiniteammo_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(infiniteammo, "", "", game_ccmd_func1, infiniteammo_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles an infinite amount of ammo for all of your weapons."),
     CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles giving you and everything else in the current map infinite height."),
