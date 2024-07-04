@@ -64,10 +64,11 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define SPACEWIDTH       7
-#define LINEHEIGHT      17
-#define OFFSET          17
-#define SKULLANIMCOUNT  10
+#define SPACEWIDTH          7
+#define LINEHEIGHT          17
+#define OFFSET              17
+#define SKULLANIMCOUNT      10
+#define SAVEGAMECARETCOLOR  180
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -1076,7 +1077,7 @@ static void M_LoadGame(int choice)
 
 static bool     showcaret;
 static uint64_t caretwait;
-int             caretcolor;
+int             caretcolor = SAVEGAMECARETCOLOR;
 
 static void M_SetCaretPos(int pointerx)
 {
@@ -1179,7 +1180,7 @@ static void M_DrawSave(void)
 
             if (showcaret || !windowfocused)
             {
-                byte        *dot = *screens + ((size_t)--y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+                byte        *dot = &screens[0][(--y * SCREENWIDTH + x + WIDESCREENDELTA) * 2];
                 const int   height = (SHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
 
                 for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)
@@ -4597,6 +4598,9 @@ void M_Init(void)
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
+
+    if (W_GetNumLumps("STCFN065") >= 2)
+        caretcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
 
     if (autostart)
     {
