@@ -3,7 +3,7 @@
 ### DOOM Retro v5.5
 
 * *DOOM Retro* is now built using v17.10.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.30.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.4).
+* *DOOM Retro* now uses [*SDL v2.30.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.5).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
