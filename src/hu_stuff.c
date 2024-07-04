@@ -202,7 +202,7 @@ void HU_Init(void)
             STCFNxxx = true;
     }
 
-    if (W_GetNumLumps("STCFN65") >= 2)
+    if (W_GetNumLumps("STCFN065") >= 2)
         caretcolor = FindBrightDominantColor(hu_font['A' - HU_FONTSTART]);
     else
         caretcolor = SAVEGAMECARETCOLOR;
