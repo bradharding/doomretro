@@ -3712,10 +3712,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             SC_MustGetString();
 
                             if (SC_Compare("CLEAR"))
-                            {
-                                M_AddEpisode(map, ep, "", "");
                                 break;
-                            }
 
                             M_StringCopy(lumpname, sc_String, sizeof(lumpname));
                             SC_MustGetString();
