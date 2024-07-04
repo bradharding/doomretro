@@ -83,6 +83,8 @@
 
 #define DRAWDISKTICS                (12 * TICRATE)
 
+#define SAVEGAMECARETCOLOR          178
+
 //
 // HEADS UP TEXT
 //
