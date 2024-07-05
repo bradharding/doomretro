@@ -1155,6 +1155,8 @@ static void M_DrawSave(void)
             char    right[256] = "";
             int     x = LoadDef.x - 2;
 
+            savecharindex = MIN(savecharindex, (int)strlen(savegamestrings[i]));
+
             // draw text to left of text caret
             for (int j = 0; j < savecharindex; j++)
                 left[j] = savegamestrings[i][j];
