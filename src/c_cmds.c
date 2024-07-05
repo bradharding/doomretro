@@ -9051,7 +9051,7 @@ static void str_cvars_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parms, EMPTYVALUE) && **(char **)consolecmds[i].variable && !(consolecmds[i].flags & CF_READONLY))
+            if (M_StringCompare(parms, EMPTYVALUE) && *(char **)consolecmds[i].variable && !(consolecmds[i].flags & CF_READONLY))
             {
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
