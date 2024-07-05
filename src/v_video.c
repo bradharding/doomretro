@@ -1592,7 +1592,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow)
         {
-            byte        *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+            byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
             const byte  *black = (highlight ? black40 : black45);
 
             *dot = black[*dot];
@@ -1606,7 +1606,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+        byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
 
         color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
 

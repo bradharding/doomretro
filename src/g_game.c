@@ -99,7 +99,6 @@ fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
 
-
 static const int *keyboardweapons[NUMWEAPONKEYS] =
 {
     &keyboardweapon1,

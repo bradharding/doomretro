@@ -64,11 +64,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define SPACEWIDTH          7
-#define LINEHEIGHT          17
-#define OFFSET              17
-#define SKULLANIMCOUNT      10
-#define SAVEGAMECARETCOLOR  180
+#define SPACEWIDTH       7
+#define LINEHEIGHT      17
+#define OFFSET          17
+#define SKULLANIMCOUNT  10
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -1077,7 +1076,7 @@ static void M_LoadGame(int choice)
 
 static bool     showcaret;
 static uint64_t caretwait;
-int             caretcolor = SAVEGAMECARETCOLOR;
+int             caretcolor;
 
 static void M_SetCaretPos(int pointerx)
 {
@@ -1164,13 +1163,6 @@ static void M_DrawSave(void)
             M_WriteText(x, y, left, true, false);
             x += M_StringWidth(left);
 
-            // draw text to right of text caret
-            for (int j = 0; j < len - savecharindex; j++)
-                right[j] = savegamestrings[i][j + savecharindex];
-
-            right[len - savecharindex] = '\0';
-            M_WriteText(x + 2, y, right, true, false);
-
             // draw text caret
             if (caretwait < I_GetTimeMS())
             {
@@ -1180,12 +1172,19 @@ static void M_DrawSave(void)
 
             if (showcaret || !windowfocused)
             {
-                byte        *dot = &screens[0][(--y * SCREENWIDTH + x + WIDESCREENDELTA) * 2];
+                byte *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
                 const int   height = (SHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
 
                 for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)
                     *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3) = caretcolor;
             }
+
+            // draw text to right of text caret
+            for (int j = 0; j < len - savecharindex; j++)
+                right[j] = savegamestrings[i][j + savecharindex];
+
+            right[len - savecharindex] = '\0';
+            M_WriteText(x + 2, y, right, true, false);
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
@@ -2905,7 +2904,7 @@ bool M_Responder(event_t *ev)
                             SDL_StopTextInput();
                             savestringenter = false;
                             caretwait = 0;
-                            showcaret = false;
+                            showcaret = true;
                             M_StringCopy(savegamestrings[itemon], saveoldstring, sizeof(savegamestrings[0]));
                             S_StartSound(NULL, sfx_swtchx);
                         }
@@ -3223,7 +3222,7 @@ bool M_Responder(event_t *ev)
                     SDL_StopTextInput();
                     savestringenter = false;
                     caretwait = 0;
-                    showcaret = false;
+                    showcaret = true;
                     M_StringCopy(savegamestrings[itemon], saveoldstring, sizeof(savegamestrings[0]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
@@ -4599,8 +4598,7 @@ void M_Init(void)
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
 
-    if (W_GetNumLumps("STCFN065") >= 2)
-        caretcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
+    caretcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
 
     if (autostart)
     {
