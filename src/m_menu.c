@@ -163,7 +163,8 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
-static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow);
+static void M_WriteText(int x, int y, const char *string,
+    bool highlight, bool shadow, char prev);
 static int M_CharacterWidth(char ch, char prev);
 
 //
@@ -1034,7 +1035,7 @@ static void M_DrawLoad(void)
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-            savegamestrings[i], (itemon == i), false);
+            savegamestrings[i], (itemon == i), false, ' ');
     }
 }
 
@@ -1162,7 +1163,7 @@ static void M_DrawSave(void)
                 left[j] = savegamestrings[i][j];
 
             left[savecharindex] = '\0';
-            M_WriteText(x, y, left, true, false);
+            M_WriteText(x, y, left, true, false, ' ');
             x += M_StringWidth(left);
 
             // draw text caret
@@ -1186,12 +1187,12 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
-            M_WriteText(x + 2, y, right, true, false);
+            M_WriteText(x + 2, y, right, true, false, left[savecharindex - 1]);
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-                savegamestrings[i], (itemon == i), false);
+                savegamestrings[i], (itemon == i), false, ' ');
     }
 }
 
@@ -1405,7 +1406,7 @@ static void M_QuickLoad(void)
     }
 }
 
-static void M_DeleteSavegameResponse(int key)
+static void M_DeleteSaveGameResponse(int key)
 {
     if (key == 'y')
     {
@@ -1457,7 +1458,7 @@ static void M_DeleteSavegameResponse(int key)
     }
 }
 
-static void M_DeleteSavegame(void)
+static void M_DeleteSaveGame(void)
 {
     static char line1[160];
     static char line2[160];
@@ -1467,7 +1468,7 @@ static void M_DeleteSavegame(void)
     M_SplitString(line1);
     M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
     M_snprintf(deletestring, sizeof(deletestring), "%s\n\n%s", line1, line2);
-    M_StartMessage(deletestring, &M_DeleteSavegameResponse, true);
+    M_StartMessage(deletestring, &M_DeleteSaveGameResponse, true);
 }
 
 //
@@ -2554,11 +2555,10 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow)
+static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, char prev)
 {
     int     width;
     char    letter;
-    char    prev = ' ';
     int     cx = x;
     int     cy = y;
 
@@ -3934,7 +3934,7 @@ bool M_Responder(event_t *ev)
 
             if (LoadGameMenu[itemon].status)
             {
-                M_DeleteSavegame();
+                M_DeleteSaveGame();
                 M_ReadSaveStrings();
 
                 if (savegame != itemon + 1)
@@ -4194,7 +4194,7 @@ void M_Drawer(void)
 
             if (*string)
             {
-                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true);
+                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, ' ');
                 y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
             }
             else

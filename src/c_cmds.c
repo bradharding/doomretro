@@ -9070,9 +9070,12 @@ static void str_cvars_func2(char *cmd, char *parms)
                 C_ShowDescription(i);
 
                 if (consolecmds[i].flags & CF_READONLY)
-                    C_Output(STRINGCVARWITHNODEFAULT,
-                        (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""), *(char **)consolecmds[i].variable,
-                        (M_StringCompare(consolecmds[i].name, "version") ? "" : "\""));
+                {
+                    if (M_StringCompare(consolecmds[i].name, stringize(version)))
+                        C_Output(STRINGCVARWITHNODEFAULT, "", *(char **)consolecmds[i].variable, "");
+                    else
+                        C_Output(STRINGCVARWITHNODEFAULT, "\"", *(char **)consolecmds[i].variable, "\"");
+                }
                 else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                     C_Output(STRINGCVARISDEFAULT, *(char **)consolecmds[i].variable);
                 else
