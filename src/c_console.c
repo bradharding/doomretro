@@ -1006,13 +1006,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     const bool kerning, const bool wrapped, const int index, unsigned char prevletter,
     unsigned char prevletter2)
 {
-    bool        bold = false;
-    bool        bolder = false;
-    bool        italics = false;
-    bool        monospaced = false;
-    int         tab = -1;
-    const int   len = (int)strlen(text);
-    int         startx = x;
+    bool            bold = false;
+    bool            bolder = false;
+    bool            italics = false;
+    bool            monospaced = false;
+    int             tab = -1;
+    const int       len = (int)strlen(text);
+    int             startx = x;
+    unsigned char   prevletter3 = '\0';
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -1144,6 +1145,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                     if (letter == 'T' && prevletter == ITALICSONCHAR && prevletter2 == ' ')
                         x--;
+
+                    if (prevletter == ITALICSONCHAR && prevletter2 == '\t')
+                        x--;
                 }
                 else if ((letter == '-' || letter == '|' || letter == '[' || letter == ']' || letter == 215)
                     && prevletter == ITALICSOFFCHAR)
@@ -1155,7 +1159,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter2 == '!')
                         x -= 2;
                 }
-                else if (prevletter == BOLDONCHAR && prevletter2 == '\t')
+                else if (prevletter == BOLDONCHAR
+                    && (prevletter2 == '\t' || (prevletter2 == BOLDONCHAR && prevletter3 == '\t')))
                 {
                     if (letter == '"' || letter == '\'' || letter == '(' || letter == '4')
                         x--;
@@ -1203,6 +1208,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
         }
 
+        prevletter3 = prevletter2;
         prevletter2 = prevletter;
         prevletter = letter;
     }
