@@ -3248,6 +3248,7 @@ bool M_Responder(event_t *ev)
                     if (savegamestrings[itemon][0] && !allspaces)
                     {
                         SDL_StopTextInput();
+                        M_UpdateSaveGameName(itemon);
                         savestringenter = false;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
