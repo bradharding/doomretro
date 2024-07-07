@@ -790,7 +790,7 @@ consolecmd_t consolecmds[] =
     CCMD(name, "", "", name_func1, name_func2, true, NAMECMDFORMAT,
         "Gives a " BOLDITALICS("name") " to the " BOLDITALICS("monster") " nearest to you."),
     CVAR_BOOL(negativehealth, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles showing your health as less than " BOLD("0%") " when you die."),
+        "Toggles allowing your health to be less than " BOLD("0%") " when you die."),
     CCMD(newgame, "", "", null_func1, newgame_func2, true, "",
         "Starts a new game."),
     CCMD(noclip, "", "", game_ccmd_func1, noclip_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
