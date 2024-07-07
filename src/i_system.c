@@ -57,8 +57,6 @@ typedef long    (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL    (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL    (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
-#define PRODUCT_CORE    0x00000065
-
 void I_PrintWindowsVersion(void)
 {
     PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");

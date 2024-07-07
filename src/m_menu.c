@@ -164,8 +164,8 @@ static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string,
-    bool highlight, bool shadow, char prev);
-static int M_CharacterWidth(char ch, char prev);
+    bool highlight, bool shadow, unsigned char prevletter);
+static int M_CharacterWidth(unsigned char ch, unsigned char prevletter);
 
 //
 // DOOM MENU
@@ -1035,7 +1035,7 @@ static void M_DrawLoad(void)
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-            savegamestrings[i], (itemon == i), false, ' ');
+            savegamestrings[i], (itemon == i), false, '\0');
     }
 }
 
@@ -1163,7 +1163,7 @@ static void M_DrawSave(void)
                 left[j] = savegamestrings[i][j];
 
             left[savecharindex] = '\0';
-            M_WriteText(x, y, left, true, false, ' ');
+            M_WriteText(x, y, left, true, false, '\0');
             x += M_StringWidth(left);
 
             // draw text caret
@@ -1187,12 +1187,13 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
-            M_WriteText(x + 2, y, right, true, false, left[savecharindex - 1]);
+            M_WriteText(x + 2, y, right, true, false,
+                (savecharindex >= 1 ? left[savecharindex - 1] : '\0'));
         }
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-                savegamestrings[i], (itemon == i), false, ' ');
+                savegamestrings[i], (itemon == i), false, '\0');
     }
 }
 
@@ -2496,12 +2497,12 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
 //
 // Find character width
 //
-static int M_CharacterWidth(char ch, char prev)
+static int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
 {
     const int   c = toupper(ch) - HU_FONTSTART;
 
     if (c < 0 || c >= HU_FONTSIZE)
-        return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
+        return (prevletter == '.' || prevletter == '!' || prevletter == '?' ? 5 : 3);
     else
         return (STCFNxxx ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
@@ -2555,7 +2556,7 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, char prev)
+static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, unsigned char prevletter)
 {
     int     width;
     char    letter;
@@ -2581,8 +2582,8 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
 
         if (c < 0 || c >= HU_FONTSIZE)
         {
-            cx += (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
-            prev = letter;
+            cx += (prevletter == '.' || prevletter == '!' || prevletter == '?' ? 5 : 3);
+            prevletter = letter;
             continue;
         }
 
@@ -2600,7 +2601,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
         }
         else
         {
-            if (prev == ' ')
+            if (prevletter == '\0' || prevletter == ' ')
             {
                 if (letter == '"')
                     c = 64;
@@ -2616,7 +2617,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             M_DrawSmallChar(cx, cy - 1, c, highlight, shadow);
         }
 
-        prev = letter;
+        prevletter = letter;
         cx += width;
     }
 }
@@ -4194,7 +4195,7 @@ void M_Drawer(void)
 
             if (*string)
             {
-                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, ' ');
+                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, '\0');
                 y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
             }
             else
