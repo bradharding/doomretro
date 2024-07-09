@@ -3963,7 +3963,8 @@ bool M_Responder(event_t *ev)
         else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && !helpscreen)
         {
             for (int i = itemon + 1; i < currentmenu->numitems; i++)
-                if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == '1' + i)
+                if (((currentmenu == &LoadDef || currentmenu == &SaveDef)
+                        && (key == '1' + i || toupper(savegamestrings[i][0]) == toupper(key)))
                     || (currentmenu->menuitems[i].text
                         && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
@@ -4020,7 +4021,8 @@ bool M_Responder(event_t *ev)
                 }
 
             for (int i = 0; i <= itemon; i++)
-                if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == '1' + i)
+                if (((currentmenu == &LoadDef || currentmenu == &SaveDef)
+                        && (key == '1' + i || toupper(savegamestrings[i][0]) == toupper(key)))
                     || (currentmenu->menuitems[i].text
                         && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
