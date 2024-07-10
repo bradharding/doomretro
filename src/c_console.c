@@ -149,6 +149,8 @@ static int              consolecolors[STRINGTYPES];
 static int              consoleboldcolors[STRINGTYPES];
 
 bool                    scrollbardrawn;
+int                     scrollbarfacestart;
+int                     scrollbarfaceend;
 
 static void (*consoletextfunc)(const int, const int, const patch_t *,
     const int, const int, const int, const bool, const byte *);
@@ -626,18 +628,18 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 
 static void C_DrawScrollbar(void)
 {
-    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
-    int         faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+    scrollbarfacestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+        MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
+        MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
+    scrollbarfaceend = scrollbarfacestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+        * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
-    if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
+    if (!scrollbarfacestart && scrollbarfaceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
-        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH - offset;
+        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH - offset;
         const int   trackend = MAX(0, CONSOLESCROLLBARHEIGHT * SCREENWIDTH - offset);
 
         // draw scrollbar track
@@ -649,7 +651,7 @@ static void C_DrawScrollbar(void)
                 *dot = tinttab50[*dot + consolescrollbartrackcolor];
             }
 
-        if (faceend - facestart > 8)
+        if (scrollbarfaceend - scrollbarfacestart > 8)
         {
             const int   gripend = gripstart + 6 * SCREENWIDTH;
 
@@ -660,9 +662,9 @@ static void C_DrawScrollbar(void)
                         tempscreen[y + x] = screens[0][y + x];
 
             // draw scrollbar face
-            faceend = faceend * SCREENWIDTH - offset;
+            const int   end = scrollbarfaceend * SCREENWIDTH - offset;
 
-            for (int y = facestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
+            for (int y = scrollbarfacestart * SCREENWIDTH - offset; y < end; y += SCREENWIDTH)
                 if (y >= 0)
                     for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                         screens[0][y + x] = consolescrollbarfacecolor;
@@ -675,20 +677,20 @@ static void C_DrawScrollbar(void)
         }
         else
         {
-            faceend = faceend * SCREENWIDTH - offset;
+            const int   end = scrollbarfaceend * SCREENWIDTH - offset;
 
             // draw scrollbar face
-            for (int y = facestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
+            for (int y = scrollbarfacestart * SCREENWIDTH - offset; y < end; y += SCREENWIDTH)
                 if (y >= 0)
                     for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                         screens[0][y + x] = consolescrollbarfacecolor;
         }
 
         // draw scrollbar face shadow
-        if (faceend >= 0)
+        if (scrollbarfaceend >= 0)
             for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
             {
-                byte    *dot = *screens + faceend + x;
+                byte    *dot = *screens + scrollbarfaceend + x;
 
                 *dot = tinttab10[*dot];
             }
@@ -2663,14 +2665,13 @@ bool C_Responder(event_t *ev)
     {
         if (ev->data1 & MOUSE_LEFTBUTTON)
         {
+            const int   x = ev->data2 * 2;
             const int   y = ev->data3 * 2;
 
             if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
             else if (len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
-                const int   x = ev->data2 * 2;
-
                 for (i = 0; i < len; i++)
                 {
                     char    *temp1 = M_SubString(consoleinput, 0, i);
@@ -2694,6 +2695,17 @@ bool C_Responder(event_t *ev)
                 }
 
                 caretpos = selectstart = selectend = i;
+            }
+            else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
+            {
+                if (y < scrollbarfacestart)
+                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - scrollspeed / TICRATE));
+                else if (y > scrollbarfaceend)
+                {
+                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                        outputhistory = -1;
+                }
             }
         }
         else if (ev->data1 & MOUSE_RIGHTBUTTON)
