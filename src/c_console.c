@@ -628,9 +628,8 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 
 static void C_DrawScrollbar(void)
 {
-    scrollbarfacestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-        MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-        MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
+    scrollbarfacestart = CONSOLESCROLLBARHEIGHT * MAX(0, (outputhistory == -1 ?
+        numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES : outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
     scrollbarfaceend = scrollbarfacestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
         * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
@@ -2701,7 +2700,7 @@ bool C_Responder(event_t *ev)
                 if (y < scrollbarfacestart)
                     outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - scrollspeed / TICRATE));
-                else if (y > scrollbarfaceend)
+                else if (y > scrollbarfaceend && y <= CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
                 {
                     if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
                         outputhistory = -1;
