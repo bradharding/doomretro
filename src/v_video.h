@@ -139,3 +139,6 @@ void GetPixelSize(void);
 void V_InvertScreen(void);
 
 bool V_ScreenShot(void);
+
+struct patch_s *V_LinearToTransPatch(const byte *data, int width, int height,
+    int color_key);

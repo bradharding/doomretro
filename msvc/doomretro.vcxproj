@@ -363,6 +363,7 @@
     <ClInclude Include="..\src\m_config.h" />
     <ClInclude Include="..\src\m_controls.h" />
     <ClInclude Include="..\src\m_fixed.h" />
+    <ClInclude Include="..\src\m_font.h" />
     <ClInclude Include="..\src\m_menu.h" />
     <ClInclude Include="..\src\m_misc.h" />
     <ClInclude Include="..\src\m_random.h" />
@@ -441,6 +442,7 @@
     <ClCompile Include="..\src\m_cheat.c" />
     <ClCompile Include="..\src\m_config.c" />
     <ClCompile Include="..\src\m_controls.c" />
+    <ClCompile Include="..\src\m_font.c" />
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />

@@ -50,6 +50,7 @@
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
+#include "m_font.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -681,6 +682,9 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 {
     char        prev = '\0';
     const int   len = (int)strlen(string);
+
+    if (MN_DrawFon2String(x, y, string))
+        return;
 
     for (int i = 0, j = -1; i < len; i++)
     {
@@ -4661,4 +4665,10 @@ void M_Init(void)
 
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
+
+    int lumpnum = W_CheckNumForName("DBIGFONT");
+    if (lumpnum > 0)
+    {
+        MN_LoadFon2(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum));
+    }
 }
