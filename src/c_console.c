@@ -2667,8 +2667,11 @@ bool C_Responder(event_t *ev)
             const int   x = ev->data2 * 2;
             const int   y = ev->data3 * 2;
 
+            // hide console
             if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
+
+            // move caret
             else if (len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
                 for (i = 0; i < len; i++)
@@ -2697,16 +2700,21 @@ bool C_Responder(event_t *ev)
             }
             else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
+                // scroll output up
                 if (y < scrollbarfacestart)
                     outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - scrollspeed / TICRATE));
-                else if (y > scrollbarfaceend && y <= CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
+
+                // scroll output down
+                else if (y > scrollbarfaceend && y < CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
                 {
                     if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
                         outputhistory = -1;
                 }
             }
         }
+
+        // hide console
         else if (ev->data1 & MOUSE_RIGHTBUTTON)
             C_HideConsole();
     }
@@ -2729,12 +2737,15 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_controller)
     {
+        // hide console
         if (((controllerbuttons & controllerconsole)
             || (controllerbuttons & CONTROLLER_B)) && controllerwait < I_GetTime())
         {
             controllerwait = I_GetTime() + 2;
             C_HideConsole();
         }
+
+        // scroll output up
         else if ((controllerthumbLY < 0
             || controllerthumbRY < 0
             || (controllerbuttons & CONTROLLER_DPAD_UP)) && controllerwait < I_GetTime())
@@ -2745,6 +2756,8 @@ bool C_Responder(event_t *ev)
                 outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
                     MAX(0, outputhistory - 1));
         }
+
+        // scroll output down
         else if ((controllerthumbLY > 0
             || controllerthumbRY > 0
             || (controllerbuttons & CONTROLLER_DPAD_DOWN)) && controllerwait < I_GetTime())
