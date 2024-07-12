@@ -169,7 +169,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
     return true;
 }
 
-bool M_DrawFON2String(int x, int y, const char *str)
+bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
 {
     int c;
     int cx = x;
@@ -187,7 +187,7 @@ bool M_DrawFON2String(int x, int y, const char *str)
 
         if (chars[c].width)
         {
-            V_DrawPatch(cx, y, 0, chars[c].patch);
+            V_DrawMenuPatch(cx, y, chars[c].patch, highlight, SCREENWIDTH);
             cx += chars[c].width + kerning;
         }
         else

@@ -683,7 +683,7 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
     char        prev = '\0';
     const int   len = (int)strlen(string);
 
-    if (M_DrawFON2String(x, y, string))
+    if (M_DrawFON2String(x, y, string, highlight))
         return;
 
     for (int i = 0, j = -1; i < len; i++)
