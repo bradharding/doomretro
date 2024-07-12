@@ -1,20 +1,37 @@
-//
-// SLADE - It's a Doom Editor
-// Copyright(C) 2008 - 2019 Simon Judd
-// Copyright(C) 2024 Roman Fomin
-//
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-// DESCRIPTION:
-//     Load and draw ZDoom FON2 fonts
+﻿/*
+==============================================================================
+
+                                 DOOM Retro
+           The classic, refined DOOM source port. For Windows PC.
+
+==============================================================================
+
+    Copyright © 1993-2024 by id Software LLC, a ZeniMax Media company.
+    Copyright © 2013-2024 by Brad Harding <mailto:brad@doomretro.com>.
+
+    This file is a part of DOOM Retro.
+
+    DOOM Retro is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the license, or (at your
+    option) any later version.
+
+    DOOM Retro is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DOOM Retro. If not, see <https://www.gnu.org/licenses/>.
+
+    DOOM is a registered trademark of id Software LLC, a ZeniMax Media
+    company, in the US and/or other countries, and is used without
+    permission. All other trademarks are the property of their respective
+    holders. DOOM Retro is in no way affiliated with nor endorsed by
+    id Software.
+
+==============================================================================
+*/
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -28,52 +45,52 @@
 #include "v_video.h"
 #include "w_wad.h"
 
+#define FON2_SPACE  12
+
 typedef struct
 {
-    uint16_t width;
-    patch_t *patch;
+    uint16_t        width;
+    patch_t         *patch;
 } fon2_char_t;
 
 typedef struct
 {
-    byte magic[4];
-    uint16_t charheight;
-    byte firstc;
-    byte lastc;
-    byte constantw;
-    byte shading;
-    byte palsize;
-    byte kerning; // flag field, but with only one flag
+    byte            magic[4];
+    uint16_t        charheight;
+    byte            firstc;
+    byte            lastc;
+    byte            constantw;
+    byte            shading;
+    byte            palsize;
+    byte            kerning;    // flag field, but with only one flag
 } fon2_header_t;
 
-static fon2_char_t *chars = NULL;
-static int numchars;
-static int height;
-static int firstc;
-static int kerning;
+static fon2_char_t  *chars = NULL;
+static int          numchars;
+static int          height;
+static int          firstc;
+static int          kerning;
 
-#define FON2_SPACE 12
-
-bool MN_LoadFon2(const byte *gfx_data, int size)
+bool M_LoadFON2(byte *gfx_data, int size)
 {
+    fon2_header_t   *header;
+    byte            *p;
+    byte            *playpal;
+    byte            *translate;
+    byte            color_key;
+
     if (size < (int)sizeof(fon2_header_t))
-    {
         return false;
-    }
 
-    const fon2_header_t *header = (fon2_header_t *)gfx_data;
+    header = (fon2_header_t *)gfx_data;
+
     if (memcmp(header->magic, "FON2", 4))
-    {
         return false;
-    }
 
-    height = SHORT(header->charheight);
-    if (height == 0)
-    {
+    if (!(height = SHORT(header->charheight)))
         return false;
-    }
 
-    const byte *p = gfx_data + sizeof(fon2_header_t);
+    p = gfx_data + sizeof(fon2_header_t);
 
     if (header->kerning)
     {
@@ -85,21 +102,21 @@ bool MN_LoadFon2(const byte *gfx_data, int size)
     numchars = header->lastc - header->firstc + 1;
     chars = malloc(numchars * sizeof(*chars));
 
-    for (int i = 0; i < numchars; ++i)
+    for (int i = 0; i < numchars; i++)
     {
         chars[i].width = SHORT(*(uint16_t *)p);
+
         // The width information is enumerated for each character only if they
         // are not constant width. Regardless, move the read pointer away after
         // the last.
-        if (!(header->constantw) || (i == numchars - 1))
-        {
+        if (!header->constantw || i == numchars - 1)
             p += 2;
-        }
     }
 
     // Build translation table for palette.
-    byte *playpal = W_CacheLumpName("PLAYPAL");
-    byte *translate = malloc(header->palsize + 1);
+    playpal = W_CacheLumpName("PLAYPAL");
+    translate = malloc(header->palsize + 1);
+
     for (int i = 0; i < header->palsize + 1; ++i)
     {
         int r = *p++;
@@ -109,74 +126,60 @@ bool MN_LoadFon2(const byte *gfx_data, int size)
     }
 
     // 0 is transparent, last is border color
-    byte color_key = translate[0];
+    color_key = translate[0];
 
     // The picture data follows, using the same RLE as FON1 and IMGZ.
-    for (int i = 0; i < numchars; ++i)
-    {
+    for (int i = 0; i < numchars; i++)
         // A big font is not necessarily continuous; several characters
         // may be skipped; they are given a width of 0.
-        if (!chars[i].width)
+        if (chars[i].width)
         {
-            continue;
-        }
+            int     numpixels = chars[i].width * height;
+            byte    *data = malloc(numpixels);
+            byte    *d = data;
+            byte    code = 0;
+            int     length = 0;
 
-        int numpixels = chars[i].width * height;
-        byte *data = malloc(numpixels);
-        byte *d = data;
-        byte code = 0;
-        int length = 0;
-
-        while (numpixels)
-        {
-            code = *p++;
-            if (code < 0x80)
-            {
-                length = code + 1;
-                for (int k = 0; k < length; ++k)
+            while (numpixels)
+                if ((code = *p++) < 0x80)
                 {
-                    d[k] = translate[p[k]];
-                }
-                d += length;
-                p += length;
-                numpixels -= length;
-            }
-            else if (code > 0x80)
-            {
-                length = 0x101 - code;
-                code = *p++;
-                memset(d, translate[code], length);
-                d += length;
-                numpixels -= length;
-            }
-        }
+                    length = code + 1;
 
-        chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height,
-                                              color_key);
-        free(data);
-    }
+                    for (int k = 0; k < length; k++)
+                        d[k] = translate[p[k]];
+
+                    d += length;
+                    p += length;
+                    numpixels -= length;
+                }
+                else if (code > 0x80)
+                {
+                    length = 0x101 - code;
+                    code = *p++;
+                    memset(d, translate[code], length);
+                    d += length;
+                    numpixels -= length;
+                }
+
+            chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
+            free(data);
+        }
 
     free(translate);
     return true;
 }
 
-bool MN_DrawFon2String(int x, int y, const char *str)
+bool M_DrawFON2String(int x, int y, const char *str)
 {
+    int c;
+    int cx = x;
+
     if (!numchars)
-    {
         return false;
-    }
-
-    int c, cx;
-
-    cx = x;
 
     while (*str)
     {
-        c = *str++;
-
-        c = toupper(c) - firstc;
-        if (c < 0 || c >= numchars)
+        if ((c = toupper(*str++) - firstc) < 0 || c >= numchars)
         {
             cx += FON2_SPACE;
             continue;
@@ -188,37 +191,8 @@ bool MN_DrawFon2String(int x, int y, const char *str)
             cx += chars[c].width + kerning;
         }
         else
-        {
             cx += FON2_SPACE + kerning;
-        }
     }
 
     return true;
-}
-
-int MN_GetFon2PixelWidth(const char *str)
-{
-    if (!numchars)
-    {
-        return 0;
-    }
-
-    int len = 0;
-    int c;
-
-    while (*str)
-    {
-        c = *str++;
-
-        c = toupper(c) - firstc;
-        if (c < 0 || c > numchars)
-        {
-            len += FON2_SPACE; // space
-            continue;
-        }
-
-        len += chars[c].width + kerning;
-    }
-    len -= kerning;
-    return len;
 }

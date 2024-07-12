@@ -43,6 +43,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_argv.h"
+#include "m_array.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -1908,8 +1909,8 @@ bool V_ScreenShot(void)
 
 typedef struct
 {
-    byte row_off;
-    byte *pixels;
+    byte    row_off;
+    byte    *pixels;
 } vpost_t;
 
 typedef struct
@@ -1917,49 +1918,51 @@ typedef struct
     vpost_t *posts;
 } vcolumn_t;
 
-#include "m_array.h"
-
 #define PUTBYTE(r, v)  \
     *r = (uint8_t)(v); \
-    ++r
+    r++
 
 #define PUTSHORT(r, v)                              \
-    *(r + 0) = (byte)(((uint16_t)(v) >> 0) & 0xff); \
-    *(r + 1) = (byte)(((uint16_t)(v) >> 8) & 0xff); \
+    *(r + 0) = (byte)(((uint16_t)(v) >> 0) & 0xFF); \
+    *(r + 1) = (byte)(((uint16_t)(v) >> 8) & 0xFF); \
     r += 2
 
 #define PUTLONG(r, v)                                \
-    *(r + 0) = (byte)(((uint32_t)(v) >> 0) & 0xff);  \
-    *(r + 1) = (byte)(((uint32_t)(v) >> 8) & 0xff);  \
-    *(r + 2) = (byte)(((uint32_t)(v) >> 16) & 0xff); \
-    *(r + 3) = (byte)(((uint32_t)(v) >> 24) & 0xff); \
+    *(r + 0) = (byte)(((uint32_t)(v) >> 0) & 0xFF);  \
+    *(r + 1) = (byte)(((uint32_t)(v) >> 8) & 0xFF);  \
+    *(r + 2) = (byte)(((uint32_t)(v) >> 16) & 0xFF); \
+    *(r + 3) = (byte)(((uint32_t)(v) >> 24) & 0xFF); \
     r += 4
 
 //
 // Converts a linear graphic to a patch with transparency. Mostly straight
 // from psxwadgen, which is mostly straight from SLADE.
 //
-patch_t *V_LinearToTransPatch(const byte *data, int width, int height,
-    int color_key)
+patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color_key)
 {
-    vcolumn_t *columns = NULL;
+    vcolumn_t   *columns = NULL;
+    size_t      size = 0;
+    byte        *output;
+    byte        *rover;
+    byte        *col_offsets;
 
     // Go through columns
-    uint32_t offset = 0;
+    uint32_t    offset = 0;
+
     for (int c = 0; c < width; c++)
     {
-        vcolumn_t col = { 0 };
-        vpost_t post = { 0 };
-        post.row_off = 0;
-        bool ispost = false;
-        bool first_254 = true; // first 254 pixels use absolute offsets
+        vcolumn_t   col = { 0 };
+        vpost_t     post = { 0 };
+        bool        ispost = false;
+        bool        first_254 = true;   // first 254 pixels use absolute offsets
+        byte        row_off = 0;
 
+        post.row_off = 0;
         offset = c;
-        byte row_off = 0;
+
         for (int r = 0; r < height; r++)
         {
-            // if we're at offset 254, create a dummy post for tall doom gfx
-            // support
+            // if we're at offset 254, create a dummy post for tall DOOM gfx support
             if (row_off == 254)
             {
                 // Finish current post if any
@@ -1982,12 +1985,10 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height,
                 ispost = false;
             }
 
-            // If the current pixel is not transparent, add it to the current
-            // post
+            // If the current pixel is not transparent, add it to the current post
             if (data[offset] != color_key)
             {
-                // If we're not currently building a post, begin one and set its
-                // offset
+                // If we're not currently building a post, begin one and set its offset
                 if (!ispost)
                 {
                     // Set offset
@@ -1995,9 +1996,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height,
 
                     // Reset offset if we're in relative offsets mode
                     if (!first_254)
-                    {
                         row_off = 0;
-                    }
 
                     // Start post
                     ispost = true;
@@ -2009,8 +2008,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height,
             else if (ispost)
             {
                 // If the current pixel is transparent and we are currently
-                // building a post, add the current post to the list and clear
-                // it
+                // building a post, add the current post to the list and clear it
                 array_push(col.posts, post);
                 post.pixels = NULL;
                 ispost = false;
@@ -2018,77 +2016,77 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height,
 
             // Go to next row
             offset += width;
-            ++row_off;
+            row_off++;
         }
 
         // If the column ended with a post, add it
         if (ispost)
-        {
             array_push(col.posts, post);
-        }
 
         // Add the column data
         array_push(columns, col);
 
         // Go to next column
-        ++offset;
+        offset++;
     }
 
-    size_t size = 0;
-
     // Calculate needed memory size to allocate patch buffer
-    size += 4 * sizeof(int16_t);                   // 4 header shorts
-    size += array_size(columns) * sizeof(int32_t); // offsets table
+    size += 4 * sizeof(int16_t);                                // 4 header shorts
+    size += array_size(columns) * sizeof(int32_t);              // offsets table
 
     for (int c = 0; c < array_size(columns); c++)
     {
         for (int p = 0; p < array_size(columns[c].posts); p++)
         {
-            size_t post_len = 0;
+            size_t  post_len = 0;
 
-            post_len += 2; // two bytes for post header
-            post_len += 1; // dummy byte
+            post_len += 2;                                      // two bytes for post header
+            post_len += 1;                                      // dummy byte
             post_len += array_size(columns[c].posts[p].pixels); // pixels
-            post_len += 1; // dummy byte
+            post_len += 1;                                      // dummy byte
 
             size += post_len;
         }
 
-        size += 1; // room for 0xff cap byte
+        size += 1;                                              // room for 0xff cap byte
     }
 
-    byte *output = malloc(size);
-    byte *rover = output;
+    output = malloc(size);
+    rover = output;
 
     // write header fields
     PUTSHORT(rover, width);
     PUTSHORT(rover, height);
+
     // This is written to afterwards
     PUTSHORT(rover, 0);
     PUTSHORT(rover, 0);
 
     // set starting position of column offsets table, and skip over it
-    byte *col_offsets = rover;
+    col_offsets = rover;
+
     rover += array_size(columns) * 4;
 
     for (int c = 0; c < array_size(columns); c++)
     {
         // write column offset to offset table
-        uint32_t offs = (uint32_t)(rover - output);
+        uint32_t    offs = (uint32_t)(rover - output);
+
         PUTLONG(col_offsets, offs);
 
         // write column posts
         for (int p = 0; p < array_size(columns[c].posts); p++)
         {
+            int     numpixels = array_size(columns[c].posts[p].pixels);
+            byte    lastval = (numpixels ? columns[c].posts[p].pixels[0] : 0);
+
             // Write row offset
             PUTBYTE(rover, columns[c].posts[p].row_off);
 
             // Write number of pixels
-            int numpixels = array_size(columns[c].posts[p].pixels);
             PUTBYTE(rover, numpixels);
 
             // Write pad byte
-            byte lastval = numpixels ? columns[c].posts[p].pixels[0] : 0;
             PUTBYTE(rover, lastval);
 
             // Write pixels

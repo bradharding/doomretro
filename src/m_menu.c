@@ -683,7 +683,7 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
     char        prev = '\0';
     const int   len = (int)strlen(string);
 
-    if (MN_DrawFon2String(x, y, string))
+    if (M_DrawFON2String(x, y, string))
         return;
 
     for (int i = 0, j = -1; i < len; i++)
@@ -4669,6 +4669,6 @@ void M_Init(void)
     int lumpnum = W_CheckNumForName("DBIGFONT");
     if (lumpnum > 0)
     {
-        MN_LoadFon2(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum));
+        M_LoadFON2(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum));
     }
 }
