@@ -4591,6 +4591,8 @@ void M_Ticker(void)
 //
 void M_Init(void)
 {
+    int DBIGFONT = W_CheckNumForName("DBIGFONT");
+
     M_BigSeed((unsigned int)time(NULL));
 
     currentmenu = &MainDef;
@@ -4629,7 +4631,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL)
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL && DBIGFONT == -1)
         OptionsDef.numitems--;
 
     M_ReadSaveStrings();
@@ -4666,9 +4668,12 @@ void M_Init(void)
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
 
-    int lumpnum = W_CheckNumForName("DBIGFONT");
-    if (lumpnum > 0)
+    if (DBIGFONT >= 0)
     {
-        M_LoadFON2(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum));
+        wadfile_t   *wadfile = lumpinfo[DBIGFONT]->wadfile;
+
+        if (M_LoadFON2(W_CacheLumpName("DBIGFONT"), W_LumpLength(DBIGFONT)))
+            C_Output("The " BOLD("DBIGFONT") " lump in the %s " BOLD("%s") " is being used.",
+                (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
     }
 }
