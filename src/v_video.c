@@ -1947,7 +1947,6 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
     byte        *col_offsets;
 
     // Go through columns
-    uint32_t    offset = 0;
 
     for (int c = 0; c < width; c++)
     {
@@ -1956,13 +1955,13 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
         bool        ispost = false;
         bool        first_254 = true;   // first 254 pixels use absolute offsets
         byte        row_off = 0;
+        uint32_t    offset = c;
 
         post.row_off = 0;
-        offset = c;
 
         for (int r = 0; r < height; r++)
         {
-            // if we're at offset 254, create a dummy post for tall DOOM gfx support
+            // if we're at offset 254, create a dummy post for tall DOOM GFX support
             if (row_off == 254)
             {
                 // Finish current post if any
@@ -1982,7 +1981,6 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
 
                 // Clear post
                 row_off = 0;
-                ispost = false;
             }
 
             // If the current pixel is not transparent, add it to the current post
@@ -2025,9 +2023,6 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
 
         // Add the column data
         array_push(columns, col);
-
-        // Go to next column
-        offset++;
     }
 
     // Calculate needed memory size to allocate patch buffer
@@ -2103,7 +2098,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
         }
 
         // Write 255 cap byte
-        PUTBYTE(rover, 0xff);
+        PUTBYTE(rover, 0xFF);
 
         array_free(columns[c].posts);
     }

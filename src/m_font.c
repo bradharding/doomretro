@@ -115,7 +115,9 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
     // Build translation table for palette.
     playpal = W_CacheLumpName("PLAYPAL");
-    translate = malloc(header->palsize + 1);
+    
+    if (!(translate = malloc(header->palsize + 1)))
+        return false;
 
     for (int i = 0; i < header->palsize + 1; ++i)
     {
@@ -136,33 +138,37 @@ bool M_LoadFON2(byte *gfx_data, int size)
         {
             int     numpixels = chars[i].width * height;
             byte    *data = malloc(numpixels);
-            byte    *d = data;
-            byte    code = 0;
-            int     length = 0;
 
-            while (numpixels)
-                if ((code = *p++) < 0x80)
-                {
-                    length = code + 1;
+            if (data)
+            {
+                byte    *d = data;
+                byte    code;
+                int     length;
 
-                    for (int k = 0; k < length; k++)
-                        d[k] = translate[p[k]];
+                while (numpixels)
+                    if ((code = *p++) < 0x80)
+                    {
+                        length = code + 1;
 
-                    d += length;
-                    p += length;
-                    numpixels -= length;
-                }
-                else if (code > 0x80)
-                {
-                    length = 0x101 - code;
-                    code = *p++;
-                    memset(d, translate[code], length);
-                    d += length;
-                    numpixels -= length;
-                }
+                        for (int k = 0; k < length; k++)
+                            d[k] = translate[p[k]];
 
-            chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
-            free(data);
+                        d += length;
+                        p += length;
+                        numpixels -= length;
+                    }
+                    else if (code > 0x80)
+                    {
+                        length = 0x101 - code;
+                        code = *p++;
+                        memset(d, translate[code], length);
+                        d += length;
+                        numpixels -= length;
+                    }
+
+                chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
+                free(data);
+            }
         }
 
     free(translate);
@@ -171,7 +177,6 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
 bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
 {
-    int c;
     int cx = x;
 
     if (!numchars)
@@ -179,7 +184,9 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
 
     while (*str)
     {
-        if ((c = toupper(*str++) - firstc) < 0 || c >= numchars)
+        int c = toupper(*str++) - firstc;
+
+        if (c < 0 || c >= numchars)
         {
             cx += FON2_SPACE;
             continue;
@@ -195,4 +202,27 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
     }
 
     return true;
+}
+
+int M_GetFON2PixelWidth(const char *str)
+{
+    int width = 0;
+
+    if (!numchars)
+        return 0;
+
+    while (*str)
+    {
+        int c = toupper(*str++) - firstc;
+
+        if (c < 0 || c >= numchars)
+        {
+            width += FON2_SPACE;
+            continue;
+        }
+
+        width += chars[c].width + kerning;
+    }
+
+    return (width - kerning);
 }

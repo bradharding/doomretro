@@ -740,9 +740,12 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 //
 static int M_BigStringWidth(char *string)
 {
-    int         width = 0;
+    int         width = M_GetFON2PixelWidth(string);
     char        prev = '\0';
     const int   len = (int)strlen(string);
+
+    if (width)
+        return width;
 
     for (int i = 0; i < len; i++)
     {
