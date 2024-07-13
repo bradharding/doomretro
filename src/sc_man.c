@@ -123,7 +123,7 @@ bool SC_GetString(void)
 
     while (!foundToken)
     {
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '='
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '='
             || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;

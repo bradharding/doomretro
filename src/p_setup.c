@@ -3525,6 +3525,13 @@ static bool P_ParseMapInfo(const char *scriptname)
             {
                 SC_MustGetString();
 
+                if (SC_Compare("NAME"))
+                {
+                    SC_MustGetString();
+                    M_AddEpisode(map, ep, "", sc_String);
+                    SC_MustGetString();
+                }
+
                 if (SC_Compare("PICNAME"))
                 {
                     SC_MustGetString();
