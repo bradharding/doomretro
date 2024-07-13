@@ -157,7 +157,12 @@ bool SC_GetString(void)
 
         while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
         {
-            if (*ScriptPtr != ASCII_ESCAPE)
+            if (*ScriptPtr == ASCII_ESCAPE && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
+            {
+                ScriptPtr += 2;
+                *text++ = '\n';
+            }
+            else if (*ScriptPtr != ASCII_ESCAPE)
                 *text++ = *ScriptPtr++;
             else
                 ScriptPtr++;
