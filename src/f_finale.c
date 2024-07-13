@@ -406,7 +406,8 @@ static void F_TextWrite(void)
             continue;
         }
 
-        c = toupper(letter) - HU_FONTSTART;
+        letter = toupper(letter);
+        c = letter - HU_FONTSTART;
 
         if (c < 0 || c >= HU_FONTSIZE)
         {

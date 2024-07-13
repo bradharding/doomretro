@@ -2522,7 +2522,16 @@ int M_StringWidth(const char *string)
     width = M_CharacterWidth(string[0], '\0');
 
     for (int i = 1; i < len; i++)
+    {
         width += M_CharacterWidth(string[i], string[i - 1]);
+
+        for (int k = 0; kern[k].char1; k++)
+            if (string[i - 1] == kern[k].char1 && string[i] == kern[k].char2)
+            {
+                width += kern[k].adjust;
+                break;
+            }
+    }
 
     return width;
 }
@@ -2578,8 +2587,8 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             continue;
         }
 
-        letter = c;
-        c = toupper(c) - HU_FONTSTART;
+        letter = toupper(c);
+        c = letter - HU_FONTSTART;
 
         if (c < 0 || c >= HU_FONTSIZE)
         {
