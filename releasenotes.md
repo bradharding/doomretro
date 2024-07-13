@@ -11,6 +11,7 @@
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
   * `EPISODE` is now parsed correctly in more instances.
+  * `\n` characters are now parsed.
 * These changes have been made to the support of `DEHACKED` lumps:
   * The values specified using `Initial health` and `Initial bullets` will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
   * A bug is fixed whereby the health of spiderdemons would always be 3,000 even if a value was specified using `Hit points`.
@@ -25,11 +26,15 @@
 * The `save` and `load` CCMDs can now be used to save and load games by specifying numbers `1` to `8`.
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were in wasn’t in the player’s line of sight.
+* Sprites also no longer disappear when drawn against the left and right edges of ultra-wide displays.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.
-* Minor improvements have been made to the highlight effect in the menu.
-* The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
+* These changes have been made to the menu:
+  * Minor improvements have been made to the highlight effect in the menu.
+  * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
+  * `DBIGFONT` lumps are now supported. This will allow more menu items to be displayed in the correct font for certain PWADs, and `CONSOLE...` to be displayed in the options menu.
+  * The text caret in the save game menu is now larger.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * The screen’s brightness can now be adjusted using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
@@ -39,6 +44,15 @@
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
 * The map title in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * Additional brightness can now be applied to the lighting in the current map using the new `r_levelbrightness` CVAR. This CVAR can be between `0%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* The `infiniteammo` CCMD can no longer be entered when a game isn’t being played.
+* The color of the bottom edge of the console now changes to reflect the color of the digits in the status bar, (or in some cases, the text in the menu), if the relevant lumps have been replaced by the currently loaded PWAD.
+* The mouse pointer may now be used to move the scroll bar in the console when the `m_pointer` CVAR is `on`.
+* Minor changes have been made to text in the status bar and alternate widescreen HUD.
+* Improvements have been made to the playback of sound effects.
+* The `r_shake_damage` CVAR is now a value of `on` or `off` and is `on` by default. Improvements have been made to the shake effect when this CVAR is `on`.
+* A confirmation message is now displayed when entering the `endgame` CCMD in the console.
+* A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
+* A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
