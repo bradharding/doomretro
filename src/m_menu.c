@@ -1946,9 +1946,8 @@ static void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawCenteredPatchWithShadow(15 + OFFSET, W_CacheLumpName("M_OPTTTL"));
+        M_DrawCenteredPatchWithShadow(OFFSET, W_CacheLumpName("M_OPTTTL"));
         OptionsDef.x = (chex ? 69 : 60);
-        OptionsDef.y = 37;
     }
     else
     {
