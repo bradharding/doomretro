@@ -88,7 +88,7 @@ static void (*messageroutine)(int);
 
 // we are going to be entering a savegame string
 static bool     savestringenter;
-static int      savecharindex;          // which char we're editing
+static int      savecharindex;                      // which char we're editing
 
 // old save description before edit
 static char     saveoldstring[SAVESTRINGSIZE];
@@ -102,9 +102,14 @@ bool            reopenautomap;
 
 char            savegamestrings[savegame_max][SAVESTRINGSIZE];
 
-static short    itemon;                 // menu item skull is on
-static short    skullanimcounter;       // skull animation counter
-static short    whichskull;             // which skull to draw
+static short    itemon;                             // menu item skull is on
+static short    skullanimcounter = SKULLANIMCOUNT;  // skull animation counter
+static short    whichskull;                         // which skull to draw
+
+static bool     showcaret;
+static short    caretwait = SKULLANIMCOUNT;
+int             caretcolor;
+
 
 static int      blurtic = -1;
 static int      functionkey;
@@ -1082,10 +1087,6 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-static bool     showcaret;
-static uint64_t caretwait;
-int             caretcolor;
-
 static void M_SetCaretPos(int pointerx)
 {
     const int   len = (int)strlen(savegamestrings[itemon]);
@@ -1174,12 +1175,6 @@ static void M_DrawSave(void)
             x += M_StringWidth(left);
 
             // draw text caret
-            if (caretwait < I_GetTimeMS())
-            {
-                showcaret = !showcaret;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-            }
-
             if (showcaret || !windowfocused)
             {
                 byte *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
@@ -1324,7 +1319,7 @@ static void M_SaveSelect(int choice)
     M_UpdateSaveGameName(itemon);
     savecharindex = (int)strlen(savegamestrings[itemon]);
     showcaret = true;
-    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+    caretwait = SKULLANIMCOUNT;
 }
 
 //
@@ -2897,7 +2892,7 @@ bool M_Responder(event_t *ev)
 
                                     if (savecharindex != oldsavecharindex)
                                     {
-                                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                                        caretwait = SKULLANIMCOUNT;
                                         showcaret = true;
                                     }
                                 }
@@ -3169,7 +3164,7 @@ bool M_Responder(event_t *ev)
                     savegamestrings[itemon][i] = savegamestrings[itemon][i - 1];
 
                 savegamestrings[itemon][savecharindex++] = ch;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                caretwait = SKULLANIMCOUNT;
                 showcaret = true;
 
                 return true;
@@ -3198,7 +3193,7 @@ bool M_Responder(event_t *ev)
                         savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
                     savecharindex--;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -3216,7 +3211,7 @@ bool M_Responder(event_t *ev)
                     for (int j = savecharindex; j < len; j++)
                         savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -3256,7 +3251,7 @@ bool M_Responder(event_t *ev)
                         SDL_StopTextInput();
                         M_UpdateSaveGameName(itemon);
                         savestringenter = false;
-                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        caretwait = SKULLANIMCOUNT;
                         showcaret = true;
                         M_DoSave(itemon);
                         D_FadeScreen(false);
@@ -3277,7 +3272,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex > 0)
                 {
                     savecharindex--;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -3288,7 +3283,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex < (int)strlen(savegamestrings[itemon]))
                 {
                     savecharindex++;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -3299,7 +3294,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex > 0)
                 {
                     savecharindex = 0;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -3313,7 +3308,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex < len)
                 {
                     savecharindex = len;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = SKULLANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4579,12 +4574,23 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if (savestringenter)
-        whichskull = 0;
-    else if (windowfocused && --skullanimcounter <= 0)
+    if (windowfocused)
     {
-        whichskull ^= 1;
-        skullanimcounter = SKULLANIMCOUNT;
+        if (savestringenter)
+        {
+            whichskull = 0;
+
+            if (--caretwait <= 0)
+            {
+                caretwait = SKULLANIMCOUNT;
+                showcaret = !showcaret;
+            }
+        }
+        else if (--skullanimcounter <= 0)
+        {
+            whichskull ^= 1;
+            skullanimcounter = SKULLANIMCOUNT;
+    }
     }
 }
 
@@ -4601,6 +4607,7 @@ void M_Init(void)
     menuactive = false;
     itemon = currentmenu->laston;
     skullanimcounter = SKULLANIMCOUNT;
+    caretwait = SKULLANIMCOUNT;
     messagetoprint = false;
     messagestring = NULL;
     messagelastmenuactive = false;
