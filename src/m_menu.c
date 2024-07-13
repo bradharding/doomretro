@@ -2610,6 +2610,13 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
                     c = 65;
             }
 
+            for (int k = 0; kern[k].char1; k++)
+                if (prevletter == kern[k].char1 && letter == kern[k].char2)
+                {
+                    cx += kern[k].adjust;
+                    break;
+                }
+
             width = (int)strlen(smallcharset[c]) / 10 - 1;
 
             if (cx + width > VANILLAWIDTH)
