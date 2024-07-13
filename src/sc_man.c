@@ -63,7 +63,8 @@ static void SC_ScriptError(void)
 {
     char    *temp = commify(sc_Line);
 
-    C_Warning(1, "Line %s in the " BOLD("%s") " lump couldn't be parsed.", temp, ScriptLumpName);
+    C_Warning(1, "Line %s in the " BOLD("%s") " lump couldn't be parsed.",
+        temp, ScriptLumpName);
     free(temp);
 }
 
@@ -123,8 +124,9 @@ bool SC_GetString(void)
 
     while (!foundToken)
     {
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '='
-            || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
+        while (ScriptPtr < ScriptEndPtr
+            && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '='
+                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -134,7 +136,8 @@ bool SC_GetString(void)
             return false;
         }
 
-        if (*ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        if (*ScriptPtr != ASCII_COMMENT1
+            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
             foundToken = true;
         else
         {
@@ -157,7 +160,8 @@ bool SC_GetString(void)
 
         while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
         {
-            if (*ScriptPtr == ASCII_ESCAPE && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
+            if (*ScriptPtr == ASCII_ESCAPE
+                && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
             {
                 ScriptPtr += 2;
                 *text++ = '\n';
@@ -174,14 +178,18 @@ bool SC_GetString(void)
         ScriptPtr++;
     }
     else
-        while (*ScriptPtr > 32 && *ScriptPtr != ASCII_COMMENT1 && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        while (*ScriptPtr > 32
+            && *ScriptPtr != ASCII_COMMENT1
+            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
             if (*ScriptPtr == '}')
                 ScriptPtr++;
 
             *text++ = *ScriptPtr++;
 
-            if (*ScriptPtr == '{' || *ScriptPtr == '=' || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
+            if (*ScriptPtr == '{'
+                || *ScriptPtr == '='
+                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
             {
                 ScriptPtr++;
                 break;

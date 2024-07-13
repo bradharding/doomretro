@@ -81,7 +81,6 @@ static void F_StartCast(void);
 static void F_CastTicker(void);
 static bool F_CastResponder(const event_t *ev);
 
-void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 //

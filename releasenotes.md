@@ -4,14 +4,14 @@
 
 * *DOOM Retro* is now built using v17.10.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.30.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.5).
-* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several changes have been made to text that is output to the console.
 * The mouse no longer has any effect on *DOOM Retro’s* window when it doesn’t have focus.
 * Changing the `r_mirroredweapons` CVAR no longer affects the random colors of marine corpses when the `r_corpses_color` CVAR is `on`.
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
   * `EPISODE` is now parsed correctly in more instances.
-  * `\n` characters are now parsed.
+  * “\n” characters are now parsed.
 * These changes have been made to the support of `DEHACKED` lumps:
   * The values specified using `Initial health` and `Initial bullets` will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
   * A bug is fixed whereby the health of spiderdemons would always be 3,000 even if a value was specified using `Hit points`.
@@ -32,9 +32,9 @@
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.
 * These changes have been made to the menu:
   * Minor improvements have been made to the highlight effect in the menu.
-  * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level change in the menu.
-  * `DBIGFONT` lumps are now supported. This will allow more menu items to be displayed in the correct font for certain PWADs, and `CONSOLE...` to be displayed in the options menu.
-  * The text caret in the save game menu is now larger.
+  * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level are changed in the menu.
+  * `DBIGFONT` lumps are now supported. This will allow more menu items to be displayed in the correct font, and `CONSOLE...` to be displayed in the options menu, in some instances.
+  * The text caret in the save game menu is now larger and flashes quicker.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * The screen’s brightness can now be adjusted using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
