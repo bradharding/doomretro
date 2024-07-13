@@ -52,6 +52,8 @@
 #include "version.h"
 #include "w_wad.h"
 
+#define PRODUCT_CORE    0x00000065
+
 #if defined(_WIN32)
 typedef long    (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL    (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);

@@ -1017,7 +1017,7 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     int     an;
     state_t *state = psp->state;
 
-    if (state == S_NULL || !state->args[0])
+    if (!state || !state->args[0])
         return;
 
     if (!(mo = P_SpawnPlayerMissile(player->mo, state->args[0] - 1)))
@@ -1061,7 +1061,7 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     state_t         *state = psp->state;
     weapontype_t    readyweapon;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     numbullets = state->args[2];
@@ -1098,7 +1098,7 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     state_t         *state = psp->state;
     weapontype_t    readyweapon;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     if (!(range = state->args[4]))
@@ -1147,7 +1147,7 @@ void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t *state = psp->state;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     S_StartSound((state->args[1] ? NULL : player->mo), state->args[0]);
@@ -1173,7 +1173,7 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t *state = psp->state;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     if (M_Random() < state->args[1])
@@ -1191,7 +1191,7 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
     const ammotype_t    type = readyweapon.ammotype;
 
-    if (state == S_NULL || type == am_noammo)
+    if (!state || type == am_noammo)
         return;
 
     // subtract ammo, but don't let it get below zero
@@ -1210,7 +1210,7 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
     const ammotype_t    type = readyweapon.ammotype;
 
-    if (state == S_NULL || type == am_noammo)
+    if (!state || type == am_noammo)
         return;
 
     if (player->ammo[type] < (state->args[1] ? state->args[1] : readyweapon.ammopershot))
@@ -1227,7 +1227,7 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t *state = psp->state;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     if ((state->args[1] || P_CheckAmmo(player->readyweapon))
@@ -1247,7 +1247,7 @@ void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t *state = psp->state;
 
-    if (state == S_NULL)
+    if (!state)
         return;
 
     if (!state->args[1])
