@@ -1941,7 +1941,7 @@ static void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawCenteredPatchWithShadow(OFFSET, W_CacheLumpName("M_OPTTTL"));
+        M_DrawCenteredPatchWithShadow(OptionsDef.y - 7, W_CacheLumpName("M_OPTTTL"));
         OptionsDef.x = (chex ? 69 : 60);
     }
     else
@@ -4641,7 +4641,10 @@ void M_Init(void)
     OptionsDef.laston = msgs;
 
     if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL && DBIGFONT == -1)
+    {
         OptionsDef.numitems--;
+        OptionsDef.y = 37;
+    }
 
     M_ReadSaveStrings();
 
