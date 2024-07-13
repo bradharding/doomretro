@@ -438,7 +438,7 @@ static void F_TextWrite(void)
             }
 
             for (int k = 0; kern[k].char1; k++)
-                if (prev == kern[k].char1 && c == kern[k].char2)
+                if (prev == kern[k].char1 && letter == kern[k].char2)
                 {
                     cx += kern[k].adjust;
                     break;
