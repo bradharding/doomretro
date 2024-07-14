@@ -110,7 +110,6 @@ static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
 
-
 static int      blurtic = -1;
 static int      functionkey;
 
@@ -2584,6 +2583,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
         {
             cx = x;
             cy += 12;
+            prevletter = '\0';
             continue;
         }
 

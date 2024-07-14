@@ -115,7 +115,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
     // Build translation table for palette.
     playpal = W_CacheLumpName("PLAYPAL");
-    
+
     if (!(translate = malloc(header->palsize + 1)))
         return false;
 

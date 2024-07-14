@@ -368,7 +368,7 @@ static void F_TextWrite(void)
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
-    char        prev = ' ';
+    char        prev = '\0';
 
     if (R_CheckFlatNumForName(finaleflat) == -1)
         V_DrawPagePatch(0, W_CacheLumpName(finaleflat));
@@ -402,7 +402,7 @@ static void F_TextWrite(void)
         {
             cx = 12;
             cy += (prev == '\n' ? 8 : 11);
-            prev = letter;
+            prev = '\0';
             continue;
         }
 
