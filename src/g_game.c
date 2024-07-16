@@ -798,8 +798,16 @@ bool G_Responder(const event_t *ev)
 
                 if (splashscreen)
                 {
-                    logotic = MIN(logotic, 93);
-                    pagetic = MIN(pagetic, 10);
+                    if (fade)
+                    {
+                        logotic = MIN(logotic, 93);
+                        pagetic = MIN(pagetic, 10);
+                    }
+                    else
+                    {
+                        logotic = 0;
+                        pagetic = -1;
+                    }
                 }
                 else
                 {
