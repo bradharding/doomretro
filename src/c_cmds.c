@@ -783,6 +783,8 @@ consolecmd_t consolecmds[] =
         "Toggles a melting effect when transitioning between some screens."),
     CVAR_BOOL(menuspin, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles spinning your view in the menu's background."),
+    CVAR_BOOL(menuhighlight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles the highlighting of selected items in the menu."),
     CVAR_BOOL(messages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles displaying player messages at the top of the screen."),
     CVAR_INT(movebob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,

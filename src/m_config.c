@@ -122,6 +122,7 @@ bool        m_novertical = m_novertical_default;
 bool        m_pointer = m_pointer_default;
 float       m_sensitivity = m_sensitivity_default;
 bool        melt = melt_default;
+bool        menuhighlight = menuhighlight_default;
 bool        menuspin = menuspin_default;
 bool        messages = messages_default;
 int         movebob = movebob_default;
@@ -376,6 +377,7 @@ static default_t cvars[] =
     CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                           BOOLVALUEALIAS     ),
     CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS       ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS     ),
+    CVAR_BOOL         (menuhighlight,                    menuhighlight,                         menuhighlight,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (menuspin,                         menuspin,                              menuspin,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (movebob,                          movebob,                               movebob,                             NOVALUEALIAS       ),

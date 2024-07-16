@@ -111,6 +111,7 @@ extern bool     m_novertical;
 extern bool     m_pointer;
 extern float    m_sensitivity;
 extern bool     melt;
+extern bool     menuhighlight;
 extern bool     menuspin;
 extern bool     messages;
 extern int      movebob;
@@ -587,6 +588,8 @@ enum
 #define m_sensitivity_max                   128.0f
 
 #define melt_default                        true
+
+#define menuhighlight_default               true
 
 #define menuspin_default                    true
 

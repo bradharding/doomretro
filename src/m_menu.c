@@ -1176,7 +1176,7 @@ static void M_DrawSave(void)
             // draw text caret
             if (showcaret || !windowfocused)
             {
-                byte *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+                byte        *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
                 const int   height = (SHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
 
                 for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)

@@ -883,7 +883,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
     byte        *desttop;
-    const byte  *black = (highlight ? black40 : black45);
+    const byte  *black = (highlight || !menuhighlight ? black40 : black45);
     const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
@@ -916,7 +916,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                 {
                     const byte  dot = source[srccol >> FRACBITS];
 
-                    *dest = (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]);
+                    *dest = (menuhighlight ? (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]) : dot);
                 }
 
                 dest += SCREENWIDTH;
@@ -1594,7 +1594,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
         if (shadow)
         {
             byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
-            const byte  *black = (highlight ? black40 : black45);
+            const byte  *black = (highlight || !menuhighlight ? black40 : black45);
 
             *dot = black[*dot];
             dot++;
@@ -1609,7 +1609,8 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
 
-        color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
+        if (menuhighlight)
+            color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
 
         *(dot++) = color;
         *dot = color;
