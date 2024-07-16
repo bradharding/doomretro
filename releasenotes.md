@@ -34,7 +34,12 @@
   * Minor improvements have been made to the highlight effect in the menu.
   * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level are changed in the menu.
   * `DBIGFONT` lumps are now supported. This will allow more menu items to be displayed in the correct font, and `CONSOLE...` to be displayed in the options menu, in some instances.
-  * The text caret in the save game menu is now larger and flashes quicker.
+  * These changes have been made to the load and save game menus:
+    * The text caret in the save game menu is now larger and flashes quicker.
+    * A bug is fixed whereby the text caret could become momentarily stuck at the end of a truncated savegame description in some instances.
+    * To be consistent with every other menu, pressing a key that corresponds with the first letter of a savegame description now navigates to that savegame slot.
+  * The highlighting of items selected in the menu can now be disabled using the new `menuhighlight` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * Shadows cast by items in the menu can now be disabled using the new `menushadow` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * The screen’s brightness can now be adjusted using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
@@ -43,7 +48,7 @@
 * The `r_saturation` CVAR is renamed `vid_saturation`, is now a value between `-100%` and `100%` and is `0%` by default.
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
 * The map title in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
-* Additional brightness can now be applied to the lighting in the current map using the new `r_levelbrightness` CVAR. This CVAR can be between `0%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
+* Additional brightness can now be applied to all of the lighting in the current map using the new `r_levelbrightness` CVAR. This CVAR can be between `0%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
 * The `infiniteammo` CCMD can no longer be entered when a game isn’t being played.
 * The color of the bottom edge of the console now changes to reflect the color of the digits in the status bar, (or in some cases, the text in the menu), if the relevant lumps have been replaced by the currently loaded PWAD.
 * The mouse pointer may now be used to move the scroll bar in the console when the `m_pointer` CVAR is `on`.
@@ -53,6 +58,7 @@
 * A confirmation message is now displayed when entering the `endgame` CCMD in the console.
 * A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
 * A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
+* The splash screen no longer fades on and off if the `fade` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
