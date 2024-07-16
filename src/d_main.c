@@ -546,7 +546,10 @@ void D_SplashDrawer(void)
     memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
-    I_SetPalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
+
+    if (fade)
+        I_SetPalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
+
     blitfunc();
     I_Sleep(20);
 }
@@ -2774,6 +2777,7 @@ static void D_DoomMainSetup(void)
         else
         {
             splashpal = W_CacheLastLumpName("SPLSHPAL");
+            I_SetPalette(splashpal);
             D_StartTitle(0);
         }
     }
