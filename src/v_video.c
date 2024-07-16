@@ -921,7 +921,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 
                 dest += SCREENWIDTH;
 
-                if (height + 2 > 0)
+                if (height + 2 > 0 && menushadow)
                 {
                     byte    *dot = dest + SCREENWIDTH + 2;
 
@@ -1591,7 +1591,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
     if (color == PINK)
     {
-        if (shadow)
+        if (shadow && menushadow)
         {
             byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
             const byte  *black = (highlight || !menuhighlight ? black40 : black45);

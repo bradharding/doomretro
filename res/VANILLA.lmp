@@ -58,6 +58,8 @@ m_novertical off
 m_pointer off
 m_sensitivity 8
 melt on
+menuhighlight off
+menushadow off
 messages on
 movebob 100%
 negativehealth off

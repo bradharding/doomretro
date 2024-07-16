@@ -112,6 +112,7 @@ extern bool     m_pointer;
 extern float    m_sensitivity;
 extern bool     melt;
 extern bool     menuhighlight;
+extern bool     menushadow;
 extern bool     menuspin;
 extern bool     messages;
 extern int      movebob;
@@ -590,6 +591,8 @@ enum
 #define melt_default                        true
 
 #define menuhighlight_default               true
+
+#define menushadow_default                  true
 
 #define menuspin_default                    true
 
