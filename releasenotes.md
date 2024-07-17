@@ -58,7 +58,6 @@
 * A confirmation message is now displayed when entering the `endgame` CCMD in the console.
 * A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
 * A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
-* The splash screen no longer fades on and off if the `fade` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
