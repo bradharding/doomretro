@@ -2175,6 +2175,22 @@ static bool P_InfightingImmune(const mobj_t *target, const mobj_t *source)
         && mobjinfo[target->type].infightinggroup == mobjinfo[source->type].infightinggroup);
 }
 
+static void P_SpawnGibBlood(mobj_t *target)
+{
+    for (int i = 1; i <= 30; i++)
+    {
+        mobj_t  *mo = P_SpawnMobj(target->x, target->y, target->z + target->height * 2 / 3, MT_BLOOD);
+
+        mo->momx = M_BigRandomInt(2, 8) * FRACUNIT;
+        mo->momy = M_BigRandomInt(-8, 8) * FRACUNIT;
+        mo->momz = M_BigRandomInt(-8, 8) * FRACUNIT;
+        mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+        mo->colfunc = bloodcolfunc;
+        mo->altcolfunc = bloodcolfunc;
+        mo->bloodcolor = target->bloodcolor;
+    }
+}
+
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -2275,6 +2291,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                     if (r_corpses_mirrored && (M_BigRandom() & 1))
                         target->flags2 ^= MF2_MIRRORED;
+
+                    P_SpawnGibBlood(target);
                 }
                 else if (target->giblevel == 1 && !target->gibtimer)
                 {
@@ -2286,6 +2304,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                     if (r_corpses_mirrored && (M_BigRandom() & 1))
                         target->flags2 ^= MF2_MIRRORED;
+
+                    P_SpawnGibBlood(target);
                 }
             }
         }
