@@ -504,6 +504,7 @@ extern char         *s_CAPTION_NEIS;
 extern char         *s_CAPTION_REVOLUTION;
 extern char         *s_CAPTION_SCIENTIST;
 extern char         *s_CAPTION_SYRINGE;
+extern char         *s_CAPTION_TTNS;
 extern char         *s_CAPTION_TTP;
 
 extern char         *s_AUTHOR_ROMERO;

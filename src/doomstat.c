@@ -90,6 +90,7 @@ bool            revolution = false;
 bool            scientist = false;
 bool            SD21 = false;
 bool            syringe = false;
+bool            TTNS = false;
 bool            TTP = false;
 
 bool            moreblood = false;
