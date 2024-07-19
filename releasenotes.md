@@ -27,7 +27,7 @@
 * The player’s currently equipped weapon is now translucent when they have a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed, present in the original *DOOM*, whereby sprites wouldn’t be rendered if the sector they were in wasn’t in the player’s line of sight.
 * Sprites also no longer disappear when drawn against the left and right edges of ultra-wide displays.
-* A small amount of blood is now sprayed when a monster is gibbed and the `r_corpses_gib` CVAR is `on`.
+* A small amount of blood is now sprayed when a monster is gibbed. This can be disabled using the new `r_blood_gibs` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `playername` CVAR is now `“”` rather than `“you”` by default.
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.

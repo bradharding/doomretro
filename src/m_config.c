@@ -135,6 +135,7 @@ bool        r_althud = r_althud_default;
 bool        r_antialiasing = r_antialiasing_default;
 int         r_berserkeffect = r_berserkeffect_default;
 int         r_blood = r_blood_default;
+bool        r_blood_gibs = r_blood_gibs_default;
 bool        r_blood_melee = r_blood_melee_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
@@ -391,6 +392,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_antialiasing,                   r_supersampling,                       r_antialiasing,                      BOOLVALUEALIAS     ),
     CVAR_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                     NOVALUEALIAS       ),
     CVAR_INT          (r_blood,                          r_blood,                               r_blood,                             BLOODVALUEALIAS    ),
+    CVAR_BOOL         (r_blood_gibs,                     r_blood_gibs,                          r_blood_gibs,                        BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_blood_melee,                    r_blood_melee,                         r_blood_melee,                       BOOLVALUEALIAS     ),
     CVAR_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                   NOVALUEALIAS       ),
     CVAR_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS     ),

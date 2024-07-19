@@ -825,6 +825,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_blood, "", "", r_blood_func1, r_blood_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood spilled by you and monsters (" BOLD("all") ", " BOLD("none") ", " BOLD("red") ", " BOLD("green")
         " or " BOLD("nofuzz") ")."),
+    CVAR_BOOL(r_blood_gibs, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles spawning blood when monsters are gibbed."),
     CVAR_BOOL(r_blood_melee, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles spawning blood during melee attacks from monsters."),
     CVAR_INT(r_bloodsplats_max, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,

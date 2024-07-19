@@ -2003,6 +2003,23 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
     }
 }
 
+static void P_SpawnGibBlood(mobj_t *target)
+{
+    if (r_blood_gibs)
+        for (int i = 1; i <= 30; i++)
+        {
+            mobj_t  *mo = P_SpawnMobj(target->x, target->y, target->z + target->height * 2 / 3, MT_BLOOD);
+
+            mo->momx = M_BigRandomInt(2, 8) * FRACUNIT;
+            mo->momy = M_BigRandomInt(-8, 8) * FRACUNIT;
+            mo->momz = M_BigRandomInt(-8, 8) * FRACUNIT;
+            mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+            mo->colfunc = bloodcolfunc;
+            mo->altcolfunc = bloodcolfunc;
+            mo->bloodcolor = target->bloodcolor;
+        }
+}
+
 //
 // P_KillMobj
 //
@@ -2113,6 +2130,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate != S_NULL)))
     {
         P_SetMobjState(target, info->xdeathstate);
+        P_SpawnGibBlood(target);
         viewplayer->monstersgibbed++;
         stat_monstersgibbed = SafeAdd(stat_monstersgibbed, 1);
         target->giblevel = 1;
@@ -2173,22 +2191,6 @@ static bool P_InfightingImmune(const mobj_t *target, const mobj_t *source)
     // not default behavior, and same group
     return (mobjinfo[target->type].infightinggroup
         && mobjinfo[target->type].infightinggroup == mobjinfo[source->type].infightinggroup);
-}
-
-static void P_SpawnGibBlood(mobj_t *target)
-{
-    for (int i = 1; i <= 30; i++)
-    {
-        mobj_t  *mo = P_SpawnMobj(target->x, target->y, target->z + target->height * 2 / 3, MT_BLOOD);
-
-        mo->momx = M_BigRandomInt(2, 8) * FRACUNIT;
-        mo->momy = M_BigRandomInt(-8, 8) * FRACUNIT;
-        mo->momz = M_BigRandomInt(-8, 8) * FRACUNIT;
-        mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
-        mo->colfunc = bloodcolfunc;
-        mo->altcolfunc = bloodcolfunc;
-        mo->bloodcolor = target->bloodcolor;
-    }
 }
 
 //

@@ -68,6 +68,7 @@ playername ""
 r_althud off
 r_antialiasing off
 r_blood red
+r_blood_gibs off
 r_blood_melee off
 r_bloodsplats_max 0
 r_brightmaps off

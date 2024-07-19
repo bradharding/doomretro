@@ -124,6 +124,7 @@ extern bool     r_althud;
 extern bool     r_antialiasing;
 extern int      r_berserkeffect;
 extern int      r_blood;
+extern bool     r_blood_gibs;
 extern bool     r_blood_melee;
 extern int      r_bloodsplats_max;
 extern int      r_bloodsplats_total;
@@ -623,6 +624,8 @@ enum
 #define r_blood_min                         r_blood_none
 #define r_blood_default                     r_blood_nofuzz
 #define r_blood_max                         r_blood_nofuzz
+
+#define r_blood_gibs_default                true
 
 #define r_blood_melee_default               true
 
