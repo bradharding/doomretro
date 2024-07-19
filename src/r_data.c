@@ -247,8 +247,14 @@ static void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
 
             if (patch->patch == -1)
-                I_Error("R_InitTextures: Patch %i is missing in the %.8s texture",
-                    SHORT(mpatch->patch), uppercase(texture->name));
+            {
+                char    *temp = uppercase(texture->name);
+
+                C_Warning(1, "The " BOLD("%.8s") " texture is missing patch %i.",
+                    uppercase(temp), SHORT(mpatch->patch));
+                patch->patch = W_CheckNumForName("TNT1A0");
+                free(temp);
+            }
         }
 
         for (mask = 1; mask * 2 <= texture->width; mask *= 2);
