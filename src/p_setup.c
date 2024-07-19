@@ -2523,7 +2523,7 @@ static void P_LoadBlockMap(int lump)
 
     blockmaprebuilt = false;
 
-    if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
+    if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x010000)
     {
         P_CreateBlockMap();
         C_Warning(2, "The " BOLD("BLOCKMAP") " lump has been rebuilt.");

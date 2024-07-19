@@ -142,11 +142,13 @@ bool M_LoadFON2(byte *gfx_data, int size)
             if (data)
             {
                 byte    *d = data;
-                byte    code;
                 int     length;
 
                 while (numpixels)
-                    if ((code = *p++) < 0x80)
+                {
+                    byte    code = *p++;
+
+                    if (code < 0x80)
                     {
                         length = code + 1;
 
@@ -159,12 +161,13 @@ bool M_LoadFON2(byte *gfx_data, int size)
                     }
                     else if (code > 0x80)
                     {
-                        length = 0x101 - code;
+                        length = 0x0101 - code;
                         code = *p++;
                         memset(d, translate[code], length);
                         d += length;
                         numpixels -= length;
                     }
+                }
 
                 chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
                 free(data);

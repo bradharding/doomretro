@@ -1948,7 +1948,6 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
     byte        *col_offsets;
 
     // Go through columns
-
     for (int c = 0; c < width; c++)
     {
         vcolumn_t   col = { 0 };
