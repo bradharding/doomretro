@@ -32,15 +32,15 @@
 * A bug is fixed whereby the ammo the player had for their equipped weapon wasn’t displayed in the widescreen HUD while they were dead.
 * The power-up bar is now displayed in the alternate widescreen HUD when the player enters the `IDBEHOLDL` cheat.
 * These changes have been made to the menu:
-  * Minor improvements have been made to the highlight effect in the menu.
+  * Minor improvements have been made to the highlighting of items selected in the menu.
+  * The highlighting of items selected in the menu can now be disabled using the new `menuhighlight` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * Shadows cast by items in the menu can now be disabled using the new `menushadow` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * The `episode`, `expansion` and `skilllevel` CVARs are now always updated whenever the selected episode, expansion or skill level are changed in the menu.
   * `DBIGFONT` lumps are now supported. This will allow more menu items to be displayed in the correct font, and `CONSOLE...` to be displayed in the options menu, in some instances.
   * These changes have been made to the load and save game menus:
     * The text caret in the save game menu is now larger and flashes quicker.
     * A bug is fixed whereby the text caret could become momentarily stuck at the end of a truncated savegame description in some instances.
     * To be consistent with every other menu, pressing a key that corresponds with the first letter of a savegame description now navigates to that savegame slot.
-  * The highlighting of items selected in the menu can now be disabled using the new `menuhighlight` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-  * Shadows cast by items in the menu can now be disabled using the new `menushadow` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The sound effect heard when opening and closing the console by pressing the <kbd><b>~</b></kbd> key is now slightly louder.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * The screen’s brightness can now be adjusted using the new `vid_brightness` CVAR. This CVAR can be between `-100%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
@@ -59,6 +59,7 @@
 * A confirmation message is now displayed when entering the `endgame` CCMD in the console.
 * A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
 * A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
+* A crash no longer occurs if a texture is missing a patch.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
