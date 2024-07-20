@@ -2713,7 +2713,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                     if (devparm)
                         C_Output("Bits = 0x%08x = %i.", value, value);
 
-                    mobjinfo[indexnum].flags = value; // e6y
+                    mobjinfo[indexnum].flags = value;   // e6y
                 }
             }
             else if (M_StringCompare(key, "Retro bits"))

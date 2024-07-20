@@ -1362,11 +1362,11 @@ static void P_HitSlideLine(const line_t *ld)
             if (slidemo->health > 0)
                 S_StartSound(slidemo, sfx_oof); // oooff!
 
-            tmxmove /= 2;   // absorb half the momentum
+            tmxmove /= 2;                       // absorb half the momentum
             tmymove = -tmymove / 2;
         }
         else
-            tmymove = 0;    // no more movement in the Y direction
+            tmymove = 0;                        // no more movement in the Y direction
 
         return;
     }
@@ -1378,11 +1378,11 @@ static void P_HitSlideLine(const line_t *ld)
             if (slidemo->health > 0)
                 S_StartSound(slidemo, sfx_oof); // oooff!
 
-            tmxmove = -tmxmove / 2; // absorb half the momentum
+            tmxmove = -tmxmove / 2;             // absorb half the momentum
             tmymove /= 2;
         }
         else
-            tmxmove = 0;    // no more movement in the X direction
+            tmxmove = 0;                        // no more movement in the X direction
 
         return;
     }
@@ -1393,19 +1393,19 @@ static void P_HitSlideLine(const line_t *ld)
         lineangle += ANG180;
 
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
-    moveangle += 10;    // prevents sudden path reversal due to rounding error
+    moveangle += 10;                            // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
     movelen = P_ApproxDistance(tmxmove, tmymove);
 
     if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
         moveangle = (lineangle - deltaangle) >> ANGLETOFINESHIFT;
-        movelen /= 2;   // absorb
+        movelen /= 2;                           // absorb
         tmxmove = FixedMul(movelen, finecosine[moveangle]);
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
         if (slidemo->health > 0)
-            S_StartSound(slidemo, sfx_oof); // oooff!
+            S_StartSound(slidemo, sfx_oof);     // oooff!
     }
     else
     {

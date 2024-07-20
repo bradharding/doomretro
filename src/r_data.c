@@ -227,8 +227,8 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + ((size_t)SHORT(mtexture->patchcount) - 1) * sizeof(texpatch_t),
-            PU_STATIC, 0);
+        texture = textures[i] = Z_Malloc(sizeof(texture_t)
+            + ((size_t)SHORT(mtexture->patchcount) - 1) * sizeof(texpatch_t), PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
@@ -244,9 +244,8 @@ static void R_InitTextures(void)
         {
             patch->originx = SHORT(mpatch->originx);
             patch->originy = SHORT(mpatch->originy);
-            patch->patch = patchlookup[SHORT(mpatch->patch)];
 
-            if (patch->patch == -1)
+            if ((patch->patch = patchlookup[SHORT(mpatch->patch)]) == -1)
             {
                 char    *temp = uppercase(texture->name);
 
@@ -274,7 +273,8 @@ static void R_InitTextures(void)
     // Create translation table for global animation.
     // killough 04/09/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
-    texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation), PU_STATIC, NULL);
+    texturetranslation = Z_Malloc(((size_t)numtextures + 1) * sizeof(*texturetranslation),
+        PU_STATIC, NULL);
 
     for (int i = 0; i < numtextures; i++)
     {
