@@ -886,6 +886,8 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
 
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
@@ -895,8 +897,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     dest_rect.x = x;
     dest_rect.y = y;
 
-    SDL_SetRenderTarget(renderer, NULL);
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
     SDL_RenderPresent(renderer);
 }
 
