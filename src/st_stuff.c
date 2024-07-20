@@ -1652,15 +1652,15 @@ static void ST_InitData(void)
 static void ST_CreateWidgets(void)
 {
     // ready weapon ammo
-    STlib_InitNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBARs != 2 && !BTSX), tallnum,
+    STlib_InitNum(&w_ready, ST_AMMOX, ST_AMMOY, tallnum,
         &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = viewplayer->readyweapon;
 
     // health percentage
-    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBARs != 2 && !BTSX),
-        tallnum, &viewplayer->health, tallpercent);
+    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY, tallnum,
+        &viewplayer->health, tallpercent);
 
     // weapons owned
     STlib_InitMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY,
@@ -1684,8 +1684,8 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
     // armor percentage
-    STlib_InitPercent(&w_armor, ST_ARMORX + (int)KDIKDIZD, ST_ARMORY + (STBARs != 2 && !BTSX),
-        tallnum, &viewplayer->armor, tallpercent);
+    STlib_InitPercent(&w_armor, ST_ARMORX + (int)KDIKDIZD, ST_ARMORY, tallnum,
+        &viewplayer->armor, tallpercent);
 
     // keyboxes 0-2
     STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3), ST_KEY0Y, keys, &keyboxes[0]);
