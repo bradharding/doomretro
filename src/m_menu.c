@@ -2029,7 +2029,7 @@ static void M_DrawOptions(void)
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
         9, 15, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
 
-    if (usingcontroller && !M_MSENS)
+    if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
         dot = roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f;
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
@@ -2276,7 +2276,7 @@ static void M_SliderSound(void)
 
 static void M_ChangeSensitivity(int choice)
 {
-    if (usingcontroller && !M_MSENS)
+    if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
         if (!choice)
         {
@@ -4332,18 +4332,10 @@ void M_Drawer(void)
                             widest = MAX(widest, currentmenu->menuitems[nightmare].width);
                         }
                     }
-                    else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                    else if (M_StringCompare(name, "M_MSENS") && (!M_MSENS || DBIGFONT) && usingcontroller)
                     {
-                        if (usingcontroller)
-                        {
-                            M_DrawString(x, y + OFFSET, s_M_CONTROLLERSENSITIVITY, highlight, true);
-                            widest = MAX(widest, M_BigStringWidth(s_M_CONTROLLERSENSITIVITY));
-                        }
-                        else
-                        {
-                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, highlight, true);
-                            widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
-                        }
+                        M_DrawString(x, y + OFFSET, s_M_CONTROLLERSENSITIVITY, highlight, true);
+                        widest = MAX(widest, M_BigStringWidth(s_M_CONTROLLERSENSITIVITY));
 
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
@@ -4602,7 +4594,7 @@ void M_Ticker(void)
         {
             whichskull ^= 1;
             skullanimcounter = SKULLANIMCOUNT;
-    }
+        }
     }
 }
 
@@ -4611,8 +4603,6 @@ void M_Ticker(void)
 //
 void M_Init(void)
 {
-    int DBIGFONT = W_CheckNumForName("DBIGFONT");
-
     M_BigSeed((unsigned int)time(NULL));
 
     currentmenu = &MainDef;
@@ -4652,7 +4642,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL && DBIGFONT == -1)
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL && !DBIGFONT)
     {
         OptionsDef.numitems--;
         OptionsDef.y = 37;
@@ -4692,11 +4682,12 @@ void M_Init(void)
     if (M_StringCompare(s_EMPTYSTRING, "null data"))
         s_EMPTYSTRING = "-";
 
-    if (DBIGFONT >= 0)
+    if (DBIGFONT)
     {
-        wadfile_t   *wadfile = lumpinfo[DBIGFONT]->wadfile;
+        int         lump = W_CheckNumForName("DBIGFONT");
+        wadfile_t   *wadfile = lumpinfo[lump]->wadfile;
 
-        if (M_LoadFON2(W_CacheLumpName("DBIGFONT"), W_LumpLength(DBIGFONT)))
+        if (M_LoadFON2(W_CacheLumpNum(lump), W_LumpLength(lump)))
             C_Output("The " BOLD("DBIGFONT") " lump in the %s " BOLD("%s") " is being used.",
                 (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
     }

@@ -142,6 +142,7 @@ extern bool             TTP;
 
 extern bool             moreblood;
 
+extern bool             DBIGFONT;
 extern bool             DSFLAMST;
 extern bool             E1M4;
 extern bool             E1M8;

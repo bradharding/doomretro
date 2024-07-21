@@ -98,6 +98,7 @@ bool            moreblood = false;
 // Set if homebrew PWAD stuff has been added.
 bool            modifiedgame = false;
 
+bool            DBIGFONT;
 bool            DSFLAMST;
 bool            E1M4;
 bool            E1M8;
