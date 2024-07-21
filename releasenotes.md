@@ -50,7 +50,7 @@
 * The `vid_scaleapi` CVAR is now `direct3d11` by default.
 * The map title in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * Additional brightness can now be applied to all of the lighting in the current map using the new `r_levelbrightness` CVAR. This CVAR can be between `0%` and `100%`, and is `0%` by default and when vanilla mode is enabled.
-* The `infiniteammo` CCMD can no longer be entered when a game isn’t being played.
+* The `infiniteammo` and `regenhealth` CCMDs can no longer be entered when a game isn’t being played.
 * The color of the bottom edge of the console now changes to reflect the color of the digits in the status bar, (or in some cases, the text in the menu), if the relevant lumps have been replaced by the currently loaded PWAD.
 * The mouse pointer may now be used to move the scroll bar in the console when the `m_pointer` CVAR is `on`.
 * Minor changes have been made to text in the status bar and alternate widescreen HUD.

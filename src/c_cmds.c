@@ -931,7 +931,7 @@ consolecmd_t consolecmds[] =
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
     CCMD(readme, "", "", null_func1, readme_func2, false, "",
         "Shows the accompanying readme file for the currently loaded PWAD."),
-    CCMD(regenhealth, "", "", null_func1, regenhealth_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(regenhealth, "", "", game_ccmd_func1, regenhealth_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating your health by 1% every second when it's less than 100%."),
     CCMD(remove, "", "", kill_func1, kill_func2, true, REMOVECMDFORMAT,
         "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", certain "
