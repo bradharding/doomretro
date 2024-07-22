@@ -904,7 +904,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // splat is behind view plane or too far away?
-    if (tz < MINZ || tz > MAXZ)
+    if (tz < MINZ || tz > MAXZ / 8)
         return;
 
     // too far off the side?
