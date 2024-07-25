@@ -2666,6 +2666,7 @@ static void M_ChangeGamma(bool shift)
         }
 
         r_gamma = gammalevels[gammaindex];
+        I_UpdateColors();
 
         if (r_gamma == 1.0f)
             C_StringCVAROutput(stringize(r_gamma), "off");
