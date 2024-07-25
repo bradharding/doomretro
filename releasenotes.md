@@ -11,7 +11,7 @@
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby map names wouldn’t be parsed correctly in some instances.
   * `EPISODE` is now parsed correctly in more instances.
-  * “\n” characters are now parsed.
+  * Newline characters in `INTERTEXT` and `INTERTEXTSECRET` strings are now parsed.
 * These changes have been made to the support of `DEHACKED` lumps:
   * The values specified using `Initial health` and `Initial bullets` will now be used at the start of each map if the `pistolstart` CCMD or `-pistolstart` command-line parameter are used.
   * A bug is fixed whereby the health of spiderdemons would always be 3,000 even if a value was specified using `Hit points`.
