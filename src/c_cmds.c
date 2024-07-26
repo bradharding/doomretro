@@ -4459,7 +4459,7 @@ static bool map_func1(char *cmd, char *parms)
                         break;
 
                     case doom2:
-                        if ((!M_StringCompare(wadname, "NERVE.WAD") && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
+                        if ((!D_IsNERVEWAD(wadname) && ((!replaced || pwad || nerve) && (pwad || !BTSX))) || hacx)
                         {
                             if (BTSX)
                             {
@@ -4488,7 +4488,7 @@ static bool map_func1(char *cmd, char *parms)
                         break;
 
                     case pack_nerve:
-                        if (M_StringCompare(wadname, "NERVE.WAD"))
+                        if (D_IsNERVEWAD(wadname))
                         {
                             temp2 = removenonalpha(*mapnamesn[mapcmdmap - 1]);
 
@@ -4693,7 +4693,7 @@ static void maplist_func2(char *cmd, char *parms)
                 break;
 
             case doom2:
-                if ((!M_StringCompare(wadname, "NERVE.WAD") && (!replaced || pwad || nerve)) || hacx || harmony)
+                if ((!D_IsNERVEWAD(wadname) && (!replaced || pwad || nerve)) || hacx || harmony)
                 {
                     if (BTSX)
                     {
@@ -4724,7 +4724,7 @@ static void maplist_func2(char *cmd, char *parms)
                 break;
 
             case pack_nerve:
-                if (M_StringCompare(wadname, "NERVE.WAD"))
+                if (D_IsNERVEWAD(wadname))
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
                     removemapnum(temp);

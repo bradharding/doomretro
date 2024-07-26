@@ -849,6 +849,11 @@ bool D_IsDOOM2IWAD(char *filename)
         || M_StringCompare(file, "DOOM2UNITY.WAD"));
 }
 
+bool D_IsNERVEWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), "NERVE.WAD"));
+}
+
 bool D_IsDOOMIWAD(char *filename)
 {
     const char  *file = leafname(filename);

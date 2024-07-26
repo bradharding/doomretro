@@ -60,9 +60,9 @@
 * The color of the bottom edge of the console now changes to reflect the color of the digits in the status bar, (or in some cases, the text in the menu), if the relevant lumps have been replaced by the currently loaded PWAD.
 * The mouse pointer may now be used to move the scroll bar in the console when the `m_pointer` CVAR is `on`.
 * Minor changes have been made to text in the status bar and alternate widescreen HUD.
-* Improvements have been made to the playback of sound effects.
 * The `r_shake_damage` CVAR is now a value of `on` or `off` and is `on` by default. Improvements have been made to the shake effect when this CVAR is `on`.
 * A confirmation message is now displayed when entering the `endgame` CCMD in the console.
+* A bug is fixed whereby the left thumbstick would be too sensitive while the player was running.
 * A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
 * A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
 * A crash no longer occurs if a texture is missing a patch.

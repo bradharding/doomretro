@@ -332,7 +332,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         return false;
     else if (sigil2wadadded && D_IsSIGIL2WAD(file))
         return false;
-    else if (nervewadadded && M_StringCompare(file, "NERVE.WAD"))
+    else if (nervewadadded && D_IsNERVEWAD(file))
         return false;
 
     // WAD file
@@ -469,7 +469,7 @@ bool W_AddFile(char *filename, bool autoloaded)
                 C_Output("Thorr's music will be heard while you play " ITALICS("SIGIL II") ".");
             }
         }
-        else if (M_StringCompare(file, "NERVE.WAD"))
+        else if (D_IsNERVEWAD(file))
         {
             nervewadadded = true;
             C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
@@ -935,7 +935,7 @@ int W_GetXNumForName(const char *name, const int x)
             break;
 
     if (i == numlumps)
-        I_Error("W_GetSecondNumForName: %s not found!", name);
+        I_Error("W_GetXNumForName: %s not found!", name);
 
     return i;
 }

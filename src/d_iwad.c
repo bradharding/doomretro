@@ -1007,7 +1007,7 @@ void D_SetGameDescription(void)
         // DOOM 2 of some kind. But which mission?
         if (modifiedgame && *pwadfile)
         {
-            if (M_StringCompare(pwadfile, "NERVE.WAD"))
+            if (D_IsNERVEWAD(pwadfile))
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
             else
             {

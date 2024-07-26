@@ -61,8 +61,6 @@ static bool                     sound_initialized;
 static allocated_sound_t        *channels_playing[s_channels_max];
 
 static int                      mixer_freq = MIX_DEFAULT_FREQUENCY;
-static uint16_t                 mixer_format;
-static int                      mixer_channels;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
@@ -112,7 +110,7 @@ static bool FindAndFreeSound(void)
 
     while (snd)
     {
-        if (!snd->use_count)
+        if (snd->use_count <= 0)
         {
             FreeAllocatedSound(snd);
             return true;
@@ -399,6 +397,8 @@ void I_ShutdownSound(void)
 bool I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
+    uint16_t            mixer_format;
+    int                 mixer_channels;
 
     // No sounds yet
     for (int i = 0; i < s_channels_max; i++)
