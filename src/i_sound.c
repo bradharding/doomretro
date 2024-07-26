@@ -236,73 +236,35 @@ static void ReleaseSoundOnChannel(const int channel)
         FreeAllocatedSound(snd);
 }
 
-static bool ConvertibleRatio(const int freq1, const int freq2)
-{
-    if (freq1 > freq2)
-        return ConvertibleRatio(freq2, freq1);
-    else if (freq2 % freq1)
-        return false;
-    else
-    {
-        int ratio = freq2 / freq1;
-
-        while (!(ratio & 1))
-            ratio = ratio >> 1;
-
-        return (ratio == 1);
-    }
-}
-
 // Generic sound expansion function for any sample rate.
-static void ExpandSoundData(sfxinfo_t *sfxinfo, const byte *data,
-    const int samplerate, const int bits, const int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, const byte *data, const int samplerate, const int bits, const int length)
 {
     const unsigned int  samplecount = length / (bits / 8);
     const unsigned int  expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    Mix_Chunk           *chunk = &snd->chunk;
-    SDL_AudioCVT        convertor;
+    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
+    const int           expand_ratio = (samplecount << 8) / expanded_length;
+    const double        dt = 1.0 / mixer_freq;
+    const double        alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
-    if (samplerate <= mixer_freq
-        && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels, mixer_freq))
-    {
-        convertor.len = length;
-        convertor.buf = malloc(convertor.len * convertor.len_mult);
-        assert(convertor.buf);
-        memcpy(convertor.buf, data, length);
+    if (bits == 8)
+        for (unsigned int i = 0; i < expanded_length; i++)
+        {
+            const int   src = data[(i * expand_ratio) >> 8];
 
-        SDL_ConvertAudio(&convertor);
-
-        memcpy(chunk->abuf, convertor.buf, chunk->alen);
-        free(convertor.buf);
-    }
+            expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
+        }
     else
-    {
-        int16_t         *expanded = (int16_t *)chunk->abuf;
-        const int       expand_ratio = (samplecount << 8) / expanded_length;
-        const double    dt = 1.0 / mixer_freq;
-        const double    alpha = dt / (1.0 / (M_PI * samplerate) + dt);
+        for (unsigned int i = 0; i < expanded_length; i++)
+        {
+            const int   src = ((i * expand_ratio) >> 8) * 2;
 
-        if (bits == 8)
-            for (unsigned int i = 0; i < expanded_length; i++)
-            {
-                const int   src = data[(i * expand_ratio) >> 8];
+            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
+        }
 
-                expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
-            }
-        else
-            for (unsigned int i = 0; i < expanded_length; i++)
-            {
-                const int   src = ((i * expand_ratio) >> 8) * 2;
-
-                expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
-            }
-
-        // Apply low-pass filter
-        for (unsigned int i = 2; i < expanded_length * 2; i++)
-            expanded[i] = (int16_t)(alpha * expanded[i] + (1.0 - alpha) * expanded[i - 2]);
-    }
+    // Apply low-pass filter
+    for (unsigned int i = 2; i < expanded_length * 2; i++)
+        expanded[i] = (int16_t)(alpha * expanded[i] + (1.0 - alpha) * expanded[i - 2]);
 }
 
 // Load and convert a sound effect
