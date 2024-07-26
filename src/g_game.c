@@ -261,8 +261,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
         || (controllerbuttons & controllerstrafe));
-    run = ((gamekeydown[keyboardrun] | mousebuttons[mouserun]
-        | (controllerbuttons & controllerrun)) ^ alwaysrun);
+    run = ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
+        || (controllerbuttons & controllerrun)) ^ alwaysrun);
     usefreelook = (freelook || gamekeydown[keyboardfreelook] || mousebuttons[mousefreelook]
         || (controllerbuttons & controllerfreelook));
 
