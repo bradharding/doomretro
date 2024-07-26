@@ -308,7 +308,7 @@ static void R_InitBrightmaps(void)
     masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
     masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
 
-    SC_Open("BRGHTMPS");
+    SC_Open(W_CheckNumForName("BRGHTMPS"));
 
     while (SC_GetString())
         if (SC_Compare("BRIGHTMAP"))
@@ -399,7 +399,7 @@ static void R_InitBrightmaps(void)
 
     SC_Close();
 
-    SC_Open("DRCOMPAT");
+    SC_Open(W_CheckNumForName("DRCOMPAT"));
 
     while (SC_GetString())
         if (SC_Compare("NOBRIGHTMAP"))
@@ -456,7 +456,7 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    SC_Open("DRCOMPAT");
+    SC_Open(W_CheckNumForName("DRCOMPAT"));
 
     while (SC_GetString())
         if (SC_Compare("FIXSPRITEOFFSETS"))

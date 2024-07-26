@@ -3409,25 +3409,25 @@ static bool P_ParseMapInfo(const char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;
-    int         lumpnum;
     mapinfo_t   *info;
     char        *temp1;
     char        *temp2;
-    char        *file;
 
-    if ((lumpnum = W_CheckNumForName(scriptname)) < 0)
+    for (MAPINFO = 0; MAPINFO < numlumps; MAPINFO++)
+        if (!strncasecmp(lumpinfo[MAPINFO]->name, scriptname, 8))
+        {
+            char    *file = leafname(lumpinfo[MAPINFO]->wadfile->path);
+
+            if (!D_IsNERVEWAD(file) && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file))
+                break;
+        }
+
+    if (MAPINFO == numlumps)
         return false;
 
     mapinfolump = uppercase(scriptname);
 
-    file = leafname(lumpinfo[lumpnum]->wadfile->path);
-
-    if (M_StringCompare(file, "NERVE.WAD") || D_IsSIGILWAD(file) || D_IsSIGIL2WAD(file))
-        return false;
-
-    MAPINFO = lumpnum;
-
-    SC_Open(scriptname);
+    SC_Open(MAPINFO);
 
     while (SC_GetString())
     {

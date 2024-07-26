@@ -41,7 +41,7 @@ extern char     *sc_String;
 extern float    sc_Number;
 extern int      sc_Line;
 
-void SC_Open(const char *name);
+void SC_Open(const int lumpnum);
 void SC_Close(void);
 bool SC_GetString(void);
 void SC_MustGetString(void);

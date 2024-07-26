@@ -68,14 +68,14 @@ static void SC_ScriptError(void)
     free(temp);
 }
 
-void SC_Open(const char *name)
+void SC_Open(const int lumpnum)
 {
     static char StringBuffer[MAX_STRING_SIZE];
 
     SC_Close();
-    ScriptLumpNum = W_GetNumForName(name);
+    ScriptLumpNum = lumpnum;
 
-    if (M_StringCompare((ScriptLumpName = M_StringDuplicate(name)), "BRGHTMPS"))
+    if (M_StringCompare((ScriptLumpName = M_StringDuplicate(lumpinfo[lumpnum]->name)), "BRGHTMPS"))
         SkipComma = true;
 
     ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);

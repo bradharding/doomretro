@@ -316,7 +316,7 @@ void P_InitPicAnims(void)
 
     W_ReleaseLumpNum(lump);
 
-    SC_Open("DRCOMPAT");
+    SC_Open(W_CheckNumForName("DRCOMPAT"));
 
     while (SC_GetString())
     {

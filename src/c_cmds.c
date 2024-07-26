@@ -8769,7 +8769,7 @@ static void vanilla_func2(char *cmd, char *parms)
         hud = r_hud;
         showfps = vid_showfps;
 
-        SC_Open("VANILLA");
+        SC_Open(W_CheckNumForName("VANILLA"));
 
         while (SC_GetString())
         {

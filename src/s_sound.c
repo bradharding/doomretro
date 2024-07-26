@@ -774,9 +774,9 @@ void S_ParseMusInfo(const char *lumpname)
 
     if (W_CheckNumForName("MUSINFO") >= 0)
     {
-        int inmap = false;
+        bool    inmap = false;
 
-        SC_Open("MUSINFO");
+        SC_Open(W_CheckNumForName("MUSINFO"));
 
         while (SC_GetString())
             if (inmap || SC_Compare(lumpname))
