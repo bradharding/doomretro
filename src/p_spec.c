@@ -1439,7 +1439,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 
     if (!thing->player || bossaction)
     {
-        bool    okay = false;
+        bool    okay = bossaction;
 
         switch (line->special)
         {
