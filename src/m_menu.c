@@ -1494,6 +1494,13 @@ static void M_DrawHelp(void)
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
         }
+        else if (REKKRSL)
+        {
+            V_DrawPagePatch(0, W_CacheLastLumpName("HELP1W"));
+
+            if (mapwindow)
+                memset(mapscreen, nearestblack, MAPAREA);
+        }
         else if (autosigil)
         {
             viewplayer->fixedcolormap = 0;
