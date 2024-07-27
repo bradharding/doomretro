@@ -1628,9 +1628,37 @@ void G_LoadedGameMessage(void)
         static char buffer[1024];
         char        *temp = titlecase(savedescription);
 
-        M_snprintf(buffer, sizeof(buffer), (loadaction == ga_autoloadgame ? s_GGAUTOLOADED : s_GGLOADED), temp);
-        C_Output(buffer);
-        HU_SetPlayerMessage(buffer, false, false);
+        if (loadaction == ga_autoloadgame)
+        {
+            M_snprintf(buffer, sizeof(buffer), s_GGAUTOLOADED, temp);
+            C_Output(buffer);
+            HU_SetPlayerMessage(buffer, false, false);
+        }
+        else
+        {
+            struct stat attrib;
+            struct tm   timestamp;
+            int         hour;
+
+            M_snprintf(buffer, sizeof(buffer), s_GGLOADED, temp);
+            C_Output(buffer);
+            HU_SetPlayerMessage(buffer, false, false);
+
+            stat(P_SaveGameFile(savegameslot), &attrib);
+
+#if defined(_WIN32)
+            localtime_s(&timestamp, &(attrib.st_ctime));
+#else
+            localtime_r(&(attrib.st_ctime), &timestamp);
+#endif
+
+            hour = timestamp.tm_hour;
+
+            C_Output("It was created at %i:%02i%s on %s, %s %i, %i.",
+                (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min, (hour < 12 ? "am" : "pm"),
+                daynames[timestamp.tm_wday], monthnames[timestamp.tm_mon], timestamp.tm_mday, 1900 + timestamp.tm_year);
+        }
+
         message_dontfuckwithme = true;
         free(temp);
     }

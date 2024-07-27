@@ -44,6 +44,9 @@
 
 #include "doomtype.h"
 
+const char  *daynames[];
+const char  *monthnames[];
+
 typedef enum
 {
     personal,

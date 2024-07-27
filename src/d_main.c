@@ -2154,14 +2154,8 @@ static void D_DoomMainSetup(void)
             const int   month = (stat_firstrun % 10000) / 100;
             const int   year = (int)stat_firstrun / 10000;
 
-            const char *months[] =
-            {
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            };
-
             C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE " since it was installed on %s, %s %i, %i.",
-                temp, dayofweek(day, month, year), months[month - 1], day, year);
+                temp, dayofweek(day, month, year), monthnames[month - 1], day, year);
         }
         else
             C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE ".", temp);

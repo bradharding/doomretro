@@ -2784,12 +2784,6 @@ void C_PrintCompileDate(void)
         const char  shortmonthnames[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
         const int   month = (int)(strstr(shortmonthnames, shortmonthname) - shortmonthnames) / 3;
 
-        const char *monthnames[] =
-        {
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        };
-
         C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
             " was built with love by %s at %i:%02i%s on %s, %s %i, %i somewhere in %s.",
             8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,

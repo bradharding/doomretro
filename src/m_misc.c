@@ -87,6 +87,17 @@
 #endif
 #endif
 
+const char *daynames[] =
+{
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+};
+
+const char *monthnames[] =
+{
+    "January", "February", "March",     "April",   "May",      "June",
+    "July",    "August",   "September", "October", "November", "December"
+};
+
 // Create a directory
 void M_MakeDirectory(const char *path)
 {
@@ -1121,10 +1132,9 @@ void M_TranslateAutocomplete(void)
 const char *dayofweek(int day, int month, int year)
 {
     const int   adjustment = (14 - month) / 12;
-    const char  *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
     month += 12 * adjustment - 2;
     year -= adjustment;
 
-    return days[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
+    return daynames[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
 }
