@@ -2005,7 +2005,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
 static void P_SpawnGibBlood(mobj_t *target)
 {
-    if (r_blood_gibs)
+    if (r_blood_gibs && !(target->flags & MF_NOBLOOD))
         for (int i = 1; i <= 30; i++)
         {
             mobj_t  *mo = P_SpawnMobj(target->x, target->y, target->z + target->height * 2 / 3, MT_BLOOD);
