@@ -1636,7 +1636,7 @@ void G_LoadedGameMessage(void)
         }
         else
         {
-            struct stat attrib;
+            struct stat status;
             struct tm   timestamp;
             int         hour;
 
@@ -1644,12 +1644,12 @@ void G_LoadedGameMessage(void)
             C_Output(buffer);
             HU_SetPlayerMessage(buffer, false, false);
 
-            stat(P_SaveGameFile(savegameslot), &attrib);
+            stat(P_SaveGameFile(savegameslot), &status);
 
 #if defined(_WIN32)
-            localtime_s(&timestamp, &(attrib.st_ctime));
+            localtime_s(&timestamp, &status.st_ctime);
 #else
-            localtime_r(&(attrib.st_ctime), &timestamp);
+            localtime_r(&status.st_ctime, &timestamp);
 #endif
 
             hour = timestamp.tm_hour;

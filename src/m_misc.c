@@ -87,12 +87,12 @@
 #endif
 #endif
 
-const char *daynames[] =
+const char *daynames[7] =
 {
     "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 };
 
-const char *monthnames[] =
+const char *monthnames[12] =
 {
     "January", "February", "March",     "April",   "May",      "June",
     "July",    "August",   "September", "October", "November", "December"
