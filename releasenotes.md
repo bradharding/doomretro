@@ -2,6 +2,11 @@
 
 ### DOOM Retro v5.5.1
 
+* A crash no longer occurs when killing something that has both an `Exploding frame` and `Bits = NOBLOOD` in a `DEHACKED` lump, and the `r_blood_gibs` CVAR is `on`.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * A bug is fixed whereby a `MAPINFO` lump wouldn’t be parsed at all in some instances.
+  * Actions specified using `BOSSACTION` now always trigger as intended.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, July 26, 2024
@@ -62,7 +67,7 @@
 * Minor changes have been made to text in the status bar and alternate widescreen HUD.
 * The `r_shake_damage` CVAR is now a value of `on` or `off` and is `on` by default. Improvements have been made to the shake effect when this CVAR is `on`.
 * A confirmation message is now displayed when entering the `endgame` CCMD in the console.
-* A bug is fixed whereby the left thumbstick would be too sensitive while the player was running.
+* A bug is fixed whereby a controller’s left thumbstick would be too sensitive while the player was running.
 * A minor improvement has been made to the rumble of controllers when the player picks something up and the `joy_rumble_pickup` CVAR is `on`.
 * A bug is fixed whereby advancing the intermission screen wouldn’t work in some instances.
 * A crash no longer occurs if a texture is missing a patch.
