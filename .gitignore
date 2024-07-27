@@ -132,7 +132,6 @@ Desktop.ini
 # =========================
 
 # Xcode user option files
-
 *.DS_Store
 *.xcuserstate
 xcuserdata/

@@ -136,9 +136,11 @@ void I_InitController(void)
     SDL_EventState(SDL_JOYHATMOTION, SDL_IGNORE);
     SDL_EventState(SDL_JOYBUTTONDOWN, SDL_IGNORE);
     SDL_EventState(SDL_JOYBUTTONUP, SDL_IGNORE);
+
 #if SDL_VERSION_ATLEAST(2, 24, 0)
     SDL_EventState(SDL_JOYBATTERYUPDATED, SDL_IGNORE);
 #endif
+
     SDL_EventState(SDL_CONTROLLERAXISMOTION, SDL_IGNORE);
     SDL_EventState(SDL_CONTROLLERBUTTONDOWN, SDL_IGNORE);
     SDL_EventState(SDL_CONTROLLERBUTTONUP, SDL_IGNORE);
@@ -207,7 +209,6 @@ void I_ReadController(void)
     {
         short       LX, LY;
         short       RX, RY;
-
         static int  prevcontrollerbuttons;
 
         if (joy_swapthumbsticks)
