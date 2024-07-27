@@ -35,6 +35,18 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <io.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#if defined(_MSC_VER)
+#include <direct.h>
+#endif
+
+#else
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <pwd.h>
 #endif
 
 #include "am_map.h"
