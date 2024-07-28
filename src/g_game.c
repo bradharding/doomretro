@@ -1609,12 +1609,15 @@ void G_DoLoadGame(void)
 
     st_facecount = 0;
 
-    if (gamemode == commercial)
-        expansion = gameepisode;
-    else
+    if (gamemode != commercial)
+    {
         episode = gameepisode;
+        EpiDef.laston = gameepisode - 1;
+    }
 
     skilllevel = gameskill + 1;
+    NewDef.laston = gameskill;
+
     viewplayer->gamesloaded++;
     stat_gamesloaded = SafeAdd(stat_gamesloaded, 1);
     M_SaveCVARs();
@@ -1673,7 +1676,7 @@ void G_LoadedGameMessage(void)
 
             hour = timestamp.tm_hour;
 
-            C_Output("It was created at %i:%02i%s on %s, %s %i, %i.",
+            C_Output("It was saved at %i:%02i%s on %s, %s %i, %i.",
                 (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min,
                 (hour < 12 ? "am" : "pm"), daynames[timestamp.tm_wday],
                 monthnames[timestamp.tm_mon], timestamp.tm_mday, 1900 + timestamp.tm_year);
