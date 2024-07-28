@@ -1609,6 +1609,12 @@ void G_DoLoadGame(void)
 
     st_facecount = 0;
 
+    if (gamemode == commercial)
+        expansion = gameepisode;
+    else
+        episode = gameepisode;
+
+    skilllevel = gameskill + 1;
     viewplayer->gamesloaded++;
     stat_gamesloaded = SafeAdd(stat_gamesloaded, 1);
     M_SaveCVARs();
