@@ -44,8 +44,8 @@
 
 #include "doomtype.h"
 
-const char  *daynames[7];
-const char  *monthnames[12];
+extern const char   *daynames[7];
+extern const char   *monthnames[12];
 
 typedef enum
 {
