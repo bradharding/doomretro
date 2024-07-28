@@ -2,11 +2,14 @@
 
 ### DOOM Retro v5.5.1
 
-* The date and time a savegame was created, and whether the skill level changes, is now displayed in the console when loading a savegame.
-* A crash no longer occurs when killing something that has both an `Exploding frame` and `Bits = NOBLOOD` in a `DEHACKED` lump, and the `r_blood_gibs` CVAR is `on`.
+* These changes have been made when loading a savegame:
+  * The date and time a savegame was saved, and whether the skill level changes, is now displayed in the console.
+  * The `episode` and `skilllevel` CVARs are now updated as necessary.
+* A crash no longer occurs when killing something that has both an `Exploding frame` and `Bits = NOBLOOD` specified in a `DEHACKED` lump, and the `r_blood_gibs` CVAR is `on`.
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby a `MAPINFO` lump wouldn’t be parsed at all in some instances.
   * Actions specified using `BOSSACTION` now always trigger as intended.
+* Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
