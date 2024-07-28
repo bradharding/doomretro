@@ -86,7 +86,6 @@ gameaction_t    gameaction;
 gamestate_t     gamestate = GS_NONE;
 skill_t         gameskill;
 skill_t         prevgameskill;
-int             pendinggameskill;
 int             gameepisode;
 int             gamemap;
 char            speciallumpname[6] = "";
@@ -646,16 +645,6 @@ void G_DoLoadLevel(void)
             viewplayer->readyweapon = wp_fist;
 
         oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
-    }
-
-    if (pendinggameskill)
-    {
-        gameskill = pendinggameskill - 1;
-
-        if (gameskill == sk_nightmare)
-            viewplayer->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_BUDDHA);
-
-        pendinggameskill = 0;
     }
 
     P_RemoveBloodSplats();

@@ -81,7 +81,6 @@ extern bool             autostart;
 // Selected by user.
 extern skill_t          gameskill;
 extern skill_t          prevgameskill;
-extern int              pendinggameskill;
 extern int              gameepisode;
 extern int              gamemap;
 extern char             speciallumpname[6];

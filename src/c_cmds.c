@@ -10919,10 +10919,7 @@ static void skilllevel_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (skilllevel != skilllevel_old)
-    {
-        pendinggameskill = skilllevel;
         NewDef.laston = skilllevel - 1;
-    }
 }
 
 //
