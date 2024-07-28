@@ -1237,8 +1237,17 @@ static void WI_LoadData(void)
     {
         char    temp[9];
 
-        M_snprintf(temp, sizeof(temp), "WIMAP%i%s", wbs->epsd, (REKKRSL ? "W" : ""));
-        lump = (chex || REKKRSA ? W_CacheLastLumpName(temp) : W_CacheWidestLumpName(temp));
+        if (REKKR)
+        {
+            M_snprintf(temp, sizeof(temp), "WIMAP%iW", wbs->epsd);
+
+            if (W_CheckNumForName(temp) < 0)
+                M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
+        }
+        else
+            M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
+
+        lump = (chex ? W_CacheLastLumpName(temp) : W_CacheWidestLumpName(temp));
     }
     else
         lump = W_CacheWidestLumpName("INTERPIC");
