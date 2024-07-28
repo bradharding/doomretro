@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.5.1
 
+* The date and time a savegame was created, and whether the skill level changes, is now displayed in the console when loading a savegame.
 * A crash no longer occurs when killing something that has both an `Exploding frame` and `Bits = NOBLOOD` in a `DEHACKED` lump, and the `r_blood_gibs` CVAR is `on`.
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby a `MAPINFO` lump wouldn’t be parsed at all in some instances.
