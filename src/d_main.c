@@ -2702,10 +2702,10 @@ static void D_DoomMainSetup(void)
         titlelump = W_CacheLastLumpName("TITLEPI1");
         creditlump = W_CacheLastLumpName("CREDIT2");
     }
-    else if (REKKRSL)
+    else if (REKKR)
     {
-        titlelump = W_CacheLastLumpName("TITLEPIW");
-        creditlump = W_CacheLastLumpName("CREDITW");
+        titlelump = W_CacheLastLumpName(W_CheckNumForName("TITLEPIW") >= 0 ? "TITLEPIW" : "TITLEPIC");
+        creditlump = W_CacheLastLumpName(W_CheckNumForName("CREDITW") >= 0 ? "CREDITW" : "CREDIT");
     }
     else
     {

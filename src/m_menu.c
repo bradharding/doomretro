@@ -1485,18 +1485,18 @@ static void M_DrawHelp(void)
     else if (gamemode == commercial)
         M_StringCopy(lumpname, "HELP", sizeof(lumpname));
 
-    if (W_CheckNumForName(lumpname) >= 0)
+    if (REKKR && W_CheckNumForName("HELP1W") >= 0)
+    {
+        V_DrawPagePatch(0, W_CacheLastLumpName("HELP1W"));
+
+        if (mapwindow)
+            memset(mapscreen, nearestblack, MAPAREA);
+    }
+    else if (W_CheckNumForName(lumpname) >= 0)
     {
         if (chex || FREEDOOM || hacx || harmony || REKKRSA)
         {
             V_DrawPagePatch(0, W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1"));
-
-            if (mapwindow)
-                memset(mapscreen, nearestblack, MAPAREA);
-        }
-        else if (REKKRSL)
-        {
-            V_DrawPagePatch(0, W_CacheLastLumpName("HELP1W"));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
