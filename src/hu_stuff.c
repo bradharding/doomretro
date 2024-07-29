@@ -206,7 +206,8 @@ void HU_Init(void)
         && (W_GetNumLumps("STTMINUS") > 1 || W_GetNumLumps("STTNUM0") == 1))
     {
         minuspatch = W_CacheLumpName("STTMINUS");
-        minuspatchtopoffset = (REKKR ? -5 : SHORT(minuspatch->topoffset));
+        minuspatchtopoffset = (SHORT(minuspatch->height) == 6 && !SHORT(minuspatch->topoffset) ? -5 :
+            SHORT(minuspatch->topoffset));
         minuspatchwidth = SHORT(minuspatch->width);
     }
 
