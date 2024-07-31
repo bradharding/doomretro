@@ -188,8 +188,6 @@ void HU_Init(void)
 {
     int lump;
 
-    STCFNxxx = false;
-
     // load the heads-up font
     for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
     {
@@ -202,10 +200,10 @@ void HU_Init(void)
             STCFNxxx = true;
     }
 
-    if (W_CheckNumForName("STTMINUS") >= 0
+    if ((lump = W_CheckNumForName("STTMINUS")) >= 0
         && (W_GetNumLumps("STTMINUS") > 1 || W_GetNumLumps("STTNUM0") == 1))
     {
-        minuspatch = W_CacheLumpName("STTMINUS");
+        minuspatch = W_CacheLumpNum(lump);
         minuspatchtopoffset = (SHORT(minuspatch->height) == 6 && !SHORT(minuspatch->topoffset) ? -5 :
             SHORT(minuspatch->topoffset));
         minuspatchwidth = SHORT(minuspatch->width);

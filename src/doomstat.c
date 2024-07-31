@@ -130,7 +130,7 @@ short           RROCK05;
 short           RROCK08;
 short           SLIME09;
 short           SLIME12;
-bool            STCFNxxx;
+bool            STCFNxxx = false;
 bool            STYSNUM0;
 bool            WISCRT2;
 
