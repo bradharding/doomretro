@@ -170,7 +170,6 @@ static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string,
     bool highlight, bool shadow, unsigned char prevletter);
-static int M_CharacterWidth(unsigned char ch, unsigned char prevletter);
 
 //
 // DOOM MENU
@@ -2500,7 +2499,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
 //
 // Find character width
 //
-static int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
+int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
 {
     const int   c = toupper(ch) - HU_FONTSTART;
 

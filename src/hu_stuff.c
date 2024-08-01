@@ -1550,41 +1550,7 @@ void HU_Ticker(void)
     {
         if (messages || message_dontfuckwithme || message_secret || message_warning)
         {
-            char    message[133];
-
-            M_StringCopy(message, viewplayer->message, sizeof(message));
-
-            if (!vid_widescreen)
-            {
-                int len = (int)strlen(viewplayer->message);
-
-                if (len > 40)
-                {
-                    const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 2);
-
-                    while (M_StringWidth(message) > maxwidth)
-                    {
-                        if (len >= 2 && message[len - 2] == ' ')
-                        {
-                            message[len - 2] = '.';
-                            message[len - 1] = '.';
-                            message[len] = '.';
-                            message[len + 1] = '\0';
-                        }
-                        else if (len >= 1)
-                        {
-                            message[len - 1] = '.';
-                            message[len] = '.';
-                            message[len + 1] = '.';
-                            message[len + 2] = '\0';
-                        }
-
-                        len--;
-                    }
-                }
-            }
-
-            HUlib_AddMessageToSText(&w_message, message);
+            HUlib_AddMessageToSText(&w_message, viewplayer->message);
 
             message_fadeon = (!message_on || message_counter <= 5);
             message_on = true;

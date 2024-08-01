@@ -59,6 +59,7 @@ typedef struct
     int             sc;                             // start character
     char            l[HU_MAXLINELENGTH + 1];        // line of text
     int             len;                            // current line length
+    int             width;                          // pixel width of line
 
     // whether this line needs to be updated
     int             needsupdate;

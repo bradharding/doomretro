@@ -57,6 +57,7 @@ static void HUlib_ClearTextLine(hu_textline_t *t)
     t->len = 0;
     t->l[0] = '\0';
     t->needsupdate = 1;
+    t->width = 0;
 }
 
 void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
@@ -76,6 +77,7 @@ bool HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
     t->l[t->len++] = ch;
     t->l[t->len] = '\0';
     t->needsupdate = 4;
+    t->width += M_CharacterWidth(ch, '\0');
 
     return true;
 }
@@ -385,6 +387,21 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     const int       black = (nearestblack << 8);
     const int       len = l->len;
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
+    int             wrap = -1;
+
+    if (!vid_widescreen && len > 40)
+    {
+        int         width = l->width;
+        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 2);
+
+        if (width > maxwidth)
+            for (int i = len; i > 0; i--)
+                if ((width -= M_CharacterWidth(l->l[i], '\0')) <= maxwidth && l->l[i] == ' ')
+                {
+                    wrap = i;
+                    break;
+                }
+    }
 
     if (external)
     {
@@ -399,7 +416,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         const unsigned char c = toupper(l->l[i]);
         short               charwidth;
 
-        if (c == '\n')
+        if (c == '\n' || i == wrap)
         {
             x = l->x;
             y += hu_font[0]->height + 2;

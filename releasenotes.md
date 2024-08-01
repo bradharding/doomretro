@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.5.1
 
+* Player messages that don’t fit on the screen are now wrapped to a second line rather than truncated with an ellipsis when the `vid_widescreen` CVAR is `off`.
 * These changes have been made when loading a savegame:
   * The date and time a savegame was saved, and whether it changes the skill level, is now displayed in the console.
   * The `episode` and `skilllevel` CVARs are now updated as necessary.
