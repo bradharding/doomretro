@@ -1237,7 +1237,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         return NULL;
 
     // killough 08/23/98: use table for faster lookup
-    if ((i = P_FindDoomedNum(type)) == nummobjtypes)
+    if (type < 0 || (i = P_FindDoomedNum(type)) == nummobjtypes)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
