@@ -9064,7 +9064,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             }
             else if (*parms)
             {
-                if (!M_StringCompare(parms, *(char **)consolecmds[i].variable) && !(consolecmds[i].flags & CF_READONLY))
+                if (!(consolecmds[i].flags & CF_READONLY))
                 {
                     *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
                     M_StripQuotes(*(char **)consolecmds[i].variable);
