@@ -393,7 +393,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
         if (width > maxwidth)
             for (int i = len; i > 0; i--)
-                if ((width -= M_CharacterWidth(l->l[i], '\0')) <= maxwidth && l->l[i] == ' ')
+                if ((width -= M_CharacterWidth(l->l[i], '\0')) <= maxwidth && isbreak(l->l[i]))
                 {
                     wrap = i;
                     break;
