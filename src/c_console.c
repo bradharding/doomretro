@@ -2664,7 +2664,7 @@ bool C_Responder(event_t *ev)
     {
         if (ev->data1 & MOUSE_LEFTBUTTON)
         {
-            const int   x = ev->data2 * 2;
+            const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
 
             // hide console
