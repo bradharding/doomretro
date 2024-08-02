@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.5.1
 
+* *DOOM Retro* now uses [*SDL v2.30.6*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.6).
 * Player messages that don’t fit on the screen when the `vid_widescreen` CVAR is `off` are now wrapped to a second line rather than truncated with an ellipsis.
 * These changes have been made when loading a savegame:
   * The date and time a savegame was saved, and whether it changes the skill level, is now displayed in the console.
