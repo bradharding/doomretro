@@ -84,8 +84,8 @@ static void G_DoSaveGame(void);
 
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_NONE;
-skill_t         gameskill;
-skill_t         prevgameskill;
+skill_t         gameskill = sk_none;
+skill_t         prevgameskill = sk_none;
 int             gameepisode;
 int             gamemap;
 char            speciallumpname[6] = "";
@@ -1670,7 +1670,7 @@ void G_LoadedGameMessage(void)
                 (hour < 12 ? "am" : "pm"), daynames[timestamp.tm_wday],
                 monthnames[timestamp.tm_mon], timestamp.tm_mday, 1900 + timestamp.tm_year);
 
-            if (gameskill != prevgameskill)
+            if (prevgameskill != sk_none && gameskill != prevgameskill)
             {
                 char    *temp2 = titlecase(*skilllevels[gameskill]);
 
