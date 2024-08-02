@@ -1187,8 +1187,8 @@ void P_ArchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            saveg_write32(side->textureoffset >> FRACBITS);
-            saveg_write32(side->rowoffset >> FRACBITS);
+            saveg_write32(side->textureoffset);
+            saveg_write32(side->rowoffset);
             saveg_write16(side->toptexture);
             saveg_write16(side->bottomtexture);
             saveg_write16(side->midtexture);
@@ -1257,8 +1257,8 @@ void P_UnarchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            side->textureoffset = saveg_read32() << FRACBITS;
-            side->rowoffset = saveg_read32() << FRACBITS;
+            side->textureoffset = saveg_read32();
+            side->rowoffset = saveg_read32();
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();
