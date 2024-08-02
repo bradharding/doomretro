@@ -378,7 +378,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     int             y = l->y;
     int             maxx;
     int             maxy;
-    unsigned char   prev = '\0';
+    unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
@@ -423,41 +423,41 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
         else if (c == ' ')
         {
-            charwidth = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
+            charwidth = (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
             x += charwidth;
             textwidth += charwidth;
         }
         else if (c >= l->sc && c <= '_')
         {
-            int j = c - '!';
-
-            // [BH] have matching curly single and double quotes
-            if (!i || l->l[i - 1] == ' ')
-            {
-                if (c == '"')
-                    j = 64;
-                else if (c == '\'')
-                    j = 65;
-            }
+            int j = c - l->sc;
 
             if (STCFNxxx)
             {
                 // [BH] display lump from PWAD with shadow
-                charwidth = SHORT(l->f[c - l->sc]->width);
+                charwidth = SHORT(l->f[j]->width);
 
-                if (prev2 == '.' && prev == ' ' && c == '(')
+                if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[c - l->sc]);
+                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
             }
             else
             {
-                if (prev2 == '.' && prev == ' ' && c == '(')
+                // [BH] have matching curly single and double quotes
+                if (!i || l->l[i - 1] == ' ')
+                {
+                    if (c == '"')
+                        j = 64;
+                    else if (c == '\'')
+                        j = 65;
+                }
+
+                // [BH] apply kerning to certain character pairs
+                if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
                 else
-                    // [BH] apply kerning to certain character pairs
                     for (int k = 0; kern[k].char1; k++)
-                        if (prev == kern[k].char1 && c == kern[k].char2)
+                        if (prev1 == kern[k].char1 && c == kern[k].char2)
                         {
                             x += kern[k].adjust;
                             break;
@@ -476,8 +476,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             textwidth += charwidth;
         }
 
-        prev2 = prev;
-        prev = c;
+        prev2 = prev1;
+        prev1 = c;
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
@@ -542,7 +542,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     const int       width = (external ? MAPWIDTH : SCREENWIDTH);
     int             x = l->x;
     int             y = l->y;
-    unsigned char   prev = '\0';
+    unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
     char            s[513];
@@ -567,39 +567,38 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
         const unsigned char c = toupper(s[i]);
 
         if (c == ' ')
-            x += (vanilla ? 8 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 10 : 6));
+            x += (vanilla ? 8 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 10 : 6));
         else if (c != '\n' && c >= l->sc && c <= '_')
         {
-            int j = c - '!';
-
-            // [BH] have matching curly single and double quotes
-            if (!i || s[i - 1] == ' ')
-            {
-                if (c == '"')
-                    j = 64;
-                else if (c == '\'')
-                    j = 65;
-            }
+            int j = c - l->sc;
 
             if (STCFNxxx)
             {
-                if (prev2 == '.' && prev == ' ' && c == '(')
+                if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
                 if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y, fb, l->f[c - l->sc], width);
+                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width);
                 else
-                    V_DrawHUDText(x, y, fb, l->f[c - l->sc], width);
+                    V_DrawHUDText(x, y, fb, l->f[j], width);
             }
             else
             {
+                // [BH] have matching curly single and double quotes
+                if (!i || s[i - 1] == ' ')
+                {
+                    if (c == '"')
+                        j = 64;
+                    else if (c == '\'')
+                        j = 65;
+                }
+
                 // [BH] apply kerning to certain character pairs
-                if (prev2 == '.' && prev == ' ' && c == '(')
+                if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
                 else
-                    // [BH] apply kerning to certain character pairs
                     for (int k = 0; kern[k].char1; k++)
-                        if (prev == kern[k].char1 && c == kern[k].char2)
+                        if (prev1 == kern[k].char1 && c == kern[k].char2)
                         {
                             x += kern[k].adjust * 2;
                             break;
@@ -624,8 +623,8 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             x += SHORT(l->f[c - l->sc]->width) * 2;
         }
 
-        prev2 = prev;
-        prev = c;
+        prev2 = prev1;
+        prev1 = c;
     }
 }
 
