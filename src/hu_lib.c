@@ -392,7 +392,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     if (!vid_widescreen && len > 40)
     {
         int         width = l->width;
-        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 2);
+        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 4);
 
         if (width > maxwidth)
             for (int i = len; i > 0; i--)
