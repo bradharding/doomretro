@@ -1022,7 +1022,7 @@ static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
 
-    if (sigil || sigil2)
+    if (sigil || sigil2 || M_CheckParm("-noautoload"))
         return;
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
@@ -1074,7 +1074,7 @@ static void D_AutoloadSIGIL2WAD(void)
 {
     char    path[MAX_PATH];
 
-    if (!autosigil)
+    if (!autosigil || M_CheckParm("-noautoload"))
         return;
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_II_MP3_V1_0.WAD");
@@ -1095,7 +1095,7 @@ static void D_AutoloadNerveWAD(void)
 {
     char    path[MAX_PATH];
 
-    if (BTSX)
+    if (BTSX || M_CheckParm("-noautoload"))
         return;
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "NERVE.WAD");
