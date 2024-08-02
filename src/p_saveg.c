@@ -1154,8 +1154,8 @@ void P_ArchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        saveg_write32(sector->floorheight >> FRACBITS);
-        saveg_write32(sector->ceilingheight >> FRACBITS);
+        saveg_write32(sector->floorheight);
+        saveg_write32(sector->ceilingheight);
         saveg_write16(sector->floorpic);
         saveg_write16(sector->ceilingpic);
         saveg_write16(sector->lightlevel);
@@ -1216,8 +1216,12 @@ void P_UnarchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        sector->floorheight = saveg_read32() << FRACBITS;
-        sector->ceilingheight = saveg_read32() << FRACBITS;
+        if ((sector->floorheight = saveg_read32()) < FRACUNIT)
+            sector->floorheight <<= FRACBITS;
+
+        if ((sector->ceilingheight = saveg_read32()) < FRACUNIT)
+            sector->ceilingheight <<= FRACBITS;
+
         sector->floorpic = saveg_read16();
         sector->terraintype = terraintypes[sector->floorpic];
         sector->ceilingpic = saveg_read16();
@@ -1257,8 +1261,12 @@ void P_UnarchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            side->textureoffset = saveg_read32();
-            side->rowoffset = saveg_read32();
+            if ((side->textureoffset = saveg_read32()) < FRACUNIT)
+                side->textureoffset <<= FRACBITS;
+
+            if ((side->rowoffset = saveg_read32()) < FRACUNIT)
+                side->rowoffset <<= FRACBITS;
+
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();
