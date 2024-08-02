@@ -1216,10 +1216,10 @@ void P_UnarchiveWorld(void)
     // do sectors
     for (int i = 0; i < numsectors; i++, sector++)
     {
-        if ((sector->floorheight = saveg_read32()) < FRACUNIT)
+        if (ABS((sector->floorheight = saveg_read32())) < FRACUNIT)
             sector->floorheight <<= FRACBITS;
 
-        if ((sector->ceilingheight = saveg_read32()) < FRACUNIT)
+        if (ABS((sector->ceilingheight = saveg_read32())) < FRACUNIT)
             sector->ceilingheight <<= FRACBITS;
 
         sector->floorpic = saveg_read16();
@@ -1261,10 +1261,10 @@ void P_UnarchiveWorld(void)
 
             side = sides + line->sidenum[j];
 
-            if ((side->textureoffset = saveg_read32()) < FRACUNIT)
+            if (ABS((side->textureoffset = saveg_read32())) < FRACUNIT)
                 side->textureoffset <<= FRACBITS;
 
-            if ((side->rowoffset = saveg_read32()) < FRACUNIT)
+            if (ABS((side->rowoffset = saveg_read32())) < FRACUNIT)
                 side->rowoffset <<= FRACBITS;
 
             side->toptexture = saveg_read16();
