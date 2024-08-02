@@ -373,11 +373,8 @@ const kern_t kern[] =
 
 static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 {
-    int             textwidth = 0;
     int             x = l->x;
     int             y = l->y;
-    int             maxx;
-    int             maxy;
     unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
@@ -414,7 +411,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     for (int i = 0; i < len; i++)
     {
         const unsigned char c = toupper(l->l[i]);
-        short               charwidth;
 
         if (c == '\n' || i == wrap)
         {
@@ -423,13 +419,12 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
         else if (c == ' ')
         {
-            charwidth = (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
-            x += charwidth;
-            textwidth += charwidth;
+            x += (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
         }
         else if (c >= l->sc && c <= '_')
         {
-            int j = c - l->sc;
+            int     j = c - l->sc;
+            short   charwidth;
 
             if (STCFNxxx)
             {
@@ -473,7 +468,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             }
 
             x += charwidth;
-            textwidth += charwidth;
         }
 
         prev2 = prev1;
@@ -520,21 +514,18 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
     }
 
-    maxx = (l->x + textwidth + 1) * 2;
-    maxy = (y + 10) * 2;
+    y = ((y + 10) * 2) * screenwidth;
 
-    for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
-        for (int xx = l->x; xx < maxx; xx++)
-        {
-            const int   dot = yy * screenwidth + xx;
-            byte        *source = &tempscreen[dot];
-            byte        *dest = &fb1[dot];
+    for (int i = 0; i < y; i++)
+    {
+        byte    *source = &tempscreen[i];
+        byte    *dest = &fb1[i];
 
-            if (!*source)
-                *dest = tinttab1[black + fb2[dot]];
-            else if (*source != PINK)
-                *dest = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[dot]] : *source);
-        }
+        if (!*source)
+            *dest = tinttab1[black + fb2[i]];
+        else if (*source != PINK)
+            *dest = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[i]] : *source);
+    }
 }
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
