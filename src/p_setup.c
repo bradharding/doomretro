@@ -781,7 +781,7 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->tag);
 
                 if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
-                    C_Warning(2, "Linedef %s has an unknown tag of %s and no line special.", temp1, temp2);
+                    C_Warning(2, "Linedef %s has an unused tag of %s and no line special.", temp1, temp2);
                 else
                     C_Warning(2, "Linedef %s has a tag of %s but no line special.", temp1, temp2);
 
@@ -823,7 +823,7 @@ static void P_CheckLinedefs(void)
                 if (special < NUMLINESPECIALS)
                 {
                     if (linespecials[special])
-                        C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unknown tag of %s.",
+                        C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unused tag of %s.",
                             temp1, (special < BOOMLINESPECIALS ? "a" : (special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
                             "-compatible" : (special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                             "-compatible"))), temp2, linespecials[special], temp3);
@@ -831,7 +831,7 @@ static void P_CheckLinedefs(void)
                         C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
                 }
                 else if (special >= GenCrusherBase && special < GenEnd)
-                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but an unknown tag of %s.",
+                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but an unused tag of %s.",
                         temp1, temp2, temp3);
                 else
                     C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);

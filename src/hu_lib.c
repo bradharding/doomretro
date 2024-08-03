@@ -389,7 +389,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     if (!vid_widescreen && len > 40)
     {
         int         width = l->width;
-        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 4);
+        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : 20);
 
         if (width > maxwidth)
             for (int i = len; i > 0; i--)
@@ -416,30 +416,31 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         {
             x = l->x;
             y += hu_font[0]->height + 2;
+
+            if (c == ' ')
+                continue;
         }
-        else if (c == ' ')
-        {
+
+        if (c == ' ')
             x += (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
-        }
         else if (c >= l->sc && c <= '_')
         {
-            int     j = c - l->sc;
-            short   charwidth;
+            int j = c - l->sc;
 
             if (STCFNxxx)
             {
                 // [BH] display lump from PWAD with shadow
-                charwidth = SHORT(l->f[j]->width);
-
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
                 V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
+
+                x += SHORT(l->f[j]->width);
             }
             else
             {
                 // [BH] have matching curly single and double quotes
-                if (!i || l->l[i - 1] == ' ')
+                if (!i || prev1 == ' ')
                 {
                     if (c == '"')
                         j = 64;
@@ -459,15 +460,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         }
 
                 // [BH] draw individual character
-                charwidth = (short)strlen(smallcharset[j]) / 10 - 1;
-
                 if (message_secret)
                     HU_DrawGoldChar(x, y - 1, j, tempscreen, screenwidth);
                 else
                     HU_DrawChar(x, y - 1, j, tempscreen, screenwidth);
-            }
 
-            x += charwidth;
+                x += (short)strlen(smallcharset[j]) / 10 - 1;
+            }
         }
 
         prev2 = prev1;
@@ -576,7 +575,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             else
             {
                 // [BH] have matching curly single and double quotes
-                if (!i || s[i - 1] == ' ')
+                if (!i || prev1 == ' ')
                 {
                     if (c == '"')
                         j = 64;
