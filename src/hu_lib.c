@@ -290,7 +290,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
     int             x = (mapwindow ? 17 : HU_ALTHUDMSGX);
-    byte            *fb1 = (external ? mapscreen : screens[0]);
+    byte            *fb = (external ? mapscreen : screens[0]);
     const int       len = l->len;
     int             color = (secretmap ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
 
@@ -351,7 +351,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
             }
 
-            althudtextfunc(x, SCREENHEIGHT - 30, fb1, patch, (italics && letter != '_'
+            althudtextfunc(x, SCREENHEIGHT - 30, fb, patch, (italics && letter != '_'
                 && letter != '-' && letter != '+' && letter != ',' && letter != '/'), color,
                 (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
@@ -377,36 +377,42 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     int             y = l->y;
     unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
-    byte            *fb1 = screens[0];
-    byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
+    byte            *fb1;
+    byte            *fb2;
     byte            *tinttab1 = tinttab40;
     byte            *tinttab2 = tinttab75;
     const int       black = (nearestblack << 8);
     const int       len = l->len;
-    const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
+    int             screenwidth;
     int             wrap = -1;
-
-    if (!vid_widescreen && len > 40)
-    {
-        int         width = l->width;
-        const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : 20);
-
-        if (width > maxwidth)
-            for (int i = len; i > 0; i--)
-                if ((width -= M_CharacterWidth(l->l[i], '\0')) <= maxwidth && isbreak(l->l[i]))
-                {
-                    wrap = i;
-                    break;
-                }
-    }
 
     if (external)
     {
         fb1 = mapscreen;
         fb2 = mapscreen;
+        screenwidth = MAPWIDTH;
+
+        memset(tempscreen, PINK, MAPAREA);
+    }
+    else
+    {
+        fb1 = screens[0];
+        fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
+        screenwidth = SCREENWIDTH;
+
+        memset(tempscreen, PINK, SCREENAREA);
     }
 
-    memset(tempscreen, PINK, SCREENAREA);
+    if (!vid_widescreen && len > 40)
+    {
+        int         width = l->width;
+        const int   maxwidth = screenwidth / 2 - (vanilla ? 0 : 20);
+
+        if (width > maxwidth)
+            for (wrap = len; wrap > 0; wrap--)
+                if ((width -= M_CharacterWidth(l->l[wrap], '\0')) <= maxwidth && isbreak(l->l[wrap]))
+                    break;
+    }
 
     for (int i = 0; i < len; i++)
     {
@@ -475,7 +481,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)
-    {
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
             {
@@ -491,7 +496,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                             *dest = (src == PINK ? 0 : src);
                         }
             }
-    }
 
     // [BH] draw entire message from buffer onto screen
     if (fade)
