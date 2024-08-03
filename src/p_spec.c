@@ -2838,6 +2838,19 @@ void T_Scroll(scroll_t *scroller)
                 }
             }
 
+            // [BH] scroll any blood splats as well
+            for (bloodsplat_t *splat = sec->splatlist; splat; splat = splat->next)
+            {
+                splat->x += dx << 3;
+                splat->y += dy << 3;
+
+                if (sec != R_PointInSubsector(splat->x, splat->y)->sector)
+                {
+                    P_UnsetBloodSplatPosition(splat);
+                    r_bloodsplats_total--;
+                }
+            }
+
             break;
         }
     }

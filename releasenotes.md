@@ -17,6 +17,7 @@
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, will now be positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string with different case.
+* Blood splats now move on *BOOM*-compatible scrolling floors.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
