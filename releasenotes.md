@@ -18,6 +18,7 @@
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, will now be positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.
 * Blood splats now move with everything else on *BOOM*-compatible scrolling floors.
+* If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, and the `alwaysrun` CVAR is `on`, the <kbd>CAPSLOCK</kbd> key will now be toggled off when the console is opened, and then toggled back on when it closes.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

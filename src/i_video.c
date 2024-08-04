@@ -150,6 +150,7 @@ bool                windowfocused = true;
 
 int                 keydown = 0;
 int                 keydown2 = 0;
+bool                nokeyevent = false;
 
 static bool         keys[NUMKEYS];
 
@@ -239,13 +240,13 @@ bool keystate(const int key)
 }
 
 #if defined(_WIN32)
-static void ToggleCapsLockState(void)
+void ToggleCapsLockState(void)
 {
     keybd_event(VK_CAPITAL, 0x45, 0, (uintptr_t)0);
     keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
 }
 #elif defined(X11)
-static void SetCapsLockState(bool enabled)
+void SetCapsLockState(bool enabled)
 {
     Display *display = XOpenDisplay(0);
 
@@ -304,6 +305,12 @@ static void I_GetEvent(void)
             case SDL_KEYDOWN:
             {
                 const SDL_Scancode  scancode = Event->key.keysym.scancode;
+
+                if (nokeyevent)
+                {
+                    nokeyevent = false;
+                    break;
+                }
 
                 if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0
                     && !SDL_IsTextInputActive())

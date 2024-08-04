@@ -72,6 +72,12 @@ void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
 bool GetCapsLockState(void);
 
+#if defined(_WIN32)
+void ToggleCapsLockState(void);
+#elif defined(X11)
+void SetCapsLockState(bool enabled);
+#endif
+
 // Called by D_DoomLoop,
 // called before processing each tic in a frame.
 // Quick synchronous operations are performed here.
@@ -137,6 +143,8 @@ extern bool         waspaused;
 
 extern int          keydown;
 extern int          keydown2;
+
+extern bool         nokeyevent;
 
 extern int          gammaindex;
 extern const float  gammalevels[GAMMALEVELS];

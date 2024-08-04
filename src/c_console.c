@@ -851,7 +851,19 @@ void C_ShowConsole(bool reset)
         mousebuttons[i] = false;
 
     if (gamestate == GS_LEVEL)
+    {
+        if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && GetCapsLockState())
+#if defined(_WIN32)
+        {
+            ToggleCapsLockState();
+            nokeyevent = true;
+        }
+#elif defined(X11)
+            SetCapsLockState(false);
+#endif
+
         I_RestoreMousePointerPosition();
+    }
 
     S_StopSounds();
     S_LowerMusicVolume();
@@ -863,6 +875,16 @@ void C_HideConsole(void)
 {
     if (!consoleactive)
         return;
+
+    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState() && gamestate == GS_LEVEL)
+#if defined(_WIN32)
+    {
+        ToggleCapsLockState();
+        nokeyevent = true;
+    }
+#elif defined(X11)
+        SetCapsLockState(true);
+#endif
 
     SDL_StopTextInput();
 
@@ -879,6 +901,16 @@ void C_HideConsoleFast(void)
 {
     if (!consoleactive)
         return;
+
+    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState() && gamestate == GS_LEVEL)
+#if defined(_WIN32)
+    {
+        ToggleCapsLockState();
+        nokeyevent = true;
+    }
+#elif defined(X11)
+        SetCapsLockState(true);
+#endif
 
     SDL_StopTextInput();
 
@@ -2517,13 +2549,6 @@ bool C_Responder(event_t *ev)
             case KEY_ESCAPE:
                 // close console
                 C_HideConsole();
-                break;
-
-            case KEY_CAPSLOCK:
-                // toggle "always run"
-                if (keyboardalwaysrun == KEY_CAPSLOCK)
-                    G_ToggleAlwaysRun(ev_keydown);
-
                 break;
 
             case 'a':
