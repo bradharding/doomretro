@@ -2838,13 +2838,15 @@ void T_Scroll(scroll_t *scroller)
                 }
             }
 
+            dx <<= 3;
+            dy <<= 3;
+
             // [BH] scroll any blood splats as well
             for (bloodsplat_t *splat = sec->splatlist; splat; splat = splat->next)
-                if (sec != R_PointInSubsector((splat->x += dx << 3), (splat->y += dy << 3))->sector)
+                if (sec != R_PointInSubsector((splat->x += dx), (splat->y += dy))->sector)
                 {
                     P_SpawnBloodSplat(splat->x, splat->y, splat->color, true, false, sec->floorheight, NULL);
                     P_UnsetBloodSplatPosition(splat);
-                    r_bloodsplats_total--;
                 }
 
             break;

@@ -916,8 +916,6 @@ void P_RemoveBloodSplats(void)
     for (int i = 0; i < numsectors; i++)
         for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
             P_UnsetBloodSplatPosition(splat);
-
-    r_bloodsplats_total = 0;
 }
 
 //
@@ -1584,9 +1582,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
     const bool checklineside, const fixed_t maxheight, mobj_t *target)
 {
-    if (r_bloodsplats_total >= r_bloodsplats_max)
-        return;
-    else
+    if (r_bloodsplats_total < r_bloodsplats_max)
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
