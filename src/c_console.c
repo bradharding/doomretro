@@ -851,19 +851,17 @@ void C_ShowConsole(bool reset)
         mousebuttons[i] = false;
 
     if (gamestate == GS_LEVEL)
-    {
-        if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && GetCapsLockState())
-#if defined(_WIN32)
-        {
-            ToggleCapsLockState();
-            nokeyevent = true;
-        }
-#elif defined(X11)
-            SetCapsLockState(false);
-#endif
-
         I_RestoreMousePointerPosition();
+
+    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && GetCapsLockState())
+#if defined(_WIN32)
+    {
+        ToggleCapsLockState();
+        nokeyevent = true;
     }
+#elif defined(X11)
+        SetCapsLockState(false);
+#endif
 
     S_StopSounds();
     S_LowerMusicVolume();
@@ -876,7 +874,7 @@ void C_HideConsole(void)
     if (!consoleactive)
         return;
 
-    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState() && gamestate == GS_LEVEL)
+    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState())
 #if defined(_WIN32)
     {
         ToggleCapsLockState();
@@ -902,7 +900,7 @@ void C_HideConsoleFast(void)
     if (!consoleactive)
         return;
 
-    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState() && gamestate == GS_LEVEL)
+    if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState())
 #if defined(_WIN32)
     {
         ToggleCapsLockState();

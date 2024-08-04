@@ -723,7 +723,7 @@ void G_ToggleAlwaysRun(evtype_t type)
     const int   oldcaretpos = caretpos;
     const int   oldselectstart = selectstart;
     const int   oldselectend = selectend;
-    C_Output("yayayaya!");
+
 #if defined(_WIN32)
     alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
         (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
