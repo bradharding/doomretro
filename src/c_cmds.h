@@ -108,6 +108,7 @@ typedef struct
     bool        parameters;
     cmdtype_t   type;
     int         flags;
+    int         length;
     void        *variable;
     int         aliases;
     int         minimumvalue;

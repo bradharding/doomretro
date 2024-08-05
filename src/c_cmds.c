@@ -536,23 +536,23 @@ char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiast
 }
 
 #define CCMD(name, alt1, alt2, cond, func, parms, form, desc) \
-    { #name, #alt1, #alt2, cond, func, parms, CT_CCMD, CF_NONE, NULL, 0, 0, 0, form, desc, 0, 0 }
+    { #name, #alt1, #alt2, cond, func, parms, CT_CCMD, CF_NONE, 0, NULL, 0, 0, 0, form, desc, 0, 0 }
 #define CMD_CHEAT(name, parms) \
-    { #name, "", "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, "", "", 0, 0 }
+    { #name, "", "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, 0, NULL, 0, 0, 0, "", "", 0, 0 }
 #define CVAR_BOOL(name, alt1, alt2, cond, func, flags, aliases, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), &name, aliases, false, true, "", desc, name##_default, 0 }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), 0, &name, aliases, false, true, "", desc, name##_default, 0 }
 #define CVAR_INT(name, alt1, alt2, cond, func, flags, aliases, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, name##_max, "", desc, name##_default, 0 }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), 0, &name, aliases, name##_min, name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT(name, alt1, alt2, cond, func, flags, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, (int)name##_min, (int)name##_max, "", desc, name##_default, 0 }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, (int)name##_min, (int)name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT2(name, alt1, alt2, cond, func, flags, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, name##_default, 0 }
-#define CVAR_STR(name, alt1, alt2, cond, func, flags, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, 0, name##_default }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, 0, 0, "", desc, name##_default, 0 }
+#define CVAR_STR(name, alt1, alt2, cond, func, flags, length, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_STRING | flags), length, &name, 0, 0, 0, "", desc, 0, name##_default }
 #define CVAR_TIME(name, alt1, alt2, cond, func, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, "", desc, 0, "" }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), 0, &name, 0, 0, 0, "", desc, 0, "" }
 #define CVAR_OTHER(name, alt1, alt2, cond, func, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, CF_OTHER, &name, 0, 0, 0, "", desc, 0, name##_default }
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, CF_OTHER, 0, &name, 0, 0, 0, "", desc, 0, name##_default }
 
 consolecmd_t consolecmds[] =
 {
@@ -809,7 +809,7 @@ consolecmd_t consolecmds[] =
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
     CVAR_INT(playergender, "", "", playergender_func1, playergender_func2, CF_NONE, GENDERVALUEALIAS,
         "Your gender (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
-    CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE,
+    CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE, 16,
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
@@ -999,7 +999,7 @@ consolecmd_t consolecmds[] =
         "The units used by certain stats (" BOLD("imperial") " or " BOLD("metric") ")."),
     CCMD(vanilla, "", "", null_func1, vanilla_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles vanilla mode."),
-    CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY,
+    CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY, 16,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
     CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
         "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
@@ -1018,7 +1018,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_display, "", "", int_cvars_func1, vid_display_func2, CF_NONE, NOVALUEALIAS,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
-    CVAR_STR(vid_driver, "", "", null_func1, str_cvars_func2, CF_NONE,
+    CVAR_STR(vid_driver, "", "", null_func1, str_cvars_func2, CF_NONE, 16,
         "The video driver used to play " ITALICS(DOOMRETRO_NAME) "."),
 #endif
     CVAR_BOOL(vid_fullscreen, "", "", bool_cvars_func1, vid_fullscreen_func2, CF_NONE, BOOLVALUEALIAS,
@@ -1034,15 +1034,15 @@ consolecmd_t consolecmds[] =
     CVAR_INT(vid_saturation, "", "", int_cvars_func1, vid_saturation_func2, CF_PERCENT, NOVALUEALIAS,
         "The screen's saturation (" BOLD("-100%") " to " BOLD("100%") ")."),
 #if defined(_WIN32)
-    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE,
+    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE, 16,
         "The API used to scale every frame (" BOLD("\"direct3d9\"") ", " BOLD("\"direct3d11\"") ", "
         BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
 #else
-    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE,
+    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE, 16,
         "The API used to scale every frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "
         BOLD("\"software\"") ")."),
 #endif
-    CVAR_STR(vid_scalefilter, "", "", vid_scalefilter_func1, vid_scalefilter_func2, CF_NONE,
+    CVAR_STR(vid_scalefilter, "", "", vid_scalefilter_func1, vid_scalefilter_func2, CF_NONE, 16,
         "The filter applied when scaling every frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", "", null_func1, vid_screenresolution_func2,
         "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
@@ -1063,10 +1063,10 @@ consolecmd_t consolecmds[] =
     CVAR_OTHER(vid_windowsize, "", "", null_func1, vid_windowsize_func2,
         "The size of the window on the desktop (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
 #if defined(_WIN32)
-    CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY,
+    CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY, MAX_PATH,
         "The last WAD to be opened by the WAD launcher."),
 #endif
-    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
+    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE, MAX_PATH,
         "The folder the currently loaded WAD is in."),
     CVAR_INT(warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
@@ -1082,7 +1082,7 @@ consolecmd_t consolecmds[] =
     CCMD(wiki, help, "", null_func1, wiki_func2, false, "",
         "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
 
-    { "", "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
+    { "", "", "", null_func1, NULL, 0, 0, CF_NONE, 0, NULL, 0, 0, 0, "", "" }
 };
 
 static bool run(void)
@@ -9066,6 +9066,7 @@ static void str_cvars_func2(char *cmd, char *parms)
             {
                 if (!(consolecmds[i].flags & CF_READONLY))
                 {
+                    parms[consolecmds[i].length] = '\0';
                     *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
                     M_StripQuotes(*(char **)consolecmds[i].variable);
                     M_SaveCVARs();
