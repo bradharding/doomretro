@@ -688,6 +688,8 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
         mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
     }
+    else if (ID1)
+        mobjinfo[MT_EXTRA00].flags |= MF_NOBLOOD;
     else if (eviternity)
     {
         mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
