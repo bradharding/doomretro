@@ -218,6 +218,7 @@ enum
     ep6,
     ep7,
     ep8,
+    ep9,
     ep_end
 };
 
@@ -232,7 +233,8 @@ static menuitem_t EpisodeMenu[] =
     // Some extra empty episodes for extensibility through UMAPINFO
     { 1, "M_EPI6", &M_Episode, &s_M_EPISODE6 },
     { 1, "M_EPI7", &M_Episode, &s_M_EPISODE7 },
-    { 1, "M_EPI8", &M_Episode, &s_M_EPISODE8 }
+    { 1, "M_EPI8", &M_Episode, &s_M_EPISODE8 },
+    { 1, "M_EPI9", &M_Episode, &s_M_EPISODE9 }
 };
 
 menu_t EpiDef =
@@ -1659,8 +1661,8 @@ static void M_DrawMainMenu(void)
 //
 static int      epi;
 bool            customepisode = false;
-static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
-static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1, -1 };
+static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
