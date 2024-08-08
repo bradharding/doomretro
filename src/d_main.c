@@ -990,6 +990,8 @@ void D_CheckSupportedPWAD(char *filename)
         ganymede = true;
     else if (M_StringCompare(leaf, "HarmonyC.wad"))
         harmonyc = true;
+    else if (M_StringCompare(leaf, "ID1.wad"))
+        ID1 = true;
     else if (M_StringCompare(leaf, "neis.wad"))
         neis = true;
     else if (M_StringCompare(leaf, "TVR!.wad"))

@@ -4885,6 +4885,8 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tOctober 11, 2021");
     else if (REKKR)
         C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
+    else if (ID1)
+        C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
 }
 
 static void mapstats_func2(char *cmd, char *parms)
