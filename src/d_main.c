@@ -992,6 +992,8 @@ void D_CheckSupportedPWAD(char *filename)
         harmonyc = true;
     else if (M_StringCompare(leaf, "ID1.wad"))
         ID1 = true;
+    else if (M_StringCompare(leaf, "masterlevels.wad"))
+        masterlevels = true;
     else if (M_StringCompare(leaf, "neis.wad"))
         neis = true;
     else if (M_StringCompare(leaf, "TVR!.wad"))

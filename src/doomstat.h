@@ -133,6 +133,7 @@ extern bool             ganymede;
 extern bool             harmony;
 extern bool             harmonyc;
 extern bool             ID1;
+extern bool             masterlevels;
 extern bool             neis;
 extern bool             revolution;
 extern bool             scientist;

@@ -639,6 +639,7 @@ char    *s_CAPTION_GANYMEDE = "";
 char    *s_CAPTION_HARMONY = "";
 char    *s_CAPTION_ID1 = "";
 char    *s_CAPTION_KDIKDIZD = "";
+char    *s_CAPTION_MASTERLEVELS = "";
 char    *s_CAPTION_NEIS = "";
 char    *s_CAPTION_REVOLUTION = "";
 char    *s_CAPTION_SCIENTIST = "";
@@ -1267,6 +1268,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_HARMONY,         "CAPTION_HARMONY"         },
     { &s_CAPTION_ID1,             "CAPTION_ID1"             },
     { &s_CAPTION_KDIKDIZD,        "CAPTION_KDIKDIZD"        },
+    { &s_CAPTION_MASTERLEVELS,    "CAPTION_MASTERLEVELS"    },
     { &s_CAPTION_NEIS,            "CAPTION_NEIS"            },
     { &s_CAPTION_REVOLUTION,      "CAPTION_REVOLUTION"      },
     { &s_CAPTION_SCIENTIST,       "CAPTION_SCIENTIST"       },
@@ -4185,9 +4187,7 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
             continue;
         }
 
-        match = dsdh_GetOriginalSpriteIndex(key);
-
-        if (match >= 0)
+        if ((match = dsdh_GetOriginalSpriteIndex(key)) >= 0)
         {
             if (devparm)
                 C_Output("Substituting \"%s\" for sprite \"%s\"", candidate, key);
@@ -4251,9 +4251,7 @@ void deh_procBexSounds(DEHFILE *fpin, const char *line)
             continue;
         }
 
-        match = dsdh_GetOriginalSFXIndex(key);
-
-        if (match >= 0)
+        if ((match = dsdh_GetOriginalSFXIndex(key)) >= 0)
         {
             if (devparm)
                 C_Output("Substituting \"%s\" for sound \"%s\"", candidate, key);

@@ -86,6 +86,7 @@ bool            ganymede = false;
 bool            harmony = false;
 bool            harmonyc = false;
 bool            ID1 = false;
+bool            masterlevels = false;
 bool            neis = false;
 bool            revolution = false;
 bool            scientist = false;
