@@ -999,16 +999,14 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
 
-            if (!strength)
+            if (viewplayer->readyweapon != wp_fist)
             {
-                if (viewplayer->readyweapon != wp_fist)
-                {
-                    viewplayer->pendingweapon = wp_fist;
-                    viewplayer->fistorchainsaw = wp_fist;
-                }
-
-                sound = sfx_getpow;
+                viewplayer->pendingweapon = wp_fist;
+                viewplayer->fistorchainsaw = wp_fist;
             }
+
+            if (!strength)
+                sound = sfx_getpow;
 
             break;
         }
