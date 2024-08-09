@@ -121,16 +121,6 @@ static bool PIT_StompThing(mobj_t *thing)
     if (!telefrag)          // killough 08/09/98: make consistent across all levels
         return false;
 
-    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ))
-        && !infiniteheight && !compat_nopassover)
-    {
-        if (tmz > thing->z + thing->height)
-            return true;    // overhead
-
-        if (tmz + tmthing->height < thing->z)
-            return true;    // underneath
-    }
-
     P_DamageMobj(thing, NULL, tmthing, 10000, true, true);   // Stomp!
 
     return true;
