@@ -3816,6 +3816,11 @@ static bool P_ParseMapInfo(const char *scriptname)
                                     SC_UnGet();
                                     break;
                                 }
+                                else if (SC_Compare("CLEAR"))
+                                {
+                                    M_StringCopy(buffer, sc_String, sizeof(buffer));
+                                    break;
+                                }
 
                                 if (!firststring)
                                 {

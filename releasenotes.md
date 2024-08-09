@@ -12,6 +12,7 @@
 * These changes have been made to the support of `MAPINFO` lumps:
   * A bug is fixed whereby a `MAPINFO` lump wouldn’t be parsed at all in some instances.
   * Actions specified using `BOSSACTION` now always trigger as intended.
+  * `INTERTEXT = CLEAR` is now parsed.
 * Player and voodoo doll corpses can now trigger line specials again.
 * A bug is fixed whereby the mouse pointer couldn’t be used to move the text caret or scroll bar in the console when the `m_pointer` CVAR was `on` and the `vid_widescreen` CVAR was `off`.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
