@@ -95,6 +95,7 @@ extern bool             buckethead;
 extern bool             thorr;
 extern bool             nerve;
 extern bool             bfgedition;
+extern bool             kex;
 extern bool             unity;
 extern bool             extras;
 

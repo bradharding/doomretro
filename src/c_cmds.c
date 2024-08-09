@@ -4847,7 +4847,9 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 1993");
     else if (D_IsDOOM1IWAD(wadname))
     {
-        if (unity)
+        if (kex)
+            C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
+        else if (unity)
             C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
         else if (bfgedition)
             C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");
@@ -4868,7 +4870,9 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tDecember 10, 2023");
     else if (D_IsDOOM2IWAD(wadname))
     {
-        if (unity)
+        if (kex)
+            C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
+        else if (unity)
             C_TabbedOutput(tabs, INDENT "Release date\tJuly 26, 2019");
         else if (bfgedition)
             C_TabbedOutput(tabs, INDENT "Release date\tOctober 16, 2012");

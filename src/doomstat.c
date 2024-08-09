@@ -48,6 +48,7 @@ bool            buckethead = false;
 bool            thorr = false;
 bool            nerve = false;
 bool            bfgedition = false;
+bool            kex = false;
 bool            unity = false;
 bool            extras = false;
 

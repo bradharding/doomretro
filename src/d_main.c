@@ -810,8 +810,10 @@ bool D_IsDOOM1IWAD(char *filename)
         || M_StringCompare(file, "DOOM1.WAD")
         || M_StringCompare(file, "DOOMU.WAD")
         || M_StringCompare(file, "BFGDOOM.WAD")
+        || M_StringCompare(file, "KEXDOOM.WAD")
         || M_StringCompare(file, "UNITYDOOM.WAD")
         || M_StringCompare(file, "DOOMBFG.WAD")
+        || M_StringCompare(file, "DOOMKEX.WAD")
         || M_StringCompare(file, "DOOMUNITY.WAD"));
 }
 
@@ -846,8 +848,10 @@ bool D_IsDOOM2IWAD(char *filename)
     return (M_StringCompare(file, "DOOM2.WAD")
         || M_StringCompare(file, "DOOM2F.WAD")
         || M_StringCompare(file, "BFGDOOM2.WAD")
+        || M_StringCompare(file, "KEXDOOM2.WAD")
         || M_StringCompare(file, "UNITYDOOM2.WAD")
         || M_StringCompare(file, "DOOM2BFG.WAD")
+        || M_StringCompare(file, "DOOM2KEX.WAD")
         || M_StringCompare(file, "DOOM2UNITY.WAD"));
 }
 
@@ -2505,6 +2509,8 @@ static void D_DoomMainSetup(void)
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+
+    kex = (unity && W_CheckNumForName("GAMECONF") >= 0);
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
