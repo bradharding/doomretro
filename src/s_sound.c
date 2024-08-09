@@ -615,7 +615,12 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     if (M_StringStartsWith(music->name1, "d_"))
         M_StringCopy(namebuf, music->name1, sizeof(namebuf));
     else
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "h_%s", music->name1);
+
+        if (W_CheckNumForName(namebuf) == -1)
+            M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+    }
 
     // get lumpnum if necessary
     if (autosigil)
