@@ -2448,7 +2448,7 @@ static void D_DoomMainSetup(void)
     DSFLAMST = (W_GetNumLumps("DSFLAMST") > 1);
     E1M4 = (W_GetNumLumps("E1M4") > 1);
     E1M8 = (W_GetNumLumps("E1M8") > 1);
-    M_DOOM = (W_GetNumLumps("M_DOOM") > 2);
+    M_DOOM = (W_GetNumLumps("M_DOOM") > 2 && !nerve);
     M_EPISOD = (W_GetNumLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_GetNumLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_GetNumLumps("M_GDLOW") > 1);
@@ -2743,7 +2743,8 @@ static void D_DoomMainSetup(void)
         const int   titlepics = W_GetNumLumps("TITLEPIC");
         const int   credits = W_GetNumLumps("CREDIT");
 
-        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
+        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
+            || (titlepics > 1 && !nerve))
             titlelump = W_CacheWidestLumpName("TITLEPIC");
         else
             switch (gamemission)
