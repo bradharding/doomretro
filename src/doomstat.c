@@ -49,6 +49,7 @@ bool            thorr = false;
 bool            nerve = false;
 bool            bfgedition = false;
 bool            unity = false;
+bool            extras = false;
 
 bool            chex = false;
 bool            chex1 = false;

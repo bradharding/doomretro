@@ -96,6 +96,7 @@ extern bool             thorr;
 extern bool             nerve;
 extern bool             bfgedition;
 extern bool             unity;
+extern bool             extras;
 
 extern bool             chex;
 extern bool             chex1;

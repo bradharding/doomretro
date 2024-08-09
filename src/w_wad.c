@@ -443,7 +443,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         else if (D_IsSIGILSHREDSWAD(file))
         {
             buckethead = true;
-            C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL") ".");
+            C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL.") ".");
         }
         else if (D_IsSIGIL2WAD(file))
         {
@@ -475,6 +475,8 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
         }
+        else if (D_IsExtrasWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+            C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");
     }
 
     if (!resourcewadadded)

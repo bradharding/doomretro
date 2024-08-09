@@ -856,6 +856,11 @@ bool D_IsNERVEWAD(char *filename)
     return (M_StringCompare(leafname(filename), "NERVE.WAD"));
 }
 
+bool D_IsExtrasWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), "extras.wad"));
+}
+
 bool D_IsDOOMIWAD(char *filename)
 {
     const char  *file = leafname(filename);
@@ -1024,6 +1029,19 @@ static bool D_IsUnsupportedPWAD(char *filename)
     return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
+static void D_AutoloadExtrasWAD(void)
+{
+    char    path[MAX_PATH];
+
+    if (M_CheckParm("-noautoload") || M_CheckParm("-nomusic") || M_CheckParm("-nosound"))
+        return;
+
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "extras.wad");
+
+    if (W_MergeFile(path, true))
+        extras = true;
+}
+
 static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
@@ -1074,6 +1092,8 @@ static void D_AutoloadSIGILWAD(void)
             W_MergeFile(path, true);
         }
     }
+
+    D_AutoloadExtrasWAD();
 }
 
 static void D_AutoloadSIGIL2WAD(void)
@@ -1095,6 +1115,8 @@ static void D_AutoloadSIGIL2WAD(void)
         if (W_MergeFile(path, true))
             sigil = true;
     }
+
+    D_AutoloadExtrasWAD();
 }
 
 static void D_AutoloadNerveWAD(void)
@@ -1108,6 +1130,8 @@ static void D_AutoloadNerveWAD(void)
 
     if (W_MergeFile(path, true))
         nerve = true;
+
+    D_AutoloadExtrasWAD();
 }
 
 static bool D_AutoloadOtherBTSXWAD(void)
