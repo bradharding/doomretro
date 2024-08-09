@@ -3,6 +3,7 @@
 ### DOOM Retro v5.5.1
 
 * *DOOM Retro* now uses [*SDL v2.30.6*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.6).
+* Minor changes have been made to text that is output to the console.
 * Player messages that don’t fit on the screen when the `vid_widescreen` CVAR is `off` now wrap to a second line rather than being truncated with an ellipsis.
 * These changes have been made when loading a savegame:
   * The date and time a savegame was saved, and whether it has changed the skill level, is now displayed in the console.
@@ -15,6 +16,7 @@
   * `INTERTEXT = CLEAR` is now parsed.
 * Player and voodoo doll corpses can now trigger line specials again.
 * A bug is fixed whereby the mouse pointer couldn’t be used to move the text caret or scroll bar in the console when the `m_pointer` CVAR was `on` and the `vid_widescreen` CVAR was `off`.
+* Support has been added for *Legacy Of Rust*, a PWAD included with the [rerelease of DOOM and DOOM II](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) on August 8, 2024.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, will now be positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.

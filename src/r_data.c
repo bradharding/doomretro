@@ -698,6 +698,8 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_EXTRA00].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA01].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA04].flags |= MF_NOBLOOD;
+        mobjinfo[MT_EXTRA09].flags2 |= MF2_TRANSLUCENT;
+        mobjinfo[MT_EXTRA10].flags2 |= MF2_TRANSLUCENT;
 
         weaponinfo[wp_plasma].name = M_StringDuplicate("incinerator");
         weaponinfo[wp_bfg].name = M_StringDuplicate("calamity blade");

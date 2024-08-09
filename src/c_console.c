@@ -2801,9 +2801,8 @@ void C_PrintCompileDate(void)
     char    shortmonthname[4] = "";
     int     minute, hour, day, year;
 
-    if (sscanf(__DATE__, "%3s %2i %4i", shortmonthname, &day, &year) == 3
-        && (sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2
-            || sscanf(__TIME__, "0%1i:%2i:%*i", &hour, &minute) == 2))
+    if (sscanf(__DATE__, "%3s %2d %4d", shortmonthname, &day, &year) == 3
+        && sscanf(__TIME__, "%02d:%02d:%*d", &hour, &minute) == 2)
     {
         const char  shortmonthnames[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
         const int   month = (int)(strstr(shortmonthnames, shortmonthname) - shortmonthnames) / 3;
