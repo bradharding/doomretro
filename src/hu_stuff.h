@@ -120,5 +120,6 @@ extern bool     message_warning;
 extern bool     message_on;
 extern bool     message_fadeon;
 extern char     prevmessage[133];
-extern short    minuspatchtopoffset;
+extern short    minuspatchtopoffset1;
+extern short    minuspatchtopoffset2;
 extern short    minuspatchwidth;
