@@ -1705,7 +1705,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         EpiDef.numitems = 0;
     else
     {
-        if (EpiDef.numitems >= 8)
+        if (EpiDef.numitems >= 9)
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
@@ -1726,34 +1726,49 @@ static void M_DrawEpisode(void)
 {
     M_DrawMenuBackground();
 
-    if (M_NEWG)
+    if (EpiDef.numitems > 6)
     {
-        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NEWG"));
-        EpiDef.x = 48;
-        EpiDef.y = 63;
-    }
-    else if (M_NGAME)
-    {
-        M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NGAME"));
-        EpiDef.x = 48;
-        EpiDef.y = 63;
+        EpiDef.y = 33;
+
+        if (M_EPISOD)
+        {
+            M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_EPISOD"));
+            EpiDef.x = 48;
+        }
+        else
+            M_DrawCenteredString(14 + OFFSET, s_M_WHICHEPISODE);
     }
     else
     {
-        char    *temp = uppercase(s_M_NEWGAME);
+        if (M_NEWG)
+        {
+            M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NEWG"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else if (M_NGAME)
+        {
+            M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_NGAME"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else
+        {
+            char    *temp = uppercase(s_M_NEWGAME);
 
-        M_DrawCenteredString(19 + OFFSET, temp);
-        free(temp);
-    }
+            M_DrawCenteredString(19 + OFFSET, temp);
+            free(temp);
+        }
 
-    if (M_EPISOD)
-    {
-        M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_EPISOD"));
-        EpiDef.x = 48;
-        EpiDef.y = 63;
+        if (M_EPISOD)
+        {
+            M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_EPISOD"));
+            EpiDef.x = 48;
+            EpiDef.y = 63;
+        }
+        else
+            M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
     }
-    else
-        M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
 void M_SetWindowCaption(void)
