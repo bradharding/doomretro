@@ -297,6 +297,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     static bool sigilwadadded;
     static bool sigil2wadadded;
     static bool nervewadadded;
+    static bool extraswadadded;
     wadinfo_t   header;
     size_t      length;
     int         startlump;
@@ -333,6 +334,8 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (sigil2wadadded && D_IsSIGIL2WAD(file))
         return false;
     else if (nervewadadded && D_IsNERVEWAD(file))
+        return false;
+    else if (extraswadadded && D_IsEXTRASWAD(file))
         return false;
 
     // WAD file
@@ -443,7 +446,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         else if (D_IsSIGILSHREDSWAD(file))
         {
             buckethead = true;
-            C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL.") ".");
+            C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL") ".");
         }
         else if (D_IsSIGIL2WAD(file))
         {
@@ -475,8 +478,11 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
         }
-        else if (D_IsExtrasWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+        else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+        {
+            extraswadadded = true;
             C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");
+        }
     }
 
     if (!resourcewadadded)

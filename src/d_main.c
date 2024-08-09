@@ -856,7 +856,7 @@ bool D_IsNERVEWAD(char *filename)
     return (M_StringCompare(leafname(filename), "NERVE.WAD"));
 }
 
-bool D_IsExtrasWAD(char *filename)
+bool D_IsEXTRASWAD(char *filename)
 {
     return (M_StringCompare(leafname(filename), "extras.wad"));
 }
@@ -1046,6 +1046,8 @@ static void D_AutoloadSIGILWAD(void)
 {
     char    path[MAX_PATH];
 
+    D_AutoloadExtrasWAD();
+
     if (sigil || sigil2 || M_CheckParm("-noautoload"))
         return;
 
@@ -1092,13 +1094,13 @@ static void D_AutoloadSIGILWAD(void)
             W_MergeFile(path, true);
         }
     }
-
-    D_AutoloadExtrasWAD();
 }
 
 static void D_AutoloadSIGIL2WAD(void)
 {
     char    path[MAX_PATH];
+
+    D_AutoloadExtrasWAD();
 
     if (!autosigil || M_CheckParm("-noautoload"))
         return;
@@ -1116,12 +1118,13 @@ static void D_AutoloadSIGIL2WAD(void)
             sigil = true;
     }
 
-    D_AutoloadExtrasWAD();
 }
 
 static void D_AutoloadNerveWAD(void)
 {
     char    path[MAX_PATH];
+
+    D_AutoloadExtrasWAD();
 
     if (BTSX || M_CheckParm("-noautoload"))
         return;
@@ -1130,8 +1133,6 @@ static void D_AutoloadNerveWAD(void)
 
     if (W_MergeFile(path, true))
         nerve = true;
-
-    D_AutoloadExtrasWAD();
 }
 
 static bool D_AutoloadOtherBTSXWAD(void)
