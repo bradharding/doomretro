@@ -1678,6 +1678,10 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             else
                 break;
 
+        for (int i = map + 1; i < 100; i++)
+            if (maptoepisode[i] < episodecount)
+                maptoepisode[i] = episodecount;
+
         map -= (ep - 1) * 10;
     }
     else

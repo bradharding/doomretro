@@ -124,7 +124,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_FRIEND),
-        /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags2               */ (MF2_PASSMOBJ | MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,

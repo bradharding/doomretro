@@ -2508,9 +2508,11 @@ static void D_DoomMainSetup(void)
         I_Error("The wrong version of %s was found.", resourcewad);
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
-        && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+        && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
+        && D_IsDOOMIWAD(lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->path));
 
-    kex = (unity && W_CheckNumForName("GAMECONF") >= 0);
+    kex = (unity && W_CheckNumForName("GAMECONF") >= 0
+        && D_IsDOOMIWAD(lumpinfo[W_GetLastNumForName("GAMECONF")]->wadfile->path));
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;

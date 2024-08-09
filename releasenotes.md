@@ -18,10 +18,10 @@
 * A bug is fixed whereby the mouse pointer couldn’t be used to move the text caret or scroll bar in the console when the `m_pointer` CVAR was `on` and the `vid_widescreen` CVAR was `off`.
 * Support has been added for *Legacy Of Rust*, a PWAD included with the [rerelease of DOOM and DOOM II](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) on August 8, 2024.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, will now be positioned correctly in instances where its vertical offset is missing.
+* The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, is now positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.
 * Blood splats now move with everything else on *BOOM*-compatible scrolling floors.
-* If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, and the `alwaysrun` CVAR is `on`, the <kbd>CAPSLOCK</kbd> key will now be toggled off when the console is opened, and then toggled back on when it closes.
+* If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, and the `alwaysrun` CVAR is `on`, the <kbd>CAPSLOCK</kbd> key is now toggled off when the console is opened, and then toggled back on when it closes.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
