@@ -3364,7 +3364,7 @@ static void deh_procWeapon(DEHFILE *fpin, const char *line)
         }
         else if (M_StringCompare(key, "Name"))
             weaponinfo[indexnum].name = M_StringDuplicate(lowercase(trimwhitespace(strval)));
-        else
+        else if (!M_StringCompare(key, "Carousel icon"))
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }
 }

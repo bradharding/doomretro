@@ -258,7 +258,7 @@ void P_InitPicAnims(void)
             // Check if name of flat indicates it is liquid
             if (!isliquid)
             {
-                if (M_StrCaseStr(animdefs[i].startname, "NUK"))
+                if (M_StrCaseStr(animdefs[i].startname, "NUK") && !M_StrCaseStr(animdefs[i].startname, "WALK"))
                 {
                     SetTerrainType(lastanim, NUKAGE);
                     isliquid = true;

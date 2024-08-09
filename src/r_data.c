@@ -690,8 +690,19 @@ static void R_InitSpriteLumps(void)
     }
     else if (ID1)
     {
+        s_GOTBFG9000 = M_StringDuplicate("%s got the calamity blade! Hot damn!");
+        s_GOTCELL = M_StringDuplicate("%s picked up a fuel can.");
+        s_GOTCELLBOX = M_StringDuplicate("%s picked up a fuel tank.");
+        s_GOTPLASMA = M_StringDuplicate("%s got the incinerator!");
+
         mobjinfo[MT_EXTRA00].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA01].flags |= MF_NOBLOOD;
+
+        weaponinfo[wp_plasma].name = M_StringDuplicate("incinerator");
+        weaponinfo[wp_bfg].name = M_StringDuplicate("calamity blade");
+
+        M_StringCopy(weaponinfo[wp_plasma].ammoname, "fuel", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "fuel", sizeof(weaponinfo[0].ammoplural));
     }
     else if (eviternity)
     {
