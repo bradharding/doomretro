@@ -1642,6 +1642,8 @@ static void M_DrawMainMenu(void)
     {
         if (titleheight == VANILLAHEIGHT)
             V_DrawPatch(94, 2, 0, W_CacheLumpName("M_DOOM"));
+        else if (masterlevels)
+            M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_DOOM"));
         else
             M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLumpName("M_DOOM"), false);
 
