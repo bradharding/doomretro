@@ -14,9 +14,15 @@
   * A bug is fixed whereby a `MAPINFO` lump wouldn’t be parsed at all in some instances.
   * Actions specified using `BOSSACTION` now always trigger as intended.
   * `INTERTEXT = CLEAR` is now parsed.
+  * Up to 9 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
+* A bug is fixed whereby the player wouldn’t telefrag monsters.
+* The player now equips their fists if they pick up a berserk power-up and they already have one.
 * Player and voodoo doll corpses can now trigger line specials again.
 * A bug is fixed whereby the mouse pointer couldn’t be used to move the text caret or scroll bar in the console when the `m_pointer` CVAR was `on` and the `vid_widescreen` CVAR was `off`.
-* Support has been added for *Legacy Of Rust*, a PWAD included with the [rerelease of DOOM and DOOM II](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) on August 8, 2024.
+* These changes have been made in response to id Software’s [rerelease of DOOM and DOOM II](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) on August 8, 2024:
+  * A bug is fixed whereby several wrong lumps would be displayed when loading a PWAD alongside the new *DOOM* or *DOOM II* IWADs.
+  * Support has been added for [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+  * If `extras.wad` is found alongside `DOOM.WAD` or `DOOM2.WAD`, it is autoloaded, and Andrew Hulshult’s *IDKFA* soundtrack is played instead of the regular MIDI music.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, is now positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.
