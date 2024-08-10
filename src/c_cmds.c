@@ -9150,7 +9150,9 @@ static void time_cvars_func2(char *cmd, char *parms)
 static void alwaysrun_func2(char *cmd, char *parms)
 {
     bool_cvars_func2(cmd, parms);
-    I_InitKeyboard();
+
+    if (!consoleactive)
+        I_InitKeyboard();
 }
 
 //
