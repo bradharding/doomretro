@@ -1510,7 +1510,7 @@ static void M_DrawHelp(void)
         }
         else if (W_GetNumLumps(lumpname) > 2)
         {
-            V_DrawPagePatch(0, W_CacheWidestLumpName(lumpname));
+            V_DrawPagePatch(0, W_CacheLumpName(lumpname));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);

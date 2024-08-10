@@ -948,30 +948,6 @@ int W_GetXNumForName(const char *name, const int x)
     return i;
 }
 
-int W_GetWidestNumForName(const char *name)
-{
-    int     i = -1;
-    short   widest = 0;
-
-    for (int j = numlumps - 1; j >= 0; j--)
-        if (!strncasecmp(lumpinfo[j]->name, name, 8)
-            && (!M_StringEndsWith(lumpinfo[j]->wadfile->path, DOOMRETRO_RESOURCEWAD) || !widest))
-        {
-            short   width = SHORT(((patch_t *)W_CacheLumpNum(j))->width);
-
-            if (width > widest)
-            {
-                widest = width;
-                i = j;
-            }
-        }
-
-    if (i == -1)
-        I_Error("W_GetWidestNumForName: %s not found!", name);
-
-    return i;
-}
-
 //
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.

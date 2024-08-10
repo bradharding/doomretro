@@ -2782,7 +2782,7 @@ static void D_DoomMainSetup(void)
             }
 
         if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
-            creditlump = W_CacheWidestLumpName("CREDIT");
+            creditlump = W_CacheLumpName("CREDIT");
         else
             creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }

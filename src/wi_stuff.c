@@ -1227,7 +1227,7 @@ static void WI_LoadData(void)
         else if (nerve)
             lump = W_CacheLastLumpName("INTERPIC");
         else
-            lump = W_CacheWidestLumpName("INTERPIC");
+            lump = W_CacheLumpName("INTERPIC");
     }
     else if (gamemode == retail && wbs->epsd == 3)
         lump = W_CacheLumpName(REKKRSL ? "INTERPIW" : "INTERPI1");
@@ -1249,10 +1249,10 @@ static void WI_LoadData(void)
         else
             M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
 
-        lump = (chex ? W_CacheLastLumpName(temp) : W_CacheWidestLumpName(temp));
+        lump = (chex ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
     }
     else
-        lump = W_CacheWidestLumpName("INTERPIC");
+        lump = W_CacheLumpName("INTERPIC");
 
     V_DrawPagePatch(1, lump);
 }

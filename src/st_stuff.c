@@ -1486,13 +1486,13 @@ void ST_InitStatBar(void)
     if (english == english_american)
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
-            W_CacheLastLumpName("STBAR") : W_CacheWidestLumpName("STBAR"));
+            W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
         sbar2 = W_CacheLumpName("STBAR2");
     }
     else
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ? W_CacheLastLumpName("STBAR") :
-            (W_GetNumLumps("STBAR") > 2 ? W_CacheWidestLumpName("STBAR") : W_CacheLumpName("STBAR3")));
+            (W_GetNumLumps("STBAR") > 2 ? W_CacheLumpName("STBAR") : W_CacheLumpName("STBAR3")));
         sbar2 = W_CacheLumpName("STBAR4");
     }
 
