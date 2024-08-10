@@ -2756,7 +2756,7 @@ static void D_DoomMainSetup(void)
 
         if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
             || (titlepics > 1 && !nerve))
-            titlelump = W_CacheWidestLumpName("TITLEPIC");
+            titlelump = W_CacheLumpName("TITLEPIC");
         else
             switch (gamemission)
             {
