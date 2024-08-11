@@ -948,6 +948,21 @@ int W_GetXNumForName(const char *name, const int x)
     return i;
 }
 
+int W_GetNumForNameFromResourceWAD(const char *name)
+{
+    int i;
+
+    for (i = 0; i < numlumps; i++)
+        if (!strncasecmp(lumpinfo[i]->name, name, 8)
+            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+            break;
+
+    if (i == numlumps)
+        I_Error("W_GetLastNumForName: %s not found!", name);
+
+    return i;
+}
+
 //
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.

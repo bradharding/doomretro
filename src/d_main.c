@@ -2754,8 +2754,8 @@ static void D_DoomMainSetup(void)
         const int   titlepics = W_GetNumLumps("TITLEPIC");
         const int   credits = W_GetNumLumps("CREDIT");
 
-        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
-            || (titlepics > 1 && !nerve))
+        if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
+            || titlepics > 1) && !nerve)
             titlelump = W_CacheLumpName("TITLEPIC");
         else
             switch (gamemission)

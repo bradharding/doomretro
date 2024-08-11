@@ -1225,7 +1225,7 @@ static void WI_LoadData(void)
         else if (gamemission == pack_tnt)
             lump = W_CacheLumpName("INTERPI3");
         else if (nerve)
-            lump = W_CacheLastLumpName("INTERPIC");
+            lump = W_CacheLumpNameFromResourceWAD("INTERPIC");
         else
             lump = W_CacheLumpName("INTERPIC");
     }
