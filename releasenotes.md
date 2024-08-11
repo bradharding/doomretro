@@ -19,13 +19,15 @@
 * The player now equips their fists if they pick up a berserk power-up and they already have one.
 * Player and voodoo doll corpses can now trigger line specials again.
 * A bug is fixed whereby the mouse pointer couldn’t be used to move the text caret or scroll bar in the console when the `m_pointer` CVAR was `on` and the `vid_widescreen` CVAR was `off`.
-* These changes have been made in response to id Software’s [rerelease of DOOM and DOOM II](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) on August 8, 2024:
+* These changes have been made in response to id Software’s [rerelease of *DOOM* and *DOOM II*](https://store.steampowered.com/app/2280/DOOM__DOOM_II/) during [QuakeCon](https://quakecon.bethesda.net/) on August 8, 2024:
+  * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for the IWADs included with installations of this release.
   * A bug is fixed whereby several wrong lumps would be displayed when loading a PWAD alongside the new *DOOM* or *DOOM II* IWADs.
-  * Support has been added for [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
-  * If `extras.wad` is found alongside `DOOM.WAD` or `DOOM2.WAD`, it is autoloaded, and Andrew Hulshult’s *IDKFA* soundtrack is played instead of the regular MIDI music.
+  * Several compatibility fixes have been implemented for [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+  * If `extras.wad` is found alongside `DOOM.WAD` or `DOOM2.WAD`, it is now autoloaded, and [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack is played instead of the regular MIDI music.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, is now positioned correctly in instances where its vertical offset is missing.
 * A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.
+* The length of the `playername` CVAR is now limited to 16 characters.
 * Blood splats now move with everything else on *BOOM*-compatible scrolling floors.
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, and the `alwaysrun` CVAR is `on`, the <kbd>CAPSLOCK</kbd> key is now toggled off when the console is opened, and then toggled back on when it closes.
 
