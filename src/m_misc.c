@@ -154,7 +154,7 @@ char *M_FileCaseExists(const char *path)
         basedir = M_SubString(path, 0, pos-path);
         filename = M_StringDuplicate(pos+1);
     } else {
-        basedir = "";
+        basedir = ".";
         filename = M_StringDuplicate(path);
     }
 
@@ -185,7 +185,7 @@ char *M_FileCaseExists(const char *path)
     free(filename);
     if(tmpfilename)
         free(tmpfilename);
-    if(strcmp(basedir, ""))
+    if(strcmp(basedir, "."))
         free(basedir);
 
     return retpath;
