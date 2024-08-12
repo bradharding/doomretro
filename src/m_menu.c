@@ -219,22 +219,24 @@ enum
     ep7,
     ep8,
     ep9,
+    ep10,
     ep_end
 };
 
 static menuitem_t EpisodeMenu[] =
 {
-    { 1, "M_EPI1", &M_Episode, &s_M_EPISODE1 },
-    { 1, "M_EPI2", &M_Episode, &s_M_EPISODE2 },
-    { 1, "M_EPI3", &M_Episode, &s_M_EPISODE3 },
-    { 1, "M_EPI4", &M_Episode, &s_M_EPISODE4 },
-    { 1, "M_EPI5", &M_Episode, &s_M_EPISODE5 },
+    { 1, "M_EPI1",  &M_Episode, &s_M_EPISODE1  },
+    { 1, "M_EPI2",  &M_Episode, &s_M_EPISODE2  },
+    { 1, "M_EPI3",  &M_Episode, &s_M_EPISODE3  },
+    { 1, "M_EPI4",  &M_Episode, &s_M_EPISODE4  },
+    { 1, "M_EPI5",  &M_Episode, &s_M_EPISODE5  },
 
     // Some extra empty episodes for extensibility through UMAPINFO
-    { 1, "M_EPI6", &M_Episode, &s_M_EPISODE6 },
-    { 1, "M_EPI7", &M_Episode, &s_M_EPISODE7 },
-    { 1, "M_EPI8", &M_Episode, &s_M_EPISODE8 },
-    { 1, "M_EPI9", &M_Episode, &s_M_EPISODE9 }
+    { 1, "M_EPI6",  &M_Episode, &s_M_EPISODE6  },
+    { 1, "M_EPI7",  &M_Episode, &s_M_EPISODE7  },
+    { 1, "M_EPI8",  &M_Episode, &s_M_EPISODE8  },
+    { 1, "M_EPI9",  &M_Episode, &s_M_EPISODE9  },
+    { 1, "M_EPI10", &M_Episode, &s_M_EPISODE10 }
 };
 
 menu_t EpiDef =
@@ -1663,8 +1665,8 @@ static void M_DrawMainMenu(void)
 //
 static int      epi;
 bool            customepisode = false;
-static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1, -1 };
-static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1 };
+static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1, -1, -1 };
+static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
@@ -1711,7 +1713,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         EpiDef.numitems = 0;
     else
     {
-        if (EpiDef.numitems >= 9)
+        if (EpiDef.numitems >= 10)
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
@@ -1732,7 +1734,7 @@ static void M_DrawEpisode(void)
 {
     M_DrawMenuBackground();
 
-    if (EpiDef.numitems > 6)
+    if (EpiDef.numitems > 7)
     {
         EpiDef.y = 33;
 

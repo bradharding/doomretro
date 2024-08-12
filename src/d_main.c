@@ -102,7 +102,8 @@ char **episodes[] =
     &s_CAPTION_EPISODE6,
     &s_CAPTION_EPISODE7,
     &s_CAPTION_EPISODE8,
-    &s_CAPTION_EPISODE9
+    &s_CAPTION_EPISODE9,
+    &s_CAPTION_EPISODE10
 };
 
 char **expansions[] =

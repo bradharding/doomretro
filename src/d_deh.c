@@ -577,6 +577,7 @@ char    *s_M_EPISODE6 = "";
 char    *s_M_EPISODE7 = "";
 char    *s_M_EPISODE8 = "";
 char    *s_M_EPISODE9 = "";
+char    *s_M_EPISODE10 = "";
 char    *s_M_WHICHEXPANSION = "";
 char    *s_M_EXPANSION1 = "";
 char    *s_M_EXPANSION2 = "";
@@ -613,6 +614,7 @@ char    *s_CAPTION_EPISODE6 = "";
 char    *s_CAPTION_EPISODE7 = "";
 char    *s_CAPTION_EPISODE8 = "";
 char    *s_CAPTION_EPISODE9 = "";
+char    *s_CAPTION_EPISODE10 = "";
 char    *s_CAPTION_EXPANSION1 = "";
 char    *s_CAPTION_EXPANSION2 = "";
 char    *s_CAPTION_EXPANSION3 = "";
@@ -1206,6 +1208,7 @@ deh_strs deh_strlookup[] =
     { &s_M_EPISODE7,              "M_EPISODE7"              },
     { &s_M_EPISODE8,              "M_EPISODE8"              },
     { &s_M_EPISODE9,              "M_EPISODE9"              },
+    { &s_M_EPISODE10,             "M_EPISODE10"             },
     { &s_M_WHICHEXPANSION,        "M_WHICHEXPANSION"        },
     { &s_M_EXPANSION1,            "M_EXPANSION1"            },
     { &s_M_EXPANSION2,            "M_EXPANSION2"            },
@@ -1242,6 +1245,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_EPISODE7,        "CAPTION_EPISODE7"        },
     { &s_CAPTION_EPISODE8,        "CAPTION_EPISODE8"        },
     { &s_CAPTION_EPISODE9,        "CAPTION_EPISODE9"        },
+    { &s_CAPTION_EPISODE10,       "CAPTION_EPISODE10"       },
     { &s_CAPTION_EXPANSION1,      "CAPTION_EXPANSION1"      },
     { &s_CAPTION_EXPANSION2,      "CAPTION_EXPANSION2"      },
     { &s_CAPTION_EXPANSION3,      "CAPTION_EXPANSION3"      },
