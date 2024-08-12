@@ -5393,7 +5393,10 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
         if (namebuf[0] == 'H' && namebuf[1] == '_')
+        {
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
             C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
+        }
         else if (*musicartist)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", musicartist);
         else if (sigil && gameepisode == 5)
