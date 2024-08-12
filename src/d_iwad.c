@@ -499,11 +499,14 @@ static const iwads_t iwads[] =
 };
 
 #if !defined(_WIN32) && !defined(__APPLE__)
-// Returns true if the specified path is a path to a file
+// Returns true if the specified path is a path to a WAD file
 // of the specified name.
 static bool DirIsFile(char *path, char *filename)
 {
-    return (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filename));
+	char *filenamewithext = M_StringJoin(filename, ".wad", NULL);
+    bool ret = (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filenamewithext));
+	free(filenamewithext);
+    return ret;
 }
 
 // Check if the specified directory contains the specified IWAD
