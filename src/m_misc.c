@@ -124,7 +124,8 @@ bool M_FileExists(const char *filename)
 
 #if !defined(_WIN32) && !defined(__APPLE__)
 
-bool file_exists_get_path(const char *basedir, const char *filename, char **retpath) {
+bool file_exists_get_path(const char *basedir, const char *filename, char **retpath)
+{
     *retpath = M_StringJoin(basedir, DIR_SEPARATOR_S, filename, NULL);
 
     if (M_FileExists(*retpath))
@@ -139,53 +140,62 @@ bool file_exists_get_path(const char *basedir, const char *filename, char **retp
 // Returns a newly allocated string that the caller is responsible for freeing.
 char *M_FileCaseExists(const char *path)
 {
-    char *basedir;
-    char *filename;
-	char *retpath;
-    char *tmpfilename = NULL;
-	char *pos;
+    char    *basedir;
+    char    *filename;
+    char    *retpath;
+    char    *tmpfilename = NULL;
+    char    *pos;
 
     // actual path
     if (M_FileExists(path))
         return M_StringDuplicate(path);
 
-    pos = strrchr(path, DIR_SEPARATOR);
-    if(pos) {
-        basedir = M_SubString(path, 0, pos-path);
-        filename = M_StringDuplicate(pos+1);
-    } else {
+    if ((pos = strrchr(path, DIR_SEPARATOR)))
+    {
+        basedir = M_SubString(path, 0, pos - path);
+        filename = M_StringDuplicate(pos + 1);
+    }
+    else
+    {
         basedir = ".";
         filename = M_StringDuplicate(path);
     }
 
     // lowercase filename, e.g. doom2.wad
-    if(file_exists_get_path(basedir, lowercase(filename), &retpath))
+    if (file_exists_get_path(basedir, lowercase(filename), &retpath))
         goto cleanup;
 
     // uppercase filename, e.g. DOOM2.WAD
     tmpfilename = uppercase(filename);
-    if(file_exists_get_path(basedir, tmpfilename, &retpath))
+
+    if (file_exists_get_path(basedir, tmpfilename, &retpath))
         goto cleanup;
 
     // uppercase basename with lowercase extension, e.g. DOOM2.wad
-    if ((pos = strrchr(tmpfilename, '.')) && tmpfilename[strlen(tmpfilename)-1] != '.') {
+    if ((pos = strrchr(tmpfilename, '.')) && tmpfilename[strlen(tmpfilename) - 1] != '.')
+    {
         lowercase(pos + 1);
+
         if(file_exists_get_path(basedir, tmpfilename, &retpath))
             goto cleanup;
     }
 
     // lowercase filename with uppercase first letter, e.g. Doom2.wad
-    if (strlen(tmpfilename) > 1) {
+    if (strlen(tmpfilename) > 1)
+    {
         lowercase(tmpfilename + 1);
-        if(file_exists_get_path(basedir, tmpfilename, &retpath))
+
+        if (file_exists_get_path(basedir, tmpfilename, &retpath))
             goto cleanup;
     }
 
- cleanup:
+cleanup:
     free(filename);
-    if(tmpfilename)
+
+    if (tmpfilename)
         free(tmpfilename);
-    if(strcmp(basedir, "."))
+
+    if (strcmp(basedir, "."))
         free(basedir);
 
     return retpath;

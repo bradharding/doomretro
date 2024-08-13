@@ -503,9 +503,10 @@ static const iwads_t iwads[] =
 // of the specified name.
 static bool DirIsFile(char *path, char *filename)
 {
-	char *filenamewithext = M_StringJoin(filename, ".wad", NULL);
-    bool ret = (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filenamewithext));
-	free(filenamewithext);
+    char    *filenamewithext = M_StringJoin(filename, ".wad", NULL);
+    bool    ret = (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filenamewithext));
+
+    free(filenamewithext);
     return ret;
 }
 
