@@ -1723,8 +1723,8 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         episodemenuepisode[EpiDef.numitems] = ep;
         episodemenumap[EpiDef.numitems] = map;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
-        *EpisodeMenu[EpiDef.numitems++].text = M_StringDuplicate(string);
-        *episodes[EpiDef.numitems - 1] = M_StringDuplicate(string);
+        *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
+        *episodes[EpiDef.numitems++] = M_StringDuplicate(string);
     }
 
     NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : &MainDef);
@@ -1734,17 +1734,17 @@ static void M_DrawEpisode(void)
 {
     M_DrawMenuBackground();
 
-    if (EpiDef.numitems > 7)
+    if (EpiDef.numitems >= 6)
     {
-        EpiDef.y = 33;
+        EpiDef.y = 63 - (EpiDef.numitems - 4) * (LINEHEIGHT / 2);
 
         if (M_EPISOD)
         {
-            M_DrawCenteredPatchWithShadow(14 + OFFSET, W_CacheLumpName("M_EPISOD"));
+            M_DrawCenteredPatchWithShadow(EpiDef.y - 5, W_CacheLumpName("M_EPISOD"));
             EpiDef.x = 48;
         }
         else
-            M_DrawCenteredString(14 + OFFSET, s_M_WHICHEPISODE);
+            M_DrawCenteredString(EpiDef.y - 5, s_M_WHICHEPISODE);
     }
     else
     {
