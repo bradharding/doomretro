@@ -123,7 +123,6 @@ bool M_FileExists(const char *filename)
 }
 
 #if !defined(_WIN32) && !defined(__APPLE__)
-
 bool file_exists_get_path(const char *basedir, const char *filename, char **retpath)
 {
     *retpath = M_StringJoin(basedir, DIR_SEPARATOR_S, filename, NULL);

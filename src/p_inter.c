@@ -836,9 +836,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!(viewplayer->cheats & CF_GODMODE))
             {
                 viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
+                viewplayer->mo->health = viewplayer->health;
                 P_AnimateHealth(viewplayer->mo->health - viewplayer->health);
                 P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
-                viewplayer->mo->health = viewplayer->health;
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
 
