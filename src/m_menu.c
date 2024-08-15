@@ -1734,7 +1734,7 @@ static void M_DrawEpisode(void)
 {
     M_DrawMenuBackground();
 
-    if (EpiDef.numitems >= 6)
+    if (EpiDef.numitems >= 7 || (EpiDef.numitems == 6 && !sigil && !sigil2))
     {
         EpiDef.y = 63 - (EpiDef.numitems - 4) * (LINEHEIGHT / 2);
 
