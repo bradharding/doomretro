@@ -166,18 +166,23 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 
 void STlib_UpdateBigHealthNum(st_number_t *n)
 {
-    int         num = (negativehealth && minuspatch ? ABS(*n->num + (animatedstats ? healthdiff : 0)) :
-                    MAX(0, *n->num + (animatedstats ? healthdiff : 0)));
+    int         num = *n->num + (animatedstats ? healthdiff : 0);
     int         x = n->x + (num == 1);
     const int   y = n->y;
     const int   width = SHORT(n->p[0]->width);
+    int         offset = 0;
 
-    // in the special case of 0, you draw 0
-    if (!num)
-        V_DrawPatch(x - width, y, 0, n->p[0]);
-    else
+    if (negativehealth && minuspatch && !viewplayer->health)
     {
-        // draw the new number
+        num = viewplayer->negativehealth + (animatedstats ? healthdiff : 0);
+
+        if ((num >= -79 && num <= -70) || num == -7)
+            offset++;
+        else if ((num >= -19 && num <= -10) || num == -1)
+            offset += 2;
+
+        num = ABS(num);
+
         while (num)
         {
             V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
@@ -185,18 +190,21 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
             if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
         }
+
+        V_DrawPatch(x + offset - minuspatchwidth, y - minuspatchtopoffset1, 0, minuspatch);
+        return;
     }
 
-    // draw a minus sign if necessary
-    if ((num = *n->num + (animatedstats ? healthdiff : 0)) < 0 && negativehealth && minuspatch)
-    {
-        if ((num >= -79 && num <= -70) || num == -7)
-            x++;
-        else if ((num >= -19 && num <= -10) || num == -1)
-            x += 2;
+    if (!num)
+        V_DrawPatch(x - width, y, 0, n->p[0]);
+    else
+        while (num)
+        {
+            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
 
-        V_DrawPatch(x - minuspatchwidth, y - minuspatchtopoffset1, 0, minuspatch);
-    }
+            if ((num /= 10) % 10 == 1 && tallnum1width < 14)
+                x++;
+        }
 }
 
 void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)

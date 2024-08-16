@@ -1941,7 +1941,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a"))),
                         (friendly ? "friendly " : ""),
                         (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
-}
+                }
 
                 C_PlayerMessage("%s %s %s.",
                     temp,
@@ -2248,7 +2248,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
     }
     else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
-        && (!source || !splayer || !(weaponinfo[source->player->readyweapon].flags & WPF_NOTHRUST)))
+        && (!source || !splayer || !(weaponinfo[splayer->readyweapon].flags & WPF_NOTHRUST)))
     {
         angle_t ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         fixed_t thrust = damage * (FRACUNIT >> 3) * 100 /  MAX((corpse ? 200 : 1), info->mass);
@@ -2357,6 +2357,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             }
 
             tplayer->health -= damage;
+            tplayer->negativehealth = tplayer->health;
             target->health -= damage;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
@@ -2384,11 +2385,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (tplayer->health <= 0)
         {
+            tplayer->health = 0;
+
+            if (tplayer->negativehealth < HUD_NUMBER_MIN)
+                tplayer->negativehealth = HUD_NUMBER_MIN;
+
             tplayer->damagecount = 100;
             P_KillMobj(target, inflicter, source, telefragged);
 
-            if (tplayer->health < HUD_NUMBER_MIN)
-                tplayer->health = HUD_NUMBER_MIN;
         }
         else
         {

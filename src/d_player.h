@@ -126,6 +126,7 @@ typedef struct player_s
     // This is only used between levels,
     // mo->health is used during levels.
     int             health;
+    int             negativehealth;
 
     int             armor;
 

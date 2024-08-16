@@ -2408,7 +2408,8 @@ static void cvarlist_func2(char *cmd, char *parms)
             {
                 if (gamestate == GS_LEVEL)
                 {
-                    int value = viewplayer->health;
+                    int value = (negativehealth && minuspatch && !viewplayer->health ?
+                        viewplayer->negativehealth : viewplayer->health);
 
                     if (value == consolecmds[i].defaultnumber)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s", name, value, description);
@@ -9816,7 +9817,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char        *temp = commify(negativehealth && minuspatch ? viewplayer->health : MAX(0, viewplayer->health));
+            char        *temp = commify(negativehealth && minuspatch && !viewplayer->health ?
+                            viewplayer->negativehealth : viewplayer->health);
             const int   i = C_GetIndex(cmd);
 
             C_ShowDescription(i);

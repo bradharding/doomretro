@@ -545,7 +545,8 @@ int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int           health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    const int           health = BETWEEN(HUD_NUMBER_MIN, (negativehealth && minuspatch && !viewplayer->health ?
+                            viewplayer->negativehealth : viewplayer->health) + healthdiff, HUD_NUMBER_MAX);
     int                 armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool         healthanim;
     const bool          gamepaused = (consoleactive || freeze);
@@ -983,7 +984,8 @@ static void HU_DrawAltHUD(void)
 {
     const bool      inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     const int       color = (inverted ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    int             health = BETWEEN(HUD_NUMBER_MIN, (negativehealth && minuspatch && !viewplayer->health ?
+                        viewplayer->negativehealth : viewplayer->health) + healthdiff, HUD_NUMBER_MAX);
     int             armor = BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
