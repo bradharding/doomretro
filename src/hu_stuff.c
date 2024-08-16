@@ -1477,7 +1477,6 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
-        w_title.x = 0;
 
         if (r_althud && r_screensize == r_screensize_max)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
@@ -1489,7 +1488,10 @@ void HU_Drawer(void)
                 w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
             }
             else
+            {
+                w_title.x = 0;
                 w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 6;
+            }
 
             HUlib_DrawAutomapTextLine(&w_title, false);
         }
@@ -1524,12 +1526,11 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            w_title.x = 25;
-
             if (r_althud && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
+                w_title.x = 25;
                 w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 16;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }

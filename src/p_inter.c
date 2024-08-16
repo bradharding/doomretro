@@ -2392,7 +2392,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             tplayer->damagecount = 100;
             P_KillMobj(target, inflicter, source, telefragged);
-
         }
         else
         {
