@@ -3413,7 +3413,7 @@ static bool P_ParseMapInfo(const char *scriptname)
     char        *temp1;
     char        *temp2;
 
-    for (MAPINFO = 0; MAPINFO < numlumps; MAPINFO++)
+    for (MAPINFO = numlumps - 1; MAPINFO >= 0; MAPINFO--)
         if (!strncasecmp(lumpinfo[MAPINFO]->name, scriptname, 8))
         {
             char    *file = leafname(lumpinfo[MAPINFO]->wadfile->path);
@@ -3422,7 +3422,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 break;
         }
 
-    if (MAPINFO == numlumps)
+    if (MAPINFO == -1)
         return false;
 
     mapinfolump = uppercase(scriptname);
