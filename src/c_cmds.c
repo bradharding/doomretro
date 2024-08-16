@@ -5437,6 +5437,9 @@ static void mapstats_func2(char *cmd, char *parms)
         {
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
 
+            if (namebuf[0] == 'H' && namebuf[1] == '_')
+                C_TabbedOutput(tabs, INDENT INDENT "Release date\tAugust 8, 2024");
+
             if (!M_StringCompare(lumpinfo[lump]->wadfile->path, lumpinfo[mus_playing->lumpnum]->wadfile->path))
                 C_TabbedOutput(tabs, INDENT INDENT "MD5\t%s", MD5(lumpinfo[mus_playing->lumpnum]->wadfile->path));
         }
