@@ -699,6 +699,11 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_EXTRA01].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA04].flags |= MF_NOBLOOD;
 
+        M_StringCopy(mobjinfo[MT_EXTRA06].name1, "tyrant", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_EXTRA06].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_EXTRA07].name1, "tyrant", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_EXTRA07].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
+
         mobjinfo[MT_EXTRA09].flags2 |= MF2_TRANSLUCENT;
         mobjinfo[MT_EXTRA10].flags2 |= MF2_TRANSLUCENT;
 
