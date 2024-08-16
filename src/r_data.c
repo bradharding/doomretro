@@ -706,7 +706,11 @@ static void R_InitSpriteLumps(void)
             mobjinfo[i].flags2 |= MF2_DECORATION;
 
         mobjinfo[MT_EXTRA16].flags2 |= MF2_NOLIQUIDBOB;
-        mobjinfo[MT_EXTRA32].flags2 |= MF2_NOLIQUIDBOB;
+        mobjinfo[MT_EXTRA17].flags2 |= MF2_NOLIQUIDBOB;
+        mobjinfo[MT_EXTRA18].flags2 |= MF2_NOLIQUIDBOB;
+
+        for (int i = MT_EXTRA31; i <= MT_EXTRA54; i++)
+            mobjinfo[i].flags2 |= MF2_NOLIQUIDBOB;
 
         mobjinfo[MT_EXTRA15].bloodcolor = NOBLOOD;
 
