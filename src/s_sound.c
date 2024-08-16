@@ -640,7 +640,10 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
             music->lumpnum = W_CheckNumForName(namebuf);
     }
     else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, gamemap)) > 0)
+    {
         music->lumpnum = mapinfomusic;
+        M_StringCopy(music->name1, lumpinfo[mapinfomusic]->name, sizeof(music->name1));
+    }
     else if (!music->lumpnum)
         music->lumpnum = W_CheckNumForName(namebuf);
 

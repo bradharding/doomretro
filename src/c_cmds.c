@@ -5370,10 +5370,16 @@ static void mapstats_func2(char *cmd, char *parms)
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
         temp = uppercase(mus_playing->name1);
-        M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp);
 
-        if (W_CheckNumForName(namebuf) == -1)
-            M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+        if (M_StringStartsWith(temp, "D_"))
+            M_StringCopy(namebuf, temp, sizeof(namebuf));
+        else
+        {
+            M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp);
+
+            if (W_CheckNumForName(namebuf) == -1)
+                M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+        }
 
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
         free(temp);
