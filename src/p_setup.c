@@ -149,6 +149,7 @@ typedef struct
     int             numbossactions;
     int             par;
     bool            pistolstart;
+    bool            secret;
     int             secretnext;
     int             sky1texture;
     float           sky1scrolldelta;
@@ -3159,6 +3160,9 @@ void P_SetupLevel(int ep, int map)
         lumpnum = (nerve && gamemission == doom2 ? W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
     }
 
+    if (!secretmap)
+        secretmap = mapinfo[ep][map].secret;
+
     if ((!numconsolestrings
         || (!M_StringStartsWith(console[numconsolestrings - 1].string, "map ")
             && !M_StringStartsWith(console[numconsolestrings - 1].string, "load ")
@@ -3375,6 +3379,7 @@ static void P_InitMapInfo(void)
             mapinfo[i][j].par = 0;
             mapinfo[i][j].pistolstart = false;
             mapinfo[i][j].secretnext = 0;
+            mapinfo[i][j].secret = false;
             mapinfo[i][j].sky1texture = 0;
             mapinfo[i][j].sky1scrolldelta = 0;
             mapinfo[i][j].titlepatch = 0;
@@ -3981,6 +3986,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             }
 
                             info->secretnext = nextmap;
+                            mapinfo[nextepisode][nextmap].secret = true;
                             break;
                         }
 
