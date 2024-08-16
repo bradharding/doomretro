@@ -5434,7 +5434,12 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Format\tOpus");
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
+        {
             C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
+
+            if (!M_StringCompare(lumpinfo[lump]->wadfile->path, lumpinfo[mus_playing->lumpnum]->wadfile->path))
+                C_TabbedOutput(tabs, INDENT INDENT "MD5\t%s", MD5(lumpinfo[mus_playing->lumpnum]->wadfile->path));
+        }
     }
 }
 
