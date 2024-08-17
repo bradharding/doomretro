@@ -4971,7 +4971,7 @@ static void mapstats_func2(char *cmd, char *parms)
         /* 69 */ { JR,    "",   "",    "",   "" }
     };
 
-    const int   tabs[MAXTABS] = { 120, 240 };
+    const int   tabs[MAXTABS] = { 127 };
     char        *temp;
     int         lump;
     int         wadtype;
