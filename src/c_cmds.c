@@ -5038,12 +5038,15 @@ static void mapstats_func2(char *cmd, char *parms)
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-            C_TabbedOutput(tabs, "%s\t%i of 9", (secretmap? "Secret Map" : "Map"), gamemap);
+            C_TabbedOutput(tabs, "%s\t%i of 9",
+                (secretmap ? "Secret Map" : "Map"), gamemap);
         else
-            C_TabbedOutput(tabs, "%s\t%i of %i", (secretmap ? "Secret Map" : "Map"), gamemap, (bfgedition ? 33 : 32));
+            C_TabbedOutput(tabs, "%s\t%i of %i",
+                (secretmap ? "Secret Map" : "Map"), gamemap, (bfgedition ? 33 : 32));
     }
     else
-        C_TabbedOutput(tabs, "%s\t%i of 9", (secretmap ? "Secret Map" : "Map"), gamemap);
+        C_TabbedOutput(tabs, "%s\t%i of 9",
+            (secretmap ? "Secret Map" : "Map"), gamemap);
 
     if (!M_StringCompare(maptitle, mapnum))
     {
@@ -5392,6 +5395,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
+        else if (namebuf[0] == 'H' && namebuf[1] == '_')
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
         else if (!M_StringCompare(mus_playing->title1, "n/a")
             && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
                 || (gamemode != commercial && gameepisode == 1 && lumps == 2)
@@ -5399,17 +5404,14 @@ static void mapstats_func2(char *cmd, char *parms)
                 || gamemission == pack_nerve))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
-        if (namebuf[0] == 'H' && namebuf[1] == '_')
-        {
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
-            C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
-        }
-        else if (*musicartist)
+        if (*musicartist)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", musicartist);
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (thorr ? "Thorr" : "James Paddock"));
+        else if (namebuf[0] == 'H' && namebuf[1] == '_')
+            C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
             || gamemode == shareware
