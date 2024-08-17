@@ -10360,16 +10360,23 @@ static void r_hud_func2(char *cmd, char *parms)
 
     if (r_hud != r_hud_old && r_hud && !togglingvanilla)
     {
-        if (r_screensize != r_screensize_max)
+        if (r_screensize != r_screensize_max || !vid_widescreen)
         {
-            r_screensize = r_screensize_max;
-            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-        }
+            if (r_screensize != r_screensize_max)
+            {
+                r_screensize = r_screensize_max;
+                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                R_SetViewSize(r_screensize);
+            }
 
-        if (!vid_widescreen)
-        {
-            vid_widescreen = true;
-            C_StringCVAROutput(stringize(vid_widescreen), "on");
+            if (!vid_widescreen)
+            {
+                vid_widescreen = true;
+                C_StringCVAROutput(stringize(vid_widescreen), "on");
+                I_RestartGraphics(false);
+            }
+
+            S_StartSound(NULL, sfx_stnmov);
         }
     }
 }
