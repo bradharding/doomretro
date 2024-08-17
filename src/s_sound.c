@@ -227,7 +227,12 @@ void S_Init(void)
 
                 M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
 
-                if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0 && !CacheSFX(sfx))
+                if (extras && M_StringCompare(namebuf, "dssecret"))
+                {
+                    sfx->lumpnum = W_GetLastNumForName(namebuf);
+                    CacheSFX(sfx);
+                }
+                else if ((sfx->lumpnum = W_CheckNumForName(namebuf)) >= 0 && !CacheSFX(sfx))
                 {
                     char    *temp = uppercase(namebuf);
 
