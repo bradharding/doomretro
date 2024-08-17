@@ -4310,6 +4310,4 @@ void P_Init(void)
         "Scroll wall with same tag using sidedef offsets when sector changes height";
     linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight] =
         "Scroll wall with same tag using sidedef offsets (accelerates when sector changes height)";
-
-    monstercount = I_Malloc(NUMMOBJTYPES * sizeof(int));
 }

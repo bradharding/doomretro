@@ -1637,7 +1637,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    (friendly && monstercount[source->type] == 1 ? "the" :
+                    (friendly && source->type < NUMMOBJTYPES && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
@@ -1659,7 +1659,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                    (friendly && monstercount[target->type] == 1 ? "the" :
+                    (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                         (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
@@ -1680,7 +1680,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    (friendly && monstercount[source->type] == 1 ? "the" :
+                    (friendly && source->type < NUMMOBJTYPES && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
@@ -1693,7 +1693,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                    (friendly && monstercount[target->type] == 1 ? "the" :
+                    (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                         (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
@@ -1763,7 +1763,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     const bool  corpse = ((target->flags & MF_CORPSE) && source != target);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                        (friendly && monstercount[target->type] == 1 ? "the" :
+                        (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                             (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
                         (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
                         (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
@@ -1828,7 +1828,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         const bool  friendly = (target->flags & MF_FRIEND);
 
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            (friendly && monstercount[target->type] == 1 ? "the" :
+                            (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                                 (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
                             (friendly ? "friendly " : ""),
                             (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
@@ -1874,7 +1874,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         const bool  corpse = (target->flags & MF_CORPSE);
 
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            (friendly && monstercount[target->type] == 1 ? "the" :
+                            (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                                 (*target->info->name1 && isvowel(target->info->name1[0]) && !corpse && !friendly ? "an" : "a")),
                             (corpse && !M_StringStartsWith(target->info->name1, "dead ") ? "dead " : (friendly ? "friendly " : "")),
                             (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
@@ -1909,7 +1909,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    (friendly && monstercount[source->type] == 1 ? "the" :
+                    (friendly && source->type < NUMMOBJTYPES && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
@@ -1937,7 +1937,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
-                            (friendly && monstercount[target->type] == 1 ? "the" :
+                            (friendly && target->type < NUMMOBJTYPES && monstercount[target->type] == 1 ? "the" :
                             (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a"))),
                         (friendly ? "friendly " : ""),
                         (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));

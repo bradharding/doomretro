@@ -37,7 +37,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "doomstat.h"
 #include "i_system.h"
 #include "info.h"
 #include "p_local.h"
@@ -7578,8 +7577,6 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
         }
         else
             mobjinfo = I_Realloc(mobjinfo, nummobjtypes * sizeof(*mobjinfo));
-
-        monstercount = I_Realloc(mobjinfo, nummobjtypes * sizeof(int));
 
         memset(mobjinfo + old_nummobjtypes, 0,
             ((size_t)nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));

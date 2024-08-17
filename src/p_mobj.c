@@ -625,7 +625,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     if (obituaries)
         C_PlayerMessage("%s dead%s%s has respawned.",
-            ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
+            ((mo->flags & MF_FRIEND) && mo->type < NUMMOBJTYPES && monstercount[mo->type] == 1 ? "The" : "A"),
             ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
             (*mo->info->name1 ? mo->info->name1 : "monster"));
 
@@ -1275,7 +1275,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         if (!((mobjinfo[i].flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
             totalkills++;
 
-        monstercount[i]++;
+        if (i < NUMMOBJTYPES)
+            monstercount[i]++;
     }
 
     // spawn it

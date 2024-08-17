@@ -101,7 +101,7 @@ int             totalkills;                         // for intermission
 int             totalitems;
 int             totalsecrets;
 int             totalpickups;
-int             *monstercount;
+int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
 int             player1starts;
 
