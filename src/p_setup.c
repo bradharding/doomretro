@@ -3110,7 +3110,7 @@ void P_SetupLevel(int ep, int map)
     totalitems = 0;
     totalsecrets = 0;
     totalpickups = 0;
-    memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
+    memset(monstercount, 0, nummobjtypes * sizeof(int));
     barrelcount = 0;
     player1starts = 0;
     wminfo.partime = 0;
@@ -4310,4 +4310,6 @@ void P_Init(void)
         "Scroll wall with same tag using sidedef offsets when sector changes height";
     linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight] =
         "Scroll wall with same tag using sidedef offsets (accelerates when sector changes height)";
+
+    monstercount = I_Malloc(NUMMOBJTYPES * sizeof(int));
 }

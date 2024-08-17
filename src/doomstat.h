@@ -216,7 +216,7 @@ extern int              totalkills;
 extern int              totalitems;
 extern int              totalsecrets;
 extern int              totalpickups;
-extern int              monstercount[NUMMOBJTYPES];
+extern int              *monstercount;
 extern int              barrelcount;
 extern int              player1starts;
 
