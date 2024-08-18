@@ -83,7 +83,7 @@ bool HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 }
 
 // [BH] draw an individual character to temporary buffer
-static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
+static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth, byte *cr)
 {
     const int   width = (int)strlen(smallcharset[ch]) / 10;
 
@@ -105,36 +105,12 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
                             *dest = 0;
                     }
                     else if (src != ' ')
-                        *dest = src;
+                        *dest = cr[src];
                 }
         }
 }
 
-static void HU_DrawGoldChar(int x, int y, int ch, byte *screen, int screenwidth)
-{
-    const int   width = (int)strlen(smallcharset[ch]) / 10;
-
-    for (int y1 = 0; y1 < 10; y1++)
-        for (int x1 = 0; x1 < width; x1++)
-        {
-            const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * 2;
-            const int           j = (y + y1) * 2;
-
-            for (int yy = 0; yy < 2; yy++)
-                for (int xx = 0; xx < 2; xx++)
-                {
-                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
-
-                    if (src == PINK)
-                        *dest = 0;
-                    else if (src != ' ')
-                        *dest = redtogold[src];
-                }
-        }
-}
-
-static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int screenwidth)
+static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int screenwidth, byte *cr)
 {
     const int   width = (int)strlen(smallcharset[ch]) / 10;
 
@@ -156,31 +132,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                             *dest = black40[*dest];
                     }
                     else if (src != ' ')
-                        *dest = tinttab75[(src << 8) + *dest];
-                }
-        }
-}
-
-static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int screenwidth)
-{
-    const int   width = (int)strlen(smallcharset[ch]) / 10;
-
-    for (int y1 = 0; y1 < 10; y1++)
-        for (int x1 = 0; x1 < width; x1++)
-        {
-            const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * 2;
-            const int           j = (y + y1) * 2;
-
-            for (int yy = 0; yy < 2; yy++)
-                for (int xx = 0; xx < 2; xx++)
-                {
-                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
-
-                    if (src == PINK)
-                        *dest = black40[*dest];
-                    else if (src != ' ')
-                        *dest = tinttab75[(redtogold[src] << 8) + *dest];
+                        *dest = tinttab75[(cr[src] << 8) + *dest];
                 }
         }
 }
@@ -439,11 +391,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                if (message_secret)
-                    V_DrawGoldPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
-                else
-                    V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
-
+                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], (message_secret ? cr_gold : cr_none));
                 x += SHORT(l->f[j]->width);
             }
             else
@@ -469,10 +417,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         }
 
                 // [BH] draw individual character
-                if (message_secret)
-                    HU_DrawGoldChar(x, y - 1, j, tempscreen, screenwidth);
-                else
-                    HU_DrawChar(x, y - 1, j, tempscreen, screenwidth);
+                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, (message_secret ? cr_gold : cr_none));
 
                 x += (short)strlen(smallcharset[j]) / 10 - 1;
             }
@@ -574,20 +519,10 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                if (secretmap)
-                {
-                    if (r_hud_translucency)
-                        V_DrawTranslucentGoldHUDText(x, y, fb, l->f[j], width);
-                    else
-                        V_DrawGoldHUDText(x, y, fb, l->f[j], width);
-                }
+                if (r_hud_translucency)
+                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
                 else
-                {
-                    if (r_hud_translucency)
-                        V_DrawTranslucentHUDText(x, y, fb, l->f[j], width);
-                    else
-                        V_DrawHUDText(x, y, fb, l->f[j], width);
-                }
+                    V_DrawHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
             }
             else
             {
@@ -611,20 +546,10 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                             break;
                         }
 
-                if (secretmap)
-                {
-                    if (r_hud_translucency)
-                        HU_DrawTranslucentGoldChar(x / 2, y / 2, j, fb, width);
-                    else
-                        HU_DrawGoldChar(x / 2, y / 2, j, fb, width);
-                }
+                if (r_hud_translucency)
+                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
                 else
-                {
-                    if (r_hud_translucency)
-                        HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width);
-                    else
-                        HU_DrawChar(x / 2, y / 2, j, fb, width);
-                }
+                    HU_DrawChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;

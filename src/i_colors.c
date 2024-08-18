@@ -73,6 +73,13 @@ static const byte filter[256] =
 #define BLUES   B
 #define EXTRAS  X
 
+typedef struct vect
+{
+    double  x;
+    double  y;
+    double  z;
+} vect;
+
 byte    *tinttab4;
 byte    *tinttab5;
 byte    *tinttab10;
@@ -365,13 +372,6 @@ void I_InitTintTables(byte *palette)
     tinttabblue25 = GenerateTintTable(palette, 25, BLUES);
 }
 
-typedef struct vect
-{
-    double  x;
-    double  y;
-    double  z;
-} vect;
-
 static void HSVtoRGB(vect *hsv, vect *rgb)
 {
     double  h = hsv->x * 360.0;
@@ -458,11 +458,7 @@ static void RGBtoHSV(vect *rgb, vect *hsv)
     cmin = (b < cmin ? b : cmin);
 
     v = cmax;
-
-    if (cmax > CTOLERANCE)
-        s = (cmax - cmin) / cmax;
-    else
-        s = 0.0;
+    s = (cmax > CTOLERANCE ? (cmax - cmin) / cmax : 0.0);
 
     if (s < CTOLERANCE)
         h = 0.0;
@@ -473,14 +469,7 @@ static void RGBtoHSV(vect *rgb, vect *hsv)
         double  gc = (cmax - g) / cdelta;
         double  bc = (cmax - b) / cdelta;
 
-        if (r == cmax)
-            h = bc - gc;
-        else if (g == cmax)
-            h = 2.0 + rc - bc;
-        else
-            h = 4.0 + gc - rc;
-
-        h = h * 60.0;
+        h = (r == cmax ? bc - gc : (g == cmax ? 2.0 + rc - bc : 4.0 + gc - rc)) * 60.0;
 
         if (h < 0.0)
             h += 360.0;
@@ -496,9 +485,9 @@ byte V_Colorize(byte *playpal, int cr, byte source)
     vect rgb;
     vect hsv;
 
-    rgb.x = playpal[3 * source + 0] / 255.0;
-    rgb.y = playpal[3 * source + 1] / 255.0;
-    rgb.z = playpal[3 * source + 2] / 255.0;
+    rgb.x = playpal[source * 3] / 255.0;
+    rgb.y = playpal[source * 3 + 1] / 255.0;
+    rgb.z = playpal[source * 3 + 2] / 255.0;
 
     RGBtoHSV(&rgb, &hsv);
 
@@ -509,7 +498,7 @@ byte V_Colorize(byte *playpal, int cr, byte source)
         hsv.y = 0.0;
 
         if (cr == CR_BLACK)
-            hsv.z = 0.5 * hsv.z;
+            hsv.z *= 0.5;
         else if (cr == CR_WHITE)
             hsv.z = 1.0 - 0.5 * hsv.z;
     }

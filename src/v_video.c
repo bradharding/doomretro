@@ -63,7 +63,8 @@ int     lowpixelheight;
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
-byte    redtogold[256];
+byte    cr_gold[256];
+byte    cr_none[256];
 
 typedef struct
 {
@@ -91,7 +92,10 @@ void V_InitColorTranslation(void)
         *p->lump = W_CacheLumpName(p->name);
 
     for (int i = 0; i < 256; i++)
-        redtogold[i] = V_Colorize(PLAYPAL, CR_GOLD, (byte)i);
+    {
+        cr_gold[i] = V_Colorize(PLAYPAL, CR_GOLD, (byte)i);
+        cr_none[i] = i;
+    }
 }
 
 //
@@ -694,7 +698,7 @@ bool V_IsEmptyPatch(patch_t *patch)
     return true;
 }
 
-void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
+void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -719,7 +723,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 
             while (count-- > 0)
             {
-                *dest = source[srccol >> FRACBITS];
+                *dest = cr[source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
 
                 if (!vanilla)
@@ -733,46 +737,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawGoldPatchToTempScreen(int x, int y, patch_t *patch)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
-
-            while (count-- > 0)
-            {
-                *dest = redtogold[source[srccol >> FRACBITS]];
-                dest += SCREENWIDTH;
-
-                if (!vanilla)
-                    *(dest + SCREENWIDTH + 2) = nearestblack;
-
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
+void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth, byte *cr)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -797,7 +762,7 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 
             while (count-- > 0)
             {
-                *dest = source[srccol >> FRACBITS];
+                *dest = cr[source[srccol >> FRACBITS]];
                 dest += screenwidth;
                 srccol += DYI;
             }
@@ -807,42 +772,7 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
     }
 }
 
-void V_DrawGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset) * 2;
-    x -= SHORT(patch->leftoffset) * 2;
-
-    desttop = &screen[y * screenwidth + x];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
-            const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
-
-            while (count-- > 0)
-            {
-                *dest = redtogold[source[srccol >> FRACBITS]];
-                dest += screenwidth;
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
+void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth, byte *cr)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -867,42 +797,7 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
 
             while (count-- > 0)
             {
-                *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
-                dest += screenwidth;
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawTranslucentGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset) * 2;
-    x -= SHORT(patch->leftoffset) * 2;
-
-    desttop = &screen[y * screenwidth + x];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
-            const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
-
-            while (count-- > 0)
-            {
-                *dest = tinttab25[(*dest << 8) + redtogold[source[srccol >> FRACBITS]]];
+                *dest = tinttab25[(*dest << 8) + cr[source[srccol >> FRACBITS]]];
                 dest += screenwidth;
                 srccol += DYI;
             }
