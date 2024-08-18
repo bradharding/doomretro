@@ -439,7 +439,10 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
+                if (message_secret)
+                    V_DrawGoldPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
+                else
+                    V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j]);
 
                 x += SHORT(l->f[j]->width);
             }
@@ -571,10 +574,20 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width);
+                if (secretmap)
+                {
+                    if (r_hud_translucency)
+                        V_DrawTranslucentGoldHUDText(x, y, fb, l->f[j], width);
+                    else
+                        V_DrawGoldHUDText(x, y, fb, l->f[j], width);
+                }
                 else
-                    V_DrawHUDText(x, y, fb, l->f[j], width);
+                {
+                    if (r_hud_translucency)
+                        V_DrawTranslucentHUDText(x, y, fb, l->f[j], width);
+                    else
+                        V_DrawHUDText(x, y, fb, l->f[j], width);
+                }
             }
             else
             {

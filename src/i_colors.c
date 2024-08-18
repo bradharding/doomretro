@@ -364,3 +364,213 @@ void I_InitTintTables(byte *palette)
     tinttabgreen33 = GenerateTintTable(palette, 33, GREENS);
     tinttabblue25 = GenerateTintTable(palette, 25, BLUES);
 }
+
+typedef struct vect
+{
+    double  x;
+    double  y;
+    double  z;
+} vect;
+
+static void HSVtoRGB(vect *hsv, vect *rgb)
+{
+    double  h = hsv->x * 360.0;
+    double  s = hsv->y;
+    double  v = hsv->z;
+
+    if (s < CTOLERANCE)
+    {
+        rgb->x = v;
+        rgb->y = v;
+        rgb->z = v;
+    }
+    else
+    {
+        int     i;
+        double  f;
+        double  p;
+        double  q;
+        double  t;
+
+        if (h >= 360.0)
+            h -= 360.0;
+
+        h /= 60.0;
+        i = (int)floor(h);
+        f = h - i;
+        p = v * (1.0 - s);
+        q = v * (1.0 - s * f);
+        t = v * (1.0 - s * (1.0 - f));
+
+        switch (i)
+        {
+            case 0:
+                rgb->x = v;
+                rgb->y = t;
+                rgb->z = p;
+                break;
+
+            case 1:
+                rgb->x = q;
+                rgb->y = v;
+                rgb->z = p;
+                break;
+
+            case 2:
+                rgb->x = p;
+                rgb->y = v;
+                rgb->z = t;
+                break;
+
+            case 3:
+                rgb->x = p;
+                rgb->y = q;
+                rgb->z = v;
+                break;
+
+            case 4:
+                rgb->x = t;
+                rgb->y = p;
+                rgb->z = v;
+                break;
+
+            case 5:
+                rgb->x = v;
+                rgb->y = p;
+                rgb->z = q;
+                break;
+        }
+    }
+}
+
+static void RGBtoHSV(vect *rgb, vect *hsv)
+{
+    double  h, s, v;
+    double  r = rgb->x;
+    double  g = rgb->y;
+    double  b = rgb->z;
+    double  cmax = r;
+    double  cmin = r;
+
+    cmax = (g > cmax ? g : cmax);
+    cmin = (g < cmin ? g : cmin);
+    cmax = (b > cmax ? b : cmax);
+    cmin = (b < cmin ? b : cmin);
+
+    v = cmax;
+
+    if (cmax > CTOLERANCE)
+        s = (cmax - cmin) / cmax;
+    else
+        s = 0.0;
+
+    if (s < CTOLERANCE)
+        h = 0.0;
+    else
+    {
+        double  cdelta = cmax - cmin;
+        double  rc = (cmax - r) / cdelta;
+        double  gc = (cmax - g) / cdelta;
+        double  bc = (cmax - b) / cdelta;
+
+        if (r == cmax)
+            h = bc - gc;
+        else if (g == cmax)
+            h = 2.0 + rc - bc;
+        else
+            h = 4.0 + gc - rc;
+
+        h = h * 60.0;
+
+        if (h < 0.0)
+            h += 360.0;
+    }
+
+    hsv->x = h / 360.0;
+    hsv->y = s;
+    hsv->z = v;
+}
+
+byte V_Colorize(byte *playpal, int cr, byte source)
+{
+    vect rgb;
+    vect hsv;
+
+    rgb.x = playpal[3 * source + 0] / 255.0;
+    rgb.y = playpal[3 * source + 1] / 255.0;
+    rgb.z = playpal[3 * source + 2] / 255.0;
+
+    RGBtoHSV(&rgb, &hsv);
+
+    if (cr == CR_BRIGHT)
+        hsv.z *= 1.4;
+    else if (cr == CR_GRAY || cr == CR_BLACK || cr == CR_WHITE)
+    {
+        hsv.y = 0.0;
+
+        if (cr == CR_BLACK)
+            hsv.z = 0.5 * hsv.z;
+        else if (cr == CR_WHITE)
+            hsv.z = 1.0 - 0.5 * hsv.z;
+    }
+    else
+    {
+        hsv.y = 1.0;
+
+        if (cr == CR_GREEN)
+            hsv.x = (144.0 * hsv.z + 120.0 * (1.0 - hsv.z)) / 360.0;
+        else if (cr == CR_GOLD)
+        {
+            hsv.x = (7.0 + 53.0 * hsv.z) / 360.0;
+            hsv.y = 1.0 - 0.4 * hsv.z;
+            hsv.z = min(hsv.z, 0.2) + 0.8 * hsv.z;
+        }
+        else if (cr == CR_RED || cr == CR_BRICK)
+        {
+            hsv.x = 0.0;
+
+            if (cr == CR_BRICK)
+                hsv.y *= 0.5;
+        }
+        else if (cr == CR_BLUE1 || cr == CR_BLUE2)
+        {
+            hsv.x = 240.0 / 360.0;
+
+            if (cr == CR_BLUE1)
+            {
+                hsv.y = 1.0 - 0.5 * hsv.z;
+                hsv.z = min(hsv.z, 0.5) + 0.5 * hsv.z;
+            }
+        }
+        else if (cr == CR_ORANGE || cr == CR_TAN || cr == CR_BROWN)
+        {
+            hsv.x = 30.0 / 360.0;
+
+            if (cr == CR_TAN)
+                hsv.y = 0.5 * hsv.y;
+            else if (cr == CR_BROWN)
+                hsv.z = 0.5 * hsv.z;
+            else
+            {
+                hsv.y = (hsv.z < 0.6) ? 1.0 : (2.2 - 2.0 * hsv.z);
+                hsv.z = min(hsv.z, 0.5) + 0.5 * hsv.z;
+            }
+        }
+        else if (cr == CR_YELLOW)
+        {
+            hsv.x = 60.0 / 360.0;
+            hsv.y = 1.0 - 0.85 * hsv.z;
+            hsv.z = 1.0;
+        }
+        else if (cr == CR_PURPLE)
+            hsv.x = 300.0 / 360.0;
+    }
+
+    HSVtoRGB(&hsv, &rgb);
+
+    rgb.x *= 255.0;
+    rgb.y *= 255.0;
+    rgb.z *= 255.0;
+
+    return FindNearestColor(playpal, (int)rgb.x, (int)rgb.y, (int)rgb.z);
+}

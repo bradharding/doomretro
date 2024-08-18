@@ -58,22 +58,8 @@ extern int  lowpixelheight;
 
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
-enum
-{
-    CR_RED,
-    CR_GRAY,
-    CR_GREEN,
-    CR_BLUE,
-    CR_YELLOW,
-    CR_BLACK,
-    CR_PURPLE,
-    CR_WHITE,
-    CR_ORANGE,
-    CR_LIMIT
-};
-
-extern byte *colortranslation[CR_LIMIT];
-extern byte *redtogold;
+extern byte *colortranslation[10];
+extern byte redtogold[256];
 
 void V_InitColorTranslation(void);
 
@@ -122,8 +108,11 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
+void V_DrawGoldPatchToTempScreen(int x, int y, patch_t *patch);
 void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth);
+void V_DrawGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth);
 void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth);
+void V_DrawTranslucentGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth);
 void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int screenwidth, const byte *tinttab);
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,

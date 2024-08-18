@@ -2802,7 +2802,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             }
             else if (M_StringCompare(key, "Blood color"))
             {
-                if (value >= 0 && value < CR_LIMIT)
+                if (value >= 0 && value <= 8)
                     mobjinfo[indexnum].bloodcolor = value + 1;
             }
             else if (M_StringCompare(key, "Blood"))

@@ -63,6 +63,29 @@
 #define YELLOW1       161
 #define YELLOW2       231
 
+#define CTOLERANCE 0.0001
+
+enum
+{
+    CR_BRICK,
+    CR_TAN,
+    CR_GRAY,
+    CR_GREEN,
+    CR_BROWN,
+    CR_GOLD,
+    CR_RED,
+    CR_BLUE1,
+    CR_ORANGE,
+    CR_YELLOW,
+    CR_BLUE2,
+    CR_BLACK,
+    CR_PURPLE,
+    CR_WHITE,
+    CR_NONE,
+    CR_BRIGHT,
+    CR_LIMIT
+};
+
 extern byte *tinttab4;
 extern byte *tinttab5;
 extern byte *tinttab10;
@@ -118,3 +141,5 @@ void FindNearestColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch, const int maxlength, const int edge);
+
+byte V_Colorize(byte *playpal, int cr, byte source);

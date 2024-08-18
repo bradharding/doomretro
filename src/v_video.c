@@ -62,8 +62,8 @@ int     lowpixelheight;
 
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
-byte    *colortranslation[CR_LIMIT];
-byte    *redtogold;
+byte    *colortranslation[10];
+byte    redtogold[256];
 
 typedef struct
 {
@@ -73,16 +73,16 @@ typedef struct
 
 static colortranslation_t colortranslations[] =
 {
-    { "CRRED",    &colortranslation[CR_RED]    },
-    { "CRGRAY",   &colortranslation[CR_GRAY]   },
-    { "CRGREEN",  &colortranslation[CR_GREEN]  },
-    { "CRBLUE",   &colortranslation[CR_BLUE]   },
-    { "CRYELLOW", &colortranslation[CR_YELLOW] },
-    { "CRBLACK",  &colortranslation[CR_BLACK]  },
-    { "CRPURPLE", &colortranslation[CR_PURPLE] },
-    { "CRWHITE",  &colortranslation[CR_WHITE]  },
-    { "CRORANGE", &colortranslation[CR_ORANGE] },
-    { "",         NULL                         }
+    { "CRRED",    &colortranslation[0] },
+    { "CRGRAY",   &colortranslation[1] },
+    { "CRGREEN",  &colortranslation[2] },
+    { "CRBLUE",   &colortranslation[3] },
+    { "CRYELLOW", &colortranslation[4] },
+    { "CRBLACK",  &colortranslation[5] },
+    { "CRPURPLE", &colortranslation[6] },
+    { "CRWHITE",  &colortranslation[7] },
+    { "CRORANGE", &colortranslation[8] },
+    { "",         NULL                 }
 };
 
 void V_InitColorTranslation(void)
@@ -90,7 +90,8 @@ void V_InitColorTranslation(void)
     for (colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
-    redtogold = W_CacheLumpName("CRGOLD");
+    for (int i = 0; i < 256; i++)
+        redtogold[i] = V_Colorize(PLAYPAL, CR_GOLD, (byte)i);
 }
 
 //
@@ -732,6 +733,45 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawGoldPatchToTempScreen(int x, int y, patch_t *patch)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                *dest = redtogold[source[srccol >> FRACBITS]];
+                dest += SCREENWIDTH;
+
+                if (!vanilla)
+                    *(dest + SCREENWIDTH + 2) = nearestblack;
+
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
     byte        *desttop;
@@ -767,6 +807,41 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
     }
 }
 
+void V_DrawGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset) * 2;
+    x -= SHORT(patch->leftoffset) * 2;
+
+    desttop = &screen[y * screenwidth + x];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                *dest = redtogold[source[srccol >> FRACBITS]];
+                dest += screenwidth;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
     byte        *desttop;
@@ -793,6 +868,41 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
             while (count-- > 0)
             {
                 *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
+                dest += screenwidth;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentGoldHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset) * 2;
+    x -= SHORT(patch->leftoffset) * 2;
+
+    desttop = &screen[y * screenwidth + x];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                *dest = tinttab25[(*dest << 8) + redtogold[source[srccol >> FRACBITS]]];
                 dest += screenwidth;
                 srccol += DYI;
             }
