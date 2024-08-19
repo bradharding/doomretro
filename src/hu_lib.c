@@ -318,9 +318,9 @@ const kern_t kern[] =
 {
     { ',',  '1',  -1 }, { ',',  '7',  -1 }, { ',',  'Y',  -1 }, { '.',  '"',  -1 },
     { '.',  '1',  -1 }, { '.',  '7',  -1 }, { '3',  '"',  -1 }, { 'D',  '\'', -1 },
-    { 'F',  '.',  -1 }, { 'L',  '"',  -1 }, { 'L',  'T',  -1 }, { 'P',  ',',  -1 },
-    { 'P',  '.',  -1 }, { 'T',  ',',  -1 }, { 'T',  '.',  -1 }, { 'Y',  ',',  -1 },
-    { 'Y',  '.',  -1 }, { '\0', '\0',  0 }
+    { 'F',  '.',  -1 }, { 'F',  'J',  -1 }, { 'L',  '"',  -1 }, { 'L',  'T',  -1 },
+    { 'P',  ',',  -1 }, { 'P',  '.',  -1 }, { 'T',  ',',  -1 }, { 'T',  '.',  -1 },
+    { 'T',  'J',  -1 }, { 'Y',  ',',  -1 }, { 'Y',  '.',  -1 }, { '\0', '\0',  0 }
 };
 
 static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
@@ -391,7 +391,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], (message_secret ? cr_gold : cr_none));
+                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr[(message_secret ? CR_GOLD : CR_NONE)]);
                 x += SHORT(l->f[j]->width);
             }
             else
@@ -417,7 +417,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         }
 
                 // [BH] draw individual character
-                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, (message_secret ? cr_gold : cr_none));
+                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, cr[(message_secret ? CR_GOLD : CR_NONE)]);
 
                 x += (short)strlen(smallcharset[j]) / 10 - 1;
             }
@@ -520,9 +520,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
 
                 if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
+                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width, cr[(secretmap ? CR_GOLD : CR_NONE)]);
                 else
-                    V_DrawHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
+                    V_DrawHUDText(x, y, fb, l->f[j], width, cr[(secretmap ? CR_GOLD : CR_NONE)]);
             }
             else
             {
@@ -547,9 +547,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                         }
 
                 if (r_hud_translucency)
-                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
+                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width, cr[(secretmap ? CR_GOLD : CR_NONE)]);
                 else
-                    HU_DrawChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
+                    HU_DrawChar(x / 2, y / 2, j, fb, width, cr[(secretmap ? CR_GOLD : CR_NONE)]);
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;

@@ -480,10 +480,13 @@ static void RGBtoHSV(vect *rgb, vect *hsv)
     hsv->z = v;
 }
 
-byte V_Colorize(byte *playpal, int cr, byte source)
+byte I_Colorize(byte *playpal, int cr, byte source)
 {
     vect rgb;
     vect hsv;
+
+    if (cr == CR_NONE)
+        return source;
 
     rgb.x = playpal[source * 3] / 255.0;
     rgb.y = playpal[source * 3 + 1] / 255.0;

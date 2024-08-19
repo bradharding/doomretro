@@ -142,4 +142,4 @@ void FindNearestColors(byte *palette);
 int FindBrightDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch, const int maxlength, const int edge);
 
-byte V_Colorize(byte *playpal, int cr, byte source);
+byte I_Colorize(byte *playpal, int cr, byte source);

@@ -63,8 +63,7 @@ int     lowpixelheight;
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
-byte    cr_gold[256];
-byte    cr_none[256];
+byte    cr[CR_LIMIT][256];
 
 typedef struct
 {
@@ -91,11 +90,9 @@ void V_InitColorTranslation(void)
     for (colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
-    for (int i = 0; i < 256; i++)
-    {
-        cr_gold[i] = V_Colorize(PLAYPAL, CR_GOLD, (byte)i);
-        cr_none[i] = i;
-    }
+    for (int i = 0; i < CR_LIMIT; i++)
+        for (int j = 0; j < 256; j++)
+            cr[i][j] = I_Colorize(PLAYPAL, i, (byte)j);
 }
 
 //
