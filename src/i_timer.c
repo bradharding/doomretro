@@ -33,8 +33,9 @@
 ==============================================================================
 */
 
-#include "doomdef.h"
 #include "SDL.h"
+
+#include "doomdef.h"
 
 #if SDL_VERSION_ATLEAST(2, 18, 0)
 #define SDL_GetTicks  SDL_GetTicks64

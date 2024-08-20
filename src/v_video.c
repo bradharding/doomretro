@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include "SDL_image.h"
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_iwad.h"
@@ -50,7 +52,6 @@
 #include "m_random.h"
 #include "p_setup.h"
 #include "r_draw.h"
-#include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -63,7 +64,9 @@ int     lowpixelheight;
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
-byte    cr[CR_LIMIT][256];
+byte    cr_gold[256];
+byte    cr_gold[256];
+byte    cr_none[256];
 
 typedef struct
 {
@@ -90,9 +93,11 @@ void V_InitColorTranslation(void)
     for (colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
-    for (int i = 0; i < CR_LIMIT; i++)
-        for (int j = 0; j < 256; j++)
-            cr[i][j] = I_Colorize(PLAYPAL, i, (byte)j);
+    for (int i = 0; i < 256; i++)
+    {
+        cr_gold[i] = I_GoldTranslation(PLAYPAL, (byte)i);
+        cr_none[i] = i;
+    }
 }
 
 //

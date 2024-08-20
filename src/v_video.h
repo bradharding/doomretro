@@ -35,7 +35,6 @@
 
 #pragma once
 
-#include "i_colors.h"
 #include "r_data.h"
 #include "w_file.h"
 
@@ -60,7 +59,8 @@ extern int  lowpixelheight;
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 extern byte *colortranslation[10];
-extern byte cr[CR_LIMIT][256];
+extern byte cr_gold[256];
+extern byte cr_none[256];
 
 void V_InitColorTranslation(void);
 

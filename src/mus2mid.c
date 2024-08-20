@@ -41,7 +41,6 @@
 #include "i_swap.h"
 #include "memio.h"
 #include "mus2mid.h"
-#include "SDL.h"
 
 #define NUM_CHANNELS            16
 

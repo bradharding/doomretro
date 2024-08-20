@@ -39,7 +39,6 @@
 
 #include "doomdef.h"
 #include "doomtype.h"
-#include "SDL.h"
 
 #define HEADER_CHUNK_ID         "MThd"
 #define TRACK_CHUNK_ID          "MTrk"

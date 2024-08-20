@@ -445,7 +445,9 @@ static void HSVtoRGB(vect *hsv, vect *rgb)
 
 static void RGBtoHSV(vect *rgb, vect *hsv)
 {
-    double  h, s, v;
+    double  h;
+    double  s;
+    double  v;
     double  r = rgb->x;
     double  g = rgb->y;
     double  b = rgb->z;
@@ -480,83 +482,20 @@ static void RGBtoHSV(vect *rgb, vect *hsv)
     hsv->z = v;
 }
 
-byte I_Colorize(byte *playpal, int cr, byte source)
+byte I_GoldTranslation(byte *playpal, byte color)
 {
     vect rgb;
     vect hsv;
 
-    if (cr == CR_NONE)
-        return source;
-
-    rgb.x = playpal[source * 3] / 255.0;
-    rgb.y = playpal[source * 3 + 1] / 255.0;
-    rgb.z = playpal[source * 3 + 2] / 255.0;
+    rgb.x = playpal[color * 3] / 255.0;
+    rgb.y = playpal[color * 3 + 1] / 255.0;
+    rgb.z = playpal[color * 3 + 2] / 255.0;
 
     RGBtoHSV(&rgb, &hsv);
 
-    if (cr == CR_BRIGHT)
-        hsv.z *= 1.4;
-    else if (cr == CR_GRAY || cr == CR_BLACK || cr == CR_WHITE)
-    {
-        hsv.y = 0.0;
-
-        if (cr == CR_BLACK)
-            hsv.z *= 0.5;
-        else if (cr == CR_WHITE)
-            hsv.z = 1.0 - 0.5 * hsv.z;
-    }
-    else
-    {
-        hsv.y = 1.0;
-
-        if (cr == CR_GREEN)
-            hsv.x = (144.0 * hsv.z + 120.0 * (1.0 - hsv.z)) / 360.0;
-        else if (cr == CR_GOLD)
-        {
-            hsv.x = (7.0 + 53.0 * hsv.z) / 360.0;
-            hsv.y = 1.0 - 0.4 * hsv.z;
-            hsv.z = (hsv.z < 0.2 ? hsv.z : 0.2) + 0.8 * hsv.z;
-        }
-        else if (cr == CR_RED || cr == CR_BRICK)
-        {
-            hsv.x = 0.0;
-
-            if (cr == CR_BRICK)
-                hsv.y *= 0.5;
-        }
-        else if (cr == CR_BLUE1 || cr == CR_BLUE2)
-        {
-            hsv.x = 240.0 / 360.0;
-
-            if (cr == CR_BLUE1)
-            {
-                hsv.y = 1.0 - 0.5 * hsv.z;
-                hsv.z = (hsv.z < 0.5 ? hsv.z : 0.5) + 0.5 * hsv.z;
-            }
-        }
-        else if (cr == CR_ORANGE || cr == CR_TAN || cr == CR_BROWN)
-        {
-            hsv.x = 30.0 / 360.0;
-
-            if (cr == CR_TAN)
-                hsv.y = 0.5 * hsv.y;
-            else if (cr == CR_BROWN)
-                hsv.z = 0.5 * hsv.z;
-            else
-            {
-                hsv.y = (hsv.z < 0.6 ? 1.0 : (2.2 - 2.0 * hsv.z));
-                hsv.z = (hsv.z < 0.5 ? hsv.z : 0.5) + 0.5 * hsv.z;
-            }
-        }
-        else if (cr == CR_YELLOW)
-        {
-            hsv.x = 60.0 / 360.0;
-            hsv.y = 1.0 - 0.85 * hsv.z;
-            hsv.z = 1.0;
-        }
-        else if (cr == CR_PURPLE)
-            hsv.x = 300.0 / 360.0;
-    }
+    hsv.x = (7.0 + 53.0 * hsv.z) / 360.0;
+    hsv.y = 1.0 - 0.4 * hsv.z;
+    hsv.z = (hsv.z < 0.2 ? hsv.z : 0.2) + 0.8 * hsv.z;
 
     HSVtoRGB(&hsv, &rgb);
 

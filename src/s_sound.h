@@ -36,6 +36,7 @@
 #pragma once
 
 #include "SDL_mixer.h"
+
 #include "sounds.h"
 
 #define CHUNKSIZE                   1024

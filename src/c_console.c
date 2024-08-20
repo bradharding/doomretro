@@ -37,6 +37,9 @@
 #include <Windows.h>
 #endif
 
+#include "SDL_image.h"
+#include "SDL_mixer.h"
+
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
@@ -55,8 +58,6 @@
 #include "m_misc.h"
 #include "p_spec.h"
 #include "s_sound.h"
-#include "SDL_image.h"
-#include "SDL_mixer.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"

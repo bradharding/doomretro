@@ -39,8 +39,9 @@
 #include <Windows.h>
 #endif
 
-#include "doomtype.h"
 #include "SDL.h"
+
+#include "doomtype.h"
 
 // Screen width and height.
 #define VANILLAWIDTH        320
