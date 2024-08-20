@@ -481,16 +481,37 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 {
-    const int       width = (external ? MAPWIDTH : SCREENWIDTH);
     int             x = l->x;
     int             y = l->y;
     unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
-    byte            *fb = (external ? mapscreen : screens[0]);
+    byte            *fb1;
+    byte            *fb2;
+    byte            *tinttab1 = tinttab40;
+    byte            *tinttab2 = tinttab75;
+    const int       black = (nearestblack << 8);
     char            s[513];
     const int       maxwidth = (external ? MAPWIDTH / 2 :
                         (r_screensize == r_screensize_max ? SCREENWIDTH / 2 : VANILLAWIDTH));
     int             len = l->len;
+    int             screenwidth;
+
+    if (external)
+    {
+        fb1 = mapscreen;
+        fb2 = mapscreen;
+        screenwidth = MAPWIDTH;
+
+        memset(tempscreen, PINK, MAPAREA);
+    }
+    else
+    {
+        fb1 = screens[0];
+        fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
+        screenwidth = SCREENWIDTH;
+
+        memset(tempscreen, PINK, SCREENAREA);
+    }
 
     M_StringCopy(s, l->l, sizeof(s));
 
@@ -519,10 +540,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
-                else
-                    V_DrawHUDText(x, y, fb, l->f[j], width, (secretmap ? cr_gold : cr_none));
+                V_DrawPatchToTempScreen(x / 2, y / 2, l->f[j], (message_secret ? cr_gold : cr_none));
             }
             else
             {
@@ -547,9 +565,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                         }
 
                 if (r_hud_translucency)
-                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
+                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap ? cr_gold : cr_none));
                 else
-                    HU_DrawChar(x / 2, y / 2, j, fb, width, (secretmap ? cr_gold : cr_none));
+                    HU_DrawChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap ? cr_gold : cr_none));
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;
@@ -558,6 +576,18 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
         prev2 = prev1;
         prev1 = c;
     }
+
+    if (STCFNxxx)
+        for (int i = 0; i < SCREENAREA; i++)
+        {
+            byte    *source = &tempscreen[i];
+            byte    *dest = &fb1[i];
+
+            if (!*source)
+                *dest = tinttab1[black + fb2[i]];
+            else if (*source != PINK)
+                *dest = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[i]] : *source);
+        }
 }
 
 // sorta called by HU_Erase and just better darn get things straight
