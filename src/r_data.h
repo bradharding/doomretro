@@ -140,6 +140,7 @@ int R_ColormapNumForName(const char *name); // killough 04/04/98
 extern char         berserk[64];
 extern byte         grays[256];
 extern texture_t    **textures;
+extern bool         anybossdeath;
 extern bool         fixspriteoffsets;
 extern bool         incompatiblepalette;
 extern bool         suppresswarnings;

@@ -67,6 +67,7 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
+bool        anybossdeath = false;
 bool        fixspriteoffsets = false;
 bool        incompatiblepalette = false;
 bool        suppresswarnings = false;
@@ -484,6 +485,8 @@ static void R_InitSpriteLumps(void)
             if (SC_Compare(pwadfile))
                 incompatiblepalette = true;
         }
+        else if (SC_Compare("ANYBOSSDEATH"))
+            anybossdeath = true;
 
     SC_Close();
 

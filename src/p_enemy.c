@@ -2014,65 +2014,68 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
     }
 
-    if (gamemode == commercial)
+    if (!anybossdeath)
     {
-        if (gamemap != 7)
-            return;
-
-        if (!(actor->mbf21flags & (MF_MBF21_MAP07BOSS1 | MF_MBF21_MAP07BOSS2)))
-            return;
-    }
-    else
-    {
-        switch (gameepisode)
+        if (gamemode == commercial)
         {
-            case 1:
-                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E1M8BOSS))
-                    return;
-
-                break;
-
-            case 2:
-                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E2M8BOSS))
-                    return;
-
-                break;
-
-            case 3:
-                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E3M8BOSS))
-                    return;
-
-                break;
-
-            case 4:
-                switch (gamemap)
-                {
-                    case 6:
-                        if (!(actor->mbf21flags & MF_MBF21_E4M6BOSS))
-                            return;
-
-                        break;
-
-                    case 8:
-                        if (!(actor->mbf21flags & MF_MBF21_E4M8BOSS))
-                            return;
-
-                        break;
-
-                    default:
-                        return;
-                }
-
-                break;
-
-            case 5:
+            if (gamemap != 7)
                 return;
 
-            default:
-                if (gamemap != 8)
+            if (!(actor->mbf21flags & (MF_MBF21_MAP07BOSS1 | MF_MBF21_MAP07BOSS2)))
+                return;
+        }
+        else
+        {
+            switch (gameepisode)
+            {
+                case 1:
+                    if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E1M8BOSS))
+                        return;
+
+                    break;
+
+                case 2:
+                    if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E2M8BOSS))
+                        return;
+
+                    break;
+
+                case 3:
+                    if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E3M8BOSS))
+                        return;
+
+                    break;
+
+                case 4:
+                    switch (gamemap)
+                    {
+                        case 6:
+                            if (!(actor->mbf21flags & MF_MBF21_E4M6BOSS))
+                                return;
+
+                            break;
+
+                        case 8:
+                            if (!(actor->mbf21flags & MF_MBF21_E4M8BOSS))
+                                return;
+
+                            break;
+
+                        default:
+                            return;
+                    }
+
+                    break;
+
+                case 5:
                     return;
 
-                break;
+                default:
+                    if (gamemap != 8)
+                        return;
+
+                    break;
+            }
         }
     }
 
