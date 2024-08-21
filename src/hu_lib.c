@@ -336,6 +336,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     const int       black = (nearestblack << 8);
     const int       len = l->len;
     int             screenwidth;
+    int             screenarea;
     int             wrap = -1;
 
     if (external)
@@ -343,17 +344,18 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         fb1 = mapscreen;
         fb2 = mapscreen;
         screenwidth = MAPWIDTH;
-
-        memset(tempscreen, PINK, MAPAREA);
     }
     else
     {
         fb1 = screens[0];
         fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
         screenwidth = SCREENWIDTH;
-
-        memset(tempscreen, PINK, SCREENAREA);
     }
+
+    screenarea = screenwidth * (y + hu_font[0]->height * 4 + 10);
+
+    for (int i = 0; i < screenarea; i++)
+        tempscreen[i] = PINK;
 
     if (!vid_widescreen && len > 40)
     {
@@ -465,9 +467,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
     }
 
-    y = ((y + 10) * 2) * screenwidth;
-
-    for (int i = 0; i < y; i++)
+    for (int i = 0; i < screenarea; i++)
     {
         byte    *source = &tempscreen[i];
         byte    *dest = &fb1[i];
@@ -495,23 +495,25 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                         (r_screensize == r_screensize_max ? SCREENWIDTH / 2 : VANILLAWIDTH));
     int             len = l->len;
     int             screenwidth;
+    int             screenarea;
 
     if (external)
     {
         fb1 = mapscreen;
         fb2 = mapscreen;
         screenwidth = MAPWIDTH;
-
-        memset(tempscreen, PINK, MAPAREA);
+        screenarea = MAPAREA;
     }
     else
     {
         fb1 = screens[0];
         fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
         screenwidth = SCREENWIDTH;
-
-        memset(tempscreen, PINK, SCREENAREA);
+        screenarea = (r_screensize == r_screensize_max ? SCREENAREA : SCREENAREA - SBARHEIGHT * SCREENWIDTH);
     }
+
+    for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
+        tempscreen[i] = PINK;
 
     M_StringCopy(s, l->l, sizeof(s));
 
@@ -578,7 +580,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     }
 
     if (STCFNxxx)
-        for (int i = 0; i < SCREENAREA; i++)
+        for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
         {
             byte    *source = &tempscreen[i];
             byte    *dest = &fb1[i];
