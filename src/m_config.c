@@ -1153,8 +1153,11 @@ void M_LoadCVARs(const char *filename)
                 {
                     char    *temp = Z_StringDuplicate(value + 1, PU_STATIC, NULL);
 
-                    temp[strlen(temp) - 1] = '\0';
-                    temp[consolecmds[C_GetIndex(cvar)].length] = '\0';
+                    size_t  length = strlen(temp) - 1;
+                    size_t  cmdlength = (size_t)consolecmds[C_GetIndex(cvar)].length;
+                    temp[length] = '\0';
+                    if (cmdlength < length)
+                        temp[cmdlength] = '\0';
                     *(char **)cvars[i].location = temp;
                     cvarcount++;
                     break;
