@@ -1686,24 +1686,11 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        int             x1, y1;
-        int             x2, y2;
         const mline_t   line = lineguy[i];
-
-        if (scale)
-        {
-            x1 = FixedMul(line.a.x, scale);
-            y1 = FixedMul(line.a.y, scale);
-            x2 = FixedMul(line.b.x, scale);
-            y2 = FixedMul(line.b.y, scale);
-        }
-        else
-        {
-            x1 = line.a.x;
-            y1 = line.a.y;
-            x2 = line.b.x;
-            y2 = line.b.y;
-        }
+        fixed_t         x1 = FixedMul(line.a.x, scale);
+        fixed_t         y1 = FixedMul(line.a.y, scale);
+        fixed_t         x2 = FixedMul(line.b.x, scale);
+        fixed_t         y2 = FixedMul(line.b.y, scale);
 
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);

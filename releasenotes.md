@@ -9,6 +9,7 @@
   * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
   * The title in the automap is now gold if the map is a secret map.
   * The title in the automap now has a drop shadow.
+* A bug is fixed whereby the screen wasn’t being immediately updated after changing the `r_hud` CVAR in the console.
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
 * Minor improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) and [`extras.wad`](https://doomwiki.org/wiki/Extras.wad).
 * These changes have been made to the support of `MAPINFO` lumps:
@@ -17,6 +18,7 @@
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
+* A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

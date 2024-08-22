@@ -486,7 +486,12 @@ static void R_InitSpriteLumps(void)
                 incompatiblepalette = true;
         }
         else if (SC_Compare("ANYBOSSDEATH"))
-            anybossdeath = true;
+        {
+            SC_MustGetString();
+
+            if (SC_Compare(pwadfile))
+                anybossdeath = true;
+        }
 
     SC_Close();
 
