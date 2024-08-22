@@ -2818,7 +2818,7 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
 // Precalculate values for use later in long wall error fix in R_StoreWallRange()
 static void P_CalcSegsLength(void)
 {
-    const int   rightangle = finesine[(ANG60 / 2) >> ANGLETOFINESHIFT];
+    const int   rightangle = finesine[ANG30 >> ANGLETOFINESHIFT];
 
     for (int i = 0; i < numsegs; i++)
     {

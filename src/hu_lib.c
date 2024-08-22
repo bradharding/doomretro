@@ -469,13 +469,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
     for (int i = 0; i < screenarea; i++)
     {
-        byte    *source = &tempscreen[i];
+        byte    source = tempscreen[i];
         byte    *dest = &fb1[i];
 
-        if (!*source)
+        if (!source)
             *dest = tinttab1[black + fb2[i]];
-        else if (*source != PINK)
-            *dest = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[i]] : *source);
+        else if (source != PINK)
+            *dest = (r_hud_translucency ? tinttab2[(source << 8) + fb2[i]] : source);
     }
 }
 
@@ -582,13 +582,13 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     if (STCFNxxx)
         for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
         {
-            byte    *source = &tempscreen[i];
+            byte    source = tempscreen[i];
             byte    *dest = &fb1[i];
 
-            if (!*source)
+            if (!source)
                 *dest = tinttab1[black + fb2[i]];
-            else if (*source != PINK)
-                *dest = (r_hud_translucency ? tinttab2[(*source << 8) + fb2[i]] : *source);
+            else if (source != PINK)
+                *dest = (r_hud_translucency ? tinttab2[(source << 8) + fb2[i]] : source);
         }
 }
 
