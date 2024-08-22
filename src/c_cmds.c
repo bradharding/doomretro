@@ -9112,7 +9112,7 @@ static void str_cvars_func2(char *cmd, char *parms)
                 {
                     parms[consolecmds[i].length] = '\0';
                     *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
-                    M_StripQuotes(*(char **)consolecmds[i].variable);
+                    M_StripQuotes(trimwhitespace(*(char **)consolecmds[i].variable));
                     M_SaveCVARs();
                 }
             }
