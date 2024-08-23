@@ -2920,11 +2920,29 @@ void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int     flags;
+    int     mbf21flags;
+    bool    updateblockmap;
+
     if (!actor)
         return;
 
-    actor->flags |= actor->state->args[0];
-    actor->mbf21flags |= actor->state->args[1];
+    flags = actor->state->args[0];
+    mbf21flags = actor->state->args[1];
+
+    // unlink/relink the thing from the blockmap if
+    // the NOBLOCKMAP or NOSECTOR flags are added
+    updateblockmap = ((flags & MF_NOBLOCKMAP) && !(actor->flags & MF_NOBLOCKMAP))
+        || ((flags & MF_NOSECTOR) && !(actor->flags & MF_NOSECTOR));
+
+    if (updateblockmap)
+        P_UnsetThingPosition(actor);
+
+    actor->flags |= flags;
+    actor->mbf21flags |= mbf21flags;
+
+    if (updateblockmap)
+        P_SetThingPosition(actor);
 
     R_UpdateMobjColfunc(actor);
 }
@@ -2937,11 +2955,29 @@ void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int     flags;
+    int     mbf21flags;
+    bool    updateblockmap;
+
     if (!actor)
         return;
 
-    actor->flags &= ~actor->state->args[0];
-    actor->mbf21flags &= ~actor->state->args[1];
+    flags = actor->state->args[0];
+    mbf21flags = actor->state->args[1];
+
+    // unlink/relink the thing from the blockmap if
+    // the NOBLOCKMAP or NOSECTOR flags are removed
+    updateblockmap = ((flags & MF_NOBLOCKMAP) && (actor->flags & MF_NOBLOCKMAP))
+        || ((flags & MF_NOSECTOR) && (actor->flags & MF_NOSECTOR));
+
+    if (updateblockmap)
+        P_UnsetThingPosition(actor);
+
+    actor->flags &= ~flags;
+    actor->mbf21flags &= ~mbf21flags;
+
+    if (updateblockmap)
+        P_SetThingPosition(actor);
 
     R_UpdateMobjColfunc(actor);
 }
