@@ -5038,15 +5038,12 @@ static void mapstats_func2(char *cmd, char *parms)
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-            C_TabbedOutput(tabs, "%s\t%i of 9",
-                (secretmap ? "Secret Map" : "Map"), gamemap);
+            C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
         else
-            C_TabbedOutput(tabs, "%s\t%i of %i",
-                (secretmap ? "Secret Map" : "Map"), gamemap, (bfgedition ? 33 : 32));
+            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
     }
     else
-        C_TabbedOutput(tabs, "%s\t%i of 9",
-            (secretmap ? "Secret Map" : "Map"), gamemap);
+        C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
 
     if (!M_StringCompare(maptitle, mapnum))
     {
@@ -5146,6 +5143,9 @@ static void mapstats_func2(char *cmd, char *parms)
             free(temp);
         }
     }
+
+    if (secretmap)
+        C_TabbedOutput(tabs, "Secret\tYes");
 
     M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
