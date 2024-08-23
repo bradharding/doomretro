@@ -542,7 +542,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x / 2, y / 2, l->f[j], (message_secret ? cr_gold : cr_none));
+                V_DrawPatchToTempScreen(x / 2, y / 2, l->f[j], (secretmap ? cr_gold : cr_none));
             }
             else
             {
