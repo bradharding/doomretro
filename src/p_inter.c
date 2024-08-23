@@ -2271,7 +2271,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (corpse)
     {
         // [BH] gib corpse if enough damage
-        if (r_corpses_gib && damage >= 25)
+        if (r_corpses_gib && damage >= 25 && !(flags & MF_NOBLOOD))
         {
             statenum_t  state = info->xdeathstate;
 
