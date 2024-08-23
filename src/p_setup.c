@@ -4079,49 +4079,6 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             mapmax = MAX(map, mapmax);
         }
-        else if (SC_Compare("EPISODE"))
-        {
-            char    lumpname[9];
-            char    string[128];
-
-            SC_MustGetString();
-
-            if (SC_Compare("CLEAR"))
-            {
-                M_AddEpisode(map, ep, "", "");
-                break;
-            }
-
-            M_StringCopy(lumpname, sc_String, sizeof(lumpname));
-            SC_MustGetString();
-
-            if (SC_Compare("NAME"))
-            {
-                SC_MustGetString();
-                M_StringCopy(string, sc_String, sizeof(string));
-                SC_MustGetString();
-
-                if (SC_Compare("PICNAME"))
-                {
-                    SC_MustGetString();
-                    P_ParseMapString(lumpname, &map, &ep);
-                    M_AddEpisode(map, ep, sc_String, string);
-                }
-            }
-            else if (SC_Compare("PICNAME"))
-            {
-                SC_MustGetString();
-                M_StringCopy(string, sc_String, sizeof(string));
-                SC_MustGetString();
-
-                if (SC_Compare("NAME"))
-                {
-                    SC_MustGetString();
-                    P_ParseMapString(lumpname, &map, &ep);
-                    M_AddEpisode(map, ep, string, sc_String);
-                }
-            }
-        }
     }
 
     SC_Close();

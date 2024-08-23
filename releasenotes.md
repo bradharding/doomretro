@@ -3,6 +3,7 @@
 ### DOOM Retro v5.5.2
 
 * *DOOM Retro* is now built using v17.11.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * These changes have been made when a PWAD is loaded that has a custom character set:
   * The message displayed when the player finds a secret is now gold if the `secretmessages` CVAR is `on`.
@@ -11,7 +12,7 @@
   * The title in the automap now has a drop shadow.
 * A bug is fixed whereby the screen wasn’t being immediately updated after changing the `r_hud` CVAR in the console.
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
-* Minor improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) and [`extras.wad`](https://doomwiki.org/wiki/Extras.wad).
+* Minor improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust), [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) and [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * These changes have been made to the support of `MAPINFO` lumps:
   * The order in which `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
