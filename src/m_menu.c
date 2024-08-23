@@ -4684,7 +4684,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_ENDGAM") > 1 && M_OPTTTL && !DBIGFONT)
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_GetNumLumps("M_SVOL") > 1 && M_OPTTTL && !DBIGFONT)
     {
         OptionsDef.numitems--;
         OptionsDef.y = 37;
