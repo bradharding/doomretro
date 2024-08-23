@@ -1421,6 +1421,8 @@ static bool cheat_func1(char *cmd, char *parms)
             return result;
         else if (result)
         {
+            S_StartSound(NULL, sfx_getpow);
+            ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
             map_func2("map", mapcmdlump);
             return true;
         }

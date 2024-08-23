@@ -82,6 +82,7 @@ void ST_Start(void);
 void ST_Init(void);
 
 void ST_InitStatBar(void);
+void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning);
 
 extern bool     idclev;
 extern int      idclevtics;

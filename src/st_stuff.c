@@ -426,7 +426,7 @@ static void ST_RefreshBackground(void)
     }
 }
 
-static void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning)
+void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning)
 {
     char    *temp = M_StringJoin(cheat, parm, NULL);
 
