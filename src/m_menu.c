@@ -2006,8 +2006,8 @@ static void M_DrawOptions(void)
                 patch, (itemon == msgs));
         }
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
-                s_M_ON, (itemon == msgs), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + 7,
+                OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
     }
     else
     {
@@ -2023,8 +2023,8 @@ static void M_DrawOptions(void)
                 patch, (itemon == msgs));
         }
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
-                s_M_OFF, (itemon == msgs), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + 7,
+                OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
     }
 
     if (r_detail == r_detail_low)
@@ -2041,8 +2041,8 @@ static void M_DrawOptions(void)
                 patch, (itemon == detail));
         }
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
-                s_M_LOW, (itemon == detail), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + 7,
+                OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
     }
     else
     {
@@ -2058,8 +2058,8 @@ static void M_DrawOptions(void)
                 patch, (itemon == detail));
         }
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
-                s_M_HIGH, (itemon == detail), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + 7,
+                OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :

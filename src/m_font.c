@@ -69,6 +69,7 @@ static fon2_char_t  *chars = NULL;
 static int          numchars;
 static int          height;
 static int          firstc;
+static bool         upper;
 static int          kerning;
 
 bool M_LoadFON2(byte *gfx_data, int size)
@@ -99,6 +100,10 @@ bool M_LoadFON2(byte *gfx_data, int size)
     }
 
     firstc = header->firstc;
+
+    if (header->lastc < 'z')
+        upper = true;
+
     numchars = header->lastc - header->firstc + 1;
     chars = malloc(numchars * sizeof(*chars));
 
@@ -124,6 +129,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
         int r = *p++;
         int g = *p++;
         int b = *p++;
+
         translate[i] = FindNearestColor(playpal, r, g, b);
     }
 
@@ -142,18 +148,18 @@ bool M_LoadFON2(byte *gfx_data, int size)
             if (data)
             {
                 byte    *d = data;
-                int     length;
 
                 while (numpixels)
                 {
                     byte    code = *p++;
+                    int     length;
 
                     if (code < 0x80)
                     {
                         length = code + 1;
 
-                        for (int k = 0; k < length; k++)
-                            d[k] = translate[p[k]];
+                        for (int j = 0; j < length; j++)
+                            d[j] = translate[p[j]];
 
                         d += length;
                         p += length;
@@ -187,21 +193,17 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
 
     while (*str)
     {
-        int c = toupper(*str++) - firstc;
+        int c = *str++;
 
-        if (c < 0 || c >= numchars)
-        {
+        c = (upper ? toupper(c) : c) - firstc;
+
+        if (c < 0 || c >= numchars || !chars[c].width)
             cx += FON2_SPACE;
-            continue;
-        }
-
-        if (chars[c].width)
+        else
         {
             V_DrawMenuPatch(cx, y, chars[c].patch, highlight, SCREENWIDTH);
             cx += chars[c].width + kerning;
         }
-        else
-            cx += FON2_SPACE + kerning;
     }
 
     return true;
@@ -216,15 +218,14 @@ int M_GetFON2PixelWidth(const char *str)
 
     while (*str)
     {
-        int c = toupper(*str++) - firstc;
+        int c = *str++;
 
-        if (c < 0 || c >= numchars)
-        {
+        c = (upper ? toupper(c) : c) - firstc;
+
+        if (c < 0 || c >= numchars || !chars[c].width)
             width += FON2_SPACE;
-            continue;
-        }
-
-        width += chars[c].width + kerning;
+        else
+            width += chars[c].width + kerning;
     }
 
     return (width - kerning);
