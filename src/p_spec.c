@@ -139,6 +139,7 @@ static struct
     terraintype_t   terraintype;
 } texturepacks[] = {
     { "GRAYSLM1", "GRAYSLM4", GRAYSLIME },
+    { "MLAVA1",   "MLAVA4",   LAVA      },
     { "OBLODA01", "OBLODA08", BLOOD     },
     { "OGOOPY01", "OGOOPY08", GOOP      },
     { "OICYWA01", "OICYWA08", ICYWATER  },
@@ -148,6 +149,10 @@ static struct
     { "OSLUDG01", "OSLUDG08", SLUDGE    },
     { "OTAR__01", "OTAR__08", TAR       },
     { "OWATER01", "OWATER08", SLUDGE    },
+    { "PLOOD1",   "PLOOD3",   LIQUID    },
+    { "PURPW1",   "PURPW4",   WATER     },
+    { "TEALW1",   "TEALW4",   WATER     },
+    { "ZO1_01",   "ZO1_99",   LAVA      },
     { "",         "",         0         }
 };
 
@@ -234,7 +239,8 @@ void P_InitPicAnims(void)
                 SetTerrainType(lastanim, NUKAGE);
                 isliquid = true;
             }
-            else if ((basepic >= FWATER1 && basepic <= FWATER4) || (basepic >= SWATER1 && basepic <= SWATER4))
+            else if ((basepic >= FWATER1 && basepic <= FWATER4)
+                || (basepic >= SWATER1 && basepic <= SWATER4))
             {
                 SetTerrainType(lastanim, WATER);
                 isliquid = true;
@@ -258,12 +264,14 @@ void P_InitPicAnims(void)
             // Check if name of flat indicates it is liquid
             if (!isliquid)
             {
-                if (M_StrCaseStr(animdefs[i].startname, "NUK") && !M_StrCaseStr(animdefs[i].startname, "WALK"))
+                if (M_StrCaseStr(animdefs[i].startname, "NUK")
+                    && !M_StrCaseStr(animdefs[i].startname, "WALK"))
                 {
                     SetTerrainType(lastanim, NUKAGE);
                     isliquid = true;
                 }
-                else if (M_StrCaseStr(animdefs[i].startname, "WAT") || M_StrCaseStr(animdefs[i].startname, "WTR")
+                else if (M_StrCaseStr(animdefs[i].startname, "WAT")
+                    || M_StrCaseStr(animdefs[i].startname, "WTR")
                     || M_StrCaseStr(animdefs[i].startname, "WAV"))
                 {
                     SetTerrainType(lastanim, WATER);
@@ -279,8 +287,10 @@ void P_InitPicAnims(void)
                     SetTerrainType(lastanim, BLOOD);
                     isliquid = true;
                 }
-                else if ((M_StrCaseStr(animdefs[i].startname, "SLI") && (basepic < SLIME09 || basepic > SLIME12))
-                    || M_StrCaseStr(animdefs[i].startname, "SLM") || M_StrCaseStr(animdefs[i].startname, "POOP"))
+                else if ((M_StrCaseStr(animdefs[i].startname, "SLI")
+                    && (basepic < SLIME09 || basepic > SLIME12))
+                    || M_StrCaseStr(animdefs[i].startname, "SLM")
+                    || M_StrCaseStr(animdefs[i].startname, "POOP"))
                 {
                     SetTerrainType(lastanim, SLIME);
                     isliquid = true;
