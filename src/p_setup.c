@@ -3612,7 +3612,11 @@ static bool P_ParseMapInfo(const char *scriptname)
             // Process optional tokens
             while (SC_GetString())
             {
-                if (SC_Compare("MAP") || SC_Compare("DEFAULTMAP") || SC_Compare("CLUSTERDEF"))
+                if (SC_Compare("MAP")
+                    || SC_Compare("DEFAULTMAP")
+                    || SC_Compare("CLUSTERDEF")
+                    || SC_Compare("LIQUID")
+                    || SC_Compare("NOLIQUID"))
                 {
                     SC_UnGet();
                     break;
@@ -4078,6 +4082,24 @@ static bool P_ParseMapInfo(const char *scriptname)
                 info->sky1scrolldelta = 0.05f;
 
             mapmax = MAX(map, mapmax);
+        }
+        else if (SC_Compare("LIQUID"))
+        {
+            int lump;
+
+            SC_MustGetString();
+
+            if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                terraintypes[lump] = LIQUID;
+        }
+        else if (SC_Compare("NOLIQUID"))
+        {
+            int lump;
+
+            SC_MustGetString();
+
+            if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
+                terraintypes[lump] = SOLID;
         }
     }
 
