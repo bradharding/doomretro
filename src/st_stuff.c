@@ -128,6 +128,7 @@
 #define ST_KEY2Y            191
 
 // Ammunition counter.
+#define ST_AMMOBGX          (248 + WIDESCREENDELTA)
 #define ST_AMMO0WIDTH       3
 #define ST_AMMO0X           288
 #define ST_AMMO0Y           173
@@ -192,6 +193,10 @@ static int              xdthfaces;
 
 // main bar right
 static patch_t          *armsbg;
+
+static patch_t          *ammobg;
+static patch_t          *ammobg2;
+static short            ammobg2width;
 
 // weapon ownership patches
 static patch_t          *arms[6][2];
@@ -394,7 +399,7 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-    if (STBARs < 3)
+    if (STBARs < 3 || ID1)
     {
         if (r_detail == r_detail_high)
         {
@@ -407,6 +412,9 @@ static void ST_RefreshBackground(void)
             }
             else
                 V_DrawBigPatch(ST_X, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+
+            if (ammobg2)
+                V_DrawBigPatch(ST_AMMOBGX * 2, ST_Y, ammobg2width, SBARHEIGHT, ammobg2);
         }
         else
         {
@@ -414,6 +422,9 @@ static void ST_RefreshBackground(void)
                 R_FillBezel();
 
             V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+
+            if (ammobg)
+                V_DrawWidePatch(ST_AMMOBGX, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, ammobg);
         }
     }
     else
@@ -1486,7 +1497,7 @@ void ST_InitStatBar(void)
     if (english == english_american)
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
-            W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
+            W_CacheLastLumpName("STBAR") : (ID1 ? W_CacheLumpNameFromResourceWAD("STBAR") : W_CacheLumpName("STBAR")));
         sbar2 = W_CacheLumpName("STBAR2");
     }
     else
@@ -1503,6 +1514,14 @@ void ST_InitStatBar(void)
     sbar->topoffset = 0;
     sbar2->leftoffset = 0;
     sbar2->topoffset = 0;
+
+    if (ID1)
+    {
+        ammobg = W_CacheLumpName("STAMMO");
+        ammobg2 = W_CacheLumpName("STAMMO2");
+
+        ammobg2width = SHORT(ammobg2->width);
+    }
 }
 
 static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
@@ -1735,7 +1754,7 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware);
+    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware || ID1);
 
     STLib_Init();
     ST_InitCheats();
