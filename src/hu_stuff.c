@@ -873,11 +873,21 @@ static void HU_AltInit(void)
             }
 
         if (!weaponschanged)
+        {
             for (int i = 0; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
                 altweapons[i].patch = W_CacheLumpName(buffer);
             }
+
+            if (ID1)
+            {
+                altweapons[wp_plasma].patch = W_CacheLumpName("DRHUDWPA");
+                altweapons[wp_plasma].offset = 0;
+                altweapons[wp_bfg].patch = W_CacheLumpName("DRHUDWPB");
+                altweapons[wp_bfg].offset = 0;
+            }
+        }
     }
 
     gray = nearestcolors[GRAY1];
