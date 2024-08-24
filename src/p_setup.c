@@ -4001,7 +4001,10 @@ static bool P_ParseMapInfo(const char *scriptname)
                             }
 
                             info->secretnext = nextmap;
-                            mapinfo[nextepisode][nextmap].secret = true;
+
+                            if (info->next != info->secretnext)
+                                mapinfo[nextepisode][nextmap].secret = true;
+
                             break;
                         }
 
