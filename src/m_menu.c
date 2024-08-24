@@ -687,57 +687,57 @@ static struct
 //
 void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 {
-    char        prev = '\0';
-    const int   len = (int)strlen(string);
-
-    if (M_DrawFON2String(x, y, string, highlight))
-        return;
-
-    for (int i = 0, j = -1; i < len; i++)
+    if (!M_DrawFON2String(x, y, string, highlight))
     {
-        bool    overlapping = false;
+        char        prev = '\0';
+        const int   len = (int)strlen(string);
 
-        if (string[i] < 123)
-            j = chartoi[(int)string[i]];
-
-        for (int k = 0; bigkern[k].char1; k++)
-            if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
-            {
-                x += bigkern[k].adjust;
-                break;
-            }
-
-        for (int k = 0; overlap[k].char1; k++)
-            if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
-            {
-                overlapping = true;
-                break;
-            }
-
-        if (j == -1)
-            x += SPACEWIDTH;
-        else
+        for (int i = 0, j = -1; i < len; i++)
         {
-            const int   width = (int)strlen(redcharset[j]) / 18;
+            bool    overlapping = false;
 
-            for (int y1 = 0; y1 < 18; y1++)
-                for (int x1 = 0; x1 < width; x1++)
+            if (string[i] < 123)
+                j = chartoi[(int)string[i]];
+
+            for (int k = 0; bigkern[k].char1; k++)
+                if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 {
-                    const unsigned char dot = redcharset[j][y1 * width + x1];
-
-                    if (dot == (unsigned char)'\xC8')
-                    {
-                        if (!overlapping)
-                            V_DrawPixel(x + x1, y + y1, PINK, highlight, shadow);
-                    }
-                    else
-                        V_DrawPixel(x + x1, y + y1, (int)dot, highlight, shadow);
+                    x += bigkern[k].adjust;
+                    break;
                 }
 
-            x += width - 2;
-        }
+            for (int k = 0; overlap[k].char1; k++)
+                if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
+                {
+                    overlapping = true;
+                    break;
+                }
 
-        prev = string[i];
+            if (j == -1)
+                x += SPACEWIDTH;
+            else
+            {
+                const int   width = (int)strlen(redcharset[j]) / 18;
+
+                for (int y1 = 0; y1 < 18; y1++)
+                    for (int x1 = 0; x1 < width; x1++)
+                    {
+                        const unsigned char dot = redcharset[j][y1 * width + x1];
+
+                        if (dot == (unsigned char)'\xC8')
+                        {
+                            if (!overlapping)
+                                V_DrawPixel(x + x1, y + y1, PINK, highlight, shadow);
+                        }
+                        else
+                            V_DrawPixel(x + x1, y + y1, (int)dot, highlight, shadow);
+                    }
+
+                x += width - 2;
+            }
+
+            prev = string[i];
+        }
     }
 }
 
@@ -747,23 +747,24 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 //
 static int M_BigStringWidth(char *string)
 {
-    int         width = M_GetFON2PixelWidth(string);
-    char        prev = '\0';
-    const int   len = (int)strlen(string);
+    int width = M_GetFON2PixelWidth(string);
 
-    if (width)
-        return width;
-
-    for (int i = 0; i < len; i++)
+    if (!width)
     {
-        const int   j = chartoi[(int)string[i]];
+        char        prev = '\0';
+        const int   len = (int)strlen(string);
 
-        for (int k = 0; bigkern[k].char1; k++)
-            if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
-                width += bigkern[k].adjust;
+        for (int i = 0; i < len; i++)
+        {
+            const int   j = chartoi[(int)string[i]];
 
-        width += (j == -1 ? SPACEWIDTH : (int)strlen(redcharset[j]) / 18 - 2);
-        prev = string[i];
+            for (int k = 0; bigkern[k].char1; k++)
+                if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
+                    width += bigkern[k].adjust;
+
+            width += (j == -1 ? SPACEWIDTH : (int)strlen(redcharset[j]) / 18 - 2);
+            prev = string[i];
+        }
     }
 
     return width;
@@ -2006,7 +2007,7 @@ static void M_DrawOptions(void)
                 patch, (itemon == msgs));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + 7,
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
                 OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
     }
     else
@@ -2023,7 +2024,7 @@ static void M_DrawOptions(void)
                 patch, (itemon == msgs));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + 7,
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
                 OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
     }
 
@@ -2041,7 +2042,7 @@ static void M_DrawOptions(void)
                 patch, (itemon == detail));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + 7,
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
                 OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
     }
     else
@@ -2058,7 +2059,7 @@ static void M_DrawOptions(void)
                 patch, (itemon == detail));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + 7,
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
                 OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
     }
 
@@ -4730,7 +4731,7 @@ void M_Init(void)
         wadfile_t   *wadfile = lumpinfo[lump]->wadfile;
 
         if (M_LoadFON2(W_CacheLumpNum(lump), W_LumpLength(lump)))
-            C_Output("The " BOLD("DBIGFONT") " lump in the %s " BOLD("%s") " is being used.",
+            C_Output("The " BOLD("DBIGFONT") " lump in the %s " BOLD("%s") " is being used in the menu.",
                 (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
     }
 }

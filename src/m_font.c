@@ -65,7 +65,7 @@ typedef struct
     byte            kerning;    // flag field, but with only one flag
 } fon2_header_t;
 
-static fon2_char_t  *chars = NULL;
+static fon2_char_t  *chars;
 static int          numchars;
 static int          height;
 static int          firstc;
@@ -124,11 +124,11 @@ bool M_LoadFON2(byte *gfx_data, int size)
     if (!(translate = malloc(header->palsize + 1)))
         return false;
 
-    for (int i = 0; i < header->palsize + 1; ++i)
+    for (int i = 0; i <= header->palsize; i++)
     {
-        int r = *p++;
-        int g = *p++;
-        int b = *p++;
+        const byte  r = *p++;
+        const byte  g = *p++;
+        const byte  b = *p++;
 
         translate[i] = FindNearestColor(playpal, r, g, b);
     }

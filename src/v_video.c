@@ -1973,14 +1973,14 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
             size_t  post_len = 0;
 
             post_len += 2;                                      // two bytes for post header
-            post_len += 1;                                      // dummy byte
+            post_len++;                                         // dummy byte
             post_len += array_size(columns[c].posts[p].pixels); // pixels
-            post_len += 1;                                      // dummy byte
+            post_len++;                                         // dummy byte
 
             size += post_len;
         }
 
-        size += 1;                                              // room for 0xff cap byte
+        size++;                                                 // room for 0xFF cap byte
     }
 
     output = malloc(size);
