@@ -1943,6 +1943,7 @@ void G_InitNew(skill_t skill, int ep, int map)
         || (!M_StringCompare(console[numconsolestrings - 2].string, "newgame")
             && !M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[numconsolestrings - 1].string, "load ")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "Warping ")
             && !autostart))
         C_Input("newgame");
 
