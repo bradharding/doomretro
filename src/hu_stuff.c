@@ -885,7 +885,7 @@ static void HU_AltInit(void)
                 altweapons[wp_plasma].patch = W_CacheLumpName("DRHUDWPA");
                 altweapons[wp_plasma].offset = 0;
                 altweapons[wp_bfg].patch = W_CacheLumpName("DRHUDWPB");
-                altweapons[wp_bfg].offset = 0;
+                altweapons[wp_bfg].offset = 1;
             }
         }
     }
