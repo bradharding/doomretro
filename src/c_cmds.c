@@ -4973,6 +4973,29 @@ static void mapstats_func2(char *cmd, char *parms)
         /* 69 */ { JR,    "",   "",    "",   "" }
     };
 
+    struct
+    {
+        const char *title;
+        const char *artist;
+    } legacyofrust[] = {
+        { "Welcome To Die",                    "Xaser Acheron" },
+        { "The Shores Of Heaven",              "Xaser Acheron" },
+        { "Bilge Punks",                       "Xaser Acheron" },
+        { "Callous Regard",                    "Xaser Acheron" },
+        { "They're All Going To Laugh At You", "Xaser Acheron" },
+        { "Cloudy With A Chance Of Spiders",   "Xaser Acheron" },
+        { "Tactical Blasphemy",                "Xaser Acheron" },
+        { "Opening To Hell",                   "Bobby Prince"  },
+        { "Bonk",                              "Xaser Acheron" },
+        { "Cliff Driver",                      "Xaser Acheron" },
+        { "Wizard Science",                    "Xaser Acheron" },
+        { "Deja Vuvuzela",                     "Xaser Acheron" },
+        { "Disgusto!",                         "Xaser Acheron" },
+        { "March Of The Vespers",              "Xaser Acheron" },
+        { "The Skeleton World",                "Xaser Acheron" },
+        { "Hell Force Five",                   "Xaser Acheron" }
+    };
+
     const int   tabs[MAXTABS] = { 127 };
     char        *temp;
     int         lump;
@@ -5397,6 +5420,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
+        else if (ID1 && gamemap <= 15)
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrust[gamemap - 1].title);
         else if (namebuf[0] == 'H' && namebuf[1] == '_')
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
         else if (!M_StringCompare(mus_playing->title1, "n/a")
@@ -5412,6 +5437,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (thorr ? "Thorr" : "James Paddock"));
+        else if (ID1 && gamemap <= 15)
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", legacyofrust[gamemap - 1].artist);
         else if (namebuf[0] == 'H' && namebuf[1] == '_')
             C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
