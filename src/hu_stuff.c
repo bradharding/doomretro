@@ -228,6 +228,9 @@ void HU_Init(void)
     for (ammotype_t i = 0; i < NUMAMMO; i++)
         ammopic[i].patch = HU_LoadHUDAmmoPatch(i);
 
+    if (ID1)
+        ammopic[2].patch = W_CacheLumpName("CELLB0");
+
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
     keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
