@@ -1487,7 +1487,7 @@ static void M_DrawHelp(void)
     if (gamemode == shareware)
         M_StringCopy(lumpname, "HELP3", sizeof(lumpname));
     else if (gamemode == commercial)
-        M_StringCopy(lumpname, "HELP", sizeof(lumpname));
+        M_StringCopy(lumpname, (ID1 ? "HELP4" : "HELP"), sizeof(lumpname));
 
     if (REKKR && W_CheckNumForName("HELP1W") >= 0)
     {
