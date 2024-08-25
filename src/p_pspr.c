@@ -1043,6 +1043,8 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     // baddie the player is actually aiming at. ;)
     mo->tracer = linetarget;
 
+    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
     P_RumbleWeapon(player->readyweapon);
 }
 
@@ -1076,6 +1078,8 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(state->args[0]),
             MISSILERANGE, bulletslope + P_RandomHitscanSlope(state->args[1]),
             (M_Random() % state->args[4] + 1) * state->args[3]);
+
+    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     P_RumbleWeapon(readyweapon);
 }
