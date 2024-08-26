@@ -37,6 +37,7 @@
 
 #include "doomdef.h"
 #include "doomtype.h"
+#include "r_defs.h"
 #include "sounds.h"
 
 #define BFGCELLS    40
@@ -62,6 +63,7 @@ typedef struct
     ammotype_t      ammotype;
     char            ammoname[255];
     char            ammoplural[255];
+    int             ammothing;
     int             ammopershot;
     int             upstate;
     int             downstate;
@@ -76,13 +78,10 @@ typedef struct
     weapontype_t    nextweapon;
     char            spritename[9];
     sfxnum_t        sound;
-
-    // MBF21
-    int             flags;
-
+    int             flags;  // MBF21
     char            key;
-
     bool            altered;
+    patch_t         *ammopatch;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];

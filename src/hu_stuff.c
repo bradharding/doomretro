@@ -110,18 +110,6 @@ static void (*fillrectfunc2)(int, int, int, int, int, int, int, bool, bool, cons
 
 static struct
 {
-    const char  *patchname;
-    const int   mobjnum;
-    patch_t     *patch;
-} ammopic[] = {
-    { "CLIPA0", MT_CLIP,   NULL },
-    { "SHELA0", MT_MISC22, NULL },
-    { "CELLA0", MT_MISC20, NULL },
-    { "ROCKA0", MT_MISC18, NULL }
-};
-
-static struct
-{
     const char  *patchnamea;
     const char  *patchnameb;
     patch_t     *patch;
@@ -135,17 +123,6 @@ static struct
 };
 
 static void HU_AltInit(void);
-
-static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
-{
-    int lump;
-
-    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
-        && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
-        return W_CacheLumpNum(lump);
-
-    return NULL;
-}
 
 static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
@@ -225,11 +202,16 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
 
-    for (ammotype_t i = 0; i < NUMAMMO; i++)
-        ammopic[i].patch = HU_LoadHUDAmmoPatch(i);
+    for (int i = 0; i < NUMWEAPONS; i++)
+    {
+        int ammothing = weaponinfo[i].ammothing;
+        int spawnstate = mobjinfo[ammothing].spawnstate;
+        int sprite = states[spawnstate].sprite;
+        int frame = states[spawnstate].frame;
+        int lumpnum = firstspritelump + sprites[sprite].spriteframes[frame].lump[0];
 
-    if (ID1)
-        ammopic[2].patch = W_CacheLumpName("CELLB0");
+        weaponinfo[i].ammopatch = W_CacheLumpNum(lumpnum);
+    }
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
@@ -704,7 +686,7 @@ static void HU_DrawHUD(void)
         ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
         tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
 
-        if ((patch = ammopic[ammotype].patch))
+        if ((patch = weaponinfo[weapon].ammopatch))
             hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
 
         if (r_hud_translucency || !ammoanim)
