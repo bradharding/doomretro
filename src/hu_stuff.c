@@ -684,7 +684,7 @@ static void HU_DrawHUD(void)
         static bool ammoanim;
 
         ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
-        tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
+        tinttab = (!ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
 
         if ((patch = weaponinfo[weapon].ammopatch))
             hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
