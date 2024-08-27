@@ -204,13 +204,17 @@ void HU_Init(void)
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
-        int ammothing = weaponinfo[i].ammothing;
-        int spawnstate = mobjinfo[ammothing].spawnstate;
-        int sprite = states[spawnstate].sprite;
-        int frame = states[spawnstate].frame;
-        int lumpnum = firstspritelump + sprites[sprite].spriteframes[frame].lump[0];
+        const int   ammothing = weaponinfo[i].ammothing;
 
-        weaponinfo[i].ammopatch = W_CacheLumpNum(lumpnum);
+        if (ammothing == MT_NULL || !(mobjinfo[ammothing].flags & MF_SPECIAL))
+            weaponinfo[i].ammopatch = NULL;
+        else
+        {
+            state_t *state = &states[mobjinfo[ammothing].spawnstate];
+
+            weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
+                + sprites[state->sprite].spriteframes[state->frame].lump[0]);
+        }
     }
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
