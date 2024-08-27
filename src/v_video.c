@@ -1020,6 +1020,60 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
     }
 }
 
+void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
+{
+    const int   width = SHORT(patch->width);
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
+
+    for (int col = 0; col < width; col++, desttop--)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            byte        count = length;
+
+            while (count-- > 0)
+            {
+                *dest = nearestwhite;
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
+{
+    const int   width = SHORT(patch->width);
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
+
+    for (int col = 0; col < width; col++, desttop--)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            byte        count = length;
+
+            while (count-- > 0)
+            {
+                *dest = tinttab[(nearestwhite << 8) + *dest];
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];

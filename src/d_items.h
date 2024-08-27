@@ -60,6 +60,7 @@ enum
 typedef struct
 {
     char            *name;
+    int             weaponthing;
     ammotype_t      ammotype;
     char            ammoname[255];
     char            ammoplural[255];
@@ -81,6 +82,7 @@ typedef struct
     int             flags;  // MBF21
     char            key;
     bool            altered;
+    patch_t         *weaponpatch;
     patch_t         *ammopatch;
 } weaponinfo_t;
 

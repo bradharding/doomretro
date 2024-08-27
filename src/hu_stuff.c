@@ -102,6 +102,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void (*hudfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
+static void (*hudweaponfunc)(int, int, patch_t *, const byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
@@ -143,6 +144,7 @@ void HU_SetTranslucency(void)
         hudfunc = &V_DrawTranslucentHUDPatch;
         hudnumfunc = &V_DrawTranslucentHUDNumberPatch;
         hudnumfunc2 = &V_DrawTranslucentHighlightedHUDNumberPatch;
+        hudweaponfunc = &V_DrawTranslucentHUDWeaponPatch;
         althudfunc = &V_DrawTranslucentAltHUDPatch;
         althudtextfunc = &V_DrawTranslucentAltHUDText;
         fillrectfunc = &V_FillSoftTransRect;
@@ -154,6 +156,7 @@ void HU_SetTranslucency(void)
         hudfunc = &V_DrawHUDPatch;
         hudnumfunc = &V_DrawHUDPatch;
         hudnumfunc2 = &V_DrawHighlightedHUDNumberPatch;
+        hudweaponfunc = &V_DrawHUDWeaponPatch;
         althudfunc = &V_DrawAltHUDPatch;
         althudtextfunc = &V_DrawAltHUDText;
         fillrectfunc = &V_FillRect;
@@ -735,25 +738,6 @@ static altkeypic_t altkeypics[NUMCARDS] =
     { RED2,    NULL, NULL }
 };
 
-typedef struct
-{
-    int     offset;
-    patch_t *patch;
-} altweapon_t;
-
-static altweapon_t altweapons[NUMWEAPONS] =
-{
-    {   0, NULL },
-    {   6, NULL },
-    {   8, NULL },
-    {   3, NULL },
-    {   3, NULL },
-    {   3, NULL },
-    { -15, NULL },
-    {  -3, NULL },
-    {   8, NULL }
-};
-
 static patch_t      *altnumpatch[10];
 static patch_t      *altnumpatch2[10];
 static patch_t      *altminuspatch;
@@ -829,55 +813,23 @@ static void HU_AltInit(void)
     altkeypics[it_redskull].patch = altskullpatch;
     altkeypics[it_redskull].tinttab = tinttab60;
 
-    if (chex || FREEDOOM || hacx || REKKR)
-        weaponschanged = true;
-    else
+    for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
     {
-        if (!BTSX && !eviternity)
-            for (int i = 0; i < NUMWEAPONS; i++)
-                if (*weaponinfo[i].spritename)
-                {
-                    const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
+        const int   weaponthing = weaponinfo[i].weaponthing;
 
-                    if (lump >= 0
-                        && lumpinfo[lump]->wadfile->type == PWAD
-                        && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
-                        && !fixspriteoffsets)
-                    {
-                        weaponschanged = true;
-                        break;
-                    }
-                }
-
-        if (weaponschanged)
-            for (int i = 0; i < NUMWEAPONS; i++)
-            {
-                M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-
-                if (W_GetNumLumps(buffer) > 1)
-                {
-                    weaponschanged = false;
-                    break;
-                }
-            }
-
-        if (!weaponschanged)
+        if (weaponthing == MT_NULL)
+            weaponinfo[i].weaponpatch = NULL;
+        else
         {
-            for (int i = 0; i < NUMWEAPONS; i++)
-            {
-                M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-                altweapons[i].patch = W_CacheLumpName(buffer);
-            }
+            state_t *state = &states[mobjinfo[weaponthing].spawnstate];
 
-            if (ID1)
-            {
-                altweapons[wp_plasma].patch = W_CacheLumpName("DRHUDWPA");
-                altweapons[wp_plasma].offset = 0;
-                altweapons[wp_bfg].patch = W_CacheLumpName("DRHUDWPB");
-                altweapons[wp_bfg].offset = 1;
-            }
+            weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
+                + sprites[state->sprite].spriteframes[state->frame].lump[0]);
         }
     }
+
+    if (!weaponinfo[wp_pistol].weaponpatch)
+        weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
 
     gray = nearestcolors[GRAY1];
     darkgray = nearestcolors[DARKGRAY1];
@@ -1312,8 +1264,8 @@ static void HU_DrawAltHUD(void)
         else
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
-        if ((patch = altweapons[weapon].patch))
-            althudfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + altweapons[weapon].offset, patch, WHITE, color, tinttab60);
+        if ((patch = weaponinfo[weapon].weaponpatch))
+            hudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y, patch, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
