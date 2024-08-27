@@ -1265,7 +1265,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            hudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y, patch, tinttab60);
+            hudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 10 - SHORT(patch->height) / 2, patch, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)

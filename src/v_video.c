@@ -1029,6 +1029,9 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
+        if (x + width - col >= SCREENWIDTH)
+            continue;
+
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
@@ -1055,6 +1058,9 @@ void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, const byte *t
     for (int col = 0; col < width; col++, desttop--)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        if (x + width - col >= SCREENWIDTH)
+            continue;
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
