@@ -1703,13 +1703,13 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
     // armor percentage
-    STlib_InitPercent(&w_armor, ST_ARMORX + (int)(KDIKDIZD || ID1), ST_ARMORY, tallnum,
+    STlib_InitPercent(&w_armor, ST_ARMORX + (int)KDIKDIZD, ST_ARMORY, tallnum,
         &viewplayer->armor, tallpercent);
 
     // keyboxes 0-2
-    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3), ST_KEY0Y, keys, &keyboxes[0]);
-    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBARs >= 3), ST_KEY1Y, keys, &keyboxes[1]);
-    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3), ST_KEY2Y, keys, &keyboxes[2]);
+    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3 && !ID1), ST_KEY0Y, keys, &keyboxes[0]);
+    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBARs >= 3 && !ID1), ST_KEY1Y, keys, &keyboxes[1]);
+    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3 && !ID1), ST_KEY2Y, keys, &keyboxes[2]);
 
     // ammo count (all four kinds)
     STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y,
