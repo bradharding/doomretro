@@ -1020,7 +1020,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
     }
 }
 
-void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
@@ -1041,7 +1041,7 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
 
             while (count-- > 0)
             {
-                *dest = nearestwhite;
+                *dest = color;
                 dest += SCREENWIDTH;
             }
 
@@ -1050,7 +1050,7 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
     }
 }
 
-void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
@@ -1071,7 +1071,7 @@ void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, const byte *t
 
             while (count-- > 0)
             {
-                *dest = tinttab[(nearestwhite << 8) + *dest];
+                *dest = tinttab[(color << 8) + *dest];
                 dest += SCREENWIDTH;
             }
 

@@ -102,10 +102,10 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void (*hudfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
-static void (*hudweaponfunc)(int, int, patch_t *, const byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
+static void (*althudweaponfunc)(int, int, patch_t *, int, const byte *);
 static void (*fillrectfunc)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
 static void (*fillrectfunc2)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
 
@@ -144,7 +144,7 @@ void HU_SetTranslucency(void)
         hudfunc = &V_DrawTranslucentHUDPatch;
         hudnumfunc = &V_DrawTranslucentHUDNumberPatch;
         hudnumfunc2 = &V_DrawTranslucentHighlightedHUDNumberPatch;
-        hudweaponfunc = &V_DrawTranslucentHUDWeaponPatch;
+        althudweaponfunc = &V_DrawTranslucentHUDWeaponPatch;
         althudfunc = &V_DrawTranslucentAltHUDPatch;
         althudtextfunc = &V_DrawTranslucentAltHUDText;
         fillrectfunc = &V_FillSoftTransRect;
@@ -156,7 +156,7 @@ void HU_SetTranslucency(void)
         hudfunc = &V_DrawHUDPatch;
         hudnumfunc = &V_DrawHUDPatch;
         hudnumfunc2 = &V_DrawHighlightedHUDNumberPatch;
-        hudweaponfunc = &V_DrawHUDWeaponPatch;
+        althudweaponfunc = &V_DrawHUDWeaponPatch;
         althudfunc = &V_DrawAltHUDPatch;
         althudtextfunc = &V_DrawAltHUDText;
         fillrectfunc = &V_FillRect;
@@ -1267,7 +1267,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            hudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, tinttab60);
+            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
