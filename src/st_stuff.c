@@ -80,10 +80,10 @@
 #define ST_FACESX           (chex ? 144 : 143)
 #define ST_FACESY           168
 
-#define ST_FACEBACKX        (144 * 2 + WIDESCREENDELTA * 2)
-#define ST_FACEBACKY        (170 * 2)
-#define ST_FACEBACKWIDTH    (32 * 2)
-#define ST_FACEBACKHEIGHT   (29 * 2)
+#define ST_FACEBACKX        ((144 + WIDESCREENDELTA) * SCALEMULT)
+#define ST_FACEBACKY        (170 * SCALEMULT)
+#define ST_FACEBACKWIDTH    (32 * SCALEMULT)
+#define ST_FACEBACKHEIGHT   (29 * SCALEMULT)
 
 #define ST_EVILGRINCOUNT    (2 * TICRATE)
 #define ST_TURNCOUNT        (1 * TICRATE)
@@ -401,8 +401,9 @@ static void ST_RefreshBackground(void)
 {
     if (STBARs < 3 || ID1)
     {
-        if (r_detail == r_detail_high)
+        if (r_detail == r_detail_high && SCALEMULT == 2)
         {
+            // [MP] V_DrawBigPatch() requires a patch at 2x scale
             if (vid_widescreen)
             {
                 if (sbar2width < SCREENWIDTH)
@@ -421,7 +422,7 @@ static void ST_RefreshBackground(void)
             if (sbarwidth < SCREENWIDTH)
                 R_FillBezel();
 
-            V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+            V_DrawWidePatch((SCREENWIDTH / SCALEMULT - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 
             if (ammobg)
                 V_DrawWidePatch(ST_AMMOBGX, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, ammobg);
@@ -432,7 +433,7 @@ static void ST_RefreshBackground(void)
         if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
 
-        V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        V_DrawWidePatch((SCREENWIDTH / SCALEMULT - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
 }
@@ -1742,8 +1743,9 @@ void ST_Init(void)
 {
     ST_LoadUnloadGraphics(&ST_LoadCallback);
 
-    st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type == PWAD
-        || lumpinfo[W_GetNumForName(gamemode == commercial ? "GRNROCK" : "FLOOR7_2")]->wadfile->type == IWAD);
+    st_drawbrdr = SCALEMULT == 2 &&
+        ((lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type == PWAD
+          || lumpinfo[W_GetNumForName(gamemode == commercial ? "GRNROCK" : "FLOOR7_2")]->wadfile->type == IWAD));
 
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat
@@ -1754,7 +1756,7 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware || ID1);
+    usesmallnums = SCALEMULT == 2 && ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware || ID1);
 
     STLib_Init();
     ST_InitCheats();

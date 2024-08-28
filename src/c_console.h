@@ -74,9 +74,9 @@
 #define CONSOLEDOWNSIZE                     28
 #define CONSOLEUPSIZE                       12
 
-#define CONSOLEHEIGHT                       ((gamestate == GS_TITLESCREEN ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5)
+#define CONSOLEHEIGHT                       ((gamestate == GS_TITLESCREEN ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5 * SCALEMULTUNIT)
 
-#define CONSOLELINES                        (gamestate == GS_TITLESCREEN ? 27 : 13)
+#define CONSOLELINES                        ((gamestate == GS_TITLESCREEN ? 27 : 13) * SCALEMULTUNIT)
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
 #define CONSOLETEXTY                        8
 #define CONSOLETEXTMAXLENGTH                1024

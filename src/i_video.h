@@ -43,23 +43,38 @@
 
 #include "doomtype.h"
 
+// [MP] dont't change this
+#define DEFAULTSCALEMULT    2
+
+#ifndef SCALEMULT
+// [MP] Configurable compile-time render scale 
+// Valid values: 1, 2, 3, 4, 5, 6, 7, 8
+#define SCALEMULT           DEFAULTSCALEMULT
+#endif
+
+// [MP] The unit scale multiplier expressed in multiples of default 2x scale 
+// Used to convert coordinates expressed in 2x scale 
+// Not enclosed in parenthesis on purpose so fractional values (odd SCALEMULT) can be used
+// Must always used as last operand when multiplying by this value so it works with fractional values, ie: (expr) * SCALEMULTUNIT
+#define SCALEMULTUNIT       SCALEMULT / DEFAULTSCALEMULT
+
 // Screen width and height.
 #define VANILLAWIDTH        320
 #define VANILLAHEIGHT       200
 
 #define ACTUALVANILLAHEIGHT (VANILLAHEIGHT * 6 / 5)
-#define ACTUALHEIGHT        (ACTUALVANILLAHEIGHT * 2)
+#define ACTUALHEIGHT        (ACTUALVANILLAHEIGHT * SCALEMULT)
 
 #define VANILLASBARHEIGHT   32
-#define SBARHEIGHT          (VANILLASBARHEIGHT * 2)
+#define SBARHEIGHT          (VANILLASBARHEIGHT * SCALEMULT)
 
 #define WIDEVANILLAWIDTH    (ACTUALVANILLAHEIGHT * 16 / 9)
 
-#define NONWIDEWIDTH        (VANILLAWIDTH * 2)
+#define NONWIDEWIDTH        (VANILLAWIDTH * SCALEMULT)
 #define NONWIDEASPECTRATIO  (4.0 / 3.0)
 
 #define MAXWIDTH            (NONWIDEWIDTH * 6)
-#define MAXHEIGHT           ((VANILLAHEIGHT + 1) * 2)
+#define MAXHEIGHT           ((VANILLAHEIGHT + 1) * SCALEMULT)
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
 #define MAXWIDEFOVDELTA     32

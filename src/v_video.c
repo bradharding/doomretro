@@ -303,7 +303,7 @@ void V_DrawPagePatch(int screen, patch_t *patch)
         memset(screens[screen], pillarboxcolor, SCREENAREA);
     }
 
-    V_DrawWidePatch((SCREENWIDTH / 2 - SHORT(patch->width)) / 2, 0, screen, patch);
+    V_DrawWidePatch((SCREENWIDTH / SCALEMULT - SHORT(patch->width)) / 2, 0, screen, patch);
 }
 
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
@@ -1530,9 +1530,13 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow && menushadow)
         {
-            byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+            int i, j;
+            byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * SCALEMULT;
             const byte  *black = (highlight || !menuhighlight ? black40 : black45);
 
+#if SCALEMULT == 1
+            *dot = black[*dot];
+#elif SCALEMULT == 2
             *dot = black[*dot];
             dot++;
             *dot = black[*dot];
@@ -1540,19 +1544,39 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
             *dot = black[*dot];
             dot--;
             *dot = black[*dot];
+#else
+            // [MP] should be unrolled by the compiler with optimization
+            for(i = 0 ; i < SCALEMULT ; i++, dot += SCREENWIDTH - SCALEMULT) {
+                for(j = 0 ; j < SCALEMULT ; j++) {
+                    *(dot++) = black[*dot];
+                }
+            }
+#endif                
         }
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+        int i, j;
+        byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * SCALEMULT;
 
         if (menuhighlight)
             color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
 
+#if SCALEMULT == 1
+        *(dot++) = color;
+#elif SCALEMULT == 2            
         *(dot++) = color;
         *dot = color;
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
+#else
+        // [MP] should be unrolled by the compiler with optimization
+        for(i = 0 ; i < SCALEMULT ; i++, dot += SCREENWIDTH - SCALEMULT) {
+            for(j = 0 ; j < SCALEMULT ; j++) {
+                *(dot++) = color;
+            }
+        }
+#endif            
     }
 }
 

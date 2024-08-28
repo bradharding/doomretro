@@ -1587,7 +1587,7 @@ void C_Drawer(void)
     unsigned char   prevletter2 = '\0';
 
     // adjust console height
-    if (consolewait < tics)
+    if (consolewait < tics && consoleanim < CONSOLEDOWNSIZE)
     {
         consolewait = tics + (gamestate == GS_TITLESCREEN ? 4 : 8);
 
@@ -1595,14 +1595,14 @@ void C_Drawer(void)
         {
             if (consoleheight < CONSOLEHEIGHT)
             {
+                // [MP] in scale x2 coordinates
                 const int consoledown[CONSOLEDOWNSIZE] =
                 {
                      12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
                     169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
-                const int   height = (gamestate == GS_TITLESCREEN ? consoledown[consoleanim] * 2 + 5 :
-                                consoledown[consoleanim]);
+                const int   height = (gamestate == GS_TITLESCREEN ? consoledown[consoleanim] * 2 + 5  : consoledown[consoleanim]) * SCALEMULTUNIT;
 
                 if (consoleheight > height)
                     consolewait = 0;
@@ -1618,13 +1618,14 @@ void C_Drawer(void)
         {
             if (consoleheight)
             {
+                // [MP] in scale x2 coordinates    
                 const int consoleup[CONSOLEUPSIZE] =
                 {
                     183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
                 };
 
-                const int   height = consoleup[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1);
-
+                const int   height = consoleup[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1) * SCALEMULTUNIT;
+		
                 if (consoleheight < height)
                     consolewait = 0;
                 else
