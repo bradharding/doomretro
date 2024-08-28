@@ -738,30 +738,28 @@ static altkeypic_t altkeypics[NUMCARDS] =
     { RED2,    NULL, NULL }
 };
 
-static patch_t      *altnumpatch[10];
-static patch_t      *altnumpatch2[10];
-static patch_t      *altminuspatch;
-static patch_t      *altendpatch;
-static patch_t      *altleftpatch1;
-static patch_t      *altleftpatch2;
-static patch_t      *altrightpatch;
-static patch_t      *altmarkpatch;
-static patch_t      *altmark2patch;
+static patch_t  *altnumpatch[10];
+static patch_t  *altnumpatch2[10];
+static patch_t  *altminuspatch;
+static patch_t  *altendpatch;
+static patch_t  *altleftpatch1;
+static patch_t  *altleftpatch2;
+static patch_t  *altrightpatch;
+static patch_t  *altmarkpatch;
+static patch_t  *altmark2patch;
 
-static short        altminuspatchwidth;
+static short    altminuspatchwidth;
 
-static int          gray;
-static int          darkgray;
-static int          green1;
-static int          green2;
-static int          green3;
-static int          blue2;
-static int          blue3;
-static int          red2;
-static int          yellow1;
-static int          yellow2;
-
-static bool         weaponschanged;
+static int      gray;
+static int      darkgray;
+static int      green1;
+static int      green2;
+static int      green3;
+static int      blue2;
+static int      blue3;
+static int      red2;
+static int      yellow1;
+static int      yellow2;
 
 static void HU_AltInit(void)
 {
@@ -825,11 +823,15 @@ static void HU_AltInit(void)
 
             weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
                 + sprites[state->sprite].spriteframes[state->frame].lump[0]);
+            weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
         }
     }
 
     if (!weaponinfo[wp_pistol].weaponpatch)
+    {
         weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
+        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
+    }
 
     gray = nearestcolors[GRAY1];
     darkgray = nearestcolors[DARKGRAY1];
@@ -1265,7 +1267,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            hudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 10 - SHORT(patch->height) / 2, patch, tinttab60);
+            hudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)

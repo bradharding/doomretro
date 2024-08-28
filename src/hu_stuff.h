@@ -77,8 +77,7 @@
 #define HUD_KEY_WAIT                250
 
 #define ALTHUD_LEFT_X               (MAXWIDESCREENDELTA + 9)
-#define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA \
-                                        - (weaponschanged && !fixspriteoffsets ? 76 : 128))
+#define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA - 128)
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 #define DRAWDISKTICS                (12 * TICRATE)
