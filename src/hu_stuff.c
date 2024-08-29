@@ -216,7 +216,7 @@ void HU_Init(void)
             state_t *state = &states[mobjinfo[ammothing].spawnstate];
 
             weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
-                + sprites[state->sprite].spriteframes[state->frame].lump[0]);
+                + sprites[state->sprite].spriteframes[state->frame & ~FF_FULLBRIGHT].lump[0]);
         }
     }
 
@@ -822,7 +822,7 @@ static void HU_AltInit(void)
             state_t *state = &states[mobjinfo[weaponthing].spawnstate];
 
             weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
-                + sprites[state->sprite].spriteframes[state->frame].lump[0]);
+                + sprites[state->sprite].spriteframes[state->frame & ~FF_FULLBRIGHT].lump[0]);
             weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
         }
     }
