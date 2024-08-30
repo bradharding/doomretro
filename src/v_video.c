@@ -882,6 +882,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        int         yy = y;
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -895,6 +896,9 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
             {
                 *dest = *source++;
                 dest += SCREENWIDTH;
+
+                if (++yy == SCREENHEIGHT)
+                    break;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -970,6 +974,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        int         yy = y;
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -983,6 +988,9 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab
             {
                 *dest = tinttab[(*source++ << 8) + *dest];
                 dest += SCREENWIDTH;
+
+                if (++yy == SCREENHEIGHT)
+                    break;
             }
 
             column = (column_t *)((byte *)column + length + 4);
