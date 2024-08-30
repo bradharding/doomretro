@@ -841,7 +841,7 @@ static void HU_AltInit(void)
     {
         const int   lump = W_CheckNumForName("PISGA0");
 
-        if (lump == -1 || lumpinfo[lump]->wadfile->type == IWAD)
+        if (lump == -1 || lumpinfo[lump]->wadfile->type == IWAD || BTSX)
         {
             weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
             weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
