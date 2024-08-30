@@ -60,10 +60,11 @@ enum
 typedef struct
 {
     char            *name;
+    spritenum_t     weaponsprite;
+    spritenum_t     ammosprite;
     ammotype_t      ammotype;
     char            ammoname[255];
     char            ammoplural[255];
-    int             ammothing;
     int             ammopershot;
     int             upstate;
     int             downstate;
@@ -76,7 +77,6 @@ typedef struct
     int             tics;
     weapontype_t    prevweapon;
     weapontype_t    nextweapon;
-    spritenum_t     sprite;
     sfxnum_t        sound;
     int             flags;  // MBF21
     char            key;

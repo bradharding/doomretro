@@ -205,19 +205,24 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
 
-    for (int i = 0; i < NUMWEAPONS; i++)
+    for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
     {
-        const int   ammothing = weaponinfo[i].ammothing;
+        const spritenum_t   sprite = weaponinfo[i].ammosprite;
 
-        if (ammothing == MT_NULL || !(mobjinfo[ammothing].flags & MF_SPECIAL))
+        if (!sprite)
             weaponinfo[i].ammopatch = NULL;
         else
-        {
-            state_t *state = &states[mobjinfo[ammothing].spawnstate];
+            for (int j = numstates; j >= 0; j--)
+            {
+                state_t *state = &states[j];
 
-            weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
-                + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
-        }
+                if (state->sprite == sprite)
+                {
+                    weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
+                        + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
+                    break;
+                }
+            }
     }
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
@@ -813,28 +818,34 @@ static void HU_AltInit(void)
 
     for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
     {
-        const spritenum_t   sprite = weaponinfo[i].sprite;
+        const spritenum_t   sprite = weaponinfo[i].weaponsprite;
 
         if (!sprite)
             weaponinfo[i].weaponpatch = NULL;
         else
-            for (int j = 0; j < numstates; j++)
+            for (int j = numstates; j >= 0; j--)
             {
                 state_t *state = &states[j];
 
-                if (states[j].sprite == sprite)
+                if (state->sprite == sprite)
                 {
                     weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
                         + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
                     weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
+                    break;
                 }
             }
     }
 
     if (!weaponinfo[wp_pistol].weaponpatch)
     {
-        weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
-        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
+        const int   lump = W_CheckNumForName("PISGA0");
+
+        if (lump == -1 || lumpinfo[lump]->wadfile->type == IWAD)
+        {
+            weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
+            weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
+        }
     }
 
     gray = nearestcolors[GRAY1];
