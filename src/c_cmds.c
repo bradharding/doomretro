@@ -4844,6 +4844,37 @@ static void maplist_func2(char *cmd, char *parms)
 #define RPJM2   RP " and " JM2
 #define SPTH    SP " and " TH
 
+static int CountMaps(const char *file)
+{
+    int count = 0;
+
+    for (int i = 0; i < numlumps; i++)
+    {
+        char    *lump = lumpinfo[i]->name;
+
+        if (M_StringCompare(file, leafname(lumpinfo[i]->wadfile->path)))
+        {
+            if (gamemode == commercial)
+            {
+                if (strlen(lump) == 5 && toupper(lump[0]) == 'M' && toupper(lump[1]) == 'A'
+                    && toupper(lump[2]) == 'P' && isdigit((int)lump[3]) && isdigit((int)lump[4]))
+                    count++;
+            }
+            else
+            {
+                if (strlen(lump) == 4 && toupper(lump[0]) == 'E' && isdigit((int)lump[1])
+                    && toupper(lump[2]) == 'M' && isdigit((int)lump[3]))
+                    count++;
+                else if (strlen(lump) == 5 && toupper(lump[0]) == 'E' && isdigit((int)lump[1])
+                    && toupper(lump[2]) == 'M' && isdigit((int)lump[3]) && isdigit((int)lump[4]))
+                    count++;
+            }
+        }
+    }
+
+    return count;
+}
+
 static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
 {
     if (M_StringCompare(wadname, "DOOM1.WAD"))
@@ -5058,6 +5089,8 @@ static void mapstats_func2(char *cmd, char *parms)
             wadtype = lumpinfo[lump]->wadfile->type;
     }
 
+    M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
+
     C_Header(tabs, mapstats, MAPSTATSHEADER);
 
     if (gamemode == commercial)
@@ -5065,7 +5098,7 @@ static void mapstats_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
             C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
         else
-            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
+            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, CountMaps(wadname));
     }
     else
         C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
@@ -5171,8 +5204,6 @@ static void mapstats_func2(char *cmd, char *parms)
 
     if (secretmap)
         C_TabbedOutput(tabs, "Secret\tYes");
-
-    M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
     C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
 
