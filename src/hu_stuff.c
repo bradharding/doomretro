@@ -216,7 +216,7 @@ void HU_Init(void)
             state_t *state = &states[mobjinfo[ammothing].spawnstate];
 
             weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
-                + sprites[state->sprite].spriteframes[state->frame & ~FF_FULLBRIGHT].lump[0]);
+                + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
         }
     }
 
@@ -813,18 +813,22 @@ static void HU_AltInit(void)
 
     for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
     {
-        const int   weaponthing = weaponinfo[i].weaponthing;
+        const spritenum_t   sprite = weaponinfo[i].sprite;
 
-        if (weaponthing == MT_NULL)
+        if (!sprite)
             weaponinfo[i].weaponpatch = NULL;
         else
-        {
-            state_t *state = &states[mobjinfo[weaponthing].spawnstate];
+            for (int j = 0; j < numstates; j++)
+            {
+                state_t *state = &states[j];
 
-            weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
-                + sprites[state->sprite].spriteframes[state->frame & ~FF_FULLBRIGHT].lump[0]);
-            weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
-        }
+                if (states[j].sprite == sprite)
+                {
+                    weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
+                        + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
+                    weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
+                }
+            }
     }
 
     if (!weaponinfo[wp_pistol].weaponpatch)
