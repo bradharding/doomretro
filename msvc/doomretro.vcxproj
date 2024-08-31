@@ -321,6 +321,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\am_map.h" />
+    <ClInclude Include="..\src\cJSON\cJSON.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
     <ClInclude Include="..\src\d_deh.h" />
@@ -408,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\am_map.c" />
+    <ClCompile Include="..\src\cJSON\cJSON.c" />
     <ClCompile Include="..\src\c_autocomplete.c" />
     <ClCompile Include="..\src\c_cmds.c" />
     <ClCompile Include="..\src\c_console.c" />
