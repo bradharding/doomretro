@@ -248,6 +248,7 @@ uint64_t    stat_gamessaved = 0;
 uint64_t    stat_itemspickedup = 0;
 uint64_t    stat_itemspickedup_ammo_bullets = 0;
 uint64_t    stat_itemspickedup_ammo_cells = 0;
+uint64_t    stat_itemspickedup_ammo_fuel = 0;
 uint64_t    stat_itemspickedup_ammo_rockets = 0;
 uint64_t    stat_itemspickedup_ammo_shells = 0;
 uint64_t    stat_itemspickedup_armor = 0;
@@ -260,6 +261,12 @@ uint64_t    stat_monstersgibbed = 0;
 uint64_t    stat_monsterskilled_total = 0;
 uint64_t    stat_monsterskilled_infighting = 0;
 uint64_t    stat_monsterskilled[NUMMOBJTYPES] = { 0 };
+uint64_t    stat_monsterskilled_banshees = 0;
+uint64_t    stat_monsterskilled_ghouls = 0;
+uint64_t    stat_monsterskilled_mindweavers = 0;
+uint64_t    stat_monsterskilled_shocktroopers = 0;
+uint64_t    stat_monsterskilled_vassagos = 0;
+uint64_t    stat_monsterskilled_tyrants = 0;
 uint64_t    stat_monstersrespawned = 0;
 uint64_t    stat_monstersresurrected = 0;
 uint64_t    stat_monsterstelefragged = 0;
@@ -274,6 +281,8 @@ uint64_t    stat_shotsfired_chaingun = 0;
 uint64_t    stat_shotsfired_rocketlauncher = 0;
 uint64_t    stat_shotsfired_plasmarifle = 0;
 uint64_t    stat_shotsfired_bfg9000 = 0;
+uint64_t    stat_shotsfired_incinerator = 0;
+uint64_t    stat_shotsfired_calamityblade = 0;
 uint64_t    stat_shotssuccessful_fists = 0;
 uint64_t    stat_shotssuccessful_chainsaw = 0;
 uint64_t    stat_shotssuccessful_pistol = 0;
@@ -283,6 +292,8 @@ uint64_t    stat_shotssuccessful_chaingun = 0;
 uint64_t    stat_shotssuccessful_rocketlauncher = 0;
 uint64_t    stat_shotssuccessful_plasmarifle = 0;
 uint64_t    stat_shotssuccessful_bfg9000 = 0;
+uint64_t    stat_shotssuccessful_incinerator = 0;
+uint64_t    stat_shotssuccessful_calamityblade = 0;
 uint64_t    stat_skilllevel_imtooyoungtodie = 0;
 uint64_t    stat_skilllevel_heynottoorough = 0;
 uint64_t    stat_skilllevel_hurtmeplenty = 0;
@@ -507,6 +518,7 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (itemspickedup_ammo_shells,        stat_itemspickedup_ammo_shells,        stat_itemspickedup_ammo_shells,      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (itemspickedup_ammo_rockets,       stat_itemspickedup_ammo_rockets,       stat_itemspickedup_ammo_rockets,     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (itemspickedup_ammo_cells,         stat_itemspickedup_ammo_cells,         stat_itemspickedup_ammo_cells,       NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (itemspickedup_ammo_fuel,          stat_itemspickedup_ammo_fuel,          stat_itemspickedup_ammo_fuel,        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (itemspickedup_armor,              stat_itemspickedup_armor,              stat_itemspickedup_armor,            NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (itemspickedup_health,             stat_itemspickedup_health,             stat_itemspickedup_health,           NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (itemspickedup_keys,               stat_itemspickedup_keys,               stat_itemspickedup_keys,             NOVALUEALIAS       ),
@@ -518,20 +530,25 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (monsterskilled_infighting,        stat_monsterskilled_infighting,        stat_monsterskilled_infighting,      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled[MT_BABY],        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled[MT_VILE],        NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_banshees,          stat_monsterskilled_banshees,          stat_monsterskilled_banshees,        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled[MT_BRUISER],     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        stat_monsterskilled[MT_HEAD],        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_chaingunners,      stat_monsterskilled_heavyweapondudes,  stat_monsterskilled[MT_CHAINGUY],    NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       stat_monsterskilled[MT_CYBORG],      NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_ghouls,            stat_monsterskilled_ghouls,            stat_monsterskilled_ghouls,          NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_hellknights,       stat_monsterskilled_hellknights,       stat_monsterskilled[MT_KNIGHT],      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_imps,              stat_monsterskilled_imps,              stat_monsterskilled[MT_TROOP],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         stat_monsterskilled[MT_SKULL],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_mancubi,           stat_monsterskilled_mancubi,           stat_monsterskilled[MT_FATSO],       NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_mindweavers,       stat_monsterskilled_mindweavers,       stat_monsterskilled_mindweavers,     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_painelementals,    stat_monsterskilled_painelementals,    stat_monsterskilled[MT_PAIN],        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_pinkydemons,       stat_monsterskilled_demons,            stat_monsterskilled[MT_SERGEANT],    NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_revenants,         stat_monsterskilled_revenants,         stat_monsterskilled[MT_UNDEAD],      NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_shocktroopers,     stat_monsterskilled_shocktroopers,     stat_monsterskilled_shocktroopers,   NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_shotgunguys,       stat_monsterskilled_shotgunguys,       stat_monsterskilled[MT_SHOTGUY],     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled[MT_SHADOWS],     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled[MT_SPIDER],      NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_tyrants,           stat_monsterskilled_tyrants,           stat_monsterskilled_tyrants,         NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled[MT_POSSESSED],   NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersrespawned,                stat_monstersrespawned,                stat_monstersrespawned,              NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersresurrected,              stat_monstersresurrected,              stat_monstersresurrected,            NOVALUEALIAS       ),
@@ -547,6 +564,8 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (shotsfired_rocketlauncher,        stat_shotsfired_rocketlauncher,        stat_shotsfired_rocketlauncher,      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotsfired_plasmarifle,           stat_shotsfired_plasmarifle,           stat_shotsfired_plasmarifle,         NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotsfired_bfg9000,               stat_shotsfired_bfg9000,               stat_shotsfired_bfg9000,             NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (shotsfired_incinerator,           stat_shotsfired_incinerator,           stat_shotsfired_incinerator,         NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (shotsfired_calamityblade,         stat_shotsfired_calamityblade,         stat_shotsfired_calamityblade,       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotssuccessful_fists,            stat_shotssuccessful_fists,            stat_shotssuccessful_fists,          NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotssuccessful_chainsaw,         stat_shotssuccessful_chainsaw,         stat_shotssuccessful_chainsaw,       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotssuccessful_pistol,           stat_shotssuccessful_pistol,           stat_shotssuccessful_pistol,         NOVALUEALIAS       ),
@@ -556,6 +575,8 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (shotssuccessful_rocketlauncher,   stat_shotssuccessful_rocketlauncher,   stat_shotssuccessful_rocketlauncher, NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotssuccessful_plasmarifle,      stat_shotssuccessful_plasmarifle,      stat_shotssuccessful_plasmarifle,    NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (shotssuccessful_bfg9000,          stat_shotssuccessful_bfg9000,          stat_shotssuccessful_bfg9000,        NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (shotssuccessful_incinerator,      stat_shotssuccessful_incinerator,      stat_shotssuccessful_incinerator,    NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (shotssuccessful_calamityblade,    stat_shotssuccessful_calamityblade,    stat_shotssuccessful_calamityblade,  NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,       stat_skilllevel_imtooyoungtodie,     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (skilllevel_heynottoorough,        stat_skilllevel_heynottoorough,        stat_skilllevel_heynottoorough,      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (skilllevel_hurtmeplenty,          stat_skilllevel_hurtmeplenty,          stat_skilllevel_hurtmeplenty,        NOVALUEALIAS       ),
