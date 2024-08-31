@@ -813,7 +813,6 @@ static bool HU_DefaultPistolSprites(void)
     }
 
     if (!result1)
-    {
         for (int i = 0; i < 5; i++)
         {
             patch_t *patch = patch = W_CacheLumpNum(firstspritelump
@@ -828,7 +827,6 @@ static bool HU_DefaultPistolSprites(void)
                 break;
             }
         }
-    }
 
     return (result1 || result2);
 }
@@ -1344,7 +1342,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, tinttab60);
+            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, tinttab70);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)

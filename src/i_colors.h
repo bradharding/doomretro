@@ -113,6 +113,7 @@ extern byte *gold4;
 extern byte *white5;
 extern byte *white25;
 extern byte *white33;
+extern byte *white75;
 
 void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue);

@@ -129,6 +129,7 @@ byte    *gold4;
 byte    *white5;
 byte    *white25;
 byte    *white33;
+byte    *white75;
 
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue)
 {
@@ -185,6 +186,7 @@ void FindNearestColors(byte *palette)
     white5 = &tinttab5[nearestwhite << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
+    white75 = &tinttab75[nearestwhite << 8];
 }
 
 int FindBrightDominantColor(patch_t *patch)
