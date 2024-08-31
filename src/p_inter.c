@@ -2062,19 +2062,20 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if (!(target->flags & MF_FRIEND))
             viewplayer->killcount++;
 
-        if (type < NUMMOBJTYPES)
+        if ((source && source->player) || massacre)
         {
-            if ((source && source->player) || massacre)
+            stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
+
+            if (type < NUMMOBJTYPES)
             {
-                stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
                 viewplayer->monsterskilled[type]++;
                 stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
             }
-            else
-            {
-                viewplayer->infightcount++;
-                stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
-            }
+        }
+        else
+        {
+            viewplayer->infightcount++;
+            stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
         }
     }
     else if (type == MT_BARREL)
