@@ -1048,11 +1048,12 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *t
                 *dest = tinttab[grays[dot]];
                 dest += SCREENWIDTH;
 
-                if (++yy == SCREENHEIGHT)
+                if (++yy == SCREENHEIGHT - 1)
                     break;
             }
 
             column = (column_t *)((byte *)column + length + 4);
+            *dest = nearestblack;
         }
     }
 }
@@ -1085,11 +1086,12 @@ void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, int color, co
                 *dest = tinttab75[(tinttab[grays[dot]] << 8) + *dest];
                 dest += SCREENWIDTH;
 
-                if (++yy == SCREENHEIGHT)
+                if (++yy == SCREENHEIGHT - 1)
                     break;
             }
 
             column = (column_t *)((byte *)column + length + 4);
+            *dest = black10[*dest];
         }
     }
 }
