@@ -799,7 +799,7 @@ static bool HU_DefaultPistolSprites(void)
 
     for (int i = 0; i < 5; i++)
     {
-        patch_t *patch = patch = W_CacheLumpNum(firstspritelump
+        patch_t *patch = W_CacheLumpNum(firstspritelump
             + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
 
         if (SHORT(patch->width) != pistol1[i].width
@@ -815,7 +815,7 @@ static bool HU_DefaultPistolSprites(void)
     if (!result1)
         for (int i = 0; i < 5; i++)
         {
-            patch_t *patch = patch = W_CacheLumpNum(firstspritelump
+            patch_t *patch = W_CacheLumpNum(firstspritelump
                 + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
 
             if (SHORT(patch->width) != pistol2[i].width
