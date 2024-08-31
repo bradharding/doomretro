@@ -1036,11 +1036,12 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;
-            byte        dot = 0;
 
             while (count-- > 0)
             {
-                if ((dot = *source++) == from)
+                const byte  dot = *source++;
+
+                if (dot == from)
                     *dest = to;
                 else if (dot)
                     *dest = nearestcolors[dot];
@@ -1049,9 +1050,6 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
             }
 
             column = (column_t *)((byte *)column + length + 4);
-
-            if (shadow && *(dest - SCREENWIDTH) != DARKGRAY1)
-                *dest = black75[dot];
         }
     }
 }
@@ -1122,20 +1120,17 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;
-            byte        dot = 0;
 
             while (count-- > 0)
             {
-                dot = tinttab[grays[*source++]];
-                *dest = dot;
+                *dest = tinttab[grays[*source++]];
                 dest += SCREENWIDTH;
 
-                if (++yy == SCREENHEIGHT - 1)
+                if (++yy == SCREENHEIGHT)
                     break;
             }
 
             column = (column_t *)((byte *)column + length + 4);
-            *dest = black75[dot];
         }
     }
 }
