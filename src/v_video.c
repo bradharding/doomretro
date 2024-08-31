@@ -1020,7 +1020,89 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
     }
 }
 
-void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, bool shadow)
+{
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    const int   width = SHORT(patch->width);
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            byte        count = length;
+            byte        dot = 0;
+
+            while (count-- > 0)
+            {
+                if ((dot = *source++) == from)
+                    *dest = to;
+                else if (dot)
+                    *dest = nearestcolors[dot];
+
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+
+            if (shadow && *(dest - SCREENWIDTH) != DARKGRAY1)
+                *dest = black75[dot];
+        }
+    }
+}
+
+void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, bool shadow)
+{
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    const int   width = SHORT(patch->width);
+
+    if (tinttab)
+        to <<= 8;
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            byte        count = length;
+            byte        dot = 0;
+
+            while (count-- > 0)
+            {
+                if ((dot = *source++) == from)
+                    *dest = (tinttab ? tinttab[to + *dest] : to);
+                else if (dot == DARKGRAY1)
+                    *dest = tinttab20[(nearestwhite << 8) + *dest];
+                else if (dot)
+                {
+                    if (from == -1)
+                        *dest = tinttab20[(nearestwhite << 8) + *dest];
+                    else if (tinttab)
+                        *dest = tinttab[(nearestcolors[dot] << 8) + *dest];
+                }
+
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+
+            if (shadow && dot != DARKGRAY1)
+                *dest = black10[*dest];
+        }
+    }
+}
+
+void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
@@ -1040,12 +1122,12 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *t
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;
+            byte        dot = 0;
 
             while (count-- > 0)
             {
-                const byte  dot = *source++;
-
-                *dest = tinttab[grays[dot]];
+                dot = tinttab[grays[*source++]];
+                *dest = dot;
                 dest += SCREENWIDTH;
 
                 if (++yy == SCREENHEIGHT - 1)
@@ -1053,12 +1135,12 @@ void V_DrawHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *t
             }
 
             column = (column_t *)((byte *)column + length + 4);
-            *dest = nearestblack;
+            *dest = black75[dot];
         }
     }
 }
 
-void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
+void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
@@ -1092,84 +1174,6 @@ void V_DrawTranslucentHUDWeaponPatch(int x, int y, patch_t *patch, int color, co
 
             column = (column_t *)((byte *)column + length + 4);
             *dest = black10[*dest];
-        }
-    }
-}
-
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab)
-{
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   width = SHORT(patch->width);
-
-    for (int col = 0; col < width; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
-            const byte  length = column->length;
-            byte        count = length;
-
-            while (count-- > 0)
-            {
-                const byte  dot = *source++;
-
-                if (dot == from)
-                    *dest = to;
-                else if (dot)
-                    *dest = nearestcolors[dot];
-
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab)
-{
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   width = SHORT(patch->width);
-
-    if (tinttab)
-        to <<= 8;
-
-    for (int col = 0; col < width; col++, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
-            const byte  length = column->length;
-            byte        count = length;
-
-            while (count-- > 0)
-            {
-                const byte  dot = *source++;
-
-                if (dot == from)
-                    *dest = (tinttab ? tinttab[to + *dest] : to);
-                else if (dot == DARKGRAY1)
-                    *dest = tinttab20[(nearestwhite << 8) + *dest];
-                else if (dot)
-                {
-                    if (from == -1)
-                        *dest = tinttab20[(nearestwhite << 8) + *dest];
-                    else if (tinttab)
-                        *dest = tinttab[(nearestcolors[dot] << 8) + *dest];
-                }
-
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
