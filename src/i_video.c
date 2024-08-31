@@ -914,9 +914,9 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
 static void I_Blit_Automap(void)
 {
-    SDL_LockTexture(texture, &map_rect, &mapbuffer->pixels, &mapbuffer->pitch);
+    SDL_LockTexture(maptexture, &map_rect, &mapbuffer->pixels, &mapbuffer->pitch);
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UnlockTexture(texture);
+    SDL_UnlockTexture(maptexture);
     SDL_RenderClear(maprenderer);
     SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
     SDL_RenderPresent(maprenderer);
@@ -924,9 +924,9 @@ static void I_Blit_Automap(void)
 
 static void I_Blit_Automap_NearestLinear(void)
 {
-    SDL_LockTexture(texture, &map_rect, &mapbuffer->pixels, &mapbuffer->pitch);
+    SDL_LockTexture(maptexture, &map_rect, &mapbuffer->pixels, &mapbuffer->pitch);
     SDL_LowerBlit(mapsurface, &map_rect, mapbuffer, &map_rect);
-    SDL_UnlockTexture(texture);
+    SDL_UnlockTexture(maptexture);
     SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
     SDL_RenderCopy(maprenderer, maptexture, NULL, NULL);
