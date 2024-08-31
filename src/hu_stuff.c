@@ -766,6 +766,73 @@ static int      red2;
 static int      yellow1;
 static int      yellow2;
 
+typedef struct
+{
+    short   width;
+    short   height;
+    short   leftoffset;
+    short   topoffset;
+} pistol_t;
+
+static pistol_t pistol1[] =
+{
+    {  57,  62, -126, -106 },
+    {  79,  82, -104,  -86 },
+    {  66,  81, -119,  -87 },
+    {  61,  81, -125,  -87 },
+    {  78, 103, -106,  -65 }
+};
+
+static pistol_t pistol2[] =
+{
+    { 107,  94,  -76, -106 },
+    { 116, 114,  -67,  -86 },
+    { 111, 113,  -74,  -87 },
+    { 109, 113,  -77,  -87 },
+    { 113, 135,  -71,  -65 }
+};
+
+static bool HU_DefaultPistolSprites(void)
+{
+    bool    result1 = true;
+    bool    result2 = true;
+
+    for (int i = 0; i < 5; i++)
+    {
+        patch_t *patch = patch = W_CacheLumpNum(firstspritelump
+            + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
+
+        if (SHORT(patch->width) != pistol1[i].width
+            || SHORT(patch->height) != pistol1[i].height
+            || SHORT(patch->leftoffset) != pistol1[i].leftoffset
+            || SHORT(patch->topoffset) != pistol1[i].topoffset)
+        {
+            result1 = false;
+            break;
+        }
+    }
+
+    if (!result1)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            patch_t *patch = patch = W_CacheLumpNum(firstspritelump
+                + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
+
+            if (SHORT(patch->width) != pistol2[i].width
+                || SHORT(patch->height) != pistol2[i].height
+                || SHORT(patch->leftoffset) != pistol2[i].leftoffset
+                || SHORT(patch->topoffset) != pistol2[i].topoffset)
+            {
+                result2 = false;
+                break;
+            }
+        }
+    }
+
+    return (result1 || result2);
+}
+
 static void HU_AltInit(void)
 {
     char    buffer[9];
@@ -837,15 +904,10 @@ static void HU_AltInit(void)
             }
     }
 
-    if (!weaponinfo[wp_pistol].weaponpatch)
+    if (!weaponinfo[wp_pistol].weaponpatch && HU_DefaultPistolSprites())
     {
-        const int   lump = W_CheckNumForName("PISGA0");
-
-        if (lump == -1 || lumpinfo[lump]->wadfile->type == IWAD || BTSX)
-        {
-            weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
-            weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
-        }
+        weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
+        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
     }
 
     gray = nearestcolors[GRAY1];
