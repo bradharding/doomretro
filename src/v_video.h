@@ -110,7 +110,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
-void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr);
+void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr, int screenwidth);
 void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int screenwidth, const byte *tinttab);
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,

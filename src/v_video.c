@@ -700,7 +700,7 @@ bool V_IsEmptyPatch(patch_t *patch)
     return true;
 }
 
-void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr)
+void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr, int screenwidth)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -708,7 +708,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    desttop = &tempscreen[((y * DY) >> FRACBITS) * screenwidth + ((x * DX) >> FRACBITS)];
 
     for (int col = 0; col < width; col += DXI, desttop++)
     {
@@ -718,7 +718,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr)
         while (column->topdelta != 0xFF)
         {
             const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
@@ -726,10 +726,10 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr)
             while (count-- > 0)
             {
                 *dest = cr[source[srccol >> FRACBITS]];
-                dest += SCREENWIDTH;
+                dest += screenwidth;
 
                 if (!vanilla)
-                    *(dest + SCREENWIDTH + 2) = nearestblack;
+                    *(dest + screenwidth + 2) = nearestblack;
 
                 srccol += DYI;
             }
