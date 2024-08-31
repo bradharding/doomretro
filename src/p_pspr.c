@@ -1023,6 +1023,9 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!(mo = P_SpawnPlayerMissile(player->mo, state->args[0] - 1)))
         return;
 
+    if (ID1 && (M_BigRandom() & 1))
+        mo->flags2 |= MF2_MIRRORED;
+
     // adjust angle
     mo->angle += (angle_t)(((int64_t)state->args[1] << 16) / 360);
     an = mo->angle >> ANGLETOFINESHIFT;
