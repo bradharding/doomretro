@@ -1042,12 +1042,7 @@ static void GetDisplays(void)
 bool I_CreateExternalAutomap(void)
 {
     const char  *displayname;
-    uint32_t    rmask;
-    uint32_t    gmask;
-    uint32_t    bmask;
-    uint32_t    amask;
     uint32_t    pixelformat;
-    int         bpp = 0;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1101,9 +1096,6 @@ bool I_CreateExternalAutomap(void)
 
     if ((pixelformat = SDL_GetWindowPixelFormat(mapwindow)) == SDL_PIXELFORMAT_UNKNOWN)
         I_SDLError("SDL_GetWindowPixelFormat", -1);
-
-    if (!SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))
-        I_SDLError("SDL_PixelFormatEnumToMasks", -1);
 
     if (!(mapbuffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, MAPWIDTH, MAPHEIGHT, 8, 0, SDL_PIXELFORMAT_ARGB8888)))
         I_SDLError("SDL_CreateRGBSurfaceWithFormatFrom", -1);
@@ -1316,12 +1308,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
     bool                instead = false;
-    uint32_t            rmask;
-    uint32_t            gmask;
-    uint32_t            bmask;
-    uint32_t            amask;
     uint32_t            pixelformat;
-    int                 bpp = 0;
 
     if (displayindex >= numdisplays)
     {
@@ -1743,9 +1730,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if ((pixelformat = SDL_GetWindowPixelFormat(window)) == SDL_PIXELFORMAT_UNKNOWN)
         I_SDLError("SDL_GetWindowPixelFormat", -1);
-
-    if (!SDL_PixelFormatEnumToMasks(pixelformat, &bpp, &rmask, &gmask, &bmask, &amask))
-        I_SDLError("SDL_PixelFormatEnumToMasks", -1);
 
     if (!(buffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, SCREENWIDTH, SCREENHEIGHT, 8, 0, SDL_PIXELFORMAT_ARGB8888)))
         I_SDLError("SDL_CreateRGBSurfaceWithFormatFrom", -1);

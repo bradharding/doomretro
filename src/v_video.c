@@ -809,7 +809,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
             if (shadow)
             {
                 if (italics)
-                    *(dest + italicize[length]) = nearestblack;
+                    *(dest + italicize[length - 1]) = nearestblack;
                 else
                     *dest = nearestblack;
             }
@@ -854,7 +854,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
                 else if (shadow)
                 {
                     if (italics)
-                        *(dest + italicize[i]) = nearestblack;
+                        *(dest + italicize[i]) = black10[*(dest + italicize[i])];
                     else
                         *dest = black10[*dest];
 
@@ -867,7 +867,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
             if (shadow)
             {
                 if (italics)
-                    *(dest + italicize[length]) = nearestblack;
+                    *(dest + italicize[length - 1]) = black10[*(dest + italicize[length - 1])];
                 else
                     *dest = black10[*dest];
             }
