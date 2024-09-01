@@ -568,15 +568,34 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
 
     for (int col = 0; col < width; col++, desttop++)
     {
-        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
-        byte    *dest = desttop;
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        int         topdelta;
+        const byte  length = column->length;
 
-        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
         {
-            if (*source++)
-                *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[topdelta * screenwidth];
+            bool    shadow = false;
 
-            dest += screenwidth;
+            for (int i = 0; i < length; i++)
+            {
+                if (*source++)
+                {
+                    *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
+                    shadow = true;
+                }
+                else if (shadow)
+                {
+                    *dest = black10[*dest];
+                    shadow = false;
+                }
+
+                dest += screenwidth;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
