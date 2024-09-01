@@ -796,6 +796,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
         {
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * screenwidth];
+            bool    shadow = false;
 
             for (int i = 0; i < length; i++)
             {
@@ -807,6 +808,12 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
                         dot += italicize[i];
 
                     *dot = tinttab[(color << 8) + *dot];
+                    shadow = true;
+                }
+                else if (shadow)
+                {
+                    *dest = black10[*dest];
+                    shadow = false;
                 }
 
                 dest += screenwidth;
