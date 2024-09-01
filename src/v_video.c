@@ -583,12 +583,12 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
             {
                 if (*source++)
                 {
-                    *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
+                    *dest = (tinttab ? tinttab[(color << 8) + *dest] : color);
                     shadow = true;
                 }
                 else if (shadow)
                 {
-                    *dest = black10[*dest];
+                    *dest = (tinttab ? black10[*dest] : nearestblack);
                     shadow = false;
                 }
 
@@ -596,7 +596,7 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
             }
 
             if (shadow)
-                *dest = black10[*dest];
+                *dest = (tinttab ? black10[*dest] : nearestblack);
 
             column = (column_t *)((byte *)column + length + 4);
         }
@@ -779,6 +779,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
         {
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[topdelta * screenwidth];
+            bool    shadow = false;
 
             for (int i = 0; i < length; i++)
             {
@@ -790,9 +791,27 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
                         dot += italicize[i];
 
                     *dot = color;
+                    shadow = true;
+                }
+                else if (shadow)
+                {
+                    if (italics)
+                        *(dest + italicize[i]) = nearestblack;
+                    else
+                        *dest = nearestblack;
+
+                    shadow = false;
                 }
 
                 dest += screenwidth;
+            }
+
+            if (shadow)
+            {
+                if (italics)
+                    *(dest + italicize[length]) = nearestblack;
+                else
+                    *dest = nearestblack;
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -834,7 +853,11 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
                 }
                 else if (shadow)
                 {
-                    *dest = black10[*dest];
+                    if (italics)
+                        *(dest + italicize[i]) = nearestblack;
+                    else
+                        *dest = black10[*dest];
+
                     shadow = false;
                 }
 
@@ -842,7 +865,12 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
             }
 
             if (shadow)
-                *dest = black10[*dest];
+            {
+                if (italics)
+                    *(dest + italicize[length]) = nearestblack;
+                else
+                    *dest = black10[*dest];
+            }
 
             column = (column_t *)((byte *)column + length + 4);
         }
