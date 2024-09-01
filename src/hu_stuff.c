@@ -896,7 +896,7 @@ static void HU_AltInit(void)
                 {
                     weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
                         + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
-                    weaponinfo[i].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
+                    weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
                     break;
                 }
             }
@@ -905,7 +905,7 @@ static void HU_AltInit(void)
     if (!weaponinfo[wp_pistol].weaponpatch && HU_DefaultPistolSprites())
     {
         weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
-        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 10 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
+        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
     }
 
     gray = nearestcolors[GRAY1];
