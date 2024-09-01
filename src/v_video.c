@@ -595,6 +595,9 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
                 dest += screenwidth;
             }
 
+            if (shadow)
+                *dest = black10[*dest];
+
             column = (column_t *)((byte *)column + length + 4);
         }
     }
@@ -837,6 +840,9 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 
                 dest += screenwidth;
             }
+
+            if (shadow)
+                *dest = black10[*dest];
 
             column = (column_t *)((byte *)column + length + 4);
         }
