@@ -731,6 +731,9 @@ static bool F_CastResponder(const event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
+    if (ev->type == ev_mousewheel)
+        return false;
+
     if (ev->type == ev_controller && !(controllerbuttons & controllerfire) && !(controllerbuttons & controlleruse))
         return false;
 
