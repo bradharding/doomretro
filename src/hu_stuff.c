@@ -883,29 +883,33 @@ static void HU_AltInit(void)
 
     for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
     {
-        const spritenum_t   sprite = weaponinfo[i].weaponsprite;
+        M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
-        if (!sprite)
-            weaponinfo[i].weaponpatch = NULL;
+        if (W_CheckNumForName(buffer) >= 0)
+        {
+            weaponinfo[i].weaponpatch = W_CacheLumpName(buffer);
+            weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
+        }
         else
-            for (int j = numstates; j >= 0; j--)
-            {
-                state_t *state = &states[j];
+        {
+            const spritenum_t   sprite = weaponinfo[i].weaponsprite;
 
-                if (state->sprite == sprite)
+            if (!sprite)
+                weaponinfo[i].weaponpatch = NULL;
+            else
+                for (int j = numstates; j >= 0; j--)
                 {
-                    weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
-                        + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
-                    weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
-                    break;
-                }
-            }
-    }
+                    state_t *state = &states[j];
 
-    if (!weaponinfo[wp_pistol].weaponpatch && HU_DefaultPistolSprites())
-    {
-        weaponinfo[wp_pistol].weaponpatch = W_CacheLumpName("DRHUDWP1");
-        weaponinfo[wp_pistol].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[wp_pistol].weaponpatch->height) / 2;
+                    if (state->sprite == sprite)
+                    {
+                        weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
+                            + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
+                        weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
+                        break;
+                    }
+                }
+        }
     }
 
     gray = nearestcolors[GRAY1];
