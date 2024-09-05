@@ -2064,12 +2064,12 @@ static void M_DrawOptions(void)
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
-        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
+        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + (int)r_althud + !r_hud)));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
-        + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
+        + OptionsDef.x - 1 + 8 + (int)(dot * 5.9f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
-        9, 15, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
+        9, 15, dot, 5.9f, 8, (itemon == scrnsize || itemon == option_empty1));
 
     if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
