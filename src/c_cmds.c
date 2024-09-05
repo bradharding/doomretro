@@ -4443,14 +4443,14 @@ static bool map_func1(char *cmd, char *parms)
                 pwad = (lumpinfo[i]->wadfile->type == PWAD);
                 M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode, mapcmdmap), sizeof(mapinfoname));
 
-                if (mapcmdmap > 9)
-                    continue;
-
                 switch (gamemission)
                 {
                     case doom:
                         if (!replaced || pwad)
                         {
+                            if (mapcmdmap > 9)
+                                continue;
+
                             temp2 = removenonalpha(*mapinfoname ? mapinfoname : *mapnames[(mapcmdepisode - 1) * 9 + mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp2))

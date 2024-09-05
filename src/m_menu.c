@@ -2064,7 +2064,7 @@ static void M_DrawOptions(void)
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
-        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + (int)r_althud + !r_hud)));
+        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + (int)r_althud + (int)(!r_hud))));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
         + OptionsDef.x - 1 + 8 + (int)(dot * 5.9f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
