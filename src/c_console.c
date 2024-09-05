@@ -2427,6 +2427,8 @@ bool C_Responder(event_t *ev)
                             const bool  endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
 
                             if ((game == DOOM1AND2
+                                || (gamemission == pack_plut && game == PLUTONIAONLY)
+                                || (gamemission == pack_tnt && game == TNTONLY)
                                 || (gamemission == pack_nerve && game == NERVEONLY)
                                 || (masterlevels && game == MASTERLEVELSONLY)
                                 || (ID1 && game == ID1ONLY)
