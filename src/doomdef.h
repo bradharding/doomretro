@@ -84,7 +84,9 @@ enum
 {
     DOOM1AND2,
     DOOM1ONLY,
-    DOOM2ONLY
+    DOOM2ONLY,
+    NERVEONLY,
+    ID1ONLY
 };
 
 // Game mode handling - identify IWAD version
