@@ -2428,6 +2428,7 @@ bool C_Responder(event_t *ev)
 
                             if ((game == DOOM1AND2
                                 || (gamemission == pack_nerve && game == NERVEONLY)
+                                || (masterlevels && game == MASTERLEVELSONLY)
                                 || (ID1 && game == ID1ONLY)
                                 || (gamemission == doom && game == DOOM1ONLY)
                                 || (gamemission != doom && game == DOOM2ONLY))
