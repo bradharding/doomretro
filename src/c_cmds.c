@@ -6180,19 +6180,118 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
 //
 static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t type)
 {
-    char    *temp1 = sentencecase(mobjinfo[type].plural1);
-    char    *temp2 = commify(viewplayer->monsterskilled[type]);
-    char    *temp3 = commify(monstercount[type]);
-    char    *temp4 = commifystat(stat_monsterskilled[type]);
+    if (type < NUMMOBJTYPES)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled[type]);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled[type]);
 
-    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
-        temp1, temp2, temp3,
-        (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
 
-    free(temp1);
-    free(temp2);
-    free(temp3);
-    free(temp4);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_BANSHEE)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_banshees);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_banshees);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_GHOUL)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_ghouls);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_ghouls);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_MINDWEAVER)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_mindweavers);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_mindweavers);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_SHOCKTROOPER)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_shocktroopers);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_shocktroopers);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_TYRANT)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_tyrants);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_tyrants);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+    else if (type == MT_VASSAGO)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commify(viewplayer->monsterskilled_vassagos);
+        char    *temp3 = commify(monstercount[type]);
+        char    *temp4 = commifystat(stat_monsterskilled_vassagos);
+
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
 }
 
 static void C_PlayerStats_Game(void)
@@ -6283,37 +6382,60 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    ShowMonsterKillStat_Game(tabs, MT_POSSESSED);
-    ShowMonsterKillStat_Game(tabs, MT_SHOTGUY);
-    ShowMonsterKillStat_Game(tabs, MT_TROOP);
-    ShowMonsterKillStat_Game(tabs, MT_SERGEANT);
-    ShowMonsterKillStat_Game(tabs, MT_SHADOWS);
+    if (gamemode == commercial)
+        ShowMonsterKillStat_Game(tabs, MT_VILE);
+
+    if (ID1)
+        ShowMonsterKillStat_Game(tabs, MT_BANSHEE);
+
+    ShowMonsterKillStat_Game(tabs, MT_BRUISER);
+    ShowMonsterKillStat_Game(tabs, MT_HEAD);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_CHAINGUY);
 
-    ShowMonsterKillStat_Game(tabs, MT_HEAD);
-    ShowMonsterKillStat_Game(tabs, MT_SKULL);
+    if (gamemode != shareware)
+        ShowMonsterKillStat_Game(tabs, MT_CYBORG);
+
+    if (ID1)
+        ShowMonsterKillStat_Game(tabs, MT_GHOUL);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_KNIGHT);
 
-    ShowMonsterKillStat_Game(tabs, MT_BRUISER);
+    ShowMonsterKillStat_Game(tabs, MT_TROOP);
+    ShowMonsterKillStat_Game(tabs, MT_SKULL);
 
     if (gamemode == commercial)
-    {
-        ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
-        ShowMonsterKillStat_Game(tabs, MT_BABY);
         ShowMonsterKillStat_Game(tabs, MT_FATSO);
+
+    if (ID1)
+        ShowMonsterKillStat_Game(tabs, MT_MINDWEAVER);
+
+    if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_PAIN);
-        ShowMonsterKillStat_Game(tabs, MT_VILE);
-    }
+
+    ShowMonsterKillStat_Game(tabs, MT_SERGEANT);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
+
+    if (ID1)
+        ShowMonsterKillStat_Game(tabs, MT_SHOCKTROOPER);
+
+    ShowMonsterKillStat_Game(tabs, MT_SHOTGUY);
+    ShowMonsterKillStat_Game(tabs, MT_SHADOWS);
 
     if (gamemode != shareware)
-    {
-        ShowMonsterKillStat_Game(tabs, MT_CYBORG);
         ShowMonsterKillStat_Game(tabs, MT_SPIDER);
+
+    if (ID1)
+    {
+        ShowMonsterKillStat_Game(tabs, MT_TYRANT);
+        ShowMonsterKillStat_Game(tabs, MT_VASSAGO);
     }
+
+    ShowMonsterKillStat_Game(tabs, MT_POSSESSED);
 
     temp1 = commify(viewplayer->infightcount);
     temp2 = commifystat(stat_monsterskilled_infighting);
@@ -6758,12 +6880,69 @@ static void C_PlayerStats_Game(void)
 
 static void ShowMonsterKillStat_NoGame(const int tabs[MAXTABS], const mobjtype_t type)
 {
-    char    *temp1 = sentencecase(mobjinfo[type].plural1);
-    char    *temp2 = commifystat(stat_monsterskilled[type]);
+    if (type < NUMMOBJTYPES)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled[type]);
 
-    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
-    free(temp1);
-    free(temp2);
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_BANSHEE)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_banshees);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_GHOUL)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_ghouls);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_MINDWEAVER)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_mindweavers);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_SHOCKTROOPER)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_shocktroopers);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_TYRANT)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_tyrants);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (type == MT_VASSAGO)
+    {
+        char    *temp1 = sentencecase(mobjinfo[type].plural1);
+        char    *temp2 = commifystat(stat_monsterskilled_vassagos);
+
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -6815,37 +6994,60 @@ static void C_PlayerStats_NoGame(void)
         (M_StringCompare(playername, playername_default) ? "you" : playername), s_KILLED, temp1);
     free(temp1);
 
-    ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
-    ShowMonsterKillStat_NoGame(tabs, MT_SHOTGUY);
-    ShowMonsterKillStat_NoGame(tabs, MT_TROOP);
-    ShowMonsterKillStat_NoGame(tabs, MT_SERGEANT);
-    ShowMonsterKillStat_NoGame(tabs, MT_SHADOWS);
+    if (gamemode == commercial)
+        ShowMonsterKillStat_NoGame(tabs, MT_VILE);
+
+    if (ID1)
+        ShowMonsterKillStat_NoGame(tabs, MT_BANSHEE);
+
+    ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
+    ShowMonsterKillStat_NoGame(tabs, MT_HEAD);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_CHAINGUY);
 
-    ShowMonsterKillStat_NoGame(tabs, MT_HEAD);
-    ShowMonsterKillStat_NoGame(tabs, MT_SKULL);
+    if (gamemode != shareware)
+        ShowMonsterKillStat_NoGame(tabs, MT_CYBORG);
+
+    if (ID1)
+        ShowMonsterKillStat_NoGame(tabs, MT_GHOUL);
 
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_KNIGHT);
 
-    ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
+    ShowMonsterKillStat_NoGame(tabs, MT_TROOP);
+    ShowMonsterKillStat_NoGame(tabs, MT_SKULL);
 
     if (gamemode == commercial)
-    {
-        ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
-        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
         ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
+
+    if (ID1)
+        ShowMonsterKillStat_NoGame(tabs, MT_MINDWEAVER);
+
+    if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_PAIN);
-        ShowMonsterKillStat_NoGame(tabs, MT_VILE);
-    }
+
+    ShowMonsterKillStat_NoGame(tabs, MT_SERGEANT);
+
+    if (gamemode == commercial)
+        ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
+
+    if (ID1)
+        ShowMonsterKillStat_NoGame(tabs, MT_SHOCKTROOPER);
+
+    ShowMonsterKillStat_NoGame(tabs, MT_SHOTGUY);
+    ShowMonsterKillStat_NoGame(tabs, MT_SHADOWS);
 
     if (gamemode != shareware)
-    {
-        ShowMonsterKillStat_NoGame(tabs, MT_CYBORG);
         ShowMonsterKillStat_NoGame(tabs, MT_SPIDER);
+
+    if (ID1)
+    {
+        ShowMonsterKillStat_NoGame(tabs, MT_TYRANT);
+        ShowMonsterKillStat_NoGame(tabs, MT_VASSAGO);
     }
+
+    ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
 
     temp1 = commifystat(stat_monsterskilled_infighting);
     C_TabbedOutput(tabs, "Monsters %s while infighting\t\x96\t%s", s_KILLED, temp1);

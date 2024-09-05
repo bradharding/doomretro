@@ -39,7 +39,14 @@
 #include "d_think.h"
 #include "states.h"
 
-#define NO_ALTSPEED -1
+#define NO_ALTSPEED     -1
+
+#define MT_GHOUL        MT_EXTRA00
+#define MT_BANSHEE      MT_EXTRA01
+#define MT_MINDWEAVER   MT_EXTRA02
+#define MT_SHOCKTROOPER MT_EXTRA03
+#define MT_VASSAGO      MT_EXTRA04
+#define MT_TYRANT       MT_EXTRA05
 
 typedef enum
 {
