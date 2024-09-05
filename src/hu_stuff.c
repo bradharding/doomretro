@@ -912,6 +912,9 @@ static void HU_AltInit(void)
         }
     }
 
+    if (!HU_DefaultPistolSprites())
+        weaponinfo[wp_pistol].weaponpatch = NULL;
+
     gray = nearestcolors[GRAY1];
     darkgray = nearestcolors[DARKGRAY1];
 }
