@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL v2.30.7*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.7).
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * These changes have been made when a PWAD is loaded that has a custom character set:
   * The message displayed when the player finds a secret is now gold if the `secretmessages` CVAR is `on`.
   * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
@@ -13,7 +14,13 @@
   * The title in the automap now has a drop shadow.
 * A bug is fixed whereby the screen wasn’t being immediately updated after changing the `r_hud` CVAR in the console.
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
-* Minor improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust), [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) and [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
+* These improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
+  * Kill stats for banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos are now displayed by the `playerstats` CCMD.
+  * A fuel can icon now appears in the widescreen HUD when the player has their incinerator or calamity blade equipped.
+  * Fire from the player’s incinerator and calamity blade are now randomly mirrored and translucent.
+  * *DOOM Retro’s* higher resolution status bar is now displayed.
+  * The help screen has been updated to include the incinerator and calamity blade.
+* Minor improvements have also been made to the support of [`extras.wad`](https://doomwiki.org/wiki/Extras.wad), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * These changes have been made to the support of `MAPINFO` lumps:
   * The order in which `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
@@ -21,6 +28,13 @@
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
+* These changes have been made to the alternate widescreen HUD:
+  * The HUD can now be easily accessed along with the default widescreen HUD by pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys during a game.
+  * The weapon silhouette now accurately reflects the pickup sprite for each weapon.
+  * Certain elements have now either shifted position, increased in size or cast a slight shadow.
+  * The health bar no longer flashes white while it is red and the player picks up some health.
+* The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
+* The amount of ammo the player has is no longer momentarily translucent at the start of each map if the `animatedstats` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
