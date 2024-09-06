@@ -3322,7 +3322,16 @@ static void deh_procWeapon(DEHFILE *fpin, const char *line)
         }
 
         if (M_StringCompare(key, deh_weapon[0]))            // Ammo type
-            weaponinfo[indexnum].ammotype = value;
+        {
+            if ((weaponinfo[indexnum].ammotype = value) == am_clip)
+                weaponinfo[indexnum].ammosprite = SPR_CLIP;
+            else if (value == am_shell)
+                weaponinfo[indexnum].ammosprite = SPR_SHEL;
+            else if (value == am_cell)
+                weaponinfo[indexnum].ammosprite = SPR_CELL;
+            else if (value == am_misl)
+                weaponinfo[indexnum].ammosprite = SPR_ROCK;
+        }
         else if (M_StringCompare(key, deh_weapon[1]))       // Deselect frame
             weaponinfo[indexnum].upstate = value;
         else if (M_StringCompare(key, deh_weapon[2]))       // Select frame
