@@ -2076,6 +2076,39 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
                 viewplayer->monsterskilled[type]++;
                 stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
             }
+            else if (ID1)
+            {
+                if (type == MT_GHOUL)
+                {
+                    viewplayer->monsterskilled_ghouls++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_ghouls, 1);
+                }
+                else if (type == MT_BANSHEE)
+                {
+                    viewplayer->monsterskilled_banshees++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_banshees, 1);
+                }
+                else if (type == MT_MINDWEAVER)
+                {
+                    viewplayer->monsterskilled_mindweavers++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_mindweavers, 1);
+                }
+                else if (type == MT_SHOCKTROOPER)
+                {
+                    viewplayer->monsterskilled_shocktroopers++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_shocktroopers, 1);
+                }
+                else if (type == MT_VASSAGO)
+                {
+                    viewplayer->monsterskilled_vassagos++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_vassagos, 1);
+                }
+                else if (type >= MT_TYRANT && type <= MT_TYRANTBOSS2)
+                {
+                    viewplayer->monsterskilled_tyrants++;
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled_tyrants, 1);
+                }
+            }
         }
         else
         {

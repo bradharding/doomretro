@@ -6205,7 +6205,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_banshees * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);
@@ -6221,7 +6221,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_ghouls * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);
@@ -6237,7 +6237,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_mindweavers * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);
@@ -6253,14 +6253,14 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_shocktroopers * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
     }
-    else if (type == MT_TYRANT)
+    else if (type >= MT_TYRANT && type <= MT_TYRANTBOSS2)
     {
         char    *temp1 = sentencecase(mobjinfo[type].plural1);
         char    *temp2 = commify(viewplayer->monsterskilled_tyrants);
@@ -6269,7 +6269,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_tyrants * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);
@@ -6285,7 +6285,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
         C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
             temp1, temp2, temp3,
-            (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
+            (monstercount[type] ? viewplayer->monsterskilled_vassagos * 100 / monstercount[type] : 0), temp4);
 
         free(temp1);
         free(temp2);

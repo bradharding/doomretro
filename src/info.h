@@ -47,6 +47,8 @@
 #define MT_SHOCKTROOPER MT_EXTRA03
 #define MT_VASSAGO      MT_EXTRA04
 #define MT_TYRANT       MT_EXTRA05
+#define MT_TYRANTBOSS1  MT_EXTRA06
+#define MT_TYRANTBOSS2  MT_EXTRA07
 
 typedef enum
 {
