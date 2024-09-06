@@ -703,6 +703,9 @@ static void R_InitSpriteLumps(void)
         s_GOTCELLBOX = M_StringDuplicate("%s picked up a fuel tank.");
         s_GOTPLASMA = M_StringDuplicate("%s got the incinerator!");
 
+        M_StringCopy(mobjinfo[MT_MISC25].name1, "calamity blade", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC25].plural1, "calamity blades", sizeof(mobjinfo[0].plural1));
+
         mobjinfo[MT_EXTRA00].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA01].flags |= MF_NOBLOOD;
         mobjinfo[MT_EXTRA04].flags |= MF_NOBLOOD;
