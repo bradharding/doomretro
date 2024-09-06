@@ -6383,7 +6383,10 @@ static void C_PlayerStats_Game(void)
     free(temp3);
 
     if (gamemode == commercial)
+    {
+        ShowMonsterKillStat_Game(tabs, MT_BABY);
         ShowMonsterKillStat_Game(tabs, MT_VILE);
+    }
 
     if (ID1)
         ShowMonsterKillStat_Game(tabs, MT_BANSHEE);
@@ -6995,7 +6998,10 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     if (gamemode == commercial)
+    {
+        ShowMonsterKillStat_NoGame(tabs, MT_BABY);
         ShowMonsterKillStat_NoGame(tabs, MT_VILE);
+    }
 
     if (ID1)
         ShowMonsterKillStat_NoGame(tabs, MT_BANSHEE);

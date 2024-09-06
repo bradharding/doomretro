@@ -20,7 +20,7 @@
   * Fire from the player’s incinerator and calamity blade are now randomly mirrored and translucent.
   * *DOOM Retro’s* higher resolution status bar is now displayed.
   * The help screen has been updated to include the incinerator and calamity blade.
-* Minor improvements have also been made to the support of [`extras.wad`](https://doomwiki.org/wiki/Extras.wad), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Minor improvements have also been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960) and [`extras.wad`](https://doomwiki.org/wiki/Extras.wad).
 * These changes have been made to the support of `MAPINFO` lumps:
   * The order in which `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
