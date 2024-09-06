@@ -1096,12 +1096,11 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;
+            byte        dot = 0;
 
             while (count-- > 0)
             {
-                const byte  dot = *source++;
-
-                if (dot == from)
+                if ((dot = *source++) == from)
                     *dest = to;
                 else if (dot)
                     *dest = nearestcolors[dot];
@@ -1110,6 +1109,9 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
             }
 
             column = (column_t *)((byte *)column + length + 4);
+
+            if (shadow && dot != DARKGRAY1)
+                *dest = nearestdarkgray;
         }
     }
 }
@@ -1191,6 +1193,7 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte
             }
 
             column = (column_t *)((byte *)column + length + 4);
+            *dest = nearestdarkgray;
         }
     }
 }
