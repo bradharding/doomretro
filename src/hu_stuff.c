@@ -771,25 +771,26 @@ typedef struct
     short   width;
     short   height;
     short   leftoffset;
-    short   topoffset;
+    short   topoffset1;
+    short   topoffset2;
 } pistol_t;
 
 static pistol_t pistol1[] =
 {
-    {  57,  62, -126, -106 },
-    {  79,  82, -104,  -86 },
-    {  66,  81, -119,  -87 },
-    {  61,  81, -125,  -87 },
-    {  78, 103, -106,  -65 }
+    {  57,  62, -126, -106, -106 },
+    {  79,  82, -104,  -86, -109 },
+    {  66,  81, -119,  -87, -111 },
+    {  61,  81, -125,  -87,  -87 },
+    {  78, 103, -106,  -65,  -65 }
 };
 
 static pistol_t pistol2[] =
 {
-    { 107,  94,  -76, -106 },
-    { 116, 114,  -67,  -86 },
-    { 111, 113,  -74,  -87 },
-    { 109, 113,  -77,  -87 },
-    { 113, 135,  -71,  -65 }
+    { 107,  94,  -76, -106, -106 },
+    { 116, 114,  -67,  -86,  -86 },
+    { 111, 113,  -74,  -87,  -87 },
+    { 109, 113,  -77,  -87,  -87 },
+    { 113, 135,  -71,  -65,  -65 }
 };
 
 static bool HU_DefaultPistolSprites(void)
@@ -805,7 +806,8 @@ static bool HU_DefaultPistolSprites(void)
         if (SHORT(patch->width) != pistol1[i].width
             || SHORT(patch->height) != pistol1[i].height
             || SHORT(patch->leftoffset) != pistol1[i].leftoffset
-            || SHORT(patch->topoffset) != pistol1[i].topoffset)
+            || (SHORT(patch->topoffset) != pistol1[i].topoffset1
+                && SHORT(patch->topoffset) != pistol1[i].topoffset2))
         {
             result1 = false;
             break;
@@ -821,7 +823,8 @@ static bool HU_DefaultPistolSprites(void)
             if (SHORT(patch->width) != pistol2[i].width
                 || SHORT(patch->height) != pistol2[i].height
                 || SHORT(patch->leftoffset) != pistol2[i].leftoffset
-                || SHORT(patch->topoffset) != pistol2[i].topoffset)
+                || (SHORT(patch->topoffset) != pistol2[i].topoffset1
+                    && SHORT(patch->topoffset) != pistol2[i].topoffset2))
             {
                 result2 = false;
                 break;
