@@ -1171,7 +1171,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x--;
 
                     if (prevletter == '/')
-                        x -= 2;
+                        x--;
                     else if (prevletter == '\'')
                         x++;
 
