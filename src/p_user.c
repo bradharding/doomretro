@@ -289,7 +289,8 @@ static void P_ReduceDamageCount(void)
         viewplayer->damagecount--;
 
         if (r_shake_damage)
-            I_UpdateBlitFunc(viewplayer->damagecount);
+            I_UpdateBlitFunc(viewplayer->damagecount && !(viewplayer->cheats & CF_GODMODE)
+                && !viewplayer->powers[pw_invulnerability]);
     }
     else
         healthcvar = false;
@@ -370,7 +371,8 @@ static void P_DeathThink(void)
             mo->angle += (delta < ANG180 ? ANG5 : -ANG5);
 
             if (r_shake_damage)
-                I_UpdateBlitFunc(viewplayer->damagecount);
+                I_UpdateBlitFunc(viewplayer->damagecount && !(viewplayer->cheats & CF_GODMODE)
+                    && !viewplayer->powers[pw_invulnerability]);
         }
     }
     else
