@@ -399,7 +399,7 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-    if (STBARs < 3 || ID1)
+    if (STBARs < 3 || legacyofrust)
     {
         if (r_detail == r_detail_high)
         {
@@ -1497,7 +1497,7 @@ void ST_InitStatBar(void)
     if (english == english_american)
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
-            W_CacheLastLumpName("STBAR") : (ID1 ? W_CacheLumpNameFromResourceWAD("STBAR") : W_CacheLumpName("STBAR")));
+            W_CacheLastLumpName("STBAR") : (legacyofrust ? W_CacheLumpNameFromResourceWAD("STBAR") : W_CacheLumpName("STBAR")));
         sbar2 = W_CacheLumpName("STBAR2");
     }
     else
@@ -1515,7 +1515,7 @@ void ST_InitStatBar(void)
     sbar2->leftoffset = 0;
     sbar2->topoffset = 0;
 
-    if (ID1)
+    if (legacyofrust)
     {
         ammobg = W_CacheLumpName("STAMMO");
         ammobg2 = W_CacheLumpName("STAMMO2");
@@ -1707,9 +1707,9 @@ static void ST_CreateWidgets(void)
         &viewplayer->armor, tallpercent);
 
     // keyboxes 0-2
-    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3 && !ID1), ST_KEY0Y, keys, &keyboxes[0]);
-    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBARs >= 3 && !ID1), ST_KEY1Y, keys, &keyboxes[1]);
-    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3 && !ID1), ST_KEY2Y, keys, &keyboxes[2]);
+    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3 && !legacyofrust), ST_KEY0Y, keys, &keyboxes[0]);
+    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBARs >= 3 && !legacyofrust), ST_KEY1Y, keys, &keyboxes[1]);
+    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3 && !legacyofrust), ST_KEY2Y, keys, &keyboxes[2]);
 
     // ammo count (all four kinds)
     STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y,
@@ -1754,7 +1754,7 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware || ID1);
+    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware || legacyofrust);
 
     STLib_Init();
     ST_InitCheats();

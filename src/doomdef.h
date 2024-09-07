@@ -89,7 +89,7 @@ enum
     PLUTONIAONLY,
     MASTERLEVELSONLY,
     NERVEONLY,
-    ID1ONLY
+    LEGACYOFRUSTONLY
 };
 
 // Game mode handling - identify IWAD version
@@ -175,6 +175,9 @@ typedef enum
     NUMCARDS,
     it_allkeys
 } card_t;
+
+#define wp_incinerator      wp_plasma
+#define wp_calamityblade    wp_bfg
 
 // The defined weapons,
 //  including a marker indicating

@@ -1837,14 +1837,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
                         C_PlayerMessage("You %s %s with your %s while %s.",
                             (target->type == MT_BARREL ? "exploded" :
-                                (target->type == MT_EXTRA50 && ID1 ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
+                                (target->type == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
                             targetname,
                             weaponinfo[readyweapon].name,
                             berserk);
                     else
                         C_PlayerMessage("You %s %s with your %s.",
                             (target->type == MT_BARREL ? "exploded" :
-                                (target->type == MT_EXTRA50 && ID1 ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
+                                (target->type == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
                             targetname,
                             weaponinfo[readyweapon].name);
                 }
@@ -1886,7 +1886,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         C_PlayerMessage("%s %s %s with %s %s while %s.",
                             playername,
                             (target->type == MT_BARREL ? "exploded" :
-                                (target->type == MT_EXTRA50 && ID1 ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
+                                (target->type == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
                             targetname,
                             pronoun(possessive),
                             weaponinfo[readyweapon].name,
@@ -1895,7 +1895,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         C_PlayerMessage("%s %s %s with %s %s.",
                             playername,
                             (target->type == MT_BARREL ? "exploded" :
-                                (target->type == MT_EXTRA50 && ID1 ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
+                                (target->type == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
                             targetname,
                             pronoun(possessive),
                             weaponinfo[readyweapon].name);
@@ -1950,7 +1950,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 C_PlayerMessage("%s %s %s.",
                     temp,
                     (target->type == MT_BARREL ? "exploded" :
-                        (target->type == MT_EXTRA50 && ID1 ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
+                        (target->type == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
                     targetname);
 
                 free(temp);
@@ -2076,7 +2076,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
                 viewplayer->monsterskilled[type]++;
                 stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
             }
-            else if (ID1)
+            else if (legacyofrust)
             {
                 if (type == MT_GHOUL)
                 {

@@ -696,7 +696,7 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
         mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
     }
-    else if (ID1)
+    else if (legacyofrust)
     {
         s_GOTBFG9000 = M_StringDuplicate("%s got the calamity blade! Hot damn!");
         s_GOTCELL = M_StringDuplicate("%s picked up a fuel can.");

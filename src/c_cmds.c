@@ -4892,7 +4892,7 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tOctober 11, 2021");
     else if (REKKR)
         C_TabbedOutput(tabs, INDENT "Release date\tJuly 10, 2018");
-    else if (ID1)
+    else if (legacyofrust)
         C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
 }
 
@@ -4977,7 +4977,7 @@ static void mapstats_func2(char *cmd, char *parms)
     {
         const char *title;
         const char *artist;
-    } legacyofrust[] = {
+    } legacyofrustmusic[] = {
         { "Welcome To Die",                    "Xaser Acheron" },
         { "The Shores Of Heaven",              "Xaser Acheron" },
         { "Bilge Punks",                       "Xaser Acheron" },
@@ -5397,12 +5397,12 @@ static void mapstats_func2(char *cmd, char *parms)
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
+        temp = uppercase(mus_playing->name1);
+
         if (temp[0] == 'D' && temp[1] == '_')
             M_StringCopy(namebuf, temp, sizeof(namebuf));
         else
         {
-            char    *temp = uppercase(mus_playing->name1);
-
             if (*mus_playing->IDKFA)
             {
                 M_StringCopy(namebuf, mus_playing->IDKFA, sizeof(namebuf));
@@ -5412,11 +5412,10 @@ static void mapstats_func2(char *cmd, char *parms)
             }
             else
                 M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
-
-            free(temp);
         }
 
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
+        free(temp);
 
         lumps = W_GetNumLumps(namebuf);
 
@@ -5426,8 +5425,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
-        else if (ID1 && gamemap <= 15)
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrust[gamemap - 1].title);
+        else if (legacyofrust && gamemap <= 15)
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrustmusic[gamemap - 1].title);
         else if (namebuf[0] == 'H' && namebuf[1] == '_' && !M_StringCompare(mus_playing->title1, "n/a"))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
         else if (!M_StringCompare(mus_playing->title1, "n/a")
@@ -5443,8 +5442,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (sigil2 && gameepisode == 6)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (thorr ? "Thorr" : "James Paddock"));
-        else if (ID1 && gamemap <= 15)
-            C_TabbedOutput(tabs, INDENT "Artist\t%s", legacyofrust[gamemap - 1].artist);
+        else if (legacyofrust && gamemap <= 15)
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", legacyofrustmusic[gamemap - 1].artist);
         else if (namebuf[0] == 'H' && namebuf[1] == '_')
             C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
@@ -6394,7 +6393,7 @@ static void C_PlayerStats_Game(void)
         ShowMonsterKillStat_Game(tabs, MT_VILE);
     }
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_Game(tabs, MT_BANSHEE);
 
     ShowMonsterKillStat_Game(tabs, MT_BRUISER);
@@ -6406,7 +6405,7 @@ static void C_PlayerStats_Game(void)
     if (gamemode != shareware)
         ShowMonsterKillStat_Game(tabs, MT_CYBORG);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_Game(tabs, MT_GHOUL);
 
     if (gamemode == commercial)
@@ -6418,7 +6417,7 @@ static void C_PlayerStats_Game(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_FATSO);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_Game(tabs, MT_MINDWEAVER);
 
     if (gamemode == commercial)
@@ -6429,7 +6428,7 @@ static void C_PlayerStats_Game(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_Game(tabs, MT_UNDEAD);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_Game(tabs, MT_SHOCKTROOPER);
 
     ShowMonsterKillStat_Game(tabs, MT_SHOTGUY);
@@ -6438,7 +6437,7 @@ static void C_PlayerStats_Game(void)
     if (gamemode != shareware)
         ShowMonsterKillStat_Game(tabs, MT_SPIDER);
 
-    if (ID1)
+    if (legacyofrust)
     {
         ShowMonsterKillStat_Game(tabs, MT_TYRANT);
         ShowMonsterKillStat_Game(tabs, MT_VASSAGO);
@@ -7009,7 +7008,7 @@ static void C_PlayerStats_NoGame(void)
         ShowMonsterKillStat_NoGame(tabs, MT_VILE);
     }
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_NoGame(tabs, MT_BANSHEE);
 
     ShowMonsterKillStat_NoGame(tabs, MT_BRUISER);
@@ -7021,7 +7020,7 @@ static void C_PlayerStats_NoGame(void)
     if (gamemode != shareware)
         ShowMonsterKillStat_NoGame(tabs, MT_CYBORG);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_NoGame(tabs, MT_GHOUL);
 
     if (gamemode == commercial)
@@ -7033,7 +7032,7 @@ static void C_PlayerStats_NoGame(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_FATSO);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_NoGame(tabs, MT_MINDWEAVER);
 
     if (gamemode == commercial)
@@ -7044,7 +7043,7 @@ static void C_PlayerStats_NoGame(void)
     if (gamemode == commercial)
         ShowMonsterKillStat_NoGame(tabs, MT_UNDEAD);
 
-    if (ID1)
+    if (legacyofrust)
         ShowMonsterKillStat_NoGame(tabs, MT_SHOCKTROOPER);
 
     ShowMonsterKillStat_NoGame(tabs, MT_SHOTGUY);
@@ -7053,7 +7052,7 @@ static void C_PlayerStats_NoGame(void)
     if (gamemode != shareware)
         ShowMonsterKillStat_NoGame(tabs, MT_SPIDER);
 
-    if (ID1)
+    if (legacyofrust)
     {
         ShowMonsterKillStat_NoGame(tabs, MT_TYRANT);
         ShowMonsterKillStat_NoGame(tabs, MT_VASSAGO);

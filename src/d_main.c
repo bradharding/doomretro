@@ -1001,7 +1001,7 @@ void D_CheckSupportedPWAD(char *filename)
         harmonyc = true;
     else if (M_StringCompare(leaf, "ID1.wad"))
     {
-        ID1 = true;
+        legacyofrust = true;
         moreblood = true;
     }
     else if (M_StringCompare(leaf, "masterlevels.wad"))

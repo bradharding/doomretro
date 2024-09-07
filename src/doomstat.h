@@ -134,7 +134,7 @@ extern bool             earthless;
 extern bool             ganymede;
 extern bool             harmony;
 extern bool             harmonyc;
-extern bool             ID1;
+extern bool             legacyofrust;
 extern bool             masterlevels;
 extern bool             neis;
 extern bool             revolution;

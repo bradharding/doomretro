@@ -1023,7 +1023,7 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!(mo = P_SpawnPlayerMissile(player->mo, state->args[0] - 1)))
         return;
 
-    if (ID1 && (M_BigRandom() & 1))
+    if (legacyofrust && (M_BigRandom() & 1))
         mo->flags2 |= MF2_MIRRORED;
 
     // adjust angle
@@ -1195,14 +1195,32 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     state_t             *state = psp->state;
-    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
-    const ammotype_t    type = readyweapon.ammotype;
+    const weapontype_t  readyweapon = player->readyweapon;
+    const weaponinfo_t  readyweaponinfo = weaponinfo[readyweapon];
+    const ammotype_t    type = readyweaponinfo.ammotype;
+    int                 ammo;
 
     if (!state || type == am_noammo)
         return;
 
+    ammo = (state->args[0] ? state->args[0] : readyweaponinfo.ammopershot);
+
+    if (legacyofrust)
+    {
+        if (readyweapon == wp_incinerator)
+        {
+            player->shotsfired_incinerator += MIN(player->ammo[type], ammo);
+            stat_shotsfired_incinerator = SafeAdd(stat_shotsfired_incinerator, 1);
+        }
+        else if (readyweapon == wp_calamityblade)
+        {
+            player->shotsfired_calamityblade += MIN(player->ammo[type], ammo);
+            stat_shotsfired_calamityblade = SafeAdd(stat_shotsfired_calamityblade, 1);
+        }
+    }
+
     // subtract ammo, but don't let it get below zero
-    player->ammo[type] = MAX(0, player->ammo[type] - (state->args[0] ? state->args[0] : readyweapon.ammopershot));
+    player->ammo[type] = MAX(0, player->ammo[type] - ammo);
 }
 
 //

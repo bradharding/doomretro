@@ -1154,7 +1154,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
                 vis->colfunc = colfuncs[(invulnerable ? spr * 2 + 1 : spr * 2)];
             }
-            else if (ID1 && spr == 283)
+            else if (legacyofrust && spr == 283)
                 vis->colfunc = tlredwhitecolfunc1;
             else
                 vis->colfunc = basecolfunc;

@@ -988,7 +988,7 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_GANYMEDE, sizeof(gamedescription));
     else if (harmony || harmonyc)
         M_StringCopy(gamedescription, s_CAPTION_HARMONY, sizeof(gamedescription));
-    else if (ID1)
+    else if (legacyofrust)
         M_StringCopy(gamedescription, s_CAPTION_ID1, sizeof(gamedescription));
     else if (KDIKDIZD)
         M_StringCopy(gamedescription, s_CAPTION_KDIKDIZD, sizeof(gamedescription));
