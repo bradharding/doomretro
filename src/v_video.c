@@ -796,9 +796,9 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
                 else if (shadow)
                 {
                     if (italics)
-                        *(dest + italicize[i]) = nearestblack;
+                        *(dest + italicize[i]) = nearestdarkgray;
                     else
-                        *dest = nearestblack;
+                        *dest = nearestdarkgray;
 
                     shadow = false;
                 }
@@ -809,9 +809,9 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
             if (shadow)
             {
                 if (italics)
-                    *(dest + italicize[length - 1]) = nearestblack;
+                    *(dest + italicize[length - 1]) = nearestdarkgray;
                 else
-                    *dest = nearestblack;
+                    *dest = nearestdarkgray;
             }
 
             column = (column_t *)((byte *)column + length + 4);
