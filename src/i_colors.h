@@ -122,6 +122,6 @@ int FindNearestColor(byte *palette, const byte red, const byte green, const byte
 void FindNearestColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);
-int FindDominantEdgeColor(patch_t *patch, const int maxlength, const int edge);
+int FindDominantEdgeColor(patch_t *patch);
 
 byte I_GoldTranslation(byte *playpal, byte color);
