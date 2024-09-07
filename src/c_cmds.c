@@ -5397,33 +5397,26 @@ static void mapstats_func2(char *cmd, char *parms)
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
-        char                *temp1 = uppercase(mus_playing->name1);
-
-        if (temp1[0] == 'D' && temp1[1] == '_')
-            M_StringCopy(namebuf, temp1, sizeof(namebuf));
+        if (temp[0] == 'D' && temp[1] == '_')
+            M_StringCopy(namebuf, temp, sizeof(namebuf));
         else
         {
-            M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp1);
+            char    *temp = uppercase(mus_playing->name1);
 
-            if (W_CheckNumForName(namebuf) == -1)
+            if (*mus_playing->IDKFA)
             {
-                if (*mus_playing->name3)
-                {
-                    char    *temp2 = uppercase(mus_playing->name3);
+                M_StringCopy(namebuf, mus_playing->IDKFA, sizeof(namebuf));
 
-                    M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp2);
-                    free(temp2);
-
-                    if (W_CheckNumForName(namebuf) == -1)
-                        M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp1);
-                }
-                else
-                    M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp1);
+                if (W_CheckNumForName(namebuf) == -1)
+                    M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
             }
+            else
+                M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+
+            free(temp);
         }
 
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
-        free(temp1);
 
         lumps = W_GetNumLumps(namebuf);
 
