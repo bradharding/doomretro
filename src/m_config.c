@@ -265,8 +265,8 @@ uint64_t    stat_monsterskilled_banshees = 0;
 uint64_t    stat_monsterskilled_ghouls = 0;
 uint64_t    stat_monsterskilled_mindweavers = 0;
 uint64_t    stat_monsterskilled_shocktroopers = 0;
-uint64_t    stat_monsterskilled_vassagos = 0;
 uint64_t    stat_monsterskilled_tyrants = 0;
+uint64_t    stat_monsterskilled_vassagos = 0;
 uint64_t    stat_monstersrespawned = 0;
 uint64_t    stat_monstersresurrected = 0;
 uint64_t    stat_monsterstelefragged = 0;
@@ -549,6 +549,7 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled[MT_SHADOWS],     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled[MT_SPIDER],      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_tyrants,           stat_monsterskilled_tyrants,           stat_monsterskilled_tyrants,         NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_vassagos,          stat_monsterskilled_vassagos,          stat_monsterskilled_vassagos,        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled[MT_POSSESSED],   NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersrespawned,                stat_monstersrespawned,                stat_monstersrespawned,              NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersresurrected,              stat_monstersresurrected,              stat_monstersresurrected,            NOVALUEALIAS       ),
