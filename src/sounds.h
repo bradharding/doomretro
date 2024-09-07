@@ -78,6 +78,7 @@ typedef struct
     // up to 6-character name
     char            name1[9];
     char            name2[9];
+    char            name3[9];
 
     char            title1[32];
     char            title2[32];

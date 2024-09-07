@@ -5397,20 +5397,33 @@ static void mapstats_func2(char *cmd, char *parms)
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
-        temp = uppercase(mus_playing->name1);
+        char                *temp1 = uppercase(mus_playing->name1);
 
-        if (temp[0] == 'D' && temp[1] == '_')
-            M_StringCopy(namebuf, temp, sizeof(namebuf));
+        if (temp1[0] == 'D' && temp1[1] == '_')
+            M_StringCopy(namebuf, temp1, sizeof(namebuf));
         else
         {
-            M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp);
+            M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp1);
 
             if (W_CheckNumForName(namebuf) == -1)
-                M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+            {
+                if (*mus_playing->name3)
+                {
+                    char    *temp2 = uppercase(mus_playing->name3);
+
+                    M_snprintf(namebuf, sizeof(namebuf), "H_%s", temp2);
+                    free(temp2);
+
+                    if (W_CheckNumForName(namebuf) == -1)
+                        M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp1);
+                }
+                else
+                    M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp1);
+            }
         }
 
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
-        free(temp);
+        free(temp1);
 
         lumps = W_GetNumLumps(namebuf);
 
@@ -5422,7 +5435,7 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
         else if (ID1 && gamemap <= 15)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrust[gamemap - 1].title);
-        else if (namebuf[0] == 'H' && namebuf[1] == '_')
+        else if (namebuf[0] == 'H' && namebuf[1] == '_' && !M_StringCompare(mus_playing->title1, "n/a"))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
         else if (!M_StringCompare(mus_playing->title1, "n/a")
             && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)

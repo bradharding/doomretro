@@ -624,7 +624,17 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         M_snprintf(namebuf, sizeof(namebuf), "h_%s", music->name1);
 
         if (W_CheckNumForName(namebuf) == -1)
-            M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+        {
+            if (*music->name3)
+            {
+                M_snprintf(namebuf, sizeof(namebuf), "h_%s", music->name3);
+
+                if (W_CheckNumForName(namebuf) == -1)
+                    M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+            }
+            else
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+        }
     }
 
     // get lumpnum if necessary
