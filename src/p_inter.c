@@ -89,22 +89,22 @@ void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
     {
         case am_clip:
             viewplayer->itemspickedup_ammo_bullets += num;
-            stat_itemspickedup_ammo_bullets = SafeAdd(stat_itemspickedup_ammo_bullets, num);
+            stat_itemspickedup_ammo[am_clip] = SafeAdd(stat_itemspickedup_ammo[am_clip], num);
             break;
 
         case am_shell:
             viewplayer->itemspickedup_ammo_shells += num;
-            stat_itemspickedup_ammo_shells = SafeAdd(stat_itemspickedup_ammo_shells, num);
+            stat_itemspickedup_ammo[am_shell] = SafeAdd(stat_itemspickedup_ammo[am_shell], num);
             break;
 
         case am_cell:
             viewplayer->itemspickedup_ammo_cells += num;
-            stat_itemspickedup_ammo_cells = SafeAdd(stat_itemspickedup_ammo_cells, num);
+            stat_itemspickedup_ammo[am_cell] = SafeAdd(stat_itemspickedup_ammo[am_cell], num);
             break;
 
         case am_misl:
             viewplayer->itemspickedup_ammo_rockets += num;
-            stat_itemspickedup_ammo_rockets = SafeAdd(stat_itemspickedup_ammo_rockets, num);
+            stat_itemspickedup_ammo[am_misl] = SafeAdd(stat_itemspickedup_ammo[am_misl], num);
             break;
 
         default:

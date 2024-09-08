@@ -609,14 +609,14 @@ static bool PIT_CheckThing(mobj_t *thing)
             if (tmtype == MT_PLASMA)
             {
                 viewplayer->shotssuccessful[wp_plasma]++;
-                stat_shotssuccessful_plasmarifle = SafeAdd(stat_shotssuccessful_plasmarifle, 1);
+                stat_shotssuccessful[wp_plasma] = SafeAdd(stat_shotssuccessful[wp_plasma], 1);
             }
             else if (tmtype == MT_ROCKET)
             {
                 if (tmthing->nudge == 1)
                 {
                     viewplayer->shotssuccessful[wp_missile]++;
-                    stat_shotssuccessful_rocketlauncher = SafeAdd(stat_shotssuccessful_rocketlauncher, 1);
+                    stat_shotssuccessful[wp_missile] = SafeAdd(stat_shotssuccessful[wp_missile], 1);
                 }
 
                 tmthing->nudge++;
@@ -2069,7 +2069,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
             if (bombspot->nudge == 1)
             {
                 viewplayer->shotssuccessful[wp_missile]++;
-                stat_shotssuccessful_rocketlauncher = SafeAdd(stat_shotssuccessful_rocketlauncher, 1);
+                stat_shotssuccessful[wp_missile] = SafeAdd(stat_shotssuccessful[wp_missile], 1);
             }
 
             bombspot->nudge++;

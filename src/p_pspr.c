@@ -419,7 +419,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_LineAttack(actor, angle, range, slope, damage);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_fists = SafeAdd(stat_shotsfired_fists, 1);
+    stat_shotsfired[wp_fist] = SafeAdd(stat_shotsfired[wp_fist], 1);
 
     if (linetarget || hitwall)
     {
@@ -440,7 +440,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
             actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
 
             player->shotssuccessful[readyweapon]++;
-            stat_shotssuccessful_fists = SafeAdd(stat_shotssuccessful_fists, 1);
+            stat_shotssuccessful[wp_fist] = SafeAdd(stat_shotssuccessful[wp_fist], 1);
         }
         else if (isberserk && r_shake_berserk)
         {
@@ -473,7 +473,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
+    stat_shotsfired[wp_chainsaw] = SafeAdd(stat_shotsfired[wp_chainsaw], 1);
     idlechainsawrumblestrength = 0;
 
     if (!linetarget)
@@ -483,7 +483,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     player->shotssuccessful[readyweapon]++;
-    stat_shotssuccessful_chainsaw = SafeAdd(stat_shotssuccessful_chainsaw, 1);
+    stat_shotssuccessful[wp_chainsaw] = SafeAdd(stat_shotssuccessful[wp_chainsaw], 1);
 
     S_StartSound(actor, sfx_sawhit);
 
@@ -517,7 +517,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RumbleWeapon(readyweapon);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_rocketlauncher = SafeAdd(stat_shotsfired_rocketlauncher, 1);
+    stat_shotsfired[wp_missile] = SafeAdd(stat_shotsfired[wp_missile], 1);
 }
 
 //
@@ -619,7 +619,7 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SpawnPlayerMissile(actor, MT_PLASMA);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_plasmarifle = SafeAdd(stat_shotsfired_plasmarifle, 1);
+    stat_shotsfired[wp_plasma] = SafeAdd(stat_shotsfired[wp_plasma], 1);
     P_RumbleWeapon(readyweapon);
 }
 
@@ -699,12 +699,12 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RumbleWeapon(readyweapon);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_pistol = SafeAdd(stat_shotsfired_pistol, 1);
+    stat_shotsfired[wp_pistol] = SafeAdd(stat_shotsfired[wp_pistol], 1);
 
     if (successfulshot)
     {
         player->shotssuccessful[readyweapon]++;
-        stat_shotssuccessful_pistol = SafeAdd(stat_shotssuccessful_pistol, 1);
+        stat_shotssuccessful[wp_pistol] = SafeAdd(stat_shotssuccessful[wp_pistol], 1);
     }
 }
 
@@ -734,12 +734,12 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RumbleWeapon(readyweapon);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_shotgun = SafeAdd(stat_shotsfired_shotgun, 1);
+    stat_shotsfired[wp_shotgun] = SafeAdd(stat_shotsfired[wp_shotgun], 1);
 
     if (successfulshot)
     {
         player->shotssuccessful[readyweapon]++;
-        stat_shotssuccessful_shotgun = SafeAdd(stat_shotssuccessful_shotgun, 1);
+        stat_shotssuccessful[wp_shotgun] = SafeAdd(stat_shotssuccessful[wp_shotgun], 1);
     }
 
     player->preferredshotgun = readyweapon;
@@ -772,12 +772,12 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RumbleWeapon(readyweapon);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_supershotgun = SafeAdd(stat_shotsfired_supershotgun, 1);
+    stat_shotsfired[wp_supershotgun] = SafeAdd(stat_shotsfired[wp_supershotgun], 1);
 
     if (successfulshot)
     {
         player->shotssuccessful[readyweapon]++;
-        stat_shotssuccessful_supershotgun = SafeAdd(stat_shotssuccessful_supershotgun, 1);
+        stat_shotssuccessful[wp_supershotgun] = SafeAdd(stat_shotssuccessful[wp_supershotgun], 1);
     }
 
     player->preferredshotgun = readyweapon;
@@ -828,12 +828,12 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_RumbleWeapon(readyweapon);
 
     player->shotsfired[readyweapon]++;
-    stat_shotsfired_chaingun = SafeAdd(stat_shotsfired_chaingun, 1);
+    stat_shotsfired[wp_chaingun] = SafeAdd(stat_shotsfired[wp_chaingun], 1);
 
     if (successfulshot)
     {
         player->shotssuccessful[readyweapon]++;
-        stat_shotssuccessful_chaingun = SafeAdd(stat_shotssuccessful_chaingun, 1);
+        stat_shotssuccessful[wp_chaingun] = SafeAdd(stat_shotssuccessful[wp_chaingun], 1);
     }
 }
 
@@ -892,12 +892,12 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     viewplayer->shotsfired[wp_bfg]++;
-    stat_shotsfired_bfg9000 = SafeAdd(stat_shotsfired_bfg9000, 1);
+    stat_shotsfired[wp_bfg] = SafeAdd(stat_shotsfired[wp_bfg], 1);
 
     if (successfulshot)
     {
         viewplayer->shotssuccessful[wp_bfg]++;
-        stat_shotssuccessful_bfg9000 = SafeAdd(stat_shotssuccessful_bfg9000, 1);
+        stat_shotssuccessful[wp_bfg] = SafeAdd(stat_shotssuccessful[wp_bfg], 1);
     }
 
     successfulshot = false;
