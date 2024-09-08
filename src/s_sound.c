@@ -640,9 +640,15 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         else if (musicnum == mus_inter && sigil && sigil2)
         {
             if (gameepisode == 5)
+            {
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
                 music->lumpnum = W_GetXNumForName(namebuf, (buckethead ? 4 : 2));
+            }
             else if (gameepisode == 6)
+            {
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
                 music->lumpnum = W_GetXNumForName(namebuf, (thorr && buckethead ? 5 : 3));
+            }
             else
                 music->lumpnum = W_GetLastNumForName(namebuf);
         }
