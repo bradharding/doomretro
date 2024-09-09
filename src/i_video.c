@@ -272,6 +272,27 @@ void I_ShutdownKeyboard(void)
 #endif
 }
 
+static void I_SetPriority(bool active)
+{
+    if (active)
+    {
+#if defined(_WIN32)
+        SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+#endif
+
+        SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
+    }
+    else
+    {
+#if defined(_WIN32)
+        SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
+#endif
+
+        SDL_SetThreadPriority(SDL_THREAD_PRIORITY_NORMAL);
+    }
+
+}
+
 bool    altdown = false;
 bool    waspaused = false;
 
@@ -495,6 +516,7 @@ static void I_GetEvent(void)
                                 }
                             }
 
+                            I_SetPriority(true);
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -510,6 +532,7 @@ static void I_GetEvent(void)
                                 S_StartSound(NULL, sfx_swtchn);
 
                             I_ShutdownKeyboard();
+                            I_SetPriority(false);
                             break;
 
                         case SDL_WINDOWEVENT_EXPOSED:
