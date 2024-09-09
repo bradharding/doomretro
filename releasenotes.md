@@ -35,6 +35,7 @@
   * The health bar no longer flashes white while it is red and the player picks up some health.
 * The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
 * The amount of ammo the player has is no longer momentarily translucent at the start of each map if the `animatedstats` CVAR is `on`.
+* A bug is fixed whereby the help screen wouldn’t be fully displayed when the `vid_widescreen` CVAR was `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
