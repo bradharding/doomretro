@@ -44,8 +44,6 @@
 #include <commdlg.h>
 #include <mmsystem.h>
 #include <ShellAPI.h>
-
-#include "SDL_syswm.h"
 #endif
 
 #include "am_map.h"
@@ -1362,16 +1360,12 @@ static int D_OpenWADLauncher(void)
     bool            fileopenedok;
 
 #if defined(_WIN32)
-    SDL_SysWMinfo   info = { 0 };
     OPENFILENAME    ofn;
     char            szFile[4096];
 
-    SDL_VERSION(&info.version);
-    SDL_GetWindowWMInfo(window, &info);
-
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = info.info.win.window;
+    ofn.hwndOwner = NULL;
     M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
