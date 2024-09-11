@@ -1029,6 +1029,7 @@ void I_SetPalette(const byte *playpal)
         colors[i].r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255) & ~3;
         colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3;
         colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3;
+        colors[i].a = 0xFF;
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
@@ -1065,7 +1066,6 @@ static void GetDisplays(void)
 bool I_CreateExternalAutomap(void)
 {
     const char  *displayname;
-    uint32_t    pixelformat;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1117,10 +1117,7 @@ bool I_CreateExternalAutomap(void)
     if (!(mapsurface = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface", -1);
 
-    if ((pixelformat = SDL_GetWindowPixelFormat(mapwindow)) == SDL_PIXELFORMAT_UNKNOWN)
-        I_SDLError("SDL_GetWindowPixelFormat", -1);
-
-    if (!(mapbuffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, MAPWIDTH, MAPHEIGHT, 8, 0, SDL_PIXELFORMAT_ARGB8888)))
+    if (!(mapbuffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, MAPWIDTH, MAPHEIGHT, 0, 0, SDL_PIXELFORMAT_ARGB8888)))
         I_SDLError("SDL_CreateRGBSurfaceWithFormatFrom", -1);
 
     SDL_FillRect(mapbuffer, NULL, BLACK);
@@ -1128,7 +1125,7 @@ bool I_CreateExternalAutomap(void)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
+    if (!(maptexture = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         MAPWIDTH, MAPHEIGHT)))
         I_SDLError("SDL_CreateTexture", -2);
 
@@ -1136,7 +1133,7 @@ bool I_CreateExternalAutomap(void)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, pixelformat,
+        if (!(maptexture_upscaled = SDL_CreateTexture(maprenderer, SDL_PIXELFORMAT_ARGB8888,
             SDL_TEXTUREACCESS_TARGET, upscaledwidth * MAPWIDTH, upscaledheight * MAPHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
 
@@ -1331,7 +1328,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
     bool                instead = false;
-    uint32_t            pixelformat;
 
     if (displayindex >= numdisplays)
     {
@@ -1751,10 +1747,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     screens[0] = surface->pixels;
 
-    if ((pixelformat = SDL_GetWindowPixelFormat(window)) == SDL_PIXELFORMAT_UNKNOWN)
-        I_SDLError("SDL_GetWindowPixelFormat", -1);
-
-    if (!(buffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, SCREENWIDTH, SCREENHEIGHT, 8, 0, SDL_PIXELFORMAT_ARGB8888)))
+    if (!(buffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, SCREENWIDTH, SCREENHEIGHT, 0, 0, SDL_PIXELFORMAT_ARGB8888)))
         I_SDLError("SDL_CreateRGBSurfaceWithFormatFrom", -1);
 
     SDL_FillRect(buffer, NULL, BLACK);
@@ -1762,14 +1755,14 @@ static void SetVideoMode(const bool createwindow, const bool output)
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
 
-    if (!(texture = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
+    if (!(texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture", -1);
 
     if (nearestlinear)
     {
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_linear, SDL_HINT_OVERRIDE);
 
-        if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
+        if (!(texture_upscaled = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
             upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
     }

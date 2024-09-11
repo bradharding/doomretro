@@ -2133,20 +2133,6 @@ static void M_ChangeMessages(int choice)
 //
 static bool endinggame;
 
-void M_EndingGame(void)
-{
-    endinggame = true;
-
-    if (gamemission == pack_nerve)
-        gamemission = doom2;
-
-    if (!M_StringCompare(console[numconsolestrings - 1].string, "endgame"))
-        C_Input("endgame");
-
-    C_AddConsoleDivider();
-    D_StartTitle(1);
-}
-
 static void M_EndGameResponse(int key)
 {
     messagetoprint = false;
@@ -2174,7 +2160,16 @@ static void M_EndGameResponse(int key)
     S_StartSound(NULL, sfx_swtchx);
     MainDef.laston = 0;
     st_palette = 0;
-    M_EndingGame();
+    endinggame = true;
+
+    if (gamemission == pack_nerve)
+        gamemission = doom2;
+
+    if (!M_StringCompare(console[numconsolestrings - 1].string, "endgame"))
+        C_Input("endgame");
+
+    C_AddConsoleDivider();
+    D_StartTitle(1);
 }
 
 void M_EndGame(int choice)

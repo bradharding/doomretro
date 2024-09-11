@@ -710,9 +710,6 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BANSHEE].flags |= MF_NOBLOOD;
         mobjinfo[MT_VASSAGO].flags |= MF_NOBLOOD;
 
-        for (int i = MT_GHOUL; i <= MT_TYRANTBOSS2; i++)
-            mobjinfo[i].flags2 |= MF2_NOLIQUIDBOB;
-
         M_StringCopy(mobjinfo[MT_EXTRA06].name1, "tyrant", sizeof(mobjinfo[0].name1));
         M_StringCopy(mobjinfo[MT_EXTRA06].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
         M_StringCopy(mobjinfo[MT_EXTRA07].name1, "tyrant", sizeof(mobjinfo[0].name1));

@@ -2847,13 +2847,13 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
         mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;
 
-    // [BH] Clip feet, cast shadow if no "Retro bits" set.
+    // [BH] Clip feet, cast shadow, don't bob if no "Retro bits" set.
     if (!mobjinfo[indexnum].flags2)
     {
         mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
 
         if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
-            mobjinfo[indexnum].flags2 |= MF2_CASTSHADOW;
+            mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
     }
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup
