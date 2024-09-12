@@ -46,6 +46,7 @@
 #include "mus2mid.h"
 #include "s_sound.h"
 #include "version.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 bool        midimusictype;
@@ -99,6 +100,9 @@ bool I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
+    if (extras && W_GetNumForName("H_INTRO") >= 0)
+        return true;
+
     if (!(windowsmidi = I_Windows_InitMusic()))
         C_Warning(1, "Music couldn't be completely %s. Volume adjustment could be affected.",
             (english == english_american ? "initialized" : "initialised"));
