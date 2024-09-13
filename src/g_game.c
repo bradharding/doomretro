@@ -605,12 +605,17 @@ void G_DoLoadLevel(void)
     viewplayer->damagereceived = 0;
     viewplayer->cheated = 0;
     memset(viewplayer->shotssuccessful, 0, sizeof(viewplayer->shotssuccessful));
+    viewplayer->shotssuccessful_incinerator = 0;
+    viewplayer->shotssuccessful_calamityblade = 0;
     memset(viewplayer->shotsfired, 0, sizeof(viewplayer->shotsfired));
+    viewplayer->shotsfired_incinerator = 0;
+    viewplayer->shotsfired_calamityblade = 0;
     viewplayer->distancetraveled = 0;
     viewplayer->gamessaved = 0;
     viewplayer->gamesloaded = 0;
     viewplayer->itemspickedup_ammo_bullets = 0;
     viewplayer->itemspickedup_ammo_cells = 0;
+    viewplayer->itemspickedup_ammo_fuel = 0;
     viewplayer->itemspickedup_ammo_rockets = 0;
     viewplayer->itemspickedup_ammo_shells = 0;
     viewplayer->itemspickedup_armor = 0;
