@@ -58,6 +58,8 @@
 
 FILE        *save_stream;
 
+static char savegameversion[VERSIONSIZE] = "";
+
 static int  thingindex;
 static int  targets[TARGETLIMIT];
 static int  tracers[TARGETLIMIT];
@@ -524,18 +526,44 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->shotssuccessful[i] = saveg_read32();
 
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    {
+        viewplayer->shotssuccessful_incinerator = saveg_read32();
+        viewplayer->shotssuccessful_calamityblade = saveg_read32();
+    }
+
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->shotsfired[i] = saveg_read32();
+
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    {
+        viewplayer->shotsfired_incinerator = saveg_read32();
+        viewplayer->shotsfired_calamityblade = saveg_read32();
+    }
 
     viewplayer->deaths = saveg_read32();
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
         viewplayer->monsterskilled[i] = saveg_read32();
 
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    {
+        viewplayer->monsterskilled_banshees = saveg_read32();
+        viewplayer->monsterskilled_ghouls = saveg_read32();
+        viewplayer->monsterskilled_mindweavers = saveg_read32();
+        viewplayer->monsterskilled_shocktroopers = saveg_read32();
+        viewplayer->monsterskilled_tyrants = saveg_read32();
+        viewplayer->monsterskilled_vassagos = saveg_read32();
+    }
+
     viewplayer->distancetraveled = saveg_read32();
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
     viewplayer->itemspickedup_ammo_cells = saveg_read32();
+
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        viewplayer->itemspickedup_ammo_fuel = saveg_read32();
+
     viewplayer->itemspickedup_ammo_rockets = saveg_read32();
     viewplayer->itemspickedup_ammo_shells = saveg_read32();
     viewplayer->itemspickedup_armor = saveg_read32();
@@ -636,18 +664,32 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->shotssuccessful[i]);
 
+    saveg_write32(viewplayer->shotssuccessful_incinerator);
+    saveg_write32(viewplayer->shotssuccessful_calamityblade);
+
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->shotsfired[i]);
+
+    saveg_write32(viewplayer->shotsfired_incinerator);
+    saveg_write32(viewplayer->shotsfired_calamityblade);
 
     saveg_write32(viewplayer->deaths);
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
         saveg_write32(viewplayer->monsterskilled[i]);
 
+    saveg_write32(viewplayer->monsterskilled_banshees);
+    saveg_write32(viewplayer->monsterskilled_ghouls);
+    saveg_write32(viewplayer->monsterskilled_mindweavers);
+    saveg_write32(viewplayer->monsterskilled_shocktroopers);
+    saveg_write32(viewplayer->monsterskilled_tyrants);
+    saveg_write32(viewplayer->monsterskilled_vassagos);
+
     saveg_write32(viewplayer->distancetraveled);
     saveg_write32(viewplayer->gamessaved);
     saveg_write32(viewplayer->itemspickedup_ammo_bullets);
     saveg_write32(viewplayer->itemspickedup_ammo_cells);
+    saveg_write32(viewplayer->itemspickedup_ammo_fuel);
     saveg_write32(viewplayer->itemspickedup_ammo_rockets);
     saveg_write32(viewplayer->itemspickedup_ammo_shells);
     saveg_write32(viewplayer->itemspickedup_armor);
@@ -1022,19 +1064,15 @@ void P_WriteSaveGameHeader(const char *description)
 bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
-    char    vcheck[VERSIONSIZE];
-    char    read_vcheck[VERSIONSIZE] = "";
 
     for (int i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();
 
     for (int i = 0; i < VERSIONSIZE; i++)
-        read_vcheck[i] = saveg_read8();
+        savegameversion[i] = saveg_read8();
 
-    memset(vcheck, 0, sizeof(vcheck));
-    strcpy(vcheck, DOOMRETRO_SAVEGAMEVERSIONSTRING);
-
-    if (!M_StringCompare(read_vcheck, vcheck))
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_6))
     {
         menuactive = false;
         quicksaveslot = -1;
