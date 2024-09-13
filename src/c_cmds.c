@@ -6742,7 +6742,41 @@ static void C_PlayerStats_Game(void)
     free(temp4);
     free(temp5);
 
-    if (gamemode != shareware)
+    if (legacyofrust)
+    {
+        temp1 = sentencecase(weaponinfo[wp_incinerator].name);
+        temp2 = commify(viewplayer->shotssuccessful_incinerator);
+        temp3 = commify(viewplayer->shotsfired_incinerator);
+        temp4 = commifystat(stat_shotssuccessful_incinerator);
+        temp5 = commifystat(stat_shotsfired_incinerator);
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+            temp1, temp2, temp3,
+            (viewplayer->shotsfired_incinerator ? viewplayer->shotssuccessful_incinerator * 100 / viewplayer->shotsfired_incinerator : 0),
+            temp4, temp5,
+            (stat_shotsfired_incinerator ? (int)(stat_shotssuccessful_incinerator * 100 / stat_shotsfired_incinerator) : 0));
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        free(temp5);
+
+        temp1 = sentencecase(weaponinfo[wp_calamityblade].name);
+        temp2 = commify(viewplayer->shotssuccessful_calamityblade);
+        temp3 = commify(viewplayer->shotsfired_calamityblade);
+        temp4 = commifystat(stat_shotssuccessful_calamityblade);
+        temp5 = commifystat(stat_shotsfired_calamityblade);
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+            temp1, temp2, temp3,
+            (viewplayer->shotsfired_calamityblade ? viewplayer->shotssuccessful_calamityblade * 100 / viewplayer->shotsfired_calamityblade : 0),
+            temp4, temp5,
+            (stat_shotsfired_calamityblade ? (int)(stat_shotssuccessful_calamityblade * 100 / stat_shotsfired_calamityblade) : 0));
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        free(temp5);
+    }
+    else if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commify(viewplayer->shotssuccessful[wp_plasma]);
@@ -7164,7 +7198,29 @@ static void C_PlayerStats_NoGame(void)
     free(temp2);
     free(temp3);
 
-    if (gamemode != shareware)
+    if (legacyofrust)
+    {
+        temp1 = sentencecase(weaponinfo[wp_incinerator].name);
+        temp2 = commifystat(stat_shotssuccessful_incinerator);
+        temp3 = commifystat(stat_shotsfired_incinerator);
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
+            temp1, temp2, temp3,
+            (stat_shotsfired_incinerator ? (int)(stat_shotssuccessful_incinerator * 100 / stat_shotsfired_incinerator) : 0));
+        free(temp1);
+        free(temp2);
+        free(temp3);
+
+        temp1 = sentencecase(weaponinfo[wp_calamityblade].name);
+        temp2 = commifystat(stat_shotssuccessful[wp_calamityblade]);
+        temp3 = commifystat(stat_shotsfired[wp_calamityblade]);
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
+            temp1, temp2, temp3,
+            (stat_shotsfired[wp_calamityblade] ? (int)(stat_shotssuccessful[wp_calamityblade] * 100 / stat_shotsfired[wp_calamityblade]) : 0));
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
+    else if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commifystat(stat_shotssuccessful[wp_plasma]);
