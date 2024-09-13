@@ -98,8 +98,17 @@ void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
             break;
 
         case am_cell:
-            viewplayer->itemspickedup_ammo_cells += num;
-            stat_itemspickedup_ammo[am_cell] = SafeAdd(stat_itemspickedup_ammo[am_cell], num);
+            if (legacyofrust)
+            {
+                viewplayer->itemspickedup_ammo_fuel += num;
+                stat_itemspickedup_ammo_fuel = SafeAdd(stat_itemspickedup_ammo_fuel, num);
+            }
+            else
+            {
+                viewplayer->itemspickedup_ammo_cells += num;
+                stat_itemspickedup_ammo[am_cell] = SafeAdd(stat_itemspickedup_ammo[am_cell], num);
+            }
+
             break;
 
         case am_misl:
