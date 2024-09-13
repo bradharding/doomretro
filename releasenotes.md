@@ -17,7 +17,7 @@
 * These improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
   * Kill stats for banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos are now displayed by the `playerstats` CCMD.
   * A fuel can icon now appears in the widescreen HUD when the player has their incinerator or calamity blade equipped.
-  * Fire from the player’s incinerator and calamity blade are now randomly mirrored and translucent.
+  * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
   * *DOOM Retro’s* higher resolution status bar is now displayed.
   * The help screen has been updated to include the incinerator and calamity blade.
 * Minor improvements have also been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960) and [`extras.wad`](https://doomwiki.org/wiki/Extras.wad).

@@ -1945,7 +1945,7 @@ static const char *deh_weapon[] =
     "Firing frame",     // .flashstate
 
     // MBF21
-    "Ammo per shot",    // .minammo
+    "Ammo per shot",    // .ammopershot
     "MBF21 bits"        // .flags
 };
 

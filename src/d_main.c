@@ -1365,7 +1365,7 @@ static int D_OpenWADLauncher(void)
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
+    ofn.hwndOwner = HWND_DESKTOP;
     M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
