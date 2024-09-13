@@ -6403,10 +6403,14 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    temp1 = commify(viewplayer->itemspickedup_ammo_bullets + viewplayer->itemspickedup_ammo_shells
-        + viewplayer->itemspickedup_ammo_rockets + viewplayer->itemspickedup_ammo_cells);
-    temp2 = commify(stat_itemspickedup_ammo[am_clip] + stat_itemspickedup_ammo[am_shell]
-        + stat_itemspickedup_ammo[am_misl] + stat_itemspickedup_ammo[am_cell]);
+    temp1 = commify(viewplayer->itemspickedup_ammo_bullets
+        + viewplayer->itemspickedup_ammo_shells
+        + viewplayer->itemspickedup_ammo_rockets
+        + (legacyofrust ? viewplayer->itemspickedup_ammo_fuel : viewplayer->itemspickedup_ammo_cells));
+    temp2 = commify(stat_itemspickedup_ammo[am_clip]
+        + stat_itemspickedup_ammo[am_shell]
+        + stat_itemspickedup_ammo[am_misl]
+        + (legacyofrust ? stat_itemspickedup_ammo_fuel : stat_itemspickedup_ammo[am_cell]));
     C_TabbedOutput(tabs, INDENT "Ammo\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
@@ -6435,7 +6439,17 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    if (gamemode != shareware)
+    if (legacyofrust)
+    {
+        temp1 = sentencecase(weaponinfo[wp_incinerator].ammoplural);
+        temp2 = commify(viewplayer->itemspickedup_ammo_fuel);
+        temp3 = commifystat(stat_itemspickedup_ammo_fuel);
+        C_TabbedOutput(tabs, INDENT INDENT "%s\t%s\t%s", temp1, temp2, temp3);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+    }
+    else if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].ammoplural);
         temp2 = commify(viewplayer->itemspickedup_ammo_cells);
@@ -6956,8 +6970,10 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Items picked up\t\x96\t%s", temp1);
     free(temp1);
 
-    temp1 = commify(stat_itemspickedup_ammo[am_clip] + stat_itemspickedup_ammo[am_shell]
-        + stat_itemspickedup_ammo[am_misl] + stat_itemspickedup_ammo[am_cell]);
+    temp1 = commify(stat_itemspickedup_ammo[am_clip]
+        + stat_itemspickedup_ammo[am_shell]
+        + stat_itemspickedup_ammo[am_misl]
+        + (legacyofrust ? stat_itemspickedup_ammo_fuel : stat_itemspickedup_ammo[am_cell]));
     C_TabbedOutput(tabs, INDENT "Ammo\t\x96\t%s", temp1);
     free(temp1);
 
@@ -6979,7 +6995,15 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
     free(temp2);
 
-    if (gamemode != shareware)
+    if (legacyofrust)
+    {
+        temp1 = sentencecase(weaponinfo[wp_incinerator].ammoplural);
+        temp2 = commifystat(stat_itemspickedup_ammo_fuel);
+        C_TabbedOutput(tabs, INDENT INDENT "%s\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+    else if (gamemode != shareware)
     {
         temp1 = sentencecase(weaponinfo[wp_plasma].ammoplural);
         temp2 = commifystat(stat_itemspickedup_ammo[am_cell]);
