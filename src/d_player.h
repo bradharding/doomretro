@@ -225,12 +225,6 @@ typedef struct player_s
     int             deaths;
     int             suicides;
     int             monsterskilled[NUMMOBJTYPES];
-    int             monsterskilled_banshees;
-    int             monsterskilled_ghouls;
-    int             monsterskilled_mindweavers;
-    int             monsterskilled_shocktroopers;
-    int             monsterskilled_tyrants;
-    int             monsterskilled_vassagos;
     int             distancetraveled;
     int             gamessaved;
     int             gamesloaded;

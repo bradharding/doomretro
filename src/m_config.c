@@ -258,12 +258,6 @@ uint64_t    stat_monstersgibbed = 0;
 uint64_t    stat_monsterskilled_total = 0;
 uint64_t    stat_monsterskilled_infighting = 0;
 uint64_t    stat_monsterskilled[NUMMOBJTYPES] = { 0 };
-uint64_t    stat_monsterskilled_banshees = 0;
-uint64_t    stat_monsterskilled_ghouls = 0;
-uint64_t    stat_monsterskilled_mindweavers = 0;
-uint64_t    stat_monsterskilled_shocktroopers = 0;
-uint64_t    stat_monsterskilled_tyrants = 0;
-uint64_t    stat_monsterskilled_vassagos = 0;
 uint64_t    stat_monstersrespawned = 0;
 uint64_t    stat_monstersresurrected = 0;
 uint64_t    stat_monsterstelefragged = 0;
@@ -511,26 +505,26 @@ static default_t cvars[] =
     STAT_INT_UNSIGNED (monsterskilled_infighting,        stat_monsterskilled_infighting,        stat_monsterskilled_infighting,        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled[MT_BABY],          NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled[MT_VILE],          NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_banshees,          stat_monsterskilled_banshees,          stat_monsterskilled_banshees,          NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_banshees,          stat_monsterskilled_banshees,          stat_monsterskilled[MT_BANSHEE],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled[MT_BRUISER],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        stat_monsterskilled[MT_HEAD],          NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_chaingunners,      stat_monsterskilled_heavyweapondudes,  stat_monsterskilled[MT_CHAINGUY],      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       stat_monsterskilled[MT_CYBORG],        NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_ghouls,            stat_monsterskilled_ghouls,            stat_monsterskilled_ghouls,            NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_ghouls,            stat_monsterskilled_ghouls,            stat_monsterskilled[MT_GHOUL],         NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_hellknights,       stat_monsterskilled_hellknights,       stat_monsterskilled[MT_KNIGHT],        NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_imps,              stat_monsterskilled_imps,              stat_monsterskilled[MT_TROOP],         NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         stat_monsterskilled[MT_SKULL],         NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_mancubi,           stat_monsterskilled_mancubi,           stat_monsterskilled[MT_FATSO],         NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_mindweavers,       stat_monsterskilled_mindweavers,       stat_monsterskilled_mindweavers,       NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_mindweavers,       stat_monsterskilled_mindweavers,       stat_monsterskilled[MT_MINDWEAVER],    NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_painelementals,    stat_monsterskilled_painelementals,    stat_monsterskilled[MT_PAIN],          NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_pinkydemons,       stat_monsterskilled_demons,            stat_monsterskilled[MT_SERGEANT],      NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_revenants,         stat_monsterskilled_revenants,         stat_monsterskilled[MT_UNDEAD],        NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_shocktroopers,     stat_monsterskilled_shocktroopers,     stat_monsterskilled_shocktroopers,     NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_shocktroopers,     stat_monsterskilled_shocktroopers,     stat_monsterskilled[MT_SHOCKTROOPER],  NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_shotgunguys,       stat_monsterskilled_shotgunguys,       stat_monsterskilled[MT_SHOTGUY],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled[MT_SHADOWS],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled[MT_SPIDER],        NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_tyrants,           stat_monsterskilled_tyrants,           stat_monsterskilled_tyrants,           NOVALUEALIAS       ),
-    STAT_INT_UNSIGNED (monsterskilled_vassagos,          stat_monsterskilled_vassagos,          stat_monsterskilled_vassagos,          NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_tyrants,           stat_monsterskilled_tyrants,           stat_monsterskilled[MT_TYRANT],        NOVALUEALIAS       ),
+    STAT_INT_UNSIGNED (monsterskilled_vassagos,          stat_monsterskilled_vassagos,          stat_monsterskilled[MT_VASSAGO],       NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled[MT_POSSESSED],     NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersrespawned,                stat_monstersrespawned,                stat_monstersrespawned,                NOVALUEALIAS       ),
     STAT_INT_UNSIGNED (monstersresurrected,              stat_monstersresurrected,              stat_monstersresurrected,              NOVALUEALIAS       ),

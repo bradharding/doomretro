@@ -546,16 +546,6 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
         viewplayer->monsterskilled[i] = saveg_read32();
 
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
-    {
-        viewplayer->monsterskilled_banshees = saveg_read32();
-        viewplayer->monsterskilled_ghouls = saveg_read32();
-        viewplayer->monsterskilled_mindweavers = saveg_read32();
-        viewplayer->monsterskilled_shocktroopers = saveg_read32();
-        viewplayer->monsterskilled_tyrants = saveg_read32();
-        viewplayer->monsterskilled_vassagos = saveg_read32();
-    }
-
     viewplayer->distancetraveled = saveg_read32();
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
@@ -677,13 +667,6 @@ static void saveg_write_player_t(void)
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
         saveg_write32(viewplayer->monsterskilled[i]);
-
-    saveg_write32(viewplayer->monsterskilled_banshees);
-    saveg_write32(viewplayer->monsterskilled_ghouls);
-    saveg_write32(viewplayer->monsterskilled_mindweavers);
-    saveg_write32(viewplayer->monsterskilled_shocktroopers);
-    saveg_write32(viewplayer->monsterskilled_tyrants);
-    saveg_write32(viewplayer->monsterskilled_vassagos);
 
     saveg_write32(viewplayer->distancetraveled);
     saveg_write32(viewplayer->gamessaved);
