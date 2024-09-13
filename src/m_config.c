@@ -611,7 +611,9 @@ valuealias_t valuealiases[] =
     { "chaingun",       wp_chaingun,           WEAPONVALUEALIAS    },
     { "rocketlauncher", wp_missile,            WEAPONVALUEALIAS    },
     { "plasmarifle",    wp_plasma,             WEAPONVALUEALIAS    },
+    { "incinerator",    wp_incinerator,        WEAPONVALUEALIAS    },
     { "bfg9000",        wp_bfg,                WEAPONVALUEALIAS    },
+    { "calamityblade",  wp_calamityblade,      WEAPONVALUEALIAS    },
     { "chainsaw",       wp_chainsaw,           WEAPONVALUEALIAS    },
     { "supershotgun",   wp_supershotgun,       WEAPONVALUEALIAS    },
     { "",               0,                     NOVALUEALIAS        }

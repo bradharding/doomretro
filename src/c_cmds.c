@@ -70,70 +70,73 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define ALIASCMDFORMAT              BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
-                                    BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define BINDCMDFORMAT               BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
-                                    BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define EXECCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".cfg") "]"
-#define EXPLODECMDFORMAT            BOLD("barrels") "|" BOLD("missiles")
-#define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                    BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                    BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
-#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define LOADCMDFORMAT               BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
-                                    BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define MAPCMDFORMAT2               BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
-                                    BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
-#define NAMECMDFORMAT               "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTCMDFORMAT              "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
-#define REMOVECMDFORMAT             BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
-                                    BOLDITALICS("item") "|" BOLD("everything")
-#define RESETCMDFORMAT              BOLDITALICS("CVAR")
-#define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define SAVECMDFORMAT               BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define SPAWNCMDFORMAT              BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                    BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define TELEPORTCMDFORMAT           BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
-#define TIMERCMDFORMAT              BOLDITALICS("minutes")
-#define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
-#define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
+#define ALIASCMDFORMAT                  BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
+                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define BINDCMDFORMAT                   BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
+                                        BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define EXECCMDFORMAT                   BOLDITALICS("filename") "[" BOLD(".cfg") "]"
+#define EXPLODECMDFORMAT                BOLD("barrels") "|" BOLD("missiles")
+#define GIVECMDFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+#define IFCMDFORMAT                     BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
+#define KILLCMDFORMAT                   BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define LOADCMDFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define MAPCMDFORMAT1                   BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
+                                        BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define MAPCMDFORMAT2                   BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
+                                        BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define PLAYCMDFORMAT                   BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
+#define NAMECMDFORMAT                   "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
+#define PRINTCMDFORMAT                  "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
+#define REMOVECMDFORMAT                 BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
+                                        BOLDITALICS("item") "|" BOLD("everything")
+#define RESETCMDFORMAT                  BOLDITALICS("CVAR")
+#define RESURRECTCMDFORMAT              BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define SAVECMDFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define SPAWNCMDFORMAT                  BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define TAKECMDFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+#define TELEPORTCMDFORMAT               BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
+#define TIMERCMDFORMAT                  BOLDITALICS("minutes")
+#define TOGGLECMDFORMAT                 BOLDITALICS("CVAR")
+#define UNBINDCMDFORMAT                 BOLDITALICS("control") "|" BOLDITALICS("+action")
 
-#define WEAPONDESCRIPTION_SHAREWARE "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
-                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
-#define WEAPONDESCRIPTION_DOOM2     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
-                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
-                                    BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
+#define WEAPONDESCRIPTION_SHAREWARE     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                        BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
+#define WEAPONDESCRIPTION_DOOM2         "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                        BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
+                                        BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
+#define WEAPONDESCRIPTION_LEGACYOFRUST  "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                        BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
+                                        BOLD("rocketlauncher") ", " BOLD("incinerator") " or " BOLD("calamityblade") ")."
 
-#define DEADPLAYERWARNING1          "You can't change this CVAR right now because you're dead."
-#define DEADPLAYERWARNING2          "%s can't change this CVAR right now because %s %s dead."
-#define NEXTMAPWARNING1             "You won't see the results of changing this CVAR until the next map."
-#define NEXTMAPWARNING2             "%s won't see the results of changing this CVAR until the next map."
-#define NOGAMECCMDWARNING1          "You can't use this CCMD right now because you're not playing a game."
-#define NOGAMECCMDWARNING2          "%s can't use this CCMD right now because %s %s playing a game."
-#define NOGAMECVARWARNING1          "You can't change this CVAR right now because you're not playing a game."
-#define NOGAMECVARWARNING2          "%s can't change this CVAR right now because %s %s playing a game."
-#define NIGHTMAREWARNING1           "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
-#define NIGHTMAREWARNING2           "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
+#define DEADPLAYERWARNING1              "You can't change this CVAR right now because you're dead."
+#define DEADPLAYERWARNING2              "%s can't change this CVAR right now because %s %s dead."
+#define NEXTMAPWARNING1                 "You won't see the results of changing this CVAR until the next map."
+#define NEXTMAPWARNING2                 "%s won't see the results of changing this CVAR until the next map."
+#define NOGAMECCMDWARNING1              "You can't use this CCMD right now because you're not playing a game."
+#define NOGAMECCMDWARNING2              "%s can't use this CCMD right now because %s %s playing a game."
+#define NOGAMECVARWARNING1              "You can't change this CVAR right now because you're not playing a game."
+#define NOGAMECVARWARNING2              "%s can't change this CVAR right now because %s %s playing a game."
+#define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
+#define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
 
-#define INTEGERCVARWITHDEFAULT      "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
-#define INTEGERCVARWITHNODEFAULT    "It is currently set to " BOLD("%s") "."
-#define INTEGERCVARISDEFAULT        "It is currently set to its default of " BOLD("%s") "."
-#define DEGREESCVARWITHDEFAULT      "It is currently set to " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
-#define DEGREESCVARISDEFAULT        "It is currently set to its default of " BOLD("%i") "\xB0."
-#define PERCENTCVARWITHDEFAULT      "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
-#define PERCENTCVARWITHNODEFAULT    "It is currently set to " BOLD("%s%%") "."
-#define PERCENTCVARISDEFAULT        "It is currently set to its default of " BOLD("%s%%") "."
-#define STRINGCVARWITHDEFAULT       "It is currently set to " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
-#define STRINGCVARWITHNODEFAULT     "It is currently set to " BOLD("%s%s%s") "."
-#define STRINGCVARISDEFAULT         "It is currently set to its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT1      "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2      "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define INTEGERCVARWITHDEFAULT          "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHNODEFAULT        "It is currently set to " BOLD("%s") "."
+#define INTEGERCVARISDEFAULT            "It is currently set to its default of " BOLD("%s") "."
+#define DEGREESCVARWITHDEFAULT          "It is currently set to " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
+#define DEGREESCVARISDEFAULT            "It is currently set to its default of " BOLD("%i") "\xB0."
+#define PERCENTCVARWITHDEFAULT          "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHNODEFAULT        "It is currently set to " BOLD("%s%%") "."
+#define PERCENTCVARISDEFAULT            "It is currently set to its default of " BOLD("%s%%") "."
+#define STRINGCVARWITHDEFAULT           "It is currently set to " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHNODEFAULT         "It is currently set to " BOLD("%s%s%s") "."
+#define STRINGCVARISDEFAULT             "It is currently set to its default of " BOLD("\"%s\"") "."
+#define TIMECVARWITHNODEFAULT1          "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2          "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
-#define INDENT                      "       "
+#define INDENT                          "       "
 
 alias_t     aliases[MAXALIASES];
 
@@ -2423,7 +2426,9 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(name, stringize(weapon)))
             {
-                if (gamemode == shareware)
+                if (legacyofrust)
+                    M_StringCopy(description, WEAPONDESCRIPTION_LEGACYOFRUST, sizeof(description));
+                else if (gamemode == shareware)
                     M_StringCopy(description, WEAPONDESCRIPTION_SHAREWARE, sizeof(description));
                 else if (gamemission != doom)
                     M_StringCopy(description, WEAPONDESCRIPTION_DOOM2, sizeof(description));
