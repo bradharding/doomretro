@@ -6857,14 +6857,14 @@ static void C_PlayerStats_Game(void)
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
     {
-        temp1 = titlecase(weaponinfo[wp_pistol].name);
+        temp1 = titlecase(weaponinfo[viewplayer->readyweapon].name);
         C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
             (english == english_american ? "Favorite" : "Favourite"), temp1, temp1);
         free(temp1);
     }
     else if (favoriteweapon1 == wp_nochange)
     {
-        temp1 = titlecase(weaponinfo[wp_pistol].name);
+        temp1 = titlecase(weaponinfo[viewplayer->readyweapon].name);
         temp2 = titlecase(weaponinfo[favoriteweapon2].name);
         C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
             (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
@@ -7287,7 +7287,7 @@ static void C_PlayerStats_NoGame(void)
         free(temp3);
     }
 
-    temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? wp_pistol : favoriteweapon1)].name);
+    temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? viewplayer->readyweapon : favoriteweapon1)].name);
     C_TabbedOutput(tabs, "%s weapon\t\x96\t%s",
         (english == english_american ? "Favorite" : "Favourite"), temp1);
     free(temp1);
