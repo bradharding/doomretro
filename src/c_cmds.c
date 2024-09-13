@@ -6058,11 +6058,10 @@ static skill_t favoriteskilllevel(void)
 static weapontype_t favoriteweapon(bool total)
 {
     weapontype_t    favorite = wp_nochange;
+    uint64_t        shotsfiredstat = 0;
 
     if (total)
     {
-        uint64_t    shotsfiredstat = 0;
-
         if (shotsfiredstat < stat_shotsfired[wp_fist])
         {
             shotsfiredstat = stat_shotsfired[wp_fist];
@@ -6112,15 +6111,51 @@ static weapontype_t favoriteweapon(bool total)
         }
 
         if (shotsfiredstat < stat_shotsfired[wp_bfg])
+        {
+            shotsfiredstat = stat_shotsfired[wp_bfg];
             favorite = wp_bfg;
+        }
+
+        if (legacyofrust)
+        {
+            if (shotsfiredstat < stat_shotsfired_incinerator)
+            {
+                shotsfiredstat = stat_shotsfired_incinerator;
+                favorite = wp_incinerator;
+            }
+
+            if (shotsfiredstat < stat_shotsfired_calamityblade)
+            {
+                shotsfiredstat = stat_shotsfired_calamityblade;
+                favorite = wp_calamityblade;
+            }
+        }
     }
     else
-        for (int i = 0, shotsfiredstat = 0; i < NUMWEAPONS; i++)
+    {
+        for (int i = 0; i < NUMWEAPONS; i++)
             if (shotsfiredstat < viewplayer->shotsfired[i])
             {
                 shotsfiredstat = viewplayer->shotsfired[i];
                 favorite = i;
             }
+
+
+        if (legacyofrust)
+        {
+            if (shotsfiredstat < viewplayer->shotsfired_incinerator)
+            {
+                shotsfiredstat = viewplayer->shotsfired_incinerator;
+                favorite = wp_incinerator;
+            }
+
+            if (shotsfiredstat < viewplayer->shotsfired_calamityblade)
+            {
+                shotsfiredstat = viewplayer->shotsfired_calamityblade;
+                favorite = wp_calamityblade;
+            }
+        }
+    }
 
     return favorite;
 }
