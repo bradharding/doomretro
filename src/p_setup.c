@@ -383,6 +383,7 @@ const char *nodeformats[] =
 };
 
 bool            boomcompatible;
+bool            id24compatible = false;
 bool            mbfcompatible;
 bool            mbf21compatible = false;
 bool            blockmaprebuilt;

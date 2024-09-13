@@ -5201,10 +5201,11 @@ static void mapstats_func2(char *cmd, char *parms)
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
-        (mbf21compatible ? ITALICS("MBF21") :
-            (mbfcompatible ? ITALICS("MBF") :
-                (boomcompatible ? ITALICS("BOOM") :
-                    (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
+        (id24compatible ? ITALICS("ID24") :
+            (mbf21compatible ? ITALICS("MBF21") :
+                (mbfcompatible ? ITALICS("MBF") :
+                    (boomcompatible ? ITALICS("BOOM") :
+                        (numsegs < 32768 ? "Vanilla" : "Limit removing"))))));
 
     if (partime)
         C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),

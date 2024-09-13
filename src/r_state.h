@@ -121,6 +121,7 @@ extern nodeformat_t nodeformat;
 extern const char   *nodeformats[];
 
 extern bool         boomcompatible;
+extern bool         id24compatible;
 extern bool         mbfcompatible;
 extern bool         mbf21compatible;
 extern bool         blockmaprebuilt;
