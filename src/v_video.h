@@ -103,10 +103,10 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, bool shadow);
-void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, bool shadow);
-void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab);
-void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab);
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadow);
+void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadow);
+void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab, int shadow);
+void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab, int shadow);
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
