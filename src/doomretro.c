@@ -36,6 +36,7 @@
 #if defined(_WIN32)
 #include <Windows.h>
 
+#include "SDL_main.h"
 #include "SDL_syswm.h"
 #endif
 
@@ -174,7 +175,7 @@ void I_ShutdownWindows32(void)
 }
 #endif
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
     myargc = argc;
 

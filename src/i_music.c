@@ -94,7 +94,7 @@ bool I_InitMusic(void)
     // If SDL_mixer is not initialized, we have to initialize it and have the responsibility to shut it down later on.
     if (!Mix_QuerySpec(&freq, &format, &channels))
         if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
-            CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+            CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_ANY_CHANGE) < 0)
             return false;
 
     music_initialized = true;

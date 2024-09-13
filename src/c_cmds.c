@@ -5192,7 +5192,8 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "%s\tYes", mapinfolump);
     }
 
-    C_TabbedOutput(tabs, INDENT "MD5\t%s", MD5(lumpinfo[lump]->wadfile->path));
+    C_TabbedOutput(tabs, INDENT "MD5\t" MONOSPACED("%s"),
+        MD5(lumpinfo[lump]->wadfile->path));
 
     if (wadtype == PWAD)
     {
@@ -5202,7 +5203,8 @@ static void mapstats_func2(char *cmd, char *parms)
 
         OutputReleaseDate(tabs, wadname);
 
-        C_TabbedOutput(tabs, INDENT "MD5\t%s", MD5(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
+        C_TabbedOutput(tabs, INDENT "MD5\t" MONOSPACED("%s"),
+            MD5(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
@@ -5483,7 +5485,8 @@ static void mapstats_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, INDENT INDENT "Release date\tAugust 8, 2024");
 
             if (!M_StringCompare(lumpinfo[lump]->wadfile->path, lumpinfo[mus_playing->lumpnum]->wadfile->path))
-                C_TabbedOutput(tabs, INDENT INDENT "MD5\t%s", MD5(lumpinfo[mus_playing->lumpnum]->wadfile->path));
+                C_TabbedOutput(tabs, INDENT INDENT "MD5\t" MONOSPACED("%s"),
+                    MD5(lumpinfo[mus_playing->lumpnum]->wadfile->path));
         }
     }
 }
@@ -7242,7 +7245,8 @@ static void C_PlayerStats_NoGame(void)
         temp2 = commifystat(stat_shotssuccessful[wp_bfg]);
         temp3 = commifystat(stat_shotsfired[wp_bfg]);
         C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
-            temp1, temp2, temp3, (stat_shotsfired[wp_bfg] ? (int)(stat_shotssuccessful[wp_bfg] * 100 / stat_shotsfired[wp_bfg]) : 0));
+            temp1, temp2, temp3,
+            (stat_shotsfired[wp_bfg] ? (int)(stat_shotssuccessful[wp_bfg] * 100 / stat_shotsfired[wp_bfg]) : 0));
         free(temp1);
         free(temp2);
         free(temp3);
