@@ -526,20 +526,8 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->shotssuccessful[i] = saveg_read32();
 
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
-    {
-        viewplayer->shotssuccessful_incinerator = saveg_read32();
-        viewplayer->shotssuccessful_calamityblade = saveg_read32();
-    }
-
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->shotsfired[i] = saveg_read32();
-
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
-    {
-        viewplayer->shotsfired_incinerator = saveg_read32();
-        viewplayer->shotsfired_calamityblade = saveg_read32();
-    }
 
     viewplayer->deaths = saveg_read32();
 
@@ -550,9 +538,6 @@ static void saveg_read_player_t(void)
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
     viewplayer->itemspickedup_ammo_cells = saveg_read32();
-
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
-        viewplayer->itemspickedup_ammo_fuel = saveg_read32();
 
     viewplayer->itemspickedup_ammo_rockets = saveg_read32();
     viewplayer->itemspickedup_ammo_shells = saveg_read32();
@@ -578,12 +563,11 @@ static void saveg_read_player_t(void)
 
     viewplayer->itemspickedup_keys = saveg_read32();
 
-    // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
+    viewplayer->shotssuccessful_incinerator = saveg_read32();
+    viewplayer->shotssuccessful_calamityblade = saveg_read32();
+    viewplayer->shotsfired_incinerator = saveg_read32();
+    viewplayer->shotsfired_calamityblade = saveg_read32();
+    viewplayer->itemspickedup_ammo_fuel = saveg_read32();
 }
 
 static void saveg_write_player_t(void)
@@ -654,14 +638,8 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->shotssuccessful[i]);
 
-    saveg_write32(viewplayer->shotssuccessful_incinerator);
-    saveg_write32(viewplayer->shotssuccessful_calamityblade);
-
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->shotsfired[i]);
-
-    saveg_write32(viewplayer->shotsfired_incinerator);
-    saveg_write32(viewplayer->shotsfired_calamityblade);
 
     saveg_write32(viewplayer->deaths);
 
@@ -672,7 +650,6 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->gamessaved);
     saveg_write32(viewplayer->itemspickedup_ammo_bullets);
     saveg_write32(viewplayer->itemspickedup_ammo_cells);
-    saveg_write32(viewplayer->itemspickedup_ammo_fuel);
     saveg_write32(viewplayer->itemspickedup_ammo_rockets);
     saveg_write32(viewplayer->itemspickedup_ammo_shells);
     saveg_write32(viewplayer->itemspickedup_armor);
@@ -696,12 +673,11 @@ static void saveg_write_player_t(void)
 
     saveg_write32(viewplayer->itemspickedup_keys);
 
-    // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
+    saveg_write32(viewplayer->shotssuccessful_incinerator);
+    saveg_write32(viewplayer->shotssuccessful_calamityblade);
+    saveg_write32(viewplayer->shotsfired_incinerator);
+    saveg_write32(viewplayer->shotsfired_calamityblade);
+    saveg_write32(viewplayer->itemspickedup_ammo_fuel);
 }
 
 //
@@ -1054,8 +1030,7 @@ bool P_ReadSaveGameHeader(char *description)
     for (int i = 0; i < VERSIONSIZE; i++)
         savegameversion[i] = saveg_read8();
 
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_6))
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSIONSTRING))
     {
         menuactive = false;
         quicksaveslot = -1;
