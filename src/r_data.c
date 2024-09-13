@@ -710,6 +710,12 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BANSHEE].flags |= MF_NOBLOOD;
         mobjinfo[MT_VASSAGO].flags |= MF_NOBLOOD;
 
+        mobjinfo[MT_SHOCKTROOPER].shadowoffset = 2 * FRACUNIT;
+        mobjinfo[MT_VASSAGO].shadowoffset = 8 * FRACUNIT;
+        mobjinfo[MT_TYRANT].shadowoffset = 8 * FRACUNIT;
+        mobjinfo[MT_TYRANTBOSS1].shadowoffset = 8 * FRACUNIT;
+        mobjinfo[MT_TYRANTBOSS2].shadowoffset = 8 * FRACUNIT;
+
         M_StringCopy(mobjinfo[MT_EXTRA06].name1, "tyrant", sizeof(mobjinfo[0].name1));
         M_StringCopy(mobjinfo[MT_EXTRA06].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
         M_StringCopy(mobjinfo[MT_EXTRA07].name1, "tyrant", sizeof(mobjinfo[0].name1));
