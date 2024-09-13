@@ -177,7 +177,7 @@ static void CreatePatch(int patchnum)
     patch->posts = (rpost_t *)((unsigned char *)patch->columns + columnsdatasize);
 
     // sanity check that we've got all the memory allocated we need
-    assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
+    SDL_assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
 
     memset(patch->pixels, 0xFF, (size_t)patch->width * patch->height);
 
@@ -377,7 +377,7 @@ static void CreateTextureCompositePatch(const int id)
     compositepatch->posts = (rpost_t *)((unsigned char *)compositepatch->columns + columnsdatasize);
 
     // sanity check that we've got all the memory allocated we need
-    assert((((byte *)compositepatch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)compositepatch->data) == datasize);
+    SDL_assert((((byte *)compositepatch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)compositepatch->data) == datasize);
 
     memset(compositepatch->pixels, 0xFF, (size_t)compositepatch->width * compositepatch->height);
 
@@ -470,7 +470,7 @@ static void CreateTextureCompositePatch(const int id)
 
                 oldcolumn = (const column_t *)((const byte *)oldcolumn + oldcolumn->length + 4);
                 countsincolumn[tx].postsused++;
-                assert(countsincolumn[tx].postsused <= countsincolumn[tx].posts);
+                SDL_assert(countsincolumn[tx].postsused <= countsincolumn[tx].posts);
             }
         }
 

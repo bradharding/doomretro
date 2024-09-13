@@ -58,8 +58,6 @@
 
 FILE        *save_stream;
 
-static char savegameversion[VERSIONSIZE] = "";
-
 static int  thingindex;
 static int  targets[TARGETLIMIT];
 static int  tracers[TARGETLIMIT];
@@ -538,7 +536,6 @@ static void saveg_read_player_t(void)
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
     viewplayer->itemspickedup_ammo_cells = saveg_read32();
-
     viewplayer->itemspickedup_ammo_rockets = saveg_read32();
     viewplayer->itemspickedup_ammo_shells = saveg_read32();
     viewplayer->itemspickedup_armor = saveg_read32();
@@ -986,7 +983,7 @@ static void saveg_write_button_t(const button_t *str)
 //
 void P_WriteSaveGameHeader(const char *description)
 {
-    char    name[VERSIONSIZE];
+    char    savegameversion[VERSIONSIZE];
     int     i;
 
     for (i = 0; description[i] != '\0'; i++)
@@ -995,11 +992,11 @@ void P_WriteSaveGameHeader(const char *description)
     for (; i < SAVESTRINGSIZE; i++)
         saveg_write8(0);
 
-    memset(name, 0, sizeof(name));
-    strcpy(name, DOOMRETRO_SAVEGAMEVERSIONSTRING);
+    memset(savegameversion, 0, sizeof(savegameversion));
+    strcpy(savegameversion, DOOMRETRO_SAVEGAMEVERSIONSTRING);
 
     for (i = 0; i < VERSIONSIZE; i++)
-        saveg_write8(name[i]);
+        saveg_write8(savegameversion[i]);
 
     saveg_write8(gameskill);
     saveg_write8(gameepisode);
@@ -1023,6 +1020,7 @@ void P_WriteSaveGameHeader(const char *description)
 bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
+    char    savegameversion[VERSIONSIZE] = "";
 
     for (int i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();

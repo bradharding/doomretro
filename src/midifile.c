@@ -34,8 +34,6 @@
 */
 
 #if defined(_WIN32)
-
-#include <assert.h>
 #include <string.h>
 
 #include "doomtype.h"
@@ -428,7 +426,7 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track)
 {
     midi_track_iter_t   *iter;
 
-    assert(track < file->num_tracks);
+    SDL_assert(track < file->num_tracks);
 
     if ((iter = malloc(sizeof(*iter))))
     {
