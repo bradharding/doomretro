@@ -15,14 +15,15 @@
 * A bug is fixed whereby the screen wasn’t being immediately updated after changing the `r_hud` CVAR in the console.
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
 * These improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
-  * Kill stats for banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos are now displayed by the `playerstats` CCMD.
-  * A fuel can icon now appears in the widescreen HUD when the player has their incinerator or calamity blade equipped.
+  * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
+  * A fuel can icon now appears in the widescreen HUD when the player has an incinerator or calamity blade equipped.
   * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
   * *DOOM Retro’s* higher resolution status bar is now displayed.
   * The help screen has been updated to include the incinerator and calamity blade.
-* Minor improvements have also been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens), [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960) and [`extras.wad`](https://doomwiki.org/wiki/Extras.wad).
+* A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
+* Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * These changes have been made to the support of `MAPINFO` lumps:
-  * The order in which `MAPINFO` lumps are loaded is now correct.
+  * The order in which multiple `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
