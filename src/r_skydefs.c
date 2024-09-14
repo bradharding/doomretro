@@ -33,7 +33,7 @@
 ==============================================================================
 */
 
-#include "cjson/cJSON.h"
+#include "cJSON/cJSON.h"
 #include "m_array.h"
 #include "r_skydefs.h"
 #include "w_wad.h"
