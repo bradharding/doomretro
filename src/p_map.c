@@ -604,7 +604,7 @@ static bool PIT_CheckThing(mobj_t *thing)
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
-        if (type != MT_BARREL)
+        if (type != MT_BARREL && type != MT_LAMP)
         {
             if (tmtype == MT_PLASMA)
             {
@@ -617,6 +617,16 @@ static bool PIT_CheckThing(mobj_t *thing)
                 {
                     viewplayer->shotssuccessful[wp_missile]++;
                     stat_shotssuccessful[wp_missile] = SafeAdd(stat_shotssuccessful[wp_missile], 1);
+                }
+
+                tmthing->nudge++;
+            }
+            else if (tmtype == MT_FLAME)
+            {
+                if (tmthing->nudge == 1)
+                {
+                    viewplayer->shotssuccessful_incinerator++;
+                    stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_incinerator, 1);
                 }
 
                 tmthing->nudge++;
@@ -2076,8 +2086,13 @@ bool PIT_RadiusAttack(mobj_t *thing)
         }
         else if (bombspot->type == MT_FLAME && type != MT_BARREL && type != MT_LAMP && !(thing->flags & MF_CORPSE))
         {
-            viewplayer->shotssuccessful_incinerator++;
-            stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_incinerator, 1);
+            if (bombspot->nudge == 1)
+            {
+                viewplayer->shotssuccessful_incinerator++;
+                stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_incinerator, 1);
+            }
+
+            bombspot->nudge++;
         }
     }
 
