@@ -388,6 +388,7 @@
     <ClInclude Include="..\src\r_plane.h" />
     <ClInclude Include="..\src\r_segs.h" />
     <ClInclude Include="..\src\r_sky.h" />
+    <ClInclude Include="..\src\r_skydefs.h" />
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
     <ClInclude Include="..\src\s_sound.h" />
@@ -478,6 +479,7 @@
     <ClCompile Include="..\src\r_plane.c" />
     <ClCompile Include="..\src\r_segs.c" />
     <ClCompile Include="..\src\r_sky.c" />
+    <ClCompile Include="..\src\r_skydefs.c" />
     <ClCompile Include="..\src\r_things.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\sc_man.c" />

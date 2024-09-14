@@ -1,4 +1,4 @@
-/*
+﻿/*
 ==============================================================================
 
                                  DOOM Retro
@@ -35,27 +35,53 @@
 
 #pragma once
 
-#include "r_skydefs.h"
+#include "doomtype.h"
+#include "m_fixed.h"
 
-// SKY, store the number for name.
-#define SKYFLATNAME         "F_SKY1"
+typedef enum
+{
+    SkyType_Normal,
+    SkyType_Fire,
+    SkyType_WithForeground
+} skytype_t;
 
-// The sky map is 256 * 128 * 4 maps.
-#define ANGLETOSKYSHIFT     22
+typedef struct
+{
+    byte        *palette;
+    int         updatetime;
+    int         tics_left;
+} fire_t;
 
-#define SKYSTRETCH_HEIGHT   (VANILLAHEIGHT + (r_screensize < r_screensize_max && !menuactive ? 38 : 64))
+typedef struct
+{
+    const char  *name;
+    double      mid;
+    fixed_t     scrollx;
+    fixed_t     currx;
+    fixed_t     scrolly;
+    fixed_t     curry;
+    fixed_t     scalex;
+    fixed_t     scaley;
+} skytex_t;
 
-#define FIRE_WIDTH          128
-#define FIRE_HEIGHT         320
+typedef struct
+{
+    skytype_t   type;
+    skytex_t    skytex;
+    fire_t      fire;
+    skytex_t    foreground;
+} sky_t;
 
-extern int      skytexture;
-extern int      skytexturemid;
-extern int      skycolumnoffset;
-extern int      skyscrolldelta;
-extern fixed_t  skyiscale;
-extern bool     canfreelook;
-extern sky_t    *sky;
+typedef struct
+{
+    const char  *flat;
+    const char  *sky;
+} flatmap_t;
 
-void R_InitSkyMap(void);
-void R_UpdateSky(void);
-byte *R_GetFireColumn(int col);
+typedef struct
+{
+    sky_t       *skies;
+    flatmap_t   *flatmapping;
+} skydefs_t;
+
+skydefs_t *R_ParseSkyDefs(void);

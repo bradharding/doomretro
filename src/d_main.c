@@ -2446,8 +2446,6 @@ static void D_DoomMainSetup(void)
 
     W_CheckForPNGLumps();
 
-    id24compatible = (W_CheckNumForName("SBARDEF") >= 0 || W_CheckNumForName("SKYDEFS") >= 0);
-
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
     PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_GetNumLumps("PLAYPAL"));

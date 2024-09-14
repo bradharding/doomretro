@@ -78,6 +78,8 @@ static fixed_t      cachedheight[MAXHEIGHT];
 
 static bool         updateswirl;
 
+static angle_t      *xtoskyangle;
+
 //
 // R_MapPlane
 //
@@ -428,7 +430,7 @@ static byte *R_DistortedFlat(const int flatnum)
 //
 void R_DrawPlanes(void)
 {
-    const angle_t   *xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
+    xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
 
     if (r_liquid_swirl)
         updateswirl = !(consoleactive || helpscreen || paused || freeze);
@@ -444,21 +446,39 @@ void R_DrawPlanes(void)
 
                 if (picnum == skyflatnum)
                 {
-                    // Normal DOOM sky, only one allowed per level
-                    dc_texheight = textureheight[skytexture] >> FRACBITS;
-                    dc_texturemid = skytexturemid;
-                    dc_iscale = skyiscale;
+                    if (sky && sky->type == SkyType_Fire)
+                    {
+                        id24compatible = true;
+                        dc_texheight = FIRE_HEIGHT;
+                        dc_texturemid = -28 * FRACUNIT;
+                        dc_iscale = skyiscale;
 
-                    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                        {
-                            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(skytexture),
-                                (((viewangle + xtoskyangle[dc_x])
-                                    / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                            {
+                                dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
+                                skycolfunc();
+                            }
+                    }
+                    else
+                    {
+                        // Normal DOOM sky, only one allowed per level
+                        dc_texheight = textureheight[skytexture] >> FRACBITS;
+                        dc_texturemid = skytexturemid;
+                        dc_iscale = skyiscale;
 
-                            skycolfunc();
-                        }
+                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                            {
+                                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(skytexture),
+                                    (((viewangle + xtoskyangle[dc_x])
+                                        / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+
+                                skycolfunc();
+                            }
+                    }
                 }
                 else if (picnum & PL_SKYFLAT)
                 {
