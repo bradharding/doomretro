@@ -428,6 +428,8 @@ static byte *R_DistortedFlat(const int flatnum)
 //
 void R_DrawPlanes(void)
 {
+    const angle_t   *xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
+
     if (r_liquid_swirl)
         updateswirl = !(consoleactive || helpscreen || paused || freeze);
 
@@ -440,7 +442,25 @@ void R_DrawPlanes(void)
             {
                 const int   picnum = pl->picnum;
 
-                if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
+                if (picnum == skyflatnum)
+                {
+                    // Normal DOOM sky, only one allowed per level
+                    dc_texheight = textureheight[skytexture] >> FRACBITS;
+                    dc_texturemid = skytexturemid;
+                    dc_iscale = skyiscale;
+
+                    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                        {
+                            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(skytexture),
+                                (((viewangle + xtoskyangle[dc_x])
+                                    / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+
+                            skycolfunc();
+                        }
+                }
+                else if (picnum & PL_SKYFLAT)
                 {
                     // sky flat
                     int             texture;
@@ -453,56 +473,46 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     angle_t         angle = viewangle;
 
-                    if (picnum & PL_SKYFLAT)
+                    // Sky linedef
+                    const line_t    *line = lines + (picnum & ~PL_SKYFLAT);
+
+                    // Sky transferred from first sidedef
+                    const side_t    *side = sides + *line->sidenum;
+
+                    if (side->missingtoptexture)
                     {
-                        // Sky linedef
-                        const line_t    *line = lines + (picnum & ~PL_SKYFLAT);
+                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                R_DrawColorColumn();
 
-                        // Sky transferred from first sidedef
-                        const side_t    *side = sides + *line->sidenum;
-
-                        if (side->missingtoptexture)
-                        {
-                            for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                                if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                                    && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                                    R_DrawColorColumn();
-
-                            continue;
-                        }
-
-                        // Texture comes from upper texture of reference sidedef
-                        texture = texturetranslation[side->toptexture];
-
-                        // Horizontal offset is turned into an angle offset,
-                        // to allow sky rotation as well as careful positioning.
-                        // However, the offset is scaled very small, so that it
-                        // allows a long-period of sky rotation.
-                        angle += side->textureoffset;
-
-                        // Vertical offset allows careful sky positioning.
-                        dc_texturemid = side->rowoffset - 28 * FRACUNIT;
-
-                        dc_texheight = textureheight[texture] >> FRACBITS;
-
-                        if (canfreelook)
-                            dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
-
-                        // We sometimes flip the picture horizontally.
-
-                        // DOOM always flipped the picture, so we make it optional,
-                        // to make it easier to use the new feature, while to still
-                        // allow old sky textures to be used.
-                        if (line->special != TransferSkyTextureToTaggedSectors_Flipped)
-                            flip = ~0U;
+                        continue;
                     }
-                    else
-                    {
-                        // Normal DOOM sky, only one allowed per level
-                        texture = skytexture;
-                        dc_texheight = textureheight[texture] >> FRACBITS;
-                        dc_texturemid = skytexturemid;
-                    }
+
+                    // Texture comes from upper texture of reference sidedef
+                    texture = texturetranslation[side->toptexture];
+
+                    // Horizontal offset is turned into an angle offset,
+                    // to allow sky rotation as well as careful positioning.
+                    // However, the offset is scaled very small, so that it
+                    // allows a long-period of sky rotation.
+                    angle += side->textureoffset;
+
+                    // Vertical offset allows careful sky positioning.
+                    dc_texturemid = side->rowoffset - 28 * FRACUNIT;
+
+                    dc_texheight = textureheight[texture] >> FRACBITS;
+
+                    if (canfreelook)
+                        dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
+
+                    // We sometimes flip the picture horizontally.
+
+                    // DOOM always flipped the picture, so we make it optional,
+                    // to make it easier to use the new feature, while to still
+                    // allow old sky textures to be used.
+                    if (line->special != TransferSkyTextureToTaggedSectors_Flipped)
+                        flip = ~0U;
 
                     dc_iscale = skyiscale;
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
@@ -512,7 +522,7 @@ void R_DrawPlanes(void)
                             && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((angle + (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x])) ^ flip)
+                                ((((angle + xtoskyangle[dc_x]) ^ flip)
                                     / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();

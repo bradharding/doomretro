@@ -26,6 +26,7 @@
   * The order in which multiple `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
+* If the fists or chainsaw are replaced with a weapon as specified in a `DEHACKED` lump, that weapon can now consume ammo.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
@@ -37,6 +38,7 @@
 * The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
 * The amount of ammo the player has is no longer momentarily translucent at the start of each map if the `animatedstats` CVAR is `on`.
 * A bug is fixed whereby the help screen wouldn’t be fully displayed when the `vid_widescreen` CVAR was `off`.
+* Using the mouse pointer to move the scroll bar in the console is now more responsive when the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
