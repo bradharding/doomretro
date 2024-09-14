@@ -45,8 +45,8 @@
 
 #define SKYSTRETCH_HEIGHT   (VANILLAHEIGHT + (r_screensize < r_screensize_max && !menuactive ? 38 : 64))
 
-#define FIRE_WIDTH          128
-#define FIRE_HEIGHT         320
+#define FIREWIDTH           128
+#define FIREHEIGHT          320
 
 extern int      skytexture;
 extern int      skytexturemid;

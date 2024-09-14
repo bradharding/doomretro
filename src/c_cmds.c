@@ -6140,7 +6140,6 @@ static weapontype_t favoriteweapon(bool total)
                 favorite = i;
             }
 
-
         if (legacyofrust)
         {
             if (shotsfiredstat < viewplayer->shotsfired_incinerator)

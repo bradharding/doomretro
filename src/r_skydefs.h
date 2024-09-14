@@ -49,7 +49,7 @@ typedef struct
 {
     byte        *palette;
     int         updatetime;
-    int         tics_left;
+    int         ticsleft;
 } fire_t;
 
 typedef struct

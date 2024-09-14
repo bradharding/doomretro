@@ -446,12 +446,13 @@ void R_DrawPlanes(void)
 
                 if (picnum == skyflatnum)
                 {
+                    dc_iscale = skyiscale;
+
                     if (sky && sky->type == SkyType_Fire)
                     {
                         id24compatible = true;
-                        dc_texheight = FIRE_HEIGHT;
+                        dc_texheight = FIREHEIGHT;
                         dc_texturemid = -28 * FRACUNIT;
-                        dc_iscale = skyiscale;
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
@@ -466,7 +467,6 @@ void R_DrawPlanes(void)
                         // Normal DOOM sky, only one allowed per level
                         dc_texheight = textureheight[skytexture] >> FRACBITS;
                         dc_texturemid = skytexturemid;
-                        dc_iscale = skyiscale;
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX

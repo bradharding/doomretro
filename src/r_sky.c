@@ -57,52 +57,52 @@ bool        canfreelook = false;
 sky_t       *sky = NULL;
 
 // PSX fire sky <https://fabiensanglard.net/doom_fire_psx/>
-static byte fire_indices[FIRE_WIDTH * FIRE_HEIGHT];
-static byte fire_pixels[FIRE_WIDTH * FIRE_HEIGHT];
+static byte fireindices[FIREWIDTH * FIREHEIGHT];
+static byte firepixels[FIREWIDTH * FIREHEIGHT];
 
 static void PrepareFirePixels(fire_t *fire)
 {
-    byte    *rover = fire_pixels;
+    byte    *rover = firepixels;
 
-    for (int x = 0; x < FIRE_WIDTH; x++)
+    for (int x = 0; x < FIREWIDTH; x++)
     {
-        byte    *src = fire_indices + x;
+        byte    *src = fireindices + x;
 
-        for (int y = 0; y < FIRE_HEIGHT; y++)
+        for (int y = 0; y < FIREHEIGHT; y++)
         {
             *rover++ = fire->palette[*src];
-            src += FIRE_WIDTH;
+            src += FIREWIDTH;
         }
     }
 }
 
 static void SpreadFire(void)
 {
-    for (int x = 0; x < FIRE_WIDTH; ++x)
-        for (int y = 1; y < FIRE_HEIGHT; ++y)
+    for (int x = 0; x < FIREWIDTH; ++x)
+        for (int y = 1; y < FIREHEIGHT; ++y)
         {
-            int src = y * FIRE_WIDTH + x;
-            int index = fire_indices[src];
+            const int   src = y * FIREWIDTH + x;
+            const int   index = fireindices[src];
 
             if (!index)
-                fire_indices[src - FIRE_WIDTH] = 0;
+                fireindices[src - FIREWIDTH] = 0;
             else
             {
-                int rand_index = M_Random() & 3;
+                const int   rand_index = M_Random() & 3;
 
-                fire_indices[src - rand_index + 1 - FIRE_WIDTH] = index - (rand_index & 1);
+                fireindices[src - rand_index + 1 - FIREWIDTH] = index - (rand_index & 1);
             }
         }
 }
 
 static void SetupFire(fire_t *fire)
 {
-    int last = array_size(fire->palette) - 1;
+    const int   last = array_size(fire->palette) - 1;
 
-    memset(fire_indices, 0, FIRE_WIDTH * FIRE_HEIGHT);
+    memset(fireindices, 0, FIREWIDTH * FIREHEIGHT);
 
-    for (int i = 0; i < FIRE_WIDTH; i++)
-        fire_indices[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = last;
+    for (int i = 0; i < FIREWIDTH; i++)
+        fireindices[(FIREHEIGHT - 1) * FIREWIDTH + i] = last;
 
     for (int i = 0; i < 64; i++)
         SpreadFire();
@@ -113,21 +113,21 @@ static void SetupFire(fire_t *fire)
 byte *R_GetFireColumn(int col)
 {
     while (col < 0)
-        col += FIRE_WIDTH;
+        col += FIREWIDTH;
 
-    col %= FIRE_WIDTH;
-    return &fire_pixels[col * FIRE_HEIGHT];
+    col %= FIREWIDTH;
+    return &firepixels[col * FIREHEIGHT];
 }
 
-static void InitSky(void)
+static void InitSkyDefs(void)
 {
     static skydefs_t    *skydefs;
-    static bool         run_once = true;
+    static bool         runonce = true;
 
-    if (run_once)
+    if (runonce)
     {
         skydefs = R_ParseSkyDefs();
-        run_once = false;
+        runonce = false;
     }
 
     if (!skydefs)
@@ -156,14 +156,14 @@ void R_UpdateSky(void)
     {
         fire_t  *fire = &sky->fire;
 
-        if (!fire->tics_left)
+        if (!fire->ticsleft)
         {
             SpreadFire();
             PrepareFirePixels(fire);
-            fire->tics_left = fire->updatetime;
+            fire->ticsleft = fire->updatetime;
         }
 
-        fire->tics_left--;
+        fire->ticsleft--;
         return;
     }
 
@@ -182,7 +182,7 @@ void R_UpdateSky(void)
 
 void R_InitSkyMap(void)
 {
-    InitSky();
+    InitSkyDefs();
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
