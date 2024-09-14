@@ -2064,7 +2064,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
         P_DamageMobj(thing, bombspot, bombsource, damage, true, false);
 
         // [BH] count number of times player's rockets hit a monster
-        if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
+        if (bombspot->type == MT_ROCKET && type != MT_BARREL && type != MT_LAMP && !(thing->flags & MF_CORPSE))
         {
             if (bombspot->nudge == 1)
             {
@@ -2073,6 +2073,11 @@ bool PIT_RadiusAttack(mobj_t *thing)
             }
 
             bombspot->nudge++;
+        }
+        else if (bombspot->type == MT_FLAME && type != MT_BARREL && type != MT_LAMP && !(thing->flags & MF_CORPSE))
+        {
+            viewplayer->shotssuccessful_incinerator++;
+            stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_incinerator, 1);
         }
     }
 

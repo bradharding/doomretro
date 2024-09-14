@@ -49,6 +49,8 @@
 #define MT_TYRANT       MT_EXTRA05
 #define MT_TYRANTBOSS1  MT_EXTRA06
 #define MT_TYRANTBOSS2  MT_EXTRA07
+#define MT_FLAME        MT_EXTRA08
+#define MT_LAMP         MT_EXTRA50
 
 typedef enum
 {
