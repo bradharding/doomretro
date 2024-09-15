@@ -807,7 +807,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
+    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
     {
         if (topoffset - height <= 4 * FRACUNIT)
         {
