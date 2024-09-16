@@ -284,8 +284,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->gibtimer = saveg_read32();
     str->musicid = saveg_read32();
 
+    animatedtic = saveg_read32();
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -365,8 +366,10 @@ static void saveg_write_mobj_t(const mobj_t *str)
     saveg_write32(str->gibtimer);
     saveg_write32(str->musicid);
 
+    // only needs to be saved once, but done here to keep savegame compatibility
+    saveg_write32(animatedtic);
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
