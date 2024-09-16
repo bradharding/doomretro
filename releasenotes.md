@@ -21,7 +21,7 @@
   * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
   * *DOOM Retro’s* higher resolution status bar is now displayed.
   * The help screen has been updated to include the incinerator and calamity blade.
-  * The shadows cast by some monsters have improved in position.
+  * The positions of shadows cast by some monsters have improved.
   * The new monsters no longer bob up and down when in a liquid sector.
 * A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).

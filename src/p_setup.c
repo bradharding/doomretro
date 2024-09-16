@@ -3117,6 +3117,8 @@ void P_SetupLevel(int ep, int map)
     int         lumpnum;
     static int  prevlumpnum = -1;
 
+    id24compatible = false;
+
     nummappedlines = 0;
     totalkills = 0;
     totalitems = 0;

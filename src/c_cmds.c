@@ -6125,10 +6125,7 @@ static weapontype_t favoriteweapon(bool total)
             }
 
             if (shotsfiredstat < stat_shotsfired_calamityblade)
-            {
-                shotsfiredstat = stat_shotsfired_calamityblade;
                 favorite = wp_calamityblade;
-            }
         }
     }
     else
@@ -6149,10 +6146,7 @@ static weapontype_t favoriteweapon(bool total)
             }
 
             if (shotsfiredstat < viewplayer->shotsfired_calamityblade)
-            {
-                shotsfiredstat = viewplayer->shotsfired_calamityblade;
                 favorite = wp_calamityblade;
-            }
         }
     }
 

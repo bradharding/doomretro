@@ -88,9 +88,9 @@ static void SpreadFire(void)
                 fireindices[src - FIREWIDTH] = 0;
             else
             {
-                const int   rand_index = M_Random() & 3;
+                const int   r = M_BigRandom() & 3;
 
-                fireindices[src - rand_index + 1 - FIREWIDTH] = index - (rand_index & 1);
+                fireindices[src - r + 1 - FIREWIDTH] = index - (r & 1);
             }
         }
 }

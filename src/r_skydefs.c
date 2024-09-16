@@ -33,9 +33,12 @@
 ==============================================================================
 */
 
+#include "c_console.h"
 #include "cJSON/cJSON.h"
 #include "m_array.h"
+#include "r_defs.h"
 #include "r_skydefs.h"
+#include "r_state.h"
 #include "w_wad.h"
 
 static bool ParseFire(cJSON *json, fire_t *out)
@@ -138,12 +141,14 @@ skydefs_t *R_ParseSkyDefs(void)
     cJSON       *js_flatmap = NULL;
     skydefs_t   *out;
 
-    if (lumpnum < 0)
+    if (lumpnum == -1)
         return NULL;
 
     if (!((json = cJSON_Parse(W_CacheLumpNum(lumpnum)))))
     {
         cJSON_Delete(json);
+        C_Warning(1, "The " BOLD("SKYDEFS") " lump in " BOLD("%s") " couldn't be parsed.",
+            leafname(lumpinfo[lumpnum]->wadfile->path));
         return NULL;
     }
 
@@ -175,5 +180,6 @@ skydefs_t *R_ParseSkyDefs(void)
     }
 
     cJSON_Delete(json);
+    id24compatible = true;
     return out;
 }
