@@ -1230,7 +1230,14 @@ static void WI_LoadData(void)
             lump = W_CacheLumpName("INTERPIC");
     }
     else if (gamemode == retail && wbs->epsd == 3)
-        lump = W_CacheLumpName(REKKRSL ? "INTERPIW" : "INTERPI1");
+    {
+        if (REKKRSL)
+            lump = W_CacheLumpName("INTERPIW");
+        else if (W_GetNumLumps("INTERPIC") > 2)
+            lump = W_CacheLumpName("INTERPIC");
+        else
+            lump = W_CacheLumpName("INTERPI1");
+    }
     else if (sigil && wbs->epsd == 4)
         lump = W_CacheLumpName("SIGILINT");
     else if (sigil2 && wbs->epsd == 5)
