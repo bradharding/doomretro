@@ -407,8 +407,8 @@ bool I_InitSound(void)
     if (linked->major != SDL_MIXER_MAJOR_VERSION
         || linked->minor != SDL_MIXER_MINOR_VERSION
         || linked->patch != SDL_MIXER_PATCHLEVEL)
-        C_Warning(0, "The wrong version of " SDL_MIXER_FILENAME " was found. "
-            DOOMRETRO_NAME " requires v%i.%i.%i.",
+        C_Warning(0, "The wrong version of " BOLD(SDL_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME)
+            " was built using v%i.%i.%i of the " ITALICS("SDL_mixer") " library.",
             SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,

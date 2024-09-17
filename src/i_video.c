@@ -1977,18 +1977,15 @@ void I_InitKeyboard(void)
 void I_InitGraphics(void)
 {
     SDL_version linked = { 0 };
-    SDL_version compiled = { 0 };
 
     SDL_GetVersion(&linked);
-    SDL_VERSION(&compiled);
 
-    if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error(DOOMRETRO_NAME " requires SDL v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
-
-    if (linked.patch != compiled.patch)
-        C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires SDL v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
+    if (linked.major != SDL_MAJOR_VERSION
+        || linked.minor != SDL_MINOR_VERSION
+        || linked.patch != SDL_PATCHLEVEL)
+        C_Warning(0, "The wrong version of " BOLD(SDL_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME)
+            " was built using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
     performancecounter = SDL_GetPerformanceCounter();
     performancefrequency = SDL_GetPerformanceFrequency();
