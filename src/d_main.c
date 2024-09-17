@@ -577,16 +577,17 @@ void D_DoAdvanceTitle(void)
     {
         static bool flag = true;
 
+        if (vid_widescreen_copy)
+        {
+            vid_widescreen_copy = false;
+            vid_widescreen = true;
+            I_RestartGraphics(false);
+        }
+
         if (splashscreen)
         {
             I_SetPalette(PLAYPAL);
             splashscreen = false;
-
-            if (vid_widescreen_copy)
-            {
-                vid_widescreen = true;
-                I_RestartGraphics(false);
-            }
 
             I_Sleep(1000);
         }
