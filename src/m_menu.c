@@ -610,6 +610,12 @@ static void M_DrawHelpBackground(void)
         return;
     }
 
+    if (gamestate == GS_TITLESCREEN && pagelump != titlelump)
+    {
+        pagelump = titlelump;
+        pagetic = PAGETICS;
+    }
+
     M_BigSeed(411);
 
     for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
