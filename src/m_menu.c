@@ -610,11 +610,8 @@ static void M_DrawHelpBackground(void)
         return;
     }
 
-    if (gamestate == GS_TITLESCREEN && pagelump != titlelump)
-    {
-        pagelump = titlelump;
-        pagetic = PAGETICS;
-    }
+    if (gamestate != GS_LEVEL)
+        V_DrawPagePatch(0, titlelump);
 
     M_BigSeed(411);
 
