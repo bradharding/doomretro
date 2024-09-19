@@ -61,56 +61,60 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXMAPINFO                 100
+#define MAXMAPINFO  100
+#define NUMLIQUIDS  256
 
-#define NUMLIQUIDS                 256
-
-#define MCMD_ALLOWMONSTERTELEFRAGS   1
-#define MCMD_AUTHOR                  2
-#define MCMD_BOSSACTION              3
-#define MCMD_CLUSTER                 4
-#define MCMD_COMPAT_CORPSEGIBS       5
-#define MCMD_COMPAT_FLOORMOVE        6
-#define MCMD_COMPAT_LIGHT            7
-#define MCMD_COMPAT_LIMITPAIN        8
-#define MCMD_COMPAT_NOPASSOVER       9
-#define MCMD_COMPAT_STAIRS          10
-#define MCMD_COMPAT_USEBLOCKING     11
-#define MCMD_COMPAT_VILEGHOSTS      12
-#define MCMD_COMPAT_ZOMBIE          13
-#define MCMD_ENDBUNNY               14
-#define MCMD_ENDCAST                15
-#define MCMD_ENDGAME                16
-#define MCMD_ENDPIC                 17
-#define MCMD_ENTERPIC               18
-#define MCMD_EPISODE                19
-#define MCMD_EXITPIC                20
-#define MCMD_INTERBACKDROP          21
-#define MCMD_INTERMUSIC             22
-#define MCMD_INTERTEXT              23
-#define MCMD_INTERTEXTSECRET        24
-#define MCMD_LEVELNAME              25
-#define MCMD_LEVELPIC               26
-#define MCMD_LIQUID                 27
-#define MCMD_MUSIC                  28
-#define MCMD_MUSICARTIST            29
-#define MCMD_MUSICTITLE             30
-#define MCMD_NEXT                   31
-#define MCMD_NEXTSECRET             32
-#define MCMD_NOBRIGHTMAP            33
-#define MCMD_NOFREELOOK             34
-#define MCMD_NOGRADUALLIGHTING      35
-#define MCMD_NOINTERMISSION         36
-#define MCMD_NOJUMP                 37
-#define MCMD_NOLIQUID               38
-#define MCMD_NOMOUSELOOK            39
-#define MCMD_PAR                    40
-#define MCMD_PARTIME                41
-#define MCMD_PISTOLSTART            42
-#define MCMD_SECRETNEXT             43
-#define MCMD_SKY1                   44
-#define MCMD_SKYTEXTURE             45
-#define MCMD_TITLEPATCH             46
+enum
+{
+    MCMD_ALLOWMONSTERTELEFRAGS = 1,
+    MCMD_AUTHOR,
+    MCMD_BOSSACTION,
+    MCMD_CLUSTER,
+    MCMD_COMPAT_CORPSEGIBS,
+    MCMD_COMPAT_FLOORMOVE,
+    MCMD_COMPAT_LIGHT,
+    MCMD_COMPAT_LIMITPAIN,
+    MCMD_COMPAT_NOPASSOVER,
+    MCMD_COMPAT_STAIRS,
+    MCMD_COMPAT_USEBLOCKING,
+    MCMD_COMPAT_VILEGHOSTS,
+    MCMD_COMPAT_ZOMBIE,
+    MCMD_ENDBUNNY,
+    MCMD_ENDCAST,
+    MCMD_ENDGAME,
+    MCMD_ENDPIC,
+    MCMD_ENTERANIM,
+    MCMD_ENTERPIC,
+    MCMD_EPISODE,
+    MCMD_EXITANIM,
+    MCMD_EXITPIC,
+    MCMD_INTERBACKDROP,
+    MCMD_INTERMUSIC,
+    MCMD_INTERTEXT,
+    MCMD_INTERTEXTSECRET,
+    MCMD_LEVELNAME,
+    MCMD_LEVELPIC,
+    MCMD_LIQUID,
+    MCMD_MUSIC,
+    MCMD_MUSICARTIST,
+    MCMD_MUSICTITLE,
+    MCMD_NEXT,
+    MCMD_NEXTSECRET,
+    MCMD_NOBRIGHTMAP,
+    MCMD_NOFREELOOK,
+    MCMD_NOGRADUALLIGHTING,
+    MCMD_NOINTERMISSION,
+    MCMD_NOJUMP,
+    MCMD_NOLIQUID,
+    MCMD_NOMOUSELOOK,
+    MCMD_PAR,
+    MCMD_PARTIME,
+    MCMD_PISTOLSTART,
+    MCMD_SECRETNEXT,
+    MCMD_SKY1,
+    MCMD_SKYTEXTURE,
+    MCMD_TITLEPATCH
+};
 
 typedef struct
 {
@@ -130,7 +134,9 @@ typedef struct
     bool            endcast;
     bool            endgame;
     int             endpic;
+    int             enteranim;
     int             enterpic;
+    int             exitanim;
     int             exitpic;
     char            interbackdrop[9];
     int             intermusic;
@@ -261,8 +267,10 @@ static char *mapcmdnames[] =
     "ENDCAST",
     "ENDGAME",
     "ENDPIC",
+    "ENTERANIM",
     "ENTERPIC",
     "EPISODE",
+    "EXITANIM",
     "EXITPIC",
     "INTERBACKDROP",
     "INTERMUSIC",
@@ -312,8 +320,10 @@ static int mapcmdids[] =
     MCMD_ENDCAST,
     MCMD_ENDGAME,
     MCMD_ENDPIC,
+    MCMD_ENTERANIM,
     MCMD_ENTERPIC,
     MCMD_EPISODE,
+    MCMD_EXITANIM,
     MCMD_EXITPIC,
     MCMD_INTERBACKDROP,
     MCMD_INTERMUSIC,
@@ -3729,6 +3739,11 @@ static bool P_ParseMapInfo(const char *scriptname)
                             info->endpic = W_CheckNumForName(sc_String);
                             break;
 
+                        case MCMD_ENTERANIM:
+                            SC_MustGetString();
+                            info->enteranim = W_CheckNumForName(sc_String);
+                            break;
+
                         case MCMD_ENTERPIC:
                             SC_MustGetString();
                             info->enterpic = W_CheckNumForName(sc_String);
@@ -3781,6 +3796,11 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             break;
                         }
+
+                        case MCMD_EXITANIM:
+                            SC_MustGetString();
+                            info->exitanim = W_CheckNumForName(sc_String);
+                            break;
 
                         case MCMD_EXITPIC:
                             SC_MustGetString();
@@ -4185,9 +4205,19 @@ int P_GetMapEndPic(const int ep, const int map)
     return mapinfo[ep][map].endpic;
 }
 
+int P_GetMapEnterAnim(const int ep, const int map)
+{
+    return mapinfo[ep][map].enteranim;
+}
+
 int P_GetMapEnterPic(const int ep, const int map)
 {
     return mapinfo[ep][map].enterpic;
+}
+
+int P_GetMapExitAnim(const int ep, const int map)
+{
+    return mapinfo[ep][map].exitanim;
 }
 
 int P_GetMapExitPic(const int ep, const int map)
