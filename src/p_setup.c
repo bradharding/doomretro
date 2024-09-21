@@ -4298,6 +4298,11 @@ int P_GetAllowMonsterTelefrags(const int ep, const int map)
     return mapinfo[ep][map].allowmonstertelefrags;
 }
 
+bool P_IsSecret(const int ep, const int map)
+{
+    return mapinfo[ep][map].secret;
+}
+
 //
 // P_Init
 //

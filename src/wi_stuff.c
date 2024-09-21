@@ -321,7 +321,48 @@ static wi_animation_t   *animation;
 
 static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition)
 {
-    return false;
+    bool                conditionsmet = true;
+    int                 map = (enteringcondition ? wbs->next : wbs->last) + 1;
+    interlevelcond_t    *condition;
+
+    array_foreach(condition, conditions)
+    {
+        switch (condition->condition)
+        {
+            case AnimCondition_MapNumGreater:
+                conditionsmet = (map > condition->param);
+                break;
+
+            case AnimCondition_MapNumEqual:
+                conditionsmet = (map == condition->param);
+                break;
+
+            case AnimCondition_MapVisited:
+                conditionsmet = (map > condition->param);
+                break;
+
+            case AnimCondition_MapNotSecret:
+                conditionsmet = !P_IsSecret(maptoepisode[map], map);
+                break;
+
+            case AnimCondition_SecretVisited:
+                conditionsmet = wbs->didsecret;
+                break;
+
+            case AnimCondition_Tally:
+                conditionsmet = !enteringcondition;
+                break;
+
+            case AnimCondition_IsEntering:
+                conditionsmet = enteringcondition;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    return conditionsmet;
 }
 
 static void UpdateAnimationStates(wi_animationstate_t *animstates)
@@ -410,8 +451,8 @@ static bool DrawAnimation(void)
         V_DrawPagePatch(0, W_CacheLumpName(animation->backgroundlump));
 
     array_foreach(animstate, animation->states)
-        V_DrawPatch(animstate->xpos, animstate->ypos, 0,
-            W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump));
+        V_DrawMenuPatch(animstate->xpos, animstate->ypos,
+            W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump), false, SCREENWIDTH);
 
     return true;
 }
@@ -1513,8 +1554,6 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
 
     WI_InitVariables(wbstartstruct);
 
-    WI_InitStats();
-
     if (enteranim[0])
     {
         if (!animation)
@@ -1530,4 +1569,6 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
 
         animation->interlevelexiting = WI_ParseInterlevel(exitanim);
     }
+
+    WI_InitStats();
 }
