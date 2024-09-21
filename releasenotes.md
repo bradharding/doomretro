@@ -14,37 +14,40 @@
   * The title in the automap now has a drop shadow.
 * A bug is fixed whereby the screen wasn’t being immediately updated after changing the `r_hud` CVAR in the console.
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
-* These improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
-  * Partial support has been introduced for the [*ID24* specification](https://doomwiki.org/wiki/ID24), allowing the skies in some maps to animate.
+* Extensive improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
+  * Partial support has been introduced for the new [*ID24* specification](https://doomwiki.org/wiki/ID24) so that:
+    * The sky in some maps now animate.
+    * An animated intermission screen is now displayed.
   * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
   * A fuel can icon now appears in the widescreen HUD when the player has an incinerator or calamity blade equipped.
   * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
-  * *DOOM Retro’s* higher resolution status bar is now displayed.
+  * *DOOM Retro’s* higher resolution status bar is now displayed, with “CELL” replaced with “FUEL”, rather than the `STBAR` lump in `ID1.WAD`.
   * The help screen has been updated to include the incinerator and calamity blade.
   * The positions of shadows cast by some monsters have improved.
   * The new monsters no longer bob up and down when in a liquid sector.
 * A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
+* The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * These changes have been made to the support of `MAPINFO` lumps:
   * The order in which multiple `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
 * If the fists or chainsaw are replaced with a weapon as specified in a `DEHACKED` lump, that weapon can now consume ammo.
-* The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 * These changes have been made to the alternate widescreen HUD:
   * The HUD can now be easily accessed along with the default widescreen HUD by pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys during a game.
   * The weapon silhouette now accurately reflects the pickup sprite for each weapon.
-  * Certain elements have now either shifted position, increased in size or cast a slight shadow.
+  * Certain elements have now either shifted position, increased in size and/or cast a slight shadow.
   * The health bar no longer flashes white while it is red and the player picks up some health.
 * The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
-* The amount of ammo the player has is no longer momentarily translucent at the start of each map if the `animatedstats` CVAR is `on`.
+* The amount of ammo the player has is no longer momentarily translucent in the widescreen HUD at the start of each map if the `animatedstats` CVAR is `on`.
 * A bug is fixed whereby the help screen wouldn’t be fully displayed when the `vid_widescreen` CVAR was `off`.
 * The `TITLEPIC` lump is now always used as the help screen’s background when not playing a game.
 * Using the mouse pointer to move the scroll bar in the console is now more responsive when the `m_pointer` CVAR is `on`.
+* Drop shadows are now always displayed correctly for all elements on the intermission screen.
 * A bug is fixed whereby the wrong `INTERPIC` lump would be displayed in some instances.
-* The `vid_widescreen` CVAR no longer resets to `off` at startup when `-nosplash` is used on the command-line.
+* The `vid_widescreen` CVAR no longer resets to `off` at startup if `-nosplash` is used on the command-line.
 * A bug is fixed whereby the z-coordinates of things bobbing in liquid sectors were altered upon loading a savegame when the `r_liquid_bob` CVAR was `on`.
 * Very short sprites are no longer clipped in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
 
