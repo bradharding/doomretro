@@ -402,6 +402,7 @@
     <ClInclude Include="..\src\v_data.h" />
     <ClInclude Include="..\src\v_video.h" />
     <ClInclude Include="..\src\version.h" />
+    <ClInclude Include="..\src\wi_interlvl.h" />
     <ClInclude Include="..\src\w_file.h" />
     <ClInclude Include="..\src\w_merge.h" />
     <ClInclude Include="..\src\w_wad.h" />
@@ -490,6 +491,7 @@
     <ClCompile Include="..\src\states.c" />
     <ClCompile Include="..\src\v_data.c" />
     <ClCompile Include="..\src\v_video.c" />
+    <ClCompile Include="..\src\wi_interlvl.c" />
     <ClCompile Include="..\src\w_file.c" />
     <ClCompile Include="..\src\w_merge.c" />
     <ClCompile Include="..\src\w_wad.c" />

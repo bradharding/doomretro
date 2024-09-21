@@ -134,9 +134,9 @@ typedef struct
     bool            endcast;
     bool            endgame;
     int             endpic;
-    int             enteranim;
+    char            enteranim[9];
     int             enterpic;
-    int             exitanim;
+    char            exitanim[9];
     int             exitpic;
     char            interbackdrop[9];
     int             intermusic;
@@ -3741,7 +3741,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_ENTERANIM:
                             SC_MustGetString();
-                            info->enteranim = W_CheckNumForName(sc_String);
+                            M_StringCopy(info->enteranim, sc_String, sizeof(info->enteranim));
                             break;
 
                         case MCMD_ENTERPIC:
@@ -3799,7 +3799,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_EXITANIM:
                             SC_MustGetString();
-                            info->exitanim = W_CheckNumForName(sc_String);
+                            M_StringCopy(info->exitanim, sc_String, sizeof(info->exitanim));
                             break;
 
                         case MCMD_EXITPIC:
@@ -4205,7 +4205,7 @@ int P_GetMapEndPic(const int ep, const int map)
     return mapinfo[ep][map].endpic;
 }
 
-int P_GetMapEnterAnim(const int ep, const int map)
+char *P_GetMapEnterAnim(const int ep, const int map)
 {
     return mapinfo[ep][map].enteranim;
 }
@@ -4215,7 +4215,7 @@ int P_GetMapEnterPic(const int ep, const int map)
     return mapinfo[ep][map].enterpic;
 }
 
-int P_GetMapExitAnim(const int ep, const int map)
+char *P_GetMapExitAnim(const int ep, const int map)
 {
     return mapinfo[ep][map].exitanim;
 }

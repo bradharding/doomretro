@@ -40,6 +40,7 @@
 #include "g_game.h"
 #include "i_colors.h"
 #include "i_swap.h"
+#include "m_array.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -49,6 +50,7 @@
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
+#include "wi_interlvl.h"
 #include "wi_stuff.h"
 #include "z_zone.h"
 
@@ -295,6 +297,176 @@ static patch_t          **lnames;
 static int              enterpic;
 static int              exitpic;
 
+typedef struct
+{
+    interlevelframe_t   *frames;
+    int                 xpos;
+    int                 ypos;
+    int                 frameindex;
+    bool                framestart;
+    int                 durationleft;
+} wi_animationstate_t;
+
+typedef struct
+{
+    interlevel_t        *interlevelexiting;
+    interlevel_t        *interlevelentering;
+
+    wi_animationstate_t *exitingstates;
+    wi_animationstate_t *enteringstates;
+
+    wi_animationstate_t *states;
+    char                *backgroundlump;
+} wi_animation_t;
+
+static wi_animation_t   *animation;
+
+static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition)
+{
+    return false;
+}
+
+static void UpdateAnimationStates(wi_animationstate_t *states)
+{
+    wi_animationstate_t *state;
+
+    array_foreach(state, states)
+    {
+        interlevelframe_t   *frame = &state->frames[state->frameindex];
+
+        if (frame->type & Frame_Infinite)
+            continue;
+
+        if (!state->durationleft)
+        {
+            int tics = 1;
+
+            switch (frame->type)
+            {
+                case Frame_RandomStart:
+                    if (state->framestart)
+                    {
+                        tics = M_Random() % frame->duration;
+                        break;
+                    }
+
+                case Frame_FixedDuration:
+                    tics = frame->duration;
+                    break;
+
+                case Frame_RandomDuration:
+                {
+                    int mintics = frame->duration;
+                    int maxtics = frame->maxduration;
+
+                    tics = BETWEEN(mintics, M_Random() % maxtics, maxtics);
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
+            state->durationleft = MAX(1, tics);
+
+            if (!state->framestart && ++state->frameindex == array_size(state->frames))
+                state->frameindex = 0;
+        }
+
+        state->durationleft--;
+        state->framestart = false;
+    }
+}
+
+static bool UpdateAnimation(bool enteringcondition)
+{
+    if (!animation)
+        return false;
+
+    animation->states = NULL;
+    animation->backgroundlump = NULL;
+
+    if (!enteringcondition && animation->interlevelexiting)
+    {
+        animation->states = animation->exitingstates;
+        animation->backgroundlump = animation->interlevelexiting->backgroundlump;
+    }
+    else if (animation->interlevelentering)
+    {
+        animation->states = animation->enteringstates;
+        animation->backgroundlump = animation->interlevelentering->backgroundlump;
+    }
+
+    UpdateAnimationStates(animation->states);
+    return true;
+}
+
+static bool DrawAnimation(void)
+{
+    wi_animationstate_t *state;
+
+    if (!animation)
+        return false;
+
+    if (animation->backgroundlump)
+        V_DrawPagePatch(0, W_CacheLumpName(animation->backgroundlump));
+
+    array_foreach(state, animation->states)
+        V_DrawPatch(state->xpos, state->ypos, 0,
+            W_CacheLumpName(state->frames[state->frameindex].imagelump));
+
+    return true;
+}
+
+static wi_animationstate_t *SetupAnimationStates(interlevellayer_t *layers, bool enteringcondition)
+{
+    wi_animationstate_t *states = NULL;
+    interlevellayer_t   *layer;
+
+    array_foreach(layer, layers)
+    {
+        interlevelanim_t    *anim;
+
+        if (!CheckConditions(layer->conditions, enteringcondition))
+            continue;
+
+        array_foreach(anim, layer->anims)
+        {
+            wi_animationstate_t state = { 0 };
+
+            if (!CheckConditions(anim->conditions, enteringcondition))
+                continue;
+
+            state.xpos = anim->xpos;
+            state.ypos = anim->ypos;
+            state.frames = anim->frames;
+            state.framestart = true;
+            array_push(states, state);
+        }
+    }
+
+    return states;
+}
+
+static bool SetupAnimation(void)
+{
+    if (!animation)
+        return false;
+
+    if (animation->interlevelexiting)
+        animation->exitingstates = SetupAnimationStates(animation->interlevelexiting->layers, false);
+
+    if (animation->interlevelentering)
+        animation->enteringstates = SetupAnimationStates(animation->interlevelentering->layers, true);
+
+    return true;
+}
+
+static bool NextLocAnimation(void)
+{
+    return (animation && animation->enteringstates);
+}
+
 // slam background
 static void WI_SlamBackground(void)
 {
@@ -504,6 +676,9 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
 
 static void WI_InitAnimatedBack(bool firstcall)
 {
+    if (SetupAnimation())
+        return;
+
     if (exitpic > 0 || (enterpic > 0 && entering))
         return;
 
@@ -533,6 +708,9 @@ static void WI_InitAnimatedBack(bool firstcall)
 
 static void WI_UpdateAnimatedBack(void)
 {
+    if (UpdateAnimation(state != StatCount))
+        return;
+
     if (exitpic > 0 || (enterpic > 0 && state != StatCount))
         return;
 
@@ -576,6 +754,9 @@ static void WI_UpdateAnimatedBack(void)
 static void WI_DrawAnimatedBack(void)
 {
     anim_t  *a;
+
+    if (DrawAnimation())
+        return;
 
     if (exitpic > 0 || (enterpic > 0 && state != StatCount))
         return;
@@ -983,7 +1164,9 @@ static void WI_UpdateStats(void)
         {
             S_StartSound(NULL, sfx_sgcock);
 
-            if (gamemode == commercial)
+            if (NextLocAnimation())
+                WI_InitShowNextLoc();
+            else if (gamemode == commercial)
                 WI_InitNoState();
             else
                 WI_InitShowNextLoc();
@@ -1327,7 +1510,26 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 
 void WI_Start(wbstartstruct_t *wbstartstruct)
 {
+    char    *enteranim = P_GetMapEnterAnim(gameepisode, gamemap);
+    char    *exitanim = P_GetMapExitAnim(gameepisode, gamemap);
+
     WI_InitVariables(wbstartstruct);
 
     WI_InitStats();
+
+    if (enteranim[0])
+    {
+        if (!animation)
+            animation = Z_Calloc(1, sizeof(*animation), PU_LEVEL, NULL);
+
+        animation->interlevelentering = WI_ParseInterlevel(enteranim);
+    }
+
+    if (exitanim[0])
+    {
+        if (!animation)
+            animation = Z_Calloc(1, sizeof(*animation), PU_LEVEL, NULL);
+
+        animation->interlevelexiting = WI_ParseInterlevel(exitanim);
+    }
 }

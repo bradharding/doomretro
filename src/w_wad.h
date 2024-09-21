@@ -35,6 +35,7 @@
 
 #pragma once
 
+#include "doomdef.h"
 #include "w_file.h"
 
 //
