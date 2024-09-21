@@ -311,10 +311,8 @@ typedef struct
 {
     interlevel_t        *interlevelexiting;
     interlevel_t        *interlevelentering;
-
     wi_animationstate_t *exitingstates;
     wi_animationstate_t *enteringstates;
-
     wi_animationstate_t *states;
     char                *backgroundlump;
 } wi_animation_t;
@@ -326,25 +324,25 @@ static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition
     return false;
 }
 
-static void UpdateAnimationStates(wi_animationstate_t *states)
+static void UpdateAnimationStates(wi_animationstate_t *animstates)
 {
-    wi_animationstate_t *state;
+    wi_animationstate_t *animstate;
 
-    array_foreach(state, states)
+    array_foreach(animstate, animstates)
     {
-        interlevelframe_t   *frame = &state->frames[state->frameindex];
+        interlevelframe_t   *frame = &animstate->frames[animstate->frameindex];
 
         if (frame->type & Frame_Infinite)
             continue;
 
-        if (!state->durationleft)
+        if (!animstate->durationleft)
         {
             int tics = 1;
 
             switch (frame->type)
             {
                 case Frame_RandomStart:
-                    if (state->framestart)
+                    if (animstate->framestart)
                     {
                         tics = M_Random() % frame->duration;
                         break;
@@ -367,14 +365,14 @@ static void UpdateAnimationStates(wi_animationstate_t *states)
                     break;
             }
 
-            state->durationleft = MAX(1, tics);
+            animstate->durationleft = MAX(1, tics);
 
-            if (!state->framestart && ++state->frameindex == array_size(state->frames))
-                state->frameindex = 0;
+            if (!animstate->framestart && ++animstate->frameindex == array_size(animstate->frames))
+                animstate->frameindex = 0;
         }
 
-        state->durationleft--;
-        state->framestart = false;
+        animstate->durationleft--;
+        animstate->framestart = false;
     }
 }
 
@@ -403,7 +401,7 @@ static bool UpdateAnimation(bool enteringcondition)
 
 static bool DrawAnimation(void)
 {
-    wi_animationstate_t *state;
+    wi_animationstate_t *animstate;
 
     if (!animation)
         return false;
@@ -411,16 +409,16 @@ static bool DrawAnimation(void)
     if (animation->backgroundlump)
         V_DrawPagePatch(0, W_CacheLumpName(animation->backgroundlump));
 
-    array_foreach(state, animation->states)
-        V_DrawPatch(state->xpos, state->ypos, 0,
-            W_CacheLumpName(state->frames[state->frameindex].imagelump));
+    array_foreach(animstate, animation->states)
+        V_DrawPatch(animstate->xpos, animstate->ypos, 0,
+            W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump));
 
     return true;
 }
 
 static wi_animationstate_t *SetupAnimationStates(interlevellayer_t *layers, bool enteringcondition)
 {
-    wi_animationstate_t *states = NULL;
+    wi_animationstate_t *animstates = NULL;
     interlevellayer_t   *layer;
 
     array_foreach(layer, layers)
@@ -432,20 +430,20 @@ static wi_animationstate_t *SetupAnimationStates(interlevellayer_t *layers, bool
 
         array_foreach(anim, layer->anims)
         {
-            wi_animationstate_t state = { 0 };
+            wi_animationstate_t animstate = { 0 };
 
             if (!CheckConditions(anim->conditions, enteringcondition))
                 continue;
 
-            state.xpos = anim->xpos;
-            state.ypos = anim->ypos;
-            state.frames = anim->frames;
-            state.framestart = true;
-            array_push(states, state);
+            animstate.xpos = anim->xpos;
+            animstate.ypos = anim->ypos;
+            animstate.frames = anim->frames;
+            animstate.framestart = true;
+            array_push(animstates, animstate);
         }
     }
 
-    return states;
+    return animstates;
 }
 
 static bool SetupAnimation(void)

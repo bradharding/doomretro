@@ -44,8 +44,9 @@
 * The `TITLEPIC` lump is now always used as the help screen’s background when not playing a game.
 * Using the mouse pointer to move the scroll bar in the console is now more responsive when the `m_pointer` CVAR is `on`.
 * A bug is fixed whereby the wrong `INTERPIC` lump would be displayed in some instances.
-* The `vid_widescreen` CVAR no longer resets to `off` at startup when the `&ndash;nosplash` command-line parameter is used.
+* The `vid_widescreen` CVAR no longer resets to `off` at startup when `-nosplash` is used on the command-line.
 * A bug is fixed whereby the z-coordinates of things bobbing in liquid sectors were altered upon loading a savegame when the `r_liquid_bob` CVAR was `on`.
+* Very short sprites are no longer clipped in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
