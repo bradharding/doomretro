@@ -424,7 +424,7 @@ static void F_TextWrite(void)
             if (cy + SHORT(hu_font[c]->height) > VANILLAHEIGHT)
                 break;
 
-            V_DrawMenuPatch(cx + 1, cy + 1, hu_font[c], false, VANILLAWIDTH);
+            V_DrawMenuPatch(cx + 1, cy + 1, hu_font[c], false, SCREENWIDTH);
             cx += SHORT(hu_font[c]->width);
         }
         else
@@ -826,7 +826,7 @@ static void F_CastPrint(const char *text)
             continue;
         }
 
-        V_DrawMenuPatch(cx + 1, 181, hu_font[c], false, VANILLAWIDTH);
+        V_DrawMenuPatch(cx + 1, 181, hu_font[c], false, SCREENWIDTH);
         cx += SHORT(hu_font[c]->width);
     }
 }
@@ -994,7 +994,7 @@ static void F_BunnyScroll(void)
                 D_FadeScreen(false);
 
             V_DrawMenuPatch((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
-                (FREEDOOM || hacx ? W_CacheLastLumpName("END0") : W_CacheLumpName("END0")), false, VANILLAWIDTH);
+                (FREEDOOM || hacx ? W_CacheLastLumpName("END0") : W_CacheLumpName("END0")), false, SCREENWIDTH);
             laststage = 0;
         }
         else
@@ -1010,7 +1010,7 @@ static void F_BunnyScroll(void)
 
             M_snprintf(name, sizeof(name), "END%i", stage);
             V_DrawMenuPatch((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
-                (FREEDOOM || hacx ? W_CacheLastLumpName(name) : W_CacheLumpName(name)), false, VANILLAWIDTH);
+                (FREEDOOM || hacx ? W_CacheLastLumpName(name) : W_CacheLumpName(name)), false, SCREENWIDTH);
         }
     }
 }
