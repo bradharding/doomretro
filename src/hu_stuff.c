@@ -205,11 +205,13 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
 
-    for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
     {
         const spritenum_t   sprite = weaponinfo[i].ammosprite;
 
-        if (!sprite)
+        if (!sprite
+            || (gamemode == shareware && (i == wp_plasma || i == wp_bfg))
+            || (gamemode != commercial && i == wp_supershotgun))
             weaponinfo[i].ammopatch = NULL;
         else
             for (int j = numstates; j >= 0; j--)
@@ -884,7 +886,7 @@ static void HU_AltInit(void)
     altkeypics[it_redskull].patch = altskullpatch;
     altkeypics[it_redskull].tinttab = tinttab60;
 
-    for (int i = 0, numweapons = NUMWEAPONS - (gamemode != commercial); i < numweapons; i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
     {
         M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
@@ -897,7 +899,9 @@ static void HU_AltInit(void)
         {
             const spritenum_t   sprite = weaponinfo[i].weaponsprite;
 
-            if (!sprite)
+            if (!sprite
+                || (gamemode == shareware && (i == wp_plasma || i == wp_bfg))
+                || (gamemode != commercial && i == wp_supershotgun))
                 weaponinfo[i].weaponpatch = NULL;
             else
                 for (int j = numstates; j >= 0; j--)
