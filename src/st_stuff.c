@@ -1020,7 +1020,9 @@ bool ST_Responder(const event_t *ev)
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);
 
-                    if (gamemode == commercial)
+                    if (P_IsSecret(epsd, map))
+                        message_secret = true;
+                    else if (gamemode == commercial)
                     {
                         if (map >= 31 || (gamemission == pack_nerve && map == 9))
                             message_secret = true;
