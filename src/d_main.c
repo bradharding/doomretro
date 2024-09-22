@@ -929,19 +929,6 @@ static bool D_IsDEHFile(const char *filename)
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
 
-static void D_AutoloadExtrasWAD(void)
-{
-    char    path[MAX_PATH];
-
-    if (M_CheckParm("-noautoload") || M_CheckParm("-nomusic") || M_CheckParm("-nosound"))
-        return;
-
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "extras.wad");
-
-    if (W_MergeFile(path, true))
-        extras = true;
-}
-
 void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
@@ -1017,7 +1004,6 @@ void D_CheckSupportedPWAD(char *filename)
     {
         legacyofrust = true;
         moreblood = true;
-        D_AutoloadExtrasWAD();
     }
     else if (M_StringCompare(leaf, "masterlevels.wad"))
         masterlevels = true;
@@ -1049,6 +1035,19 @@ void D_CheckSupportedPWAD(char *filename)
 static bool D_IsUnsupportedPWAD(char *filename)
 {
     return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
+}
+
+static void D_AutoloadExtrasWAD(void)
+{
+    char    path[MAX_PATH];
+
+    if (M_CheckParm("-noautoload") || M_CheckParm("-nomusic") || M_CheckParm("-nosound"))
+        return;
+
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "extras.wad");
+
+    if (W_MergeFile(path, true))
+        extras = true;
 }
 
 static void D_AutoloadSIGILWAD(void)
@@ -1261,6 +1260,9 @@ static bool D_CheckParms(void)
                 {
                     modifiedgame = true;
 
+                    if (legacyofrust)
+                        D_AutoloadExtrasWAD();
+
                     if (IWADRequiredByPWAD(myargv[1]) != none)
                         pwadfile = M_StringDuplicate(leafname(myargv[1]));
 
@@ -1304,6 +1306,9 @@ static bool D_CheckParms(void)
                     {
                         modifiedgame = true;
 
+                        if (legacyofrust)
+                            D_AutoloadExtrasWAD();
+
                         if (IWADRequiredByPWAD(myargv[1]) != none)
                             pwadfile = M_StringDuplicate(leafname(myargv[1]));
 
@@ -1328,6 +1333,9 @@ static bool D_CheckParms(void)
                         if (W_MergeFile(myargv[1], false))
                         {
                             modifiedgame = true;
+
+                            if (legacyofrust)
+                                D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(myargv[1]) != none)
                                 pwadfile = M_StringDuplicate(leafname(myargv[1]));
@@ -1521,6 +1529,9 @@ static int D_OpenWADLauncher(void)
                     {
                         modifiedgame = true;
 
+                        if (legacyofrust)
+                            D_AutoloadExtrasWAD();
+
                         if (IWADRequiredByPWAD(file) != none)
                             pwadfile = M_StringDuplicate(leafname(file));
 
@@ -1566,6 +1577,9 @@ static int D_OpenWADLauncher(void)
                         {
                             modifiedgame = true;
 
+                            if (legacyofrust)
+                                D_AutoloadExtrasWAD();
+
                             if (IWADRequiredByPWAD(file) != none)
                                 pwadfile = M_StringDuplicate(leafname(file));
 
@@ -1606,6 +1620,9 @@ static int D_OpenWADLauncher(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
+
+                                if (legacyofrust)
+                                    D_AutoloadExtrasWAD();
 
                                 if (IWADRequiredByPWAD(file) != none)
                                     pwadfile = M_StringDuplicate(leafname(file));
@@ -1884,6 +1901,10 @@ static int D_OpenWADLauncher(void)
 #endif
 
                                 modifiedgame = true;
+
+                                if (legacyofrust)
+                                    D_AutoloadExtrasWAD();
+
                                 LoadCfgFile(fullpath);
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
@@ -2284,6 +2305,9 @@ static void D_DoomMainSetup(void)
                     {
                         modifiedgame = true;
 
+                        if (legacyofrust)
+                            D_AutoloadExtrasWAD();
+
                         if (IWADRequiredByPWAD(file) != none)
                             pwadfile = M_StringDuplicate(leafname(file));
                     }
@@ -2315,6 +2339,9 @@ static void D_DoomMainSetup(void)
                         {
                             modifiedgame = true;
 
+                            if (legacyofrust)
+                                D_AutoloadExtrasWAD();
+
                             if (IWADRequiredByPWAD(file) != none)
                                 pwadfile = M_StringDuplicate(leafname(file));
                         }
@@ -2338,6 +2365,9 @@ static void D_DoomMainSetup(void)
                             {
                                 modifiedgame = true;
 
+                                if (legacyofrust)
+                                    D_AutoloadExtrasWAD();
+
                                 if (IWADRequiredByPWAD(file) != none)
                                     pwadfile = M_StringDuplicate(leafname(file));
                             }
@@ -2356,6 +2386,9 @@ static void D_DoomMainSetup(void)
                                 if (W_MergeFile(file, false))
                                 {
                                     modifiedgame = true;
+
+                                    if (legacyofrust)
+                                        D_AutoloadExtrasWAD();
 
                                     if (IWADRequiredByPWAD(file) != none)
                                         pwadfile = M_StringDuplicate(leafname(file));

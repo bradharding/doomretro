@@ -18,7 +18,7 @@
   * Partial support has been introduced for the new [*ID24* specification](https://doomwiki.org/wiki/ID24) so that:
     * The sky in some maps now animate.
     * An animated intermission screen is now displayed.
-  * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
+  * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and for firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
   * A fuel can icon now appears in the widescreen HUD when the player has an incinerator or calamity blade equipped.
   * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
   * *DOOM Retro’s* higher resolution status bar is now displayed, with “CELL” replaced with “FUEL”, rather than the `STBAR` lump in `ID1.WAD`.

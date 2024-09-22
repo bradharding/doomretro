@@ -342,7 +342,7 @@ static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition
                 break;
 
             case AnimCondition_MapNotSecret:
-                conditionsmet = !P_IsSecret(maptoepisode[map], map);
+                conditionsmet = !P_IsSecret(1, map);
                 break;
 
             case AnimCondition_SecretVisited:
@@ -394,13 +394,8 @@ static void UpdateAnimationStates(wi_animationstate_t *animstates)
                     break;
 
                 case Frame_RandomDuration:
-                {
-                    int mintics = frame->duration;
-                    int maxtics = frame->maxduration;
-
-                    tics = BETWEEN(mintics, M_Random() % maxtics, maxtics);
+                    tics = MAX(frame->duration, M_Random() % frame->maxduration);
                     break;
-                }
 
                 default:
                     break;
@@ -580,7 +575,6 @@ static void WI_DrawWILV(int y, char *str)
 // Draws "<LevelName> Finished!"
 static void WI_DrawLF(void)
 {
-    const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2 + 1;
     int         y = WI_TITLEY;
     const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->last + 1);
 
@@ -630,7 +624,7 @@ static void WI_DrawLF(void)
 
     // draw "Finished!"
     if (SHORT(finished->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch(x + 1, y + 1, finished, false, SCREENWIDTH);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(finished->width)) / 2 + 1, y + 1, finished, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, finished);
 }
@@ -638,13 +632,12 @@ static void WI_DrawLF(void)
 // Draws "Entering <LevelName>"
 static void WI_DrawEL(void)
 {
-    const int   x = (VANILLAWIDTH - SHORT(entering->width)) / 2 + 1;
     int         y = WI_TITLEY;
     const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->next + 1);
 
     // draw "Entering"
     if (SHORT(entering->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch(x + 1, y + 1, entering, false, SCREENWIDTH);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(entering->width)) / 2 + 1, y + 1, entering, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, entering);
 

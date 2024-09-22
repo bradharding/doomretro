@@ -1654,7 +1654,7 @@ static void M_DrawMainMenu(void)
             M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLumpName("M_DOOM"), false);
 
         MainDef.x = 97;
-        MainDef.y = 72;
+        MainDef.y = (legacyofrust ? 76 : 72);
     }
     else
     {
