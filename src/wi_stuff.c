@@ -322,7 +322,7 @@ static wi_animation_t   *animation;
 static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition)
 {
     bool                conditionsmet = true;
-    int                 map = (enteringcondition ? wbs->next : wbs->last) + 1;
+    int                 map = P_GetMapInEpisode((enteringcondition ? wbs->next : wbs->last) + 1);
     interlevelcond_t    *condition;
 
     array_foreach(condition, conditions)
@@ -1557,7 +1557,7 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
     if (enteranim[0])
     {
         if (!animation)
-            animation = Z_Calloc(1, sizeof(*animation), PU_LEVEL, NULL);
+            animation = calloc(1, sizeof(*animation));
 
         animation->interlevelentering = WI_ParseInterlevel(enteranim);
     }
@@ -1565,7 +1565,7 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
     if (exitanim[0])
     {
         if (!animation)
-            animation = Z_Calloc(1, sizeof(*animation), PU_LEVEL, NULL);
+            animation = calloc(1, sizeof(*animation));
 
         animation->interlevelexiting = WI_ParseInterlevel(exitanim);
     }

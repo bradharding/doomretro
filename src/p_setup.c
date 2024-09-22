@@ -4303,6 +4303,18 @@ bool P_IsSecret(const int ep, const int map)
     return mapinfo[ep][map].secret;
 }
 
+int P_GetMapInEpisode(const int map)
+{
+    int epi = maptoepisode[map];
+
+    if (epi)
+        for (int i = map; i >= 1; i--)
+            if (maptoepisode[i] < epi)
+                return (map - i);
+
+    return map;
+}
+
 //
 // P_Init
 //

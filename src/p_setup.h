@@ -102,3 +102,4 @@ float P_GetMapSky1ScrollDelta(const int ep, const int map);
 int P_GetMapTitlePatch(const int ep, const int map);
 int P_GetAllowMonsterTelefrags(const int ep, const int map);
 bool P_IsSecret(const int ep, const int map);
+int P_GetMapInEpisode(const int map);
