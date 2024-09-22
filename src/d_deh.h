@@ -425,6 +425,12 @@ extern char         *s_CC_MANCU;
 extern char         *s_CC_ARCH;
 extern char         *s_CC_SPIDER;
 extern char         *s_CC_CYBER;
+extern char         *s_CC_GHOUL;
+extern char         *s_CC_BANSHEE;
+extern char         *s_CC_SHOCK;
+extern char         *s_CC_MIND;
+extern char         *s_CC_VASSAGO;
+extern char         *s_CC_TYRANT;
 extern char         *s_CC_HERO;
 
 extern char         *s_M_NEWGAME;

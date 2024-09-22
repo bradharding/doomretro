@@ -560,6 +560,12 @@ char    *s_CC_MANCU = CC_MANCU;
 char    *s_CC_ARCH = CC_ARCH;
 char    *s_CC_SPIDER = CC_SPIDER;
 char    *s_CC_CYBER = CC_CYBER;
+char    *s_CC_GHOUL = "";
+char    *s_CC_BANSHEE = "";
+char    *s_CC_SHOCK = "";
+char    *s_CC_MIND = "";
+char    *s_CC_VASSAGO = "";
+char    *s_CC_TYRANT = "";
 char    *s_CC_HERO = CC_HERO;
 
 char    *s_M_NEWGAME = "";
@@ -1191,6 +1197,12 @@ deh_strs deh_strlookup[] =
     { &s_CC_ARCH,                 "CC_ARCH"                 },
     { &s_CC_SPIDER,               "CC_SPIDER"               },
     { &s_CC_CYBER,                "CC_CYBER"                },
+    { &s_CC_GHOUL,                "CC_GHOUL"                },
+    { &s_CC_BANSHEE,              "CC_BANSHEE"              },
+    { &s_CC_SHOCK,                "CC_SHOCK"                },
+    { &s_CC_MIND,                 "CC_MIND"                 },
+    { &s_CC_VASSAGO,              "CC_VASSAGO"              },
+    { &s_CC_TYRANT,               "CC_TYRANT"               },
     { &s_CC_HERO,                 "CC_HERO"                 },
 
     { &s_M_NEWGAME,               "M_NEWGAME"               },

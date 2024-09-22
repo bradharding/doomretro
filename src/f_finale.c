@@ -460,7 +460,7 @@ static void F_TextWrite(void)
 // Casting by id Software.
 //   in order of appearance
 //
-#define CASTNUMMAX  18
+#define CASTNUMMAX  24
 
 typedef struct
 {
@@ -472,24 +472,30 @@ typedef struct
 
 static castinfo_t castorder[CASTNUMMAX] =
 {
-    { CC_ZOMBIE,  &s_CC_ZOMBIE,  MT_POSSESSED, 2 },
-    { CC_SHOTGUN, &s_CC_SHOTGUN, MT_SHOTGUY,   2 },
-    { CC_HEAVY,   &s_CC_HEAVY,   MT_CHAINGUY,  2 },
-    { CC_IMP,     &s_CC_IMP,     MT_TROOP,     2 },
-    { CC_DEMON,   &s_CC_DEMON,   MT_SERGEANT,  2 },
-    { CC_SPECTRE, &s_CC_SPECTRE, MT_SHADOWS,   2 },
-    { CC_LOST,    &s_CC_LOST,    MT_SKULL,     0 },
-    { CC_CACO,    &s_CC_CACO,    MT_HEAD,      4 },
-    { CC_HELL,    &s_CC_HELL,    MT_KNIGHT,    4 },
-    { CC_BARON,   &s_CC_BARON,   MT_BRUISER,   4 },
-    { CC_ARACH,   &s_CC_ARACH,   MT_BABY,      0 },
-    { CC_PAIN,    &s_CC_PAIN,    MT_PAIN,      0 },
-    { CC_REVEN,   &s_CC_REVEN,   MT_UNDEAD,    4 },
-    { CC_MANCU,   &s_CC_MANCU,   MT_FATSO,     0 },
-    { CC_ARCH,    &s_CC_ARCH,    MT_VILE,      4 },
-    { CC_SPIDER,  &s_CC_SPIDER,  MT_SPIDER,    8 },
-    { CC_CYBER,   &s_CC_CYBER,   MT_CYBORG,    4 },
-    { CC_HERO,    &s_CC_HERO,    MT_PLAYER,    0 }
+    { CC_ZOMBIE,  &s_CC_ZOMBIE,  MT_POSSESSED,    2 },
+    { CC_SHOTGUN, &s_CC_SHOTGUN, MT_SHOTGUY,      2 },
+    { CC_HEAVY,   &s_CC_HEAVY,   MT_CHAINGUY,     2 },
+    { CC_IMP,     &s_CC_IMP,     MT_TROOP,        2 },
+    { CC_DEMON,   &s_CC_DEMON,   MT_SERGEANT,     2 },
+    { CC_SPECTRE, &s_CC_SPECTRE, MT_SHADOWS,      2 },
+    { CC_LOST,    &s_CC_LOST,    MT_SKULL,        0 },
+    { CC_CACO,    &s_CC_CACO,    MT_HEAD,         4 },
+    { CC_HELL,    &s_CC_HELL,    MT_KNIGHT,       4 },
+    { CC_BARON,   &s_CC_BARON,   MT_BRUISER,      4 },
+    { CC_ARACH,   &s_CC_ARACH,   MT_BABY,         0 },
+    { CC_PAIN,    &s_CC_PAIN,    MT_PAIN,         0 },
+    { CC_REVEN,   &s_CC_REVEN,   MT_UNDEAD,       4 },
+    { CC_MANCU,   &s_CC_MANCU,   MT_FATSO,        0 },
+    { CC_ARCH,    &s_CC_ARCH,    MT_VILE,         4 },
+    { CC_SPIDER,  &s_CC_SPIDER,  MT_SPIDER,       8 },
+    { CC_CYBER,   &s_CC_CYBER,   MT_CYBORG,       4 },
+    { "",         &s_CC_GHOUL,   MT_GHOUL,        0 },
+    { "",         &s_CC_BANSHEE, MT_BANSHEE,      0 },
+    { "",         &s_CC_SHOCK,   MT_SHOCKTROOPER, 0 },
+    { "",         &s_CC_MIND,    MT_MINDWEAVER,   0 },
+    { "",         &s_CC_VASSAGO, MT_VASSAGO,      0 },
+    { "",         &s_CC_TYRANT,  MT_TYRANT,       0 },
+    { CC_HERO,    &s_CC_HERO,    MT_PLAYER,       0 }
 };
 
 static int      castnum;
@@ -557,7 +563,9 @@ static void F_CastTicker(void)
         castdeath = false;
         castdeathflip = false;
 
-        if (++castnum == CASTNUMMAX)
+        if (++castnum == MT_GHOUL && !legacyofrust)
+            castnum = CASTNUMMAX - 1;
+        else if (castnum == CASTNUMMAX)
             castnum = 0;
         else
             D_FadeScreen(false);
@@ -869,7 +877,7 @@ static void F_CastDrawer(void)
     patch = W_CacheLumpNum(lump + firstspritelump);
     patch->topoffset = (r_fixspriteoffsets ? newspritetopoffset[lump] : spritetopoffset[lump]) >> FRACBITS;
 
-    if (type == MT_SKULL)
+    if (type == MT_SKULL || type == MT_GHOUL || type == MT_BANSHEE)
         y -= 30;
     else if (type == MT_PAIN || (type == MT_HEAD && !castdeath))
         y -= 20;
