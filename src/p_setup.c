@@ -3899,6 +3899,10 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_MUSIC:
                             SC_MustGetString();
+
+                            if (legacyofrust && extras)
+                                sc_String[0] = 'O';
+
                             info->music = W_CheckNumForName(sc_String);
                             break;
 

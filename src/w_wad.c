@@ -478,7 +478,7 @@ bool W_AddFile(char *filename, bool autoloaded)
             C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
         }
-        else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+        else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
             extraswadadded = true;
             C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");

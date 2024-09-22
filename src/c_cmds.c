@@ -5407,7 +5407,7 @@ static void mapstats_func2(char *cmd, char *parms)
 
         temp = uppercase(mus_playing->name1);
 
-        if (temp[0] == 'D' && temp[1] == '_')
+        if ((temp[0] == 'D' || temp[0] == 'O') && temp[1] == '_')
             M_StringCopy(namebuf, temp, sizeof(namebuf));
         else
         {
