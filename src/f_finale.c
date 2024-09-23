@@ -607,6 +607,8 @@ static void F_CastTicker(void)
             case S_CPOS_ATK4:
             case S_SPID_ATK2:
             case S_SPID_ATK3:
+            case 1221:
+            case 1222:
                 S_StartSound(NULL, sfx_shotgn);
                 break;
 
@@ -632,6 +634,7 @@ static void F_CastTicker(void)
             case S_BOSS_ATK2:
             case S_BOS2_ATK2:
             case S_HEAD_ATK2:
+            case 1154:
                 S_StartSound(NULL, sfx_firsht);
                 break;
 
@@ -649,13 +652,23 @@ static void F_CastTicker(void)
                 break;
 
             case S_BSPI_ATK2:
+            case 1251:
+            case 1252:
+            case 1253:
                 S_StartSound(NULL, sfx_plasma);
                 break;
 
             case S_CYBER_ATK2:
             case S_CYBER_ATK4:
             case S_CYBER_ATK6:
+            case 1386:
+            case 1388:
+            case 1390:
                 S_StartSound(NULL, sfx_rlaunc);
+                break;
+
+            case 1308:
+                S_StartSound(NULL, 725);
                 break;
         }
     }
