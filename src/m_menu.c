@@ -3468,6 +3468,12 @@ bool M_Responder(event_t *ev)
                     r_hud = false;
                     C_StringCVAROutput(stringize(r_hud), "off");
                 }
+
+                if (r_althud)
+                {
+                    r_althud = false;
+                    C_StringCVAROutput(stringize(r_althud), "off");
+                }
             }
 
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize_default);
