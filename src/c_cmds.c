@@ -8241,11 +8241,10 @@ static void spawn_func2(char *cmd, char *parms)
     {
         bool                spawn = true;
         const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
+        char                buffer[128];
 
         if (gamemode != commercial)
         {
-            char    buffer[128];
-
             if (spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
@@ -8253,6 +8252,7 @@ static void spawn_func2(char *cmd, char *parms)
                 if (!*buffer)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
+                buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in " ITALICS("%s") ".", buffer, gamedescription);
                 spawn = false;
             }
@@ -8272,6 +8272,7 @@ static void spawn_func2(char *cmd, char *parms)
                 if (!*buffer)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
+                buffer[0] = toupper(buffer[0]);
                 C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM") ". "
                     "You can buy the full version on " ITALICS("Steam") ", etc.", buffer);
                 spawn = false;
@@ -8279,12 +8280,15 @@ static void spawn_func2(char *cmd, char *parms)
         }
         else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss)
         {
+            M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
+            buffer[0] = toupper(buffer[0]);
+
             if (bfgedition)
-                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s (BFG Edition)") ".",
-                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s (BFG Edition)") ".",
+                    buffer, gamedescription);
             else
-                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s") ".",
-                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s") ".",
+                    buffer, gamedescription);
 
             spawn = false;
         }
