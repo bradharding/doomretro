@@ -1262,6 +1262,13 @@ static const int npars[9] =
      75, 105, 120, 105, 210, 105, 165, 105, 135
 };
 
+// [BH] Legacy Of Rust par times
+static const int lpars[] =
+{
+     30,  90, 120, 120,  90, 150, 120, 120, 270,  90,
+    210, 150, 150, 150, 210, 150
+};
+
 //
 // G_DoCompleted
 //
@@ -1285,14 +1292,16 @@ int G_GetParTime(void)
 
     if (par)
         return par;
-    else if (!newpars && !canmodify && (!nerve || gamemap > 9))
+    else if (!newpars && !canmodify && (!nerve || gamemap > 9) && !legacyofrust)
         return 0;
     else if (gamemode == commercial)
     {
-        // [BH] get correct par time for No Rest For The Living
+        // [BH] get correct par time for No Rest For The Living and Legacy Of Rust,
         //  and have no par time for TNT and Plutonia
         if (gamemission == pack_nerve && gamemap <= 9)
             return npars[gamemap - 1];
+        else if (legacyofrust && gamemap <= 16)
+            return lpars[gamemap - 1];
         else if (gamemission == pack_tnt || gamemission == pack_plut)
             return 0;
         else
