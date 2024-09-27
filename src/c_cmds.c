@@ -3701,10 +3701,14 @@ static void kill_func2(char *cmd, char *parms)
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
                                     kills++;
                                 }
-                                else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
+                                else if ((flags & MF_SHOOTABLE)
+                                    && type != MT_PLAYER && type != MT_BARREL
+                                    && (type != MT_LAMP || !legacyofrust)
+                                    && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
                                     massacre = true;
+
                                     P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
                                     massacre = false;
                                     kills++;
