@@ -621,7 +621,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         M_StringCopy(namebuf, music->name1, sizeof(namebuf));
     else
     {
-        if (*music->IDKFA)
+        if (*music->IDKFA && !legacyofrust)
         {
             M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
 

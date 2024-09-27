@@ -36,6 +36,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c_console.h"
 #include "cJSON/cJSON.h"
 #include "doomtype.h"
 #include "m_array.h"
@@ -169,7 +170,7 @@ static void ParseLevelLayer(cJSON *json, interlevellayer_t *out)
 interlevel_t *WI_ParseInterlevel(const char *lumpname)
 {
     interlevel_t        *out;
-    cJSON               *json = cJSON_Parse(W_CacheLumpName(lumpname));
+    cJSON               *json;
     cJSON               *data;
     cJSON               *music;
     cJSON               *backgroundimage;
@@ -177,26 +178,20 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
     cJSON               *js_layer = NULL;
     interlevellayer_t   *layers = NULL;
 
-    if (!json)
-    {
-        cJSON_Delete(json);
-        return NULL;
-    }
-
-    if (!cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data"))))
-    {
-        cJSON_Delete(json);
-        return NULL;
-    }
-
-    if (!cJSON_IsString((music = cJSON_GetObjectItemCaseSensitive(data, "music")))
+    if (!(json = cJSON_Parse(W_CacheLumpName(lumpname)))
+        || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
+        || !cJSON_IsString((music = cJSON_GetObjectItemCaseSensitive(data, "music")))
         || !cJSON_IsString((backgroundimage = cJSON_GetObjectItemCaseSensitive(data, "backgroundimage"))))
     {
         cJSON_Delete(json);
+        C_Warning(1, "The " BOLD("%s") " lump in " BOLD("%s") " couldn't be parsed.",
+            lumpname, leafname(lumpinfo[W_GetNumForName(lumpname)]->wadfile->path));
         return NULL;
     }
 
-    out = calloc(1, sizeof(*out));
+    if (!(out = calloc(1, sizeof(*out))))
+        return NULL;
+
     out->musiclump = M_StringDuplicate(music->valuestring);
     out->backgroundlump = M_StringDuplicate(backgroundimage->valuestring);
 

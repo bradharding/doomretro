@@ -16,7 +16,7 @@
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
 * Extensive improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
   * Partial support has been introduced for the new [*ID24* specification](https://doomwiki.org/wiki/ID24) so that:
-    * The sky in some maps now animate.
+    * The sky in some maps now animates.
     * An animated intermission screen is now displayed.
   * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and for firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
   * A fuel can icon now appears in the widescreen HUD when the player has an incinerator or calamity blade equipped.
