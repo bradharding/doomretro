@@ -2219,6 +2219,21 @@ static void cmdlist_func2(char *cmd, char *parms)
 //
 // condump CCMD
 //
+
+static int indentation(char *string)
+{
+    const int   len = (int)strlen(string);
+    int         count = 0;
+
+    for (int i = 0; i < len; i++)
+        if (string[i] == ' ')
+            count++;
+        else
+            break;
+
+    return count;
+}
+
 static bool condump_func1(char *cmd, char *parms)
 {
     return (numconsolestrings > CONSOLEBLANKLINES);
@@ -2275,7 +2290,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == warningstring || type == playerwarningstring)
                     fputs("! ", file);
 
-                for (int inpos = 0; inpos < len; inpos++)
+                for (int inpos = (indentation(string) - 1) / 2; inpos < len; inpos++)
                 {
                     const unsigned char letter = string[inpos];
 
