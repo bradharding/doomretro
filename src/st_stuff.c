@@ -1024,7 +1024,7 @@ bool ST_Responder(const event_t *ev)
                         message_secret = true;
                     else if (gamemode == commercial)
                     {
-                        if (map >= 31 || (gamemission == pack_nerve && map == 9))
+                        if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                             message_secret = true;
                     }
                     else

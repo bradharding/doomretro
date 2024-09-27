@@ -3171,7 +3171,7 @@ void P_SetupLevel(int ep, int map)
         {
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
 
-            if (map >= 31 || (gamemission == pack_nerve && map == 9))
+            if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
         }
         else
@@ -3902,7 +3902,12 @@ static bool P_ParseMapInfo(const char *scriptname)
                             SC_MustGetString();
 
                             if (legacyofrust && extras)
+                            {
                                 sc_String[0] = 'O';
+
+                                if (W_CheckNumForName(sc_String) == -1)
+                                    sc_String[0] = 'D';
+                            }
 
                             info->music = W_CheckNumForName(sc_String);
                             break;

@@ -689,7 +689,7 @@ consolecmd_t consolecmds[] =
     CCMD(fastmonsters, "", "", nightmare_func1, fastmonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles fast monsters."),
     CVAR_BOOL(flashkeys, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles flashing the required keycard or skull key when you try to open a locked door."),
+        "Toggles flashing the keycard or skull key that is needed when you try to open a locked door."),
     CVAR_BOOL(freelook, mouselook, "", bool_cvars_func1, freelook_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles freely looking up and down using the mouse or a controller."),
     CCMD(freeze, "", "", game_ccmd_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -4591,14 +4591,13 @@ static void map_func2(char *cmd, char *parms)
 
     if (gamemode == commercial)
     {
-        if (mapcmdmap >= 31 || (gamemission == pack_nerve && mapcmdmap == 9))
+        if (mapcmdmap == 31 || mapcmdmap == 32
+            || (mapcmdmap == 33 && bfgedition)
+            || (gamemission == pack_nerve && mapcmdmap == 9))
             message_secret = true;
     }
-    else
-    {
-        if (mapcmdmap == 9)
-            message_secret = true;
-    }
+    else if (mapcmdmap == 9)
+        message_secret = true;
 
     gameepisode = mapcmdepisode;
 
