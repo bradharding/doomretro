@@ -1182,7 +1182,7 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte
 
             while (count-- > 0)
             {
-                *dest = tinttab[grays[*source++]];
+                *dest = color;
                 dest += SCREENWIDTH;
 
                 if (++yy == SCREENHEIGHT)
@@ -1218,9 +1218,7 @@ void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color,
 
             while (count-- > 0)
             {
-                const byte  dot = *source++;
-
-                *dest = tinttab75[(tinttab[grays[dot]] << 8) + *dest];
+                *dest = tinttab[(color << 8) + *dest];
                 dest += SCREENWIDTH;
 
                 if (++yy == SCREENHEIGHT - 1)
