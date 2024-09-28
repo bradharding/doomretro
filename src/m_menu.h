@@ -128,7 +128,7 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
-extern bool     customepisode;
+extern bool     customepisodes;
 extern uint64_t controllerwait;
 extern uint64_t mousewait;
 extern int      maptoepisode[100];

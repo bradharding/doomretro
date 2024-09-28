@@ -1668,7 +1668,7 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-bool            customepisode = false;
+bool            customepisodes = false;
 static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1, -1, -1 };
 static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1, -1 };
 
@@ -1710,9 +1710,9 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
                 break;
     }
 
-    if (!customepisode)
+    if (!customepisodes)
     {
-        customepisode = true;
+        customepisodes = true;
 
         if (gamemode == commercial)
             EpiDef.numitems = 0;
@@ -1798,7 +1798,7 @@ void M_SetWindowCaption(void)
     {
         if (gamemode == commercial)
         {
-            if (customepisode)
+            if (customepisodes)
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, *episodes[maptoepisode[gamemap] - 1], gamedescription, DOOMRETRO_NAME);
             else if ((gamemission == doom2 && !nerve) || gamemission == pack_plut
@@ -1891,7 +1891,7 @@ static void M_ChooseSkill(int choice)
 
     if (KDIKDIZD)
         G_DeferredInitNew((skill_t)choice, 1, 13);
-    else if (customepisode)
+    else if (customepisodes)
         G_DeferredInitNew((skill_t)choice, episodemenuepisode[epi], episodemenumap[epi]);
     else
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);
@@ -1899,7 +1899,7 @@ static void M_ChooseSkill(int choice)
 
 static void M_Episode(int choice)
 {
-    if (!customepisode)
+    if (!customepisodes)
     {
         if (gamemode == shareware && choice)
         {
@@ -1970,7 +1970,7 @@ static void M_DrawNewGame(void)
 
 static void M_NewGame(int choice)
 {
-    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !customepisode) || EpiDef.numitems <= 1 ?
+    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !customepisodes) || EpiDef.numitems <= 1 ?
         (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 

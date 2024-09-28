@@ -143,6 +143,7 @@ typedef struct
     char            intertext[1024];
     char            intertextsecret[1024];
     int             liquid[NUMLIQUIDS];
+    int             mapinepisode;
     int             music;
     char            musicartist[128];
     char            musictitle[128];
@@ -3435,6 +3436,18 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
     free(buffer);
 }
 
+static int mapinepisode(const int map)
+{
+    int epi = maptoepisode[map];
+
+    if (epi)
+        for (int i = map; i >= 1; i--)
+            if (maptoepisode[i] < epi)
+                return (map - i);
+
+    return map;
+}
+
 static bool P_ParseMapInfo(const char *scriptname)
 {
     int         mapmax = 1;
@@ -4141,11 +4154,17 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     SC_Close();
 
-    if (customepisode && EpiDef.laston >= EpiDef.numitems)
+    if (customepisodes)
     {
-        EpiDef.laston = 0;
-        episode = 1;
-        M_SaveCVARs();
+        for (int i = 0; i < 100; i++)
+            mapinfo[1][i].mapinepisode = mapinepisode(i);
+
+        if (EpiDef.laston >= EpiDef.numitems)
+        {
+            EpiDef.laston = 0;
+            episode = 1;
+            M_SaveCVARs();
+        }
     }
 
     temp1 = commify(sc_Line);
@@ -4315,14 +4334,7 @@ bool P_IsSecret(const int ep, const int map)
 
 int P_GetMapInEpisode(const int map)
 {
-    int epi = maptoepisode[map];
-
-    if (epi)
-        for (int i = map; i >= 1; i--)
-            if (maptoepisode[i] < epi)
-                return (map - i);
-
-    return map;
+    return mapinfo[1][map].mapinepisode;
 }
 
 //

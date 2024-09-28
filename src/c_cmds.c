@@ -5146,7 +5146,7 @@ static void mapstats_func2(char *cmd, char *parms)
         }
         else
         {
-            if (customepisode)
+            if (customepisodes)
             {
                 if (**episodes[maptoepisode[gamemap] - 1])
                 {
@@ -5169,7 +5169,7 @@ static void mapstats_func2(char *cmd, char *parms)
     }
     else
     {
-        if (customepisode)
+        if (customepisodes)
         {
             if (**episodes[maptoepisode[gamemap] - 1])
             {
