@@ -1621,7 +1621,8 @@ void HU_Ticker(void)
     }
 
     // display message if necessary
-    else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
+    else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme)
+        && (r_hud || r_screensize < r_screensize_max))
     {
         if (messages || message_dontfuckwithme || message_secret || message_warning)
         {

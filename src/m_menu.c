@@ -2466,6 +2466,7 @@ static void M_SizeDisplay(int choice)
         {
             r_hud = false;
             C_StringCVAROutput(stringize(r_hud), "off");
+            message_counter = MIN(message_counter, 4);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
         }
@@ -3424,8 +3425,9 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key == KEY_ENTER && *prevmessage && viewplayer->health > 0 && !consoleactive && !helpscreen
-        && messages && !keydown2 && !IsControlBound(keyboardcontrol, KEY_ENTER))
+    if (key == KEY_ENTER && *prevmessage && viewplayer->health > 0 && !consoleactive
+        && !helpscreen && messages && (r_hud || r_screensize < r_screensize_max)
+        && !keydown2 && !IsControlBound(keyboardcontrol, KEY_ENTER))
     {
         keydown2 = key;
 
