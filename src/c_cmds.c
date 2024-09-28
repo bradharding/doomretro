@@ -5061,7 +5061,7 @@ static void mapstats_func2(char *cmd, char *parms)
         lump = W_CheckNumForName(lumpname);
         wadtype = lumpinfo[lump]->wadfile->type;
     }
-    else if (BTSX || KDIKDIZD)
+    else if (BTSX || KDIKDIZD || legacyofrust)
     {
         char    lumpname[6];
 

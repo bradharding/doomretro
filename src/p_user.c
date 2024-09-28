@@ -215,7 +215,6 @@ void P_MovePlayer(void)
     mo->angle += ((cmd->angleturn * turbo / 100) << FRACBITS);
 
     // killough 10/98:
-    //
     // We must apply thrust to the player and bobbing separately, to avoid
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
@@ -310,7 +309,13 @@ static void P_DeathThink(void)
 
     weaponrumbletics = 1;
     idlechainsawrumblestrength = 0;
-    freeze = false;
+
+    if (freeze)
+    {
+        C_Input("freeze off");
+        freeze = false;
+    }
+
     infight = (infighting && !solonet && !(viewplayer->cheats & CF_NOTARGET));
 
     P_MovePlayerSprites();

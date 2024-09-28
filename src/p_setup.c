@@ -3202,7 +3202,12 @@ void P_SetupLevel(int ep, int map)
         && ((numconsolestrings == 1
             || (!M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
                 && !autostart))))
-        C_Input("map %s", lumpname);
+    {
+        if (legacyofrust)
+            C_Input("map E%iM%i", maptoepisode[map], P_GetMapInEpisode(map));
+        else
+            C_Input("map %s", lumpname);
+    }
 
     if (!(samelevel = (lumpnum == prevlumpnum)))
     {
