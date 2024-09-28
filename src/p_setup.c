@@ -2926,7 +2926,10 @@ void P_MapName(int ep, int map)
             break;
 
         case doom2:
-            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+            if (legacyofrust)
+                M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", maptoepisode[map], P_GetMapInEpisode(map));
+            else
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
