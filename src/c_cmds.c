@@ -6458,7 +6458,7 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    temp1 = commify(viewplayer->itemspickedup_ammo_bullets
+    temp1 = commify((int64_t)viewplayer->itemspickedup_ammo_bullets
         + viewplayer->itemspickedup_ammo_shells
         + viewplayer->itemspickedup_ammo_rockets
         + (legacyofrust ? viewplayer->itemspickedup_ammo_fuel : viewplayer->itemspickedup_ammo_cells));

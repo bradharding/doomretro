@@ -2202,8 +2202,8 @@ static void D_DoomMainSetup(void)
     {
         C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " DEVICE ".");
 
-        stat_firstrun = (uint64_t)gamestarttime.tm_mday + (gamestarttime.tm_mon + 1) * 100
-            + (1900 + gamestarttime.tm_year) * 10000;
+        stat_firstrun = (uint64_t)gamestarttime.tm_mday + ((uint64_t)gamestarttime.tm_mon + 1) * 100
+            + ((uint64_t)gamestarttime.tm_year + 1900) * 10000;
     }
     else
     {

@@ -4266,7 +4266,7 @@ void deh_procBexSounds(DEHFILE *fpin, const char *line)
         }
 
         // do it
-        memset(candidate, 0, 7);
+        memset(candidate, 0, sizeof(candidate));
         strncpy(candidate, ptr_lstrip(strval), 6);
         len = strlen(candidate);
 
@@ -4322,7 +4322,7 @@ static void deh_procBexMusic(DEHFILE *fpin, const char *line)
         }
 
         // do it
-        memset(candidate, 0, 7);
+        memset(candidate, 0, sizeof(candidate));
         M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
         len = strlen(candidate);
 
