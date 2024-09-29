@@ -153,7 +153,7 @@ void I_PauseSong(void)
     if (!music_initialized)
         return;
 
-    if (midimusictype)
+    if (midimusictype && windowsmidi)
     {
 #if defined(_WIN32)
         I_Windows_PauseSong();
@@ -172,7 +172,7 @@ void I_ResumeSong(void)
         return;
 
 #if defined(_WIN32)
-    if (midimusictype)
+    if (midimusictype && windowsmidi)
         I_Windows_ResumeSong();
     else
         Mix_ResumeMusic();
