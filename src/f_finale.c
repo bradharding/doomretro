@@ -743,7 +743,7 @@ static bool F_CastResponder(const event_t *ev)
 
     if (ev->type == ev_keydown && ev->data1 != keyboarduse && ev->data1 != keyboarduse2
         && ev->data1 != keyboardfire && ev->data1 != KEY_LEFTARROW && ev->data1 != KEY_RIGHTARROW
-        && ev->data1 != KEY_ENTER && ev->data1 != ' ')
+        && ev->data1 != KEY_ENTER && ev->data1 != ' ' && ev->data1 != keyboardscreenshot)
         return false;
 
     if (ev->type == ev_keyup)
