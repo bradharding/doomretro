@@ -325,7 +325,7 @@ bool I_Windows_InitMusic(void)
     MMRESULT    mmr;
 
     if ((mmr = midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1, (DWORD_PTR)&MidiStreamProc,
-        (DWORD_PTR)NULL, CALLBACK_FUNCTION)) != MMSYSERR_NOERROR)
+        (DWORD_PTR)0, CALLBACK_FUNCTION)) != MMSYSERR_NOERROR)
     {
         MidiErrorMessage(mmr);
         return false;

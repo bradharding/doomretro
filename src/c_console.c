@@ -1709,13 +1709,12 @@ void C_Drawer(void)
                 do
                 {
                     char    *temp = M_SubString(console[i].string, 0, wrap);
-                    int     width;
+                    int     width = indent;
 
-                    if (stringtype == warningstring || stringtype == playerwarningstring)
-                        width = indent + C_TextWidth(temp, true, true);
+                    if (stringtype == warningstring || stringtype == playerwarningstring || !indent)
+                        width += C_TextWidth(temp, true, true);
                     else
-                        width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
-                            C_TextWidth(temp, true, true));
+                        width += C_TextWidth(strrchr(temp, '\t') + 1, true, true);
 
                     free(temp);
 
