@@ -1175,7 +1175,6 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;
@@ -1211,7 +1210,6 @@ void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color,
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
             byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
             const byte  length = column->length;
             byte        count = length;

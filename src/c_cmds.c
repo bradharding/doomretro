@@ -2220,7 +2220,7 @@ static void cmdlist_func2(char *cmd, char *parms)
 // condump CCMD
 //
 
-static int indentation(char *string)
+static int indentation(const char *string)
 {
     const int   len = (int)strlen(string);
     int         count = 0;
@@ -11721,7 +11721,7 @@ static void vid_showfps_func2(char *cmd, char *parms)
         else
         {
             framespersecond = 0;
-            frames = -1;
+            framecount = -1;
         }
     }
 }
