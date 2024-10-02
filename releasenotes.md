@@ -3,7 +3,7 @@
 ### DOOM Retro v5.6
 
 * *DOOM Retro* is now built using v17.11.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.30.7*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.7).
+* *DOOM Retro* now uses [*SDL v2.30.8*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.8).
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
