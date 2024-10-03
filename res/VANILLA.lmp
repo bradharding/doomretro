@@ -9,6 +9,7 @@ am_bluedoorcolor 231
 am_bluekeycolor 112
 am_cdwallcolor 231
 am_corpsecolor 112
+am_correctaspectratio off
 am_crosshaircolor 96
 am_external off
 am_fdwallcolor 64

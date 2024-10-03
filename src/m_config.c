@@ -60,6 +60,7 @@ int         am_bluedoorcolor = am_bluedoorcolor_default;
 int         am_bluekeycolor = am_bluekeycolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
 int         am_corpsecolor = am_corpsecolor_default;
+bool        am_correctaspectratio = am_correctaspectratio_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
 bool        am_external = am_external_default;
@@ -305,6 +306,7 @@ static default_t cvars[] =
     CVAR_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                       NOVALUEALIAS       ),
     CVAR_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        NOVALUEALIAS       ),
     CVAR_INT          (am_corpsecolor,                   am_corpsecolour,                       am_corpsecolor,                        NOVALUEALIAS       ),
+    CVAR_BOOL         (am_correctaspectratio,            am_correctaspectratio,                 am_correctaspectratio,                 BOOLVALUEALIAS     ),
     CVAR_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS       ),
     CVAR_INT          (am_display,                       am_display,                            am_display,                            NOVALUEALIAS       ),
     CVAR_BOOL         (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS     ),

@@ -93,34 +93,36 @@ static byte *am_crosshaircolor2;
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
-#define INITSCALEMTOF   125114
+#define INITSCALEMTOF           125114
 
 // minimum scale needed to use big dots for solid walls
-#define USEBIGDOTS      (FRACUNIT * 3 / 2)
+#define USEBIGDOTS              (FRACUNIT * 3 / 2)
 
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC        ((uint64_t)8 << speedtoggle)
+#define F_PANINC                ((uint64_t)8 << speedtoggle)
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        (fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 100.0))
+#define M_ZOOMIN                (fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 100.0))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
+#define M_ZOOMOUT               (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
 
-#define PLAYERRADIUS    (16 * (1 << MAPBITS))
+#define PLAYERRADIUS            (16 * (1 << MAPBITS))
 
-#define BLOODSPLATWIDTH (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
+#define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 
 // translates between frame-buffer and map distances
-#define FTOM(x)         (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
-#define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+#define FTOM(x)                 (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define MTOF(x)                 (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)       MTOF((uint64_t)(x) - m_x)
-#define CYMTOF(y)       (MAPHEIGHT - MTOF((uint64_t)(y) - m_y))
+#define CXMTOF(x)               MTOF((uint64_t)(x) - m_x)
+#define CYMTOF(y)               (MAPHEIGHT - MTOF((uint64_t)(y) - m_y))
+
+#define AM_CORRECTASPECTRATIO   (5 * FRACUNIT / 6)
 
 typedef struct
 {
@@ -1135,15 +1137,19 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle)
 
 static void AM_RotatePoint(mpoint_t *point)
 {
-    fixed_t         temp;
-    const fixed_t   x = am_frame.center.x;
-    const fixed_t   y = am_frame.center.y;
+    fixed_t temp;
 
-    point->x -= x;
-    point->y -= y;
-    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + x;
-    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + y;
+    point->x -= am_frame.center.x;
+    point->y -= am_frame.center.y;
+    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + am_frame.center.x;
+    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + am_frame.center.y;
     point->x = temp;
+}
+
+static void AM_CorrectAspectRatio(mpoint_t *point)
+{
+    if (am_correctaspectratio)
+        point->y = am_frame.center.y + FixedMul(point->y - am_frame.center.y, AM_CORRECTASPECTRATIO);
 }
 
 //
@@ -1444,6 +1450,8 @@ static void AM_DrawGrid(void)
         mline_t mline = { { x, starty }, { x, endy } };
 
         mline = rotatelinefunc(mline);
+        AM_CorrectAspectRatio(&mline.a);
+        AM_CorrectAspectRatio(&mline.b);
         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
     }
 
@@ -1453,6 +1461,8 @@ static void AM_DrawGrid(void)
         mline_t mline = { { startx, y }, { endx, y } };
 
         mline = rotatelinefunc(mline);
+        AM_CorrectAspectRatio(&mline.a);
+        AM_CorrectAspectRatio(&mline.b);
         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, putbigdot2);
     }
 }
@@ -1519,6 +1529,8 @@ static void AM_DrawWalls(void)
                 byte                    *doorcolor;
 
                 mline = rotatelinefunc(mline);
+                AM_CorrectAspectRatio(&mline.a);
+                AM_CorrectAspectRatio(&mline.b);
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
@@ -1569,6 +1581,8 @@ static void AM_DrawWalls_AllMap(void)
                 byte                    *doorcolor;
 
                 mline = rotatelinefunc(mline);
+                AM_CorrectAspectRatio(&mline.a);
+                AM_CorrectAspectRatio(&mline.b);
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
@@ -1618,6 +1632,8 @@ static void AM_DrawWalls_Cheating(void)
             byte                    *doorcolor;
 
             mline = rotatelinefunc(mline);
+            AM_CorrectAspectRatio(&mline.a);
+            AM_CorrectAspectRatio(&mline.b);
 
             if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
@@ -1749,6 +1765,8 @@ static void AM_DrawPlayer(void)
     else
         angle = viewangle >> ANGLETOFINESHIFT;
 
+    AM_CorrectAspectRatio(&point);
+
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
@@ -1801,6 +1819,8 @@ static void AM_DrawThings(void)
                 if (am_rotatemode)
                     AM_RotatePoint(&point);
 
+                AM_CorrectAspectRatio(&point);
+
                 if (!(flags & MF_SHOOTABLE) && !(flags & MF_CORPSE))
                     width = (12 << FRACBITS) >> FRACTOMAPBITS;
                 else
@@ -1831,6 +1851,8 @@ static void AM_DrawBloodSplats(void)
 
             if (am_rotatemode)
                 AM_RotatePoint(&point);
+
+            AM_CorrectAspectRatio(&point);
 
             if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
                 && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= MAPHEIGHT + BLOODSPLATWIDTH)
@@ -1902,6 +1924,8 @@ static void AM_DrawMarks(const char *nums[])
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
+
+        AM_CorrectAspectRatio(&point);
 
         x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
         y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
@@ -1976,10 +2000,13 @@ static void AM_DrawPath(void)
 
             AM_RotatePoint(&start);
             AM_RotatePoint(&end);
+            AM_CorrectAspectRatio(&start);
+            AM_CorrectAspectRatio(&end);
             AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
         }
 
         AM_RotatePoint(&player);
+        AM_CorrectAspectRatio(&player);
     }
     else
     {
