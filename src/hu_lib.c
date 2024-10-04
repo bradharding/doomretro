@@ -147,13 +147,18 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
                         (r_hud_translucency ? nearestwhite : nearestlightgray)));
     const int       len = l->len;
-    byte            *tinttab = (automapactive ? tinttab75 : tinttab50);
+    byte            *tinttab;
 
-    if (!automapactive)
+    if (automapactive)
+        tinttab = tinttab80;
+    else
+    {
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
             colormaps[0][32 * 256 + color] : color) : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
             colormaps[0][32 * 256 + color] : (message_secret ? nearestgold : (message_warning ?
             nearestred : nearestblack))));
+        tinttab = tinttab50;
+    }
 
     if (fade)
     {

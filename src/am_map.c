@@ -100,15 +100,15 @@ static byte *am_crosshaircolor2;
 
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC                ((uint64_t)8 << speedtoggle)
+#define F_PANINC                (8 << speedtoggle)
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN                (fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 100.0))
+#define M_ZOOMIN                (fixed_t)(FRACUNIT * (1.0 + F_PANINC / 100.0))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT               (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
+#define M_ZOOMOUT               (fixed_t)(FRACUNIT / (1.0 + F_PANINC / 100.0))
 
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
 
@@ -119,8 +119,8 @@ static byte *am_crosshaircolor2;
 #define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)               MTOF((int64_t)(x) - m_x)
-#define CYMTOF(y)               (MAPHEIGHT - MTOF((int64_t)(y) - m_y))
+#define CXMTOF(x)               MTOF((x) - m_x)
+#define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
 #define AM_CORRECTASPECTRATIO   (5 * FRACUNIT / 6)
 
@@ -1451,12 +1451,6 @@ static void AM_DrawGrid(void)
     int64_t endx = startx + minlen;
     int64_t endy = starty + minlen;
 
-    if (am_correctaspectratio)
-    {
-        starty += starty * 6 / 5;
-        endy += endy * 6 / 5;
-    }
-
     // Draw vertical gridlines
     for (int64_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
     {
@@ -2174,26 +2168,26 @@ static void AM_SetFrameVariables(void)
     const fixed_t   x = m_x + dx;
     const fixed_t   y = m_y + dy;
     const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
-    int             angle = 0;
-
-    if (am_rotatemode)
-    {
-        angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
-        rotatelinefunc = &AM_RotateLine;
-    }
-    else
-        rotatelinefunc = &AM_DoNotRotateLine;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
-
-    am_frame.sin = finesine[angle];
-    am_frame.cos = finecosine[angle];
 
     am_frame.bbox[BOXLEFT] = x - r;
     am_frame.bbox[BOXRIGHT] = x + r;
     am_frame.bbox[BOXBOTTOM] = y - r;
     am_frame.bbox[BOXTOP] = y + r;
+
+    if (am_rotatemode)
+    {
+        const int   angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+
+        am_frame.sin = finesine[angle];
+        am_frame.cos = finecosine[angle];
+
+        rotatelinefunc = &AM_RotateLine;
+    }
+    else
+        rotatelinefunc = &AM_DoNotRotateLine;
 }
 
 static void AM_ApplyAntialiasing(void)

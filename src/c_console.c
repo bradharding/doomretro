@@ -1334,7 +1334,7 @@ void C_UpdateFPSOverlay(void)
 {
     char        buffer[32];
     char        *temp = commify(framespersecond);
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab80 : tinttab50) : NULL);
 
     M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
 
@@ -1347,7 +1347,7 @@ void C_UpdateTimerOverlay(void)
 {
     static char buffer[10];
     static int  prevtime = -1;
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab80 : tinttab50) : NULL);
     int         y = OVERLAYTEXTY;
 
     if (vid_showfps && framespersecond)
@@ -1376,7 +1376,7 @@ void C_UpdatePlayerPositionOverlay(void)
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
     const int   color = C_GetOverlayTextColor();
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab80 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
 
@@ -1457,7 +1457,7 @@ void C_UpdatePathOverlay(void)
                 y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
         }
 
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, (r_hud_translucency ? tinttab70 : NULL),
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, (r_hud_translucency ? tinttab80 : NULL),
             distance, C_GetOverlayTextColor(), true);
 
         pathoverlay = true;
@@ -1471,7 +1471,7 @@ void C_UpdatePlayerStatsOverlay(void)
     int         x;
     int         y;
     const int   color = C_GetOverlayTextColor();
-    const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
+    const byte  *tinttab = (r_hud_translucency ? tinttab80 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
     static int  width;
