@@ -50,6 +50,8 @@
 * The `vid_widescreen` CVAR no longer resets to `off` at startup if `-nosplash` is used on the command-line.
 * A bug is fixed whereby the z-coordinates of things bobbing in liquid sectors were altered upon loading a savegame when the `r_liquid_bob` CVAR was `on`.
 * Very short sprites are no longer clipped in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
+* Aspect ratio correction is now applied to the automap. This feature can be toggled off using the new `am_correctaspectratio` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The automap now displays correctly when zooming out in very large maps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
