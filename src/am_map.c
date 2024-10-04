@@ -2173,34 +2173,27 @@ static void AM_SetFrameVariables(void)
     const fixed_t   dy = m_h / 2;
     const fixed_t   x = m_x + dx;
     const fixed_t   y = m_y + dy;
+    const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
+    int             angle = 0;
+
+    if (am_rotatemode)
+    {
+        angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+        rotatelinefunc = &AM_RotateLine;
+    }
+    else
+        rotatelinefunc = &AM_DoNotRotateLine;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
 
-    if (am_rotatemode)
-    {
-        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
-        const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
+    am_frame.sin = finesine[angle];
+    am_frame.cos = finecosine[angle];
 
-        am_frame.sin = finesine[angle];
-        am_frame.cos = finecosine[angle];
-
-        am_frame.bbox[BOXLEFT] = x - r;
-        am_frame.bbox[BOXRIGHT] = x + r;
-        am_frame.bbox[BOXBOTTOM] = y - r;
-        am_frame.bbox[BOXTOP] = y + r;
-
-        rotatelinefunc = &AM_RotateLine;
-    }
-    else
-    {
-        am_frame.bbox[BOXLEFT] = m_x;
-        am_frame.bbox[BOXRIGHT] = m_x + m_w;
-        am_frame.bbox[BOXBOTTOM] = m_y;
-        am_frame.bbox[BOXTOP] = m_y + m_h;
-
-        rotatelinefunc = &AM_DoNotRotateLine;
-    }
+    am_frame.bbox[BOXLEFT] = x - r;
+    am_frame.bbox[BOXRIGHT] = x + r;
+    am_frame.bbox[BOXBOTTOM] = y - r;
+    am_frame.bbox[BOXTOP] = y + r;
 }
 
 static void AM_ApplyAntialiasing(void)
