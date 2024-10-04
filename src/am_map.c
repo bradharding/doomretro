@@ -115,12 +115,12 @@ static byte *am_crosshaircolor2;
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 
 // translates between frame-buffer and map distances
-#define FTOM(x)                 (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
-#define MTOF(x)                 (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+#define FTOM(x)                 (fixed_t)((((int64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 
 // translates between frame-buffer and map coordinates
-#define CXMTOF(x)               MTOF((uint64_t)(x) - m_x)
-#define CYMTOF(y)               (MAPHEIGHT - MTOF((uint64_t)(y) - m_y))
+#define CXMTOF(x)               MTOF((int64_t)(x) - m_x)
+#define CYMTOF(y)               (MAPHEIGHT - MTOF((int64_t)(y) - m_y))
 
 #define AM_CORRECTASPECTRATIO   (5 * FRACUNIT / 6)
 
@@ -137,10 +137,10 @@ static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map
 static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
 // LL x,y where the window is on the map (map coords)
-static fixed_t      m_x = FIXED_MAX, m_y = FIXED_MAX;
+static int64_t      m_x, m_y;
 
 // width/height of window on map (map coords)
-static fixed_t      m_w, m_h;
+static int64_t      m_w, m_h;
 
 // based on level size
 static fixed_t      min_x, min_y;
@@ -150,8 +150,8 @@ static fixed_t      min_scale_mtof; // used to tell when to stop zooming out
 static fixed_t      max_scale_mtof; // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static fixed_t      old_m_w, old_m_h;
-static fixed_t      old_m_x, old_m_y;
+static int64_t      old_m_w, old_m_h;
+static int64_t      old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
 static fixed_t      scale_mtof;
@@ -257,8 +257,8 @@ static void AM_FindMinMaxBoundaries(void)
             max_y = y;
     }
 
-    a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
-    b = FixedDiv(MAPHEIGHT << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
+    a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) / 2 - (min_x >>= FRACTOMAPBITS) / 2);
+    b = FixedDiv(MAPHEIGHT << FRACBITS, (max_y >>= FRACTOMAPBITS) / 2 - (min_y >>= FRACTOMAPBITS) / 2);
 
     min_scale_mtof = MIN(scale_mtof, MIN(a, b) - FRACUNIT / 4);
     max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, PLAYERRADIUS * 3);
@@ -274,8 +274,15 @@ static void AM_ChangeWindowLoc(void)
     if (am_rotatemode)
         AM_Rotate(&incx, &incy, (viewangle - ANG90) >> ANGLETOFINESHIFT);
 
-    m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
-    m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
+    if ((m_x += incx) + width < min_x)
+        m_x = min_x - width;
+    else if (m_x + width > max_x)
+        m_x = max_x - width;
+
+    if ((m_y += incy) + height < min_y)
+        m_y = min_y - height;
+    else if (m_y > max_y)
+        m_y = max_y - height;
 }
 
 void AM_SetColors(void)
@@ -1438,17 +1445,20 @@ static mline_t AM_DoNotRotateLine(mline_t mline)
 //
 static void AM_DrawGrid(void)
 {
-    fixed_t minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
-    fixed_t startx = m_x - (minlen - m_w) / 2;
-    fixed_t starty = m_y - (minlen - m_h) / 2;
-    fixed_t endx = startx + minlen;
-    fixed_t endy = starty + minlen;
+    int64_t minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
+    int64_t startx = m_x - (minlen - m_w) / 2;
+    int64_t starty = m_y - (minlen - m_h) / 2;
+    int64_t endx = startx + minlen;
+    int64_t endy = starty + minlen;
 
-    starty += starty * 6 / 5;
-    endy += endy * 6 / 5;
+    if (am_correctaspectratio)
+    {
+        starty += starty * 6 / 5;
+        endy += endy * 6 / 5;
+    }
 
     // Draw vertical gridlines
-    for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
+    for (int64_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
     {
         mline_t mline = { { x, starty }, { x, endy } };
 
@@ -1459,7 +1469,7 @@ static void AM_DrawGrid(void)
     }
 
     // Draw horizontal gridlines
-    for (fixed_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < endy; y += gridheight)
+    for (int64_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < endy; y += gridheight)
     {
         mline_t mline = { { startx, y }, { endx, y } };
 
