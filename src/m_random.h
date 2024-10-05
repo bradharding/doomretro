@@ -37,10 +37,12 @@
 
 #include "m_fixed.h"
 
-#define BIGSEED 1
+#define BIGSEED     1
+#define FUZZSEED    1
 
-#define RAND    rndtable[(seed = (seed + 1) & 255)]
-#define BIGRAND ((bigseed = 214013 * bigseed + 2531011) >> 16)
+#define RAND        rndtable[(seed = (seed + 1) & 255)]
+#define BIGRAND     ((bigseed = 214013 * bigseed + 2531011) >> 16)
+#define FUZZRAND    ((fuzzseed = 214013 * fuzzseed + 2531011) >> 16)
 
 static const unsigned char rndtable[] =
 {
@@ -64,6 +66,7 @@ static const unsigned char rndtable[] =
 
 extern unsigned int seed;
 extern unsigned int bigseed;
+extern unsigned int fuzzseed;
 
 int P_RandomHitscanAngle(const fixed_t spread);
 int P_RandomHitscanSlope(const fixed_t spread);
@@ -126,4 +129,14 @@ static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, const
 static inline void M_BigSeed(const unsigned int value)
 {
     bigseed = value;
+}
+
+static inline int M_FuzzRandomInt(const int lower, const int upper)
+{
+    return (FUZZRAND % (upper - lower + 1) + lower);
+}
+
+static inline void M_FuzzSeed(const unsigned int value)
+{
+    fuzzseed = value;
 }

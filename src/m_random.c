@@ -39,6 +39,7 @@
 
 unsigned int    seed;
 unsigned int    bigseed;
+unsigned int    fuzzseed;
 
 // MBF21: [XA] Common random formulas used by codepointers
 

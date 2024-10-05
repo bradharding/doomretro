@@ -1172,6 +1172,10 @@ void R_RenderPlayerView(void)
     R_DrawNearbySprites();
 
     R_DrawPlanes();
+
+    if (consoleactive)
+        M_FuzzSeed(0);
+
     R_DrawMasked();
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)

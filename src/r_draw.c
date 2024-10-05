@@ -1055,50 +1055,26 @@ void R_DrawFuzzColumn(void)
 
     dest = ylookup0[dc_yl] + dc_x;
 
-    if (consoleactive)
-    {
-        // top
-        if (dc_yl >= 2)
-            BIGFUZZYPIXEL(8, fuzztable[fuzzpos++]);
-
-        dest += SCREENWIDTH * 2;
-
-        while (--count)
-        {
-            // middle
-            BIGFUZZYPIXEL(6, fuzztable[fuzzpos++]);
-            dest += SCREENWIDTH * 2;
-        }
-
-        // bottom
-        if (dc_yl & 1)
-            HALFBIGFUZZYPIXEL(5, fuzztable[fuzzpos++]);
-        else
-            BIGFUZZYPIXEL(5, fuzztable[fuzzpos++]);
-    }
+    // top
+    if (dc_yl >= 2)
+        BIGFUZZYPIXEL(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
     else
+        BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
+
+    dest += SCREENWIDTH * 2;
+
+    while (--count)
     {
-        // top
-        if (dc_yl >= 2)
-            BIGFUZZYPIXEL(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
-        else
-            BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
-
+        // middle
+        BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
         dest += SCREENWIDTH * 2;
-
-        while (--count)
-        {
-            // middle
-            BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
-            dest += SCREENWIDTH * 2;
-        }
-
-        // bottom
-        if (dc_yl & 1)
-            HALFBIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
-        else
-            BIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
     }
+
+    // bottom
+    if (dc_yl & 1)
+        HALFBIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
+    else
+        BIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
 }
 
 void R_DrawFuzzColumns(void)
