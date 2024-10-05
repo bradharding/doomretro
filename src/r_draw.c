@@ -1058,7 +1058,9 @@ void R_DrawFuzzColumn(void)
     if (consoleactive)
     {
         // top
-        BIGFUZZYPIXEL((dc_yl >= 2 ? 8 : 6), fuzztable[fuzzpos++]);
+        if (dc_yl >= 2)
+            BIGFUZZYPIXEL(8, fuzztable[fuzzpos++]);
+
         dest += SCREENWIDTH * 2;
 
         while (--count)
