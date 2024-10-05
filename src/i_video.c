@@ -290,7 +290,6 @@ static void I_SetPriority(bool active)
 
         SDL_SetThreadPriority(SDL_THREAD_PRIORITY_NORMAL);
     }
-
 }
 
 bool    altdown = false;

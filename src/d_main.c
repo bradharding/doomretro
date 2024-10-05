@@ -1125,7 +1125,6 @@ static void D_AutoloadSIGIL2WAD(void)
         if (W_MergeFile(path, true))
             sigil = true;
     }
-
 }
 
 static void D_AutoloadNerveWAD(void)
@@ -1134,7 +1133,7 @@ static void D_AutoloadNerveWAD(void)
 
     D_AutoloadExtrasWAD();
 
-    if (BTSX || M_CheckParm("-noautoload"))
+    if (M_CheckParm("-noautoload"))
         return;
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "NERVE.WAD");
