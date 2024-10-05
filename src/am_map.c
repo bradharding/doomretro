@@ -104,11 +104,11 @@ static byte *am_crosshaircolor2;
 
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN                (fixed_t)(FRACUNIT * (1.0 + F_PANINC / 100.0))
+#define M_ZOOMIN                (fixed_t)((uint64_t)FRACUNIT * (1.0 + F_PANINC / 100.0))
 
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT               (fixed_t)(FRACUNIT / (1.0 + F_PANINC / 100.0))
+#define M_ZOOMOUT               (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
 
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
 
@@ -268,8 +268,8 @@ static void AM_ChangeWindowLoc(void)
 {
     fixed_t         incx = m_paninc.x;
     fixed_t         incy = m_paninc.y;
-    const fixed_t   width = m_w / 2;
-    const fixed_t   height = m_h / 2;
+    const int64_t   width = m_w / 2;
+    const int64_t   height = m_h / 2;
 
     if (am_rotatemode)
         AM_Rotate(&incx, &incy, (viewangle - ANG90) >> ANGLETOFINESHIFT);
@@ -1806,7 +1806,7 @@ static void AM_DrawThings(void)
             {
                 angle_t     angle;
                 mpoint_t    point = { 0, 0 };
-                int         flags = thing->flags;
+                const int   flags = thing->flags;
                 int         fx, fy;
                 int         width;
 
@@ -2179,7 +2179,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const int   angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+        const angle_t   angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
 
         am_frame.sin = finesine[angle];
         am_frame.cos = finecosine[angle];

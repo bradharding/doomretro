@@ -150,7 +150,19 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     byte            *tinttab;
 
     if (automapactive)
-        tinttab = tinttab80;
+    {
+        tinttab = tinttab70;
+
+        if (fade)
+        {
+            byte    *tinttabs[] = { NULL, tinttab10, tinttab25, tinttab40, tinttab60 };
+
+            if (message_counter <= 4)
+                tinttab = tinttabs[message_counter];
+            else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 3)
+                tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
+        }
+    }
     else
     {
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
@@ -158,24 +170,16 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             colormaps[0][32 * 256 + color] : (message_secret ? nearestgold : (message_warning ?
             nearestred : nearestblack))));
         tinttab = tinttab50;
-    }
 
-    if (fade)
-    {
-        byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40 };
-
-        if (automapactive)
+        if (fade)
         {
-            tinttabs[1] = tinttab10;
-            tinttabs[2] = tinttab25;
-            tinttabs[3] = tinttab40;
-            tinttabs[4] = tinttab60;
-        }
+            byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40 };
 
-        if (message_counter <= 4)
-            tinttab = tinttabs[message_counter];
-        else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 3)
-            tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
+            if (message_counter <= 4)
+                tinttab = tinttabs[message_counter];
+            else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 3)
+                tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
+        }
     }
 
     if (idbehold)
