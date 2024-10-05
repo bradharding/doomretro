@@ -1101,30 +1101,6 @@ void R_DrawFuzzColumns(void)
         }
 }
 
-void R_DrawPausedFuzzColumns(void)
-{
-    const int   width = viewwindowx + viewwidth;
-    const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
-
-    for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
-        for (int x = viewwindowx + y; x < width + y; x += 2)
-        {
-            const byte  *source = screens[1] + x;
-
-            if (*source != NOFUZZ)
-            {
-                byte    *dest = screens[0] + x;
-
-                if (y == height - SCREENWIDTH * 2)
-                    BIGFUZZYPIXEL(5, fuzztable[fuzzpos++]);
-                else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
-                    BIGFUZZYPIXEL(8, fuzztable[fuzzpos++]);
-                else
-                    BIGFUZZYPIXEL(6, fuzztable[fuzzpos++]);
-            }
-        }
-}
-
 //
 // R_DrawTranslatedColumn
 //

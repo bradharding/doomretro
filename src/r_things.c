@@ -1215,10 +1215,7 @@ static void R_DrawPlayerSprites(void)
         if (flashstate)
             R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
 
-        if (consoleactive)
-            R_DrawPausedFuzzColumns();
-        else
-            R_DrawFuzzColumns();
+        R_DrawFuzzColumns();
     }
     else
     {
