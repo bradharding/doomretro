@@ -143,8 +143,6 @@ void MD5Final(byte digest[16], MD5Context *ctx)
     memset(ctx, 0, sizeof(*ctx));   // In case it's sensitive
 }
 
-#ifndef ASM_MD5
-
 // The four core functions - F1 is optimized somewhat
 #define F1(x, y, z) (z ^ (x & (y ^ z)))
 #define F2(x, y, z) F1(z, x, y)
@@ -237,7 +235,6 @@ void MD5Transform(uint32_t buf[4], const uint32_t in[16])
     buf[2] += c;
     buf[3] += d;
 }
-#endif
 
 char *MD5(const char *filename)
 {
