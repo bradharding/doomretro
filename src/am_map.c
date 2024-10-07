@@ -137,10 +137,10 @@ static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map
 static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
 // LL x,y where the window is on the map (map coords)
-static int64_t      m_x, m_y;
+static fixed_t      m_x, m_y;
 
 // width/height of window on map (map coords)
-static int64_t      m_w, m_h;
+static fixed_t      m_w, m_h;
 
 // based on level size
 static fixed_t      min_x, min_y;
@@ -150,8 +150,8 @@ static fixed_t      min_scale_mtof; // used to tell when to stop zooming out
 static fixed_t      max_scale_mtof; // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static int64_t      old_m_w, old_m_h;
-static int64_t      old_m_x, old_m_y;
+static fixed_t      old_m_w, old_m_h;
+static fixed_t      old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
 static fixed_t      scale_mtof;
@@ -268,8 +268,8 @@ static void AM_ChangeWindowLoc(void)
 {
     fixed_t         incx = m_paninc.x;
     fixed_t         incy = m_paninc.y;
-    const int64_t   width = m_w / 2;
-    const int64_t   height = m_h / 2;
+    const fixed_t   width = m_w / 2;
+    const fixed_t   height = m_h / 2;
 
     if (am_rotatemode)
         AM_Rotate(&incx, &incy, (viewangle - ANG90) >> ANGLETOFINESHIFT);
@@ -1445,14 +1445,14 @@ static mline_t AM_DoNotRotateLine(mline_t mline)
 //
 static void AM_DrawGrid(void)
 {
-    int64_t minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
-    int64_t startx = m_x - (minlen - m_w) / 2;
-    int64_t starty = m_y - (minlen - m_h) / 2;
-    int64_t endx = startx + minlen;
-    int64_t endy = starty + minlen;
+    const fixed_t   minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
+    const fixed_t   startx = m_x - (minlen - m_w) / 2;
+    const fixed_t   starty = m_y - (minlen - m_h) / 2;
+    const fixed_t   endx = startx + minlen;
+    const fixed_t   endy = starty + minlen;
 
     // Draw vertical gridlines
-    for (int64_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
+    for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
     {
         mline_t mline = { { x, starty }, { x, endy } };
 
@@ -1463,7 +1463,7 @@ static void AM_DrawGrid(void)
     }
 
     // Draw horizontal gridlines
-    for (int64_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < endy; y += gridheight)
+    for (fixed_t y = starty - ((starty - (bmaporgy >> FRACTOMAPBITS)) % gridheight); y < endy; y += gridheight)
     {
         mline_t mline = { { startx, y }, { endx, y } };
 
