@@ -931,6 +931,42 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
     }
 }
 
+void V_DrawHelpPatch(patch_t *patch)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    desttop = &screens[0][((WIDESCREENDELTA * DX) >> FRACBITS)];
+
+    for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
+    {
+        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                byte    *dot;
+
+                *dest = nearestcolors[source[srccol >> FRACBITS]];
+                dest += SCREENWIDTH;
+                dot = dest + SCREENWIDTH + 2;
+                *dot = black45[*dot];
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];

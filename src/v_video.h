@@ -91,6 +91,7 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
 bool V_IsEmptyPatch(patch_t *patch);
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth);
+void V_DrawHelpPatch(patch_t *patch);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch);

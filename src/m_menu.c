@@ -1512,7 +1512,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheXLumpName(lumpname, 2), false, SCREENWIDTH);
+            V_DrawHelpPatch(W_CacheXLumpName(lumpname, 2));
         }
         else if (W_GetNumLumps(lumpname) > 2)
         {
@@ -1525,7 +1525,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), false, SCREENWIDTH);
+            V_DrawHelpPatch(W_CacheLumpName(lumpname));
         }
     }
 }
@@ -4689,9 +4689,6 @@ void M_Init(void)
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
     menuborder = W_CacheLastLumpName("DRBORDER");
     titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
-
-    for (int i = 0; i < 256; i++)
-        blues[i] = nearestcolors[blues[i]];
 
     caretcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
 
