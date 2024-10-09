@@ -933,14 +933,12 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 
 void V_DrawHelpPatch(patch_t *patch)
 {
-    byte        *desttop;
+    byte        *desttop = &screens[0][((WIDESCREENDELTA * DX) >> FRACBITS)];
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    desttop = &screens[0][((WIDESCREENDELTA * DX) >> FRACBITS)];
-
-    for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
-        column_t *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)

@@ -3191,7 +3191,7 @@ static void deh_procSounds(DEHFILE *fpin, const char *line)
 
         if (!deh_GetData(inbuffer, key, &value, NULL))   // returns true if ok
         {
-            C_Warning(1, "Bad data pair in \"%s\"\n", inbuffer);
+            C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
         }
 
