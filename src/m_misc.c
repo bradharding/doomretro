@@ -540,7 +540,7 @@ char *M_StringReplaceFirst(char *haystack, const char *needle, const char *repla
 }
 
 #if !defined(strrstr)
-static char *strrstr(const char *haystack, const char *needle)
+char *strrstr(const char *haystack, const char *needle)
 {
     char    *r = NULL;
 
@@ -668,7 +668,7 @@ void M_snprintf(char *buf, int buf_len, const char *s, ...)
 }
 
 #if !defined(strndup)
-static char *strndup(const char *s, size_t n)
+char *strndup(const char *s, size_t n)
 {
     const size_t    len = strnlen(s, n);
     char            *new = malloc(len + 1);
