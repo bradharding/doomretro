@@ -58,6 +58,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "w_file.h"
 
 #if defined(__APPLE__)
 #import <Cocoa/Cocoa.h>

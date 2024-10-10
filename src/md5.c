@@ -34,6 +34,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "m_misc.h"
 #include "md5.h"
