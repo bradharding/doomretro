@@ -33,14 +33,10 @@
 ==============================================================================
 */
 
-#include <stdio.h>
-#include <string.h>
-
 #include "doomdef.h"
 #include "doomtype.h"
 #include "i_swap.h"
 #include "memio.h"
-#include "mus2mid.h"
 
 #define NUM_CHANNELS            16
 

@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#include <string.h>
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"

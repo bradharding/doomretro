@@ -33,7 +33,6 @@
 ==============================================================================
 */
 
-#include <ctype.h>
 #include <string.h>
 
 #include "c_cmds.h"
@@ -42,7 +41,6 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_controller.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"

@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#include <ctype.h>
-
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"

@@ -35,7 +35,6 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-#include <ShellAPI.h>
 #else
 #include <unistd.h>
 #endif
@@ -45,7 +44,6 @@
 #include "doomstat.h"
 #include "i_controller.h"
 #include "i_system.h"
-#include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "s_sound.h"

@@ -63,7 +63,6 @@
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define SPACEWIDTH       7
 #define LINEHEIGHT      17

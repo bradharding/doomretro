@@ -36,12 +36,7 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #include <io.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-
-#if defined(_MSC_VER)
-#include <direct.h>
-#endif
 
 #else
 #include <sys/stat.h>
@@ -60,7 +55,6 @@
 #include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -72,7 +66,6 @@
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "v_video.h"
-#include "w_wad.h"
 #include "wi_stuff.h"
 
 static void G_DoReborn(void);

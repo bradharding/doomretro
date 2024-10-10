@@ -33,12 +33,9 @@
 ==============================================================================
 */
 
-#include <string.h>
-
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
-#include "p_local.h"
 
 static bool         segtextured;        // True if any of the segs textures might be visible.
 

@@ -33,16 +33,12 @@
 ==============================================================================
 */
 
-#include <stdlib.h>
-#include <string.h>
-
 #include "c_console.h"
 #include "cJSON/cJSON.h"
 #include "doomtype.h"
 #include "m_array.h"
 #include "w_wad.h"
 #include "wi_interlvl.h"
-#include "z_zone.h"
 
 static bool ParseCondition(cJSON *json, interlevelcond_t *out)
 {

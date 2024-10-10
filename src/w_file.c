@@ -33,11 +33,6 @@
 ==============================================================================
 */
 
-#if defined(_WIN32)
-#include <Windows.h>
-#include <stdlib.h>
-#endif
-
 #include "m_misc.h"
 #include "w_file.h"
 #include "z_zone.h"

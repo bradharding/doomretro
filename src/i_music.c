@@ -33,19 +33,15 @@
 ==============================================================================
 */
 
-#include <string.h>
-
 #include "SDL_mixer.h"
 
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_winmusic.h"
 #include "m_config.h"
-#include "m_misc.h"
 #include "memio.h"
 #include "mus2mid.h"
 #include "s_sound.h"
-#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

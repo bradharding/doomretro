@@ -35,7 +35,6 @@
 
 #include <ctype.h>
 
-#include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -46,17 +45,14 @@
 #include "i_swap.h"
 #include "i_timer.h"
 #include "m_argv.h"
-#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_setup.h"
-#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 

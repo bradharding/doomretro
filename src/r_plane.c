@@ -33,13 +33,10 @@
 ==============================================================================
 */
 
-#include <string.h>
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "m_config.h"
 #include "m_menu.h"
-#include "p_local.h"
 #include "r_sky.h"
 #include "w_wad.h"
 

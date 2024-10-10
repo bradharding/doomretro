@@ -44,7 +44,6 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "p_inter.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"

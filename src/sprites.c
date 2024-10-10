@@ -35,12 +35,10 @@
 
 #include <ctype.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "doomdef.h"
 #include "i_system.h"
 #include "m_misc.h"
-#include "r_defs.h"
 #include "sprites.h"
 
 char *original_sprnames[] =

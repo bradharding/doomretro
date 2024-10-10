@@ -33,14 +33,7 @@
 ==============================================================================
 */
 
-#include <string.h>
-
-#include "c_console.h"
-#include "doomstat.h"
 #include "i_colors.h"
-#include "m_config.h"
-#include "m_random.h"
-#include "r_local.h"
 #include "st_stuff.h"
 #include "v_video.h"
 

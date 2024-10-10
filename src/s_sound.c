@@ -41,7 +41,6 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "p_local.h"
 #include "p_setup.h"
 #include "s_sound.h"
 #include "sc_man.h"

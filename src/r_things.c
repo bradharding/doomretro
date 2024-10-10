@@ -40,7 +40,6 @@
 #include "i_system.h"
 #include "m_array.h"
 #include "m_config.h"
-#include "m_menu.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"

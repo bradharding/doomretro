@@ -36,7 +36,6 @@
 #include "doomstat.h"
 #include "m_config.h"
 #include "p_fix.h"
-#include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"

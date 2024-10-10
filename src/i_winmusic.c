@@ -41,9 +41,7 @@
 #include "SDL_mixer.h"
 
 #include "c_console.h"
-#include "doomtype.h"
 #include "m_config.h"
-#include "m_misc.h"
 #include "midifile.h"
 
 // Macros for use with the Windows MIDIEVENT dwEvent field.

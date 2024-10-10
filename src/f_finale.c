@@ -55,7 +55,6 @@
 #include "v_video.h"
 #include "w_wad.h"
 #include "wi_stuff.h"
-#include "z_zone.h"
 
 #define TEXTSPEED       (3 * FRACUNIT)          // original value
 #define TEXTWAIT        (250 * FRACUNIT)        // original value

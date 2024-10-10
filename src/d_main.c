@@ -42,8 +42,6 @@
 
 #include <Windows.h>
 #include <commdlg.h>
-#include <mmsystem.h>
-#include <ShellAPI.h>
 #endif
 
 #include "am_map.h"

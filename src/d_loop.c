@@ -36,7 +36,6 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"

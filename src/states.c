@@ -33,10 +33,6 @@
 ==============================================================================
 */
 
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "d_player.h"
 #include "i_system.h"
 

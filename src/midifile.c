@@ -34,8 +34,6 @@
 */
 
 #if defined(_WIN32)
-#include <string.h>
-
 #include "doomtype.h"
 #include "i_system.h"
 #include "midifile.h"

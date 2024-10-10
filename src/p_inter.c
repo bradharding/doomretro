@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#include <ctype.h>
-
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"

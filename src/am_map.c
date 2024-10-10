@@ -34,7 +34,6 @@
 */
 
 #include <math.h>
-#include <string.h>
 
 #include "am_map.h"
 #include "c_cmds.h"

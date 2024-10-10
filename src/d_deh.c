@@ -50,7 +50,6 @@
 #include "sounds.h"
 #include "sprites.h"
 #include "states.h"
-#include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
