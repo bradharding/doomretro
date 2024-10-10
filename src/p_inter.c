@@ -702,12 +702,6 @@ bool P_GiveAllCardsInMap(void)
     return result;
 }
 
-void P_UpdatePowerupsStat(void)
-{
-    viewplayer->itemspickedup_powerups++;
-    stat_itemspickedup_powerups = SafeAdd(stat_itemspickedup_powerups, 1);
-}
-
 //
 // P_GivePower
 //
@@ -752,7 +746,10 @@ bool P_GivePower(const int power, const bool stat)
     }
 
     if ((given = (viewplayer->powers[power] <= 0)) && stat)
-        P_UpdatePowerupsStat();
+    {
+        viewplayer->itemspickedup_powerups++;
+        stat_itemspickedup_powerups = SafeAdd(stat_itemspickedup_powerups, 1);
+    }
 
     viewplayer->powers[power] = tics[power];
     return given;

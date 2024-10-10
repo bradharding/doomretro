@@ -123,7 +123,7 @@ bool M_FileExists(const char *filename)
 }
 
 #if !defined(_WIN32) && !defined(__APPLE__)
-bool file_exists_get_path(const char *basedir, const char *filename, char **retpath)
+static bool file_exists_get_path(const char *basedir, const char *filename, char **retpath)
 {
     *retpath = M_StringJoin(basedir, DIR_SEPARATOR_S, filename, NULL);
 
@@ -540,7 +540,7 @@ char *M_StringReplaceFirst(char *haystack, const char *needle, const char *repla
 }
 
 #if !defined(strrstr)
-char *strrstr(const char *haystack, const char *needle)
+static char *strrstr(const char *haystack, const char *needle)
 {
     char    *r = NULL;
 
@@ -668,7 +668,7 @@ void M_snprintf(char *buf, int buf_len, const char *s, ...)
 }
 
 #if !defined(strndup)
-char *strndup(const char *s, size_t n)
+static char *strndup(const char *s, size_t n)
 {
     const size_t    len = strnlen(s, n);
     char            *new = malloc(len + 1);

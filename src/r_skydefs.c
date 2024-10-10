@@ -180,6 +180,5 @@ skydefs_t *R_ParseSkyDefs(void)
     }
 
     cJSON_Delete(json);
-    id24compatible = true;
     return out;
 }

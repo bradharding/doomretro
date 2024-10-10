@@ -62,7 +62,7 @@ void A_Recoil(const weapontype_t weapon)
 //
 // MBF21: P_SetPlayerSpritePtr
 //
-void P_SetPlayerSpritePtr(pspdef_t *psp, statenum_t stnum)
+static void P_SetPlayerSpritePtr(pspdef_t *psp, statenum_t stnum)
 {
     do
     {
