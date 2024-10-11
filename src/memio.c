@@ -71,14 +71,12 @@ MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 // Read bytes
 size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
 {
-    size_t  items;
+    size_t  items = nmemb;
 
     if (stream->mode != MODE_READ)
         return -1;
 
     // Trying to read more bytes than we have left?
-    items = nmemb;
-
     if (items * size > stream->buflen - stream->position)
         items = (stream->buflen - stream->position) / size;
 
@@ -178,7 +176,7 @@ int mem_fgetc(MEMFILE *stream)
     if (mem_fread(&ch, 1, 1, stream) == 1)
         return (int)ch;
 
-    return -1; // EOF
+    return -1;  // EOF
 }
 
 void mem_get_buf(MEMFILE *stream, void **buf, size_t *buflen)

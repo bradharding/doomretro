@@ -2353,7 +2353,6 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     static unsigned int last_i = DEH_BLOCKMAX - 1;
     static int          filepos;
 
-
     linecount = 0;
     addtodehmaptitlecount = false;
 
@@ -2374,9 +2373,8 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
             return;
 
         infile.lump = mem_fopen_read(buf, W_LumpLength(lumpnum));
-        filename = lumpinfo[lumpnum]->wadfile->path;
         infile.file = NULL;
-
+        filename = lumpinfo[lumpnum]->wadfile->path;
         infile.resourcewad = M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD);
 
         if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename)))
