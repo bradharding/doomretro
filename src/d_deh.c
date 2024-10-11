@@ -78,7 +78,7 @@ extern byte *defined_codeptr_args;
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
-static char *dehfgets(char *str, size_t count, DEHFILE *fp)
+static char *dehfgets(char *str, int count, DEHFILE *fp)
 {
     if (fp->file)
         return fgets(str, count, fp->file);
