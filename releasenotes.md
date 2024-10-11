@@ -44,8 +44,10 @@
   * The health bar no longer flashes white while it is red and the player picks up some health.
 * The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
 * The amount of ammo the player has is no longer momentarily translucent in the widescreen HUD at the start of each map if the `animatedstats` CVAR is `on`.
-* A bug is fixed whereby the help screen wouldn’t be fully displayed when the `vid_widescreen` CVAR was `off`.
-* The `TITLEPIC` lump is now always used as the help screen’s background when not playing a game.
+* These changes have been made to the help screen:
+  * A bug is fixed whereby the help screen wouldn’t be fully displayed when the `vid_widescreen` CVAR was `off`.
+  * The `TITLEPIC` lump is now always used as the help screen’s background when not playing a game.
+  * The help screen now displays better in some PWADs that have custom `PLAYPAL` lumps.
 * Using the mouse pointer to move the scroll bar in the console is now more responsive when the `m_pointer` CVAR is `on`.
 * Drop shadows are now always displayed correctly for all elements on the intermission screen.
 * A bug is fixed whereby the wrong `INTERPIC` lump would be displayed in some instances.
