@@ -37,7 +37,8 @@
 
 #include "m_random.h"
 
-#define FUZZ(a, b)              fuzzrange[M_FuzzRandomInt(a, b) + 1]
+#define FUZZ1(a, b)             fuzzrange[M_Fuzz1RandomInt(a, b) + 1]
+#define FUZZ2(a, b)             fuzzrange[M_Fuzz2RandomInt(a, b) + 1]
 #define BIGFUZZYPIXEL(a, b)     *dest = *(dest + 1) = *(dest + SCREENWIDTH) = *(dest + SCREENWIDTH + 1) = \
                                     fullcolormap[(a) * 256 + dest[b]]
 #define HALFBIGFUZZYPIXEL(a, b) *dest = *(dest + 1) = fullcolormap[(a) * 256 + dest[b]]
@@ -67,9 +68,11 @@ extern byte             *dc_black40;
 // first pixel in a column
 extern byte             *dc_source;
 
-extern int              fuzzpos;
+extern int              fuzz1pos;
+extern int              fuzz2pos;
 extern int              fuzzrange[3];
-extern int              fuzztable[MAXSCREENAREA];
+extern int              fuzz1table[MAXSCREENAREA];
+extern int              fuzz2table[MAXSCREENAREA];
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT here.

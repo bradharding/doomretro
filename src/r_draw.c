@@ -54,8 +54,10 @@ int             viewwindowx;
 int             viewwindowy;
 
 int             fuzzrange[3];
-int             fuzzpos;
-int             fuzztable[MAXSCREENAREA];
+int             fuzz1pos;
+int             fuzz2pos;
+int             fuzz1table[MAXSCREENAREA];
+int             fuzz2table[MAXSCREENAREA];
 
 static byte     *ylookup0[MAXHEIGHT];
 static byte     *ylookup1[MAXHEIGHT];
@@ -1050,24 +1052,24 @@ void R_DrawFuzzColumn(void)
 
     // top
     if (dc_yl >= 2)
-        BIGFUZZYPIXEL(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
+        BIGFUZZYPIXEL(8, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 1)));
     else
-        BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
+        BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1(0, 1)));
 
     dest += SCREENWIDTH * 2;
 
     while (--count)
     {
         // middle
-        BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
+        BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 1)));
         dest += SCREENWIDTH * 2;
     }
 
     // bottom
     if (dc_yl & 1)
-        HALFBIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
+        HALFBIGFUZZYPIXEL(5, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 0)));
     else
-        BIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
+        BIGFUZZYPIXEL(5, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 0)));
 }
 
 void R_DrawFuzzColumns(void)
@@ -1085,11 +1087,11 @@ void R_DrawFuzzColumns(void)
                 byte    *dest = screens[0] + x;
 
                 if (y == height - SCREENWIDTH * 2)
-                    BIGFUZZYPIXEL(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
+                    BIGFUZZYPIXEL(5, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 0)));
                 else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
-                    BIGFUZZYPIXEL(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
+                    BIGFUZZYPIXEL(8, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 1)));
                 else
-                    BIGFUZZYPIXEL(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
+                    BIGFUZZYPIXEL(6, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 1)));
             }
         }
 }
@@ -1304,7 +1306,8 @@ void R_InitBuffer(void)
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH * 2;
 
-    memset(fuzztable, 0, MAXSCREENAREA);
+    memset(fuzz1table, 0, MAXSCREENAREA);
+    memset(fuzz2table, 0, MAXSCREENAREA);
 }
 
 void R_FillBezel(void)

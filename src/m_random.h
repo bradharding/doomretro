@@ -38,11 +38,11 @@
 #include "m_fixed.h"
 
 #define BIGSEED     1
-#define FUZZSEED    1
 
 #define RAND        rndtable[(seed = (seed + 1) & 255)]
 #define BIGRAND     ((bigseed = 214013 * bigseed + 2531011) >> 16)
-#define FUZZRAND    ((fuzzseed = 214013 * fuzzseed + 2531011) >> 16)
+#define FUZZ1RAND   ((fuzz1seed = 214013 * fuzz1seed + 2531011) >> 16)
+#define FUZZ2RAND   ((fuzz2seed = 214013 * fuzz2seed + 2531011) >> 16)
 
 static const unsigned char rndtable[] =
 {
@@ -66,7 +66,8 @@ static const unsigned char rndtable[] =
 
 extern unsigned int seed;
 extern unsigned int bigseed;
-extern unsigned int fuzzseed;
+extern unsigned int fuzz1seed;
+extern unsigned int fuzz2seed;
 
 int P_RandomHitscanAngle(const fixed_t spread);
 int P_RandomHitscanSlope(const fixed_t spread);
@@ -131,12 +132,22 @@ static inline void M_BigSeed(const unsigned int value)
     bigseed = value;
 }
 
-static inline int M_FuzzRandomInt(const int lower, const int upper)
+static inline int M_Fuzz1RandomInt(const int lower, const int upper)
 {
-    return (FUZZRAND % (upper - lower + 1) + lower);
+    return (FUZZ1RAND % (upper - lower + 1) + lower);
 }
 
-static inline void M_FuzzSeed(const unsigned int value)
+static inline void M_Fuzz1Seed(const unsigned int value)
 {
-    fuzzseed = value;
+    fuzz1seed = value;
+}
+
+static inline int M_Fuzz2RandomInt(const int lower, const int upper)
+{
+    return (FUZZ2RAND % (upper - lower + 1) + lower);
+}
+
+static inline void M_Fuzz2Seed(const unsigned int value)
+{
+    fuzz2seed = value;
 }

@@ -484,7 +484,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
-    fuzzpos = 0;
+    fuzz1pos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
@@ -559,7 +559,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowcolfunc = mobj->shadowcolfunc;
     shadowtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
-    fuzzpos = 0;
+    fuzz1pos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
@@ -1206,7 +1206,7 @@ static void R_DrawPlayerSprites(void)
     // add all active psprites
     if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
     {
-        fuzzpos = 0;
+        fuzz2pos = 0;
 
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, 0, false, false, NULL, NULL);
         R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));

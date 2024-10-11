@@ -2027,7 +2027,8 @@ static void P_LoadThings(int map, int lump)
 
     M_Seed((unsigned int)time(NULL));
     M_BigSeed((unsigned int)time(NULL));
-    M_FuzzSeed((unsigned int)time(NULL));
+    M_Fuzz1Seed((unsigned int)time(NULL));
+    M_Fuzz2Seed((unsigned int)time(NULL));
     W_ReleaseLumpNum(lump);
 }
 

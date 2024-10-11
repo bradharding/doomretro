@@ -1173,7 +1173,10 @@ void R_RenderPlayerView(void)
     R_DrawPlanes();
 
     if (consoleactive || freeze)
-        M_FuzzSeed(0);
+    {
+        M_Fuzz1Seed(0);
+        M_Fuzz2Seed(0);
+    }
 
     R_DrawMasked();
 

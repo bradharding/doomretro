@@ -1511,7 +1511,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;
 
-    fuzzpos = 0;
+    fuzz1pos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1529,13 +1529,13 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
             {
                 if (count & 1)
                 {
-                    fuzzpos++;
+                    fuzz1pos++;
 
                     if (!menuactive && !consoleactive && !paused)
-                        fuzztable[fuzzpos] = FUZZ(-1, 1);
+                        fuzz1table[fuzz1pos] = FUZZ1(-1, 1);
                 }
 
-                *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzz1pos]]];
                 dest += SCREENWIDTH;
             }
 
@@ -1553,7 +1553,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;
 
-    fuzzpos = 0;
+    fuzz1pos = 0;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1571,13 +1571,13 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
             {
                 if (count & 1)
                 {
-                    fuzzpos++;
+                    fuzz1pos++;
 
                     if (!menuactive && !consoleactive && !paused)
-                        fuzztable[fuzzpos] = FUZZ(-1, 1);
+                        fuzz1table[fuzz1pos] = FUZZ1(-1, 1);
                 }
 
-                *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzz1pos]]];
                 dest += SCREENWIDTH;
             }
 
