@@ -1445,10 +1445,18 @@ static mline_t AM_DoNotRotateLine(mline_t mline)
 static void AM_DrawGrid(void)
 {
     const fixed_t   minlen = (fixed_t)sqrt((double)m_w * m_w + (double)m_h * m_h);
-    const fixed_t   startx = m_x - (minlen - m_w) / 2;
-    const fixed_t   starty = m_y - (minlen - m_h) / 2;
-    const fixed_t   endx = startx + minlen;
-    const fixed_t   endy = starty + minlen;
+    fixed_t         startx = m_x - (minlen - m_w) / 2;
+    fixed_t         starty = m_y - (minlen - m_h) / 2;
+    fixed_t         endx = startx + minlen;
+    fixed_t         endy = starty + minlen;
+
+    if (am_rotatemode)
+    {
+        startx -= m_h / 2;
+        starty -= m_w / 2;
+        endx += m_h / 2;
+        endy += m_w / 2;
+    }
 
     // Draw vertical gridlines
     for (fixed_t x = startx - ((startx - (bmaporgx >> FRACTOMAPBITS)) % gridwidth); x < endx; x += gridwidth)
