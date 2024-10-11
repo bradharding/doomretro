@@ -16,24 +16,25 @@
 * The health of the player when they are dead if the `negativehealth` CVAR is `on` no longer affects voodoo dolls.
 * Extensive improvements have been made to the support of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust):
   * Partial support has been introduced for the new [*ID24* specification](https://doomwiki.org/wiki/ID24) so that:
-    * The sky in some maps now animates.
+    * The sky in some maps is now on fire.
     * An animated intermission screen is now displayed when finishing a map.
+    * Maps are now denoted as “E*x*M*y*” rather than “MAP*xx*” in the automap.
   * Stats for killing banshees, ghouls, mindweavers, shocktroopers, tyrants and vassagos, for picking up fuel, and for firing the incinerator and calamity blade, are now all displayed by the `playerstats` CCMD.
-  * A fuel can icon now appears in the widescreen HUD when the player has an incinerator or calamity blade equipped.
+  * A fuel can icon now appears in the widescreen HUD when the player has their incinerator or calamity blade equipped.
   * Fire from the player’s incinerator and calamity blade is now randomly mirrored and translucent.
-  * *DOOM Retro’s* higher resolution status bar is now displayed, with “CELL” replaced with “FUEL”, rather than the `STBAR` lump in `ID1.WAD`.
+  * *DOOM Retro’s* higher resolution status bar is now displayed, with “FUEL” replacing “CELL”, rather than the `STBAR` lump in `ID1.WAD`.
   * The help screen has been updated to include the incinerator and calamity blade.
   * The positions of shadows cast by some monsters have improved.
   * The new monsters no longer bob up and down when in a liquid sector.
 * A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
-* Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*SIGIL*](https://romero.com/sigil), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * These changes have been made to the support of `MAPINFO` lumps:
   * The order in which multiple `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
 * These changes have been made to the support of `DEHACKED` lumps:
-  * A bug is fixed whereby a line wouldn’t be parsed if following a blank line in some instances.
+  * A bug is fixed whereby a line wouldn’t be parsed in some instances if the previous line was blank.
   * If the fists or chainsaw are replaced using `WEAPON`, that weapon can now consume ammo.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
