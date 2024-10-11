@@ -592,6 +592,8 @@ consolecmd_t consolecmds[] =
         "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_display, "", "", int_cvars_func1, am_display_func2, CF_NONE, NOVALUEALIAS,
         "The display used to show the external automap."),
+    CVAR_BOOL(am_dynamic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles dynamically updating the automap while it is open."),
     CVAR_BOOL(am_external, "", "", bool_cvars_func1, am_external_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,

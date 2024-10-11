@@ -52,10 +52,12 @@
 * The `vid_widescreen` CVAR no longer resets to `off` at startup if `-nosplash` is used on the command-line.
 * A bug is fixed whereby the z-coordinates of things bobbing in liquid sectors were altered upon loading a savegame when the `r_liquid_bob` CVAR was `on`.
 * Very short sprites are no longer clipped in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
-* Aspect ratio correction is now applied to the automap. This feature can be toggled off using the new `am_correctaspectratio` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The automap now displays correctly when zooming out in very large maps.
+* These changes have been made to the automap:
+  * Aspect ratio correction is now applied. This feature can be toggled off using the new `am_correctaspectratio` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * A behavior present in the original *DOOM*, whereby as the player moves around while the automap is open, walls seen by the player for the first time aren't mapped, can now be restored by disabling the new `am_dynamic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * The automap now displays correctly when zooming out in very large maps.
 * The fuzz effect from spectres and the partial invisibility power-up now:
-  * Doesn't cause the status bar to bleed into the player's view when the console is open.
+  * Doesn't cause the status bar to bleed into the player's view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.
 * Pressing the <kbd><b>PRINTSCREEN</b></kbd> key no longer advances the finale.
 

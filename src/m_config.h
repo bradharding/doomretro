@@ -53,6 +53,7 @@ extern int      am_corpsecolor;
 extern bool     am_correctaspectratio;
 extern int      am_crosshaircolor;
 extern int      am_display;
+extern bool     am_dynamic;
 extern bool     am_external;
 extern int      am_fdwallcolor;
 extern bool     am_followmode;
@@ -376,6 +377,8 @@ enum
 #define am_display_min                      1
 #define am_display_default                  2
 #define am_display_max                      INT_MAX
+
+#define am_dynamic_default                  true
 
 #define am_external_default                 false
 

@@ -61,6 +61,7 @@ int         am_corpsecolor = am_corpsecolor_default;
 bool        am_correctaspectratio = am_correctaspectratio_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
+bool        am_dynamic = am_dynamic_default;
 bool        am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
 bool        am_followmode = am_followmode_default;
@@ -307,6 +308,7 @@ static default_t cvars[] =
     CVAR_BOOL         (am_correctaspectratio,            am_correctaspectratio,                 am_correctaspectratio,                 BOOLVALUEALIAS     ),
     CVAR_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS       ),
     CVAR_INT          (am_display,                       am_display,                            am_display,                            NOVALUEALIAS       ),
+    CVAR_BOOL         (am_dynamic,                       am_dynamic,                            am_dynamic,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS     ),
     CVAR_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        NOVALUEALIAS       ),
     CVAR_BOOL         (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS     ),

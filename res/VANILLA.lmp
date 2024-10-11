@@ -11,6 +11,7 @@ am_cdwallcolor 231
 am_corpsecolor 112
 am_correctaspectratio off
 am_crosshaircolor 96
+am_dynamic off
 am_external off
 am_fdwallcolor 64
 am_gridcolor 104
