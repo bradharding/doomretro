@@ -32,7 +32,9 @@
   * The order in which multiple `MAPINFO` lumps are loaded is now correct.
   * `EPISODE` is now parsed in more instances.
   * Up to 10 episodes can now be specified using `EPISODE` and will display correctly in the episode menu.
-* If the fists or chainsaw are replaced with a weapon as specified in a `DEHACKED` lump, that weapon can now consume ammo.
+* These changes have been made to the support of `DEHACKED` lumps:
+  * A bug is fixed whereby a line wouldn’t be parsed if following a blank line in some instances.
+  * If the fists or chainsaw are replaced using `WEAPON`, that weapon can now consume ammo.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 * These changes have been made to the alternate widescreen HUD:

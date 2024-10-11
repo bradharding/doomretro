@@ -46,6 +46,7 @@
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "memio.h"
 #include "p_local.h"
 #include "sounds.h"
 #include "sprites.h"
@@ -59,10 +60,8 @@
 
 typedef struct
 {
-    byte    *inp;
-    byte    *lump;
-    int     size;
-    FILE    *f;
+    MEMFILE *lump;
+    FILE    *file;
     bool    resourcewad;
 } DEHFILE;
 
@@ -79,44 +78,54 @@ extern byte *defined_codeptr_args;
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
-static char *dehfgets(char *buf, int n, DEHFILE *fp)
+static char *dehfgets(char *str, size_t count, DEHFILE *fp)
 {
-    if (!fp->lump)                              // If this is a real file, return regular fgets
-    {
-        linecount++;
-        return fgets(buf, n, fp->f);
-    }
+    if (fp->file)
+        return fgets(str, count, fp->file);
+    else if (fp->lump)
+        return mem_fgets(str, count, fp->lump);
 
-    if (!n || fp->size <= 0 || !*fp->inp)       // If no more characters
-        return NULL;
-
-    if (n == 1)
-    {
-        fp->size--;
-        *buf = *fp->inp++;
-    }
-    else
-    {                                           // copy buffer
-        char    *p = buf;
-
-        while (n > 1 && fp->size && *fp->inp && (n--, fp->size--, *p++ = *fp->inp++) != '\n');
-
-        *p = 0;
-    }
-
-    linecount++;
-
-    return buf;                                 // Return buffer pointer
+    return NULL;
 }
 
 static int dehfeof(DEHFILE *fp)
 {
-    return (!fp->lump ? feof(fp->f) : fp->size <= 0 || !*fp->inp);
+    if (fp->file)
+        return feof(fp->file);
+    else if (fp->lump)
+        return mem_feof(fp->lump);
+
+    return 0;
 }
 
 static int dehfgetc(DEHFILE *fp)
 {
-    return (!fp->lump ? fgetc(fp->f) : fp->size > 0 ? fp->size--, *fp->inp++ : EOF);
+    if (fp->file)
+        return fgetc(fp->file);
+    else if (fp->lump)
+        return mem_fgetc(fp->lump);
+
+    return -1;
+}
+
+static long dehftell(DEHFILE *fp)
+{
+    if (fp->file)
+        return ftell(fp->file);
+    else if (fp->lump)
+        return mem_ftell(fp->lump);
+
+    return 0;
+}
+
+static int dehfseek(DEHFILE *fp, long offset)
+{
+    if (fp->file)
+        return fseek(fp->file, offset, SEEK_SET);
+    else if (fp->lump)
+        return mem_fseek(fp->lump, offset, MEM_SEEK_SET);
+
+    return 0;
 }
 
 // #include "d_deh.h" -- we don't do that here but we declare the
@@ -2338,9 +2347,12 @@ void D_BuildBEXTables(void)
 // substantially modified to allow input from WAD lumps instead of .deh files.
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
 {
-    DEHFILE infile = { 0 };
-    DEHFILE *filein = &infile;              // killough 10/98
-    char    inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
+    DEHFILE             infile = { 0 };
+    DEHFILE             *filein = &infile;              // killough 10/98
+    char                inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
+    static unsigned int last_i = DEH_BLOCKMAX - 1;
+    static int          filepos;
+
 
     linecount = 0;
     addtodehmaptitlecount = false;
@@ -2348,7 +2360,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     // killough 10/98: allow DEH files to come from WAD lumps
     if (filename)
     {
-        if (!(infile.f = fopen(filename, "rt")))
+        if (!(infile.file = fopen(filename, "rt")))
             return;                         // should be checked up front anyway
 
         infile.lump = NULL;
@@ -2356,12 +2368,14 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     }
     else
     {
-        // DEH file comes from lump indicated by second argument
-        if (!(infile.size = W_LumpLength(lumpnum)))
+        void    *buf = W_CacheLumpNum(lumpnum);
+
+        if (!buf)
             return;
 
-        infile.inp = infile.lump = W_CacheLumpNum(lumpnum);
+        infile.lump = mem_fopen_read(buf, W_LumpLength(lumpnum));
         filename = lumpinfo[lumpnum]->wadfile->path;
+        infile.file = NULL;
 
         infile.resourcewad = M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD);
 
@@ -2372,10 +2386,8 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        bool                match = false;
-        unsigned int        i;
-        static unsigned int last_i = DEH_BLOCKMAX - 1;
-        static int          filepos;
+        bool            match = false;
+        unsigned int    i;
 
         lfstrip(inbuffer);
 
@@ -2427,10 +2439,12 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
             continue;
         }
 
-        for (i = 0; i < DEH_BLOCKMAX - 1; i++)
+        for (i = 0; i < DEH_BLOCKMAX; i++)
             if (!strncasecmp(inbuffer, deh_blocks[i].key, strlen(deh_blocks[i].key)))
             {
-                match = true;
+                if (i < DEH_BLOCKMAX - 1)
+                    match = true;
+
                 break;                                          // we got one, that's enough for this block
             }
 
@@ -2440,27 +2454,21 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         {
             // process that same line again with the last valid block code handler
             i = last_i;
-
-            if (!filein->lump)
-                fseek(filein->f, filepos, SEEK_SET);
+            dehfseek(filein, filepos);
         }
 
-        if (i < DEH_BLOCKMAX)
-        {
-            if (devparm)
-                C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
+        if (devparm)
+            C_Output("Processing function [%i] for %s", i, deh_blocks[i].key);
 
-            deh_blocks[i].fptr(filein, inbuffer);               // call function
-        }
+        deh_blocks[i].fptr(filein, inbuffer);                   // call function
 
-        if (!filein->lump)                                      // back up line start
-            filepos = ftell(filein->f);
+        filepos = dehftell(filein);                             // back up line start
     }
 
     if (infile.lump)
-        Z_ChangeTag(infile.lump, PU_CACHE);                     // mark purgeable
-    else
-        fclose(infile.f);                                       // close real file
+        mem_fclose(infile.lump);
+    else if (infile.file)
+        fclose(infile.file);
 
     dehcount++;
 
