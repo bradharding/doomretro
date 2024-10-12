@@ -321,7 +321,7 @@ static wi_animation_t   *animation;
 static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition)
 {
     bool                conditionsmet = true;
-    int                 map = P_GetMapInEpisode((enteringcondition ? wbs->next : wbs->last) + 1);
+    int                 map = (enteringcondition ? wbs->next : wbs->last) + 1;
     interlevelcond_t    *condition;
 
     array_foreach(condition, conditions)
