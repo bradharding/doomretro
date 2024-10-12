@@ -37,6 +37,7 @@
 
 #include "d_event.h"
 #include "doomdef.h"
+#include "doomtype.h"
 #include "hu_lib.h"
 #include "r_defs.h"
 

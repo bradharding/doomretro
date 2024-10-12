@@ -37,6 +37,8 @@
 
 #pragma once
 
+#include "doomtype.h"
+
 bool I_Windows_InitMusic(void);
 void I_Windows_PlaySong(bool looping);
 void I_Windows_PauseSong(void);

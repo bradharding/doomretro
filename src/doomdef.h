@@ -36,11 +36,11 @@
 #pragma once
 
 #include <stdio.h>
-
 #if !defined(_WIN32)
 #include <strings.h>
 #endif
 
+#include "doomtype.h"
 #include "i_video.h"
 #include "m_controls.h"
 

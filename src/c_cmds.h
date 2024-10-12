@@ -35,6 +35,7 @@
 
 #pragma once
 
+#include "doomtype.h"
 #include "m_config.h"
 
 #define MAXALIASES          256

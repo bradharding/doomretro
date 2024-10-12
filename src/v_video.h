@@ -36,6 +36,7 @@
 #pragma once
 
 #include "r_data.h"
+#include "w_file.h"
 
 //
 // VIDEO
