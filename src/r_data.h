@@ -35,7 +35,6 @@
 
 #pragma once
 
-#include "r_defs.h"
 #include "r_patch.h"
 #include "r_state.h"
 

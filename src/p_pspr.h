@@ -35,10 +35,6 @@
 
 #pragma once
 
-// Basic data types.
-// Needs fixed point, and BAM angles.
-#include "tables.h"
-
 //
 // Needs to include the precompiled
 //  sprite animation tables.

@@ -35,7 +35,6 @@
 
 #pragma once
 
-#include "d_event.h"
 #include "doomdef.h"
 #include "m_misc.h"
 

@@ -37,7 +37,6 @@
 
 #include "d_event.h"
 #include "i_video.h"
-#include "w_file.h"
 
 #define NUMKEYS             512
 

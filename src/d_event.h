@@ -35,8 +35,6 @@
 
 #pragma once
 
-#include "i_video.h"
-
 //
 // Event handling.
 //

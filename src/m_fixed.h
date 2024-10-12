@@ -36,7 +36,6 @@
 #pragma once
 
 #include "doomdef.h"
-#include "doomtype.h"
 
 #undef ABS
 #undef MIN

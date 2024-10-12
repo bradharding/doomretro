@@ -35,9 +35,6 @@
 
 #pragma once
 
-#include "doomdef.h"
-#include "w_file.h"
-
 extern char screenshotfolder[MAX_PATH];
 
 char *D_FindWADByName(char *filename);
