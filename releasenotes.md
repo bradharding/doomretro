@@ -60,6 +60,8 @@
   * In the original *DOOM*, if the player moved around while the automap was open, walls seen by the player for the first time weren’t mapped. This behavior can now be restored by disabling the new `am_dynamic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * The automap now displays correctly when zooming out in very large maps.
   * The grid now always covers the entire screen when the `am_rotatemode` CVAR is `on`.
+  * A bug is fixed whereby the player’s path would stop being drawn after the player teleported and the `am_rotatemode` CVAR was `off`.
+  * A bug is fixed whereby the player’s path would display incorrectly at the start of a map in some instances.
 * The fuzz effect from spectres and the partial invisibility power-up now:
   * Doesn't cause the status bar to bleed into the player's view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.

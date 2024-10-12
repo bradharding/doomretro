@@ -1702,7 +1702,7 @@ static void AM_DrawWalls_Cheating(void)
 }
 
 static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
-    const angle_t angle, const fixed_t x, const fixed_t y)
+    const angle_t angle, const fixed_t x, const fixed_t y, void (*putdot)(int, int, const byte *))
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1715,25 +1715,7 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, putbigdot2);
-    }
-}
-
-static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int lineguylines,
-    angle_t angle, const fixed_t x, const fixed_t y)
-{
-    for (int i = 0; i < lineguylines; i++)
-    {
-        const mline_t   line = lineguy[i];
-        int             x1 = line.a.x;
-        int             y1 = line.a.y;
-        int             x2 = line.b.x;
-        int             y2 = line.b.y;
-
-        AM_Rotate(&x1, &y1, angle);
-        AM_Rotate(&x2, &y2, angle);
-
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, &PUTTRANSLUCENTDOT);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, putdot);
     }
 }
 
@@ -1811,14 +1793,14 @@ static void AM_DrawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
-            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
         else
-            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, putbigdot2);
     }
     else if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
-        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
+        AM_DrawPlayerArrow(playerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
     else
-        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
+        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y, putbigdot2);
 }
 
 #define THINGTRIANGLELINES  3
@@ -2037,7 +2019,7 @@ static void AM_DrawPath(void)
         end.x = breadcrumb[i].x >> FRACTOMAPBITS;
         end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
-        if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
+        if (i > 1 && (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT))
             continue;
 
         if (am_rotatemode)
@@ -2279,7 +2261,7 @@ void AM_Drawer(void)
     else
         AM_DrawWalls();
 
-    if (am_path && numbreadcrumbs)
+    if (am_path && numbreadcrumbs > 0)
         AM_DrawPath();
 
     if (things)
