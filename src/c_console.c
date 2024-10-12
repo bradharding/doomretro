@@ -1816,40 +1816,38 @@ void C_Drawer(void)
 
             if (wrap < len && i < bottomline)
             {
-                char    *temp1 = M_SubString(console[i].string, wrap, (size_t)len - wrap);
-                char    *temp2 = M_StringDuplicate(trimwhitespace(temp1));
+                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
                 bool    bold = false;
                 bool    italics = false;
 
-                for (int j = 1; j < (int)strlen(temp2); j++)
-                    if (temp2[j] == BOLDONCHAR)
+                for (int j = 1; j < (int)strlen(temp); j++)
+                    if (temp[j] == BOLDONCHAR)
                         break;
-                    else if (temp2[j] == BOLDOFFCHAR)
+                    else if (temp[j] == BOLDOFFCHAR)
                     {
                         bold = true;
                         break;
                     }
 
                 if (bold)
-                    temp2 = M_StringJoin(BOLDON, temp2, NULL);
+                    temp = M_StringJoin(BOLDON, temp, NULL);
 
-                for (int j = 1; j < (int)strlen(temp2); j++)
-                    if (temp2[j] == ITALICSONCHAR)
+                for (int j = 1; j < (int)strlen(temp); j++)
+                    if (temp[j] == ITALICSONCHAR)
                         break;
-                    else if (temp2[j] == ITALICSOFFCHAR)
+                    else if (temp[j] == ITALICSOFFCHAR)
                     {
                         italics = true;
                         break;
                     }
 
                 if (italics)
-                    temp2 = M_StringJoin(ITALICSON, temp2, NULL);
+                    temp = M_StringJoin(ITALICSON, temp, NULL);
 
-                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, temp2,
-                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype],
-                    tinttab66, notabs, true, true, true, 0, '\0', '\0');
-                free(temp1);
-                free(temp2);
+                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
+                    trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,
+                    consoleboldcolors[stringtype], tinttab66, notabs, true, true, true, 0, '\0', '\0');
+                free(temp);
             }
 
             free(text);
