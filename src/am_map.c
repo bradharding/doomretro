@@ -2027,8 +2027,8 @@ static void AM_DrawMarks(const char *nums[])
 
 static void AM_DrawPath(void)
 {
-    mpoint_t    end = { 0, 0 };
     mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+    mpoint_t    end = player;
 
     for (int i = 1; i < numbreadcrumbs; i++)
     {
@@ -2279,7 +2279,7 @@ void AM_Drawer(void)
     else
         AM_DrawWalls();
 
-    if (am_path)
+    if (am_path && numbreadcrumbs)
         AM_DrawPath();
 
     if (things)
