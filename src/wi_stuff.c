@@ -1563,4 +1563,6 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
     }
 
     WI_InitStats();
+
+    SDL_ResetKeyboard();
 }
