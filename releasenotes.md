@@ -36,13 +36,14 @@
 * These changes have been made to the support of `DEHACKED` lumps:
   * A bug is fixed whereby a line wouldn’t be parsed in some instances if the previous line was blank.
   * If the fists or chainsaw are replaced using `WEAPON`, that weapon can now consume ammo.
-* The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to wall textures is now smoother.
+* The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to walls at different angles is now more varied.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 * These changes have been made to the alternate widescreen HUD:
   * The HUD can now be easily accessed along with the default widescreen HUD by pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys during a game.
   * The weapon silhouette now accurately reflects the pickup sprite for each weapon.
   * Certain elements have now either shifted position, increased in size and/or cast a slight shadow.
   * The health bar no longer flashes white while it is red and the player picks up some health.
+* Pressing the <kbd><b>PRINTSCREEN</b></kbd> key no longer advances the finale.
 * The mouse wheel can no longer be used to advance *DOOM II’s* cast sequence.
 * The amount of ammo the player has is no longer momentarily translucent in the widescreen HUD at the start of each map if the `animatedstats` CVAR is `on`.
 * These changes have been made to the help screen:
@@ -61,11 +62,10 @@
   * The automap now displays correctly when zooming out in very large maps.
   * The grid now always covers the entire screen when the `am_rotatemode` CVAR is `on`.
   * A bug is fixed whereby the player’s path would stop being drawn after the player teleported and the `am_rotatemode` CVAR was `off`.
-  * A bug is fixed whereby the player’s path would display incorrectly at the start of a map in some instances.
+  * A bug is also fixed whereby the player’s path would display incorrectly at the start of a map in some instances.
 * The fuzz effect from spectres and the partial invisibility power-up now:
   * Doesn't cause the status bar to bleed into the player's view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.
-* Pressing the <kbd><b>PRINTSCREEN</b></kbd> key no longer advances the finale.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

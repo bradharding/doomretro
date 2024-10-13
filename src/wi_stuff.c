@@ -909,7 +909,7 @@ static void WI_InitNoState(void)
 {
     state = NoState;
     acceleratestage = false;
-    cnt = (gamemode == commercial ? TICRATE : 10);
+    cnt = (gamemode == commercial || animation ? TICRATE : 10);
 
     D_FadeScreen(false);
 }
@@ -1195,12 +1195,10 @@ static void WI_UpdateStats(void)
         {
             S_StartSound(NULL, sfx_sgcock);
 
-            if (NextLocAnimation())
+            if (NextLocAnimation() || gamemode != commercial)
                 WI_InitShowNextLoc();
-            else if (gamemode == commercial)
-                WI_InitNoState();
             else
-                WI_InitShowNextLoc();
+                WI_InitNoState();
         }
     }
     else if (sp_state & 1)

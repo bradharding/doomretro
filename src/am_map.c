@@ -2019,7 +2019,7 @@ static void AM_DrawPath(void)
         end.x = breadcrumb[i].x >> FRACTOMAPBITS;
         end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
-        if (i > 1 && (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT))
+        if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
             continue;
 
         if (am_rotatemode)
