@@ -121,8 +121,6 @@ static byte *am_crosshaircolor2;
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
-#define AM_CORRECTASPECTRATIO   (5 * FRACUNIT / 6)
-
 typedef struct
 {
     mpoint_t    a;
@@ -1154,7 +1152,7 @@ static void AM_RotatePoint(mpoint_t *point)
 
 static void AM_CorrectAspectRatio(mpoint_t *point)
 {
-    point->y = am_frame.center.y + FixedMul(point->y - am_frame.center.y, AM_CORRECTASPECTRATIO);
+    point->y = am_frame.center.y + 5 * (point->y - am_frame.center.y) / 6;
 }
 
 //
@@ -1715,6 +1713,12 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
+        if (am_correctaspectratio)
+        {
+            y1 = 5 * y1 / 6;
+            y2 = 5 * y2 / 6;
+        }
+
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, putdot);
     }
 }
@@ -1732,6 +1736,12 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
 
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
+
+        if (am_correctaspectratio)
+        {
+            y1 = 5 * y1 / 6;
+            y2 = 5 * y2 / 6;
+        }
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, putdot);
     }
