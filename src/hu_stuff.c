@@ -544,7 +544,7 @@ static void HU_DrawHUD(void)
                             viewplayer->negativehealth : viewplayer->health) + healthdiff, HUD_NUMBER_MAX);
     int                 armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool         healthanim;
-    const bool          gamepaused = (consoleactive || freeze);
+    const bool          gamepaused = (consoleactive || paused || freeze);
     byte                *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
                             || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
     patch_t             *patch = faces[st_faceindex];
@@ -1392,7 +1392,7 @@ static void HU_DrawAltHUD(void)
 
         if (viewplayer->neededcardflash)
         {
-            const bool      gamepaused = (consoleactive || freeze);
+            const bool      gamepaused = (consoleactive || paused || freeze);
             const card_t    neededcard = viewplayer->neededcard;
 
             if (neededcard == it_allkeys)
