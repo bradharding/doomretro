@@ -597,6 +597,12 @@ static bool PIT_CheckThing(mobj_t *thing)
             P_DamageMobj(thing, tmthing, tmthing->target, damage, true, false);
             numspechit = 0;
 
+            if (tmtype == MT_RIPPER)
+            {
+                viewplayer->shotssuccessful_calamityblade++;
+                stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_calamityblade, 1);
+            }
+
             return true;
         }
 
