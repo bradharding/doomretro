@@ -1776,12 +1776,21 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 temp = sentencecase(targetname);
 
                 if (inflicter->inflicter == MT_PLAYER)
-                    C_PlayerMessage("%s was %s by %s %s %s exploded.",
-                        temp,
-                        (gibbed ? s_GIBBED : s_KILLED),
-                        (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                        (inflictername ? inflictername : "barrel"),
-                        playername);
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("%s was %s by %s %s you exploded.",
+                            temp,
+                            (gibbed ? s_GIBBED : s_KILLED),
+                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"));
+                    else
+                        C_PlayerMessage("%s was %s by %s %s %s exploded.",
+                            temp,
+                            (gibbed ? s_GIBBED : s_KILLED),
+                            (inflictername &&isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"),
+                            playername);
+                }
                 else if (source == target)
                     C_PlayerMessage("%s was %s by %s %s they exploded.",
                         temp,
