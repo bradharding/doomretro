@@ -1108,17 +1108,14 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
 
     P_SetThingPosition(thing);
 
-    if (thing->player && thing->player->mo == thing)
+    if (thing->player && thing->player->mo == thing && (x != oldx || y != oldy))
     {
         const int   dist = P_ApproxDistance(x - oldx, y - oldy) >> FRACBITS;
 
-        if (dist)
-        {
-            stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
-            viewplayer->distancetraveled += dist;
+        stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
+        viewplayer->distancetraveled += dist;
 
-            AM_DropBreadCrumb();
-        }
+        AM_DropBreadCrumb();
     }
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
