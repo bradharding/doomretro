@@ -2695,7 +2695,7 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        if (ev->data1 & MOUSE_LEFTBUTTON)
+        if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
