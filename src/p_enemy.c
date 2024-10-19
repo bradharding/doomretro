@@ -1488,7 +1488,6 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                     corpsehit->altcolfunc = info->altcolfunc;
                     corpsehit->giblevel = 0;
                     corpsehit->gibtimer = 0;
-                    corpsehit->floorz = corpsehit->subsector->sector->floorheight;
 
                     P_SetTarget(&corpsehit->target, NULL);
 
