@@ -1174,8 +1174,8 @@ void R_RenderPlayerView(void)
 
     if (consoleactive || paused || freeze)
     {
-        M_Fuzz1Seed(0);
-        M_Fuzz2Seed(0);
+        M_Fuzz1Seed(maptime);
+        M_Fuzz2Seed(maptime);
     }
 
     R_DrawMasked();
