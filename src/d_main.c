@@ -860,6 +860,11 @@ bool D_IsNERVEWAD(char *filename)
     return (M_StringCompare(leafname(filename), "NERVE.WAD"));
 }
 
+bool D_IsLegacyOfRustWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), "ID1.WAD"));
+}
+
 bool D_IsEXTRASWAD(char *filename)
 {
     return (M_StringCompare(leafname(filename), "extras.wad"));

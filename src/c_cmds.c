@@ -4710,7 +4710,7 @@ static void maplist_func2(char *cmd, char *parms)
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(ep--, map--), sizeof(mapinfoname));
+        M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
 
         switch (gamemission)
         {
@@ -4727,7 +4727,7 @@ static void maplist_func2(char *cmd, char *parms)
                         else if (M_StringCompare(lump, "E1M8B"))
                             temp = titlecase(s_HUSTR_E1M8B);
                         else
-                            temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
+                            temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
 
                         removemapnum(temp);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
@@ -4745,7 +4745,7 @@ static void maplist_func2(char *cmd, char *parms)
                     {
                         if (!D_IsDOOM2IWAD(wadname))
                         {
-                            temp = titlecase(M_StringReplaceFirst(*mapnames2[map], ": ", MONOSPACEDOFF "\t" ITALICSON));
+                            temp = titlecase(M_StringReplaceFirst(*mapnames2[map - 1], ": ", MONOSPACEDOFF "\t" ITALICSON));
                             removemapnum(temp);
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACEDON "%s" ITALICSOFF "\t%s", temp, wadname);
                             free(temp);
@@ -4753,12 +4753,24 @@ static void maplist_func2(char *cmd, char *parms)
                     }
                     else
                     {
+                        if (legacyofrust && D_IsLegacyOfRustWAD(wadname))
+                        {
+                            if (map <= 7)
+                                M_snprintf(lump, sizeof(lump), "E1M%i", map);
+                            else if (map == 15)
+                                M_StringCopy(lump, "E1M8", sizeof(lump));
+                            else if (map == 16)
+                                M_StringCopy(lump, "E2M8", sizeof(lump));
+                            else if (map != 99)
+                                M_snprintf(lump, sizeof(lump), "E2M%i", map - 7);
+                        }
+
                         if (replaced && dehcount == 1 && !nerve && !*mapinfoname)
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
                                 lump, wadname);
                         else
                         {
-                            temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
+                            temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]));
                             removemapnum(temp);
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
                                 lump, temp, wadname);
@@ -4772,7 +4784,7 @@ static void maplist_func2(char *cmd, char *parms)
             case pack_nerve:
                 if (D_IsNERVEWAD(wadname))
                 {
-                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map - 1]);
                     removemapnum(temp);
                     M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
                         lump, temp, wadname);
@@ -4789,7 +4801,7 @@ static void maplist_func2(char *cmd, char *parms)
                             lump, wadname);
                     else
                     {
-                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
+                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map - 1]);
                         removemapnum(temp);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
                             lump, temp, wadname);
@@ -4807,7 +4819,7 @@ static void maplist_func2(char *cmd, char *parms)
                             lump, wadname);
                     else
                     {
-                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
+                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map - 1]);
                         removemapnum(temp);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
                             lump, temp, wadname);
