@@ -4394,7 +4394,21 @@ static bool map_func1(char *cmd, char *parms)
             {
                 mapcmdepisode = 1;
 
-                if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
+                if (legacyofrust && sscanf(parm, "E%iM%i", &mapcmdepisode, &mapcmdmap) == 2)
+                {
+                    char    lump[6];
+
+                    if (mapcmdepisode <= 2 && mapcmdmap <= 7)
+                        mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
+                    else if (mapcmdepisode <= 2 && mapcmdmap == 8)
+                        mapcmdmap = 14 + mapcmdepisode;
+                    else
+                        mapcmdmap = 0;
+
+                    M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                    result = (W_CheckNumForName(lump) >= 0);
+                }
+                else if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
                 {
                     if (!((BTSX && W_GetNumLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
@@ -4593,7 +4607,9 @@ static void map_func2(char *cmd, char *parms)
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
 
-    if (gamemode == commercial)
+    if (P_IsSecret(mapcmdepisode, mapcmdmap))
+        message_secret = true;
+    else if (gamemode == commercial)
     {
         if (mapcmdmap == 31 || mapcmdmap == 32
             || (mapcmdmap == 33 && bfgedition)
