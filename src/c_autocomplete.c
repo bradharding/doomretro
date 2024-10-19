@@ -7003,6 +7003,7 @@ autocomplete_t autocompletelist[] =
     { "map MAP31",                                   DOOM2ONLY        },
     { "map MAP32",                                   DOOM2ONLY        },
     { "map MAP33",                                   DOOM2ONLY        },
+    { "map MAP99",                                   LEGACYOFRUSTONLY },
     { "map marchofthedemons",                        NERVEONLY        },
     { "map mephistosmausoleum",                      MASTERLEVELSONLY },
     { "map metal",                                   TNTONLY          },
