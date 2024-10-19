@@ -1717,12 +1717,12 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (inflicter->inflicter == MT_PLAYER)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerObituary("You were %s by %s %s you exploded!",
+                        C_PlayerObituary("You were %s by %s %s that you exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
-                        C_PlayerObituary("%s was %s by %s %s %s exploded!",
+                        C_PlayerObituary("%s was %s by %s %s that %s exploded!",
                             playername,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1778,13 +1778,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (inflicter->inflicter == MT_PLAYER)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("%s was %s by %s %s you exploded.",
+                        C_PlayerMessage("%s was %s by %s %s that you exploded.",
                             temp,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
-                        C_PlayerMessage("%s was %s by %s %s %s exploded.",
+                        C_PlayerMessage("%s was %s by %s %s that %s exploded.",
                             temp,
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername &&isvowel(inflictername[0]) ? "an" : "a"),
@@ -1792,7 +1792,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             playername);
                 }
                 else if (source == target)
-                    C_PlayerMessage("%s was %s by %s %s they exploded.",
+                    C_PlayerMessage("%s was %s by %s %s that they exploded.",
                         temp,
                         (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),

@@ -8881,17 +8881,17 @@ static void teleport_func2(char *cmd, char *parms)
                 if (z == ONFLOORZ)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You teleported to (%i, %i).", x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("You were teleported to (%i, %i).", x >> FRACBITS, y >> FRACBITS);
                     else
-                        C_PlayerMessage("%s teleported to (%i, %i).", playername, x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("%s was teleported to (%i, %i).", playername, x >> FRACBITS, y >> FRACBITS);
                 }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You teleported to (%i, %i, %i).",
+                        C_PlayerMessage("You were teleported to (%i, %i, %i).",
                             x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                     else
-                        C_PlayerMessage("%s teleported to (%i, %i, %i).",
+                        C_PlayerMessage("%s was teleported to (%i, %i, %i).",
                             playername, x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                 }
 
@@ -9139,7 +9139,12 @@ static void vanilla_func2(char *cmd, char *parms)
     {
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
-        C_Warning(0, "Changes to any CVARs won't be saved while in vanilla mode.");
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, "Changes to any CVARs won't be saved while you are in vanilla mode.");
+        else
+            C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode.",
+                playername);
     }
     else
     {
