@@ -3215,8 +3215,7 @@ void P_SetupLevel(int ep, int map)
 
     if (!(samelevel = (lumpnum == prevlumpnum)))
     {
-        viewplayer->cheats &= ~CF_ALLMAP;
-        viewplayer->cheats &= ~CF_ALLMAP_THINGS;
+        viewplayer->cheats &= ~(CF_ALLMAP | CF_ALLMAP_THINGS);
         viewplayer->deaths = 0;
         viewplayer->suicides = 0;
     }

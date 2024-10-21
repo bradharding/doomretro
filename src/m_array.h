@@ -65,8 +65,6 @@ inline static void array_clear(const void *v)
         array_ptr(v)->size = 0;
 }
 
-#define array_grow(v, n)    ((v) = M_ArrayGrow((v), sizeof(*(v)), n))
-
 #define array_push(v, e)                                                    \
     {                                                                       \
         if (!(v))                                                           \

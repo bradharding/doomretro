@@ -4443,13 +4443,6 @@ static bool map_func1(char *cmd, char *parms)
             }
             else if (sscanf(parm, "E%1iM%i", &mapcmdepisode, &mapcmdmap) == 2)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
-            else if (FREEDOOM && sscanf(parm, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
-            {
-                char    lump[5];
-
-                M_snprintf(lump, sizeof(lump), "E%iM%i", mapcmdepisode, mapcmdmap);
-                result = (W_CheckNumForName(lump) >= 0);
-            }
         }
 
         if (!result)
@@ -5085,15 +5078,7 @@ static void mapstats_func2(char *cmd, char *parms)
         return;
     }
 
-    if (FREEDOOM1)
-    {
-        char    lumpname[6];
-
-        M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", gameepisode, gamemap);
-        lump = W_CheckNumForName(lumpname);
-        wadtype = lumpinfo[lump]->wadfile->type;
-    }
-    else if (BTSX || KDIKDIZD || legacyofrust)
+    if (BTSX || KDIKDIZD || legacyofrust)
     {
         char    lumpname[6];
 

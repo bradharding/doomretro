@@ -2386,16 +2386,16 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                 tplayer->damagereceived += stat;
                 stat_damagereceived = SafeAdd(stat_damagereceived, stat);
+                P_AnimateHealth(stat);
 
                 tplayer->health = 1;
                 target->health = 1;
-                P_AnimateHealth(stat);
             }
             else
             {
-                P_AnimateHealth(damage);
                 tplayer->damagereceived += damage;
                 stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+                P_AnimateHealth(damage);
             }
         }
 

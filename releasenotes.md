@@ -66,6 +66,7 @@
 * The fuzz effect from spectres and the partial invisibility power-up now:
   * Doesn't cause the status bar to bleed into the player's view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.
+* Flying monsters no longer nudge corpses beneath them when the `r_corpses_nudge` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
