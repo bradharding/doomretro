@@ -1418,6 +1418,9 @@ static bool PIT_VileCheck(mobj_t *thing)
         corpsehit->flags &= ~MF_SOLID;
         corpsehit->radius = radius;
         corpsehit->height = height;
+
+        for (const struct msecnode_s *seclist = corpsehit->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+            corpsehit->floorz = MAX(corpsehit->floorz, seclist->m_sector->floorheight);
     }
 
     return !check;      // got one, so stop checking
