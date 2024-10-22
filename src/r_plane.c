@@ -159,9 +159,17 @@ void R_ClearPlanes(void)
         ceilingclip[i] = -1;
     }
 
+    // [PN] Optimize loop by avoiding unnecessary assignments and checks.
+    // Only process non-null visplanes and simplify inner loop performance.
     for (int i = 0; i < MAXVISPLANES; i++)
-        for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead; )
-            freehead = &(*freehead)->next;
+        if (visplanes[i])
+        {
+            *freehead = visplanes[i];
+            visplanes[i] = NULL;
+
+            while (*freehead)
+                freehead = &(*freehead)->next;
+        }
 
     lastopening = openings;
 

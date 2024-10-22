@@ -1172,12 +1172,6 @@ void R_RenderPlayerView(void)
 
     R_DrawPlanes();
 
-    if (consoleactive || paused || freeze)
-    {
-        M_Fuzz1Seed(maptime);
-        M_Fuzz2Seed(maptime);
-    }
-
     R_DrawMasked();
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)

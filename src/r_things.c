@@ -1467,6 +1467,12 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
+    if (consoleactive || paused || freeze)
+    {
+        M_Fuzz1Seed(maptime);
+        M_Fuzz2Seed(maptime);
+    }
+
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
