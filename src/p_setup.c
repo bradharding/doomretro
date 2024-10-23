@@ -1386,6 +1386,9 @@ static void P_LoadSectors(int lump)
         ss->nextsec = -1;
         ss->prevsec = -1;
 
+        ss->oldceilinggametime = -1;
+        ss->oldfloorgametime = -1;
+
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors && gamemode != shareware)
             for (int j = 0; sectorfix[j].mission != -1; j++)

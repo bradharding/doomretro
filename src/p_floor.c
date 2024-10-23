@@ -51,12 +51,14 @@
 result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
     const bool crush, const int floororceiling, const int direction)
 {
-    sector->oldgametime = gametime;
-
     switch (floororceiling)
     {
         case 0:
-            sector->oldfloorheight = sector->floorheight;
+            if (sector->oldfloorgametime != gametime)
+            {
+                sector->oldfloorheight = sector->floorheight;
+                sector->oldfloorgametime = gametime;
+            }
 
             switch (direction)
             {
@@ -115,7 +117,11 @@ result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
             break;
 
         case 1:
-            sector->oldceilingheight = sector->ceilingheight;
+            if (sector->oldceilinggametime != gametime)
+            {
+                sector->oldceilingheight = sector->ceilingheight;
+                sector->oldceilinggametime = gametime;
+            }
 
             switch (direction)
             {

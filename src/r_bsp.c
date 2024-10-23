@@ -179,17 +179,19 @@ static void R_InterpolateSector(sector_t *sector)
 {
     sector_t    *heightsec = sector->heightsec;
 
-    // Only if we moved the sector last tic
-    if (sector->oldgametime == gametime - 1 && vid_capfps != TICRATE)
+    if (vid_capfps != TICRATE)
     {
-        // Interpolate between current and last floor/ceiling position
-        if (sector->floorheight != sector->oldfloorheight)
+        if (sector->floordata
+            && sector->floorheight != sector->oldfloorheight
+            && sector->oldfloorgametime == gametime - 1)
             sector->interpfloorheight = sector->oldfloorheight
                 + FixedMul(sector->floorheight - sector->oldfloorheight, fractionaltic);
         else
             sector->interpfloorheight = sector->floorheight;
 
-        if (sector->ceilingheight != sector->oldceilingheight)
+        if (sector->ceilingdata
+            && sector->ceilingheight != sector->oldceilingheight
+            && sector->oldceilinggametime == gametime - 1)
             sector->interpceilingheight = sector->oldceilingheight
                 + FixedMul(sector->ceilingheight - sector->oldceilingheight, fractionaltic);
         else
@@ -197,13 +199,17 @@ static void R_InterpolateSector(sector_t *sector)
 
         if (heightsec)
         {
-            if (heightsec->floorheight != heightsec->oldfloorheight)
+            if (heightsec->floordata
+                && heightsec->floorheight != heightsec->oldfloorheight
+                && heightsec->oldfloorgametime == gametime - 1)
                 heightsec->interpfloorheight = heightsec->oldfloorheight
                     + FixedMul(heightsec->floorheight - heightsec->oldfloorheight, fractionaltic);
             else
                 heightsec->interpfloorheight = heightsec->floorheight;
 
-            if (heightsec->ceilingheight != heightsec->oldceilingheight)
+            if (heightsec->ceilingdata
+                && heightsec->ceilingheight != heightsec->oldceilingheight
+                && heightsec->oldceilinggametime == gametime - 1)
                 heightsec->interpceilingheight = heightsec->oldceilingheight
                     + FixedMul(heightsec->ceilingheight - heightsec->oldceilingheight, fractionaltic);
             else

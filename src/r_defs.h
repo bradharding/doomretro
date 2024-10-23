@@ -150,7 +150,8 @@ typedef struct sector_s
     //      from storing old positions twice in a tic, and
     //      prevents the renderer from attempting to interpolate
     //      if old values were not updated recently.
-    int                 oldgametime;
+    int                 oldfloorgametime;
+    int                 oldceilinggametime;
 
     // [AM] Interpolated floor and ceiling height.
     //      Calculated once per tic and used inside
