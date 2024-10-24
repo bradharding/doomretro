@@ -2801,8 +2801,17 @@ void T_Scroll(scroll_t *scroller)
         {
             side_t  *side = sides + scroller->affectee;
 
-            side->textureoffset += dx;
-            side->rowoffset += dy;
+            if (side->oldgametime != gametime)
+            {
+                side->oldtextureoffset = side->basetextureoffset;
+                side->oldrowoffset = side->baserowoffset;
+                side->oldgametime = gametime;
+            }
+
+            side->basetextureoffset += dx;
+            side->baserowoffset += dy;
+            side->textureoffset = side->basetextureoffset;
+            side->rowoffset = side->baserowoffset;
             break;
         }
 
@@ -2810,8 +2819,17 @@ void T_Scroll(scroll_t *scroller)
         {
             sector_t    *sec = sectors + scroller->affectee;
 
-            sec->floorxoffset += dx;
-            sec->flooryoffset += dy;
+            if (sec->oldflooroffsetgametime != gametime)
+            {
+                sec->oldfloorxoffset = sec->basefloorxoffset;
+                sec->oldflooryoffset = sec->baseflooryoffset;
+                sec->oldflooroffsetgametime = gametime;
+            }
+
+            sec->basefloorxoffset += dx;
+            sec->baseflooryoffset += dy;
+            sec->floorxoffset = sec->basefloorxoffset;
+            sec->flooryoffset = sec->baseflooryoffset;
             break;
         }
 
@@ -2819,8 +2837,17 @@ void T_Scroll(scroll_t *scroller)
         {
             sector_t    *sec = sectors + scroller->affectee;
 
-            sec->ceilingxoffset += dx;
-            sec->ceilingyoffset += dy;
+            if (sec->oldceilingoffsetgametime != gametime)
+            {
+                sec->oldceilingxoffset = sec->baseceilingxoffset;
+                sec->oldceilingyoffset = sec->baseceilingyoffset;
+                sec->oldceilingoffsetgametime = gametime;
+            }
+
+            sec->baseceilingxoffset += dx;
+            sec->baseceilingyoffset += dy;
+            sec->ceilingxoffset = sec->baseceilingxoffset;
+            sec->ceilingyoffset = sec->baseceilingyoffset;
             break;
         }
 

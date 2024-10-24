@@ -215,6 +215,22 @@ static void R_InterpolateSector(sector_t *sector)
             else
                 heightsec->interpceilingheight = heightsec->ceilingheight;
         }
+
+        if (sector->oldflooroffsetgametime == gametime - 1)
+        {
+            sector->floorxoffset = sector->oldfloorxoffset +
+                FixedMul(sector->basefloorxoffset - sector->oldfloorxoffset, fractionaltic);
+            sector->flooryoffset = sector->oldflooryoffset +
+                FixedMul(sector->baseflooryoffset - sector->oldflooryoffset, fractionaltic);
+        }
+
+        if (sector->oldceilingoffsetgametime == gametime - 1)
+        {
+            sector->ceilingxoffset = sector->oldceilingxoffset +
+                FixedMul(sector->baseceilingxoffset - sector->oldceilingxoffset, fractionaltic);
+            sector->ceilingyoffset = sector->oldceilingyoffset +
+                FixedMul(sector->baseceilingyoffset - sector->oldceilingyoffset, fractionaltic);
+        }
     }
     else
     {
@@ -226,6 +242,17 @@ static void R_InterpolateSector(sector_t *sector)
             heightsec->interpfloorheight = heightsec->floorheight;
             heightsec->interpceilingheight = heightsec->ceilingheight;
         }
+    }
+}
+
+static void R_InterpolateTextureOffsets(side_t *side)
+{
+    if (vid_capfps != TICRATE && side->oldgametime == gametime - 1)
+    {
+        side->textureoffset = side->oldtextureoffset
+            + FixedMul(side->basetextureoffset - side->oldtextureoffset, fractionaltic);
+        side->rowoffset = side->oldrowoffset
+            + FixedMul(side->baserowoffset - side->oldrowoffset, fractionaltic);
     }
 }
 
@@ -387,6 +414,8 @@ static void R_AddLine(seg_t *line)
     // Does not cross a pixel?
     if (x1 >= x2)
         return;
+
+    R_InterpolateTextureOffsets(line->sidedef);
 
     // Single sided line?
     if ((backsector = line->backsector))

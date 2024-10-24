@@ -1388,6 +1388,8 @@ static void P_LoadSectors(int lump)
 
         ss->oldceilinggametime = -1;
         ss->oldfloorgametime = -1;
+        ss->oldceilingoffsetgametime = -1;
+        ss->oldflooroffsetgametime = -1;
 
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors && gamemode != shareware)
@@ -2201,8 +2203,8 @@ static void P_LoadSideDefs2(int lump)
         sector_t        *sec;
         unsigned short  sector_num = SHORT(msd->sector);
 
-        sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
-        sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
+        sd->textureoffset = sd->basetextureoffset = sd->oldtextureoffset = SHORT(msd->textureoffset) << FRACBITS;
+        sd->rowoffset = sd->baserowoffset = SHORT(msd->rowoffset) << FRACBITS;
 
         // cph 09/30/06: catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)

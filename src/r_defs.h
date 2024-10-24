@@ -152,6 +152,8 @@ typedef struct sector_s
     //      if old values were not updated recently.
     int                 oldfloorgametime;
     int                 oldceilinggametime;
+    int                 oldceilingoffsetgametime;
+    int                 oldflooroffsetgametime;
 
     // [AM] Interpolated floor and ceiling height.
     //      Calculated once per tic and used inside
@@ -167,6 +169,11 @@ typedef struct sector_s
     // killough 03/07/98: floor and ceiling texture offsets
     fixed_t             floorxoffset, flooryoffset;
     fixed_t             ceilingxoffset, ceilingyoffset;
+
+    fixed_t             basefloorxoffset, baseflooryoffset;
+    fixed_t             oldfloorxoffset, oldflooryoffset;
+    fixed_t             baseceilingxoffset, baseceilingyoffset;
+    fixed_t             oldceilingxoffset, oldceilingyoffset;
 
     // killough 04/11/98: support for lightlevels coming from another sector
     struct sector_s     *floorlightsec;
@@ -233,6 +240,12 @@ typedef struct
     bool                missingtoptexture;
     bool                missingmidtexture;
     bool                missingbottomtexture;
+
+    fixed_t             oldtextureoffset;
+    fixed_t             oldrowoffset;
+    fixed_t             basetextureoffset;
+    fixed_t             baserowoffset;
+    int                 oldgametime;
 } side_t;
 
 //
