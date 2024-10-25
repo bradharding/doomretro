@@ -2227,7 +2227,9 @@ bool C_Responder(event_t *ev)
                 {
                     bool    result = false;
 
-                    if (M_StringStartsWith(consoleinput, "bind ") || M_StringStartsWith(consoleinput, "unbind "))
+                    if (M_StringStartsWith(consoleinput, "bind ")
+                        || M_StringStartsWith(consoleinput, "unbind ")
+                        || M_StringStartsWith(consoleinput, "alias "))
                     {
                         if (C_ValidateInput(consoleinput))
                             result = true;
@@ -2374,7 +2376,8 @@ bool C_Responder(event_t *ev)
                     for (i = len - 1; i >= 0; i--)
                         if ((consoleinput[i] == ';'
                             && M_StringStartsWith(consoleinput, "bind")
-                            && M_StringStartsWith(consoleinput, "unbind"))
+                            && M_StringStartsWith(consoleinput, "unbind")
+                            && M_StringStartsWith(consoleinput, "alias"))
                             || (consoleinput[i] == '"'
                                 && M_StringStartsWith(consoleinput, "bind")))
                             break;
