@@ -3179,8 +3179,8 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
     {
-        if (ev->data1 == keyboardscreenshot
-            && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
+        if ((ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2)
+            && (ev->data1 == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
             S_StartSound(NULL, sfx_scrsht);
 
@@ -3195,7 +3195,7 @@ bool M_Responder(event_t *ev)
     }
 
     // Console
-    if (key == keyboardconsole && !paused && !splashscreen && !keydown && !messagetoprint)
+    if ((key == keyboardconsole || key == keyboardconsole2) && !paused && !splashscreen && !keydown && !messagetoprint)
     {
         keydown = key;
 
@@ -3246,7 +3246,7 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        if (key == keyboardscreenshot)
+        if (key == keyboardscreenshot || key == keyboardscreenshot2)
         {
             G_ScreenShot();
             return false;
@@ -3397,8 +3397,8 @@ bool M_Responder(event_t *ev)
     {
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
-        if (messageneedsinput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
-            && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
+        if (messageneedsinput && key != keyboardmenu && key != keyboardmenu2 && ch != 'y' && ch != 'n'
+            && key != KEY_BACKSPACE && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
             return false;
@@ -3699,7 +3699,8 @@ bool M_Responder(event_t *ev)
     }
 
     // screenshot
-    if (key == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
+    if ((key == keyboardscreenshot || key == keyboardscreenshot2)
+        && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
     {
         G_ScreenShot();
         return false;
@@ -3708,7 +3709,7 @@ bool M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == keyboardmenu && !keydown && !splashscreen && !consoleactive)
+        if ((key == keyboardmenu || key == keyboardmenu2) && !keydown && !splashscreen && !consoleactive)
         {
             keydown = key;
 
@@ -3978,7 +3979,7 @@ bool M_Responder(event_t *ev)
             return (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
         }
 
-        else if ((key == keyboardmenu || key == KEY_BACKSPACE) && !keydown)
+        else if ((key == keyboardmenu || key == keyboardmenu2 || key == KEY_BACKSPACE) && !keydown)
         {
             // Deactivate menu or go back to previous menu
             keydown = key;

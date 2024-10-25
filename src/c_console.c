@@ -2657,6 +2657,7 @@ bool C_Responder(event_t *ev)
 
         if (ch >= CONSOLEFONTSTART
             && ch != keyboardconsole
+            && ch != keyboardconsole2
             && C_TextWidth(consoleinput, false, true)
                 + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
                 - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,

@@ -2282,7 +2282,7 @@ static void D_DoomMainSetup(void)
     M_SaveCVARs();
 
 #if defined(_WIN32)
-    if (keyboardscreenshot == KEY_PRINTSCREEN)
+    if (keyboardscreenshot == KEY_PRINTSCREEN || keyboardscreenshot2 == KEY_PRINTSCREEN)
     {
         RegisterHotKey(NULL, 1, MOD_ALT, VK_SNAPSHOT);
         RegisterHotKey(NULL, 2, 0, VK_SNAPSHOT);

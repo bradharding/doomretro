@@ -186,7 +186,7 @@ void R_InitSkyMap(void)
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(gameepisode, gamemap);
-    canfreelook = ((freelook || keyboardfreelook || mousefreelook != -1 || controllerfreelook
+    canfreelook = ((freelook || keyboardfreelook || keyboardfreelook2 || mousefreelook != -1 || controllerfreelook
         || autotilt || (weaponrecoil && r_screensize == r_screensize_max)) && !nofreelook);
 
     if (!skytexture || (BTSX && !canfreelook))

@@ -115,6 +115,17 @@ static const int *keyboardweapons[NUMWEAPONKEYS] =
     &keyboardweapon7
 };
 
+static const int *keyboardweapons2[NUMWEAPONKEYS] =
+{
+    &keyboardweapon1_2,
+    &keyboardweapon2_2,
+    &keyboardweapon3_2,
+    &keyboardweapon4_2,
+    &keyboardweapon5_2,
+    &keyboardweapon6_2,
+    &keyboardweapon7_2
+};
+
 static const int *mouseweapons[NUMWEAPONKEYS] =
 {
     &mouseweapon1,
@@ -264,15 +275,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
 
-    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
+    strafe = (gamekeydown[keyboardstrafe] || gamekeydown[keyboardstrafe2] || mousebuttons[mousestrafe]
         || (controllerbuttons & controllerstrafe));
-    run = ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
+    run = ((gamekeydown[keyboardrun] || gamekeydown[keyboardrun2] || mousebuttons[mouserun]
         || (controllerbuttons & controllerrun)) ^ alwaysrun);
-    usefreelook = (freelook || gamekeydown[keyboardfreelook] || mousebuttons[mousefreelook]
-        || (controllerbuttons & controllerfreelook));
+    usefreelook = (freelook || gamekeydown[keyboardfreelook] || gamekeydown[keyboardfreelook2]
+        || mousebuttons[mousefreelook] || (controllerbuttons & controllerfreelook));
 
     // use two stage accelerative turning on the keyboard
-    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
+    if (gamekeydown[keyboardright] || gamekeydown[keyboardright2] || gamekeydown[keyboardleft] || gamekeydown[keyboardleft2]
         || (controllerbuttons & (controllerleft | controllerright)))
         turnheld++;
     else
@@ -281,17 +292,17 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[keyboardright] || mousebuttons[mouseright]
+        if (gamekeydown[keyboardright] || gamekeydown[keyboardright2] || mousebuttons[mouseright]
             || (controllerbuttons & controllerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
+        if (gamekeydown[keyboardleft] || gamekeydown[keyboardleft2] || mousebuttons[mouseleft]
             || (controllerbuttons & controllerleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[keyboardright] || mousebuttons[mouseright]
+        if (gamekeydown[keyboardright] || gamekeydown[keyboardright2] || mousebuttons[mouseright]
             || (controllerbuttons & controllerright))
         {
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
@@ -308,7 +319,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 menuspindirection = SIGN(cmd->angleturn);
         }
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft]
+        if (gamekeydown[keyboardleft] || gamekeydown[keyboardleft2] || mousebuttons[mouseleft]
             || (controllerbuttons & controllerleft))
         {
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
@@ -392,14 +403,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump]
+    if ((gamekeydown[keyboardjump] || gamekeydown[keyboardjump2] || mousebuttons[mousejump]
         || (controllerbuttons & controllerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons
     if (!freeze)
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire]
+        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || gamekeydown[keyboardfire2]
             || (controllerbuttons & controllerfire)))
             cmd->buttons |= BT_ATTACK;
 
@@ -415,10 +426,17 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
             const int   key = *keyboardweapons[i];
+            const int   key2 = *keyboardweapons2[i];
 
             if (gamekeydown[key] && !keydown)
             {
                 keydown = key;
+                cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                break;
+            }
+            else if (gamekeydown[key2] && !keydown)
+            {
+                keydown = key2;
                 cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
                 break;
             }
@@ -776,15 +794,16 @@ bool G_Responder(const event_t *ev)
                 && ev->data1 != KEY_BACKSPACE
                 && ev->data1 != KEY_ALT
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
-                && ev->data1 != keyboardscreenshot)
+                && ev->data1 != keyboardscreenshot
+                && ev->data1 != keyboardscreenshot2)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1 && !(ev->data1 & MOUSE_RIGHTBUTTON))
             || (ev->type == ev_controller
                 && controllerwait < I_GetTime()
                 && controllerbuttons)))
         {
-            if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
+            if (ev->type == ev_keydown && (ev->data1 == keyboardalwaysrun || ev->data1 == keyboardalwaysrun2))
             {
-                keydown = keyboardalwaysrun;
+                keydown = ev->data1;
                 G_ToggleAlwaysRun(ev_keydown);
             }
             else if (ev->type == ev_mouse && ev->data1 == mousealwaysrun)
@@ -811,7 +830,8 @@ bool G_Responder(const event_t *ev)
 
             return true;
         }
-        else if (!menuactive && !consoleactive && !splashscreen && ev->type == ev_keyup && ev->data1 == keyboardscreenshot)
+        else if (!menuactive && !consoleactive && !splashscreen && ev->type == ev_keyup
+            && (ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2))
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
@@ -840,9 +860,9 @@ bool G_Responder(const event_t *ev)
         case ev_keydown:
             key = ev->data1;
 
-            if (key == keyboardprevweapon && !menuactive && !paused && !freeze)
+            if ((key == keyboardprevweapon && key == keyboardprevweapon2) && !menuactive && !paused && !freeze)
                 G_PrevWeapon();
-            else if (key == keyboardnextweapon && !menuactive && !paused && !freeze)
+            else if ((key == keyboardnextweapon || key == keyboardnextweapon2) && !menuactive && !paused && !freeze)
                 G_NextWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown && !idclevtics)
             {
@@ -854,9 +874,9 @@ bool G_Responder(const event_t *ev)
 
                 D_FadeScreen(false);
             }
-            else if (key == keyboardalwaysrun && !keydown)
+            else if ((key == keyboardalwaysrun || key == keyboardalwaysrun2) && !keydown)
             {
-                keydown = keyboardalwaysrun;
+                keydown = key;
                 G_ToggleAlwaysRun(ev_keydown);
             }
             else if (key < NUMKEYS)
