@@ -671,9 +671,9 @@ bool AM_Responder(const event_t *ev)
         {
             if ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
-                    || ev->data1 == keyboardautomap2)
+                    || (keyboardautomap2 && ev->data1 == keyboardautomap2))
                 && keydown != keyboardautomap
-                && keydown != keyboardautomap2
+                && (!keyboardautomap2 || keydown != keyboardautomap2)
                 && !(modstate & KMOD_ALT))
                 || (ev->type == ev_mouse
                     && mouseautomap >= 0
@@ -801,8 +801,8 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // leave automap
-                else if ((key == keyboardautomap || key == keyboardautomap2) && !(modstate & KMOD_ALT)
-                    && keydown != keyboardautomap && keydown != keyboardautomap2 && !mapwindow)
+                else if ((key == keyboardautomap || (keyboardautomap2 && key == keyboardautomap2)) && !(modstate & KMOD_ALT)
+                    && keydown != keyboardautomap && (!keyboardautomap2 || keydown != keyboardautomap2) && !mapwindow)
                 {
                     keydown = key;
                     viewactive = true;
