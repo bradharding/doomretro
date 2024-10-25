@@ -67,6 +67,9 @@
   * Doesn't cause the status bar to bleed into the player's view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.
 * Flying monsters no longer nudge corpses beneath them when the `r_corpses_nudge` CVAR is `on`.
+* Scrolling textures are now smoother when the `vid_capfps` CVAR is a value other than `35`.
+* The interpolation of moving floors and ceilings is now smoother in some instances when the `vid_capfps` CVAR is a value other than `35`.
+* Semi-colons are now parsed correctly when using the `alias` CCMD in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
