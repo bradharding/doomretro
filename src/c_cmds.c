@@ -326,7 +326,7 @@ action_t actions[] =
     { "+clearmark",   true,  true,  clearmark_action_func,   &keyboardclearmark,   NULL,                  &mouseclearmark,   &controllerclearmark,   NULL            },
     { "+console",     false, false, console_action_func,     &keyboardconsole,     NULL,                  &mouseconsole,     &controllerconsole,     NULL            },
     { "+fire",        true,  false, fire_action_func,        &keyboardfire,        NULL,                  &mousefire,        &controllerfire,        NULL            },
-    { "+followmode",  true,  false, followmode_action_func,  &keyboardfollowmode,  NULL,                  &mousefollowmode,  &controllerfollowmode,  NULL            },
+    { "+followmode",  true,  true,  followmode_action_func,  &keyboardfollowmode,  NULL,                  &mousefollowmode,  &controllerfollowmode,  NULL            },
     { "+forward",     true,  false, forward_action_func,     &keyboardforward,     &keyboardforward2,     &mouseforward,     &controllerforward,     NULL            },
     { "+freelook",    true,  false, NULL,                    &keyboardfreelook,    NULL,                  &mousefreelook,    &controllerfreelook,    NULL            },
     { "+grid",        true,  true,  grid_action_func,        &keyboardgrid,        NULL,                  &mousegrid,        &controllergrid,        NULL            },
