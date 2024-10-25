@@ -64,12 +64,14 @@
   * A bug is fixed whereby the player’s path would stop being drawn after the player teleported and the `am_rotatemode` CVAR was `off`.
   * A bug is also fixed whereby the player’s path would display incorrectly at the start of a map in some instances.
 * The fuzz effect from spectres and the partial invisibility power-up now:
-  * Doesn't cause the status bar to bleed into the player's view while the console is open.
+  * Doesn’t cause the status bar to bleed into the player’s view while the console is open.
   * Freezes along with everything else when freeze mode is enabled.
 * Flying monsters no longer nudge corpses beneath them when the `r_corpses_nudge` CVAR is `on`.
 * Scrolling textures are now smoother when the `vid_capfps` CVAR is a value other than `35`.
 * The interpolation of moving floors and ceilings is now smoother in some instances when the `vid_capfps` CVAR is a value other than `35`.
 * Semi-colons are now parsed correctly when using the `alias` CCMD in the console.
+* All actions can now be bound to a second key using the `bind` CCMD in the console.
+* If the key bound to the `+followmode` action is bound to another action, pressing that key now works outside of the automap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -101,7 +103,7 @@
   * If `extras.wad` is found alongside `DOOM.WAD` or `DOOM2.WAD`, it is now autoloaded, and [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack is played instead of the regular MIDI music.
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `STTMINUS` lump used in the status bar and widescreen HUD when the `negativehealth` CVAR is `on` and the player is dead, is now positioned correctly in instances where its vertical offset is missing.
-* A bug is fixed whereby a string CVAR couldn't be changed in the console to the same string but with a different case.
+* A bug is fixed whereby a string CVAR couldn’t be changed in the console to the same string but with a different case.
 * The length of the `playername` CVAR is now limited to 16 characters.
 * Blood splats now move with everything else on *BOOM*-compatible scrolling floors.
 * If the `+alwaysrun` action is bound to the <kbd>CAPSLOCK</kbd> key, and the `alwaysrun` CVAR is `on`, the <kbd>CAPSLOCK</kbd> key is now toggled off when the console is opened, and then toggled back on when it closes.
