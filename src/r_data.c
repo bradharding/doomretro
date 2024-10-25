@@ -716,13 +716,15 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_TYRANTBOSS1].shadowoffset = 8 * FRACUNIT;
         mobjinfo[MT_TYRANTBOSS2].shadowoffset = 8 * FRACUNIT;
 
-        M_StringCopy(mobjinfo[MT_EXTRA06].name1, "tyrant", sizeof(mobjinfo[0].name1));
-        M_StringCopy(mobjinfo[MT_EXTRA06].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
-        M_StringCopy(mobjinfo[MT_EXTRA07].name1, "tyrant", sizeof(mobjinfo[0].name1));
-        M_StringCopy(mobjinfo[MT_EXTRA07].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_TYRANTBOSS1].name1, "tyrant", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_TYRANTBOSS1].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_TYRANTBOSS2].name1, "tyrant", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_TYRANTBOSS2].plural1, "tyrants", sizeof(mobjinfo[0].plural1));
 
         mobjinfo[MT_EXTRA09].flags2 |= MF2_TRANSLUCENT;
         mobjinfo[MT_EXTRA10].flags2 |= MF2_TRANSLUCENT;
+        mobjinfo[MT_EXTRA11].flags &= ~MF_TRANSLUCENT;
+        mobjinfo[MT_EXTRA11].flags2 |= MF2_TRANSLUCENT;
 
         for (int i = MT_EXTRA15; i <= MT_EXTRA58; i++)
             mobjinfo[i].flags2 |= MF2_DECORATION;
