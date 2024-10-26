@@ -1407,7 +1407,21 @@ static bool cheat_func1(char *cmd, char *parms)
     {
         bool    result;
 
-        if (gamemode == commercial)
+        if (legacyofrust)
+        {
+            mapcmdepisode = parms[0] - '0';
+            mapcmdmap = parms[1] - '0';
+
+            if (mapcmdepisode <= 2 && mapcmdmap <= 7)
+                mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
+            else if (mapcmdepisode <= 2 && mapcmdmap == 8)
+                mapcmdmap = 14 + mapcmdepisode;
+            else
+                mapcmdmap = mapcmdepisode * 10 + mapcmdmap;
+
+            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
+        }
+        else if (gamemode == commercial)
         {
             mapcmdepisode = 1;
             mapcmdmap = (parms[0] - '0') * 10 + parms[1] - '0';
@@ -1428,6 +1442,9 @@ static bool cheat_func1(char *cmd, char *parms)
             return result;
         else if (result)
         {
+            if (legacyofrust && mapcmdmap != 99)
+                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%cM%c", parms[0], parms[1]);
+
             S_StartSound(NULL, sfx_getpow);
             ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
             map_func2("map", mapcmdlump);
