@@ -671,7 +671,7 @@ bool AM_Responder(const event_t *ev)
         {
             if ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
-                    || (keyboardautomap2 && ev->data1 == keyboardautomap2))
+                    || ev->data1 == keyboardautomap2)
                 && keydown != keyboardautomap
                 && (!keyboardautomap2 || keydown != keyboardautomap2)
                 && !(modstate & KMOD_ALT))
@@ -801,7 +801,7 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // leave automap
-                else if ((key == keyboardautomap || (keyboardautomap2 && key == keyboardautomap2)) && !(modstate & KMOD_ALT)
+                else if ((key == keyboardautomap || key == keyboardautomap2) && !(modstate & KMOD_ALT)
                     && keydown != keyboardautomap && (!keyboardautomap2 || keydown != keyboardautomap2) && !mapwindow)
                 {
                     keydown = key;
@@ -812,7 +812,7 @@ bool AM_Responder(const event_t *ev)
                 // toggle maximum zoom
                 else if ((key == keyboardmaxzoom || key == keyboardmaxzoom2) && !idclev && !idmus)
                 {
-                    if (keydown != keyboardmaxzoom && keydown != keyboardmaxzoom2)
+                    if (keydown != keyboardmaxzoom && (!keyboardmaxzoom2 || keydown != keyboardmaxzoom2))
                     {
                         keydown = key;
                         AM_ToggleMaxZoom();
@@ -822,7 +822,7 @@ bool AM_Responder(const event_t *ev)
                 // toggle follow mode
                 else if (key == keyboardfollowmode || key == keyboardfollowmode2)
                 {
-                    if (keydown != keyboardfollowmode && keydown != keyboardfollowmode2)
+                    if (keydown != keyboardfollowmode && (!keyboardfollowmode2 || keydown != keyboardfollowmode2))
                     {
                         keydown = key;
                         AM_ToggleFollowMode(!am_followmode);
@@ -832,7 +832,7 @@ bool AM_Responder(const event_t *ev)
                 // toggle grid
                 else if (key == keyboardgrid || key == keyboardgrid2)
                 {
-                    if (keydown != keyboardgrid && keydown != keyboardgrid2)
+                    if (keydown != keyboardgrid && (!keyboardgrid2 || keydown != keyboardgrid2))
                     {
                         keydown = key;
                         AM_ToggleGrid();
@@ -842,7 +842,7 @@ bool AM_Responder(const event_t *ev)
                 // mark spot
                 else if (key == keyboardmark || key == keyboardmark2)
                 {
-                    if (keydown != keyboardmark && keydown != keyboardmark2)
+                    if (keydown != keyboardmark && (!keyboardmark2 || keydown != keyboardmark2))
                     {
                         keydown = key;
                         AM_AddMark();
@@ -856,7 +856,7 @@ bool AM_Responder(const event_t *ev)
                 // toggle rotate mode
                 else if (key == keyboardrotatemode || key == keyboardrotatemode2)
                 {
-                    if (keydown != keyboardrotatemode && keydown != keyboardrotatemode2)
+                    if (keydown != keyboardrotatemode && (!keyboardrotatemode2 || keydown != keyboardrotatemode2))
                     {
                         keydown = key;
                         AM_ToggleRotateMode(!am_rotatemode);
