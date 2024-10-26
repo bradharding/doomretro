@@ -26,6 +26,7 @@
   * The help screen has been updated to include the incinerator and calamity blade.
   * The positions of shadows cast by some monsters have improved.
   * The new monsters no longer bob up and down when in a liquid sector.
+  * Adaptive translucency is now applied to projectiles fired by ghouls when the `r_sprites_translucency` CVAR is `on`.
 * A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*SIGIL*](https://romero.com/sigil), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
@@ -72,6 +73,7 @@
 * Semi-colons are now parsed correctly when using the `alias` CCMD in the console.
 * All actions can now be bound to a second key using the `bind` CCMD in the console.
 * If the key bound to the `+followmode` action is bound to another action, pressing that key now works outside of the automap.
+* Maps that use *BOOM’s* `WATERMAP` lump are now supported.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
