@@ -4363,6 +4363,9 @@ void M_Drawer(void)
                 M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
             }
 
+            for (int i = 0; i < MAXSCREENAREA; i++)
+                tempscreen[i] = PINK;
+
             for (int i = 0; i < max; i++)
             {
                 bool    highlight;
@@ -4580,6 +4583,12 @@ void M_Drawer(void)
 
                 y += LINEHEIGHT - 1;
             }
+
+            for (int i = 0; i < MAXSCREENAREA; i++)
+                if (tempscreen[i] == nearestblack)
+                    screens[0][i] = black45[screens[0][i]];
+                else if (tempscreen[i] != PINK)
+                    screens[0][i] = tempscreen[i];
 
             for (int i = 0; i < max; i++)
                 currentmenu->menuitems[i].width = widest;

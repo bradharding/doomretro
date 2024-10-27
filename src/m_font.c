@@ -199,7 +199,7 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
             cx += FON2_SPACE;
         else
         {
-            V_DrawMenuPatch(cx, y, chars[c].patch, highlight, SCREENWIDTH);
+            V_DrawBigFontPatch(cx, y, chars[c].patch, highlight, SCREENWIDTH);
             cx += chars[c].width + kerning;
         }
     }

@@ -877,7 +877,6 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
     byte        *desttop;
-    const byte  *black = (highlight || !menuhighlight ? black40 : black45);
     const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
@@ -917,7 +916,60 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (i <= shadowwidth && *dot != 47 && *dot != 191)
-                        *dot = black[*dot];
+                        *dot = black40[*dot];
+                }
+
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA;
+
+    desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                const int   height = (((y + column->topdelta + length) * DY) >> FRACBITS) - count;
+
+                if (height > 0)
+                {
+                    const byte  dot = source[srccol >> FRACBITS];
+
+                    *dest = (menuhighlight ? (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]) : dot);
+                }
+
+                dest += SCREENWIDTH;
+
+                if (height + 2 > 0 && menushadow)
+                {
+                    byte    *dot = dest + SCREENWIDTH + 2;
+
+                    if (i <= shadowwidth && *dot != 47 && *dot != 191)
+                        *dot = nearestblack;
                 }
 
                 srccol += DYI;
@@ -1692,16 +1744,15 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow && menushadow)
         {
-            byte        *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
-            const byte  *black = (highlight || !menuhighlight ? black40 : black45);
+            byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
 
-            *dot = black[*dot];
+            *dot = black40[*dot];
             dot++;
-            *dot = black[*dot];
+            *dot = black40[*dot];
             dot += SCREENWIDTH;
-            *dot = black[*dot];
+            *dot = black40[*dot];
             dot--;
-            *dot = black[*dot];
+            *dot = black40[*dot];
         }
     }
     else if (color && color != 32)
