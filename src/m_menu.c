@@ -4363,8 +4363,7 @@ void M_Drawer(void)
                 M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
             }
 
-            for (int i = 0; i < MAXSCREENAREA; i++)
-                tempscreen[i] = PINK;
+            memset(tempscreen, PINK, MAXSCREENAREA);
 
             for (int i = 0; i < max; i++)
             {
