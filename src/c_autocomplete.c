@@ -5452,7 +5452,7 @@ autocomplete_t autocompletelist[] =
     { "english ",                                    DOOM1AND2        },
     { "english american",                            DOOM1AND2        },
     { "english british",                             DOOM1AND2        },
-    { "episode ",                                    DOOM1ONLY        },
+    { "episode ",                                    DOOM1AND2        },
     { "exec ",                                       DOOM1AND2        },
     { "exitmap",                                     DOOM1AND2        },
     { "expansion ",                                  DOOM2ONLY        },
