@@ -10112,7 +10112,8 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->health)
+            if (sscanf(parms, "%10i", &value) == 1
+                && (!negativehealth && value != viewplayer->health) || (negativehealth && value != viewplayer->negativehealth))
             {
                 value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
@@ -10127,6 +10128,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                             viewplayer->damagecount = viewplayer->health - value;
 
                         viewplayer->health = value;
+                        viewplayer->negativehealth = value;
                         viewplayer->mo->health = value;
                     }
                     else
@@ -10150,6 +10152,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         viewplayer->damagecount = viewplayer->health - value;
                         viewplayer->health = value;
+                        viewplayer->negativehealth = value;
                         viewplayer->mo->health = value;
                         healthcvar = true;
 
@@ -10165,6 +10168,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         P_UpdateHealthStat(value - viewplayer->health);
                         viewplayer->health = value;
+                        viewplayer->negativehealth = value;
                         viewplayer->mo->health = value;
                         P_AddBonus();
                         S_StartSound(viewplayer->mo, sfx_itemup);
