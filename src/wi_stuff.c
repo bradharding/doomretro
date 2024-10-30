@@ -1286,8 +1286,11 @@ void WI_Ticker(void)
 {
     // counter for general background animation
     if (++bcnt == 1)
+    {
         // intermission music
         S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false, false);
+        S_StopSounds();
+    }
 
     WI_LoadData();
 
