@@ -149,20 +149,20 @@ bool P_CheckAmmo(const weapontype_t weapon)
 
     // Out of ammo, pick a weapon to change to.
     if (viewplayer->weaponowned[wp_plasma]
-        && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].ammopershot)
+        && viewplayer->ammo[weaponinfo[wp_plasma].ammotype] >= weaponinfo[wp_plasma].ammopershot)
         viewplayer->pendingweapon = wp_plasma;
     else if (viewplayer->weaponowned[wp_supershotgun]
-        && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].ammopershot
+        && viewplayer->ammo[weaponinfo[wp_supershotgun].ammotype] >= weaponinfo[wp_supershotgun].ammopershot
         && viewplayer->preferredshotgun == wp_supershotgun)
         viewplayer->pendingweapon = wp_supershotgun;
     else if (viewplayer->weaponowned[wp_chaingun]
-        && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].ammopershot)
+        && viewplayer->ammo[weaponinfo[wp_chaingun].ammotype] >= weaponinfo[wp_chaingun].ammopershot)
         viewplayer->pendingweapon = wp_chaingun;
     else if (viewplayer->weaponowned[wp_shotgun]
-        && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].ammopershot)
+        && viewplayer->ammo[weaponinfo[wp_shotgun].ammotype] >= weaponinfo[wp_shotgun].ammopershot)
         viewplayer->pendingweapon = wp_shotgun;
     else if (viewplayer->weaponowned[wp_pistol]
-        && viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].ammopershot)
+        && viewplayer->ammo[weaponinfo[wp_pistol].ammotype] >= weaponinfo[wp_pistol].ammopershot)
         viewplayer->pendingweapon = wp_pistol;
     else if (viewplayer->weaponowned[wp_chainsaw])
         viewplayer->pendingweapon = wp_chainsaw;
