@@ -2913,7 +2913,7 @@ bool M_Responder(event_t *ev)
                 {
                     if (messagetoprint || helpscreen || !usingmouse)
                     {
-                        if (mousewait < I_GetTime())
+                        if (mousewait < I_GetTime() && !savestringenter)
                         {
                             key = KEY_ENTER;
                             mousewait = I_GetTime() + 8;
