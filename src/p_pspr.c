@@ -293,7 +293,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  the missile launcher and BFG do not auto fire
     if (player->cmd.buttons & BT_ATTACK)
     {
-        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg))
+        if (!player->attackdown || !(weaponinfo[readyweapon].flags & WPF_NOAUTOFIRE))
         {
             player->attackdown = true;
             P_FireWeapon();
