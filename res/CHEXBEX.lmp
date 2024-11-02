@@ -63,20 +63,24 @@ Close attack frame = 184
 Far attack frame = 0
 Name = flemoidus commonus
 Plural = flemoidus commonus
+Blood color = 2
 
 Thing 3 (Shotgun guy)
 Close attack frame = 217
 Far attack frame = 0
 Name = flemoidus bipedicus
 Plural = flemoidus bipedicus
+Blood color = 2
 
 Thing 12 (Imp)
 Name = armored flemoidus bipedicus
 Plural = armored flemoidus bipedicus
+Blood color = 2
 
 Thing 13 (Demon)
 Name = flemoidus cycloptis
 Plural = flemoidus cycloptis
+Blood color = 2
 
 Thing 16 (Boss)
 Width = 2883584
@@ -84,12 +88,13 @@ Height = 6553600
 Speed = 0
 Name = flembrane
 Plural = flembranes
+Blood color = 2
 
 Thing 19
 Height = 0
 
 Thing 39
-Blood = 122
+Blood color = 2
 
 [PARS]
 par 1 1 110
