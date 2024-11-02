@@ -6294,7 +6294,7 @@ static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t t
 
 static void C_PlayerStats_Game(void)
 {
-    const int       tabs[MAXTABS] = { 200, 335 };
+    const int       tabs[MAXTABS] = { 230, 365 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
@@ -6955,7 +6955,7 @@ static void ShowMonsterKillStat_NoGame(const int tabs[MAXTABS], const mobjtype_t
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int       tabs[MAXTABS] = { 200, 335 };
+    const int       tabs[MAXTABS] = { 230, 365 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
     int             time1 = (int)(stat_timeplayed / TICRATE);
