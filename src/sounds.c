@@ -547,7 +547,7 @@ void dsdh_EnsureSFXCapacity(const int limit)
 int dsdh_GetDehSFXIndex(const char *key, size_t length)
 {
     for (int i = 1; i < numsfx; i++)
-        if (s_sfx[i].name1
+        if (*s_sfx[i].name1
             && strlen(s_sfx[i].name1) == length
             && !strncasecmp(s_sfx[i].name1, key, length)
             && !sfx_state[i])
