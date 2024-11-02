@@ -1555,7 +1555,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
         splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
-    else if (r_blood == r_blood_all)
+    else if (r_blood == r_blood_all || chex)
     {
         if (splat->color == FUZZYBLOOD && r_textures)
         {
