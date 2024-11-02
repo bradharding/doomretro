@@ -210,7 +210,7 @@ void HU_Init(void)
             || (gamemode != commercial && i == wp_supershotgun))
             weaponinfo[i].ammopatch = NULL;
         else
-            for (int j = numstates; j >= 0; j--)
+            for (int j = numstates - 1; j >= 0; j--)
             {
                 state_t *state = &states[j];
 
@@ -900,7 +900,7 @@ static void HU_AltInit(void)
                 || (gamemode != commercial && i == wp_supershotgun))
                 weaponinfo[i].weaponpatch = NULL;
             else
-                for (int j = numstates; j >= 0; j--)
+                for (int j = numstates - 1; j >= 0; j--)
                 {
                     state_t *state = &states[j];
 
