@@ -38,6 +38,7 @@
 
 #include "doomdef.h"
 #include "i_system.h"
+#include "m_array.h"
 #include "m_misc.h"
 #include "sprites.h"
 
@@ -945,58 +946,57 @@ const sproffset_t sproffsets[] =
 char        **sprnames;
 int         numsprites;
 static char **deh_spritenames;
-static int  deh_spritenames_size;
 static byte *sprnames_state;
 
 void InitSprites(void)
 {
     sprnames = original_sprnames;
     numsprites = NUMSPRITES;
-    deh_spritenames_size = numsprites + 1;
-    deh_spritenames = I_Malloc(deh_spritenames_size * sizeof(*deh_spritenames));
+
+    array_grow(deh_spritenames, numsprites);
 
     for (int i = 0; i < numsprites; i++)
         deh_spritenames[i] = M_StringDuplicate(sprnames[i]);
 
-    deh_spritenames[numsprites] = NULL;
-    sprnames_state = calloc(numsprites, sizeof(*sprnames_state));
+    array_grow(sprnames_state, numsprites);
+    memset(sprnames_state, 0, numsprites * sizeof(*sprnames_state));
 }
 
 void FreeSprites(void)
 {
-    for (int i = 0; i < deh_spritenames_size; i++)
+    for (int i = 0; i < array_capacity(deh_spritenames); i++)
         if (deh_spritenames[i])
             free(deh_spritenames[i]);
 
-    free(deh_spritenames);
-    free(sprnames_state);
+    array_free(deh_spritenames);
+    array_free(sprnames_state);
 }
 
 static void EnsureSpritesCapacity(const int limit)
 {
+    const int   old_numsprites = numsprites;
     static bool first_allocation = true;
+    int         size_delta;
 
-    while (limit >= numsprites)
+    if (limit < numsprites)
+        return;
+
+    if (first_allocation)
     {
-        const int   old_numsprites = numsprites;
-
-        numsprites *= 2;
-
-        if (first_allocation)
-        {
-            first_allocation = false;
-            sprnames = I_Malloc(numsprites * sizeof(*sprnames));
-            memcpy(sprnames, original_sprnames, old_numsprites * sizeof(*sprnames));
-        }
-        else
-            sprnames = I_Realloc(sprnames, numsprites * sizeof(*sprnames));
-
-        memset(sprnames + old_numsprites, 0, (numsprites - old_numsprites) * sizeof(*sprnames));
-
-        sprnames_state = I_Realloc(sprnames_state, numsprites * sizeof(*sprnames_state));
-        memset(sprnames_state + old_numsprites, 0,
-            (numsprites - old_numsprites) * sizeof(*sprnames_state));
+        sprnames = NULL;
+        array_grow(sprnames, old_numsprites + limit);
+        memcpy(sprnames, original_sprnames, old_numsprites * sizeof(*sprnames));
+        first_allocation = false;
     }
+    else
+        array_grow(sprnames, limit);
+
+    numsprites = array_capacity(sprnames);
+    size_delta = numsprites - old_numsprites;
+    memset(sprnames + old_numsprites, 0, size_delta * sizeof(*sprnames));
+
+    array_grow(sprnames_state, size_delta);
+    memset(sprnames_state + old_numsprites, 0, size_delta * sizeof(*sprnames_state));
 }
 
 int dsdh_GetDehSpriteIndex(const char *key)
@@ -1015,8 +1015,8 @@ int dsdh_GetOriginalSpriteIndex(const char *key)
 {
     int limit;
 
-    for (int i = 0; deh_spritenames[i]; i++)
-        if (!strncasecmp(deh_spritenames[i], key, 4))
+    for (int i = 0; i < array_capacity(deh_spritenames); i++)
+        if (deh_spritenames[i] && !strncasecmp(deh_spritenames[i], key, 4))
             return i;
 
     // is it a number?

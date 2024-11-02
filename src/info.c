@@ -35,6 +35,7 @@
 
 #include "i_system.h"
 #include "info.h"
+#include "m_array.h"
 #include "p_local.h"
 #include "r_defs.h"
 #include "sounds.h"
@@ -7557,38 +7558,36 @@ void InitMobjInfo(void)
 
 void dsdh_EnsureMobjInfoCapacity(const int limit)
 {
+    const int   old_nummobjtypes = nummobjtypes;
     static bool first_allocation = true;
 
-    while (limit >= nummobjtypes)
+    if (limit < nummobjtypes)
+        return;
+
+    if (first_allocation)
     {
-        const int   old_nummobjtypes = nummobjtypes;
+        mobjinfo = NULL;
+        array_grow(mobjinfo, old_nummobjtypes + limit);
+        memcpy(mobjinfo, original_mobjinfo, old_nummobjtypes * sizeof(*mobjinfo));
+        first_allocation = false;
+    }
+    else
+        array_grow(mobjinfo, limit);
 
-        nummobjtypes *= 2;
+    nummobjtypes = array_capacity(mobjinfo);
+    memset(mobjinfo + old_nummobjtypes, 0, (nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
 
-        if (first_allocation)
-        {
-            first_allocation = false;
-            mobjinfo = I_Malloc(nummobjtypes * sizeof(*mobjinfo));
-            memcpy(mobjinfo, original_mobjinfo, old_nummobjtypes * sizeof(*mobjinfo));
-        }
-        else
-            mobjinfo = I_Realloc(mobjinfo, nummobjtypes * sizeof(*mobjinfo));
-
-        memset(mobjinfo + old_nummobjtypes, 0,
-            ((size_t)nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
-
-        for (int i = old_nummobjtypes; i < nummobjtypes; i++)
-        {
-            mobjinfo[i].bloodcolor = REDBLOOD;
-            mobjinfo[i].droppeditem = MT_NULL;
-            mobjinfo[i].infightinggroup = IG_DEFAULT;
-            mobjinfo[i].projectilegroup = PG_DEFAULT;
-            mobjinfo[i].splashgroup = SG_DEFAULT;
-            mobjinfo[i].altspeed = NO_ALTSPEED;
-            mobjinfo[i].meleerange = MELEERANGE;
-            M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
-            M_snprintf(mobjinfo[i].name2, sizeof(mobjinfo[0].name2), "Deh_Actor_%i", i);
-            M_snprintf(mobjinfo[i].name3, sizeof(mobjinfo[0].name3), "Deh_Actor_%i", i);
-        }
+    for (int i = old_nummobjtypes; i < nummobjtypes; i++)
+    {
+        mobjinfo[i].bloodcolor = REDBLOOD;
+        mobjinfo[i].droppeditem = MT_NULL;
+        mobjinfo[i].infightinggroup = IG_DEFAULT;
+        mobjinfo[i].projectilegroup = PG_DEFAULT;
+        mobjinfo[i].splashgroup = SG_DEFAULT;
+        mobjinfo[i].altspeed = NO_ALTSPEED;
+        mobjinfo[i].meleerange = MELEERANGE;
+        M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
+        M_snprintf(mobjinfo[i].name2, sizeof(mobjinfo[0].name2), "Deh_Actor_%i", i);
+        M_snprintf(mobjinfo[i].name3, sizeof(mobjinfo[0].name3), "Deh_Actor_%i", i);
     }
 }

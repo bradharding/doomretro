@@ -39,6 +39,7 @@
 
 #include "doomdef.h"
 #include "i_system.h"
+#include "m_array.h"
 #include "m_misc.h"
 #include "sounds.h"
 
@@ -484,71 +485,69 @@ sfxinfo_t original_s_sfx[NUMSFX] =
 sfxinfo_t   *s_sfx;
 int         numsfx;
 static char **deh_soundnames;
-static int  deh_soundnames_size;
 static byte *sfx_state;
 
 void InitSFX(void)
 {
     s_sfx = original_s_sfx;
     numsfx = NUMSFX;
-    deh_soundnames_size = numsfx + 1;
-    deh_soundnames = I_Malloc(deh_soundnames_size * sizeof(*deh_soundnames));
+
+    array_grow(deh_soundnames, numsfx);
 
     for (int i = 1; i < numsfx; i++)
         deh_soundnames[i] = (*s_sfx[i].name1 ? M_StringDuplicate(s_sfx[i].name1) : NULL);
 
-    deh_soundnames[0] = NULL;
-    deh_soundnames[numsfx] = NULL;
-    sfx_state = calloc(numsfx, sizeof(*sfx_state));
+    array_grow(sfx_state, numsfx);
+    memset(sfx_state, 0, numsfx * sizeof(*sfx_state));
 }
 
 void FreeSFX(void)
 {
-    for (int i = 1; i < deh_soundnames_size; i++)
+    for (int i = 1; i < array_capacity(deh_soundnames); i++)
         if (deh_soundnames[i])
             free(deh_soundnames[i]);
 
-    free(deh_soundnames);
-    free(sfx_state);
+    array_free(deh_soundnames);
+    array_free(sfx_state);
 }
 
 void dsdh_EnsureSFXCapacity(const int limit)
 {
-    static int  first_allocation = true;
+    const int   old_numsfx = numsfx;
+    static bool first_allocation = true;
+    int         size_delta;
 
-    while (limit >= numsfx)
+    if (limit < numsfx)
+        return;
+
+    if (first_allocation)
     {
-        const int   old_numsfx = numsfx;
+        s_sfx = NULL;
+        array_grow(s_sfx, old_numsfx + limit);
+        memcpy(s_sfx, original_s_sfx, old_numsfx * sizeof(*s_sfx));
+        first_allocation = false;
+    }
+    else
+        array_grow(s_sfx, limit);
 
-        numsfx *= 2;
+    numsfx = array_capacity(s_sfx);
+    size_delta = numsfx - old_numsfx;
+    memset(s_sfx + old_numsfx, 0, size_delta * sizeof(*s_sfx));
 
-        if (first_allocation)
-        {
-            first_allocation = false;
-            s_sfx = I_Malloc(numsfx * sizeof(*s_sfx));
-            memcpy(s_sfx, original_s_sfx, old_numsfx * sizeof(*s_sfx));
-        }
-        else
-            s_sfx = I_Realloc(s_sfx, numsfx * sizeof(*s_sfx));
+    array_grow(sfx_state, size_delta);
+    memset(sfx_state + old_numsfx, 0, size_delta * sizeof(*sfx_state));
 
-        memset(s_sfx + old_numsfx, 0, (numsfx - old_numsfx) * sizeof(*s_sfx));
-
-        sfx_state = I_Realloc(sfx_state, numsfx * sizeof(*sfx_state));
-        memset(sfx_state + old_numsfx, 0,
-            (numsfx - old_numsfx) * sizeof(*sfx_state));
-
-        for (int i = old_numsfx; i < numsfx; i++)
-        {
-            s_sfx[i].priority = 127;
-            s_sfx[i].lumpnum = -1;
-        }
+    for (int i = old_numsfx; i < numsfx; i++)
+    {
+        s_sfx[i].priority = 127;
+        s_sfx[i].lumpnum = -1;
     }
 }
 
 int dsdh_GetDehSFXIndex(const char *key, size_t length)
 {
     for (int i = 1; i < numsfx; i++)
-        if (*s_sfx[i].name1
+        if (s_sfx[i].name1
             && strlen(s_sfx[i].name1) == length
             && !strncasecmp(s_sfx[i].name1, key, length)
             && !sfx_state[i])
@@ -564,8 +563,8 @@ int dsdh_GetOriginalSFXIndex(const char *key)
 {
     int limit;
 
-    for (int i = 1; deh_soundnames[i]; i++)
-        if (!strncasecmp(deh_soundnames[i], key, 6))
+    for (int i = 1; i < array_capacity(deh_soundnames); i++)
+        if (deh_soundnames[i] && !strncasecmp(deh_soundnames[i], key, 6))
             return i;
 
     // is it a number?

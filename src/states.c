@@ -34,6 +34,7 @@
 */
 
 #include "d_player.h"
+#include "m_array.h"
 #include "i_system.h"
 
 void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -1515,12 +1516,14 @@ void InitStates(void)
 {
     numstates = NUMSTATES;
     states = original_states;
-    deh_codeptr = I_Malloc(numstates * sizeof(*deh_codeptr));
+
+    array_grow(deh_codeptr, numstates);
 
     for (int i = 0; i < numstates; i++)
         deh_codeptr[i] = states[i].action;
 
-    defined_codeptr_args = calloc(numstates, sizeof(*defined_codeptr_args));
+    array_grow(defined_codeptr_args, numstates);
+    memset(defined_codeptr_args, 0, numstates * sizeof(*defined_codeptr_args));
 
     // MBF21
     for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
@@ -1529,43 +1532,43 @@ void InitStates(void)
 
 void FreeStates(void)
 {
-    free(defined_codeptr_args);
-    free(deh_codeptr);
+    array_free(defined_codeptr_args);
+    array_free(deh_codeptr);
 }
 
 void dsdh_EnsureStatesCapacity(const int limit)
 {
+    const int   old_numstates = numstates;
     static bool first_allocation = true;
+    int         size_delta;
 
-    while (limit >= numstates)
+    if (limit < numstates)
+        return;
+
+    if (first_allocation)
     {
-        const int   old_numstates = numstates;
+        states = NULL;
+        array_grow(states, old_numstates + limit);
+        memcpy(states, original_states, old_numstates * sizeof(*states));
+        first_allocation = false;
+    }
+    else
+        array_grow(states, limit);
 
-        numstates *= 2;
+    numstates = array_capacity(states);
+    size_delta = numstates - old_numstates;
+    memset(states + old_numstates, 0, size_delta * sizeof(*states));
 
-        if (first_allocation)
-        {
-            first_allocation = false;
-            states = I_Malloc(numstates * sizeof(*states));
-            memcpy(states, original_states, old_numstates * sizeof(*states));
-        }
-        else
-            states = I_Realloc(states, numstates * sizeof(*states));
+    array_grow(deh_codeptr, size_delta);
+    memset(deh_codeptr + old_numstates, 0, size_delta * sizeof(*deh_codeptr));
 
-        memset(states + old_numstates, 0, (numstates - old_numstates) * sizeof(*states));
+    array_grow(defined_codeptr_args, size_delta);
+    memset(defined_codeptr_args + old_numstates, 0, size_delta * sizeof(*defined_codeptr_args));
 
-        deh_codeptr = I_Realloc(deh_codeptr, numstates * sizeof(*deh_codeptr));
-        memset(deh_codeptr + old_numstates, 0, (numstates - old_numstates) * sizeof(*deh_codeptr));
-
-        defined_codeptr_args = I_Realloc(defined_codeptr_args, numstates * sizeof(*defined_codeptr_args));
-        memset(defined_codeptr_args + old_numstates, 0,
-            (numstates - old_numstates) * sizeof(*defined_codeptr_args));
-
-        for (int i = old_numstates; i < numstates; i++)
-        {
-            states[i].sprite = SPR_TNT1;
-            states[i].tics = -1;
-            states[i].nextstate = i;
-        }
+    for (int i = old_numstates; i < numstates; i++)
+    {
+        states[i].sprite = SPR_TNT1;
+        states[i].tics = -1;
+        states[i].nextstate = i;
     }
 }
