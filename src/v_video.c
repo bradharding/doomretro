@@ -88,7 +88,7 @@ static colortranslation_t colortranslations[] =
 void V_InitColorTranslation(void)
 {
     for (colortranslation_t *p = colortranslations; *p->name; p++)
-        *p->lump = W_CacheLumpName(p->name);
+        *p->lump = W_CacheLumpNameFromResourceWAD(p->name);
 
     for (int i = 0; i < 256; i++)
     {
