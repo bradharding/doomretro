@@ -325,18 +325,21 @@ static void R_InitSpriteDefs(void)
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 
     // check if Wolfenstein SS sprites have been changed to zombiemen sprites
-    if (gamemode != commercial || (bfgedition && !states[S_SSWV_STND].dehacked))
-        allowwolfensteinss = false;
-    else
+    if (bfgedition && gamemode == commercial)
     {
-        const short poss = sprites[SPR_POSS].spriteframes[0].lump[0];
-        const short sswv = sprites[SPR_SSWV].spriteframes[0].lump[0];
-
-        if (spritewidth[poss] == spritewidth[sswv]
-            && spriteheight[poss] == spriteheight[sswv]
-            && spriteoffset[poss] == spriteoffset[sswv]
-            && spritetopoffset[poss] == spritetopoffset[sswv])
+        if (!states[S_SSWV_STND].dehacked)
             allowwolfensteinss = false;
+        else
+        {
+            const short poss = sprites[SPR_POSS].spriteframes[0].lump[0];
+            const short sswv = sprites[SPR_SSWV].spriteframes[0].lump[0];
+
+            if (spritewidth[poss] == spritewidth[sswv]
+                && spriteheight[poss] == spriteheight[sswv]
+                && spriteoffset[poss] == spriteoffset[sswv]
+                && spritetopoffset[poss] == spritetopoffset[sswv])
+                allowwolfensteinss = false;
+        }
     }
 }
 
