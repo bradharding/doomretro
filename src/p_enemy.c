@@ -1455,7 +1455,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
         for (int bx = xl; bx <= xh; bx++)
             for (int by = yl; by <= yh; by++)
                 // Call PIT_VileCheck() to check whether object is a corpse that can be raised.
-                if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck))
+                if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck, true))
                 {
                     // got one!
                     mobj_t              *prevtarget = actor->target;

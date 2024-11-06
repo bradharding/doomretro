@@ -217,7 +217,7 @@ extern fixed_t  lowfloor;
 void P_LineOpening(const line_t *line);
 
 bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *));
-bool P_BlockThingsIterator(const int x, const int y, bool func(mobj_t *));
+bool P_BlockThingsIterator(const int x, const int y, bool func(mobj_t *), bool blockmapfix);
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
