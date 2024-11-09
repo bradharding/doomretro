@@ -165,6 +165,7 @@ static void ParseLevelLayer(cJSON *json, interlevellayer_t *out)
 
 interlevel_t *WI_ParseInterlevel(const char *lumpname)
 {
+    int                 lumpnum = W_CheckNumForName(lumpname);
     interlevel_t        *out;
     cJSON               *json;
     cJSON               *data;
@@ -174,14 +175,14 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
     cJSON               *js_layer = NULL;
     interlevellayer_t   *layers = NULL;
 
-    if (!(json = cJSON_Parse(W_CacheLumpName(lumpname)))
+        if (!(json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))
         || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
         || !cJSON_IsString((music = cJSON_GetObjectItemCaseSensitive(data, "music")))
         || !cJSON_IsString((backgroundimage = cJSON_GetObjectItemCaseSensitive(data, "backgroundimage"))))
     {
         cJSON_Delete(json);
         C_Warning(1, "The " BOLD("%s") " lump in " BOLD("%s") " couldn't be parsed.",
-            lumpname, leafname(lumpinfo[W_GetNumForName(lumpname)]->wadfile->path));
+            lumpname, leafname(lumpinfo[lumpnum]->wadfile->path));
         return NULL;
     }
 

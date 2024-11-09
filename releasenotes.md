@@ -27,6 +27,7 @@
   * The positions of shadows cast by some monsters have improved.
   * The new monsters no longer bob up and down when in a liquid sector.
   * Adaptive translucency is now applied to projectiles fired by ghouls when the `r_sprites_translucency` CVAR is `on`.
+  * A bug is fixed whereby the calamity blade was inflicting too much damage.
 * A bug is fixed whereby [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack wasn’t being played in some maps when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * Minor improvements have been made to the support of [*Master Levels*](https://doomwiki.org/wiki/Master_Levels_for_Doom_II), [*SIGIL*](https://romero.com/sigil),  [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2), [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens) and  [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).

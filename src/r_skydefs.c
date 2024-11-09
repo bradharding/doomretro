@@ -142,7 +142,7 @@ skydefs_t *R_ParseSkyDefs(void)
     if (lumpnum == -1)
         return NULL;
 
-    if (!((json = cJSON_Parse(W_CacheLumpNum(lumpnum)))))
+    if (!((json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))))
     {
         cJSON_Delete(json);
         C_Warning(1, "The " BOLD("SKYDEFS") " lump in " BOLD("%s") " couldn't be parsed.",

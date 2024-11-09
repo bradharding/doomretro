@@ -2127,30 +2127,32 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
     // line special is gun triggered generalized linedef type
     bool (*linefunc)(line_t *line) = NULL;
 
+    unsigned short  special = line->special;
+
     // check each range of generalized linedefs
-    if (line->special >= GenEnd)
+    if (special >= GenEnd)
     {
         // Out of range for GenFloors
     }
-    else if (line->special >= GenFloorBase)
+    else if (special >= GenFloorBase)
     {
-        if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
+        if (!thing->player && ((special & FloorChange) || !(special & FloorModel)))
             return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
         linefunc = &EV_DoGenFloor;
     }
-    else if (line->special >= GenCeilingBase)
+    else if (special >= GenCeilingBase)
     {
-        if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
+        if (!thing->player && ((special & CeilingChange) || !(special & CeilingModel)))
             return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
         linefunc = &EV_DoGenCeiling;
     }
-    else if (line->special >= GenDoorBase)
+    else if (special >= GenDoorBase)
     {
         if (!thing->player)
         {
-            if (!(line->special & DoorMonster))
+            if (!(special & DoorMonster))
                 return;                     // monsters disallowed from this door
 
             if (line->flags & ML_SECRET)    // they can't open secret doors either
@@ -2159,12 +2161,12 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
         linefunc = &EV_DoGenDoor;
     }
-    else if (line->special >= GenLockedBase)
+    else if (special >= GenLockedBase)
     {
         if (!thing->player)
             return;                         // monsters disallowed from unlocking doors
 
-        if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
+        if ((special & TriggerType) == GunOnce || (special & TriggerType) == GunMany)
         {
             // jff 04/01/98 check for being a gun type before reporting door type
             if (!P_CanUnlockGenDoor(line))
@@ -2175,30 +2177,30 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
         linefunc = &EV_DoGenLockedDoor;
     }
-    else if (line->special >= GenLiftBase)
+    else if (special >= GenLiftBase)
     {
-        if (!thing->player && !(line->special & LiftMonster))
+        if (!thing->player && !(special & LiftMonster))
             return;                         // monsters disallowed
 
         linefunc = &EV_DoGenLift;
     }
-    else if (line->special >= GenStairsBase)
+    else if (special >= GenStairsBase)
     {
-        if (!thing->player && !(line->special & StairMonster))
+        if (!thing->player && !(special & StairMonster))
             return;                         // monsters disallowed
 
         linefunc = &EV_DoGenStairs;
     }
-    else if (line->special >= GenCrusherBase)
+    else if (special >= GenCrusherBase)
     {
-        if (!thing->player && !(line->special & CrusherMonster))
+        if (!thing->player && !(special & CrusherMonster))
             return;                         // monsters disallowed
 
         linefunc = &EV_DoGenCrusher;
     }
 
     if (linefunc)
-        switch ((line->special & TriggerType) >> TriggerTypeShift)
+        switch ((special & TriggerType) >> TriggerTypeShift)
         {
             case GunOnce:
                 if (linefunc(line))
@@ -2217,13 +2219,13 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
         }
 
     // Impacts that other things can activate.
-    if (!thing->player && line->special != GR_Door_OpenStay)
+    if (!thing->player && special != GR_Door_OpenStay)
         return;
 
     if (!P_CheckTag(line))                  // jff 02/27/98 disallow zero tag on some types
         return;
 
-    switch (line->special)
+    switch (special)
     {
         case G1_Floor_RaiseToLowestCeiling:
             if (EV_DoFloor(line, RaiseFloor))
@@ -2953,11 +2955,11 @@ static void P_SpawnScrollers(void)
 
     for (int i = 0; i < numlines; i++, line++)
     {
-        fixed_t dx = line->dx >> SCROLL_SHIFT;                              // direction and speed of scrolling
-        fixed_t dy = line->dy >> SCROLL_SHIFT;
-        int     control = -1;                                               // no control sector or acceleration
-        bool    accel = false;
-        int     special = line->special;
+        fixed_t         dx = line->dx >> SCROLL_SHIFT;                      // direction and speed of scrolling
+        fixed_t         dy = line->dy >> SCROLL_SHIFT;
+        int             control = -1;                                       // no control sector or acceleration
+        bool            accel = false;
+        unsigned short  special = line->special;
 
         // killough 03/07/98: Types 245-249 are same as 250-254 except that the
         // first side's sector's heights cause scrolling when they change, and
@@ -3278,11 +3280,9 @@ static bool PIT_PushThing(mobj_t *thing)
 //
 void T_Pusher(pusher_t *pusher)
 {
-    sector_t    *sec;
+    sector_t    *sec = sectors + pusher->affectee;
     int         xspeed, yspeed;
     int         ht = 0;
-
-    sec = sectors + pusher->affectee;
 
     // Be sure the special sector type is still turned on. If so, proceed.
     // Else, bail out; the sector type has been changed on us.
