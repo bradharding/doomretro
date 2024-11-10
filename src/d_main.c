@@ -2849,8 +2849,10 @@ static void D_DoomMainSetup(void)
 #if defined(_WIN32)
             if (wad && previouswad && !M_StringCompare(wad, previouswad))
             {
-                EpiDef.laston = episode = episode_default;
-                ExpDef.laston = expansion = expansion_default;
+                episode = episode_default;
+                EpiDef.laston = episode - 1;
+                expansion = expansion_default;
+                ExpDef.laston = expansion  - 1;
                 M_SaveCVARs();
             }
 #endif
