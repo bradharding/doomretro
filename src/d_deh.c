@@ -80,6 +80,8 @@ extern byte *defined_codeptr_args;
 // haleyjd: got rid of macros for MSVC
 static char *dehfgets(char *str, int count, DEHFILE *fp)
 {
+    linecount++;
+
     if (fp->file)
         return fgets(str, count, fp->file);
     else if (fp->lump)
