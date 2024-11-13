@@ -419,10 +419,13 @@ static bool UpdateAnimation(bool enteringcondition)
     animation->states = NULL;
     animation->backgroundlump = NULL;
 
-    if (!enteringcondition && animation->interlevelexiting)
+    if (!enteringcondition)
     {
-        animation->states = animation->exitingstates;
-        animation->backgroundlump = animation->interlevelexiting->backgroundlump;
+        if (animation->interlevelexiting)
+        {
+            animation->states = animation->exitingstates;
+            animation->backgroundlump = animation->interlevelexiting->backgroundlump;
+        }
     }
     else if (animation->interlevelentering)
     {
@@ -498,6 +501,30 @@ static bool SetupAnimation(void)
 static bool NextLocAnimation(void)
 {
     return (animation && animation->enteringstates);
+}
+
+static bool UpdateMusic(bool enteringcondition)
+{
+    int musicnum = -1;
+
+    if (!animation)
+        return false;
+
+    if (enteringcondition)
+    {
+        if (animation->interlevelentering)
+            musicnum = W_GetNumForName(animation->interlevelentering->musiclump);
+    }
+    else if (animation->interlevelexiting)
+        musicnum = W_GetNumForName(animation->interlevelexiting->musiclump);
+
+    if (musicnum > 0)
+    {
+        S_ChangeMusInfoMusic(musicnum, true);
+        return true;
+    }
+
+    return false;
 }
 
 // slam background
@@ -919,13 +946,18 @@ static void WI_UpdateNoState(void)
     WI_UpdateAnimatedBack();
 
     if (!--cnt)
+    {
+        WI_End();
         G_WorldDone();
+    }
 }
 
 static bool snl_pointeron;
 
 static void WI_InitShowNextLoc(void)
 {
+    UpdateMusic(true);
+
     if (gamemode != commercial && gamemap == 8)
     {
         G_WorldDone();
@@ -1285,7 +1317,7 @@ static void WI_LoadData(void);
 void WI_Ticker(void)
 {
     // counter for general background animation
-    if (++bcnt == 1)
+    if (++bcnt == 1 && !UpdateMusic(false))
     {
         // intermission music
         S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false, false);
