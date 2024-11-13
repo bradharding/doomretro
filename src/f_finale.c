@@ -107,6 +107,8 @@ void F_StartFinale(void)
     char    *intertext = P_GetInterText(gameepisode, gamemap);
     char    *intersecret = P_GetInterSecretText(gameepisode, gamemap);
 
+    gameaction = ga_nothing;
+    gamestate = GS_FINALE;
     viewactive = false;
     automapactive = false;
 
@@ -151,13 +153,10 @@ void F_StartFinale(void)
     }
     else if (P_GetMapEndCast(gameepisode, gamemap))
     {
-        gameaction = ga_nothing;
-        gamestate = GS_FINALE;
         F_StartCast();
-
         return;
     }
-    else
+    
         // Okay - IWAD dependent stuff.
         // This has been changed severely, and
         //  some stuff might have changed in the process.
@@ -272,9 +271,6 @@ void F_StartFinale(void)
         return;
     }
 
-    gameaction = ga_nothing;
-    gamestate = GS_FINALE;
-
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
 
@@ -318,42 +314,26 @@ void F_Ticker(void)
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
         {
-            if (P_GetMapEndCast(gameepisode, gamemap))
-                F_StartCast();
-            else if (P_GetMapEndBunny(gameepisode, gamemap))
+            if (P_GetMapEndPic(gameepisode, gamemap) > 0)
             {
-                finalecount = 0;
-                finalestage = F_STAGE_ARTSCREEN;
-                wipegamestate = GS_NONE;
-                S_StartMusic(mus_bunny);
-            }
-            else if (P_GetMapEndGame(gameepisode, gamemap))
-            {
-                finalecount = 0;
-                finalestage = F_STAGE_ARTSCREEN;
-                wipegamestate = GS_NONE;
-            }
-            else if (gamemode != commercial)
-            {
-                finalecount = 0;
-                finalestage = F_STAGE_ARTSCREEN;
-                wipegamestate = GS_NONE;
-
-                if (gameepisode == 3)
-                    S_StartMusic(mus_bunny);
-            }
-            else if (midstage)
-            {
-                if ((gamemap == 30 && !P_GetMapNext(gameepisode, gamemap))
-                    || (gamemission == pack_nerve && gamemap == 8))
+                if (P_GetMapEndCast(gameepisode, gamemap))
                     F_StartCast();
                 else
                 {
-                    viewplayer->attackdown = true;
-                    viewplayer->usedown = true;
-                    gameaction = ga_worlddone;
+                    finalecount = 0;
+                    finalestage = F_STAGE_ARTSCREEN;
+                    wipegamestate = GS_NONE;
+
+                    if (P_GetMapEndBunny(gameepisode, gamemap)
+                        || (gamemode != commercial && gameepisode == 3))
+                        S_StartMusic(mus_bunny);
                 }
             }
+            else if ((gamemap == 30 && !P_GetMapNext(gameepisode, gamemap))
+                || (gamemission == pack_nerve && gamemap == 8))
+                F_StartCast();
+            else
+                gameaction = ga_worlddone;
         }
     }
 }
