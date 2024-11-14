@@ -41,7 +41,6 @@
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to walls at different angles is now more varied.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 * These changes have been made to the alternate widescreen HUD:
-  * The HUD can now be easily accessed along with the default widescreen HUD by pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys during a game.
   * The weapon silhouette now accurately reflects the pickup sprite for each weapon.
   * Certain elements have now either shifted position, increased in size and/or cast a slight shadow.
   * The health bar no longer flashes white while it is red and the player picks up some health.

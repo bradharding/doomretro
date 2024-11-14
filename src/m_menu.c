@@ -2066,12 +2066,12 @@ static void M_DrawOptions(void)
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
-        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + (int)r_althud + (int)(!r_hud))));
+        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
-        + OptionsDef.x - 1 + 8 + (int)(dot * 5.9f) + 2;
+        + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
-        9, 15, dot, 5.9f, 8, (itemon == scrnsize || itemon == option_empty1));
+        9, 15, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
 
     if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
@@ -2419,13 +2419,6 @@ static void M_SizeDisplay(int choice)
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
         }
-        else if (r_screensize == r_screensize_max && r_althud)
-        {
-            r_althud = false;
-            C_StringCVAROutput(stringize(r_althud), "off");
-            S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
-        }
         else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
         {
             vid_widescreen = false;
@@ -2454,14 +2447,7 @@ static void M_SizeDisplay(int choice)
     }
     else
     {
-        if (r_screensize == r_screensize_max && r_hud && !r_althud)
-        {
-            r_althud = true;
-            C_StringCVAROutput(stringize(r_althud), "on");
-            S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
-        }
-        else if (r_screensize == r_screensize_max && r_hud && r_althud)
+        if (r_screensize == r_screensize_max && r_hud)
         {
             r_hud = false;
             C_StringCVAROutput(stringize(r_hud), "off");
@@ -2487,12 +2473,6 @@ static void M_SizeDisplay(int choice)
             {
                 r_hud = true;
                 C_StringCVAROutput(stringize(r_hud), "on");
-
-                if (r_althud)
-                {
-                    r_althud = false;
-                    C_StringCVAROutput(stringize(r_althud), "off");
-                }
             }
 
             S_StartSound(NULL, sfx_stnmov);
@@ -3468,12 +3448,6 @@ bool M_Responder(event_t *ev)
                 {
                     r_hud = false;
                     C_StringCVAROutput(stringize(r_hud), "off");
-                }
-
-                if (r_althud)
-                {
-                    r_althud = false;
-                    C_StringCVAROutput(stringize(r_althud), "off");
                 }
             }
 
