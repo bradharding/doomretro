@@ -74,6 +74,12 @@
 * All actions can now be bound to a second key using the `bind` CCMD in the console.
 * If the key bound to the `+followmode` action is bound to another action, pressing that key now works outside of the automap.
 * Maps that use *BOOM’s* `WATERMAP` lump are now supported.
+* A bug is fixed whereby the next map wouldn’t load after displaying a text screen during intermission in some rare instances.
+* The `episode` CVAR is now reset to its default if the WAD loaded in the launcher is different than last time.
+* Minor improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
+* A bug is fixed whereby Wolfenstein SS were replaced by zombiemen at the start of each map in some rare instances.
+* The behavior of lost souls spawned by pain elementals is now consistent with the original *DOOM II*.
+* The drop shadows of menu items displayed using a `DBIGFONT` lump no longer overlap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
