@@ -134,53 +134,23 @@ static void R_InitTextures(void)
     const int           *maptex1;
     const int           *maptex2 = NULL;
     char                name[9];
-    int                 *patchlookup;
-    int                 nummappatches = 0;
+    char                *names = W_CacheLumpName("PNAMES");
+    char                *name_p = names + 4;
+    int                 nummappatches = LONG(*((int *)names));
+    int                 *patchlookup = malloc(nummappatches * sizeof(*patchlookup));
     int                 maxoff;
     int                 maxoff2 = 0;
     int                 numtextures1;
     int                 numtextures2 = 0;
     const int           *directory;
 
-    for (int i = numlumps - 1; i >= 0; i--)
-        if (!strncasecmp(lumpinfo[i]->name, "PNAMES", 6))
-        {
-            if (numpnameslumps == maxpnameslumps)
-            {
-                maxpnameslumps++;
-                pnameslumps = I_Realloc(pnameslumps, maxpnameslumps * sizeof(pnameslump_t));
-            }
+    for (int i = 0; i < nummappatches; i++)
+    {
+        strncpy(name, name_p + i * 8, 8);
+        patchlookup[i] = W_CheckNumForName(name);
+    }
 
-            pnameslumps[numpnameslumps].names = W_CacheLumpNum(i);
-            pnameslumps[numpnameslumps].nummappatches = LONG(*((int *)pnameslumps[numpnameslumps].names));
-
-            // [crispy] accumulated number of patches in the lookup tables excluding the current one
-            pnameslumps[numpnameslumps].name_p = (char *)pnameslumps[numpnameslumps].names + 4;
-
-            // [crispy] calculate total number of patches
-            nummappatches += pnameslumps[numpnameslumps].nummappatches;
-            numpnameslumps++;
-        }
-
-    patchlookup = malloc(nummappatches * sizeof(*patchlookup)); // killough
-
-    for (int i = 0, patch = 0; i < numpnameslumps; i++)
-        for (int j = 0; j < pnameslumps[i].nummappatches; j++)
-        {
-            int p1;
-            int p2;
-
-            M_StringCopy(name, &pnameslumps[i].name_p[j * 8], sizeof(name));
-            p1 = p2 = W_CheckNumForName(name);
-
-            // [crispy] prevent flat lumps from being mistaken as patches
-            while (p2 >= firstflat && p2 <= lastflat)
-                p2 = W_RangeCheckNumForName(0, p2 - 1, name);
-
-            patchlookup[patch++] = (p2 >= 0 ? p2 : p1);
-        }
-
-    free(pnameslumps);
+    Z_Free(names);
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
