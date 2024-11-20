@@ -216,8 +216,11 @@ void HU_Init(void)
 
                 if (state->sprite == sprite)
                 {
-                    weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump
-                        + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
+                    spriteframe_t   *frame = &sprites[sprite].spriteframes[state->frame & FF_FRAMEMASK];
+
+                    if (frame)
+                        weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump + frame->lump[0]);
+
                     break;
                 }
             }
