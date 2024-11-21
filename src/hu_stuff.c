@@ -210,6 +210,9 @@ void HU_Init(void)
             || (gamemode != commercial && i == wp_supershotgun))
             weaponinfo[i].ammopatch = NULL;
         else
+        {
+            weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump + sprite);
+
             for (int j = numstates - 1; j >= 0; j--)
             {
                 state_t *state = &states[j];
@@ -223,6 +226,7 @@ void HU_Init(void)
 
                     break;
                 }
+            }
             }
     }
 
