@@ -361,7 +361,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         screenwidth = SCREENWIDTH;
     }
 
-    screenarea = screenwidth * (y + hu_font[0]->height * 4 + 10);
+    screenarea = screenwidth * (y + SHORT(hu_font[0]->height) * 4 + 10);
 
     for (int i = 0; i < screenarea; i++)
         tempscreen[i] = PINK;
@@ -384,7 +384,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         if (c == '\n' || i == wrap)
         {
             x = l->x;
-            y += hu_font[0]->height + 2;
+            y += SHORT(hu_font[0]->height) + 2;
 
             if (c == ' ')
                 continue;

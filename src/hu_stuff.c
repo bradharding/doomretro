@@ -227,7 +227,7 @@ void HU_Init(void)
                     break;
                 }
             }
-            }
+        }
     }
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
@@ -1550,12 +1550,12 @@ void HU_Drawer(void)
             if (vid_widescreen)
             {
                 w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
             }
             else
             {
                 w_title.x = 0;
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 6;
+                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
             }
 
             HUlib_DrawAutomapTextLine(&w_title, false);
@@ -1596,7 +1596,7 @@ void HU_Drawer(void)
             else
             {
                 w_title.x = 25;
-                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 16;
+                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 16;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
