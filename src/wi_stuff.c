@@ -379,6 +379,14 @@ static void UpdateAnimationStates(wi_animationstate_t *animstates)
         {
             int tics = 1;
 
+            if (!animstate->framestart)
+            {
+                if (++animstate->frameindex == array_size(animstate->frames))
+                    animstate->frameindex = 0;
+
+                frame = &animstate->frames[animstate->frameindex];
+            }
+
             switch (frame->type)
             {
                 case Frame_RandomStart:
@@ -401,9 +409,6 @@ static void UpdateAnimationStates(wi_animationstate_t *animstates)
             }
 
             animstate->durationleft = MAX(1, tics);
-
-            if (!animstate->framestart && ++animstate->frameindex == array_size(animstate->frames))
-                animstate->frameindex = 0;
         }
 
         animstate->durationleft--;
@@ -946,10 +951,7 @@ static void WI_UpdateNoState(void)
     WI_UpdateAnimatedBack();
 
     if (!--cnt)
-    {
-        WI_End();
         G_WorldDone();
-    }
 }
 
 static bool snl_pointeron;
@@ -1009,19 +1011,22 @@ static void WI_DrawShowNextLoc(void)
             return;
         }
 
-        last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
+        if (!animation || !array_size(animation->states))
+        {
+            last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
 
-        // draw a splat on taken cities.
-        for (int i = 0; i <= last; i++)
-            WI_DrawOnLnode(i, splat);
+            // draw a splat on taken cities.
+            for (int i = 0; i <= last; i++)
+                WI_DrawOnLnode(i, splat);
 
-        // splat the secret level?
-        if (wbs->didsecret)
-            WI_DrawOnLnode(8, splat);
+            // splat the secret level?
+            if (wbs->didsecret)
+                WI_DrawOnLnode(8, splat);
 
-        // draw flashing ptr
-        if (snl_pointeron)
-            WI_DrawOnLnode(wbs->next, yah);
+            // draw flashing ptr
+            if (snl_pointeron)
+                WI_DrawOnLnode(wbs->next, yah);
+        }
     }
 
     if (gamemission == pack_nerve && wbs->last == 7)
