@@ -1003,17 +1003,15 @@ static void WI_DrawShowNextLoc(void)
 
     if (gamemode != commercial)
     {
-        int last;
-
         if (wbs->epsd > 2)
         {
             WI_DrawEL();
             return;
         }
 
-        if (!animation || !array_size(animation->states))
+        if (!animation || !animation->enteringstates)
         {
-            last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
+            const int   last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
 
             // draw a splat on taken cities.
             for (int i = 0; i <= last; i++)
