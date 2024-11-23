@@ -3175,7 +3175,8 @@ bool M_Responder(event_t *ev)
     }
 
     // Console
-    if ((key == keyboardconsole || key == keyboardconsole2) && !paused && !splashscreen && !keydown && !messagetoprint)
+    if ((key == keyboardconsole || key == keyboardconsole2)
+        && !paused && !splashscreen && !keydown && !messagetoprint && !savestringenter)
     {
         keydown = key;
 
@@ -3183,7 +3184,6 @@ bool M_Responder(event_t *ev)
         {
             functionkey = 0;
             SDL_StopTextInput();
-            savestringenter = false;
             M_CloseMenu();
             D_FadeScreen(false);
 
