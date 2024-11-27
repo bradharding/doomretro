@@ -122,7 +122,6 @@ byte    nearestwhite;
 byte    *black10;
 byte    *black25;
 byte    *black40;
-byte    *black45;
 byte    *black75;
 byte    *gold4;
 byte    *white5;
@@ -181,7 +180,6 @@ void FindNearestColors(byte *palette)
     black10 = &tinttab10[nearestblack << 8];
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
-    black45 = &tinttab45[nearestblack << 8];
     black75 = &tinttab75[nearestblack << 8];
     gold4 = &tinttab4[nearestgold << 8];
     white5 = &tinttab5[nearestwhite << 8];

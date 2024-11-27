@@ -109,7 +109,6 @@ extern byte nearestwhite;
 extern byte *black10;
 extern byte *black25;
 extern byte *black40;
-extern byte *black45;
 extern byte *black75;
 extern byte *gold4;
 extern byte *white5;

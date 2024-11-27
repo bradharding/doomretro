@@ -1005,7 +1005,7 @@ void V_DrawHelpPatch(patch_t *patch)
                 *dest = nearestcolors[source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
                 dot = dest + SCREENWIDTH + 2;
-                *dot = black45[*dot];
+                *dot = black40[*dot];
                 srccol += DYI;
             }
 
