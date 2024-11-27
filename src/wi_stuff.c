@@ -329,31 +329,31 @@ static bool CheckConditions(interlevelcond_t *conditions, bool enteringcondition
         switch (condition->condition)
         {
             case AnimCondition_MapNumGreater:
-                conditionsmet = (map > condition->param);
+                conditionsmet &= (map > condition->param);
                 break;
 
             case AnimCondition_MapNumEqual:
-                conditionsmet = (map == condition->param);
+                conditionsmet &= (map == condition->param);
                 break;
 
             case AnimCondition_MapVisited:
-                conditionsmet = (map > condition->param);
+                conditionsmet &= (map > condition->param);
                 break;
 
             case AnimCondition_MapNotSecret:
-                conditionsmet = !P_IsSecret(1, map);
+                conditionsmet &= !P_IsSecret(1, map);
                 break;
 
             case AnimCondition_SecretVisited:
-                conditionsmet = wbs->didsecret;
+                conditionsmet &= wbs->didsecret;
                 break;
 
             case AnimCondition_Tally:
-                conditionsmet = !enteringcondition;
+                conditionsmet &= !enteringcondition;
                 break;
 
             case AnimCondition_IsEntering:
-                conditionsmet = enteringcondition;
+                conditionsmet &= enteringcondition;
                 break;
 
             default:

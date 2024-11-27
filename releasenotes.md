@@ -7,6 +7,7 @@
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* A bug is fixed whereby textures wouldn’t load from a PWAD in some rare instances.
 * These changes have been made when a PWAD is loaded that has a custom character set:
   * The message displayed when the player finds a secret is now gold if the `secretmessages` CVAR is `on`.
   * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
