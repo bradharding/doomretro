@@ -1072,6 +1072,7 @@ static void M_LoadSelect(int choice)
         S_StartSound(NULL, sfx_pistol);
         functionkey = 0;
         quicksaveslot = choice;
+        savegameslot = choice;
         G_LoadGame(name);
     }
     else

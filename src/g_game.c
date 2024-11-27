@@ -168,9 +168,9 @@ static int      dclicktime2;
 static bool     dclickstate2;
 static int      dclicks2;
 
-static int      savegameslot;
-static char     savedescription[SAVESTRINGSIZE];
+int             savegameslot;
 char            savename[MAX_PATH];
+static char     savedescription[SAVESTRINGSIZE];
 
 gameaction_t    loadaction = ga_nothing;
 

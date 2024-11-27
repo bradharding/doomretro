@@ -117,6 +117,7 @@ extern char         keyactionlist[NUMKEYS][255];
 extern char         mouseactionlist[MAXMOUSEBUTTONS + 2][255];
 extern int          st_facecount;
 extern char         savename[MAX_PATH];
+extern int          savegameslot;
 extern bool         usefreelook;
 extern bool         secretexit;
 extern gameaction_t loadaction;
