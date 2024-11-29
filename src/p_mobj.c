@@ -465,8 +465,7 @@ floater:
     if (mo->z <= floorz)
     {
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if ((mo->type == MT_BLOOD && states[S_BLOOD3].nextstate == S_NULL)
-            || (SD21 && mo->sprite == 383))
+        if ((mo->type == MT_BLOOD && !nobloodsplats) || (SD21 && mo->sprite == 383))
         {
             P_RemoveBloodMobj(mo);
 
@@ -1584,7 +1583,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
     const bool checklineside, const fixed_t maxheight, mobj_t *target)
 {
-    if (r_bloodsplats_total < r_bloodsplats_max)
+    if (r_bloodsplats_total < r_bloodsplats_max && !nobloodsplats)
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 

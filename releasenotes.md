@@ -39,6 +39,7 @@
 * These changes have been made to the support of `DEHACKED` lumps:
   * A bug is fixed whereby a line wouldn’t be parsed in some instances if the previous line was blank.
   * If the fists or chainsaw are replaced using `WEAPON`, that weapon can now consume ammo.
+  * Blood splats are no longer spawned if the states of blood have been changed.
 * The [fake contrast](https://doomwiki.org/wiki/Fake_contrast) applied to walls at different angles is now more varied.
 * A bug is fixed whereby the player’s aim was slightly lower when the `freelook` CVAR was `on` and the `r_screensize` CVAR was `8`.
 * These changes have been made to the alternate widescreen HUD:

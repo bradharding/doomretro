@@ -71,6 +71,7 @@ static int  linecount;
 int         dehcount = 0;
 int         dehmaptitlecount = 0;
 bool        dehacked = false;
+bool        nobloodsplats = false;
 bool        norockettrails = false;
 
 extern byte *defined_codeptr_args;
@@ -4544,6 +4545,7 @@ void D_PostProcessDeh(void)
                 states[i].args[j] = bexptr_match->default_args[j];
     }
 
+    nobloodsplats = (states[S_BLOOD3].nextstate != S_NULL);
     norockettrails |= (states[S_TRAIL].dehacked || states[S_TRAIL2].dehacked
         || states[S_TRAIL3].dehacked || states[S_TRAIL4].dehacked);
 

@@ -558,6 +558,7 @@ extern const int    nummapnamesn;
 
 extern int          dehcount;
 extern int          dehmaptitlecount;
+extern bool         nobloodsplats;
 extern bool         norockettrails;
 
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded);
