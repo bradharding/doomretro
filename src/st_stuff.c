@@ -1049,6 +1049,9 @@ bool ST_Responder(const event_t *ev)
                             message_secret = true;
                     }
 
+                    if (legacyofrust)
+                        epsd = 1;
+
                     // [BH] always display message
                     message_dontfuckwithme = true;
 

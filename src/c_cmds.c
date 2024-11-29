@@ -4629,6 +4629,9 @@ static void map_func2(char *cmd, char *parms)
     else if (mapcmdmap == 9)
         message_secret = true;
 
+    if (legacyofrust)
+        mapcmdepisode = 1;
+
     gameepisode = mapcmdepisode;
 
     if (gamemission == doom)
