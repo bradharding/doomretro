@@ -1264,7 +1264,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         return NULL;
     }
 
-    if (mobjinfo[i].flags & MF_COUNTKILL)
+    if (type == LostSoul && !spawnmonsters)
+        return NULL;
+    else if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
         if (!spawnmonsters)
