@@ -115,11 +115,12 @@ void R_ClearClipSegs(void)
 // a line, including closure and texture tiling.
 static void R_RecalcLineFlags(line_t *line)
 {
+    bool    twosided = line->flags & ML_TWOSIDED;
     int c;
 
     line->r_validcount = gametime;
 
-    if (!(line->flags & ML_TWOSIDED)
+    if (!twosided
         || backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight
         || (backsector->interpceilingheight <= backsector->interpfloorheight
@@ -130,34 +131,31 @@ static void R_RecalcLineFlags(line_t *line)
             && (backsector->ceilingpic != skyflatnum
                 || frontsector->ceilingpic != skyflatnum)))
         line->r_flags = RF_CLOSED;
-    else
+    else if (backsector->interpceilingheight != frontsector->interpceilingheight
+        || backsector->interpfloorheight != frontsector->interpfloorheight
+        || curline->sidedef->midtexture
+        || backsector->floorxoffset != frontsector->floorxoffset
+        || backsector->flooryoffset != frontsector->flooryoffset
+        || backsector->ceilingxoffset != frontsector->ceilingxoffset
+        || backsector->ceilingyoffset != frontsector->ceilingyoffset
+        || (backsector->floorlightsec && frontsector->floorlightsec
+            && backsector->floorlightsec->id != frontsector->floorlightsec->id)
+        || (backsector->ceilinglightsec && frontsector->ceilinglightsec
+            && backsector->ceilinglightsec->id != frontsector->ceilinglightsec->id)
+            || backsector->floorpic != frontsector->floorpic
+        || backsector->ceilingpic != frontsector->ceilingpic
+        || backsector->lightlevel != frontsector->lightlevel)
     {
-        if (backsector->interpceilingheight != frontsector->interpceilingheight
-            || backsector->interpfloorheight != frontsector->interpfloorheight
-            || curline->sidedef->midtexture
-            || backsector->floorxoffset != frontsector->floorxoffset
-            || backsector->flooryoffset != frontsector->flooryoffset
-            || backsector->ceilingxoffset != frontsector->ceilingxoffset
-            || backsector->ceilingyoffset != frontsector->ceilingyoffset
-            || (backsector->floorlightsec && frontsector->floorlightsec
-                && backsector->floorlightsec->id != frontsector->floorlightsec->id)
-            || (backsector->ceilinglightsec && frontsector->ceilinglightsec
-                && backsector->ceilinglightsec->id != frontsector->ceilinglightsec->id)
-                || backsector->floorpic != frontsector->floorpic
-            || backsector->ceilingpic != frontsector->ceilingpic
-            || backsector->lightlevel != frontsector->lightlevel)
-        {
-            line->r_flags = RF_NONE;
-            return;
-        }
-        else
-            line->r_flags = RF_IGNORE;
+        line->r_flags = RF_NONE;
+        return;
     }
+    else
+        line->r_flags = RF_IGNORE;
 
     if (curline->sidedef->rowoffset)
         return;
 
-    if (line->flags & ML_TWOSIDED)
+    if (twosided)
     {
         // Does top texture need tiling
         if ((c = frontsector->interpceilingheight - backsector->interpceilingheight) > 0

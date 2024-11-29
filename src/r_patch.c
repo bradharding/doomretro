@@ -58,19 +58,14 @@ static short    STEP2;
 
 static bool IsSolidAtSpot(const column_t *column, const int spot)
 {
-    if (!column)
-        return false;
-
-    while (column->topdelta != 0xFF)
-    {
-        if (spot < column->topdelta)
-            return false;
-
-        if (spot <= column->topdelta + column->length)
-            return true;
-
-        column = (const column_t *)((const byte *)column + 3 + column->length + 1);
-    }
+    if (column)
+        while (column->topdelta != 0xFF)
+            if (spot < column->topdelta)
+                return false;
+            else if (spot <= column->topdelta + column->length)
+                return true;
+            else
+                column = (const column_t *)((const byte *)column + 3 + column->length + 1);
 
     return false;
 }
@@ -125,7 +120,7 @@ static void CreatePatch(int patchnum)
     int                 postsdatasize;
     int                 datasize;
     int                 *numpostsincolumn;
-    int                 numpoststotal;
+    int                 numpoststotal = 0;
     const unsigned char *oldcolumnpixeldata;
 
     if (!CheckIfPatch(patchnum))
@@ -149,8 +144,6 @@ static void CreatePatch(int patchnum)
     // work out how much memory we need to allocate for this patch's data
     pixeldatasize = ((patch->width * patch->height + 4) & ~3);
     columnsdatasize = patch->width * sizeof(rcolumn_t);
-
-    numpoststotal = 0;
 
     for (int x = 0; x < patch->width; x++)
     {
@@ -232,33 +225,26 @@ static void CreatePatch(int patchnum)
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, x);
         const rcolumn_t *prevcolumn = R_GetPatchColumnClamped(patch, x - 1);
 
+        // force the first pixel (which is a hole), to use
+        // the color from the next solid spot in the column
         if (column->pixels[0] == 0xFF)
-        {
-            // force the first pixel (which is a hole), to use
-            // the color from the next solid spot in the column
             for (int y = 0; y < patch->height; y++)
                 if (column->pixels[y] != 0xFF)
                 {
                     column->pixels[0] = column->pixels[y];
                     break;
                 }
-        }
 
         // copy from above or to the left
         for (int y = 1; y < patch->height; y++)
-        {
-            if (IsSolidAtSpot(oldcolumn, y))
-                continue;
-
-            if (column->pixels[y] != 0xFF)
-                continue;
-
-            // this pixel is a hole
-            if (x && prevcolumn->pixels[y - 1] != 0xFF)
-                column->pixels[y] = prevcolumn->pixels[y];  // copy the color from the left
-            else
-                column->pixels[y] = column->pixels[y - 1];  // copy the color from above
-        }
+            if (!IsSolidAtSpot(oldcolumn, y) && column->pixels[y] == 0xFF)
+            {
+                // this pixel is a hole
+                if (x && prevcolumn->pixels[y - 1] != 0xFF)
+                    column->pixels[y] = prevcolumn->pixels[y];  // copy the color from the left
+                else
+                    column->pixels[y] = column->pixels[y - 1];  // copy the color from above
+            }
     }
 
     W_ReleaseLumpNum(patchnum);
@@ -312,7 +298,7 @@ static void CreateTextureCompositePatch(const int id)
     int                 columnsdatasize;
     int                 postsdatasize;
     int                 datasize;
-    int                 numpoststotal;
+    int                 numpoststotal = 0;
     const unsigned char *oldcolumnpixeldata;
     count_t             *countsincolumn;
 
@@ -328,7 +314,6 @@ static void CreateTextureCompositePatch(const int id)
 
     // count the number of posts in each column
     countsincolumn = (count_t *)calloc(compositepatch->width, sizeof(count_t));
-    numpoststotal = 0;
 
     for (int i = 0; i < texture->patchcount; i++)
     {
@@ -520,30 +505,26 @@ static void CreateTextureCompositePatch(const int id)
         const rcolumn_t *column = R_GetPatchColumnClamped(compositepatch, x);
         const rcolumn_t *prevcolumn = R_GetPatchColumnClamped(compositepatch, x - 1);
 
+        // force the first pixel (which is a hole), to use
+        // the color from the next solid spot in the column
         if (column->pixels[0] == 0xFF)
-        {
-            // force the first pixel (which is a hole), to use
-            // the color from the next solid spot in the column
             for (int y = 0; y < compositepatch->height; y++)
                 if (column->pixels[y] != 0xFF)
                 {
                     column->pixels[0] = column->pixels[y];
                     break;
                 }
-        }
 
         // copy from above or to the left
         for (int y = 1; y < compositepatch->height; y++)
-        {
-            if (column->pixels[y] != 0xFF)
-                continue;
-
-            // this pixel is a hole
-            if (x && prevcolumn->pixels[y - 1] != 0xFF)
-                column->pixels[y] = prevcolumn->pixels[y];  // copy the color from the left
-            else
-                column->pixels[y] = column->pixels[y - 1];  // copy the color from above
-        }
+            if (column->pixels[y] == 0xFF)
+            {
+                // this pixel is a hole
+                if (x && prevcolumn->pixels[y - 1] != 0xFF)
+                    column->pixels[y] = prevcolumn->pixels[y];  // copy the color from the left
+                else
+                    column->pixels[y] = column->pixels[y - 1];  // copy the color from above
+            }
     }
 
     free(countsincolumn);

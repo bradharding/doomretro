@@ -1263,14 +1263,16 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         return NULL;
     }
 
-    if (type == LostSoul && !spawnmonsters)
+    // don't spawn any monsters if -nomonsters
+    if (!spawnmonsters
+        && (mobjinfo[i].flags & MF_SHOOTABLE)
+        && type != Barrel
+        && (type != OfficeLampBreakable || !legacyofrust)
+        && (type != Cacodemon || !hacx))
         return NULL;
-    else if (mobjinfo[i].flags & MF_COUNTKILL)
-    {
-        // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters)
-            return NULL;
 
+    if (mobjinfo[i].flags & MF_COUNTKILL)
+    {
         // killough 07/20/98: exclude friends
         if (!((mobjinfo[i].flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
             totalkills++;
