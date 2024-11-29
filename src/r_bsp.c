@@ -59,8 +59,7 @@ void R_ClearDrawSegs(void)
 // CPhipps -
 // Instead of clipsegs, let's try using an array with one entry for each column,
 // indicating whether it's blocked by a solid wall yet or not.
-static int  memcmpsize;
-byte        *solidcol;
+byte    *solidcol;
 
 // CPhipps -
 // R_ClipWallSegment
@@ -98,11 +97,6 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
 //
 void R_InitClipSegs(void)
 {
-    memcmpsize = sizeof(frontsector->floorxoffset) + sizeof(frontsector->flooryoffset)
-        + sizeof(frontsector->ceilingxoffset) + sizeof(frontsector->ceilingyoffset)
-        + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
-        + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
-        + sizeof(frontsector->lightlevel);
     solidcol = calloc(MAXWIDTH, sizeof(*solidcol));
 }
 
@@ -141,7 +135,17 @@ static void R_RecalcLineFlags(line_t *line)
         if (backsector->interpceilingheight != frontsector->interpceilingheight
             || backsector->interpfloorheight != frontsector->interpfloorheight
             || curline->sidedef->midtexture
-            || memcmp(&backsector->floorxoffset, &frontsector->floorxoffset, memcmpsize))
+            || backsector->floorxoffset != frontsector->floorxoffset
+            || backsector->flooryoffset != frontsector->flooryoffset
+            || backsector->ceilingxoffset != frontsector->ceilingxoffset
+            || backsector->ceilingyoffset != frontsector->ceilingyoffset
+            || (backsector->floorlightsec && frontsector->floorlightsec
+                && backsector->floorlightsec->id != frontsector->floorlightsec->id)
+            || (backsector->ceilinglightsec && frontsector->ceilinglightsec
+                && backsector->ceilinglightsec->id != frontsector->ceilinglightsec->id)
+                || backsector->floorpic != frontsector->floorpic
+            || backsector->ceilingpic != frontsector->ceilingpic
+            || backsector->lightlevel != frontsector->lightlevel)
         {
             line->r_flags = RF_NONE;
             return;
