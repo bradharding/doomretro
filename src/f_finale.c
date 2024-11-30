@@ -1028,7 +1028,7 @@ static void F_ArtScreenDrawer(void)
         if (!finalestage)
             F_TextWrite();
         else
-            V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
+            V_DrawPagePatch(0, W_CacheLumpNum(lumpnum));
     }
     else if (P_GetMapEndBunny(gameepisode, gamemap) || gameepisode == 3)
         F_BunnyScroll();
