@@ -138,11 +138,9 @@ static void R_RecalcLineFlags(line_t *line)
         || backsector->flooryoffset != frontsector->flooryoffset
         || backsector->ceilingxoffset != frontsector->ceilingxoffset
         || backsector->ceilingyoffset != frontsector->ceilingyoffset
-        || (backsector->floorlightsec && frontsector->floorlightsec
-            && backsector->floorlightsec->id != frontsector->floorlightsec->id)
-        || (backsector->ceilinglightsec && frontsector->ceilinglightsec
-            && backsector->ceilinglightsec->id != frontsector->ceilinglightsec->id)
-            || backsector->floorpic != frontsector->floorpic
+        || backsector->floorlightsec != frontsector->floorlightsec
+        || backsector->ceilinglightsec != frontsector->ceilinglightsec
+        || backsector->floorpic != frontsector->floorpic
         || backsector->ceilingpic != frontsector->ceilingpic
         || backsector->lightlevel != frontsector->lightlevel)
     {
