@@ -107,8 +107,6 @@ void F_StartFinale(void)
     char    *intertext = P_GetInterText(gameepisode, gamemap);
     char    *intersecret = P_GetInterSecretText(gameepisode, gamemap);
 
-    gameaction = ga_nothing;
-    gamestate = GS_FINALE;
     viewactive = false;
     automapactive = false;
 
@@ -153,123 +151,128 @@ void F_StartFinale(void)
     }
     else if (P_GetMapEndCast(gameepisode, gamemap))
     {
+        gameaction = ga_nothing;
+        gamestate = GS_FINALE;
         F_StartCast();
         return;
     }
+    else
+        // Okay - IWAD dependent stuff.
+        // This has been changed severely, and
+        //  some stuff might have changed in the process.
+        switch (gamemode)
+        {
+            // DOOM 1 - E1, E3 or E4, but each nine missions
+            case shareware:
+            case registered:
+            case retail:
+                S_ChangeMusic(mus_victor, true, false, false);
 
-    // Okay - IWAD dependent stuff.
-    // This has been changed severely, and
-    //  some stuff might have changed in the process.
-    switch (gamemode)
-    {
-        // DOOM 1 - E1, E3 or E4, but each nine missions
-        case shareware:
-        case registered:
-        case retail:
-            S_ChangeMusic(mus_victor, true, false, false);
+                switch (gameepisode)
+                {
+                    case 1:
+                        finaleflat = bgflatE1;
+                        finaletext = s_E1TEXT;
+                        break;
 
-            switch (gameepisode)
-            {
-                case 1:
-                    finaleflat = bgflatE1;
-                    finaletext = s_E1TEXT;
-                    break;
+                    case 2:
+                        finaleflat = bgflatE2;
+                        finaletext = s_E2TEXT;
+                        break;
 
-                case 2:
-                    finaleflat = bgflatE2;
-                    finaletext = s_E2TEXT;
-                    break;
+                    case 3:
+                        finaleflat = bgflatE3;
+                        finaletext = s_E3TEXT;
+                        break;
 
-                case 3:
-                    finaleflat = bgflatE3;
-                    finaletext = s_E3TEXT;
-                    break;
+                    case 4:
+                        finaleflat = bgflatE4;
+                        finaletext = s_E4TEXT;
+                        break;
 
-                case 4:
-                    finaleflat = bgflatE4;
-                    finaletext = s_E4TEXT;
-                    break;
+                    case 5:
+                        finaleflat = bgflatE5;
+                        finaletext = s_E5TEXT;
+                        break;
 
-                case 5:
-                    finaleflat = bgflatE5;
-                    finaletext = s_E5TEXT;
-                    break;
+                    case 6:
+                        finaleflat = bgflatE6;
+                        finaletext = s_E6TEXT;
+                        break;
+                }
 
-                case 6:
-                    finaleflat = bgflatE6;
-                    finaletext = s_E6TEXT;
-                    break;
-            }
+                break;
 
-            break;
+            // DOOM II and missions packs with E1, M34
+            case commercial:
+                S_ChangeMusic(mus_read_m, true, false, false);
 
-        // DOOM II and missions packs with E1, M34
-        case commercial:
-            S_ChangeMusic(mus_read_m, true, false, false);
-
-            switch (gamemap)
-            {
-                case 6:
-                    finaleflat = bgflat06;
-                    finaletext = (gamemission == pack_tnt ? s_T1TEXT :
-                        (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
-                    break;
-
-                case 8:
-                    if (gamemission == pack_nerve)
-                    {
+                switch (gamemap)
+                {
+                    case 6:
                         finaleflat = bgflat06;
-                        finaletext = s_N1TEXT;
-                    }
+                        finaletext = (gamemission == pack_tnt ? s_T1TEXT :
+                            (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
+                        break;
 
-                    break;
+                    case 8:
+                        if (gamemission == pack_nerve)
+                        {
+                            finaleflat = bgflat06;
+                            finaletext = s_N1TEXT;
+                        }
 
-                case 11:
-                    finaleflat = bgflat11;
-                    finaletext = (gamemission == pack_tnt ? s_T2TEXT :
-                        (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
-                    break;
+                        break;
 
-                case 20:
-                    finaleflat = bgflat20;
-                    finaletext = (gamemission == pack_tnt ? s_T3TEXT :
-                        (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
-                    break;
+                    case 11:
+                        finaleflat = bgflat11;
+                        finaletext = (gamemission == pack_tnt ? s_T2TEXT :
+                            (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
+                        break;
 
-                case 30:
-                    finaleflat = bgflat30;
-                    finaletext = (gamemission == pack_tnt ? s_T4TEXT :
-                        (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
-                    break;
+                    case 20:
+                        finaleflat = bgflat20;
+                        finaletext = (gamemission == pack_tnt ? s_T3TEXT :
+                            (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                        break;
 
-                case 15:
-                    finaleflat = bgflat15;
-                    finaletext = (gamemission == pack_tnt ? s_T5TEXT :
-                        (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
-                    break;
+                    case 30:
+                        finaleflat = bgflat30;
+                        finaletext = (gamemission == pack_tnt ? s_T4TEXT :
+                            (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
+                        break;
 
-                case 31:
-                    finaleflat = bgflat31;
-                    finaletext = (gamemission == pack_tnt ? s_T6TEXT :
-                        (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
-                    break;
-            }
+                    case 15:
+                        finaleflat = bgflat15;
+                        finaletext = (gamemission == pack_tnt ? s_T5TEXT :
+                            (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
+                        break;
 
-            break;
+                    case 31:
+                        finaleflat = bgflat31;
+                        finaletext = (gamemission == pack_tnt ? s_T6TEXT :
+                            (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
+                        break;
+                }
 
-        // Indeterminate.
-        default:
-            S_ChangeMusic(mus_read_m, true, false, false);
-            finaleflat = "F_SKY1";
-            finaletext = s_C1TEXT;
-            break;
-    }
+                break;
+
+            // Indeterminate.
+            default:
+                S_ChangeMusic(mus_read_m, true, false, false);
+                finaleflat = "F_SKY1";
+                finaletext = s_C1TEXT;
+                break;
+        }
 
     if (strlen(finaletext) <= 1)
     {
         gameaction = ga_worlddone;
         return;
     }
+
+    gameaction = ga_nothing;
+    gamestate = GS_FINALE;
 
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
