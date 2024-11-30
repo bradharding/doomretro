@@ -1036,6 +1036,9 @@ bool ST_Responder(const event_t *ev)
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);
 
+                    if (legacyofrust)
+                        epsd = 1;
+
                     if (P_IsSecret(epsd, map))
                         message_secret = true;
                     else if (gamemode == commercial)
@@ -1048,9 +1051,6 @@ bool ST_Responder(const event_t *ev)
                         if (map == 9)
                             message_secret = true;
                     }
-
-                    if (legacyofrust)
-                        epsd = 1;
 
                     // [BH] always display message
                     message_dontfuckwithme = true;

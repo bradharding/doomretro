@@ -4617,6 +4617,9 @@ static void map_func2(char *cmd, char *parms)
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
 
+    if (legacyofrust)
+        mapcmdepisode = 1;
+
     if (P_IsSecret(mapcmdepisode, mapcmdmap))
         message_secret = true;
     else if (gamemode == commercial)
@@ -4628,9 +4631,6 @@ static void map_func2(char *cmd, char *parms)
     }
     else if (mapcmdmap == 9)
         message_secret = true;
-
-    if (legacyofrust)
-        mapcmdepisode = 1;
 
     gameepisode = mapcmdepisode;
 

@@ -58,14 +58,19 @@ static short    STEP2;
 
 static bool IsSolidAtSpot(const column_t *column, const int spot)
 {
-    if (column)
-        while (column->topdelta != 0xFF)
-            if (spot < column->topdelta)
-                return false;
-            else if (spot <= column->topdelta + column->length)
-                return true;
-            else
-                column = (const column_t *)((const byte *)column + 3 + column->length + 1);
+    if (!column)
+        return false;
+
+    while (column->topdelta != 0xFF)
+    {
+        if (spot < column->topdelta)
+            return false;
+
+        if (spot <= column->topdelta + column->length)
+            return true;
+
+        column = (const column_t *)((const byte *)column + 3 + column->length + 1);
+    }
 
     return false;
 }

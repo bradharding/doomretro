@@ -1236,11 +1236,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (type < 0 || (i = P_FindDoomedNum(type)) == nummobjtypes)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
-        char    *temp = commify(thingid);
+        char    *temp1 = commify(thingid);
+        char    *temp2 = commify(type);
 
-        C_Warning(2, "Thing %s at (%i, %i) wasn't spawned because its type is unknown.",
-            temp, mthing->x, mthing->y);
-        free(temp);
+        C_Warning(2, "Thing %s at (%i, %i) wasn't spawned because it has an unknown type of %s.",
+            temp1, mthing->x, mthing->y, temp2);
+        free(temp1);
+        free(temp2);
 
         return NULL;
     }
