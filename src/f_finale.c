@@ -314,7 +314,9 @@ void F_Ticker(void)
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
         {
-            if (P_GetMapEndPic(gameepisode, gamemap) > 0)
+            if (legacyofrust)
+                F_StartCast();
+            else if (P_GetMapEndPic(gameepisode, gamemap) > 0)
             {
                 if (P_GetMapEndCast(gameepisode, gamemap))
                     F_StartCast();
