@@ -79,6 +79,7 @@ char *P_GetInterBackrop(const int ep, const int map);
 int P_GetInterMusic(const int ep, const int map);
 char *P_GetInterText(const int ep, const int map);
 char *P_GetInterSecretText(const int ep, const int map);
+char *P_GetLabel(const int ep, const int map);
 bool P_GetMapEndBunny(const int ep, const int map);
 bool P_GetMapEndCast(const int ep, const int map);
 bool P_GetMapEndGame(const int ep, const int map);

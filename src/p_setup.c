@@ -92,6 +92,7 @@ enum
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
     MCMD_INTERTEXTSECRET,
+    MCMD_LABEL,
     MCMD_LEVELNAME,
     MCMD_LEVELPIC,
     MCMD_LIQUID,
@@ -142,6 +143,7 @@ typedef struct
     int             intermusic;
     char            intertext[1024];
     char            intertextsecret[1024];
+    char            label[9];
     int             liquid[NUMLIQUIDS];
     int             mapinepisode;
     int             music;
@@ -277,6 +279,7 @@ static char *mapcmdnames[] =
     "INTERMUSIC",
     "INTERTEXT",
     "INTERTEXTSECRET",
+    "LABEL",
     "LEVELNAME",
     "LEVELPIC",
     "LIQUID",
@@ -330,6 +333,7 @@ static int mapcmdids[] =
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
     MCMD_INTERTEXTSECRET,
+    MCMD_LABEL,
     MCMD_LEVELNAME,
     MCMD_LEVELPIC,
     MCMD_LIQUID,
@@ -3402,6 +3406,7 @@ static void P_InitMapInfo(void)
             mapinfo[i][j].intermusic = 0;
             mapinfo[i][j].intertext[0] = '\0';
             mapinfo[i][j].intertextsecret[0] = '\0';
+            mapinfo[i][j].label[0] = '\0';
 
             for (int k = 0; k < NUMLIQUIDS; k++)
             {
@@ -3847,6 +3852,11 @@ static bool P_ParseMapInfo(const char *scriptname)
                             info->intermusic = W_CheckNumForName(sc_String);
                             break;
 
+                        case MCMD_LABEL:
+                            SC_MustGetString();
+                            M_StringCopy(info->label, sc_String, sizeof(info->label));
+                            break;
+
                         case MCMD_INTERTEXTSECRET:
                         {
                             char    buffer[1024] = "";
@@ -4228,6 +4238,11 @@ char *P_GetInterText(const int ep, const int map)
 char *P_GetInterSecretText(const int ep, const int map)
 {
     return mapinfo[ep][map].intertextsecret;
+}
+
+char *P_GetLabel(const int ep, const int map)
+{
+    return mapinfo[ep][map].label;
 }
 
 bool P_GetMapEndBunny(const int ep, const int map)

@@ -116,7 +116,7 @@ void R_ClearClipSegs(void)
 static void R_RecalcLineFlags(line_t *line)
 {
     bool    twosided = line->flags & ML_TWOSIDED;
-    int c;
+    int     c;
 
     line->r_validcount = gametime;
 
