@@ -4619,7 +4619,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
-        /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
