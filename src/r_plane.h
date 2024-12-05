@@ -44,7 +44,7 @@ extern int      floorclip[MAXWIDTH];
 extern int      ceilingclip[MAXWIDTH];
 extern fixed_t  *yslope;
 extern fixed_t  yslopes[LOOKDIRS][MAXHEIGHT];
-extern int      *openings;  // dropoff overflow
+extern int      openings[MAXOPENINGS];
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);

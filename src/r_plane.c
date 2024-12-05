@@ -53,7 +53,7 @@ static visplane_t   **freehead = &freetail;     // killough
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
 
-int                 *openings;                  // dropoff overflow
+int                 openings[MAXOPENINGS];
 int                 *lastopening;               // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.

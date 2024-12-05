@@ -633,40 +633,8 @@ void R_StoreWallRange(const int start, const int stop)
     ds_p->curline = curline;
     rw_stopx = stop + 1;
 
-    // killough 01/06/98, 02/01/98: remove limit on openings
-    {
-        const size_t    pos = lastopening - openings;
-        const size_t    need = ((size_t)rw_stopx - start) * sizeof(*lastopening) + pos;
-        static size_t   maxopenings;
-
-        if (need > maxopenings)
-        {
-            const int   *oldopenings = openings;
-            const int   *oldlast = lastopening;
-
-            do
-                maxopenings = (maxopenings ? maxopenings * 2 : MAXOPENINGS);
-            while (need > maxopenings);
-
-            openings = I_Realloc(openings, maxopenings * sizeof(*openings));
-            lastopening = openings + pos;
-
-            // jff 08/09/98 borrowed fix for openings from ZDOOM 1.14
-            // [RH] We also need to adjust the openings pointers that
-            //    were already stored in drawsegs.
-            for (drawseg_t *ds = drawsegs; ds < ds_p; ds++)
-            {
-                if (ds->maskedtexturecol + ds->x1 >= oldopenings && ds->maskedtexturecol + ds->x1 <= oldlast)
-                    ds->maskedtexturecol = ds->maskedtexturecol - oldopenings + openings;
-
-                if (ds->sprtopclip + ds->x1 >= oldopenings && ds->sprtopclip + ds->x1 <= oldlast)
-                    ds->sprtopclip = ds->sprtopclip - oldopenings + openings;
-
-                if (ds->sprbottomclip + ds->x1 >= oldopenings && ds->sprbottomclip + ds->x1 <= oldlast)
-                    ds->sprbottomclip = ds->sprbottomclip - oldopenings + openings;
-            }
-        }
-    }
+    if ((rw_stopx - start) * sizeof(*lastopening) + (lastopening - openings) > MAXOPENINGS)
+        return;
 
     worldtop = frontsector->interpceilingheight - viewz;
     worldbottom = frontsector->interpfloorheight - viewz;
