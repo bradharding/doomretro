@@ -1001,7 +1001,7 @@ bool P_IsInLiquid(mobj_t *thing)
         {
             const sector_t  *sector = seclist->m_sector;
 
-            if (sector->terraintype < LIQUID || sector->isselfreferencing)
+            if ((sector->terraintype < LIQUID && thing->z == sector->floorheight) || sector->isselfreferencing)
                 return false;
         }
     }
@@ -1018,7 +1018,7 @@ bool P_IsInLiquid(mobj_t *thing)
             {
                 const sector_t *sector = seclist->m_sector;
 
-                if (sector->terraintype < LIQUID || sector->isselfreferencing)
+                if ((sector->terraintype < LIQUID && thing->z == sector->floorheight) || sector->isselfreferencing)
                     return false;
             }
         }
