@@ -995,46 +995,17 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 //
 bool P_IsInLiquid(mobj_t *thing)
 {
-    if (thing->player)
+    sector_t    *highestsector = thing->subsector->sector;
+
+    for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
-        for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        {
-            const sector_t  *sector = seclist->m_sector;
+        sector_t    *sector = seclist->m_sector;
 
-            if ((sector->terraintype < LIQUID && thing->z == sector->floorheight) || sector->isselfreferencing)
-                return false;
-        }
-    }
-    else
-    {
-        const int   flags = thing->flags;
-
-        if (flags & MF_NOGRAVITY)
-            return false;
-
-        if (flags & MF_SHOOTABLE)
-        {
-            for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-            {
-                const sector_t *sector = seclist->m_sector;
-
-                if ((sector->terraintype < LIQUID && thing->z == sector->floorheight) || sector->isselfreferencing)
-                    return false;
-            }
-        }
-        else
-        {
-            const sector_t  *sector = thing->subsector->sector;
-
-            if (sector->terraintype < LIQUID || sector->isselfreferencing)
-                return false;
-
-            if (thing->z > sector->floorheight + FRACUNIT)
-                return false;
-        }
+        if (sector->floorheight > highestsector->floorheight)
+            highestsector = sector;
     }
 
-    return true;
+    return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing);
 }
 
 //
