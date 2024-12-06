@@ -82,6 +82,8 @@
 * A bug is fixed whereby Wolfenstein SS were replaced by zombiemen at the start of each map in some rare instances.
 * The behavior of lost souls spawned by pain elementals is now consistent with the original *DOOM II*.
 * The drop shadows of menu items displayed using a `DBIGFONT` lump no longer overlap.
+* Torched trees no longer bob when in liquid sectors.
+* The player and monsters now traverse liquid sectors at different heights better.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

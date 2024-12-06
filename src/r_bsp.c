@@ -115,8 +115,8 @@ void R_ClearClipSegs(void)
 // a line, including closure and texture tiling.
 static void R_RecalcLineFlags(line_t *line)
 {
-    bool    twosided = line->flags & ML_TWOSIDED;
-    int     c;
+    const bool  twosided = (line->flags & ML_TWOSIDED);
+    int         c;
 
     line->r_validcount = gametime;
 
@@ -155,19 +155,19 @@ static void R_RecalcLineFlags(line_t *line)
 
     if (twosided)
     {
-        // Does top texture need tiling
+        // Does top texture need tiling?
         if ((c = frontsector->interpceilingheight - backsector->interpceilingheight) > 0
             && textureheight[texturetranslation[curline->sidedef->toptexture]] > c)
             line->r_flags |= RF_TOP_TILE;
 
-        // Does bottom texture need tiling
+        // Does bottom texture need tiling?
         if ((c = frontsector->interpfloorheight - backsector->interpfloorheight) > 0
             && textureheight[texturetranslation[curline->sidedef->bottomtexture]] > c)
             line->r_flags |= RF_BOT_TILE;
     }
     else
     {
-        // Does middle texture need tiling
+        // Does middle texture need tiling?
         if ((c = frontsector->interpceilingheight - frontsector->interpfloorheight) > 0
             && textureheight[texturetranslation[curline->sidedef->midtexture]] > c)
             line->r_flags |= RF_MID_TILE;
