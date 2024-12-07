@@ -311,8 +311,7 @@ void F_Ticker(void)
 
     if (finalestage == F_STAGE_CAST)
         F_CastTicker();
-
-    if (finalestage == F_STAGE_TEXT)
+    else if (finalestage == F_STAGE_TEXT)
     {
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))

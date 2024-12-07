@@ -37,7 +37,7 @@
 #include "z_zone.h"
 
 // Minimum chunk size at which blocks are allocated
-#define CHUNK_SIZE  32
+#define CHUNKSIZE   32
 
 typedef struct memblock_s
 {
@@ -49,8 +49,8 @@ typedef struct memblock_s
 } memblock_t;
 
 // size of block header
-// cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on 64bit architectures
-static const size_t headersize = ((sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));
+// cph - base on sizeof(memblock_t), which can be larger than CHUNKSIZE on 64-bit architectures
+static const size_t headersize = ((sizeof(memblock_t) + CHUNKSIZE - 1) & ~(CHUNKSIZE - 1));
 
 static memblock_t   *blockbytag[PU_MAX];
 
@@ -73,7 +73,7 @@ void *Z_Malloc(size_t size, unsigned char tag, void **user)
     if (!size)
         return (user ? (*user = NULL) : NULL);              // malloc(0) returns NULL
 
-    size = ((size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));   // round to chunk size
+    size = ((size + CHUNKSIZE - 1) & ~(CHUNKSIZE - 1));   // round to chunk size
 
     while (!(block = malloc(size + headersize)))
     {
@@ -152,12 +152,12 @@ void Z_FreeTags(unsigned char lowtag, unsigned char hightag)
     for (; lowtag <= hightag; lowtag++)
     {
         memblock_t  *block = blockbytag[lowtag];
-        memblock_t  *end_block;
+        memblock_t  *endblock;
 
         if (!block)
             continue;
 
-        end_block = block->prev;
+        endblock = block->prev;
 
         while (true)
         {
@@ -165,7 +165,7 @@ void Z_FreeTags(unsigned char lowtag, unsigned char hightag)
 
             Z_Free((char *)block + headersize);
 
-            if (block == end_block)
+            if (block == endblock)
                 break;
 
             block = next;   // Advance to next block

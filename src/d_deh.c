@@ -4536,7 +4536,7 @@ void D_PostProcessDeh(void)
         // action pointer expects, for future-proofing's sake
         for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
             if (states[i].args[j])
-                I_Error("Action %s on state %i expects no more than %i nonzero args (%i found). Check your dehacked.",
+                I_Error("Action %s on state %i expects no more than %i non-zero args (%i found).\nCheck your DEHACKED lump.",
                     bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
 
         // replace unset fields with default values
