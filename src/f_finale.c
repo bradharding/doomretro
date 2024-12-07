@@ -334,8 +334,18 @@ void F_Ticker(void)
                         S_StartMusic(mus_bunny);
                 }
             }
-            else if ((gamemap == 30 && !P_GetMapNext(gameepisode, gamemap))
-                || (gamemission == pack_nerve && gamemap == 8))
+            else if (P_GetMapNext(gameepisode, gamemap))
+                gameaction = ga_worlddone;
+            else if (gamemode != commercial)
+            {
+                finalecount = 0;
+                finalestage = F_STAGE_ARTSCREEN;
+                wipegamestate = GS_NONE;
+
+                if (gameepisode == 3)
+                    S_StartMusic(mus_bunny);
+            }
+            else if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))
                 F_StartCast();
             else
                 gameaction = ga_worlddone;
