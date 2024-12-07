@@ -1069,11 +1069,11 @@ static void F_ArtScreenDrawer(void)
                 break;
 
             case 5:
-                lump = W_CacheLastLumpName("SIGILEND");
+                lump = W_CacheLastLumpName("CREDIT");
                 break;
 
             case 6:
-                lump = W_CacheLumpName("SIGILEND");
+                lump = W_CacheLumpName("CREDIT");
                 break;
 
             default:
