@@ -1005,7 +1005,8 @@ bool P_IsInLiquid(mobj_t *thing)
             highestsector = sector;
     }
 
-    return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing);
+    return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing
+        && !(thing->flags & MF_NOGRAVITY));
 }
 
 //
