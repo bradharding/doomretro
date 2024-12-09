@@ -1006,7 +1006,7 @@ bool P_IsInLiquid(mobj_t *thing)
     }
 
     return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing
-        && (thing->player || thing->z == highestsector->floorheight));
+        && !(thing->flags & MF_NOGRAVITY));
 }
 
 //
