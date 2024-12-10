@@ -96,7 +96,7 @@ bool I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
-    if (extras && W_GetNumForName("H_INTRO") >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
+    if (extras && W_CheckNumForName("H_INTRO") >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
         return true;
 
     if (!(windowsmidi = I_Windows_InitMusic()))
