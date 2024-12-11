@@ -759,7 +759,8 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
                     || M_StringCompare(leaf, "plut3.wad")
                     || M_StringCompare(leaf, "prcp2.wad"))
                     result = pack_plut;
-                else if (M_StringCompare(leaf, "tntr.wad")
+                else if (M_StringCompare(leaf, "tnto.wad")
+                    || M_StringCompare(leaf, "tntr.wad")
                     || M_StringCompare(leaf, "tnt-ren.wad")
                     || M_StringCompare(leaf, "resist.wad"))
                     result = pack_tnt;
