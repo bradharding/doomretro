@@ -290,9 +290,12 @@ cheatseq_t cheat_powerup[7] =
 
 static bool movekey(char key)
 {
-    return (key == keyboardright || key == keyboardright2 || key == keyboardleft
-        || key == keyboardforward || key == keyboardforward2 || key == keyboardback
-        || key == keyboardback2 || key == keyboardstrafeleft || key == keyboardstraferight);
+    return (key == keyboardright || key == keyboardright2
+        || key == keyboardleft || key == keyboardleft2
+        || key == keyboardforward || key == keyboardforward2
+        || key == keyboardback || key == keyboardback2
+        || key == keyboardstrafeleft || key == keyboardstrafeleft2
+        || key == keyboardstraferight || key == keyboardstraferight2);
 }
 
 static void ST_InitCheats(void)
