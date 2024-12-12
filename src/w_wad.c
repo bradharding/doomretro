@@ -895,7 +895,9 @@ static bool W_IsPNGLump(const int lump)
 
 void W_CheckForPNGLumps(void)
 {
-    if (W_IsPNGLump(W_GetNumForName("TITLEPIC")))
+    const int   lump = W_CheckNumForName("TITLEPIC");
+
+    if (lump >= 0 && W_IsPNGLump(lump))
         I_Error("The TITLEPIC lump is an unsupported PNG image!");
 
     for (int i = 0; i < numlumps; i++)
