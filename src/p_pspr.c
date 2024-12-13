@@ -1220,7 +1220,8 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // subtract ammo, but don't let it get below zero
-    player->ammo[type] = MAX(0, player->ammo[type] - ammo);
+    if (!infiniteammo)
+        player->ammo[type] = MAX(0, player->ammo[type] - ammo);
 }
 
 //
