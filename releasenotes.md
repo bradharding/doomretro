@@ -2,6 +2,9 @@
 
 ### DOOM Retro v5.6.1
 
+* An error is no longer displayed when trying to load the *BFG Edition* of *DOOM II*.
+* Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` code pointer no longer consume ammo if the `infiniteammo` CCMD is used.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Tuesday, December 10, 2024
