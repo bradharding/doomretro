@@ -429,6 +429,26 @@ static byte *R_DistortedFlat(const int flatnum)
     return distortedflat;
 }
 
+static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
+{
+    const int       texture = R_TextureNumForName(skytex->name);
+    const angle_t   angle = viewangle + FixedToAngle(skytex->currx);
+
+    dc_colormap[0] = fullcolormap;
+    dc_texturemid = (fixed_t)(skytex->mid * FRACUNIT) + skytex->curry;
+    dc_texheight = textureheight[texture] >> FRACBITS;
+    dc_iscale = FixedMul(skyiscale, skytex->scaley);
+
+    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+        {
+            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
+                (angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
+            func();
+        }
+}
+
 //
 // R_DrawPlanes
 // At the end of each frame.
@@ -451,21 +471,31 @@ void R_DrawPlanes(void)
 
                 if (picnum == skyflatnum)
                 {
-                    dc_iscale = skyiscale;
-
-                    if (sky && sky->type == SkyType_Fire)
+                    if (sky)
                     {
                         id24compatible = true;
-                        dc_texheight = FIREHEIGHT;
-                        dc_texturemid = -28 * FRACUNIT;
+                        dc_iscale = skyiscale;
 
-                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                            {
-                                dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
-                                skycolfunc();
-                            }
+                        if (sky->type == SkyType_Fire)
+                        {
+                            dc_texheight = FIREHEIGHT;
+                            dc_texturemid = -28 * FRACUNIT;
+
+                            for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                                if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                                    && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                {
+                                    dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
+                                    skycolfunc();
+                                }
+                        }
+                        else
+                        {
+                            DrawSkyTex(pl, &sky->skytex, skycolfunc);
+
+                            if (sky->type == SkyType_WithForeground)
+                                DrawSkyTex(pl, &sky->foreground, R_DrawSkyColumn);
+                        }
                     }
                     else
                     {

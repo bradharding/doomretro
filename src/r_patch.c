@@ -177,8 +177,6 @@ static void CreatePatch(int patchnum)
     // sanity check that we've got all the memory allocated we need
     SDL_assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
 
-    memset(patch->pixels, 0xFF, (size_t)patch->width * patch->height);
-
     // fill in the pixels, posts, and columns
     for (int x = 0, numpostsusedsofar = 0; x < patch->width; x++)
     {
@@ -368,8 +366,6 @@ static void CreateTextureCompositePatch(const int id)
 
     // sanity check that we've got all the memory allocated we need
     SDL_assert((((byte *)compositepatch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)compositepatch->data) == datasize);
-
-    memset(compositepatch->pixels, 0xFF, (size_t)compositepatch->width * compositepatch->height);
 
     for (int x = 0, numpostsusedsofar = 0; x < texture->width; x++)
     {

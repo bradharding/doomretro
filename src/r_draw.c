@@ -703,6 +703,27 @@ void R_DrawPlayerSpriteColumn(void)
     *dest = dc_source[frac >> FRACBITS];
 }
 
+void R_DrawSkyColumn(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    const lighttable_t  *colormap = dc_colormap[0];
+    byte                dot;
+
+    while (--count)
+    {
+        if ((dot = dc_source[frac >> FRACBITS]))
+            *dest = colormap[dot];
+
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    if ((dot = dc_source[frac >> FRACBITS]))
+        *dest = colormap[dot];
+}
+
 void R_DrawFlippedSkyColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;

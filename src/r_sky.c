@@ -140,8 +140,6 @@ static void InitSkyDefs(void)
 
             return;
         }
-
-    sky = NULL;
 }
 
 void R_UpdateSky(void)
