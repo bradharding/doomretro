@@ -83,7 +83,7 @@ static bool ParseSkyTex(cJSON *json, skytex_t *out)
     out->scrollx = (fixed_t)(scrollx->valuedouble * (1.0 / TICRATE) * FRACUNIT);
     out->scrolly = (fixed_t)(scrolly->valuedouble * (1.0 / TICRATE) * FRACUNIT);
     out->scalex = (fixed_t)(scalex->valuedouble * FRACUNIT);
-    out->scaley = (fixed_t)(1.0 / scaley->valuedouble * FRACUNIT);
+    out->scaley = (scaley->valuedouble ? (fixed_t)(1.0 / scaley->valuedouble * FRACUNIT) : FRACUNIT);
     return true;
 }
 
