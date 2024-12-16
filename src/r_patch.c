@@ -499,35 +499,6 @@ static void CreateTextureCompositePatch(const int id)
         }
     }
 
-    // copy the patch image down and to the right where there are
-    // holes to eliminate the black halo from bilinear filtering
-    for (int x = 0; x < compositepatch->width; x++)
-    {
-        const rcolumn_t *column = R_GetPatchColumnClamped(compositepatch, x);
-        const rcolumn_t *prevcolumn = R_GetPatchColumnClamped(compositepatch, x - 1);
-
-        // force the first pixel (which is a hole), to use
-        // the color from the next solid spot in the column
-        if (column->pixels[0] == 0xFF)
-            for (int y = 0; y < compositepatch->height; y++)
-                if (column->pixels[y] != 0xFF)
-                {
-                    column->pixels[0] = column->pixels[y];
-                    break;
-                }
-
-        // copy from above or to the left
-        for (int y = 1; y < compositepatch->height; y++)
-            if (column->pixels[y] == 0xFF)
-            {
-                // this pixel is a hole
-                if (x && prevcolumn->pixels[y - 1] != 0xFF)
-                    column->pixels[y] = prevcolumn->pixels[y];  // copy the color from the left
-                else
-                    column->pixels[y] = column->pixels[y - 1];  // copy the color from above
-            }
-    }
-
     free(countsincolumn);
 }
 
