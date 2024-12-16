@@ -471,10 +471,11 @@ void R_DrawPlanes(void)
 
                 if (picnum == skyflatnum)
                 {
+                    dc_iscale = skyiscale;
+
                     if (sky)
                     {
                         id24compatible = true;
-                        dc_iscale = skyiscale;
 
                         if (sky->type == SkyType_Fire)
                         {
