@@ -175,7 +175,7 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
     cJSON               *js_layer = NULL;
     interlevellayer_t   *layers = NULL;
 
-        if (!(json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))
+    if (!(json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))
         || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
         || !cJSON_IsString((music = cJSON_GetObjectItemCaseSensitive(data, "music")))
         || !cJSON_IsString((backgroundimage = cJSON_GetObjectItemCaseSensitive(data, "backgroundimage"))))

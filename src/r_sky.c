@@ -77,8 +77,8 @@ static void PrepareFirePixels(fire_t *fire)
 
 static void SpreadFire(void)
 {
-    for (int x = 0; x < FIREWIDTH; ++x)
-        for (int y = 1; y < FIREHEIGHT; ++y)
+    for (int x = 0; x < FIREWIDTH; x++)
+        for (int y = 1; y < FIREHEIGHT; y++)
         {
             const int   src = y * FIREWIDTH + x;
             const int   index = fireindices[src];
@@ -179,8 +179,6 @@ void R_UpdateSky(void)
 
 void R_InitSkyMap(void)
 {
-    InitSkyDefs();
-
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(gameepisode, gamemap);
@@ -239,6 +237,8 @@ void R_InitSkyMap(void)
             }
         }
     }
+
+    InitSkyDefs();
 
     skyscrolldelta = (vanilla ? 0 : (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT));
 

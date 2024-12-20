@@ -1093,13 +1093,16 @@ int R_TextureNumForName(const char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    bool    *hitlist = calloc(MAX(numtextures, numflats), sizeof(bool));
+    bool    *hitlist = calloc(MAX(MAX(numsectors, numflats), MAX(numsides, numtextures)), sizeof(bool));
 
     // Precache flats.
     for (int i = 0; i < numsectors; i++)
     {
-        hitlist[sectors[i].floorpic] = true;
-        hitlist[sectors[i].ceilingpic] = true;
+        if (sectors[i].floorpic > -1)
+            hitlist[sectors[i].floorpic] = true;
+
+        if (sectors[i].ceilingpic > -1)
+            hitlist[sectors[i].ceilingpic] = true;
     }
 
     for (int i = 0; i < numflats; i++)
