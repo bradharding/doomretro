@@ -330,7 +330,7 @@ static void CreateTextureCompositePatch(const int id)
 
         for (int x = 0; x < SHORT(oldpatch->width); x++)
         {
-            int tx = texpatch->originx + x;
+            const int   tx = texpatch->originx + x;
 
             if (tx < 0)
                 continue;
@@ -339,7 +339,6 @@ static void CreateTextureCompositePatch(const int id)
                 break;
 
             countsincolumn[tx].patches++;
-
             oldcolumn = (const column_t *)((const byte *)oldpatch + LONG(oldpatch->columnoffset[x]));
 
             while (oldcolumn->topdelta != 0xFF)
