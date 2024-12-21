@@ -6,8 +6,8 @@
 
 ==============================================================================
 
-    Copyright © 1993-2024 by id Software LLC, a ZeniMax Media company.
-    Copyright © 2013-2024 by Brad Harding <mailto:brad@doomretro.com>.
+    Copyright © 1993-2025 by id Software LLC, a ZeniMax Media company.
+    Copyright © 2013-2025 by Brad Harding <mailto:brad@doomretro.com>.
 
     This file is a part of DOOM Retro.
 
@@ -71,9 +71,9 @@ void *Z_Malloc(size_t size, unsigned char tag, void **user)
     memblock_t  *block = NULL;
 
     if (!size)
-        return (user ? (*user = NULL) : NULL);              // malloc(0) returns NULL
+        return (user ? (*user = NULL) : NULL);          // malloc(0) returns NULL
 
-    size = ((size + CHUNKSIZE - 1) & ~(CHUNKSIZE - 1));   // round to chunk size
+    size = ((size + CHUNKSIZE - 1) & ~(CHUNKSIZE - 1)); // round to chunk size
 
     while (!(block = malloc(size + headersize)))
     {
