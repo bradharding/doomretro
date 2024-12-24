@@ -495,7 +495,7 @@ void R_DrawPlanes(void)
                             DrawSkyTex(pl, &sky->skytex, skycolfunc);
 
                             if (sky->type == SkyType_WithForeground)
-                                DrawSkyTex(pl, &sky->foreground, R_DrawSkyColumn);
+                                DrawSkyTex(pl, &sky->foreground, &R_DrawSkyColumn);
                         }
                     }
                     else
