@@ -5,6 +5,8 @@
 * *DOOM Retro* now uses [*SDL_image v2.8.3*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.3).
 * An error is no longer displayed when trying to load the *BFG Edition* of *DOOM II*.
 * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` code pointer no longer consume ammo if the `infiniteammo` CCMD is used.
+* These improvements have been to the support for the new [*ID24* specification](https://doomwiki.org/wiki/ID24):
+  * Animated skies using the `SKYDEFS` lump are now fully supported.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
