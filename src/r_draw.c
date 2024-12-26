@@ -709,19 +709,47 @@ void R_DrawSkyColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
+    fixed_t             heightmask = dc_texheight - 1;
     byte                dot;
 
-    while (--count)
+    if (dc_texheight & heightmask)
     {
+        heightmask = (heightmask + 1) << FRACBITS;
+
+        if (frac < 0)
+            while ((frac += heightmask) < 0);
+        else
+            while (frac >= heightmask)
+                frac -= heightmask;
+
+        while (--count)
+        {
+            if ((dot = dc_source[frac >> FRACBITS]))
+                *dest = colormap[dot];
+
+            dest += SCREENWIDTH;
+
+            if ((frac += dc_iscale) >= heightmask)
+                frac -= heightmask;
+        }
+
         if ((dot = dc_source[frac >> FRACBITS]))
             *dest = colormap[dot];
-
-        dest += SCREENWIDTH;
-        frac += dc_iscale;
     }
+    else
+    {
+        while (--count)
+        {
+            if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
+                *dest = colormap[dot];
 
-    if ((dot = dc_source[frac >> FRACBITS]))
-        *dest = colormap[dot];
+            dest += SCREENWIDTH;
+            frac += dc_iscale;
+        }
+
+        if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
+            *dest = colormap[dot];
+    }
 }
 
 void R_DrawFlippedSkyColumn(void)
