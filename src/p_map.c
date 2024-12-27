@@ -997,13 +997,14 @@ bool P_IsInLiquid(mobj_t *thing)
 {
     sector_t    *highestsector = thing->subsector->sector;
 
-    for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-    {
-        sector_t    *sector = seclist->m_sector;
+    if (thing->player || (thing->flags & MF_SHOOTABLE))
+        for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        {
+            sector_t    *sector = seclist->m_sector;
 
-        if (sector->floorheight > highestsector->floorheight)
-            highestsector = sector;
-    }
+            if (sector->floorheight > highestsector->floorheight)
+                highestsector = sector;
+        }
 
     return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing
         && !(thing->flags & MF_NOGRAVITY));
