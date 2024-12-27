@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.6.1
 
-* *DOOM Retro* now uses [*SDL_image v2.8.3*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.3).
+* *DOOM Retro* now uses [*SDL_image v2.8.4*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.4).
 * Minor changes have been made to text that is output to the console.
 * An error is no longer displayed when trying to load the *BFG Edition* of *DOOM II*.
 * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` code pointer no longer consume ammo when fired if infinite ammo is enabled using the `infiniteammo` CCMD.
