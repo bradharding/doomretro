@@ -990,6 +990,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_HARMONY, sizeof(gamedescription));
     else if (legacyofrust)
         M_StringCopy(gamedescription, s_CAPTION_ID1, sizeof(gamedescription));
+    else if (IDDM1)
+        M_StringCopy(gamedescription, s_CAPTION_IDDM1, sizeof(gamedescription));
     else if (KDIKDIZD)
         M_StringCopy(gamedescription, s_CAPTION_KDIKDIZD, sizeof(gamedescription));
     else if (masterlevels)

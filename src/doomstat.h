@@ -115,6 +115,7 @@ extern bool             BTSXE3A;
 extern bool             BTSXE3B;
 extern bool             E1M4B;
 extern bool             E1M8B;
+extern bool             IDDM1;
 extern bool             KDIKDIZD;
 extern bool             KDIKDIZDA;
 extern bool             KDIKDIZDB;

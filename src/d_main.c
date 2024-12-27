@@ -967,6 +967,8 @@ void D_CheckSupportedPWAD(char *filename)
         E1M4B = true;
     else if (M_StringCompare(leaf, "e1m8b.wad"))
         E1M8B = true;
+    else if (M_StringCompare(leaf, "iddm1.wad"))
+        IDDM1 = true;
     else if (M_StringCompare(leaf, "KDiKDi_A.wad"))
         KDIKDIZD = KDIKDIZDA = true;
     else if (M_StringCompare(leaf, "KDiKDi_B.wad"))

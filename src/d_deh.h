@@ -511,6 +511,7 @@ extern char         *s_CAPTION_EARTHLESS;
 extern char         *s_CAPTION_GANYMEDE;
 extern char         *s_CAPTION_HARMONY;
 extern char         *s_CAPTION_ID1;
+extern char         *s_CAPTION_IDDM1;
 extern char         *s_CAPTION_KDIKDIZD;
 extern char         *s_CAPTION_MASTERLEVELS;
 extern char         *s_CAPTION_NEIS;
