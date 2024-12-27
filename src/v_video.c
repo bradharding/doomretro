@@ -498,32 +498,6 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *patch, const int width,
-    const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
-{
-    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
-
-    for (int col = 0; col < width; col++, desttop++)
-    {
-        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
-        byte    *dest = desttop;
-
-        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
-        {
-            if (y + i >= 0)
-            {
-                if (*source == WHITE)
-                    *dest = color;
-                else if (*dest != color)
-                    *dest = backgroundcolor;
-            }
-
-            source++;
-            dest += SCREENWIDTH;
-        }
-    }
-}
-
 void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
     const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
 {
@@ -550,6 +524,32 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     *dot = tinttab50[*dot];
                 else if (y + i == 1)
                     *dot = tinttab25[*dot];
+            }
+
+            source++;
+            dest += SCREENWIDTH;
+        }
+    }
+}
+
+void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *patch, const int width,
+    const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
+{
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
+
+        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+        {
+            if (y + i >= 0)
+            {
+                if (*source == WHITE)
+                    *dest = color;
+                else if (*dest != color)
+                    *dest = backgroundcolor;
             }
 
             source++;
