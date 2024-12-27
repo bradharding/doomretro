@@ -1103,14 +1103,17 @@ static void WI_InitStats(void)
 
     if (totaltime > maptime)
     {
-        const int   hours = totaltime / TICRATE / 3600;
+        int         tics = totaltime / TICRATE;
+        const int   hours = tics / 3600;
+        const int   minutes = ((tics %= 3600)) / 60;
+        const int   seconds = tics % 60;
 
         if (hours)
             C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                hours, totaltime % 3600 / TICRATE / 60, totaltime % 3600 / TICRATE % 60);
+                hours, minutes, seconds);
         else
             C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                totaltime / TICRATE / 60, totaltime / TICRATE % 60);
+                minutes, seconds);
     }
 
     WI_InitAnimatedBack(true);

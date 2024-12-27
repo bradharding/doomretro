@@ -2590,10 +2590,10 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_TIME)
             {
-                int tics = *(int *)consolecmds[i].variable / TICRATE;
-                int hours = tics / 3600;
-                int minutes = ((tics %= 3600)) / 60;
-                int seconds = tics % 60;
+                int     tics = *(int *)consolecmds[i].variable / TICRATE;
+                const   int hours = tics / 3600;
+                const   int minutes = ((tics %= 3600)) / 60;
+                const   int seconds = tics % 60;
 
                 if (!tics)
                     C_TabbedOutput(tabs, BOLD("%s")
@@ -4705,6 +4705,9 @@ static void maplist_func2(char *cmd, char *parms)
 
         M_StringCopy(lump, temp, sizeof(lump));
         free(temp);
+
+        if (strlen(lump) > 5)
+            continue;
 
         if (gamemode == commercial)
         {
