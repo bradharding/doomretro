@@ -2389,6 +2389,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 P_AnimateHealth(stat);
 
                 tplayer->health = 1;
+                tplayer->negativehealth = 1;
                 target->health = 1;
             }
             else
