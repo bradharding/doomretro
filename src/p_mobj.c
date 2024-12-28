@@ -492,6 +492,11 @@ floater:
             return;
         }
 
+        if ((mo->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(mo))
+            mo->flags2 |= MF2_FEETARECLIPPED;
+        else
+            mo->flags2 &= ~MF2_FEETARECLIPPED;
+
         // hit the floor
         if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
