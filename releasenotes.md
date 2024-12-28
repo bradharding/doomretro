@@ -7,7 +7,7 @@
 * An error is no longer displayed when trying to load the *BFG Edition* of *DOOM II: Hell On Earth*.
 * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_ConsumeAmmo` code pointer no longer consume ammo when fired if infinite ammo is enabled using the `infiniteammo` CCMD.
 * Animated skies defined using the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump are now fully supported.
-* Improvements have been made to the clipping of certain sprites when close to the edge of a liquid sector when the `r_liquid_clipsprites` CVAR is `on`.
+* Improvements have been made to when to clip sprites in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
