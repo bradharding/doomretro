@@ -1005,9 +1005,10 @@ bool P_IsInLiquid(mobj_t *thing)
             if (sector->floorheight > highestsector->floorheight)
                 highestsector = sector;
         }
+    else if (thing->z > thing->floorz)
+        return false;
 
-    return (highestsector->terraintype >= LIQUID && !highestsector->isselfreferencing
-        && !(thing->flags & MF_NOGRAVITY) && thing->z <= highestsector->floorheight + FOOTCLIPSIZE);
+    return (highestsector->terraintype >= LIQUID);
 }
 
 //
