@@ -1474,9 +1474,19 @@ static void WI_LoadData(void)
     else if (gamemode == commercial)
     {
         if (gamemission == pack_plut)
-            lump = W_CacheLumpName("INTERPI2");
+        {
+            if (W_GetNumLumps("INTERPIC") > 2)
+                lump = W_CacheLumpName("INTERPIC");
+            else
+                lump = W_CacheLumpName("INTERPI2");
+        }
         else if (gamemission == pack_tnt)
-            lump = W_CacheLumpName("INTERPI3");
+        {
+            if (W_GetNumLumps("INTERPIC") > 2)
+                lump = W_CacheLumpName("INTERPIC");
+            else
+                lump = W_CacheLumpName("INTERPI3");
+        }
         else if (nerve)
             lump = W_CacheLumpNameFromResourceWAD("INTERPIC");
         else
