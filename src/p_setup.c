@@ -1483,20 +1483,20 @@ static void P_LoadSectors(int lump)
                         free(temp);
                     }
 
-                    if (sectorfix[j].tag != DEFAULT)
+                    if (ss->tag == sectorfix[j].oldtag)
                     {
                         char    *temp1 = commify(sectorfix[j].sector);
                         char    *temp2 = commify(ss->tag);
-                        char    *temp3 = commify(sectorfix[j].tag);
+                        char    *temp3 = commify(sectorfix[j].newtag);
 
-                        if (!sectorfix[j].tag)
+                        if (!sectorfix[j].oldtag)
                             C_Warning(2, "Sector %s's tag of %s has been removed.", temp1, temp2);
                         else if (ss->tag)
                             C_Warning(2, "Sector %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
                         else
                             C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
 
-                        ss->tag = sectorfix[j].tag;
+                        ss->tag = sectorfix[j].newtag;
                         free(temp1);
                         free(temp2);
                         free(temp3);
