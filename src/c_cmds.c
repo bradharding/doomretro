@@ -5046,8 +5046,47 @@ static void mapstats_func2(char *cmd, char *parms)
 
     struct
     {
-        const char *title;
-        const char *artist;
+        const char  *title;
+        const char  *artist;
+    } tntmusic[] = {
+        { "Sadistic",                   "L.A. Sieben"       },
+        { "Smells Like Burning Corpse", "L.A. Sieben"       },
+        { "Message for the Archvile",   "Bobby Prince"      },
+        { "Death's Bells",              "L.A. Sieben"       },
+        { "More",                       "Tom Mustaine"      },
+        { "Agony Rhapsody",             "L.A. Sieben"       },
+        { "Soldier Of Chaos",           "Jonathan El-Bizri" },
+        { "Into The Beast's Belly",     "L.A. Sieben"       },
+        { "Sadistic",                   "L.A. Sieben"       },
+        { "Infinite",                   "Tom Mustaine"      },
+        { "Let's Kill At Will",         "Jonathan El-Bizri" },
+        { "The Dave D. Taylor Blues",   "Bobby Prince"      },
+        { "Death's Bells",              "L.A. Sieben"       },
+        { "Cold Subtleness",            "Jonathan El-Bizri" },
+        { "Smells Like Burning Corpse", "L.A. Sieben"       },
+        { "Blood Jungle",               "Jonathan El-Bizri" },
+        { "More",                       "Tom Mustaine"      },
+        { "Infinite",                   "Tom Mustaine"      },
+        { "Countdown To Death",         "Bobby Prince"      },
+        { "Horizon",                    "Tom Mustaine"      },
+        { "Into Sandy's City",          "Bobby Prince"      },
+        { "AimShootKill",               "Tom Mustaine"      },
+        { "Bye Bye American Pie",       "Bobby Prince"      },
+        { "Between Levels",             "Bobby Prince"      },
+        { "DOOM",                       "Bobby Prince"      },
+        { "Blood Jungle",               "Jonathan El-Bizri" },
+        { "Into The Beast's Belly",     "L.A. Sieben"       },
+        { "AimShootKill",               "Tom Mustaine"      },
+        { "Death's Bells",              "L.A. Sieben"       },
+        { "Into The Beast's Belly",     "L.A. Sieben"       },
+        { "Legion Of The Lost",         "L.A. Sieben"       },
+        { "Into Sandy's City",          "Bobby Prince"      }
+    };
+
+    struct
+    {
+        const char  *title;
+        const char  *artist;
     } legacyofrustmusic[] = {
         { "Welcome To Die",                    "Xaser Acheron" },
         { "The Shores Of Heaven",              "Xaser Acheron" },
@@ -5495,8 +5534,10 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrustmusic[gamemap - 1].title);
         else if (namebuf[0] == 'H' && namebuf[1] == '_' && !M_StringCompare(mus_playing->title1, "n/a"))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
+        else if (lumps == 1 && wadtype == IWAD && gamemission == pack_tnt)
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), tntmusic[gamemap - 1].title);
         else if (!M_StringCompare(mus_playing->title1, "n/a")
-            && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
+            && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
                 || (gamemode != commercial && gameepisode == 1 && lumps == 2)
                 || gamemode == shareware
                 || gamemission == pack_nerve))
@@ -5512,7 +5553,9 @@ static void mapstats_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", legacyofrustmusic[gamemap - 1].artist);
         else if (namebuf[0] == 'H' && namebuf[1] == '_')
             C_TabbedOutput(tabs, INDENT "Artist\tAndrew Hulshult");
-        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD && gamemission != pack_tnt)
+        else if (lumps == 1 && wadtype == IWAD && gamemission == pack_tnt)
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", tntmusic[gamemap - 1].artist);
+        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
             || gamemode == shareware
             || gamemission == pack_nerve)
