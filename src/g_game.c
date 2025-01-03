@@ -1020,6 +1020,7 @@ void G_Ticker(void)
 
             case ga_autoloadgame:
                 M_StringCopy(savename, P_SaveGameFile(quicksaveslot), sizeof(savename));
+                S_StopSounds();
                 G_DoLoadGame();
                 break;
 
@@ -1922,8 +1923,6 @@ void G_InitNew(skill_t skill, int ep, int map)
         paused = false;
         S_ResumeMusic();
     }
-
-    S_StopSounds();
 
     if (skill > sk_nightmare)
         skill = sk_nightmare;
