@@ -1923,6 +1923,8 @@ void G_InitNew(skill_t skill, int ep, int map)
         S_ResumeMusic();
     }
 
+    S_StopSounds();
+
     if (skill > sk_nightmare)
         skill = sk_nightmare;
 
