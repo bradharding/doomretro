@@ -10,6 +10,7 @@
 * Animated skies defined using the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump are now fully supported.
 * Improvements have been made to the clipping of sprites in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
 * The correct `INTERPIC` lump is now always displayed when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
+* A soft lock no longer occurs in *MAP05: The Waste Tunnels* when playing v1.666 of DOOM2.WAD and the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
