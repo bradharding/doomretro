@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.6.2
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, January 4, 2025
+
 ### DOOM Retro v5.6.1
 
 * *DOOM Retro* now uses [*SDL v2.30.11*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.11) and [*SDL_image v2.8.4*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.4).
@@ -10,7 +16,7 @@
 * Animated skies defined using the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump are now fully supported.
 * Improvements have been made to the clipping of sprites in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
 * The correct `INTERPIC` lump is now always displayed when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
-* A soft lock no longer occurs in *MAP05: The Waste Tunnels* when playing v1.666 of DOOM2.WAD and the `r_fixmaperrors` CVAR is `on`.
+* A soft lock no longer occurs in *MAP05: The Waste Tunnels* when playing v1.666 of `DOOM2.WAD` and the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
