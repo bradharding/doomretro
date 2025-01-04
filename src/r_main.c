@@ -416,8 +416,6 @@ void R_ExecuteSetViewSize(void)
         suppresswarnings = true;
         R_InitSkyMap();
         suppresswarnings = false;
-
-        R_InitColumnFunctions();
     }
 
     // thing clipping
