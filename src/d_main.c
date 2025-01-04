@@ -341,25 +341,28 @@ void D_Display(void)
         if (mapwindow || automapactive)
             AM_Drawer();
 
-        ST_Drawer((viewheight == SCREENHEIGHT), true);
-
-        // see if the border needs to be initially drawn
-        if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
-            R_FillBackScreen();
-
-        // see if the border needs to be updated to the screen
-        if (!automapactive)
+        if (!menuactive)
         {
-            if (viewwidth != SCREENWIDTH)
-                R_DrawViewBorder();
+            ST_Drawer((viewheight == SCREENHEIGHT), true);
 
-            if (r_detail == r_detail_low)
-                postprocessfunc(screens[0], SCREENWIDTH, viewwindowx, viewwindowy * SCREENWIDTH,
-                    viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH,
-                    lowpixelwidth, lowpixelheight);
+            // see if the border needs to be initially drawn
+            if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
+                R_FillBackScreen();
+
+            // see if the border needs to be updated to the screen
+            if (!automapactive)
+            {
+                if (viewwidth != SCREENWIDTH)
+                    R_DrawViewBorder();
+
+                if (r_detail == r_detail_low)
+                    postprocessfunc(screens[0], SCREENWIDTH, viewwindowx, viewwindowy * SCREENWIDTH,
+                        viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH,
+                        lowpixelwidth, lowpixelheight);
+            }
+
+            HU_Drawer();
         }
-
-        HU_Drawer();
     }
 
     oldgamestate = wipegamestate = gamestate;
