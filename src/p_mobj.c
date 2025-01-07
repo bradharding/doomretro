@@ -428,7 +428,9 @@ static void P_ZMovement(mobj_t *mo)
 
         if (flags & MF_MISSILE)
         {
-            if (ceilingline && ceilingline->backsector && ceilingline->backsector->ceilingpic == skyflatnum
+            if (ceilingline
+                && ceilingline->backsector
+                && ceilingline->backsector->ceilingpic == skyflatnum
                 && mo->z > ceilingline->backsector->ceilingheight)
                 P_RemoveMobj(mo);                       // don't explode on skies
             else

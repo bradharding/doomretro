@@ -245,7 +245,7 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 }
 
 // [AM] Interpolate between two angles.
-angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
+angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle)
 {
     if (nangle == oangle)
         return nangle;
@@ -253,16 +253,16 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
     if (nangle > oangle)
     {
         if (nangle - oangle < ANG270)
-            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(fractionaltic)));
         else
-            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));   // Wrapped around
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(fractionaltic)));
     }
     else
     {
         if (oangle - nangle < ANG270)
-            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale)));
+            return (oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(fractionaltic)));
         else
-            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));   // Wrapped around
+            return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(fractionaltic)));
     }
 }
 
@@ -1039,7 +1039,7 @@ static void R_SetupFrame(void)
         viewx = mo->oldx + FixedMul(mo->x - mo->oldx, fractionaltic);
         viewy = mo->oldy + FixedMul(mo->y - mo->oldy, fractionaltic);
         viewz = viewplayer->oldviewz + FixedMul(viewplayer->viewz - viewplayer->oldviewz, fractionaltic);
-        viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
+        viewangle = R_InterpolateAngle(mo->oldangle, mo->angle);
 
         if (canfreelook)
             pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)

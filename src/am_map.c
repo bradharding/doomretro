@@ -1867,7 +1867,7 @@ static void AM_DrawThings(void)
                 }
                 else
                 {
-                    angle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+                    angle = R_InterpolateAngle(thing->oldangle, thing->angle);
                     point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
                     point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
                 }
