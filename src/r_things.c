@@ -107,7 +107,6 @@ static int                      maxframe;
 static bool                     drawshadows;
 static bool                     interpolatesprites;
 static bool                     invulnerable;
-static fixed_t                  floorheight;
 
 static const fixed_t floatbobdiffs[64] =
 {
@@ -937,7 +936,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gy = fy;
     vis->color = (r_textures ? splat->viscolor : nearestlightgray);
     vis->colfunc = splat->viscolfunc;
-    vis->texturemid = floorheight + FRACUNIT - viewz;
+    vis->texturemid = splat->sector->floorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
     if (x1 < 0)
@@ -967,8 +966,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t          *thing = sec->thinglist;
     bloodsplat_t    *splat = sec->splatlist;
-
-    floorheight = sec->interpfloorheight;
 
     if (splat && drawbloodsplats)
     {
@@ -1096,9 +1093,9 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             const int   deltax = x2 - vis->x1;
 
-            vis->x1 = psp_inter.x1 + FixedMul(fractionaltic, vis->x1 - psp_inter.x1);
+            vis->x1 = psp_inter.x1 + FixedMul(vis->x1 - psp_inter.x1, fractionaltic);
             vis->x2 = MIN(vis->x1 + deltax, viewwidth);
-            vis->texturemid = psp_inter.texturemid + FixedMul(fractionaltic, vis->texturemid - psp_inter.texturemid);
+            vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid, fractionaltic);
         }
         else
         {
