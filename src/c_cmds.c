@@ -8277,7 +8277,7 @@ static void save_func2(char *cmd, char *parms)
         M_snprintf(buffer, sizeof(buffer), "%s%s%s",
             (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder),
             parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
-        G_SaveGame(-1, "", buffer);
+        G_SaveGame(-1, maptitle, buffer);
     }
 }
 
