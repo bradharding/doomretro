@@ -45,7 +45,6 @@
 #define REDBLOODSPLATCOLOR    184
 #define GREENBLOODSPLATCOLOR  122
 
-#define BLOODSPLATLUMPS        12
 #define CORPSEBLOODSPLATS     512
 
 // killough 11/98:

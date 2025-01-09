@@ -50,6 +50,7 @@ extern fixed_t  pspritescale;
 extern fixed_t  pspriteiscale;
 
 extern short    firstbloodsplatlump;
+extern int      numbloodsplatlumps;
 
 extern bool     allowwolfensteinss;
 

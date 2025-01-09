@@ -1606,7 +1606,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
 
             if (splat)
             {
-                const int   patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
+                const int   patch = firstbloodsplatlump + (M_BigRandom() & (numbloodsplatlumps - 1));
 
                 splat->patch = firstspritelump + patch;
                 splat->color = color;

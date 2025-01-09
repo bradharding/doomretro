@@ -98,6 +98,7 @@ static int                      clipbot[MAXWIDTH];
 spritedef_t                     *sprites;
 
 short                           firstbloodsplatlump;
+int                             numbloodsplatlumps;
 
 bool                            allowwolfensteinss = true;
 
@@ -322,6 +323,7 @@ static void R_InitSpriteDefs(void)
     free(hash); // free hash table
 
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
+    numbloodsplatlumps = sprites[SPR_BLD2].numframes;
 
     // check if Wolfenstein SS sprites have been changed to zombiemen sprites
     if (bfgedition && gamemode == commercial)
