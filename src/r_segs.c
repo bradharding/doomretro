@@ -744,6 +744,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
+            && !sidedef->midtexture
             && r_liquid_bob)
         {
             liquidoffset = animatedliquiddiff;
