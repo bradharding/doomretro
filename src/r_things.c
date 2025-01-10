@@ -799,7 +799,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->gz = thing->subsector->sector->floorheight;
+    vis->gz = thing->subsector->sector->interpfloorheight;
     vis->gzt = gzt;
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
@@ -938,7 +938,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gy = fy;
     vis->color = (r_textures ? splat->viscolor : nearestlightgray);
     vis->colfunc = splat->viscolfunc;
-    vis->texturemid = splat->sector->floorheight + FRACUNIT - viewz;
+    vis->texturemid = splat->sector->interpfloorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
     if (x1 < 0)
