@@ -6,7 +6,9 @@
 * Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The `save` CCMD now always works as intended.
 * The `r_detail` and `r_lowpixelsize` CVARs no longer affect the appearance of the menu’s background.
-* A bug is fixed whereby colored blood would momentarily become red after opening and closing the menu.
+* A bug is fixed whereby colored blood would turn red after opening and closing the menu.
+* Further improvements have been made to the clipping of sprites in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
+* The `vid_scaleapi` CVAR is now back to `direct3d9` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
