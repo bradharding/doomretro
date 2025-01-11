@@ -8,6 +8,8 @@
 * The `r_detail` and `r_lowpixelsize` CVARs no longer affect the appearance of the menu’s background.
 * A bug is fixed whereby colored blood would turn red after opening and closing the menu.
 * Further improvements have been made to the clipping of sprites in liquid sectors when the `r_liquid_clipsprites` CVAR is `on`.
+* The vertical offsets of the sprites of cacodemons, lost souls and pain elementals have improved when the `r_fixspriteoffsets` CVAR is `on`.
+* Minor improvements have been made to the fuzz effect applied to spectres.
 * The `vid_scaleapi` CVAR is now back to `direct3d9` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
