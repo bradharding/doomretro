@@ -8465,7 +8465,10 @@ static void spawn_func2(char *cmd, char *parms)
                         massacre = false;
 
                         if (flags & MF_NOGRAVITY)
+                        {
                             thing->z = thing->floorz + 32 * FRACUNIT;
+                            thing->flags2 &= ~MF2_FEETARECLIPPED;
+                        }
 
                         if (!freeze)
                         {
