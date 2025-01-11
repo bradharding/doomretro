@@ -1100,10 +1100,7 @@ void R_DrawFuzzColumn(void)
     dest = ylookup0[dc_yl] + dc_x;
 
     // top
-    if (dc_yl >= 2)
-        BIGFUZZYPIXEL(8, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 1)));
-    else
-        BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1(0, 1)));
+    BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1((dc_yl >= 2 ? -1 : 0), 1)));
 
     dest += SCREENWIDTH * 2;
 
