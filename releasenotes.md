@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.6.2
 
+* *DOOM Retro* is now built using v17.12.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A bug is fixed whereby a sprite’s shadow would be positioned incorrectly in some rare instances when the `r_shadows` CVAR was `on`.
 * Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The `save` CCMD now always works as intended.
