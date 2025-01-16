@@ -2126,7 +2126,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     flags = thing->flags;
 
     // crunch bodies to giblets
-    if (thing->health <= 0 && (thing->flags2 & MF2_CRUSHABLE))
+    if ((flags & MF_CORPSE) || (thing->flags2 & MF2_CRUSHABLE))
     {
         if (thing->player)
         {

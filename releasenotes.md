@@ -12,6 +12,9 @@
 * The vertical offsets of the sprites of cacodemons, lost souls and pain elementals have improved when the `r_fixspriteoffsets` CVAR is `on`.
 * Minor improvements have been made to the fuzz effect applied to spectres.
 * The `vid_scaleapi` CVAR is now back to `direct3d9` by default.
+* These changes have been made to the support of `DEHACKED` lumps:
+  * `Retro bits = CRUSHABLE` now works as intended.
+  * The `Hit points` of decorative corpses have been changed from `0` back to `1000`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
