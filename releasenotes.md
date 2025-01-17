@@ -14,7 +14,7 @@
 * The `vid_scaleapi` CVAR is now back to `direct3d9` by default.
 * These changes have been made to the support of `DEHACKED` lumps:
   * `Retro bits = CRUSHABLE` now works as intended.
-  * The `Hit points` of decorative corpses have been changed from `0` back to `1000`.
+  * The `Hit points` of decorative corpses have been changed from `0` back to `1000` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

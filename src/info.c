@@ -44,7 +44,7 @@
 { \
     /* doomednum            */ -1,          \
     /* spawnstate           */ 0,           \
-    /* spawnhealth          */ 1000,        \
+    /* spawnhealth          */ 0,           \
     /* gibhealth            */ 0,           \
     /* giblevel             */ 0,           \
     /* seestate             */ S_NULL,      \

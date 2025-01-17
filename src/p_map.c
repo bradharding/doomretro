@@ -2119,14 +2119,16 @@ static bool nofit;
 static void PIT_ChangeSector(mobj_t *thing)
 {
     int   flags;
+    int   flags2;
 
     if (P_ThingHeightClip(thing))
         return; // keep checking
 
     flags = thing->flags;
+    flags2 = thing->flags2;
 
     // crunch bodies to giblets
-    if ((flags & MF_CORPSE) || (thing->flags2 & MF2_CRUSHABLE))
+    if ((flags & MF_CORPSE) || (flags2 & MF2_CRUSHABLE))
     {
         if (thing->player)
         {
@@ -2162,7 +2164,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(flags2 & MF2_NOMIRROREDCORPSE)
                 && (thing->type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
@@ -2189,7 +2191,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // killough 11/98: kill touchy things immediately
-    if ((flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
+    if ((flags & MF_TOUCHY) && ((flags2 & MF2_ARMED) || sentient(thing)))
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
         return;
@@ -2248,9 +2250,9 @@ static void PIT_ChangeSector(mobj_t *thing)
                 M_StringCopy(name, thing->name, sizeof(name));
             else
                 M_snprintf(name, sizeof(name), "%s %s%s",
-                    ((thing->flags & MF_FRIEND) && thing->type < NUMMOBJTYPES && monstercount[thing->type] == 1 ? "the" :
-                        (isvowel(thing->info->name1[0]) && !(thing->flags & MF_FRIEND) ? "an" : "a")),
-                    ((thing->flags & MF_FRIEND) ? "friendly " : ""),
+                    ((flags & MF_FRIEND) && thing->type < NUMMOBJTYPES && monstercount[thing->type] == 1 ? "the" :
+                        (isvowel(thing->info->name1[0]) && !(flags & MF_FRIEND) ? "an" : "a")),
+                    ((flags & MF_FRIEND) ? "friendly " : ""),
                     (*thing->info->name1 ? thing->info->name1 : "monster"));
 
             name[0] = toupper(name[0]);
