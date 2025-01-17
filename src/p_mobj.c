@@ -703,7 +703,7 @@ void P_MobjThinker(mobj_t *mobj)
                     player->deltaviewheight = mobj->momz / 8;
 
                     if (mobj->momz < -23 * FRACUNIT)
-                        P_NoiseAlert(mobj);
+                        P_NoiseAlert(mobj, mobj);
                 }
 
                 if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
@@ -1755,7 +1755,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momz = FixedMul(speed, slope);
     th->interpolate = -1;
 
-    P_NoiseAlert(source);
+    P_NoiseAlert(source, source);
 
     if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
         && viewplayer->readyweapon == wp_missile && !chex && !hacx && !norockettrails && !incompatiblepalette)

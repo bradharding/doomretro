@@ -108,14 +108,14 @@ static void P_RecursiveSound(sector_t *sec, const int soundblocks, mobj_t *sound
 // If a monster yells at the player,
 // it will alert other monsters to the player.
 //
-void P_NoiseAlert(mobj_t *target)
+void P_NoiseAlert(mobj_t *target, mobj_t *emitter)
 {
     // [BH] don't alert if notarget CCMD is enabled
     if (target->player && (viewplayer->cheats & CF_NOTARGET))
         return;
 
     validcount++;
-    P_RecursiveSound(target->subsector->sector, 0, target);
+    P_RecursiveSound(emitter->subsector->sector, 0, target);
 }
 
 //
@@ -2740,7 +2740,7 @@ void A_NoiseAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor->target)
         return;
 
-    P_NoiseAlert(actor);
+    P_NoiseAlert(actor->target, actor);
 }
 
 //

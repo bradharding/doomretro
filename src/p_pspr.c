@@ -222,6 +222,9 @@ void P_FireWeapon(void)
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(viewplayer->mo, viewplayer->mo);
+
     if (readyweapon == wp_bfg)
         P_RumbleWeapon(wp_bfg);
 
@@ -423,9 +426,6 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (linetarget || hitwall)
     {
-        if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
-            P_NoiseAlert(actor);
-
         S_StartSound(actor, sfx_punch);
 
         // turn to face target
@@ -468,9 +468,6 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
     A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
-
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
-        P_NoiseAlert(actor);
 
     player->shotsfired[readyweapon]++;
     stat_shotsfired[wp_chainsaw] = SafeAdd(stat_shotsfired[wp_chainsaw], 1);
@@ -683,9 +680,6 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
     const weapontype_t  readyweapon = player->readyweapon;
     const weaponinfo_t  readyweaponinfo = weaponinfo[readyweapon];
 
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
-        P_NoiseAlert(actor);
-
     S_StartSound(actor, sfx_pistol);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SubtractAmmo();
@@ -715,9 +709,6 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     const weapontype_t  readyweapon = player->readyweapon;
     const weaponinfo_t  readyweaponinfo = weaponinfo[readyweapon];
-
-    if (!(readyweaponinfo.flags & WPF_SILENT))
-        P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_shotgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
@@ -752,9 +743,6 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     const weapontype_t  readyweapon = player->readyweapon;
     const weaponinfo_t  readyweaponinfo = weaponinfo[readyweapon];
-
-    if (!(readyweaponinfo.flags & WPF_SILENT))
-        P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_dshtgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
@@ -814,9 +802,6 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     S_StartSound(actor, sfx_pistol);
 
-    if (!(readyweaponinfo.flags & WPF_SILENT))
-        P_NoiseAlert(actor);
-
     P_SubtractAmmo();
     P_SetPlayerSprite(ps_flash, readyweaponinfo.flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);
@@ -863,9 +848,6 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *mo = actor->target;
     angle_t an = actor->angle - ANG90 / 2;
-
-    if (!(weaponinfo[wp_bfg].flags & WPF_SILENT))
-        P_NoiseAlert(actor);
 
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)
@@ -1072,9 +1054,6 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     numbullets = state->args[2];
     readyweapon = player->readyweapon;
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
-        P_NoiseAlert(actor);
-
     P_BulletSlope(player->mo);
 
     for (int i = 0; i < numbullets; i++)
@@ -1103,7 +1082,6 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     int             slope;
     int             damage;
     state_t         *state = psp->state;
-    weapontype_t    readyweapon;
 
     if (!state)
         return;
@@ -1132,16 +1110,13 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!linetarget)
         return;
 
-    if (!(weaponinfo[(readyweapon = player->readyweapon)].flags & WPF_SILENT))
-        P_NoiseAlert(actor);
-
     // un-missed!
     S_StartSound(player->mo, state->args[3]);
 
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
 
-    P_RumbleWeapon(readyweapon);
+    P_RumbleWeapon(player->readyweapon);
 }
 
 //
@@ -1166,7 +1141,7 @@ void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(player->mo);
+    P_NoiseAlert(player->mo, player->mo);
 }
 
 //
