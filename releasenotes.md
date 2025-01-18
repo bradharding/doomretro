@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.12.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A bug is fixed whereby a sprite’s shadow would be positioned incorrectly in some rare instances when the `r_shadows` CVAR was `on`.
-* Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960) and [*Smooth DOOM MBF21*](https://www.doomworld.com/forum/topic/133318/).
 * The `save` CCMD now always works as intended.
 * The `r_detail` and `r_lowpixelsize` CVARs no longer affect the appearance of the menu’s background.
 * A bug is fixed whereby colored blood would turn red after opening and closing the menu.
@@ -15,6 +15,7 @@
 * These changes have been made to the support of `DEHACKED` lumps:
   * `Retro bits = CRUSHABLE` now works as intended.
   * The `Hit points` of decorative corpses have been changed from `0` back to `1000` by default.
+* A bug is fixed whereby monsters wouldn’t be alerted to the player firing their weapon in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
