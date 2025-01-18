@@ -1028,6 +1028,7 @@ void D_CheckSupportedPWAD(char *filename)
     {
         SD21 = true;
         moreblood = true;
+        fixspriteoffsets = true;
     }
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
