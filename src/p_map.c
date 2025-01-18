@@ -1009,7 +1009,7 @@ bool P_IsInLiquid(mobj_t *thing)
     if (!thing->player && thing->z > highestsector->floorheight + 2 * FRACUNIT)
         return false;
 
-    return (highestsector->terraintype >= LIQUID);
+    return (highestsector->terraintype >= LIQUID && !(thing->flags & MF_SPAWNCEILING));
 }
 
 //

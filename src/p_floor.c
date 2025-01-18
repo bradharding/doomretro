@@ -590,8 +590,6 @@ void P_CheckTerrainType(sector_t *sector)
 
                 if (!(thing->flags & MF_SPAWNCEILING) && (thing->flags2 & MF2_FOOTCLIP))
                     thing->flags2 |= MF2_FEETARECLIPPED;
-                else
-                    thing->flags2 &= ~MF2_FEETARECLIPPED;
             }
         }
         else

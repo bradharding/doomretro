@@ -826,7 +826,7 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
         mobj->height = info->height;
         mobj->z = mobj->oldz = mobj->floorz;
 
-        if ((mobj->flags2 & MF2_FOOTCLIP) && !sector->heightsec && P_IsInLiquid(mobj))
+        if ((mobj->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(mobj))
             mobj->flags2 |= MF2_FEETARECLIPPED;
     }
     else if (z == ONCEILINGZ)
