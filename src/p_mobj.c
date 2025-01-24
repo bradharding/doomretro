@@ -1348,8 +1348,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
         && mobj->bloodcolor > NOBLOOD
-        && ((!hacx && !harmony) || !(flags2 & MF2_DECORATION))
-        && mobj->subsector->sector->terraintype == SOLID)
+        && ((!hacx && !harmony) || !(flags2 & MF2_DECORATION)))
     {
         const short lump = sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0];
 
