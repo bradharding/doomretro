@@ -2256,7 +2256,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // thus kick away unless using the chainsaw.
     if (massacre)
     {
-        if (!(flags & MF_NOBLOOD))
+        if (!(flags & MF_NOBLOOD) && type != MT_SKULL)
         {
             angle_t ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
                 target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y) >> ANGLETOFINESHIFT;
