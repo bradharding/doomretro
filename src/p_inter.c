@@ -49,6 +49,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "w_wad.h"
 
 #define MASSACRETHRUST  (40 * (FRACUNIT >> 5))
 
@@ -2256,14 +2257,22 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // thus kick away unless using the chainsaw.
     if (massacre)
     {
-        if (!(flags & MF_NOBLOOD) && type != MT_SKULL)
+        if (r_corpses_moreblood
+            && r_bloodsplats_max
+            && !(flags & MF_NOBLOOD) && type != MT_SKULL
+            && target->bloodcolor > NOBLOOD)
         {
-            angle_t ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
-                target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y) >> ANGLETOFINESHIFT;
+            const short lump = sprites[target->sprite].spriteframes[target->frame & FF_FRAMEMASK].lump[0];
 
-            target->momx += FixedMul(MASSACRETHRUST, finecosine[ang]);
-            target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
-            P_SpawnMoreBlood(target);
+            if (moreblood || lumpinfo[firstspritelump + lump]->wadfile->type == IWAD)
+            {
+                angle_t ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
+                    target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y) >> ANGLETOFINESHIFT;
+
+                target->momx += FixedMul(MASSACRETHRUST, finecosine[ang]);
+                target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
+                P_SpawnMoreBlood(target);
+            }
         }
     }
     else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
