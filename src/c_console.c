@@ -52,6 +52,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
@@ -116,6 +117,7 @@ char                    consolecheatparm[3];
 static int              inputhistory = -1;
 static int              outputhistory = -1;
 static bool             topofconsole;
+static bool             cheatsequence;
 
 static int              degreewidth;
 static int              suckswidth;
@@ -1054,8 +1056,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     for (int i = 0; i < len; i++)
     {
-        const unsigned char letter = text[i];
-        unsigned char       nextletter = text[i + 1];
+        unsigned char   letter = text[i];
+        unsigned char   nextletter = text[i + 1];
+
+        if (cheatsequence)
+        {
+            letter = '\x95';
+            nextletter = '\x95';
+        }
 
         if (letter == BOLDONCHAR)
         {
@@ -1568,6 +1576,79 @@ void C_UpdatePlayerStatsOverlay(void)
     }
 }
 
+static bool IsCheatSequence(char *string)
+{
+    const int   length = (int)strlen(string);
+
+    if (M_StringStartsWith(string, cheat_clev_xy.sequence)
+        && length == strlen(cheat_clev_xy.sequence) + cheat_clev_xy.parameter_chars
+        && isdigit(string[length - 1])
+        && isdigit(string[length - 2]))
+    {
+        static char lump[7];
+
+        if (legacyofrust)
+        {
+            int ep = string[length - 2] - '0';
+            int map = string[length - 1] - '0';
+
+            if (ep <= 2 && map <= 7)
+                map = (ep - 1) * 7 + map;
+            else if (ep <= 2 && map == 8)
+                map = 14 + ep;
+            else
+                map = ep * 10 + map;
+
+            M_snprintf(lump, sizeof(lump), "MAP%02i", map);
+        }
+        else if (gamemode == commercial)
+            M_snprintf(lump, sizeof(lump), "MAP%c%c", string[length - 2], string[length - 1]);
+        else
+            M_snprintf(lump, sizeof(lump), "E%cM%c", string[length - 2], string[length - 1]);
+
+        return (W_CheckNumForName(lump) >= 0);
+    }
+    else if (gamestate != GS_LEVEL)
+        return false;
+    else if (M_StringCompare(string, cheat_god.sequence))
+        return (gameskill != sk_nightmare);
+    else if (M_StringCompare(string, cheat_ammonokey.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_ammo.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringStartsWith(string, cheat_mus_xy.sequence)
+        && length == strlen(cheat_mus_xy.sequence) + cheat_mus_xy.parameter_chars
+        && isdigit(string[length - 1])
+        && isdigit(string[length - 2]))
+        return (!nomusic && musicvolume);
+    else if (M_StringCompare(string, cheat_noclip.sequence))
+        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_commercial_noclip.sequence))
+        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[0].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[1].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[2].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[3].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[4].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_powerup[5].sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_choppers.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_buddha.sequence))
+        return (gameskill != sk_nightmare && viewplayer->health > 0);
+    else if (M_StringCompare(string, cheat_mypos.sequence))
+        return true;
+    else if (M_StringCompare(string, cheat_amap.sequence))
+        return (gameskill != sk_nightmare && (automapactive || mapwindow));
+
+    return false;
+}
+
 void C_Drawer(void)
 {
     int             i;
@@ -1581,6 +1662,8 @@ void C_Drawer(void)
     const int       notabs[MAXTABS] = { 0 };
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
+
+    cheatsequence = false;
 
     // adjust console height
     if (consolewait < tics)
@@ -1879,6 +1962,7 @@ void C_Drawer(void)
         for (i = 0; i < MIN(selectstart, caretpos); i++)
             partialinput[i] = consoleinput[i];
 
+        cheatsequence = IsCheatSequence(consoleinput);
         partialinput[i] = '\0';
 
         if (partialinput[0] != '\0')
