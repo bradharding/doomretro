@@ -3078,8 +3078,7 @@ void P_MapName(int ep, int map)
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 temp = titlecase(maptitle);
-                M_snprintf(mapnum, sizeof(mapnum), "L%02i", map);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "L%02i: " ITALICS("%s"), map, temp);
             }
             else
             {
