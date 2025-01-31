@@ -38,7 +38,7 @@
 #include "m_fixed.h"
 
 // Tic handling related.
-#define BACKUPTICS  8
+#define BACKUPTICS  128
 
 extern fixed_t  fractionaltic;
 

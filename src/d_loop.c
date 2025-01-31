@@ -63,7 +63,7 @@ void TryRunTics(void)
     {
         I_StartTic();
 
-        if (maketic - gametime > BACKUPTICS / 2)
+        if (maketic - gametime > 2)
             break;
 
         G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
