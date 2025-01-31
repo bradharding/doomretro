@@ -62,6 +62,8 @@
 #define ST_STRAIGHTFACE         1
 #define ST_STRAIGHTFACECOUNT    (TICRATE / 2)
 
+#define IDMUS_MAX               70
+
 //
 // STATUS BAR
 //
@@ -84,30 +86,32 @@ void ST_Init(void);
 void ST_InitStatBar(void);
 void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning);
 
-extern bool     idclev;
-extern int      idclevtics;
-extern bool     idmus;
-extern int      st_palette;
-extern bool     oldweaponsowned[NUMWEAPONS];
-extern patch_t  *tallnum[10];
-extern short    tallnum0width;
-extern short    tallnum1width;
-extern patch_t  *tallpercent;
-extern short    tallpercentwidth;
-extern bool     emptytallpercent;
-extern int      caretcolor;
-extern patch_t  *faces[ST_NUMFACES];
-extern int      st_faceindex;
-extern int      oldhealth;
+extern bool         idclev;
+extern int          idclevtics;
+extern bool         idmus;
+extern int          st_palette;
+extern bool         oldweaponsowned[NUMWEAPONS];
+extern patch_t      *tallnum[10];
+extern short        tallnum0width;
+extern short        tallnum1width;
+extern patch_t      *tallpercent;
+extern short        tallpercentwidth;
+extern bool         emptytallpercent;
+extern int          caretcolor;
+extern patch_t      *faces[ST_NUMFACES];
+extern int          st_faceindex;
+extern int          oldhealth;
 
-extern byte     *grnrock;
-extern patch_t  *brdr_t;
-extern patch_t  *brdr_b;
-extern patch_t  *brdr_l;
-extern patch_t  *brdr_r;
-extern patch_t  *brdr_tl;
-extern patch_t  *brdr_tr;
-extern patch_t  *brdr_bl;
-extern patch_t  *brdr_br;
+extern byte         *grnrock;
+extern patch_t      *brdr_t;
+extern patch_t      *brdr_b;
+extern patch_t      *brdr_l;
+extern patch_t      *brdr_r;
+extern patch_t      *brdr_tl;
+extern patch_t      *brdr_tr;
+extern patch_t      *brdr_bl;
+extern patch_t      *brdr_br;
 
-extern bool     st_drawbrdr;
+extern bool         st_drawbrdr;
+
+extern const int    mus[IDMUS_MAX][6];

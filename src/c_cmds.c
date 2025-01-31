@@ -1451,6 +1451,55 @@ static bool cheat_func1(char *cmd, char *parms)
             return true;
         }
     }
+    else if (M_StringCompare(cmd, cheat_mus.sequence) && !nomusic && musicvolume)
+    {
+        if (parms[0] >= '0' && parms[0] <= '9' && parms[1] >= '0' && parms[1] <= '9')
+        {
+            int musnum = (parms[0] - '0') * 10 + (parms[1] - '0');
+
+            if (musnum < IDMUS_MAX)
+            {
+                if (gamemission == pack_nerve)
+                    musnum = mus[musnum][5];
+                else if (bfgedition && gamemission == doom2)
+                    musnum = mus[musnum][4];
+                else
+                    musnum = mus[musnum][gamemode];
+
+                if (musnum != mus_none)
+                {
+                    char    lump[9];
+                    char    *temp = uppercase(s_music[musnum].name1);
+
+                    M_snprintf(lump, sizeof(lump), "D_%s", temp);
+
+                    if (W_CheckNumForName(lump) >= 0)
+                    {
+                        static char msg[80];
+
+                        S_StartSound(NULL, sfx_getpow);
+
+                        S_ChangeMusic(musnum, 1, true, false);
+                        ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
+                        M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
+                        C_Output(msg);
+                        HU_SetPlayerMessage(msg, false, false);
+                        message_dontfuckwithme = true;
+                    }
+
+                    free(temp);
+                }
+                else
+                    idmus = false;
+            }
+            else
+                idmus = false;
+
+            return true;
+        }
+
+        return false;
+    }
     else if (gamestate != GS_LEVEL)
         return false;
     else if (M_StringCompare(cmd, cheat_god.sequence))
@@ -1459,8 +1508,6 @@ static bool cheat_func1(char *cmd, char *parms)
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(cmd, cheat_mus.sequence))
-        return (!nomusic && musicvolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
         return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))

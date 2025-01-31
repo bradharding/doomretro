@@ -156,8 +156,6 @@
 #define ST_MAXAMMO3X        ST_MAXAMMO0X
 #define ST_MAXAMMO3Y        191
 
-#define IDMUS_MAX           70
-
 // ST_Start() has just been called
 static bool             st_firsttime;
 
@@ -322,7 +320,7 @@ static void ST_InitCheats(void)
     cheat_buddha.movekey = movekey(cheat_buddha.sequence[0]);
 }
 
-static const int mus[IDMUS_MAX][6] =
+const int mus[IDMUS_MAX][6] =
 {
     /* xy      shareware   registered  commercial  retail      bfgedition  nerve      */
     /* 00 */ { mus_none,   mus_none,   mus_none,   mus_none,   mus_none,   mus_none   },
