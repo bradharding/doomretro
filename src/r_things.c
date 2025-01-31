@@ -1384,7 +1384,7 @@ static void R_DrawSprite(const vissprite_t *spr)
             {
                 // masked midtexture?
                 if (ds->maskedtexturecol)
-                    R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
+                    R_RenderMaskedSegRange(ds, MAX(x1, ds->x1), MIN(ds->x2, x2));
 
                 // seg is behind sprite
                 continue;

@@ -5214,7 +5214,7 @@ static void mapstats_func2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
             C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
         else
-            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
+            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (legacyofrust ? 16 : (bfgedition ? 33 : 32)));
     }
     else
         C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
