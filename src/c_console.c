@@ -1608,6 +1608,11 @@ static bool IsCheatSequence(char *string)
 
         return (W_CheckNumForName(lump) >= 0);
     }
+    else if (M_StringStartsWith(string, cheat_mus_xy.sequence)
+        && length == strlen(cheat_mus_xy.sequence) + cheat_mus_xy.parameter_chars
+        && isdigit(string[length - 1])
+        && isdigit(string[length - 2]))
+        return (!nomusic && musicvolume);
     else if (gamestate != GS_LEVEL)
         return false;
     else if (M_StringCompare(string, cheat_god.sequence))
@@ -1616,11 +1621,6 @@ static bool IsCheatSequence(char *string)
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(string, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringStartsWith(string, cheat_mus_xy.sequence)
-        && length == strlen(cheat_mus_xy.sequence) + cheat_mus_xy.parameter_chars
-        && isdigit(string[length - 1])
-        && isdigit(string[length - 2]))
-        return (!nomusic && musicvolume);
     else if (M_StringCompare(string, cheat_noclip.sequence))
         return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(string, cheat_commercial_noclip.sequence))
