@@ -3,8 +3,9 @@
 ### DOOM Retro v5.6.3
 
 * *DOOM Retro* now uses [*SDL v2.30.12*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.12).
+* Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 
-* ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, January 18, 2025
 
