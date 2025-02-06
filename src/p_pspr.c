@@ -113,7 +113,7 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum)
 // P_BringUpWeapon
 // Starts bringing the pending weapon up from the bottom of the screen.
 //
-static void P_BringUpWeapon(void)
+static void P_BringUpWeapon(const int weaponbottom)
 {
     statenum_t  newstate;
 
@@ -125,7 +125,7 @@ static void P_BringUpWeapon(void)
     newstate = weaponinfo[viewplayer->pendingweapon].upstate;
 
     viewplayer->pendingweapon = wp_nochange;
-    viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
+    viewplayer->psprites[ps_weapon].sy = weaponbottom;
 
     P_SetPlayerSprite(ps_weapon, newstate);
 }
@@ -370,7 +370,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (player->pendingweapon != wp_nochange)
         player->readyweapon = player->pendingweapon;
 
-    P_BringUpWeapon();
+    P_BringUpWeapon(WEAPONBOTTOM);
 }
 
 //
@@ -907,7 +907,7 @@ void P_SetupPlayerSprites(void)
 
     // spawn the gun
     viewplayer->pendingweapon = viewplayer->readyweapon;
-    P_BringUpWeapon();
+    P_BringUpWeapon((r_screensize == r_screensize_max ? 106 : 90) * FRACUNIT);
 
     if (r_playersprites)
         skippsprinterp = true;
