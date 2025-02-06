@@ -1522,13 +1522,7 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
-            const int   width = M_StringWidth(w_message.l.l);
-
-            if (width > SCREENWIDTH / 2 - w_message.l.x * 2 - 6)
-                w_message.l.x = (SCREENWIDTH / 2 - width) / 2;
-            else
-                w_message.l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
-
+            w_message.l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
             w_message.l.y = HU_MSGY + 1;
         }
         else
