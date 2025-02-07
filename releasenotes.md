@@ -3,7 +3,13 @@
 ### DOOM Retro v5.6.3
 
 * *DOOM Retro* now uses [*SDL v2.30.12*](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.12).
-* Minor improvements have been made to the support of [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
+* Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
+* Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Blood splats are no longer spawned when killing lost souls using the `kill` CCMD.
+* Cheats now become redacted in the console before pressing the <kbd><b>ENTER</b></kbd> key.
+* A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
