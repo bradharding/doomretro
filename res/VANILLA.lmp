@@ -104,6 +104,7 @@ r_liquid_lowerview off
 r_liquid_swirl off
 r_lowpixelsize 2x2
 r_mirroredweapons off
+r_percolumnlighting off
 r_pickupeffect on
 r_playersprites on
 r_radsuiteffect on

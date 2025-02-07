@@ -570,7 +570,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
-    if (/*r_percolumnlighting && */!mobj->info->fullbright && dc_colormap[0] && !fixedcolormap)
+    if (r_percolumnlighting && !mobj->info->fullbright && dc_colormap[0] && !fixedcolormap)
     {
         const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 
@@ -591,7 +591,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
 
-            //if (r_percolumnlighting)
+            if (r_percolumnlighting)
             {
                 const fixed_t   offset = frac - pcl_patchoffset;
                 const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);

@@ -162,6 +162,7 @@ extern bool     r_liquid_lowerview;
 extern bool     r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern bool     r_mirroredweapons;
+extern bool     r_percolumnlighting;
 extern bool     r_pickupeffect;
 extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
@@ -698,6 +699,8 @@ enum
 #define r_lowpixelsize_default              "2x2"
 
 #define r_mirroredweapons_default           false
+
+#define r_percolumnlighting_default         true
 
 #define r_pickupeffect_default              true
 
