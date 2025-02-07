@@ -532,7 +532,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     if (flags & MF_FUZZ)
         dc_black33 = &tinttab15[black];
-    else if (mobj->frame & FF_FULLBRIGHT)
+    else if (vis->fullbright)
     {
         dc_black33 = &tinttab20[black];
         dc_black40 = &tinttab25[black];
@@ -570,7 +570,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !mobj->info->fullbright && dc_colormap[0] && !fixedcolormap)
+    if (r_percolumnlighting && !vis->fullbright && dc_colormap[0] && !fixedcolormap)
     {
         const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 
@@ -591,9 +591,9 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
 
-            if (r_percolumnlighting)
+            if (r_percolumnlighting && !vis->fullbright)
             {
-                const fixed_t   offset = frac - pcl_patchoffset;
+                const fixed_t   offset = (vis->flipped ? pcl_patchoffset - frac : frac - pcl_patchoffset);
                 const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
                 const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
                 sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
@@ -833,6 +833,9 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gy = fy;
     vis->gz = thing->subsector->sector->interpfloorheight;
     vis->gzt = gzt;
+
+    vis->flipped = flip;
+    vis->fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright);
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
         vis->shadowpos = vis->gz + thing->shadowoffset - viewz;

@@ -1069,6 +1069,9 @@ typedef struct
     sector_t            *heightsec;
 
     int                 shadowpos;
+
+    bool                flipped;
+    bool                fullbright;
 } vissprite_t;
 
 typedef struct
