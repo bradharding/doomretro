@@ -37,6 +37,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_colors.h"
+#include "i_swap.h"
 #include "i_system.h"
 #include "m_array.h"
 #include "m_config.h"
@@ -516,6 +517,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     int             black;
+    fixed_t         pcl_patchoffset = 0;
+    fixed_t         pcl_cosine = 0;
+    fixed_t         pcl_sine = 0;
+    int             pcl_lightindex = 0;
 
     spryscale = vis->scale;
 
@@ -565,6 +570,16 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
+    if (/*r_percolumnlighting && */!mobj->info->fullbright && dc_colormap[0] && !fixedcolormap)
+    {
+        const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+
+        pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        pcl_cosine = finecosine[angle];
+        pcl_sine = finesine[angle];
+        pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+    }
+
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
@@ -575,6 +590,23 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
+
+            //if (r_percolumnlighting)
+            {
+                const fixed_t   offset = frac - pcl_patchoffset;
+                const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
+                const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
+                sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
+                sector_t        tempsector;
+                int             floorlightlevel;
+                int             ceilinglightlevel;
+                int             lightnum;
+
+                R_FakeFlat(sector, &tempsector, &floorlightlevel, &ceilinglightlevel, false);
+                lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
+                dc_colormap[0] = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 4, LIGHTLEVELS - 1)][pcl_lightindex];
+            }
 
             while (dc_numposts--)
             {
