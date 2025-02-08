@@ -1,3 +1,6 @@
+2.8.1:
+ * Added Stop/Start/Pause/Resume for Fluidsynth
+
 2.8.0:
  * Added support for loading wavpack sound files (https://www.wavpack.com/)
  * Added support for loading classic console sound files using Game_Music_Emu (https://github.com/libgme/game-music-emu)
