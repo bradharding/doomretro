@@ -604,8 +604,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
                 R_FakeFlat(sector, &tempsector, &floorlightlevel, &ceilinglightlevel, false);
                 lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
-                dc_colormap[0] = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 4, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
             }
 
             while (dc_numposts--)
@@ -1006,7 +1006,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     if (splat && drawbloodsplats)
     {
-        spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
         do
         {
@@ -1015,14 +1015,14 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         } while (splat);
 
         if (thing)
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         else
             return;
     }
     else if (thing)
     {
-        spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     }
     else
         return;

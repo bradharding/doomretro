@@ -236,8 +236,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         sector_t    tempsec;
         const short lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
 
-        walllights = GetLightTable(lightlevel);
-        walllightsnext = GetLightTable(lightlevel + 4);
+        walllights = GetLightTable(lightlevel - 2);
+        walllightsnext = GetLightTable(lightlevel + 2);
 
         if (usebrightmaps && !nobrightmap[texnum] && brightmap[texnum])
         {
