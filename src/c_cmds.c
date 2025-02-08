@@ -825,6 +825,8 @@ consolecmd_t consolecmds[] =
         "Quits to the " DESKTOP "."),
     CVAR_BOOL(r_althud, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen."),
+    CVAR_BOOL(r_antialiasing, "", "", bool_cvars_func1, r_antialiasing_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles anti-aliasing when the graphic detail is low."),
     CVAR_INT(r_berserkeffect, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the red effect when you have a berserk power-up and your fists equipped (" BOLD("0") " to " BOLD("8")
         ")."),
@@ -931,8 +933,6 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when you take damage."),
     CVAR_BOOL(r_sprites_translucency, "", "", bool_cvars_func1, r_sprites_translucency_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain sprites."),
-    CVAR_BOOL(r_antialiasing, "", "", bool_cvars_func1, r_antialiasing_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles anti-aliasing when the graphic detail is low."),
     CVAR_BOOL(r_textures, "", "", bool_cvars_func1, r_textures_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing all textures."),
     CVAR_BOOL(r_textures_translucency, "", "", bool_cvars_func1, r_textures_translucency_func2, CF_NONE, BOOLVALUEALIAS,
