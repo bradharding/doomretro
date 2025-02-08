@@ -2257,8 +2257,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // thus kick away unless using the chainsaw.
     if (massacre)
     {
-        if (r_corpses_moreblood
-            && r_bloodsplats_max
+        if (r_bloodsplats_max
             && !(flags & MF_NOBLOOD) && type != MT_SKULL
             && target->bloodcolor > NOBLOOD)
         {
@@ -2271,7 +2270,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                 target->momx += FixedMul(MASSACRETHRUST, finecosine[ang]);
                 target->momy += FixedMul(MASSACRETHRUST, finesine[ang]);
-                P_SpawnMoreBlood(target);
+
+                if (r_corpses_moreblood)
+                    P_SpawnMoreBlood(target);
             }
         }
     }
