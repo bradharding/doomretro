@@ -517,6 +517,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     int             black;
+    bool            percolumnlighting;
     fixed_t         pcl_patchoffset = 0;
     fixed_t         pcl_cosine = 0;
     fixed_t         pcl_sine = 0;
@@ -570,7 +571,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !vis->fullbright && dc_colormap[0] && !fixedcolormap)
+    if (percolumnlighting = (r_percolumnlighting && !vis->fullbright && dc_colormap[0] && !fixedcolormap))
     {
         const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 
@@ -591,19 +592,21 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
 
-            if (r_percolumnlighting && !vis->fullbright)
+            if (percolumnlighting)
             {
                 const fixed_t   offset = (vis->flipped ? pcl_patchoffset - frac : frac - pcl_patchoffset);
                 const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
                 const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
                 sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
-                sector_t        tempsector;
+                sector_t        tempsec;
                 int             floorlightlevel;
                 int             ceilinglightlevel;
                 int             lightnum;
 
-                R_FakeFlat(sector, &tempsector, &floorlightlevel, &ceilinglightlevel, false);
+                R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
                 lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
+
                 dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
                 dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
             }

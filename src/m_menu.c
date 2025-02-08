@@ -2977,7 +2977,8 @@ bool M_Responder(event_t *ev)
                 }
 
                 // select menu item
-                if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint && !savestringenter && !helpscreen)
+                if ((ev->data2 || ev->data3) && mousewait < I_GetTime()
+                    && !messagetoprint && !savestringenter && !helpscreen)
                     for (int i = 0; i < currentmenu->numitems; i++)
                     {
                         const menuitem_t    *menuitem = &currentmenu->menuitems[i];

@@ -376,7 +376,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if ((width -= M_CharacterWidth(l->l[wrap], '\0')) <= maxwidth && isbreak(l->l[wrap]))
                     break;
 
-        if (vid_widescreen && wrap < 0 && width > (maxwidth -= WIDESCREENDELTA * 2))
+        if (vid_widescreen && wrap < 0 && width > maxwidth - WIDESCREENDELTA * 2)
             x = (screenwidth / 2 - width) / 2;
     }
 
