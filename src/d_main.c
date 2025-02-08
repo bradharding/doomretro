@@ -1548,7 +1548,7 @@ static int D_OpenWADLauncher(void)
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDEHFile(file);
 
-                        if (W_GetNumLumps("M_DOOM") == 2)
+                        if (W_GetNumLumps("M_DOOM") == 2 && !BTSX)
                         {
                             if (D_IsDOOM1IWAD(fullpath) && W_GetNumLumps("E1M1") == 1)
                             {
