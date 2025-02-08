@@ -1,6 +1,6 @@
 /*
   SDL_image:  An example image loading library for use with SDL
-  Copyright (C) 1997-2024 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -43,7 +43,7 @@ extern "C" {
  */
 #define SDL_IMAGE_MAJOR_VERSION 2
 #define SDL_IMAGE_MINOR_VERSION 8
-#define SDL_IMAGE_PATCHLEVEL    4
+#define SDL_IMAGE_PATCHLEVEL    5
 
 /**
  * This macro can be used to fill a version structure with the compile-time
@@ -57,21 +57,22 @@ extern "C" {
 }
 
 #if SDL_IMAGE_MAJOR_VERSION < 3 && SDL_MAJOR_VERSION < 3
+
 /**
- *  This is the version number macro for the current SDL_image version.
+ * This is the version number macro for the current SDL_image version.
  *
- *  In versions higher than 2.9.0, the minor version overflows into
- *  the thousands digit: for example, 2.23.0 is encoded as 4300.
- *  This macro will not be available in SDL 3.x or SDL_image 3.x.
+ * In versions higher than 2.9.0, the minor version overflows into the
+ * thousands digit: for example, 2.23.0 is encoded as 4300. This macro will
+ * not be available in SDL 3.x or SDL_image 3.x.
  *
- *  Deprecated, use SDL_IMAGE_VERSION_ATLEAST or SDL_IMAGE_VERSION instead.
+ * Deprecated, use SDL_IMAGE_VERSION_ATLEAST or SDL_IMAGE_VERSION instead.
  */
 #define SDL_IMAGE_COMPILEDVERSION \
     SDL_VERSIONNUM(SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL)
 #endif /* SDL_IMAGE_MAJOR_VERSION < 3 && SDL_MAJOR_VERSION < 3 */
 
 /**
- *  This macro will evaluate to true if compiled with SDL_image at least X.Y.Z.
+ * This macro will evaluate to true if compiled with SDL_image at least X.Y.Z.
  */
 #define SDL_IMAGE_VERSION_ATLEAST(X, Y, Z) \
     ((SDL_IMAGE_MAJOR_VERSION >= X) && \
@@ -84,14 +85,14 @@ extern "C" {
  * it should NOT be used to fill a version structure, instead you should use
  * the SDL_IMAGE_VERSION() macro.
  *
- * \returns SDL_image version
+ * \returns SDL_image version.
  */
 extern DECLSPEC const SDL_version * SDLCALL IMG_Linked_Version(void);
 
 /**
  * Initialization flags
  */
-typedef enum
+typedef enum IMG_InitFlags
 {
     IMG_INIT_JPG    = 0x00000001,
     IMG_INIT_PNG    = 0x00000002,
@@ -1271,7 +1272,7 @@ extern DECLSPEC int SDLCALL IMG_isWEBP(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.6.0.
  *
@@ -1305,7 +1306,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadAVIF_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1339,7 +1340,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadICO_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1373,7 +1374,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadCUR_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1407,7 +1408,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadBMP_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1441,7 +1442,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadGIF_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1475,7 +1476,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadJPG_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.6.0.
  *
@@ -1509,7 +1510,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadJXL_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1543,7 +1544,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadLBM_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1577,7 +1578,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadPCX_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1611,7 +1612,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadPNG_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1645,7 +1646,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadPNM_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.2.
  *
@@ -1679,7 +1680,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadSVG_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.6.0.
  *
@@ -1713,7 +1714,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadQOI_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1747,7 +1748,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadTGA_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1781,7 +1782,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadTIF_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1815,7 +1816,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadXCF_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1849,7 +1850,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadXPM_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1883,7 +1884,7 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadXV_RW(SDL_RWops *src);
  * interface available here.
  *
  * \param src an SDL_RWops to load image data from.
- * \returns SDL surface, or NULL on error
+ * \returns SDL surface, or NULL on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1972,9 +1973,9 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_ReadXPMFromArrayToRGB888(char **xpm);
  *
  * If the file already exists, it will be overwritten.
  *
- * \param surface the SDL surface to save
+ * \param surface the SDL surface to save.
  * \param file path on the filesystem to write new file to.
- * \returns 0 if successful, -1 on error
+ * \returns 0 if successful, -1 on error.
  *
  * \since This function is available since SDL_image 2.0.0.
  *
@@ -1989,7 +1990,7 @@ extern DECLSPEC int SDLCALL IMG_SavePNG(SDL_Surface *surface, const char *file);
  *
  * If you just want to save to a filename, you can use IMG_SavePNG() instead.
  *
- * \param surface the SDL surface to save
+ * \param surface the SDL surface to save.
  * \param dst the SDL_RWops to save the image data to.
  * \returns 0 if successful, -1 on error.
  *
@@ -2006,11 +2007,11 @@ extern DECLSPEC int SDLCALL IMG_SavePNG_RW(SDL_Surface *surface, SDL_RWops *dst,
  *
  * If the file already exists, it will be overwritten.
  *
- * \param surface the SDL surface to save
+ * \param surface the SDL surface to save.
  * \param file path on the filesystem to write new file to.
  * \param quality [0; 33] is Lowest quality, [34; 66] is Middle quality, [67;
- *                100] is Highest quality
- * \returns 0 if successful, -1 on error
+ *                100] is Highest quality.
+ * \returns 0 if successful, -1 on error.
  *
  * \since This function is available since SDL_image 2.0.2.
  *
@@ -2025,7 +2026,7 @@ extern DECLSPEC int SDLCALL IMG_SaveJPG(SDL_Surface *surface, const char *file, 
  *
  * If you just want to save to a filename, you can use IMG_SaveJPG() instead.
  *
- * \param surface the SDL surface to save
+ * \param surface the SDL surface to save.
  * \param dst the SDL_RWops to save the image data to.
  * \returns 0 if successful, -1 on error.
  *
@@ -2038,10 +2039,11 @@ extern DECLSPEC int SDLCALL IMG_SaveJPG(SDL_Surface *surface, const char *file, 
 extern DECLSPEC int SDLCALL IMG_SaveJPG_RW(SDL_Surface *surface, SDL_RWops *dst, int freedst, int quality);
 
 /**
- * Animated image support
+ * Animated image support.
+ *
  * Currently only animated GIFs are supported.
  */
-typedef struct
+typedef struct IMG_Animation
 {
 	int w, h;
 	int count;
