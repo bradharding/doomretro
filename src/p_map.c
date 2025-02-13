@@ -843,8 +843,6 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     yl = P_GetSafeBlockY(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
     yh = P_GetSafeBlockY(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
 
-    validcount++;
-
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, &PIT_CheckThing,
@@ -866,6 +864,8 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     xh = P_GetSafeBlockX(tmbbox[BOXRIGHT] - bmaporgx);
     yl = P_GetSafeBlockY(tmbbox[BOXBOTTOM] - bmaporgy);
     yh = P_GetSafeBlockY(tmbbox[BOXTOP] - bmaporgy);
+
+    validcount++;
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)

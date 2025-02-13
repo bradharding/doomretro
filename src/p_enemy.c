@@ -272,9 +272,9 @@ static const fixed_t    yspeed[] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRAC
 
 static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
 {
+    bool    try_ok;
     fixed_t tryx, tryy;
     fixed_t deltax, deltay;
-    fixed_t origx, origy;
     int     movefactor;
     int     friction = ORIG_FRICTION;
     int     speed;
@@ -287,14 +287,45 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
 
     speed = actor->info->speed;
 
-    if (friction < ORIG_FRICTION        // sludge
+    if (friction < ORIG_FRICTION    // sludge
         && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2) * speed) / ORIG_FRICTION_FACTOR))
-        speed = 1;                      // always give the monster a little bit of speed
+        speed = 1;                  // always give the monster a little bit of speed
 
-    tryx = (origx = actor->x) + (deltax = speed * xspeed[actor->movedir]);
-    tryy = (origy = actor->y) + (deltay = speed * yspeed[actor->movedir]);
+    tryx = actor->x + (deltax = speed * xspeed[actor->movedir]);
+    tryy = actor->y + (deltay = speed * yspeed[actor->movedir]);
 
-    if (!P_TryMove(actor, tryx, tryy, dropoff))
+    // killough 12/98: rearrange, fix potential for stickiness on ice
+    if (friction <= ORIG_FRICTION)
+        try_ok = P_TryMove(actor, tryx, tryy, dropoff);
+    else
+    {
+        fixed_t x = actor->x;
+        fixed_t y = actor->y;
+        fixed_t floorz = actor->floorz;
+        fixed_t ceilingz = actor->ceilingz;
+        fixed_t dropoffz = actor->dropoffz;
+
+        // killough 10/98:
+        // Let normal momentum carry them, instead of steptoeing them across ice.
+        if ((try_ok = P_TryMove(actor, tryx, tryy, dropoff)))
+        {
+            P_UnsetThingPosition(actor);
+
+            actor->x = x;
+            actor->y = y;
+            actor->floorz = floorz;
+            actor->ceilingz = ceilingz;
+            actor->dropoffz = dropoffz;
+
+            P_SetThingPosition(actor);
+
+            movefactor *= FRACUNIT / ORIG_FRICTION_FACTOR / 4;
+            actor->momx += FixedMul(deltax, movefactor);
+            actor->momy += FixedMul(deltay, movefactor);
+        }
+    }
+
+    if (!try_ok)
     {
         // open any specials
         int good;
@@ -330,23 +361,14 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
             if (P_UseSpecialLine(actor, spechit[numspechit], 0, false))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 
+        // There are checks elsewhere for numspechit == 0, so we don't want to
+        // leave numspechit == -1.
+        numspechit = 0;
+
         return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
-    {
         actor->flags &= ~MF_INFLOAT;
-
-        // killough 10/98:
-        // Let normal momentum carry them, instead of steptoeing them across ice.
-        if (friction > ORIG_FRICTION)
-        {
-            actor->x = origx;
-            actor->y = origy;
-            movefactor *= FRACUNIT / ORIG_FRICTION_FACTOR / 4;
-            actor->momx += FixedMul(deltax, movefactor);
-            actor->momy += FixedMul(deltay, movefactor);
-        }
-    }
 
     // killough 11/98: fall more slowly, under gravity, if felldown == true
     if (!(actor->flags & MF_FLOAT) && !felldown)

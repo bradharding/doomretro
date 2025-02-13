@@ -7,9 +7,9 @@
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
-* Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) or [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
+* Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Blood splats are no longer spawned when killing lost souls using the `kill` CCMD.
+* Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
 * Cheats now become redacted in the console before pressing the <kbd><b>ENTER</b></kbd> key.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
