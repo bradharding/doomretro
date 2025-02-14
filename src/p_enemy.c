@@ -2749,7 +2749,7 @@ void A_RadiusDamage(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor->state)
         return;
 
-    P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1], true);
+    P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1], false);
     P_ShakeOnExplode(actor);
 }
 
