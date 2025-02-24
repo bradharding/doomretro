@@ -12,7 +12,7 @@
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `RadiusDamage` codepointer now always inflicts damage as intended.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
-* Cheats now become redacted in the console before pressing the <kbd><b>ENTER</b></kbd> key.
+* Cheats now become redacted when entered in the console before pressing the <kbd><b>ENTER</b></kbd> key.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * A bug is fixed whereby the console would open when using the mouse pointer to adjust sliders in the options menu.
 

@@ -1068,7 +1068,7 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // mark spot
-                else if ((controllerbuttons & controllermark))
+                else if (controllerbuttons & controllermark)
                 {
                     AM_AddMark();
                     controllerwait = I_GetTime() + 12;
@@ -1175,7 +1175,7 @@ static void AM_RotatePoint(mpoint_t *point)
 
 static void AM_CorrectAspectRatio(mpoint_t *point)
 {
-    point->y = am_frame.center.y + 5 * (point->y - am_frame.center.y) / 6;
+    point->y = am_frame.center.y + (point->y - am_frame.center.y) * 5 / 6;
 }
 
 //
