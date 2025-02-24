@@ -720,43 +720,11 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 #endif
 }
 
-typedef struct
-{
-    char    filename[MAX_PATH];
-    bool    present;
-} loaddehlast_t;
-
-// [BH] A list of DeHackEd files to load last
-static loaddehlast_t loaddehlast[] =
-{
-    { "1_VORTEX.deh"         },
-    { "2_MARKV.deh"          },
-    { "3_HELLST.deh"         },
-    { "3_REAPER.deh"         },
-    { "4_HAR.deh"            },
-    { "5_GRNADE.deh"         },
-    { "6_LIGHT.deh"          },
-    { "7_GAUSS.deh"          },
-    { "VORTEX_DoomRetro.deh" },
-    { ""                     }
-};
-
 static void LoadDEHFile(char *path)
 {
     int         i = 0;
     char        *dehpath;
     const char  *file = leafname(path);
-
-    while (*loaddehlast[i].filename)
-    {
-        if (M_StringEndsWith(file, loaddehlast[i].filename))
-        {
-            loaddehlast[i].present = true;
-            return;
-        }
-
-        i++;
-    }
 
     if ((dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]")))
     {
@@ -2016,14 +1984,6 @@ static void D_ProcessDehOnCmdLine(void)
             else if (deh)
                 D_ProcessDehFile(myargv[p], 0, false);
     }
-
-    while (*loaddehlast[j].filename)
-    {
-        if (loaddehlast[j].present)
-            D_ProcessDehFile(loaddehlast[j].filename, 0, false);
-
-        j++;
-    }
 }
 
 static void D_ProcessDehInWad(void)
@@ -2068,14 +2028,6 @@ static void D_ProcessDehInWad(void)
             D_ProcessDehFile(NULL, i, false);
             break;
         }
-
-    while (*loaddehlast[j].filename)
-    {
-        if (loaddehlast[j].present)
-            D_ProcessDehFile(loaddehlast[j].filename, 0, false);
-
-        j++;
-    }
 }
 
 //
