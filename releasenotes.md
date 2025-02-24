@@ -9,10 +9,11 @@
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
 * Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `RadiusDamage` codepointer now always inflicts damage as intended.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
-* Cheats now become redacted when entered in the console before pressing the <kbd><b>ENTER</b></kbd> key.
+* Cheats now become redacted when entered in the console before pressing <kbd><b>ENTER</b></kbd>.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * A bug is fixed whereby the console would open when using the mouse pointer to adjust sliders in the options menu.
 
