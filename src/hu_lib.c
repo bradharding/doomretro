@@ -368,20 +368,17 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
     if (len > 40)
     {
-        int width = l->width;
-        int maxwidth = screenwidth / 2 - (vanilla && !vid_widescreen ? 0 : 20);
+        int         width = l->width;
+        const int   maxwidth1 = screenwidth / 2 - (vanilla && !vid_widescreen ? 0 : 20);
+        const int   maxwidth2 = maxwidth1 - WIDESCREENDELTA * 2;
 
-        if (width > maxwidth)
-            for (wrap = len; wrap > 0; wrap--)
-                if ((width -= M_CharacterWidth(l->l[wrap], '\0')) <= maxwidth && isbreak(l->l[wrap]))
-                    break;
-
-        if (vid_widescreen && wrap < 0 && width > maxwidth - WIDESCREENDELTA * 2)
+        if (width > maxwidth2 && width <= maxwidth1 && vid_widescreen)
             x = (screenwidth / 2 - width) / 2;
+        else if (width > maxwidth2)
+            for (wrap = len; wrap > 0; wrap--)
+                if ((width -= M_CharacterWidth(l->l[wrap], '\0')) <= maxwidth2 && isbreak(l->l[wrap]))
+                    break;
     }
-
-    if (vid_widescreen && wrap >= 0)
-        x -= WIDESCREENDELTA;
 
     for (int i = 0; i < len; i++)
     {
@@ -390,10 +387,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         if (c == '\n' || i == wrap)
         {
             x = l->x;
-
-            if (vid_widescreen)
-                x -= WIDESCREENDELTA;
-
             y += SHORT(hu_font[0]->height) + 2;
 
             if (c == ' ')
