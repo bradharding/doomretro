@@ -1994,24 +1994,6 @@ static void D_ProcessDehInWad(void)
     if (*dehwarning)
         C_Warning(1, dehwarning);
 
-    if (doom4vanilla)
-    {
-        if (process)
-            for (int i = 0; i < numlumps; i++)
-                if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
-                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
-                    D_ProcessDehFile(NULL, i, false);
-
-        for (int i = 0; i < numlumps; i++)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
-            {
-                D_ProcessDehFile(NULL, i, false);
-                break;
-            }
-    }
-
     if (chex1)
         D_ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
 
