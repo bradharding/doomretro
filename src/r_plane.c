@@ -444,7 +444,8 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
             && dc_yl <= (dc_yh = pl->bottom[dc_x]))
         {
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
-                (angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
+                FixedToInt(FixedMul(IntToFixed((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT),
+                    skytex->scalex)));
             func();
         }
 }

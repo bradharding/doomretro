@@ -51,6 +51,12 @@
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
 #define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
+#define FRACMASK        (FRACUNIT - 1)
+#define FRACFILL(a, b)  ((a) | ((b) < 0 ? (FRACMASK << (32 - FRACBITS)) : 0))
+
+#define IntToFixed(a)   ((a) << FRACBITS)
+#define FixedToInt(a)   FRACFILL((a) >> FRACBITS, (a))
+
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
 
