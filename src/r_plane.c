@@ -439,12 +439,10 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
     dc_iscale = FixedMul(skyiscale, skytex->scaley);
 
     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
         {
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
-                FixedToInt(FixedMul(IntToFixed((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT),
-                    skytex->scalex)));
+                FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, skytex->scalex));
             func();
         }
 }
@@ -483,8 +481,7 @@ void R_DrawPlanes(void)
                             dc_texturemid = -28 * FRACUNIT;
 
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                                if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                                    && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                 {
                                     dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
                                     skycolfunc();
@@ -505,8 +502,7 @@ void R_DrawPlanes(void)
                         dc_texturemid = skytexturemid;
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                             {
                                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(skytexture),
                                     (((viewangle + xtoskyangle[dc_x])
@@ -538,8 +534,7 @@ void R_DrawPlanes(void)
                     if (side->missingtoptexture)
                     {
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                                && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                 R_DrawColorColumn();
 
                         continue;
@@ -574,8 +569,7 @@ void R_DrawPlanes(void)
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
-                            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
                                 ((((angle + xtoskyangle[dc_x]) ^ flip)
