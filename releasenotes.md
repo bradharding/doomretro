@@ -12,6 +12,7 @@
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `RadiusDamage` codepointer now always inflicts damage as intended.
+* Scaled skies defined using the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump are now fully supported.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
 * Cheats now become redacted when entered in the console before pressing <kbd><b>ENTER</b></kbd>.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
