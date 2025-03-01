@@ -2772,6 +2772,13 @@ static void D_DoomMainSetup(void)
             splashscreen = false;
             I_InitKeyboard();
 
+            if (vid_widescreen_copy)
+            {
+                vid_widescreen_copy = false;
+                vid_widescreen = true;
+                I_RestartGraphics(false);
+            }
+
             if (alwaysrun)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
 
