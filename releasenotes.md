@@ -3,7 +3,7 @@
 ### DOOM Retro v5.6.3
 
 * *DOOM Retro* is now built using v17.13.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.32.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.2), [*SDL_mixer v2.8.1*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.1) and [*SDL_image v2.8.5*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.5).
+* *DOOM Retro* now uses [*SDL v2.32.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.2), [*SDL_mixer v2.8.1*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.1) and [*SDL_image v2.8.6*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.6).
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
