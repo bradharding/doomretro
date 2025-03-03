@@ -2783,11 +2783,14 @@ static void D_DoomMainSetup(void)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
 
             if (M_CheckParmWithArgs("-warp", 1))
-                C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping to %s...", lumpname);
+                C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping %s to %s...",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
             else if (M_CheckParmWithArgs("+map", 1))
-                C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping to %s...", lumpname);
+                C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping %s to %s...",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
             else
-                C_Output("Warping to %s...", lumpname);
+                C_Output("Warping %s to %s...",
+                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
 
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
