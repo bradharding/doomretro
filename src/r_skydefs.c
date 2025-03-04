@@ -120,10 +120,17 @@ static bool ParseSky(cJSON *json, sky_t *out)
 
 static bool ParseFlatMap(cJSON *json, flatmap_t *out)
 {
-    cJSON   *flat = cJSON_GetObjectItemCaseSensitive(json, "flat");
-    cJSON   *sky = cJSON_GetObjectItemCaseSensitive(json, "sky");
+    cJSON   *flat;
+    cJSON   *sky;
+
+    if (!cJSON_IsString((flat = cJSON_GetObjectItemCaseSensitive(json, "flat"))))
+        return false;
 
     out->flat = M_StringDuplicate(flat->valuestring);
+
+    if (!cJSON_IsString((sky = cJSON_GetObjectItemCaseSensitive(json, "sky"))))
+        return false;
+
     out->sky = M_StringDuplicate(sky->valuestring);
     return true;
 }

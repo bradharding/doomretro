@@ -722,11 +722,9 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 
 static void LoadDEHFile(char *path)
 {
-    int         i = 0;
-    char        *dehpath;
-    const char  *file = leafname(path);
+    char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
-    if ((dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]")))
+    if (dehpath)
     {
         if (!DehFileProcessed(dehpath))
         {
@@ -1972,7 +1970,6 @@ static int D_OpenWADLauncher(void)
 static void D_ProcessDehOnCmdLine(void)
 {
     int p = M_CheckParm("-deh");
-    int j = 0;
 
     if (p || (p = M_CheckParm("-bex")))
     {
@@ -1988,16 +1985,13 @@ static void D_ProcessDehOnCmdLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    const bool  process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
-    int         j = 0;
-
     if (*dehwarning)
         C_Warning(1, dehwarning);
 
     if (chex1)
         D_ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
 
-    if (process)
+    if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
