@@ -20,6 +20,7 @@
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * A bug is fixed whereby the console would open when using the mouse pointer to adjust sliders in the options menu.
 * The `vid_widescreen` CVAR no longer resets to `off` at startup if `-warp` is used on the command-line.
+* The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

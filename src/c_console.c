@@ -845,7 +845,7 @@ void C_ShowConsole(bool reset)
         outputhistory = -1;
     }
 
-    for (int i = 0; i < MAXMOUSEBUTTONS; i++)
+    for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
         mousebuttons[i] = false;
 
     if (gamestate == GS_LEVEL)

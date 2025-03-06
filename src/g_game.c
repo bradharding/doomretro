@@ -152,7 +152,7 @@ bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static bool     mousearray[MAXMOUSEBUTTONS + 1];
+static bool     mousearray[MAXMOUSEBUTTONS + 3];
 bool            *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAXMOUSEBUTTONS + 2][255] = { "" };
 
@@ -855,6 +855,9 @@ bool G_Responder(const event_t *ev)
     if (gamestate == GS_FINALE && F_Responder(ev))
         return true;        // finale ate the event
 
+    mousebuttons[MOUSE_WHEELUP] = false;
+    mousebuttons[MOUSE_WHEELDOWN] = false;
+
     switch (ev->type)
     {
         case ev_keydown:
@@ -936,6 +939,8 @@ bool G_Responder(const event_t *ev)
                         G_PrevWeapon();
                     else if (mouseactionlist[MOUSE_WHEELDOWN][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
+                    else
+                        mousebuttons[MOUSE_WHEELDOWN] = true;
                 }
                 else if (ev->data1 > 0)
                 {
@@ -945,6 +950,8 @@ bool G_Responder(const event_t *ev)
                         G_PrevWeapon();
                     else if (mouseactionlist[MOUSE_WHEELUP][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
+                    else
+                        mousebuttons[MOUSE_WHEELUP] = true;
                 }
             }
 
