@@ -12159,6 +12159,8 @@ static void weapon_func2(char *cmd, char *parms)
 
         if (gamemode == shareware)
             M_StringCopy(description, WEAPONDESCRIPTION_SHAREWARE, sizeof(description));
+        else if (legacyofrust)
+            M_StringCopy(description, WEAPONDESCRIPTION_LEGACYOFRUST, sizeof(description));
         else if (gamemission != doom)
             M_StringCopy(description, WEAPONDESCRIPTION_DOOM2, sizeof(description));
         else
