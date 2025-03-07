@@ -301,7 +301,7 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
     {
         fixed_t x = actor->x;
         fixed_t y = actor->y;
-        fixed_t floorz = actor->floorz;
+        fixed_t z = actor->floorz;
         fixed_t ceilingz = actor->ceilingz;
         fixed_t dropoffz = actor->dropoffz;
 
@@ -313,7 +313,7 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
 
             actor->x = x;
             actor->y = y;
-            actor->floorz = floorz;
+            actor->floorz = z;
             actor->ceilingz = ceilingz;
             actor->dropoffz = dropoffz;
 
