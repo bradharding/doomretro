@@ -356,7 +356,7 @@ static default_t cvars[] =
     CVAR_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                    NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                     NOVALUEALIAS       ),
     CVAR_BOOL         (joy_rumble_pickup,                joy_rumble_pickup,                     joy_rumble_pickup,                     BOOLVALUEALIAS     ),
-    CVAR_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weaponss,                   joy_rumble_weapons,                    NOVALUEALIAS       ),
+    CVAR_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weapons,                    joy_rumble_weapons,                    NOVALUEALIAS       ),
     CVAR_FLOAT        (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,            NOVALUEALIAS       ),
     CVAR_FLOAT        (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,              NOVALUEALIAS       ),
     CVAR_BOOL         (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                   BOOLVALUEALIAS     ),

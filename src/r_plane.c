@@ -444,6 +444,7 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
         {
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
                 FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, skytex->scalex));
+
             func();
         }
 }
@@ -485,6 +486,7 @@ void R_DrawPlanes(void)
                                 if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                 {
                                     dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
+
                                     skycolfunc();
                                 }
                         }
@@ -537,47 +539,47 @@ void R_DrawPlanes(void)
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                 R_DrawColorColumn();
-
-                        continue;
                     }
+                    else
+                    {
+                        // Texture comes from upper texture of reference sidedef
+                        texture = texturetranslation[side->toptexture];
 
-                    // Texture comes from upper texture of reference sidedef
-                    texture = texturetranslation[side->toptexture];
+                        // Horizontal offset is turned into an angle offset,
+                        // to allow sky rotation as well as careful positioning.
+                        // However, the offset is scaled very small, so that it
+                        // allows a long-period of sky rotation.
+                        angle += side->textureoffset;
 
-                    // Horizontal offset is turned into an angle offset,
-                    // to allow sky rotation as well as careful positioning.
-                    // However, the offset is scaled very small, so that it
-                    // allows a long-period of sky rotation.
-                    angle += side->textureoffset;
+                        // Vertical offset allows careful sky positioning.
+                        dc_texturemid = side->rowoffset - 28 * FRACUNIT;
 
-                    // Vertical offset allows careful sky positioning.
-                    dc_texturemid = side->rowoffset - 28 * FRACUNIT;
+                        dc_texheight = textureheight[texture] >> FRACBITS;
 
-                    dc_texheight = textureheight[texture] >> FRACBITS;
+                        if (canfreelook)
+                            dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
 
-                    if (canfreelook)
-                        dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
+                        // We sometimes flip the picture horizontally.
 
-                    // We sometimes flip the picture horizontally.
+                        // DOOM always flipped the picture, so we make it optional,
+                        // to make it easier to use the new feature, while to still
+                        // allow old sky textures to be used.
+                        if (line->special != TransferSkyTextureToTaggedSectors_Flipped)
+                            flip = ~0U;
 
-                    // DOOM always flipped the picture, so we make it optional,
-                    // to make it easier to use the new feature, while to still
-                    // allow old sky textures to be used.
-                    if (line->special != TransferSkyTextureToTaggedSectors_Flipped)
-                        flip = ~0U;
+                        dc_iscale = skyiscale;
+                        tex_patch = R_CacheTextureCompositePatchNum(texture);
 
-                    dc_iscale = skyiscale;
-                    tex_patch = R_CacheTextureCompositePatchNum(texture);
+                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                            {
+                                dc_source = R_GetTextureColumn(tex_patch,
+                                    ((((angle + xtoskyangle[dc_x]) ^ flip)
+                                        / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
-                    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                        {
-                            dc_source = R_GetTextureColumn(tex_patch,
-                                ((((angle + xtoskyangle[dc_x]) ^ flip)
-                                    / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
-
-                            skycolfunc();
-                        }
+                                skycolfunc();
+                            }
+                    }
                 }
                 else
                 {

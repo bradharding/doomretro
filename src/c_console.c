@@ -1336,14 +1336,14 @@ static int C_GetOverlayTextColor(void)
 
 void C_UpdateFPSOverlay(void)
 {
-    char        buffer[32];
-    char        *temp = commify(framespersecond);
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    char    buffer[32];
+    char    *temp = commify(framespersecond);
 
     M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY, tinttab, buffer, C_GetOverlayTextColor(), true);
+        OVERLAYTEXTY, (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL), buffer,
+        C_GetOverlayTextColor(), true);
     free(temp);
 }
 
@@ -1351,7 +1351,6 @@ void C_UpdateTimerOverlay(void)
 {
     static char buffer[10];
     static int  prevtime = -1;
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     int         y = OVERLAYTEXTY;
 
     if (vid_showfps && framespersecond)
@@ -1371,8 +1370,9 @@ void C_UpdateTimerOverlay(void)
         timerwidth = C_OverlayWidth(buffer, true);
     }
 
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
-        buffer, C_GetOverlayTextColor(), true);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y,
+        (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL), buffer,
+        C_GetOverlayTextColor(), true);
 }
 
 void C_UpdatePlayerPositionOverlay(void)
