@@ -15,6 +15,7 @@
 * These changes have been made to the support for the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump:
   * Skies can now be scaled using `scalex`.
   * The inverted screen effect is now always applied to the sky when the player has an invulnerability power-up.
+  * Skies defined using this lump are ignored when vanilla mode is enabled.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
 * Cheats now become redacted when entered in the console before pressing <kbd><b>ENTER</b></kbd>.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
