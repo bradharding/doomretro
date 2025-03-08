@@ -12099,8 +12099,8 @@ static bool weapon_func1(char *cmd, char *parms)
         return (value != INT_MIN
             && value != viewplayer->readyweapon
             && viewplayer->weaponowned[value]
-            && (viewplayer->ammo[weaponinfo[value].ammotype] >= weaponinfo[value].ammopershot
-                || weaponinfo[value].ammotype == am_noammo) || infiniteammo);
+            && ((viewplayer->ammo[weaponinfo[value].ammotype] >= weaponinfo[value].ammopershot
+                || weaponinfo[value].ammotype == am_noammo) || infiniteammo));
     }
 }
 
