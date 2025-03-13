@@ -868,7 +868,12 @@ void D_SetAutoloadFolder(void)
     const int   p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1);
 
     if (p)
-        M_StringCopy(autoloadfolder, myargv[p + 1], sizeof(autoloadfolder));
+    {
+        autoloadfolder = M_StringDuplicate(myargv[p + 1]);
+
+        if (autoloadfolder[strlen(autoloadfolder) - 1] != DIR_SEPARATOR)
+            autoloadfolder = M_StringJoin(autoloadfolder, DIR_SEPARATOR_S, NULL);
+    }
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();
