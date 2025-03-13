@@ -3482,7 +3482,7 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             char    *file = leafname(lumpinfo[MAPINFO]->wadfile->path);
 
-            if (!D_IsNERVEWAD(file) && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file))
+            if (!D_IsNERVEWAD(file) && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file) && !D_IsFinalDOOMIWAD(file))
                 break;
         }
 

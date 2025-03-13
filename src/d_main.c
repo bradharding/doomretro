@@ -849,6 +849,14 @@ bool D_IsDOOMIWAD(char *filename)
         || M_StringCompare(file, "rekkrsa.wad"));
 }
 
+bool D_IsFinalDOOMIWAD(char *filename)
+{
+    const char  *file = leafname(filename);
+
+    return (M_StringCompare(file, "PLUTONIA.WAD")
+        || M_StringCompare(file, "TNT.WAD"));
+}
+
 static bool D_IsUnsupportedIWAD(char *filename)
 {
     const struct
