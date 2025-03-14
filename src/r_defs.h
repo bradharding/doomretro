@@ -204,7 +204,8 @@ typedef struct sector_s
     // method. This field only applies when skyflatnum is used for floorpic
     // or ceilingpic, because the rest of DOOM needs to know which is sky
     // and which isn't, etc.
-    int                 sky;
+    int                 floorsky;
+    int                 ceilingsky;
 
     terraintype_t       terraintype;
 

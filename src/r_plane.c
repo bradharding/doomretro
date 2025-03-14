@@ -515,6 +515,24 @@ void R_DrawPlanes(void)
                             }
                     }
                 }
+                else if ((picnum & PL_FLATMAPPING) == PL_FLATMAPPING)
+                {
+                    const int       texture = (pl->picnum & ~PL_FLATMAPPING);
+                    const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texture);
+
+                    dc_texheight = textureheight[texture] >> FRACBITS;
+                    dc_texturemid = skytexturemid;
+
+                    for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                        {
+                            dc_source = R_GetTextureColumn(patch,
+                                (((viewangle + xtoskyangle[dc_x])
+                                    / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+
+                            skycolfunc();
+                        }
+                }
                 else if (picnum & PL_SKYFLAT)
                 {
                     // sky flat

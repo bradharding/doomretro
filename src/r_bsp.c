@@ -546,7 +546,7 @@ static void R_Subsector(int num)
         || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
             (frontsector->floorpic == skyflatnum            // killough 10/98
-                && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
+                && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic),
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset) : NULL);
@@ -556,7 +556,7 @@ static void R_Subsector(int num)
         || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,       // killough 03/08/98
             (frontsector->ceilingpic == skyflatnum          // killough 10/98
-                && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
+                && (frontsector->ceilingsky & PL_SKYFLAT) ? frontsector->ceilingsky : frontsector->ceilingpic),
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset) : NULL);

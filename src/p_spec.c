@@ -2735,7 +2735,7 @@ void P_SpawnSpecials(void)
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                    sectors[s].sky = (i | PL_SKYFLAT);
+                    sectors[s].floorsky = sectors[s].ceilingsky = (i | PL_SKYFLAT);
 
                 break;
         }

@@ -36,7 +36,8 @@
 #pragma once
 
 // killough 10/98: special mask indicates sky flat comes from sidedef
-#define PL_SKYFLAT  0x40000000
+#define PL_SKYFLAT      0x40000000
+#define PL_FLATMAPPING  0xC0000000
 
 // Visplane related.
 extern int      *lastopening;
