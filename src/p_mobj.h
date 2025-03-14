@@ -286,6 +286,9 @@ enum
     // Don't randomly mirror this object when a corpse
     MF2_NOMIRROREDCORPSE            = 0x00000080,
 
+    // Used by A_LineEffect
+    MF2_LINEDONE                    = 0x00000100,
+
     // Apply 33% alpha translucency on all blue
     MF2_TRANSLUCENT_BLUE_25         = 0x00000200,
 

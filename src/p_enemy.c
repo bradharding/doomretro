@@ -2545,23 +2545,29 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t          junk = *lines;
-    static player_t newplayer = { 0 };
-    player_t        *oldplayer = actor->player;
+    if (!(actor->flags2 & MF2_LINEDONE))
+    {
+        line_t  junk = *lines;
 
-    actor->player = &newplayer;
-    newplayer.health = initial_health;
+        if ((junk.special = (short)actor->state->misc1))
+        {
+            static player_t newplayer = { 0 };
+            player_t        *oldplayer = actor->player;
 
-    if (!(junk.special = (short)actor->state->misc1))
-        return;
+            actor->player = &newplayer;
+            newplayer.health = initial_health;
 
-    junk.tag = (short)actor->state->misc2;
+            junk.tag = (short)actor->state->misc2;
 
-    if (!P_UseSpecialLine(actor, &junk, 0, false))
-        P_CrossSpecialLine(&junk, 0, actor, false);
+            if (!P_UseSpecialLine(actor, &junk, 0, false))
+                P_CrossSpecialLine(&junk, 0, actor, false);
 
-    actor->state->misc1 = junk.special;
-    actor->player = oldplayer;
+            if (!junk.special)
+                actor->flags2 |= MF2_LINEDONE;
+
+            actor->player = oldplayer;
+        }
+    }
 }
 
 //
