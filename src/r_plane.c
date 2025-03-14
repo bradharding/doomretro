@@ -500,6 +500,8 @@ void R_DrawPlanes(void)
                     }
                     else
                     {
+                        const rpatch_t  *patch = R_CacheTextureCompositePatchNum(skytexture);
+
                         // Normal DOOM sky, only one allowed per level
                         dc_texheight = textureheight[skytexture] >> FRACBITS;
                         dc_texturemid = skytexturemid;
@@ -507,7 +509,7 @@ void R_DrawPlanes(void)
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                             {
-                                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(skytexture),
+                                dc_source = R_GetTextureColumn(patch,
                                     (((viewangle + xtoskyangle[dc_x])
                                         / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
@@ -536,10 +538,6 @@ void R_DrawPlanes(void)
                 else if (picnum & PL_SKYFLAT)
                 {
                     // sky flat
-                    int             texture;
-                    angle_t         flip = 0U;
-                    const rpatch_t  *tex_patch;
-
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
                     // arbitrary multiple skies per level without having
@@ -560,8 +558,11 @@ void R_DrawPlanes(void)
                     }
                     else
                     {
+                        angle_t         flip = 0U;
+                        const rpatch_t  *patch;
+
                         // Texture comes from upper texture of reference sidedef
-                        texture = texturetranslation[side->toptexture];
+                        int             texture = texturetranslation[side->toptexture];
 
                         // Horizontal offset is turned into an angle offset,
                         // to allow sky rotation as well as careful positioning.
@@ -586,12 +587,12 @@ void R_DrawPlanes(void)
                             flip = ~0U;
 
                         dc_iscale = skyiscale;
-                        tex_patch = R_CacheTextureCompositePatchNum(texture);
+                        patch = R_CacheTextureCompositePatchNum(texture);
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                             {
-                                dc_source = R_GetTextureColumn(tex_patch,
+                                dc_source = R_GetTextureColumn(patch,
                                     ((((angle + xtoskyangle[dc_x]) ^ flip)
                                         / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 

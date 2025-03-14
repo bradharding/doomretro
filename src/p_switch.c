@@ -151,7 +151,6 @@ void P_StartButton(line_t *line, bwhere_e bwhere, int texture, int time)
             buttonlist[i].btexture = texture;
             buttonlist[i].btimer = time;
             buttonlist[i].soundorg = &line->soundorg;
-
             return;
         }
 
@@ -164,7 +163,7 @@ void P_StartButton(line_t *line, bwhere_e bwhere, int texture, int time)
 
 //
 // Function that changes wall texture.
-// Tell it if switch is ok to use again (true=yes, it's a button).
+// Tell it if switch is ok to use again (true = yes, it's a button).
 //
 void P_ChangeSwitchTexture(line_t *line, bool useagain)
 {
