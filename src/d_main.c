@@ -2481,13 +2481,19 @@ static void D_DoomMainSetup(void)
     if (dehcount > 2)
     {
         if (gamemode == shareware)
+        {
+            free(appdatafolder);
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
+        }
 
         C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
     }
 
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
+    {
+        free(appdatafolder);
         I_Error("The wrong version of %s was found.", resourcewad);
+    }
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
@@ -2514,7 +2520,9 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
+        {
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
+        }
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.

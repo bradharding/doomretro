@@ -265,6 +265,7 @@ void I_Error(const char *error, ...)
 
     I_ShutdownKeyboard();
     I_ShutdownController();
+    I_DestroyGraphics();
 
     W_CloseFiles();
 
