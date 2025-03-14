@@ -87,7 +87,7 @@ static bool         manuallypositioning;
 
 SDL_Window          *window = NULL;
 static unsigned int windowid;
-static SDL_Renderer *renderer;
+static SDL_Renderer *renderer = NULL;
 static SDL_Texture  *texture;
 static SDL_Texture  *texture_upscaled;
 static SDL_Surface  *surface;
@@ -1969,6 +1969,14 @@ void I_InitKeyboard(void)
         else if (!alwaysrun && capslock)
             SetCapsLockState(false);
 #endif
+    }
+}
+
+void I_DestroyGraphics(void)
+{
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
     }
 }
 
