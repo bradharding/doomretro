@@ -2483,7 +2483,6 @@ static void D_DoomMainSetup(void)
         if (gamemode == shareware)
         {
             free(appdatafolder);
-            I_DestroyGraphics();
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
         }
 
@@ -2493,7 +2492,6 @@ static void D_DoomMainSetup(void)
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
     {
         free(appdatafolder);
-        I_DestroyGraphics();
         I_Error("The wrong version of %s was found.", resourcewad);
     }
 
@@ -2523,7 +2521,6 @@ static void D_DoomMainSetup(void)
     {
         if (gamemode == shareware)
         {
-            I_DestroyGraphics();
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
         }
 
