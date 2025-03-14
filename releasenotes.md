@@ -21,7 +21,10 @@
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * A bug is fixed whereby the console would open when using the mouse pointer to adjust sliders in the options menu.
 * The `vid_widescreen` CVAR no longer resets to `off` at startup if `-warp` is used on the command-line.
+* A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
+* A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
+* Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
