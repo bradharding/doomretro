@@ -11,13 +11,13 @@
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
-* The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable switches.
+* The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable line specials.
 * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_RadiusDamage` codepointer now always inflicts damage as intended.
 * These changes have been made to the support for the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump:
   * Skies can now be scaled using `scalex`.
   * The inverted screen effect is now always applied to the sky when the player has an invulnerability power-up.
-  * Fire skies defined using this lump are now ignored when vanilla mode is enabled.
-  * `flatmapping` is now supported, fixing the sky in the hole at the end of MAP20 in *DOOM II*.
+  * Fire skies defined using this lump now aren’t rendered when vanilla mode is enabled.
+  * Skies can now be specified using `flatmapping`. This fixes the sky in the hole the player falls into at the end of MAP20 in *DOOM II*.
 * The `IDMUS` cheat can now be used in the console when not playing a game.
 * Cheats now become redacted when entered in the console before pressing <kbd><b>ENTER</b></kbd>.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
