@@ -720,7 +720,7 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 #endif
 }
 
-static void LoadDEHFile(char *path)
+static void LoadDEHFile(char *path, bool autoloaded)
 {
     char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
@@ -729,7 +729,7 @@ static void LoadDEHFile(char *path)
         if (!DehFileProcessed(dehpath))
         {
             if (!HasDehackedLump(path))
-                D_ProcessDehFile(dehpath, 0, true);
+                D_ProcessDehFile(dehpath, 0, autoloaded);
 
             if (dehfilecount < MAXDEHFILES)
             {
@@ -745,7 +745,7 @@ static void LoadDEHFile(char *path)
         if (dehpath && !DehFileProcessed(dehpath))
         {
             if (!HasDehackedLump(path))
-                D_ProcessDehFile(dehpath, 0, true);
+                D_ProcessDehFile(dehpath, 0, autoloaded);
 
             if (dehfilecount < MAXDEHFILES)
             {
@@ -1250,8 +1250,8 @@ static bool D_CheckParms(void)
 
                     LoadCfgFile(myargv[1]);
 
-                    if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                        LoadDEHFile(myargv[1]);
+                    if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(myargv[1]))
+                        LoadDEHFile(myargv[1], true);
                 }
             }
             else
@@ -1296,8 +1296,8 @@ static bool D_CheckParms(void)
 
                         LoadCfgFile(myargv[1]);
 
-                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                            LoadDEHFile(myargv[1]);
+                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(myargv[1]))
+                            LoadDEHFile(myargv[1], true);
                     }
                 }
                 else
@@ -1324,8 +1324,8 @@ static bool D_CheckParms(void)
 
                             LoadCfgFile(myargv[1]);
 
-                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                LoadDEHFile(myargv[1]);
+                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(myargv[1]))
+                                LoadDEHFile(myargv[1], true);
                         }
                     }
                 }
@@ -1519,8 +1519,8 @@ static int D_OpenWADLauncher(void)
 
                         LoadCfgFile(file);
 
-                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                            LoadDEHFile(file);
+                        if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(file))
+                            LoadDEHFile(file, true);
 
                         if (W_GetNumLumps("M_DOOM") == 2 && !BTSX)
                         {
@@ -1567,8 +1567,8 @@ static int D_OpenWADLauncher(void)
 
                             LoadCfgFile(file);
 
-                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                LoadDEHFile(file);
+                            if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(file))
+                                LoadDEHFile(file, true);
 
                             if (W_GetNumLumps("M_DOOM") == 2)
                             {
@@ -1611,8 +1611,8 @@ static int D_OpenWADLauncher(void)
 
                                 LoadCfgFile(file);
 
-                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                    LoadDEHFile(file);
+                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(file))
+                                    LoadDEHFile(file, true);
 
                                 if (W_GetNumLumps("M_DOOM") == 2 && W_GetNumLumps("E1M1") == 1)
                                 {
@@ -1889,8 +1889,8 @@ static int D_OpenWADLauncher(void)
 
                                 LoadCfgFile(fullpath);
 
-                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
-                                    LoadDEHFile(fullpath);
+                                if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(fullpath))
+                                    LoadDEHFile(fullpath, true);
 
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {
@@ -1958,7 +1958,7 @@ static int D_OpenWADLauncher(void)
 #endif
 
                         if (D_IsDEHFile(fullpath))
-                            LoadDEHFile(fullpath);
+                            LoadDEHFile(fullpath, false);
 
 #if defined(_WIN32)
                         dehpass = &dehpass[lstrlen(dehpass) + 1];
