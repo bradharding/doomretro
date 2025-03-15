@@ -434,6 +434,9 @@ static bool PIT_CheckThing(mobj_t *thing)
 {
     fixed_t             blockdist;
     bool                unblocking = false;
+    const int           flags = thing->flags;
+    const int           tmflags = tmthing->flags;
+    const bool          corpse = (flags & MF_CORPSE);
     const mobjtype_t    type = thing->type;
     const mobjtype_t    tmtype = tmthing->type;
 
@@ -442,10 +445,8 @@ static bool PIT_CheckThing(mobj_t *thing)
         return true;
 
     // [BH] nudge corpse or dropped item when walked over
-    if ((((thing->flags & MF_CORPSE) && type != MT_BARREL) || (thing->flags & MF_DROPPED))
-        && !thing->nudge && tmthing->z == tmthing->floorz
-        && ((tmthing->flags & MF_SHOOTABLE) || ((tmthing->flags & MF_CORPSE) && (tmthing->momx || tmthing->momy)))
-        && r_corpses_nudge)
+    if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && tmthing->z == tmthing->floorz
+        && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
             const int   r = M_RandomInt(-1, 1);
@@ -462,12 +463,12 @@ static bool PIT_CheckThing(mobj_t *thing)
         }
 
     // killough 11/98: add touchy things
-    if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
+    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
         return true;
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
-    blockdist = ((thing->flags & MF_SPECIAL) ? thing->info->pickupradius : thing->info->radius) + tmthing->radius;
+    blockdist = ((flags & MF_SPECIAL) ? thing->info->pickupradius : thing->info->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;                    // didn't hit it
@@ -477,8 +478,8 @@ static bool PIT_CheckThing(mobj_t *thing)
     // If a solid object of a different type comes in contact with a touchy
     // thing, and the touchy thing is not the sole one moving relative to fixed
     // surroundings such as walls, then the touchy thing dies immediately.
-    if ((thing->flags & MF_TOUCHY)                                      // touchy object
-        && (tmthing->flags & MF_SOLID)                                  // solid object touches it
+    if ((flags & MF_TOUCHY)                                             // touchy object
+        && (tmflags & MF_SOLID)                                         // solid object touches it
         && thing->health > 0                                            // touchy object is alive
         && ((thing->flags2 & MF2_ARMED)                                 // Thing is an armed mine
             || sentient(thing))                                         // ...or a sentient thing
@@ -494,8 +495,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (!thing->player && !(thing->flags & MF_CORPSE) && (thing->flags & MF_SHOOTABLE) && (tmthing->flags & MF_SHOOTABLE)
-        && type != MT_BARREL && tmtype != MT_BARREL)
+    if (!thing->player && !corpse && (flags & MF_SHOOTABLE) && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && tmtype != MT_BARREL)
     {
         if (tmx == tmthing->x && tmy == tmthing->y)
             unblocking = true;
@@ -505,7 +505,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 
     // check if a mobj passed over/under another object
     if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ))
-        && !infiniteheight && !compat_nopassover && !(thing->flags & MF_SPECIAL))
+        && !infiniteheight && !compat_nopassover && !(flags & MF_SPECIAL))
     {
         if (tmthing->z >= thing->z + thing->height)
             return true;    // over thing
@@ -514,7 +514,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // check for skulls slamming into things
-    if ((tmthing->flags & MF_SKULLFLY) && ((thing->flags & MF_SOLID) || infiniteheight || compat_nopassover))
+    if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight || compat_nopassover))
     {
         P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
@@ -530,7 +530,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 
     // missiles can hit other things
     // killough 08/10/98: bouncing non-solid things can hit other things too
-    if ((tmthing->flags & MF_MISSILE) || ((tmthing->flags & MF_BOUNCES) && !(tmthing->flags & MF_SOLID)))
+    if ((tmflags & MF_MISSILE) || ((tmflags & MF_BOUNCES) && !(tmflags & MF_SOLID)))
     {
         int height = thing->info->projectilepassheight;
 
@@ -555,15 +555,15 @@ static bool PIT_CheckThing(mobj_t *thing)
 
         // killough 08/10/98: if moving thing is not a missile, no damage
         // is inflicted, and momentum is reduced if object hit is solid.
-        if (!(tmthing->flags & MF_MISSILE))
+        if (!(tmflags & MF_MISSILE))
         {
-            if (!(thing->flags & MF_SOLID))
+            if (!(flags & MF_SOLID))
                 return true;
 
             tmthing->momx = -tmthing->momx;
             tmthing->momy = -tmthing->momy;
 
-            if (!(tmthing->flags & MF_NOGRAVITY))
+            if (!(tmflags & MF_NOGRAVITY))
             {
                 tmthing->momx >>= 2;
                 tmthing->momy >>= 2;
@@ -572,8 +572,8 @@ static bool PIT_CheckThing(mobj_t *thing)
             return false;
         }
 
-        if (!(thing->flags & MF_SHOOTABLE))
-            return !(thing->flags & MF_SOLID);  // didn't do any damage
+        if (!(flags & MF_SHOOTABLE))
+            return !(flags & MF_SOLID); // didn't do any damage
 
         // MBF21: ripper projectile
         if (tmthing->mbf21flags & MF_MBF21_RIP)
@@ -643,9 +643,9 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // check for special pickup
-    if (thing->flags & MF_SPECIAL)
+    if (flags & MF_SPECIAL)
     {
-        if ((tmthing->flags & MF_PICKUP)
+        if ((tmflags & MF_PICKUP)
             && P_TouchSpecialThing(thing, tmthing, (tmthing->player->mo == tmthing), true)
             && joy_rumble_pickup)
         {
@@ -653,13 +653,13 @@ static bool PIT_CheckThing(mobj_t *thing)
             pickuprumbletics = PICKUP_RUMBLE_TICS;
         }
 
-        return !(thing->flags & MF_SOLID);
+        return !(flags & MF_SOLID);
     }
 
     // [BH] don't hit if either thing is a corpse, which may still be solid if
     // they are still going through their death sequence.
     if (!(thing->flags2 & MF2_RESURRECTING)
-        && ((thing->flags & MF_CORPSE) || (tmthing->flags & MF_CORPSE))
+        && (corpse || (tmflags & MF_CORPSE))
         && type != MT_BARREL
         && tmtype != MT_BARREL)
         return true;
@@ -667,9 +667,9 @@ static bool PIT_CheckThing(mobj_t *thing)
     // RjY
     // an attempt to handle blocking hanging bodies
     // A solid hanging body will allow sufficiently small things underneath it.
-    if (!((~thing->flags) & (MF_SOLID | MF_SPAWNCEILING))   // solid and hanging
+    if (!((~flags) & (MF_SOLID | MF_SPAWNCEILING))      // solid and hanging
         // invert everything, then both bits should be clear
-        && tmthing->z + tmthing->height <= thing->z         // head height <= base
+        && tmthing->z + tmthing->height <= thing->z     // head height <= base
         // top of thing trying to move under the body <= bottom of body
         && !infiniteheight && !compat_nopassover)
     {
@@ -681,8 +681,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
     // killough 04/11/98: Treat no-clipping things as not blocking
-    return (!((thing->flags & MF_SOLID) && !(thing->flags & MF_NOCLIP)
-        && !freeze && (tmthing->flags & MF_SOLID)) || unblocking);
+    return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP) && !freeze && (tmflags & MF_SOLID)) || unblocking);
 }
 
 //
@@ -1021,6 +1020,7 @@ bool P_IsInLiquid(mobj_t *thing)
 bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropoff)
 {
     fixed_t oldx, oldy;
+    int     flags;
 
     felldown = false;   // killough 11/98
     floatok = false;
@@ -1028,18 +1028,20 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
     if (!P_CheckPosition(thing, x, y))
         return false;   // solid wall or thing
 
-    if (!(thing->flags & MF_NOCLIP) && !freeze)
+    flags = thing->flags;
+
+    if (!(flags & MF_NOCLIP) && !freeze)
     {
         // killough 07/26/98: reformatted slightly
         // killough 08/01/98: Possibly allow escape if otherwise stuck
         if (tmceilingz - tmfloorz < thing->height   // doesn't fit
             // mobj must lower to fit
-            || (floatok = true, !(thing->flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
+            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
             // too big a step up
-            || (!(thing->flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
+            || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
             return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
 
-        if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
+        if (!(flags & (MF_DROPOFF | MF_FLOAT)))
         {
             if (!dropoff
                 // large jump down (e.g. dogs)
@@ -1053,11 +1055,11 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
             }
             else
                 // dropoff allowed -- check for whether it fell more than 24
-                felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
+                felldown = (!(flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
         }
 
-        if ((thing->flags & MF_BOUNCES)
-            && !(thing->flags & (MF_MISSILE | MF_NOGRAVITY))
+        if ((flags & MF_BOUNCES)
+            && !(flags & (MF_MISSILE | MF_NOGRAVITY))
             && !sentient(thing)
             && tmfloorz - thing->z > 16 * FRACUNIT)
             return false;   // too big a step up for bouncers under gravity
@@ -2116,11 +2118,17 @@ static bool nofit;
 //
 static void PIT_ChangeSector(mobj_t *thing)
 {
+    int   flags;
+    int   flags2;
+
     if (P_ThingHeightClip(thing))
         return; // keep checking
 
+    flags = thing->flags;
+    flags2 = thing->flags2;
+
     // crunch bodies to giblets
-    if ((thing->flags & MF_CORPSE) || (thing->flags2 & MF2_CRUSHABLE))
+    if ((flags & MF_CORPSE) || (flags2 & MF2_CRUSHABLE))
     {
         if (thing->player)
         {
@@ -2128,7 +2136,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(thing->flags & MF_NOBLOOD) && thing->bloodcolor > NOBLOOD)
+        if (!(flags & MF_NOBLOOD) && thing->bloodcolor > NOBLOOD)
         {
             const int       radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
             const int       max = M_RandomInt(50, 100) + radius;
@@ -2156,7 +2164,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+            if (r_corpses_mirrored && (M_BigRandom() & 1) && !(flags2 & MF2_NOMIRROREDCORPSE)
                 && (thing->type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
@@ -2174,7 +2182,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // crunch dropped items
-    if (thing->flags & MF_DROPPED)
+    if (flags & MF_DROPPED)
     {
         P_RemoveMobj(thing);
 
@@ -2183,23 +2191,23 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // killough 11/98: kill touchy things immediately
-    if ((thing->flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
+    if ((flags & MF_TOUCHY) && ((flags2 & MF2_ARMED) || sentient(thing)))
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
         return;
     }
 
-    if (!(thing->flags & MF_SHOOTABLE))
+    if (!(flags & MF_SHOOTABLE))
         return; // assume it is bloody gibs or something
 
     nofit = true;
 
     if (crushchange && !(maptime & 3))
     {
-        if (!(thing->flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
+        if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            bool        fuzz = ((thing->flags & MF_FUZZ) && r_blood == r_blood_all);
+            bool        fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
             const int   z = thing->z + thing->height * 2 / 3;
             int         color = REDBLOOD;
 
@@ -2242,9 +2250,9 @@ static void PIT_ChangeSector(mobj_t *thing)
                 M_StringCopy(name, thing->name, sizeof(name));
             else
                 M_snprintf(name, sizeof(name), "%s %s%s",
-                    ((thing->flags & MF_FRIEND) && thing->type < NUMMOBJTYPES && monstercount[thing->type] == 1 ? "the" :
-                        (isvowel(thing->info->name1[0]) && !(thing->flags & MF_FRIEND) ? "an" : "a")),
-                    ((thing->flags & MF_FRIEND) ? "friendly " : ""),
+                    ((flags & MF_FRIEND) && thing->type < NUMMOBJTYPES && monstercount[thing->type] == 1 ? "the" :
+                        (isvowel(thing->info->name1[0]) && !(flags & MF_FRIEND) ? "an" : "a")),
+                    ((flags & MF_FRIEND) ? "friendly " : ""),
                     (*thing->info->name1 ? thing->info->name1 : "monster"));
 
             name[0] = toupper(name[0]);
