@@ -524,6 +524,7 @@ void R_DrawPlanes(void)
 
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_texturemid = skytexturemid;
+                    dc_iscale = skyiscale;
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
@@ -532,7 +533,7 @@ void R_DrawPlanes(void)
                                 (((viewangle + xtoskyangle[dc_x])
                                     / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
-                            skycolfunc();
+                            R_DrawWallColumn();
                         }
                 }
                 else if (picnum & PL_SKYFLAT)
