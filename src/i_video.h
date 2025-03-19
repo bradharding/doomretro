@@ -91,7 +91,7 @@ void I_StartTic(void);
 void I_InitGraphics(void);
 void I_RestartGraphics(const bool recreatewindow);
 void I_CapFPS(const int cap);
-void I_DestroyGraphics(void);
+void I_ShutdownGraphics(void);
 
 void I_SaveMousePointerPosition(void);
 void I_RestoreMousePointerPosition(void);

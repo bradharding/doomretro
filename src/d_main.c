@@ -2520,9 +2520,7 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-        {
             I_Error("Other files can’t be loaded with the shareware version of DOOM.");
-        }
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.

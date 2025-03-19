@@ -1972,12 +1972,15 @@ void I_InitKeyboard(void)
     }
 }
 
-void I_DestroyGraphics(void)
+void I_ShutdownGraphics(void)
 {
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-    }
+    SDL_FreePalette(palette);
+    SDL_FreeSurface(surface);
+    SDL_FreeSurface(buffer);
+    SDL_DestroyTexture(texture);
+    SDL_DestroyTexture(texture_upscaled);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 }
 
 void I_InitGraphics(void)
