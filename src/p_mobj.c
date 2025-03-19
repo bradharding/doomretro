@@ -259,7 +259,7 @@ static void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(flags & MF_NOBLOOD) && mo->bloodcolor > 0 && r_corpses_smearblood
+    if (corpse && !(flags & MF_NOBLOOD) && mo->bloodcolor > NOBLOOD && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge
         && (r_blood != r_blood_all || !(flags & MF_FUZZ)))
     {
@@ -1350,7 +1350,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     {
         const short lump = sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0];
 
-        if (moreblood || lumpinfo[firstspritelump + lump]->wadfile->type == IWAD)
+        if (moreblood || lumpinfo[firstspritelump + lump]->wadfile->type == IWAD || (flags2 & MF2_MOREBLOOD))
             P_SpawnMoreBlood(mobj);
     }
 

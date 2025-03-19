@@ -1846,6 +1846,7 @@ static const struct deh_flag_s deh_mobjflags2[] =
     { "NOMIRROREDCORPSE",      MF2_NOMIRROREDCORPSE         },
     { "TRANSLUCENT_BLUE_25",   MF2_TRANSLUCENT_BLUE_25      },
     { "FLOATBOB",              MF2_FLOATBOB                 },
+    { "MOREBLOOD",             MF2_MOREBLOOD                },
     { "PASSMOBJ",              MF2_PASSMOBJ                 },
     { "FOOTCLIP",              MF2_FOOTCLIP                 },
     { "NOLIQUIDBOB",           MF2_NOLIQUIDBOB              },

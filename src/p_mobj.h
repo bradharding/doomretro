@@ -292,6 +292,9 @@ enum
     // Apply 33% alpha translucency on all blue
     MF2_TRANSLUCENT_BLUE_25         = 0x00000200,
 
+    // Apply blood splats around object when spawned
+    MF2_MOREBLOOD                   = 0x00000400,
+
     // Object is affected by scroller/pusher/puller
     MF2_SCROLLING                   = 0x00001000,
 
