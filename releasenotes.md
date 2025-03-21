@@ -27,6 +27,7 @@
 * A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
 * Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
+* Brightmaps can now be successfully applied to *BOOM*-compatible translucent wall textures.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

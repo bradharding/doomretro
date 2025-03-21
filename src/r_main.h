@@ -111,6 +111,7 @@ extern void (*basecolfunc)(void);
 extern void (*tlcolfunc)(void);
 extern void (*tl50colfunc)(void);
 extern void (*tl50segcolfunc)(void);
+extern void (*tl50bmapsegcolfunc)(void);
 extern void (*tl33colfunc)(void);
 extern void (*tlgreencolfunc)(void);
 extern void (*tlredcolfunc)(void);

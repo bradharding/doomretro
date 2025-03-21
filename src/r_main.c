@@ -478,6 +478,7 @@ void (*basecolfunc)(void);
 void (*tlcolfunc)(void);
 void (*tl50colfunc)(void);
 void (*tl50segcolfunc)(void);
+void (*tl50bmapsegcolfunc)(void);
 void (*tl33colfunc)(void);
 void (*tlgreencolfunc)(void);
 void (*tlredcolfunc)(void);
@@ -604,6 +605,7 @@ void R_InitColumnFunctions(void)
                 segcolfunc = &R_DrawDitherLowColumn;
                 bmapsegcolfunc = &R_DrawBrightmapDitherLowColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawDitherLowTranslucent50Column : &R_DrawDitherLowColumn);
+                tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawBrightmapDitherLowTranslucent50Column : &R_DrawBrightmapDitherLowColumn);
                 spanfunc = &R_DrawDitherLowSpan;
             }
             else
@@ -616,6 +618,7 @@ void R_InitColumnFunctions(void)
                 segcolfunc = &R_DrawDitherColumn;
                 bmapsegcolfunc = &R_DrawBrightmapDitherColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawDitherTranslucent50Column : &R_DrawDitherColumn);
+                tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawBrightmapDitherTranslucent50Column : &R_DrawBrightmapDitherColumn);
                 spanfunc = &R_DrawDitherSpan;
             }
 
@@ -715,6 +718,7 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColumn;
             bmapsegcolfunc = &R_DrawBrightmapColumn;
             tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50Column : &R_DrawColumn);
+            tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawBrightmapTranslucent50Column : &R_DrawBrightmapColumn);
             spanfunc = &R_DrawSpan;
             altspanfunc = &R_DrawSpan;
 
@@ -786,6 +790,7 @@ void R_InitColumnFunctions(void)
                 segcolfunc = &R_DrawColorDitherLowColumn;
                 bmapsegcolfunc = &R_DrawColorDitherLowColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherLowColumn : &R_DrawColorDitherLowColumn);
+                tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherLowColumn : &R_DrawColorDitherLowColumn);
                 spanfunc = &R_DrawDitherLowColorSpan;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
@@ -810,6 +815,7 @@ void R_InitColumnFunctions(void)
                 segcolfunc = &R_DrawColorDitherColumn;
                 bmapsegcolfunc = &R_DrawColorDitherColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherColumn : &R_DrawColorDitherColumn);
+                tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherColumn : &R_DrawColorDitherColumn);
                 spanfunc = &R_DrawDitherColorSpan;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
@@ -835,6 +841,7 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColorColumn;
             bmapsegcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+            tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
             tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);

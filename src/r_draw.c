@@ -821,6 +821,65 @@ void R_DrawTranslucent50Column(void)
     *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
 }
 
+void R_DrawBrightmapTranslucent50Column(void)
+{
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t frac = dc_texturefrac;
+    byte    dot;
+
+    while (--count)
+    {
+        dot = dc_source[frac >> FRACBITS];
+        *dest = tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    dot = dc_source[frac >> FRACBITS];
+    *dest = tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]];
+}
+
+void R_DrawBrightmapDitherTranslucent50Column(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] }, { fullcolormap, fullcolormap } };
+    byte                dot;
+
+    while (--count)
+    {
+        dot = dc_source[frac >> FRACBITS];
+        *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    dot = dc_source[frac >> FRACBITS];
+    *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+}
+
+void R_DrawBrightmapDitherLowTranslucent50Column(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] }, { fullcolormap, fullcolormap } };
+    byte                dot;
+
+    while (--count)
+    {
+        dot = dc_source[frac >> FRACBITS];
+        *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    dot = dc_source[frac >> FRACBITS];
+    *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+}
+
 void R_DrawDitherLowTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
