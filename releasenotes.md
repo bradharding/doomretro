@@ -11,8 +11,10 @@
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
-* The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable line specials.
-* The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_RadiusDamage` codepointer now always inflicts damage as intended.
+* These changes have been made to the support of `DEHACKED` lumps:
+  * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable line specials.
+  * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_RadiusDamage` codepointer now always inflicts damage as intended.
+  * `Retro Bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
 * These changes have been made to the support for the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump:
   * Skies can now be scaled using `scalex`.
   * The inverted screen effect is now always applied to the sky when the player has an invulnerability power-up.

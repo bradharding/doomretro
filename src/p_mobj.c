@@ -1345,7 +1345,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (r_corpses_moreblood
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
-        && mobj->bloodcolor > NOBLOOD
         && ((!hacx && !harmony) || !(flags2 & MF2_DECORATION)))
     {
         const short lump = sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0];
@@ -1476,7 +1475,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
 {
     if (vanilla)
         P_SpawnMobj(x, y, z, MT_BLOOD);
-    else if (target->bloodcolor)
+    else if (target->bloodcolor > NOBLOOD)
     {
         const int   minz = target->z;
         const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
