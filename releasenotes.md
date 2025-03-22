@@ -14,7 +14,8 @@
 * These changes have been made to the support of `DEHACKED` lumps:
   * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable line specials.
   * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_RadiusDamage` codepointer now always inflicts damage as intended.
-  * `Retro Bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
+  * A bug is fixed whereby things spawned using the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_SpawnObject` codepointer couldn’t be made translucent.
+  * `Retro bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
 * These changes have been made to the support for the [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump:
   * Skies can now be scaled using `scalex`.
   * The inverted screen effect is now always applied to the sky when the player has an invulnerability power-up.
