@@ -188,8 +188,10 @@ static menuitem_t MainMenu[] =
 {
     { 1, "M_NGAME",  &M_NewGame,  &s_M_NEWGAME  },
     { 1, "M_OPTION", &M_Options,  &s_M_OPTIONS  },
-    { 1, "M_LOADG",  &M_LoadGame, &s_M_LOADGAME },
-    { 1, "M_SAVEG",  &M_SaveGame, &s_M_SAVEGAME },
+    { 1, "", NULL,  &s_M_OPTIONS  },
+    { 1, "", NULL,  &s_M_OPTIONS  },
+    //{ 1, "M_LOADG",  &M_LoadGame, &s_M_LOADGAME },
+    //{ 1, "M_SAVEG",  &M_SaveGame, &s_M_SAVEGAME },
     { 1, "M_QUITG",  &M_QuitDOOM, &s_M_QUITGAME }
 };
 
