@@ -658,257 +658,257 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
 //
 void M_SaveCVARs(void)
 {
-    int         numaliases = 0;
-    const int   numcvars = arrlen(cvars);
-    FILE        *file;
+    //int         numaliases = 0;
+    //const int   numcvars = arrlen(cvars);
+    //FILE        *file;
 
-    if (!cvarsloaded || vanilla || togglingvanilla)
-        return;
+    //if (!cvarsloaded || vanilla || togglingvanilla)
+    //    return;
 
-    if (!(file = fopen(configfile, "wt")))
-    {
-        static bool warning;
+    //if (!(file = fopen(configfile, "wt")))
+    //{
+    //    static bool warning;
 
-        if (!warning)
-        {
-            warning = true;
-            C_Warning(0, BOLD("%s") " couldn't be saved.", configfile);
-        }
+    //    if (!warning)
+    //    {
+    //        warning = true;
+    //        C_Warning(0, BOLD("%s") " couldn't be saved.", configfile);
+    //    }
 
-        return;
-    }
+    //    return;
+    //}
 
-    for (int i = 0; i < numcvars; i++)
-    {
-        if (!*cvars[i].name)
-        {
-            fputs("\n", file);
-            continue;
-        }
+    //for (int i = 0; i < numcvars; i++)
+    //{
+    //    if (!*cvars[i].name)
+    //    {
+    //        fputs("\n", file);
+    //        continue;
+    //    }
 
-        if (cvars[i].name[0] == ';')
-        {
-            fputs(cvars[i].name, file);
-            continue;
-        }
+    //    if (cvars[i].name[0] == ';')
+    //    {
+    //        fputs(cvars[i].name, file);
+    //        continue;
+    //    }
 
-        // Print the name
-        fprintf(file, "%-*s ", widestcvar, cvars[i].name);
+    //    // Print the name
+    //    fprintf(file, "%-*s ", widestcvar, cvars[i].name);
 
-        // Print the value
-        switch (cvars[i].type)
-        {
-            case DEFAULT_BOOL:
-            {
-                bool    alias = false;
-                int     value = *(bool *)cvars[i].location;
+    //    // Print the value
+    //    switch (cvars[i].type)
+    //    {
+    //        case DEFAULT_BOOL:
+    //        {
+    //            bool    alias = false;
+    //            int     value = *(bool *)cvars[i].location;
 
-                for (int j = 0; *valuealiases[j].text; j++)
-                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                    {
-                        fputs(valuealiases[j].text, file);
-                        alias = true;
-                        break;
-                    }
+    //            for (int j = 0; *valuealiases[j].text; j++)
+    //                if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+    //                {
+    //                    fputs(valuealiases[j].text, file);
+    //                    alias = true;
+    //                    break;
+    //                }
 
-                if (!alias)
-                {
-                    char    *temp = commify(value);
+    //            if (!alias)
+    //            {
+    //                char    *temp = commify(value);
 
-                    fputs(temp, file);
-                    free(temp);
-                }
+    //                fputs(temp, file);
+    //                free(temp);
+    //            }
 
-                break;
-            }
+    //            break;
+    //        }
 
-            case DEFAULT_INT32:
-            {
-                bool    alias = false;
-                int     value = *(int *)cvars[i].location;
+    //        case DEFAULT_INT32:
+    //        {
+    //            bool    alias = false;
+    //            int     value = *(int *)cvars[i].location;
 
-                for (int j = 0; *valuealiases[j].text; j++)
-                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                    {
-                        fputs(valuealiases[j].text, file);
-                        alias = true;
-                        break;
-                    }
+    //            for (int j = 0; *valuealiases[j].text; j++)
+    //                if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+    //                {
+    //                    fputs(valuealiases[j].text, file);
+    //                    alias = true;
+    //                    break;
+    //                }
 
-                if (!alias)
-                {
-                    char    *temp = commify(value);
+    //            if (!alias)
+    //            {
+    //                char    *temp = commify(value);
 
-                    fputs(temp, file);
-                    free(temp);
-                }
+    //                fputs(temp, file);
+    //                free(temp);
+    //            }
 
-                break;
-            }
+    //            break;
+    //        }
 
-            case DEFAULT_UINT64:
-                if (!M_CheckParm("-nostats"))
-                {
-                    char    *temp = commify(*(uint64_t *)cvars[i].location);
+    //        case DEFAULT_UINT64:
+    //            if (!M_CheckParm("-nostats"))
+    //            {
+    //                char    *temp = commify(*(uint64_t *)cvars[i].location);
 
-                    fputs(temp, file);
-                    free(temp);
-                }
+    //                fputs(temp, file);
+    //                free(temp);
+    //            }
 
-                break;
+    //            break;
 
-            case DEFAULT_INT32_PERCENT:
-            {
-                bool    alias = false;
-                int     value = *(int *)cvars[i].location;
+    //        case DEFAULT_INT32_PERCENT:
+    //        {
+    //            bool    alias = false;
+    //            int     value = *(int *)cvars[i].location;
 
-                for (int j = 0; *valuealiases[j].text; j++)
-                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                    {
-                        fputs(valuealiases[j].text, file);
-                        alias = true;
-                        break;
-                    }
+    //            for (int j = 0; *valuealiases[j].text; j++)
+    //                if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+    //                {
+    //                    fputs(valuealiases[j].text, file);
+    //                    alias = true;
+    //                    break;
+    //                }
 
-                if (!alias)
-                {
-                    char    *temp = commify(value);
+    //            if (!alias)
+    //            {
+    //                char    *temp = commify(value);
 
-                    fprintf(file, "%s%%", temp);
-                    free(temp);
-                }
+    //                fprintf(file, "%s%%", temp);
+    //                free(temp);
+    //            }
 
-                break;
-            }
+    //            break;
+    //        }
 
-            case DEFAULT_FLOAT:
-            {
-                float   value = *(float *)cvars[i].location;
+    //        case DEFAULT_FLOAT:
+    //        {
+    //            float   value = *(float *)cvars[i].location;
 
-                if (M_StringCompare(cvars[i].name, stringize(r_gamma)))
-                {
-                    bool    alias = false;
+    //            if (M_StringCompare(cvars[i].name, stringize(r_gamma)))
+    //            {
+    //                bool    alias = false;
 
-                    for (int j = 0; *valuealiases[j].text; j++)
-                        if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                        {
-                            fputs(valuealiases[j].text, file);
-                            alias = true;
-                            break;
-                        }
+    //                for (int j = 0; *valuealiases[j].text; j++)
+    //                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+    //                    {
+    //                        fputs(valuealiases[j].text, file);
+    //                        alias = true;
+    //                        break;
+    //                    }
 
-                    if (!alias)
-                    {
-                        static char buffer[128];
-                        int         len;
+    //                if (!alias)
+    //                {
+    //                    static char buffer[128];
+    //                    int         len;
 
-                        M_snprintf(buffer, sizeof(buffer), "%.2f", value);
-                        len = (int)strlen(buffer);
+    //                    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
+    //                    len = (int)strlen(buffer);
 
-                        if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
-                            buffer[len - 1] = '\0';
+    //                    if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+    //                        buffer[len - 1] = '\0';
 
-                        fputs(buffer, file);
-                    }
-                }
-                else
-                {
-                    char    *temp = striptrailingzero(value, 1);
+    //                    fputs(buffer, file);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                char    *temp = striptrailingzero(value, 1);
 
-                    fputs(temp, file);
-                    free(temp);
-                }
+    //                fputs(temp, file);
+    //                free(temp);
+    //            }
 
-                break;
-            }
+    //            break;
+    //        }
 
-            case DEFAULT_FLOAT_PERCENT:
-            {
-                bool    alias = false;
-                float   value = *(float *)cvars[i].location;
+    //        case DEFAULT_FLOAT_PERCENT:
+    //        {
+    //            bool    alias = false;
+    //            float   value = *(float *)cvars[i].location;
 
-                for (int j = 0; *valuealiases[j].text; j++)
-                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                    {
-                        fputs(valuealiases[j].text, file);
-                        alias = true;
-                        break;
-                    }
+    //            for (int j = 0; *valuealiases[j].text; j++)
+    //                if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+    //                {
+    //                    fputs(valuealiases[j].text, file);
+    //                    alias = true;
+    //                    break;
+    //                }
 
-                if (!alias)
-                {
-                    char    *temp = striptrailingzero(value, 1);
+    //            if (!alias)
+    //            {
+    //                char    *temp = striptrailingzero(value, 1);
 
-                    fprintf(file, "%s%%", temp);
-                    free(temp);
-                }
+    //                fprintf(file, "%s%%", temp);
+    //                free(temp);
+    //            }
 
-                break;
-            }
+    //            break;
+    //        }
 
-            case DEFAULT_STRING:
-                if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
-                    || M_StringCompare(cvars[i].name, stringize(version)))
-                    fputs(*(char **)cvars[i].location, file);
-                else
-                    fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+    //        case DEFAULT_STRING:
+    //            if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
+    //                || M_StringCompare(cvars[i].name, stringize(version)))
+    //                fputs(*(char **)cvars[i].location, file);
+    //            else
+    //                fprintf(file, "\"%s\"", *(char **)cvars[i].location);
 
-                break;
+    //            break;
 
-            case DEFAULT_OTHER:
-                fputs(*(char **)cvars[i].location, file);
-                break;
-        }
+    //        case DEFAULT_OTHER:
+    //            fputs(*(char **)cvars[i].location, file);
+    //            break;
+    //    }
 
-        fputs("\n", file);
-    }
+    //    fputs("\n", file);
+    //}
 
-    fputs("\n; bound controls\n", file);
+    //fputs("\n; bound controls\n", file);
 
-    for (int i = 0; *actions[i].action; i++)
-    {
-        if (actions[i].keyboard1 && *(int *)actions[i].keyboard1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
+    //for (int i = 0; *actions[i].action; i++)
+    //{
+    //    if (actions[i].keyboard1 && *(int *)actions[i].keyboard1)
+    //        SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard1, keyboardcontrol);
 
-        if (actions[i].keyboard2 && *(int *)actions[i].keyboard2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
-    }
+    //    if (actions[i].keyboard2 && *(int *)actions[i].keyboard2)
+    //        SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
+    //}
 
-    for (int i = 0; controls[i].type; i++)
-        if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
+    //for (int i = 0; controls[i].type; i++)
+    //    if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
+    //        SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
 
-    for (int i = 0; *actions[i].action; i++)
-        if (actions[i].mouse1 && *(int *)actions[i].mouse1 != -1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
+    //for (int i = 0; *actions[i].action; i++)
+    //    if (actions[i].mouse1 && *(int *)actions[i].mouse1 != -1)
+    //        SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
-    for (int i = 0; controls[i].type; i++)
-        if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
+    //for (int i = 0; controls[i].type; i++)
+    //    if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
+    //        SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
 
-    for (int i = 0; *actions[i].action; i++)
-    {
-        if (actions[i].controller1 && *(int *)actions[i].controller1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller1, controllercontrol);
+    //for (int i = 0; *actions[i].action; i++)
+    //{
+    //    if (actions[i].controller1 && *(int *)actions[i].controller1)
+    //        SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller1, controllercontrol);
 
-        if (actions[i].controller2 && *(int *)actions[i].controller2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller2, controllercontrol);
-    }
+    //    if (actions[i].controller2 && *(int *)actions[i].controller2)
+    //        SaveBindByValue(file, actions[i].action, *(int *)actions[i].controller2, controllercontrol);
+    //}
 
-    for (int i = 0; i < MAXALIASES; i++)
-        if (*aliases[i].name)
-            numaliases++;
+    //for (int i = 0; i < MAXALIASES; i++)
+    //    if (*aliases[i].name)
+    //        numaliases++;
 
-    if (numaliases)
-    {
-        fputs("\n; aliases\n", file);
+    //if (numaliases)
+    //{
+    //    fputs("\n; aliases\n", file);
 
-        for (int i = 0; i < MAXALIASES; i++)
-            if (*aliases[i].name)
-                fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
-    }
+    //    for (int i = 0; i < MAXALIASES; i++)
+    //        if (*aliases[i].name)
+    //            fprintf(file, "alias %s \"%s\"\n", aliases[i].name, aliases[i].string);
+    //}
 
-    fclose(file);
+    //fclose(file);
 }
 
 // Parses bool values in the configuration file
