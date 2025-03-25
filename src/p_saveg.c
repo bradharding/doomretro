@@ -1162,12 +1162,10 @@ void P_ArchiveWorld(void)
         saveg_write16(sector->special);
         saveg_write16(sector->tag);
         saveg_write32(P_ThingToIndex(sector->soundtarget));
-
-        // [BH] For future features without breaking savegame compatibility
-        saveg_write32(0);
-        saveg_write32(0);
-        saveg_write32(0);
-        saveg_write32(0);
+        saveg_write32(sector->floorxoffset);
+        saveg_write32(sector->flooryoffset);
+        saveg_write32(sector->ceilingxoffset);
+        saveg_write32(sector->ceilingyoffset);
     }
 
     // do lines
@@ -1231,12 +1229,14 @@ void P_UnarchiveWorld(void)
         sector->ceilingdata = NULL;
         sector->floordata = NULL;
         soundtargets[MIN(i, TARGETLIMIT - 1)] = saveg_read32();
-
-        // [BH] For future features without breaking savegame compatibility
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
-        saveg_read32();
+        sector->floorxoffset = saveg_read32();
+        sector->flooryoffset = saveg_read32();
+        sector->ceilingxoffset = saveg_read32();
+        sector->ceilingyoffset = saveg_read32();
+        sector->basefloorxoffset = sector->oldfloorxoffset = sector->floorxoffset;
+        sector->baseflooryoffset = sector->oldflooryoffset = sector->flooryoffset;
+        sector->baseceilingxoffset = sector->oldceilingxoffset = sector->ceilingxoffset;
+        sector->baseceilingyoffset = sector->oldceilingyoffset = sector->ceilingyoffset;
     }
 
     // do lines
