@@ -7579,11 +7579,9 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
 
     for (int i = old_nummobjtypes; i < nummobjtypes; i++)
     {
+        mobjinfo[i].doomednum = -1;
         mobjinfo[i].bloodcolor = REDBLOOD;
         mobjinfo[i].droppeditem = MT_NULL;
-        mobjinfo[i].infightinggroup = IG_DEFAULT;
-        mobjinfo[i].projectilegroup = PG_DEFAULT;
-        mobjinfo[i].splashgroup = SG_DEFAULT;
         mobjinfo[i].altspeed = NO_ALTSPEED;
         mobjinfo[i].meleerange = MELEERANGE;
         M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
