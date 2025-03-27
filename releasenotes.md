@@ -31,6 +31,7 @@
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
 * Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
 * Brightmaps can now be successfully applied to *BOOM*-compatible translucent wall textures.
+* The offsets of *BOOM*-compatible scrolling floor and ceiling textures are now remembered in savegames.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
