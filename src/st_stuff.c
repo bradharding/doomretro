@@ -495,11 +495,13 @@ bool ST_Responder(const event_t *ev)
                 if (viewplayer->health <= 0)
                     P_ResurrectPlayer(initial_health);
 
-                viewplayer->cheats ^= CF_GODMODE;
-
-                if (viewplayer->cheats & CF_GODMODE)
+                if ((viewplayer->cheats ^= CF_GODMODE) & CF_GODMODE)
                 {
-                    viewplayer->cheats &= ~CF_BUDDHA;
+                    if (viewplayer->cheats & CF_BUDDHA)
+                    {
+                        viewplayer->cheats &= ~CF_BUDDHA;
+                        C_Output(s_STSTR_BUDDHAOFF);
+                    }
 
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
@@ -710,8 +712,16 @@ bool ST_Responder(const event_t *ev)
                     {
                         if (i == pw_invulnerability)
                         {
-                            viewplayer->cheats &= ~CF_BUDDHA;
-                            viewplayer->cheats &= ~CF_GODMODE;
+                            if (viewplayer->cheats & CF_GODMODE)
+                            {
+                                viewplayer->cheats &= ~CF_GODMODE;
+                                C_Output(s_STSTR_GODOFF);
+                            }
+                            else if (viewplayer->cheats & CF_BUDDHA)
+                            {
+                                viewplayer->cheats &= ~CF_BUDDHA;
+                                C_Output(s_STSTR_BUDDHAOFF);
+                            }
                         }
 
                         P_GivePower(i, false);
@@ -878,8 +888,16 @@ bool ST_Responder(const event_t *ev)
                         viewplayer->pendingweapon = wp_chainsaw;
                     }
 
-                    viewplayer->cheats &= ~CF_BUDDHA;
-                    viewplayer->cheats &= ~CF_GODMODE;
+                    if (viewplayer->cheats & CF_GODMODE)
+                    {
+                        viewplayer->cheats &= ~CF_GODMODE;
+                        C_Output(s_STSTR_GODOFF);
+                    }
+                    else if (viewplayer->cheats & CF_BUDDHA)
+                    {
+                        viewplayer->cheats &= ~CF_BUDDHA;
+                        C_Output(s_STSTR_BUDDHAOFF);
+                    }
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
@@ -926,7 +944,11 @@ bool ST_Responder(const event_t *ev)
 
                 if ((viewplayer->cheats ^= CF_BUDDHA) & CF_BUDDHA)
                 {
-                    viewplayer->cheats &= ~CF_GODMODE;
+                    if (viewplayer->cheats & CF_GODMODE)
+                    {
+                        viewplayer->cheats &= ~CF_GODMODE;
+                        C_Output(s_STSTR_GODOFF);
+                    }
 
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
