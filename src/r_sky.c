@@ -285,4 +285,6 @@ void R_InitSkyMap(void)
         skytexturemid = VANILLAHEIGHT / 2 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT));
     }
+
+    R_InitColumnFunctions();
 }
