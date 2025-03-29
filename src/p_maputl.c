@@ -834,8 +834,7 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, const int index, const angle_t fov)
         }
 
         // skip actors on the same "team", unless infighting
-        if (mo->target && !((link->flags ^ mo->target->flags) & MF_FRIEND)
-            && mo->target->target != link && !(link->player && mo->target->player))
+        if (mo->target && !((link->flags ^ mo->target->flags) & MF_FRIEND) && mo->target->target != link)
         {
             link = link->bnext;
             continue;
