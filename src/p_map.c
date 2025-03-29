@@ -850,10 +850,9 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
                 return false;
 
     // check lines
-    if ((thing->flags & MF_SPECIAL) && !(thing->flags & MF_DROPPED))
+    if ((thing->flags & MF_SPECIAL) && !(thing->flags & MF_DROPPED)
+        && (radius = thing->info->pickupradius))
     {
-        radius = thing->info->pickupradius;
-
         tmbbox[BOXTOP] = y + radius;
         tmbbox[BOXBOTTOM] = y - radius;
         tmbbox[BOXRIGHT] = x + radius;
