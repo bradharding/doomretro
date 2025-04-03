@@ -1562,10 +1562,10 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires at least " ITALICS("OpenGL v2.1."));
 
 #if defined(_WIN32)
-                vid_scaleapi = vid_scaleapi_direct3d11;
+                vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
 
-                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi_direct3d11, SDL_HINT_OVERRIDE);
+                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi_direct3d, SDL_HINT_OVERRIDE);
 
                 if (output)
                     C_Output("This scaling is now done using hardware acceleration with "
@@ -1587,27 +1587,15 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, "direct3d"))
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with "
                     ITALICS("Direct3D 9."));
 
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d9))
+            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
-                vid_scaleapi = vid_scaleapi_direct3d9;
-                M_SaveCVARs();
-            }
-        }
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d11))
-        {
-            if (output)
-                C_Output("This scaling is done using hardware acceleration with "
-                    ITALICS("Direct3D 11."));
-
-            if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d11))
-            {
-                vid_scaleapi = vid_scaleapi_direct3d11;
+                vid_scaleapi = vid_scaleapi_direct3d;
                 M_SaveCVARs();
             }
         }
