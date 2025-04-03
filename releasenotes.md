@@ -30,8 +30,12 @@
 * A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
 * Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
-* Brightmaps can now be successfully applied to *BOOM*-compatible translucent wall textures.
-* The offsets of *BOOM*-compatible scrolling floor and ceiling textures are now remembered in savegames.
+* These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom) compatibility:
+  * Brightmaps can now be successfully applied to translucent wall textures.
+  * The offsets of scrolling floor and ceiling textures are now remembered in savegames.
+  * The correct player message is now always displayed when trying to open a generalized locked door.
+* A bug is fixed whereby the sky wouldn’t render correctly in some rare instances when the `weaponrecoil` CVAR was turned `on` in the console.
+* The support for *Direct 3D 11* has been removed. The `vid_scaleapi` CVAR can no longer be set to `direct3d11`, and the value `direct3d9` has been renamed `direct3d`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
