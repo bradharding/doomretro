@@ -1159,24 +1159,26 @@ typedef enum
 
 typedef struct
 {
-    spritenum_t sprite;
-    int         frame;
-    int         tics;
-    actionf_t   action;
-    statenum_t  nextstate;
-    int         misc1;
-    int         misc2;
-    int         args[MAXSTATEARGS]; // MBF21
-    int         flags;
-    bool        translucent;
-    bool        dehacked;
+    spritenum_t     sprite;
+    int             frame;
+    int             tics;
+    actionf_t       action;
+    statenum_t      nextstate;
+    int             misc1;
+    int             misc2;
+    int             args[MAXSTATEARGS]; // MBF21
+    int             flags;
+    bool            translucent;
+    bool            dehacked;
 } state_t;
 
-extern state_t  original_states[NUMSTATES];
+extern state_t      original_states[NUMSTATES];
 
 // DSDHacked
-extern state_t  *states;
-extern int      numstates;
+extern state_t      *states;
+extern int          numstates;
+extern actionf_t    *deh_codeptr;
+extern byte         *defined_codeptr_args;
 
 void InitStates(void);
 void FreeStates(void);

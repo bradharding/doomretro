@@ -468,7 +468,8 @@ static bool PIT_CheckThing(mobj_t *thing)
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
-    blockdist = ((flags & MF_SPECIAL) && thing->info->pickupradius ? thing->info->pickupradius : thing->info->radius) + tmthing->radius;
+    blockdist = ((flags & MF_SPECIAL) && thing->info->pickupradius ?
+        thing->info->pickupradius : thing->info->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;                    // didn't hit it
@@ -2475,7 +2476,8 @@ void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y)
     mobj_t          *saved_tmthing = tmthing;
     const fixed_t   saved_tmx = tmx;
     const fixed_t   saved_tmy = tmy;
-    fixed_t         radius = ((thing->flags & MF_SPECIAL) && thing->info->pickupradius ? thing->info->pickupradius : thing->info->radius);
+    fixed_t         radius = ((thing->flags & MF_SPECIAL) && thing->info->pickupradius ?
+                        thing->info->pickupradius : thing->info->radius);
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When

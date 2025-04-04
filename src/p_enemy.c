@@ -2407,7 +2407,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 // killough 11/98: kill an object
 void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_DamageMobj(actor, NULL, NULL, actor->health, true, false);
+    P_DamageMobj(actor, NULL, NULL, actor->health, false, false);
 }
 
 //

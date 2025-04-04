@@ -74,8 +74,6 @@ bool        dehacked = false;
 bool        nobloodsplats = false;
 bool        norockettrails = false;
 
-extern byte *defined_codeptr_args;
-
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
@@ -2289,9 +2287,6 @@ static const deh_bexptr deh_bexptrs[] =
     // This NULL entry must be the last in the list
     { NULL,                   "A_NULL"                                                         }
 };
-
-// to hold startup code pointers from INFO.C
-extern actionf_t    *deh_codeptr;
 
 // haleyjd: support for BEX SPRITES, SOUNDS, and MUSIC
 static char         *deh_musicnames[NUMMUSIC + 1];
