@@ -203,6 +203,8 @@ void R_UpdateSky(void)
 
 void R_InitSkyMap(void)
 {
+    int skyheight;
+
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(gameepisode, gamemap);
@@ -264,27 +266,22 @@ void R_InitSkyMap(void)
 
     InitSkyDefs();
 
-    skyscrolldelta = (vanilla ? 0 : (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT));
+    skyheight = textureheight[skytexture] >> FRACBITS;
+
+    if (skyheight > 128 && skyheight < VANILLAHEIGHT)
+        skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
+    else if (skyheight > VANILLAHEIGHT)
+        skytexturemid = (VANILLAHEIGHT - skyheight) * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
+    else
+        skytexturemid = VANILLAHEIGHT / 2 * FRACUNIT;
 
     if (canfreelook)
-    {
-        const int   skyheight = textureheight[skytexture] >> FRACBITS;
-
-        if (skyheight >= 128 && skyheight < VANILLAHEIGHT)
-            skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
-        else if (skyheight > VANILLAHEIGHT)
-            skytexturemid = (VANILLAHEIGHT - skyheight) * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
-        else
-            skytexturemid = 0;
-
         skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT))
             * skyheight / SKYSTRETCH_HEIGHT;
-    }
     else
-    {
-        skytexturemid = VANILLAHEIGHT / 2 * FRACUNIT;
         skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT));
-    }
+
+    skyscrolldelta = (vanilla ? 0 : (int)(P_GetMapSky1ScrollDelta(gameepisode, gamemap) * FRACUNIT));
 
     R_InitColumnFunctions();
 }
