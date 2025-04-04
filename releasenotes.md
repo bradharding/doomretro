@@ -36,6 +36,7 @@
   * The correct player message is now always displayed when trying to open a generalized locked door.
 * A bug is fixed whereby the sky wouldn’t render correctly in some rare instances when the `weaponrecoil` CVAR was turned `on` in the console.
 * The support for *Direct 3D 11* has been removed. The `vid_scaleapi` CVAR can no longer be set to `direct3d11`, and the value `direct3d9` has been renamed `direct3d`.
+* The positioning of tall skies has improved in some instances when the `freelook` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
