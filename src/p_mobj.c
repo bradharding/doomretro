@@ -1475,7 +1475,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
 {
     if (vanilla)
         P_SpawnMobj(x, y, z, MT_BLOOD);
-    else if (target->bloodcolor > NOBLOOD)
+    else if (target->bloodcolor != NOBLOOD)
     {
         const int   minz = target->z;
         const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
