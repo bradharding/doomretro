@@ -32,6 +32,7 @@
 * Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom) compatibility:
   * Brightmaps specified using a `BRGHTMPS` lump no longer remove the translucency of translucent wall textures.
+  * Sky textures specified using an `ANIMATED` lump now animate.
   * The offsets of scrolling floor and ceiling textures are now remembered in savegames.
   * The correct player message is now always displayed when trying to open a generalized locked door.
 * A bug is fixed whereby the sky wouldn’t render correctly in some rare instances when the `weaponrecoil` CVAR was turned `on` in the console.
