@@ -910,7 +910,7 @@ void P_RemoveBloodMobj(mobj_t *mobj)
     }
 
     // free block
-    P_RemoveThinker2((thinker_t *)mobj);
+    P_RemoveThinker((thinker_t *)mobj);
 }
 
 //

@@ -136,22 +136,12 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
         // and since we're freeing our memory, we had better change that. So
         // point it to thinker->prev, so the iterator will correctly move on to
         // thinker->prev->next = thinker->next
-        (next->prev = thinker->prev)->next = next;
+        (next->prev = currentthinker = thinker->prev)->next = next;
 
         // Remove from current thinker class list
-        (th->cprev = currentthinker = thinker->cprev)->cnext = th;
+        (th->cprev = thinker->cprev)->cnext = th;
         Z_Free(thinker);
     }
-}
-
-void P_RemoveThinkerDelayed2(thinker_t *thinker)
-{
-    thinker_t   *next = thinker->next;
-    thinker_t   *th = thinker->cnext;
-
-    (next->prev = thinker->prev)->next = next;
-    (th->cprev = currentthinker = thinker->cprev)->cnext = th;
-    Z_Free(thinker);
 }
 
 //
@@ -168,14 +158,9 @@ void P_RemoveThinkerDelayed2(thinker_t *thinker)
 void P_RemoveThinker(thinker_t *thinker)
 {
     thinker->function = &P_RemoveThinkerDelayed;
-}
 
-//
-// P_RemoveThinker2
-//
-void P_RemoveThinker2(thinker_t *thinker)
-{
-    thinker->function = &P_RemoveThinkerDelayed2;
+    // Move to th_delete class.
+    P_UpdateThinker(thinker);
 }
 
 //
@@ -230,7 +215,6 @@ void P_Ticker(void)
 
     animatedtic++;
 
-    P_MapEnd();
 
     if (freeze)
     {
@@ -238,15 +222,14 @@ void P_Ticker(void)
         return;
     }
 
-    for (currentthinker = thinkers[th_mobj].cnext; currentthinker != &thinkers[th_mobj]; currentthinker = currentthinker->cnext)
-        currentthinker->function((mobj_t *)currentthinker);
-
-    for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
-        currentthinker->function((mobj_t *)currentthinker);
+    for (currentthinker = thinkers[th_all].next; currentthinker != &thinkers[th_all]; currentthinker = currentthinker->next)
+        if (currentthinker->function)
+            currentthinker->function((mobj_t *)currentthinker);
 
     P_UpdateSpecials();
     T_MAPMusic();
     P_RespawnSpecials();
+    P_MapEnd();
 
     maptime++;
     stat_timeplayed = SafeAdd(stat_timeplayed, 1);

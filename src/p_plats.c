@@ -362,7 +362,7 @@ void P_RemoveActivePlat(plat_t *plat)
     platlist_t  *list = plat->list;
 
     plat->sector->floordata = NULL;
-    P_RemoveThinker2(&plat->thinker);
+    P_RemoveThinker(&plat->thinker);
 
     if ((*list->prev = list->next))
         list->next->prev = list->prev;

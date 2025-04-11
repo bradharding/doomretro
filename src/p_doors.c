@@ -145,7 +145,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case GenRaise:
                     case GenClose:
                         door->sector->ceilingdata = NULL;
-                        P_RemoveThinker2(&door->thinker);     // unlink and free
+                        P_RemoveThinker(&door->thinker);     // unlink and free
                         break;
 
                     case DoorClose30ThenOpen:
@@ -218,7 +218,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case GenCdO:
                     case GenBlazeCdO:
                         door->sector->ceilingdata = NULL;
-                        P_RemoveThinker2(&door->thinker);     // unlink and free
+                        P_RemoveThinker(&door->thinker);     // unlink and free
                         break;
 
                     default:
