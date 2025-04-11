@@ -1296,11 +1296,10 @@ void P_ArchiveThinkers(void)
 {
     // save off the current thinkers
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
-        if (th->function != &P_RemoveThinkerDelayed)
-        {
-            saveg_write8(tc_mobj);
-            saveg_write_mobj_t((mobj_t *)th);
-        }
+    {
+        saveg_write8(tc_mobj);
+        saveg_write_mobj_t((mobj_t *)th);
+    }
 
     // save off the bloodsplats
     for (int i = 0; i < numsectors; i++)

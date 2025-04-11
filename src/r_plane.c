@@ -501,9 +501,10 @@ void R_DrawPlanes(void)
                     else
                     {
                         // Normal DOOM sky, only one allowed per level
-                        const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texturetranslation[skytexture]);
+                        const int       texture = texturetranslation[skytexture];
+                        const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texture);
 
-                        dc_texheight = textureheight[skytexture] >> FRACBITS;
+                        dc_texheight = textureheight[texture] >> FRACBITS;
                         dc_texturemid = skytexturemid;
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
