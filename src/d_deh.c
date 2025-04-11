@@ -653,6 +653,8 @@ char    *s_CAPTION_DEATHLESS = "";
 char    *s_CAPTION_DOOMZERO = "";
 char    *s_CAPTION_EARTHLESS = "";
 char    *s_CAPTION_GANYMEDE = "";
+char    *s_CAPTION_GOINGDOWN = "";
+char    *s_CAPTION_GOINGDOWNTURBO = "";
 char    *s_CAPTION_HARMONY = "";
 char    *s_CAPTION_ID1 = "";
 char    *s_CAPTION_IDDM1 = "";
@@ -1291,6 +1293,8 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_DOOMZERO,        "CAPTION_DOOMZERO"        },
     { &s_CAPTION_EARTHLESS,       "CAPTION_EARTHLESS"       },
     { &s_CAPTION_GANYMEDE,        "CAPTION_GANYMEDE"        },
+    { &s_CAPTION_GOINGDOWN,       "CAPTION_GOINGDOWN"       },
+    { &s_CAPTION_GOINGDOWNTURBO,  "CAPTION_GOINGDOWNTURBO"  },
     { &s_CAPTION_HARMONY,         "CAPTION_HARMONY"         },
     { &s_CAPTION_ID1,             "CAPTION_ID1"             },
     { &s_CAPTION_IDDM1,           "CAPTION_IDDM1"           },

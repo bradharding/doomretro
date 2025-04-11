@@ -509,6 +509,8 @@ extern char         *s_CAPTION_DEATHLESS;
 extern char         *s_CAPTION_DOOMZERO;
 extern char         *s_CAPTION_EARTHLESS;
 extern char         *s_CAPTION_GANYMEDE;
+extern char         *s_CAPTION_GOINGDOWN;
+extern char         *s_CAPTION_GOINGDOWNTURBO;
 extern char         *s_CAPTION_HARMONY;
 extern char         *s_CAPTION_ID1;
 extern char         *s_CAPTION_IDDM1;

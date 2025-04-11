@@ -133,6 +133,8 @@ extern bool             deathless;
 extern bool             doomzero;
 extern bool             earthless;
 extern bool             ganymede;
+extern bool             goingdown;
+extern bool             goingdownturbo;
 extern bool             harmony;
 extern bool             harmonyc;
 extern bool             legacyofrust;
