@@ -57,6 +57,7 @@ enum
 {
     th_mobj,
     th_misc,
+    th_delete,
     NUMTHCLASS,
     th_all = NUMTHCLASS
 };

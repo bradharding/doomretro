@@ -62,8 +62,9 @@ thinker_t   thinkers[th_all + 1];
 //
 void P_InitThinkers(void)
 {
-    thinkers[th_mobj].cprev = thinkers[th_mobj].cnext = &thinkers[th_mobj];
-    thinkers[th_misc].cprev = thinkers[th_misc].cnext = &thinkers[th_misc];
+    for (int i = 0; i < NUMTHCLASS; i++)
+        thinkers[i].cprev = thinkers[i].cnext = &thinkers[i];
+
     thinkers[th_all].prev = thinkers[th_all].next = &thinkers[th_all];
 }
 
@@ -79,8 +80,8 @@ void P_UpdateThinker(thinker_t *thinker)
         (th->cprev = thinker->cprev)->cnext = th;
 
     // Add to appropriate thread
-    th = &thinkers[(thinker->function == &P_MobjThinker || thinker->function == &MusInfoThinker ?
-        th_mobj : th_misc)];
+    th = &thinkers[(thinker->function == &P_RemoveThinkerDelayed ? th_delete :
+        (thinker->function == &P_MobjThinker || thinker->function == &MusInfoThinker ? th_mobj : th_misc))];
     th->cprev->cnext = thinker;
     thinker->cnext = th;
     thinker->cprev = th->cprev;
