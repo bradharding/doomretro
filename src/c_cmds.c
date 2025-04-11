@@ -10910,7 +10910,8 @@ static void r_mirroredweapons_func2(char *cmd, char *parms)
                 {
                     const mobjtype_t    type = thing->type;
 
-                    if ((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) || (thing->flags & MF_DROPPED))
+                    if (((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) && (thing->flags & MF_SPECIAL))
+                        || (thing->flags & MF_DROPPED))
                     {
                         if (r_mirroredweapons)
                         {
