@@ -742,7 +742,7 @@ static void WI_InitAnimatedBack(bool firstcall)
     if (SetupAnimation())
         return;
 
-    if (exitpic > 0 || (enterpic > 0 && entering))
+    if (exitpic > 0 || (enterpic > 0 && state != StatCount))
         return;
 
     if (gamemode == commercial)
