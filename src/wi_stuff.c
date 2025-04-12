@@ -987,7 +987,9 @@ static void WI_UpdateShowNextLoc(void)
 
 static void WI_DrawShowNextLoc(void)
 {
-    if (P_GetMapEndGame(gameepisode, gamemap) || P_GetMapEndCast(gameepisode, gamemap))
+    if (P_GetMapEndGame(gameepisode, gamemap)
+        || P_GetMapEndCast(gameepisode, gamemap)
+        || (legacyofrust && gamemap == 7))
         return;
 
     WI_SlamBackground();
@@ -1031,7 +1033,7 @@ static void WI_DrawShowNextLoc(void)
         return;
 
     // draws which level you are entering...
-    if (entering && (gamemode != commercial || wbs->next != 30))
+    if (gamemode != commercial || wbs->next != 30)
         WI_DrawEL();
 }
 
