@@ -54,7 +54,7 @@
 #include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
-#include "r_defs.h"
+
 
 const bool islightspecial[] =
 {
