@@ -2114,6 +2114,23 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
                 EV_SilentTeleport(line, side, thing);
 
             break;
+            
+        // id24 specials
+            
+        // kln 04/13/25 support for the id24 spec "set target" colormap 2076 (W1)
+        case W1_SetTheTargetSectorsColormap:
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            line->special = 0;
+
+            break;
+
+        // kln 04/13/25 support for the id24 spec "set target" colormap 2077 (WR)
+        case WR_SetTheTargetSectorsColormap:
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+
+            break;
     }
 }
 
@@ -2262,6 +2279,25 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
             P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
+            break;
+
+
+            // id24 specials
+           
+        case G1_SetTheTargetSectorsColormap:
+            // kln 04/13/25 support for the id24 spec "set target" colormap 2080 (G1)
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            line->special = 0;
+
+            break;
+
+            
+        case GR_SetTheTargetSectorsColormap:
+            // kln 04/13/25 support for the id24 spec "set target" colormap 2081 (GR)
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+
             break;
     }
 }
