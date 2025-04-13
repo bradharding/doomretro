@@ -54,6 +54,7 @@
 #include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include "r_defs.h"
 
 const bool islightspecial[] =
 {
@@ -2701,6 +2702,16 @@ void P_SpawnSpecials(void)
                     sectors[s].heightsec = sec;
 
                 break;
+            }
+
+            // kln 04/13/25: Support for the id24 line special 2075: Set the target sector's colormap (Always)
+            // uses a new SHORT in side_t, which is loaded via P_LoadSideDefs2
+            case SetTheTargetSectorsColormap:
+            {
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+
+                    break;
             }
 
             // killough 03/16/98: Add support for setting floor lighting independently (e.g. lava)
