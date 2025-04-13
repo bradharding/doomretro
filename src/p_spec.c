@@ -2288,7 +2288,8 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
             // kln 04/13/25 support for the id24 spec "set target" colormap 2080 (G1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
-            line->special = 0;
+            P_ChangeSwitchTexture(line, false);
+            
 
             break;
 
@@ -2297,6 +2298,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
             // kln 04/13/25 support for the id24 spec "set target" colormap 2081 (GR)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            P_ChangeSwitchTexture(line, true);
 
             break;
     }

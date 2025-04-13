@@ -1101,7 +1101,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
             P_ChangeSwitchTexture(line, false);
-            line->special = 0;
+            
 
             return true;
 
