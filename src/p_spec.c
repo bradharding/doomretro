@@ -1313,6 +1313,13 @@ bool P_CheckTag(const line_t *line)
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
         case Scroll_ScrollWallUsingSidedefOffsets:
         case Translucent_MiddleTexture:
+        case SetTheTargetSectorsColormap:
+        case W1_SetTheTargetSectorsColormap:
+        case WR_SetTheTargetSectorsColormap:
+        case S1_SetTheTargetSectorsColormap:
+        case SR_SetTheTargetSectorsColormap:
+        case G1_SetTheTargetSectorsColormap:
+        case GR_SetTheTargetSectorsColormap:
             return true;    // zero tag allowed
     }
 
