@@ -1097,7 +1097,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         // ID24 specials
 
         case S1_SetTheTargetSectorsColormap:
-            // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2078 (S1)
+            // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2078 (S1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
 
@@ -1105,7 +1105,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             return true;
 
         case SR_SetTheTargetSectorsColormap:
-            // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2079 (SR)
+            // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2079 (SR)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
 

@@ -216,7 +216,6 @@ void P_Ticker(void)
 
     animatedtic++;
 
-
     if (freeze)
     {
         P_MobjThinker(viewplayer->mo);
