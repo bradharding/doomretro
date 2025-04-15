@@ -1112,11 +1112,11 @@ static void R_SetupFrame(void)
             colormap = 0;
     }
 
-    // kln 04/13/25 id24 colormap rendering (line specials 2075 - 2081)
+    // [KLN] 13/04/25 ID24 colormap rendering (line specials 2075 - 2081)
     if (mo->subsector->sector->id24colormap)
     {
-
         colormap = mo->subsector->sector->id24colormap;
+
         if (colormap < 0 || colormap > numcolormaps)
             colormap = 0;
     }

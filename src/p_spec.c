@@ -2121,19 +2121,19 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
                 EV_SilentTeleport(line, side, thing);
 
             break;
-            
-        // id24 specials
-            
-        // kln 04/13/25 support for the id24 spec "set target" colormap 2076 (W1)
+
+        // ID24 specials
+
         case W1_SetTheTargetSectorsColormap:
+            // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2076 (W1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
-            line->special = 0;
 
+            line->special = 0;
             break;
 
-        // kln 04/13/25 support for the id24 spec "set target" colormap 2077 (WR)
         case WR_SetTheTargetSectorsColormap:
+            // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2077 (WR)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
 
@@ -2289,24 +2289,22 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
             break;
 
 
-            // id24 specials
-           
+        // ID24 specials
+
         case G1_SetTheTargetSectorsColormap:
-            // kln 04/13/25 support for the id24 spec "set target" colormap 2080 (G1)
+            // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2080 (G1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
-            P_ChangeSwitchTexture(line, false);
-            
 
+            P_ChangeSwitchTexture(line, false);
             break;
 
-            
         case GR_SetTheTargetSectorsColormap:
-            // kln 04/13/25 support for the id24 spec "set target" colormap 2081 (GR)
-            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+           // [KLN] 13/04/25 support for the ID24 spec "set target" colormap 2081 (GR)
+           for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
-            P_ChangeSwitchTexture(line, true);
 
+            P_ChangeSwitchTexture(line, true);
             break;
     }
 }
@@ -2749,14 +2747,16 @@ void P_SpawnSpecials(void)
                 break;
             }
 
-            // kln 04/13/25: Support for the id24 line special 2075: Set the target sector's colormap (Always)
+            // [KLN] 13/04/25: Support for the ID24 line special 2075: Set the target sector's colormap (Always)
             // uses a new SHORT in side_t, which is loaded via P_LoadSideDefs2
             case SetTheTargetSectorsColormap:
             {
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                    sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+                const short index = sides[*line->sidenum].id24colormapindex;
 
-                    break;
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    sectors[s].id24colormap = index;
+
+                break;
             }
 
             // killough 03/16/98: Add support for setting floor lighting independently (e.g. lava)
