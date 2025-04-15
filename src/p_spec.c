@@ -55,6 +55,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+
 const bool islightspecial[] =
 {
     false, true,  true,  true, false, false, false, false, true,
@@ -1312,6 +1313,13 @@ bool P_CheckTag(const line_t *line)
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
         case Scroll_ScrollWallUsingSidedefOffsets:
         case Translucent_MiddleTexture:
+        case SetTheTargetSectorsColormap:
+        case W1_SetTheTargetSectorsColormap:
+        case WR_SetTheTargetSectorsColormap:
+        case S1_SetTheTargetSectorsColormap:
+        case SR_SetTheTargetSectorsColormap:
+        case G1_SetTheTargetSectorsColormap:
+        case GR_SetTheTargetSectorsColormap:
             return true;    // zero tag allowed
     }
 
@@ -2113,6 +2121,23 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
                 EV_SilentTeleport(line, side, thing);
 
             break;
+            
+        // id24 specials
+            
+        // kln 04/13/25 support for the id24 spec "set target" colormap 2076 (W1)
+        case W1_SetTheTargetSectorsColormap:
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            line->special = 0;
+
+            break;
+
+        // kln 04/13/25 support for the id24 spec "set target" colormap 2077 (WR)
+        case WR_SetTheTargetSectorsColormap:
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+
+            break;
     }
 }
 
@@ -2261,6 +2286,27 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
             P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
+            break;
+
+
+            // id24 specials
+           
+        case G1_SetTheTargetSectorsColormap:
+            // kln 04/13/25 support for the id24 spec "set target" colormap 2080 (G1)
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            P_ChangeSwitchTexture(line, false);
+            
+
+            break;
+
+            
+        case GR_SetTheTargetSectorsColormap:
+            // kln 04/13/25 support for the id24 spec "set target" colormap 2081 (GR)
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+            P_ChangeSwitchTexture(line, true);
+
             break;
     }
 }
@@ -2701,6 +2747,16 @@ void P_SpawnSpecials(void)
                     sectors[s].heightsec = sec;
 
                 break;
+            }
+
+            // kln 04/13/25: Support for the id24 line special 2075: Set the target sector's colormap (Always)
+            // uses a new SHORT in side_t, which is loaded via P_LoadSideDefs2
+            case SetTheTargetSectorsColormap:
+            {
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    sectors[s].id24colormap = sides[*line->sidenum].id24colormapindex;
+
+                    break;
             }
 
             // killough 03/16/98: Add support for setting floor lighting independently (e.g. lava)

@@ -2237,6 +2237,23 @@ static void P_LoadSideDefs2(int lump)
                     sec->topmap = 0, R_TextureNumForName(msd->toptexture) : 0);
                 break;
 
+            // kln 04/13/25: load the colormap for the id24 line specials: 2075 - 2081: Set the target sector's colormap
+            case SetTheTargetSectorsColormap:
+            case W1_SetTheTargetSectorsColormap:
+            case WR_SetTheTargetSectorsColormap:
+            case S1_SetTheTargetSectorsColormap:
+            case SR_SetTheTargetSectorsColormap:
+            case G1_SetTheTargetSectorsColormap:
+            case GR_SetTheTargetSectorsColormap:
+                sd->toptexture = ((sd->id24colormapindex = R_ColormapNumForName(msd->toptexture)) < 0 ?
+                    sd->id24colormapindex = 0, R_TextureNumForName(msd->toptexture) : 0);
+                sd->midtexture = R_TextureNumForName(msd->midtexture);
+                sd->missingmidtexture = (R_CheckTextureNumForName(msd->midtexture) == -1);
+                sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                sd->missingbottomtexture = (R_CheckTextureNumForName(msd->bottomtexture) == -1);
+
+                break;
+
             case Translucent_MiddleTexture:
                 // killough 04/11/98: apply translucency to 2s normal texture
                 sd->midtexture = (strncasecmp("TRANMAP", msd->midtexture, 8) ?
