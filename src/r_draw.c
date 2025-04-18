@@ -401,11 +401,11 @@ void R_DrawBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = *(*dest + dc_bloodcolor);
+        *dest = dc_tint[*(*dest + dc_bloodcolor)];
         dest += SCREENWIDTH;
     }
 
-    *dest = *(*dest + dc_bloodcolor);
+    *dest = dc_tint[*(*dest + dc_bloodcolor)];
 }
 
 void R_DrawSolidBloodSplatColumn(void)
@@ -415,11 +415,11 @@ void R_DrawSolidBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = dc_solidbloodcolor;
+        *dest = dc_tint[dc_solidbloodcolor];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_solidbloodcolor;
+    *dest = dc_tint[dc_solidbloodcolor];
 }
 
 void R_DrawWallColumn(void)

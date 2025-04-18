@@ -1065,6 +1065,7 @@ typedef struct
     //  maxbright frames as well
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
+    lighttable_t        *tint;
 
     mobj_t              *mobj;
 
@@ -1094,6 +1095,7 @@ typedef struct
     int                 patch;
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
+    lighttable_t        *tint;
     int                 color;
     void                (*colfunc)(void);
 } vissplat_t;
