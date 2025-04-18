@@ -550,7 +550,7 @@ static void R_Subsector(int num)
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset,
-            frontsector) : NULL);
+            (frontsector->heightsec ? frontsector->heightsec : frontsector)) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
@@ -561,7 +561,7 @@ static void R_Subsector(int num)
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset,
-            frontsector) : NULL);
+            (frontsector->heightsec ? frontsector->heightsec : frontsector)) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
