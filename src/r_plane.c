@@ -201,7 +201,7 @@ static visplane_t *new_visplane(const unsigned int hash)
 // R_FindPlane
 //
 visplane_t *R_FindPlane(fixed_t height, const int picnum,
-    int lightlevel, const fixed_t x, const fixed_t y)
+    int lightlevel, const fixed_t x, const fixed_t y, sector_t *sector)
 {
     visplane_t      *check;
     unsigned int    hash;
@@ -235,6 +235,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum,
     check->left = viewwidth;
     check->right = -1;
     check->modified = false;
+    check->sector = sector;
 
     memset(check->top, USHRT_MAX, viewwidth * sizeof(*check->top));
 
@@ -256,6 +257,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
     new_pl->left = start;
     new_pl->right = stop;
     new_pl->modified = false;
+    new_pl->sector = pl->sector;
 
     memset(new_pl->top, USHRT_MAX, viewwidth * sizeof(*new_pl->top));
 
@@ -604,6 +606,7 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
+                    ds_tint = (pl->sector->tint ? colormaps[pl->sector->tint] : fullcolormap);
 
                     R_MakeSpans(pl);
                 }

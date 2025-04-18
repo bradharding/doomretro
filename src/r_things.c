@@ -1221,6 +1221,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
                 const int   lightnum = ((sec->floorlightsec ? sec->floorlightsec : sec)->lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
+                dc_tint = (sec->tint ? colormaps[sec->tint] : fullcolormap);
             }
         }
     }

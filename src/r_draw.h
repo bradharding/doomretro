@@ -47,6 +47,7 @@
 
 extern lighttable_t     *dc_colormap[2];
 extern lighttable_t     *dc_nextcolormap[2];
+extern lighttable_t     *dc_tint;
 extern int              dc_x;
 extern int              dc_yl;
 extern int              dc_yh;
@@ -144,6 +145,7 @@ extern int          ds_y;
 extern int          ds_z;
 
 extern lighttable_t *ds_colormap[2];
+extern lighttable_t *ds_tint;
 
 extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;

@@ -1112,15 +1112,6 @@ static void R_SetupFrame(void)
             colormap = 0;
     }
 
-    // [KLN] 04/13/25 ID24 colormap rendering (line specials 2075 - 2081)
-    if (mo->subsector->sector->id24colormap)
-    {
-        colormap = mo->subsector->sector->id24colormap;
-
-        if (colormap < 0 || colormap > numcolormaps)
-            colormap = 0;
-    }
-
     fullcolormap = colormaps[colormap];
     zlight = c_zlight[colormap];
     scalelight = c_scalelight[colormap];

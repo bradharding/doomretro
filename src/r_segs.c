@@ -202,6 +202,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;
+                dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
                 colfunc();
             }
     }
@@ -378,6 +379,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = ((rw_scale >> 5) & 255);
+                dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
             }
 
             dc_x = rw_x;
