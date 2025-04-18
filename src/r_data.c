@@ -936,7 +936,6 @@ static void R_InitColormaps(void)
             int numcolormaps2;
             int firstcolormaplump2 = W_GetNumForName("CC_START");
 
-            C_Output("CC_START");
             numcolormaps2 = W_GetNumForName("CC_END") - firstcolormaplump2;
 
             colormaps = I_Realloc(colormaps, (numcolormaps + numcolormaps2) * sizeof(*colormaps));
