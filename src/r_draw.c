@@ -569,7 +569,7 @@ void R_DrawBrightmapWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_colormap[dc_brightmap[dot]][dot];
+            *dest = dc_tint[dc_colormap[dc_brightmap[dot]][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -577,20 +577,20 @@ void R_DrawBrightmapWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        *dest = dc_tint[dc_colormap[dc_brightmap[dot]][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[((frac >> FRACBITS) & heightmask)];
-            *dest = dc_colormap[dc_brightmap[dot]][dot];
+            *dest = dc_tint[dc_colormap[dc_brightmap[dot]][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[((frac >> FRACBITS) & heightmask)];
-        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        *dest = dc_tint[dc_colormap[dc_brightmap[dot]][dot]];
     }
 }
 
