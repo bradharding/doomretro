@@ -202,7 +202,6 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
             {
                 dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
                 dc_source = pixels + topdelta;
-                dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
                 colfunc();
             }
     }
@@ -248,6 +247,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         else
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     }
+
+    dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
 
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
