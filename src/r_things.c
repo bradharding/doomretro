@@ -611,6 +611,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
                 dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
                 dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_tint = (sector->tint ? colormaps[sector->tint] : fullcolormap);
             }
 
             while (dc_numposts--)
