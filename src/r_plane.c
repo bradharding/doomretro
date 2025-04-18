@@ -606,7 +606,7 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
-                    ds_tint = (pl->sector->tint ? colormaps[pl->sector->tint] : fullcolormap);
+                    ds_sectorcolormap = (pl->sector->colormap ? colormaps[pl->sector->colormap] : fullcolormap);
 
                     R_MakeSpans(pl);
                 }

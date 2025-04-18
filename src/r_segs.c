@@ -248,7 +248,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     }
 
-    dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
+    dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : fullcolormap);
 
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
@@ -380,7 +380,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = ((rw_scale >> 5) & 255);
-                dc_tint = (frontsector->tint ? colormaps[frontsector->tint] : fullcolormap);
+                dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : fullcolormap);
             }
 
             dc_x = rw_x;

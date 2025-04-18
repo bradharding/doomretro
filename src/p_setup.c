@@ -2255,13 +2255,13 @@ static void P_LoadSideDefs2(int lump)
             case G1_SetTheTargetSectorsColormap:
             case GR_SetTheTargetSectorsColormap:
                 // [KLN] 04/13/25: load the colormap for the ID24 line specials: 2075 - 2081: Set the target sector's colormap
-                if ((sd->fronttintindex = R_ColormapNumForName(msd->toptexture)) < 0
-                    || sd->fronttintindex > numcolormaps)
-                    sd->fronttintindex = 0;
+                if ((sd->frontcolormap = R_ColormapNumForName(msd->toptexture)) < 0
+                    || sd->frontcolormap > numcolormaps)
+                    sd->frontcolormap = 0;
 
-                if ((sd->backtintindex = R_ColormapNumForName(msd->bottomtexture)) < 0
-                    || sd->backtintindex > numcolormaps)
-                    sd->backtintindex = 0;
+                if ((sd->backcolormap = R_ColormapNumForName(msd->bottomtexture)) < 0
+                    || sd->backcolormap > numcolormaps)
+                    sd->backcolormap = 0;
 
             default:
                 // normal cases

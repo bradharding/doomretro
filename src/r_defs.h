@@ -193,7 +193,7 @@ typedef struct sector_s
     int                 topmap;
 
     // [KLN] 04/06/25: colormap for ID24 spec
-    int                 tint;
+    int                 colormap;
 
     // killough 08/28/98: friction is a sector property, not an mobj property.
     // these fields used to be in mobj_t, but presented performance problems
@@ -234,8 +234,8 @@ typedef struct
     short               midtexture;
 
     // ID24 colormap index
-    short               fronttintindex;
-    short               backtintindex;
+    short               frontcolormap;
+    short               backcolormap;
 
     // Sector the SideDef is facing.
     sector_t            *sector;
@@ -1065,7 +1065,7 @@ typedef struct
     //  maxbright frames as well
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
-    lighttable_t        *tint;
+    lighttable_t        *sectorcolormap;
 
     mobj_t              *mobj;
 
@@ -1095,7 +1095,7 @@ typedef struct
     int                 patch;
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
-    lighttable_t        *tint;
+    lighttable_t        *sectorcolormap;
     int                 color;
     void                (*colfunc)(void);
 } vissplat_t;
