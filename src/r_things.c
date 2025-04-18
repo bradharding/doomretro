@@ -918,12 +918,14 @@ static void R_ProjectSprite(mobj_t *thing)
         // fixed map
         vis->colormap = fixedcolormap;
         vis->nextcolormap = fixedcolormap;
+        vis->sectorcolormap = fullcolormap;
     }
     else if ((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12 || thing->info->fullbright))
     {
         // full bright
         vis->colormap = fullcolormap;
         vis->nextcolormap = fullcolormap;
+        vis->sectorcolormap = fullcolormap;
     }
     else
     {
@@ -932,9 +934,9 @@ static void R_ProjectSprite(mobj_t *thing)
 
         vis->colormap = spritelights[i];
         vis->nextcolormap = nextspritelights[i];
+        vis->sectorcolormap = (thing->subsector->sector->colormap ? colormaps[thing->subsector->sector->colormap] : fullcolormap);
     }
 
-    vis->sectorcolormap = (thing->subsector->sector->colormap ? colormaps[thing->subsector->sector->colormap] : fullcolormap);
 }
 
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
@@ -1001,8 +1003,16 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->patch = splat->patch;
 
     // get light level
-    vis->colormap = (fixedcolormap ? fixedcolormap : spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
-    vis->sectorcolormap = (splat->sector->colormap ? colormaps[splat->sector->colormap] : fullcolormap);
+    if (fixedcolormap)
+    {
+        vis->colormap = fixedcolormap;
+        vis->sectorcolormap = fullcolormap;
+    }
+    else
+    {
+        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->sectorcolormap = (splat->sector->colormap ? colormaps[splat->sector->colormap] : fullcolormap);
+    }
 }
 
 //
@@ -1220,7 +1230,10 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         }
 
         if (fixedcolormap)
+        {
             vis->colormap = fixedcolormap;       // fixed color
+            vis->sectorcolormap = fullcolormap;
+        }
         else
         {
             if (muzzleflash || (frame & FF_FULLBRIGHT))
@@ -1231,9 +1244,9 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
-        }
 
-        vis->sectorcolormap = (sec->colormap ? colormaps[sec->colormap] : fullcolormap);
+            vis->sectorcolormap = (sec->colormap ? colormaps[sec->colormap] : fullcolormap);
+        }
     }
 
     R_DrawPlayerVisSprite(vis);

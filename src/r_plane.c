@@ -462,8 +462,7 @@ void R_DrawPlanes(void)
     if (r_liquid_swirl)
         updateswirl = !(consoleactive || helpscreen || paused || freeze);
 
-    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ?
-        fixedcolormap : fullcolormap);
+    dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
 
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
@@ -606,7 +605,8 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
-                    ds_sectorcolormap = (pl->sector->colormap ? colormaps[pl->sector->colormap] : fullcolormap);
+                    ds_sectorcolormap = (pl->sector->colormap && !fixedcolormap ?
+                        colormaps[pl->sector->colormap] : fullcolormap);
 
                     R_MakeSpans(pl);
                 }
