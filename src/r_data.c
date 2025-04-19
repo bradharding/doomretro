@@ -937,7 +937,7 @@ static void R_InitColormaps(void)
         if (W_CheckNumForName("CC_START") >= 0 && W_CheckNumForName("CC_END") >= 0)
         {
             int numcolormaps2;
-            
+
             firstcolormaplump2 = W_GetNumForName("CC_START");
             numcolormaps2 = W_GetNumForName("CC_END") - firstcolormaplump2;
 

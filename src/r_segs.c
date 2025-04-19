@@ -252,7 +252,6 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : fullcolormap);
     }
 
-
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
     spryscale = ds->scale + (x1 - ds->x1) * rw_scalestep;
