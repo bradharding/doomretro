@@ -932,6 +932,8 @@ static void R_InitColormaps(void)
         for (int i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(firstcolormaplump + i);
 
+        firstcolormaplump2 = numlumps;
+
         if (W_CheckNumForName("CC_START") >= 0 && W_CheckNumForName("CC_END") >= 0)
         {
             int numcolormaps2;
