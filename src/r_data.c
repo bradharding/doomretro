@@ -56,6 +56,7 @@
 //
 
 static int  firstcolormaplump;
+static int  firstcolormaplump2;
 
 int         firstflat;
 static int  lastflat;
@@ -934,7 +935,8 @@ static void R_InitColormaps(void)
         if (W_CheckNumForName("CC_START") >= 0 && W_CheckNumForName("CC_END") >= 0)
         {
             int numcolormaps2;
-            int firstcolormaplump2 = W_GetNumForName("CC_START");
+            
+            firstcolormaplump2 = W_GetNumForName("CC_START");
 
             numcolormaps2 = W_GetNumForName("CC_END") - firstcolormaplump2;
 
@@ -994,9 +996,9 @@ int R_ColormapNumForName(const char *name)
     if (numcolormaps == 1)
         return -1;
 
-    if (strncasecmp(name, "COLORMAP", 8))     // COLORMAP predefined to return 0
+    if (strncasecmp(name, "COLORMAP", 8))   // COLORMAP predefined to return 0
         if ((i = W_CheckNumForName(name)) >= 0)
-            i -= firstcolormaplump;
+            i -= (i > firstcolormaplump2 ? firstcolormaplump2 - 1 : firstcolormaplump);
 
     return (i > numcolormaps ? -1 : i);
 }
