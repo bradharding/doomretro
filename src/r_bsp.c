@@ -531,6 +531,7 @@ static void R_Subsector(int num)
     subsector_t *sub = subsectors + num;
     sector_t    tempsec;                                    // killough 03/07/98: deep water hack
     sector_t    *sector = sub->sector;
+    sector_t    *heightsec;
     int         floorlightlevel;                            // killough 03/16/98: set floor lightlevel
     int         ceilinglightlevel;                          // killough 04/11/98
     int         count = sub->numlines;
@@ -541,25 +542,28 @@ static void R_Subsector(int num)
 
     // killough 03/08/98, 04/04/98: Deep water/fake ceiling effect
     frontsector = R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+    heightsec = frontsector->heightsec;
 
     floorplane = (frontsector->interpfloorheight < viewz    // killough 03/07/98
-        || (frontsector->heightsec && frontsector->heightsec->ceilingpic == skyflatnum) ?
+        || (heightsec && heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
             (frontsector->floorpic == skyflatnum            // killough 10/98
                 && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic),
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
-            frontsector->flooryoffset) : NULL);
+            frontsector->flooryoffset,
+            (heightsec ? heightsec : frontsector)) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
-        || (frontsector->heightsec && frontsector->heightsec->floorpic == skyflatnum) ?
+        || (heightsec && heightsec->floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,       // killough 03/08/98
             (frontsector->ceilingpic == skyflatnum          // killough 10/98
                 && (frontsector->ceilingsky & PL_SKYFLAT) ? frontsector->ceilingsky : frontsector->ceilingpic),
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
-            frontsector->ceilingyoffset) : NULL);
+            frontsector->ceilingyoffset,
+            (heightsec ? heightsec : frontsector)) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite

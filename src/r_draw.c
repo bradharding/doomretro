@@ -64,6 +64,7 @@ static byte     *ylookup1[MAXHEIGHT];
 
 lighttable_t    *dc_colormap[2];
 lighttable_t    *dc_nextcolormap[2];
+lighttable_t    *dc_sectorcolormap;
 int             dc_x;
 int             dc_yl;
 int             dc_yh;
@@ -127,12 +128,12 @@ void R_DrawColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dc_source[frac >> FRACBITS]];
+    *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawBrightmapColumn(void)
@@ -145,13 +146,13 @@ void R_DrawBrightmapColumn(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_colormap[dc_brightmap[dot]][dot];
+    *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
 }
 
 void R_DrawDitherLowColumn(void)
@@ -163,12 +164,12 @@ void R_DrawDitherLowColumn(void)
 
     while (--count)
     {
-        *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawDitherColumn(void)
@@ -180,12 +181,12 @@ void R_DrawDitherColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawBrightmapDitherLowColumn(void)
@@ -199,13 +200,13 @@ void R_DrawBrightmapDitherLowColumn(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
 }
 
 void R_DrawBrightmapDitherColumn(void)
@@ -219,13 +220,13 @@ void R_DrawBrightmapDitherColumn(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
 }
 
 void R_DrawCorrectedColumn(void)
@@ -237,12 +238,12 @@ void R_DrawCorrectedColumn(void)
 
     while (--count)
     {
-        *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedDitherLowColumn(void)
@@ -254,12 +255,12 @@ void R_DrawCorrectedDitherLowColumn(void)
 
     while (--count)
     {
-        *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedDitherColumn(void)
@@ -271,12 +272,12 @@ void R_DrawCorrectedDitherColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dither(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dither(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawColorColumn(void)
@@ -302,11 +303,11 @@ void R_DrawColorDitherLowColumn(void)
 
     while (--count)
     {
-        *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
     }
 
-    *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
 }
 
 void R_DrawColorDitherColumn(void)
@@ -317,11 +318,11 @@ void R_DrawColorDitherColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
     }
 
-    *dest = colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
 }
 
 void R_DrawShadowColumn(void)
@@ -400,11 +401,11 @@ void R_DrawBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = *(*dest + dc_bloodcolor);
+        *dest = dc_sectorcolormap[*(*dest + dc_bloodcolor)];
         dest += SCREENWIDTH;
     }
 
-    *dest = *(*dest + dc_bloodcolor);
+    *dest = dc_sectorcolormap[*(*dest + dc_bloodcolor)];
 }
 
 void R_DrawSolidBloodSplatColumn(void)
@@ -414,11 +415,11 @@ void R_DrawSolidBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = dc_solidbloodcolor;
+        *dest = dc_sectorcolormap[dc_solidbloodcolor];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_solidbloodcolor;
+    *dest = dc_sectorcolormap[dc_solidbloodcolor];
 }
 
 void R_DrawWallColumn(void)
@@ -441,25 +442,25 @@ void R_DrawWallColumn(void)
 
         while (--count)
         {
-            *dest = colormap[dc_source[frac >> FRACBITS]];
+            *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = colormap[dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = colormap[dc_source[((frac >> FRACBITS) & heightmask)]];
+            *dest = dc_sectorcolormap[colormap[dc_source[((frac >> FRACBITS) & heightmask)]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dc_source[((frac >> FRACBITS) & heightmask)]];
+        *dest = dc_sectorcolormap[colormap[dc_source[((frac >> FRACBITS) & heightmask)]]];
     }
 }
 
@@ -483,25 +484,25 @@ void R_DrawDitherLowWallColumn(void)
 
         while (--count)
         {
-            *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]];
+            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]];
+            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
     }
 }
 
@@ -525,25 +526,25 @@ void R_DrawDitherWallColumn(void)
 
         while (--count)
         {
-            *dest = colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]];
+            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]];
+            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dither(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
     }
 }
 
@@ -568,7 +569,7 @@ void R_DrawBrightmapWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_colormap[dc_brightmap[dot]][dot];
+            *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -576,20 +577,20 @@ void R_DrawBrightmapWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[((frac >> FRACBITS) & heightmask)];
-            *dest = dc_colormap[dc_brightmap[dot]][dot];
+            *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[((frac >> FRACBITS) & heightmask)];
-        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
     }
 }
 
@@ -615,7 +616,7 @@ void R_DrawBrightmapDitherLowWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -623,20 +624,20 @@ void R_DrawBrightmapDitherLowWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[((frac >> FRACBITS) & heightmask)];
-            *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[((frac >> FRACBITS) & heightmask)];
-        *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
     }
 }
 
@@ -662,7 +663,7 @@ void R_DrawBrightmapDitherWallColumn(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -670,20 +671,20 @@ void R_DrawBrightmapDitherWallColumn(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[((frac >> FRACBITS) & heightmask)];
-            *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[((frac >> FRACBITS) & heightmask)];
-        *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
     }
 }
 
@@ -725,7 +726,7 @@ void R_DrawSkyColumn(void)
         while (--count)
         {
             if ((dot = dc_source[frac >> FRACBITS]))
-                *dest = colormap[dot];
+                *dest = dc_sectorcolormap[colormap[dot]];
 
             dest += SCREENWIDTH;
 
@@ -734,21 +735,21 @@ void R_DrawSkyColumn(void)
         }
 
         if ((dot = dc_source[frac >> FRACBITS]))
-            *dest = colormap[dot];
+            *dest = dc_sectorcolormap[colormap[dot]];
     }
     else
     {
         while (--count)
         {
             if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
-                *dest = colormap[dot];
+                *dest = dc_sectorcolormap[colormap[dot]];
 
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
-            *dest = colormap[dot];
+            *dest = dc_sectorcolormap[colormap[dot]];
     }
 }
 
@@ -762,12 +763,12 @@ void R_DrawFlippedSkyColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]];
+        *dest = dc_sectorcolormap[colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]];
+    *dest = dc_sectorcolormap[colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]]];
 }
 
 void R_DrawTranslucentBloodColumn(void)
@@ -779,12 +780,12 @@ void R_DrawTranslucentBloodColumn(void)
 
     while (--count)
     {
-        *dest = tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]]];
 }
 
 void R_DrawTranslucentColumn(void)
@@ -796,12 +797,12 @@ void R_DrawTranslucentColumn(void)
 
     while (--count)
     {
-        *dest = tinttabadditive[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabadditive[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabadditive[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabadditive[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucent50Column(void)
@@ -813,12 +814,12 @@ void R_DrawTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawBrightmapTranslucent50Column(void)
@@ -831,13 +832,13 @@ void R_DrawBrightmapTranslucent50Column(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]]];
 }
 
 void R_DrawBrightmapDitherTranslucent50Column(void)
@@ -851,13 +852,13 @@ void R_DrawBrightmapDitherTranslucent50Column(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
 }
 
 void R_DrawBrightmapDitherLowTranslucent50Column(void)
@@ -871,13 +872,13 @@ void R_DrawBrightmapDitherLowTranslucent50Column(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
 }
 
 void R_DrawDitherLowTranslucent50Column(void)
@@ -889,12 +890,12 @@ void R_DrawDitherLowTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitherTranslucent50Column(void)
@@ -906,12 +907,12 @@ void R_DrawDitherTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedTranslucent50Column(void)
@@ -923,12 +924,12 @@ void R_DrawCorrectedTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]]];
 }
 
 void R_DrawTranslucent50ColorColumn(void)
@@ -938,11 +939,11 @@ void R_DrawTranslucent50ColorColumn(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + NOTEXTURECOLOR];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
     }
 
-    *dest = tranmap[(*dest << 8) + NOTEXTURECOLOR];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + NOTEXTURECOLOR]];
 }
 
 void R_DrawTranslucent50ColorDitherLowColumn(void)
@@ -953,11 +954,11 @@ void R_DrawTranslucent50ColorDitherLowColumn(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
 }
 
 void R_DrawTranslucent50ColorDitherColumn(void)
@@ -968,11 +969,11 @@ void R_DrawTranslucent50ColorDitherColumn(void)
 
     while (--count)
     {
-        *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
     }
 
-    *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
 }
 
 void R_DrawTranslucent33Column(void)
@@ -984,12 +985,12 @@ void R_DrawTranslucent33Column(void)
 
     while (--count)
     {
-        *dest = tinttab33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttab33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttab33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttab33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentRedColumn(void)
@@ -1001,12 +1002,12 @@ void R_DrawTranslucentRedColumn(void)
 
     while (--count)
     {
-        *dest = tinttabred[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabred[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabred[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabred[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentRedWhiteColumn1(void)
@@ -1018,12 +1019,12 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabredwhite1[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentRedWhiteColumn2(void)
@@ -1035,12 +1036,12 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabredwhite2[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentRedWhite50Column(void)
@@ -1052,12 +1053,12 @@ void R_DrawTranslucentRedWhite50Column(void)
 
     while (--count)
     {
-        *dest = tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabredwhite50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentGreenColumn(void)
@@ -1069,12 +1070,12 @@ void R_DrawTranslucentGreenColumn(void)
 
     while (--count)
     {
-        *dest = tinttabgreen[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabgreen[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabgreen[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabgreen[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentBlueColumn(void)
@@ -1086,12 +1087,12 @@ void R_DrawTranslucentBlueColumn(void)
 
     while (--count)
     {
-        *dest = tinttabblue[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabblue[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabblue[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabblue[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentRed33Column(void)
@@ -1103,12 +1104,12 @@ void R_DrawTranslucentRed33Column(void)
 
     while (--count)
     {
-        *dest = tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabred33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentGreen33Column(void)
@@ -1120,12 +1121,12 @@ void R_DrawTranslucentGreen33Column(void)
 
     while (--count)
     {
-        *dest = tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabgreen33[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawTranslucentBlue25Column(void)
@@ -1137,12 +1138,12 @@ void R_DrawTranslucentBlue25Column(void)
 
     while (--count)
     {
-        *dest = tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawFuzzColumn(void)
@@ -1215,12 +1216,12 @@ void R_DrawTranslatedColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dc_translation[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dc_translation[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitherLowTranslatedColumn(void)
@@ -1232,12 +1233,12 @@ void R_DrawDitherLowTranslatedColumn(void)
 
     while (--count)
     {
-        *dest = colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitherTranslatedColumn(void)
@@ -1249,12 +1250,12 @@ void R_DrawDitherTranslatedColumn(void)
 
     while (--count)
     {
-        *dest = colormap[dither(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = colormap[dither(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
 }
 
 //
@@ -1302,6 +1303,7 @@ int             ds_y;
 int             ds_z;
 
 lighttable_t    *ds_colormap[2];
+lighttable_t    *ds_sectorcolormap;
 
 fixed_t         ds_xfrac;
 fixed_t         ds_yfrac;
@@ -1322,12 +1324,12 @@ void R_DrawSpan(void)
 
     while (--count)
     {
-        *dest++ = colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
 void R_DrawDitherLowSpan(void)
@@ -1337,12 +1339,12 @@ void R_DrawDitherLowSpan(void)
 
     while (--count)
     {
-        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
 void R_DrawDitherSpan(void)
@@ -1352,12 +1354,12 @@ void R_DrawDitherSpan(void)
 
     while (--count)
     {
-        *dest++ = ds_colormap[dither(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = ds_sectorcolormap[ds_colormap[dither(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
 void R_DrawColorSpan(void)

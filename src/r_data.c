@@ -56,6 +56,7 @@
 //
 
 static int  firstcolormaplump;
+static int  firstcolormaplump2;
 
 int         firstflat;
 static int  lastflat;
@@ -926,13 +927,30 @@ static void R_InitColormaps(void)
         firstcolormaplump = W_GetNumForName("C_START");
         numcolormaps = W_GetNumForName("C_END") - firstcolormaplump;
 
-        colormaps = Z_Malloc(numcolormaps * sizeof(*colormaps), PU_STATIC, NULL);
+        colormaps = I_Malloc(numcolormaps * sizeof(*colormaps));
 
         for (int i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(firstcolormaplump + i);
+
+        firstcolormaplump2 = numlumps;
+
+        if (W_CheckNumForName("CC_START") >= 0 && W_CheckNumForName("CC_END") >= 0)
+        {
+            int numcolormaps2;
+            
+            firstcolormaplump2 = W_GetNumForName("CC_START");
+            numcolormaps2 = W_GetNumForName("CC_END") - firstcolormaplump2;
+
+            colormaps = I_Realloc(colormaps, (numcolormaps + numcolormaps2) * sizeof(*colormaps));
+
+            for (int i = 1; i < numcolormaps2; i++)
+                colormaps[numcolormaps + i - 1] = W_CacheLumpNum(firstcolormaplump2 + i);
+
+            numcolormaps += numcolormaps2;
+        }
     }
     else
-        colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
+        colormaps = I_Malloc(sizeof(*colormaps));
 
     dc_colormap[1] = dc_nextcolormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
 
@@ -979,9 +997,9 @@ int R_ColormapNumForName(const char *name)
     if (numcolormaps == 1)
         return -1;
 
-    if (strncasecmp(name, "COLORMAP", 8))     // COLORMAP predefined to return 0
+    if (strncasecmp(name, "COLORMAP", 8))   // COLORMAP predefined to return 0
         if ((i = W_CheckNumForName(name)) >= 0)
-            i -= firstcolormaplump;
+            i -= (i > firstcolormaplump2 ? firstcolormaplump2 - 1 : firstcolormaplump);
 
     return (i > numcolormaps ? -1 : i);
 }
