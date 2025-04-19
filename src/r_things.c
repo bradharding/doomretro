@@ -465,6 +465,11 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     int             baseclip;
+    bool            percolumnlighting;
+    fixed_t         pcl_patchoffset = 0;
+    fixed_t         pcl_cosine = 0;
+    fixed_t         pcl_sine = 0;
+    int             pcl_lightindex = 0;
 
     spryscale = vis->scale;
 
@@ -491,6 +496,16 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
     fuzz1pos = 0;
 
+    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap)))
+    {
+        const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+
+        pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        pcl_cosine = finecosine[angle];
+        pcl_sine = finesine[angle];
+        pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+    }
+
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
         const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
@@ -499,6 +514,27 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
+
+            if (percolumnlighting)
+            {
+                const fixed_t   offset = (vis->flipped ? pcl_patchoffset - frac : frac - pcl_patchoffset);
+                const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
+                const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
+                sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
+                sector_t        tempsec;
+                int             floorlightlevel;
+                int             ceilinglightlevel;
+                int             lightnum;
+
+                R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+                lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
+
+                dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                dc_sectorcolormap = (sector->colormap ? colormaps[sector->colormap] : fullcolormap);
+            }
+
             R_BlastSpriteColumn(column);
         }
     }
