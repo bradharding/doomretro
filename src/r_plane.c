@@ -605,7 +605,7 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
-                    ds_sectorcolormap = (pl->sector->colormap && !fixedcolormap ?
+                    ds_sectorcolormap = (pl->sector->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
                         colormaps[pl->sector->colormap] : fullcolormap);
 
                     R_MakeSpans(pl);
