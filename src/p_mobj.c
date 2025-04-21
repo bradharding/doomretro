@@ -64,7 +64,7 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
     statenum_t  *seenstate = seenstate_tab;     // pointer to table
     static int  recursion;                      // detects recursion
     statenum_t  i = state;                      // initial state
-    boolean     ret = true;                     // return value
+    bool        ret = true;                     // return value
     statenum_t  *tempstate = NULL;              // for use with recursion
 
     if (recursion++)                            // if recursion detected, allocate state table
