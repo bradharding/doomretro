@@ -1509,13 +1509,17 @@ state_t original_states[] =
 // DSDHacked
 state_t     *states;
 int         numstates;
-byte        *defined_codeptr_args;
+byte        *defined_codeptr_args = NULL;
+statenum_t  *seenstate_tab = NULL;
 actionf_t   *deh_codeptr;
 
 void InitStates(void)
 {
     numstates = NUMSTATES;
     states = original_states;
+
+    array_grow(seenstate_tab, numstates);
+    memset(seenstate_tab, 0, numstates * sizeof(*seenstate_tab));
 
     array_grow(deh_codeptr, numstates);
 

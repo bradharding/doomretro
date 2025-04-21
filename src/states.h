@@ -1179,6 +1179,7 @@ extern state_t      *states;
 extern int          numstates;
 extern actionf_t    *deh_codeptr;
 extern byte         *defined_codeptr_args;
+extern statenum_t   *seenstate_tab;
 
 void InitStates(void);
 void FreeStates(void);
