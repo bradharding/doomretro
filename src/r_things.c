@@ -122,6 +122,18 @@ static const fixed_t floatbobdiffs[64] =
      138216,  152496,  165304,  176528,  186048,  193776,  199640,  203576
 };
 
+static lighttable_t *R_GetSectorColormap(sector_t *sector)
+{
+    if (sector->floorlightsec && sector->floorlightsec->colormap)
+        return colormaps[sector->floorlightsec->colormap];
+    else if (sector->heightsec && sector->heightsec->colormap)
+        return colormaps[sector->heightsec->colormap];
+    else if (sector->colormap)
+        return colormaps[sector->colormap];
+    else
+        return fullcolormap;
+}
+
 //
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
@@ -533,7 +545,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
                 dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
                 dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_sectorcolormap = (sector->colormap ? colormaps[sector->colormap] : fullcolormap);
+                dc_sectorcolormap = R_GetSectorColormap(sector);
             }
 
             R_BlastSpriteColumn(column);
@@ -647,7 +659,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
                 dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
                 dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_sectorcolormap = (sector->colormap ? colormaps[sector->colormap] : fullcolormap);
+                dc_sectorcolormap = R_GetSectorColormap(sector);
             }
 
             while (dc_numposts--)
@@ -962,8 +974,7 @@ static void R_ProjectSprite(mobj_t *thing)
         // full bright
         vis->colormap = fullcolormap;
         vis->nextcolormap = fullcolormap;
-        vis->sectorcolormap = (thing->subsector->sector->colormap ?
-            colormaps[thing->subsector->sector->colormap] : fullcolormap);
+        vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
     }
     else
     {
@@ -972,8 +983,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
         vis->colormap = spritelights[i];
         vis->nextcolormap = nextspritelights[i];
-        vis->sectorcolormap = (thing->subsector->sector->colormap ?
-            colormaps[thing->subsector->sector->colormap] : fullcolormap);
+        vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
     }
 }
 
@@ -1050,8 +1060,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     {
         vis->colormap = (viewplayer->fixedcolormap == 1 ? fixedcolormap :
             spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
-        vis->sectorcolormap = (splat->sector->colormap ?
-            colormaps[splat->sector->colormap] : fullcolormap);
+        vis->sectorcolormap = R_GetSectorColormap(splat->sector);
     }
 }
 
@@ -1272,8 +1281,8 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         if (fixedcolormap)
         {
             vis->colormap = fixedcolormap;       // fixed color
-            vis->sectorcolormap = (sec->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
-                colormaps[sec->colormap] : fullcolormap);
+            vis->sectorcolormap = (viewplayer->fixedcolormap != INVERSECOLORMAP ?
+                R_GetSectorColormap(sec) : fullcolormap);
         }
         else
         {
@@ -1286,7 +1295,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
 
-            vis->sectorcolormap = (sec->colormap ? colormaps[sec->colormap] : fullcolormap);
+            vis->sectorcolormap = R_GetSectorColormap(sec);
         }
     }
 
