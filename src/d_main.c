@@ -1111,6 +1111,14 @@ static void D_AutoloadSIGIL2WAD(void)
 
         if (W_MergeFile(path, true))
             sigil = true;
+        else
+        {
+            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL2.WAD");
+            W_MergeFile(path, true);
+
+            if (W_MergeFile(path, true))
+                sigil = true;
+        }
     }
 }
 
@@ -2393,11 +2401,13 @@ static void D_DoomMainSetup(void)
 
                     autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadfolder, false);
                     autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadfolder, false);
+                    autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadfolder, false);
 
                     if (!autoloading2)
                     {
                         autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
                         autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
+                        autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadiwadsubfolder, false);
                     }
 
                     autoloading |= autoloading2;
