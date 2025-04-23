@@ -284,7 +284,7 @@ void R_DrawColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = ylookup0[dc_yl] + dc_x;
-    const byte  color = dc_colormap[0][NOTEXTURECOLOR];
+    const byte  color = dc_sectorcolormap[dc_colormap[0][NOTEXTURECOLOR]];
 
     while (--count)
     {
@@ -1366,7 +1366,7 @@ void R_DrawColorSpan(void)
 {
     int         count = ds_x2 - ds_x1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
-    const byte  color = ds_colormap[0][NOTEXTURECOLOR];
+    const byte  color = ds_sectorcolormap[ds_colormap[0][NOTEXTURECOLOR]];
 
     while (--count)
         *dest++ = color;
@@ -1380,9 +1380,9 @@ void R_DrawDitherLowColorSpan(void)
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
-        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR];
+        *dest++ = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR]];
 
-    *dest = ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR];
+    *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR]];
 }
 
 void R_DrawDitherColorSpan(void)
@@ -1391,9 +1391,9 @@ void R_DrawDitherColorSpan(void)
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
-        *dest++ = ds_colormap[dither(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR];
+        *dest++ = ds_sectorcolormap[ds_colormap[dither(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR]];
 
-    *dest = ds_colormap[dither(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR];
+    *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR]];
 }
 
 //
