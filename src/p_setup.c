@@ -397,9 +397,9 @@ const char *nodeformats[] =
     ITALICS("ZDoom") " extended"
 };
 
-bool            boomcompatible;
+bool            boomcompatible = false;
 bool            id24compatible = false;
-bool            mbfcompatible;
+bool            mbfcompatible = false;
 bool            mbf21compatible = false;
 bool            blockmaprebuilt;
 bool            nofreelook = false;
@@ -1178,6 +1178,9 @@ static void P_LoadSegs(int lump)
 
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
+
+        if (li->linedef->special >= ID24LINESPECIALS)
+            id24compatible = true;
     }
 
     W_ReleaseLumpNum(lump);
@@ -1307,6 +1310,9 @@ static void P_LoadSegs_V4(int lump)
 
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
+
+        if (li->linedef->special >= ID24LINESPECIALS)
+            id24compatible = true;
     }
 
     W_ReleaseLumpNum(lump);
@@ -1738,6 +1744,9 @@ static void P_LoadZSegs(const byte *data)
 
         if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
+
+        if (li->linedef->special >= ID24LINESPECIALS)
+            id24compatible = true;
     }
 }
 
