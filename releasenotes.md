@@ -4,11 +4,11 @@
 
 * *DOOM Retro* is now built using v17.13.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.32.4*](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.4), [*SDL_mixer v2.8.1*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.1) and [*SDL_image v2.8.8*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.8).
-* Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
 * Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
-* John Romero’s [*SIGIL II*](https://romero.com/sigil) will now autoload correctly if named `SIGIL2.WAD`.
+* John Romero’s [*SIGIL II*](https://romero.com/sigil) will now autoload correctly if named `SIGIL2.WAD` and placed in the `autoload` folder.
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.

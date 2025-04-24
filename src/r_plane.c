@@ -200,8 +200,8 @@ static visplane_t *new_visplane(const unsigned int hash)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, const int picnum,
-    int lightlevel, const fixed_t x, const fixed_t y, sector_t *sector)
+visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
+    const fixed_t x, const fixed_t y, sector_t *sector)
 {
     visplane_t      *check;
     unsigned int    hash;
