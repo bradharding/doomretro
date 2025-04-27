@@ -1169,7 +1169,7 @@ typedef struct visplane_s
     unsigned short      pad4;
 
     bool                modified;
-    sector_t            *sector;
+    int                 colormap;
 } visplane_t;
 
 #endif

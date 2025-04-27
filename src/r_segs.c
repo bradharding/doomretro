@@ -762,6 +762,7 @@ void R_StoreWallRange(const int start, const int stop)
         markfloor = (worldlow != worldbottom
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
+            || backsector->colormap != frontsector->colormap
 
             // killough 03/07/98: add checks for (x,y) offsets
             || backsector->floorxoffset != frontsector->floorxoffset
@@ -779,6 +780,7 @@ void R_StoreWallRange(const int start, const int stop)
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel
+            || backsector->colormap != frontsector->colormap
 
             // killough 03/07/98: add checks for (x,y) offsets
             || backsector->ceilingxoffset != frontsector->ceilingxoffset

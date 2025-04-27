@@ -142,7 +142,8 @@ static void R_RecalcLineFlags(line_t *line)
         || backsector->ceilinglightsec != frontsector->ceilinglightsec
         || backsector->floorpic != frontsector->floorpic
         || backsector->ceilingpic != frontsector->ceilingpic
-        || backsector->lightlevel != frontsector->lightlevel)
+        || backsector->lightlevel != frontsector->lightlevel
+        || backsector->colormap != frontsector->colormap)
     {
         line->r_flags = RF_NONE;
         return;
@@ -556,7 +557,8 @@ static void R_Subsector(int num)
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset,
-            (floorlightsec ? floorlightsec : (heightsec ? heightsec : frontsector))) : NULL);
+            (floorlightsec ? floorlightsec->colormap :
+                (heightsec ? heightsec->colormap : frontsector->colormap))) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
@@ -567,7 +569,8 @@ static void R_Subsector(int num)
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset,
-            (ceilinglightsec ? ceilinglightsec : (heightsec ? heightsec : frontsector))) : NULL);
+            (ceilinglightsec ? ceilinglightsec->colormap :
+                (heightsec ? heightsec->colormap : frontsector->colormap))) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite

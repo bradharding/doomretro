@@ -45,8 +45,8 @@
 
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
-#define visplane_hash(picnum, lightlevel, height) \
-    ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7) & (MAXVISPLANES - 1))
+#define visplane_hash(picnum, lightlevel, height, colormap) \
+    ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7 + (colormap) * 11) & (MAXVISPLANES - 1))
 
 static visplane_t   *visplanes[MAXVISPLANES];   // killough
 static visplane_t   *freetail;                  // killough
@@ -201,7 +201,7 @@ static visplane_t *new_visplane(const unsigned int hash)
 // R_FindPlane
 //
 visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
-    const fixed_t x, const fixed_t y, sector_t *sector)
+    const fixed_t x, const fixed_t y, int colormap)
 {
     visplane_t      *check;
     unsigned int    hash;
@@ -218,11 +218,11 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
     }
 
     // New visplane algorithm uses hash table -- killough
-    hash = visplane_hash(picnum, lightlevel, height);
+    hash = visplane_hash(picnum, lightlevel, height, colormap);
 
     for (check = visplanes[hash]; check; check = check->next)
         if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
-            && x == check->xoffset && y == check->yoffset)
+            && x == check->xoffset && y == check->yoffset && colormap == check->colormap)
             return check;
 
     check = new_visplane(hash);
@@ -235,7 +235,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
     check->left = viewwidth;
     check->right = -1;
     check->modified = false;
-    check->sector = sector;
+    check->colormap = colormap;
 
     memset(check->top, USHRT_MAX, viewwidth * sizeof(*check->top));
 
@@ -247,7 +247,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
 //
 visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
 {
-    visplane_t  *new_pl = new_visplane(visplane_hash(pl->picnum, pl->lightlevel, pl->height));
+    visplane_t  *new_pl = new_visplane(visplane_hash(pl->picnum, pl->lightlevel, pl->height, pl->colormap));
 
     new_pl->height = pl->height;
     new_pl->picnum = pl->picnum;
@@ -257,7 +257,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
     new_pl->left = start;
     new_pl->right = stop;
     new_pl->modified = false;
-    new_pl->sector = pl->sector;
+    new_pl->colormap = pl->colormap;
 
     memset(new_pl->top, USHRT_MAX, viewwidth * sizeof(*new_pl->top));
 
@@ -470,6 +470,8 @@ void R_DrawPlanes(void)
             {
                 const int   picnum = pl->picnum;
 
+                ds_sectorcolormap = fullcolormap;
+
                 if (picnum == skyflatnum)
                 {
                     dc_iscale = skyiscale;
@@ -605,8 +607,8 @@ void R_DrawPlanes(void)
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
-                    ds_sectorcolormap = (pl->sector->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
-                        colormaps[pl->sector->colormap] : fullcolormap);
+                    ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
+                        colormaps[pl->colormap] : fullcolormap);
 
                     R_MakeSpans(pl);
                 }
