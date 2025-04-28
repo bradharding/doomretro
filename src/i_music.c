@@ -87,7 +87,14 @@ bool I_InitMusic(void)
     int         channels;
     uint16_t    format;
 
-    // If SDL_mixer is not initialized, we have to initialize it and have the responsibility to shut it down later on.
+#if defined(_WIN32)
+    // Never let SDL Mixer use native midi on Windows. Avoids SDL Mixer bug
+    // where music volume affects global application volume.
+    SDL_setenv("SDL_MIXER_DISABLE_NATIVEMIDI", "1", true);
+#endif
+
+    // If SDL_mixer is not initialized, we have to initialize it and have the
+    // responsibility to shut it down later on.
     if (!Mix_QuerySpec(&freq, &format, &channels))
         if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
             CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_ANY_CHANGE) < 0)
