@@ -288,18 +288,20 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     animatedtic = saveg_read32();
 
-    // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
+    if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    {
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+        saveg_read32();
+    }
 }
 
 static void saveg_write_mobj_t(const mobj_t *str)
@@ -370,19 +372,6 @@ static void saveg_write_mobj_t(const mobj_t *str)
 
     // only needs to be saved once, but done here to keep savegame compatibility
     saveg_write32(animatedtic);
-
-    // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
 }
 
 //
@@ -1194,12 +1183,6 @@ void P_ArchiveWorld(void)
             saveg_write_bool(side->missingtoptexture);
             saveg_write_bool(side->missingbottomtexture);
             saveg_write_bool(side->missingmidtexture);
-
-            // [BH] For future features without breaking savegame compatibility
-            saveg_write32(0);
-            saveg_write32(0);
-            saveg_write32(0);
-            saveg_write32(0);
         }
     }
 }
@@ -1281,11 +1264,13 @@ void P_UnarchiveWorld(void)
             side->missingbottomtexture = saveg_read_bool();
             side->missingmidtexture = saveg_read_bool();
 
-            // [BH] For future features without breaking savegame compatibility
-            saveg_read32();
-            saveg_read32();
-            saveg_read32();
-            saveg_read32();
+            if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+            {
+                saveg_read32();
+                saveg_read32();
+                saveg_read32();
+                saveg_read32();
+            }
         }
     }
 }
