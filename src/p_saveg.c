@@ -58,6 +58,8 @@
 
 FILE        *save_stream;
 
+static char savegameversion[VERSIONSIZE];
+
 static int  thingindex;
 static int  targets[TARGETLIMIT];
 static int  tracers[TARGETLIMIT];
@@ -986,8 +988,7 @@ static void saveg_write_button_t(const button_t *str)
 //
 void P_WriteSaveGameHeader(const char *description)
 {
-    char    savegameversion[VERSIONSIZE];
-    int     i;
+    int i;
 
     for (i = 0; description[i] != '\0'; i++)
         saveg_write8(description[i]);
@@ -1023,7 +1024,6 @@ void P_WriteSaveGameHeader(const char *description)
 bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
-    char    savegameversion[VERSIONSIZE] = "";
 
     for (int i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();
@@ -1031,7 +1031,8 @@ bool P_ReadSaveGameHeader(char *description)
     for (int i = 0; i < VERSIONSIZE; i++)
         savegameversion[i] = saveg_read8();
 
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSIONSTRING))
+    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_6_3))
     {
         menuactive = false;
         quicksaveslot = -1;
@@ -1166,6 +1167,7 @@ void P_ArchiveWorld(void)
         saveg_write32(sector->flooryoffset);
         saveg_write32(sector->ceilingxoffset);
         saveg_write32(sector->ceilingyoffset);
+        saveg_write32(sector->colormap);
     }
 
     // do lines
@@ -1237,6 +1239,9 @@ void P_UnarchiveWorld(void)
         sector->baseflooryoffset = sector->oldflooryoffset = sector->flooryoffset;
         sector->baseceilingxoffset = sector->oldceilingxoffset = sector->ceilingxoffset;
         sector->baseceilingyoffset = sector->oldceilingyoffset = sector->ceilingyoffset;
+
+        if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+            sector->colormap = saveg_read32();
     }
 
     // do lines
