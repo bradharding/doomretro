@@ -1093,7 +1093,9 @@ int R_TextureNumForName(const char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
+            if (R_ColormapNumForName(name) == -1)
+                C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
+
             free(temp);
         }
 
