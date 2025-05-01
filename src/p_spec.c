@@ -2745,20 +2745,6 @@ void P_SpawnSpecials(void)
                 break;
             }
 
-            // [KLN] 04/13/25: Support for the ID24 line special 2075: Set the target sector's colormap
-            // (Always) uses a new SHORT in side_t, which is loaded via P_LoadSideDefs2
-            // Uses the front color map index set by the toptexture since this line cannot be activated
-            // by the back (or any other way but automatically)
-            case SetTheTargetSectorsColormap:
-            {
-                const short index = sides[*line->sidenum].frontcolormap;
-
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                    sectors[s].colormap = index;
-
-                break;
-            }
-
             // killough 03/16/98: Add support for setting floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
             {
@@ -2794,6 +2780,103 @@ void P_SpawnSpecials(void)
                     sectors[s].floorsky = sectors[s].ceilingsky = (i | PL_SKYFLAT);
 
                 break;
+
+            case OffsetTargetFloorTextureByLineDirection:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].floorxoffset -= line->dx;
+                    sectors[s].flooryoffset += line->dy;
+                }
+
+                break;
+
+            case OffsetTargetCeilingTextureByLineDirection:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].ceilingxoffset -= line->dx;
+                    sectors[s].ceilingyoffset += line->dy;
+                }
+
+                break;
+
+            case OffsetTargetFloorAndCeilingTextureByLineDirection:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].floorxoffset -= line->dx;
+                    sectors[s].flooryoffset += line->dy;
+                    sectors[s].ceilingxoffset -= line->dx;
+                    sectors[s].ceilingyoffset += line->dy;
+                }
+
+                break;
+
+            case RotateTargetFloorTextureByLineAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                        sectors[s].floorrotation -= line->angle;
+
+                break;
+
+            case RotateTargetCeilingTextureByLineAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                        sectors[s].ceilingrotation -= line->angle;
+
+                break;
+
+            case RotateTargetFloorAndCeilingTextureByLineAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].floorrotation -= line->angle;
+                    sectors[s].ceilingrotation -= line->angle;
+                }
+
+                break;
+
+            case OffsetThenRotateTargetFloorTextureByLineDirectionAndAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].floorxoffset -= line->dx;
+                    sectors[s].flooryoffset += line->dy;
+                    sectors[s].floorrotation -= line->angle;
+                }
+
+                break;
+
+            case OffsetThenRotateTargetCeilingTextureByLineDirectionAndAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].ceilingxoffset -= line->dx;
+                    sectors[s].ceilingyoffset += line->dy;
+                    sectors[s].ceilingrotation -= line->angle;
+                }
+
+                break;
+
+            case OffsetThenRotateTargetFloorAndCeiilngTextureByLineDirectionAndAngle:
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                {
+                    sectors[s].floorxoffset -= line->dx;
+                    sectors[s].flooryoffset += line->dy;
+                    sectors[s].ceilingxoffset -= line->dx;
+                    sectors[s].ceilingyoffset += line->dy;
+                    sectors[s].floorrotation -= line->angle;
+                    sectors[s].ceilingrotation -= line->angle;
+                }
+
+                break;
+
+            // [KLN] 04/13/25: Support for the ID24 line special 2075: Set the target sector's colormap
+            // (Always) uses a new SHORT in side_t, which is loaded via P_LoadSideDefs2
+            // Uses the front color map index set by the toptexture since this line cannot be activated
+            // by the back (or any other way but automatically)
+            case SetTheTargetSectorsColormap:
+            {
+                const short index = sides[*line->sidenum].frontcolormap;
+
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    sectors[s].colormap = index;
+
+                break;
+            }
         }
 }
 

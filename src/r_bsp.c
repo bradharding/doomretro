@@ -143,7 +143,9 @@ static void R_RecalcLineFlags(line_t *line)
         || backsector->floorpic != frontsector->floorpic
         || backsector->ceilingpic != frontsector->ceilingpic
         || backsector->lightlevel != frontsector->lightlevel
-        || backsector->colormap != frontsector->colormap)
+        || backsector->colormap != frontsector->colormap
+        || backsector->floorrotation != frontsector->floorrotation
+        || backsector->ceilingrotation != frontsector->ceilingrotation)
     {
         line->r_flags = RF_NONE;
         return;
@@ -300,6 +302,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
             tempsec->floorpic = s->floorpic;
             tempsec->floorxoffset = s->floorxoffset;
             tempsec->flooryoffset = s->flooryoffset;
+            tempsec->floorrotation = s->floorrotation;
 
             if (s->ceilingpic == skyflatnum)
             {
@@ -307,12 +310,14 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
                 tempsec->ceilingpic = tempsec->floorpic;
                 tempsec->ceilingxoffset = tempsec->floorxoffset;
                 tempsec->ceilingyoffset = tempsec->flooryoffset;
+                tempsec->ceilingrotation = s->floorrotation;
             }
             else
             {
                 tempsec->ceilingpic = s->ceilingpic;
                 tempsec->ceilingxoffset = s->ceilingxoffset;
                 tempsec->ceilingyoffset = s->ceilingyoffset;
+                tempsec->ceilingrotation = s->ceilingrotation;
             }
 
             tempsec->lightlevel = s->lightlevel;
@@ -334,6 +339,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
             tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
             tempsec->floorxoffset = tempsec->ceilingxoffset = s->ceilingxoffset;
             tempsec->flooryoffset = tempsec->ceilingyoffset = s->ceilingyoffset;
+            tempsec->floorrotation = s->ceilingrotation;
 
             if (s->floorpic != skyflatnum)
             {
@@ -341,6 +347,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
                 tempsec->floorpic = s->floorpic;
                 tempsec->floorxoffset = s->floorxoffset;
                 tempsec->flooryoffset = s->flooryoffset;
+                tempsec->floorrotation = s->floorrotation;
             }
 
             tempsec->lightlevel = s->lightlevel;
@@ -558,7 +565,8 @@ static void R_Subsector(int num)
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset,
             (floorlightsec ? floorlightsec->colormap :
-                (heightsec ? heightsec->colormap : frontsector->colormap))) : NULL);
+                (heightsec ? heightsec->colormap : frontsector->colormap)),
+            (heightsec ? heightsec->floorrotation : frontsector->floorrotation)) : NULL);
 
     ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
@@ -570,7 +578,8 @@ static void R_Subsector(int num)
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset,
             (ceilinglightsec ? ceilinglightsec->colormap :
-                (heightsec ? heightsec->colormap : frontsector->colormap))) : NULL);
+                (heightsec ? heightsec->colormap : frontsector->colormap)),
+            (heightsec ? heightsec->ceilingrotation : frontsector->ceilingrotation)) : NULL);
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite

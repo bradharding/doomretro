@@ -763,6 +763,7 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->floorpic != frontsector->floorpic
             || backsector->lightlevel != frontsector->lightlevel
             || backsector->colormap != frontsector->colormap
+            || backsector->floorrotation != frontsector->floorrotation
 
             // killough 03/07/98: add checks for (x,y) offsets
             || backsector->floorxoffset != frontsector->floorxoffset
@@ -781,6 +782,7 @@ void R_StoreWallRange(const int start, const int stop)
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel
             || backsector->colormap != frontsector->colormap
+            || backsector->ceilingrotation != frontsector->ceilingrotation
 
             // killough 03/07/98: add checks for (x,y) offsets
             || backsector->ceilingxoffset != frontsector->ceilingxoffset

@@ -69,6 +69,13 @@ static fixed_t      planeheight;
 
 static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
+static angle_t      rotation;
+
+static fixed_t      angle_sin;
+static fixed_t      angle_cos;
+static fixed_t      viewx_trans;
+static fixed_t      viewy_trans;
+
 fixed_t             *yslope;
 fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
@@ -84,15 +91,16 @@ static angle_t      *xtoskyangle;
 static void R_MapPlane(const int y, const int x1)
 {
     static fixed_t  cacheddistance[MAXHEIGHT];
-    static fixed_t  cachedviewcosdistance[MAXHEIGHT];
-    static fixed_t  cachedviewsindistance[MAXHEIGHT];
+    static fixed_t  cachedanglecosdistance[MAXHEIGHT];
+    static fixed_t  cachedanglesindistance[MAXHEIGHT];
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
-    fixed_t         viewcosdistance;
-    fixed_t         viewsindistance;
+    static fixed_t  cachedangle[MAXHEIGHT];
+    fixed_t         anglecosdistance;
+    fixed_t         anglesindistance;
     int             dx;
 
-    if (planeheight != cachedheight[y])
+    if (planeheight != cachedheight[y] || rotation != cachedangle[y])
     {
         // SoM: because centery is an actual row of pixels (and it isn't really the
         // center row because there are an even number of rows) some corrections need
@@ -100,24 +108,25 @@ static void R_MapPlane(const int y, const int x1)
         const fixed_t   dy = (ABS(centery - y) << FRACBITS) + (y < centery ? -FRACUNIT : FRACUNIT) / 2;
 
         cachedheight[y] = planeheight;
+        cachedangle[y] = rotation;
         ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, ds_z);
-        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, ds_z);
-        ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)viewsin * planeheight / dy);
-        ds_ystep = cachedystep[y] = (fixed_t)((int64_t)viewcos * planeheight / dy);
+        anglecosdistance = cachedanglecosdistance[y] = FixedMul(angle_cos, ds_z);
+        anglesindistance = cachedanglesindistance[y] = FixedMul(angle_sin, ds_z);
+        ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)angle_sin * planeheight / dy);
+        ds_ystep = cachedystep[y] = (fixed_t)((int64_t)angle_cos * planeheight / dy);
     }
     else
     {
         ds_z = cacheddistance[y];
-        viewcosdistance = cachedviewcosdistance[y];
-        viewsindistance = cachedviewsindistance[y];
+        anglecosdistance = cachedanglecosdistance[y];
+        anglesindistance = cachedanglesindistance[y];
         ds_xstep = cachedxstep[y];
         ds_ystep = cachedystep[y];
     }
 
     dx = x1 - centerx;
-    ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
-    ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
+    ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
+    ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
     ds_y = y;
     ds_x1 = x1;
 
@@ -201,7 +210,7 @@ static visplane_t *new_visplane(const unsigned int hash)
 // R_FindPlane
 //
 visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
-    const fixed_t x, const fixed_t y, int colormap)
+    const fixed_t x, const fixed_t y, int colormap, angle_t angle)
 {
     visplane_t      *check;
     unsigned int    hash;
@@ -222,7 +231,8 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
 
     for (check = visplanes[hash]; check; check = check->next)
         if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
-            && x == check->xoffset && y == check->yoffset && colormap == check->colormap)
+            && x == check->xoffset && y == check->yoffset && colormap == check->colormap
+            && angle == check->angle)
             return check;
 
     check = new_visplane(hash);
@@ -236,6 +246,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
     check->right = -1;
     check->modified = false;
     check->colormap = colormap;
+    check->angle = angle;
 
     memset(check->top, USHRT_MAX, viewwidth * sizeof(*check->top));
 
@@ -258,6 +269,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
     new_pl->right = stop;
     new_pl->modified = false;
     new_pl->colormap = pl->colormap;
+    new_pl->angle = pl->angle;
 
     memset(new_pl->top, USHRT_MAX, viewwidth * sizeof(*new_pl->top));
 
@@ -329,6 +341,24 @@ static void R_MakeSpans(visplane_t *pl)
     {
         xoffset = pl->xoffset;
         yoffset = pl->yoffset;
+    }
+
+    rotation = pl->angle;
+    angle_sin = finesine[(viewangle + rotation) >> ANGLETOFINESHIFT];
+    angle_cos = finecosine[(viewangle + rotation) >> ANGLETOFINESHIFT];
+
+    if (!rotation)
+    {
+        viewx_trans = xoffset + viewx;
+        viewy_trans = yoffset - viewy;
+    }
+    else
+    {
+        const fixed_t   sin = finesine[rotation >> ANGLETOFINESHIFT];
+        const fixed_t   cos = finecosine[rotation >> ANGLETOFINESHIFT];
+
+        viewx_trans = FixedMul(viewx + xoffset, cos) - FixedMul(viewy - yoffset, sin);
+        viewy_trans = -(FixedMul(viewx + xoffset, sin) + FixedMul(viewy - yoffset, cos));
     }
 
     planeheight = ABS(pl->height - viewz);

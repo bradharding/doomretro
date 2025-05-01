@@ -2087,6 +2087,8 @@ static void P_LoadLineDefs(int lump)
 
         ld->slopetype = (!ld->dx ? ST_VERTICAL : (!ld->dy ? ST_HORIZONTAL : (FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE)));
 
+        ld->angle = R_PointToAngle2(lines[i].v1->x, lines[i].v1->y, lines[i].v2->x, lines[i].v2->y);
+
         if (v1->x < v2->x)
         {
             ld->bbox[BOXLEFT] = v1->x;

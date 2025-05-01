@@ -1157,6 +1157,8 @@ void P_ArchiveWorld(void)
         saveg_write32(sector->ceilingxoffset);
         saveg_write32(sector->ceilingyoffset);
         saveg_write32(sector->colormap);
+        saveg_write32(sector->floorrotation);
+        saveg_write32(sector->ceilingrotation);
     }
 
     // do lines
@@ -1165,6 +1167,7 @@ void P_ArchiveWorld(void)
         saveg_write16(line->flags);
         saveg_write16(line->special);
         saveg_write16(line->tag);
+        saveg_write32(line->angle);
 
         for (int j = 0; j < 2; j++)
         {
@@ -1224,7 +1227,11 @@ void P_UnarchiveWorld(void)
         sector->baseceilingyoffset = sector->oldceilingyoffset = sector->ceilingyoffset;
 
         if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        {
             sector->colormap = saveg_read32();
+            sector->floorrotation = saveg_read32();
+            sector->ceilingrotation = saveg_read32();
+        }
     }
 
     // do lines
@@ -1238,6 +1245,9 @@ void P_UnarchiveWorld(void)
 
         line->special = saveg_read16();
         line->tag = saveg_read16();
+
+        if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+            line->angle = saveg_read32();
 
         for (int j = 0; j < 2; j++)
         {

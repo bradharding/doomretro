@@ -192,9 +192,6 @@ typedef struct sector_s
     int                 midmap;
     int                 topmap;
 
-    // [KLN] 04/06/25: colormap for ID24 spec
-    int                 colormap;
-
     // killough 08/28/98: friction is a sector property, not an mobj property.
     // these fields used to be in mobj_t, but presented performance problems
     // when processed as mobj properties. Fix is to make them sector properties.
@@ -209,6 +206,12 @@ typedef struct sector_s
     // and which isn't, etc.
     int                 floorsky;
     int                 ceilingsky;
+
+    // [KLN] 04/06/25: colormap for ID24 spec
+    int                 colormap;
+
+    int                 floorrotation;
+    int                 ceilingrotation;
 
     terraintype_t       terraintype;
 
@@ -294,6 +297,8 @@ typedef struct line_s
 
     // To aid move clipping.
     slopetype_t         slopetype;
+
+    angle_t             angle;
 
     // Front and back sector.
     // Note: redundant? Can be retrieved from SideDefs.
@@ -1170,6 +1175,7 @@ typedef struct visplane_s
 
     bool                modified;
     int                 colormap;
+    angle_t             angle;
 } visplane_t;
 
 #endif
