@@ -1021,7 +1021,7 @@ bool P_ReadSaveGameHeader(char *description)
         savegameversion[i] = saveg_read8();
 
     if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_6_3))
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7))
     {
         menuactive = false;
         quicksaveslot = -1;
