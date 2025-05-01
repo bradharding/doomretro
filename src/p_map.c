@@ -1668,11 +1668,11 @@ static bool PTR_ShootTraverse(intercept_t *in)
 
     if (li)
     {
-        unsigned short  side;
+        unsigned short  side = P_PointOnLineSide(shootthing->x, shootthing->y, li);
         fixed_t         distz;
 
         if (li->special)
-            P_ShootSpecialLine(shootthing, li);
+            P_ShootSpecialLine(shootthing, li, side);
 
         if (li->flags & ML_TWOSIDED)
         {
@@ -1702,7 +1702,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
         z = shootz + distz;
 
         // clip shots on floor and ceiling
-        if ((side = li->sidenum[P_PointOnLineSide(shootthing->x, shootthing->y, li)]) != NO_INDEX)
+        if ((side = li->sidenum[side]) != NO_INDEX)
         {
             const sector_t  *sector = sides[side].sector;
             const fixed_t   ceilingz = sector->interpceilingheight;

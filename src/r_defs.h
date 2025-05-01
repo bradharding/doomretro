@@ -299,6 +299,8 @@ typedef struct line_s
     slopetype_t         slopetype;
 
     angle_t             angle;
+    int                 frontmusic;
+    int                 backmusic;
 
     // Front and back sector.
     // Note: redundant? Can be retrieved from SideDefs.

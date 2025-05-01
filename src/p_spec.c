@@ -1312,6 +1312,18 @@ bool P_CheckTag(const line_t *line)
         case SR_Teleport_AlsoMonsters_Silent_SameAngle:
         case Scroll_ScrollWallUsingSidedefOffsets:
         case Translucent_MiddleTexture:
+        case W1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case WR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case S1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case SR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case G1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case GR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+        case W1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case WR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case S1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case SR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case G1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case GR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
         case SetTheTargetSectorsColormap:
         case W1_SetTheTargetSectorsColormap:
         case WR_SetTheTargetSectorsColormap:
@@ -1319,6 +1331,18 @@ bool P_CheckTag(const line_t *line)
         case SR_SetTheTargetSectorsColormap:
         case G1_SetTheTargetSectorsColormap:
         case GR_SetTheTargetSectorsColormap:
+        case W1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case WR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case S1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case SR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case G1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case GR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        case W1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        case WR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        case S1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        case SR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        case G1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        case GR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
             return true;    // zero tag allowed
     }
 
@@ -2123,6 +2147,58 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 
         // ID24 specials
 
+        case W1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            line->special = 0;
+            break;
+
+        case WR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            break;
+
+        case W1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            line->special = 0;
+            break;
+
+        case WR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            break;
+
+        case W1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            line->special = 0;
+            break;
+        }
+
+        case WR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            break;
+        }
+
+        case W1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            line->special = 0;
+            break;
+        }
+
+        case WR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            break;
+        }
+
         case W1_SetTheTargetSectorsColormap:
             // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2076 (W1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
@@ -2144,7 +2220,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 // P_ShootSpecialLine - IMPACT SPECIALS
 // Called when a thing shoots a special line.
 //
-void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
+void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
 {
     // jff 02/04/98 add check here for generalized linedef
     // pointer to line function is NULL by default, set non-null if
@@ -2289,6 +2365,24 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
         // ID24 specials
 
+        case G1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            line->special = 0;
+            break;
+
+        case GR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            break;
+
+        case G1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            line->special = 0;
+            break;
+
+        case GR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            break;
+
         case G1_SetTheTargetSectorsColormap:
             // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2080 (G1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
@@ -2304,6 +2398,40 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
             P_ChangeSwitchTexture(line, true);
             break;
+
+        case G1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            line->special = 0;
+            break;
+        }
+
+        case GR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            break;
+        }
+
+        case G1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            line->special = 0;
+            break;
+        }
+
+        case GR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            break;
+        }
     }
 }
 

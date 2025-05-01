@@ -1096,6 +1096,24 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
 
         // ID24 specials
 
+        case S1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            line->special = 0;
+            break;
+
+        case SR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            break;
+
+        case S1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            line->special = 0;
+            break;
+
+        case SR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            break;
+
         case S1_SetTheTargetSectorsColormap:
             // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2078 (S1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
@@ -1111,6 +1129,40 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
 
             P_ChangeSwitchTexture(line, true);
             return true;
+
+        case S1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            line->special = 0;
+            break;
+        }
+
+        case SR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            break;
+        }
+
+        case S1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            line->special = 0;
+            break;
+        }
+
+        case SR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            break;
+        }
     }
 
     return !bossaction;

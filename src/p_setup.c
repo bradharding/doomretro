@@ -2258,6 +2258,52 @@ static void P_LoadSideDefs2(int lump)
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
                 break;
 
+            case W1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case WR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case S1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case SR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case G1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case GR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
+            case W1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case WR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case S1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case SR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case G1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case GR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+            case W1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case WR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case S1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case SR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case G1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case GR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
+            case W1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+            case WR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+            case S1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+            case SR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+            case G1_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+            case GR_ChangeMusicAndMakeItPlayOnlyOnce_ResetToLoopingDefaultIfNoTrackDefined:
+                for (int j = 0; j < numlines; j++)
+                    if (lines[j].sidenum[0] == i)
+                    {
+                        if ((lines[j].frontmusic = W_CheckNumForName(msd->toptexture)) < 0)
+                        {
+                            lines[j].frontmusic = 0;
+                            sd->toptexture = R_TextureNumForName(msd->toptexture);
+                        }
+                        else
+                            sd->toptexture = 0;
+
+                        if ((lines[j].backmusic = W_CheckNumForName(msd->bottomtexture)) < 0)
+                        {
+                            lines[j].backmusic = 0;
+                            sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                        }
+                        else
+                            sd->bottomtexture = 0;
+                    }
+
+                break;
+
             case SetTheTargetSectorsColormap:
             case W1_SetTheTargetSectorsColormap:
             case WR_SetTheTargetSectorsColormap:

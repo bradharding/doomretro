@@ -79,7 +79,7 @@ bool P_CheckTag(const line_t *line);
 // when needed
 bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bossaction);
 
-void P_ShootSpecialLine(const mobj_t *thing, line_t *line);
+void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side);
 
 void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool bossaction);
 

@@ -1168,6 +1168,8 @@ void P_ArchiveWorld(void)
         saveg_write16(line->special);
         saveg_write16(line->tag);
         saveg_write32(line->angle);
+        saveg_write32(line->frontmusic);
+        saveg_write32(line->backmusic);
 
         for (int j = 0; j < 2; j++)
         {
@@ -1247,7 +1249,11 @@ void P_UnarchiveWorld(void)
         line->tag = saveg_read16();
 
         if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        {
             line->angle = saveg_read32();
+            line->frontmusic = saveg_read32();
+            line->backmusic = saveg_read32();
+        }
 
         for (int j = 0; j < 2; j++)
         {
