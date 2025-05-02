@@ -1170,17 +1170,17 @@ static void P_LoadSegs(int lump)
                     break;
                 }
 
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+            id24compatible = true;
+
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
             mbf21compatible = true;
 
         if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
             boomcompatible = true;
-
-        if (li->linedef->special >= ID24LINESPECIALS)
-            id24compatible = true;
     }
 
     W_ReleaseLumpNum(lump);
@@ -1302,17 +1302,17 @@ static void P_LoadSegs_V4(int lump)
         li->angle = (SHORT(ml->angle)) << FRACBITS;
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+            id24compatible = true;
+
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
             mbf21compatible = true;
 
         if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
             boomcompatible = true;
-
-        if (li->linedef->special >= ID24LINESPECIALS)
-            id24compatible = true;
     }
 
     W_ReleaseLumpNum(lump);
@@ -1736,17 +1736,17 @@ static void P_LoadZSegs(const byte *data)
         li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
+            id24compatible = true;
+
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
             mbf21compatible = true;
 
         if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
 
-        if (li->linedef->special >= BOOMLINESPECIALS)
+        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
             boomcompatible = true;
-
-        if (li->linedef->special >= ID24LINESPECIALS)
-            id24compatible = true;
     }
 }
 
