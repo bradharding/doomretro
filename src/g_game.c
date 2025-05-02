@@ -98,6 +98,8 @@ int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
 int             player1starts;
 
+bool            resetinventory = false;
+
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
@@ -583,6 +585,7 @@ static void G_ResetPlayer(void)
     viewplayer->backpack = false;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
+    resetinventory = false;
 
     G_SetInitialWeapon();
 }
@@ -649,7 +652,7 @@ void G_DoLoadLevel(void)
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
-    if ((resetplayer = (pistolstart || P_GetMapPistolStart(ep, gamemap))))
+    if ((resetplayer = (resetinventory || pistolstart || P_GetMapPistolStart(ep, gamemap))))
         G_ResetPlayer();
 
     if (viewplayer->cheats & CF_CHOPPERS)

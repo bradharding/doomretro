@@ -2165,6 +2165,24 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
             break;
 
+        case W1_ExitToTheNextMapAndResetInventory:
+            if (bossaction || !(thing->player && thing->player->health <= 0 && !compat_zombie))
+            {
+                resetinventory = true;
+                G_ExitLevel();
+            }
+
+            break;
+
+        case W1_ExitToTheSecretMapAndResetInventory:
+            if (bossaction || !(thing->player && thing->player->health <= 0 && !compat_zombie))
+            {
+                resetinventory = true;
+                G_SecretExitLevel();
+            }
+
+            break;
+
         case W1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
         {
             const int   music = (side ? line->backmusic : line->frontmusic);
@@ -2364,6 +2382,24 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             break;
 
         // ID24 specials
+
+        case G1_ExitToTheNextMapAndResetInventory:
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
+            P_ChangeSwitchTexture(line, false);
+            resetinventory = true;
+            G_ExitLevel();
+            break;
+
+        case G1_ExitToTheSecretMapAndResetInventory:
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
+            P_ChangeSwitchTexture(line, false);
+            resetinventory = true;
+            G_SecretExitLevel();
+            break;
 
         case G1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);

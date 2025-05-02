@@ -20,6 +20,7 @@
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Flats can now be offset and rotated using line specials 2,048 to 2,056.
   * Music can now be changed using line specials 2,057 to 2,068 and 2,087 to 2,098.
+  * The player’s inventory can now be reset when exiting a map using line specials 2,069 to 2,074.
   * Colormaps can now be applied to individual sectors using line specials 2,075 to 2,081.
   * These changes have been made to the support for the [`SKYDEFS`](https://doomwiki.org/wiki/SKYDEFS) lump:
     * Skies can now be scaled using `scalex`.

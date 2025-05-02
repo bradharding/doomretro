@@ -1114,6 +1114,24 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
             break;
 
+        case S1_ExitToTheNextMapAndResetInventory:
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
+            P_ChangeSwitchTexture(line, false);
+            resetinventory = true;
+            G_ExitLevel();
+            break;
+
+        case S1_ExitToTheSecretMapAndResetInventory:
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
+            P_ChangeSwitchTexture(line, false);
+            resetinventory = true;
+            G_SecretExitLevel();
+            break;
+
         case S1_SetTheTargetSectorsColormap:
             // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2078 (S1)
             for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
