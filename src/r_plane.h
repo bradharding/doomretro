@@ -50,7 +50,7 @@ extern int      openings[MAXOPENINGS];
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
 visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
-    const fixed_t x, const fixed_t y, int colormap, angle_t rotation);
+    const fixed_t x, const fixed_t y, const int colormap, const angle_t angle);
 visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop);
 visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop);
 void R_InitDistortedFlats(void);
