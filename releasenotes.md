@@ -45,6 +45,7 @@
 * A bug is fixed whereby the sky wouldn’t render correctly in some rare instances when the `weaponrecoil` CVAR was turned `on` in the console.
 * The support for *Direct 3D 11* has been removed. The `vid_scaleapi` CVAR can no longer be set to `direct3d9` or `direct3d11`, but `direct3d` instead.
 * The positioning of tall skies has improved in some instances when the `freelook` CVAR is `off`.
+* Improvements have been made to fixing the offsets of sprites when the `r_fixspriteoffsets` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
