@@ -179,6 +179,7 @@ extern bool     r_sprites_translucency;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
+extern bool     s_fullsfx;
 extern bool     s_lowermenumusic;
 extern bool     s_musicinbackground;
 extern int      s_musicvolume;
@@ -737,6 +738,8 @@ enum
 #define s_channels_min                      8
 #define s_channels_default                  32
 #define s_channels_max                      64
+
+#define s_fullsfx_default                true
 
 #define s_lowermenumusic_default            true
 

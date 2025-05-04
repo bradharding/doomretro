@@ -188,6 +188,7 @@ bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
+bool        s_fullsfx = s_fullsfx_default;
 bool        s_lowermenumusic = s_lowermenumusic_default;
 bool        s_musicinbackground = s_musicinbackground_default;
 int         s_musicvolume = s_musicvolume_default;
@@ -433,6 +434,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,               BOOLVALUEALIAS     ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                            NOVALUEALIAS       ),
+    CVAR_BOOL         (s_fullsfx,                        s_fullsfx,                             s_fullsfx,                             BOOLVALUEALIAS     ),
     CVAR_BOOL         (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                      BOOLVALUEALIAS     ),
     CVAR_BOOL         (s_musicinbackground,              s_musicinbackground,                   s_musicinbackground,                   BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (s_musicvolume,                    s_musicvolume,                         s_musicvolume,                         NOVALUEALIAS       ),

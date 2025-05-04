@@ -894,7 +894,10 @@ void P_RemoveMobj(mobj_t *mobj)
     P_UnsetThingPosition(mobj);
 
     // [crispy] removed map objects may finish their sounds
-    S_UnlinkSound(mobj);
+    if (s_fullsfx)
+        S_UnlinkSound(mobj);
+    else
+        S_StopSound(mobj);
 
     // Delete all nodes on the current sector_list
     if (sector_list)

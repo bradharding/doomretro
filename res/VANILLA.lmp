@@ -120,6 +120,7 @@ r_sprites_translucency off
 r_textures on
 r_textures_translucency off
 s_channels 8
+s_fullsfx off
 s_lowermenumusic off
 s_randommusic off
 s_randompitch off

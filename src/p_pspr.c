@@ -266,7 +266,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
     {
-        S_StopSound(sfx_sawup);
+        S_StopSoundEffect(sfx_sawup);
         S_StartSound(actor, sfx_sawidl);
     }
 

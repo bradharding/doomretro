@@ -296,7 +296,7 @@ static void S_StopChannel(int cnum)
     }
 }
 
-void S_StopSound(const sfxnum_t sfxnum)
+void S_StopSoundEffect(const sfxnum_t sfxnum)
 {
     sfxinfo_t   *sfx;
 
@@ -307,6 +307,19 @@ void S_StopSound(const sfxnum_t sfxnum)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo == sfx)
+        {
+            S_StopChannel(cnum);
+            break;
+        }
+}
+
+void S_StopSound(const mobj_t *origin)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; cnum++)
+        if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
             S_StopChannel(cnum);
             break;
