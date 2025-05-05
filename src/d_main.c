@@ -479,10 +479,7 @@ static void D_DoomLoop(void)
         if (splashscreen)
             D_SplashDrawer();
         else
-        {
-            S_UpdateSounds();   // move positional sounds
-            D_Display();        // update display, next frame, with current state
-        }
+            D_Display();    // update display, next frame, with current state
     }
 }
 

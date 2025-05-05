@@ -39,6 +39,7 @@
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"
+#include "s_sound.h"
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.
@@ -86,4 +87,6 @@ void TryRunTics(void)
         if (localcmds[0].buttons & BT_SPECIAL)
             localcmds[0].buttons = 0;
     }
+
+    S_UpdateSounds();   // move positional sounds
 }
