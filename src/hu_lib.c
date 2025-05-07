@@ -592,9 +592,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                         }
 
                 if (r_hud_translucency)
-                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap ? cr_gold : cr_none));
+                    HU_DrawTranslucentChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap && !vanilla ? cr_gold : cr_none));
                 else
-                    HU_DrawChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap ? cr_gold : cr_none));
+                    HU_DrawChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap && !vanilla ? cr_gold : cr_none));
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;
