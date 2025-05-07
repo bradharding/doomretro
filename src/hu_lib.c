@@ -342,6 +342,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     byte            *fb2;
     byte            *tinttab1 = tinttab40;
     byte            *tinttab2 = tinttab75;
+    byte            *cr = (message_secret && !vanilla ? cr_gold : cr_none);
     const int       black = (nearestblack << 8);
     const int       len = l->len;
     int             screenwidth;
@@ -405,7 +406,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev1 == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], (message_secret ? cr_gold : cr_none), screenwidth);
+                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr, screenwidth);
                 x += SHORT(l->f[j]->width);
             }
             else
@@ -431,7 +432,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         }
 
                 // [BH] draw individual character
-                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, (message_secret ? cr_gold : cr_none));
+                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, cr);
 
                 x += (short)strlen(smallcharset[j]) / 10 - 1;
             }
