@@ -52,6 +52,8 @@ struct _MEMFILE
     size_t          buflen;
     size_t          alloced;
     unsigned int    position;
+    bool            readeof;
+    bool            eof;
     memfile_mode_t  mode;
 };
 
@@ -63,6 +65,8 @@ MEMFILE *mem_fopen_read(void *buf, size_t buflen)
     file->buf = (unsigned char *)buf;
     file->buflen = buflen;
     file->position = 0;
+    file->readeof = false;
+    file->eof = false;
     file->mode = MODE_READ;
 
     return file;
@@ -76,9 +80,19 @@ size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
     if (stream->mode != MODE_READ)
         return -1;
 
+    if (!size || !nmemb)
+        return 0;
+
     // Trying to read more bytes than we have left?
     if (items * size > stream->buflen - stream->position)
+    {
+        if (stream->readeof)
+            stream->eof = true;
+        else
+            stream->readeof = true;
+
         items = (stream->buflen - stream->position) / size;
+    }
 
     // Copy bytes to buffer
     memcpy(buf, stream->buf + stream->position, items * size);
@@ -98,6 +112,8 @@ MEMFILE *mem_fopen_write(void)
     file->buf = Z_Malloc(file->alloced, PU_STATIC, NULL);
     file->buflen = 0;
     file->position = 0;
+    file->readeof = false;
+    file->eof = false;
     file->mode = MODE_WRITE;
 
     return file;
@@ -138,32 +154,32 @@ char *mem_fgets(char *str, int count, MEMFILE *stream)
 {
     int i;
 
-    if (!str)
+    if (!str || count < 0)
         return NULL;
 
     for (i = 0; i < count - 1; i++)
     {
         byte    ch;
 
-        if (mem_fread(&ch, 1, 1, stream) == 1)
+        if (mem_fread(&ch, 1, 1, stream) != 1)
         {
-            str[i] = ch;
+            if (mem_feof(stream))
+                return NULL;
 
-            if (ch == '\0')
-                return str;
-
-            if (ch == '\n')
-            {
-                i++;
-                break;
-            }
-        }
-        else
             break;
-    }
+        }
 
-    if (mem_feof(stream))
-        return NULL;
+        str[i] = ch;
+
+        if (ch == '\0')
+            return str;
+
+        if (ch == '\n')
+        {
+            i++;
+            break;
+        }
+    }
 
     str[i] = '\0';
     return str;
@@ -223,6 +239,8 @@ int mem_fseek(MEMFILE *stream, long position, mem_rel_t whence)
     if (newpos < stream->buflen)
     {
         stream->position = newpos;
+        stream->readeof = false;
+        stream->eof = false;
         return 0;
     }
 
@@ -231,5 +249,5 @@ int mem_fseek(MEMFILE *stream, long position, mem_rel_t whence)
 
 bool mem_feof(MEMFILE *stream)
 {
-    return (stream->position >= stream->buflen);
+    return stream->eof;
 }
