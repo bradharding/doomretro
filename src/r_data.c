@@ -505,20 +505,10 @@ static void R_InitSpriteLumps(void)
 
         if (patch)
         {
-            char    *temp = M_SubString(lumpinfo[firstspritelump + i]->name, 0, 4);
-            bool    skipoffset = false;
-
             spritewidth[i] = SHORT(patch->width) << FRACBITS;
             spriteheight[i] = SHORT(patch->height) << FRACBITS;
             spriteoffset[i] = newspriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
             spritetopoffset[i] = newspritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
-
-            for (int j = 0; j < numspritelumps; j++)
-                if (i != j && M_StringStartsWith(lumpinfo[firstspritelump + j]->name, temp))
-                {
-                    skipoffset = true;
-                    break;
-                }
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (!FREEDOOM && !chex && !hacx)
@@ -528,15 +518,12 @@ static void R_InitSpriteLumps(void)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
                         && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type == IWAD
-                            || M_StringEndsWith(lumpinfo[firstspritelump + i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
-                        && !skipoffset)
+                            || M_StringEndsWith(lumpinfo[firstspritelump + i]->wadfile->path, DOOMRETRO_RESOURCEWAD)))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
-
-            free(temp);
         }
     }
 
