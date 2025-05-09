@@ -2442,12 +2442,10 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
             continue;
         }
 
-        for (i = 0; i < DEH_BLOCKMAX; i++)
+        for (i = 0; i < DEH_BLOCKMAX - 1; i++)
             if (!strncasecmp(inbuffer, deh_blocks[i].key, strlen(deh_blocks[i].key)))
             {
-                if (i < DEH_BLOCKMAX - 1)
-                    match = true;
-
+                match = true;
                 break;                                          // we got one, that's enough for this block
             }
 

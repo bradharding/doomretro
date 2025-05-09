@@ -532,13 +532,17 @@ static void R_InitSpriteLumps(void)
         char    *temp = M_SubString(sprnames[states[mobjinfo[i].spawnstate].sprite], 0, 4);
 
         for (int j = 0; j < numspritelumps; j++)
-            if (M_StringStartsWith(lumpinfo[firstspritelump + j]->name, temp)
-                && lumpinfo[firstspritelump + j]->wadfile->type == PWAD
-                && !M_StringEndsWith(lumpinfo[firstspritelump + j]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+        {
+            lumpinfo_t  *lump = lumpinfo[firstspritelump + j];
+
+            if (M_StringStartsWith(lump->name, temp)
+                && lump->wadfile->type == PWAD
+                && !M_StringEndsWith(lump->wadfile->path, DOOMRETRO_RESOURCEWAD))
             {
                 mobjinfo[i].dehacked = true;
                 break;
             }
+        }
 
         free(temp);
     }
