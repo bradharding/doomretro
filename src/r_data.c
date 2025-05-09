@@ -527,6 +527,22 @@ static void R_InitSpriteLumps(void)
         }
     }
 
+    for (int i = 0; i < nummobjtypes; i++)
+    {
+        char    *temp = M_SubString(sprnames[states[mobjinfo[i].spawnstate].sprite], 0, 4);
+
+        for (int j = 0; j < numspritelumps; j++)
+            if (M_StringStartsWith(lumpinfo[firstspritelump + j]->name, temp)
+                && lumpinfo[firstspritelump + j]->wadfile->type == PWAD
+                && !M_StringEndsWith(lumpinfo[firstspritelump + j]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+            {
+                mobjinfo[i].dehacked = true;
+                break;
+            }
+
+        free(temp);
+    }
+
     M_StringCopy(berserk, M_StringReplaceFirst(powerups[pw_strength], " power-up", ""), sizeof(berserk));
 
     // [BH] compatibility fixes
