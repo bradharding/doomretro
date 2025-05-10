@@ -1563,6 +1563,9 @@ void dsdh_EnsureStatesCapacity(const int limit)
     size_delta = numstates - old_numstates;
     memset(states + old_numstates, 0, size_delta * sizeof(*states));
 
+    array_grow(seenstate_tab, size_delta);
+    memset(seenstate_tab + old_numstates, 0, size_delta * sizeof(*seenstate_tab));
+
     array_grow(deh_codeptr, size_delta);
     memset(deh_codeptr + old_numstates, 0, size_delta * sizeof(*deh_codeptr));
 
