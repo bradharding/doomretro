@@ -995,15 +995,18 @@ void P_MovePlayerSprites(void)
 //
 void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *mo;
-    int     an;
-    state_t *state = psp->state;
+    mobj_t          *mo;
+    int             an;
+    state_t         *state = psp->state;
+    weapontype_t    readyweapon;
 
     if (!state || !state->args[0])
         return;
 
     if (!(mo = P_SpawnPlayerMissile(player->mo, state->args[0] - 1)))
         return;
+
+    readyweapon = player->readyweapon;
 
     if (legacyofrust && (M_BigRandom() & 1))
         mo->flags2 |= MF2_MIRRORED;
@@ -1030,7 +1033,8 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
-    P_RumbleWeapon(player->readyweapon);
+    A_Recoil(readyweapon);
+    P_RumbleWeapon(readyweapon);
 }
 
 //
@@ -1063,6 +1067,7 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
+    A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
 }
 
@@ -1082,9 +1087,12 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     int             slope;
     int             damage;
     state_t         *state = psp->state;
+    weapontype_t    readyweapon;
 
     if (!state)
         return;
+
+    readyweapon = player->readyweapon;
 
     if (!(range = state->args[4]))
         range = player->mo->info->meleerange;
@@ -1116,7 +1124,8 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
 
-    P_RumbleWeapon(player->readyweapon);
+    A_Recoil(readyweapon);
+    P_RumbleWeapon(readyweapon);
 }
 
 //

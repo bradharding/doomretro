@@ -13,8 +13,9 @@
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * These changes have been made to the support of `DEHACKED` lumps:
-  * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible `A_LineEffect` codepointer now works correctly with non-repeatable line specials.
-  * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_RadiusDamage` codepointer now always inflicts damage as intended.
+  * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible  codepointer `A_LineEffect` now works correctly with non-repeatable line specials.
+  * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible  codepointer `A_RadiusDamage` now always inflicts damage as intended.
+  * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointers `A_WeaponProjectile`, `A_WeaponBulletAttack` and `A_WeaponMeleeAttack` now recoil if fired when the `weaponrecoil` CVAR is `on`.
   * A bug is fixed whereby things spawned using the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_SpawnObject` codepointer couldn’t be made translucent.
   * `Retro bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
   * A bug is fixed whereby the last line of a `DEHACKED` lump wasn’t being parsed.
