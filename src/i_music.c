@@ -88,7 +88,7 @@ bool I_InitMusic(void)
     uint16_t    format;
 
 #if defined(_WIN32)
-    // Never let SDL Mixer use native midi on Windows. Avoids SDL Mixer bug
+    // Never let SDL Mixer use native MIDI on Windows. Avoids SDL Mixer bug
     // where music volume affects global application volume.
     SDL_setenv("SDL_MIXER_DISABLE_NATIVEMIDI", "1", true);
 #endif
@@ -121,15 +121,10 @@ void I_SetMusicVolume(const int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    if (midimusictype)
-    {
-        if (windowsmidi)
-            I_Windows_SetMusicVolume(current_music_volume);
-        else
-            Mix_VolumeMusic(current_music_volume);
-    }
+    if (midimusictype && windowsmidi)
+        I_Windows_SetMusicVolume(current_music_volume);
     else
-        Mix_VolumeMusic(current_music_volume / 2);
+        Mix_VolumeMusic(current_music_volume);
 #else
     Mix_VolumeMusic(current_music_volume);
 #endif
