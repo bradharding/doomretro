@@ -2414,14 +2414,17 @@ static void D_DoomMainSetup(void)
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
             autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
         }
-        else if (gamemission == doom2)
+        else 
         {
             bool    nonerve = false;
 
-            if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
-                nonerve = true;
-            else
-                autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+            if (gamemission == doom2)
+            {
+                if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
+                    nonerve = true;
+                else
+                    autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+            }
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
             autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
