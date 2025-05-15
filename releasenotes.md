@@ -13,10 +13,10 @@
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
 * These changes have been made to the support of `DEHACKED` lumps:
-  * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible  codepointer `A_LineEffect` now works correctly with non-repeatable line specials.
-  * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible  codepointer `A_RadiusDamage` now always inflicts damage as intended.
+  * The [*MBF*](https://doomwiki.org/wiki/MBF)-compatible codepointer `A_LineEffect` now works correctly with non-repeatable line specials.
+  * The [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointer `A_RadiusDamage` now always inflicts damage as intended.
   * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointers `A_WeaponProjectile`, `A_WeaponBulletAttack` and `A_WeaponMeleeAttack` now recoil if fired when the `weaponrecoil` CVAR is `on`.
-  * A bug is fixed whereby things spawned using the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible `A_SpawnObject` codepointer couldn’t be made translucent.
+  * A bug is fixed whereby things spawned using the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointer `A_SpawnObject` couldn’t be made translucent.
   * `Retro bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
   * A bug is fixed whereby the last line of a `DEHACKED` lump wasn’t being parsed.
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
@@ -37,7 +37,9 @@
 * A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
 * A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
-* Custom map names now always display correctly when playing a PWAD for *Final DOOM: The Plutonia Experiment* or *TNT - Evilution*.
+* These changes have been made to the support for *Final DOOM: The Plutonia Experiment* and *TNT - Evilution*:
+  * Custom map names now always display correctly when playing a PWAD.
+  * PWADs placed in the autoload folder are now always automatically loaded.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom) compatibility:
   * Brightmaps specified using a `BRGHTMPS` lump no longer remove the translucency of translucent wall textures.
   * Sky textures specified using an `ANIMATED` lump now animate.
@@ -49,6 +51,7 @@
 * The positioning of tall skies has improved in some instances when the `freelook` CVAR is `off`.
 * Improvements have been made to fixing the offsets of sprites when the `r_fixspriteoffsets` CVAR is `on`.
 * Playing sound effects in full as things are removed from a map can now be disabled using the new `s_fullsfx` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Non-MIDI music lumps are now slightly louder.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
