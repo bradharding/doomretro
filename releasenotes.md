@@ -51,7 +51,7 @@
 * The positioning of tall skies has improved in some instances when the `freelook` CVAR is `off`.
 * Improvements have been made to fixing the offsets of sprites when the `r_fixspriteoffsets` CVAR is `on`.
 * Playing sound effects in full as things are removed from a map can now be disabled using the new `s_fullsfx` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Non-MIDI music lumps are now slightly louder.
+* The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
