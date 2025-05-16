@@ -536,7 +536,7 @@ static void R_InitSpriteLumps(void)
             lumpinfo_t  *lump = lumpinfo[firstspritelump + j];
 
             if (M_StringStartsWith(lump->name, temp)
-                && lump->wadfile->type == PWAD
+                && lump->wadfile->type == PWAD && !BTSX
                 && !M_StringEndsWith(lump->wadfile->path, DOOMRETRO_RESOURCEWAD))
             {
                 mobjinfo[i].dehacked = true;
