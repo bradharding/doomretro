@@ -799,7 +799,7 @@ bool ST_Responder(const event_t *ev)
                             }
 
                             // [BH] start flashing palette to indicate power-up about to run out
-                            viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
+                            viewplayer->powers[i] = (freeze ? 0 : STARTFLASHING * (i != pw_allmap));
                         }
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
