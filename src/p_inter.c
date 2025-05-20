@@ -38,6 +38,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_controller.h"
 #include "i_timer.h"
@@ -1510,7 +1511,16 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_invulnerability])
                 return false;
 
-            viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+            if (freeze)
+            {
+                viewplayer->powers[pw_invulnerability] = 0;
+                viewplayer->fixedcolormap = 0;
+                st_faceindex = ST_STRAIGHTFACE;
+                st_facecount = ST_STRAIGHTFACECOUNT;
+            }
+            else
+                viewplayer->powers[pw_invulnerability] = STARTFLASHING;
+
             return true;
 
         // berserk power-up
@@ -1531,7 +1541,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_invisibility])
                 return false;
 
-            viewplayer->powers[pw_invisibility] = STARTFLASHING;
+            viewplayer->powers[pw_invisibility] = STARTFLASHING * !freeze;
             return true;
 
         // radiation shielding suit power-up
@@ -1539,7 +1549,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_ironfeet])
                 return false;
 
-            viewplayer->powers[pw_ironfeet] = STARTFLASHING;
+            viewplayer->powers[pw_ironfeet] = STARTFLASHING * !freeze;
             return true;
 
         // computer area map power-up
@@ -1555,7 +1565,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_infrared])
                 return false;
 
-            viewplayer->powers[pw_infrared] = STARTFLASHING;
+            viewplayer->powers[pw_infrared] = STARTFLASHING * !freeze;
             return true;
 
         // clip

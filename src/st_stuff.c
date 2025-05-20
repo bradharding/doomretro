@@ -799,7 +799,19 @@ bool ST_Responder(const event_t *ev)
                             }
 
                             // [BH] start flashing palette to indicate power-up about to run out
-                            viewplayer->powers[i] = (freeze ? 0 : STARTFLASHING * (i != pw_allmap));
+                            if (freeze)
+                            {
+                                viewplayer->powers[i] = 0;
+
+                                if (i == pw_invulnerability)
+                                {
+                                    viewplayer->fixedcolormap = 0;
+                                    st_faceindex = ST_STRAIGHTFACE;
+                                    st_facecount = ST_STRAIGHTFACECOUNT;
+                                }
+                            }
+                            else
+                                viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
                         M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
@@ -1125,7 +1137,7 @@ static void ST_UpdateFaceWidget(void)
     int         painoffset;
     static int  faceindex;
 
-    if (paused || freeze || menuactive)
+    if (paused || menuactive)
         return;
 
     // invulnerability
@@ -1136,6 +1148,9 @@ static void ST_UpdateFaceWidget(void)
         st_facecount = 0;
         return;
     }
+
+    if (freeze)
+        return;
 
     if (priority < 10)
     {
