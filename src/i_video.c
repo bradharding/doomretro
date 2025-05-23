@@ -835,8 +835,8 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
 static void I_Blit_Shake(void)
 {
-    int x = dest_rect.x;
-    int y = dest_rect.y;
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
 
     UpdateGrab();
 
@@ -858,8 +858,8 @@ static void I_Blit_Shake(void)
 
 static void I_Blit_NearestLinear_Shake(void)
 {
-    int x = dest_rect.x;
-    int y = dest_rect.y;
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
 
     UpdateGrab();
 
@@ -884,8 +884,8 @@ static void I_Blit_NearestLinear_Shake(void)
 
 static void I_Blit_ShowFPS_Shake(void)
 {
-    int x = dest_rect.x;
-    int y = dest_rect.y;
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
 
     UpdateGrab();
     CalculateFPS();
@@ -908,8 +908,8 @@ static void I_Blit_ShowFPS_Shake(void)
 
 static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 {
-    int x = dest_rect.x;
-    int y = dest_rect.y;
+    const int   x = dest_rect.x;
+    const int   y = dest_rect.y;
 
     UpdateGrab();
     CalculateFPS();

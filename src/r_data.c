@@ -981,17 +981,17 @@ static void R_InitColormaps(void)
     {
         wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
 
-        if (!M_StringEndsWith(othercolormapwad->path, DOOMRETRO_RESOURCEWAD))
-        {
-            if (M_StringCompare(colormapwad->path, othercolormapwad->path))
-                C_Output("The " BOLD("COLORMAP") " lump and %i more in the %s " BOLD("%s") " are being used.",
-                    numcolormaps - 1, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
-            else
-                C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s")
-                    " and %i more in the %s " BOLD("%s") " are being used.",
-                    (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
-                    (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
-        }
+        if (M_StringEndsWith(othercolormapwad->path, DOOMRETRO_RESOURCEWAD))
+            C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s") " is being used.",
+                (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+        else if (M_StringCompare(colormapwad->path, othercolormapwad->path))
+            C_Output("The " BOLD("COLORMAP") " lump and %i more in the %s " BOLD("%s") " are being used.",
+                numcolormaps - 1, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
+        else
+            C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s")
+                " and %i more in the %s " BOLD("%s") " are being used.",
+                (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
+                (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }
 
     for (int i = 0; i < 255; i++)
