@@ -37,6 +37,7 @@
 * A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
 * A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
+* A bug is fixed whereby the `+prevweapon` action wouldn’t work if bound to a key.
 * These changes have been made to the support for *Final DOOM: The Plutonia Experiment* and *TNT - Evilution*:
   * Custom map names now always display correctly when playing a PWAD.
   * PWADs placed in the autoload folder are now always automatically loaded.
