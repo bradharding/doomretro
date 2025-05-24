@@ -866,7 +866,7 @@ bool G_Responder(const event_t *ev)
         case ev_keydown:
             key = ev->data1;
 
-            if ((key == keyboardprevweapon && key == keyboardprevweapon2) && !menuactive && !paused && !freeze)
+            if ((key == keyboardprevweapon || key == keyboardprevweapon2) && !menuactive && !paused && !freeze)
                 G_PrevWeapon();
             else if ((key == keyboardnextweapon || key == keyboardnextweapon2) && !menuactive && !paused && !freeze)
                 G_NextWeapon();
