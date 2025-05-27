@@ -38,6 +38,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "hu_lib.h"
 #include "hu_stuff.h"
@@ -180,6 +181,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 3)
                 tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
         }
+    }
+
+    if (M_StringCompare(l->l, s_STSTR_BUDDHA))
+    {
+        althudtextfunc(x, y, screens[0], altbuddha, false, color, SCREENWIDTH, tinttab);
+        return;
     }
 
     if (idbehold)

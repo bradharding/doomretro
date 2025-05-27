@@ -494,8 +494,7 @@ char    *s_STSTR_BEHOLD = STSTR_BEHOLD;
 char    *s_STSTR_BEHOLDX = STSTR_BEHOLDX;
 char    *s_STSTR_BEHOLDON = "";
 char    *s_STSTR_BEHOLDOFF = "";
-char    *s_STSTR_BUDDHAON = "";
-char    *s_STSTR_BUDDHAOFF = "";
+char    *s_STSTR_BUDDHA = "";
 char    *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
 char    *s_STSTR_CLEV = STSTR_CLEV;
 char    *s_STSTR_CLEVSAME = "";
@@ -1134,8 +1133,7 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_BEHOLDX,           "STSTR_BEHOLDX"           },
     { &s_STSTR_BEHOLDON,          "STSTR_BEHOLDON"          },
     { &s_STSTR_BEHOLDOFF,         "STSTR_BEHOLDOFF"         },
-    { &s_STSTR_BUDDHAON,          "STSTR_BUDDHAON"          },
-    { &s_STSTR_BUDDHAOFF,         "STSTR_BUDDHAOFF"         },
+    { &s_STSTR_BUDDHA,            "STSTR_BUDDHA"            },
     { &s_STSTR_CHOPPERS,          "STSTR_CHOPPERS"          },
     { &s_STSTR_CLEV,              "STSTR_CLEV"              },
     { &s_STSTR_CLEVSAME,          "STSTR_CLEVSAME"          },

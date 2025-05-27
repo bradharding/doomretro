@@ -73,6 +73,7 @@ patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
+patch_t                 *altbuddha;
 patch_t                 *lsquote;
 patch_t                 *ldquote;
 
@@ -805,6 +806,7 @@ void C_Init(void)
 
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");
+    altbuddha = W_CacheLastLumpName("DRBUDDHA");
 
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");

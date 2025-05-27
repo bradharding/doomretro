@@ -203,6 +203,7 @@ extern patch_t          *lsquote;
 extern patch_t          *ldquote;
 extern patch_t          *unknownchar;
 extern patch_t          *altunderscores;
+extern patch_t          *altbuddha;
 
 extern patch_t          *bindlist;
 extern patch_t          *cmdlist;

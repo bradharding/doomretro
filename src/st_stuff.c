@@ -500,7 +500,7 @@ bool ST_Responder(const event_t *ev)
                     if (viewplayer->cheats & CF_BUDDHA)
                     {
                         viewplayer->cheats &= ~CF_BUDDHA;
-                        C_Output(s_STSTR_BUDDHAOFF);
+                        C_Output(s_STSTR_BUDDHA);
                     }
 
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
@@ -720,7 +720,7 @@ bool ST_Responder(const event_t *ev)
                             else if (viewplayer->cheats & CF_BUDDHA)
                             {
                                 viewplayer->cheats &= ~CF_BUDDHA;
-                                C_Output(s_STSTR_BUDDHAOFF);
+                                C_Output(s_STSTR_BUDDHA);
                             }
                         }
 
@@ -908,7 +908,7 @@ bool ST_Responder(const event_t *ev)
                     else if (viewplayer->cheats & CF_BUDDHA)
                     {
                         viewplayer->cheats &= ~CF_BUDDHA;
-                        C_Output(s_STSTR_BUDDHAOFF);
+                        C_Output(s_STSTR_BUDDHA);
                     }
 
                     // [BH] fixed bug where invulnerability was never given, and now
@@ -966,16 +966,12 @@ bool ST_Responder(const event_t *ev)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
                     ST_PlayerCheated(cheat_buddha.sequence, "", NULL, true);
-                    C_Output(s_STSTR_BUDDHAON);
-                    HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
                 }
                 else
-                {
                     ST_PlayerCheated(cheat_buddha.sequence, "", NULL, false);
-                    C_Output(s_STSTR_BUDDHAOFF);
-                    HU_SetPlayerMessage(s_STSTR_BUDDHAOFF, false, false);
-                }
 
+                C_Output(s_STSTR_BUDDHA);
+                HU_SetPlayerMessage(s_STSTR_BUDDHA, false, false);
                 message_dontfuckwithme = true;
             }
 
