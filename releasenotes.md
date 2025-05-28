@@ -18,7 +18,7 @@
   * Weapons that use the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointers `A_WeaponProjectile`, `A_WeaponBulletAttack` and `A_WeaponMeleeAttack` now recoil if fired when the `weaponrecoil` CVAR is `on`.
   * A bug is fixed whereby things spawned using the [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible codepointer `A_SpawnObject` couldn’t be made translucent.
   * `Retro bits = MOREBLOOD` can now be used to spawn blood splats around a thing with a custom sprite at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
-  * A bug is fixed whereby the last line of a `DEHACKED` lump wasn’t being parsed.
+  * A bug is fixed whereby the last line of `DEHACKED` lumps wasn’t being parsed.
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Flats can now be offset and rotated using line specials 2,048 to 2,056.
   * Music can now be changed using line specials 2,057 to 2,068 and 2,087 to 2,098.

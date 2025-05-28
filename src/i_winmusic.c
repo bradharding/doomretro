@@ -38,11 +38,10 @@
 #include <Windows.h>
 #include <mmsystem.h>
 
-#include "SDL_mixer.h"
-
 #include "c_console.h"
 #include "m_config.h"
 #include "midifile.h"
+#include "s_sound.h"
 
 // Macros for use with the Windows MIDIEVENT dwEvent field.
 #define MIDIEVENT_CHANNEL(x)    (x & 0x0000000F)

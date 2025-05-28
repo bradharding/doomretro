@@ -2414,7 +2414,7 @@ static void D_DoomMainSetup(void)
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
             autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
         }
-        else 
+        else
         {
             bool    nonerve = false;
 
