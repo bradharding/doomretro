@@ -388,66 +388,69 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                     break;
     }
 
-    for (int i = 0; i < len; i++)
-    {
-        const unsigned char c = toupper(l->l[i]);
-
-        if (c == '\n' || i == wrap)
+    if (!STCFNxxx && M_StringCompare(l->l, s_STSTR_BUDDHA))
+        V_DrawPatchToTempScreen(x, l->y - 3, buddha, cr, screenwidth);
+    else
+        for (int i = 0; i < len; i++)
         {
-            x = l->x;
-            y += SHORT(hu_font[0]->height) + 2;
+            const unsigned char c = toupper(l->l[i]);
+
+            if (c == '\n' || i == wrap)
+            {
+                x = l->x;
+                y += SHORT(hu_font[0]->height) + 2;
+
+                if (c == ' ')
+                    continue;
+            }
 
             if (c == ' ')
-                continue;
-        }
-
-        if (c == ' ')
-            x += (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
-        else if (c >= l->sc && c <= '_')
-        {
-            int j = c - l->sc;
-
-            if (STCFNxxx)
+                x += (vanilla ? 4 : (i > 0 && (prev1 == '.' || prev1 == '!' || prev1 == '?') ? 5 : 3));
+            else if (c >= l->sc && c <= '_')
             {
-                // [BH] display lump from PWAD with shadow
-                if (prev2 == '.' && prev1 == ' ' && c == '(')
-                    x -= 2;
+                int j = c - l->sc;
 
-                V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr, screenwidth);
-                x += SHORT(l->f[j]->width);
-            }
-            else
-            {
-                // [BH] have matching curly single and double quotes
-                if (!i || prev1 == ' ')
+                if (STCFNxxx)
                 {
-                    if (c == '"')
-                        j = 64;
-                    else if (c == '\'')
-                        j = 65;
+                    // [BH] display lump from PWAD with shadow
+                    if (prev2 == '.' && prev1 == ' ' && c == '(')
+                        x -= 2;
+
+                    V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr, screenwidth);
+                    x += SHORT(l->f[j]->width);
                 }
-
-                // [BH] apply kerning to certain character pairs
-                if (prev2 == '.' && prev1 == ' ' && c == '(')
-                    x -= 2;
                 else
-                    for (int k = 0; kern[k].char1; k++)
-                        if (prev1 == kern[k].char1 && c == kern[k].char2)
-                        {
-                            x += kern[k].adjust;
-                            break;
-                        }
+                {
+                    // [BH] have matching curly single and double quotes
+                    if (!i || prev1 == ' ')
+                    {
+                        if (c == '"')
+                            j = 64;
+                        else if (c == '\'')
+                            j = 65;
+                    }
 
-                // [BH] draw individual character
-                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, cr);
+                    // [BH] apply kerning to certain character pairs
+                    if (prev2 == '.' && prev1 == ' ' && c == '(')
+                        x -= 2;
+                    else
+                        for (int k = 0; kern[k].char1; k++)
+                            if (prev1 == kern[k].char1 && c == kern[k].char2)
+                            {
+                                x += kern[k].adjust;
+                                break;
+                            }
 
-                x += (short)strlen(smallcharset[j]) / 10 - 1;
+                    // [BH] draw individual character
+                    HU_DrawChar(x, y - 1, j, tempscreen, screenwidth, cr);
+
+                    x += (short)strlen(smallcharset[j]) / 10 - 1;
+                }
             }
-        }
 
-        prev2 = prev1;
-        prev1 = c;
-    }
+            prev2 = prev1;
+            prev1 = c;
+        }
 
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)

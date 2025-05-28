@@ -101,6 +101,7 @@ void HU_DrawDisk(void);
 
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern patch_t  *minuspatch;
+extern patch_t  *buddha;
 
 extern uint64_t healthhighlight;
 extern uint64_t ammohighlight;

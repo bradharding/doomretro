@@ -78,6 +78,7 @@ int                     message_counter;
 static bool             headsupactive;
 
 patch_t                 *minuspatch = NULL;
+patch_t                 *buddha;
 short                   minuspatchtopoffset1 = 0;
 short                   minuspatchtopoffset2 = 0;
 short                   minuspatchwidth = 0;
@@ -176,6 +177,8 @@ void HU_Init(void)
         if (W_GetNumLumps(buffer) > 1)
             STCFNxxx = true;
     }
+
+    buddha = W_CacheLumpNameFromResourceWAD("DRBUDDH1");
 
     if ((lump = W_CheckNumForName("STTMINUS")) >= 0
         && (W_GetNumLumps("STTMINUS") > 1 || W_GetNumLumps("STTNUM0") == 1))

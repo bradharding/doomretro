@@ -806,7 +806,7 @@ void C_Init(void)
 
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");
-    altbuddha = W_CacheLastLumpName("DRBUDDHA");
+    altbuddha = W_CacheLumpNameFromResourceWAD("DRBUDDH2");
 
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");
