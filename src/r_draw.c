@@ -136,7 +136,7 @@ void R_DrawColumn(void)
     *dest = dc_sectorcolormap[colormap[dc_source[frac >> FRACBITS]]];
 }
 
-void R_DrawBrightmapColumn(void)
+void R_DrawColumnWithBrightmap(void)
 {
     int     count = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;
@@ -155,7 +155,7 @@ void R_DrawBrightmapColumn(void)
     *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
 }
 
-void R_DrawDitherLowColumn(void)
+void R_DrawLowResDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -172,7 +172,7 @@ void R_DrawDitherLowColumn(void)
     *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
-void R_DrawDitherColumn(void)
+void R_DrawDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -189,7 +189,7 @@ void R_DrawDitherColumn(void)
     *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
-void R_DrawBrightmapDitherLowColumn(void)
+void R_DrawLowResDitheredColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -209,7 +209,7 @@ void R_DrawBrightmapDitherLowColumn(void)
     *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
 }
 
-void R_DrawBrightmapDitherColumn(void)
+void R_DrawDitheredColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -246,7 +246,7 @@ void R_DrawCorrectedColumn(void)
     *dest = dc_sectorcolormap[colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
-void R_DrawCorrectedDitherLowColumn(void)
+void R_DrawCorrectedLowResDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -263,7 +263,7 @@ void R_DrawCorrectedDitherLowColumn(void)
     *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
-void R_DrawCorrectedDitherColumn(void)
+void R_DrawCorrectedDitheredColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -280,7 +280,7 @@ void R_DrawCorrectedDitherColumn(void)
     *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
-void R_DrawColorColumn(void)
+void R_DrawSolidColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;
     byte        *dest = ylookup0[dc_yl] + dc_x;
@@ -295,7 +295,7 @@ void R_DrawColorColumn(void)
     *dest = color;
 }
 
-void R_DrawColorDitherLowColumn(void)
+void R_DrawLowResDitheredSolidColorColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -310,7 +310,7 @@ void R_DrawColorDitherLowColumn(void)
     *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
 }
 
-void R_DrawColorDitherColumn(void)
+void R_DrawDitheredSolidColorColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -464,7 +464,7 @@ void R_DrawWallColumn(void)
     }
 }
 
-void R_DrawDitherLowWallColumn(void)
+void R_DrawLowResDitheredWallColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -506,7 +506,7 @@ void R_DrawDitherLowWallColumn(void)
     }
 }
 
-void R_DrawDitherWallColumn(void)
+void R_DrawDitheredWallColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -548,7 +548,7 @@ void R_DrawDitherWallColumn(void)
     }
 }
 
-void R_DrawBrightmapWallColumn(void)
+void R_DrawWallColumnWithBrightmap(void)
 {
     int     count = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;
@@ -594,7 +594,7 @@ void R_DrawBrightmapWallColumn(void)
     }
 }
 
-void R_DrawBrightmapDitherLowWallColumn(void)
+void R_DrawLowResDitheredWallColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -641,7 +641,7 @@ void R_DrawBrightmapDitherLowWallColumn(void)
     }
 }
 
-void R_DrawBrightmapDitherWallColumn(void)
+void R_DrawDitheredWallColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -822,7 +822,7 @@ void R_DrawTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]]];
 }
 
-void R_DrawBrightmapTranslucent50Column(void)
+void R_DrawTranslucent50ColumnWithBrightmap(void)
 {
     int     count = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;
@@ -841,7 +841,7 @@ void R_DrawBrightmapTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + dc_colormap[dc_brightmap[dot]][dot]]];
 }
 
-void R_DrawBrightmapDitherTranslucent50Column(void)
+void R_DrawDitheredTranslucent50ColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -861,7 +861,7 @@ void R_DrawBrightmapDitherTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
 }
 
-void R_DrawBrightmapDitherLowTranslucent50Column(void)
+void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -881,7 +881,7 @@ void R_DrawBrightmapDitherLowTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
 }
 
-void R_DrawDitherLowTranslucent50Column(void)
+void R_DrawLowResDitheredTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -898,7 +898,7 @@ void R_DrawDitherLowTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
 }
 
-void R_DrawDitherTranslucent50Column(void)
+void R_DrawDitheredTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -932,7 +932,7 @@ void R_DrawCorrectedTranslucent50Column(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]]];
 }
 
-void R_DrawTranslucent50ColorColumn(void)
+void R_DrawTranslucent50SolidColorColumn(void)
 {
     int     count = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;
@@ -946,7 +946,7 @@ void R_DrawTranslucent50ColorColumn(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + NOTEXTURECOLOR]];
 }
 
-void R_DrawTranslucent50ColorDitherLowColumn(void)
+void R_DrawLowResDitheredTranslucent50SolidColorColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -961,7 +961,7 @@ void R_DrawTranslucent50ColorDitherLowColumn(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
 }
 
-void R_DrawTranslucent50ColorDitherColumn(void)
+void R_DrawDitheredTranslucent50SolidColorColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
@@ -1197,7 +1197,7 @@ void R_DrawFuzzColumns(void)
                 else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
                     BIGFUZZYPIXEL(8, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 1)));
                 else
-                    BIGFUZZYPIXEL(6, (fuzz2table[fuzz2pos++] = FUZZ2((y > 0 ? -1 : 0), 1)));
+                    BIGFUZZYPIXEL(6, (fuzz2table[fuzz2pos++] = FUZZ2((y >= SCREENWIDTH * 2 ? -1 : 0), 1)));
             }
         }
 }
@@ -1332,7 +1332,7 @@ void R_DrawSpan(void)
     *dest = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
-void R_DrawDitherLowSpan(void)
+void R_DrawLowResDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
@@ -1347,7 +1347,7 @@ void R_DrawDitherLowSpan(void)
     *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
-void R_DrawDitherSpan(void)
+void R_DrawDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
@@ -1362,7 +1362,7 @@ void R_DrawDitherSpan(void)
     *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
-void R_DrawColorSpan(void)
+void R_DrawSolidColorSpan(void)
 {
     int         count = ds_x2 - ds_x1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
@@ -1374,7 +1374,7 @@ void R_DrawColorSpan(void)
     *dest = color;
 }
 
-void R_DrawDitherLowColorSpan(void)
+void R_DrawLowResDitheredSolidColorSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
@@ -1385,7 +1385,7 @@ void R_DrawDitherLowColorSpan(void)
     *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR]];
 }
 
-void R_DrawDitherColorSpan(void)
+void R_DrawDitheredSolidColorSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;

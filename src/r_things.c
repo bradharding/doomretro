@@ -1221,7 +1221,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
     if (invisibility)
     {
-        vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50ColorColumn);
+        vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50SolidColorColumn);
         vis->colormap = NULL;
     }
     else
@@ -1232,7 +1232,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             if (!r_textures)
             {
-                vis->colfunc = (psp == &viewplayer->psprites[1] ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+                vis->colfunc = (psp == &viewplayer->psprites[1] ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
                 vis->colormap = NULL;
             }
             else if (spr == SPR_SHT2)
@@ -1271,7 +1271,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             if (!r_textures)
             {
-                vis->colfunc = &R_DrawColorColumn;
+                vis->colfunc = &R_DrawSolidColorColumn;
                 vis->colormap = NULL;
             }
             else

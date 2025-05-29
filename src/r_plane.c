@@ -587,7 +587,7 @@ void R_DrawPlanes(void)
                     {
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                                R_DrawColorColumn();
+                                R_DrawSolidColorColumn();
                     }
                     else
                     {
