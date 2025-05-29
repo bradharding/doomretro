@@ -96,6 +96,7 @@ patch_t                 *thinglist;
 static short            brandwidth;
 static short            brandheight;
 static short            spacewidth;
+static short            altbuddhawidth;
 
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
@@ -821,6 +822,7 @@ void C_Init(void)
     degreewidth = SHORT(degree->width);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
+    altbuddhawidth = SHORT(altbuddha->width);
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00", true);
@@ -1054,6 +1056,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     {
         V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
         x += (text[0] == 'T' ? WARNINGWIDTH : WARNINGWIDTH + 1);
+    }
+
+    if (M_StringCompare(text, s_STSTR_BUDDHA))
+    {
+        V_DrawConsoleTextPatch(x, y, altbuddha, altbuddhawidth, color1, color2, false, tinttab);
+        return 0;
     }
 
     for (int i = 0; i < len; i++)
