@@ -1197,7 +1197,7 @@ void R_DrawFuzzColumns(void)
                 else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
                     BIGFUZZYPIXEL(8, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 1)));
                 else
-                    BIGFUZZYPIXEL(6, (fuzz2table[fuzz2pos++] = FUZZ2(-1, 1)));
+                    BIGFUZZYPIXEL(6, (fuzz2table[fuzz2pos++] = FUZZ2((y > 0 ? -1 : 0), 1)));
             }
         }
 }
