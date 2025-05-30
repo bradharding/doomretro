@@ -537,7 +537,15 @@ floater:
                     player->deltaviewheight = mo->momz / 8;
 
                     if (mo->health > 0)
+                    {
                         S_StartSound(mo, sfx_oof);
+
+                        if (joy_rumble_damage)
+                        {
+                            I_ControllerRumble(OOF_RUMBLE_STRENGTH, OOF_RUMBLE_STRENGTH);
+                            damagerumbletics += OOF_RUMBLE_TICS;
+                        }
+                    }
                 }
             }
 
