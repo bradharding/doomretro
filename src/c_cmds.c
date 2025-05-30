@@ -745,6 +745,8 @@ consolecmd_t consolecmds[] =
         "The amount a controller rumbles when you are near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(joy_rumble_damage, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount a controller rumbles when you take damage (" BOLD("0%") " to " BOLD("200%") ")."),
+    CVAR_BOOL(joy_rumble_fall, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles rumbling a controller when you land after a fall."),
     CVAR_BOOL(joy_rumble_pickup, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles rumbling a controller when you pick something up."),
     CVAR_INT(joy_rumble_weapons, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,

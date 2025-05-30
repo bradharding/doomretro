@@ -164,7 +164,7 @@ void I_InitController(void)
                 controllerrumbles = true;
             else
 #endif
-                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
+                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
                     C_Warning(1, "This controller doesn't rumble!");
 
             I_SetControllerLeftDeadZone();

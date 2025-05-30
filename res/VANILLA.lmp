@@ -49,6 +49,7 @@ joy_analog off
 joy_invertyaxis off
 joy_rumble_barrels 0%
 joy_rumble_damage 0%
+joy_rumble_fall off
 joy_rumble_pickup off
 joy_rumble_weapons 0%
 joy_sensitivity_horizontal 16

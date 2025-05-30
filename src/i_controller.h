@@ -66,8 +66,8 @@
 #define IDLE_CHAINSAW_RUMBLE_STRENGTH   10000
 #define PICKUP_RUMBLE_STRENGTH          15000
 #define PICKUP_RUMBLE_TICS              10
-#define OOF_RUMBLE_STRENGTH             10000
-#define OOF_RUMBLE_TICS                 15
+#define FALL_RUMBLE_STRENGTH             10000
+#define FALL_RUMBLE_TICS                 15
 
 extern int      barrelrumbletics;
 extern int      damagerumbletics;

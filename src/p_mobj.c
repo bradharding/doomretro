@@ -540,10 +540,10 @@ floater:
                     {
                         S_StartSound(mo, sfx_oof);
 
-                        if (joy_rumble_damage)
+                        if (joy_rumble_fall)
                         {
-                            I_ControllerRumble(OOF_RUMBLE_STRENGTH, OOF_RUMBLE_STRENGTH);
-                            damagerumbletics += OOF_RUMBLE_TICS;
+                            I_ControllerRumble(FALL_RUMBLE_STRENGTH, FALL_RUMBLE_STRENGTH);
+                            damagerumbletics += FALL_RUMBLE_TICS;
                         }
                     }
                 }
