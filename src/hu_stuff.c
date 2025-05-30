@@ -739,6 +739,7 @@ typedef struct
     int     color;
     byte    *tinttab;
     patch_t *patch;
+    short   width;
 } altkeypic_t;
 
 static altkeypic_t altkeypics[NUMCARDS] =
@@ -891,6 +892,9 @@ static void HU_AltInit(void)
     altkeypics[it_yellowskull].tinttab = tinttab60;
     altkeypics[it_redskull].patch = altskullpatch;
     altkeypics[it_redskull].tinttab = tinttab60;
+
+    for (int i = 0; i < NUMCARDS; i++)
+        altkeypics[i].width = SHORT(altkeypics[i].patch->width);
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -1397,7 +1401,7 @@ static void HU_DrawAltHUD(void)
                     else
                         althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
-                    keypic_x += SHORT(patch->width) + 4;
+                    keypic_x += altkeypic.width + 4;
                 }
 
         if (viewplayer->neededcardflash)
@@ -1427,7 +1431,7 @@ static void HU_DrawAltHUD(void)
                             else
                                 althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
-                            keypic_x += SHORT(patch->width) + 4;
+                            keypic_x += altkeypic.width + 4;
                         }
             }
             else

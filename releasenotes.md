@@ -53,7 +53,7 @@
 * Improvements have been made to fixing the offsets of sprites when the `r_fixspriteoffsets` CVAR is `on`.
 * Playing sound effects in full as things are removed from a map can now be disabled using the new `s_fullsfx` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
-* The player’s controller now rumbles when they fall from a great height and the `joy_rumble_damage` CVAR is `on`.
+* The player’s controller now rumbles when they fall to the floor from a great height and the `joy_rumble_damage` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

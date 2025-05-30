@@ -598,7 +598,7 @@ void R_DrawPlanes(void)
                         // to allow sky rotation as well as careful positioning.
                         // However, the offset is scaled very small, so that it
                         // allows a long-period of sky rotation.
-                        angle_t         angle = viewangle + side->textureoffset;
+                        const angle_t   angle = viewangle + side->textureoffset;
 
                         angle_t         flip = 0U;
                         const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texture);

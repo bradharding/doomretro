@@ -914,7 +914,8 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
                 break;
 
             default:
-                S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor), actor->info->seesound);
+                S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor),
+                    actor->info->seesound);
                 break;
         }
 
