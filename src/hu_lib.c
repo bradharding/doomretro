@@ -341,20 +341,18 @@ const kern_t kern[] =
 
 static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 {
-    int             x = l->x;
-    int             y = l->y;
-    unsigned char   prev1 = '\0';
-    unsigned char   prev2 = '\0';
-    byte            *fb1;
-    byte            *fb2;
-    byte            *tinttab1 = tinttab40;
-    byte            *tinttab2 = tinttab75;
-    byte            *cr = (message_secret && !vanilla ? cr_gold : cr_none);
-    const int       black = (nearestblack << 8);
-    const int       len = l->len;
-    int             screenwidth;
-    int             screenarea;
-    int             wrap = -1;
+    int         x = l->x;
+    int         y = l->y;
+    byte        *fb1;
+    byte        *fb2;
+    byte        *tinttab1 = tinttab40;
+    byte        *tinttab2 = tinttab75;
+    byte        *cr = (message_secret && !vanilla ? cr_gold : cr_none);
+    const int   black = (nearestblack << 8);
+    const int   len = l->len;
+    int         screenwidth;
+    int         screenarea;
+    int         wrap = -1;
 
     if (external)
     {
@@ -391,6 +389,10 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     if (!STCFNxxx && M_StringCompare(l->l, s_STSTR_BUDDHA))
         V_DrawPatchToTempScreen(x, l->y - 3, buddha, cr, screenwidth);
     else
+    {
+        unsigned char   prev1 = '\0';
+        unsigned char   prev2 = '\0';
+
         for (int i = 0; i < len; i++)
         {
             const unsigned char c = toupper(l->l[i]);
@@ -452,23 +454,24 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             prev1 = c;
         }
 
-    // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)
-        for (int y1 = 0; y1 < 4; y1++)
-            for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
-            {
-                const unsigned char src = underscores[y1 * VANILLAWIDTH + x1];
+        // [BH] draw underscores for IDBEHOLD cheat message
+        if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)
+            for (int y1 = 0; y1 < 4; y1++)
+                for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
+                {
+                    const unsigned char src = underscores[y1 * VANILLAWIDTH + x1];
 
-                if (src != ' ')
-                    for (int y2 = 0; y2 < 2; y2++)
-                        for (int x2 = 0; x2 < 2; x2++)
-                        {
-                            byte    *dest = &tempscreen[((l->y + y1 + 6) * 2 + y2) * screenwidth
-                                        + (l->x + x1 - 3) * 2 + x2];
+                    if (src != ' ')
+                        for (int y2 = 0; y2 < 2; y2++)
+                            for (int x2 = 0; x2 < 2; x2++)
+                            {
+                                byte    *dest = &tempscreen[((l->y + y1 + 6) * 2 + y2) * screenwidth
+                                            + (l->x + x1 - 3) * 2 + x2];
 
-                            *dest = (src == PINK ? 0 : src);
-                        }
-            }
+                                *dest = (src == PINK ? 0 : src);
+                            }
+                }
+    }
 
     // [BH] draw entire message from buffer onto screen
     if (fade)

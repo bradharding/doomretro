@@ -147,7 +147,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
             {
                 byte    *d = data;
 
-                while (numpixels)
+                while (numpixels > 0)
                 {
                     byte    code = *p++;
                     int     length;

@@ -9228,7 +9228,7 @@ static void unbind_func2(char *cmd, char *parms)
 //
 static void vanilla_func2(char *cmd, char *parms)
 {
-    static bool buddha;
+    static bool buddhamode;
     static bool hud;
     static bool nomousestrafe;
     static bool showfps;
@@ -9271,7 +9271,7 @@ static void vanilla_func2(char *cmd, char *parms)
 
         SC_Close();
 
-        if ((buddha = (viewplayer->cheats & CF_BUDDHA)))
+        if ((buddhamode = (viewplayer->cheats & CF_BUDDHA)))
             viewplayer->cheats &= ~CF_BUDDHA;
 
         if ((nomousestrafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
@@ -9279,7 +9279,7 @@ static void vanilla_func2(char *cmd, char *parms)
     }
     else
     {
-        if (buddha)
+        if (buddhamode)
             viewplayer->cheats |= CF_BUDDHA;
 
         r_hud = hud;
