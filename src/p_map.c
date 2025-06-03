@@ -2242,7 +2242,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         P_DamageMobj(thing, NULL, NULL, 10, true, false);
 
-        if (thing->health <= 0 && !thing->player && obituaries)
+        if (thing->health <= 0 && !thing->player && thing->type != MT_BARREL && obituaries)
         {
             char    name[128];
 
@@ -2256,7 +2256,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                     (*thing->info->name1 ? thing->info->name1 : "monster"));
 
             name[0] = toupper(name[0]);
-            C_PlayerMessage("%s was crushed%s.", name, (thing->type == MT_BARREL ? "" : " to death"));
+            C_PlayerMessage("%s was crushed to death.", name);
         }
     }
 }
