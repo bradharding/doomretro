@@ -10151,10 +10151,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            const int   i = C_GetIndex(cmd);
-            char        *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
+            char    *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
 
-            C_ShowDescription(i);
+            C_ShowDescription(C_GetIndex(cmd));
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
@@ -10196,10 +10195,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            const int   i = C_GetIndex(cmd);
-            char        *temp = commify(viewplayer->armor);
+            char    *temp = commify(viewplayer->armor);
 
-            C_ShowDescription(i);
+            C_ShowDescription(C_GetIndex(cmd));
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
@@ -10284,11 +10282,10 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char        *temp = commify(negativehealth && minuspatch && !viewplayer->health ?
-                            viewplayer->negativehealth : viewplayer->health);
-            const int   i = C_GetIndex(cmd);
+            char    *temp = commify(negativehealth && minuspatch && !viewplayer->health ?
+                        viewplayer->negativehealth : viewplayer->health);
 
-            C_ShowDescription(i);
+            C_ShowDescription(C_GetIndex(cmd));
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
@@ -11201,6 +11198,7 @@ static void r_antialiasing_func2(char *cmd, char *parms)
         }
 
         free(temp1);
+
         C_ShowWarning(i);
     }
 }
