@@ -135,6 +135,9 @@ char        *savegamefolder;
 char        *autoloadfolder;
 char        *autoloadiwadsubfolder;
 char        *autoloadpwadsubfolder;
+char        *autoloadsigilsubfolder;
+char        *autoloadsigil2subfolder;
+char        *autoloadnervesubfolder;
 
 char        *pwadfile = "";
 
@@ -787,8 +790,17 @@ bool D_IsSIGILWAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return (M_StringStartsWith(file, "SIGIL") && M_StringEndsWith(file, "WAD")
-        && !D_IsSIGIL2WAD(filename) && !D_IsSIGILSHREDSWAD(filename));
+    return (M_StringCompare(file, "SIGIL.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT_V1_0.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT_V1_1.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT_V1_2.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT_V1_21.WAD")
+        || M_StringCompare(file, "SIGIL_V1_0.WAD")
+        || M_StringCompare(file, "SIGIL_V1_1.WAD")
+        || M_StringCompare(file, "SIGIL_V1_2.WAD")
+        || M_StringCompare(file, "SIGIL_V1_21.WAD")
+        || M_StringCompare(file, "SIGIL1.WAD"));
 }
 
 bool D_IsSIGILSHREDSWAD(char *filename)
@@ -803,8 +815,9 @@ bool D_IsSIGIL2WAD(char *filename)
 {
     const char  *file = leafname(filename);
 
-    return ((M_StringStartsWith(file, "SIGIL_II") || M_StringStartsWith(file, "SIGILII")
-        || M_StringStartsWith(file, "SIGIL2")) && M_StringEndsWith(file, "WAD"));
+    return (M_StringCompare(file, "SIGIL_II_V1_0.WAD")
+        || M_StringCompare(file, "SIGIL_II_MP3_V1_0.WAD")
+        || M_StringCompare(file, "SIGIL2.WAD"));
 }
 
 bool D_IsDOOM2IWAD(char *filename)
@@ -2413,6 +2426,18 @@ static void D_DoomMainSetup(void)
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
             autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
+
+            if (sigil && autoloadsigilsubfolder)
+            {
+                autoloadsigilsubfolder = M_StringJoin(autoloadfolder, autoloadsigilsubfolder, DIR_SEPARATOR_S, NULL);
+                autoloading |= W_AutoloadFiles(autoloadsigilsubfolder, false);
+            }
+
+            if (sigil2 && autoloadsigil2subfolder)
+            {
+                autoloadsigil2subfolder = M_StringJoin(autoloadfolder, autoloadsigil2subfolder, DIR_SEPARATOR_S, NULL);
+                autoloading |= W_AutoloadFiles(autoloadsigil2subfolder, false);
+            }
         }
         else
         {
@@ -2428,6 +2453,12 @@ static void D_DoomMainSetup(void)
 
             autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
             autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
+
+            if (nerve && autoloadnervesubfolder)
+            {
+                autoloadnervesubfolder = M_StringJoin(autoloadfolder, autoloadnervesubfolder, DIR_SEPARATOR_S, NULL);
+                autoloading |= W_AutoloadFiles(autoloadnervesubfolder, false);
+            }
         }
 
         if (autoloadpwadsubfolder)

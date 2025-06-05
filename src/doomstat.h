@@ -254,6 +254,9 @@ extern char             *savegamefolder;
 extern char             *autoloadfolder;
 extern char             *autoloadiwadsubfolder;
 extern char             *autoloadpwadsubfolder;
+extern char             *autoloadsigilsubfolder;
+extern char             *autoloadsigil2subfolder;
+extern char             *autoloadnervesubfolder;
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw

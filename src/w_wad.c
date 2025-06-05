@@ -441,6 +441,8 @@ bool W_AddFile(char *filename, bool autoloaded)
             autosigil = autoloaded;
             C_Output("You can play John Romero's " ITALICS("SIGIL")
                 " by choosing it in the episode menu.");
+
+            autoloadsigilsubfolder = removeext(leafname(GetCorrectCase(filename)));
         }
         else if (D_IsSIGILSHREDSWAD(file))
         {
@@ -470,12 +472,16 @@ bool W_AddFile(char *filename, bool autoloaded)
                 thorr = true;
                 C_Output("Thorr's music will be heard while you play " ITALICS("SIGIL II") ".");
             }
+
+            autoloadsigil2subfolder = removeext(leafname(GetCorrectCase(filename)));
         }
         else if (D_IsNERVEWAD(file))
         {
             nervewadadded = true;
             C_Output("You can play Nerve Software's " ITALICS("No Rest For The Living")
                 " by choosing it in the expansion menu.");
+
+            autoloadnervesubfolder = removeext(leafname(GetCorrectCase(filename)));
         }
         else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
