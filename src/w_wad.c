@@ -506,10 +506,10 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
 #if defined(_WIN32)
     bool            result = false;
     WIN32_FIND_DATA FindFileData;
-    char            *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
-    HANDLE          handle = FindFirstFile(temp1, &FindFileData);
+    char            *temp = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
+    HANDLE          handle = FindFirstFile(temp, &FindFileData);
 
-    free(temp1);
+    free(temp);
 
     if (handle == INVALID_HANDLE_VALUE)
         return false;
@@ -527,18 +527,20 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
                     || D_IsSIGILSHREDSWAD(FindFileData.cFileName)))
                 continue;
 
-            temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
+            temp = M_StringJoin(folder, FindFileData.cFileName, NULL);
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
                 || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
             {
-                if ((result = W_MergeFile(temp1, true)))
-                    D_CheckSupportedPWAD(temp1);
+                if ((result = W_MergeFile(temp, true)))
+                    D_CheckSupportedPWAD(temp);
+                C_Warning(0, temp);
+                C_Warning(0, "%i", result);
             }
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
             {
-                D_ProcessDehFile(temp1, 0, true);
+                D_ProcessDehFile(temp, 0, true);
                 result = true;
             }
             else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
@@ -547,10 +549,10 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
                 FILE    *file;
                 int     linecount = 0;
 
-                if (!(file = fopen(temp1, "rt")))
+                if (!(file = fopen(temp, "rt")))
                 {
-                    C_Warning(0, BOLD("%s") " couldn't be opened.", temp1);
-                    free(temp1);
+                    C_Warning(0, BOLD("%s") " couldn't be opened.", temp);
+                    free(temp);
                     return false;
                 }
 
@@ -570,17 +572,17 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
                 fclose(file);
 
                 if (linecount == 1)
-                    C_Output("One line has been parsed in " BOLD("%s") ".", temp1);
+                    C_Output("One line has been parsed in " BOLD("%s") ".", temp);
                 else
                 {
                     char    *temp2 = commify(linecount);
 
-                    C_Output("%s lines have been parsed in " BOLD("%s") ".", temp2, temp1);
+                    C_Output("%s lines have been parsed in " BOLD("%s") ".", temp2, temp);
                     free(temp2);
                 }
             }
 
-            free(temp1);
+            free(temp);
         }
     } while (FindNextFile(handle, &FindFileData));
 

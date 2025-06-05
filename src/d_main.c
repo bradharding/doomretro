@@ -135,9 +135,9 @@ char        *savegamefolder;
 char        *autoloadfolder;
 char        *autoloadiwadsubfolder;
 char        *autoloadpwadsubfolder;
-char        *autoloadsigilsubfolder;
-char        *autoloadsigil2subfolder;
-char        *autoloadnervesubfolder;
+char        *autoloadsigilsubfolder = "";
+char        *autoloadsigil2subfolder = "";
+char        *autoloadnervesubfolder = "";
 
 char        *pwadfile = "";
 
