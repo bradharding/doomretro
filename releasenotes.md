@@ -9,6 +9,8 @@
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
 * Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * John Romero’s [*SIGIL II*](https://romero.com/sigil) will now autoload correctly if named `SIGIL2.WAD` and placed in the `autoload` folder.
+* Additional PWADs will now autoload along with *SIGIL*, *SIGIL II* and *No Rest For The Living* by placing them in the `autoload` folder.
+* A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
@@ -34,7 +36,6 @@
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * A bug is fixed whereby the console would open when using the mouse pointer to adjust sliders in the options menu.
 * The `vid_widescreen` CVAR no longer resets to `off` at startup if `-warp` is used on the command-line.
-* A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
 * A bug is fixed whereby all shootable things, and not just monsters, would be hidden when using the `nomonsters` CCMD or if `-nomonsters` was used on the command-line.
 * The mouse wheel can now be bound to actions other than `+nextweapon` and `+prevweapon` using the `wheelup` and `wheeldown` controls with the `bind` CCMD in the console.
 * A bug is fixed whereby the `+prevweapon` action wouldn’t work if bound to a key.
