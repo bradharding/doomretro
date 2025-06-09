@@ -551,7 +551,7 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
                 {
                     C_Warning(0, BOLD("%s") " couldn't be opened.", temp);
                     free(temp);
-                    return false;
+                    continue;
                 }
 
                 result = true;
