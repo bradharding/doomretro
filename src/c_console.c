@@ -1351,12 +1351,12 @@ static int C_GetOverlayTextColor(void)
 void C_UpdateFPSOverlay(void)
 {
     const int   color = C_GetOverlayTextColor();
-    const int   x = SCREENWIDTH - fpswidth - OVERLAYTEXTX + 1;
+    const int   x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
     const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     char        *temp = commify(framespersecond);
 
-    V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, OVERLAYTEXTY, fps, fpswidth - 1, color, tinttab);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, OVERLAYTEXTY,
+    V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, OVERLAYTEXTY + 3, fps, fpswidth, color, tinttab);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 2, OVERLAYTEXTY,
         tinttab, temp, color, true);
     free(temp);
 }

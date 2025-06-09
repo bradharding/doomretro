@@ -534,8 +534,6 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
             {
                 if ((result = W_MergeFile(temp, true)))
                     D_CheckSupportedPWAD(temp);
-                C_Warning(0, temp);
-                C_Warning(0, "%i", result);
             }
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
