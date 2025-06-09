@@ -74,6 +74,7 @@ patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
 patch_t                 *altbuddha;
+patch_t                 *fps;
 patch_t                 *lsquote;
 patch_t                 *ldquote;
 
@@ -97,6 +98,7 @@ static short            brandwidth;
 static short            brandheight;
 static short            spacewidth;
 static short            altbuddhawidth;
+static short            fpswidth;
 
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
@@ -808,6 +810,7 @@ void C_Init(void)
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");
     altbuddha = W_CacheLumpNameFromResourceWAD("DRBUDDH2");
+    fps = W_CacheLastLumpName("DRFONFPS");
 
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");
@@ -823,6 +826,7 @@ void C_Init(void)
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     altbuddhawidth = SHORT(altbuddha->width);
+    fpswidth = SHORT(fps->width);
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00", true);
@@ -1346,14 +1350,14 @@ static int C_GetOverlayTextColor(void)
 
 void C_UpdateFPSOverlay(void)
 {
-    char    buffer[32];
-    char    *temp = commify(framespersecond);
+    const int   color = C_GetOverlayTextColor();
+    const int   x = SCREENWIDTH - fpswidth - OVERLAYTEXTX + 1;
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    char        *temp = commify(framespersecond);
 
-    M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
-
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY, (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL), buffer,
-        C_GetOverlayTextColor(), true);
+    V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, OVERLAYTEXTY, fps, fpswidth - 1, color, tinttab);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, OVERLAYTEXTY,
+        tinttab, temp, color, true);
     free(temp);
 }
 
