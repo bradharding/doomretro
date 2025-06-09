@@ -39,6 +39,7 @@
 #include "i_colors.h"
 #include "i_video.h"
 #include "i_swap.h"
+#include "i_system.h"
 #include "r_defs.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -103,7 +104,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
         upper = true;
 
     numchars = header->lastc - header->firstc + 1;
-    chars = malloc(numchars * sizeof(*chars));
+    chars = I_Malloc(numchars * sizeof(*chars));
 
     for (int i = 0; i < numchars; i++)
     {
@@ -119,8 +120,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
     // Build translation table for palette.
     playpal = W_CacheLumpName("PLAYPAL");
 
-    if (!(translate = malloc(header->palsize + 1)))
-        return false;
+    translate = I_Malloc(header->palsize + 1);
 
     for (int i = 0; i <= header->palsize; i++)
     {
@@ -141,41 +141,37 @@ bool M_LoadFON2(byte *gfx_data, int size)
         if (chars[i].width)
         {
             int     numpixels = chars[i].width * height;
-            byte    *data = malloc(numpixels);
+            byte    *data = I_Malloc(numpixels);
+            byte    *d = data;
 
-            if (data)
+            while (numpixels > 0)
             {
-                byte    *d = data;
+                byte    code = *p++;
+                int     length;
 
-                while (numpixels > 0)
+                if (code < 0x80)
                 {
-                    byte    code = *p++;
-                    int     length;
+                    length = code + 1;
 
-                    if (code < 0x80)
-                    {
-                        length = code + 1;
+                    for (int j = 0; j < length; j++)
+                        d[j] = translate[p[j]];
 
-                        for (int j = 0; j < length; j++)
-                            d[j] = translate[p[j]];
-
-                        d += length;
-                        p += length;
-                        numpixels -= length;
-                    }
-                    else if (code > 0x80)
-                    {
-                        length = 0x0101 - code;
-                        code = *p++;
-                        memset(d, translate[code], length);
-                        d += length;
-                        numpixels -= length;
-                    }
+                    d += length;
+                    p += length;
+                    numpixels -= length;
                 }
-
-                chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
-                free(data);
+                else if (code > 0x80)
+                {
+                    length = 0x0101 - code;
+                    code = *p++;
+                    memset(d, translate[code], length);
+                    d += length;
+                    numpixels -= length;
+                }
             }
+
+            chars[i].patch = V_LinearToTransPatch(data, chars[i].width, height, color_key);
+            free(data);
         }
 
     free(translate);

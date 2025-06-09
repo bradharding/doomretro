@@ -126,7 +126,7 @@ static void R_InitTextures(void)
         char            *name_p;
     } pnameslump_t;
 
-    pnameslump_t        *pnameslumps = malloc(sizeof(pnameslump_t));
+    pnameslump_t        *pnameslumps = I_Malloc(sizeof(pnameslump_t));
     int                 maxpnameslumps = 1;
     int                 numpnameslumps = 0;
     const maptexture_t  *mtexture;
@@ -163,7 +163,7 @@ static void R_InitTextures(void)
             numpnameslumps++;
         }
 
-    patchlookup = malloc(nummappatches * sizeof(*patchlookup)); // killough
+    patchlookup = I_Malloc(nummappatches * sizeof(*patchlookup));   // killough
 
     for (int i = 0, patch = 0; i < numpnameslumps; i++)
         for (int j = 0; j < pnameslumps[i].nummappatches; j++)
@@ -1137,6 +1137,9 @@ int R_TextureNumForName(const char *name)
 void R_PrecacheLevel(void)
 {
     bool    *hitlist = calloc(MAX(MAX(numsectors, numflats), MAX(numsides, numtextures)), sizeof(bool));
+
+    if (!hitlist)
+        return;
 
     // Precache flats.
     for (int i = 0; i < numsectors; i++)

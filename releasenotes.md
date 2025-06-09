@@ -9,7 +9,7 @@
 * Very long player messages now wrap to a second line when the `vid_widescreen` CVAR is `on`.
 * Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * John Romero’s [*SIGIL II*](https://romero.com/sigil) will now autoload correctly if named `SIGIL2.WAD` and placed in the `autoload` folder.
-* Additional PWADs will now autoload alongside *SIGIL*, *SIGIL II* and *No Rest For The Living* by placing them in the corresponding `autoload` folder.
+* Additional PWADs will now autoload alongside *SIGIL*, *SIGIL II* and *No Rest For The Living* by placing them in the relevant `autoload` subfolder.
 * A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.

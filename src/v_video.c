@@ -2196,7 +2196,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
         size++;                                                 // room for 0xFF cap byte
     }
 
-    output = malloc(size);
+    output = I_Malloc(size);
     rover = output;
 
     // write header fields
