@@ -55,6 +55,7 @@
 * Playing sound effects in full as things are removed from a map can now be disabled using the new `s_fullsfx` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The player’s controller now rumbles when they land after a fall using the new `joy_rumble_fall` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The `vid_showfps` CVAR no longer resets to `off` at startup.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

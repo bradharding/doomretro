@@ -1356,7 +1356,7 @@ void C_UpdateFPSOverlay(void)
     char        *temp = commify(framespersecond);
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, OVERLAYTEXTY + 3, fps, fpswidth, color, tinttab);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 2, OVERLAYTEXTY,
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, OVERLAYTEXTY,
         tinttab, temp, color, true);
     free(temp);
 }

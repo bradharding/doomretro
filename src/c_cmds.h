@@ -92,10 +92,9 @@ enum
     CF_TIME         =   32,
     CF_OTHER        =   64,
     CF_READONLY     =  128,
-    CF_STARTUPRESET =  256,
-    CF_MAPRESET     =  512,
-    CF_NEXTMAP      = 1024,
-    CF_PISTOLSTART  = 2048
+    CF_MAPRESET     =  256,
+    CF_NEXTMAP      =  512,
+    CF_PISTOLSTART  = 1024
 };
 
 typedef struct

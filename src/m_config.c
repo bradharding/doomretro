@@ -472,6 +472,7 @@ static default_t cvars[] =
     CVAR_STRING       (vid_scaleapi,                     vid_scaleapi,                          vid_scaleapi,                          NOVALUEALIAS       ),
     CVAR_STRING       (vid_scalefilter,                  vid_scalefilter,                       vid_scalefilter,                       NOVALUEALIAS       ),
     CVAR_OTHER        (vid_screenresolution,             vid_screenresolution,                  vid_screenresolution,                  NOVALUEALIAS       ),
+    CVAR_BOOL         (vid_showfps,                      vid_showfps,                           vid_showfps,                           BOOLVALUEALIAS     ),
     CVAR_INT          (vid_vsync,                        vid_vsync,                             vid_vsync,                             VSYNCVALUEALIAS    ),
     CVAR_BOOL         (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                        BOOLVALUEALIAS     ),
     CVAR_OTHER        (vid_windowpos,                    vid_windowposition,                    vid_windowpos,                         NOVALUEALIAS       ),

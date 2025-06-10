@@ -1058,7 +1058,7 @@ consolecmd_t consolecmds[] =
         "The filter applied when scaling every frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", "", null_func1, vid_screenresolution_func2,
         "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
-    CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_func2, CF_STARTUPRESET, BOOLVALUEALIAS,
+    CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
 #if defined(__APPLE__)
     CVAR_INT(vid_vsync, "", "", vid_vsync_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
@@ -1373,8 +1373,6 @@ static void C_ShowWarning(int index)
 
     if (flags & CF_READONLY)
         C_Warning(0, "It is read-only.");
-    else if (flags & CF_STARTUPRESET)
-        C_Warning(0, "It is reset to its default during startup.");
     else if (flags & CF_MAPRESET)
         C_Warning(0, "It is reset to its default at the start of each map.");
     else if ((flags & CF_NEXTMAP) && gamestate == GS_LEVEL)
