@@ -6021,9 +6021,7 @@ static char *playcmdname;
 
 static bool play_func1(char *cmd, char *parms)
 {
-    char    *parm = removenonalpha(parms);
-
-    if (!*parm)
+    if (!*parms)
         return true;
 
     for (int i = 1; i < NUMSFX; i++)
@@ -6032,7 +6030,7 @@ static bool play_func1(char *cmd, char *parms)
 
         M_snprintf(namebuf, sizeof(namebuf), "ds%s", s_sfx[i].name2);
 
-        if (M_StringCompare(parm, namebuf) && W_CheckNumForName(namebuf) >= 0)
+        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 1;
@@ -6050,7 +6048,7 @@ static bool play_func1(char *cmd, char *parms)
         if (W_CheckNumForName(namebuf) == -1)
             M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
-        if (M_StringCompare(parm, namebuf) && W_CheckNumForName(namebuf) >= 0)
+        if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
             playcmdid = i;
             playcmdtype = 2;
@@ -6062,7 +6060,7 @@ static bool play_func1(char *cmd, char *parms)
         {
             char    *titlebuf = removenonalpha(s_music[i].title1);
 
-            if (M_StringCompare(parm, titlebuf))
+            if (M_StringCompare(parms, titlebuf))
             {
                 M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
@@ -6085,7 +6083,7 @@ static bool play_func1(char *cmd, char *parms)
             {
                 titlebuf = removenonalpha(s_music[i].title2);
 
-                if (M_StringCompare(parm, titlebuf))
+                if (M_StringCompare(parms, titlebuf))
                 {
                     M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
@@ -6108,7 +6106,7 @@ static bool play_func1(char *cmd, char *parms)
                 {
                     titlebuf = removenonalpha(s_music[i].title3);
 
-                    if (M_StringCompare(parm, titlebuf))
+                    if (M_StringCompare(parms, titlebuf))
                     {
                         M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
