@@ -794,7 +794,7 @@ static char *SaveGameIWADName(void)
     if (gamemode == shareware)
         return "DOOM1";
     if (FREEDOOM)
-        return (gamemode == commercial ? "freedoom2" : "freedoom");
+        return (gamemode == commercial ? "freedoom2" : "freedoom1");
     else if (hacx)
         return "hacx";
     else if (chex)
