@@ -2378,9 +2378,9 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         infile.lump = mem_fopen_read(buf, W_LumpLength(lumpnum));
         infile.file = NULL;
         filename = lumpinfo[lumpnum]->wadfile->path;
-        infile.resourcewad = M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD);
+        infile.resourcewad = D_IsResourceWAD(filename);
 
-        if (D_IsSIGILWAD(leafname(filename)) || D_IsSIGIL2WAD(leafname(filename)))
+        if (D_IsSIGILWAD(filename) || D_IsSIGIL2WAD(filename))
             return;
     }
 

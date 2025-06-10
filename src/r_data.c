@@ -518,7 +518,7 @@ static void R_InitSpriteLumps(void)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
                         && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type == IWAD
-                            || M_StringEndsWith(lumpinfo[firstspritelump + i]->wadfile->path, DOOMRETRO_RESOURCEWAD)))
+                            || D_IsResourceWAD(lumpinfo[firstspritelump + i]->wadfile->path)))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
@@ -537,7 +537,7 @@ static void R_InitSpriteLumps(void)
 
             if (M_StringStartsWith(lump->name, temp)
                 && lump->wadfile->type == PWAD && !BTSX
-                && !M_StringEndsWith(lump->wadfile->path, DOOMRETRO_RESOURCEWAD))
+                && !D_IsResourceWAD(lump->wadfile->path))
             {
                 mobjinfo[i].dehacked = true;
                 break;
@@ -981,8 +981,7 @@ static void R_InitColormaps(void)
     {
         wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
 
-        if (M_StringEndsWith(othercolormapwad->path, DOOMRETRO_RESOURCEWAD)
-            || M_StringEndsWith(othercolormapwad->path, "extras.wad"))
+        if (D_IsResourceWAD(othercolormapwad->path) || D_IsEXTRASWAD(othercolormapwad->path))
             C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s") " is being used.",
                 (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
         else if (M_StringCompare(colormapwad->path, othercolormapwad->path))

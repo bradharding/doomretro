@@ -867,6 +867,11 @@ bool D_IsFinalDOOMIWAD(char *filename)
         || M_StringCompare(file, "TNT.WAD"));
 }
 
+bool D_IsResourceWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD));
+}
+
 static bool D_IsUnsupportedIWAD(char *filename)
 {
     const struct
@@ -1031,7 +1036,7 @@ void D_CheckSupportedPWAD(char *filename)
 
 static bool D_IsUnsupportedPWAD(char *filename)
 {
-    return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
+    return ((error = D_IsResourceWAD(filename)));
 }
 
 static void D_AutoloadExtrasWAD(void)
@@ -2024,12 +2029,12 @@ static void D_ProcessDehInWad(void)
     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+                && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
                 D_ProcessDehFile(NULL, i, false);
 
     for (int i = numlumps - 1; i >= 0; i--)
         if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+            && D_IsResourceWAD(lumpinfo[i]->wadfile->path))
         {
             D_ProcessDehFile(NULL, i, false);
             break;

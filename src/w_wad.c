@@ -381,7 +381,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
-    if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD))
+    if (!D_IsResourceWAD(file))
     {
         if (wadsloaded)
             wadsloaded = M_StringJoin(wadsloaded, ", ", file, NULL);
@@ -389,7 +389,7 @@ bool W_AddFile(char *filename, bool autoloaded)
             wadsloaded = M_StringDuplicate(file);
     }
 
-    if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD) || devparm)
+    if (!D_IsResourceWAD(file) || devparm)
     {
         const int   count = numlumps - startlump;
         static int  wadcount;
@@ -961,8 +961,7 @@ int W_GetNumForNameFromResourceWAD(const char *name)
     int i;
 
     for (i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8)
-            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
+        if (!strncasecmp(lumpinfo[i]->name, name, 8) && D_IsResourceWAD(lumpinfo[i]->wadfile->path))
             break;
 
     if (i == numlumps)

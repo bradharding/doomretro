@@ -36,6 +36,7 @@
 #include <ctype.h>
 
 #include "c_console.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_misc.h"
@@ -264,7 +265,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     static int      MISFB0;
     static int      SHT2A0;
     static int      SHT2E0;
-    bool            isresourcewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_RESOURCEWAD);
+    bool            isresourcewad = D_IsResourceWAD(lump->wadfile->path);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
