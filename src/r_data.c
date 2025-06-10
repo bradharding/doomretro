@@ -981,7 +981,8 @@ static void R_InitColormaps(void)
     {
         wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
 
-        if (M_StringEndsWith(othercolormapwad->path, DOOMRETRO_RESOURCEWAD))
+        if (M_StringEndsWith(othercolormapwad->path, DOOMRETRO_RESOURCEWAD)
+            || M_StringEndsWith(othercolormapwad->path, "extras.wad"))
             C_Output("The " BOLD("COLORMAP") " lump in the %s " BOLD("%s") " is being used.",
                 (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
         else if (M_StringCompare(colormapwad->path, othercolormapwad->path))
