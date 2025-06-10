@@ -7478,12 +7478,6 @@ static void print_func2(char *cmd, char *parms)
 static void quit_func2(char *cmd, char *parms)
 {
     quitcmd = true;
-
-    if (vid_showfps)
-    {
-        vid_showfps = false;
-        I_UpdateBlitFunc(false);
-    }
 }
 
 //
