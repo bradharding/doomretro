@@ -6021,7 +6021,9 @@ static char *playcmdname;
 
 static bool play_func1(char *cmd, char *parms)
 {
-    if (!*parms)
+    char    *parm = removenonalpha(parms);
+
+    if (!*parm)
         return true;
 
     for (int i = 1; i < NUMSFX; i++)
@@ -6035,6 +6037,7 @@ static bool play_func1(char *cmd, char *parms)
             playcmdid = i;
             playcmdtype = 1;
             playcmdname = uppercase(namebuf);
+            free(parm);
             return true;
         }
     }
@@ -6053,6 +6056,7 @@ static bool play_func1(char *cmd, char *parms)
             playcmdid = i;
             playcmdtype = 2;
             playcmdname = uppercase(namebuf);
+            free(parm);
             return true;
         }
 
@@ -6060,7 +6064,7 @@ static bool play_func1(char *cmd, char *parms)
         {
             char    *titlebuf = removenonalpha(s_music[i].title1);
 
-            if (M_StringCompare(parms, titlebuf))
+            if (M_StringCompare(parm, titlebuf))
             {
                 M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
@@ -6072,6 +6076,7 @@ static bool play_func1(char *cmd, char *parms)
                     playcmdid = i;
                     playcmdtype = 3;
                     playcmdname = M_StringDuplicate(s_music[i].title1);
+                    free(parm);
                     free(titlebuf);
                     return true;
                 }
@@ -6083,7 +6088,7 @@ static bool play_func1(char *cmd, char *parms)
             {
                 titlebuf = removenonalpha(s_music[i].title2);
 
-                if (M_StringCompare(parms, titlebuf))
+                if (M_StringCompare(parm, titlebuf))
                 {
                     M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
@@ -6095,6 +6100,7 @@ static bool play_func1(char *cmd, char *parms)
                         playcmdid = i;
                         playcmdtype = 3;
                         playcmdname = M_StringDuplicate(s_music[i].title2);
+                        free(parm);
                         free(titlebuf);
                         return true;
                     }
@@ -6106,7 +6112,7 @@ static bool play_func1(char *cmd, char *parms)
                 {
                     titlebuf = removenonalpha(s_music[i].title3);
 
-                    if (M_StringCompare(parms, titlebuf))
+                    if (M_StringCompare(parm, titlebuf))
                     {
                         M_snprintf(namebuf, sizeof(namebuf), "h_%s", s_music[i].name2);
 
@@ -6119,6 +6125,7 @@ static bool play_func1(char *cmd, char *parms)
                             playcmdtype = 3;
                             playcmdname = M_StringDuplicate(s_music[i].title3);
                             free(titlebuf);
+                            free(parm);
                             return true;
                         }
                     }
@@ -6129,6 +6136,7 @@ static bool play_func1(char *cmd, char *parms)
         }
     }
 
+    free(parm);
     return false;
 }
 

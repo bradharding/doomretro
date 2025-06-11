@@ -57,7 +57,7 @@
 * The volume of MP3 and Ogg Vorbis music lumps has increased slightly.
 * The player’s controller now rumbles when they land after a fall using the new `joy_rumble_fall` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `vid_showfps` CVAR no longer resets to `off` at startup.
-* A bug is fixed whereby the `play` CCMD wouldn’t play music lumps.
+* A bug is fixed whereby the `play` CCMD wouldn’t play music lumps in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
