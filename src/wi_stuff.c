@@ -1297,10 +1297,9 @@ void WI_CheckForAccelerate(void)
     if (viewplayer->cmd.buttons & BT_ATTACK)
     {
         if (!viewplayer->attackdown)
-        {
             acceleratestage = true;
-            viewplayer->attackdown = true;
-        }
+
+        viewplayer->attackdown = true;
     }
     else
         viewplayer->attackdown = false;
@@ -1308,10 +1307,9 @@ void WI_CheckForAccelerate(void)
     if (viewplayer->cmd.buttons & BT_USE)
     {
         if (!viewplayer->usedown)
-        {
             acceleratestage = true;
-            viewplayer->usedown = true;
-        }
+
+        viewplayer->usedown = true;
     }
     else
         viewplayer->usedown = false;
