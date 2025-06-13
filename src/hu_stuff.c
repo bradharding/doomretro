@@ -740,6 +740,7 @@ typedef struct
     byte    *tinttab;
     patch_t *patch;
     short   width;
+    short   height;
 } altkeypic_t;
 
 static altkeypic_t altkeypics[NUMCARDS] =
@@ -894,7 +895,10 @@ static void HU_AltInit(void)
     altkeypics[it_redskull].tinttab = tinttab60;
 
     for (int i = 0; i < NUMCARDS; i++)
+    {
         altkeypics[i].width = SHORT(altkeypics[i].patch->width);
+        altkeypics[i].height = SHORT(altkeypics[i].patch->height);
+    }
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -1397,9 +1401,11 @@ static void HU_DrawAltHUD(void)
                     patch = altkeypic.patch;
 
                     if (inverted)
-                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60, shadowcolor);
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                            WHITE, nearestblack, tinttab60, shadowcolor);
                     else
-                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                            WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
                     keypic_x += altkeypic.width + 4;
                 }
@@ -1427,9 +1433,11 @@ static void HU_DrawAltHUD(void)
                             patch = altkeypic.patch;
 
                             if (inverted)
-                                althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60, shadowcolor);
+                                althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                    WHITE, nearestblack, tinttab60, shadowcolor);
                             else
-                                althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
+                                althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                    WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
                             keypic_x += altkeypic.width + 4;
                         }
@@ -1450,9 +1458,11 @@ static void HU_DrawAltHUD(void)
                     patch = altkeypic.patch;
 
                     if (inverted)
-                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60, shadowcolor);
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                            WHITE, nearestblack, tinttab60, shadowcolor);
                     else
-                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                            WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
                 }
             }
         }
