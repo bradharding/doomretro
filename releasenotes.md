@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.7.1
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, June 14, 2025
+
 ### DOOM Retro v5.7
 
 * *DOOM Retro* is now built using v17.14.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
@@ -11,7 +17,7 @@
 * John Romero’s [*SIGIL II*](https://romero.com/sigil) will now autoload correctly if named `SIGIL2.WAD` and placed in the `autoload` folder.
 * Additional PWADs will now autoload alongside *SIGIL*, *SIGIL II* and *No Rest For The Living* by placing them in the relevant `autoload` subfolder.
 * A crash no longer occurs at startup if `-autoload` or `-autoloaddir` is used on the command-line.
-* The `savegames` subfolder of  [*Freedoom: Phase 1*](https://freedoom.github.io/) has been renamed from `freedoom` to `freedoom1`.
+* The `savegames` subfolder of [*Freedoom: Phase 1*](https://freedoom.github.io/) has been renamed from `freedoom` to `freedoom1`.
 * Per-column lighting is now cast on sprites using the new `r_percolumnlighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Blood splats no longer spawn when lost souls are killed using the `kill` CCMD.
