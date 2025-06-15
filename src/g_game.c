@@ -1350,6 +1350,9 @@ static void G_DoCompleted(void)
 
     G_PlayerFinishLevel();      // take away cards and stuff
 
+    memset(gamekeydown, 0, sizeof(gamekeydown));
+    memset(mousearray, 0, sizeof(mousearray));
+
     if (automapactive)
         AM_Stop();
     else if (mapwindow)
