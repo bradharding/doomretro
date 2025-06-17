@@ -1352,9 +1352,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
-    if ((!(flags & MF_SHOOTABLE) && type != TeleportDestination) || type == Barrel)
-        mobj->angle += (M_SubRandom() << 20);
-
     // [BH] randomly mirror corpses
     if (flags & MF_CORPSE)
     {
