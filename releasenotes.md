@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.7.1
 
+* *DOOM Retro* is now built using v17.14.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
