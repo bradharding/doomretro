@@ -221,7 +221,7 @@ const control_t controls[] =
     { "/",             keyboardcontrol,   '/'                       },
     { "ctrl",          keyboardcontrol,   KEY_CTRL                  },
     { "alt",           keyboardcontrol,   KEY_ALT                   },
-    { "space",         keyboardcontrol,   ' '                       },
+    { "space",         keyboardcontrol,   KEY_SPACE                 },
     { "numlock",       keyboardcontrol,   KEY_NUMLOCK               },
     { "capslock",      keyboardcontrol,   KEY_CAPSLOCK              },
     { "scrolllock",    keyboardcontrol,   KEY_SCROLLLOCK            },

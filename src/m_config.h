@@ -983,7 +983,7 @@ enum
 #define KEYSTRAFE2_DEFAULT                  0
 #define KEYUP_DEFAULT                       KEY_UPARROW
 #define KEYUP2_DEFAULT                      'w'
-#define KEYUSE_DEFAULT                      ' '
+#define KEYUSE_DEFAULT                      KEY_SPACE
 #define KEYUSE2_DEFAULT                     'e'
 #define KEYWEAPON1_DEFAULT                  '1'
 #define KEYWEAPON1_2_DEFAULT                0

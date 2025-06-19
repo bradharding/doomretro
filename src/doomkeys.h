@@ -40,6 +40,8 @@
 // This is the stuff configured by Setup.Exe.
 // Most key data are simple ASCII (uppercased).
 //
+#define KEY_SPACE       ' '
+
 #define KEY_TAB         0x09
 #define KEY_ENTER       0x0D
 #define KEY_ESCAPE      0x1B

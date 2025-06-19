@@ -389,14 +389,14 @@ static void P_DeathThink(void)
     if (consoleactive)
         return;
 
-    if ((viewplayer->cmd.buttons & BT_USE) || gamekeydown[' '] || gamekeydown[KEY_ENTER]
+    if ((viewplayer->cmd.buttons & BT_USE) || gamekeydown[KEY_SPACE] || gamekeydown[KEY_ENTER]
         || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2))
     {
         deathcount = 0;
         damagerumbletics = 1;
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
-        gamekeydown[' '] = false;
+        gamekeydown[KEY_SPACE] = false;
         gamekeydown[KEY_ENTER] = false;
 
         S_StopSounds();

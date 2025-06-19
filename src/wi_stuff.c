@@ -1294,7 +1294,7 @@ static void WI_DrawStats(void)
 
 void WI_CheckForAccelerate(void)
 {
-    if (viewplayer->cmd.buttons & BT_ATTACK)
+    if ((viewplayer->cmd.buttons & BT_ATTACK) || gamekeydown[KEY_ENTER])
     {
         if (!viewplayer->attackdown)
             acceleratestage = true;
@@ -1304,7 +1304,7 @@ void WI_CheckForAccelerate(void)
     else
         viewplayer->attackdown = false;
 
-    if (viewplayer->cmd.buttons & BT_USE)
+    if ((viewplayer->cmd.buttons & BT_USE) || gamekeydown[KEY_SPACE])
     {
         if (!viewplayer->usedown)
             acceleratestage = true;
