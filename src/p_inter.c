@@ -593,16 +593,18 @@ void P_InitCards(void)
 //
 static void P_GiveCard(const card_t card)
 {
-    viewplayer->cards[card] = ++cardsfound;
-
-    if (card == viewplayer->neededcard)
+    if (viewplayer->cards[card] <= 0)
     {
-        viewplayer->neededcard = 0;
-        viewplayer->neededcardflash = 0;
-    }
+        viewplayer->cards[card] = ++cardsfound;
+        viewplayer->itemspickedup_keys++;
+        stat_itemspickedup_keys = SafeAdd(stat_itemspickedup_keys, 1);
 
-    viewplayer->itemspickedup_keys++;
-    stat_itemspickedup_keys = SafeAdd(stat_itemspickedup_keys, 1);
+        if (card == viewplayer->neededcard)
+        {
+            viewplayer->neededcard = 0;
+            viewplayer->neededcardflash = 0;
+        }
+    }
 }
 
 //
@@ -610,25 +612,13 @@ static void P_GiveCard(const card_t card)
 //
 bool P_GiveAllKeyCards(void)
 {
-    bool    result = false;
+    bool    result = (viewplayer->cards[it_redcard] <= 0
+        || viewplayer->cards[it_yellowcard] <= 0
+        || viewplayer->cards[it_bluecard] <= 0);
 
-    if (viewplayer->cards[it_redcard] <= 0)
-    {
-        P_GiveCard(it_redcard);
-        result = true;
-    }
-
-    if (viewplayer->cards[it_yellowcard] <= 0)
-    {
-        P_GiveCard(it_yellowcard);
-        result = true;
-    }
-
-    if (viewplayer->cards[it_bluecard] <= 0)
-    {
-        P_GiveCard(it_bluecard);
-        result = true;
-    }
+    P_GiveCard(it_redcard);
+    P_GiveCard(it_yellowcard);
+    P_GiveCard(it_bluecard);
 
     return result;
 }
@@ -638,25 +628,13 @@ bool P_GiveAllKeyCards(void)
 //
 bool P_GiveAllSkullKeys(void)
 {
-    bool    result = false;
+    bool    result = (viewplayer->cards[it_redskull] <= 0
+        || viewplayer->cards[it_yellowskull] <= 0
+        || viewplayer->cards[it_blueskull] <= 0);
 
-    if (viewplayer->cards[it_redskull] <= 0)
-    {
-        P_GiveCard(it_redskull);
-        result = true;
-    }
-
-    if (viewplayer->cards[it_yellowskull] <= 0)
-    {
-        P_GiveCard(it_yellowskull);
-        result = true;
-    }
-
-    if (viewplayer->cards[it_blueskull] <= 0)
-    {
-        P_GiveCard(it_blueskull);
-        result = true;
-    }
+    P_GiveCard(it_redskull);
+    P_GiveCard(it_yellowskull);
+    P_GiveCard(it_blueskull);
 
     return result;
 }
@@ -868,87 +846,57 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // blue keycard
         case SPR_BKEY:
-            if (viewplayer->cards[it_bluecard] <= 0)
-            {
-                P_GiveCard(it_bluecard);
+            P_GiveCard(it_bluecard);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTBLUECARD, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTBLUECARD, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // yellow keycard
         case SPR_YKEY:
-            if (viewplayer->cards[it_yellowcard] <= 0)
-            {
-                P_GiveCard(it_yellowcard);
+            P_GiveCard(it_yellowcard);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTYELWCARD, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTYELWCARD, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // red keycard
         case SPR_RKEY:
-            if (viewplayer->cards[it_redcard] <= 0)
-            {
-                P_GiveCard(it_redcard);
+            P_GiveCard(it_redcard);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTREDCARD, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTREDCARD, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // blue skull key
         case SPR_BSKU:
-            if (viewplayer->cards[it_blueskull] <= 0)
-            {
-                P_GiveCard(it_blueskull);
+            P_GiveCard(it_blueskull);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTBLUESKUL, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTBLUESKUL, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // yellow skull key
         case SPR_YSKU:
-            if (viewplayer->cards[it_yellowskull] <= 0)
-            {
-                P_GiveCard(it_yellowskull);
+            P_GiveCard(it_yellowskull);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTYELWSKUL, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTYELWSKUL, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // red skull key
         case SPR_RSKU:
-            if (viewplayer->cards[it_redskull] <= 0)
-            {
-                P_GiveCard(it_redskull);
+            P_GiveCard(it_redskull);
 
-                if (message && !duplicate)
-                    HU_PlayerMessage(s_GOTREDSKULL, true, false);
+            if (message && !duplicate)
+                HU_PlayerMessage(s_GOTREDSKULL, true, false);
 
-                break;
-            }
-            else
-                return false;
+            break;
 
         // stimpack
         case SPR_STIM:
