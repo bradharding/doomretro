@@ -307,7 +307,9 @@ extern int          blockmapyneg;
 //
 // P_INTER.C
 //
-#define MAXHEALTH   100
+#define MAXHEALTH      100
+#define MEDIKITHEALTH   25
+#define STIMPACKHEALTH  10
 
 bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool message, const bool stat);
 bool P_TakeSpecialThing(const mobjtype_t type);

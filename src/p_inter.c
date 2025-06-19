@@ -900,7 +900,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // stimpack
         case SPR_STIM:
-            if (!P_GiveHealth(10, MAXHEALTH, stat))
+            if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
                 return false;
 
             if (message && !duplicate)
@@ -910,12 +910,12 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
         // medikit
         case SPR_MEDI:
-            if (!P_GiveHealth(25, MAXHEALTH, stat))
+            if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
                 return false;
 
             if (message && !duplicate)
             {
-                if (viewplayer->health < 50 && !(viewplayer->cheats & CF_BUDDHA))
+                if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
                 {
                     static char buffer[1024];
 
@@ -1418,16 +1418,16 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (viewplayer->powers[pw_invulnerability])
                 return false;
 
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= 10)
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= STIMPACKHEALTH)
                 return false;
 
-            if (viewplayer->health < 10)
+            if (viewplayer->health < STIMPACKHEALTH)
                 return false;
 
-            viewplayer->health -= 10;
-            viewplayer->mo->health -= 10;
-            viewplayer->damagecount = 10;
-            P_AnimateHealth(10);
+            viewplayer->health -= STIMPACKHEALTH;
+            viewplayer->mo->health -= STIMPACKHEALTH;
+            viewplayer->damagecount = STIMPACKHEALTH;
+            P_AnimateHealth(STIMPACKHEALTH);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
@@ -1440,16 +1440,16 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (viewplayer->powers[pw_invulnerability])
                 return false;
 
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= 25)
+            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= MEDIKITHEALTH)
                 return false;
 
-            if (viewplayer->health < 25)
+            if (viewplayer->health < MEDIKITHEALTH)
                 return false;
 
-            viewplayer->health -= 25;
-            viewplayer->mo->health -= 25;
-            viewplayer->damagecount = 25;
-            P_AnimateHealth(25);
+            viewplayer->health -= MEDIKITHEALTH;
+            viewplayer->mo->health -= MEDIKITHEALTH;
+            viewplayer->damagecount = MEDIKITHEALTH;
+            P_AnimateHealth(MEDIKITHEALTH);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
