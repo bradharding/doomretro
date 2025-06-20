@@ -133,6 +133,7 @@ bool        obituaries = obituaries_default;
 int         playergender = playergender_default;
 char        *playername = playername_default;
 bool        r_althud = r_althud_default;
+bool        r_altmessages = r_altmessages_default;
 bool        r_antialiasing = r_antialiasing_default;
 int         r_berserkeffect = r_berserkeffect_default;
 int         r_blood = r_blood_default;
@@ -381,6 +382,7 @@ static default_t cvars[] =
     CVAR_INT          (playergender,                     playergender,                          playergender,                          GENDERVALUEALIAS   ),
     CVAR_STRING       (playername,                       playername,                            playername,                            NOVALUEALIAS       ),
     CVAR_BOOL         (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS     ),
+    CVAR_BOOL         (r_altmessages,                    r_altmessages,                         r_altmessages,                         BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_antialiasing,                   r_supersampling,                       r_antialiasing,                        BOOLVALUEALIAS     ),
     CVAR_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                       NOVALUEALIAS       ),
     CVAR_INT          (r_blood,                          r_blood,                               r_blood,                               BLOODVALUEALIAS    ),

@@ -124,6 +124,7 @@ extern bool     obituaries;
 extern int      playergender;
 extern char     *playername;
 extern bool     r_althud;
+extern bool     r_altmessages;
 extern bool     r_antialiasing;
 extern int      r_berserkeffect;
 extern int      r_blood;
@@ -611,6 +612,8 @@ enum
 #define playername_default                  ""
 
 #define r_althud_default                    false
+
+#define r_altmessages_default               true
 
 #define r_antialiasing_default              false
 
