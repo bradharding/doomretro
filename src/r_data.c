@@ -301,117 +301,121 @@ static void R_InitBrightmaps(void)
     masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
     masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
 
-    SC_Open(W_CheckNumForName("BRGHTMPS"));
-
-    while (SC_GetString())
-        if (SC_Compare("BRIGHTMAP"))
+    for (int i = 0; i < numlumps; i++)
+        if (M_StringCompare(lumpinfo[i]->name, "BRGHTMPS"))
         {
-            char    colors[1024];
-            char    *p;
+            SC_Open(i);
 
-            SC_MustGetString();
-            M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[0]));
-
-            SC_MustGetString();
-            M_StringCopy(colors, sc_String, sizeof(colors));
-
-            p = strtok(colors, ",");
-
-            while (p)
-            {
-                int color1, color2;
-
-                if (sscanf(p, "%i-%i", &color1, &color2) == 2)
+            while (SC_GetString())
+                if (SC_Compare("BRIGHTMAP"))
                 {
-                    if ((color1 = MIN(color1, 255)) >= 0)
-                        while (color1 <= color2)
-                            masks[nummasks][color1++] = 1;
-                }
-                else if (sscanf(p, "%i", &color1) == 1)
-                {
-                    if (color1 >= 0 && color1 <= 255)
-                        masks[nummasks][color1] = 1;
-                }
+                    char    colors[1024];
+                    char    *p;
 
-                p = strtok(NULL, ",");
-            }
+                    SC_MustGetString();
+                    M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[0]));
 
-            nummasks++;
-        }
-        else if (SC_Compare("TEXTURE"))
-        {
-            int     texture;
-            char    maskname[32];
+                    SC_MustGetString();
+                    M_StringCopy(colors, sc_String, sizeof(colors));
 
-            SC_MustGetString();
-            texture = R_CheckTextureNumForName(sc_String);
+                    p = strtok(colors, ",");
 
-            SC_MustGetString();
-            M_StringCopy(maskname, sc_String, sizeof(maskname));
+                    while (p)
+                    {
+                        int color1, color2;
 
-            SC_GetString();
-
-            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
-            {
-                SC_UnGet();
-                *sc_String = '\0';
-            }
-
-            if (texture >= 0)
-            {
-                if (SC_Compare("NOBRIGHTMAP"))
-                {
-                    for (int i = 0; i < nummasks; i++)
-                        if (M_StringCompare(maskname, masknames[i]))
+                        if (sscanf(p, "%i-%i", &color1, &color2) == 2)
                         {
-                            nobrightmap[texture] = true;
-                            break;
+                            if ((color1 = MIN(color1, 255)) >= 0)
+                                while (color1 <= color2)
+                                    masks[nummasks][color1++] = 1;
                         }
-                }
-                else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
-                    || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
-                    || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
-                    for (int i = 0; i < nummasks; i++)
-                        if (M_StringCompare(maskname, masknames[i]))
+                        else if (sscanf(p, "%i", &color1) == 1)
                         {
-                            brightmap[texture] = masks[i];
-                            numbrightmaps++;
-                            break;
+                            if (color1 >= 0 && color1 <= 255)
+                                masks[nummasks][color1] = 1;
                         }
-            }
+
+                        p = strtok(NULL, ",");
+                    }
+
+                    nummasks++;
+                }
+                else if (SC_Compare("TEXTURE"))
+                {
+                    int     texture;
+                    char    maskname[32];
+
+                    SC_MustGetString();
+                    texture = R_CheckTextureNumForName(sc_String);
+
+                    SC_MustGetString();
+                    M_StringCopy(maskname, sc_String, sizeof(maskname));
+
+                    SC_GetString();
+
+                    if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                    {
+                        SC_UnGet();
+                        *sc_String = '\0';
+                    }
+
+                    if (texture >= 0)
+                    {
+                        if (SC_Compare("NOBRIGHTMAP"))
+                        {
+                            for (int i = 0; i < nummasks; i++)
+                                if (M_StringCompare(maskname, masknames[i]))
+                                {
+                                    nobrightmap[texture] = true;
+                                    break;
+                                }
+                        }
+                        else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+                            || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
+                            || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
+                            for (int i = 0; i < nummasks; i++)
+                                if (M_StringCompare(maskname, masknames[i]))
+                                {
+                                    brightmap[texture] = masks[i];
+                                    numbrightmaps++;
+                                    break;
+                                }
+                    }
+                }
+                else if (SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                {
+                    SC_MustGetString();
+                    SC_MustGetString();
+                    SC_GetString();
+
+                    if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                        SC_UnGet();
+                }
+
+            SC_Close();
         }
-        else if (SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
-        {
-            SC_MustGetString();
-            SC_MustGetString();
-            SC_GetString();
 
-            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
-                SC_UnGet();
-        }
+        SC_Open(W_CheckNumForName("DRCOMPAT"));
 
-    SC_Close();
-
-    SC_Open(W_CheckNumForName("DRCOMPAT"));
-
-    while (SC_GetString())
-        if (SC_Compare("NOBRIGHTMAP"))
-        {
-            int texture;
-
-            SC_MustGetString();
-            texture = R_TextureNumForName(sc_String);
-
-            SC_MustGetString();
-
-            if (texture >= 0 && SC_Compare(pwadfile))
+        while (SC_GetString())
+            if (SC_Compare("NOBRIGHTMAP"))
             {
-                nobrightmap[texture] = true;
-                numbrightmaps--;
-            }
-        }
+                int texture;
 
-    SC_Close();
+                SC_MustGetString();
+                texture = R_TextureNumForName(sc_String);
+
+                SC_MustGetString();
+
+                if (texture >= 0 && SC_Compare(pwadfile))
+                {
+                    nobrightmap[texture] = true;
+                    numbrightmaps--;
+                }
+            }
+
+        SC_Close();
 
     if (r_brightmaps && numbrightmaps > 0)
     {

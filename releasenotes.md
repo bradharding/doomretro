@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v17.14.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
+* Brightmaps specified using a `BRGHTMPS` lump in a PWAD are now combined with the default brightmaps, rather than replacing them.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
