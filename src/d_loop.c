@@ -56,9 +56,7 @@ void TryRunTics(void)
     const bool      uncapped = !(vid_capfps == TICRATE || splashscreen);
 
     lastmadetic += newtics;
-
-    if (uncapped)
-        fractionaltic = ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+    fractionaltic = (uncapped ? ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000 : 0);
 
     while (newtics--)
     {
