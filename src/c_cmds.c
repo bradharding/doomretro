@@ -827,7 +827,7 @@ consolecmd_t consolecmds[] =
         "Quits to the " DESKTOP "."),
     CVAR_BOOL(r_althud, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen."),
-    CVAR_BOOL(r_altmessages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_althudfont, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles displaying messages in an alternate font when the alternate HUD is displayed."),
     CVAR_BOOL(r_antialiasing, "", "", bool_cvars_func1, r_antialiasing_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles anti-aliasing when the graphic detail is low."),

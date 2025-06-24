@@ -1532,7 +1532,7 @@ void HU_Drawer(void)
             w_message.l.x = 0;
             w_message.l.y = 0;
         }
-        else if ((r_screensize == r_screensize_max && !(r_althud && r_altmessages)) || message_external)
+        else if ((r_screensize == r_screensize_max && !(r_althud && r_althudfont)) || message_external)
         {
             w_message.l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
             w_message.l.y = HU_MSGY + 4;
@@ -1553,7 +1553,7 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
-        if (r_althud && r_altmessages && r_screensize == r_screensize_max)
+        if (r_althud && r_althudfont && r_screensize == r_screensize_max)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
         else
         {
@@ -1601,7 +1601,7 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            if (r_althud && r_altmessages && r_screensize == r_screensize_max)
+            if (r_althud && r_althudfont && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
