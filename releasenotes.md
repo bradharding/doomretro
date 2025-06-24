@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.7.1
 
-* *DOOM Retro* is now built using v17.14.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.14.7 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Brightmaps specified using a `BRGHTMPS` lump in a PWAD are now combined with the default brightmaps, rather than replacing them.
 * Displaying messages in the alternate font when the alternate HUD is displayed can now be toggled off using the new `r_althudfont` CVAR, which is `on` by default.
