@@ -87,6 +87,7 @@ bool        animatedstats = animatedstats_default;
 bool        autoaim = autoaim_default;
 bool        autoload = autoload_default;
 bool        autosave = autosave_default;
+bool        autoswitch = autoswitch_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
@@ -337,6 +338,7 @@ static default_t cvars[] =
     CVAR_BOOL         (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS     ),
     CVAR_BOOL         (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS     ),
+    CVAR_BOOL         (autoswitch,                       autoswitch,                            autoswitch,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS     ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS     ),

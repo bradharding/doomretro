@@ -198,6 +198,12 @@ bool P_TakeBackpack(void)
     return true;
 }
 
+static void P_AutoSwitchWeapon(weapontype_t weapon)
+{
+    if (autoswitch)
+        viewplayer->pendingweapon = weapon;
+}
+
 //
 // GET STUFF
 //
@@ -244,7 +250,8 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
         P_UpdateAmmoStat(ammotype, viewplayer->ammo[ammotype] - oldammo);
 
     // MBF21: take into account new weapon autoswitch flags
-    if ((weaponinfo[readyweapon].flags & WPF_AUTOSWITCHFROM) && weaponinfo[readyweapon].ammotype != ammotype)
+    if ((weaponinfo[readyweapon].flags & WPF_AUTOSWITCHFROM)
+        && weaponinfo[readyweapon].ammotype != ammotype)
         for (int i = NUMWEAPONS - 1; i > readyweapon; i--)
             if (viewplayer->weaponowned[i]
                 && !(weaponinfo[i].flags & WPF_NOAUTOSWITCHTO)
@@ -253,9 +260,9 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
                 && (weaponinfo[i].ammopershot <= viewplayer->ammo[ammotype] || infiniteammo))
             {
                 if (i == wp_supershotgun && viewplayer->weaponowned[wp_shotgun] && viewplayer->preferredshotgun == wp_shotgun)
-                    viewplayer->pendingweapon = wp_shotgun;
+                    P_AutoSwitchWeapon(wp_shotgun);
                 else
-                    viewplayer->pendingweapon = i;
+                    P_AutoSwitchWeapon(i);
 
                 break;
             }
@@ -342,7 +349,7 @@ static bool P_GiveWeapon(const weapontype_t weapon, const bool dropped, const bo
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-        viewplayer->pendingweapon = weapon;
+        P_AutoSwitchWeapon(weapon);
     }
 
     return (gaveweapon || gaveammo);

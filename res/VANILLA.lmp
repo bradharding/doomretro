@@ -33,6 +33,7 @@ animatedstats off
 autoaim on
 autoload off
 autosave off
+autoswitch on
 autotilt off
 autouse off
 centerweapon off

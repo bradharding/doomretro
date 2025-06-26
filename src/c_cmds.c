@@ -650,6 +650,8 @@ consolecmd_t consolecmds[] =
         "Toggles automatically loading the last savegame when you die."),
     CVAR_BOOL(autosave, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles automatically saving the game at the start of each map."),
+    CVAR_BOOL(autoswitch, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles automatically switching your weapon when picking up a new one or better ammo."),
     CVAR_BOOL(autotilt, "", "", bool_cvars_func1, autotilt_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles automatically tilting your view when going up or down a flight of stairs."),
     CVAR_BOOL(autouse, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,

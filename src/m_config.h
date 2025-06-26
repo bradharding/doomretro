@@ -79,6 +79,7 @@ extern bool     animatedstats;
 extern bool     autoaim;
 extern bool     autoload;
 extern bool     autosave;
+extern bool     autoswitch;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
@@ -480,6 +481,8 @@ enum
 #define autoload_default                    true
 
 #define autosave_default                    true
+
+#define autoswitch_default                  true
 
 #define autotilt_default                    false
 
