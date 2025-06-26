@@ -7,6 +7,7 @@
 * Brightmaps specified using a `BRGHTMPS` lump in a PWAD are now combined with the default brightmaps, rather than replacing them.
 * Displaying messages in the alternate font when the alternate HUD is displayed can now be toggled off using the new `r_althudfont` CVAR, which is `on` by default.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* A bug is fixed whereby monsters could telefrag other monsters.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
