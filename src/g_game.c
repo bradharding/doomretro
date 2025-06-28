@@ -685,7 +685,7 @@ void G_DoLoadLevel(void)
         if (M_StringCompare(playername, playername_default))
             C_Warning(0, "You now have 100%% health, no armor, and only a pistol with 50 bullets.");
         else
-            C_Warning(0, "%s now have 100%% health, no armor, and only a pistol with 50 bullets.",
+            C_Warning(0, "%s now has 100%% health, no armor, and only a pistol with 50 bullets.",
                 playername);
     }
 
