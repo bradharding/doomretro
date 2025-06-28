@@ -449,6 +449,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                    mousebuttons[*mouseweapons[i]] = false;
                     break;
                 }
             }
