@@ -621,17 +621,7 @@ void D_DoAdvanceTitle(void)
         pagetic = PAGETICS;
     }
 
-    if (W_GetNumLumps("TITLEPIC") >= (bfgedition ? 1 : 2))
-    {
-        if (W_GetNumLumps("CREDIT") > 1 && !doom4vanilla)
-        {
-            if (++titlesequence > 2)
-                titlesequence = 1;
-        }
-        else
-            titlesequence = 1;
-    }
-    else if (++titlesequence > 2)
+    if (++titlesequence > 2)
         titlesequence = 1;
 }
 
