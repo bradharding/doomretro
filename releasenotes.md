@@ -6,9 +6,17 @@
 * A bug is fixed whereby pressing <kbd><b>SPACE</b></kbd> to accelerate the intermission screen wouldn’t always work.
 * Brightmaps specified using a `BRGHTMPS` lump in a PWAD now combine with the default brightmaps, rather than replace them.
 * Displaying messages in the alternate font when the alternate HUD is displayed can now be toggled off using the new `r_althudfont` CVAR, which is `on` by default.
+* Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * A bug is fixed whereby monsters could telefrag other monsters.
 * Automatically switching your weapon when picking up a new one or better ammo can now be toggled off using the new `autoswitch` CVAR, which is `on` by default and when vanilla mode is enabled.
+* Controls can now be bound to the `+fists`, `+chainsaw`, `+pistol`, `+shotgun`, `+supershotgun`, `+chaingun`, `+rocketlauncher`, `+plasmarifle` and `+bfg9000` actions using the `bind` CCMD in the console.
+* Improvements have been made to when the mouse wheel is bound to an action other than `+nextweapon` or `+prevweapon`.
+* A bug is fixed whereby the `CREDITS` lump wouldn’t be displayed during the title sequence of *DOOM II*.
+* The player can now pick up more than one of the same type of key card or skull key.
+* Randomness is no longer applied to the angle of non-shootable things.
+* The `DRHUDKEY` and `DRHUDSKU` are now positioned better in the alternate widescreen HUD if replaced in a PWAD.
+* Performance has improved slightly when the `vid_capfps` CVAR is `35`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
