@@ -99,6 +99,8 @@ enum
 
     BT_JUMP         = 64,
 
+    BT_NOBEST      =  256,
+
     // Pause the game.
     BTS_PAUSE       = 1,
     // Save the game at each console.

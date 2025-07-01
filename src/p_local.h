@@ -112,7 +112,7 @@ void P_CalcHeight(void);
 void P_MovePlayer(void);
 void P_PlayerThink(void);
 void P_ResurrectPlayer(const int health);
-void P_ChangeWeapon(weapontype_t newweapon);
+void P_ChangeWeapon(weapontype_t newweapon, bool best);
 
 void P_AnimateAllStatsFromStart(void);
 void P_AnimateHealth(const int diff);

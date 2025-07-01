@@ -451,11 +451,11 @@ void P_ResurrectPlayer(const int health)
     C_HideConsole();
 }
 
-void P_ChangeWeapon(weapontype_t newweapon)
+void P_ChangeWeapon(weapontype_t newweapon, bool best)
 {
     const weapontype_t  readyweapon = viewplayer->readyweapon;
 
-    if (newweapon == wp_fist)
+    if (newweapon == wp_fist && best)
     {
         if (readyweapon == wp_fist)
         {
@@ -486,7 +486,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.
-        else if (newweapon == wp_shotgun)
+        else if (newweapon == wp_shotgun && best)
         {
             if ((!viewplayer->weaponowned[wp_shotgun]
                 || readyweapon == wp_shotgun
@@ -737,7 +737,8 @@ void P_PlayerThink(void)
         cmd->buttons = 0;
     else if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
         // Check for weapon change.
-        P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
+        P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT,
+            (cmd->buttons & BT_NOBEST));
 
     // check for use
     if (autouse && !(viewplayer->cheats & CF_NOCLIP))

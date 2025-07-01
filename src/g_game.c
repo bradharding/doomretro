@@ -128,6 +128,32 @@ static const int *keyboardweapons2[NUMWEAPONKEYS] =
     &keyboardweapon7_2
 };
 
+static const int *keyboardweapons3[NUMWEAPONKEYS + 2] =
+{
+    &keyboardfists,
+    &keyboardpistol,
+    &keyboardshotgun,
+    &keyboardchaingun,
+    &keyboardrocketlauncher,
+    &keyboardplasmarifle,
+    &keyboardbfg9000,
+    &keyboardchainsaw,
+    &keyboardsupershotgun
+};
+
+static const int *keyboardweapons4[NUMWEAPONKEYS + 2] =
+{
+    &keyboardfists2,
+    &keyboardpistol2,
+    &keyboardshotgun2,
+    &keyboardchaingun2,
+    &keyboardrocketlauncher2,
+    &keyboardplasmarifle2,
+    &keyboardbfg90002,
+    &keyboardchainsaw2,
+    &keyboardsupershotgun2
+};
+
 static const int *mouseweapons[NUMWEAPONKEYS] =
 {
     &mouseweapon1,
@@ -139,6 +165,19 @@ static const int *mouseweapons[NUMWEAPONKEYS] =
     &mouseweapon7
 };
 
+static const int *mouseweapons2[NUMWEAPONKEYS + 2] =
+{
+    &mousefists,
+    &mousepistol,
+    &mouseshotgun,
+    &mousechaingun,
+    &mouserocketlauncher,
+    &mouseplasmarifle,
+    &mousebfg9000,
+    &mousechainsaw,
+    &mousesupershotgun
+};
+
 static const int *controllerweapons[NUMWEAPONKEYS] =
 {
     &controllerweapon1,
@@ -148,6 +187,19 @@ static const int *controllerweapons[NUMWEAPONKEYS] =
     &controllerweapon5,
     &controllerweapon6,
     &controllerweapon7
+};
+
+static const int *controllerweapons2[NUMWEAPONKEYS + 2] =
+{
+    &controllerfists,
+    &controllerpistol,
+    &controllershotgun,
+    &controllerchaingun,
+    &controllerrocketlauncher,
+    &controllerplasmarifle,
+    &controllerbfg9000,
+    &controllerchainsaw,
+    &controllersupershotgun
 };
 
 bool            gamekeydown[NUMKEYS] = { 0 };
@@ -425,6 +477,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (!idclev && !idmus)
+    {
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
             const int   key = *keyboardweapons[i];
@@ -464,6 +517,52 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 }
             }
         }
+
+        if (!(cmd->buttons & BT_CHANGE))
+            for (int i = 0; i < NUMWEAPONKEYS + 2; i++)
+            {
+                const int   key = *keyboardweapons3[i];
+                const int   key2 = *keyboardweapons4[i];
+
+                if (gamekeydown[key] && !keydown)
+                {
+                    keydown = key;
+                    cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                    cmd->buttons |= BT_NOBEST;
+                    break;
+                }
+                else if (gamekeydown[key2] && !keydown)
+                {
+                    keydown = key2;
+                    cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                    cmd->buttons |= BT_NOBEST;
+                    break;
+                }
+                else if (mousebuttons[*mouseweapons2[i]])
+                {
+                    if (viewplayer->readyweapon != i
+                        || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                        || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
+                    {
+                        cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                        cmd->buttons |= BT_NOBEST;
+                        mousebuttons[*mouseweapons2[i]] = false;
+                        break;
+                    }
+                }
+                else if (controllerbuttons & *controllerweapons2[i])
+                {
+                    if (viewplayer->readyweapon != i
+                        || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                        || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
+                    {
+                        cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                        cmd->buttons |= BT_NOBEST;
+                        break;
+                    }
+                }
+            }
+    }
 
     if (m_doubleclick_use)
     {
