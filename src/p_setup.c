@@ -3792,7 +3792,9 @@ static bool P_ParseMapInfo(const char *scriptname)
                                         || special == S1_ExitLevel
                                         || special == S1_ExitLevel_GoesToSecretLevel
                                         || special == W1_ExitLevel
-                                        || special == W1_ExitLevel_GoesToSecretLevel)
+                                        || special == W1_ExitLevel_GoesToSecretLevel
+                                        || (special >= W1_ExitToTheNextMapAndResetInventory
+                                        && special <= G1_ExitToTheSecretMapAndResetInventory))
                                     {
                                         if (info->numbossactions == -1)
                                             info->numbossactions = 1;
