@@ -738,7 +738,7 @@ void P_PlayerThink(void)
     else if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
         // Check for weapon change.
         P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT,
-            (cmd->buttons & BT_NOBEST));
+            !(cmd->buttons & BT_NOBEST));
 
     // check for use
     if (autouse && !(viewplayer->cheats & CF_NOCLIP))

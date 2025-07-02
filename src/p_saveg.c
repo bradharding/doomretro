@@ -403,7 +403,8 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->forwardmove = saveg_read8();
     str->sidemove = saveg_read8();
     str->angleturn = saveg_read16();
-    str->buttons = saveg_read8();
+    str->buttons = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1) ?
+        saveg_read32() : saveg_read8());
     str->lookdir = saveg_read32();
 }
 
@@ -412,7 +413,7 @@ static void saveg_write_ticcmd_t(const ticcmd_t *str)
     saveg_write8(str->forwardmove);
     saveg_write8(str->sidemove);
     saveg_write16(str->angleturn);
-    saveg_write8(str->buttons);
+    saveg_write32(str->buttons);
     saveg_write32(str->lookdir);
 }
 
@@ -1021,7 +1022,8 @@ bool P_ReadSaveGameHeader(char *description)
         savegameversion[i] = saveg_read8();
 
     if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7))
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7)
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
     {
         menuactive = false;
         quicksaveslot = -1;
