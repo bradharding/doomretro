@@ -364,8 +364,8 @@ static void R_InitBrightmaps(void)
                     {
                         if (SC_Compare("NOBRIGHTMAP"))
                         {
-                            for (int i = 0; i < nummasks; i++)
-                                if (M_StringCompare(maskname, masknames[i]))
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
                                 {
                                     nobrightmap[texture] = true;
                                     break;
@@ -374,10 +374,10 @@ static void R_InitBrightmaps(void)
                         else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
                             || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
                             || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
-                            for (int i = 0; i < nummasks; i++)
-                                if (M_StringCompare(maskname, masknames[i]))
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
                                 {
-                                    brightmap[texture] = masks[i];
+                                    brightmap[texture] = masks[j];
                                     numbrightmaps++;
                                     break;
                                 }
