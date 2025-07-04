@@ -1348,16 +1348,124 @@ static int C_GetOverlayTextColor(void)
         return nearestwhite;
 }
 
+#define FPS_GRAPH_WIDTH     44
+#define FPS_GRAPH_HEIGHT    8
+
 void C_UpdateFPSOverlay(void)
 {
-    const int   color = C_GetOverlayTextColor();
-    const int   x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
-    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
-    char        *temp = commify(framespersecond);
+    const int       color = C_GetOverlayTextColor();
+    const int       x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
+    const byte      *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    char            *temp = commify(framespersecond);
+    static int      fps_history[FPS_GRAPH_WIDTH] = { 0 };
+    static int      fps_history_index = 0;
+    static uint64_t last_update = 0;
+    static int      max_fps_seen = 60;
+    uint64_t        now = I_GetTimeMS();
+    int             graph_x = SCREENWIDTH - FPS_GRAPH_WIDTH - OVERLAYTEXTX;
+    int             graph_y = OVERLAYTEXTY + 1;
+    int             prev_px = -1;
+    int             prev_py = -1;
+    int             py_vals[FPS_GRAPH_WIDTH];
 
-    V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x, OVERLAYTEXTY + 3, fps, fpswidth, color, tinttab);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, OVERLAYTEXTY,
-        tinttab, temp, color, true);
+    if (now - last_update >= 1000)
+    {
+        fps_history[fps_history_index] = framespersecond;
+        fps_history_index = (fps_history_index + 1) % FPS_GRAPH_WIDTH;
+        last_update = now;
+        max_fps_seen = 0;
+
+        for (int i = 0; i < FPS_GRAPH_WIDTH; i++)
+            if (fps_history[i] > max_fps_seen)
+                max_fps_seen = fps_history[i];
+
+        if (max_fps_seen > 10)
+        {
+            int curmax = 0;
+
+            for (int i = 0; i < FPS_GRAPH_WIDTH; i++)
+                if (fps_history[i] > curmax)
+                    curmax = fps_history[i];
+
+            if (curmax < max_fps_seen)
+                max_fps_seen = curmax;
+        }
+    }
+
+    for (int i = 0; i < FPS_GRAPH_WIDTH; i++)
+    {
+        int idx = (fps_history_index + i) % FPS_GRAPH_WIDTH;
+        int fps_val = fps_history[idx];
+        int py = graph_y + FPS_GRAPH_HEIGHT - 1;
+
+        if (max_fps_seen > 0)
+        {
+            int offset = (fps_val * FPS_GRAPH_HEIGHT) / max_fps_seen;
+
+            if (offset > FPS_GRAPH_HEIGHT - 1)
+                offset = FPS_GRAPH_HEIGHT - 1;
+
+            py -= offset;
+
+            if (py < graph_y)
+                py = graph_y;
+            else if (py > graph_y + FPS_GRAPH_HEIGHT - 1)
+                py = graph_y + FPS_GRAPH_HEIGHT - 1;
+        }
+
+        py_vals[i] = py;
+    }
+
+    for (int i = 0; i < FPS_GRAPH_WIDTH; i++)
+    {
+        int     px = graph_x + i;
+        int     py = py_vals[i];
+        byte    *dest = &screens[0][py * SCREENWIDTH + px];
+
+        *dest = (tinttab ? tinttab[(color << 8) + *dest] : color);
+
+        if (prev_px >= 0 && prev_py >= 0)
+        {
+            int dx = px - prev_px;
+            int dy = py - prev_py;
+            int abs_dx = (dx > 0 ? dx : -dx);
+            int abs_dy = (dy > 0 ? dy : -dy);
+            int sx = (dx > 0 ? 1 : -1);
+            int sy = (dy > 0 ? 1 : -1);
+            int err = (abs_dx > abs_dy ? abs_dx : -abs_dy) / 2;
+            int x0 = prev_px;
+            int y0 = prev_py;
+            int n = (abs_dx > abs_dy ? abs_dx : abs_dy);
+
+            for (int j = 0; j < n; j++)
+            {
+                int     e2 = err;
+                byte    *dest = &screens[0][y0 * SCREENWIDTH + x0];
+
+                *dest = (tinttab ? tinttab[(color << 8) + *dest] : color);
+
+                if (e2 > -abs_dx)
+                {
+                    err -= abs_dy;
+                    x0 += sx;
+                }
+
+                if (e2 < abs_dy)
+                {
+                    err += abs_dx;
+                    y0 += sy;
+                }
+            }
+        }
+
+        prev_px = px;
+        prev_py = py;
+    }
+
+    V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x,
+        OVERLAYTEXTY + FPS_GRAPH_HEIGHT + 6, fps, fpswidth, color, tinttab);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3,
+        OVERLAYTEXTY + FPS_GRAPH_HEIGHT + 3, tinttab, temp, color, true);
     free(temp);
 }
 
@@ -1368,7 +1476,7 @@ void C_UpdateTimerOverlay(void)
     int         y = OVERLAYTEXTY;
 
     if (vid_showfps && framespersecond)
-        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+        y += FPS_GRAPH_HEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining != prevtime)
     {
@@ -1399,7 +1507,7 @@ void C_UpdatePlayerPositionOverlay(void)
     static char coordinates[32];
 
     if (vid_showfps && framespersecond)
-        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+        y += FPS_GRAPH_HEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timer)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
@@ -1466,7 +1574,7 @@ void C_UpdatePathOverlay(void)
             y = OVERLAYTEXTY;
 
             if (vid_showfps && framespersecond)
-                y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+                y += FPS_GRAPH_HEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
             if (timer)
                 y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
@@ -1505,7 +1613,7 @@ void C_UpdatePlayerStatsOverlay(void)
         y = OVERLAYTEXTY;
 
         if (vid_showfps && framespersecond)
-            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+            y += FPS_GRAPH_HEIGHT + 2 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
         if (timer)
             y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
