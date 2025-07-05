@@ -39,7 +39,7 @@
 #include "m_misc.h"
 #include "md5.h"
 
-#ifdef WORDS_BIGENDIAN
+#if defined(WORDS_BIGENDIAN)
 static void byteswap(uint32_t *buf, unsigned int words)
 {
     byte    *p = (byte *)buf;
