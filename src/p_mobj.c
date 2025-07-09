@@ -61,13 +61,13 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
     // killough 4/9/98: remember states seen, to detect cycles:
 
     // fast transition table
-    statenum_t  *seenstate = seenstate_tab;     // pointer to table
-    static int  recursion;                      // detects recursion
-    statenum_t  i = state;                      // initial state
-    bool        ret = true;                     // return value
-    statenum_t  *tempstate = NULL;              // for use with recursion
+    statenum_t  *seenstate = seenstate_tab;         // pointer to table
+    static int  recursion;                          // detects recursion
+    statenum_t  i = state;                          // initial state
+    bool        ret = true;                         // return value
+    statenum_t  *tempstate = NULL;                  // for use with recursion
 
-    if (recursion++)                            // if recursion detected, allocate state table
+    if (recursion++)                                // if recursion detected, allocate state table
         seenstate = tempstate = Z_Calloc(numstates, sizeof(statenum_t), PU_STATIC, NULL);
 
     do
@@ -77,7 +77,7 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
             ret = false;
-            break;                              // killough 4/9/98
+            break;                                  // killough 4/9/98
         }
         else
         {
@@ -96,11 +96,20 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
             seenstate[state] = 1 + st->nextstate;   // killough 4/9/98
             state = st->nextstate;
         }
-    } while (!mobj->tics && !seenstate[state]); // killough 4/9/98
+    } while (!mobj->tics && !seenstate[state]);     // killough 4/9/98
+
+    if (ret && !mobj->tics)                         // killough 4/9/98: detect state cycles
+    {
+        char    *temp = commify(i);
+
+        C_Warning(2, "A state cycle was detected in state %s.", temp);
+        free(temp);
+        return false;
+    }
 
     if (!--recursion)
         for (; (state = seenstate[i]); i = state - 1)
-            seenstate[i] = 0;                   // killough 4/9/98: erase memory of states
+            seenstate[i] = 0;                       // killough 4/9/98: erase memory of states
 
     if (tempstate)
         Z_Free(tempstate);
