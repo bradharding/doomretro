@@ -1391,12 +1391,11 @@ void C_UpdateFPSOverlay(void)
 
     for (int i = 0; i < OVERLAYFPSGRAPHWIDTH; i++)
     {
-        int fpsval = fpshistory[(fpshistoryindex + i) % OVERLAYFPSGRAPHWIDTH];
         int py = graphy + OVERLAYFPSGRAPHHEIGHT - 1;
 
         if (maxfpsseen > 0)
         {
-            int offset = (fpsval * OVERLAYFPSGRAPHHEIGHT) / maxfpsseen;
+            int offset = (fpshistory[(fpshistoryindex + i) % OVERLAYFPSGRAPHWIDTH] * OVERLAYFPSGRAPHHEIGHT) / maxfpsseen;
 
             if (offset > OVERLAYFPSGRAPHHEIGHT - 1)
                 offset = OVERLAYFPSGRAPHHEIGHT - 1;
@@ -1438,8 +1437,6 @@ void C_UpdateFPSOverlay(void)
         {
             int dx = px - prevpx;
             int dy = py - prevpy;
-            int abs_dx = ABS(dx);
-            int abs_dy = ABS(dy);
             int sx = SIGN(dx);
             int sy = SIGN(dy);
             int err;
@@ -1447,15 +1444,18 @@ void C_UpdateFPSOverlay(void)
             int y0 = prevpy;
             int n;
 
-            if (abs_dx > abs_dy)
+            dx = ABS(dx);
+            dy = ABS(dy);
+
+            if (dx > dy)
             {
-                err = abs_dx / 2;
-                n = abs_dx;
+                err = dx / 2;
+                n = dx;
             }
             else
             {
-                err = -abs_dy / 2;
-                n = abs_dy;
+                err = -dy / 2;
+                n = dy;
             }
 
             for (int j = 0; j < n; j++)
@@ -1480,15 +1480,15 @@ void C_UpdateFPSOverlay(void)
                         *dest = nearestblack;
                 }
 
-                if (e2 > -abs_dx)
+                if (e2 > -dx)
                 {
-                    err -= abs_dy;
+                    err -= dy;
                     x0 += sx;
                 }
 
-                if (e2 < abs_dy)
+                if (e2 < dy)
                 {
-                    err += abs_dx;
+                    err += dx;
                     y0 += sy;
                 }
             }
