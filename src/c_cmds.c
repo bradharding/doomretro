@@ -6400,7 +6400,7 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
 
     if (value > 0 || allowzero)
     {
-        const float feet = (float)value / UNITSPERFOOT;
+        const float feet = (float)value / FRACUNIT / UNITSPERFOOT;
 
         if (units == units_imperial)
         {

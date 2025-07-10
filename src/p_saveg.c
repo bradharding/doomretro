@@ -528,6 +528,10 @@ static void saveg_read_player_t(void)
         viewplayer->monsterskilled[i] = saveg_read32();
 
     viewplayer->distancetraveled = saveg_read32();
+
+    if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
+        viewplayer->distancetraveled *= FRACUNIT;
+
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
     viewplayer->itemspickedup_ammo_cells = saveg_read32();
@@ -1023,7 +1027,8 @@ bool P_ReadSaveGameHeader(char *description)
 
     if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1)
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2))
     {
         menuactive = false;
         quicksaveslot = -1;
