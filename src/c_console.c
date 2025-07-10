@@ -1365,6 +1365,10 @@ void C_UpdateFPSOverlay(void)
     int             prevpy = -1;
     int             pyvals[OVERLAYFPSGRAPHWIDTH];
 
+    for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
+        for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+            tempscreen[yy * SCREENWIDTH + xx] = PINK;
+
     if (now - lastupdate >= 1000)
     {
         fpshistory[fpshistoryindex] = framespersecond;
@@ -1415,23 +1419,13 @@ void C_UpdateFPSOverlay(void)
     {
         int     px = graphx + i;
         int     py = pyvals[i];
-        byte    *dest = &screens[0][py * SCREENWIDTH + px];
+        byte    *dest = &tempscreen[py * SCREENWIDTH + px];
 
-        if (tinttab)
-        {
-            *dest = tinttab[(color << 8) + *dest];
-            *dest = black10[*dest];
-            dest += SCREENWIDTH;
-            *dest = black10[*dest];
-        }
-        else
-        {
-            *dest = color;
-            dest += SCREENWIDTH;
+        *dest = color;
+        dest += SCREENWIDTH;
 
-            if (*dest != color)
-                *dest = nearestblack;
-        }
+        if (*dest == PINK)
+            *dest = nearestblack;
 
         if (prevpx >= 0 && prevpy >= 0)
         {
@@ -1462,23 +1456,12 @@ void C_UpdateFPSOverlay(void)
             {
                 int e2 = err;
 
-                dest = &screens[0][y0 * SCREENWIDTH + x0];
+                dest = &tempscreen[y0 * SCREENWIDTH + x0];
+                *dest = color;
+                dest += SCREENWIDTH;
 
-                if (tinttab)
-                {
-                    *dest = tinttab[(color << 8) + *dest];
-                    *dest = black10[*dest];
-                    dest += SCREENWIDTH;
-                    *dest = black10[*dest];
-                }
-                else
-                {
-                    *dest = color;
-                    dest += SCREENWIDTH;
-
-                    if (*dest != color)
-                        *dest = nearestblack;
-                }
+                if (*dest == PINK)
+                    *dest = nearestblack;
 
                 if (e2 > -dx)
                 {
@@ -1496,6 +1479,24 @@ void C_UpdateFPSOverlay(void)
 
         prevpx = px;
         prevpy = py;
+    }
+
+    if (tinttab)
+    {
+        for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
+            for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+                if (tempscreen[yy * SCREENWIDTH + xx] == nearestblack)
+                    screens[0][yy * SCREENWIDTH + xx] = black10[screens[0][yy * SCREENWIDTH + xx]];
+                else if (tempscreen[yy * SCREENWIDTH + xx] != PINK)
+                    screens[0][yy * SCREENWIDTH + xx] = tinttab[(tempscreen[yy * SCREENWIDTH + xx] << 8)
+                        + screens[0][yy * SCREENWIDTH + xx]];
+    }
+    else
+    {
+        for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
+            for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+                if (tempscreen[yy * SCREENWIDTH + xx] != PINK)
+                    screens[0][yy * SCREENWIDTH + xx] = tempscreen[yy * SCREENWIDTH + xx];
     }
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x,
