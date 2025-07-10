@@ -3,8 +3,9 @@
 ### DOOM Retro v5.7.2
 
 * *DOOM Retro* is now built using v17.14.8 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* A graph is now displayed with the number of frames per second when the `vid_showfps` CVAR is `on`.
 
-* ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, July 4, 2025
 
