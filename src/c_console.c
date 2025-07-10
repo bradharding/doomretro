@@ -1365,10 +1365,6 @@ void C_UpdateFPSOverlay(void)
     int             prevpy = -1;
     int             pyvals[OVERLAYFPSGRAPHWIDTH];
 
-    for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
-        for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
-            tempscreen[yy * SCREENWIDTH + xx] = PINK;
-
     if (now - lastupdate >= 1000)
     {
         fpshistory[fpshistoryindex] = framespersecond;
@@ -1415,11 +1411,15 @@ void C_UpdateFPSOverlay(void)
         pyvals[i] = py;
     }
 
+    for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
+        for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
+            tempscreen[yy * SCREENWIDTH + xx] = PINK;
+
     for (int i = 0; i < OVERLAYFPSGRAPHWIDTH; i++)
     {
-        int     px = graphx + i;
-        int     py = pyvals[i];
-        byte    *dest = &tempscreen[py * SCREENWIDTH + px];
+        const int   px = graphx + i;
+        const int   py = pyvals[i];
+        byte        *dest = &tempscreen[py * SCREENWIDTH + px];
 
         *dest = color;
         dest += SCREENWIDTH;
