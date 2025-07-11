@@ -172,7 +172,7 @@ char *M_FileCaseExists(const char *path)
     {
         lowercase(pos + 1);
 
-        if(file_exists_get_path(basedir, tmpfilename, &retpath))
+        if (file_exists_get_path(basedir, tmpfilename, &retpath))
             goto cleanup;
     }
 

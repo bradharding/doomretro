@@ -2118,14 +2118,16 @@ static bool nofit;
 //
 static void PIT_ChangeSector(mobj_t *thing)
 {
-    int   flags;
-    int   flags2;
+    int         flags;
+    int         flags2;
+    mobjtype_t  type;
 
     if (P_ThingHeightClip(thing))
         return; // keep checking
 
     flags = thing->flags;
     flags2 = thing->flags2;
+    type = thing->type;
 
     // crunch bodies to giblets
     if ((flags & MF_CORPSE) || (flags2 & MF2_CRUSHABLE))
@@ -2165,7 +2167,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             thing->flags &= ~MF_SOLID;
 
             if (r_corpses_mirrored && (M_BigRandom() & 1) && !(flags2 & MF2_NOMIRROREDCORPSE)
-                && (thing->type != MT_PAIN || !doom4vanilla))
+                && (type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
             thing->height = 0;
@@ -2205,7 +2207,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     if (crushchange && !(maptime & 3))
     {
         if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
-            && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
+            && (type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
             bool        fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
             const int   z = thing->z + thing->height * 2 / 3;
@@ -2242,7 +2244,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         P_DamageMobj(thing, NULL, NULL, 10, true, false);
 
-        if (thing->health <= 0 && !thing->player && thing->type != MT_BARREL && obituaries)
+        if (thing->health <= 0 && !thing->player && type != MT_BARREL && obituaries)
         {
             char    name[128];
 
@@ -2250,7 +2252,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                 M_StringCopy(name, thing->name, sizeof(name));
             else
                 M_snprintf(name, sizeof(name), "%s %s%s",
-                    ((flags & MF_FRIEND) && thing->type < NUMMOBJTYPES && monstercount[thing->type] == 1 ? "the" :
+                    ((flags & MF_FRIEND) && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" :
                         (isvowel(thing->info->name1[0]) && !(flags & MF_FRIEND) ? "an" : "a")),
                     ((flags & MF_FRIEND) ? "friendly " : ""),
                     (*thing->info->name1 ? thing->info->name1 : "monster"));

@@ -1485,18 +1485,35 @@ void C_UpdateFPSOverlay(void)
     {
         for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
             for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
-                if (tempscreen[yy * SCREENWIDTH + xx] == nearestblack)
-                    screens[0][yy * SCREENWIDTH + xx] = black10[screens[0][yy * SCREENWIDTH + xx]];
-                else if (tempscreen[yy * SCREENWIDTH + xx] != PINK)
-                    screens[0][yy * SCREENWIDTH + xx] = tinttab[(tempscreen[yy * SCREENWIDTH + xx] << 8)
-                        + screens[0][yy * SCREENWIDTH + xx]];
+            {
+                const int   i = yy * SCREENWIDTH + xx;
+                const byte  dot = tempscreen[i];
+
+                if (dot == nearestblack)
+                {
+                    byte    *dest = &screens[0][i];
+
+                    *dest = black10[*dest];
+                }
+                else if (dot != PINK)
+                {
+                    byte    *dest = &screens[0][i];
+
+                    *dest = tinttab[(dot << 8) + *dest];
+                }
+            }
     }
     else
     {
         for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
             for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
-                if (tempscreen[yy * SCREENWIDTH + xx] != PINK)
-                    screens[0][yy * SCREENWIDTH + xx] = tempscreen[yy * SCREENWIDTH + xx];
+            {
+                const int   i = yy * SCREENWIDTH + xx;
+                const byte  dot = tempscreen[i];
+
+                if (dot != PINK)
+                    screens[0][i] = dot;
+            }
     }
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x,
