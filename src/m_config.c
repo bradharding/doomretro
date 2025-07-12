@@ -1001,6 +1001,24 @@ static float ParseFloatParameter(const char *cvar, const char *strparm, const in
     }
 }
 
+static bool M_EarlierVersion(char *string)
+{
+    int major = 0;
+    int minor = 0;
+    int patch = 0;
+
+    if (sscanf(string, "%d.%d.%d", &major, &minor, &patch) == 3)
+        return (major < DOOMRETRO_VERSION_MAJOR
+            || (major == DOOMRETRO_VERSION_MAJOR && minor < DOOMRETRO_VERSION_MINOR)
+            || (major == DOOMRETRO_VERSION_MAJOR && minor == DOOMRETRO_VERSION_MINOR && patch < DOOMRETRO_VERSION_PATCH));
+    else if (sscanf(string, "%d.%d", &major, &minor) == 2)
+        return (major < DOOMRETRO_VERSION_MAJOR
+            || (major == DOOMRETRO_VERSION_MAJOR && minor < DOOMRETRO_VERSION_MINOR)
+            || DOOMRETRO_VERSION_PATCH);
+
+    return false;
+}
+
 static void M_CheckCVARs(void)
 {
     if (!*wadfolder || M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
@@ -1024,6 +1042,9 @@ static void M_CheckCVARs(void)
     musicvolume = (s_musicvolume * 31 + 50) / 100;
 
     sfxvolume = (s_sfxvolume * 31 + 50) / 100;
+
+    if (M_EarlierVersion(version))
+        stat_distancetraveled *= FRACUNIT;
 
     version = version_default;
 
@@ -1164,10 +1185,11 @@ void M_LoadCVARs(const char *filename)
             {
                 case DEFAULT_STRING:
                 {
-                    char    *temp = Z_StringDuplicate(value + 1, PU_STATIC, NULL);
-                    size_t  length = strlen(temp) - 1;
+                    char    *temp = Z_StringDuplicate(value, PU_STATIC, NULL);
+                    size_t  length = strlen(temp);
                     size_t  cmdlength = (size_t)consolecmds[C_GetIndex(cvar)].length;
 
+                    M_StripQuotes(temp);
                     temp[length] = '\0';
 
                     if (cmdlength < length)

@@ -36,6 +36,10 @@
 #pragma once
 
 #define DOOMRETRO_VERSION               5,7,2,0
+#define DOOMRETRO_VERSION_MAJOR         5
+#define DOOMRETRO_VERSION_MINOR         7
+#define DOOMRETRO_VERSION_PATCH         2
+#define DOOMRETRO_VERSION_BUILD         0
 #define DOOMRETRO_VERSIONSTRING         "5.7.2"
 #define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v5.7.2"
 
