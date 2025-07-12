@@ -1001,20 +1001,35 @@ static float ParseFloatParameter(const char *cvar, const char *strparm, const in
     }
 }
 
-static bool M_EarlierVersion(char *string)
+static bool M_EarlierVersion(char *version1, char *version2)
 {
-    int major = 0;
-    int minor = 0;
-    int patch = 0;
+    int major1 = 0;
+    int minor1 = 0;
+    int patch1 = 0;
+    int major2 = 0;
+    int minor2 = 0;
+    int patch2 = 0;
 
-    if (sscanf(string, "%d.%d.%d", &major, &minor, &patch) == 3)
-        return (major < DOOMRETRO_VERSION_MAJOR
-            || (major == DOOMRETRO_VERSION_MAJOR && minor < DOOMRETRO_VERSION_MINOR)
-            || (major == DOOMRETRO_VERSION_MAJOR && minor == DOOMRETRO_VERSION_MINOR && patch < DOOMRETRO_VERSION_PATCH));
-    else if (sscanf(string, "%d.%d", &major, &minor) == 2)
-        return (major < DOOMRETRO_VERSION_MAJOR
-            || (major == DOOMRETRO_VERSION_MAJOR && minor < DOOMRETRO_VERSION_MINOR)
-            || DOOMRETRO_VERSION_PATCH);
+    if (sscanf(version1, "%i.%i.%i", &major1, &minor1, &patch1) == 3)
+    {
+        if (sscanf(version2, "%i.%i.%i", &major2, &minor2, &patch2) == 3)
+            return (major1 < major2
+                || (major1 == major2 && minor1 < minor2)
+                || (major1 == major2 && minor1 == minor2 && patch1 < patch2));
+        else if (sscanf(version2, "%i.%i", &major2, &minor2) == 2)
+            return (major1 < major2
+                || (major1 == major2 && minor1 <= minor2)
+                || patch2);
+    }
+    else if (sscanf(version1, "%i.%i", &major1, &minor1) == 2)
+    {
+        if (sscanf(version2, "%i.%i.%i", &major2, &minor2, &patch2) == 3)
+            return (major1 < major2
+                || (major1 == major2 && minor1 <= minor2));
+        else if (sscanf(version2, "%i.%i", &major2, &minor2) == 2)
+            return (major1 < major2
+                || (major1 == major2 && minor1 < minor2));
+    }
 
     return false;
 }
@@ -1043,7 +1058,7 @@ static void M_CheckCVARs(void)
 
     sfxvolume = (s_sfxvolume * 31 + 50) / 100;
 
-    if (M_EarlierVersion(version))
+    if (M_EarlierVersion(version, "5.7.2"))
         stat_distancetraveled *= FRACUNIT;
 
     version = version_default;
@@ -1190,7 +1205,6 @@ void M_LoadCVARs(const char *filename)
                     size_t  cmdlength = (size_t)consolecmds[C_GetIndex(cvar)].length;
 
                     M_StripQuotes(temp);
-                    temp[length] = '\0';
 
                     if (cmdlength < length)
                         temp[cmdlength] = '\0';
