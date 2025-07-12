@@ -1022,7 +1022,7 @@ void M_StripQuotes(char *str)
 {
     int len = (int)strlen(str);
 
-    if (len > 2
+    if (len >= 2
         && (((str[0] == '"' || str[0] == '\x93')
             && (str[len - 1] == '"' || str[len - 1] == '\x94'))
             || ((str[0] == '\'' || str[0] == '\x91')
