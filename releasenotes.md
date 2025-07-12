@@ -5,6 +5,8 @@
 * *DOOM Retro* is now built using v17.14.8 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * A graph is now displayed along with the number of frames per second when the `vid_showfps` CVAR is `on`.
 * The distance the player travels, displayed in the automap when the `am_path` CVAR is `on`, and by the `playerstats` CCMD, has improved in accuracy.
+* A message is now displayed in the console when the player upgrades from an earlier version of *DOOM Retro*.
+* A new `releasenotes` CCMD has been implemented that opens a [list of changes since the last version of *DOOM Retro*](https://github.com/bradharding/doomretro/releases/latest) in the default browser.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
