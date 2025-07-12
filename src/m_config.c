@@ -1058,8 +1058,12 @@ static void M_CheckCVARs(void)
 
     sfxvolume = (s_sfxvolume * 31 + 50) / 100;
 
-    if (M_EarlierVersion(version, "5.7.2"))
+    if (M_EarlierVersion(version, DOOMRETRO_VERSIONSTRING_5_7_2))
         stat_distancetraveled *= FRACUNIT;
+
+    if (M_EarlierVersion(version, version_default))
+        C_Warning(0, "Thank you for upgrading " ITALICS(DOOMRETRO_NAME "!")
+            " Enter " BOLD("releasenotes") " to list what's changed since the last version.");
 
     version = version_default;
 

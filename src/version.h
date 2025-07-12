@@ -36,12 +36,10 @@
 #pragma once
 
 #define DOOMRETRO_VERSION               5,7,2,0
-#define DOOMRETRO_VERSION_MAJOR         5
-#define DOOMRETRO_VERSION_MINOR         7
-#define DOOMRETRO_VERSION_PATCH         2
-#define DOOMRETRO_VERSION_BUILD         0
 #define DOOMRETRO_VERSIONSTRING         "5.7.2"
 #define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v5.7.2"
+
+#define DOOMRETRO_VERSIONSTRING_5_7_2   "5.7.2"
 
 #define DOOMRETRO_SAVEGAMEVERSION_3_6   "DOOM Retro v3.6"
 #define DOOMRETRO_SAVEGAMEVERSION_5_7   "DOOM Retro v5.7"
@@ -63,6 +61,7 @@
 #define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/License"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
+#define DOOMRETRO_RELEASENOTESURL       "https://github.com/bradharding/doomretro/releases/latest"
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"

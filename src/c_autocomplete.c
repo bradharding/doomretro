@@ -9325,6 +9325,7 @@ autocomplete_t autocompletelist[] =
     { "regenhealth ",                                DOOM1AND2        },
     { "regenhealth off",                             DOOM1AND2        },
     { "regenhealth on",                              DOOM1AND2        },
+    { "releasenotes",                                DOOM1AND2        },
     { "remove ",                                     DOOM1AND2        },
     { "remove armorbonuses",                         DOOM1AND2        },
     { "remove backpacks",                            DOOM1AND2        },
