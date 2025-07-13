@@ -403,8 +403,9 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->forwardmove = saveg_read8();
     str->sidemove = saveg_read8();
     str->angleturn = saveg_read16();
-    str->buttons = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1) ?
-        saveg_read32() : saveg_read8());
+    str->buttons = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
+        || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7) ?
+        saveg_read8() : saveg_read32());
     str->lookdir = saveg_read32();
 }
 
