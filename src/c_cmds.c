@@ -967,7 +967,7 @@ consolecmd_t consolecmds[] =
     CCMD(regenhealth, "", "", game_ccmd_func1, regenhealth_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating your health by 1% every second when it's less than 100%."),
     CCMD(releasenotes, "", "", null_func1, releasenotes_func2, false, "",
-        "Opens a list of what's changed since the last version of " ITALICS(DOOMRETRO_NAME ".")),
+        "Opens the list of what's changed since the last version of " ITALICS(DOOMRETRO_NAME ".")),
     CCMD(remove, "", "", kill_func1, kill_func2, true, REMOVECMDFORMAT,
         "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", certain "
         BOLDITALICS("items") ", or " BOLD("everything") "."),

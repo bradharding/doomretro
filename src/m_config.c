@@ -1018,8 +1018,7 @@ static bool M_EarlierVersion(char *version1, char *version2)
                 || (major1 == major2 && minor1 == minor2 && patch1 < patch2));
         else if (sscanf(version2, "%i.%i", &major2, &minor2) == 2)
             return (major1 < major2
-                || (major1 == major2 && minor1 <= minor2)
-                || patch2);
+                || (major1 == major2 && minor1 <= minor2));
     }
     else if (sscanf(version1, "%i.%i", &major1, &minor1) == 2)
     {
