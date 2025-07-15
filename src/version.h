@@ -61,7 +61,7 @@
 #define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/License"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
-#define DOOMRETRO_RELEASENOTESURL       "https://github.com/bradharding/doomretro/releases/latest"
+#define DOOMRETRO_RELEASENOTESURL       "https://github.com/bradharding/doomretro/releases/tag/v" DOOMRETRO_VERSIONSTRING
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"
