@@ -1324,6 +1324,12 @@ bool P_CheckTag(const line_t *line)
         case SR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
         case G1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
         case GR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
+        case W1_ExitToTheNextMapAndResetInventory:
+        case S1_ExitToTheNextMapAndResetInventory:
+        case G1_ExitToTheNextMapAndResetInventory:
+        case W1_ExitToTheSecretMapAndResetInventory:
+        case S1_ExitToTheSecretMapAndResetInventory:
+        case G1_ExitToTheSecretMapAndResetInventory:
         case SetTheTargetSectorsColormap:
         case W1_SetTheTargetSectorsColormap:
         case WR_SetTheTargetSectorsColormap:
