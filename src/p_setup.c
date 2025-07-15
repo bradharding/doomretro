@@ -2285,21 +2285,23 @@ static void P_LoadSideDefs2(int lump)
                 for (int j = 0; j < numlines; j++)
                     if (lines[j].sidenum[0] == i)
                     {
-                        if ((lines[j].frontmusic = W_CheckNumForName(msd->toptexture)) < 0)
-                        {
-                            lines[j].frontmusic = 0;
-                            sd->toptexture = R_TextureNumForName(msd->toptexture);
-                        }
-                        else
-                            sd->toptexture = 0;
+                        int music = W_CheckNumForName(msd->toptexture);
 
-                        if ((lines[j].backmusic = W_CheckNumForName(msd->bottomtexture)) < 0)
+                        if (music >= 0)
                         {
-                            lines[j].backmusic = 0;
-                            sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                            lines[j].frontmusic = music;
+                            sd->toptexture = 0;
                         }
                         else
+                            sd->toptexture = R_TextureNumForName(msd->toptexture);
+
+                        if ((music = W_CheckNumForName(msd->bottomtexture)) >= 0)
+                        {
+                            lines[j].backmusic = music;
                             sd->bottomtexture = 0;
+                        }
+                        else
+                            sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
                     }
 
                 break;
