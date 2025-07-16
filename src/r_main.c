@@ -956,6 +956,20 @@ void R_InitColumnFunctions(void)
                 mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitheredColumn;
             }
         }
+
+        if (!mobjinfo[MT_DOGS].dehacked)
+        {
+            if (r_detail == r_detail_low)
+            {
+                mobjinfo[MT_DOGS].colfunc = &R_DrawCorrectedLowResDitheredColumn;
+                mobjinfo[MT_DOGS].altcolfunc = &R_DrawCorrectedLowResDitheredColumn;
+            }
+            else
+            {
+                mobjinfo[MT_DOGS].colfunc = &R_DrawCorrectedDitheredColumn;
+                mobjinfo[MT_DOGS].altcolfunc = &R_DrawCorrectedDitheredColumn;
+            }
+        }
     }
     else
     {
@@ -968,6 +982,12 @@ void R_InitColumnFunctions(void)
         {
             mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
             mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
+        }
+
+        if (!mobjinfo[MT_DOGS].dehacked)
+        {
+            mobjinfo[MT_DOGS].colfunc = &R_DrawCorrectedColumn;
+            mobjinfo[MT_DOGS].altcolfunc = &R_DrawCorrectedColumn;
         }
     }
 
