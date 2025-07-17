@@ -1417,51 +1417,26 @@ void R_InitBuffer(void)
     memset(fuzz2table, 0, MAXSCREENAREA);
 }
 
-void R_FillBezel(const byte topcolor, const byte color, const short sbarwidth)
+void R_FillBezel(void)
 {
-    if (true)
-    {
-        byte            *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-        int             height = SBARHEIGHT - 2;
-        const size_t    width = (SCREENWIDTH - sbarwidth) / 2;
-        const size_t    right = SCREENWIDTH - width;
+    byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-        memset(dest, topcolor, width);
-        memset(dest + right, topcolor, width);
-        dest += SCREENWIDTH;
-
-        memset(dest, topcolor, width);
-        memset(dest + right, topcolor, width);
-        dest += SCREENWIDTH;
-
-        while (height--)
+    for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            memset(dest, color, width);
-            memset(dest + right, color, width);
-            dest += SCREENWIDTH;
+            const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+
+            *dest++ = dot;
+            *dest++ = dot;
         }
-    }
-    else
+
+    if (st_drawbrdr)
     {
-        byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / 2; x += 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
 
-        for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-            for (int x = 0; x < SCREENWIDTH; x += 2)
-            {
-                const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
-
-                *dest++ = dot;
-                *dest++ = dot;
-            }
-
-        if (st_drawbrdr)
-        {
-            for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / 2; x += 8)
-                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
-
-            for (int x = SCREENWIDTH / 2 - 8; x >= (SCREENWIDTH + NONWIDEWIDTH) / 2 / 2 - 8; x -= 8)
-                V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
-        }
+        for (int x = SCREENWIDTH / 2 - 8; x >= (SCREENWIDTH + NONWIDEWIDTH) / 2 / 2 - 8; x -= 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
 
