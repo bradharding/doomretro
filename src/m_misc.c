@@ -788,6 +788,42 @@ char *commify(int64_t value)
     return M_StringDuplicate(result);
 }
 
+char *commifystring(const char *str)
+{
+    size_t  len = strlen(str);
+
+    if (!len)
+        return M_StringDuplicate("");
+
+    bool        negative = (str[0] == '-');
+    size_t      start = (negative ? 1 : 0);
+    const char  *dot = strchr(str + start, '.');
+    size_t      intlen = (dot ? (size_t)(dot - (str + start)) : len - start);
+    size_t      commas = (intlen > 3 ? (intlen - 1) / 3 : 0);
+    size_t      outlen = len + commas + 1;
+    char        *out = (char *)I_Malloc(outlen);
+    size_t      i = intlen;
+    size_t      j = intlen + commas;
+
+    out[j] = '\0';
+
+    while (i > 0)
+    {
+        out[--j] = str[start + --i];
+
+        if (i > 0 && (intlen - i) % 3 == 0)
+            out[--j] = ',';
+    }
+
+    if (negative)
+        out[0] = '-';
+
+    if (dot)
+        strcat(out, dot);
+
+    return out;
+}
+
 char *commifystat(uint64_t value)
 {
     char    result[64];
@@ -999,7 +1035,7 @@ bool isbreak(const char ch)
     return !!strchr(" /\\-", ch);
 }
 
-char *striptrailingzero(float value, int precision)
+char *striptrailingzero(double value, int precision)
 {
     char    *result = malloc(100);
 

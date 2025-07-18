@@ -34,6 +34,7 @@
 */
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -140,6 +141,28 @@ static void saveg_write32(int value)
     saveg_write8((value >> 8) & 0xFF);
     saveg_write8((value >> 16) & 0xFF);
     saveg_write8((value >> 24) & 0xFF);
+}
+
+static void saveg_writedouble(double value)
+{
+    unsigned char   buf[8];
+
+    memcpy(buf, &value, 8);
+
+    for (int i = 0; i < 8; i++)
+        saveg_write8(buf[i]);
+}
+
+static double saveg_readdouble(void)
+{
+    unsigned char   buf[8];
+    double          value;
+
+    for (int i = 0; i < 8; i++)
+        buf[i] = saveg_read8();
+
+    memcpy(&value, buf, 8);
+    return value;
 }
 
 // Enum values are 32-bit integers.
@@ -528,10 +551,8 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
         viewplayer->monsterskilled[i] = saveg_read32();
 
-    viewplayer->distancetraveled = saveg_read32();
-
-    if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
-        viewplayer->distancetraveled *= FRACUNIT;
+    viewplayer->distancetraveled = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2) ?
+        saveg_readdouble() : saveg_read32() / UNITSPERFOOT);
 
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
@@ -643,7 +664,7 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
         saveg_write32(viewplayer->monsterskilled[i]);
 
-    saveg_write32(viewplayer->distancetraveled);
+    saveg_writedouble(viewplayer->distancetraveled);
     saveg_write32(viewplayer->gamessaved);
     saveg_write32(viewplayer->itemspickedup_ammo_bullets);
     saveg_write32(viewplayer->itemspickedup_ammo_cells);

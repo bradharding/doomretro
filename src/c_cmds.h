@@ -147,4 +147,4 @@ bool IsControlBound(const controltype_t type, const int control);
 char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiastype);
 int C_GetIndex(const char *cmd);
 bool C_ExecuteAlias(const char *alias);
-char *C_DistanceTraveled(uint64_t value, bool allowzero);
+char *C_DistanceTraveled(double feet, bool allowzero);

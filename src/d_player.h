@@ -225,7 +225,7 @@ typedef struct player_s
     int             deaths;
     int             suicides;
     int             monsterskilled[NUMMOBJTYPES];
-    int             distancetraveled;
+    double          distancetraveled;
     int             gamessaved;
     int             gamesloaded;
     int             itemspickedup_ammo_bullets;

@@ -6397,17 +6397,15 @@ static weapontype_t favoriteweapon(bool total)
     return favorite;
 }
 
-char *C_DistanceTraveled(uint64_t value, bool allowzero)
+char *C_DistanceTraveled(double feet, bool allowzero)
 {
     char    result[20] = "";
 
-    if (value > 0 || allowzero)
+    if (feet > 0.0 || allowzero)
     {
-        const float feet = (float)value / FRACUNIT / UNITSPERFOOT;
-
         if (units == units_imperial)
         {
-            if (feet >= 1.0f)
+            if (feet >= 1.0)
             {
                 if (feet < FEETPERMILE)
                 {
@@ -6419,10 +6417,12 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
                 }
                 else
                 {
-                    char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
+                    char    *temp1 = striptrailingzero(feet / FEETPERMILE, 2);
+                    char    *temp2 = commifystring(temp1);
 
-                    M_snprintf(result, sizeof(result), "%s miles", temp);
-                    free(temp);
+                    M_snprintf(result, sizeof(result), "%s miles", temp2);
+                    free(temp2);
+                    free(temp1);
                 }
             }
             else if (allowzero)
@@ -6430,27 +6430,31 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
         }
         else
         {
-            const float meters = feet / FEETPERMETER;
+            const double    meters = feet / FEETPERMETER;
 
-            if (meters >= 0.1f)
+            if (meters >= 0.1)
             {
                 if (meters < METERSPERKILOMETER)
                 {
-                    char    *temp = striptrailingzero(meters, 1);
+                    char    *temp1 = striptrailingzero(meters, 1);
+                    char    *temp2 = commifystring(temp1);
 
-                    if (!M_StringCompare(temp, "0.0"))
+                    if (!M_StringCompare(temp2, "0.0"))
                         M_snprintf(result, sizeof(result), "%s %s",
-                            temp, (english == english_american ? "meters" : "metres"));
+                            temp2, (english == english_american ? "meters" : "metres"));
 
-                    free(temp);
+                    free(temp2);
+                    free(temp1);
                 }
                 else
                 {
-                    char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+                    char    *temp1 = striptrailingzero(meters / METERSPERKILOMETER, 2);
+                    char    *temp2 = commifystring(temp1);
 
                     M_snprintf(result, sizeof(result), "%s %s",
-                        temp, (english == english_american ? "kilometers" : "kilometres"));
-                    free(temp);
+                        temp1, (english == english_american ? "kilometers" : "kilometres"));
+                    free(temp2);
+                    free(temp1);
                 }
             }
             else if (allowzero)
@@ -7119,7 +7123,7 @@ static void C_PlayerStats_Game(void)
     }
 
     temp1 = C_DistanceTraveled(viewplayer->distancetraveled, true);
-    temp2 = C_DistanceTraveled(stat_distancetraveled, true);
+    temp2 = C_DistanceTraveled((double)stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance %s\t%s\t%s",
         (english == english_american ? "traveled" : "travelled"), temp1, temp2);
     free(temp1);
@@ -7529,7 +7533,7 @@ static void C_PlayerStats_NoGame(void)
         (english == english_american ? "Favorite" : "Favourite"), temp1);
     free(temp1);
 
-    temp1 = C_DistanceTraveled(stat_distancetraveled, true);
+    temp1 = C_DistanceTraveled((double)stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance %s\t\x96\t%s",
         (english == english_american ? "traveled" : "travelled"), temp1);
     free(temp1);
