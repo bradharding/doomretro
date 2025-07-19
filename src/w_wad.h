@@ -90,6 +90,7 @@ int W_GetXNumForName(const char *name, const int x);
 int W_GetNumForNameFromResourceWAD(const char *name);
 
 int W_GetNumLumps(const char *name);
+int W_GetNumLumps2(const char *name);
 
 int W_LumpLength(int lump);
 

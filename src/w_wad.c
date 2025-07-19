@@ -851,6 +851,17 @@ int W_GetNumLumps(const char *name)
     return count;
 }
 
+int W_GetNumLumps2(const char *name)
+{
+    int count = 0;
+
+    for (int i = numlumps - 1; i >= 0; i--)
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
+            count++;
+
+    return count;
+}
+
 //
 // W_RangeCheckNumForName
 // Linear Search that checks for a lump number ONLY inside a range, not all lumps.

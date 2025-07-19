@@ -295,7 +295,8 @@ static void R_InitBrightmaps(void)
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
-    if (BTSX || chex || FREEDOOM || hacx || harmony || harmonyc || REKKR)
+    if ((BTSX || chex || FREEDOOM || hacx || harmony || harmonyc || REKKR)
+        && W_GetNumLumps2("BRGHTMPS") == 1)
         return;
 
     masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
