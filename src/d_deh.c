@@ -2353,7 +2353,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     DEHFILE             infile = { 0 };
     DEHFILE             *filein = &infile;              // killough 10/98
     char                inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
-    static unsigned int last_i = DEH_BLOCKMAX - 1;
+    static unsigned int last_i;
     static int          filepos;
 
     linecount = 0;
@@ -2385,6 +2385,9 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     }
 
     // loop until end of file
+    last_i = DEH_BLOCKMAX - 1;
+    filepos = 0;
+
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
         bool            match = false;
