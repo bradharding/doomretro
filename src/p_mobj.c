@@ -1384,9 +1384,12 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
         && ((!hacx && !harmony) || !(flags2 & MF2_DECORATION)))
     {
-        const short lump = sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0];
+        const spriteframe_t *frames = &sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK];
 
-        if (moreblood || lumpinfo[firstspritelump + lump]->wadfile->type == IWAD || (flags2 & MF2_MOREBLOOD))
+        if (frames
+            && (moreblood
+                || lumpinfo[firstspritelump + frames->lump[0]]->wadfile->type == IWAD
+                || (flags2 & MF2_MOREBLOOD)))
             P_SpawnMoreBlood(mobj);
     }
 
