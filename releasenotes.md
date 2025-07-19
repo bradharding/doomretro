@@ -7,6 +7,9 @@
 * The distance the player travels, displayed in the automap when the `am_path` CVAR is `on`, and by the `playerstats` CCMD, has improved in accuracy.
 * A message is now displayed in the console when the player upgrades from an earlier version of *DOOM Retro*.
 * A new `releasenotes` CCMD has been implemented that opens a [list of what’s changed since the last version of *DOOM Retro*](https://github.com/bradharding/doomretro/releases/latest) in the default browser.
+* A bug is fixed whereby `DEHACKED` lumps wouldn’t be parsed correctly in some instances.
+* `BRGHTMPS` lumps are now always parsed if included in a PWAD.
+* [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console now render correctly when a custom `PLAYPAL` lump is used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
