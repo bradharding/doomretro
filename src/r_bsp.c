@@ -593,7 +593,7 @@ static void R_Subsector(int num)
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way,
     // like passing it as an argument.
-    if (sector->validcount != validcount && !menuactive && !automapactive)
+    if (sector->validcount != validcount && !automapactive)
     {
         sector->validcount = validcount;
         R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));

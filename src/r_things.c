@@ -1072,9 +1072,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t          *thing = sec->thinglist;
-    bloodsplat_t    *splat = sec->splatlist;
+    bloodsplat_t    *splat = (menuactive || !drawbloodsplats ? NULL : sec->splatlist);
 
-    if (splat && drawbloodsplats)
+    if (splat)
     {
         spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
@@ -1102,7 +1102,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     // Handle all things in sector.
     do
     {
-        R_ProjectSprite(thing);
+        if (!menuactive || ((thing->flags & MF_SOLID) && !(thing->flags & MF_SHOOTABLE)))
+            R_ProjectSprite(thing);
+
         thing = thing->snext;
     } while (thing);
 }
