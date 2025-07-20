@@ -10,6 +10,7 @@
 * A bug is fixed whereby `DEHACKED` lumps wouldn’t be parsed correctly in some instances.
 * `BRGHTMPS` lumps are now always parsed if included in a PWAD.
 * [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console now render correctly when a custom `PLAYPAL` lump is used.
+* Solid, non-shootable sprites now appear in the background when the menu is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

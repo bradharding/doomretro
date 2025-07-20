@@ -2350,11 +2350,11 @@ void D_BuildBEXTables(void)
 // substantially modified to allow input from WAD lumps instead of .deh files.
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
 {
-    DEHFILE             infile = { 0 };
-    DEHFILE             *filein = &infile;              // killough 10/98
-    char                inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
-    static unsigned int last_i;
-    static int          filepos;
+    DEHFILE         infile = { 0 };
+    DEHFILE         *filein = &infile;              // killough 10/98
+    char            inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
+    unsigned int    last_i = DEH_BLOCKMAX - 1;
+    int             filepos = 0;
 
     linecount = 0;
     addtodehmaptitlecount = false;
@@ -2385,9 +2385,6 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     }
 
     // loop until end of file
-    last_i = DEH_BLOCKMAX - 1;
-    filepos = 0;
-
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
         bool            match = false;
