@@ -6,10 +6,10 @@
 * A graph is now displayed along with the number of frames per second when the `vid_showfps` CVAR is `on`.
 * The distance the player travels, displayed in the automap when the `am_path` CVAR is `on`, and by the `playerstats` CCMD, has improved in accuracy.
 * A message is now displayed in the console when the player upgrades from an earlier version of *DOOM Retro*.
-* A new `releasenotes` CCMD has been implemented that opens a [list of what’s changed since the last version of *DOOM Retro*](https://github.com/bradharding/doomretro/releases/latest) in the default browser.
-* A bug is fixed whereby `DEHACKED` lumps wouldn’t be parsed correctly in some instances.
+* A new `releasenotes` CCMD has been implemented that opens a [list of what’s changed since the last version of *DOOM Retro*](https://github.com/bradharding/doomretro/releases/tag/v/5.7.2) in the default browser.
+* A bug is fixed whereby `DEHACKED` lumps wouldn’t be parsed correctly in some rare instances.
 * `BRGHTMPS` lumps are now always parsed if included in a PWAD.
-* [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console now render correctly when a custom `PLAYPAL` lump is used.
+* [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console are now colored correctly when a custom `PLAYPAL` lump is used.
 * Solid, non-shootable sprites now appear in the background when the menu is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
