@@ -2506,6 +2506,17 @@ static void D_DoomMainSetup(void)
     D_TranslateDehStrings();
     D_SetGameDescription();
 
+    if (dehcount > 2)
+    {
+        if (gamemode == shareware)
+        {
+            free(appdatafolder);
+            I_Error("Other files can’t be loaded with the shareware version of DOOM.");
+        }
+
+        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
+    }
+
     if (!autoloading)
     {
         if (autoloadpwadsubfolder)
@@ -2516,17 +2527,6 @@ static void D_DoomMainSetup(void)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
                 BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
                 autoloadfolder, autoloadiwadsubfolder);
-    }
-
-    if (dehcount > 2)
-    {
-        if (gamemode == shareware)
-        {
-            free(appdatafolder);
-            I_Error("Other files can’t be loaded with the shareware version of DOOM.");
-        }
-
-        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
     }
 
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
