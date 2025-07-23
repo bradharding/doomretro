@@ -509,7 +509,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
     fuzz1pos = 0;
 
-    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap)))
+    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
+        && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
     {
         const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 
@@ -621,7 +622,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
-    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap)))
+    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
+        && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
     {
         const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
 
