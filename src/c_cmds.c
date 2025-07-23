@@ -931,7 +931,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_mirroredweapons, "", "", bool_cvars_func1, r_mirroredweapons_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_percolumnlighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles per-column lighting cast on sprites."),
+        "Toggles per-column lighting cast on monsters."),
     CVAR_BOOL(r_pickupeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the gold effect when you pick something up."),
     CVAR_BOOL(r_playersprites, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
