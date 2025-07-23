@@ -721,7 +721,8 @@ static void C_InitBrandingColors(void)
     consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
     if (W_GetNumLumps("STTNUM0") >= 2
-        && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
+        && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111])
+        && consolebrandingcolor1 != nearestcolors[4])
     {
         consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
         consolebrandingcolor1 <<= 8;
@@ -731,7 +732,8 @@ static void C_InitBrandingColors(void)
         consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
 
         if (W_GetNumLumps("M_NGAME") >= 2
-            && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111]))
+            && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111])
+            && consolebrandingcolor1 != nearestcolors[4])
         {
             consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
             consolebrandingcolor1 <<= 8;
