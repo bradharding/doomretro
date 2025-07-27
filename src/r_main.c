@@ -37,6 +37,7 @@
 
 #include "am_map.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_timer.h"
@@ -938,22 +939,25 @@ void R_InitColumnFunctions(void)
 
     if (r_ditheredlighting)
     {
-        if (r_rockettrails_translucency)
+        if (!norockettrails)
         {
-            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
-        }
-        else
-        {
-            if (r_detail == r_detail_low)
+            if (r_rockettrails_translucency)
             {
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedLowResDitheredColumn;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedLowResDitheredColumn;
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
             }
             else
             {
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitheredColumn;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitheredColumn;
+                if (r_detail == r_detail_low)
+                {
+                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedLowResDitheredColumn;
+                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedLowResDitheredColumn;
+                }
+                else
+                {
+                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitheredColumn;
+                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitheredColumn;
+                }
             }
         }
 
@@ -973,15 +977,18 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        if (r_rockettrails_translucency)
+        if (!norockettrails)
         {
-            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
-        }
-        else
-        {
-            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
-            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
+            if (r_rockettrails_translucency)
+            {
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+            }
+            else
+            {
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
+            }
         }
 
         if (!mobjinfo[MT_DOGS].dehacked)

@@ -4544,7 +4544,7 @@ void D_PostProcessDeh(void)
     }
 
     nobloodsplats = (states[S_BLOOD3].nextstate != S_NULL);
-    norockettrails |= (states[S_TRAIL].dehacked || states[S_TRAIL2].dehacked
+    norockettrails |= (mobjinfo[MT_TRAIL].dehacked || states[S_TRAIL].dehacked || states[S_TRAIL2].dehacked
         || states[S_TRAIL3].dehacked || states[S_TRAIL4].dehacked);
 
     dsdh_FreeTables();

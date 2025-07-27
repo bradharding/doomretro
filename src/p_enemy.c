@@ -2608,7 +2608,7 @@ void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // [BH] inherit blood color from spawner
-    if (actor->bloodcolor > REDBLOOD)
+    if (actor->bloodcolor >= REDBLOOD)
     {
         mo->bloodcolor = actor->bloodcolor;
         mo->colfunc = actor->colfunc;
