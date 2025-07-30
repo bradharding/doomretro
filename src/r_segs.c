@@ -863,8 +863,8 @@ void R_StoreWallRange(const int start, const int stop)
         {
             const short lightlevel = frontsector->lightlevel;
 
-            walllights = GetLightTable(lightlevel);
-            walllightsnext = GetLightTable(lightlevel + 4);
+            walllights = GetLightTable(lightlevel - 2);
+            walllightsnext = GetLightTable(lightlevel + 2);
         }
     }
 
