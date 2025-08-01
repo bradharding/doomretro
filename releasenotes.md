@@ -12,6 +12,8 @@
 * [*Helper dogs*](https://doomwiki.org/wiki/Helper_dog) spawned using the `spawn` CCMD in the console are now colored correctly when a custom `PLAYPAL` lump is used.
 * Solid, non-shootable sprites now appear in the background when the menu is open.
 * Per-column lighting is now only cast on monsters when the `r_percolumnlighting` CVAR is `on`.
+* A bug is fixed whereby pressing a mouse button would perform other unbound actions in some rare instances.
+* Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
