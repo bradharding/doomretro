@@ -1097,22 +1097,46 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         // ID24 specials
 
         case S1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, true);
+
             line->special = 0;
             break;
+        }
 
         case SR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, true);
+
             break;
+        }
 
         case S1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, false);
+
             line->special = 0;
             break;
+        }
 
         case SR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, false);
+
             break;
+        }
 
         case S1_ExitToTheNextMapAndResetInventory:
             if (thing->player && thing->player->health <= 0 && !compat_zombie)

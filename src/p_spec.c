@@ -2154,22 +2154,46 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
         // ID24 specials
 
         case W1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, true);
+
             line->special = 0;
             break;
+        }
 
         case WR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, true);
+
             break;
+        }
 
         case W1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, false);
+
             line->special = 0;
             break;
+        }
 
         case WR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
-            S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+        {
+            const int   music = (side ? line->backmusic : line->frontmusic);
+
+            if (music)
+                S_ChangeMusInfoMusic(music, false);
+
             break;
+        }
 
         case W1_ExitToTheNextMapAndResetInventory:
             if (bossaction || !(thing->player && thing->player->health <= 0 && !compat_zombie))
