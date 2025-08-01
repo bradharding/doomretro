@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.7.3
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, August 2, 2025
+
 ### DOOM Retro v5.7.2
 
 * *DOOM Retro* is now built using v17.14.10 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
