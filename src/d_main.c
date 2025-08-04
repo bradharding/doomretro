@@ -786,11 +786,19 @@ bool D_IsSIGILWAD(char *filename)
         || M_StringCompare(file, "SIGIL_COMPAT_V1_1.WAD")
         || M_StringCompare(file, "SIGIL_COMPAT_V1_2.WAD")
         || M_StringCompare(file, "SIGIL_COMPAT_V1_21.WAD")
+        || M_StringCompare(file, "SIGIL_COMPAT_V1_23.WAD")
         || M_StringCompare(file, "SIGIL_V1_0.WAD")
         || M_StringCompare(file, "SIGIL_V1_1.WAD")
         || M_StringCompare(file, "SIGIL_V1_2.WAD")
         || M_StringCompare(file, "SIGIL_V1_21.WAD")
+        || M_StringCompare(file, "SIGIL_V1_23.WAD")
+        || M_StringCompare(file, "SIGIL_V1_23_REG.WAD")
         || M_StringCompare(file, "SIGIL1.WAD"));
+}
+
+bool D_IsSIGILREGWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), "SIGIL_V1_23_REG.WAD"));
 }
 
 bool D_IsSIGILSHREDSWAD(char *filename)
@@ -1044,6 +1052,7 @@ static void D_AutoloadExtrasWAD(void)
 
 static void D_AutoloadSIGILWAD(void)
 {
+    bool    shreds = false;
     char    path[MAX_PATH];
 
     D_AutoloadExtrasWAD();
@@ -1051,40 +1060,57 @@ static void D_AutoloadSIGILWAD(void)
     if (sigil || sigil2 || M_CheckParm("-noautoload"))
         return;
 
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_V1_23_REG.wad");
 
     if (W_MergeFile(path, true))
+    {
         sigil = true;
+        shreds = true;
+    }
     else
     {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_2.wad");
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_V1_23.wad");
 
         if (W_MergeFile(path, true))
             sigil = true;
         else
         {
-            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_1.wad");
+            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
 
             if (W_MergeFile(path, true))
                 sigil = true;
             else
             {
-                M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_0.wad");
+                M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_2.wad");
 
                 if (W_MergeFile(path, true))
                     sigil = true;
                 else
                 {
-                    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL.wad");
+                    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_1.wad");
 
                     if (W_MergeFile(path, true))
                         sigil = true;
+                    else
+                    {
+                        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_0.wad");
+
+                        if (W_MergeFile(path, true))
+                            sigil = true;
+                        else
+                        {
+                            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL.wad");
+
+                            if (W_MergeFile(path, true))
+                                sigil = true;
+                        }
+                    }
                 }
             }
         }
     }
 
-    if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+    if (sigil && !shreds && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_SHREDS.wad");
 
@@ -2385,7 +2411,9 @@ static void D_DoomMainSetup(void)
                 nosigil = true;
             else
             {
-                autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
+                autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadfolder, false);
+                autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadfolder, false);
                 autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadfolder, false);
@@ -2393,7 +2421,9 @@ static void D_DoomMainSetup(void)
 
                 if (!autoloading && !REKKRSL)
                 {
-                    autoloading = W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
+                    autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadiwadsubfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
                     autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
                     autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
                     autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);

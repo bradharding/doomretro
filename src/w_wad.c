@@ -443,6 +443,12 @@ bool W_AddFile(char *filename, bool autoloaded)
                 " by choosing it in the episode menu.");
 
             autoloadsigilsubfolder = removeext(leafname(GetCorrectCase(filename)));
+
+            if (D_IsSIGILREGWAD(file))
+            {
+                buckethead = true;
+                C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL") ".");
+            }
         }
         else if (D_IsSIGILSHREDSWAD(file))
         {

@@ -5075,6 +5075,9 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
     else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
         || M_StringCompare(wadname, "SIGIL_v1_2.wad"))
         C_TabbedOutput(tabs, INDENT "Release date\tSeptember 10, 2019");
+    else if (M_StringCompare(wadname, "SIGIL_V1_23.wad")
+        || M_StringCompare(wadname, "SIGIL_V1_23_REG.wad"))
+        C_TabbedOutput(tabs, INDENT "Release date\tAugust 3, 2025");
     else if (M_StringCompare(wadname, "SIGIL_II_V1_0.WAD")
         || M_StringCompare(wadname, "SIGIL_II_MP3_V1_0.WAD")
         || M_StringCompare(wadname, "SIGIL2.WAD"))
