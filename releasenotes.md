@@ -2,6 +2,8 @@
 
 ### DOOM Retro v5.7.3
 
+* Version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) (named `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad`) now autoloads if found.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 2, 2025
