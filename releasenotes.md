@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.7.3
 
+* *DOOM Retro* is now built using v17.14.11 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) (named `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad`) now autoloads if found.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
