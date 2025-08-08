@@ -659,7 +659,8 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
             else if (gameepisode == 6)
             {
                 M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
-                music->lumpnum = W_GetXNumForName(namebuf, (thorr && buckethead ? 5 : 3));
+                music->lumpnum = W_GetXNumForName(namebuf,
+                    (registeredsigil ? 4 : (thorr && buckethead ? 5 : 3)));
             }
             else
                 music->lumpnum = W_GetLastNumForName(namebuf);

@@ -446,6 +446,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
             if (D_IsSIGILREGWAD(file))
             {
+                registeredsigil = true;
                 buckethead = true;
                 C_Output("Buckethead's music will be heard while you play " ITALICS("SIGIL") ".");
             }
