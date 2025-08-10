@@ -69,6 +69,7 @@ bool        am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
 char        *am_gridsize = am_gridsize_default;
 int         am_markcolor = am_markcolor_default;
+bool        am_mousepanning = am_mousepanning_default;
 bool        am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
 int         am_playercolor = am_playercolor_default;
@@ -320,6 +321,7 @@ static default_t cvars[] =
     CVAR_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          NOVALUEALIAS       ),
     CVAR_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           NOVALUEALIAS       ),
     CVAR_INT          (am_markcolor,                     am_markcolour,                         am_markcolor,                          NOVALUEALIAS       ),
+    CVAR_BOOL         (am_mousepanning,                  am_mousepanning,                       am_mousepanning,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS     ),
     CVAR_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                          NOVALUEALIAS       ),
     CVAR_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                        NOVALUEALIAS       ),

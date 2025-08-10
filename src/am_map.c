@@ -156,6 +156,9 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
+static int          mouse_pan_x = 0;
+static int          mouse_pan_y = 0;
+
 int                 lastlevel = -1;
 int                 lastepisode = -1;
 
@@ -391,6 +394,41 @@ void AM_SetAutomapSize(const int screensize)
 
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
+}
+
+static void AM_MousePanning(void)
+{
+    static fixed_t  prevfrac = 0;
+    int64_t         step_x = FixedMul(mouse_pan_x, FRACUNIT);
+    int64_t         step_y = FixedMul(mouse_pan_y, FRACUNIT);
+    const int64_t   original_x = step_x;
+    const int64_t   original_y = step_y;
+    int             center_x;
+    int             center_y;
+
+    prevfrac = fractionaltic;
+
+    if (!step_x && !step_y)
+        return;
+
+    center_x = m_x + m_w / 2 + FTOM(step_x);
+    center_y = m_y + m_h / 2 + FTOM(step_y);
+
+    if (center_x > max_x)
+        step_x -= MTOF(center_x - max_x);
+    else if (center_x < min_x)
+        step_x += MTOF(min_x - center_x);
+
+    if (center_y > max_y)
+        step_y -= MTOF(center_y - max_y);
+    else if (center_y < min_y)
+        step_y += MTOF(min_y - center_y);
+
+    m_x += FTOM(step_x);
+    m_y += FTOM(step_y);
+
+    mouse_pan_x -= (int)original_x;
+    mouse_pan_y -= (int)original_y;
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -1001,6 +1039,24 @@ bool AM_Responder(const event_t *ev)
                     mousewait = I_GetTime() + 8;
                     AM_ToggleZoomOut();
                 }
+                else if (am_mousepanning && !am_followmode && (ev->data2 || ev->data3))
+                {
+                    int dx = ev->data2;
+                    int dy = ev->data3;
+
+                    if (am_rotatemode)
+                    {
+                        fixed_t incx = dx;
+                        fixed_t incy = dy;
+
+                        AM_Rotate(&incx, &incy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
+                        dx = incx;
+                        dy = incy;
+                    }
+
+                    mouse_pan_x += (int)(dx * m_sensitivity) >> 5;
+                    mouse_pan_y -= (int)(dy * m_sensitivity) >> 5;
+                }
             }
             else if (ev->type == ev_mousewheel && !mapwindow)
             {
@@ -1221,6 +1277,9 @@ void AM_Ticker(void)
     // Change x,y location
     if ((m_paninc.x || m_paninc.y) && !consoleactive && !paused)
         AM_ChangeWindowLoc();
+
+    if (mouse_pan_x || mouse_pan_y)
+        AM_MousePanning();
 
     if (movement)
     {

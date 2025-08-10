@@ -17,6 +17,7 @@ am_fdwallcolor 64
 am_gridcolor 104
 am_gridsize 128x128
 am_markcolor 103
+am_mousepanning off
 am_path off
 am_playercolor 209
 am_playerstats off

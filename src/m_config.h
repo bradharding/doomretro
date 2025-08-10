@@ -61,6 +61,7 @@ extern bool     am_grid;
 extern int      am_gridcolor;
 extern char     *am_gridsize;
 extern int      am_markcolor;
+extern bool     am_mousepanning;
 extern bool     am_path;
 extern int      am_pathcolor;
 extern int      am_playercolor;
@@ -411,6 +412,8 @@ enum
 #define am_markcolor_min                    0
 #define am_markcolor_default                89
 #define am_markcolor_max                    255
+
+#define am_mousepanning_default             true
 
 #define am_path_default                     false
 

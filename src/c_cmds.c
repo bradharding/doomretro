@@ -627,6 +627,8 @@ consolecmd_t consolecmds[] =
         "The size of the grid in the automap (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     CVAR_INT(am_markcolor, am_markcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
+    CVAR_BOOL(am_mousepanning, "", "", bool_cvars_func1, am_path_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles panning using the mouse when follow mode is off."),
     CVAR_BOOL(am_path, "", "", bool_cvars_func1, am_path_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles your path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
