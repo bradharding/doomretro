@@ -1039,20 +1039,13 @@ bool AM_Responder(const event_t *ev)
                     mousewait = I_GetTime() + 8;
                     AM_ToggleZoomOut();
                 }
-                else if (am_mousepanning && !am_followmode && (ev->data2 || ev->data3))
+                else if (am_mousepanning && !am_followmode && (ev->data2 || ev->data3) && !mapwindow)
                 {
-                    int dx = ev->data2;
-                    int dy = ev->data3;
+                    fixed_t dx = ev->data2;
+                    fixed_t dy = ev->data3;
 
                     if (am_rotatemode)
-                    {
-                        fixed_t incx = dx;
-                        fixed_t incy = dy;
-
-                        AM_Rotate(&incx, &incy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
-                        dx = incx;
-                        dy = incy;
-                    }
+                        AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
 
                     mouse_pan_x += (int)(dx * m_sensitivity) >> 5;
                     mouse_pan_y -= (int)(dy * m_sensitivity) >> 5;
