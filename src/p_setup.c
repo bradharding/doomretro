@@ -55,6 +55,7 @@
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
+#include "r_sky.h"
 #include "s_sound.h"
 #include "sc_man.h"
 #include "st_stuff.h"
@@ -3448,6 +3449,15 @@ void P_SetupLevel(int ep, int map)
 
     if (gamemission == pack_tnt)
         compat_stairs = true;
+
+    if (P_GetMapNoJump(ep, map) && (keyboardjump || keyboardjump2 || mousejump != -1 || controllerjump))
+        C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
+            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
+
+    if (P_GetMapNoFreelook(ep, map) && canfreelook)
+        C_Warning(1, "This %s has disabled use of the " BOLD("freelook") " CVAR and " BOLD("+freelook") " action.",
+            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
+
 }
 
 static int  liquidlumps;
@@ -4392,6 +4402,16 @@ int P_GetMapNext(const int ep, const int map)
     return mapinfo[ep][map].next;
 }
 
+bool P_GetMapNoFreelook(const int ep, const int map)
+{
+    return mapinfo[ep][map].nofreelook;
+}
+
+bool P_GetMapNoJump(const int ep, const int map)
+{
+    return mapinfo[ep][map].nojump;
+}
+
 void P_GetMapNoLiquids(const int ep, const int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
@@ -4466,7 +4486,7 @@ void P_Init(void)
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 
-        if (nofreelook)
+        if (nofreelook && canfreelook)
             C_Warning(1, "This %s has disabled use of the " BOLD("freelook") " CVAR and " BOLD("+freelook") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
     }

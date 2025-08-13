@@ -94,6 +94,8 @@ char *P_GetMapMusicComposer(const int ep, const int map);
 char *P_GetMapMusicTitle(const int ep, const int map);
 char *P_GetMapName(const int ep, const int map);
 int P_GetMapNext(const int ep, const int map);
+bool P_GetMapNoFreelook(const int ep, const int map);
+bool P_GetMapNoJump(const int ep, const int map);
 void P_GetMapNoLiquids(const int ep, const int map);
 int P_GetMapPar(const int ep, const int map);
 bool P_GetMapPistolStart(const int ep, const int map);
