@@ -1513,7 +1513,12 @@ void C_UpdateFPSOverlay(void)
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  dot = tempscreen[i];
 
-                if (dot != PINK)
+                if (dot == BLUE1)
+                {
+                    if (color != nearestblack)
+                        screens[0][i] = nearestblack;
+                }
+                else if (dot != PINK)
                     screens[0][i] = dot;
             }
     }

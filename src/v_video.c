@@ -581,7 +581,7 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
                 if (*source++)
                 {
                     *dest = (tinttab ? tinttab[(color << 8) + *dest] : color);
-                    shadow = true;
+                    shadow = (color != nearestblack);
                 }
                 else if (shadow)
                 {
