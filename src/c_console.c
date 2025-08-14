@@ -1427,7 +1427,7 @@ void C_UpdateFPSOverlay(void)
         dest += SCREENWIDTH;
 
         if (*dest == PINK)
-            *dest = nearestblack;
+            *dest = BLUE1;
 
         if (prevpx >= 0 && prevpy >= 0)
         {
@@ -1463,7 +1463,7 @@ void C_UpdateFPSOverlay(void)
                 dest += SCREENWIDTH;
 
                 if (*dest == PINK)
-                    *dest = nearestblack;
+                    *dest = BLUE1;
 
                 if (e2 > -dx)
                 {
@@ -1491,7 +1491,7 @@ void C_UpdateFPSOverlay(void)
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  dot = tempscreen[i];
 
-                if (dot == nearestblack)
+                if (dot == BLUE1)
                 {
                     byte    *dest = &screens[0][i];
 
