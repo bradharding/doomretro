@@ -85,7 +85,7 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
 void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
     const int color, const int backgroundcolor, const bool italics, const byte *tinttab);
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
-    int width, int color, const byte *tinttab);
+    int width, int color, int shadowcolor, const byte *tinttab);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
@@ -114,9 +114,9 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr, int screenwidth);
 void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
-    bool italics, int color, int screenwidth, const byte *tinttab);
+    bool italics, int color, int shadowcolor, int screenwidth, const byte *tinttab);
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
-    bool italics, int color, int screenwidth, const byte *tinttab);
+    bool italics, int color, int shadowcolor, int screenwidth, const byte *tinttab);
 void V_DrawPagePatch(int screen, patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow);

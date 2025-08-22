@@ -101,7 +101,7 @@ static void (*hudnumfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *, int);
-void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
+void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, int, const byte *);
 static void (*althudweaponfunc)(int, int, patch_t *, int, const byte *, int);
 static void (*fillrectfunc)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
 static void (*fillrectfunc2)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
@@ -1057,7 +1057,7 @@ static void HU_DrawAltHUD(void)
         red2 = nearestblack;
         yellow1 = nearestblack;
         yellow2 = nearestblack;
-        shadowcolor = nearestlightgray;
+        shadowcolor = -1;
     }
     else
     {

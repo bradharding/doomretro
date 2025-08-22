@@ -1268,8 +1268,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const int y,
-    const byte *tinttab, const char *text, const int color, const bool monospaced)
+static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
+    const int y, const byte *tinttab, const char *text, const int color,
+    const bool monospaced, const int shadowcolor)
 {
     const int   len = (int)strlen(text);
 
@@ -1286,13 +1287,14 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const 
 
             if (isdigit(letter) && monospaced)
             {
-                V_DrawOverlayTextPatch(screen, screenwidth,
-                    x + (letter == '1') - (letter == '4'), y, patch, width - 1, color, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth, x + (letter == '1') - (letter == '4'),
+                    y, patch, width - 1, color, shadowcolor, tinttab);
                 x += zerowidth;
             }
             else
             {
-                V_DrawOverlayTextPatch(screen, screenwidth, x - (letter == ','), y, patch, width - 1, color, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth, x - (letter == ','),
+                    y, patch, width - 1, color, shadowcolor, tinttab);
                 x += (width - (letter == ','));
             }
         }
@@ -1340,9 +1342,9 @@ static void C_DrawTimeStamp(int x, const int y, const char timestamp[9], const i
     }
 }
 
-static int C_GetOverlayTextColor(void)
+static byte C_GetOverlayTextColor(void)
 {
-    if (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive)
+    if (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive && gamestate == GS_LEVEL)
         return nearestblack;
     else if (automapactive)
         return nearestcolors[am_playerstatscolor];
@@ -1350,10 +1352,16 @@ static int C_GetOverlayTextColor(void)
         return nearestwhite;
 }
 
+static int C_GetOverlayTextShadowColor(void)
+{
+    return ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures && !r_hud_translucency ? -1 : nearestdarkgray);
+}
+
 void C_UpdateFPSOverlay(void)
 {
-    const int       color = C_GetOverlayTextColor();
     const int       x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
+    const int       color = C_GetOverlayTextColor();
+    int             shadowcolor = C_GetOverlayTextShadowColor();
     const byte      *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     char            *temp = commify(framespersecond);
     static int      fpshistory[OVERLAYFPSGRAPHWIDTH] = { 0 };
@@ -1515,8 +1523,8 @@ void C_UpdateFPSOverlay(void)
 
                 if (dot == BLUE1)
                 {
-                    if (color != nearestblack)
-                        screens[0][i] = nearestblack;
+                    if (color != shadowcolor && shadowcolor != -1)
+                        screens[0][i] = shadowcolor;
                 }
                 else if (dot != PINK)
                     screens[0][i] = dot;
@@ -1524,9 +1532,9 @@ void C_UpdateFPSOverlay(void)
     }
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x,
-        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 6, fps, fpswidth, color, tinttab);
+        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 6, fps, fpswidth, color, shadowcolor, tinttab);
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3,
-        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 3, tinttab, temp, color, true);
+        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 3, tinttab, temp, color, true, shadowcolor);
     free(temp);
 }
 
@@ -1555,14 +1563,15 @@ void C_UpdateTimerOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y,
         (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL), buffer,
-        C_GetOverlayTextColor(), true);
+        C_GetOverlayTextColor(), true, C_GetOverlayTextShadowColor());
 }
 
 void C_UpdatePlayerPositionOverlay(void)
 {
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
-    const int   color = C_GetOverlayTextColor();
+    const byte  color = C_GetOverlayTextColor();
+    const byte  shadowcolor = C_GetOverlayTextShadowColor();
     const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
@@ -1598,9 +1607,9 @@ void C_UpdatePlayerPositionOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y,
-        tinttab, angle, color, true);
+        tinttab, angle, color, true, shadowcolor);
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true),
-        y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true);
+        y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true, shadowcolor);
 }
 
 void C_UpdatePathOverlay(void)
@@ -1645,7 +1654,7 @@ void C_UpdatePathOverlay(void)
         }
 
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, (r_hud_translucency ? tinttab70 : NULL),
-            distance, C_GetOverlayTextColor(), true);
+            distance, C_GetOverlayTextColor(), true, C_GetOverlayTextShadowColor());
 
         pathoverlay = true;
     }
@@ -1657,7 +1666,8 @@ void C_UpdatePlayerStatsOverlay(void)
 {
     int         x;
     int         y;
-    const int   color = C_GetOverlayTextColor();
+    const byte  color = C_GetOverlayTextColor();
+    const byte  shadowcolor = C_GetOverlayTextShadowColor();
     const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
@@ -1712,7 +1722,7 @@ void C_UpdatePlayerStatsOverlay(void)
         }
     }
 
-    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time, color, true);
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time, color, true, shadowcolor);
     y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
@@ -1723,7 +1733,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(kills, sizeof(kills), s_STSTR_KILLS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(kills, false), y,
-            tinttab, kills, color, false);
+            tinttab, kills, color, false, shadowcolor);
         free(temp1);
         free(temp2);
 
@@ -1738,7 +1748,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(items, sizeof(items), s_STSTR_ITEMS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(items, false), y,
-            tinttab, items, color, false);
+            tinttab, items, color, false, shadowcolor);
         free(temp1);
         free(temp2);
 
@@ -1753,7 +1763,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(secrets, sizeof(secrets), s_STSTR_SECRETS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(secrets, false), y,
-            tinttab, secrets, color, false);
+            tinttab, secrets, color, false, shadowcolor);
         free(temp1);
         free(temp2);
     }

@@ -147,8 +147,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             y = HU_ALTHUDMSGY;
     int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
                         (r_hud_translucency ? nearestwhite : nearestlightgray)));
+    int             shadowcolor = nearestdarkgray;
     const int       len = l->len;
     byte            *tinttab;
+
+    if (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive && gamestate == GS_LEVEL)
+        shadowcolor = (r_hud_translucency ? nearestdarkgray : -1);
 
     if (automapactive)
     {
@@ -185,13 +189,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
     if (M_StringCompare(l->l, s_STSTR_BUDDHA))
     {
-        althudtextfunc(x, y, screens[0], altbuddha, false, color, SCREENWIDTH, tinttab);
+        althudtextfunc(x, y, screens[0], altbuddha, false, color, shadowcolor, SCREENWIDTH, tinttab);
         return;
     }
 
     if (idbehold)
-        althudtextfunc(x, y + 12, screens[0],
-            altunderscores, false, color, SCREENWIDTH, tinttab);
+        althudtextfunc(x, y + 12, screens[0], altunderscores, false, color, shadowcolor, SCREENWIDTH, tinttab);
 
     for (int i = 0; i < len; i++)
     {
@@ -243,7 +246,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 }
             }
 
-            althudtextfunc(x, y, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
+            althudtextfunc(x, y, screens[0], patch, italics, color, shadowcolor, SCREENWIDTH, tinttab);
             x += SHORT(patch->width);
 
             prevletter2 = prevletter;
@@ -321,7 +324,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 
             althudtextfunc(x, SCREENHEIGHT - 30, fb, patch, (italics && letter != '_'
                 && letter != '-' && letter != '+' && letter != ',' && letter != '/'), color,
-                (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
+                nearestdarkgray, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
         }
 
