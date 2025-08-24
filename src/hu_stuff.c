@@ -810,34 +810,42 @@ static bool HU_DefaultPistolSprites(void)
 
     for (int i = 0; i < 5; i++)
     {
-        patch_t *patch = W_CacheLumpNum(firstspritelump
-            + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
+        spriteframe_t   *frame = sprites[SPR_PISG].spriteframes;
 
-        if (SHORT(patch->width) != pistol1[i].width
-            || SHORT(patch->height) != pistol1[i].height
-            || SHORT(patch->leftoffset) != pistol1[i].leftoffset
-            || (SHORT(patch->topoffset) != pistol1[i].topoffset1
-                && SHORT(patch->topoffset) != pistol1[i].topoffset2))
+        if (frame)
         {
-            result1 = false;
-            break;
+            patch_t *patch = W_CacheLumpNum(firstspritelump + frame[i & FF_FRAMEMASK].lump[0]);
+
+            if (SHORT(patch->width) != pistol1[i].width
+                || SHORT(patch->height) != pistol1[i].height
+                || SHORT(patch->leftoffset) != pistol1[i].leftoffset
+                || (SHORT(patch->topoffset) != pistol1[i].topoffset1
+                    && SHORT(patch->topoffset) != pistol1[i].topoffset2))
+            {
+                result1 = false;
+                break;
+            }
         }
     }
 
     if (!result1)
         for (int i = 0; i < 5; i++)
         {
-            patch_t *patch = W_CacheLumpNum(firstspritelump
-                + sprites[SPR_PISG].spriteframes[i & FF_FRAMEMASK].lump[0]);
+            spriteframe_t *frame = sprites[SPR_PISG].spriteframes;
 
-            if (SHORT(patch->width) != pistol2[i].width
-                || SHORT(patch->height) != pistol2[i].height
-                || SHORT(patch->leftoffset) != pistol2[i].leftoffset
-                || (SHORT(patch->topoffset) != pistol2[i].topoffset1
-                    && SHORT(patch->topoffset) != pistol2[i].topoffset2))
+            if (frame)
             {
-                result2 = false;
-                break;
+                patch_t *patch = W_CacheLumpNum(firstspritelump + frame[i & FF_FRAMEMASK].lump[0]);
+
+                if (SHORT(patch->width) != pistol2[i].width
+                    || SHORT(patch->height) != pistol2[i].height
+                    || SHORT(patch->leftoffset) != pistol2[i].leftoffset
+                    || (SHORT(patch->topoffset) != pistol2[i].topoffset1
+                        && SHORT(patch->topoffset) != pistol2[i].topoffset2))
+                {
+                    result2 = false;
+                    break;
+                }
             }
         }
 
