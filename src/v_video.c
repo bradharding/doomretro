@@ -1160,7 +1160,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
     }
 }
 
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadow)
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadowcolor)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1190,13 +1190,13 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
 
             column = (column_t *)((byte *)column + length + 4);
 
-            if (shadow != -1 && dot != DARKGRAY1)
-                *dest = shadow;
+            if (shadowcolor != -1 && dot != DARKGRAY1)
+                *dest = shadowcolor;
         }
     }
 }
 
-void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadow)
+void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadowcolor)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1242,7 +1242,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
     }
 }
 
-void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab, int shadow)
+void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, int shadowcolor, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
@@ -1273,13 +1273,13 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte
 
             column = (column_t *)((byte *)column + length + 4);
 
-            if (shadow != -1)
-                *dest = shadow;
+            if (shadowcolor != -1)
+                *dest = shadowcolor;
         }
     }
 }
 
-void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, const byte *tinttab, int shadow)
+void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, int shadowcolor, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
     byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];

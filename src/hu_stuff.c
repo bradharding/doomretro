@@ -102,7 +102,7 @@ static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *, int);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, int, const byte *);
-static void (*althudweaponfunc)(int, int, patch_t *, int, const byte *, int);
+static void (*althudweaponfunc)(int, int, patch_t *, int, int, const byte *);
 static void (*fillrectfunc)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
 static void (*fillrectfunc2)(int, int, int, int, int, int, int, bool, bool, const byte *, const byte *);
 
@@ -1390,7 +1390,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, tinttab60, shadowcolor);
+            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, shadowcolor, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
