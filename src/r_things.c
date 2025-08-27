@@ -1104,7 +1104,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     // Handle all things in sector.
     do
     {
-        if (!menuactive || ((thing->flags & MF_SOLID) && !(thing->flags & MF_SHOOTABLE)))
+        if (!menuactive || ((thing->flags & MF_SOLID) && (!(thing->flags & MF_SHOOTABLE) || thing->type == MT_BARREL)))
             R_ProjectSprite(thing);
 
         thing = thing->snext;
