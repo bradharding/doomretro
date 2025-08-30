@@ -2182,7 +2182,7 @@ static void AM_DrawCrosshair(void)
         }
         else
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - MAPWIDTH];
 
             *dot = *(*dot + am_crosshaircolor2);
             dot += MAPWIDTH;
@@ -2227,7 +2227,7 @@ static void AM_DrawCrosshair(void)
         }
         else
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - 1];
+            byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - MAPWIDTH];
 
             *dot = am_crosshaircolor;
             dot += MAPWIDTH;
