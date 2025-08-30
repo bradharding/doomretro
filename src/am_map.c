@@ -2170,11 +2170,15 @@ static void AM_DrawCrosshair(void)
     {
         if (r_detail == r_detail_low)
         {
+            AM_DrawScaledPixel(CENTERX - 2, CENTERY, am_crosshaircolor2);
             AM_DrawScaledPixel(CENTERX - 1, CENTERY, am_crosshaircolor2);
             AM_DrawScaledPixel(CENTERX, CENTERY, am_crosshaircolor2);
             AM_DrawScaledPixel(CENTERX + 1, CENTERY, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX + 2, CENTERY, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX, CENTERY - 2, am_crosshaircolor2);
             AM_DrawScaledPixel(CENTERX, CENTERY - 1, am_crosshaircolor2);
             AM_DrawScaledPixel(CENTERX, CENTERY + 1, am_crosshaircolor2);
+            AM_DrawScaledPixel(CENTERX, CENTERY + 2, am_crosshaircolor2);
         }
         else
         {
@@ -2183,7 +2187,9 @@ static void AM_DrawCrosshair(void)
             *dot = *(*dot + am_crosshaircolor2);
             dot += MAPWIDTH;
             *dot = *(*dot + am_crosshaircolor2);
-            dot += (size_t)MAPWIDTH - 2;
+            dot += MAPWIDTH;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += (size_t)MAPWIDTH - 3;
             *dot = *(*dot + am_crosshaircolor2);
             dot++;
             *dot = *(*dot + am_crosshaircolor2);
@@ -2193,7 +2199,13 @@ static void AM_DrawCrosshair(void)
             *dot = *(*dot + am_crosshaircolor2);
             dot++;
             *dot = *(*dot + am_crosshaircolor2);
-            dot += (size_t)MAPWIDTH - 2;
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot++;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += (size_t)MAPWIDTH - 3;
+            *dot = *(*dot + am_crosshaircolor2);
+            dot += MAPWIDTH;
             *dot = *(*dot + am_crosshaircolor2);
             dot += MAPWIDTH;
             *dot = *(*dot + am_crosshaircolor2);
@@ -2203,11 +2215,15 @@ static void AM_DrawCrosshair(void)
     {
         if (r_detail == r_detail_low)
         {
+            AM_DrawScaledPixel2(CENTERX - 2, CENTERY, am_crosshaircolor);
             AM_DrawScaledPixel2(CENTERX - 1, CENTERY, am_crosshaircolor);
             AM_DrawScaledPixel2(CENTERX, CENTERY, am_crosshaircolor);
             AM_DrawScaledPixel2(CENTERX + 1, CENTERY, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX + 2, CENTERY, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX, CENTERY - 2, am_crosshaircolor);
             AM_DrawScaledPixel2(CENTERX, CENTERY - 1, am_crosshaircolor);
             AM_DrawScaledPixel2(CENTERX, CENTERY + 1, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX, CENTERY + 2, am_crosshaircolor);
         }
         else
         {
@@ -2216,13 +2232,19 @@ static void AM_DrawCrosshair(void)
             *dot = am_crosshaircolor;
             dot += MAPWIDTH;
             *dot = am_crosshaircolor;
-            dot += (size_t)MAPWIDTH - 2;
+            dot += MAPWIDTH;
+            *dot = am_crosshaircolor;
+            dot += (size_t)MAPWIDTH - 3;
+            *dot++ = am_crosshaircolor;
+            *dot++ = am_crosshaircolor;
             *dot++ = am_crosshaircolor;
             *dot++ = am_crosshaircolor;
             *dot++ = am_crosshaircolor;
             *dot++ = am_crosshaircolor;
             *dot = am_crosshaircolor;
-            dot += (size_t)MAPWIDTH - 2;
+            dot += (size_t)MAPWIDTH - 3;
+            *dot = am_crosshaircolor;
+            dot += MAPWIDTH;
             *dot = am_crosshaircolor;
             dot += MAPWIDTH;
             *dot = am_crosshaircolor;
