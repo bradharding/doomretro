@@ -3217,6 +3217,7 @@ void P_SetupLevel(int ep, int map)
     char        lumpname[6];
     int         lumpnum;
     static int  prevlumpnum = -1;
+    const char  *author = P_GetMapAuthor(ep, map);
 
     id24compatible = false;
 
@@ -3320,17 +3321,29 @@ void P_SetupLevel(int ep, int map)
     C_AddConsoleDivider();
 
     if (M_StringCompare(maptitle, mapnumandtitle))
-        C_PlayerMessage("%s %s %s.",
-            (M_StringCompare(playername, playername_default) ? "You" : playername),
-            (samelevel ? "reentered" : "entered"), maptitle);
+    {
+        if (author && *author)
+            C_PlayerMessage("%s %s %s by %s.",
+                (M_StringCompare(playername, playername_default) ? "You" : playername),
+                (samelevel ? "reentered" : "entered"), maptitle, author);
+        else
+            C_PlayerMessage("%s %s %s.",
+                (M_StringCompare(playername, playername_default) ? "You" : playername),
+                (samelevel ? "reentered" : "entered"), maptitle);
+    }
     else
     {
         char    *temp = titlecase(maptitle);
 
-        C_PlayerMessage("%s %s " ITALICS("%s") "%s",
-            (M_StringCompare(playername, playername_default) ? "You" : playername),
-            (samelevel ? "reentered" : "entered"), temp,
-            (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
+        if (author && *author)
+            C_PlayerMessage("%s %s " ITALICS("%s") " by %s.",
+                (M_StringCompare(playername, playername_default) ? "You" : playername),
+                (samelevel ? "reentered" : "entered"), temp, author);
+        else
+            C_PlayerMessage("%s %s " ITALICS("%s") "%s",
+                (M_StringCompare(playername, playername_default) ? "You" : playername),
+                (samelevel ? "reentered" : "entered"), temp,
+                (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
         free(temp);
     }
