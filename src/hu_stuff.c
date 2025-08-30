@@ -265,8 +265,9 @@ static void HU_Stop(void)
 
 void HU_Start(void)
 {
-    char    *title = M_StringDuplicate(automaptitle);
-    char    *author = M_StringJoin("By ", P_GetMapAuthor(gameepisode, gamemap), NULL);
+    char    *s1 = M_StringDuplicate(automaptitle);
+    char    *author = P_GetMapAuthor(gameepisode, gamemap);
+    char    *s2 = M_StringJoin("By ", author, NULL);
 
     if (headsupactive)
         HU_Stop();
@@ -285,11 +286,12 @@ void HU_Start(void)
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
     HUlib_InitTextLine(&w_author, w_author.x, w_author.y, hu_font, HU_FONTSTART);
 
-    while (*title && *title != '\r' && *title != '\n')
-        HUlib_AddCharToTextLine(&w_title, *(title++));
+    while (*s1 && *s1 != '\r' && *s1 != '\n')
+        HUlib_AddCharToTextLine(&w_title, *(s1++));
 
-    while (*author && *author != '\r' && *author != '\n')
-        HUlib_AddCharToTextLine(&w_author, *(author++));
+    if (author && *author)
+        while (*s2 && *s2 != '\r' && *s2 != '\n')
+            HUlib_AddCharToTextLine(&w_author, *(s2++));
 
     headsupactive = true;
 }
@@ -1585,9 +1587,11 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
+        char    *author = P_GetMapAuthor(gameepisode, gamemap);
+
         if (r_althud && r_althudfont && r_screensize == r_screensize_max)
         {
-            if (P_GetMapAuthor(gameepisode, gamemap))
+            if (author && *author)
             {
                 w_author.y = SCREENHEIGHT - 30;
                 HUlib_DrawAltAutomapTextLine(&w_author, false);
@@ -1601,7 +1605,7 @@ void HU_Drawer(void)
         }
         else
         {
-            if (P_GetMapAuthor(gameepisode, gamemap))
+            if (author && *author)
             {
                 if (vid_widescreen)
                 {
@@ -1609,7 +1613,7 @@ void HU_Drawer(void)
                     w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
 
                     w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 10 : 38);
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 22 : 38);
                 }
                 else
                 {
@@ -1617,7 +1621,7 @@ void HU_Drawer(void)
                     w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
 
                     w_title.x = 0;
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 10;
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 22;
                 }
 
                 HUlib_DrawAutomapTextLine(&w_author, false);
