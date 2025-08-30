@@ -58,6 +58,7 @@
 
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
+static hu_textline_t    w_author;
 
 bool                    message_fadeon;
 bool                    message_dontfuckwithme;
@@ -264,7 +265,8 @@ static void HU_Stop(void)
 
 void HU_Start(void)
 {
-    char    *s = M_StringDuplicate(automaptitle);
+    char    *title = M_StringDuplicate(automaptitle);
+    char    *author = M_StringJoin("By ", P_GetMapAuthor(gameepisode, gamemap), NULL);
 
     if (headsupactive)
         HU_Stop();
@@ -281,9 +283,13 @@ void HU_Start(void)
 
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
+    HUlib_InitTextLine(&w_author, w_author.x, w_author.y, hu_font, HU_FONTSTART);
 
-    while (*s && *s != '\r' && *s != '\n')
-        HUlib_AddCharToTextLine(&w_title, *(s++));
+    while (*title && *title != '\r' && *title != '\n')
+        HUlib_AddCharToTextLine(&w_title, *(title++));
+
+    while (*author && *author != '\r' && *author != '\n')
+        HUlib_AddCharToTextLine(&w_author, *(author++));
 
     headsupactive = true;
 }
@@ -1580,18 +1586,54 @@ void HU_Drawer(void)
     if (automapactive)
     {
         if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+        {
+            if (P_GetMapAuthor(gameepisode, gamemap))
+            {
+                w_author.y = SCREENHEIGHT - 30;
+                HUlib_DrawAltAutomapTextLine(&w_author, false);
+
+                w_title.y = SCREENHEIGHT - 44;
+            }
+            else
+                w_title.y = SCREENHEIGHT - 30;
+
             HUlib_DrawAltAutomapTextLine(&w_title, false);
+        }
         else
         {
-            if (vid_widescreen)
+            if (P_GetMapAuthor(gameepisode, gamemap))
             {
-                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                if (vid_widescreen)
+                {
+                    w_author.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
+                    w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+
+                    w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 10 : 38);
+                }
+                else
+                {
+                    w_author.x = 0;
+                    w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
+
+                    w_title.x = 0;
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 10;
+                }
+
+                HUlib_DrawAutomapTextLine(&w_author, false);
             }
             else
             {
-                w_title.x = 0;
-                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
+                if (vid_widescreen)
+                {
+                    w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                }
+                else
+                {
+                    w_title.x = 0;
+                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
+                }
             }
 
             HUlib_DrawAutomapTextLine(&w_title, false);
