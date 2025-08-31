@@ -1460,7 +1460,7 @@ static void HU_DrawAltHUD(void)
 
                 if (flashkeys && (showkey || gamepaused))
                     for (int i = 0; i < NUMCARDS; i++)
-                        if (viewplayer->cards[i] != i)
+                        if (viewplayer->cards[i] == CARDNOTFOUNDYET)
                         {
                             const altkeypic_t   altkeypic = altkeypics[i];
 
