@@ -428,14 +428,11 @@ void D_Display(void)
         blitfunc();
         mapblitfunc();
 
-        if (!vid_vsync)
-        {
-            if ((!vid_capfps || vid_capfps > 60)
-                && (gamestate != GS_LEVEL || menuactive || consoleactive || paused))
-                I_CapFPS(60);
-            else if (vid_capfps >= TICRATE)
-                I_CapFPS(vid_capfps);
-        }
+        if ((!vid_capfps || vid_capfps > 60 || (vid_vsync && refreshrate < vid_capfps))
+            && (gamestate != GS_LEVEL || menuactive || consoleactive || paused))
+            I_CapFPS(60);
+        else if (vid_capfps >= TICRATE && !vid_vsync)
+            I_CapFPS(vid_capfps);
 
         return;
     }
