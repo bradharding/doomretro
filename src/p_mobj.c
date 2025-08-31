@@ -1399,6 +1399,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         barrelcount++;
         mobj->geartime = MAXGEARTIME;
     }
+    else if (!(flags & (MF_SHOOTABLE | MF_SPECIAL)))
+    {
+        mobj->flags2 |= MF2_DECORATION;
+        numdecorations++;
+    }
     else if (flags2 & MF2_DECORATION)
         numdecorations++;
 
