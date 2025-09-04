@@ -967,7 +967,7 @@ static void HU_AltInit(void)
         }
     }
 
-    if (!HU_DefaultPistolSprites())
+    if (!HU_DefaultPistolSprites() && W_GetNumLumps("DRHUDWP1") == 1)
         weaponinfo[wp_pistol].weaponpatch = NULL;
 
     gray = nearestcolors[GRAY1];
