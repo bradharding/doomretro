@@ -561,32 +561,32 @@ void S_UpdateSounds(void)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
     {
-        channel_t   *c = &channels[cnum];
+        channel_t       *c = &channels[cnum];
+        const sfxinfo_t *sfx = c->sfxinfo;
 
-        if (I_SoundIsPlaying(c->handle))
+        if (sfx)
         {
-            // initialize parameters
-            const mobj_t    *origin = c->origin;
-
-            // check non-local sounds for distance clipping or modify their parms
-            if (origin && origin != viewplayer->mo)
+            if (I_SoundIsPlaying(c->handle))
             {
-                int             sep = NORM_SEP;
-                int             volume = snd_sfxvolume;
-                const sfxinfo_t *sfx = c->sfxinfo;
+                // initialize parameters
+                const mobj_t *origin = c->origin;
 
-                if (!sfx)
-                    continue;
+                // check non-local sounds for distance clipping or modify their parms
+                if (origin && origin != viewplayer->mo)
+                {
+                    int sep = NORM_SEP;
+                    int volume = snd_sfxvolume;
 
-                if (!S_AdjustSoundParms(origin, &volume, &sep))
-                    S_StopChannel(cnum);
-                else
-                    I_UpdateSoundParms(c->handle, volume, sep);
+                    if (S_AdjustSoundParms(origin, &volume, &sep))
+                        I_UpdateSoundParms(c->handle, volume, sep);
+                    else
+                        S_StopChannel(cnum);
+                }
             }
+            else
+                // if channel is allocated but sound has stopped, free it
+                S_StopChannel(cnum);
         }
-        else
-            // if channel is allocated but sound has stopped, free it
-            S_StopChannel(cnum);
     }
 }
 
