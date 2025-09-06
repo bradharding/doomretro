@@ -1096,9 +1096,25 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
     if ((thing->flags2 & MF2_FOOTCLIP) && P_IsInLiquid(thing))
-        thing->flags2 |= MF2_FEETARECLIPPED;
+    {
+        if (!(thing->flags2 & MF2_FEETARECLIPPED))
+        {
+            thing->flags2 |= MF2_FEETARECLIPPED;
+
+            if (thing->player && thing->player->mo == thing)
+                thing->z += FOOTCLIPSIZE / 2;
+        }
+    }
     else
-        thing->flags2 &= ~MF2_FEETARECLIPPED;
+    {
+        if (thing->flags2 & MF2_FEETARECLIPPED)
+        {
+            thing->flags2 &= ~MF2_FEETARECLIPPED;
+
+            if (thing->player && thing->player->mo == thing)
+                thing->z -= FOOTCLIPSIZE / 2;
+        }
+    }
 
     // if any special lines were hit, do the effect
     if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)) && !freeze)
