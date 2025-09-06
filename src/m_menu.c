@@ -2802,8 +2802,8 @@ bool M_Responder(event_t *ev)
             else if (!messagetoprint)
             {
                 // select previous menu item
-                if (controllerthumbLY < 0
-                    || controllerthumbRY < 0
+                if (controllerthumbLY < -CONTROLLER_THUMB_THRESHOLD
+                    || controllerthumbRY < -CONTROLLER_THUMB_THRESHOLD
                     || (controllerbuttons & CONTROLLER_DPAD_UP))
                 {
                     key = KEY_UPARROW;
@@ -2813,8 +2813,8 @@ bool M_Responder(event_t *ev)
                 }
 
                 // select next menu item
-                else if (controllerthumbLY > 0
-                    || controllerthumbRY > 0
+                else if (controllerthumbLY > CONTROLLER_THUMB_THRESHOLD
+                    || controllerthumbRY > CONTROLLER_THUMB_THRESHOLD
                     || (controllerbuttons & CONTROLLER_DPAD_DOWN))
                 {
                     key = KEY_DOWNARROW;
@@ -2824,8 +2824,8 @@ bool M_Responder(event_t *ev)
                 }
 
                 // decrease slider
-                else if ((controllerthumbLX < 0
-                    || controllerthumbRX < 0
+                else if ((controllerthumbLX < -CONTROLLER_THUMB_THRESHOLD
+                    || controllerthumbRX < -CONTROLLER_THUMB_THRESHOLD
                     || (controllerbuttons & CONTROLLER_DPAD_LEFT))
                     && !savestringenter)
                 {
@@ -2836,8 +2836,8 @@ bool M_Responder(event_t *ev)
                 }
 
                 // increase slider
-                else if ((controllerthumbLX > 0
-                    || controllerthumbRX > 0
+                else if ((controllerthumbLX > CONTROLLER_THUMB_THRESHOLD
+                    || controllerthumbRX > CONTROLLER_THUMB_THRESHOLD
                     || (controllerbuttons & CONTROLLER_DPAD_RIGHT))
                     && !savestringenter)
                 {
