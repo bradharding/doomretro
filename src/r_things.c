@@ -1227,6 +1227,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     {
         vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50SolidColorColumn);
         vis->colormap = NULL;
+        vis->sectorcolormap = fullcolormap;
     }
     else
     {
