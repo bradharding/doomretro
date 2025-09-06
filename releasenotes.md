@@ -21,7 +21,7 @@
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair when the `crosshair` CVAR is `cross` is now slightly larger.
   * The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
-* The framerate is now capped at 60 FPS when the `vid_vsync` CVAR is `on`.
+* The framerate is now capped at 60 FPS when the menu is open and the `vid_vsync` CVAR is `on`.
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
 * Navigating the menu using the thumbsticks on a controller has improved.
 * A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
