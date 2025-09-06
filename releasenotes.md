@@ -9,7 +9,7 @@
 * Support has been added for version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) by autoloading `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad` if found.
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Movement into and out of liquid sectors is now smoother in some instances when the `r_liquid_lowerview` CVAR is `on`.
+* The movement of the player into and out of liquid sectors is now smoother in some instances when the `r_liquid_lowerview` CVAR is `on`.
 * `NOJUMP` and `NOFREELOOK` now always work as intended when specified in a `MAPINFO` lump.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent.
@@ -20,9 +20,11 @@
 * These changes have been made to the crosshair:
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair when the `crosshair` CVAR is `cross` is now slightly larger.
-  * The crosshair in the automap when `am_followmode` is `off` is also now slightly larger.
+  * The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
 * The framerate is now capped at 60 FPS when the `vid_vsync` CVAR is `on`.
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
+* Navigating the menu using the thumbsticks on a controller has improved.
+* A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
