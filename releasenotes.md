@@ -3,12 +3,25 @@
 ### DOOM Retro v5.7.3
 
 * *DOOM Retro* is now built using v17.14.13 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* now uses [*SDL v2.32.10*](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.10).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * Support has been added for version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) by autoloading `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad` if found.
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* `NOJUMP` and `NOFREELOOK` now work as intended when specified in a `MAPINFO` lump.
-* Changes have been made so that the color, translucency and drop shadow of some elements of the alternate widescreen HUD are more consistent in all instances.
+* `NOJUMP` and `NOFREELOOK` now always work as intended when specified in a `MAPINFO` lump.
+* These changes have been made to the alternate widescreen HUD:
+  * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent.
+  * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
+  * The `DRHUDWP1` lump can now be replaced in a PWAD to change the silhouette of the player’s pistol.
+* Barrels now appear in the background when the menu is open.
+* If `AUTHOR` is specified in a `UMAPINFO` lump, the author of the map is now displayed in the console when the map starts, and in the automap.
+* These changes have been made to the crosshair:
+  * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
+  * The crosshair when the `crosshair` CVAR is `cross` is now slightly larger.
+  * The crosshair in the automap when `am_followmode` is `off` is also now slightly larger.
+* The framerate is now capped at 60 FPS when the `vid_vsync` CVAR is `on`.
+* The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
