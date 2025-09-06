@@ -1101,7 +1101,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
         {
             thing->flags2 |= MF2_FEETARECLIPPED;
 
-            if (thing->player && thing->player->mo == thing)
+            if (thing->player && thing->player->mo == thing && r_liquid_lowerview)
                 thing->z += FOOTCLIPSIZE / 2;
         }
     }
@@ -1111,7 +1111,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
         {
             thing->flags2 &= ~MF2_FEETARECLIPPED;
 
-            if (thing->player && thing->player->mo == thing)
+            if (thing->player && thing->player->mo == thing && r_liquid_lowerview)
                 thing->z -= FOOTCLIPSIZE / 2;
         }
     }
