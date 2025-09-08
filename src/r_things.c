@@ -1313,14 +1313,16 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 static void R_DrawPlayerSprites(void)
 {
     const int       invisibility = viewplayer->powers[pw_invisibility];
-    const bool      altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     const pspdef_t  *weapon = viewplayer->psprites;
     const pspdef_t  *flash = weapon + 1;
     const state_t   *weaponstate = weapon->state;
     const state_t   *flashstate = flash->state;
+    bool            altered;
 
     if (!weaponstate)
         return;
+
+    altered = (weaponinfo[viewplayer->readyweapon].altered || weaponstate->dehacked || !r_fixspriteoffsets);
 
     // add all active psprites
     if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
@@ -1328,10 +1330,16 @@ static void R_DrawPlayerSprites(void)
         fuzz2pos = 0;
 
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, 0, false, false, NULL, NULL);
-        R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
 
         if (flashstate)
-            R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
+        {
+            altered |= flashstate->dehacked;
+
+            R_DrawPlayerSprite(weapon, true, altered);
+            R_DrawPlayerSprite(flash, true, altered);
+        }
+        else
+            R_DrawPlayerSprite(weapon, true, altered);
 
         R_DrawFuzzColumns();
     }
@@ -1341,13 +1349,14 @@ static void R_DrawPlayerSprites(void)
 
         if (flashstate)
         {
+            altered |= flashstate->dehacked;
             muzzleflash |= (flashstate->frame & FF_FULLBRIGHT);
 
-            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
-            R_DrawPlayerSprite(flash, false, (flashstate->dehacked || altered));
+            R_DrawPlayerSprite(weapon, false, altered);
+            R_DrawPlayerSprite(flash, false, altered);
         }
         else
-            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
+            R_DrawPlayerSprite(weapon, false, altered);
     }
 }
 
