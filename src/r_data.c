@@ -62,6 +62,9 @@ int         firstflat;
 static int  lastflat;
 int         numflats;
 
+int         firsttx;
+int         lasttx;
+
 static int  missingflatnum;
 
 int         firstspritelump;
@@ -136,11 +139,13 @@ static void R_InitTextures(void)
     const int           *maptex2 = NULL;
     char                name[9];
     int                 *patchlookup;
+    int                 numpatches;
     int                 nummappatches = 0;
     int                 maxoff;
     int                 maxoff2 = 0;
     int                 numtextures1;
     int                 numtextures2 = 0;
+    int                 numtxtextures;
     const int           *directory;
 
     for (int i = numlumps - 1; i >= 0; i--)
@@ -163,7 +168,16 @@ static void R_InitTextures(void)
             numpnameslumps++;
         }
 
-    patchlookup = I_Malloc(nummappatches * sizeof(*patchlookup));   // killough
+    numpatches = nummappatches;
+
+    firsttx = W_CheckNumForName("TX_START") + 1;
+    lasttx = W_CheckNumForName("TX_END") - 1;
+    numtxtextures = lasttx - firsttx + 1;
+
+    if (numtxtextures > 0)
+        numpatches += numtxtextures;
+
+    patchlookup = I_Malloc(numpatches * sizeof(*patchlookup));  // killough
 
     for (int i = 0, patch = 0; i < numpnameslumps; i++)
         for (int j = 0; j < pnameslumps[i].nummappatches; j++)
@@ -193,12 +207,20 @@ static void R_InitTextures(void)
 
     numtextures = numtextures1 + numtextures2;
 
+    if (numtxtextures > 0)
+    {
+        for (int i = 0; i < numtxtextures; i++)
+            patchlookup[nummappatches + i] = firsttx + i;
+
+        numtextures += numtxtextures;
+    }
+
     // killough 04/09/98: make column offsets 32-bit;
     // clean up malloc-ing to use sizeof
     textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, NULL);
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, NULL);
 
-    for (int i = 0; i < numtextures; i++, directory++)
+    for (int i = 0; i < numtextures1 + numtextures2; i++, directory++)
     {
         const mappatch_t    *mpatch;
         texpatch_t          *patch;
@@ -254,6 +276,29 @@ static void R_InitTextures(void)
         texture->widthmask = mask - 1;
         textureheight[i] = texture->height << FRACBITS;
     }
+
+    if (numtxtextures > 0)
+        for (int i = numtextures1 + numtextures2, j = 0; i < numtextures; i++, j++)
+        {
+            patch_t *txpatch = W_CacheLumpNum(firsttx + j);
+            short   mask;
+
+            texture = textures[i] = Z_Malloc(sizeof(texture_t), PU_STATIC, 0);
+
+            strcpy(texture->name, lumpinfo[firsttx + j]->name);
+            texture->width = SHORT(txpatch->width);
+            texture->height = SHORT(txpatch->height);
+            texture->patchcount = 1;
+
+            texture->patches->patch = patchlookup[nummappatches + j];
+            texture->patches->originx = 0;
+            texture->patches->originy = 0;
+
+            for (mask = 1; mask * 2 <= texture->width; mask *= 2);
+
+            texture->widthmask = mask - 1;
+            textureheight[i] = texture->height << FRACBITS;
+        }
 
     free(patchlookup);
 
