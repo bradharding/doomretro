@@ -109,10 +109,15 @@ byte        grays[256];
 //
 byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
 {
-    while (col < 0)
-        col += texpatch->width;
+    const int           width = texpatch->width;
+    const unsigned int  mask = texpatch->widthmask;
 
-    return texpatch->columns[(col & texpatch->widthmask)].pixels;
+    if (mask + 1 == width)
+        col &= mask;
+    else
+        col -= (int)(width * floor((float)col / width));
+
+    return texpatch->columns[col].pixels;
 }
 
 //
