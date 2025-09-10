@@ -25,6 +25,7 @@
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
 * Navigating the menu using the thumbsticks on a controller has improved.
 * A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
+* Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
