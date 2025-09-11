@@ -1591,7 +1591,7 @@ void HU_Drawer(void)
 
         if (r_althud && r_althudfont && r_screensize == r_screensize_max)
         {
-            if (author && *author)
+            if (author && *author && am_author)
             {
                 w_author.y = SCREENHEIGHT - 30;
                 HUlib_DrawAltAutomapTextLine(&w_author, false);
@@ -1605,7 +1605,7 @@ void HU_Drawer(void)
         }
         else
         {
-            if (author && *author)
+            if (author && *author && am_author)
             {
                 if (vid_widescreen)
                 {
