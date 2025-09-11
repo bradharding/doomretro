@@ -290,10 +290,13 @@ static void R_InitTextures(void)
 
             texture = textures[i] = Z_Malloc(sizeof(texture_t), PU_STATIC, 0);
 
-            M_CopyLumpName(texture->name, lumpinfo[txlump]->name);
-
             if (!R_CheckIfPatch(txlump))
+            {
                 txlump = W_GetNumForName("TNT1A0");
+                txpatch = W_CacheLumpNum(txlump);
+            }
+
+            M_CopyLumpName(texture->name, lumpinfo[txlump]->name);
 
             texture->width = SHORT(txpatch->width);
             texture->height = SHORT(txpatch->height);
