@@ -10,8 +10,10 @@
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The movement of the player into and out of liquid sectors is now smoother in some instances when the `r_liquid_lowerview` CVAR is `on`.
-* `NOJUMP` and `NOFREELOOK` now always work as intended when specified in a `MAPINFO` lump.
-* If `AUTHOR` is specified in a `MAPINFO` lump, the author of the map is now displayed in the console when the map starts, and in the automap. This feature can be toggled off in the automap using the new `am_author` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * If `AUTHOR` is specified, the author of the map is now displayed in the console when the map starts, and in the automap. This feature can be disabled in the automap using the new `am_author` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * `NOJUMP` and `NOFREELOOK` now always work as intended.
+  * `LABEL` is now supported.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.

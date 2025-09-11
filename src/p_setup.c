@@ -146,7 +146,6 @@ typedef struct
     char            intertextsecret[1024];
     char            label[9];
     int             liquid[NUMLIQUIDS];
-    int             mapinepisode;
     int             music;
     char            musicartist[128];
     char            musictitle[128];
@@ -2991,12 +2990,16 @@ void P_MapName(int ep, int map)
 {
     bool        mapnumonly = false;
     const char  *mapinfoname = trimwhitespace(P_GetMapName(ep, map));
+    const char  *mapinfolabel = trimwhitespace(P_GetLabel(ep, map));
 
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (((E1M4B || *speciallumpname) && ep == 1 && map == 4)
-                || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
+            if (*mapinfolabel)
+                M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
+            else
+                M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (((E1M4B || *speciallumpname) && ep == 1 && map == 4)
+                    || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3013,8 +3016,8 @@ void P_MapName(int ep, int map)
             break;
 
         case doom2:
-            if (legacyofrust)
-                M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", maptoepisode[map], P_GetMapInEpisode(map));
+            if (*mapinfolabel)
+                M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
                 M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
@@ -3035,7 +3038,10 @@ void P_MapName(int ep, int map)
             break;
 
         case pack_nerve:
-            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+            if (*mapinfolabel)
+                M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
+            else
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3045,7 +3051,10 @@ void P_MapName(int ep, int map)
             break;
 
         case pack_plut:
-            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+            if (*mapinfolabel)
+                M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
+            else
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3062,7 +3071,10 @@ void P_MapName(int ep, int map)
             break;
 
         case pack_tnt:
-            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+            if (*mapinfolabel)
+                M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
+            else
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3291,8 +3303,10 @@ void P_SetupLevel(int ep, int map)
             || (!M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
                 && !autostart))))
     {
-        if (legacyofrust)
-            C_Input("map E%iM%i", maptoepisode[map], P_GetMapInEpisode(map));
+        const char  *mapinfolabel = trimwhitespace(P_GetLabel(ep, map));
+
+        if (*mapinfolabel)
+            M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
         else
             C_Input("map %s", lumpname);
     }
@@ -3551,18 +3565,6 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
     }
 
     free(buffer);
-}
-
-static int mapinepisode(const int map)
-{
-    int epi = maptoepisode[map];
-
-    if (epi)
-        for (int i = map; i >= 1; i--)
-            if (maptoepisode[i] < epi)
-                return (map - i);
-
-    return map;
 }
 
 static bool P_ParseMapInfo(const char *scriptname)
@@ -4280,9 +4282,6 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     if (customepisodes)
     {
-        for (int i = 0; i < 100; i++)
-            mapinfo[1][i].mapinepisode = mapinepisode(i);
-
         if (EpiDef.laston >= EpiDef.numitems)
         {
             EpiDef.laston = 0;
@@ -4469,11 +4468,6 @@ int P_GetAllowMonsterTelefrags(const int ep, const int map)
 bool P_IsSecret(const int ep, const int map)
 {
     return mapinfo[ep][map].secret;
-}
-
-int P_GetMapInEpisode(const int map)
-{
-    return mapinfo[1][map].mapinepisode;
 }
 
 //
