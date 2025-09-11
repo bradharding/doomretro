@@ -75,3 +75,4 @@ const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnindex)
 const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnindex);
 
 void R_InitPatches(void);
+bool R_CheckIfPatch(const int lump);

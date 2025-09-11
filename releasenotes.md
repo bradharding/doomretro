@@ -11,12 +11,12 @@
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The movement of the player into and out of liquid sectors is now smoother in some instances when the `r_liquid_lowerview` CVAR is `on`.
 * `NOJUMP` and `NOFREELOOK` now always work as intended when specified in a `MAPINFO` lump.
+* If `AUTHOR` is specified in a `MAPINFO` lump, the author of the map is now displayed in the console when the map starts, and in the automap.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent.
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
   * The `DRHUDWP1` lump can now be replaced in a PWAD to change the silhouette of the player’s pistol.
 * Barrels now appear in the background when the menu is open.
-* If `AUTHOR` is specified in a `UMAPINFO` lump, the author of the map is now displayed in the console when the map starts, and in the automap.
 * These changes have been made to the crosshair:
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair when the `crosshair` CVAR is `cross` is now slightly larger.
@@ -25,6 +25,8 @@
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
 * Navigating the menu using the thumbsticks on a controller has improved.
 * A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
+* A bug is fixed whereby the flash of the super shotgun could be misaligned in some rare instances.
+* Textures with a width that isn’t a power of two are now rendered correctly.
 * Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

@@ -76,7 +76,7 @@ static bool IsSolidAtSpot(const column_t *column, const int spot)
 }
 
 // Checks if the lump can be a DOOM patch
-static bool CheckIfPatch(const int lump)
+bool R_CheckIfPatch(const int lump)
 {
     const int   size = W_LumpLength(lump);
     bool        result = false;
@@ -128,7 +128,7 @@ static void CreatePatch(int patchnum)
     int                 numpoststotal = 0;
     const unsigned char *oldcolumnpixeldata;
 
-    if (!CheckIfPatch(patchnum))
+    if (!R_CheckIfPatch(patchnum))
         patchnum = W_GetNumForName("TNT1A0");
 
     oldpatch = W_CacheLumpNum(patchnum);
@@ -323,7 +323,7 @@ static void CreateTextureCompositePatch(const int id)
         texpatch = &texture->patches[i];
         patchnum = texpatch->patch;
 
-        if (!CheckIfPatch(patchnum))
+        if (!R_CheckIfPatch(patchnum))
             patchnum = W_GetNumForName("TNT1A0");
 
         oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);
@@ -381,7 +381,7 @@ static void CreateTextureCompositePatch(const int id)
         texpatch = &texture->patches[i];
         patchnum = texpatch->patch;
 
-        if (!CheckIfPatch(patchnum))
+        if (!R_CheckIfPatch(patchnum))
             patchnum = W_GetNumForName("TNT1A0");
 
         oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);

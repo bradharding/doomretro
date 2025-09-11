@@ -110,12 +110,12 @@ byte        grays[256];
 byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
 {
     const int           width = texpatch->width;
-    const unsigned int  mask = texpatch->widthmask;
+    const unsigned int  widthmask = texpatch->widthmask;
 
-    if (mask + 1 == width)
-        col &= mask;
+    if (width == widthmask + 1)
+        col &= widthmask;
     else
-        col -= (int)(width * floor((float)col / width));
+        col -= (int)(width * floor((double)col / width));
 
     return texpatch->columns[col].pixels;
 }
@@ -187,7 +187,7 @@ static void R_InitTextures(void)
     for (int i = 0, patch = 0; i < numpnameslumps; i++)
         for (int j = 0; j < pnameslumps[i].nummappatches; j++)
         {
-            M_StringCopy(name, &pnameslumps[i].name_p[j * 8], sizeof(name));
+            M_CopyLumpName(name, &pnameslumps[i].name_p[j * 8]);
             patchlookup[patch++] = W_CheckNumForName(name);
         }
 
@@ -254,8 +254,7 @@ static void R_InitTextures(void)
         texture->height = SHORT(mtexture->height);
         texture->patchcount = SHORT(mtexture->patchcount);
 
-        for (int j = 0; j < sizeof(texture->name); j++)
-            texture->name[j] = mtexture->name[j];
+        M_CopyLumpName(texture->name, mtexture->name);
 
         mpatch = mtexture->patches;
         patch = texture->patches;
@@ -285,12 +284,17 @@ static void R_InitTextures(void)
     if (numtxtextures > 0)
         for (int i = numtextures1 + numtextures2, j = 0; i < numtextures; i++, j++)
         {
-            patch_t *txpatch = W_CacheLumpNum(firsttx + j);
+            int     txlump = firsttx + j;
+            patch_t *txpatch = W_CacheLumpNum(txlump);
             short   mask;
 
             texture = textures[i] = Z_Malloc(sizeof(texture_t), PU_STATIC, 0);
 
-            strcpy(texture->name, lumpinfo[firsttx + j]->name);
+            M_CopyLumpName(texture->name, lumpinfo[txlump]->name);
+
+            if (!R_CheckIfPatch(txlump))
+                txlump = W_GetNumForName("TNT1A0");
+
             texture->width = SHORT(txpatch->width);
             texture->height = SHORT(txpatch->height);
             texture->patchcount = 1;

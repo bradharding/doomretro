@@ -218,6 +218,17 @@ void M_StringCopy(char *dest, const char *src, const size_t dest_size)
     }
 }
 
+void M_CopyLumpName(char *dest, const char *src)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        dest[i] = src[i];
+
+        if (src[i] == '\0')
+            break;
+    }
+}
+
 char *M_ExtractFolder(const char *path)
 {
     char    *pos;

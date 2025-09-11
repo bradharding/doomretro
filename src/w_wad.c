@@ -374,7 +374,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         lump_p->position = LONG(filerover->filepos);
         lump_p->size = LONG(filerover->size);
         lump_p->cache = NULL;
-        strncpy(lump_p->name, filerover->name, 8);
+        M_CopyLumpName(lump_p->name, filerover->name);
         lumpinfo[i] = lump_p;
         filerover++;
     }
