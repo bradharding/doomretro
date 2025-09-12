@@ -451,118 +451,41 @@ static void HU_DrawCrosshair(void)
     byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] :
                 &tinttab40[nearestcolors[crosshaircolor] << 8]);
 
-    if (r_detail == r_detail_low)
+    if (crosshair == crosshair_cross)
     {
-        if (crosshair == crosshair_cross)
-        {
-            HU_DrawScaledPixel(CENTERX - 2, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX - 1, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX + 1, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX + 2, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY - 2, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY - 1, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY + 2, color);
-        }
-        else
-            HU_DrawScaledPixel(CENTERX, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX - 2, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX - 1, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX + 1, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX + 2, CENTERY, color);
+        HU_DrawScaledPixel(CENTERX, CENTERY - 2, color);
+        HU_DrawScaledPixel(CENTERX, CENTERY - 1, color);
+        HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
+        HU_DrawScaledPixel(CENTERX, CENTERY + 2, color);
     }
     else
-    {
-        if (crosshair == crosshair_cross)
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 3) * SCREENWIDTH / 2 - SCREENWIDTH;
-
-            *dot = *(*dot + color);
-            dot += SCREENWIDTH;
-            *dot = *(*dot + color);
-            dot += SCREENWIDTH;
-            *dot = *(*dot + color);
-            dot += (size_t)SCREENWIDTH - 3;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot++;
-            *dot = *(*dot + color);
-            dot += (size_t)SCREENWIDTH - 3;
-            *dot = *(*dot + color);
-            dot += SCREENWIDTH;
-            *dot = *(*dot + color);
-            dot += SCREENWIDTH;
-            *dot = *(*dot + color);
-        }
-        else
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) + 1) * SCREENWIDTH / 2;
-
-            *dot = *(*dot + color);
-        }
-    }
+        HU_DrawScaledPixel(CENTERX, CENTERY, color);
 }
 
 static void HU_DrawSolidCrosshair(void)
 {
-    const int   color = (viewplayer->attackdown ? nearestcolors[crosshaircolor] : black25[nearestcolors[crosshaircolor]]);
+    const byte  color = (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
+                    black25[nearestcolors[crosshaircolor]]);
 
-    if (r_detail == r_detail_low)
+    if (crosshair == crosshair_cross)
     {
-        if (crosshair == crosshair_cross)
-        {
-            HU_DrawSolidScaledPixel(CENTERX - 2, CENTERY, color);
-            HU_DrawSolidScaledPixel(CENTERX - 1, CENTERY, color);
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
-            HU_DrawSolidScaledPixel(CENTERX + 1, CENTERY, color);
-            HU_DrawSolidScaledPixel(CENTERX + 2, CENTERY, color);
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY - 2, color);
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY - 1, color);
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY + 1, color);
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY + 2, color);
-        }
-        else
-            HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX - 2, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX - 1, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX + 1, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX + 2, CENTERY, color);
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY - 2, color);
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY - 1, color);
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY + 1, color);
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY + 2, color);
     }
     else
-    {
-        if (crosshair == crosshair_cross)
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - 3) * SCREENWIDTH / 2 - SCREENWIDTH;
-
-            *dot = color;
-            dot += SCREENWIDTH;
-            *dot = color;
-            dot += SCREENWIDTH;
-            *dot = color;
-            dot += (size_t)SCREENWIDTH - 3;
-            *dot++ = color;
-            *dot++ = color;
-            *dot++ = color;
-            *dot++ = color;
-            *dot++ = color;
-            *dot++ = color;
-            *dot = color;
-            dot += (size_t)SCREENWIDTH - 3;
-            *dot = color;
-            dot += SCREENWIDTH;
-            *dot = color;
-            dot += SCREENWIDTH;
-            *dot = color;
-        }
-        else
-        {
-            byte    *dot = *screens + (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) + 1) * SCREENWIDTH / 2;
-
-            *dot = color;
-        }
-    }
+        HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
 }
 
 uint64_t    ammohighlight = 0;
