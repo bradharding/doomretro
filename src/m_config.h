@@ -380,7 +380,7 @@ enum
 #define am_correctaspectratio_default       true
 
 #define am_crosshaircolor_min               0
-#define am_crosshaircolor_default           4
+#define am_crosshaircolor_default           112
 #define am_crosshaircolor_max               255
 
 #define am_display_min                      1

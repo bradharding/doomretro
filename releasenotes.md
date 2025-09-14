@@ -20,6 +20,8 @@
   * The `DRHUDWP1` lump can now be replaced in a PWAD to change the silhouette of the player’s pistol.
 * Barrels now appear in the background when the menu is open.
 * These changes have been made to the crosshair:
+  * The default value of the `crosshaircolor` CVAR has changed from `4` (white) to `112` (green).
+  * The crosshair is now slightly more opaque when the `r_hud_translucency` CVAR is `on`.
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair is now larger and consistent regardless of the value of the `r_detail` CVAR.
   * The crosshair can now be replaced in a PWAD by including a `DRXHAIR1` or `DRXHAIR2` lump.

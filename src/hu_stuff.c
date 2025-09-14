@@ -437,7 +437,7 @@ static void HU_DrawCrosshair(void)
         althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
             (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
             crosshairpatch[crosshair - 1], WHITE, nearestcolors[crosshaircolor],
-            (viewplayer->attackdown ? tinttab50 : tinttab40), -1);
+            (viewplayer->attackdown ? tinttab60 : tinttab50), -1);
     else
         althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
             (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
