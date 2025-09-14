@@ -86,6 +86,10 @@ short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
+static patch_t          *crosshairpatch[2];
+static short            crosshairwidth[2];
+static short            crosshairheight[2];
+
 static patch_t          *stdisk;
 static short            stdiskwidth;
 static short            stdiskheight;
@@ -204,6 +208,13 @@ void HU_Init(void)
 
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
+
+    crosshairpatch[0] = W_CacheLumpName("DRXHAIR1");
+    crosshairwidth[0] = SHORT(crosshairpatch[0]->width);
+    crosshairheight[0] = SHORT(crosshairpatch[0]->height);
+    crosshairpatch[1] = W_CacheLumpName("DRXHAIR2");
+    crosshairwidth[1] = SHORT(crosshairpatch[1]->width);
+    crosshairheight[1] = SHORT(crosshairpatch[1]->height);
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -420,72 +431,18 @@ static int HUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
-static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)
-{
-    byte    *dest = &screens[0][(y * 2 - 1) * SCREENWIDTH + x * 2 - 1];
-
-    *dest = *(*dest + color);
-    dest++;
-    *dest = *(*dest + color);
-    dest += SCREENWIDTH;
-    *dest = *(*dest + color);
-    dest--;
-    *dest = *(*dest + color);
-}
-
-static inline void HU_DrawSolidScaledPixel(const int x, const int y, byte color)
-{
-    byte    *dest = &screens[0][(y * 2 - 1) * SCREENWIDTH + x * 2 - 1];
-
-    *(dest++) = color;
-    *dest = color;
-    *(dest += SCREENWIDTH) = color;
-    *(--dest) = color;
-}
-
-#define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
-#define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < r_screensize_max)) / 2)
-
 static void HU_DrawCrosshair(void)
 {
-    byte    *color = (viewplayer->attackdown ? &tinttab50[nearestcolors[crosshaircolor] << 8] :
-                &tinttab40[nearestcolors[crosshaircolor] << 8]);
-
-    if (crosshair == crosshair_cross)
-    {
-        HU_DrawScaledPixel(CENTERX - 2, CENTERY, color);
-        HU_DrawScaledPixel(CENTERX - 1, CENTERY, color);
-        HU_DrawScaledPixel(CENTERX, CENTERY, color);
-        HU_DrawScaledPixel(CENTERX + 1, CENTERY, color);
-        HU_DrawScaledPixel(CENTERX + 2, CENTERY, color);
-        HU_DrawScaledPixel(CENTERX, CENTERY - 2, color);
-        HU_DrawScaledPixel(CENTERX, CENTERY - 1, color);
-        HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
-        HU_DrawScaledPixel(CENTERX, CENTERY + 2, color);
-    }
+    if (r_hud_translucency)
+        althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
+            (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
+            crosshairpatch[crosshair - 1], WHITE, nearestcolors[crosshaircolor],
+            (viewplayer->attackdown ? tinttab50 : tinttab40), -1);
     else
-        HU_DrawScaledPixel(CENTERX, CENTERY, color);
-}
-
-static void HU_DrawSolidCrosshair(void)
-{
-    const byte  color = (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
-                    black25[nearestcolors[crosshaircolor]]);
-
-    if (crosshair == crosshair_cross)
-    {
-        HU_DrawSolidScaledPixel(CENTERX - 2, CENTERY, color);
-        HU_DrawSolidScaledPixel(CENTERX - 1, CENTERY, color);
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
-        HU_DrawSolidScaledPixel(CENTERX + 1, CENTERY, color);
-        HU_DrawSolidScaledPixel(CENTERX + 2, CENTERY, color);
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY - 2, color);
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY - 1, color);
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY + 1, color);
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY + 2, color);
-    }
-    else
-        HU_DrawSolidScaledPixel(CENTERX, CENTERY, color);
+        althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
+            (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
+            crosshairpatch[crosshair - 1], WHITE, (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
+            black25[nearestcolors[crosshaircolor]]), NULL, -1);
 }
 
 uint64_t    ammohighlight = 0;
@@ -1568,7 +1525,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair != crosshair_none && !consoleactive)
+        if (crosshair != crosshair_none)
         {
             const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
@@ -1577,12 +1534,7 @@ void HU_Drawer(void)
                 const actionf_t action = viewplayer->psprites[ps_weapon].state->action;
 
                 if (action != &A_Raise && action != &A_Lower)
-                {
-                    if (r_hud_translucency)
-                        HU_DrawCrosshair();
-                    else
-                        HU_DrawSolidCrosshair();
-                }
+                    HU_DrawCrosshair();
             }
         }
 
