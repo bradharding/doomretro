@@ -1236,7 +1236,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
             column = (column_t *)((byte *)column + length + 4);
 
-            if (dot != DARKGRAY1)
+            if (shadowcolor != -1 && dot != DARKGRAY1)
                 *dest = black10[*dest];
         }
     }
