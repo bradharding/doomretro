@@ -22,6 +22,8 @@
 * These changes have been made to the crosshair:
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair is now larger and consistent regardless of the value of the `r_detail` CVAR.
+  * The crosshair can now be replaced in a PWAD by including a `DRXHAIR1` or `DRXHAIR2` lump.
+  * The crosshair now remains on the screen while the console is open.
   * The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
 * The framerate is now capped at 60 FPS when the menu is open and the `vid_vsync` CVAR is `on`.
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
