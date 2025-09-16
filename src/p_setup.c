@@ -4493,11 +4493,11 @@ void P_Init(void)
                         if (!M_CheckParm("-nodmapinfo"))
                             P_ParseMapInfo("DMAPINFO");
 
-        if (nojump && (keyboardjump || keyboardjump2 || mousejump != -1 || controllerjump))
+        if (nojump)
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 
-        if (nofreelook && canfreelook)
+        if (nofreelook)
             C_Warning(1, "This %s has disabled use of the " BOLD("freelook") " CVAR and " BOLD("+freelook") " action.",
                 (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
     }
