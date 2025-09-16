@@ -4258,6 +4258,10 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             mapmax = MAX(map, mapmax);
         }
+        else if (SC_Compare("NOJUMP"))
+            nojump = true;
+        else if (SC_Compare("NOFREELOOK") || SC_Compare("NOMOUSELOOK"))
+            nofreelook = true;
         else if (SC_Compare("LIQUID"))
         {
             int lump;
