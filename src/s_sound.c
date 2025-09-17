@@ -335,24 +335,44 @@ void S_StopSounds(void)
         S_StopChannel(cnum);
 }
 
+static int S_GetMapNum(void)
+{
+    if (gamemode == commercial)
+    {
+        if (gamemission == pack_nerve)
+            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
+        else
+            return (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap);
+    }
+    else
+    {
+        if (gameepisode == 5 && sigil)
+            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
+        else if (gameepisode == 6 && sigil2)
+            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
+        else
+            return (s_randommusic ? M_RandomIntNoRepeat(1, 4 * 9, (gameepisode - 1) * 9 + gamemap) :
+                (gameepisode - 1) * 9 + gamemap);
+    }
+}
+
 static int S_GetMusicNum(void)
 {
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-            return nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
+            return nmus[S_GetMapNum() - 1];
         else
-            return (mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1);
+            return (mus_runnin + S_GetMapNum() - 1);
     }
     else
     {
         if (gameepisode == 5 && sigil)
-            return (mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
+            return (mus_e5m1 + S_GetMapNum() - 1);
         else if (gameepisode == 6 && sigil2)
-            return (mus_e6m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
+            return (mus_e6m1 + S_GetMapNum() - 1);
         else
-            return (mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 4 * 9, (gameepisode - 1) * 9 + gamemap) :
-                (gameepisode - 1) * 9 + gamemap) - 1);
+            return (mus_e1m1 + S_GetMapNum() - 1);
     }
 }
 
@@ -668,7 +688,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         else
             music->lumpnum = W_CheckNumForName(namebuf);
     }
-    else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, gamemap)) > 0)
+    else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, S_GetMapNum())) > 0)
     {
         music->lumpnum = mapinfomusic;
         M_StringCopy(music->name1, lumpinfo[mapinfomusic]->name, sizeof(music->name1));
