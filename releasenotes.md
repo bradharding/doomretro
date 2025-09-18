@@ -14,6 +14,7 @@
   * If `AUTHOR` is specified, the author of the map is now displayed in the console when the map starts, and in the automap. This feature can be disabled in the automap using the new `am_author` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * `NOJUMP` and `NOFREELOOK` now always work as intended.
   * `LABEL` is now supported.
+  * A bug is fixed whereby music wouldn’t be randomized when the `s_randommusic` CVAR was `on` and custom music was specified using `MUSIC`.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
