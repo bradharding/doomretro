@@ -501,6 +501,9 @@ static void R_InitFlats(void)
     for (int i = 0; i < numflats; i++)
         flattranslation[i] = firstflat + i;
 
+    // [PN] Generate hash table for flats.
+    W_HashNumForNameFromTo(firstflat, lastflat, numflats);
+
     missingflatnum = R_FlatNumForName("-N0_TEX-");
 }
 
@@ -1113,7 +1116,7 @@ void R_InitData(void)
 //
 int R_FlatNumForName(const char *name)
 {
-    const int   i = W_RangeCheckNumForName(firstflat, lastflat, name);
+    const int   i = W_CheckNumForNameFromTo(firstflat, lastflat, name);
 
     if (i == -1)
     {

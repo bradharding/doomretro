@@ -83,11 +83,12 @@ int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);
 
-int W_RangeCheckNumForName(int min, int max, const char *name);
+int W_CheckNumForNameFromTo(int min, int max, const char *name);
 int W_GetNumForName(const char *name);
 int W_GetLastNumForName(const char *name);
 int W_GetXNumForName(const char *name, const int x);
 int W_GetNumForNameFromResourceWAD(const char *name);
+void W_HashNumForNameFromTo(int from, int to, int size);
 
 int W_GetNumLumps(const char *name);
 int W_GetNumLumps2(const char *name);

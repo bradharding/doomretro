@@ -869,12 +869,59 @@ int W_GetNumLumps2(const char *name)
     return count;
 }
 
-//
-// W_RangeCheckNumForName
-// Linear Search that checks for a lump number ONLY inside a range, not all lumps.
-//
-int W_RangeCheckNumForName(int min, int max, const char *name)
+// W_HashNumForNameFromTo and W_CheckNumForNameFromTo
+//  [PN/JN] Optimized flat lookup with hash.
+//  Builds a one-time open-addressing hash table for the [from, to] range,
+//  using lump name hash modulo the range size. Collision resolution is linear.
+//  This replaces linear search for flat lumps with near-O(1) lookup.
+static int  *flat_hash = NULL;
+static int  hash_size = 0;
+
+void W_HashNumForNameFromTo(int from, int to, int size)
 {
+    // Compute number of entries in the range
+    hash_size = size;
+
+    // Allocate hash table (statically sized to the range)
+    flat_hash = Z_Malloc(sizeof(int) * hash_size, PU_STATIC, NULL);
+
+    // Initialize all entries to -1 (empty)
+    for (int i = 0; i < hash_size; i++)
+        flat_hash[i] = -1;
+
+    // Fill the table with all lump names in the range
+    // Use open addressing for collision resolution
+    for (int i = from; i <= to; i++)
+    {
+        int h = W_LumpNameHash(lumpinfo[i]->name) % hash_size;
+
+        while (flat_hash[h] != -1)
+            h = (h + 1) % hash_size;
+
+        flat_hash[h] = i;
+    }
+}
+
+int W_CheckNumForNameFromTo(int min, int max, const char *name)
+{
+    // Lookup using same hash function
+    int hash = W_LumpNameHash(name) % hash_size;
+
+    // Probe the table using open addressing
+    for (int probes = 0; probes < hash_size; probes++)
+    {
+        int i = flat_hash[hash];
+
+        if (i == -1)
+            break;
+
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
+            return i;
+
+        hash = (hash + 1) % hash_size;
+    }
+
+    // Fallback: brute-force scan (should never happen)
     for (int i = min; i <= max; i++)
         if (!strncasecmp(lumpinfo[i]->name, name, 8))
             return i;
