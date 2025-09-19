@@ -500,6 +500,7 @@ static void r_shadows_translucency_func2(char *cmd, char *parms);
 static void r_sprites_translucency_func2(char *cmd, char *parms);
 static void r_textures_func2(char *cmd, char *parms);
 static void r_textures_translucency_func2(char *cmd, char *parms);
+static void s_randommusic_func2(char *cmd, char *parms);
 static bool s_volume_cvars_func1(char *cmd, char *parms);
 static void s_volume_cvars_func2(char *cmd, char *parms);
 static void savegame_func2(char *cmd, char *parms);
@@ -998,7 +999,7 @@ consolecmd_t consolecmds[] =
         "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME) "'s window loses focus."),
     CVAR_INT(s_musicvolume, "", "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(s_randommusic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(s_randommusic, "", "", bool_cvars_func1, s_randommusic_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomizing the music for each map."),
     CVAR_BOOL(s_randompitch, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomizing the pitch of sound effects made by monsters."),
@@ -11449,6 +11450,47 @@ static void r_textures_translucency_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(r_textures_translucency_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// s_randommusic CVAR
+//
+static void s_randommusic_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != s_randommusic)
+        {
+            s_randommusic = value;
+            M_SaveCVARs();
+
+            if (gamestate == GS_LEVEL)
+                S_Start();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(s_randommusic, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (s_randommusic == s_randommusic_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(s_randommusic_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
