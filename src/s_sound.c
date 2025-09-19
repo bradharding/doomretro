@@ -337,43 +337,23 @@ void S_StopSounds(void)
 
 static int S_GetMapNum(void)
 {
+    if (!s_randommusic)
+        return ((gameepisode - 1) * 9 + gamemap);
+
     if (gamemode == commercial)
-    {
-        if (gamemission == pack_nerve)
-            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
-        else
-            return (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap);
-    }
+        return M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : 32), gamemap);
+    else if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
+            return M_RandomIntNoRepeat(1, 9, gamemap);
     else
-    {
-        if (gameepisode == 5 && sigil)
-            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
-        else if (gameepisode == 6 && sigil2)
-            return (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap);
-        else
-            return (s_randommusic ? M_RandomIntNoRepeat(1, 4 * 9, (gameepisode - 1) * 9 + gamemap) :
-                (gameepisode - 1) * 9 + gamemap);
-    }
+        return M_RandomIntNoRepeat(1, 4 * 9, (gameepisode - 1) * 9 + gamemap);
 }
 
 static int S_GetMusicNum(void)
 {
-    if (gamemode == commercial)
-    {
-        if (gamemission == pack_nerve)
-            return nmus[S_GetMapNum() - 1];
-        else
-            return (mus_runnin + S_GetMapNum() - 1);
-    }
-    else
-    {
-        if (gameepisode == 5 && sigil)
-            return (mus_e5m1 + S_GetMapNum() - 1);
-        else if (gameepisode == 6 && sigil2)
-            return (mus_e6m1 + S_GetMapNum() - 1);
-        else
-            return (mus_e1m1 + S_GetMapNum() - 1);
-    }
+    const int   map = S_GetMapNum() - 1;
+
+    return (gamemode == commercial ? (gamemission == pack_nerve ? nmus[map] : mus_runnin + map) :
+        (gameepisode == 5 && sigil ? mus_e5m1 : (gameepisode == 6 && sigil2 ? mus_e6m1 : mus_e1m1)) + map);
 }
 
 //

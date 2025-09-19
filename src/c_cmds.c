@@ -594,7 +594,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(am_antialiasing, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles anti-aliasing in the automap."),
     CVAR_BOOL(am_author, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles displaying the map's author in the automap."),
+        "Toggles displaying the map's author (if available) in the automap."),
     CVAR_INT(am_backcolor, am_backcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_bloodsplatcolor, am_bloodsplatcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
