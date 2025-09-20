@@ -2489,9 +2489,10 @@ static void condump_func2(char *cmd, char *parms)
 
                 if (type == playermessagestring || type == playerwarningstring)
                 {
-                    char    buffer[9];
+                    char                buffer[9];
+                    const unsigned int  numspaces = (timeformat == timeformat_regular ? 90 : 92) - outpos;
 
-                    for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < 92 - outpos; spaces++)
+                    for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < numspaces; spaces++)
                         fputc(' ', file);
 
                     M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
@@ -2500,6 +2501,9 @@ static void condump_func2(char *cmd, char *parms)
                         fputc(' ', file);
 
                     fputs(buffer, file);
+
+                    if (timeformat == timeformat_regular)
+                        fputs((console[i].pm ? "PM" : "AM"), file);
                 }
 
                 fputc('\n', file);
