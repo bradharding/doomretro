@@ -1808,7 +1808,7 @@ void G_LoadedGameMessage(void)
 
             C_Output("It was previously saved at %i:%02i%s on %s, %s %i, %i.",
                 (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min,
-                (hour < 12 ? "am" : "pm"), daynames[timestamp.tm_wday],
+                (hour < 12 ? "(AM)" : "(PM)"), daynames[timestamp.tm_wday],
                 monthnames[timestamp.tm_mon], timestamp.tm_mday, 1900 + timestamp.tm_year);
 
             if (prevgameskill != sk_none && gameskill != prevgameskill)

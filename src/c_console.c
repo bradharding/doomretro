@@ -559,6 +559,18 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
             width += SHORT(trademark->width);
             i += 3;
         }
+        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'a'
+            && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
+        {
+            width += ampmwidth;
+            i += 3;
+        }
+        else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'p'
+            && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
+        {
+            width += ampmwidth;
+            i += 3;
+        }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
         {
             width += SHORT(copyright->width);
@@ -1125,6 +1137,18 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 && formatting)
             {
                 patch = trademark;
+                i += 3;
+            }
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'a' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
+                && formatting)
+            {
+                patch = ampm[0];
+                i += 3;
+            }
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'p' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
+                && formatting)
+            {
+                patch = ampm[1];
                 i += 3;
             }
             else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
@@ -3135,7 +3159,7 @@ void C_PrintCompileDate(void)
         C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
             " was built with love by %s at %i:%02i%s on %s, %s %i, %i somewhere in %s.",
             8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
-            (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
+            (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "(AM)" : "(PM)"),
             dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
     }
 
