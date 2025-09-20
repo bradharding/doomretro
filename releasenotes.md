@@ -15,6 +15,7 @@
   * `NOJUMP` and `NOFREELOOK` now always work as intended.
   * `LABEL` is now supported.
   * A bug is fixed whereby music wouldn’t be randomized when the `s_randommusic` CVAR was `on` and custom music was specified using `MUSIC`.
+* The music now updates immediately when changing the `s_randommusic` CVAR in the console.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
@@ -36,7 +37,7 @@
 * Textures with a width that isn’t a power of two are now rendered correctly.
 * Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
 * The timestamps in the console can now be disabled using the new `con_timestamps` CVAR, which is `on` by default.
-* The format of the timestamps in the console can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, which now includes whether it is AM or PM) or `military`.
+* The format of the timestamps in the console can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, and which now displays whether it is AM or PM), or `military`.
 * The `warninglevel` CVAR has been renamed `con_warninglevel`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
