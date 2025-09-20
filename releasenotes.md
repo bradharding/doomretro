@@ -35,7 +35,7 @@
 * A bug is fixed whereby the flash of the super shotgun could be misaligned in some rare instances.
 * Textures with a width that isn’t a power of two are now rendered correctly.
 * Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
-* The format of the timestamps in the console can now be changed using the new `timeformat` CVAR, which can be set to `regular` (the default, which now includes whether it is AM or PM) or `military`.
+* The format of the timestamps in the console can now be changed using the new `timestampformat` CVAR, which can be set to `regular` (the default, which now includes whether it is AM or PM) or `military`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

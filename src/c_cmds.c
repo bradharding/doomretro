@@ -507,8 +507,8 @@ static void savegame_func2(char *cmd, char *parms);
 static void skilllevel_func2(char *cmd, char *parms);
 static bool sucktime_func1(char *cmd, char *parms);
 static void sucktime_func2(char *cmd, char *parms);
-static bool timeformat_func1(char *cmd, char *parms);
-static void timeformat_func2(char *cmd, char *parms);
+static bool timestampformat_func1(char *cmd, char *parms);
+static void timestampformat_func2(char *cmd, char *parms);
 static bool turbo_func1(char *cmd, char *parms);
 static void turbo_func2(char *cmd, char *parms);
 static bool units_func1(char *cmd, char *parms);
@@ -1030,7 +1030,7 @@ consolecmd_t consolecmds[] =
         "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),
     CCMD(thinglist, "", "", game_ccmd_func1, thinglist_func2, false, "",
         "Lists all things in the current map."),
-    CVAR_BOOL(timeformat, "", "", timeformat_func1, timeformat_func2, CF_NONE, TIMEFORMATVALUEALIAS,
+    CVAR_BOOL(timestampformat, "", "", timestampformat_func1, timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
         "The format of the timestamps in the console (" BOLD("regular") " or " BOLD("military") ")."),
     CCMD(timer, "", "", null_func1, timer_func2, true, TIMERCMDFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
@@ -2490,7 +2490,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring)
                 {
                     char                buffer[9];
-                    const unsigned int  numspaces = (timeformat == timeformat_regular ? 90 : 92) - outpos;
+                    const unsigned int  numspaces = (timestampformat == timestampformat_regular ? 90 : 92) - outpos;
 
                     for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < numspaces; spaces++)
                         fputc(' ', file);
@@ -2502,7 +2502,7 @@ static void condump_func2(char *cmd, char *parms)
 
                     fputs(buffer, file);
 
-                    if (timeformat == timeformat_regular)
+                    if (timestampformat == timestampformat_regular)
                         fputs((console[i].pm ? "PM" : "AM"), file);
                 }
 
@@ -11624,37 +11624,37 @@ static void sucktime_func2(char *cmd, char *parms)
 }
 
 //
-// timeformat CVAR
+// timestampformat CVAR
 //
-static bool timeformat_func1(char *cmd, char *parms)
+static bool timestampformat_func1(char *cmd, char *parms)
 {
-    return (!*parms || C_LookupValueFromAlias(parms, TIMEFORMATVALUEALIAS) != INT_MIN);
+    return (!*parms || C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS) != INT_MIN);
 }
 
-static void timeformat_func2(char *cmd, char *parms)
+static void timestampformat_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const int   value = C_LookupValueFromAlias(parms, TIMEFORMATVALUEALIAS);
+        const int   value = C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS);
 
-        if ((value == timeformat_military || value == timeformat_regular) && value != timeformat)
+        if ((value == timestampformat_military || value == timestampformat_regular) && value != timestampformat)
         {
-            timeformat = value;
+            timestampformat = value;
             M_SaveCVARs();
         }
     }
     else
     {
-        char        *temp1 = C_LookupAliasFromValue(timeformat, TIMEFORMATVALUEALIAS);
+        char        *temp1 = C_LookupAliasFromValue(timestampformat, TIMESTAMPVALUEALIAS);
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
-        if (timeformat == timeformat_default)
+        if (timestampformat == timestampformat_default)
             C_Output(INTEGERCVARISDEFAULT, temp1);
         else
         {
-            char    *temp2 = C_LookupAliasFromValue(timeformat_default, TIMEFORMATVALUEALIAS);
+            char    *temp2 = C_LookupAliasFromValue(timestampformat_default, TIMESTAMPVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);

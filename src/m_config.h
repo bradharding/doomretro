@@ -197,7 +197,7 @@ extern bool     secretmessages;
 extern int      skilllevel;
 extern int      stillbob;
 extern int      sucktime;
-extern int      timeformat;
+extern int      timestampformat;
 extern bool     tossdrop;
 extern int      turbo;
 extern int      units;
@@ -314,8 +314,8 @@ enum
 
 enum
 {
-    timeformat_military,
-    timeformat_regular
+    timestampformat_military,
+    timestampformat_regular
 };
 
 enum
@@ -799,7 +799,7 @@ enum
 #define sucktime_default                    1
 #define sucktime_max                        24
 
-#define timeformat_default                  timeformat_regular
+#define timestampformat_default             timestampformat_regular
 
 #define tossdrop_default                    true
 
@@ -1129,7 +1129,7 @@ typedef enum
     RATIOVALUEALIAS,
     SCALEVALUEALIAS,
     SUCKSVALUEALIAS,
-    TIMEFORMATVALUEALIAS,
+    TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,
     VSYNCVALUEALIAS,
     WEAPONVALUEALIAS

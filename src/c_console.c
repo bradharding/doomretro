@@ -1365,14 +1365,14 @@ char *C_CreateTimeStamp(const int index)
     M_snprintf(console[index].timestamp1, sizeof(console[0].timestamp1), "%i:%02i:%02i",
         (hours ? hours : 12), minutes, seconds);
 
-    return (timeformat == timeformat_regular ? console[index].timestamp1 : console[index].timestamp2);
+    return (timestampformat == timestampformat_regular ? console[index].timestamp1 : console[index].timestamp2);
 }
 
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
     char    *timestamp;
 
-    if (timeformat == timeformat_regular)
+    if (timestampformat == timestampformat_regular)
     {
         V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[console[index].pm],
             ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);
