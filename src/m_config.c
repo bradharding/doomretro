@@ -93,6 +93,7 @@ bool        autoswitch = autoswitch_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
+int         con_edgecolor = con_edgecolor_default;
 int         con_timestampformat = con_timestampformat_default;
 bool        con_timestamps = con_timestamps_default;
 int         con_warninglevel = con_warninglevel_default;
@@ -348,6 +349,7 @@ static default_t cvars[] =
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS     ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS     ),
+    CVAR_INT          (con_edgecolor,                    con_edgecolor,                         con_edgecolor,                         EDGECOLORVALUEALIAS),
     CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS     ),
     CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      NOVALUEALIAS       ),
@@ -609,6 +611,7 @@ valuealias_t valuealiases[] =
     { "dot",            crosshair_dot,                CROSSHAIRVALUEALIAS },
     { "low",            r_detail_low,                 DETAILVALUEALIAS    },
     { "high",           r_detail_high,                DETAILVALUEALIAS    },
+    { "auto",           con_edgecolor_auto,           EDGECOLORVALUEALIAS },
     { "american",       english_american,             ENGLISHVALUEALIAS   },
     { "british",        english_british,              ENGLISHVALUEALIAS   },
     { "off",            1,                            GAMMAVALUEALIAS     },

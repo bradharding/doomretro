@@ -138,8 +138,8 @@ static byte             *consolebevelcolor1;
 static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
-int                     consolebrandingcolor1;
-int                     consolebrandingcolor2;
+int                     consoleedgecolor1;
+int                     consoleedgecolor2;
 static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
@@ -735,32 +735,32 @@ void C_ClearConsole(void)
     }
 }
 
-static void C_InitBrandingColors(void)
+static void C_InitEdgecolors(void)
 {
-    consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
+    consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
     if (W_GetNumLumps("STTNUM0") >= 2
-        && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111])
-        && consolebrandingcolor1 != nearestcolors[4])
+        && !(consoleedgecolor1 >= nearestcolors[80] && consoleedgecolor1 <= nearestcolors[111])
+        && consoleedgecolor1 != nearestcolors[4])
     {
-        consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
-        consolebrandingcolor1 <<= 8;
+        consoleedgecolor2 = black25[consoleedgecolor1] << 8;
+        consoleedgecolor1 <<= 8;
     }
     else
     {
-        consolebrandingcolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
+        consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
 
         if (W_GetNumLumps("M_NGAME") >= 2
-            && !(consolebrandingcolor1 >= nearestcolors[80] && consolebrandingcolor1 <= nearestcolors[111])
-            && consolebrandingcolor1 != nearestcolors[4])
+            && !(consoleedgecolor1 >= nearestcolors[80] && consoleedgecolor1 <= nearestcolors[111])
+            && consoleedgecolor1 != nearestcolors[4])
         {
-            consolebrandingcolor2 = black25[consolebrandingcolor1] << 8;
-            consolebrandingcolor1 <<= 8;
+            consoleedgecolor2 = black25[consoleedgecolor1] << 8;
+            consoleedgecolor1 <<= 8;
         }
         else
         {
-            consolebrandingcolor1 = nearestcolors[CONSOLEBRANDINGCOLOR1] << 8;
-            consolebrandingcolor2 = nearestcolors[CONSOLEBRANDINGCOLOR2] << 8;
+            consoleedgecolor1 = nearestcolors[CONSOLEEDGECOLOR1] << 8;
+            consoleedgecolor2 = nearestcolors[CONSOLEEDGECOLOR2] << 8;
         }
     }
 }
@@ -800,7 +800,7 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
-    C_InitBrandingColors();
+    C_InitEdgecolors();
 
     consolecolors[inputstring] = consoleinputcolor;
     consolecolors[cheatstring] = consoleinputcolor;
@@ -1018,13 +1018,26 @@ static void C_DrawBackground(void)
             screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
     }
 
-    // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-        consoleheight - brandheight + 2, brand);
-
     // draw bottom edge
-    for (int i = height - 3 * SCREENWIDTH; i < height; i++)
-        screens[0][i] = tinttab60[consolebrandingcolor1 + screens[0][i]];
+    if (con_edgecolor == con_edgecolor_auto)
+    {
+        V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
+            consoleheight - brandheight + 2, brand, consoleedgecolor1, consoleedgecolor2);
+
+        for (int i = height - 3 * SCREENWIDTH; i < height; i++)
+            screens[0][i] = tinttab60[consoleedgecolor1 + screens[0][i]];
+    }
+    else
+    {
+        const int   color1 = nearestcolors[con_edgecolor] << 8;
+        const int   color2 = black25[color1 >> 8] << 8;
+
+        V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
+            consoleheight - brandheight + 2, brand, color1, color2);
+
+        for (int i = height - 3 * SCREENWIDTH; i < height; i++)
+            screens[0][i] = tinttab60[color1 + screens[0][i]];
+	}
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)
@@ -2151,7 +2164,8 @@ void C_Drawer(void)
             }
             else
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, CONSOLETEXTPIXELWIDTH + 7);
+                    console[i].header, CONSOLETEXTPIXELWIDTH + 7,
+                    (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor]));
 
             if (wrap < len && i < bottomline)
             {

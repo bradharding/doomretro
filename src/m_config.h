@@ -85,6 +85,7 @@ extern bool     autoswitch;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
+extern int      con_edgecolor;
 extern int      con_timestampformat;
 extern bool     con_timestamps;
 extern int      con_warninglevel;
@@ -503,6 +504,11 @@ enum
 #define autouse_default                     false
 
 #define centerweapon_default                true
+
+#define con_edgecolor_auto                  -1
+#define con_edgecolor_min                   con_edgecolor_auto
+#define con_edgecolor_default               con_edgecolor_auto
+#define con_edgecolor_max                   255
 
 #define con_timestampformat_default         con_timestampformat_regular
 
@@ -1126,6 +1132,7 @@ typedef enum
     CAPVALUEALIAS,
     CROSSHAIRVALUEALIAS,
     DETAILVALUEALIAS,
+    EDGECOLORVALUEALIAS,
     ENGLISHVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,

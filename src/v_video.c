@@ -600,7 +600,7 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
     }
 }
 
-void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
+void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, const int color)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = MIN(SHORT(patch->width), maxwidth);
@@ -617,7 +617,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
         {
             if (height > 0)
             {
-                *dest = (*source == WHITE ? nearestwhite : tinttab60[consolebrandingcolor1 + *dest]);
+                *dest = (*source == WHITE ? nearestwhite : tinttab60[color + *dest]);
 
                 if (height == 1)
                     *dest = tinttab60[*dest];
@@ -629,7 +629,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
                     {
                         byte    *dot = dest + xx;
 
-                        *dot = tinttab60[consolebrandingcolor1 + *dot];
+                        *dot = tinttab60[color + *dot];
 
                         if (height == 1)
                             *dot = tinttab60[*dot];
@@ -645,7 +645,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, int maxwidth)
     }
 }
 
-void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
+void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, const int color1, const int color2)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -667,10 +667,10 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
             {
                 if (*source == WHITE || *source == LIGHTGRAY2)
                     *dest = nearestcolors[*source];
-                else if (*source == CONSOLEBRANDINGCOLOR2)
-                    *dest = tinttab60[consolebrandingcolor2 + *dest];
+                else if (*source == CONSOLEEDGECOLOR2)
+                    *dest = tinttab60[color2 + *dest];
                 else
-                    *dest = tinttab60[consolebrandingcolor1 + *dest];
+                    *dest = tinttab60[color1 + *dest];
 
                 if (height == 1)
                     *dest = tinttab60[*dest];
@@ -682,7 +682,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
                     {
                         byte    *dot = dest + xx;
 
-                        *dot = tinttab60[consolebrandingcolor1 + *dot];
+                        *dot = tinttab60[color1 + *dot];
 
                         if (height == 1)
                             *dot = tinttab60[*dot];
