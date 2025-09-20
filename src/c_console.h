@@ -176,7 +176,9 @@ typedef struct
     patch_t         *header;
     int             tabs[MAXTABS];
     int             tics;
-    char            timestamp[9];
+    char            timestamp1[9];
+    char            timestamp2[9];
+    bool            pm;
 } console_t;
 
 typedef struct
