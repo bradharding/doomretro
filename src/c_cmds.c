@@ -698,6 +698,8 @@ consolecmd_t consolecmds[] =
         "The format of the timestamps in the console (" BOLD("regular") " or " BOLD("military") ")."),
     CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles timestamps in the console."),
+    CVAR_INT(con_warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(crosshair, "", "", crosshair_func1, crosshair_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") " or " BOLD("dot") ")."),
     CVAR_INT(crosshaircolor, crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -1116,8 +1118,6 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE, MAX_PATH,
         "The folder the currently loaded WAD is in."),
-    CVAR_INT(warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(weapon, "", "", weapon_func1, weapon_func2, CF_NONE, WEAPONVALUEALIAS,
         "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", "
         BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),

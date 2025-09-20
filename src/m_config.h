@@ -87,6 +87,7 @@ extern bool     autouse;
 extern bool     centerweapon;
 extern int      con_timestampformat;
 extern bool     con_timestamps;
+extern int      con_warninglevel;
 extern int      crosshair;
 extern int      crosshaircolor;
 extern int      english;
@@ -231,7 +232,6 @@ extern char     *vid_windowsize;
 extern char     *wad;
 #endif
 extern char     *wadfolder;
-extern int      warninglevel;
 extern int      weaponbob;
 extern bool     weaponbounce;
 extern bool     weaponrecoil;
@@ -507,6 +507,10 @@ enum
 #define con_timestampformat_default         con_timestampformat_regular
 
 #define con_timestamps_default              true
+
+#define con_warninglevel_min                0
+#define con_warninglevel_default            1
+#define con_warninglevel_max                2
 
 #define crosshair_min                       crosshair_none
 #define crosshair_default                   crosshair_none
@@ -908,10 +912,6 @@ enum
 #if defined(_WIN32)
 #define wad_default                         ""
 #endif
-
-#define warninglevel_min                    0
-#define warninglevel_default                1
-#define warninglevel_max                    2
 
 #define weapon_min                          wp_fist
 #define weapon_default                      wp_pistol

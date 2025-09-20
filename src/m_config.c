@@ -95,6 +95,7 @@ bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
 int         con_timestampformat = con_timestampformat_default;
 bool        con_timestamps = con_timestamps_default;
+int         con_warninglevel = con_warninglevel_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
 int         english = english_default;
@@ -239,7 +240,6 @@ char        *vid_windowsize = vid_windowsize_default;
 #if defined(_WIN32)
 char        *wad = wad_default;
 #endif
-int         warninglevel = warninglevel_default;
 int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponrecoil = weaponrecoil_default;
@@ -350,6 +350,7 @@ static default_t cvars[] =
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS     ),
     CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS     ),
+    CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      NOVALUEALIAS       ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS),
     CVAR_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        NOVALUEALIAS       ),
     CVAR_BOOL         (english,                          english,                               english,                               ENGLISHVALUEALIAS  ),
@@ -493,7 +494,6 @@ static default_t cvars[] =
     CVAR_STRING       (wad,                              wad,                                   wad,                                   NOVALUEALIAS       ),
 #endif
     CVAR_STRING       (wadfolder,                        iwadfolder,                            wadfolder,                             NOVALUEALIAS       ),
-    CVAR_INT          (warninglevel,                     warninglevel,                          warninglevel,                          NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                             NOVALUEALIAS       ),
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS     ),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS     ),

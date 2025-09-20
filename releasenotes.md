@@ -37,6 +37,7 @@
 * Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
 * The timestamps in the console can now be disabled using the new `con_timestamps` CVAR, which is `on` by default.
 * The format of the timestamps in the console can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, which now includes whether it is AM or PM) or `military`.
+* The `warninglevel` CVAR has been renamed `con_warninglevel`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -2595,8 +2596,8 @@
 * Minor changes have been made to the character set used in the console.
 * Minor changes have been made to text that is output to the console.
 * Long warnings in the console now wrap over two lines.
-* A new `warninglevel` CVAR has been implemented to control the type of warnings displayed in the console. It can be `0` (minimal warnings), `1` (no warnings about the current map) or `2` (all warnings), and is `1` by default.
-* The following changes have been made to warnings in the console when the `warninglevel` CVAR is `2`:
+* A new `con_warninglevel` CVAR has been implemented to control the type of warnings displayed in the console. It can be `0` (minimal warnings), `1` (no warnings about the current map) or `2` (all warnings), and is `1` by default.
+* The following changes have been made to warnings in the console when the `con_warninglevel` CVAR is `2`:
   * Warnings will now be displayed for every linedef in the current map that has either an unknown tag, a tag but no special, or a special but no tag.
   * Warnings describing any fixes made to the current map are now displayed when the `r_fixmaperrors` CVAR is `on`.
 * Further improvements have been made to the console’s autocomplete feature.
