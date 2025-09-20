@@ -461,6 +461,8 @@ static void am_rotatemode_func2(char *cmd, char *parms);
 static bool armortype_func1(char *cmd, char *parms);
 static void armortype_func2(char *cmd, char *parms);
 static void autotilt_func2(char *cmd, char *parms);
+static bool con_timestampformat_func1(char *cmd, char *parms);
+static void con_timestampformat_func2(char *cmd, char *parms);
 static bool crosshair_func1(char *cmd, char *parms);
 static void crosshair_func2(char *cmd, char *parms);
 static bool english_func1(char *cmd, char *parms);
@@ -507,8 +509,6 @@ static void savegame_func2(char *cmd, char *parms);
 static void skilllevel_func2(char *cmd, char *parms);
 static bool sucktime_func1(char *cmd, char *parms);
 static void sucktime_func2(char *cmd, char *parms);
-static bool timestampformat_func1(char *cmd, char *parms);
-static void timestampformat_func2(char *cmd, char *parms);
 static bool turbo_func1(char *cmd, char *parms);
 static void turbo_func2(char *cmd, char *parms);
 static bool units_func1(char *cmd, char *parms);
@@ -694,6 +694,10 @@ consolecmd_t consolecmds[] =
         "Lists all console commands."),
     CCMD(condump, "", "", condump_func1, condump_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
         "Dumps the contents of the console to a file."),
+    CVAR_BOOL(con_timestampformat, "", "", con_timestampformat_func1, con_timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
+        "The format of the timestamps in the console (" BOLD("regular") " or " BOLD("military") ")."),
+    CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles timestamps in the console."),
     CVAR_INT(crosshair, "", "", crosshair_func1, crosshair_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") " or " BOLD("dot") ")."),
     CVAR_INT(crosshaircolor, crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -1030,8 +1034,6 @@ consolecmd_t consolecmds[] =
         "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),
     CCMD(thinglist, "", "", game_ccmd_func1, thinglist_func2, false, "",
         "Lists all things in the current map."),
-    CVAR_BOOL(timestampformat, "", "", timestampformat_func1, timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
-        "The format of the timestamps in the console (" BOLD("regular") " or " BOLD("military") ")."),
     CCMD(timer, "", "", null_func1, timer_func2, true, TIMERCMDFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
     CCMD(toggle, "", "", null_func1, toggle_func2, true, TOGGLECMDFORMAT,
@@ -2490,7 +2492,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring)
                 {
                     char                buffer[9];
-                    const unsigned int  numspaces = (timestampformat == timestampformat_regular ? 90 : 92) - outpos;
+                    const unsigned int  numspaces = (con_timestampformat == con_timestampformat_regular ? 90 : 92) - outpos;
 
                     for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < numspaces; spaces++)
                         fputc(' ', file);
@@ -2502,7 +2504,7 @@ static void condump_func2(char *cmd, char *parms)
 
                     fputs(buffer, file);
 
-                    if (timestampformat == timestampformat_regular)
+                    if (con_timestampformat == con_timestampformat_regular)
                         fputs((console[i].pm ? "PM" : "AM"), file);
                 }
 
@@ -10019,6 +10021,49 @@ static void autotilt_func2(char *cmd, char *parms)
 }
 
 //
+// con_timestampformat CVAR
+//
+static bool con_timestampformat_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS) != INT_MIN);
+}
+
+static void con_timestampformat_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS);
+
+        if ((value == con_timestampformat_military || value == con_timestampformat_regular) && value != con_timestampformat)
+        {
+            con_timestampformat = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(con_timestampformat, TIMESTAMPVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (con_timestampformat == con_timestampformat_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(con_timestampformat_default, TIMESTAMPVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
 // crosshair CVAR
 //
 static bool crosshair_func1(char *cmd, char *parms)
@@ -11621,49 +11666,6 @@ static void sucktime_func2(char *cmd, char *parms)
     }
     else
         int_cvars_func2(cmd, parms);
-}
-
-//
-// timestampformat CVAR
-//
-static bool timestampformat_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS) != INT_MIN);
-}
-
-static void timestampformat_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS);
-
-        if ((value == timestampformat_military || value == timestampformat_regular) && value != timestampformat)
-        {
-            timestampformat = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(timestampformat, TIMESTAMPVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (timestampformat == timestampformat_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(timestampformat_default, TIMESTAMPVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
 }
 
 //

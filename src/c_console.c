@@ -1365,14 +1365,14 @@ char *C_CreateTimeStamp(const int index)
     M_snprintf(console[index].timestamp1, sizeof(console[0].timestamp1), "%i:%02i:%02i",
         (hours ? hours : 12), minutes, seconds);
 
-    return (timestampformat == timestampformat_regular ? console[index].timestamp1 : console[index].timestamp2);
+    return (con_timestampformat == con_timestampformat_regular ? console[index].timestamp1 : console[index].timestamp2);
 }
 
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
     char    *timestamp;
 
-    if (timestampformat == timestampformat_regular)
+    if (con_timestampformat == con_timestampformat_regular)
     {
         V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[console[index].pm],
             ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);
@@ -2089,7 +2089,8 @@ void C_Drawer(void)
                 if (!*console[i].timestamp1)
                     C_CreateTimeStamp(i);
 
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
+                if (con_timestamps)
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
                         y - (CONSOLEHEIGHT - consoleheight), i, consoleplayermessagecolor);
 
             }
@@ -2144,8 +2145,9 @@ void C_Drawer(void)
                 if (!*console[i].timestamp1)
                     C_CreateTimeStamp(i);
 
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
-                    y - (CONSOLEHEIGHT - consoleheight), i, consolewarningboldcolor);
+                if (con_timestamps)
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
+                        y - (CONSOLEHEIGHT - consoleheight), i, consolewarningboldcolor);
             }
             else
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),

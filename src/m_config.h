@@ -85,6 +85,8 @@ extern bool     autoswitch;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
+extern int      con_timestampformat;
+extern bool     con_timestamps;
 extern int      crosshair;
 extern int      crosshaircolor;
 extern int      english;
@@ -197,7 +199,6 @@ extern bool     secretmessages;
 extern int      skilllevel;
 extern int      stillbob;
 extern int      sucktime;
-extern int      timestampformat;
 extern bool     tossdrop;
 extern int      turbo;
 extern int      units;
@@ -279,6 +280,12 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
+    con_timestampformat_military,
+    con_timestampformat_regular
+};
+
+enum
+{
     crosshair_none,
     crosshair_cross,
     crosshair_dot
@@ -310,12 +317,6 @@ enum
 {
     r_detail_low,
     r_detail_high
-};
-
-enum
-{
-    timestampformat_military,
-    timestampformat_regular
 };
 
 enum
@@ -502,6 +503,10 @@ enum
 #define autouse_default                     false
 
 #define centerweapon_default                true
+
+#define con_timestampformat_default         con_timestampformat_regular
+
+#define con_timestamps_default              true
 
 #define crosshair_min                       crosshair_none
 #define crosshair_default                   crosshair_none
@@ -798,8 +803,6 @@ enum
 #define sucktime_min                        0
 #define sucktime_default                    1
 #define sucktime_max                        24
-
-#define timestampformat_default             timestampformat_regular
 
 #define tossdrop_default                    true
 

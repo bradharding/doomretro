@@ -93,6 +93,8 @@ bool        autoswitch = autoswitch_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
+int         con_timestampformat = con_timestampformat_default;
+bool        con_timestamps = con_timestamps_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
 int         english = english_default;
@@ -206,7 +208,6 @@ bool        secretmessages = secretmessages_default;
 int         skilllevel = skilllevel_default;
 int         stillbob = stillbob_default;
 int         sucktime = sucktime_default;
-int         timestampformat = timestampformat_default;
 bool        tossdrop = tossdrop_default;
 int         turbo = turbo_default;
 int         units = units_default;
@@ -347,6 +348,8 @@ static default_t cvars[] =
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS     ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS     ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS     ),
+    CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS),
+    CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS     ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS),
     CVAR_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        NOVALUEALIAS       ),
     CVAR_BOOL         (english,                          english,                               english,                               ENGLISHVALUEALIAS  ),
@@ -458,7 +461,6 @@ static default_t cvars[] =
     CVAR_INT          (skilllevel,                       skilllevel,                            skilllevel,                            NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              NOVALUEALIAS       ),
     CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKSVALUEALIAS    ),
-    CVAR_INT          (timestampformat,                  timestampformat,                       timestampformat,                       TIMESTAMPVALUEALIAS),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (turbo,                            turbo,                                 turbo,                                 NOVALUEALIAS       ),
     CVAR_INT          (units,                            units,                                 units,                                 UNITSVALUEALIAS    ),
@@ -583,63 +585,63 @@ static default_t cvars[] =
 
 valuealias_t valuealiases[] =
 {
-    { "none",           armortype_none,           ARMORTYPEVALUEALIAS },
-    { "green",          armortype_green,          ARMORTYPEVALUEALIAS },
-    { "blue",           armortype_blue,           ARMORTYPEVALUEALIAS },
-    { "none",           r_blood_none,             BLOODVALUEALIAS     },
-    { "red",            r_blood_red,              BLOODVALUEALIAS     },
-    { "all",            r_blood_all,              BLOODVALUEALIAS     },
-    { "green",          r_blood_green,            BLOODVALUEALIAS     },
-    { "nofuzz",         r_blood_nofuzz,           BLOODVALUEALIAS     },
-    { "off",            0,                        BOOLVALUEALIAS      },
-    { "0",              0,                        BOOLVALUEALIAS      },
-    { "false",          0,                        BOOLVALUEALIAS      },
-    { "no",             0,                        BOOLVALUEALIAS      },
-    { "on",             1,                        BOOLVALUEALIAS      },
-    { "1",              1,                        BOOLVALUEALIAS      },
-    { "true",           1,                        BOOLVALUEALIAS      },
-    { "yes",            1,                        BOOLVALUEALIAS      },
-    { "off",            0,                        CAPVALUEALIAS       },
-    { "none",           crosshair_none,           CROSSHAIRVALUEALIAS },
-    { "off",            crosshair_none,           CROSSHAIRVALUEALIAS },
-    { "cross",          crosshair_cross,          CROSSHAIRVALUEALIAS },
-    { "on",             crosshair_cross,          CROSSHAIRVALUEALIAS },
-    { "dot",            crosshair_dot,            CROSSHAIRVALUEALIAS },
-    { "low",            r_detail_low,             DETAILVALUEALIAS    },
-    { "high",           r_detail_high,            DETAILVALUEALIAS    },
-    { "american",       english_american,         ENGLISHVALUEALIAS   },
-    { "british",        english_british,          ENGLISHVALUEALIAS   },
-    { "off",            1,                        GAMMAVALUEALIAS     },
-    { "other",          playergender_other,       GENDERVALUEALIAS    },
-    { "male",           playergender_male,        GENDERVALUEALIAS    },
-    { "female",         playergender_female,      GENDERVALUEALIAS    },
-    { "auto",           vid_aspectratio_auto,     RATIOVALUEALIAS     },
-    { "16:9",           vid_aspectratio_16_9,     RATIOVALUEALIAS     },
-    { "16:10",          vid_aspectratio_16_10,    RATIOVALUEALIAS     },
-    { "21:9",           vid_aspectratio_21_9,     RATIOVALUEALIAS     },
-    { "32:9",           vid_aspectratio_32_9,     RATIOVALUEALIAS     },
-    { "off",            0,                        SUCKSVALUEALIAS     },
-    { "imperial",       units_imperial,           UNITSVALUEALIAS     },
-    { "metric",         units_metric,             UNITSVALUEALIAS     },
-    { "military",       timestampformat_military, TIMESTAMPVALUEALIAS },
-    { "regular",        timestampformat_regular,  TIMESTAMPVALUEALIAS },
+    { "none",           armortype_none,               ARMORTYPEVALUEALIAS },
+    { "green",          armortype_green,              ARMORTYPEVALUEALIAS },
+    { "blue",           armortype_blue,               ARMORTYPEVALUEALIAS },
+    { "none",           r_blood_none,                 BLOODVALUEALIAS     },
+    { "red",            r_blood_red,                  BLOODVALUEALIAS     },
+    { "all",            r_blood_all,                  BLOODVALUEALIAS     },
+    { "green",          r_blood_green,                BLOODVALUEALIAS     },
+    { "nofuzz",         r_blood_nofuzz,               BLOODVALUEALIAS     },
+    { "off",            0,                            BOOLVALUEALIAS      },
+    { "0",              0,                            BOOLVALUEALIAS      },
+    { "false",          0,                            BOOLVALUEALIAS      },
+    { "no",             0,                            BOOLVALUEALIAS      },
+    { "on",             1,                            BOOLVALUEALIAS      },
+    { "1",              1,                            BOOLVALUEALIAS      },
+    { "true",           1,                            BOOLVALUEALIAS      },
+    { "yes",            1,                            BOOLVALUEALIAS      },
+    { "off",            0,                            CAPVALUEALIAS       },
+    { "none",           crosshair_none,               CROSSHAIRVALUEALIAS },
+    { "off",            crosshair_none,               CROSSHAIRVALUEALIAS },
+    { "cross",          crosshair_cross,              CROSSHAIRVALUEALIAS },
+    { "on",             crosshair_cross,              CROSSHAIRVALUEALIAS },
+    { "dot",            crosshair_dot,                CROSSHAIRVALUEALIAS },
+    { "low",            r_detail_low,                 DETAILVALUEALIAS    },
+    { "high",           r_detail_high,                DETAILVALUEALIAS    },
+    { "american",       english_american,             ENGLISHVALUEALIAS   },
+    { "british",        english_british,              ENGLISHVALUEALIAS   },
+    { "off",            1,                            GAMMAVALUEALIAS     },
+    { "other",          playergender_other,           GENDERVALUEALIAS    },
+    { "male",           playergender_male,            GENDERVALUEALIAS    },
+    { "female",         playergender_female,          GENDERVALUEALIAS    },
+    { "auto",           vid_aspectratio_auto,         RATIOVALUEALIAS     },
+    { "16:9",           vid_aspectratio_16_9,         RATIOVALUEALIAS     },
+    { "16:10",          vid_aspectratio_16_10,        RATIOVALUEALIAS     },
+    { "21:9",           vid_aspectratio_21_9,         RATIOVALUEALIAS     },
+    { "32:9",           vid_aspectratio_32_9,         RATIOVALUEALIAS     },
+    { "off",            0,                            SUCKSVALUEALIAS     },
+    { "imperial",       units_imperial,               UNITSVALUEALIAS     },
+    { "metric",         units_metric,                 UNITSVALUEALIAS     },
+    { "military",       con_timestampformat_military, TIMESTAMPVALUEALIAS },
+    { "regular",        con_timestampformat_regular,  TIMESTAMPVALUEALIAS },
 #if !defined (__APPLE__)
-    { "adaptive",       vid_vsync_adaptive,       VSYNCVALUEALIAS     },
+    { "adaptive",       vid_vsync_adaptive,           VSYNCVALUEALIAS     },
 #endif
-    { "off",            vid_vsync_off,            VSYNCVALUEALIAS     },
-    { "on",             vid_vsync_on,             VSYNCVALUEALIAS     },
-    { "fists",          wp_fist,                  WEAPONVALUEALIAS    },
-    { "pistol",         wp_pistol,                WEAPONVALUEALIAS    },
-    { "shotgun",        wp_shotgun,               WEAPONVALUEALIAS    },
-    { "chaingun",       wp_chaingun,              WEAPONVALUEALIAS    },
-    { "rocketlauncher", wp_missile,               WEAPONVALUEALIAS    },
-    { "plasmarifle",    wp_plasma,                WEAPONVALUEALIAS    },
-    { "incinerator",    wp_incinerator,           WEAPONVALUEALIAS    },
-    { "bfg9000",        wp_bfg,                   WEAPONVALUEALIAS    },
-    { "calamityblade",  wp_calamityblade,         WEAPONVALUEALIAS    },
-    { "chainsaw",       wp_chainsaw,              WEAPONVALUEALIAS    },
-    { "supershotgun",   wp_supershotgun,          WEAPONVALUEALIAS    },
-    { "",               0,                        NOVALUEALIAS        }
+    { "off",            vid_vsync_off,                VSYNCVALUEALIAS     },
+    { "on",             vid_vsync_on,                 VSYNCVALUEALIAS     },
+    { "fists",          wp_fist,                      WEAPONVALUEALIAS    },
+    { "pistol",         wp_pistol,                    WEAPONVALUEALIAS    },
+    { "shotgun",        wp_shotgun,                   WEAPONVALUEALIAS    },
+    { "chaingun",       wp_chaingun,                  WEAPONVALUEALIAS    },
+    { "rocketlauncher", wp_missile,                   WEAPONVALUEALIAS    },
+    { "plasmarifle",    wp_plasma,                    WEAPONVALUEALIAS    },
+    { "incinerator",    wp_incinerator,               WEAPONVALUEALIAS    },
+    { "bfg9000",        wp_bfg,                       WEAPONVALUEALIAS    },
+    { "calamityblade",  wp_calamityblade,             WEAPONVALUEALIAS    },
+    { "chainsaw",       wp_chainsaw,                  WEAPONVALUEALIAS    },
+    { "supershotgun",   wp_supershotgun,              WEAPONVALUEALIAS    },
+    { "",               0,                            NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, const char *control, const char *action)
