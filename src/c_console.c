@@ -1037,7 +1037,7 @@ static void C_DrawBackground(void)
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[color1 + screens[0][i]];
-	}
+    }
 
     // bevel left and right edges
     if (automapactive && am_backcolor == am_backcolor_default)
@@ -1266,7 +1266,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (prevletter == BOLDOFFCHAR)
                 {
-                    if ((letter == ' ' || letter == ')') && prevletter2 == 'r')
+                    if ((letter == ' ' || letter == ')' || letter == '.') && prevletter2 == 'r')
                         x--;
                     else if (letter == 'f' && prevletter2 == '[')
                         x--;
