@@ -738,7 +738,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
     CCMD(give, "", "", give_func1, give_func2, true, GIVECMDFORMAT,
-        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups")", or " BOLD("all")
+        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " to you."),
     CCMD(god, "", "", alive_func1, god_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles god mode."),
@@ -1033,7 +1033,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(sucktime, "", "", sucktime_func1, sucktime_func2, CF_NONE, SUCKSVALUEALIAS,
         "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or " BOLD("1") " to " BOLD("24") " hours)."),
     CCMD(take, "", "", take_func1, take_func2, true, TAKECMDFORMAT,
-        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons")", " BOLD("powerups") ", or " BOLD("all")
+        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from you."),
     CCMD(teleport, "", "", teleport_func1, teleport_func2, true, TELEPORTCMDFORMAT,
         "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),

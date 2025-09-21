@@ -26,7 +26,7 @@
   * The crosshair is now slightly more opaque when the `r_hud_translucency` CVAR is `on`.
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair is now larger and consistent regardless of the value of the `r_detail` CVAR.
-  * The `crosshair` CVAR can now also be set to `angle`, `bigcross`, `circle`, `bigcircle`, `chevron`, `chevrons` or `arcs`.
+  * Several new crosshair styles are available. As well as `cross` and `dot`, the `crosshair` CVAR can now also be set to `angle`, `bigcross`, `circle`, `bigcircle`, `chevron`, `chevrons` or `arcs`.
   * The crosshair can now be replaced in a PWAD by including `DRXHAIR1` to `DRXHAIR9` lumps.
   * The crosshair now remains on the screen while the console is open.
   * The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
