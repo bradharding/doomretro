@@ -703,7 +703,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(con_warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(crosshair, "", "", crosshair_func1, crosshair_func2, CF_NONE, CROSSHAIRVALUEALIAS,
-        "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") " or " BOLD("dot") ")."),
+        "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") ", " BOLD("angle") ", " BOLD("dot") ", " BOLD("bigcross") ", "
+        BOLD("circle") ", " BOLD("bigcircle") ", " BOLD("chevron") ", " BOLD("chevrons") " or " BOLD("arcs") ")."),
     CVAR_INT(crosshaircolor, crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of your crosshair (" BOLD("0") " to " BOLD("255") ")."),
     CCMD(cvarlist, "", "", null_func1, cvarlist_func2, true, "[" BOLDITALICS("searchstring") "]",

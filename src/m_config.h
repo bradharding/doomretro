@@ -289,7 +289,14 @@ enum
 {
     crosshair_none,
     crosshair_cross,
-    crosshair_dot
+    crosshair_angle,
+    crosshair_dot,
+    crosshair_bigcross,
+    crosshair_circle,
+    crosshair_bigcircle,
+    crosshair_chevron,
+    crosshair_chevrons,
+    crosshair_arcs
 };
 
 enum
@@ -520,7 +527,7 @@ enum
 
 #define crosshair_min                       crosshair_none
 #define crosshair_default                   crosshair_none
-#define crosshair_max                       crosshair_dot
+#define crosshair_max                       crosshair_arcs
 
 #define crosshaircolor_min                  0
 #define crosshaircolor_default              4

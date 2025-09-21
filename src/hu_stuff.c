@@ -54,6 +54,7 @@
 #include "v_video.h"
 #include "w_wad.h"
 
+#define NUMCROSSHAIRS   9
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -86,9 +87,9 @@ short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
-static patch_t          *crosshairpatch[2];
-static short            crosshairwidth[2];
-static short            crosshairheight[2];
+static patch_t          *crosshairpatch[NUMCROSSHAIRS];
+static short            crosshairwidth[NUMCROSSHAIRS];
+static short            crosshairheight[NUMCROSSHAIRS];
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
@@ -209,12 +210,15 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
 
-    crosshairpatch[0] = W_CacheLumpName("DRXHAIR1");
-    crosshairwidth[0] = SHORT(crosshairpatch[0]->width);
-    crosshairheight[0] = SHORT(crosshairpatch[0]->height);
-    crosshairpatch[1] = W_CacheLumpName("DRXHAIR2");
-    crosshairwidth[1] = SHORT(crosshairpatch[1]->width);
-    crosshairheight[1] = SHORT(crosshairpatch[1]->height);
+    for (int i = 0; i < NUMCROSSHAIRS; i++)
+    {
+        char    buffer[9];
+
+        M_snprintf(buffer, sizeof(buffer), "DRXHAIR%i", i + 1);
+        crosshairpatch[i] = W_CacheLumpName(buffer);
+        crosshairwidth[i] = SHORT(crosshairpatch[i]->width);
+        crosshairheight[i] = SHORT(crosshairpatch[i]->height);
+    }
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
