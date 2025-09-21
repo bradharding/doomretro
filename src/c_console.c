@@ -2165,7 +2165,7 @@ void C_Drawer(void)
             else
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 7,
-                    (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor]));
+                    (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : (nearestcolors[con_edgecolor] << 8)));
 
             if (wrap < len && i < bottomline)
             {
