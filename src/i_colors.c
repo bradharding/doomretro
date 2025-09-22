@@ -72,9 +72,9 @@ static const byte filter[256] =
 
 typedef struct vect
 {
-    double  x;
-    double  y;
-    double  z;
+    float   x;
+    float   y;
+    float   z;
 } vect;
 
 byte    *tinttab4;
@@ -375,9 +375,9 @@ void I_InitTintTables(byte *palette)
 
 static void HSVtoRGB(vect *hsv, vect *rgb)
 {
-    double  h = hsv->x * 360.0;
-    double  s = hsv->y;
-    double  v = hsv->z;
+    float   h = hsv->x * 360.0f;
+    float   s = hsv->y;
+    float   v = hsv->z;
 
     if (s < CTOLERANCE)
     {
@@ -388,20 +388,20 @@ static void HSVtoRGB(vect *hsv, vect *rgb)
     else
     {
         int     i;
-        double  f;
-        double  p;
-        double  q;
-        double  t;
+        float   f;
+        float   p;
+        float   q;
+        float   t;
 
-        if (h >= 360.0)
-            h -= 360.0;
+        if (h >= 360.0f)
+            h -= 360.0f;
 
-        h /= 60.0;
-        i = (int)floor(h);
+        h /= 60.0f;
+        i = (int)h;
         f = h - i;
-        p = v * (1.0 - s);
-        q = v * (1.0 - s * f);
-        t = v * (1.0 - s * (1.0 - f));
+        p = v * (1.0f - s);
+        q = v * (1.0f - s * f);
+        t = v * (1.0f - s * (1.0f - f));
 
         switch (i)
         {
@@ -435,7 +435,7 @@ static void HSVtoRGB(vect *hsv, vect *rgb)
                 rgb->z = v;
                 break;
 
-            case 5:
+            default:
                 rgb->x = v;
                 rgb->y = p;
                 rgb->z = q;
@@ -446,63 +446,53 @@ static void HSVtoRGB(vect *hsv, vect *rgb)
 
 static void RGBtoHSV(vect *rgb, vect *hsv)
 {
-    double  h;
-    double  s;
-    double  v;
-    double  r = rgb->x;
-    double  g = rgb->y;
-    double  b = rgb->z;
-    double  cmax = r;
-    double  cmin = r;
+    const float r = rgb->x;
+    const float g = rgb->y;
+    const float b = rgb->z;
 
-    cmax = (g > cmax ? g : cmax);
-    cmin = (g < cmin ? g : cmin);
-    cmax = (b > cmax ? b : cmax);
-    cmin = (b < cmin ? b : cmin);
+    const float cmax = (r > g ? (r > b ? r : b) : (g > b ? g : b));
+    const float cmin = (r < g ? (r < b ? r : b) : (g < b ? g : b));
+    const float d = cmax - cmin;
 
-    v = cmax;
-    s = (cmax > CTOLERANCE ? (cmax - cmin) / cmax : 0.0);
+    float       h = 0.0f;
+    float       s = (cmax > CTOLERANCE ? d / cmax : 0.0f);
+    float       v = cmax;
 
-    if (s < CTOLERANCE)
-        h = 0.0;
-    else
+    if (s >= CTOLERANCE)
     {
-        double  cdelta = cmax - cmin;
-        double  rc = (cmax - r) / cdelta;
-        double  gc = (cmax - g) / cdelta;
-        double  bc = (cmax - b) / cdelta;
+        const float rc = (cmax - r) / d;
+        const float gc = (cmax - g) / d;
+        const float bc = (cmax - b) / d;
 
-        h = (r == cmax ? bc - gc : (g == cmax ? 2.0 + rc - bc : 4.0 + gc - rc)) * 60.0;
-
-        if (h < 0.0)
-            h += 360.0;
+        if ((h = (r == cmax ? bc - gc : (g == cmax ? 2.0f + rc - bc : 4.0f + gc - rc)) * 60.0f) < 0.0f)
+            h += 360.0f;
     }
 
-    hsv->x = h / 360.0;
+    hsv->x = h / 360.0f;
     hsv->y = s;
     hsv->z = v;
 }
 
 byte I_GoldTranslation(byte *playpal, byte color)
 {
-    vect rgb;
-    vect hsv;
+    vect    rgb;
+    vect    hsv;
 
-    rgb.x = playpal[color * 3] / 255.0;
-    rgb.y = playpal[color * 3 + 1] / 255.0;
-    rgb.z = playpal[color * 3 + 2] / 255.0;
+    rgb.x = playpal[color * 3] / 255.0f;
+    rgb.y = playpal[color * 3 + 1] / 255.0f;
+    rgb.z = playpal[color * 3 + 2] / 255.0f;
 
     RGBtoHSV(&rgb, &hsv);
 
-    hsv.x = (7.0 + 53.0 * hsv.z) / 360.0;
-    hsv.y = 1.0 - 0.4 * hsv.z;
-    hsv.z = (hsv.z < 0.2 ? hsv.z : 0.2) + 0.8 * hsv.z;
+    hsv.x = (7.0f + 53.0f * hsv.z) / 360.0f;
+    hsv.y = 1.0f - 0.4f * hsv.z;
+    hsv.z = (hsv.z < 0.2f ? hsv.z : 0.2f) + 0.8f * hsv.z;
 
     HSVtoRGB(&hsv, &rgb);
 
-    rgb.x *= 255.0;
-    rgb.y *= 255.0;
-    rgb.z *= 255.0;
+    rgb.x *= 255.0f;
+    rgb.y *= 255.0f;
+    rgb.z *= 255.0f;
 
     return FindNearestColor(playpal, (int)rgb.x, (int)rgb.y, (int)rgb.z);
 }

@@ -740,8 +740,8 @@ static void C_InitEdgecolors(void)
     consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
     if (W_GetNumLumps("STTNUM0") >= 2
-        && !(consoleedgecolor1 >= nearestcolors[80] && consoleedgecolor1 <= nearestcolors[111])
-        && consoleedgecolor1 != nearestcolors[4])
+        && !(consoleedgecolor1 >= nearestcolors[LIGHTGRAY1] && consoleedgecolor1 <= nearestcolors[DARKGRAY4])
+        && consoleedgecolor1 != nearestcolors[WHITE])
     {
         consoleedgecolor2 = black25[consoleedgecolor1] << 8;
         consoleedgecolor1 <<= 8;
@@ -751,8 +751,8 @@ static void C_InitEdgecolors(void)
         consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("M_NGAME"));
 
         if (W_GetNumLumps("M_NGAME") >= 2
-            && !(consoleedgecolor1 >= nearestcolors[80] && consoleedgecolor1 <= nearestcolors[111])
-            && consoleedgecolor1 != nearestcolors[4])
+            && !(consoleedgecolor1 >= nearestcolors[LIGHTGRAY1] && consoleedgecolor1 <= nearestcolors[DARKGRAY4])
+            && consoleedgecolor1 != nearestcolors[WHITE])
         {
             consoleedgecolor2 = black25[consoleedgecolor1] << 8;
             consoleedgecolor1 <<= 8;

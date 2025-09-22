@@ -47,6 +47,7 @@
 #define DARKGRAY1     102
 #define DARKGRAY2     106
 #define DARKGRAY3     109
+#define DARKGRAY4     111
 #define GRAY1          92
 #define GRAY2          96
 #define GREEN1        112
