@@ -2907,7 +2907,7 @@ bool M_Responder(event_t *ev)
                             if (currentmenu == &OptionsDef)
                             {
                                 if (itemon == scrnsize || itemon == mousesens)
-                                    key = 0;
+                                    key = -1;
                                 else if (itemon == option_empty1)
                                     key = (ev->data2 < OptionsMenu[itemon].sliderx ? KEY_LEFTARROW :
                                         (ev->data2 > OptionsMenu[itemon].sliderx + 6 ? KEY_RIGHTARROW : 0));
@@ -2923,7 +2923,7 @@ bool M_Responder(event_t *ev)
                             else if (currentmenu == &SoundDef)
                             {
                                 if (itemon == sfx_vol || itemon == music_vol)
-                                    key = 0;
+                                    key = -1;
                                 else if (itemon == sound_empty1 || itemon == sound_empty2)
                                     key = (ev->data2 < SoundMenu[itemon].sliderx ? KEY_LEFTARROW :
                                         (ev->data2 > SoundMenu[itemon].sliderx + 6 ? KEY_RIGHTARROW : 0));
