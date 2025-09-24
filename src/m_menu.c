@@ -2790,7 +2790,7 @@ bool M_Responder(event_t *ev)
             }
 
             // exit menu
-            else if (controllerbuttons & controllermenu)
+            else if ((controllerbuttons & controllermenu) && keyboardmenu)
             {
                 key = keyboardmenu;
                 currentmenu = &MainDef;
@@ -2851,7 +2851,7 @@ bool M_Responder(event_t *ev)
         else
         {
             // open menu
-            if ((controllerbuttons & controllermenu) && controllerwait < I_GetTime())
+            if ((controllerbuttons & controllermenu) && controllerwait < I_GetTime() && keyboardmenu)
             {
                 key = keyboardmenu;
                 controllerwait = I_GetTime() + 2;
@@ -3101,7 +3101,7 @@ bool M_Responder(event_t *ev)
                 }
 
                 // menu
-                else if (ev->data1 & mousemenu)
+                else if ((ev->data1 & mousemenu) && keyboardmenu)
                 {
                     key = keyboardmenu;
                     mousewait = I_GetTime() + 8;
@@ -3109,7 +3109,7 @@ bool M_Responder(event_t *ev)
                 }
 
                 // console
-                else if (ev->data1 & mouseconsole)
+                else if ((ev->data1 & mouseconsole) && keyboardconsole)
                 {
                     key = keyboardconsole;
                     mousewait = I_GetTime() + 8;
