@@ -5680,6 +5680,9 @@ static void mapstats_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
         free(temp);
 
+        if (s_randommusic)
+            C_TabbedOutput(tabs, INDENT "%s\tYes", (english == english_american ? "Randomized" : "Randomised"));
+
         lumps = W_GetNumLumps(namebuf);
 
         if (*musictitle)
