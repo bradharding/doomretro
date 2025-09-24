@@ -5874,7 +5874,7 @@ static void name_func2(char *cmd, char *parms)
         else if (*namecmdnew)
             C_PlayerMessage("%s has been renamed " BOLD("%s") ".", playername, namecmdnew);
         else
-            C_PlayerMessage("You longer have a name.");
+            C_PlayerMessage("You no longer have a name.");
 
         M_StripQuotes(namecmdnew);
         playername = M_StringDuplicate(namecmdnew);
