@@ -10427,7 +10427,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         if (*parms)
         {
             if (sscanf(parms, "%10i", &value) == 1
-                && (!negativehealth && value != viewplayer->health) || (negativehealth && value != viewplayer->negativehealth))
+                && ((!negativehealth && value != viewplayer->health)
+                || (negativehealth && (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth)))))
             {
                 value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
