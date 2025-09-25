@@ -433,8 +433,9 @@ void P_ResurrectPlayer(const int health)
     viewplayer->mo = thing;
     viewplayer->playerstate = PST_LIVE;
     viewplayer->viewheight = VIEWHEIGHT;
-    P_AnimateHealth(viewplayer->health - health);
+    P_AnimateHealth(viewplayer->negativehealth);
     viewplayer->health = health;
+    viewplayer->negativehealth = health;
     viewplayer->lookdir = 0;
     viewplayer->oldlookdir = 0;
     viewplayer->recoil = 0;
