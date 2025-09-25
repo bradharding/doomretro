@@ -1168,7 +1168,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = &screens[0][y * SCREENWIDTH + x + width];
+    desttop = &screens[0][y * SCREENWIDTH + x];
 
     for (int col = 0; col < width; col++, desttop++)
     {
@@ -1209,7 +1209,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    desttop = &screens[0][y * SCREENWIDTH + x + width];
+    desttop = &screens[0][y * SCREENWIDTH + x];
 
     if (tinttab)
         to <<= 8;
