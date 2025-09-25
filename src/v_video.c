@@ -1162,11 +1162,13 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
 
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadowcolor)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
+    byte        *desttop;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+
+    desttop = &screens[0][y * SCREENWIDTH + x + width];
 
     for (int col = 0; col < width; col++, desttop++)
     {
@@ -1201,14 +1203,16 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
 
 void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab, int shadowcolor)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
-
-    if (tinttab)
-        to <<= 8;
+    byte        *desttop;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+
+    desttop = &screens[0][y * SCREENWIDTH + x + width];
+
+    if (tinttab)
+        to <<= 8;
 
     for (int col = 0; col < width; col++, desttop++)
     {

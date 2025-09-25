@@ -2495,9 +2495,9 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring)
                 {
                     char                buffer[9];
-                    const unsigned int  numspaces = (con_timestampformat == con_timestampformat_regular ? 90 : 92) - outpos;
+                    const unsigned int  spaces = (con_timestampformat == con_timestampformat_regular ? 90 : 92) - outpos;
 
-                    for (unsigned int spaces = (type == playermessagestring ? 0 : 2); spaces < numspaces; spaces++)
+                    for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
                         fputc(' ', file);
 
                     M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
