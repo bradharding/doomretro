@@ -5264,7 +5264,7 @@ static void mapstats_func2(char *cmd, char *parms)
         { "Hell Force Five",                   "Xaser Acheron" }
     };
 
-    const int   tabs[MAXTABS] = { 127 };
+    const int   tabs[MAXTABS] = { 137 };
     char        *temp;
     int         lump;
     int         wadtype;
@@ -5680,9 +5680,6 @@ static void mapstats_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
         free(temp);
 
-        if (s_randommusic)
-            C_TabbedOutput(tabs, INDENT "%s\tYes", (english == english_american ? "Randomized" : "Randomised"));
-
         lumps = W_GetNumLumps(namebuf);
 
         if (*musictitle)
@@ -5750,6 +5747,9 @@ static void mapstats_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, INDENT INDENT "MD5\t" MONOSPACED("%s"),
                     MD5(lumpinfo[mus_playing->lumpnum]->wadfile->path));
         }
+
+        if (s_randommusic)
+            C_TabbedOutput(tabs, INDENT "Randomly chosen\tYes");
     }
 }
 
