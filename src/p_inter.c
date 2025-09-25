@@ -2412,7 +2412,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     }
     else if ((target->health -= damage) <= 0)   // do the damage
     {
-        if (!(flags & MF_FUZZ) && !target->state->dehacked
+        if (!(flags & MF_FUZZ) && target->state && !target->state->dehacked
             && (type == MT_BARREL || type == MT_SKULL || type == MT_PAIN))
             target->colfunc = tlredcolfunc;
 
