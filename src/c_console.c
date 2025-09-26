@@ -1599,9 +1599,9 @@ void C_UpdateFPSOverlay(void)
     }
 
     V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, x,
-        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 6, fps, fpswidth, color, shadowcolor, tinttab);
+        (graphy += OVERLAYFPSGRAPHHEIGHT + 2) + 3, fps, fpswidth, color, shadowcolor, tinttab);
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3,
-        OVERLAYTEXTY + OVERLAYFPSGRAPHHEIGHT + 3, tinttab, temp, color, true, shadowcolor);
+        graphy, tinttab, temp, color, true, shadowcolor);
     free(temp);
 }
 
