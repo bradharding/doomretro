@@ -41,6 +41,8 @@
 * The format of the timestamps in the console can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, and which now displays whether it is AM or PM), or `military`.
 * The color of the console’s edge can now be changed using the new `con_edgecolor` CVAR, which can be `auto` (the default), or `0` to `255`.
 * The `warninglevel` CVAR has been renamed `con_warninglevel`.
+* The player’s health is now updated when they are resurrected and the `negativehealth` CVAR is `on`.
+* The `health` CVAR can now be set to `0%` when the `negativehealth` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
