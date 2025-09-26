@@ -1255,12 +1255,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, int shadowcolor, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
-    byte        *desttop;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    desttop = &screens[0][y * SCREENWIDTH + x + width];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
 
     for (int col = 0; col < width; col++, desttop--)
     {
@@ -1297,12 +1292,7 @@ void V_DrawAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, int shadow
 void V_DrawTranslucentAltHUDWeaponPatch(int x, int y, patch_t *patch, int color, int shadowcolor, const byte *tinttab)
 {
     const int   width = SHORT(patch->width);
-    byte        *desttop;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    desttop = &screens[0][y * SCREENWIDTH + x + width];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x + width];
 
     for (int col = 0; col < width; col++, desttop--)
     {
