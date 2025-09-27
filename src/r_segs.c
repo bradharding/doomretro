@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include "c_cmds.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -653,7 +654,8 @@ void R_StoreWallRange(const int start, const int stop)
         && r_liquid_bob)
         worldbottom += animatedliquiddiff;
 
-    R_FixWiggle(frontsector);
+    if (!vanilla)
+        R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
     rw_scale = R_ScaleFromGlobalAngle(xtoviewangle[start]);
