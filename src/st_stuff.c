@@ -1026,7 +1026,9 @@ bool ST_Responder(const event_t *ev)
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
-                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9) || (BTSX && W_GetNumLumps(lump) == 1))
+                if (W_CheckNumForName(lump) < 0
+                    || (gamemission == pack_nerve && map > 9)
+                    || ((BTSX || legacyofrust) && W_GetNumLumps(lump) == 1))
                     return false;
                 else
                 {
