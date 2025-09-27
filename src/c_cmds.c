@@ -10414,7 +10414,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char    *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
+            char    *temp = commify(gamestate == GS_LEVEL ? (ammotype == am_noammo ?
+                        0 : viewplayer->ammo[ammotype]) : ammo_default);
 
             C_ShowDescription(C_GetIndex(cmd));
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
@@ -10458,7 +10459,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char    *temp = commify(viewplayer->armor);
+            char    *temp = commify(gamestate == GS_LEVEL ? viewplayer->armor : armor_default);
 
             C_ShowDescription(C_GetIndex(cmd));
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
@@ -10546,8 +10547,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char    *temp = commify(negativehealth && minuspatch && !viewplayer->health ?
-                        viewplayer->negativehealth : viewplayer->health);
+            char    *temp = commify(gamestate == GS_LEVEL ? (negativehealth && minuspatch && !viewplayer->health ?
+                        viewplayer->negativehealth : viewplayer->health) : health_default);
 
             C_ShowDescription(C_GetIndex(cmd));
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
