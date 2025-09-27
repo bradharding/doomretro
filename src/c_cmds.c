@@ -1834,6 +1834,25 @@ bool IsControlBound(const controltype_t type, const int control)
     return false;
 }
 
+int GetControlWithAction(int action)
+{
+    int control = 0;
+
+    while (controls[control].type)
+    {
+        if ((actions[action].keyboard1 && controls[control].value == *(int*)actions[action].keyboard1)
+            || (actions[action].keyboard2 && controls[control].value == *(int*)actions[action].keyboard2)
+            || (actions[action].mouse1 && controls[control].value == *(int*)actions[action].mouse1)
+            || (actions[action].controller1 && controls[control].value == *(int*)actions[action].controller1)
+            || (actions[action].controller2 && controls[control].value == *(int*)actions[action].controller2))
+            return control;
+
+        control++;
+    }
+
+    return -1;
+}
+
 //
 // bind CCMD
 //
@@ -2201,20 +2220,54 @@ void bind_func2(char *cmd, char *parms)
         {
             if (M_StringCompare(parms, actions[action].action))
             {
-                if (actions[action].keyboard1)
+                if (actions[action].keyboard1 && *(int *)actions[action].keyboard1)
+                {
+                    int control = GetControlWithAction(action);
+
+                    if (strlen(controls[control].control) == 1)
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " control.",
+                            actions[action].action, controls[control].control);
+                    else
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                            actions[action].action, controls[control].control);
+
                     *(int *)actions[action].keyboard1 = 0;
+                }
 
-                if (actions[action].keyboard2)
+                if (actions[action].keyboard2 && *(int *)actions[action].keyboard2)
+                {
+                    int control = GetControlWithAction(action);
+
+                    if (strlen(controls[control].control) == 1)
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " control.",
+                            actions[action].action, controls[control].control);
+                    else
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                            actions[action].action, controls[control].control);
+
                     *(int *)actions[action].keyboard2 = 0;
+                }
 
-                if (actions[action].mouse1)
+                if (actions[action].mouse1 && *(int *)actions[action].mouse1 != -1)
+                {
+                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[action].action, controls[GetControlWithAction(action)].control);
                     *(int *)actions[action].mouse1 = -1;
+                }
 
-                if (actions[action].controller1)
+                if (actions[action].controller1 && *(int *)actions[action].controller1)
+                {
+                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[action].action, controls[GetControlWithAction(action)].control);
                     *(int *)actions[action].controller1 = 0;
+                }
 
-                if (actions[action].controller2)
+                if (actions[action].controller2 && *(int *)actions[action].controller2)
+                {
+                    C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[action].action, controls[GetControlWithAction(action)].control);
                     *(int *)actions[action].controller2 = 0;
+                }
 
                 break;
             }
