@@ -148,7 +148,7 @@
 #define BINDLISTHEADER                      "CONTROL\t+ACTION/COMMAND(S)"
 #define CMDLISTHEADER                       "CCMD\tDESCRIPTION"
 #define CVARLISTHEADER                      "CVAR\tVALUE\tDESCRIPTION"
-#define MAPLISTHEADER                       "\tMAP\tTITLE\tWAD"
+#define MAPLISTHEADER                       "\tMAP\tTITLE\tAUTHOR\tWAD"
 #define MAPSTATSHEADER                      "STAT\tVALUE"
 #define PLAYERSTATSHEADER                   "STAT\tCURRENT MAP\tTOTAL"
 #define THINGLISTHEADER                     "\tTHING\tPOSITION\tANGLE\tFLAGS"

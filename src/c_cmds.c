@@ -4871,213 +4871,6 @@ static void map_func2(char *cmd, char *parms)
     M_SaveCVARs();
 }
 
-//
-// maplist CCMD
-//
-static void removemapnum(char *title)
-{
-    const char  *pos = strchr(title, ':');
-
-    if (pos)
-    {
-        int index = (int)(pos - title) + 1;
-
-        memmove(title, title + index, strlen(title) - index + 1);
-
-        if (title[0] == ' ')
-            memmove(title, title + 1, strlen(title));
-    }
-}
-
-static void maplist_func2(char *cmd, char *parms)
-{
-    const int   tabs[MAXTABS] = { 40, 93, 385 };
-    int         count = 0;
-    char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
-
-    C_Header(tabs, maplist, MAPLISTHEADER);
-
-    // search through lumps for maps
-    for (int i = numlumps - 1; i >= 0; i--)
-    {
-        int     ep = 1;
-        int     map = 1;
-        char    lump[9];
-        char    wadname[MAX_PATH];
-        bool    replaced;
-        bool    pwad;
-        char    mapinfoname[128];
-        char    *temp = uppercase(lumpinfo[i]->name);
-
-        M_StringCopy(lump, temp, sizeof(lump));
-        free(temp);
-
-        if (strlen(lump) > 5)
-            continue;
-
-        if (gamemode == commercial)
-        {
-            if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
-                continue;
-        }
-        else
-        {
-            if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
-                || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
-                continue;
-            else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
-                continue;
-        }
-
-        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
-        replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
-        pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
-
-        switch (gamemission)
-        {
-            case doom:
-                if (!replaced || pwad)
-                {
-                    if (replaced && dehcount == 1 && !*mapinfoname)
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
-                            lump, wadname);
-                    else
-                    {
-                        if (M_StringCompare(lump, "E1M4B"))
-                            temp = titlecase(s_HUSTR_E1M4B);
-                        else if (M_StringCompare(lump, "E1M8B"))
-                            temp = titlecase(s_HUSTR_E1M8B);
-                        else
-                            temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
-
-                        removemapnum(temp);
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
-                            lump, temp, wadname);
-                        free(temp);
-                    }
-                }
-
-                break;
-
-            case doom2:
-                if ((!D_IsNERVEWAD(wadname) && (!replaced || pwad || nerve)) || hacx || harmony)
-                {
-                    if (BTSX)
-                    {
-                        if (!D_IsDOOM2IWAD(wadname))
-                        {
-                            temp = titlecase(M_StringReplaceFirst(*mapnames2[map - 1], ": ", MONOSPACEDOFF "\t" ITALICSON));
-                            removemapnum(temp);
-                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACEDON "%s" ITALICSOFF "\t%s", temp, wadname);
-                            free(temp);
-                        }
-                    }
-                    else
-                    {
-                        if (legacyofrust && D_IsLegacyOfRustWAD(wadname))
-                        {
-                            if (map <= 7)
-                                M_snprintf(lump, sizeof(lump), "E1M%i", map);
-                            else if (map == 15)
-                                M_StringCopy(lump, "E1M8", sizeof(lump));
-                            else if (map == 16)
-                                M_StringCopy(lump, "E2M8", sizeof(lump));
-                            else if (map != 99)
-                                M_snprintf(lump, sizeof(lump), "E2M%i", map - 7);
-                        }
-
-                        if (replaced && dehcount == 1 && !nerve && !*mapinfoname)
-                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s",
-                                lump, wadname);
-                        else
-                        {
-                            temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]));
-                            removemapnum(temp);
-                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
-                                lump, temp, wadname);
-                            free(temp);
-                        }
-                    }
-                }
-
-                break;
-
-            case pack_nerve:
-                if (D_IsNERVEWAD(wadname))
-                {
-                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map - 1]);
-                    removemapnum(temp);
-                    M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
-                        lump, temp, wadname);
-                    free(temp);
-                }
-
-                break;
-
-            case pack_plut:
-                if (!replaced || pwad)
-                {
-                    if (replaced && dehcount == 1 && !*mapinfoname)
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s",
-                            lump, wadname);
-                    else
-                    {
-                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map - 1]);
-                        removemapnum(temp);
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
-                            lump, temp, wadname);
-                        free(temp);
-                    }
-                }
-
-                break;
-
-            case pack_tnt:
-                if (!replaced || pwad)
-                {
-                    if (replaced && dehcount == 1 && !*mapinfoname)
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s",
-                            lump, wadname);
-                    else
-                    {
-                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map - 1]);
-                        removemapnum(temp);
-                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
-                            lump, temp, wadname);
-                        free(temp);
-                    }
-                }
-
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    // sort the map list
-    for (int i = 0; i < count; i++)
-        for (int j = i + 1; j < count; j++)
-            if (strcmp(maps[i], maps[j]) > 0)
-            {
-                char    temp[256];
-
-                M_StringCopy(temp, maps[i], sizeof(temp));
-                M_StringCopy(maps[i], maps[j], sizeof(maps[i]));
-                M_StringCopy(maps[j], temp, sizeof(maps[j]));
-            }
-
-    // display the map list
-    for (int i = 0; i < count; i++)
-        C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s", i + 1, maps[i]);
-
-    free(maps);
-}
-
-//
-// mapstats CCMD
-//
 #define AA      "Andre Arsenault"
 #define AD      "Andrew Dowswell"
 #define AI      "Arya Iwakura"
@@ -5121,6 +4914,309 @@ static void maplist_func2(char *cmd, char *parms)
 #define RPJM2   RP " and " JM2
 #define SPTH    SP " and " TH
 
+char *authors[][6] =
+{
+    /* xy      doom   doom2 tnt    plut  nerve */
+    /* 00 */ { "",    "",   "",    DCMC, "" },
+    /* 01 */ { "",    SP,   TM,    DCMC, RM },
+    /* 02 */ { "",    AM,   JW,    DCMC, AI },
+    /* 03 */ { "",    AM,   RPJM2, DCMC, RM },
+    /* 04 */ { "",    AM,   TH2,   DCMC, RM },
+    /* 05 */ { "",    AM,   JD,    DCMC, AI },
+    /* 06 */ { "",    AM,   JSTH2, DCMC, AI },
+    /* 07 */ { "",    AMSP, AD,    DCMC, AI },
+    /* 08 */ { "",    SP,   JM2,   DCMC, AI },
+    /* 09 */ { "",    SP,   JSTH2, DCMC, RM },
+    /* 10 */ { "",    SPTH, TM,    DCMC, "" },
+    /* 11 */ { JR,    JR,   DJ,    DCMC, "" },
+    /* 12 */ { JR,    SP,   JL,    DCMC, "" },
+    /* 13 */ { JR,    SP,   BKTH2, DCMC, "" },
+    /* 14 */ { JRTH,  AM,   RP,    DCMC, "" },
+    /* 15 */ { JR,    JR,   WW,    DCMC, "" },
+    /* 16 */ { JR,    SP,   AA,    DCMC, "" },
+    /* 17 */ { JR,    JR,   TM,    DCMC, "" },
+    /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "" },
+    /* 19 */ { JR,    SP,   TH2,   DCMC, "" },
+    /* 20 */ { DC2DB, JR,   DO,    DCMC, "" },
+    /* 21 */ { SPTH,  SP,   DO,    DCMC, "" },
+    /* 22 */ { SPTH,  AM,   CB,    DCMC, "" },
+    /* 23 */ { SPTH,  SP,   PT,    DCMC, "" },
+    /* 24 */ { SPTH,  SP,   DJ,    DCMC, "" },
+    /* 25 */ { SP,    SG,   JM,    DCMC, "" },
+    /* 26 */ { SP,    JR,   MSJL,  DCMC, "" },
+    /* 27 */ { SPTH,  SP,   DO,    DCMC, "" },
+    /* 28 */ { SP,    SP,   MC,    DCMC, "" },
+    /* 29 */ { SP,    JR,   JS,    DCMC, "" },
+    /* 30 */ { "",    SP,   JS,    DCMC, "" },
+    /* 31 */ { SP,    SP,   DC,    DCMC, "" },
+    /* 32 */ { SP,    SP,   DC,    DCMC, "" },
+    /* 33 */ { SPTH,  MB,   "",    "",   "" },
+    /* 34 */ { SP,    "",   "",    "",   "" },
+    /* 35 */ { SP,    "",   "",    "",   "" },
+    /* 36 */ { SP,    "",   "",    "",   "" },
+    /* 37 */ { SPTH,  "",   "",    "",   "" },
+    /* 38 */ { SP,    "",   "",    "",   "" },
+    /* 39 */ { SP,    "",   "",    "",   "" },
+    /* 40 */ { "",    "",   "",    "",   "" },
+    /* 41 */ { AM,    "",   "",    "",   "" },
+    /* 42 */ { JR,    "",   "",    "",   "" },
+    /* 43 */ { SG,    "",   "",    "",   "" },
+    /* 44 */ { AM,    "",   "",    "",   "" },
+    /* 45 */ { TW,    "",   "",    "",   "" },
+    /* 46 */ { JR,    "",   "",    "",   "" },
+    /* 47 */ { JA,    "",   "",    "",   "" },
+    /* 48 */ { SG,    "",   "",    "",   "" },
+    /* 49 */ { TW,    "",   "",    "",   "" },
+    /* 50 */ { "",    "",   "",    "",   "" },
+    /* 51 */ { JR,    "",   "",    "",   "" },
+    /* 52 */ { JR,    "",   "",    "",   "" },
+    /* 53 */ { JR,    "",   "",    "",   "" },
+    /* 54 */ { JR,    "",   "",    "",   "" },
+    /* 55 */ { JR,    "",   "",    "",   "" },
+    /* 56 */ { JR,    "",   "",    "",   "" },
+    /* 57 */ { JR,    "",   "",    "",   "" },
+    /* 58 */ { JR,    "",   "",    "",   "" },
+    /* 59 */ { JR,    "",   "",    "",   "" },
+    /* 60 */ { "",    "",   "",    "",   "" },
+    /* 61 */ { JR,    "",   "",    "",   "" },
+    /* 62 */ { JR,    "",   "",    "",   "" },
+    /* 63 */ { JR,    "",   "",    "",   "" },
+    /* 64 */ { JR,    "",   "",    "",   "" },
+    /* 65 */ { JR,    "",   "",    "",   "" },
+    /* 66 */ { JR,    "",   "",    "",   "" },
+    /* 67 */ { JR,    "",   "",    "",   "" },
+    /* 68 */ { JR,    "",   "",    "",   "" },
+    /* 69 */ { JR,    "",   "",    "",   "" }
+};
+
+//
+// maplist CCMD
+//
+static void removemapnum(char *title)
+{
+    const char  *pos = strchr(title, ':');
+
+    if (pos)
+    {
+        int index = (int)(pos - title) + 1;
+
+        memmove(title, title + index, strlen(title) - index + 1);
+
+        if (title[0] == ' ')
+            memmove(title, title + 1, strlen(title));
+    }
+}
+
+static char *getauthor(int ep, int map)
+{
+    char    *author = P_GetMapAuthor(ep, map);
+
+    if (*author)
+        return author;
+    else if (gamemission == doom)
+    {
+        if (*authors[ep * 10 + map][gamemission])
+            return authors[ep * 10 + map][gamemission];
+        else if (REKKR)
+            return "Matthew Little";
+    }
+    else if (*authors[map][gamemission])
+        return authors[map][gamemission];
+
+    return "-";
+}
+
+static void maplist_func2(char *cmd, char *parms)
+{
+    const int   tabs[MAXTABS] = { 40, 93, 270, 450 };
+    int         count = 0;
+    char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
+\
+    C_Header(tabs, maplist, MAPLISTHEADER);
+
+    // search through lumps for maps
+    for (int i = numlumps - 1; i >= 0; i--)
+    {
+        int     ep = 1;
+        int     map = 1;
+        char    lump[9];
+        char    wadname[MAX_PATH];
+        bool    replaced;
+        bool    pwad;
+        char    mapinfoname[128];
+        char    author[128];
+        char    *temp = uppercase(lumpinfo[i]->name);
+
+        M_StringCopy(lump, temp, sizeof(lump));
+        free(temp);
+
+        if (strlen(lump) > 5)
+            continue;
+
+        if (gamemode == commercial)
+        {
+            if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
+                continue;
+        }
+        else
+        {
+            if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
+                || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
+                continue;
+            else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
+                continue;
+        }
+
+        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
+        replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
+        pwad = (lumpinfo[i]->wadfile->type == PWAD);
+        M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
+        M_StringCopy(author, getauthor(ep, map), sizeof(author));
+
+        switch (gamemission)
+        {
+            case doom:
+                if (!replaced || pwad)
+                {
+                    if (replaced && dehcount == 1 && !*mapinfoname)
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s\t%s",
+                            lump, author, wadname);
+                    else
+                    {
+                        if (M_StringCompare(lump, "E1M4B"))
+                            temp = titlecase(s_HUSTR_E1M4B);
+                        else if (M_StringCompare(lump, "E1M8B"))
+                            temp = titlecase(s_HUSTR_E1M8B);
+                        else
+                            temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
+
+                        removemapnum(temp);
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                            lump, temp, author, wadname);
+                        free(temp);
+                    }
+                }
+
+                break;
+
+            case doom2:
+                if ((!D_IsNERVEWAD(wadname) && (!replaced || pwad || nerve)) || hacx || harmony)
+                {
+                    if (BTSX)
+                    {
+                        if (!D_IsDOOM2IWAD(wadname))
+                        {
+                            temp = titlecase(M_StringReplaceFirst(*mapnames2[map - 1], ": ", MONOSPACEDOFF "\t" ITALICSON));
+                            removemapnum(temp);
+                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACEDON "%s" ITALICSOFF "\t%s\t%s", temp, author, wadname);
+                            free(temp);
+                        }
+                    }
+                    else
+                    {
+                        if (legacyofrust && D_IsLegacyOfRustWAD(wadname))
+                        {
+                            if (map <= 7)
+                                M_snprintf(lump, sizeof(lump), "E1M%i", map);
+                            else if (map == 15)
+                                M_StringCopy(lump, "E1M8", sizeof(lump));
+                            else if (map == 16)
+                                M_StringCopy(lump, "E2M8", sizeof(lump));
+                            else if (map != 99)
+                                M_snprintf(lump, sizeof(lump), "E2M%i", map - 7);
+                        }
+
+                        if (replaced && dehcount == 1 && !nerve && !*mapinfoname)
+                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s\t%s",
+                                lump, author, wadname);
+                        else
+                        {
+                            temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]));
+                            removemapnum(temp);
+                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                                lump, temp, author, wadname);
+                            free(temp);
+                        }
+                    }
+                }
+
+                break;
+
+            case pack_nerve:
+                if (D_IsNERVEWAD(wadname))
+                {
+                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map - 1]);
+                    removemapnum(temp);
+                    M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                        lump, temp, author, wadname);
+                    free(temp);
+                }
+
+                break;
+
+            case pack_plut:
+                if (!replaced || pwad)
+                {
+                    if (replaced && dehcount == 1 && !*mapinfoname)
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s\t%s",
+                            lump, author, wadname);
+                    else
+                    {
+                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map - 1]);
+                        removemapnum(temp);
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                            lump, temp, author, wadname);
+                        free(temp);
+                    }
+                }
+
+                break;
+
+            case pack_tnt:
+                if (!replaced || pwad)
+                {
+                    if (replaced && dehcount == 1 && !*mapinfoname)
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t \x96\t%s",
+                            lump, author, wadname);
+                    else
+                    {
+                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map - 1]);
+                        removemapnum(temp);
+                        M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s",
+                            lump, temp, author, wadname);
+                        free(temp);
+                    }
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // sort the map list
+    for (int i = 0; i < count; i++)
+        for (int j = i + 1; j < count; j++)
+            if (strcmp(maps[i], maps[j]) > 0)
+            {
+                char    temp[256];
+
+                M_StringCopy(temp, maps[i], sizeof(temp));
+                M_StringCopy(maps[i], maps[j], sizeof(maps[i]));
+                M_StringCopy(maps[j], temp, sizeof(maps[j]));
+            }
+
+    // display the map list
+    for (int i = 0; i < count; i++)
+        C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s", i + 1, maps[i]);
+
+    free(maps);
+}
+
+//
+// mapstats CCMD
+//
 static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
 {
     if (M_StringCompare(wadname, "DOOM1.WAD"))
@@ -5180,81 +5276,6 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
 
 static void mapstats_func2(char *cmd, char *parms)
 {
-    const char *authors[][6] =
-    {
-        /* xy      doom   doom2 tnt    plut  nerve */
-        /* 00 */ { "",    "",   "",    DCMC, "" },
-        /* 01 */ { "",    SP,   TM,    DCMC, RM },
-        /* 02 */ { "",    AM,   JW,    DCMC, AI },
-        /* 03 */ { "",    AM,   RPJM2, DCMC, RM },
-        /* 04 */ { "",    AM,   TH2,   DCMC, RM },
-        /* 05 */ { "",    AM,   JD,    DCMC, AI },
-        /* 06 */ { "",    AM,   JSTH2, DCMC, AI },
-        /* 07 */ { "",    AMSP, AD,    DCMC, AI },
-        /* 08 */ { "",    SP,   JM2,   DCMC, AI },
-        /* 09 */ { "",    SP,   JSTH2, DCMC, RM },
-        /* 10 */ { "",    SPTH, TM,    DCMC, "" },
-        /* 11 */ { JR,    JR,   DJ,    DCMC, "" },
-        /* 12 */ { JR,    SP,   JL,    DCMC, "" },
-        /* 13 */ { JR,    SP,   BKTH2, DCMC, "" },
-        /* 14 */ { JRTH,  AM,   RP,    DCMC, "" },
-        /* 15 */ { JR,    JR,   WW,    DCMC, "" },
-        /* 16 */ { JR,    SP,   AA,    DCMC, "" },
-        /* 17 */ { JR,    JR,   TM,    DCMC, "" },
-        /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "" },
-        /* 19 */ { JR,    SP,   TH2,   DCMC, "" },
-        /* 20 */ { DC2DB, JR,   DO,    DCMC, "" },
-        /* 21 */ { SPTH,  SP,   DO,    DCMC, "" },
-        /* 22 */ { SPTH,  AM,   CB,    DCMC, "" },
-        /* 23 */ { SPTH,  SP,   PT,    DCMC, "" },
-        /* 24 */ { SPTH,  SP,   DJ,    DCMC, "" },
-        /* 25 */ { SP,    SG,   JM,    DCMC, "" },
-        /* 26 */ { SP,    JR,   MSJL,  DCMC, "" },
-        /* 27 */ { SPTH,  SP,   DO,    DCMC, "" },
-        /* 28 */ { SP,    SP,   MC,    DCMC, "" },
-        /* 29 */ { SP,    JR,   JS,    DCMC, "" },
-        /* 30 */ { "",    SP,   JS,    DCMC, "" },
-        /* 31 */ { SP,    SP,   DC,    DCMC, "" },
-        /* 32 */ { SP,    SP,   DC,    DCMC, "" },
-        /* 33 */ { SPTH,  MB,   "",    "",   "" },
-        /* 34 */ { SP,    "",   "",    "",   "" },
-        /* 35 */ { SP,    "",   "",    "",   "" },
-        /* 36 */ { SP,    "",   "",    "",   "" },
-        /* 37 */ { SPTH,  "",   "",    "",   "" },
-        /* 38 */ { SP,    "",   "",    "",   "" },
-        /* 39 */ { SP,    "",   "",    "",   "" },
-        /* 40 */ { "",    "",   "",    "",   "" },
-        /* 41 */ { AM,    "",   "",    "",   "" },
-        /* 42 */ { JR,    "",   "",    "",   "" },
-        /* 43 */ { SG,    "",   "",    "",   "" },
-        /* 44 */ { AM,    "",   "",    "",   "" },
-        /* 45 */ { TW,    "",   "",    "",   "" },
-        /* 46 */ { JR,    "",   "",    "",   "" },
-        /* 47 */ { JA,    "",   "",    "",   "" },
-        /* 48 */ { SG,    "",   "",    "",   "" },
-        /* 49 */ { TW,    "",   "",    "",   "" },
-        /* 50 */ { "",    "",   "",    "",   "" },
-        /* 51 */ { JR,    "",   "",    "",   "" },
-        /* 52 */ { JR,    "",   "",    "",   "" },
-        /* 53 */ { JR,    "",   "",    "",   "" },
-        /* 54 */ { JR,    "",   "",    "",   "" },
-        /* 55 */ { JR,    "",   "",    "",   "" },
-        /* 56 */ { JR,    "",   "",    "",   "" },
-        /* 57 */ { JR,    "",   "",    "",   "" },
-        /* 58 */ { JR,    "",   "",    "",   "" },
-        /* 59 */ { JR,    "",   "",    "",   "" },
-        /* 60 */ { "",    "",   "",    "",   "" },
-        /* 61 */ { JR,    "",   "",    "",   "" },
-        /* 62 */ { JR,    "",   "",    "",   "" },
-        /* 63 */ { JR,    "",   "",    "",   "" },
-        /* 64 */ { JR,    "",   "",    "",   "" },
-        /* 65 */ { JR,    "",   "",    "",   "" },
-        /* 66 */ { JR,    "",   "",    "",   "" },
-        /* 67 */ { JR,    "",   "",    "",   "" },
-        /* 68 */ { JR,    "",   "",    "",   "" },
-        /* 69 */ { JR,    "",   "",    "",   "" }
-    };
-
     struct
     {
         const char  *title;
