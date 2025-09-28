@@ -5007,7 +5007,7 @@ static void removemapnum(char *title)
     }
 }
 
-static char *getauthor(int ep, int map)
+static char *getauthor(int ep, int map, bool replaced)
 {
     char    *author = P_GetMapAuthor(ep, map);
 
@@ -5015,12 +5015,12 @@ static char *getauthor(int ep, int map)
         return author;
     else if (gamemission == doom)
     {
-        if (*authors[ep * 10 + map][gamemission])
+        if (!replaced && *authors[ep * 10 + map][gamemission])
             return authors[ep * 10 + map][gamemission];
         else if (REKKR)
             return "Matthew Little";
     }
-    else if (*authors[map][gamemission])
+    else if (!replaced && *authors[map][gamemission])
         return authors[map][gamemission];
 
     return "-";
@@ -5071,7 +5071,7 @@ static void maplist_func2(char *cmd, char *parms)
         replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
-        M_StringCopy(author, getauthor(ep, map), sizeof(author));
+        M_StringCopy(author, getauthor(ep, map, replaced), sizeof(author));
 
         switch (gamemission)
         {
@@ -5084,9 +5084,15 @@ static void maplist_func2(char *cmd, char *parms)
                     else
                     {
                         if (M_StringCompare(lump, "E1M4B"))
+                        {
                             temp = titlecase(s_HUSTR_E1M4B);
+                            M_StringCopy(author, s_AUTHOR_ROMERO, sizeof(author));
+                        }
                         else if (M_StringCompare(lump, "E1M8B"))
+                        {
                             temp = titlecase(s_HUSTR_E1M8B);
+                            M_StringCopy(author, s_AUTHOR_ROMERO, sizeof(author));
+                        }
                         else
                             temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
 
@@ -5439,7 +5445,9 @@ static void mapstats_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Author\t%s", author);
     else if (gamemission == doom)
     {
-        if (canmodify && *authors[gameepisode * 10 + gamemap][gamemission])
+        if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
+            C_TabbedOutput(tabs, "Author\t%s", s_AUTHOR_ROMERO);
+        else if (canmodify && *authors[gameepisode * 10 + gamemap][gamemission])
             C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode * 10 + gamemap][gamemission]);
         else if (REKKR)
             C_TabbedOutput(tabs, "Author\tMatthew Little");

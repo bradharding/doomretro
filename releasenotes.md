@@ -43,6 +43,7 @@
 * The `warninglevel` CVAR has been renamed `con_warninglevel`.
 * The player’s health is now updated when they are resurrected and the `negativehealth` CVAR is `on`.
 * The `health` CVAR can now be set to `0%` when the `negativehealth` CVAR is `on`.
+* The `maplist` CCMD now lists the author for each map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
