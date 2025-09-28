@@ -5117,7 +5117,7 @@ static void maplist_func2(char *cmd, char *parms)
                             temp2 = titlecase(*mapnames2[map - 1]);
                             removemapnum(temp2);
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%.27s%s") "\t%s\t%s",
-                                lump, temp2, (strlen(temp2) > 27 ? "..." : ""), author, wadname);
+                                temp1, temp2, (strlen(temp2) > 27 ? "..." : ""), author, wadname);
                             free(temp1);
                             free(temp2);
                         }
