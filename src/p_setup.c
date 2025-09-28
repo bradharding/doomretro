@@ -2980,7 +2980,7 @@ static void P_FindSelfReferencingSectors(void)
     }
 }
 
-char    mapnum[6];
+char    mapnum[16];
 char    maptitle[256];
 char    mapnumandtitle[512];
 char    automaptitle[512];
@@ -3016,7 +3016,7 @@ void P_MapName(int ep, int map)
             break;
 
         case doom2:
-            if (*mapinfolabel)
+            if (*mapinfolabel && !masterlevels)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
                 M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);

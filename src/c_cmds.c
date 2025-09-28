@@ -5353,6 +5353,7 @@ static void mapstats_func2(char *cmd, char *parms)
     int         lump;
     int         wadtype;
     const char  *author = P_GetMapAuthor(gameepisode, gamemap);
+    const char  *mapinfolabel = trimwhitespace(P_GetLabel(gameepisode, gamemap));
     char        wadname[MAX_PATH];
     const int   partime = G_GetParTime();
     int         outside = 0;
@@ -5382,7 +5383,7 @@ static void mapstats_func2(char *cmd, char *parms)
         return;
     }
 
-    if (BTSX || KDIKDIZD || legacyofrust)
+    if (BTSX || KDIKDIZD || legacyofrust || mapinfolabel)
     {
         char    lumpname[6];
 
@@ -5474,8 +5475,13 @@ static void mapstats_func2(char *cmd, char *parms)
                 if (**episodes[maptoepisode[gamemap] - 1])
                 {
                     temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
-                    C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                        temp, maptoepisode[gamemap], EpiDef.numitems);
+
+                    if (maptoepisode[gamemap] == 1 && EpiDef.numitems == 1)
+                        C_TabbedOutput(tabs, "Episode\t" ITALICS("%s"), temp);
+                    else
+                        C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
+                            temp, maptoepisode[gamemap], EpiDef.numitems);
+
                     free(temp);
                 }
                 else

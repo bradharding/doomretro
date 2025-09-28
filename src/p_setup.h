@@ -61,7 +61,7 @@ extern bool         compat_useblocking;
 extern bool         compat_zombie;
 extern bool         nograduallighting;
 
-extern char         mapnum[6];
+extern char         mapnum[16];
 extern char         maptitle[256];
 extern char         mapnumandtitle[512];
 extern char         automaptitle[512];
