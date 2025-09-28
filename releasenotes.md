@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.14.16 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.32.10*](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.10).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * Support has been added for version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) by autoloading `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad` if found.
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.

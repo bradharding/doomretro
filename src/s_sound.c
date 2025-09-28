@@ -371,7 +371,7 @@ void S_Start(void)
 
 // [crispy] removed map objects may finish their sounds
 // When map objects are removed from the map by P_RemoveMobj(), instead of
-// stopping their sounds, their coordinates are transfered to "sound objects"
+// stopping their sounds, their coordinates are transferred to "sound objects"
 // so stereo positioning and distance calculations continue to work even after
 // the corresponding map object has already disappeared.
 // Thanks to jeff-d and kb1 for discussing this feature and the former for the
