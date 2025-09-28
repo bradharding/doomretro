@@ -1029,6 +1029,11 @@ bool AM_Responder(const event_t *ev)
                     mousewait = I_GetTime() + 8;
                     AM_ToggleMaxZoom();
                 }
+                else if (ev->data1 == mouserotatemode)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleRotateMode(!am_rotatemode);
+                }
                 else if (ev->data1 == mousezoomin)
                 {
                     mousewait = I_GetTime() + 8;
