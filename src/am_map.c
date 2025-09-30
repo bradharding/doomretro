@@ -2146,7 +2146,7 @@ static void AM_DrawPath(void)
     mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
     mpoint_t    end = player;
 
-    for (int i = 1; i < numbreadcrumbs; i++)
+    for (int i = MAX(1, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
     {
         mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 

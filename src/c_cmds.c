@@ -459,6 +459,8 @@ static void am_external_func2(char *cmd, char *parms);
 static void am_followmode_func2(char *cmd, char *parms);
 static void am_gridsize_func2(char *cmd, char *parms);
 static void am_path_func2(char *cmd, char *parms);
+static bool am_pathlength_func1(char* cmd, char* parms);
+static void am_pathlength_func2(char* cmd, char* parms);
 static void am_rotatemode_func2(char *cmd, char *parms);
 static bool armortype_func1(char *cmd, char *parms);
 static void armortype_func2(char *cmd, char *parms);
@@ -640,6 +642,8 @@ consolecmd_t consolecmds[] =
         "Toggles your path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of your path in the automap (" BOLD("0") " to " BOLD("255") ")."),
+    CVAR_INT(am_pathlength, "", "", am_pathlength_func1, am_pathlength_func2, CF_NONE, PATHLENGTHVALUEALIAS,
+        "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", " BOLD("long") " or " BOLD("infinite") ")."),
     CVAR_INT(am_playercolor, am_playercolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of your arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_playerstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -10028,6 +10032,49 @@ static void am_path_func2(char *cmd, char *parms)
         viewplayer->cheated++;
         stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         M_SaveCVARs();
+    }
+}
+
+//
+// am_pathlength CVAR
+//
+static bool am_pathlength_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, PATHLENGTHVALUEALIAS) != INT_MIN);
+}
+
+static void am_pathlength_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, PATHLENGTHVALUEALIAS);
+
+        if (value >= am_pathlength_min && value <= am_pathlength_max && value != am_pathlength)
+        {
+            am_pathlength = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(am_pathlength, PATHLENGTHVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (am_pathlength == am_pathlength_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(am_pathlength_default, PATHLENGTHVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
     }
 }
 
