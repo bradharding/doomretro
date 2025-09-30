@@ -63,6 +63,7 @@ void AM_ClearMarks(void);
 void AM_ToggleFollowMode(const bool value);
 void AM_ToggleGrid(void);
 void AM_AddMark(void);
+void AM_TogglePath(const bool value);
 void AM_ToggleRotateMode(const bool value);
 void AM_ToggleZoomOut(void);
 void AM_ToggleZoomIn(void);

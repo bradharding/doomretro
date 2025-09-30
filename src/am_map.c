@@ -669,6 +669,25 @@ void AM_DropBreadCrumb(void)
     breadcrumb[numbreadcrumbs++].y = viewy;
 }
 
+void AM_TogglePath(const bool value)
+{
+    if ((am_path = value))
+    {
+        C_StringCVAROutput(stringize(am_path), "on");
+        C_Output(s_AMSTR_PATHON);
+        HU_SetPlayerMessage(s_AMSTR_PATHON, false, true);
+    }
+    else
+    {
+        C_StringCVAROutput(stringize(am_path), "off");
+        C_Output(s_AMSTR_PATHOFF);
+        HU_SetPlayerMessage(s_AMSTR_PATHOFF, false, true);
+    }
+
+    message_dontfuckwithme = true;
+    M_SaveCVARs();
+}
+
 void AM_ToggleRotateMode(const bool value)
 {
     if ((am_rotatemode = value))
@@ -891,6 +910,16 @@ bool AM_Responder(const event_t *ev)
                 else if (key == keyboardclearmark || key == keyboardclearmark2)
                     AM_ClearMarks();
 
+                // toggle path
+                else if (key == keyboardpath || key == keyboardpath2)
+                {
+                    if (keydown != keyboardpath && (!keyboardpath2 || keydown != keyboardpath2))
+                    {
+                        keydown = key;
+                        AM_TogglePath(!am_path);
+                    }
+                }
+
                 // toggle rotate mode
                 else if (key == keyboardrotatemode || key == keyboardrotatemode2)
                 {
@@ -1029,6 +1058,11 @@ bool AM_Responder(const event_t *ev)
                     mousewait = I_GetTime() + 8;
                     AM_ToggleMaxZoom();
                 }
+                else if (ev->data1 == mousepath)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_TogglePath(!am_path);
+                }
                 else if (ev->data1 == mouserotatemode)
                 {
                     mousewait = I_GetTime() + 8;
@@ -1132,6 +1166,13 @@ bool AM_Responder(const event_t *ev)
                 else if (controllerbuttons & controllerclearmark)
                 {
                     AM_ClearMarks();
+                    controllerwait = I_GetTime() + 12;
+                }
+
+                // toggle path
+                else if (controllerbuttons & controllerpath)
+                {
+                    AM_TogglePath(!am_path);
                     controllerwait = I_GetTime() + 12;
                 }
 

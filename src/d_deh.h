@@ -336,6 +336,8 @@ extern char         *s_AMSTR_GRIDOFF;
 extern char         *s_AMSTR_MARKEDSPOT;
 extern char         *s_AMSTR_MARKCLEARED;
 extern char         *s_AMSTR_MARKSCLEARED;
+extern char         *s_AMSTR_PATHON;
+extern char         *s_AMSTR_PATHOFF;
 extern char         *s_AMSTR_ROTATEON;
 extern char         *s_AMSTR_ROTATEOFF;
 

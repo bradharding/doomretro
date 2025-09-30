@@ -305,6 +305,7 @@ static void mark_action_func(void);
 static void maxzoom_action_func(void);
 static void menu_action_func(void);
 static void nextweapon_action_func(void);
+static void path_action_func(void);
 static void pistol_action_func(void);
 static void plasmarifle_action_func(void);
 static void prevweapon_action_func(void);
@@ -349,6 +350,7 @@ action_t actions[] =
     { "+maxzoom",        true,  true,  maxzoom_action_func,         &keyboardmaxzoom,        &keyboardmaxzoom2,        &mousemaxzoom,        &controllermaxzoom,        NULL            },
     { "+menu",           true,  false, menu_action_func,            &keyboardmenu,           &keyboardmenu2,           &mousemenu,           &controllermenu,           NULL            },
     { "+nextweapon",     true,  false, nextweapon_action_func,      &keyboardnextweapon,     &keyboardnextweapon2,     &mousenextweapon,     &controllernextweapon,     NULL            },
+    { "+path",           true,  false, path_action_func,            &keyboardpath,           &keyboardpath2,           &mousepath,           &controllerpath,           NULL            },
     { "+pistol",         true,  false, pistol_action_func,          &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
     { "+plasmarifle",    true,  false, plasmarifle_action_func,     &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
     { "+prevweapon",     true,  false, prevweapon_action_func,      &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
@@ -1278,6 +1280,12 @@ static void nextweapon_action_func(void)
 {
     if (gamestate == GS_LEVEL)
         G_NextWeapon();
+}
+
+static void path_action_func(void)
+{
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
+        AM_TogglePath(!am_path);
 }
 
 static void pistol_action_func(void)

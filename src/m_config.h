@@ -958,6 +958,7 @@ enum
 #define CONTROLLERMAXZOOM_DEFAULT           0
 #define CONTROLLERMENU_DEFAULT              CONTROLLER_START
 #define CONTROLLERNEXTWEAPON_DEFAULT        CONTROLLER_RIGHT_SHOULDER
+#define CONTROLLERPATH_DEFAULT              0
 #define CONTROLLERPISTOL_DEFAULT            0
 #define CONTROLLERPLASMARIFLE_DEFAULT       0
 #define CONTROLLERPREVWEAPON_DEFAULT        CONTROLLER_LEFT_SHOULDER
@@ -1021,6 +1022,8 @@ enum
 #define KEYMENU2_DEFAULT                    0
 #define KEYNEXTWEAPON_DEFAULT               0
 #define KEYNEXTWEAPON2_DEFAULT              0
+#define KEYPATH_DEFAULT                     'p'
+#define KEYPATH2_DEFAULT                    0
 #define KEYPISTOL_DEFAULT                   0
 #define KEYPISTOL2_DEFAULT                  0
 #define KEYPLASMARIFLE_DEFAULT              0
@@ -1094,6 +1097,7 @@ enum
 #define MOUSEMAXZOOM_DEFAULT                -1
 #define MOUSEMENU_DEFAULT                   -1
 #define MOUSENEXTWEAPON_DEFAULT             MOUSE_WHEELDOWN
+#define MOUSEPATH_DEFAULT                   -1
 #define MOUSEPISTOL_DEFAULT                 -1
 #define MOUSEPLASMARIFLE_DEFAULT            -1
 #define MOUSEPREVWEAPON_DEFAULT             MOUSE_WHEELUP

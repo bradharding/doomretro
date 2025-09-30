@@ -479,6 +479,8 @@ char    *s_AMSTR_GRIDOFF = AMSTR_GRIDOFF;
 char    *s_AMSTR_MARKEDSPOT = AMSTR_MARKEDSPOT;
 char    *s_AMSTR_MARKCLEARED = "";
 char    *s_AMSTR_MARKSCLEARED = AMSTR_MARKSCLEARED;
+char    *s_AMSTR_PATHON = "";
+char    *s_AMSTR_PATHOFF = "";
 char    *s_AMSTR_ROTATEON = "";
 char    *s_AMSTR_ROTATEOFF = "";
 
@@ -1118,6 +1120,8 @@ deh_strs deh_strlookup[] =
     { &s_AMSTR_MARKEDSPOT,        "AMSTR_MARKEDSPOT"        },
     { &s_AMSTR_MARKCLEARED,       "AMSTR_MARKCLEARED"       },
     { &s_AMSTR_MARKSCLEARED,      "AMSTR_MARKSCLEARED"      },
+    { &s_AMSTR_PATHON,            "AMSTR_PATHON"            },
+    { &s_AMSTR_PATHOFF,           "AMSTR_PATHOFF"           },
     { &s_AMSTR_ROTATEON,          "AMSTR_ROTATEON"          },
     { &s_AMSTR_ROTATEOFF,         "AMSTR_ROTATEOFF"         },
 
