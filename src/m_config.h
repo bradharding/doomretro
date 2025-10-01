@@ -282,10 +282,10 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
-    am_pathlength_short = 500,
-    am_pathlength_medium = 2000,
-    am_pathlength_long = 5000,
-    am_pathlength_infinite = INT_MAX
+    am_pathlength_short,
+    am_pathlength_medium,
+    am_pathlength_long,
+    am_pathlength_endless
 };
 
 enum
@@ -450,8 +450,8 @@ enum
 #define am_pathcolor_max                    255
 
 #define am_pathlength_min                   am_pathlength_short
-#define am_pathlength_default               am_pathlength_infinite
-#define am_pathlength_max                   am_pathlength_infinite
+#define am_pathlength_default               am_pathlength_long
+#define am_pathlength_max                   am_pathlength_endless
 
 #define am_playercolor_min                  0
 #define am_playercolor_default              4

@@ -2141,12 +2141,20 @@ static void AM_DrawMarks(const char *nums[])
     }
 }
 
+const int lengths[] =
+{
+    500,
+    2000,
+    5000,
+    INT_MAX
+};
+
 static void AM_DrawPath(void)
 {
     mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
     mpoint_t    end = player;
 
-    for (int i = MAX(1, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
+    for (int i = MAX(1, numbreadcrumbs - lengths[am_pathlength]); i < numbreadcrumbs; i++)
     {
         mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 

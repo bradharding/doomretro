@@ -630,7 +630,7 @@ valuealias_t valuealiases[] =
     { "short",          am_pathlength_short,          PATHLENGTHVALUEALIAS },
     { "medium",         am_pathlength_medium,         PATHLENGTHVALUEALIAS },
     { "long",           am_pathlength_long,           PATHLENGTHVALUEALIAS },
-    { "infinite",       am_pathlength_infinite,       PATHLENGTHVALUEALIAS },
+    { "endless",        am_pathlength_endless,        PATHLENGTHVALUEALIAS },
     { "auto",           vid_aspectratio_auto,         RATIOVALUEALIAS      },
     { "16:9",           vid_aspectratio_16_9,         RATIOVALUEALIAS      },
     { "16:10",          vid_aspectratio_16_10,        RATIOVALUEALIAS      },

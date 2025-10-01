@@ -643,7 +643,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of your path in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_pathlength, "", "", am_pathlength_func1, am_pathlength_func2, CF_NONE, PATHLENGTHVALUEALIAS,
-        "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", " BOLD("long") " or " BOLD("infinite") ")."),
+        "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", " BOLD("long") " or " BOLD("endless") ")."),
     CVAR_INT(am_playercolor, am_playercolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of your arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_playerstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
