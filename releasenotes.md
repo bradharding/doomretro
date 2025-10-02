@@ -7,6 +7,7 @@
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Support has been added for version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) by autoloading `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad` if found.
+* The backgrounds of the intermission screens in [*SIGIL*](https://romero.com/sigil) and [*SIGIL II*](https://romero.com/sigil) are now widescreen.
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
 * The player’s path in the automap can now easily be toggled on and off by pressing the <kbd><b>P</b></kbd> key. This can be rebound to another key using the new `+path` action with the `bind` CCMD in the console.
 * The length of the player’s path in the automap can now be changed using the new `am_pathlength` CVAR. This CVAR can be `short`, `medium` (the default), `long` or `endless`.
