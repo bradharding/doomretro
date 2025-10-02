@@ -285,7 +285,7 @@ void I_Error(const char *error, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, error, args);
     va_end(args);
 
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", buffer, NULL);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME, buffer, NULL);
 
     SDL_Quit();
 

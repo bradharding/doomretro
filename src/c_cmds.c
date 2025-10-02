@@ -5043,7 +5043,7 @@ static void maplist_func2(char *cmd, char *parms)
     const int   tabs[MAXTABS] = { 40, 93, 270, 450 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
-\
+
     C_Header(tabs, maplist, MAPLISTHEADER);
 
     // search through lumps for maps
@@ -5058,7 +5058,6 @@ static void maplist_func2(char *cmd, char *parms)
         char    mapinfoname[128];
         char    author[128];
         char    *temp1 = uppercase(lumpinfo[i]->name);
-        char    *temp2;
 
         M_StringCopy(lump, temp1, sizeof(lump));
         free(temp1);
@@ -5125,6 +5124,8 @@ static void maplist_func2(char *cmd, char *parms)
                     {
                         if (!D_IsDOOM2IWAD(wadname))
                         {
+                            char    *temp2;
+
                             temp1 = M_SubString(*mapnames2[map - 1], 0, 5);
                             temp2 = titlecase(*mapnames2[map - 1]);
                             removemapnum(temp2);
