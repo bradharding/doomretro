@@ -450,7 +450,7 @@ enum
 #define am_pathcolor_max                    255
 
 #define am_pathlength_min                   am_pathlength_short
-#define am_pathlength_default               am_pathlength_long
+#define am_pathlength_default               am_pathlength_medium
 #define am_pathlength_max                   am_pathlength_endless
 
 #define am_playercolor_min                  0
@@ -575,12 +575,6 @@ enum
 #define infighting_default                  true
 
 #define infiniteheight_default              false
-
-#if defined(_WIN32)
-#define wadfolder_default                   "C:\\"
-#else
-#define wadfolder_default                   "/"
-#endif
 
 #define joy_analog_default                  true
 
@@ -939,6 +933,12 @@ enum
 #define wad_default                         ""
 #endif
 
+#if defined(_WIN32)
+#define wadfolder_default                   "C:\\"
+#else
+#define wadfolder_default                   "/"
+#endif
+
 #define weapon_min                          wp_fist
 #define weapon_default                      wp_pistol
 #define weapon_max                          wp_supershotgun
@@ -950,52 +950,6 @@ enum
 #define weaponbounce_default                true
 
 #define weaponrecoil_default                false
-
-#define CONTROLLERALWAYSRUN_DEFAULT         0
-#define CONTROLLERAUTOMAP_DEFAULT           CONTROLLER_BACK
-#define CONTROLLERBACK_DEFAULT              0
-#define CONTROLLERBFG9000_DEFAULT           0
-#define CONTROLLERCHAINGUN_DEFAULT          0
-#define CONTROLLERCHAINSAW_DEFAULT          0
-#define CONTROLLERCLEARMARK_DEFAULT         0
-#define CONTROLLERCONSOLE_DEFAULT           0
-#define CONTROLLERFIRE_DEFAULT              CONTROLLER_RIGHT_TRIGGER
-#define CONTROLLERFISTS_DEFAULT             0
-#define CONTROLLERFOLLOWMODE_DEFAULT        0
-#define CONTROLLERFORWARD_DEFAULT           0
-#define CONTROLLERFREELOOK_DEFAULT          0
-#define CONTROLLERGRID_DEFAULT              0
-#define CONTROLLERJUMP_DEFAULT              0
-#define CONTROLLERLEFT_DEFAULT              0
-#define CONTROLLERMARK_DEFAULT              0
-#define CONTROLLERMAXZOOM_DEFAULT           0
-#define CONTROLLERMENU_DEFAULT              CONTROLLER_START
-#define CONTROLLERNEXTWEAPON_DEFAULT        CONTROLLER_RIGHT_SHOULDER
-#define CONTROLLERPATH_DEFAULT              0
-#define CONTROLLERPISTOL_DEFAULT            0
-#define CONTROLLERPLASMARIFLE_DEFAULT       0
-#define CONTROLLERPREVWEAPON_DEFAULT        CONTROLLER_LEFT_SHOULDER
-#define CONTROLLERRIGHT_DEFAULT             0
-#define CONTROLLERROCKETLAUNCHER_DEFAULT    0
-#define CONTROLLERROTATEMODE_DEFAULT        0
-#define CONTROLLERRUN_DEFAULT               CONTROLLER_LEFT_TRIGGER
-#define CONTROLLERSCREENSHOT_DEFAULT        0
-#define CONTROLLERSHOTGUN_DEFAULT           0
-#define CONTROLLERSTRAFE_DEFAULT            0
-#define CONTROLLERSTRAFELEFT_DEFAULT        0
-#define CONTROLLERSTRAFERIGHT_DEFAULT       0
-#define CONTROLLERSUPERSHOTGUN_DEFAULT      0
-#define CONTROLLERUSE_DEFAULT               CONTROLLER_A
-#define CONTROLLERUSE2_DEFAULT              CONTROLLER_RIGHT_THUMB
-#define CONTROLLERWEAPON1_DEFAULT           0
-#define CONTROLLERWEAPON2_DEFAULT           0
-#define CONTROLLERWEAPON3_DEFAULT           0
-#define CONTROLLERWEAPON4_DEFAULT           0
-#define CONTROLLERWEAPON5_DEFAULT           0
-#define CONTROLLERWEAPON6_DEFAULT           0
-#define CONTROLLERWEAPON7_DEFAULT           0
-#define CONTROLLERZOOMIN_DEFAULT            CONTROLLER_RIGHT_SHOULDER
-#define CONTROLLERZOOMOUT_DEFAULT           CONTROLLER_LEFT_SHOULDER
 
 #define KEYALWAYSRUN_DEFAULT                KEY_CAPSLOCK
 #define KEYALWAYSRUN2_DEFAULT               0
@@ -1134,6 +1088,52 @@ enum
 #define MOUSEWEAPON7_DEFAULT                -1
 #define MOUSEZOOMIN_DEFAULT                 -1
 #define MOUSEZOOMOUT_DEFAULT                -1
+
+#define CONTROLLERALWAYSRUN_DEFAULT         0
+#define CONTROLLERAUTOMAP_DEFAULT           CONTROLLER_BACK
+#define CONTROLLERBACK_DEFAULT              0
+#define CONTROLLERBFG9000_DEFAULT           0
+#define CONTROLLERCHAINGUN_DEFAULT          0
+#define CONTROLLERCHAINSAW_DEFAULT          0
+#define CONTROLLERCLEARMARK_DEFAULT         0
+#define CONTROLLERCONSOLE_DEFAULT           0
+#define CONTROLLERFIRE_DEFAULT              CONTROLLER_RIGHT_TRIGGER
+#define CONTROLLERFISTS_DEFAULT             0
+#define CONTROLLERFOLLOWMODE_DEFAULT        0
+#define CONTROLLERFORWARD_DEFAULT           0
+#define CONTROLLERFREELOOK_DEFAULT          0
+#define CONTROLLERGRID_DEFAULT              0
+#define CONTROLLERJUMP_DEFAULT              0
+#define CONTROLLERLEFT_DEFAULT              0
+#define CONTROLLERMARK_DEFAULT              0
+#define CONTROLLERMAXZOOM_DEFAULT           0
+#define CONTROLLERMENU_DEFAULT              CONTROLLER_START
+#define CONTROLLERNEXTWEAPON_DEFAULT        CONTROLLER_RIGHT_SHOULDER
+#define CONTROLLERPATH_DEFAULT              0
+#define CONTROLLERPISTOL_DEFAULT            0
+#define CONTROLLERPLASMARIFLE_DEFAULT       0
+#define CONTROLLERPREVWEAPON_DEFAULT        CONTROLLER_LEFT_SHOULDER
+#define CONTROLLERRIGHT_DEFAULT             0
+#define CONTROLLERROCKETLAUNCHER_DEFAULT    0
+#define CONTROLLERROTATEMODE_DEFAULT        0
+#define CONTROLLERRUN_DEFAULT               CONTROLLER_LEFT_TRIGGER
+#define CONTROLLERSCREENSHOT_DEFAULT        0
+#define CONTROLLERSHOTGUN_DEFAULT           0
+#define CONTROLLERSTRAFE_DEFAULT            0
+#define CONTROLLERSTRAFELEFT_DEFAULT        0
+#define CONTROLLERSTRAFERIGHT_DEFAULT       0
+#define CONTROLLERSUPERSHOTGUN_DEFAULT      0
+#define CONTROLLERUSE_DEFAULT               CONTROLLER_A
+#define CONTROLLERUSE2_DEFAULT              CONTROLLER_RIGHT_THUMB
+#define CONTROLLERWEAPON1_DEFAULT           0
+#define CONTROLLERWEAPON2_DEFAULT           0
+#define CONTROLLERWEAPON3_DEFAULT           0
+#define CONTROLLERWEAPON4_DEFAULT           0
+#define CONTROLLERWEAPON5_DEFAULT           0
+#define CONTROLLERWEAPON6_DEFAULT           0
+#define CONTROLLERWEAPON7_DEFAULT           0
+#define CONTROLLERZOOMIN_DEFAULT            CONTROLLER_RIGHT_SHOULDER
+#define CONTROLLERZOOMOUT_DEFAULT           CONTROLLER_LEFT_SHOULDER
 
 typedef enum
 {
