@@ -1500,9 +1500,9 @@ static void WI_LoadData(void)
             lump = W_CacheLumpName("INTERPI1");
     }
     else if (sigil && wbs->epsd == 4)
-        lump = W_CacheLumpName("SIGILINT");
+        lump = W_CacheLumpNameFromResourceWAD("SIGILINT");
     else if (sigil2 && wbs->epsd == 5)
-        lump = W_CacheLumpName("SIGILIN2");
+        lump = W_CacheLumpNameFromResourceWAD("SIGILIN2");
     else if (wbs->epsd <= 2)
     {
         char    temp[9];
