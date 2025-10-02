@@ -8,6 +8,8 @@
 * Several changes have been made to text that is output to the console.
 * Support has been added for version 1.23 of John Romero’s [*SIGIL*](https://romero.com/sigil) by autoloading `SIGIL_V1_23_REG.wad` or `SIGIL_V1_23.wad` if found.
 * Additional brightmaps have been added to [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) when the `r_brightmaps` CVAR is `on`.
+* The player’s path in the automap can now easily be toggled on and off by pressing the <kbd><b>P</b></kbd> key. This can be rebound to another key using the new `+path` action with the `bind` CCMD in the console.
+* The length of the player’s path in the automap can now be changed using the new `am_pathlength` CVAR. This CVAR can be `short`, `medium`, `long` (the default) or `endless`.
 * Moving the mouse now pans around the automap when follow mode is off. This feature can be disabled using the new `am_mousepanning` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The movement of the player into and out of liquid sectors is now smoother in some instances when the `r_liquid_lowerview` CVAR is `on`.
 * These changes have been made to the support of `MAPINFO` lumps:
