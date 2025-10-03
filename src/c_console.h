@@ -175,7 +175,6 @@ typedef struct
     int             indent;
     patch_t         *header;
     int             tabs[MAXTABS];
-    int             tics;
     char            timestamp1[9];
     char            timestamp2[9];
     bool            pm;

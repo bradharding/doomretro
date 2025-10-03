@@ -345,7 +345,6 @@ void C_PlayerMessage(const char *string, ...)
 
     if (console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
-        console[i].tics = gametime;
         console[i].timestamp1[0] = '\0';
         console[i].timestamp2[0] = '\0';
         console[i].count++;
@@ -358,7 +357,6 @@ void C_PlayerMessage(const char *string, ...)
         M_StringReplaceAll(buffer, "\n", " ", false);
         M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].stringtype = playermessagestring;
-        console[numconsolestrings].tics = gametime;
         console[numconsolestrings].timestamp1[0] = '\0';
         console[numconsolestrings].timestamp2[0] = '\0';
         console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
@@ -384,7 +382,6 @@ void C_PlayerObituary(const char *string, ...)
 
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].stringtype = playerwarningstring;
-    console[numconsolestrings].tics = gametime;
     console[numconsolestrings].timestamp1[0] = '\0';
     console[numconsolestrings].timestamp2[0] = '\0';
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
@@ -415,7 +412,6 @@ void C_PlayerWarning(const char *string, ...)
 
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].stringtype = playerwarningstring;
-    console[numconsolestrings].tics = gametime;
     console[numconsolestrings].timestamp1[0] = '\0';
     console[numconsolestrings].timestamp2[0] = '\0';
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
@@ -1350,24 +1346,23 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
 
 char *C_CreateTimeStamp(const int index)
 {
-    int         hours = gamestarttime.tm_hour;
-    int         minutes = gamestarttime.tm_min;
-    int         seconds = gamestarttime.tm_sec;
-    const int   tics = console[index].tics / TICRATE;
+    time_t      now = time(NULL);
+    struct tm   currenttime;
+    int         hours;
+    int         minutes;
+    int         seconds;
 
-    if ((seconds += (tics % 3600) % 60) >= 60)
-    {
-        minutes += seconds / 60;
-        seconds %= 60;
-    }
+#if defined(_WIN32)
+    localtime_s(&currenttime, &now);
+#else
+    localtime_r(&now, &currenttime);
+#endif
 
-    if ((minutes += (tics % 3600) / 60) >= 60)
-    {
-        hours += minutes / 60;
-        minutes %= 60;
-    }
+    hours = currenttime.tm_hour;
+    minutes = currenttime.tm_min;
+    seconds = currenttime.tm_sec;
 
-    console[index].pm = ((hours += tics / 3600) >= 12);
+    console[index].pm = (hours >= 12);
 
     M_snprintf(console[index].timestamp2, sizeof(console[0].timestamp2), "%02i:%02i:%02i",
         hours, minutes, seconds);

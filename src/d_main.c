@@ -178,8 +178,6 @@ bool        splashscreen = true;
 bool        realframe;
 static bool error;
 
-struct tm   gamestarttime;
-
 //
 // D_PostEvent
 //
@@ -2069,13 +2067,6 @@ static void D_DoomMainSetup(void)
     char    *iwadfile;
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
-    time_t  now = time(NULL);
-
-#if defined(_WIN32)
-    localtime_s(&gamestarttime, &now);
-#else
-    localtime_r(&now, &gamestarttime);
-#endif
 
     resourcewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_RESOURCEWAD, NULL);
     free(resourcefolder);
@@ -2184,10 +2175,19 @@ static void D_DoomMainSetup(void)
 
     if (!stat_runs)
     {
-        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " DEVICE ".");
+        time_t      now = time(NULL);
+        struct tm   currenttime;
 
-        stat_firstrun = (uint64_t)gamestarttime.tm_mday + ((uint64_t)gamestarttime.tm_mon + 1) * 100
-            + ((uint64_t)gamestarttime.tm_year + 1900) * 10000;
+#if defined(_WIN32)
+        localtime_s(&currenttime, &now);
+#else
+        localtime_r(&now, &currenttime);
+#endif
+
+        stat_firstrun = (uint64_t)currenttime.tm_mday + ((uint64_t)currenttime.tm_mon + 1) * 100
+            + ((uint64_t)currenttime.tm_year + 1900) * 10000;
+
+        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " DEVICE ".");
     }
     else
     {
