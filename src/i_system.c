@@ -181,7 +181,29 @@ void I_PrintWindowsVersion(void)
                 if (info.dwBuildNumber < 22000)
                     M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
                 else
+                {
                     M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "11" : "Server 2022"), sizeof(infoname));
+
+                    if (!*typename)
+                        switch (type)
+                        {
+                            case PRODUCT_PROFESSIONAL:
+                                M_StringCopy(typename, "Pro", sizeof(typename));
+                                break;
+
+                            case PRODUCT_ENTERPRISE:
+                                M_StringCopy(typename, "Enterprise", sizeof(typename));
+                                break;
+
+                            case PRODUCT_EDUCATION:
+                                M_StringCopy(typename, "Education", sizeof(typename));
+                                break;
+
+                            case PRODUCT_CORE:
+                                M_StringCopy(typename, "Home", sizeof(typename));
+                                break;
+                        }
+                }
             }
 
             if (wcslen(info.szCSDVersion) > 0)
@@ -191,7 +213,8 @@ void I_PrintWindowsVersion(void)
                 C_Output("It is running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, build);
             else
-                C_Output("It is running on " ITALICS("Microsoft Windows %s") " (Build %s).", infoname, build);
+                C_Output("It is running on " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
+                    infoname, (*typename ? " " : ""), typename, build);
 
             free(build);
         }
