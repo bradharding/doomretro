@@ -1391,7 +1391,7 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
             ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);
 
         timestamp = console[index].timestamp1;
-        x -= ampmwidth + 1;
+        x -= ampmwidth;
     }
     else
         timestamp = console[index].timestamp2;
