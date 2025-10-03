@@ -38,10 +38,12 @@
 * Navigating the menu using the thumbsticks on a controller, and using the mouse when the `m_pointer` CVAR is `on`, has improved.
 * A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed whereby the flash of the super shotgun could be misaligned in some rare instances.
-* Textures with a width that is not a power of two are now rendered correctly.
+* Textures with widths that are not powers of two are now rendered correctly.
 * Support has been added for textures between `TX_START` and `TX_END` markers in PWADs.
-* The timestamps in the console can now be disabled using the new `con_timestamps` CVAR, which is `on` by default.
-* The format of the timestamps in the console can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, and which now displays whether it is AM or PM), or `military`.
+* These changes have been made to the timestamps in the console:
+  * They are now more accurate.
+  * They can now be disabled using the new `con_timestamps` CVAR, which is `on` by default.
+  * Their format can now be changed using the new `con_timestampformat` CVAR, which can be set to `regular` (the default, and which now displays whether it is AM or PM), or `military`.
 * The color of the console’s edge can now be changed using the new `con_edgecolor` CVAR, which can be `auto` (the default), or `0` to `255`.
 * The `warninglevel` CVAR has been renamed `con_warninglevel`.
 * The player’s health is now updated when they are resurrected and the `negativehealth` CVAR is `on`.
