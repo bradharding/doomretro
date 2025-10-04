@@ -20,7 +20,7 @@
   * A bug is fixed whereby music wouldn’t be randomized when the `s_randommusic` CVAR was `on` and custom music was specified using `MUSIC`.
 * The music now updates immediately when changing the `s_randommusic` CVAR in the console.
 * These changes have been made to the alternate widescreen HUD:
-  * Changes have been made so that the color, translucency and drop shadow of some elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
+  * Changes have been made so that the color, translucency and drop shadow of all elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
   * The `DRHUDWP1` lump can now be replaced in a PWAD to change the silhouette of the player’s pistol.
 * Barrels now appear in the background when the menu is open.

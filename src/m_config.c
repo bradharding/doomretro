@@ -502,7 +502,7 @@ static default_t cvars[] =
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS      ),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS      ),
     BLANKLINE,
-    COMMENT("; player stats\n"  ),
+    COMMENT("; player stats\n"),
     STAT_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS        ),
     STAT_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS        ),
     STAT_INT_UNSIGNED (cheatsentered,                    stat_cheats,                           stat_cheatsentered,                    NOVALUEALIAS        ),

@@ -2877,7 +2877,7 @@ static void D_DoomMainSetup(void)
                 episode = episode_default;
                 EpiDef.laston = episode - 1;
                 expansion = expansion_default;
-                ExpDef.laston = expansion  - 1;
+                ExpDef.laston = expansion - 1;
                 M_SaveCVARs();
             }
 #endif

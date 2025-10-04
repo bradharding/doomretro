@@ -78,7 +78,7 @@
 #define EXPLODECMDFORMAT                BOLD("barrels") "|" BOLD("missiles")
 #define GIVECMDFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFCMDFORMAT                     BOLDITALICS("CVAR") " " BOLD("is")  " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+#define IFCMDFORMAT                     BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                         BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define KILLCMDFORMAT                   BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADCMDFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
