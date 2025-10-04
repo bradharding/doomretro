@@ -1510,7 +1510,12 @@ static void SetVideoMode(const bool createwindow, const bool output)
         }
     }
 
-    if (SDL_RenderSetLogicalSize(renderer, !vid_widescreen * SCREENWIDTH, ACTUALHEIGHT) < 0)
+    if (vid_widescreen)
+    {
+        if (SDL_RenderSetLogicalSize(renderer, 0, 0) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize", -1);
+    }
+    else if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, ACTUALHEIGHT) < 0)
         I_SDLError("SDL_RenderSetLogicalSize", -1);
 
     if (output)
