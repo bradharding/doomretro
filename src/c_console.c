@@ -2164,10 +2164,14 @@ void C_Drawer(void)
                     C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
                         y - (CONSOLEHEIGHT - consoleheight), i, consolewarningboldcolor);
             }
+            else if (con_edgecolor == con_edgecolor_auto)
+                V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                    console[i].header, CONSOLETEXTPIXELWIDTH + 7, consoleedgecolor1,
+                    (luminance[consoleedgecolor1 >> 8] <= 128 ? nearestwhite : nearestblack));
             else
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, CONSOLETEXTPIXELWIDTH + 7,
-                    (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : (nearestcolors[con_edgecolor] << 8)));
+                    console[i].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
+                    (luminance[nearestcolors[con_edgecolor]] <= 128 ? nearestwhite : nearestblack));
 
             if (wrap < len && i < bottomline)
             {
