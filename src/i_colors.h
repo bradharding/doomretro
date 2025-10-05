@@ -117,6 +117,8 @@ extern byte *white25;
 extern byte *white33;
 extern byte *white75;
 
+extern byte luminance[256];
+
 void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue);
 void FindNearestColors(byte *palette);

@@ -645,7 +645,8 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
     }
 }
 
-void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, const int color1, const int color2)
+void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, const int color1, const int color2,
+    const int color3)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -665,8 +666,10 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, const int color1, 
         {
             if (*source && height > 0)
             {
-                if (*source == WHITE || *source == LIGHTGRAY2)
-                    *dest = nearestcolors[*source];
+                if (*source == WHITE)
+                    *dest = color3;
+                else if (*source == LIGHTGRAY2)
+                    *dest = nearestcolors[(color3 == nearestwhite ? LIGHTGRAY2 : DARKGRAY3)];
                 else if (*source == CONSOLEEDGECOLOR2)
                     *dest = tinttab60[color2 + *dest];
                 else

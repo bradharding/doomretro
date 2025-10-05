@@ -129,6 +129,8 @@ byte    *white25;
 byte    *white33;
 byte    *white75;
 
+byte    luminance[256];
+
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue)
 {
     int bestdiff = INT_MAX;
@@ -166,6 +168,7 @@ void FindNearestColors(byte *palette)
         const byte  blue = *playpal++;
 
         nearestcolors[i] = FindNearestColor(palette, red, green, blue);
+        luminance[i] = (int)(red * 0.299f + green * 0.587f + blue * 0.114f);
     }
 
     nearestblack = nearestcolors[BLACK];

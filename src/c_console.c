@@ -1018,7 +1018,8 @@ static void C_DrawBackground(void)
     if (con_edgecolor == con_edgecolor_auto)
     {
         V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-            consoleheight - brandheight + 2, brand, consoleedgecolor1, consoleedgecolor2);
+            consoleheight - brandheight + 2, brand, consoleedgecolor1, consoleedgecolor2,
+            (luminance[consoleedgecolor1 >> 8] <= 128 ? nearestwhite : nearestblack));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[consoleedgecolor1 + screens[0][i]];
@@ -1029,7 +1030,8 @@ static void C_DrawBackground(void)
         const int   color2 = black25[color1 >> 8] << 8;
 
         V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-            consoleheight - brandheight + 2, brand, color1, color2);
+            consoleheight - brandheight + 2, brand, color1, color2,
+            (luminance[color1 >> 8] <= 128 ? nearestwhite : nearestblack));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[color1 + screens[0][i]];
