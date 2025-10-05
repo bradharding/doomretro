@@ -1373,14 +1373,14 @@ char *C_CreateTimeStamp(const int index)
     M_snprintf(console[index].timestamp1, sizeof(console[0].timestamp1), "%i:%02i:%02i",
         (hours ? hours : 12), minutes, seconds);
 
-    return (con_timestampformat == con_timestampformat_regular ? console[index].timestamp1 : console[index].timestamp2);
+    return (con_timestampformat == con_timestampformat_standard ? console[index].timestamp1 : console[index].timestamp2);
 }
 
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
     char    *timestamp;
 
-    if (con_timestampformat == con_timestampformat_regular)
+    if (con_timestampformat == con_timestampformat_standard)
     {
         V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[console[index].pm],
             ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);

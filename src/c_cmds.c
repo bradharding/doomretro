@@ -703,7 +703,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, int_cvars_func2, CF_NONE, EDGECOLORVALUEALIAS,
         "The color of console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(con_timestampformat, "", "", con_timestampformat_func1, con_timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
-        "The format of the timestamps in the console (" BOLD("regular") " or " BOLD("military") ")."),
+        "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
     CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles timestamps in the console."),
     CVAR_INT(con_warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -2560,7 +2560,7 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring)
                 {
                     char                buffer[9];
-                    const unsigned int  spaces = (con_timestampformat == con_timestampformat_regular ? 90 : 92) - outpos;
+                    const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
 
                     for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
                         fputc(' ', file);
@@ -2572,7 +2572,7 @@ static void condump_func2(char *cmd, char *parms)
 
                     fputs(buffer, file);
 
-                    if (con_timestampformat == con_timestampformat_regular)
+                    if (con_timestampformat == con_timestampformat_standard)
                         fputs((console[i].pm ? "PM" : "AM"), file);
                 }
 
@@ -10190,7 +10190,7 @@ static void con_timestampformat_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS);
 
-        if ((value == con_timestampformat_military || value == con_timestampformat_regular) && value != con_timestampformat)
+        if ((value == con_timestampformat_military || value == con_timestampformat_standard) && value != con_timestampformat)
         {
             con_timestampformat = value;
             M_SaveCVARs();

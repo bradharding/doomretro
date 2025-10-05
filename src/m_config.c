@@ -640,7 +640,7 @@ valuealias_t valuealiases[] =
     { "imperial",       units_imperial,               UNITSVALUEALIAS      },
     { "metric",         units_metric,                 UNITSVALUEALIAS      },
     { "military",       con_timestampformat_military, TIMESTAMPVALUEALIAS  },
-    { "regular",        con_timestampformat_regular,  TIMESTAMPVALUEALIAS  },
+    { "standard",       con_timestampformat_standard, TIMESTAMPVALUEALIAS  },
 #if !defined (__APPLE__)
     { "adaptive",       vid_vsync_adaptive,           VSYNCVALUEALIAS      },
 #endif

@@ -291,7 +291,7 @@ enum
 enum
 {
     con_timestampformat_military,
-    con_timestampformat_regular
+    con_timestampformat_standard
 };
 
 enum
@@ -530,7 +530,7 @@ enum
 #define con_edgecolor_default               con_edgecolor_auto
 #define con_edgecolor_max                   255
 
-#define con_timestampformat_default         con_timestampformat_regular
+#define con_timestampformat_default         con_timestampformat_standard
 
 #define con_timestamps_default              true
 
