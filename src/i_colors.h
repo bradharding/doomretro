@@ -121,7 +121,7 @@ extern byte luminance[256];
 
 void I_InitTintTables(byte *palette);
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue);
-void FindNearestColors(byte *palette);
+void I_InitColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch);

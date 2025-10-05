@@ -2004,7 +2004,7 @@ void I_InitGraphics(void)
 
     PLAYPAL = (harmony ? W_CacheLastLumpName("PLAYPAL") : W_CacheLumpName("PLAYPAL"));
     I_InitTintTables(PLAYPAL);
-    FindNearestColors(PLAYPAL);
+    I_InitColors(PLAYPAL);
 
     I_InitPaletteTables();
     I_SetGamma(r_gamma);
