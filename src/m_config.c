@@ -291,20 +291,20 @@ uint64_t    stat_timeplayed = 0;
 static bool cvarsloaded;
 static int  widestcvar;
 
-#define COMMENT(text)                                   { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
-#define BLANKLINE                                       { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
-#define CVAR_BOOL(name1, name2, cvar, alias)            { #name1, #name2, &cvar, DEFAULT_BOOL,          alias        }
-#define CVAR_INT(name1, name2, cvar, alias)             { #name1, #name2, &cvar, DEFAULT_INT32,         alias        }
-#define CVAR_INT_PERCENT(name1, name2, cvar, alias)     { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, alias        }
-#define CVAR_FLOAT(name1, name2, cvar, alias)           { #name1, #name2, &cvar, DEFAULT_FLOAT,         alias        }
-#define CVAR_FLOAT_PERCENT(name1, name2, cvar, alias)   { #name1, #name2, &cvar, DEFAULT_FLOAT_PERCENT, alias        }
-#define CVAR_STRING(name1, name2, cvar, alias)          { #name1, #name2, &cvar, DEFAULT_STRING,        alias        }
-#define CVAR_OTHER(name1, name2, cvar, alias)           { #name1, #name2, &cvar, DEFAULT_OTHER,         alias        }
-#define STAT_INT_UNSIGNED(name1, name2, cvar, alias)    { #name1, #name2, &cvar, DEFAULT_UINT64,        alias        }
+#define COMMENT(text)                                   { text "\n", "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define BLANKLINE                                       { "",        "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define CVAR_BOOL(name1, name2, cvar, alias)            { #name1,    #name2, &cvar, DEFAULT_BOOL,          alias        }
+#define CVAR_INT(name1, name2, cvar, alias)             { #name1,    #name2, &cvar, DEFAULT_INT32,         alias        }
+#define CVAR_INT_PERCENT(name1, name2, cvar, alias)     { #name1,    #name2, &cvar, DEFAULT_INT32_PERCENT, alias        }
+#define CVAR_FLOAT(name1, name2, cvar, alias)           { #name1,    #name2, &cvar, DEFAULT_FLOAT,         alias        }
+#define CVAR_FLOAT_PERCENT(name1, name2, cvar, alias)   { #name1,    #name2, &cvar, DEFAULT_FLOAT_PERCENT, alias        }
+#define CVAR_STRING(name1, name2, cvar, alias)          { #name1,    #name2, &cvar, DEFAULT_STRING,        alias        }
+#define CVAR_OTHER(name1, name2, cvar, alias)           { #name1,    #name2, &cvar, DEFAULT_OTHER,         alias        }
+#define STAT_INT_UNSIGNED(name1, name2, cvar, alias)    { #name1,    #name2, &cvar, DEFAULT_UINT64,        alias        }
 
 static default_t cvars[] =
 {
-    COMMENT("; CVARs\n"),
+    COMMENT("; CVARs"),
     CVAR_BOOL         (alwaysrun,                        alwaysrun,                             alwaysrun,                             BOOLVALUEALIAS      ),
     CVAR_INT          (am_allmapcdwallcolor,             am_allmapcdwallcolour,                 am_allmapcdwallcolor,                  NOVALUEALIAS        ),
     CVAR_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolour,                 am_allmapfdwallcolor,                  NOVALUEALIAS        ),
@@ -502,7 +502,7 @@ static default_t cvars[] =
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS      ),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS      ),
     BLANKLINE,
-    COMMENT("; player stats\n"),
+    COMMENT("; player stats"),
     STAT_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS        ),
     STAT_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS        ),
     STAT_INT_UNSIGNED (cheatsentered,                    stat_cheats,                           stat_cheatsentered,                    NOVALUEALIAS        ),
