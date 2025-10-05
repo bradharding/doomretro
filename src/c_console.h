@@ -263,6 +263,7 @@ void C_PlayerWarning(const char *string, ...);
 void C_ResetWrappedLines(void);
 void C_AddConsoleDivider(void);
 void C_ClearConsole(void);
+void C_InitEdgecolors(void);
 void C_Init(void);
 void C_ShowConsole(bool reset);
 void C_HideConsole(void);

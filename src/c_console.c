@@ -731,7 +731,7 @@ void C_ClearConsole(void)
     }
 }
 
-static void C_InitEdgecolors(void)
+void C_InitEdgecolors(void)
 {
     consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
