@@ -849,7 +849,7 @@ void C_Init(void)
     ampmwidth = SHORT(ampm[0]->width);
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
-    timewidth = C_OverlayWidth("00:00", true);
+    timewidth = C_OverlayWidth("00:00.00", true);
 
     M_TranslateAutocomplete();
 }
@@ -1602,7 +1602,7 @@ void C_UpdateFPSOverlay(void)
 
 void C_UpdateTimerOverlay(void)
 {
-    static char buffer[10];
+    static char buffer[16];
     static int  prevtime = -1;
     int         y = OVERLAYTEXTY;
 
@@ -1612,13 +1612,16 @@ void C_UpdateTimerOverlay(void)
     if (timeremaining != prevtime)
     {
         int         seconds = (prevtime = timeremaining) / TICRATE;
+        const int   millseconds = (prevtime % TICRATE) * (1000 / TICRATE);
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 
         if (hours)
-            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds % 60);
+            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i.%02i",
+                hours, minutes, seconds % 60, millseconds / 10);
         else
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds % 60);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i.%02i",
+                minutes, seconds % 60, millseconds / 10);
 
         timerwidth = C_OverlayWidth(buffer, true);
     }
@@ -1731,7 +1734,7 @@ void C_UpdatePlayerStatsOverlay(void)
     const byte  color = C_GetOverlayTextColor();
     const byte  shadowcolor = C_GetOverlayTextShadowColor();
     const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
-    static char time[10];
+    static char buffer[16];
     static int  prevmaptime = -1;
     static int  width;
 
@@ -1761,6 +1764,7 @@ void C_UpdatePlayerStatsOverlay(void)
     if (maptime != prevmaptime)
     {
         int         seconds = (prevmaptime = maptime) / TICRATE;
+        const int   millseconds = (prevmaptime % TICRATE) * (1000 / TICRATE);
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 
@@ -1768,23 +1772,24 @@ void C_UpdatePlayerStatsOverlay(void)
         {
             if (sucktime && hours >= sucktime)
             {
-                M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
+                M_StringCopy(buffer, s_STSTR_SUCKS, sizeof(buffer));
                 width = suckswidth;
             }
             else
             {
-                M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
-                width = C_OverlayWidth(time, true);
+                M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i.%02i",
+                    hours, minutes, seconds % 60, millseconds / 10);
+                width = C_OverlayWidth(buffer, true);
             }
         }
         else
         {
-            M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i.%02i", minutes, seconds % 60, millseconds / 10);
             width = timewidth;
         }
     }
 
-    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time, color, true, shadowcolor);
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, buffer, color, true, shadowcolor);
     y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
