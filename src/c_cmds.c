@@ -133,8 +133,8 @@
 #define STRINGCVARWITHDEFAULT           "It is currently set to " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT         "It is currently set to " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT             "It is currently set to its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT1          "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2          "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT1          "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2          "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
 
 #define INDENT                          "       "
 
@@ -2808,23 +2808,24 @@ static void cvarlist_func2(char *cmd, char *parms)
             }
             else if (consolecmds[i].flags & CF_TIME)
             {
-                int     tics = *(int *)consolecmds[i].variable / TICRATE;
-                const   int hours = tics / 3600;
-                const   int minutes = ((tics %= 3600)) / 60;
-                const   int seconds = tics % 60;
+                int         tics = *(int *)consolecmds[i].variable;
+                int         seconds = tics / TICRATE;
+                const int   milliseconds = (tics % TICRATE) * (1000 / TICRATE);
+                const int   hours = seconds / 3600;
+                const int   minutes = ((seconds %= 3600)) / 60;
 
                 if (!tics)
                     C_TabbedOutput(tabs, BOLD("%s")
-                        "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
-                        name, minutes, seconds, description);
+                        "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "\t%s",
+                        name, minutes, seconds % 60, milliseconds / 10, description);
                 else if (!hours)
                     C_TabbedOutput(tabs, BOLD("%s")
-                        "\t" BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
-                        name, minutes, seconds, description);
+                        "\t" BOLDER(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "\t%s",
+                        name, minutes, seconds % 60, milliseconds / 10, description);
                 else
                     C_TabbedOutput(tabs, BOLD("%s")
-                        "\t" BOLDER(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
-                        name, hours, minutes, seconds, description);
+                        "\t" BOLDER(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "\t%s",
+                        name, hours, minutes, seconds % 60, milliseconds / 10, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
             {
@@ -9866,17 +9867,18 @@ static void time_cvars_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_TIME))
         {
-            int         tics = *(int *)consolecmds[i].variable / TICRATE;
-            const int   hours = tics / 3600;
-            const int   minutes = ((tics %= 3600)) / 60;
-            const int   seconds = tics % 60;
+            int         tics = *(int *)consolecmds[i].variable;
+            int         seconds = tics / TICRATE;
+            const int   milliseconds = (tics % TICRATE) * (1000 / TICRATE);
+            const int   hours = seconds / 3600;
+            const int   minutes = ((seconds %= 3600)) / 60;
 
             C_ShowDescription(i);
 
             if (hours)
-                C_Output(TIMECVARWITHNODEFAULT2, hours, minutes, seconds);
+                C_Output(TIMECVARWITHNODEFAULT2, hours, minutes, seconds % 60, milliseconds / 10);
             else
-                C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds);
+                C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds % 60, milliseconds / 10);
 
             C_ShowWarning(i);
             break;
