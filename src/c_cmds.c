@@ -465,7 +465,6 @@ static void am_rotatemode_func2(char *cmd, char *parms);
 static bool armortype_func1(char *cmd, char *parms);
 static void armortype_func2(char *cmd, char *parms);
 static void autotilt_func2(char *cmd, char *parms);
-static void con_edgecolor_func2(char* cmd, char* parms);
 static bool con_timestampformat_func1(char *cmd, char *parms);
 static void con_timestampformat_func2(char *cmd, char *parms);
 static bool crosshair_func1(char *cmd, char *parms);
@@ -701,7 +700,7 @@ consolecmd_t consolecmds[] =
         "Lists all console commands."),
     CCMD(condump, "", "", condump_func1, condump_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
         "Dumps the contents of the console to a file."),
-    CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, con_edgecolor_func2, CF_NONE, EDGECOLORVALUEALIAS,
+    CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, int_cvars_func2, CF_NONE, EDGECOLORVALUEALIAS,
         "The color of console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(con_timestampformat, "", "", con_timestampformat_func1, con_timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
         "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
@@ -10175,15 +10174,6 @@ static void autotilt_func2(char *cmd, char *parms)
 
         R_InitColumnFunctions();
     }
-}
-
-//
-// con_edgecolor CVAR
-//
-static void con_edgecolor_func2(char* cmd, char* parms)
-{
-    int_cvars_func2(cmd, parms);
-    C_InitEdgecolors();
 }
 
 //

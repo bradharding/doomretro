@@ -731,7 +731,7 @@ void C_ClearConsole(void)
     }
 }
 
-void C_InitEdgecolors(void)
+static void C_InitEdgeColors(void)
 {
     consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
@@ -796,7 +796,7 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
-    C_InitEdgecolors();
+    C_InitEdgeColors();
 
     consolecolors[inputstring] = consoleinputcolor;
     consolecolors[cheatstring] = consoleinputcolor;
