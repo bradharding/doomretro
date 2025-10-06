@@ -159,7 +159,7 @@ int FindNearestColor(byte *palette, const byte red, const byte green, const byte
 
 void I_InitColors(byte *palette)
 {
-    byte    *playpal = W_CacheLastLumpName("PLAYPAL");
+    byte    *playpal = W_CacheLumpNameFromResourceWAD("PLAYPAL");
 
     for (int i = 0; i < 256; i++)
     {
