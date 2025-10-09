@@ -663,7 +663,23 @@ void AM_ClearMarks(void)
 void AM_DropBreadCrumb(void)
 {
     if (numbreadcrumbs >= maxbreadcrumbs)
-        breadcrumb = I_Realloc(breadcrumb, (maxbreadcrumbs *= 2) * sizeof(*breadcrumb));
+    {
+        const int   MAX_BREADCRUMBS = INT_MAX / (int)sizeof(*breadcrumb);
+        int         newmax = (maxbreadcrumbs ? maxbreadcrumbs * 2 : 16);
+
+        if (maxbreadcrumbs > MAX_BREADCRUMBS / 2)
+            return;
+
+        if (newmax > MAX_BREADCRUMBS)
+            newmax = MAX_BREADCRUMBS;
+
+
+        breadcrumb = I_Realloc(breadcrumb, newmax * sizeof(*breadcrumb));
+        maxbreadcrumbs = newmax;
+    }
+
+    if (numbreadcrumbs < 0 || numbreadcrumbs >= maxbreadcrumbs)
+        return;
 
     breadcrumb[numbreadcrumbs].x = viewx;
     breadcrumb[numbreadcrumbs++].y = viewy;
