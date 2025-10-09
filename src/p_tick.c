@@ -218,7 +218,9 @@ void P_Ticker(void)
 
     if (freeze)
     {
-        P_MobjThinker(viewplayer->mo);
+        if (!menuactive)
+            P_MobjThinker(viewplayer->mo);
+
         return;
     }
 
