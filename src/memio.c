@@ -40,23 +40,6 @@
 #include "memio.h"
 #include "z_zone.h"
 
-typedef enum
-{
-    MODE_READ,
-    MODE_WRITE
-} memfile_mode_t;
-
-struct _MEMFILE
-{
-    unsigned char   *buf;
-    size_t          buflen;
-    size_t          alloced;
-    unsigned int    position;
-    bool            readeof;
-    bool            eof;
-    memfile_mode_t  mode;
-};
-
 // Open a memory area for reading
 MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 {

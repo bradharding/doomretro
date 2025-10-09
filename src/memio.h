@@ -37,7 +37,22 @@
 
 #include <stdbool.h>
 
-typedef struct _MEMFILE MEMFILE;
+typedef enum
+{
+    MODE_READ,
+    MODE_WRITE
+} memfile_mode_t;
+
+typedef struct
+{
+    unsigned char   *buf;
+    size_t          buflen;
+    size_t          alloced;
+    unsigned int    position;
+    bool            readeof;
+    bool            eof;
+    memfile_mode_t  mode;
+} MEMFILE;
 
 typedef enum
 {

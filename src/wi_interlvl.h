@@ -56,13 +56,13 @@ typedef enum
     Frame_RandomStart    = 0x1000
 } frametype_t;
 
-typedef struct interlevelcond_s
+typedef struct
 {
     animcondition_t     condition;
     int                 param;
 } interlevelcond_t;
 
-typedef struct interlevelframe_s
+typedef struct
 {
     char                *imagelump;
     frametype_t         type;
@@ -70,7 +70,7 @@ typedef struct interlevelframe_s
     int                 maxduration;
 } interlevelframe_t;
 
-typedef struct interlevelanim_s
+typedef struct
 {
     interlevelframe_t   *frames;
     interlevelcond_t    *conditions;
@@ -78,13 +78,13 @@ typedef struct interlevelanim_s
     int                 ypos;
 } interlevelanim_t;
 
-typedef struct interlevellayer_s
+typedef struct
 {
     interlevelanim_t    *anims;
     interlevelcond_t    *conditions;
 } interlevellayer_t;
 
-typedef struct interlevel_s
+typedef struct
 {
     char                *musiclump;
     char                *backgroundlump;

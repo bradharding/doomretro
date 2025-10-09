@@ -70,12 +70,12 @@ static const byte filter[256] =
 #define BLUES   B
 #define EXTRAS  X
 
-typedef struct vect
+typedef struct
 {
     float   x;
     float   y;
     float   z;
-} vect;
+} vector_t;
 
 byte    *tinttab4;
 byte    *tinttab5;
@@ -380,7 +380,7 @@ void I_InitTintTables(byte *palette)
     tinttabblue25 = GenerateTintTable(palette, 25, BLUES);
 }
 
-static void HSVtoRGB(vect *hsv, vect *rgb)
+static void HSVtoRGB(vector_t *hsv, vector_t *rgb)
 {
     float   h = hsv->x * 360.0f;
     float   s = hsv->y;
@@ -451,7 +451,7 @@ static void HSVtoRGB(vect *hsv, vect *rgb)
     }
 }
 
-static void RGBtoHSV(vect *rgb, vect *hsv)
+static void RGBtoHSV(vector_t *rgb, vector_t *hsv)
 {
     const float r = rgb->x;
     const float g = rgb->y;
@@ -482,8 +482,8 @@ static void RGBtoHSV(vect *rgb, vect *hsv)
 
 byte I_GoldTranslation(byte *playpal, byte color)
 {
-    vect    rgb;
-    vect    hsv;
+    vector_t    rgb;
+    vector_t    hsv;
 
     rgb.x = playpal[color * 3] / 255.0f;
     rgb.y = playpal[color * 3 + 1] / 255.0f;
