@@ -296,6 +296,33 @@ static void AddSpriteLump(lumpinfo_t *lump)
             states[S_BAR1].nextstate = S_BAR2;
             mobjinfo[MT_BARREL].frames = 2;
         }
+
+        if (M_StringStartsWith(lump->name, "PVIS"))
+            mobjinfo[MT_MISC16].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        else if (M_StringStartsWith(lump->name, "TLMP"))
+            mobjinfo[MT_MISC29].flags2 &= ~MF2_TRANSLUCENT_BLUEONLY;
+        else if (M_StringStartsWith(lump->name, "TLP2"))
+            mobjinfo[MT_MISC30].flags2 &= ~MF2_TRANSLUCENT_BLUEONLY;
+        else if (M_StringStartsWith(lump->name, "COLU"))
+            mobjinfo[MT_MISC31].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        else if (M_StringStartsWith(lump->name, "CEYE"))
+            mobjinfo[MT_MISC38].flags2 &= ~MF2_TRANSLUCENT_GREENONLY;
+        else if (M_StringStartsWith(lump->name, "TBLU"))
+            mobjinfo[MT_MISC41].flags2 &= ~MF2_TRANSLUCENT_BLUEONLY;
+        else if (M_StringStartsWith(lump->name, "TGRN"))
+            mobjinfo[MT_MISC42].flags2 &= ~MF2_TRANSLUCENT_GREENONLY;
+        else if (M_StringStartsWith(lump->name, "TRED"))
+            mobjinfo[MT_MISC43].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        else if (M_StringStartsWith(lump->name, "SMBT"))
+            mobjinfo[MT_MISC44].flags2 &= ~MF2_TRANSLUCENT_BLUEONLY;
+        else if (M_StringStartsWith(lump->name, "SMGT"))
+            mobjinfo[MT_MISC45].flags2 &= ~MF2_TRANSLUCENT_GREENONLY;
+        else if (M_StringStartsWith(lump->name, "SMRT"))
+            mobjinfo[MT_MISC46].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        else if (M_StringStartsWith(lump->name, "CAND"))
+            mobjinfo[MT_MISC49].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        else if (M_StringStartsWith(lump->name, "FCAN"))
+            mobjinfo[MT_MISC77].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
     }
 
     if (isresourcewad)
