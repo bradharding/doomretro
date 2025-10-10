@@ -144,3 +144,4 @@ bool            WISCRT2;
 
 int             PLAYPALs;
 int             STBARs;
+int             WICOLONs;

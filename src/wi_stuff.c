@@ -265,9 +265,10 @@ static patch_t          *yah[3];
 // splat
 static patch_t          *splat[2];
 
-// %, : graphics
+// %, :, . graphics
 static patch_t          *percent;
 static patch_t          *colon;
+static patch_t          *period;
 
 // 0-9 graphic
 static patch_t          *num[10];
@@ -915,6 +916,15 @@ static void WI_DrawTime(int x, int y, int t)
     {
         int div = 1;
 
+        if (WICOLONs == 1)
+        {
+            x = WI_DrawNum(x, y, ((t * 1000 / TICRATE) % 1000) / 10, 2);
+            x -= SHORT(period->width);
+            V_DrawMenuPatch(x + 1, y + 1, period, false, SCREENWIDTH);
+        }
+
+        t /= TICRATE;
+
         do
         {
             x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
@@ -1134,8 +1144,8 @@ static void WI_UpdateStats(void)
         cnt_kills = (wbs->skills * 100) / wbs->maxkills;
         cnt_items = (wbs->sitems * 100) / wbs->maxitems;
         cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
-        cnt_time = wbs->stime / TICRATE;
-        cnt_par = wbs->partime / TICRATE;
+        cnt_time = wbs->stime;
+        cnt_par = wbs->partime;
         S_StartSound(NULL, sfx_barexp);
         sp_state = 10;
     }
@@ -1197,29 +1207,29 @@ static void WI_UpdateStats(void)
         if (!(bcnt & 3) && play_early_explosion)
             S_StartSound(NULL, sfx_pistol);
 
-        cnt_time += 3;
+        cnt_time += 3 * TICRATE;
 
-        if (cnt_time >= wbs->stime / TICRATE)
-            cnt_time = wbs->stime / TICRATE;
+        if (cnt_time > wbs->stime)
+            cnt_time = wbs->stime;
 
-        cnt_par += 3;
+        cnt_par += 3 * TICRATE;
 
         // e6y
         // if par time is hidden (if modifiedgame is true)
         // the game should play explosion sound immediately after
         // the counter will reach level time instead of par time
         if (modifiedgame && play_early_explosion)
-            if (cnt_time >= wbs->stime / TICRATE)
+            if (cnt_time >= wbs->stime)
             {
                 S_StartSound(NULL, sfx_barexp);
                 play_early_explosion = false;   // do not play it twice or more
             }
 
-        if (cnt_par >= wbs->partime / TICRATE)
+        if (cnt_par >= wbs->partime)
         {
-            cnt_par = wbs->partime / TICRATE;
+            cnt_par = wbs->partime;
 
-            if (cnt_time >= wbs->stime / TICRATE)
+            if (cnt_time >= wbs->stime)
             {
                 // e6y: do not play explosion sound if it was already played
                 if (!modifiedgame)
@@ -1282,13 +1292,14 @@ static void WI_DrawStats(void)
     }
 
     V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false, SCREENWIDTH);
-    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16, SP_TIMEY, cnt_time);
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16
+        + (WICOLONs == 1) * 19, SP_TIMEY, cnt_time);
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3),
-            SP_TIMEY + 1, par, false, SCREENWIDTH);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par);
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3)
+            - (WICOLONs == 1) * 19, SP_TIMEY + 1, par, false, SCREENWIDTH);
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
     }
 }
 
@@ -1432,6 +1443,9 @@ static void WI_LoadUnloadData(load_callback_t callback)
 
     // ":"
     callback("WICOLON", &colon);
+
+    // "."
+    callback("WIPERIOD", &period);
 
     // "time"
     callback("WITIME", &timepatch);

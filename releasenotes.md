@@ -50,7 +50,7 @@
 * The `health` CVAR can now be set to `0%` when the `negativehealth` CVAR is `on`.
 * The `maplist` CCMD now lists the author for each map.
 * Mouse buttons bound to the `+rotatemode` action now work as intended.
-* The times displayed when the `am_playerstats` CVAR is `on`, and when the `timer` CCMD is used, now show the number of milliseconds.
+* The times displayed on the intermission screen, when the `am_playerstats` CVAR is `on`, and when the `timer` CCMD is used, now show the number of milliseconds.
 * Per-pixel translucency is now removed from sprites that are replaced using a PWAD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

@@ -188,6 +188,7 @@ extern bool             WISCRT2;
 
 extern int              PLAYPALs;
 extern int              STBARs;
+extern int              WICOLONs;
 
 // -------------------------
 // Internal parameters for sound rendering.
