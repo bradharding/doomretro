@@ -2523,6 +2523,7 @@ static void D_DoomMainSetup(void)
     M_SKULL1 = (W_GetNumLumps("M_SKULL1") > 1);
     M_SVOL = (W_GetNumLumps("M_SVOL") > 1);
     STYSNUM0 = (W_GetNumLumps("STYSNUM0") > 1);
+    WIPERIOD = (W_GetNumLumps("WIPERIOD") > 1);
     WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 
     I_InitGraphics();
