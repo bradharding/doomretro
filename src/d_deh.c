@@ -2690,6 +2690,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural3));
         else if (*name && !namechange)
         {
+            M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1, sizeof(mobjinfo[0].name3));
             M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(name)), sizeof(mobjinfo[0].name1));
             M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
             namechange = true;

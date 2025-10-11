@@ -18,6 +18,7 @@
   * `NOJUMP` and `NOFREELOOK` now always work as intended.
   * `LABEL` is now supported.
   * A bug is fixed whereby music wouldn’t be randomized when the `s_randommusic` CVAR was `on` and custom music was specified using `MUSIC`.
+  * A bug is fixed whereby `BOSSACTION` wouldn’t be parsed in some rare instances.
 * The music now updates immediately when changing the `s_randommusic` CVAR in the console.
 * These changes have been made to the alternate widescreen HUD:
   * Changes have been made so that the color, translucency and drop shadow of all elements are now consistent, particularly when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
