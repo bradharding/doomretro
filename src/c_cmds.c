@@ -5306,7 +5306,7 @@ static int GetNumMaps(int lumpnum)
     {
         char    lump[9];
 
-        strncpy(lump, lumpinfo[i]->name, sizeof(lump));
+        M_StringCopy(lump, lumpinfo[i]->name, sizeof(lump));
 
         if (!strncmp(lump, "MAP", 3) && isdigit(lump[3]) && isdigit(lump[4]) && strlen(lump) == 5)
         {

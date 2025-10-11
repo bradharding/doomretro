@@ -908,13 +908,13 @@ static void WI_DrawTime(int x, int y, int t, bool end)
     if (t < 0)
         return;
 
-    x += (SHORT(num[0]->width) - 11) * 4;
-
     if (sucktime && t > sucktime * 61 * 59 * TICRATE)
         V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 12, y + 1, sucks, false, SCREENWIDTH);
     else
     {
         int div = 1;
+
+        x += (SHORT(num[0]->width) - 11) * 4;
 
         if (WICOLONs == 1 || WIPERIOD)
         {
