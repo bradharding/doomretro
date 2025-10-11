@@ -5298,6 +5298,32 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
         C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
 }
 
+static int GetNumMaps(int lumpnum)
+{
+    int count = 0;
+
+    for (int i = 0; i < numlumps; i++)
+    {
+        char    lump[9];
+
+        strncpy(lump, lumpinfo[i]->name, sizeof(lump));
+
+        if (!strncmp(lump, "MAP", 3) && isdigit(lump[3]) && isdigit(lump[4]) && strlen(lump) == 5)
+        {
+            int map;
+
+            if (sscanf(lump + 3, "%2i", &map) == 1
+                && M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
+                count++;
+        }
+        else if (lump[0] == 'E' && isdigit(lump[1]) && lump[2] == 'M' && isdigit(lump[3]) && strlen(lump) == 4
+            && M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
+            count++;
+    }
+
+    return count;
+}
+
 static void mapstats_func2(char *cmd, char *parms)
 {
     struct
@@ -5419,15 +5445,20 @@ static void mapstats_func2(char *cmd, char *parms)
 
     C_Header(tabs, mapstats, MAPSTATSHEADER);
 
-    if (gamemode == commercial)
+    if (wadtype == IWAD)
     {
-        if (gamemission == pack_nerve)
-            C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
+        if (gamemode == commercial)
+        {
+            if (gamemission == pack_nerve)
+                C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
+            else
+                C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (legacyofrust ? 16 : (bfgedition ? 33 : 32)));
+        }
         else
-            C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (legacyofrust ? 16 : (bfgedition ? 33 : 32)));
+            C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
     }
     else
-        C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
+        C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, GetNumMaps(lump));
 
     if (!M_StringCompare(maptitle, mapnum))
     {
