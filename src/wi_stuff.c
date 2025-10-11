@@ -918,8 +918,12 @@ static void WI_DrawTime(int x, int y, int t, bool end)
 
         if (WICOLONs == 1 || WIPERIOD)
         {
-            x = WI_DrawNum(x, y, ((t * 1000 / TICRATE) % 1000) / 10 + (end ? 0 : M_BigRandomInt(0, 99)), 2);
-            x -= SHORT(period->width);
+            int millisseconds = (t * 1000 / TICRATE) % 1000;
+
+            if (!end)
+                millisseconds += M_BigRandomInt(0, 99);
+
+            x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(period->width);
             V_DrawMenuPatch(x + 1, y + 1, period, false, SCREENWIDTH);
         }
 
@@ -928,10 +932,8 @@ static void WI_DrawTime(int x, int y, int t, bool end)
         do
         {
             x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
-            div *= 60;
 
-            // draw
-            if (div == 60 || t / div)
+            if ((div *= 60) == 60 || t / div)
                 V_DrawMenuPatch(x + 1, y + 1, colon, false, SCREENWIDTH);
         } while (t / div);
 
@@ -1107,12 +1109,11 @@ static void WI_InitStats(void)
         C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
     else
         C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-            wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60, ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
+            (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60, ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
 
     if (wbs->partime)
         C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-            wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60,
-            ((wbs->partime * 1000 / TICRATE) % 1000) / 10);
+            (wbs->partime / TICRATE) / 60, (wbs->partime / TICRATE) % 60, ((wbs->partime * 1000 / TICRATE) % 1000) / 10);
 
     if (totaltime > maptime)
     {
