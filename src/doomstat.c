@@ -140,9 +140,9 @@ short           SLIME09;
 short           SLIME12;
 bool            STCFNxxx = false;
 bool            STYSNUM0;
+bool            WICOLON;
 bool            WIPERIOD;
 bool            WISCRT2;
 
 int             PLAYPALs;
 int             STBARs;
-int             WICOLONs;

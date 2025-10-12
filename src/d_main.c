@@ -2496,7 +2496,6 @@ static void D_DoomMainSetup(void)
 
     PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_GetNumLumps("PLAYPAL"));
     STBARs = W_GetNumLumps("STBAR");
-    WICOLONs = W_GetNumLumps("WICOLON");
 
     DBIGFONT = (W_CheckNumForName("DBIGFONT") >= 0);
     DSFLAMST = (W_GetNumLumps("DSFLAMST") > 1);
@@ -2523,6 +2522,7 @@ static void D_DoomMainSetup(void)
     M_SKULL1 = (W_GetNumLumps("M_SKULL1") > 1);
     M_SVOL = (W_GetNumLumps("M_SVOL") > 1);
     STYSNUM0 = (W_GetNumLumps("STYSNUM0") > 1);
+    WICOLON = (W_GetNumLumps("WICOLON") > 1);
     WIPERIOD = (W_GetNumLumps("WIPERIOD") > 1);
     WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 

@@ -3829,7 +3829,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                             info->numbossactions++;
 
                                         info->bossactions = (bossaction_t *)I_Realloc(info->bossactions,
-                                            sizeof(bossaction_t) * info->numbossactions);
+                                            info->numbossactions * sizeof(bossaction_t));
 
                                         info->bossactions[info->numbossactions - 1].type = i;
                                         info->bossactions[info->numbossactions - 1].special = special;

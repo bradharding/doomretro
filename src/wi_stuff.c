@@ -916,7 +916,7 @@ static void WI_DrawTime(int x, int y, int t, bool end)
 
         x += (SHORT(num[0]->width) - 11) * 4;
 
-        if (WICOLONs == 1 || WIPERIOD)
+        if (!WICOLON || WIPERIOD)
         {
             int millisseconds = (t * 1000 / TICRATE) % 1000;
 
@@ -1324,12 +1324,12 @@ static void WI_DrawStats(void)
 
     V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false, SCREENWIDTH);
     WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16
-        + (WICOLONs == 1 || WIPERIOD) * 19, SP_TIMEY, cnt_time, (cnt_time == wbs->stime));
+        + (!WICOLON || WIPERIOD) * 19, SP_TIMEY, cnt_time, (cnt_time == wbs->stime));
 
     if (wbs->partime)
     {
         V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3)
-            - (WICOLONs == 1 || WIPERIOD) * 19, SP_TIMEY + 1, par, false, SCREENWIDTH);
+            - (!WICOLON || WIPERIOD) * 19, SP_TIMEY + 1, par, false, SCREENWIDTH);
         WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
             (cnt_par == wbs->partime));
     }

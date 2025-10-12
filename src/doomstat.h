@@ -184,12 +184,12 @@ extern short            SLIME09;
 extern short            SLIME12;
 extern bool             STCFNxxx;
 extern bool             STYSNUM0;
+extern bool             WICOLON;
 extern bool             WIPERIOD;
 extern bool             WISCRT2;
 
 extern int              PLAYPALs;
 extern int              STBARs;
-extern int              WICOLONs;
 
 // -------------------------
 // Internal parameters for sound rendering.

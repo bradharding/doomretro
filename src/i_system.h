@@ -64,7 +64,7 @@ void I_ShutdownWindows32(void);
 // Called by M_Responder when quit is selected.
 void I_Quit(bool shutdown);
 
-void I_Error(const char *error, ...) FORMATATTR(1, 2);
+NORETURN void I_Error(const char *error, ...) FORMATATTR(1, 2);
 
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
