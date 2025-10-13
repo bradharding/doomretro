@@ -25,18 +25,18 @@
   * A bug is fixed whereby the wrong keys would flash when trying to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible locked door that requires all six keys.
   * The `DRHUDWP1` lump can now be replaced in a PWAD to change the silhouette of the player’s pistol.
 * Barrels now appear in the background when the menu is open.
+* Navigating the menu using the thumbsticks on a controller, and using the mouse when the `m_pointer` CVAR is `on`, has improved.
+* The framerate is now capped at 60 FPS when the menu is open and the `vid_vsync` CVAR is `on`.
 * These changes have been made to the crosshair:
   * The default value of the `crosshaircolor` CVAR has changed from `4` (white) to `112` (green).
   * The crosshair is now slightly more opaque when the `r_hud_translucency` CVAR is `on`.
   * The crosshair now becomes brighter when the player is firing their weapon and the `r_hud_translucency` CVAR is `off`.
   * The crosshair is now larger and consistent regardless of the value of the `r_detail` CVAR.
-  * Several new crosshair styles are available. As well as `cross` and `dot`, the `crosshair` CVAR can now also be set to `angle`, `bigcross`, `circle`, `bigcircle`, `chevron`, `chevrons` or `arcs`.
+  * Several new crosshair styles are available. As well as the existing `cross` and `dot`, the `crosshair` CVAR can now be set to `angle`, `bigcross`, `circle`, `bigcircle`, `chevron`, `chevrons` or `arcs`.
   * The crosshair can now be replaced in a PWAD by including `DRXHAIR1` to `DRXHAIR9` lumps.
   * The crosshair now remains on the screen while the console is open.
-  * The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
-* The framerate is now capped at 60 FPS when the menu is open and the `vid_vsync` CVAR is `on`.
+* The crosshair in the automap when `am_followmode` is `off` is now also slightly larger.
 * The number of decorations in the map displayed by the `mapstats` CCMD is now more accurate.
-* Navigating the menu using the thumbsticks on a controller, and using the mouse when the `m_pointer` CVAR is `on`, has improved.
 * A crash no longer occurs when the player has a partial invisibility power-up and the `r_textures` CVAR is `off`.
 * A bug is fixed whereby the flash of the super shotgun could be misaligned in some rare instances.
 * Textures with widths that are not powers of two are now rendered correctly.
@@ -47,12 +47,12 @@
   * Their format can now be changed using the new `con_timestampformat` CVAR, which can be set to `standard` (the default, and which now displays whether it is AM or PM), or `military`.
 * The color of the console’s edge can now be changed using the new `con_edgecolor` CVAR, which can be `auto` (the default), or `0` to `255`. Also, the color of *DOOM Retro’s* logo is now black if the color chosen is too bright.
 * The `warninglevel` CVAR has been renamed `con_warninglevel`.
-* The player’s health is now updated when they are resurrected and the `negativehealth` CVAR is `on`.
+* The player’s health now updates when they are resurrected and the `negativehealth` CVAR is `on`.
 * The `health` CVAR can now be set to `0%` when the `negativehealth` CVAR is `on`.
 * The `maplist` CCMD now lists the author for each map.
 * Mouse buttons bound to the `+rotatemode` action now work as intended.
 * The times displayed on the intermission screen, when the `am_playerstats` CVAR is `on`, and when the `timer` CCMD is used, now show the number of milliseconds.
-* Per-pixel translucency is now removed from sprites that are replaced using a PWAD.
+* Per-pixel translucency is now removed from sprites that are replaced in a PWAD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

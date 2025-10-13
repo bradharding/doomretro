@@ -664,15 +664,14 @@ void AM_DropBreadCrumb(void)
 {
     if (numbreadcrumbs >= maxbreadcrumbs)
     {
-        const int   MAX_BREADCRUMBS = INT_MAX / (int)sizeof(*breadcrumb);
+        const int   MAXBREADCRUMBS = INT_MAX / (int)sizeof(*breadcrumb);
         int         newmax = (maxbreadcrumbs ? maxbreadcrumbs * 2 : 16);
 
-        if (maxbreadcrumbs > MAX_BREADCRUMBS / 2)
+        if (maxbreadcrumbs > MAXBREADCRUMBS / 2)
             return;
 
-        if (newmax > MAX_BREADCRUMBS)
-            newmax = MAX_BREADCRUMBS;
-
+        if (newmax > MAXBREADCRUMBS)
+            newmax = MAXBREADCRUMBS;
 
         breadcrumb = I_Realloc(breadcrumb, newmax * sizeof(*breadcrumb));
         maxbreadcrumbs = newmax;
