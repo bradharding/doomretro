@@ -1101,7 +1101,7 @@ static void R_SetupFrame(void)
     {
         const uint64_t  time = I_GetTimeMS();
 
-        if (shake > time)
+        if (shake > time && shakeduration)
         {
             const fixed_t   amount = FRACUNIT * (fixed_t)(shake - time) / shakeduration;
 
