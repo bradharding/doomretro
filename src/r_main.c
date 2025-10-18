@@ -1191,12 +1191,10 @@ void R_RenderPlayerView(void)
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            (maptime % 20 < 9 ? nearestred : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                colormaps[0][32 * 256 + WHITE] : nearestblack)), 0, false, false, NULL, NULL);
+            (maptime % 20 < 9 ? nearestred : nearestblack), 0, false, false, NULL, NULL);
     else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack),
-            0, false, false, NULL, NULL);
+            nearestblack, 0, false, false, NULL, NULL);
 
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
 
