@@ -5428,8 +5428,9 @@ static void mapstats_func2(char *cmd, char *parms)
         char    lumpname[6];
 
         M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", gamemap);
-        lump = W_CheckNumForName(lumpname);
-        wadtype = lumpinfo[lump]->wadfile->type;
+
+        if ((lump = W_CheckNumForName(lumpname)) >= 0)
+            wadtype = lumpinfo[lump]->wadfile->type;
     }
 
     if (lump == -1)
