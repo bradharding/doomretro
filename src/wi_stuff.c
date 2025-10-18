@@ -903,12 +903,12 @@ static void WI_DrawPercent(int x, int y, int p)
 // Display level completion time and par,
 //  or "sucks" message if overflow.
 //
-static void WI_DrawTime(int x, int y, int t, bool end)
+static void WI_DrawTime(int x, int y, int t, bool ms, bool end)
 {
     if (t < 0)
         return;
 
-    if (sucktime && t > sucktime * 61 * 59 * TICRATE)
+    if (sucktime && t > sucktime * 60 * 60 * TICRATE)
         V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 12, y + 1, sucks, false, SCREENWIDTH);
     else
     {
@@ -916,7 +916,7 @@ static void WI_DrawTime(int x, int y, int t, bool end)
 
         x += (SHORT(num[0]->width) - 11) * 4;
 
-        if (!WICOLON || WIPERIOD)
+        if (ms)
         {
             int millisseconds = (t * 1000 / TICRATE) % 1000;
 
@@ -940,6 +940,40 @@ static void WI_DrawTime(int x, int y, int t, bool end)
         if (t < 60)
             WI_DrawNum(x, y, 0, 2);
     }
+}
+
+static void WI_DrawParTime(int x, int y, int t, bool ms, bool end)
+{
+    int div = 1;
+
+    if (t < 0)
+        return;
+
+    x += (SHORT(num[0]->width) - 11) * 4;
+
+    if (ms)
+    {
+        int millisseconds = (t * 1000 / TICRATE) % 1000;
+
+        if (!end)
+            millisseconds += M_BigRandomInt(0, 99);
+
+        x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(period->width);
+        V_DrawMenuPatch(x + 1, y + 1, period, false, SCREENWIDTH);
+    }
+
+    t /= TICRATE;
+
+    do
+    {
+        x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
+
+        if ((div *= 60) == 60 || t / div)
+            V_DrawMenuPatch(x + 1, y + 1, colon, false, SCREENWIDTH);
+    } while (t / div);
+
+    if (t < 60)
+        WI_DrawNum(x, y, 0, 2);
 }
 
 static void WI_UnloadData(void);
@@ -1296,6 +1330,8 @@ static void WI_UpdateStats(void)
 
 static void WI_DrawStats(void)
 {
+    const bool  ms = (wbs->stime < 60 * 50 * TICRATE && (!WICOLON || WIPERIOD));
+
     // line height
     const int   lh = 3 * SHORT(num[0]->height) / 2;
 
@@ -1323,15 +1359,16 @@ static void WI_DrawStats(void)
     }
 
     V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false, SCREENWIDTH);
-    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16
-        + (!WICOLON || WIPERIOD) * 19, SP_TIMEY, cnt_time, (cnt_time == wbs->stime));
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + 16, SP_TIMEY, cnt_time,
+        (ms && (!sucktime || wbs->stime <= sucktime * 60 * 60 * TICRATE)),
+        (cnt_time == wbs->stime));
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3)
-            - (!WICOLON || WIPERIOD) * 19, SP_TIMEY + 1, par, false, SCREENWIDTH);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
-            (cnt_par == wbs->partime));
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3) - 16,
+            SP_TIMEY + 1, par, false, SCREENWIDTH);
+        WI_DrawParTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
+            ms, (cnt_par == wbs->partime));
     }
 }
 
