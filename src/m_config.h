@@ -153,6 +153,7 @@ extern bool     r_damageeffect;
 extern int      r_detail;
 extern bool     r_diskicon;
 extern bool     r_ditheredlighting;
+extern int      r_extralighting;
 extern bool     r_fixmaperrors;
 extern bool     r_fixspriteoffsets;
 extern bool     r_floatbob;
@@ -162,7 +163,6 @@ extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
-extern int      r_levelbrightness;
 extern bool     r_linearskies;
 extern bool     r_liquid_bob;
 extern bool     r_liquid_bobsprites;
@@ -708,6 +708,10 @@ enum
 
 #define r_ditheredlighting_default          true
 
+#define r_extralighting_min                 0
+#define r_extralighting_default             0
+#define r_extralighting_max                 100
+
 #define r_fixmaperrors_default              true
 
 #define r_fixspriteoffsets_default          true
@@ -729,10 +733,6 @@ enum
 #define r_hud_default                       false
 
 #define r_hud_translucency_default          true
-
-#define r_levelbrightness_min               0
-#define r_levelbrightness_default           0
-#define r_levelbrightness_max               100
 
 #define r_linearskies_default               false
 
