@@ -62,7 +62,6 @@ void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 byte    *colortranslation[10];
 byte    cr_gold[256];
-byte    cr_gold[256];
 byte    cr_none[256];
 
 typedef struct

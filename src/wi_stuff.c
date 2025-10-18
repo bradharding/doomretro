@@ -266,30 +266,30 @@ static patch_t          *yah[3];
 static patch_t          *splat[2];
 
 // %, :, . graphics
-static patch_t          *percent;
-static patch_t          *colon;
-static patch_t          *period;
+static patch_t          *wipcnt;
+static patch_t          *wicolon;
+static patch_t          *wiperiod;
 
 // 0-9 graphic
 static patch_t          *num[10];
 
 // "Finished!" graphics
-static patch_t          *finished;
+static patch_t          *wif;
 
 // "Entering" graphic
-static patch_t          *entering;
+static patch_t          *wienter;
 
 // "secret"
-static patch_t          *sp_secret;
+static patch_t          *wiscrt2;
 
 // "Kills", "Scrt", "Items"
-static patch_t          *kills;
-static patch_t          *items;
+static patch_t          *wiostk;
+static patch_t          *wiosti;
 
 // Time sucks.
-static patch_t          *timepatch;
-static patch_t          *par;
-static patch_t          *sucks;
+static patch_t          *witime;
+static patch_t          *wipar;
+static patch_t          *wisucks;
 
 // Name graphics of each level (centered)
 static patch_t          **lnames;
@@ -655,10 +655,10 @@ static void WI_DrawLF(void)
         y = WI_TITLEY + 24;
 
     // draw "Finished!"
-    if (SHORT(finished->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(finished->width)) / 2 + 1, y + 1, finished, false, SCREENWIDTH);
+    if (SHORT(wif->height) < VANILLAHEIGHT)
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(wif->width)) / 2 + 1, y + 1, wif, false, SCREENWIDTH);
     else
-        V_DrawPagePatch(0, finished);
+        V_DrawPagePatch(0, wif);
 }
 
 // Draws "Entering <LevelName>"
@@ -668,13 +668,13 @@ static void WI_DrawEL(void)
     const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->next + 1);
 
     // draw "Entering"
-    if (SHORT(entering->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(entering->width)) / 2 + 1, y + 1, entering, false, SCREENWIDTH);
+    if (SHORT(wienter->height) < VANILLAHEIGHT)
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(wienter->width)) / 2 + 1, y + 1, wienter, false, SCREENWIDTH);
     else
-        V_DrawPagePatch(0, entering);
+        V_DrawPagePatch(0, wienter);
 
     // draw "<LevelName>"
-    y += SHORT(entering->height) + 4;
+    y += SHORT(wienter->height) + 4;
 
     if (titlepatch > 0)
     {
@@ -895,7 +895,7 @@ static void WI_DrawPercent(int x, int y, int p)
     if (p < 0)
         return;
 
-    V_DrawMenuPatch(x + 1, y + 1, percent, false, SCREENWIDTH);
+    V_DrawMenuPatch(x + 1, y + 1, wipcnt, false, SCREENWIDTH);
     WI_DrawNum(x, y, p, -1);
 }
 
@@ -903,77 +903,43 @@ static void WI_DrawPercent(int x, int y, int p)
 // Display level completion time and par,
 //  or "sucks" message if overflow.
 //
-static void WI_DrawTime(int x, int y, int t, bool ms, bool end)
+static void WI_DrawTime(int x, int y, int tics, bool showms, bool end, bool sucks)
 {
-    if (t < 0)
+    if (tics < 0)
         return;
 
-    if (sucktime && t >= sucktime * 61 * 59 * TICRATE && t > wbs->partime)
-        V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 8, y + 1, sucks, false, SCREENWIDTH);
+    if (sucks && sucktime && tics >= sucktime * 61 * 59 * TICRATE)
+        V_DrawMenuPatch(SP_TIMEX + SHORT(witime->width) + 8, y + 1, wisucks, false, SCREENWIDTH);
     else
     {
         int div = 1;
 
         x += (SHORT(num[0]->width) - 11) * 4;
 
-        if (ms)
+        if (showms)
         {
-            int millisseconds = (t * 1000 / TICRATE) % 1000;
+            int millisseconds = (tics * 1000 / TICRATE) % 1000;
 
             if (!end)
                 millisseconds += M_BigRandomInt(0, 99);
 
-            x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(period->width);
-            V_DrawMenuPatch(x + 1, y + 1, period, false, SCREENWIDTH);
+            x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(wiperiod->width);
+            V_DrawMenuPatch(x + 1, y + 1, wiperiod, false, SCREENWIDTH);
         }
 
-        t /= TICRATE;
+        tics /= TICRATE;
 
         do
         {
-            x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
+            x = WI_DrawNum(x, y, (tics / div) % 60, 2) - SHORT(wicolon->width);
 
-            if ((div *= 60) == 60 || t / div)
-                V_DrawMenuPatch(x + 1, y + 1, colon, false, SCREENWIDTH);
-        } while (t / div);
+            if ((div *= 60) == 60 || tics / div)
+                V_DrawMenuPatch(x + 1, y + 1, wicolon, false, SCREENWIDTH);
+        } while (tics / div);
 
-        if (t < 60)
+        if (tics < 60)
             WI_DrawNum(x, y, 0, 2);
     }
-}
-
-static void WI_DrawParTime(int x, int y, int t, bool ms, bool end)
-{
-    int div = 1;
-
-    if (t < 0)
-        return;
-
-    x += (SHORT(num[0]->width) - 11) * 4;
-
-    if (ms)
-    {
-        int millisseconds = (t * 1000 / TICRATE) % 1000;
-
-        if (!end)
-            millisseconds += M_BigRandomInt(0, 99);
-
-        x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(period->width);
-        V_DrawMenuPatch(x + 1, y + 1, period, false, SCREENWIDTH);
-    }
-
-    t /= TICRATE;
-
-    do
-    {
-        x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
-
-        if ((div *= 60) == 60 || t / div)
-            V_DrawMenuPatch(x + 1, y + 1, colon, false, SCREENWIDTH);
-    } while (t / div);
-
-    if (t < 60)
-        WI_DrawNum(x, y, 0, 2);
 }
 
 static void WI_UnloadData(void);
@@ -1339,10 +1305,10 @@ static void WI_DrawStats(void)
 
     WI_DrawLF();
 
-    V_DrawMenuPatch(SP_STATSX, SP_STATSY + 1, kills, false, SCREENWIDTH);
+    V_DrawMenuPatch(SP_STATSX, SP_STATSY + 1, wiostk, false, SCREENWIDTH);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
 
-    V_DrawMenuPatch(SP_STATSX, SP_STATSY + lh + 1, items, false, SCREENWIDTH);
+    V_DrawMenuPatch(SP_STATSX, SP_STATSY + lh + 1, wiosti, false, SCREENWIDTH);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
 
     if (totalsecrets)
@@ -1350,22 +1316,22 @@ static void WI_DrawStats(void)
         if (!WISCRT2)
             M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 2, "secrets", false, true);
         else
-            V_DrawMenuPatch(SP_STATSX, SP_STATSY + 2 * lh + 1, sp_secret, false, SCREENWIDTH);
+            V_DrawMenuPatch(SP_STATSX, SP_STATSY + 2 * lh + 1, wiscrt2, false, SCREENWIDTH);
 
         WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
     }
 
-    V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false, SCREENWIDTH);
-    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + 16, SP_TIMEY, cnt_time,
+    V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, witime, false, SCREENWIDTH);
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + 18, SP_TIMEY, cnt_time,
         (ms && (!sucktime || wbs->stime <= sucktime * 60 * 60 * TICRATE)),
-        (cnt_time == wbs->stime));
+        (cnt_time == wbs->stime), (wbs->stime > wbs->partime));
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3) - 16,
-            SP_TIMEY + 1, par, false, SCREENWIDTH);
-        WI_DrawParTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
-            ms, (cnt_par == wbs->partime));
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3) - 18,
+            SP_TIMEY + 1, wipar, false, SCREENWIDTH);
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
+            ms, (cnt_par == wbs->partime), false);
     }
 }
 
@@ -1490,37 +1456,37 @@ static void WI_LoadUnloadData(load_callback_t callback)
     }
 
     // percent sign
-    callback("WIPCNT", &percent);
+    callback("WIPCNT", &wipcnt);
 
     // "finished"
-    callback("WIF", &finished);
+    callback("WIF", &wif);
 
     // "entering"
-    callback("WIENTER", &entering);
+    callback("WIENTER", &wienter);
 
     // "kills"
-    callback("WIOSTK", &kills);
+    callback("WIOSTK", &wiostk);
 
     // "secret"
-    callback("WISCRT2", &sp_secret);
+    callback("WISCRT2", &wiscrt2);
 
     // "items"
-    callback("WIOSTI", &items);
+    callback("WIOSTI", &wiosti);
 
     // ":"
-    callback("WICOLON", &colon);
+    callback("WICOLON", &wicolon);
 
     // "."
-    callback("WIPERIOD", &period);
+    callback("WIPERIOD", &wiperiod);
 
     // "time"
-    callback("WITIME", &timepatch);
+    callback("WITIME", &witime);
 
     // "sucks"
-    callback("WISUCKS", &sucks);
+    callback("WISUCKS", &wisucks);
 
     // "par"
-    callback("WIPAR", &par);
+    callback("WIPAR", &wipar);
 }
 
 static void WI_LoadCallback(const char *name, patch_t **variable)
