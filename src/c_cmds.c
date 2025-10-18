@@ -4916,16 +4916,16 @@ static void map_func2(char *cmd, char *parms)
 #define TM      "Tom Mustaine"
 #define TW      "Tim Willits"
 #define WW      "William D Whitaker"
-#define AMSP    AM " and " SP
-#define BKTH2   BK " and " TH2
-#define DC2DB   DC2 " and " DB
-#define DCMC    DC " and " MC
-#define DCTH2   DC " and " TH2
-#define JRTH    JR " and " TH
-#define JSTH2   JS " and " TH2
-#define MSJL    MS " and " JL
-#define RPJM2   RP " and " JM2
-#define SPTH    SP " and " TH
+#define AMSP    AM ", " SP
+#define BKTH2   BK ", " TH2
+#define DC2DB   DC2 ", " DB
+#define DCMC    DC ", " MC
+#define DCTH2   DC ", " TH2
+#define JRTH    JR ", " TH
+#define JSTH2   JS ", " TH2
+#define MSJL    MS ", " JL
+#define RPJM2   RP ", " JM2
+#define SPTH    SP ", " TH
 
 char *authors[][6] =
 {
@@ -5041,7 +5041,7 @@ static char *getauthor(int ep, int map, bool replaced)
 
 static void maplist_func2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 40, 93, 270, 450 };
+    const int   tabs[MAXTABS] = { 40, 93, 270, 470 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
 
@@ -5081,7 +5081,7 @@ static void maplist_func2(char *cmd, char *parms)
         }
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
-        replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM);
+        replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM && !nerve);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
         M_StringCopy(author, getauthor(ep, map, replaced), sizeof(author));
