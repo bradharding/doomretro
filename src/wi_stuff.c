@@ -909,7 +909,7 @@ static void WI_DrawTime(int x, int y, int t, bool ms, bool end)
         return;
 
     if (sucktime && t >= sucktime * 61 * 59 * TICRATE && t > wbs->partime)
-        V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 12, y + 1, sucks, false, SCREENWIDTH);
+        V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 8, y + 1, sucks, false, SCREENWIDTH);
     else
     {
         int div = 1;
