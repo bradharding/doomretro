@@ -370,8 +370,8 @@ void C_PlayerMessage(const char *string, ...)
 
 void C_PlayerObituary(const char *string, ...)
 {
-    va_list     args;
-    char        buffer[CONSOLETEXTMAXLENGTH];
+    va_list args;
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
@@ -400,8 +400,8 @@ void C_PlayerObituary(const char *string, ...)
 
 void C_PlayerWarning(const char *string, ...)
 {
-    va_list     args;
-    char        buffer[CONSOLETEXTMAXLENGTH];
+    va_list args;
+    char    buffer[CONSOLETEXTMAXLENGTH];
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
