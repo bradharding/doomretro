@@ -351,7 +351,7 @@ static default_t cvars[] =
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS      ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS      ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS      ),
-    CVAR_INT          (con_edgecolor,                    con_edgecolor,                         con_edgecolor,                         EDGECOLORVALUEALIAS),
+    CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS),
     CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS      ),
     CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      NOVALUEALIAS        ),
