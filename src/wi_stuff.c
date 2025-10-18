@@ -908,7 +908,7 @@ static void WI_DrawTime(int x, int y, int t, bool ms, bool end)
     if (t < 0)
         return;
 
-    if (sucktime && t > sucktime * 60 * 60 * TICRATE && t > wbs->partime)
+    if (sucktime && t >= sucktime * 61 * 59 * TICRATE && t > wbs->partime)
         V_DrawMenuPatch(SP_TIMEX + SHORT(timepatch->width) + 12, y + 1, sucks, false, SCREENWIDTH);
     else
     {
@@ -1152,12 +1152,28 @@ static void WI_InitStats(void)
             if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
                 C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
             else
-                C_TabbedOutput(tabs, "Time\t" MONOSPACED("0") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                    (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60, ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
+                C_TabbedOutput(tabs, "Time\t" MONOSPACED("0") ":" MONOSPACED("%02i")
+                    ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
+                    (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60,
+                    ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
 
             if (wbs->partime)
-                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("0") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                    (wbs->partime / TICRATE) / 60, (wbs->partime / TICRATE) % 60, ((wbs->partime * 1000 / TICRATE) % 1000) / 10);
+            {
+                int         partics = wbs->partime / TICRATE;
+                const int   parhours = partics / 3600;
+                const int   parminutes = ((partics %= 3600)) / 60;
+                const int   parseconds = partics % 60;
+                const int   parmilliseconds = (wbs->partime * 1000 / TICRATE) % 1000;
+
+                if (parhours)
+                    C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                        ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
+                        parhours, parminutes, parseconds, parmilliseconds / 10);
+                else
+                    C_TabbedOutput(tabs, "Par time\t" MONOSPACED("0") ":" MONOSPACED("%02i")
+                        ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
+                        parminutes, parseconds, parmilliseconds / 10);
+            }
 
             C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%i") ":" MONOSPACED("%02i")
                 ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
@@ -1168,16 +1184,29 @@ static void WI_InitStats(void)
             if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
                 C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
             else
-                C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                    (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60, ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
+                C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                    "." MONOSPACED("%02i"), (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60,
+                    ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
 
             if (wbs->partime)
-                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                    (wbs->partime / TICRATE) / 60, (wbs->partime / TICRATE) % 60, ((wbs->partime * 1000 / TICRATE) % 1000) / 10);
+            {
+                int         partics = wbs->partime / TICRATE;
+                const int   parhours = partics / 3600;
+                const int   parminutes = ((partics %= 3600)) / 60;
+                const int   parseconds = partics % 60;
+                const int   parmilliseconds = (wbs->partime * 1000 / TICRATE) % 1000;
+
+                if (parhours)
+                    C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") 
+                        ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
+                        parhours, parminutes, parseconds, parmilliseconds / 10);
+                else
+                    C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                        "." MONOSPACED("%02i"), parminutes, parseconds, parmilliseconds / 10);
+            }
 
             C_TabbedOutput(tabs, "Total time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
-                "." MONOSPACED("%02i"),
-                minutes, seconds, milliseconds / 10);
+                "." MONOSPACED("%02i"), minutes, seconds, milliseconds / 10);
         }
     }
     else
@@ -1185,12 +1214,26 @@ static void WI_InitStats(void)
         if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
             C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
         else
-            C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60, ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
+            C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "." MONOSPACED("%02i"), (wbs->stime / TICRATE) / 60, (wbs->stime / TICRATE) % 60,
+                ((wbs->stime * 1000 / TICRATE) % 1000) / 10);
 
         if (wbs->partime)
-            C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
-                (wbs->partime / TICRATE) / 60, (wbs->partime / TICRATE) % 60, ((wbs->partime * 1000 / TICRATE) % 1000) / 10);
+        {
+            int         partics = wbs->partime / TICRATE;
+            const int   parhours = partics / 3600;
+            const int   parminutes = ((partics %= 3600)) / 60;
+            const int   parseconds = partics % 60;
+            const int   parmilliseconds = (wbs->partime * 1000 / TICRATE) % 1000;
+
+            if (parhours)
+                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                    ":" MONOSPACED("%02i") "." MONOSPACED("%02i"),
+                    parhours, parminutes, parseconds, parmilliseconds / 10);
+            else
+                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                    "." MONOSPACED("%02i"), parminutes, parseconds, parmilliseconds / 10);
+        }
     }
 
     WI_InitAnimatedBack(true);
