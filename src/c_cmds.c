@@ -5390,7 +5390,7 @@ static void mapstats_func2(char *cmd, char *parms)
 
     const int   tabs[MAXTABS] = { 137 };
     char        *temp;
-    int         lump;
+    int         lump = -1;
     int         wadtype;
     const char  *author = P_GetMapAuthor(gameepisode, gamemap);
     const char  *mapinfolabel = trimwhitespace(P_GetLabel(gameepisode, gamemap));
@@ -5423,7 +5423,7 @@ static void mapstats_func2(char *cmd, char *parms)
         return;
     }
 
-    if (BTSX || KDIKDIZD || legacyofrust || mapinfolabel)
+    if (BTSX || KDIKDIZD || legacyofrust || *mapinfolabel)
     {
         char    lumpname[6];
 
@@ -5431,7 +5431,8 @@ static void mapstats_func2(char *cmd, char *parms)
         lump = W_CheckNumForName(lumpname);
         wadtype = lumpinfo[lump]->wadfile->type;
     }
-    else
+
+    if (lump == -1)
     {
         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
