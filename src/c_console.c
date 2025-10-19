@@ -345,8 +345,7 @@ void C_PlayerMessage(const char *string, ...)
 
     if (console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
-        console[i].timestamp1[0] = '\0';
-        console[i].timestamp2[0] = '\0';
+        C_CreateTimeStamp(i);
         console[i].count++;
     }
     else
@@ -357,8 +356,7 @@ void C_PlayerMessage(const char *string, ...)
         M_StringReplaceAll(buffer, "\n", " ", false);
         M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].stringtype = playermessagestring;
-        console[numconsolestrings].timestamp1[0] = '\0';
-        console[numconsolestrings].timestamp2[0] = '\0';
+        C_CreateTimeStamp(numconsolestrings);
         console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
         console[numconsolestrings].indent = 0;
         console[numconsolestrings].wrap = 0;
@@ -382,8 +380,7 @@ void C_PlayerObituary(const char *string, ...)
 
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].stringtype = playerwarningstring;
-    console[numconsolestrings].timestamp1[0] = '\0';
-    console[numconsolestrings].timestamp2[0] = '\0';
+    C_CreateTimeStamp(numconsolestrings);
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = WARNINGWIDTH + 2;
     console[numconsolestrings].wrap = 0;
@@ -412,8 +409,7 @@ void C_PlayerWarning(const char *string, ...)
 
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].stringtype = playerwarningstring;
-    console[numconsolestrings].timestamp1[0] = '\0';
-    console[numconsolestrings].timestamp2[0] = '\0';
+    C_CreateTimeStamp(numconsolestrings);
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = WARNINGWIDTH + 2;
     console[numconsolestrings].wrap = 0;
@@ -2101,9 +2097,6 @@ void C_Drawer(void)
                         consoleplayermessagecolor, tinttab66, notabs, true, true, false, i, '\0', '\0',
                         &V_DrawConsoleTextPatch);
 
-                if (!*console[i].timestamp1)
-                    C_CreateTimeStamp(i);
-
                 if (con_timestamps)
                     C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
                         y - (CONSOLEHEIGHT - consoleheight), i, consoleplayermessagecolor);
@@ -2156,9 +2149,6 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor, NOBACKGROUNDCOLOR,
                         consolewarningboldcolor, tinttab66, notabs, true, true, false, i, '\0', '\0',
                         &V_DrawConsoleTextPatch);
-
-                if (!*console[i].timestamp1)
-                    C_CreateTimeStamp(i);
 
                 if (con_timestamps)
                     C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,

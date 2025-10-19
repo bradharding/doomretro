@@ -2565,7 +2565,8 @@ static void condump_func2(char *cmd, char *parms)
                     for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
                         fputc(' ', file);
 
-                    M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
+                    M_StringCopy(buffer, (con_timestampformat == con_timestampformat_standard ?
+                        console[i].timestamp1 : console[i].timestamp2), sizeof(buffer));
 
                     if (strlen(buffer) == 7)
                         fputc(' ', file);
