@@ -2559,22 +2559,24 @@ static void condump_func2(char *cmd, char *parms)
 
                 if (type == playermessagestring || type == playerwarningstring)
                 {
-                    char                buffer[9];
                     const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
 
                     for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
                         fputc(' ', file);
 
-                    M_StringCopy(buffer, (con_timestampformat == con_timestampformat_standard ?
-                        console[i].timestamp1 : console[i].timestamp2), sizeof(buffer));
-
-                    if (strlen(buffer) == 7)
-                        fputc(' ', file);
-
-                    fputs(buffer, file);
-
                     if (con_timestampformat == con_timestampformat_standard)
-                        fputs((console[i].pm ? "PM" : "AM"), file);
+                    {
+                        int hours = console[i].hours;
+
+                        if (hours > 12)
+                            hours %= 12;
+
+                        fprintf(file, "%2i:%02i:%02i%s",
+                            (hours ? hours : 12), console[i].minutes, console[i].seconds, (console[i].hours >= 12 ? "PM" : "AM"));
+                    }
+                    else
+                        fprintf(file, "%02i:%02i:%02i",
+                            console[i].hours, console[i].minutes, console[i].seconds);
                 }
 
                 fputc('\n', file);

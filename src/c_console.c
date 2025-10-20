@@ -1342,13 +1342,10 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
     }
 }
 
-char *C_CreateTimeStamp(const int index)
+void C_CreateTimeStamp(const int index)
 {
     time_t      now = time(NULL);
     struct tm   currenttime;
-    int         hours;
-    int         minutes;
-    int         seconds;
 
 #if defined(_WIN32)
     localtime_s(&currenttime, &now);
@@ -1356,38 +1353,32 @@ char *C_CreateTimeStamp(const int index)
     localtime_r(&now, &currenttime);
 #endif
 
-    hours = currenttime.tm_hour;
-    minutes = currenttime.tm_min;
-    seconds = currenttime.tm_sec;
-
-    console[index].pm = (hours >= 12);
-
-    M_snprintf(console[index].timestamp2, sizeof(console[0].timestamp2), "%02i:%02i:%02i",
-        hours, minutes, seconds);
-
-    if (hours > 12)
-        hours %= 12;
-
-    M_snprintf(console[index].timestamp1, sizeof(console[0].timestamp1), "%i:%02i:%02i",
-        (hours ? hours : 12), minutes, seconds);
-
-    return (con_timestampformat == con_timestampformat_standard ? console[index].timestamp1 : console[index].timestamp2);
+    console[index].hours = currenttime.tm_hour;
+    console[index].minutes = currenttime.tm_min;
+    console[index].seconds = currenttime.tm_sec;
 }
 
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
-    char    *timestamp;
+    char    timestamp[9];
 
     if (con_timestampformat == con_timestampformat_standard)
     {
-        V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[console[index].pm],
+        int hours = console[index].hours;
+
+        V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[hours >= 12],
             ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);
 
-        timestamp = console[index].timestamp1;
+        if (hours > 12)
+            hours %= 12;
+
+        M_snprintf(timestamp, sizeof(timestamp), "%i:%02i:%02i",
+            (hours ? hours : 12), console[index].minutes, console[index].seconds);
         x -= ampmwidth;
     }
     else
-        timestamp = console[index].timestamp2;
+        M_snprintf(timestamp, sizeof(timestamp), "%02i:%02i:%02i",
+            console[index].hours, console[index].minutes, console[index].seconds);
 
     for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {

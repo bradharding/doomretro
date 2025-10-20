@@ -175,9 +175,9 @@ typedef struct
     int             indent;
     patch_t         *header;
     int             tabs[MAXTABS];
-    char            timestamp1[9];
-    char            timestamp2[9];
-    bool            pm;
+    int             hours;
+    int             minutes;
+    int             seconds;
 } console_t;
 
 typedef struct
@@ -277,7 +277,7 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
-char *C_CreateTimeStamp(const int index);
+void C_CreateTimeStamp(const int index);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
 
 #if defined(_WIN32)
