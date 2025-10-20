@@ -2520,7 +2520,10 @@ static void condump_func2(char *cmd, char *parms)
                 int             tabcount = 0;
 
                 if (!len)
+                {
+                    free(string);
                     continue;
+                }
 
                 if (type == warningstring || type == playerwarningstring)
                     fputs("! ", file);

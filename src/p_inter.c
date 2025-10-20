@@ -1259,10 +1259,8 @@ bool P_TakeSpecialThing(const mobjtype_t type)
     {
         // green armor
         case MT_MISC0:
-            if (viewplayer->armortype != green_armor_class)
-                return false;
-
-            if (viewplayer->armor < green_armor_class * 100)
+            if (viewplayer->armortype != green_armor_class
+                || viewplayer->armor < green_armor_class * 100)
                 return false;
 
             viewplayer->armor -= green_armor_class * 100;
@@ -1272,10 +1270,8 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // blue armor
         case MT_MISC1:
-            if (viewplayer->armortype != blue_armor_class)
-                return false;
-
-            if (viewplayer->armor < blue_armor_class * 100)
+            if (viewplayer->armortype != blue_armor_class
+                || viewplayer->armor < blue_armor_class * 100)
                 return false;
 
             viewplayer->armor -= blue_armor_class * 100;
@@ -1285,16 +1281,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // bonus health
         case MT_MISC2:
-            if (viewplayer->cheats & CF_GODMODE)
-                return false;
-
-            if (viewplayer->powers[pw_invulnerability])
-                return false;
-
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health == 1)
-                return false;
-
-            if (viewplayer->health <= 0)
+            if ((viewplayer->cheats & CF_GODMODE)
+                || viewplayer->powers[pw_invulnerability]
+                || ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health == 1)
+                || viewplayer->health <= 0)
                 return false;
 
             viewplayer->health--;
@@ -1315,16 +1305,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // soulsphere
         case MT_MISC12:
-            if (viewplayer->cheats & CF_GODMODE)
-                return false;
-
-            if (viewplayer->powers[pw_invulnerability])
-                return false;
-
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= soul_health)
-                return false;
-
-            if (viewplayer->health < soul_health)
+            if ((viewplayer->cheats & CF_GODMODE)
+                || viewplayer->powers[pw_invulnerability]
+                || ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= soul_health)
+                || viewplayer->health < soul_health)
                 return false;
 
             viewplayer->health -= soul_health;
@@ -1337,16 +1321,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // mega health
         case MT_MEGA:
-            if (viewplayer->cheats & CF_GODMODE)
-                return false;
-
-            if (viewplayer->powers[pw_invulnerability])
-                return false;
-
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= mega_health)
-                return false;
-
-            if (viewplayer->health < mega_health)
+            if ((viewplayer->cheats & CF_GODMODE)
+                || viewplayer->powers[pw_invulnerability]
+                || ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= mega_health)
+                || viewplayer->health < mega_health)
                 return false;
 
             viewplayer->health -= mega_health;
@@ -1419,16 +1397,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // stimpack
         case MT_MISC10:
-            if ((viewplayer->cheats & CF_GODMODE))
-                return false;
-
-            if (viewplayer->powers[pw_invulnerability])
-                return false;
-
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= STIMPACKHEALTH)
-                return false;
-
-            if (viewplayer->health < STIMPACKHEALTH)
+            if ((viewplayer->cheats & CF_GODMODE)
+                || viewplayer->powers[pw_invulnerability]
+                || ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= STIMPACKHEALTH)
+                || viewplayer->health < STIMPACKHEALTH)
                 return false;
 
             viewplayer->health -= STIMPACKHEALTH;
@@ -1441,16 +1413,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // medikit
         case MT_MISC11:
-            if (viewplayer->cheats & CF_GODMODE)
-                return false;
-
-            if (viewplayer->powers[pw_invulnerability])
-                return false;
-
-            if ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= MEDIKITHEALTH)
-                return false;
-
-            if (viewplayer->health < MEDIKITHEALTH)
+            if ((viewplayer->cheats & CF_GODMODE)
+                || viewplayer->powers[pw_invulnerability]
+                || ((viewplayer->cheats & CF_BUDDHA) && viewplayer->health <= MEDIKITHEALTH)
+                || viewplayer->health < MEDIKITHEALTH)
                 return false;
 
             viewplayer->health -= MEDIKITHEALTH;
