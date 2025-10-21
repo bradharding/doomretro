@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.14.17 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * The `r_levelbrightness` CVAR has been renamed `r_extralighting`.
-* A bug is fixed whereby timestamps in the console were often inaccurate.
+* The timestamps in the console are now correct.
 * A bug is fixed whereby certain masked midtextures wouldn’t render correctly in some rare instances.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * These changes have been made to the intermission screen:

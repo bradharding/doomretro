@@ -1366,15 +1366,15 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
     {
         int hours = console[index].hours;
 
-        V_DrawConsoleTextPatch(x - ampmwidth, y, ampm[hours >= 12],
-            ampmwidth, color, NOBACKGROUNDCOLOR, false, tinttab33);
+        x -= ampmwidth;
+        V_DrawConsoleTextPatch(x, y, ampm[hours >= 12], ampmwidth,
+            color, NOBACKGROUNDCOLOR, false, tinttab33);
 
         if (hours > 12)
-            hours %= 12;
+            hours -= 12;
 
         M_snprintf(timestamp, sizeof(timestamp), "%i:%02i:%02i",
             (hours ? hours : 12), console[index].minutes, console[index].seconds);
-        x -= ampmwidth;
     }
     else
         M_snprintf(timestamp, sizeof(timestamp), "%02i:%02i:%02i",
@@ -1382,9 +1382,9 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
 
     for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {
-        char    ch = timestamp[i];
-        patch_t *patch = consolefont[ch - CONSOLEFONTSTART];
-        int     width = SHORT(patch->width);
+        const char  ch = timestamp[i];
+        patch_t     *patch = consolefont[ch - CONSOLEFONTSTART];
+        const int   width = SHORT(patch->width);
 
         x -= (ch == ':' ? width : zerowidth);
 

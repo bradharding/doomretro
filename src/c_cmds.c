@@ -2572,10 +2572,10 @@ static void condump_func2(char *cmd, char *parms)
                         int hours = console[i].hours;
 
                         if (hours > 12)
-                            hours %= 12;
+                            hours -= 12;
 
                         fprintf(file, "%2i:%02i:%02i%s",
-                            (hours ? hours : 12), console[i].minutes, console[i].seconds, (console[i].hours >= 12 ? "PM" : "AM"));
+                            (hours ? hours : 12), console[i].minutes, console[i].seconds, (console[i].hours < 12 ? "AM" : "PM"));
                     }
                     else
                         fprintf(file, "%02i:%02i:%02i",
