@@ -414,7 +414,29 @@ static void CreateTextureCompositePatch(const int id)
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame))
+                if (countsincolumn[tx].patches > 1)
+                {
+                    if (!i)
+                        for (int y = 0; y < count; y++)
+                        {
+                            const int   ty = oy + top + y;
+
+                            if (ty < 0)
+                                continue;
+
+                            if (ty >= compositepatch->height)
+                                break;
+
+                            compositepatch->pixels[tx * compositepatch->height + ty] = oldcolumnpixeldata[y];
+                        }
+
+                    if (oy + top < 0)
+                    {
+                        count += oy;
+                        oy = 0;
+                    }
+                }
+                else if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame))
                     oy = 0;
 
                 // set up the post's data

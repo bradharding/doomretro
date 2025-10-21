@@ -6,6 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * The `r_levelbrightness` CVAR has been renamed `r_extralighting`.
 * A bug is fixed whereby timestamps in the console were often inaccurate.
+* A bug is fixed whereby certain masked midtextures wouldn’t render correctly in some rare instances.
 * A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * These changes have been made to the intermission screen:
   * The par time is now still displayed if the “SUCKS” text is shown.
