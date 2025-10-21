@@ -1344,27 +1344,17 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
 
 void C_CreateTimeStamp(const int index)
 {
-    time_t      now = time(NULL);
-    struct tm   currenttime;
-
-#if defined(_WIN32)
-    localtime_s(&currenttime, &now);
-#else
-    localtime_r(&now, &currenttime);
-#endif
-
-    console[index].hours = currenttime.tm_hour;
-    console[index].minutes = currenttime.tm_min;
-    console[index].seconds = currenttime.tm_sec;
+    console[index].timestamp = *localtime((const time_t *)time(NULL));
 }
 
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
-    char    timestamp[9];
+    char        buffer[9];
+    struct tm   timestamp = console[index].timestamp;
 
     if (con_timestampformat == con_timestampformat_standard)
     {
-        int hours = console[index].hours;
+        int hours = timestamp.tm_hour;
 
         x -= ampmwidth;
         V_DrawConsoleTextPatch(x, y, ampm[hours >= 12], ampmwidth,
@@ -1373,16 +1363,16 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
         if (hours > 12)
             hours -= 12;
 
-        M_snprintf(timestamp, sizeof(timestamp), "%i:%02i:%02i",
-            (hours ? hours : 12), console[index].minutes, console[index].seconds);
+        M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i",
+            (hours ? hours : 12), timestamp.tm_min, timestamp.tm_sec);
     }
     else
-        M_snprintf(timestamp, sizeof(timestamp), "%02i:%02i:%02i",
-            console[index].hours, console[index].minutes, console[index].seconds);
+        M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i",
+            timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
 
-    for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
+    for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
     {
-        const char  ch = timestamp[i];
+        const char  ch = buffer[i];
         patch_t     *patch = consolefont[ch - CONSOLEFONTSTART];
         const int   width = SHORT(patch->width);
 

@@ -2563,23 +2563,24 @@ static void condump_func2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring)
                 {
                     const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
+                    struct tm           timestamp = console[i].timestamp;
 
                     for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
                         fputc(' ', file);
 
                     if (con_timestampformat == con_timestampformat_standard)
                     {
-                        int hours = console[i].hours;
+                        int hours = timestamp.tm_hour;
 
                         if (hours > 12)
                             hours -= 12;
 
                         fprintf(file, "%2i:%02i:%02i%s",
-                            (hours ? hours : 12), console[i].minutes, console[i].seconds, (console[i].hours < 12 ? "AM" : "PM"));
+                            (hours ? hours : 12), timestamp.tm_min, timestamp.tm_sec, (timestamp.tm_hour < 12 ? "AM" : "PM"));
                     }
                     else
                         fprintf(file, "%02i:%02i:%02i",
-                            console[i].hours, console[i].minutes, console[i].seconds);
+                            timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
                 }
 
                 fputc('\n', file);

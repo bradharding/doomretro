@@ -35,6 +35,8 @@
 
 #pragma once
 
+#include <time.h>
+
 #include "d_event.h"
 #include "doomdef.h"
 #include "doomtype.h"
@@ -175,9 +177,7 @@ typedef struct
     int             indent;
     patch_t         *header;
     int             tabs[MAXTABS];
-    int             hours;
-    int             minutes;
-    int             seconds;
+    struct tm       timestamp;
 } console_t;
 
 typedef struct
