@@ -2,16 +2,16 @@
 
 ### DOOM Retro v5.8.1
 
-* *DOOM Retro* is now built using v17.14.17 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.14.18 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to text that is output to the console.
 * The `r_levelbrightness` CVAR has been renamed `r_extralighting`.
 * The timestamps in the console are now correct.
 * A bug is fixed whereby certain masked midtextures wouldn’t render correctly in some rare instances.
-* A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 * These changes have been made to the intermission screen:
   * The par time is now still displayed if the “SUCKS” text is shown.
   * An exclamation mark now follows the “SUCKS” text.
 * The authors of the maps are now displayed by the `mapstats` and `maplist` CCMDs when playing *No Rest For The Living*.
+* A crash no longer occurs when using the `mapstats` CCMD in the console in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
