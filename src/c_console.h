@@ -277,7 +277,6 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
-void C_CreateTimeStamp(const int index);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
 
 #if defined(_WIN32)

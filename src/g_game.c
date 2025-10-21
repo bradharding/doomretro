@@ -1789,7 +1789,7 @@ void G_LoadedGameMessage(void)
         else
         {
             struct stat status;
-            struct tm   timestamp;
+            struct tm   *timestamp;
             int         hour;
 
             M_snprintf(buffer, sizeof(buffer), s_GGLOADED, temp1);
@@ -1798,18 +1798,13 @@ void G_LoadedGameMessage(void)
 
             stat(P_SaveGameFile(savegameslot), &status);
 
-#if defined(_WIN32)
-            localtime_s(&timestamp, &status.st_ctime);
-#else
-            localtime_r(&status.st_ctime, &timestamp);
-#endif
-
-            hour = timestamp.tm_hour;
+            timestamp = localtime(&status.st_ctime);
+            hour = timestamp->tm_hour;
 
             C_Output("It was previously saved at %i:%02i%s on %s, %s %i, %i.",
-                (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min,
-                (hour < 12 ? "(AM)" : "(PM)"), daynames[timestamp.tm_wday],
-                monthnames[timestamp.tm_mon], timestamp.tm_mday, 1900 + timestamp.tm_year);
+                (hour ? hour - 12 * (hour > 12) : 12), timestamp->tm_min,
+                (hour < 12 ? "(AM)" : "(PM)"), daynames[timestamp->tm_wday],
+                monthnames[timestamp->tm_mon], timestamp->tm_mday, 1900 + timestamp->tm_year);
 
             if (prevgameskill != sk_none && gameskill != prevgameskill)
             {

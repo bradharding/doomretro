@@ -159,6 +159,14 @@ bool                    scrollbardrawn;
 int                     scrollbarfacestart;
 int                     scrollbarfaceend;
 
+static void C_CreateTimeStamp(const int index)
+{
+    const time_t    now = time(NULL);
+    struct tm       *currenttime = localtime(&now);
+
+    console[index].timestamp = *currenttime;
+}
+
 void C_Input(const char *string, ...)
 {
     va_list args;
@@ -1342,11 +1350,6 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
     }
 }
 
-void C_CreateTimeStamp(const int index)
-{
-    console[index].timestamp = *localtime((const time_t *)time(NULL));
-}
-
 static void C_DrawTimeStamp(int x, const int y, const int index, const int color)
 {
     char        buffer[9];
@@ -1354,17 +1357,13 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
 
     if (con_timestampformat == con_timestampformat_standard)
     {
-        int hours = timestamp.tm_hour;
+        const int   hour = timestamp.tm_hour;
 
-        x -= ampmwidth;
-        V_DrawConsoleTextPatch(x, y, ampm[hours >= 12], ampmwidth,
+        V_DrawConsoleTextPatch((x -= ampmwidth), y, ampm[hour >= 12], ampmwidth,
             color, NOBACKGROUNDCOLOR, false, tinttab33);
 
-        if (hours > 12)
-            hours -= 12;
-
         M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i",
-            (hours ? hours : 12), timestamp.tm_min, timestamp.tm_sec);
+            (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min, timestamp.tm_sec);
     }
     else
         M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i",
