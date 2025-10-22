@@ -55,6 +55,7 @@ static short    BIGDOOR7;
 static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
+static short    TEKWALL1;
 
 static bool IsSolidAtSpot(const column_t *column, const int spot)
 {
@@ -385,7 +386,9 @@ static void CreateTextureCompositePatch(const int id)
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (countsincolumn[tx].patches > 1)
+                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) || id == TEKWALL1)
+                    oy = 0;
+                else if (countsincolumn[tx].patches > 1)
                 {
                     if (!i)
                         for (int y = 0; y < count; y++)
@@ -407,8 +410,6 @@ static void CreateTextureCompositePatch(const int id)
                         oy = 0;
                     }
                 }
-                else if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame))
-                    oy = 0;
 
                 // set up the post's data
                 post->topdelta = top + oy;
@@ -504,6 +505,7 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
     STEP2 = R_CheckTextureNumForName("STEP2");
+    TEKWALL1 = R_CheckTextureNumForName("TEKWALL1");
 
     for (int i = 0; i < numspritelumps; i++)
         CreatePatch(firstspritelump + i);
