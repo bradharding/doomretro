@@ -501,28 +501,24 @@ static char *stristr(char *ch1, const char *ch2)
     char    *chN1 = M_StringDuplicate(ch1);
     char    *chN2 = M_StringDuplicate(ch2);
     char    *chRet = NULL;
+    char    *chNdx = chN1;
 
-    if (chN1 && chN2)
+    while (*chNdx)
     {
-        char    *chNdx = chN1;
-
-        while (*chNdx)
-        {
-            *chNdx = (char)tolower(*chNdx);
-            chNdx++;
-        }
-
-        chNdx = chN2;
-
-        while (*chNdx)
-        {
-            *chNdx = (char)tolower(*chNdx);
-            chNdx++;
-        }
-
-        if ((chNdx = strstr(chN1, chN2)))
-            chRet = ch1 + (chNdx - chN1);
+        *chNdx = (char)tolower(*chNdx);
+        chNdx++;
     }
+
+    chNdx = chN2;
+
+    while (*chNdx)
+    {
+        *chNdx = (char)tolower(*chNdx);
+        chNdx++;
+    }
+
+    if ((chNdx = strstr(chN1, chN2)))
+        chRet = ch1 + (chNdx - chN1);
 
     free(chN1);
     free(chN2);

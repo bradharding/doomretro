@@ -2175,17 +2175,11 @@ static void D_DoomMainSetup(void)
 
     if (!stat_runs)
     {
-        time_t      now = time(NULL);
-        struct tm   currenttime;
+        const time_t    now = time(NULL);
+        struct tm       *currenttime = localtime(&now);
 
-#if defined(_WIN32)
-        localtime_s(&currenttime, &now);
-#else
-        localtime_r(&now, &currenttime);
-#endif
-
-        stat_firstrun = (uint64_t)currenttime.tm_mday + ((uint64_t)currenttime.tm_mon + 1) * 100
-            + ((uint64_t)currenttime.tm_year + 1900) * 10000;
+        stat_firstrun = (uint64_t)currenttime->tm_mday + ((uint64_t)currenttime->tm_mon + 1) * 100
+            + ((uint64_t)currenttime->tm_year + 1900) * 10000;
 
         C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " DEVICE ".");
     }

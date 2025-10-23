@@ -57,25 +57,6 @@ static short    SKY1;
 static short    STEP2;
 static short    TEKWALL1;
 
-static bool IsSolidAtSpot(const column_t *column, const int spot)
-{
-    if (!column)
-        return false;
-
-    while (column->topdelta != 0xFF)
-    {
-        if (spot < column->topdelta)
-            return false;
-
-        if (spot <= column->topdelta + column->length)
-            return true;
-
-        column = (const column_t *)((const byte *)column + 3 + column->length + 1);
-    }
-
-    return false;
-}
-
 // Checks if the lump can be a DOOM patch
 bool R_CheckIfPatch(const int lump)
 {
