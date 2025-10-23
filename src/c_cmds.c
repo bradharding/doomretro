@@ -5615,11 +5615,10 @@ static void mapstats_func2(char *cmd, char *parms)
     if (partime)
     {
         int hours = partime / 3600;
-        int minutes = (partime % 3600) / 60;
 
         if (hours)
             C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                hours, minutes, partime % 60);
+                hours, (partime % 3600) / 60, partime % 60);
         else
             C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 partime / 60, partime % 60);

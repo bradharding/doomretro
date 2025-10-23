@@ -49,6 +49,7 @@
 
 #define DOOMRETRO                       "doomretro"
 #define DOOMRETRO_AUTOLOADFOLDER        "autoload"
+#define DOOMRETRO_BLOGURL               "https://www.doomretro.com"
 #define DOOMRETRO_CONFIGFILE            "doomretro.cfg"
 #define DOOMRETRO_CONSOLEFOLDER         "console"
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962025 by Brad Harding. All rights reserved."
@@ -57,6 +58,7 @@
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_HOMEOFCREATOR         "Western Sydney, Australia"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
+#define DOOMRETRO_LATESTRELEASEPATH     L"/repos/bradharding/doomretro/releases/latest"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
 #define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/License"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"

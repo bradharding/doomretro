@@ -72,6 +72,7 @@
 #include "w_merge.h"
 #include "w_wad.h"
 #include "wi_stuff.h"
+#include "update.h"
 
 #if !defined(_WIN32)
 #include <dirent.h>
@@ -2223,6 +2224,8 @@ static void D_DoomMainSetup(void)
         }
         else if (!p)
         {
+            D_CheckForNewReleaseDialog();
+
 #if defined(_WIN32) || defined(__APPLE__)
             do
             {
