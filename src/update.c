@@ -44,11 +44,13 @@
 
 #include "SDL.h"
 
+#include "c_console.h"
 #include "i_system.h"
 #include "m_misc.h"
 #include "update.h"
 #include "version.h"
 
+#if defined(_WIN32)
 static void GetVersionToken(const char *src, char *out, size_t outlen)
 {
     const char  *p = src;
@@ -80,7 +82,6 @@ static void GetVersionToken(const char *src, char *out, size_t outlen)
         out[i] = '\0';
 }
 
-#if defined(_WIN32)
 static char *WinHttpReadResponse(HINTERNET hRequest)
 {
     DWORD   dwSize = 0;
@@ -128,11 +129,11 @@ static char *WinHttpReadResponse(HINTERNET hRequest)
 void D_CheckForNewReleaseDialog(void)
 {
 #if defined(_WIN32)
-    char        localVersion[128] = { 0 };
+    char        localversion[128] = { 0 };
     char        *response = NULL;
     const char  *needle = "\"tag_name\"";
     char        *p;
-    char        latestTag[128] = { 0 };
+    char        latestversion[128] = { 0 };
     HINTERNET   hSession = NULL;
     HINTERNET   hConnect = NULL;
     HINTERNET   hRequest = NULL;
@@ -145,9 +146,9 @@ void D_CheckForNewReleaseDialog(void)
         char    *striplatest;
         char    *striplocal;
 
-        GetVersionToken(DOOMRETRO_NAMEANDVERSIONSTRING, localVersion, sizeof(localVersion));
+        GetVersionToken(DOOMRETRO_NAMEANDVERSIONSTRING, localversion, sizeof(localversion));
 
-        if (localVersion[0] == '\0')
+        if (localversion[0] == '\0')
             break;
 
         if (!(hSession = WinHttpOpen(L"DoomRetroUpdateChecker/1.0", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
@@ -183,26 +184,26 @@ void D_CheckForNewReleaseDialog(void)
 
                 ++p;
 
-                while (*p && *p != '\"' && i + 1 < sizeof(latestTag))
-                    latestTag[i++] = *p++;
+                while (*p && *p != '\"' && i + 1 < sizeof(latestversion))
+                    latestversion[i++] = *p++;
 
-                latestTag[i] = '\0';
+                latestversion[i] = '\0';
             }
         }
 
         free(response);
         response = NULL;
 
-        if (latestTag[0] == '\0')
+        if (latestversion[0] == '\0')
             break;
 
-        striplatest = (toupper(latestTag[0]) == 'V' ? latestTag + 1 : latestTag);
-        striplocal = (toupper(localVersion[0]) == 'V' ? localVersion + 1 : localVersion);
+        striplatest = (toupper(latestversion[0]) == 'V' ? latestversion + 1 : latestversion);
+        striplocal = (toupper(localversion[0]) == 'V' ? localversion + 1 : localversion);
 
         if (strncmp(striplatest, striplocal, 127))
         {
-            char    buffer[512] = "\nA newer version of DOOM Retro is now available!\n"
-                        "Do you want to visit www.doomretro.com to download it?\n";
+            char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found.\n"
+                        "Do you want to visit " DOOMRETRO_BLOGURL " to download?\n";
             int     buttonid;
 
             const SDL_MessageBoxButtonData buttons[] =
@@ -213,7 +214,7 @@ void D_CheckForNewReleaseDialog(void)
 
             const SDL_MessageBoxData messageboxdata =
             {
-                SDL_MESSAGEBOX_INFORMATION,
+                SDL_MESSAGEBOX_WARNING,
                 NULL,
                 DOOMRETRO_NAME,
                 buffer,
@@ -224,9 +225,12 @@ void D_CheckForNewReleaseDialog(void)
 
             if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
             {
-                ShellExecute(GetActiveWindow(), "open", DOOMRETRO_BLOGURL, NULL, NULL, SW_SHOWNORMAL);
+                ShellExecute(GetActiveWindow(), "open", "https://" DOOMRETRO_BLOGURL, NULL, NULL, SW_SHOWNORMAL);
                 I_Quit(false);
             }
+
+            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found."
+                " Please visit " BOLD(DOOMRETRO_BLOGURL) " to download.");
         }
 
     } while (false);

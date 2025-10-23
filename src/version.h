@@ -49,7 +49,7 @@
 
 #define DOOMRETRO                       "doomretro"
 #define DOOMRETRO_AUTOLOADFOLDER        "autoload"
-#define DOOMRETRO_BLOGURL               "https://www.doomretro.com"
+#define DOOMRETRO_BLOGURL               "www.doomretro.com"
 #define DOOMRETRO_CONFIGFILE            "doomretro.cfg"
 #define DOOMRETRO_CONSOLEFOLDER         "console"
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962025 by Brad Harding. All rights reserved."
