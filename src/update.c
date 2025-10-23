@@ -61,10 +61,12 @@ static void GetVersionToken(const char *src, char *out, size_t outlen)
         ++p;
 
     if (!*p)
+    {
         if ((p = strchr(src, 'v')) && isdigit(*(p + 1)))
             p++;
         else
             p = src;
+    }
 
     while (*p && i + 1 < outlen)
         if (isdigit(*p) || *p == '.' || *p == '-' || *p == '+' || isalpha(*p))
