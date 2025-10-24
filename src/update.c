@@ -76,10 +76,7 @@ static void GetVersionToken(const char *src, char *out, size_t outlen)
         else
             break;
 
-    if (!i)
-        out[0] = '\0';
-    else
-        out[i] = '\0';
+    out[i] = '\0';
 }
 
 static char *WinHttpReadResponse(HINTERNET hRequest)
@@ -129,17 +126,14 @@ static char *WinHttpReadResponse(HINTERNET hRequest)
 void D_CheckForNewReleaseDialog(void)
 {
 #if defined(_WIN32)
-    char        localversion[128] = { 0 };
+    char        localversion[128] = "";
+    char        latestversion[128] = "";
     char        *response = NULL;
-    const char  *needle = "\"tag_name\"";
     char        *p;
-    char        latestversion[128] = { 0 };
     HINTERNET   hSession = NULL;
     HINTERNET   hConnect = NULL;
     HINTERNET   hRequest = NULL;
-    wchar_t     host[] = L"api.github.com";
     LPCWSTR     accepttypes[] = { L"*/*", NULL };
-    LPCWSTR     path = DOOMRETRO_LATESTRELEASEPATH;
 
     do
     {
@@ -155,11 +149,11 @@ void D_CheckForNewReleaseDialog(void)
             WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0)))
             break;
 
-        if (!(hConnect = WinHttpConnect(hSession, host, INTERNET_DEFAULT_HTTPS_PORT, 0)))
+        if (!(hConnect = WinHttpConnect(hSession, L"api.github.com", INTERNET_DEFAULT_HTTPS_PORT, 0)))
             break;
 
-        if (!(hRequest = WinHttpOpenRequest(hConnect, L"GET", path, NULL, WINHTTP_NO_REFERER,
-            accepttypes, WINHTTP_FLAG_SECURE)))
+        if (!(hRequest = WinHttpOpenRequest(hConnect, L"GET", DOOMRETRO_LATESTRELEASEPATH, NULL,
+            WINHTTP_NO_REFERER, accepttypes, WINHTTP_FLAG_SECURE)))
             break;
 
         WinHttpAddRequestHeaders(hRequest, L"User-Agent: DoomRetroUpdateChecker/1.0\r\n"
@@ -174,9 +168,9 @@ void D_CheckForNewReleaseDialog(void)
         if (!(response = WinHttpReadResponse(hRequest)))
             break;
 
-        if ((p = strstr(response, needle)))
+        if ((p = strstr(response, "\"tag_name\"")))
         {
-            p += strlen(needle);
+            p += strlen("\"tag_name\"");
 
             if ((p = strchr(p, ':')) && (p = strchr(p, '\"')))
             {
@@ -232,7 +226,6 @@ void D_CheckForNewReleaseDialog(void)
             C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found."
                 " Please visit " BOLD(DOOMRETRO_BLOGURL) " to download.");
         }
-
     } while (false);
 
     if (response)
