@@ -43,7 +43,7 @@
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.
-fixed_t     fractionaltic = 0;
+fixed_t     fractionaltic;
 
 ticcmd_t    localcmds[BACKUPTICS];
 
@@ -53,10 +53,9 @@ void TryRunTics(void)
     static uint64_t lastmadetic;
     uint64_t        newtics = I_GetTime() - lastmadetic;
     int             runtics;
-    const bool      uncapped = !(vid_capfps == TICRATE || splashscreen);
 
     lastmadetic += newtics;
-    fractionaltic = (uncapped ? ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000 : 0);
+    fractionaltic = ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
 
     while (newtics--)
     {
@@ -68,7 +67,7 @@ void TryRunTics(void)
         G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
     }
 
-    if (!(runtics = maketic - gametime) && uncapped)
+    if (!(runtics = maketic - gametime))
         return;
 
     while (runtics--)

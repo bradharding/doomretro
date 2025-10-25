@@ -197,7 +197,7 @@ void D_CheckForNewReleaseDialog(void)
         if (strncmp(striplatest, striplocal, 127))
         {
             char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found.\n"
-                        "Do you want to visit " DOOMRETRO_BLOGURL " to download?\n";
+                        "Do you want to go to " DOOMRETRO_BLOGURL " to download?\n";
             int     buttonid;
 
             const SDL_MessageBoxButtonData buttons[] =
@@ -224,7 +224,7 @@ void D_CheckForNewReleaseDialog(void)
             }
 
             C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found."
-                " Please visit " BOLD(DOOMRETRO_BLOGURL) " to download.");
+                " Please go to " BOLD(DOOMRETRO_BLOGURL) " to download.");
         }
     } while (false);
 

@@ -2268,7 +2268,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                 M_StringCopy(name, thing->name, sizeof(name));
             else
                 M_snprintf(name, sizeof(name), "%s %s%s",
-                    ((flags & MF_FRIEND) && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" :
+                    ((flags & MF_FRIEND) && type > MT_NULL && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" :
                         (isvowel(thing->info->name1[0]) && !(flags & MF_FRIEND) ? "an" : "a")),
                     ((flags & MF_FRIEND) ? "friendly " : ""),
                     (*thing->info->name1 ? thing->info->name1 : "monster"));

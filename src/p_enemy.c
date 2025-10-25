@@ -1526,7 +1526,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                     viewplayer->resurrectioncount++;
                     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
 
-                    if (type < NUMMOBJTYPES)
+                    if (type > MT_NULL && type < NUMMOBJTYPES)
                         stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
 
                     // [BH] display an obituary message in the console
@@ -1540,7 +1540,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                             M_StringCopy(actorname, actor->name, sizeof(actorname));
                         else
                             M_snprintf(actorname, sizeof(actorname), "%s %s%s",
-                                ((actor->flags & MF_FRIEND) && actor->type < NUMMOBJTYPES && monstercount[actor->type] == 1 ? "the" :
+                                ((actor->flags & MF_FRIEND) && actor->type > MT_NULL && actor->type < NUMMOBJTYPES && monstercount[actor->type] == 1 ? "the" :
                                     (isvowel(actor->info->name1[0]) && !(actor->flags & MF_FRIEND) ? "an" : "a")),
                                 ((actor->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*actor->info->name1 ? actor->info->name1 : "monster"));
@@ -1551,7 +1551,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                             M_StringCopy(corpsehitname, corpsehit->name, sizeof(corpsehitname));
                         else
                             M_snprintf(corpsehitname, sizeof(corpsehitname), "%s dead%s%s",
-                                ((corpsehit->flags & MF_FRIEND) && corpsehit->type < NUMMOBJTYPES && monstercount[corpsehit->type] == 1 ? "the" : "a"),
+                                ((corpsehit->flags & MF_FRIEND) && type > MT_NULL && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" : "a"),
                                 ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
                                 (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
 
@@ -2358,7 +2358,7 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             totalkills++;
 
-            if (type < NUMMOBJTYPES)
+            if (type > MT_NULL && type < NUMMOBJTYPES)
                 monstercount[type]++;
         }
     }
@@ -2478,7 +2478,7 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
             {
                 totalkills++;
 
-                if (type < NUMMOBJTYPES)
+                if (type > MT_NULL && type < NUMMOBJTYPES)
                     monstercount[type]++;
             }
         }

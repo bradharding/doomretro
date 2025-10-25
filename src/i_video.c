@@ -151,7 +151,6 @@ bool                nokeyevent = false;
 static bool         keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
-static float        saturationtable[256][256][256];
 
 const float gammalevels[GAMMALEVELS] =
 {
@@ -201,7 +200,7 @@ bool MouseShouldBeGrabbed(void)
     return true;
 }
 
-static void SetShowCursor(const bool show)
+static inline void SetShowCursor(const bool show)
 {
     SDL_PumpEvents();
     SDL_SetRelativeMouseMode(!show);
@@ -676,7 +675,7 @@ void I_StartTic(void)
     I_ReadController();
 }
 
-static void UpdateGrab(void)
+static inline void UpdateGrab(void)
 {
     bool        grab = MouseShouldBeGrabbed();
     static bool currently_grabbed;
@@ -713,7 +712,7 @@ uint64_t    performancefrequency;
 uint64_t    starttime;
 int         framecount = -1;
 
-static void CalculateFPS(void)
+static inline void CalculateFPS(void)
 {
     const uint64_t  currenttime = SDL_GetPerformanceCounter();
     const uint64_t  elapsed = currenttime - starttime;
@@ -1011,12 +1010,12 @@ void I_SetPalette(const byte *playpal)
     for (int i = 0; i < 256; i++)
     {
         // gamma correction and red/green/blue intensity
-        byte        r = BETWEEN(0, (int)(gammalevel[*playpal++] + red), 255);
-        byte        g = BETWEEN(0, (int)(gammalevel[*playpal++] + green), 255);
-        byte        b = BETWEEN(0, (int)(gammalevel[*playpal++] + blue), 255);
+        byte        r = BETWEEN(0, (int)(gammalevel[playpal[0]] + red), 255);
+        byte        g = BETWEEN(0, (int)(gammalevel[playpal[1]] + green), 255);
+        byte        b = BETWEEN(0, (int)(gammalevel[playpal[2]] + blue), 255);
 
         // saturation
-        const float p = saturationtable[r][g][b];
+        const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 
         r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
         g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
@@ -1029,12 +1028,14 @@ void I_SetPalette(const byte *playpal)
         colors[i].g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3;
         colors[i].b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3;
         colors[i].a = 0xFF;
+
+        playpal += 3;
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, colors[0].r, colors[0].g, colors[0].b, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, colors[BLACK].r, colors[BLACK].g, colors[BLACK].b, SDL_ALPHA_OPAQUE);
 }
 
 void I_SetExternalAutomapPalette(void)
@@ -1933,11 +1934,6 @@ static void I_InitPaletteTables(void)
     for (int i = 0; i < GAMMALEVELS; i++)
         for (int j = 0; j < 256; j++)
             gammatable[i][j] = (byte)(powf(j / 255.0f, 1.0f / gammalevels[i]) * 255.0f + 0.5f);
-
-    for (int r = 0; r < 256; r++)
-        for (int g = 0; g < 256; g++)
-            for (int b = 0; b < 256; b++)
-                saturationtable[r][g][b] = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 }
 
 void I_SetGamma(const float value)

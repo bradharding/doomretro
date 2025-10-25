@@ -6645,7 +6645,7 @@ char *C_DistanceTraveled(double feet, bool allowzero)
 //
 static void ShowMonsterKillStat_Game(const int tabs[MAXTABS], const mobjtype_t type)
 {
-    if (type < NUMMOBJTYPES)
+    if (type > MT_NULL && type < NUMMOBJTYPES)
     {
         char    *temp1 = sentencecase(mobjinfo[type].plural1);
         char    *temp2 = commify(viewplayer->monsterskilled[type]);
@@ -7295,7 +7295,7 @@ static void C_PlayerStats_Game(void)
 
 static void ShowMonsterKillStat_NoGame(const int tabs[MAXTABS], const mobjtype_t type)
 {
-    if (type < NUMMOBJTYPES)
+    if (type > MT_NULL && type < NUMMOBJTYPES)
     {
         char    *temp1 = sentencecase(mobjinfo[type].plural1);
         char    *temp2 = commifystat(stat_monsterskilled[type]);
