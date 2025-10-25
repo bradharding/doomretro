@@ -7272,31 +7272,12 @@ static void C_PlayerStats_Game(void)
         free(temp5);
     }
 
-    if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
-    {
-        temp1 = titlecase(weaponinfo[viewplayer->readyweapon].name);
-        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
-            (english == english_american ? "Favorite" : "Favourite"), temp1, temp1);
-        free(temp1);
-    }
-    else if (favoriteweapon1 == wp_nochange)
-    {
-        temp1 = titlecase(weaponinfo[viewplayer->readyweapon].name);
-        temp2 = titlecase(weaponinfo[favoriteweapon2].name);
-        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
-            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
-        free(temp1);
-        free(temp2);
-    }
-    else
-    {
-        temp1 = titlecase(weaponinfo[favoriteweapon1].name);
-        temp2 = titlecase(weaponinfo[favoriteweapon2].name);
-        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
-            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
-        free(temp1);
-        free(temp2);
-    }
+    temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? viewplayer->readyweapon : favoriteweapon1)].name);
+    temp2 = titlecase(weaponinfo[(favoriteweapon2 == wp_nochange ? viewplayer->readyweapon : favoriteweapon2)].name);
+    C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
+        (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     temp1 = C_DistanceTraveled(viewplayer->distancetraveled, true);
     temp2 = C_DistanceTraveled((double)stat_distancetraveled, true);
@@ -7704,10 +7685,16 @@ static void C_PlayerStats_NoGame(void)
         free(temp3);
     }
 
-    temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? viewplayer->readyweapon : favoriteweapon1)].name);
-    C_TabbedOutput(tabs, "%s weapon\t\x96\t%s",
-        (english == english_american ? "Favorite" : "Favourite"), temp1);
-    free(temp1);
+    if (favoriteweapon1 == wp_nochange)
+        C_TabbedOutput(tabs, "%s weapon\t\x96\t\x96",
+            (english == english_american ? "Favorite" : "Favourite"));
+    else
+    {
+        temp1 = titlecase(weaponinfo[favoriteweapon1].name);
+        C_TabbedOutput(tabs, "%s weapon\t\x96\t%s",
+            (english == english_american ? "Favorite" : "Favourite"), temp1);
+        free(temp1);
+    }
 
     temp1 = C_DistanceTraveled((double)stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance %s\t\x96\t%s",
