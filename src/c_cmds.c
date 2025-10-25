@@ -6689,12 +6689,13 @@ static void C_PlayerStats_Game(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t100%%\t\x96");
     else
-        C_TabbedOutput(tabs, "Map explored\t%i%%\t\x96", nummappedlines * 100 / numvisiblelines);
+        C_TabbedOutput(tabs, "Map explored\t%i%%\t\x96",
+            (numvisiblelines ? nummappedlines * 100 / numvisiblelines : 0));
 
     temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, stat_mapsfinished * 100 / stat_mapsstarted);
+        temp1, temp2, (stat_mapsstarted ? stat_mapsfinished * 100 / stat_mapsstarted : 0));
     free(temp1);
     free(temp2);
 
@@ -7342,7 +7343,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, stat_mapsfinished * 100 / stat_mapsstarted);
+        temp1, temp2, (stat_mapsstarted ? stat_mapsfinished * 100 / stat_mapsstarted : 0));
     free(temp1);
     free(temp2);
 
