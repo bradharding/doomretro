@@ -716,12 +716,13 @@ int         framecount = -1;
 static void CalculateFPS(void)
 {
     const uint64_t  currenttime = SDL_GetPerformanceCounter();
+    const uint64_t  elapsed = currenttime - starttime;
 
     framecount++;
 
-    if (starttime < currenttime - performancefrequency)
+    if (elapsed >= performancefrequency)
     {
-        framespersecond = framecount;
+        framespersecond = (int)((framecount * performancefrequency + (elapsed / 2)) / elapsed);
         framecount = 0;
         starttime = currenttime;
     }
