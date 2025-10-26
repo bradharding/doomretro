@@ -14,6 +14,7 @@
   * An exclamation mark now follows the “SUCKS” text.
 * The authors of the maps are now displayed by the `mapstats` and `maplist` CCMDs when playing *No Rest For The Living*.
 * The frames per second shown when the `vid_showfps` CVAR is `on` are now more accurate.
+* Focus is now given to your browser when using the `license`, `releasenotes` or `wiki` CCMDs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
