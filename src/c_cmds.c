@@ -66,6 +66,7 @@
 #include "sc_man.h"
 #include "st_lib.h"
 #include "st_stuff.h"
+#include "update.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -4365,13 +4366,14 @@ static void license_func2(char *cmd, char *parms)
     C_Output("Opening the " ITALICS(DOOMRETRO_LICENSE) "...");
 
 #if defined(_WIN32)
-    if (!ShellExecute(NULL, "open", DOOMRETRO_LICENSEURL, NULL, NULL, SW_SHOWNORMAL))
+    OpenUrlAndFocus(DOOMRETRO_LICENSEURL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_LICENSEURL))
+        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open.");
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_LICENSEURL))
-#endif
         C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open.");
+#endif
 }
 
 //
@@ -7843,13 +7845,14 @@ static void releasenotes_func2(char *cmd, char *parms)
     C_Output("Opening the release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "..."));
 
 #if defined(_WIN32)
-    if (!ShellExecute(NULL, "open", DOOMRETRO_RELEASENOTESURL, NULL, NULL, SW_SHOWNORMAL))
+    OpenUrlAndFocus(DOOMRETRO_RELEASENOTESURL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_RELEASENOTESURL))
+        C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_RELEASENOTESURL))
-#endif
         C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
+#endif
 }
 
 //
@@ -9655,13 +9658,14 @@ static void wiki_func2(char *cmd, char *parms)
     C_Output("Opening the " ITALICS(DOOMRETRO_WIKINAME) "...");
 
 #if defined(_WIN32)
-    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL))
+    OpenUrlAndFocus(DOOMRETRO_WIKIURL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_WIKIURL))
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open.");
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_WIKIURL))
-#endif
         C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open.");
+#endif
 }
 
 //

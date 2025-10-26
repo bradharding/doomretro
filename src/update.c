@@ -143,7 +143,7 @@ static BOOL CALLBACK FindWindowForProcess(HWND hwnd, LPARAM lParam)
     return TRUE;
 }
 
-static void OpenUrlAndFocus(const char *url)
+void OpenUrlAndFocus(const char *url)
 {
     SHELLEXECUTEINFOA   sei = { 0 };
     HANDLE              hProc;
@@ -155,10 +155,7 @@ static void OpenUrlAndFocus(const char *url)
     sei.lpFile = url;
     sei.nShow = SW_SHOWNORMAL;
 
-    if (!ShellExecuteExA(&sei))
-        return;
-
-    if ((hProc = sei.hProcess))
+    if (ShellExecuteExA(&sei) && (hProc = sei.hProcess))
     {
         struct FindWindowCtx
         {
