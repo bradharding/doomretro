@@ -8,7 +8,7 @@
 * Minor changes have been made to text that is output to the console.
 * The `r_levelbrightness` CVAR has been renamed `r_extralighting`.
 * The timestamps in the console are now correct.
-* A bug is fixed whereby certain masked midtextures wouldn’t render correctly in some rare instances.
+* A bug is fixed whereby textures containing patches with negative offsets wouldn’t render correctly.
 * These changes have been made to the intermission screen:
   * The par time is now still displayed if the “SUCKS” text is shown.
   * An exclamation mark now follows the “SUCKS” text.
