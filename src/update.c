@@ -121,6 +121,74 @@ static char *WinHttpReadResponse(HINTERNET hRequest)
 
     return buffer;
 }
+
+static BOOL CALLBACK FindWindowForProcess(HWND hwnd, LPARAM lParam)
+{
+    struct
+    {
+        DWORD   pid;
+        HWND    *out;
+    } *ctx = (void *)lParam;
+
+    DWORD   pid = 0;
+
+    GetWindowThreadProcessId(hwnd, &pid);
+
+    if (pid == ctx->pid && IsWindowVisible(hwnd) && !GetWindow(hwnd, GW_OWNER))
+    {
+        *(ctx->out) = hwnd;
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void OpenUrlAndFocus(const char *url)
+{
+    SHELLEXECUTEINFOA   sei = { 0 };
+    HANDLE              hProc;
+
+    sei.cbSize = sizeof(sei);
+    sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+    sei.hwnd = GetActiveWindow();
+    sei.lpVerb = "open";
+    sei.lpFile = url;
+    sei.nShow = SW_SHOWNORMAL;
+
+    if (!ShellExecuteExA(&sei))
+        return;
+
+    if ((hProc = sei.hProcess))
+    {
+        struct FindWindowCtx
+        {
+            DWORD   pid;
+            HWND    *out;
+        };
+
+        HWND                    found = NULL;
+        struct FindWindowCtx    ctx = { GetProcessId(hProc), &found };
+
+        WaitForInputIdle(hProc, 5000);
+        EnumWindows(FindWindowForProcess, (LPARAM)&ctx);
+
+        if (found)
+        {
+            DWORD   currentThread = GetCurrentThreadId();
+            DWORD   windowThread = GetWindowThreadProcessId(found, NULL);
+
+            AttachThreadInput(currentThread, windowThread, TRUE);
+
+            ShowWindow(found, SW_SHOWNORMAL);
+            SetForegroundWindow(found);
+            BringWindowToTop(found);
+
+            AttachThreadInput(currentThread, windowThread, FALSE);
+        }
+
+        CloseHandle(hProc);
+    }
+}
 #endif
 
 void D_CheckForNewReleaseDialog(void)
@@ -219,7 +287,7 @@ void D_CheckForNewReleaseDialog(void)
 
             if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
             {
-                ShellExecute(GetActiveWindow(), "open", "https://" DOOMRETRO_BLOGURL, NULL, NULL, SW_SHOWNORMAL);
+                OpenUrlAndFocus("https://" DOOMRETRO_BLOGURL);
                 I_Quit(false);
             }
 
