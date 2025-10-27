@@ -143,7 +143,7 @@ static BOOL CALLBACK FindWindowForProcess(HWND hwnd, LPARAM lParam)
     return TRUE;
 }
 
-void OpenUrlAndFocus(const char *url)
+void OpenUrlAndFocus(const char *url, const char *warning)
 {
     SHELLEXECUTEINFOA   sei = { 0 };
     HANDLE              hProc;
@@ -185,6 +185,8 @@ void OpenUrlAndFocus(const char *url)
 
         CloseHandle(hProc);
     }
+    else if (warning)
+        C_Warning(0, warning);
 }
 #endif
 
@@ -284,7 +286,7 @@ void D_CheckForNewReleaseDialog(void)
 
             if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
             {
-                OpenUrlAndFocus("https://" DOOMRETRO_BLOGURL);
+                OpenUrlAndFocus("https://" DOOMRETRO_BLOGURL, "");
                 I_Quit(false);
             }
 

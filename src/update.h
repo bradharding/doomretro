@@ -36,4 +36,4 @@
 #pragma once
 
 void D_CheckForNewReleaseDialog(void);
-void OpenUrlAndFocus(const char *url);
+void OpenUrlAndFocus(const char* url, const char* warning);
