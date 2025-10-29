@@ -67,8 +67,8 @@ void MD5Init(MD5Context *ctx)
     ctx->bytes[1] = 0;
 }
 
- // Update context to reflect the concatenation of another buffer full
- // of bytes.
+// Update context to reflect the concatenation of another buffer full
+// of bytes.
 void MD5Update(MD5Context *ctx, const byte *buf, unsigned int len)
 {
     uint32_t    t = ctx->bytes[0];
@@ -110,7 +110,7 @@ void MD5Update(MD5Context *ctx, const byte *buf, unsigned int len)
 // 1 0* (64-bit count of bits processed, MSB-first)
 void MD5Final(byte digest[16], MD5Context *ctx)
 {
-    int     count = ctx->bytes[0] & 0x3f;   // Number of bytes in ctx->in
+    int     count = ctx->bytes[0] & 0x3F;   // Number of bytes in ctx->in
     byte    *p = (byte *)ctx->in + count;
 
     // Set the first char of padding to 0x80. There is always room.

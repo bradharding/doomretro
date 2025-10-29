@@ -49,7 +49,7 @@
 #define IWAD    1
 #define PWAD    2
 
- typedef struct
+typedef struct
 {
     char        name[9];
     int         size;

@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#pragma once
+
 extern const char   *wilv[];
 extern const char   *redcharset[];
 extern const char   *smallcharset[];
