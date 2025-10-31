@@ -2075,7 +2075,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    if (numconsolestrings == 1
+    if (numconsolestrings <= 1
         || (!M_StringCompare(console[numconsolestrings - 2].string, "newgame")
             && !M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[numconsolestrings - 1].string, "load ")

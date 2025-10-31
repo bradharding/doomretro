@@ -2998,49 +2998,49 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
             states[indexnum].misc2 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
-        else if (!strcasecmp(key, deh_state[7]))                // Args1
+        else if (M_StringCompare(key, deh_state[7]))            // Args1
         {
             states[indexnum].args[0] = value;
             defined_codeptr_args[indexnum] |= (1 << 0);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[8]))                // Args2
+        else if (M_StringCompare(key, deh_state[8]))            // Args2
         {
             states[indexnum].args[1] = value;
             defined_codeptr_args[indexnum] |= (1 << 1);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[9]))                // Args3
+        else if (M_StringCompare(key, deh_state[9]))            // Args3
         {
             states[indexnum].args[2] = value;
             defined_codeptr_args[indexnum] |= (1 << 2);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[10]))               // Args4
+        else if (M_StringCompare(key, deh_state[10]))           // Args4
         {
             states[indexnum].args[3] = value;
             defined_codeptr_args[indexnum] |= (1 << 3);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[11]))               // Args5
+        else if (M_StringCompare(key, deh_state[11]))           // Args5
         {
             states[indexnum].args[4] = value;
             defined_codeptr_args[indexnum] |= (1 << 4);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[12]))               // Args6
+        else if (M_StringCompare(key, deh_state[12]))           // Args6
         {
             states[indexnum].args[5] = value;
             defined_codeptr_args[indexnum] |= (1 << 5);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[13]))               // Args7
+        else if (M_StringCompare(key, deh_state[13]))           // Args7
         {
             states[indexnum].args[6] = value;
             defined_codeptr_args[indexnum] |= (1 << 6);
             mbf21compatible = true;
         }
-        else if (!strcasecmp(key, deh_state[14]))               // Args8
+        else if (M_StringCompare(key, deh_state[14]))           // Args8
         {
             states[indexnum].args[7] = value;
             defined_codeptr_args[indexnum] |= (1 << 7);
@@ -3048,7 +3048,7 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
         }
 
         // MBF21: process state flags
-        else if (!strcasecmp(key, deh_state[15]))               // MBF21 bits
+        else if (M_StringCompare(key, deh_state[15]))           // MBF21 bits
         {
             if (!value)
                 for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
@@ -3057,7 +3057,7 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
 
                     for (flag = deh_stateflags_mbf21; flag->name; flag++)
                     {
-                        if (strcasecmp(strval, flag->name))
+                        if (!M_StringCompare(strval, flag->name))
                             continue;
 
                         value |= flag->value;

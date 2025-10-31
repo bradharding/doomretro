@@ -2165,7 +2165,7 @@ static void M_EndGameResponse(int key)
     if (gamemission == pack_nerve)
         gamemission = doom2;
 
-    if (!M_StringCompare(console[numconsolestrings - 1].string, "endgame"))
+    if (!numconsolestrings || !M_StringCompare(console[numconsolestrings - 1].string, "endgame"))
         C_Input("endgame");
 
     C_AddConsoleDivider();

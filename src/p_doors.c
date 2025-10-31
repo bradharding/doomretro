@@ -277,7 +277,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -320,7 +320,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -363,7 +363,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -546,7 +546,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -592,7 +592,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -638,7 +638,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername, "s", s_PD_KEYCARD);
                 }
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return;
 
                 HU_PlayerMessage(buffer, false, false);

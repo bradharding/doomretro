@@ -980,7 +980,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 else
                     M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername, "s", s_PD_KEYCARDORSKULLKEY);
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1009,7 +1009,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC), playername, "s",
                         (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1038,7 +1038,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC), playername, "s",
                         (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1067,7 +1067,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), playername, "s",
                         (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1096,7 +1096,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS), playername, "s",
                         (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1125,7 +1125,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES), playername, "s",
                         (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1154,7 +1154,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), playername, "s",
                         (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1182,7 +1182,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
@@ -1207,7 +1207,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
 
-                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
 
                 HU_PlayerMessage(buffer, false, false);
