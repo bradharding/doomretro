@@ -315,7 +315,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 {
     va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = numconsolestrings - 1;
+    const int   i = (numconsolestrings > 0 ? numconsolestrings - 1 : 0);
 
     if (con_warninglevel < minwarninglevel && !devparm)
         return;
@@ -324,7 +324,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (console[i].stringtype == warningstring && M_StringCompare(console[i].string, buffer))
+    if (numconsolestrings > 0 && console[i].stringtype == warningstring && M_StringCompare(console[i].string, buffer))
         console[i].count++;
     else
     {
@@ -345,13 +345,13 @@ void C_PlayerMessage(const char *string, ...)
 {
     va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = numconsolestrings - 1;
+    const int   i = (numconsolestrings > 0 ? numconsolestrings - 1 : 0);
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
+    if (numconsolestrings > 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
         C_CreateTimeStamp(i);
         console[i].count++;
@@ -444,7 +444,7 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (console[numconsolestrings - 1].stringtype != dividerstring || !numconsolestrings)
+    if (!numconsolestrings || console[numconsolestrings - 1].stringtype != dividerstring)
     {
         if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -2185,7 +2185,7 @@ void C_Drawer(void)
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
         {
-            while (!strlen(console[++i].string))
+            while (i + 1 < numconsolestrings && !strlen(console[++i].string))
                 outputhistory++;
 
             break;
