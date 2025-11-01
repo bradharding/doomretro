@@ -2,8 +2,8 @@
 
 ### DOOM Retro v5.8.1
 
-* *DOOM Retro* now checks for a newer version at startup and notifies the player if one is available.
 * *DOOM Retro* is now built using v17.14.19 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* A newer version of *DOOM Retro* is now checked for at startup and the player is notified if one is available.
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The `r_levelbrightness` CVAR has been renamed `r_extralighting`.
