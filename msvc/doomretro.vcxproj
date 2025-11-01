@@ -398,7 +398,6 @@
     <ClInclude Include="..\src\st_stuff.h" />
     <ClInclude Include="..\src\states.h" />
     <ClInclude Include="..\src\tables.h" />
-    <ClInclude Include="..\src\update.h" />
     <ClInclude Include="..\src\v_data.h" />
     <ClInclude Include="..\src\v_video.h" />
     <ClInclude Include="..\src\version.h" />
@@ -489,7 +488,7 @@
     <ClCompile Include="..\src\st_lib.c" />
     <ClCompile Include="..\src\st_stuff.c" />
     <ClCompile Include="..\src\states.c" />
-    <ClCompile Include="..\src\update.c" />
+    <ClCompile Include="..\src\version.c" />
     <ClCompile Include="..\src\v_data.c" />
     <ClCompile Include="..\src\v_video.c" />
     <ClCompile Include="..\src\wi_interlvl.c" />

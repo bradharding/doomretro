@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 ==============================================================================
 
                                  DOOM Retro
@@ -6,8 +6,8 @@
 
 ==============================================================================
 
-    Copyright © 1993-2025 by id Software LLC, a ZeniMax Media company.
-    Copyright © 2013-2025 by Brad Harding <mailto:brad@doomretro.com>.
+    Copyright Â© 1993-2025 by id Software LLC, a ZeniMax Media company.
+    Copyright Â© 2013-2025 by Brad Harding <mailto:brad@doomretro.com>.
 
     This file is a part of DOOM Retro.
 
@@ -47,7 +47,6 @@
 #include "c_console.h"
 #include "i_system.h"
 #include "m_misc.h"
-#include "update.h"
 #include "version.h"
 
 #if defined(_WIN32)
@@ -264,7 +263,7 @@ void D_CheckForNewReleaseDialog(void)
         if (strncmp(striplatest, striplocal, 127))
         {
             char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found.\n"
-                        "Do you want to go to " DOOMRETRO_BLOGURL " to download?\n";
+                        "Would you like to go to " DOOMRETRO_BLOGURL " to download it now?\n";
             int     buttonid;
 
             const SDL_MessageBoxButtonData buttons[] =
@@ -291,7 +290,7 @@ void D_CheckForNewReleaseDialog(void)
             }
 
             C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found."
-                " Please go to " BOLD(DOOMRETRO_BLOGURL) " to download.");
+                " Please go to " BOLD(DOOMRETRO_BLOGURL) " to download it.");
         }
     } while (false);
 

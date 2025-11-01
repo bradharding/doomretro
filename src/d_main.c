@@ -72,7 +72,6 @@
 #include "w_merge.h"
 #include "w_wad.h"
 #include "wi_stuff.h"
-#include "update.h"
 
 #if !defined(_WIN32)
 #include <dirent.h>
