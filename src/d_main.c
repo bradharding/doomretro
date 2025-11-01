@@ -2214,6 +2214,8 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1);
 
+    D_CheckForNewReleaseDialog();
+
     if (!(choseniwad = D_CheckParms()))
     {
         if (iwadfile)
@@ -2223,8 +2225,6 @@ static void D_DoomMainSetup(void)
         }
         else if (!p)
         {
-            D_CheckForNewReleaseDialog();
-
 #if defined(_WIN32) || defined(__APPLE__)
             do
             {
