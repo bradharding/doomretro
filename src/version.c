@@ -92,7 +92,7 @@ static char *WinHttpReadResponse(HINTERNET hRequest)
 
         if (!WinHttpQueryDataAvailable(hRequest, &dwSize)
             || !dwSize
-            || !(chunk = (char *)malloc(dwSize + 1)))
+            || !(chunk = (char *)malloc((size_t)dwSize + 1)))
             break;
 
         if (!WinHttpReadData(hRequest, (LPVOID)chunk, dwSize, &dwDownloaded))
@@ -112,8 +112,8 @@ static char *WinHttpReadResponse(HINTERNET hRequest)
         }
 
         buffer = newbuf;
-        memcpy(buffer + total, chunk, dwDownloaded + 1);
-        total += dwDownloaded;
+        memcpy(buffer + total, chunk, (size_t)dwDownloaded + 1);
+        total += (size_t)dwDownloaded;
         buffer[total] = '\0';
         free(chunk);
     }
@@ -142,7 +142,7 @@ static BOOL CALLBACK FindWindowForProcess(HWND hwnd, LPARAM lParam)
     return TRUE;
 }
 
-void OpenUrlAndFocus(const char *url, const char *warning)
+void OpenURLInBrowser(const char *url, const char *warning)
 {
     SHELLEXECUTEINFOA   sei = { 0 };
     HANDLE              hProc;
@@ -189,7 +189,7 @@ void OpenUrlAndFocus(const char *url, const char *warning)
 }
 #endif
 
-void D_CheckForNewReleaseDialog(void)
+void D_CheckForNewVersion(void)
 {
 #if defined(_WIN32)
     char        localversion[128] = "";
@@ -263,13 +263,13 @@ void D_CheckForNewReleaseDialog(void)
         if (strncmp(striplatest, striplocal, 127))
         {
             char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found.\n"
-                        "Would you like to go to " DOOMRETRO_BLOGURL " to download it now?\n";
+                        "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
             int     buttonid;
 
             const SDL_MessageBoxButtonData buttons[] =
             {
-                { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  },
-                { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
+                { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" },
+                { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  }
             };
 
             const SDL_MessageBoxData messageboxdata =
@@ -285,12 +285,11 @@ void D_CheckForNewReleaseDialog(void)
 
             if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
             {
-                OpenUrlAndFocus("https://" DOOMRETRO_BLOGURL, "");
+                OpenURLInBrowser("https://" DOOMRETRO_BLOGURL, "");
                 I_Quit(false);
             }
 
-            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found."
-                " Please go to " BOLD(DOOMRETRO_BLOGURL) " to download it.");
+            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " is available at " BOLD(DOOMRETRO_BLOGURL) ".");
         }
     } while (false);
 

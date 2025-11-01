@@ -77,5 +77,5 @@
 #define DOOMRETRO_WIKINAME              "DOOM Retro Wiki"
 #define DOOMRETRO_WIKIURL               "https://github.com/bradharding/doomretro/wiki"
 
-void D_CheckForNewReleaseDialog(void);
-void OpenUrlAndFocus(const char *url, const char *warning);
+void D_CheckForNewVersion(void);
+void OpenURLInBrowser(const char *url, const char *warning);

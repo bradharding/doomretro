@@ -2214,7 +2214,7 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1);
 
-    D_CheckForNewReleaseDialog();
+    D_CheckForNewVersion();
 
     if (!(choseniwad = D_CheckParms()))
     {

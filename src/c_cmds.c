@@ -4365,7 +4365,7 @@ static void license_func2(char *cmd, char *parms)
     C_Output("Opening the " ITALICS(DOOMRETRO_LICENSE) "...");
 
 #if defined(_WIN32)
-    OpenUrlAndFocus(DOOMRETRO_LICENSEURL, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
+    OpenURLInBrowser(DOOMRETRO_LICENSEURL, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_LICENSEURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
@@ -7844,7 +7844,7 @@ static void releasenotes_func2(char *cmd, char *parms)
     C_Output("Opening the release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "..."));
 
 #if defined(_WIN32)
-    OpenUrlAndFocus(DOOMRETRO_RELEASENOTESURL, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
+    OpenURLInBrowser(DOOMRETRO_RELEASENOTESURL, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_RELEASENOTESURL))
         C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
@@ -9657,7 +9657,7 @@ static void wiki_func2(char *cmd, char *parms)
     C_Output("Opening the " ITALICS(DOOMRETRO_WIKINAME) "...");
 
 #if defined(_WIN32)
-    OpenUrlAndFocus(DOOMRETRO_WIKIURL, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
+    OpenURLInBrowser(DOOMRETRO_WIKIURL, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_WIKIURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
