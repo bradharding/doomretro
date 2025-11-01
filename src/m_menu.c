@@ -635,9 +635,6 @@ static void M_DrawHelpBackground(void)
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
-
-    if (vid_showfps && framespersecond)
-        C_UpdateFPSOverlay();
 }
 
 static const int chartoi[] =
@@ -1525,6 +1522,9 @@ static void M_DrawHelp(void)
             V_DrawHelpPatch(W_CacheLumpName(lumpname));
         }
     }
+
+    if (vid_showfps && framespersecond)
+        C_UpdateFPSOverlay();
 }
 
 //
