@@ -1960,7 +1960,10 @@ static void P_SpawnGibBlood(mobj_t *target)
             mo->momx = M_BigRandomInt(2, 8) * FRACUNIT;
             mo->momy = M_BigRandomInt(-8, 8) * FRACUNIT;
             mo->momz = M_BigRandomInt(-8, 8) * FRACUNIT;
-            mo->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+
+            if (M_BigRandom() & 1)
+                mo->flags2 |= MF2_MIRRORED;
+
             mo->colfunc = bloodcolfunc;
             mo->altcolfunc = bloodcolfunc;
             mo->bloodcolor = target->bloodcolor;

@@ -148,7 +148,7 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz += FixedMul(bob, finesine[((FINEANGLES / 20 * maptime) & FINEMASK)]);
+        viewplayer->viewz += FixedMul(bob, finesine[(FINEANGLES / 20 * maptime) & FINEMASK]);
     }
 
     if (mo->flags2 & MF2_FEETARECLIPPED)

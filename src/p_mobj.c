@@ -1101,7 +1101,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->bloodsplats = CORPSEBLOODSPLATS;
-    viewplayer->mo->floatbob = (M_BigRandom() & 63);
+    viewplayer->mo->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
     viewplayer->momx = 0;
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
@@ -1432,7 +1432,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
             mobj->floatbob = prevthingbob;
         else
         {
-            mobj->floatbob = (M_BigRandom() & 63);
+            mobj->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 
             prevthingbob = mobj->floatbob;
             prevthingx = x;

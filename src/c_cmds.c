@@ -3921,7 +3921,7 @@ static void kill_func2(char *cmd, char *parms)
 
                         if (all || !!(flags & MF_FRIEND) == friends)
                         {
-                            if (thing->flags2 & MF2_MONSTERMISSILE
+                            if ((thing->flags2 & MF2_MONSTERMISSILE)
                                 || thing->type == MT_ROCKET
                                 || thing->type == MT_PLASMA
                                 || thing->type == MT_BFG)

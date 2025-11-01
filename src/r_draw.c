@@ -99,7 +99,7 @@ static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define ditherlow(x, y, z)  (ditherlowmatrix[((y) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (z))
+#define ditherlow(x, y, z)  (ditherlowmatrix[(y) & (DITHERSIZE * 2 - 1)][(x) & (DITHERSIZE * 2 - 1)] < (z))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -109,7 +109,7 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, y, z)     (dithermatrix[((y) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (z))
+#define dither(x, y, z)     (dithermatrix[(y) & (DITHERSIZE - 1)][(x) & (DITHERSIZE - 1)] < (z))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -455,12 +455,12 @@ void R_DrawWallColumn(void)
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dc_source[((frac >> FRACBITS) & heightmask)]]];
+            *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = dc_sectorcolormap[colormap[dc_source[((frac >> FRACBITS) & heightmask)]]];
+        *dest = dc_sectorcolormap[colormap[dc_source[(frac >> FRACBITS) & heightmask]]];
     }
 }
 
@@ -497,12 +497,12 @@ void R_DrawLowResDitheredWallColumn(void)
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
+            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
 }
 
@@ -539,12 +539,12 @@ void R_DrawDitheredWallColumn(void)
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
+            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[((frac >> FRACBITS) & heightmask)]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
 }
 
@@ -583,13 +583,13 @@ void R_DrawWallColumnWithBrightmap(void)
     {
         while (--count)
         {
-            dot = dc_source[((frac >> FRACBITS) & heightmask)];
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[((frac >> FRACBITS) & heightmask)];
+        dot = dc_source[(frac >> FRACBITS) & heightmask];
         *dest = dc_sectorcolormap[dc_colormap[dc_brightmap[dot]][dot]];
     }
 }
@@ -630,13 +630,13 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
     {
         while (--count)
         {
-            dot = dc_source[((frac >> FRACBITS) & heightmask)];
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[((frac >> FRACBITS) & heightmask)];
+        dot = dc_source[(frac >> FRACBITS) & heightmask];
         *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
     }
 }
@@ -677,13 +677,13 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
     {
         while (--count)
         {
-            dot = dc_source[((frac >> FRACBITS) & heightmask)];
+            dot = dc_source[(frac >> FRACBITS) & heightmask];
             *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[((frac >> FRACBITS) & heightmask)];
+        dot = dc_source[(frac >> FRACBITS) & heightmask];
         *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
     }
 }
@@ -741,14 +741,14 @@ void R_DrawSkyColumn(void)
     {
         while (--count)
         {
-            if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
+            if ((dot = dc_source[(frac >> FRACBITS) & heightmask]))
                 *dest = dc_sectorcolormap[colormap[dot]];
 
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        if ((dot = dc_source[((frac >> FRACBITS) & heightmask)]))
+        if ((dot = dc_source[(frac >> FRACBITS) & heightmask]))
             *dest = dc_sectorcolormap[colormap[dot]];
     }
 }
@@ -763,12 +763,12 @@ void R_DrawFlippedSkyColumn(void)
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]]];
+        *dest = dc_sectorcolormap[colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]]];
+    *dest = dc_sectorcolormap[colormap[dc_source[(i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127)]]];
 }
 
 void R_DrawTranslucentBloodColumn(void)
