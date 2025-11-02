@@ -2214,7 +2214,9 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1);
 
+#if defined(_WIN32)
     D_CheckForNewVersion();
+#endif
 
     if (!(choseniwad = D_CheckParms()))
     {

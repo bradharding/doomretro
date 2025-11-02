@@ -33,14 +33,12 @@
 ==============================================================================
 */
 
+#if defined(_WIN32)
 #include <ctype.h>
 #include <string.h>
-
-#if defined(_WIN32)
 #include <windows.h>
 #include <ShellAPI.h>
 #include <winhttp.h>
-#endif
 
 #include "SDL.h"
 
@@ -49,7 +47,6 @@
 #include "m_misc.h"
 #include "version.h"
 
-#if defined(_WIN32)
 static void GetVersionToken(const char *src, char *out, size_t outlen)
 {
     const char  *p = src;
@@ -142,7 +139,7 @@ static BOOL CALLBACK FindWindowForProcess(HWND hwnd, LPARAM lParam)
     return TRUE;
 }
 
-void OpenURLInBrowser(const char *url, const char *warning)
+void D_OpenURLInBrowser(const char *url, const char *warning)
 {
     SHELLEXECUTEINFOA   sei = { 0 };
     HANDLE              hProc;
@@ -156,14 +153,16 @@ void OpenURLInBrowser(const char *url, const char *warning)
 
     if (ShellExecuteExA(&sei) && (hProc = sei.hProcess))
     {
+        HWND    found = NULL;
+
         struct FindWindowCtx
         {
             DWORD   pid;
             HWND    *out;
+        } ctx = {
+            GetProcessId(hProc),
+            &found
         };
-
-        HWND                    found = NULL;
-        struct FindWindowCtx    ctx = { GetProcessId(hProc), &found };
 
         WaitForInputIdle(hProc, 5000);
         EnumWindows(FindWindowForProcess, (LPARAM)&ctx);
@@ -187,11 +186,9 @@ void OpenURLInBrowser(const char *url, const char *warning)
     else if (warning)
         C_Warning(0, warning);
 }
-#endif
 
 void D_CheckForNewVersion(void)
 {
-#if defined(_WIN32)
     char        localversion[128] = "";
     char        latestversion[128] = "";
     char        *response = NULL;
@@ -262,14 +259,14 @@ void D_CheckForNewVersion(void)
 
         if (strncmp(striplatest, striplocal, 127))
         {
-            char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found.\n"
+            char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found!\n"
                         "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
             int     buttonid;
 
             const SDL_MessageBoxButtonData buttons[] =
             {
-                { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" },
-                { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  }
+                { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  },
+                { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
             };
 
             const SDL_MessageBoxData messageboxdata =
@@ -285,11 +282,11 @@ void D_CheckForNewVersion(void)
 
             if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
             {
-                OpenURLInBrowser("https://" DOOMRETRO_BLOGURL, "");
+                D_OpenURLInBrowser("https://" DOOMRETRO_BLOGURL, "");
                 I_Quit(false);
             }
 
-            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " is available at " BOLD(DOOMRETRO_BLOGURL) ".");
+            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found at " BOLD(DOOMRETRO_BLOGURL) "!");
         }
     } while (false);
 
@@ -304,5 +301,5 @@ void D_CheckForNewVersion(void)
 
     if (hSession)
         WinHttpCloseHandle(hSession);
-#endif
 }
+#endif
