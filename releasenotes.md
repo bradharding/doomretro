@@ -17,6 +17,7 @@
   * The frames per second shown are now more accurate.
   * The frames per second are now shown if a `HELP` or `HELP1` lump from a PWAD is displayed.
 * Focus is now given to your browser when using the `license`, `releasenotes` or `wiki` CCMDs.
+* The MIDI music of the free versions of [*SIGIL*](https://romero.com/sigil) and [*SIGIL II*](https://romero.com/sigil) now play as intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
