@@ -338,7 +338,12 @@ void S_StopSounds(void)
 static int S_GetMapNum(void)
 {
     if (!s_randommusic)
-        return ((gameepisode - 1) * 9 + gamemap);
+    {
+        if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
+            return gamemap;
+        else
+            return ((gameepisode - 1) * 9 + gamemap);
+    }
 
     if (gamemode == commercial)
         return M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : 32), gamemap);
