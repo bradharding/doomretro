@@ -56,7 +56,7 @@ static void GetVersionToken(const char *src, char *out, size_t outlen)
         return;
 
     while (*p && !isdigit(*p))
-        ++p;
+        p++;
 
     if (!*p)
     {
@@ -189,8 +189,8 @@ void D_OpenURLInBrowser(const char *url, const char *warning)
 
 void D_CheckForNewVersion(void)
 {
-    char        localversion[128] = "";
-    char        latestversion[128] = "";
+    char        localversion[32] = "";
+    char        latestversion[32] = "";
     char        *response = NULL;
     char        *p;
     HINTERNET   hSession = NULL;
@@ -239,7 +239,7 @@ void D_CheckForNewVersion(void)
             {
                 size_t  i = 0;
 
-                ++p;
+                p++;
 
                 while (*p && *p != '\"' && i + 1 < sizeof(latestversion))
                     latestversion[i++] = *p++;
@@ -254,12 +254,12 @@ void D_CheckForNewVersion(void)
         if (latestversion[0] == '\0')
             break;
 
-        striplatest = (toupper(latestversion[0]) == 'V' ? latestversion + 1 : latestversion);
-        striplocal = (toupper(localversion[0]) == 'V' ? localversion + 1 : localversion);
+        striplatest = (tolower(latestversion[0]) == 'v' ? latestversion + 1 : latestversion);
+        striplocal = (tolower(localversion[0]) == 'v' ? localversion + 1 : localversion);
 
-        if (strncmp(striplatest, striplocal, 127))
+        if (strncmp(striplatest, striplocal, 31))
         {
-            char    buffer[512] = "A newer version of " DOOMRETRO_NAME " was found!\n"
+            char    buffer[128] = "A newer version of " DOOMRETRO_NAME " was found!\n"
                         "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
             int     buttonid;
 
@@ -286,7 +286,7 @@ void D_CheckForNewVersion(void)
                 I_Quit(false);
             }
 
-            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found at " BOLD(DOOMRETRO_BLOGURL) "!");
+            C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found on " BOLD(DOOMRETRO_BLOGURL) "!");
         }
     } while (false);
 
