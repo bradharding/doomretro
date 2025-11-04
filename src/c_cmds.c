@@ -8810,15 +8810,57 @@ static void spawn_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            fixed_t     x = viewx + 100 * viewcos;
-            fixed_t     y = viewy + 100 * viewsin;
-            sector_t    *sector = R_PointInSubsector(x, y)->sector;
+            fixed_t         x = 0;
+            fixed_t         y = 0;
+            const fixed_t   forwardx = 100 * viewcos;
+            const fixed_t   forwardy = 100 * viewsin;
+            const fixed_t   rightx = 100 * -viewsin;
+            const fixed_t   righty = 100 * viewcos;
+            bool            found = false;
 
-            if (mobjinfo[type].height > sector->ceilingheight - sector->floorheight
-                || P_CheckLineSide(viewplayer->mo, x, y))
-                C_Warning(0, "There isn't enough room in front of %s to spawn a %s.",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername),
-                    mobjinfo[type].name1);
+            const fixed_t offsetx[8] =
+            {
+                forwardx,
+                forwardx - rightx,
+               -rightx,
+               -forwardx - rightx,
+               -forwardx,
+               -forwardx + rightx,
+                rightx,
+                forwardx + rightx
+            };
+
+            const fixed_t offsety[8] =
+            {
+                forwardy,
+                forwardy - righty,
+               -righty,
+               -forwardy - righty,
+               -forwardy,
+               -forwardy + righty,
+                righty,
+                forwardy + righty,
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+                sector_t    *sector;
+
+                x = viewx + offsetx[i];
+                y = viewy + offsety[i];
+                sector = R_PointInSubsector(x, y)->sector;
+
+                if (mobjinfo[type].height <= sector->ceilingheight - sector->floorheight
+                    && !P_CheckLineSide(viewplayer->mo, x, y))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                C_Warning(0, "There isn't enough room to spawn %s %s!",
+                    (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"), mobjinfo[type].name1);
             else
             {
                 mapthing_t  mthing = { 0 };

@@ -2,6 +2,8 @@
 
 ### DOOM Retro v5.8.2
 
+* The `spawn` CCMD now tries to spawn things somewhere still close to the player if there isn’t enough space directly in front of them.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, November 5, 2025
