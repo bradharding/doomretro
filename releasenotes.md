@@ -20,7 +20,7 @@
 * These changes have been made to the intermission screen:
   * The par time is now still displayed if the “SUCKS” text is shown.
   * An exclamation mark now follows the “SUCKS” text.
-* The authors of the maps are now displayed by the `mapstats` and `maplist` CCMDs when playing *No Rest For The Living*.
+* The authors of the maps are now displayed by the `mapstats` and `maplist` CCMDs when playing [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living).
 * These changes have been made when the `vid_showfps` CVAR is `on`:
   * The frames per second shown are now more accurate.
   * The frames per second are now shown if a `HELP` or `HELP1` lump from a PWAD is displayed.
