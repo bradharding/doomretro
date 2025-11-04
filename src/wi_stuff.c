@@ -1096,7 +1096,7 @@ static void WI_InitStats(void)
             (M_StringCompare(playername, playername_default) ? "You" : playername), mapname);
     else
         C_PlayerMessage("%s finished " ITALICS("%s%s"),
-            (M_StringCompare(playername, playername_default) ? "you" : playername), mapname,
+            (M_StringCompare(playername, playername_default) ? "You" : playername), mapname,
             (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
 
     temp1 = commify(wbs->skills);
@@ -1242,15 +1242,11 @@ static void WI_UpdateStats(void)
 
         cnt_par += 3 * TICRATE;
 
-        // e6y
-        // if par time is hidden (if modifiedgame is true)
-        // the game should play explosion sound immediately after
-        // the counter will reach level time instead of par time
-        if (modifiedgame && play_early_explosion)
+        if (!wbs->partime && play_early_explosion)
             if (cnt_time >= wbs->stime)
             {
                 S_StartSound(NULL, sfx_barexp);
-                play_early_explosion = false;   // do not play it twice or more
+                play_early_explosion = false;
             }
 
         if (cnt_par >= wbs->partime)
@@ -1259,10 +1255,7 @@ static void WI_UpdateStats(void)
 
             if (cnt_time >= wbs->stime)
             {
-                // e6y: do not play explosion sound if it was already played
-                if (!modifiedgame)
-                    S_StartSound(NULL, sfx_barexp);
-
+                S_StartSound(NULL, sfx_barexp);
                 sp_state++;
             }
         }
