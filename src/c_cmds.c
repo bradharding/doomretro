@@ -1878,12 +1878,10 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                 if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                            " action has therefore been unbound from the " BOLD("'%s'") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " key.",
                             actions[i].action, controls[control].control);
                     else
-                        C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                            " action has therefore been unbound from the " BOLD("%s") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " key.",
                             actions[i].action, controls[control].control);
 
                     *(int *)actions[i].keyboard1 = 0;
@@ -1892,12 +1890,10 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                 if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                            " action has therefore been unbound from the " BOLD("'%s'") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " key.",
                             actions[i].action, controls[control].control);
                     else
-                        C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                            " action has therefore been unbound from the " BOLD("%s") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " key.",
                             actions[i].action, controls[control].control);
 
                     *(int *)actions[i].keyboard2 = 0;
@@ -1907,8 +1903,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].mouse1 && controls[control].value == *(int *)actions[i].mouse1)
                 {
-                    C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                        " action has therefore been unbound from " BOLD("%s") ".",
+                    C_Warning(0, "The " BOLD("%s") " action has been unbound from " BOLD("%s") ".",
                         actions[i].action, controls[control].control);
                     *(int *)actions[i].mouse1 = -1;
                 }
@@ -1917,21 +1912,39 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].controller1 && controls[control].value == *(int *)actions[i].controller1)
                 {
-                    C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
-                        " action has therefore been unbound from " BOLD("%s") ".",
+                    C_Warning(0, "The " BOLD("%s") " action has been unbound from " BOLD("%s") ".",
                         actions[i].action, controls[control].control);
                     *(int *)actions[i].controller1 = 0;
                 }
 
                 if (actions[i].controller2 && controls[control].value == *(int *)actions[i].controller2)
                 {
-                    C_Warning(1, "Controls may only be bound to one action. The duplicate " BOLD("%s")
+                    C_Warning(0, "Controls may only be bound to one action. The duplicate " BOLD("%s")
                         " action has therefore been unbound from " BOLD("%s") ".",
                         actions[i].action, controls[control].control);
                     *(int *)actions[i].controller2 = 0;
                 }
             }
         }
+
+    if (type == keyboardcontrol)
+    {
+        if (*keyactionlist[controls[control].value])
+        {
+            C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("'%s'") " key.",
+                keyactionlist[controls[control].value], controls[control].control);
+            keyactionlist[controls[control].value][0] = '\0';
+        }
+    }
+    else if (type == mousecontrol)
+    {
+        if (*mouseactionlist[controls[control].value])
+        {
+            C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("'%s'") " key.",
+                mouseactionlist[controls[control].value], controls[control].control);
+            mouseactionlist[controls[control].value][0] = '\0';
+        }
+    }
 }
 
 void bind_func2(char *cmd, char *parms)
