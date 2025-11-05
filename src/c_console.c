@@ -2145,14 +2145,14 @@ void C_Drawer(void)
 
             if (wrap < len && i < bottomline)
             {
-                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
+                char    *temp1 = M_SubString(console[i].string, wrap, (size_t)len - wrap);
                 bool    bold = false;
                 bool    italics = false;
 
-                for (int j = 1; j < (int)strlen(temp); j++)
-                    if (temp[j] == BOLDONCHAR)
+                for (int j = 1; j < (int)strlen(temp1); j++)
+                    if (temp1[j] == BOLDONCHAR)
                         break;
-                    else if (temp[j] == BOLDOFFCHAR)
+                    else if (temp1[j] == BOLDOFFCHAR)
                     {
                         bold = true;
                         break;
@@ -2160,15 +2160,17 @@ void C_Drawer(void)
 
                 if (bold)
                 {
-                    char *oldtemp = temp;
-                    temp = M_StringJoin(BOLDON, temp, NULL);
-                    free(oldtemp);
+                    char    *temp2 = temp1;
+
+                    temp1 = M_StringJoin(BOLDON, temp1, NULL);
+
+                    free(temp2);
                 }
 
-                for (int j = 1; j < (int)strlen(temp); j++)
-                    if (temp[j] == ITALICSONCHAR)
+                for (int j = 1; j < (int)strlen(temp1); j++)
+                    if (temp1[j] == ITALICSONCHAR)
                         break;
-                    else if (temp[j] == ITALICSOFFCHAR)
+                    else if (temp1[j] == ITALICSOFFCHAR)
                     {
                         italics = true;
                         break;
@@ -2176,16 +2178,18 @@ void C_Drawer(void)
 
                 if (italics)
                 {
-                    char *oldtemp = temp;
-                    temp = M_StringJoin(ITALICSON, temp, NULL);
-                    free(oldtemp);
+                    char    *temp2 = temp1;
+
+                    temp1 = M_StringJoin(ITALICSON, temp1, NULL);
+
+                    free(temp2);
                 }
 
                 C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
-                    trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,
+                    trimwhitespace(temp1), consolecolors[stringtype], NOBACKGROUNDCOLOR,
                     consoleboldcolors[stringtype], tinttab66, notabs, true, true, true, 0, '\0', '\0',
                     &V_DrawConsoleTextPatch);
-                free(temp);
+                free(temp1);
             }
 
             free(text);

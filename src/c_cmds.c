@@ -5027,7 +5027,7 @@ static void removemapnum(char *title)
 
 static const char *getauthor(int ep, int map, bool replaced)
 {
-    const char    *author = P_GetMapAuthor(ep, map);
+    const char  *author = P_GetMapAuthor(ep, map);
 
     if (*author)
         return author;
