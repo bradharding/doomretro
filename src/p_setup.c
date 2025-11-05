@@ -4305,7 +4305,7 @@ static bool P_ParseMapInfo(const char *scriptname)
     return true;
 }
 
-char *P_GetMapAuthor(const int ep, const int map)
+const char *P_GetMapAuthor(const int ep, const int map)
 {
     return (MAPINFO >= 0 && mapinfo[ep][map].author[0] ? mapinfo[ep][map].author : (((E1M4B || *speciallumpname) && map == 4)
         || ((E1M8B || *speciallumpname) && map == 8) || (onehumanity && map == 1) ? s_AUTHOR_ROMERO : ""));
