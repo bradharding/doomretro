@@ -44,6 +44,7 @@
 
 #include "c_console.h"
 #include "i_system.h"
+#include "m_argv.h"
 #include "m_misc.h"
 #include "version.h"
 
@@ -259,31 +260,34 @@ void D_CheckForNewVersion(void)
 
         if (strncmp(striplatest, striplocal, 31))
         {
-            char    buffer[128] = "A newer version of " DOOMRETRO_NAME " was found!\n"
-                        "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
-            int     buttonid;
-
-            const SDL_MessageBoxButtonData buttons[] =
+            if (!M_CheckParm("-noupdate"))
             {
-                { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  },
-                { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
-            };
+                char    buffer[128] = "A newer version of " DOOMRETRO_NAME " was found!\n"
+                            "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
+                int     buttonid;
 
-            const SDL_MessageBoxData messageboxdata =
-            {
-                SDL_MESSAGEBOX_WARNING,
-                NULL,
-                DOOMRETRO_NAME,
-                buffer,
-                SDL_arraysize(buttons),
-                buttons,
-                NULL
-            };
+                const SDL_MessageBoxButtonData buttons[] =
+                {
+                    { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "No"  },
+                    { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes" }
+                };
 
-            if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
-            {
-                D_OpenURLInBrowser("https://" DOOMRETRO_BLOGURL, "");
-                I_Quit(false);
+                const SDL_MessageBoxData messageboxdata =
+                {
+                    SDL_MESSAGEBOX_WARNING,
+                    NULL,
+                    DOOMRETRO_NAME,
+                    buffer,
+                    SDL_arraysize(buttons),
+                    buttons,
+                    NULL
+                };
+
+                if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
+                {
+                    D_OpenURLInBrowser("https://" DOOMRETRO_BLOGURL, "");
+                    I_Quit(false);
+                }
             }
 
             C_Warning(0, "A newer version of " ITALICS(DOOMRETRO_NAME) " was found on " BOLD(DOOMRETRO_BLOGURL) "!");
