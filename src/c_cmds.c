@@ -8822,18 +8822,14 @@ static void spawn_func2(char *cmd, char *parms)
                 && !P_CheckLineSide(viewplayer->mo, x, y))
                 found = true;
             else
-            {
-                const fixed_t   rightx = -viewsin * distance;
-                const fixed_t   righty = viewcos * distance;
-
                 for (int i = 15; i >= 1; i--)
                 {
                     const double    phi = i * (M_PI / 8.0);
                     const double    cosine = cos(phi);
                     const double    sine = sin(phi);
 
-                    x = viewx + (fixed_t)(forwardx * cosine + rightx * sine);
-                    y = viewy + (fixed_t)(forwardy * cosine + righty * sine);
+                    x = viewx + (fixed_t)(forwardx * cosine - forwardy * sine);
+                    y = viewy + (fixed_t)(forwardx * sine + forwardy * cosine);
 
                     sector = R_PointInSubsector(x, y)->sector;
 
@@ -8844,21 +8840,8 @@ static void spawn_func2(char *cmd, char *parms)
                         break;
                     }
                 }
-            }
 
-            if (!found)
-            {
-                if (spawncmdtype == GreenArmor || spawncmdtype == BlueArmor)
-                    C_Warning(0, "There isn't enough room around %s to spawn %s!",
-                        (M_StringCompare(playername, playername_default) ? "you" : playername),
-                        mobjinfo[type].name1);
-                else
-                    C_Warning(0, "There isn't enough room around %s to spawn %s %s%s!",
-                        (M_StringCompare(playername, playername_default) ? "you" : playername),
-                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
-                        (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
-            }
-            else
+            if (found)
             {
                 mapthing_t  mthing = { 0 };
                 mobj_t      *thing;
@@ -8931,6 +8914,18 @@ static void spawn_func2(char *cmd, char *parms)
 
                     C_HideConsole();
                 }
+            }
+            else
+            {
+                if (spawncmdtype == GreenArmor || spawncmdtype == BlueArmor)
+                    C_Warning(0, "There isn't enough room around %s to spawn %s!",
+                        (M_StringCompare(playername, playername_default) ? "you" : playername),
+                        mobjinfo[type].name1);
+                else
+                    C_Warning(0, "There isn't enough room around %s to spawn %s %s%s!",
+                        (M_StringCompare(playername, playername_default) ? "you" : playername),
+                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                        (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
             }
         }
 
