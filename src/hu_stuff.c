@@ -280,9 +280,9 @@ static void HU_Stop(void)
 
 void HU_Start(void)
 {
-    char    *s1 = M_StringDuplicate(automaptitle);
-    char    *author = P_GetMapAuthor(gameepisode, gamemap);
-    char    *s2 = M_StringJoin("By ", author, NULL);
+    char          *title  = M_StringDuplicate(automaptitle);
+    const char    *author = P_GetMapAuthor(gameepisode, gamemap);
+    char          *byline = M_StringJoin("By ", author, NULL);
 
     if (headsupactive)
         HU_Stop();
@@ -301,12 +301,18 @@ void HU_Start(void)
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
     HUlib_InitTextLine(&w_author, w_author.x, w_author.y, hu_font, HU_FONTSTART);
 
+    char *s1 = title;
+    char *s2 = byline;
+
     while (*s1 && *s1 != '\r' && *s1 != '\n')
         HUlib_AddCharToTextLine(&w_title, *(s1++));
 
     if (author && *author)
         while (*s2 && *s2 != '\r' && *s2 != '\n')
             HUlib_AddCharToTextLine(&w_author, *(s2++));
+
+    free(title);
+    free(byline);
 
     headsupactive = true;
 }
@@ -1471,7 +1477,7 @@ void HU_Drawer(void)
 
     if (automapactive)
     {
-        char    *author = P_GetMapAuthor(gameepisode, gamemap);
+        const char    *author = P_GetMapAuthor(gameepisode, gamemap);
 
         if (r_althud && r_althudfont && r_screensize == r_screensize_max)
         {
@@ -1614,7 +1620,10 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     M_StringReplaceAll(message, "%%", "%", false);
 
     if (!group)
+    {
+        free(viewplayer->message);
         viewplayer->message = sentencecase(message);
+    }
     else
     {
         static int  messagecount = 1;

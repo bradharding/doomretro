@@ -72,7 +72,7 @@ void P_MapName(int ep, int map);
 // Called by startup code.
 void P_Init(void);
 
-char *P_GetMapAuthor(const int ep, const int map);
+const char *P_GetMapAuthor(const int ep, const int map);
 int P_GetNumBossActions(const int ep, const int map);
 bossaction_t *P_GetBossAction(const int ep, const int map, const int i);
 char *P_GetInterBackrop(const int ep, const int map);

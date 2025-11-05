@@ -384,7 +384,11 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!D_IsResourceWAD(file))
     {
         if (wadsloaded)
+        {
+            char *temp = wadsloaded;
             wadsloaded = M_StringJoin(wadsloaded, ", ", file, NULL);
+            free(temp);
+        }
         else
             wadsloaded = M_StringDuplicate(file);
     }
@@ -1082,4 +1086,5 @@ void W_CloseFiles(void)
 {
     for (int i = 0; i < numwads; i++)
         W_CloseFile(wadlist[i]);
+    free(wadsloaded);
 }

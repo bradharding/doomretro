@@ -2159,7 +2159,11 @@ void C_Drawer(void)
                     }
 
                 if (bold)
+                {
+                    char *oldtemp = temp;
                     temp = M_StringJoin(BOLDON, temp, NULL);
+                    free(oldtemp);
+                }
 
                 for (int j = 1; j < (int)strlen(temp); j++)
                     if (temp[j] == ITALICSONCHAR)
@@ -2171,7 +2175,11 @@ void C_Drawer(void)
                     }
 
                 if (italics)
+                {
+                    char *oldtemp = temp;
                     temp = M_StringJoin(ITALICSON, temp, NULL);
+                    free(oldtemp);
+                }
 
                 C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
                     trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,

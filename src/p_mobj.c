@@ -1640,7 +1640,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
             && (!usemaxheight || sec->interpfloorheight <= maxheight)
             && (!checklineside || !P_CheckLineSide(target, x, y)))
         {
-            bloodsplat_t    *splat = malloc(sizeof(*splat));
+            bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
 
             if (splat)
             {
