@@ -8810,57 +8810,54 @@ static void spawn_func2(char *cmd, char *parms)
 
         if (spawn)
         {
-            fixed_t         x = 0;
-            fixed_t         y = 0;
-            const fixed_t   forwardx = 100 * viewcos;
-            const fixed_t   forwardy = 100 * viewsin;
-            const fixed_t   rightx = 100 * -viewsin;
-            const fixed_t   righty = 100 * viewcos;
+            const int       distance = 80;
+            const fixed_t   forwardx = viewcos * distance;
+            const fixed_t   forwardy = viewsin * distance;
+            fixed_t         x = viewx + forwardx;
+            fixed_t         y = viewy + forwardy;
+            sector_t        *sector = R_PointInSubsector(x, y)->sector;
             bool            found = false;
 
-            const fixed_t offsetx[8] =
+            if (mobjinfo[type].height <= sector->ceilingheight - sector->floorheight
+                && !P_CheckLineSide(viewplayer->mo, x, y))
+                found = true;
+            else
             {
-                forwardx,
-                forwardx - rightx,
-               -rightx,
-               -forwardx - rightx,
-               -forwardx,
-               -forwardx + rightx,
-                rightx,
-                forwardx + rightx
-            };
+                const fixed_t   rightx = -viewsin * distance;
+                const fixed_t   righty = viewcos * distance;
 
-            const fixed_t offsety[8] =
-            {
-                forwardy,
-                forwardy - righty,
-               -righty,
-               -forwardy - righty,
-               -forwardy,
-               -forwardy + righty,
-                righty,
-                forwardy + righty,
-            };
-
-            for (int i = 0; i < 8; i++)
-            {
-                sector_t    *sector;
-
-                x = viewx + offsetx[i];
-                y = viewy + offsety[i];
-                sector = R_PointInSubsector(x, y)->sector;
-
-                if (mobjinfo[type].height <= sector->ceilingheight - sector->floorheight
-                    && !P_CheckLineSide(viewplayer->mo, x, y))
+                for (int i = 15; i >= 1; i--)
                 {
-                    found = true;
-                    break;
+                    const double    phi = i * (M_PI / 8.0);
+                    const double    cosine = cos(phi);
+                    const double    sine = sin(phi);
+
+                    x = viewx + (fixed_t)(forwardx * cosine + rightx * sine);
+                    y = viewy + (fixed_t)(forwardy * cosine + righty * sine);
+
+                    sector = R_PointInSubsector(x, y)->sector;
+
+                    if (mobjinfo[type].height <= sector->ceilingheight - sector->floorheight
+                        && !P_CheckLineSide(viewplayer->mo, x, y))
+                    {
+                        found = true;
+                        break;
+                    }
                 }
             }
 
             if (!found)
-                C_Warning(0, "There isn't enough room to spawn %s %s!",
-                    (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"), mobjinfo[type].name1);
+            {
+                if (spawncmdtype == GreenArmor || spawncmdtype == BlueArmor)
+                    C_Warning(0, "There isn't enough room around %s to spawn %s!",
+                        (M_StringCompare(playername, playername_default) ? "you" : playername),
+                        mobjinfo[type].name1);
+                else
+                    C_Warning(0, "There isn't enough room around %s to spawn %s %s%s!",
+                        (M_StringCompare(playername, playername_default) ? "you" : playername),
+                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                        (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
+            }
             else
             {
                 mapthing_t  mthing = { 0 };
@@ -8906,7 +8903,7 @@ static void spawn_func2(char *cmd, char *parms)
                     }
                     else
                     {
-                        if (flags & MF_COUNTITEM)
+                        if (flags & MF_SPECIAL)
                         {
                             stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                             M_SaveCVARs();
