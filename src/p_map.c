@@ -1956,7 +1956,7 @@ bool P_DoorClosed(const line_t *line)
 {
     P_LineOpening(line);
 
-    return (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height);
+    return (!usething || openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height);
 }
 
 //
