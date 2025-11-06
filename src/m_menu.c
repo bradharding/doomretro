@@ -4557,7 +4557,7 @@ void M_Drawer(void)
             }
 
             for (int i = 0; i < MAXSCREENAREA; i++)
-                if (tempscreen[i] == nearestblack)
+                if (tempscreen[i] == BLUE1)
                     screens[0][i] = black40[screens[0][i]];
                 else if (tempscreen[i] != PINK)
                     screens[0][i] = tempscreen[i];

@@ -972,7 +972,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (i <= shadowwidth && *dot != 47 && *dot != 191)
-                        *dot = nearestblack;
+                        *dot = BLUE1;
                 }
 
                 srccol += DYI;
