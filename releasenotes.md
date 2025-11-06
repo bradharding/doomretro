@@ -4,6 +4,7 @@
 
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
+* The black pixels of menu items displayed using a `DBIGFONT` lump are no longer translucent.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
