@@ -967,11 +967,11 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
 
                 dest += SCREENWIDTH;
 
-                if (height + 2 > 0 && menushadow)
+                if (menushadow && height + 2 > 0 && i <= shadowwidth)
                 {
                     byte    *dot = dest + SCREENWIDTH + 2;
 
-                    if (i <= shadowwidth && *dot != 47 && *dot != 191)
+                    if (*dot != 47 && *dot != 191)
                         *dot = BLUE1;
                 }
 

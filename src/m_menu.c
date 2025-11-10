@@ -4269,7 +4269,8 @@ void M_Drawer(void)
         return;
     }
 
-    memset(tempscreen, PINK, MAXSCREENAREA);
+    if (DBIGFONT)
+        memset(tempscreen, PINK, MAXSCREENAREA);
 
     if (currentmenu->routine)
         currentmenu->routine();         // call draw routine
@@ -4556,11 +4557,12 @@ void M_Drawer(void)
                 y += LINEHEIGHT - 1;
             }
 
-            for (int i = 0; i < MAXSCREENAREA; i++)
-                if (tempscreen[i] == BLUE1)
-                    screens[0][i] = black40[screens[0][i]];
-                else if (tempscreen[i] != PINK)
-                    screens[0][i] = tempscreen[i];
+            if (DBIGFONT)
+                for (int i = 0; i < MAXSCREENAREA; i++)
+                    if (tempscreen[i] == BLUE1)
+                        screens[0][i] = black40[screens[0][i]];
+                    else if (tempscreen[i] != PINK)
+                        screens[0][i] = tempscreen[i];
 
             for (int i = 0; i < max; i++)
                 currentmenu->menuitems[i].width = widest;
