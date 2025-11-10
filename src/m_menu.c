@@ -4269,6 +4269,8 @@ void M_Drawer(void)
         return;
     }
 
+    memset(tempscreen, PINK, MAXSCREENAREA);
+
     if (currentmenu->routine)
         currentmenu->routine();         // call draw routine
 
@@ -4335,8 +4337,6 @@ void M_Drawer(void)
 
                 M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
             }
-
-            memset(tempscreen, PINK, MAXSCREENAREA);
 
             for (int i = 0; i < max; i++)
             {
