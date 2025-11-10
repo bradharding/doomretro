@@ -766,8 +766,6 @@ void G_DoLoadLevel(void)
         oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
     }
 
-    S_StopSounds();
-
     P_RemoveBloodSplats();
 
     // initialize the msecnode_t freelist. phares 03/25/98
