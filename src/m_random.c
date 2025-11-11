@@ -63,5 +63,5 @@ int P_RandomHitscanSlope(const fixed_t spread)
 {
     const int   angle = P_RandomHitscanAngle(spread);
 
-    return finetangent[(angle > ANG90 ? 0 : (angle < -ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - angle) >> ANGLETOFINESHIFT))];
+    return finetangent[(angle > ANG90 ? 0 : (-angle > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - angle) >> ANGLETOFINESHIFT))];
 }
