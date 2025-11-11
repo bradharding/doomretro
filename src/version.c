@@ -76,6 +76,54 @@ static void GetVersionToken(const char *src, char *out, size_t outlen)
     out[i] = '\0';
 }
 
+static bool VersionLessThan(const char *a, const char *b)
+{
+    const char  *pa = (a ? a : "");
+    const char  *pb = (b ? b : "");
+
+    for (int comp = 0; comp < 3; comp++)
+    {
+        int     va = 0;
+        int     vb = 0;
+        char    *end;
+
+        while (*pa && !isdigit((unsigned char)*pa))
+            pa++;
+
+        if (*pa && isdigit((unsigned char)*pa))
+        {
+            va = strtol(pa, &end, 10);
+            pa = end;
+        }
+        else
+            va = 0;
+
+        while (*pb && !isdigit((unsigned char)*pb))
+            pb++;
+
+        if (*pb && isdigit((unsigned char)*pb))
+        {
+            vb = strtol(pb, &end, 10);
+            pb = end;
+        }
+        else
+            vb = 0;
+
+        if (va < vb)
+            return true;
+        else if (va > vb)
+            return false;
+
+        if (*pa == '.')
+            pa++;
+
+        if (*pb == '.')
+            pb++;
+    }
+
+    return false;
+}
+
 static char *WinHttpReadResponse(HINTERNET hRequest)
 {
     DWORD   dwSize = 0;
@@ -258,7 +306,7 @@ void D_CheckForNewVersion(void)
         striplatest = (tolower(latestversion[0]) == 'v' ? latestversion + 1 : latestversion);
         striplocal = (tolower(localversion[0]) == 'v' ? localversion + 1 : localversion);
 
-        if (strncmp(striplatest, striplocal, 31))
+        if (VersionLessThan(striplocal, striplatest))
         {
             if (!M_CheckParm("-noupdate"))
             {
