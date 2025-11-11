@@ -636,18 +636,15 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
     if (M_StringStartsWith(music->name1, "d_"))
         M_StringCopy(namebuf, music->name1, sizeof(namebuf));
-    else
+    else if (*music->IDKFA && !legacyofrust)
     {
-        if (*music->IDKFA && !legacyofrust)
-        {
-            M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
+        M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
 
-            if (W_CheckNumForName(namebuf) == -1)
-                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
-        }
-        else
+        if (W_CheckNumForName(namebuf) == -1)
             M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
     }
+    else
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
 
     // get lumpnum if necessary
     if (autosigil)
@@ -677,6 +674,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     {
         music->lumpnum = mapinfomusic;
         M_StringCopy(music->name1, lumpinfo[mapinfomusic]->name, sizeof(music->name1));
+        M_StringCopy(namebuf, lumpinfo[mapinfomusic]->name, sizeof(namebuf));
     }
     else if (!music->lumpnum)
         music->lumpnum = W_CheckNumForName(namebuf);

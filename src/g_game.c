@@ -782,10 +782,11 @@ void G_DoLoadLevel(void)
     if (resetplayer && gamemap != 1)
     {
         if (M_StringCompare(playername, playername_default))
-            C_Warning(0, "You now have 100%% health, no armor, and only a pistol with 50 bullets.");
+            C_Warning(0, "You now have %i%% health, no armor, and only a pistol with %i bullets.",
+                initial_health, initial_bullets);
         else
-            C_Warning(0, "%s now has 100%% health, no armor, and only a pistol with 50 bullets.",
-                playername);
+            C_Warning(0, "%s now has %i%% health, no armor, and only a pistol with %i bullets.",
+                playername, initial_health, initial_bullets);
     }
 
     skycolumnoffset = 0;
