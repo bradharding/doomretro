@@ -103,12 +103,12 @@ bool I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
-    if (extras && W_CheckNumForName("H_INTRO") >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
-        return true;
-
     if (!(windowsmidi = I_Windows_InitMusic()))
         C_Warning(1, "Music couldn't be completely %s. Volume adjustment could be affected.",
             (english == english_american ? "initialized" : "initialised"));
+
+    if (extras && W_CheckNumForName("H_INTRO") >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
+        return true;
 #endif
 
     return music_initialized;
