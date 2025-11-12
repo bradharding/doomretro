@@ -3,7 +3,7 @@
 ### DOOM Retro v5.8.2
 
 * *DOOM Retro* is now built using v17.14.20 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.

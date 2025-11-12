@@ -206,7 +206,7 @@ void R_DrawLowResDitheredColumnWithBrightmap(void)
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
 }
 
 void R_DrawDitheredColumnWithBrightmap(void)
@@ -226,7 +226,7 @@ void R_DrawDitheredColumnWithBrightmap(void)
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
 }
 
 void R_DrawCorrectedColumn(void)
@@ -858,7 +858,7 @@ void R_DrawDitheredTranslucent50ColumnWithBrightmap(void)
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]]];
 }
 
 void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
@@ -878,7 +878,7 @@ void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]]];
 }
 
 void R_DrawLowResDitheredTranslucent50Column(void)
