@@ -35,6 +35,7 @@
 
 #include "i_colors.h"
 #include "i_swap.h"
+#include "i_system.h"
 #include "w_wad.h"
 
 #define R   1
@@ -293,52 +294,46 @@ int FindDominantEdgeColor(patch_t *patch)
 
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
-    byte    *result = malloc((size_t)256 * 256);
+    byte    *result = I_Malloc((size_t)256 * 256);
 
-    if (result)
-    {
-        for (int foreground = 0; foreground < 256; foreground++)
-            if ((filter[foreground] & colors) || colors == ALL)
-                for (int background = 0; background < 256; background++)
-                {
-                    byte        *color1 = &palette[background * 3];
-                    byte        *color2 = &palette[foreground * 3];
-                    const byte  r = ((byte)color1[0] * percent + (byte)color2[0] * (100 - percent)) / 100;
-                    const byte  g = ((byte)color1[1] * percent + (byte)color2[1] * (100 - percent)) / 100;
-                    const byte  b = ((byte)color1[2] * percent + (byte)color2[2] * (100 - percent)) / 100;
+    for (int foreground = 0; foreground < 256; foreground++)
+        if ((filter[foreground] & colors) || colors == ALL)
+            for (int background = 0; background < 256; background++)
+            {
+                byte        *color1 = &palette[background * 3];
+                byte        *color2 = &palette[foreground * 3];
+                const byte  r = ((byte)color1[0] * percent + (byte)color2[0] * (100 - percent)) / 100;
+                const byte  g = ((byte)color1[1] * percent + (byte)color2[1] * (100 - percent)) / 100;
+                const byte  b = ((byte)color1[2] * percent + (byte)color2[2] * (100 - percent)) / 100;
 
-                    result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
-                }
-            else
-                for (int background = 0; background < 256; background++)
-                    result[(background << 8) + foreground] = foreground;
-    }
+                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
+            }
+        else
+            for (int background = 0; background < 256; background++)
+                result[(background << 8) + foreground] = foreground;
 
     return result;
 }
 
 static byte *GenerateAdditiveTintTable(byte *palette, int colors)
 {
-    byte    *result = malloc((size_t)256 * 256);
+    byte    *result = I_Malloc((size_t)256 * 256);
 
-    if (result)
-    {
-        for (int foreground = 0; foreground < 256; foreground++)
-            if ((filter[foreground] & colors) || colors == ALL)
-                for (int background = 0; background < 256; background++)
-                {
-                    const byte  *color1 = &palette[background * 3];
-                    const byte  *color2 = &palette[foreground * 3];
-                    const byte  r = MIN(color1[0] + color2[0], 255);
-                    const byte  g = MIN(color1[1] + color2[1], 255);
-                    const byte  b = MIN(color1[2] + color2[2], 255);
+    for (int foreground = 0; foreground < 256; foreground++)
+        if ((filter[foreground] & colors) || colors == ALL)
+            for (int background = 0; background < 256; background++)
+            {
+                const byte  *color1 = &palette[background * 3];
+                const byte  *color2 = &palette[foreground * 3];
+                const byte  r = MIN(color1[0] + color2[0], 255);
+                const byte  g = MIN(color1[1] + color2[1], 255);
+                const byte  b = MIN(color1[2] + color2[2], 255);
 
-                    result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
-                }
-            else
-                for (int background = 0; background < 256; background++)
-                    result[(background << 8) + foreground] = foreground;
-    }
+                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
+            }
+        else
+            for (int background = 0; background < 256; background++)
+                result[(background << 8) + foreground] = foreground;
 
     return result;
 }

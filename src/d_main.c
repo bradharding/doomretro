@@ -2630,7 +2630,7 @@ static void D_DoomMainSetup(void)
             M_StringReplaceAll(string, "!", "", false);
 
             C_Output("A " BOLD("%s") " parameter was found on the command-line. "
-                "The skill level is now " ITALICS("%s."), myargv[p], string);
+                "The skill level is now " ITALICS("%s") ".", myargv[p], string);
             free(string);
         }
     }
@@ -2648,7 +2648,7 @@ static void D_DoomMainSetup(void)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
             C_Output("An " BOLD("-episode") " parameter was found on the command-line. "
-                "The episode is now " ITALICS("%s."), *episodes[episode - 1]);
+                "The episode is now " ITALICS("%s") ".", *episodes[episode - 1]);
         }
     }
 
@@ -2664,7 +2664,7 @@ static void D_DoomMainSetup(void)
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
             C_Output("An " BOLD("-expansion") " parameter was found on the command-line. "
-                "The expansion is now " ITALICS("%s."), *expansions[expansion - 1]);
+                "The expansion is now " ITALICS("%s") ".", *expansions[expansion - 1]);
         }
     }
 

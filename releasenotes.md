@@ -10,7 +10,6 @@
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.
 * A bug is fixed whereby music wouldn’t be played in some rare instances when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 
-
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, November 5, 2025

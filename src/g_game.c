@@ -1814,7 +1814,7 @@ void G_LoadedGameMessage(void)
                 M_StringReplaceAll(temp2, ".", "", false);
                 M_StringReplaceAll(temp2, "!", "", false);
 
-                C_Warning(0, "The skill level is now " ITALICS("%s."), temp2);
+                C_Warning(0, "The skill level is now " ITALICS("%s") ".", temp2);
                 free(temp2);
             }
         }
