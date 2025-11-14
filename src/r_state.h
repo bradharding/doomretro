@@ -46,7 +46,7 @@
 // needed for texture pegging
 extern fixed_t      *textureheight;
 
-extern byte         **brightmap;
+extern byte         **brightmaps;
 extern bool         *nobrightmap;
 
 // needed for pre rendering (fracs)

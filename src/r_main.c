@@ -599,7 +599,7 @@ void R_InitColumnFunctions(void)
             if (r_detail == r_detail_low)
             {
                 basecolfunc = &R_DrawLowResDitheredColumn;
-                translatedcolfunc = &R_DrawDitherLowTranslatedColumn;
+                translatedcolfunc = &R_DrawLowResDitheredTranslatedColumn;
                 wallcolfunc = &R_DrawLowResDitheredWallColumn;
                 missingcolfunc = &R_DrawLowResDitheredSolidColorColumn;
                 bmapwallcolfunc = &R_DrawLowResDitheredWallColumnWithBrightmap;
@@ -612,7 +612,7 @@ void R_InitColumnFunctions(void)
             else
             {
                 basecolfunc = &R_DrawDitheredColumn;
-                translatedcolfunc = &R_DrawDitherTranslatedColumn;
+                translatedcolfunc = &R_DrawDitheredTranslatedColumn;
                 wallcolfunc = &R_DrawDitheredWallColumn;
                 missingcolfunc = &R_DrawDitheredSolidColorColumn;
                 bmapwallcolfunc = &R_DrawDitheredWallColumnWithBrightmap;
