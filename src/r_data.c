@@ -84,7 +84,7 @@ char        berserk[64];
 // needed for texture pegging
 fixed_t     *textureheight;
 
-byte        **brightmaps;
+byte        **brightmap;
 bool        *nobrightmap;
 byte        (*masks)[256];
 char        (*masknames)[32];
@@ -349,7 +349,7 @@ static void R_InitBrightmaps(void)
     int nummasks = 0;
     int numbrightmaps = 0;
 
-    brightmaps = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
+    brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     if ((BTSX || chex || FREEDOOM || hacx || harmony || harmonyc || REKKR)
@@ -436,7 +436,7 @@ static void R_InitBrightmaps(void)
                             for (int j = 0; j < nummasks; j++)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
-                                    brightmaps[texture] = masks[j];
+                                    brightmap[texture] = masks[j];
                                     numbrightmaps++;
                                     break;
                                 }

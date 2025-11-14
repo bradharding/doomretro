@@ -71,22 +71,22 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
     while (first < last)
         if (solidcol[first])
         {
-            const byte  *p = memchr(solidcol + first, 0, (size_t)last - first);
+            const void  *p = memchr(solidcol + first, 0, (size_t)(last - first));
 
             if (!p)
                 return;
 
-            first = (int)(p - solidcol);
+            first = (int)((const byte *)p - solidcol);
         }
         else
         {
-            const byte  *p = memchr(solidcol + first, 1, (size_t)last - first);
-            const int   to = (p ? (int)(p - solidcol) : last);
+            const void  *p = memchr(solidcol + first, 1, (size_t)(last - first));
+            const int   to = (p ? (int)((const byte *)p - solidcol) : last);
 
             R_StoreWallRange(first, to - 1);
 
             if (solid)
-                memset(solidcol + first, 1, (size_t)to - first);
+                memset(solidcol + first, 1, (size_t)(to - first));
 
             first = to;
         }
@@ -97,7 +97,7 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
 //
 void R_InitClipSegs(void)
 {
-    solidcol = calloc(MAXWIDTH, sizeof(*solidcol));
+    solidcol = (byte *)calloc(MAXWIDTH, sizeof(*solidcol));
 }
 
 //
