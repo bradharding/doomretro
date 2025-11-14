@@ -146,7 +146,7 @@ void R_DrawColumnWithBrightmap(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
-    const lighttable_t  **colormap = dc_colormap;
+    lighttable_t        **colormap = dc_colormap;
     const lighttable_t  *sectorcolormap = dc_sectorcolormap;
     byte                *source = dc_source;
     byte                *brightmap = dc_brightmap;
@@ -641,7 +641,7 @@ void R_DrawWallColumnWithBrightmap(void)
     byte                *dest = ylookup0[y] + x;
     fixed_t             iscale = dc_iscale;
     fixed_t             frac = dc_texturemid + (y - centery) * iscale;
-    const lighttable_t  **colormap = dc_colormap;
+    lighttable_t        **colormap = dc_colormap;
     const lighttable_t  *sectorcolormap = dc_sectorcolormap;
     byte                *source = dc_source;
     byte                *brightmap = dc_brightmap;
@@ -955,7 +955,7 @@ void R_DrawTranslucent50ColumnWithBrightmap(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             iscale = dc_iscale;
     fixed_t             frac = dc_texturefrac;
-    const lighttable_t  **colormap = dc_colormap;
+    lighttable_t        **colormap = dc_colormap;
     const lighttable_t  *sectorcolormap = dc_sectorcolormap;
     byte                *tinttab = tranmap;
     byte                *source = dc_source;
@@ -1593,7 +1593,7 @@ void R_DrawLowResDitheredSpan(void)
     int                 z = ds_z;
     int                 count = ds_x2 - x;
     byte                *dest = ylookup0[y] + x;
-    const lighttable_t  **colormap = ds_colormap;
+    lighttable_t        **colormap = ds_colormap;
     const lighttable_t  *sectorcolormap = ds_sectorcolormap;
     byte                *source = ds_source;
     fixed_t             xfrac = ds_xfrac;
@@ -1618,7 +1618,7 @@ void R_DrawDitheredSpan(void)
     int                 z = ds_z;
     int                 count = ds_x2 - x;
     byte                *dest = ylookup0[y] + x;
-    const lighttable_t  **colormap = ds_colormap;
+    lighttable_t        **colormap = ds_colormap;
     const lighttable_t  *sectorcolormap = ds_sectorcolormap;
     byte                *source = ds_source;
     fixed_t             xfrac = ds_xfrac;
@@ -1655,7 +1655,7 @@ void R_DrawLowResDitheredSolidColorSpan(void)
     int                 z = ds_z;
     int                 count = ds_x2 - x;
     byte                *dest = ylookup0[y] + x;
-    const lighttable_t  **colormap = ds_colormap;
+    lighttable_t        **colormap = ds_colormap;
     const lighttable_t  *sectorcolormap = ds_sectorcolormap;
 
     while (--count)
@@ -1671,7 +1671,7 @@ void R_DrawDitheredSolidColorSpan(void)
     int                 z = ds_z;
     int                 count = ds_x2 - x;
     byte                *dest = ylookup0[y] + x;
-    const lighttable_t  **colormap = ds_colormap;
+    lighttable_t        **colormap = ds_colormap;
     const lighttable_t  *sectorcolormap = ds_sectorcolormap;
 
     while (--count)
