@@ -941,16 +941,17 @@ void R_DrawCorrectedTranslucent50Column(void)
 
 void R_DrawTranslucent50SolidColorColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
+    const int   color = (NOTEXTURECOLOR << 8);
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[tranmap[color + *dest]];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[tranmap[color + *dest]];
 }
 
 void R_DrawLowResDitheredTranslucent50SolidColorColumn(void)

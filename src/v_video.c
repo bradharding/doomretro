@@ -198,9 +198,8 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -307,8 +306,7 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -356,8 +354,7 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -389,8 +386,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -727,8 +723,8 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch, byte *cr, int screenw
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    y -= SHORT(patch->topoffset);
 
     desttop = &tempscreen[((y * DY) >> FRACBITS) * screenwidth + ((x * DX) >> FRACBITS)];
 
@@ -882,9 +878,8 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -935,9 +930,8 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1168,8 +1162,8 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
     const int   width = SHORT(patch->width);
     byte        *desttop;
 
-    y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    y -= SHORT(patch->topoffset);
 
     desttop = &screens[0][y * SCREENWIDTH + x];
 
@@ -1209,8 +1203,8 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
     const int   width = SHORT(patch->width);
     byte        *desttop;
 
-    y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
+    y -= SHORT(patch->topoffset);
 
     desttop = &screens[0][y * SCREENWIDTH + x];
 
@@ -1332,9 +1326,8 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1380,9 +1373,8 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1419,9 +1411,8 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
     const byte  *body = &tinttab40[black];
     const byte  *edge = &tinttab25[black];
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset) / 10;
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1469,9 +1460,8 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset) / 10;
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1503,9 +1493,8 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset) / 10;
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1538,9 +1527,8 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1574,9 +1562,8 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     fuzz1pos = 0;
 
@@ -1616,9 +1603,8 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     fuzz1pos = 0;
 
@@ -1670,9 +1656,8 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
@@ -1718,9 +1703,8 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
+    x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 

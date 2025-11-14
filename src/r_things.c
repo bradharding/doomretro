@@ -380,7 +380,7 @@ void R_InitSprites(void)
 
     R_InitSpriteDefs();
 
-    vissprites = malloc(num_vissprite_alloc * sizeof(*vissprites));
+    vissprites = I_Malloc(num_vissprite_alloc * sizeof(*vissprites));
 }
 
 //
@@ -424,10 +424,11 @@ static void (*shadowcolfunc)(void);
 static void inline R_BlastSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
+    const rpost_t   *posts = column->posts;
 
     while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[dc_numposts];
+        const rpost_t   *post = &posts[dc_numposts];
         const int       topdelta = post->topdelta;
         const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * topdelta;
 
@@ -447,10 +448,11 @@ static void inline R_BlastSpriteColumn(const rcolumn_t *column)
 static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
+    const rpost_t   *posts = column->posts;
 
     while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[dc_numposts];
+        const rpost_t   *post = &posts[dc_numposts];
         const int       topdelta = post->topdelta;
         const int64_t   topscreen = sprtopscreen + (int64_t)pspritescale * topdelta + 1;
 
