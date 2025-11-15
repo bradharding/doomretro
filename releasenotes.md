@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.
