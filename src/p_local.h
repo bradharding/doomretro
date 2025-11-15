@@ -48,7 +48,7 @@
 #define MENUVIEWHEIGHT      (6 * FRACUNIT)
 #define JUMPHEIGHT          (9 * FRACUNIT)
 
-#define DEADLOOKDIR         128
+#define DEADPITCH           128
 
 // mapblocks are used to check movement
 // against lines and things
@@ -103,7 +103,7 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 // 16 pixels of bob
 #define MAXBOB              0x100000
 #define MLOOKUNIT           4
-#define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / (r_screensize == r_screensize_max ? 140 : 160))
+#define PLAYERSLOPE(a)      ((((a)->pitch / MLOOKUNIT) << FRACBITS) / (r_screensize == r_screensize_max ? 140 : 160))
 
 #define AUTOTILTUNIT        30
 #define AUTOTILTMAX         300
@@ -113,7 +113,7 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 #define STEP2DISTANCE       32
 
 extern bool autousing;
-extern int  deadlookdir;
+extern int  deadpitch;
 
 void P_CalcHeight(void);
 void P_MovePlayer(void);

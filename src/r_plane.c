@@ -77,7 +77,7 @@ static fixed_t      viewx_trans;
 static fixed_t      viewy_trans;
 
 fixed_t             *yslope;
-fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
+fixed_t             yslopes[PITCHES][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 

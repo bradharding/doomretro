@@ -39,8 +39,8 @@
 #include "r_patch.h"
 #include "r_state.h"
 
-#define LOOKDIRMAX  100
-#define LOOKDIRS    (LOOKDIRMAX * 2 + 1)
+#define PITCHMAX    100
+#define PITCHES     (PITCHMAX * 2 + 1)
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)

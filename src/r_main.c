@@ -427,11 +427,11 @@ void R_ExecuteSetViewSize(void)
     num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * FRACUNIT / 2);
 
     for (int i = 0; i < viewheight; i++)
-        for (int j = 0; j < LOOKDIRS; j++)
-            yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
+        for (int j = 0; j < PITCHES; j++)
+            yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - PITCHMAX) * 2
                 * setblocks / 10)) << FRACBITS) + FRACUNIT / 2));
 
-    yslope = yslopes[LOOKDIRMAX];
+    yslope = yslopes[PITCHMAX];
 
     // Calculate the light levels to use for each level/scale combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
@@ -1076,12 +1076,12 @@ static void R_SetupFrame(void)
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle);
 
         if (canfreelook)
-            pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)
+            pitch = (viewplayer->oldpitch + (int)((viewplayer->pitch - viewplayer->oldpitch)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
         if (weaponrecoil)
-            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil
-                + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic), LOOKDIRMAX);
+            pitch = BETWEEN(-PITCHMAX, pitch + viewplayer->oldrecoil
+                + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic), PITCHMAX);
     }
     else
     {
@@ -1091,10 +1091,10 @@ static void R_SetupFrame(void)
         viewangle = mo->angle;
 
         if (canfreelook)
-            pitch = viewplayer->lookdir / MLOOKUNIT;
+            pitch = viewplayer->pitch / MLOOKUNIT;
 
         if (weaponrecoil)
-            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
+            pitch = BETWEEN(-PITCHMAX, pitch + viewplayer->recoil, PITCHMAX);
     }
 
     if (shake && !menuactive && !consoleactive && !paused)
@@ -1122,7 +1122,7 @@ static void R_SetupFrame(void)
     extralight = (viewplayer->extralight << 2) + r_extralighting / 3;
 
     centeryfrac = centery << FRACBITS;
-    yslope = yslopes[LOOKDIRMAX + pitch];
+    yslope = yslopes[PITCHMAX + pitch];
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];

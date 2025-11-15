@@ -118,7 +118,7 @@ static menu_t   *currentmenu;
 int             menuspindirection;
 int             menuspinspeed;
 static angle_t  playerangle;
-static int      playerlookdir;
+static int      playerpitch;
 static fixed_t  playerviewz;
 
 static patch_t  *menuborder;
@@ -4175,10 +4175,10 @@ void M_OpenMainMenu(void)
             playerviewz = viewplayer->viewz;
             menuspinspeed = 0;
 
-            playerlookdir = viewplayer->lookdir;
+            playerpitch = viewplayer->pitch;
 
             if (!helpscreen)
-                viewplayer->lookdir = 0;
+                viewplayer->pitch = 0;
         }
 
         R_SetViewSize(r_screensize_max);
@@ -4597,7 +4597,7 @@ void M_CloseMenu(void)
         if (menuspin)
         {
             viewplayer->mo->angle = playerangle;
-            viewplayer->lookdir = playerlookdir;
+            viewplayer->pitch = playerpitch;
             viewplayer->viewz = playerviewz;
         }
 

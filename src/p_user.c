@@ -47,7 +47,7 @@
 #include "s_sound.h"
 
 bool        autousing = false;
-int         deadlookdir = -1;
+int         deadpitch = -1;
 
 static int  ammodiffspeed[NUMAMMO] = { 0 };
 static int  maxammodiffspeed[NUMAMMO] = { 0 };
@@ -181,12 +181,12 @@ static bool P_CheckForSteps(const fixed_t width)
         {
             if (delta >= MINSTEPSIZE && delta <= MAXSTEPSIZE)
             {
-                viewplayer->lookdir = MIN(viewplayer->lookdir + AUTOTILTUNIT, AUTOTILTMAX);
+                viewplayer->pitch = MIN(viewplayer->pitch + AUTOTILTUNIT, AUTOTILTMAX);
                 return true;
             }
             else if (delta >= -MAXSTEPSIZE && delta <= -MINSTEPSIZE)
             {
-                viewplayer->lookdir = MAX(-AUTOTILTMAX, viewplayer->lookdir - AUTOTILTUNIT);
+                viewplayer->pitch = MAX(-AUTOTILTMAX, viewplayer->pitch - AUTOTILTUNIT);
                 return true;
             }
         }
@@ -243,30 +243,30 @@ void P_MovePlayer(void)
     {
         if (!P_CheckForSteps(STEP1DISTANCE) && !P_CheckForSteps(STEP2DISTANCE))
         {
-            if (viewplayer->lookdir > 0)
+            if (viewplayer->pitch > 0)
             {
-                if ((viewplayer->lookdir -= AUTOTILTUNIT) < AUTOTILTUNIT)
-                    viewplayer->lookdir = 0;
+                if ((viewplayer->pitch -= AUTOTILTUNIT) < AUTOTILTUNIT)
+                    viewplayer->pitch = 0;
             }
-            else if ((viewplayer->lookdir += AUTOTILTUNIT) > -AUTOTILTUNIT)
-                viewplayer->lookdir = 0;
+            else if ((viewplayer->pitch += AUTOTILTUNIT) > -AUTOTILTUNIT)
+                viewplayer->pitch = 0;
         }
     }
     else if (canfreelook)
     {
-        if (cmd->lookdir)
-            viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir,
-                LOOKDIRMAX * MLOOKUNIT);
+        if (cmd->pitch)
+            viewplayer->pitch = BETWEEN(-PITCHMAX * MLOOKUNIT, viewplayer->pitch + cmd->pitch,
+                PITCHMAX * MLOOKUNIT);
 
-        if (viewplayer->lookdir && !usefreelook)
+        if (viewplayer->pitch && !usefreelook)
         {
-            if (viewplayer->lookdir > 0)
+            if (viewplayer->pitch > 0)
             {
-                if ((viewplayer->lookdir -= 16 * MLOOKUNIT) < 16 * MLOOKUNIT)
-                    viewplayer->lookdir = 0;
+                if ((viewplayer->pitch -= 16 * MLOOKUNIT) < 16 * MLOOKUNIT)
+                    viewplayer->pitch = 0;
             }
-            else if ((viewplayer->lookdir += 16 * MLOOKUNIT) > -16 * MLOOKUNIT)
-                viewplayer->lookdir = 0;
+            else if ((viewplayer->pitch += 16 * MLOOKUNIT) > -16 * MLOOKUNIT)
+                viewplayer->pitch = 0;
         }
     }
 }
@@ -320,26 +320,26 @@ static void P_DeathThink(void)
         {
             static int  inc;
 
-            if (deadlookdir == -1)
+            if (deadpitch == -1)
             {
                 const double    viewheightrange = ((double)viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
 
-                inc = MAX(1, ABS(DEADLOOKDIR - viewplayer->lookdir));
+                inc = MAX(1, ABS(DEADPITCH - viewplayer->pitch));
 
                 if (viewheightrange)
                     inc = (int)(inc / viewheightrange + 0.5);
 
                 if (inc)
-                    deadlookdir = DEADLOOKDIR / inc * inc;
+                    deadpitch = DEADPITCH / inc * inc;
             }
 
-            if (viewplayer->lookdir > deadlookdir)
-                viewplayer->lookdir -= inc;
-            else if (viewplayer->lookdir < deadlookdir)
-                viewplayer->lookdir += inc;
+            if (viewplayer->pitch > deadpitch)
+                viewplayer->pitch -= inc;
+            else if (viewplayer->pitch < deadpitch)
+                viewplayer->pitch += inc;
 
-            if (ABS(viewplayer->lookdir - deadlookdir) < inc)
-                viewplayer->lookdir = deadlookdir;
+            if (ABS(viewplayer->pitch - deadpitch) < inc)
+                viewplayer->pitch = deadpitch;
         }
 
         if (viewplayer->viewheight > DEADVIEWHEIGHT)
@@ -429,8 +429,8 @@ void P_ResurrectPlayer(const int health)
     P_AnimateHealth(viewplayer->negativehealth);
     viewplayer->health = health;
     viewplayer->negativehealth = health;
-    viewplayer->lookdir = 0;
-    viewplayer->oldlookdir = 0;
+    viewplayer->pitch = 0;
+    viewplayer->oldpitch = 0;
     viewplayer->recoil = 0;
     viewplayer->oldrecoil = 0;
     infight = false;
@@ -634,7 +634,7 @@ void P_PlayerThink(void)
     mo->oldz = mo->z;
     mo->oldangle = mo->angle;
     viewplayer->oldviewz = viewplayer->viewz;
-    viewplayer->oldlookdir = viewplayer->lookdir;
+    viewplayer->oldpitch = viewplayer->pitch;
     viewplayer->oldrecoil = viewplayer->recoil;
 
     if (viewplayer->cheats & CF_NOCLIP)

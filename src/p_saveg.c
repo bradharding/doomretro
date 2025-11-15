@@ -429,7 +429,7 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->buttons = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
         || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7) ?
         saveg_read8() : saveg_read32());
-    str->lookdir = saveg_read32();
+    str->pitch = saveg_read32();
 }
 
 static void saveg_write_ticcmd_t(const ticcmd_t *str)
@@ -438,7 +438,7 @@ static void saveg_write_ticcmd_t(const ticcmd_t *str)
     saveg_write8(str->sidemove);
     saveg_write16(str->angleturn);
     saveg_write32(str->buttons);
-    saveg_write32(str->lookdir);
+    saveg_write32(str->pitch);
 }
 
 //
@@ -522,16 +522,16 @@ static void saveg_read_player_t(void)
     viewplayer->chainsawbeforechoppers = saveg_read_bool();
     viewplayer->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
     viewplayer->oldviewz = saveg_read32();
-    viewplayer->lookdir = saveg_read32();
-    viewplayer->oldlookdir = saveg_read32();
+    viewplayer->pitch = saveg_read32();
+    viewplayer->oldpitch = saveg_read32();
     viewplayer->recoil = saveg_read32();
     viewplayer->oldrecoil = saveg_read32();
     viewplayer->jumptics = saveg_read32();
 
     if (!freelook)
     {
-        viewplayer->lookdir = 0;
-        viewplayer->oldlookdir = 0;
+        viewplayer->pitch = 0;
+        viewplayer->oldpitch = 0;
         viewplayer->recoil = 0;
         viewplayer->oldrecoil = 0;
     }
@@ -644,8 +644,8 @@ static void saveg_write_player_t(void)
     saveg_write_bool(viewplayer->chainsawbeforechoppers);
     saveg_write_enum(viewplayer->weaponbeforechoppers);
     saveg_write32(viewplayer->oldviewz);
-    saveg_write32(viewplayer->lookdir);
-    saveg_write32(viewplayer->oldlookdir);
+    saveg_write32(viewplayer->pitch);
+    saveg_write32(viewplayer->oldpitch);
     saveg_write32(viewplayer->recoil);
     saveg_write32(viewplayer->oldrecoil);
     saveg_write32(viewplayer->jumptics);

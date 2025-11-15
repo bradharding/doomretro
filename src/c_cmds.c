@@ -9412,8 +9412,8 @@ static void teleport_func2(char *cmd, char *parms)
                 mo->momx = 0;
                 mo->momy = 0;
                 mo->momz = 0;
-                viewplayer->lookdir = 0;
-                viewplayer->oldlookdir = 0;
+                viewplayer->pitch = 0;
+                viewplayer->oldpitch = 0;
                 viewplayer->recoil = 0;
                 viewplayer->oldrecoil = 0;
 
@@ -10464,8 +10464,8 @@ static void freelook_func2(char *cmd, char *parms)
 
         if (!freelook)
         {
-            viewplayer->lookdir = 0;
-            viewplayer->oldlookdir = 0;
+            viewplayer->pitch = 0;
+            viewplayer->oldpitch = 0;
             viewplayer->recoil = 0;
             viewplayer->oldrecoil = 0;
         }

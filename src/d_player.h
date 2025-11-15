@@ -201,8 +201,8 @@ typedef struct player_s
     //      Used to interpolate between camera positions.
     angle_t         oldviewz;
 
-    int             lookdir;
-    int             oldlookdir;
+    int             pitch;
+    int             oldpitch;
 
     unsigned int    jumptics;
 

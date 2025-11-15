@@ -1104,13 +1104,13 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->mo->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
     viewplayer->momx = 0;
     viewplayer->momy = 0;
-    viewplayer->lookdir = 0;
+    viewplayer->pitch = 0;
     viewplayer->recoil = 0;
     viewplayer->jumptics = 0;
     viewplayer->bounce = 0;
     viewplayer->bouncemax = 0;
 
-    deadlookdir = -1;
+    deadpitch = -1;
 
     // setup gun psprite
     P_SetupPlayerSprites();

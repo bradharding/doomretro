@@ -115,8 +115,8 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
                     player->recoil = 0;
                     player->oldrecoil = 0;
 
-                    player->lookdir = 0;
-                    player->oldlookdir = 0;
+                    player->pitch = 0;
+                    player->oldpitch = 0;
                 }
 
                 thing->angle = m->angle;

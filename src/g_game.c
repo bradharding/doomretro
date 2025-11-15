@@ -397,16 +397,16 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(96 * ((float)controllerthumbRY / SHRT_MAX)
+                cmd->pitch = (int)(96 * ((float)controllerthumbRY / SHRT_MAX)
                     * controllerverticalsensitivity);
 
                 if (!joy_invertyaxis)
-                    cmd->lookdir = -cmd->lookdir;
+                    cmd->pitch = -cmd->pitch;
             }
         }
         else if (joy_thumbsticks == 1)
         {
-            cmd->lookdir = 0;
+            cmd->pitch = 0;
             forward = (int)(forwardmove[run] * (float)controllerthumbRY / SHRT_MAX);
         }
     }
@@ -631,7 +631,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (mousey)
     {
         if (usefreelook && !automapactive)
-            cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
+            cmd->pitch = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
             forward += mousey / 2;
 

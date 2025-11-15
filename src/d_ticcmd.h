@@ -44,5 +44,5 @@ typedef struct
     signed char     sidemove;       // * 2048 for move
     signed short    angleturn;      // << 16 for angle delta
     int             buttons;
-    int             lookdir;
+    int             pitch;
 } ticcmd_t;
