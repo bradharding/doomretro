@@ -46,13 +46,6 @@
 #include "r_sky.h"
 #include "s_sound.h"
 
-#define AUTOTILTUNIT    30
-#define AUTOTILTMAX     300
-#define MINSTEPSIZE     (8 * FRACUNIT)
-#define MAXSTEPSIZE     (24 * FRACUNIT)
-#define STEP1DISTANCE   24
-#define STEP2DISTANCE   32
-
 bool        autousing = false;
 int         deadlookdir = -1;
 

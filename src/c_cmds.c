@@ -7991,7 +7991,7 @@ static void reset_func2(char *cmd, char *parms)
 #if defined(_WIN32)
             if (M_StringCompare(parms, stringize(wadfolder)))
             {
-                wad = "";
+                wad = wad_default;
                 M_SaveCVARs();
             }
 #endif
