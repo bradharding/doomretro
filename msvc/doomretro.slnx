@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="32-bit" />
+    <Platform Name="64-bit" />
+  </Configurations>
+  <Project Path="doomretro.vcxproj">
+    <Platform Solution="*|32-bit" Project="Win32" />
+    <Platform Solution="*|64-bit" Project="x64" />
+  </Project>
+</Solution>
