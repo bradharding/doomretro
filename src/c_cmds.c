@@ -5409,7 +5409,7 @@ static void mapstats_func2(char *cmd, char *parms)
     const int   tabs[MAXTABS] = { 137 };
     char        *temp;
     int         lump = -1;
-    int         wadtype;
+    int         wadtype = IWAD;
     const char  *author = P_GetMapAuthor(gameepisode, gamemap);
     const char  *mapinfolabel = trimwhitespace(P_GetLabel(gameepisode, gamemap));
     char        wadname[MAX_PATH];

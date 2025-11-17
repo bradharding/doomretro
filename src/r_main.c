@@ -279,10 +279,7 @@ static void R_InitTables(void)
     // finesine table
     for (int i = 0; i < 5 * FINEANGLES / 4; i++)
         finesine[i] = (fixed_t)(sin((i + 0.5) * M_PI * 2 / FINEANGLES) * FRACUNIT);
-}
 
-static void R_InitPointToAngle(void)
-{
     // slope (tangent) to angle lookup
     for (int i = 0; i <= SLOPERANGE; i++)
         tantoangle[i] = (angle_t)(0xFFFFFFFF * atan((i + 0.5) / SLOPERANGE) / (M_PI * 2));
@@ -1015,7 +1012,6 @@ void R_Init(void)
 {
     R_InitClipSegs();
     R_InitData();
-    R_InitPointToAngle();
     R_InitTables();
     R_SetViewSize(r_screensize);
 
