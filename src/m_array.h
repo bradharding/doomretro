@@ -46,7 +46,7 @@ typedef struct
 {
     int     capacity;
     int     size;
-    char    buffer[];
+    char    buffer[1];
 } m_array_buffer_t;
 
 inline static m_array_buffer_t *array_ptr(const void *v)
