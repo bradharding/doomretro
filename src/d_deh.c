@@ -3905,7 +3905,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
 
         while (totlen < fromlen + tolen && (c = dehfgetc(fpin)) != EOF)
             if (c != '\r')
-                inbuffer[totlen++] = c;
+                inbuffer[totlen++] = (char)c;
 
         inbuffer[totlen] = '\0';
     }
@@ -4022,7 +4022,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
     char        key[DEH_MAXKEYLEN];
     char        inbuffer[DEH_BUFFERMAX];
     int         value;
-    char        *strval;                // holds the string value of the line
+    char        *strval = NULL;         // holds the string value of the line
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
     static char *holdstring;
@@ -4216,6 +4216,7 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
         // do it
         memset(candidate, 0, sizeof(candidate));
         strncpy(candidate, ptr_lstrip(strval), 4);
+        candidate[4] = '\0';
 
         if (strlen(candidate) != 4)
         {
@@ -4279,6 +4280,7 @@ void deh_procBexSounds(DEHFILE *fpin, const char *line)
         // do it
         memset(candidate, 0, sizeof(candidate));
         strncpy(candidate, ptr_lstrip(strval), 6);
+        candidate[6] = '\0';
         len = strlen(candidate);
 
         if (len < 1 || len > 6)

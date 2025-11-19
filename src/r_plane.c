@@ -95,7 +95,7 @@ static void R_MapPlane(const int y, const int x1)
     static fixed_t  cachedanglesindistance[MAXHEIGHT];
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
-    static fixed_t  cachedangle[MAXHEIGHT];
+    static angle_t  cachedangle[MAXHEIGHT];
     fixed_t         anglecosdistance;
     fixed_t         anglesindistance;
     int             dx;

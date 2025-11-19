@@ -2498,27 +2498,27 @@ static void P_CreateBlockMap(void)
         for (int i = 0; i < numlines; i++)
         {
             // starting coordinates
-            const int       x = (lines[i].v1->x >> FRACBITS) - minx;
-            const int       y = (lines[i].v1->y >> FRACBITS) - miny;
+            const int           x = (lines[i].v1->x >> FRACBITS) - minx;
+            const int           y = (lines[i].v1->y >> FRACBITS) - miny;
 
             // x - y deltas
-            int             adx = lines[i].dx >> FRACBITS;
-            int             dx = SIGN(adx);
-            int             ady = lines[i].dy >> FRACBITS;
-            int             dy = SIGN(ady);
+            int                 adx = lines[i].dx >> FRACBITS;
+            int                 dx = SIGN(adx);
+            int                 ady = lines[i].dy >> FRACBITS;
+            int                 dy = SIGN(ady);
 
             // difference in preferring to move across y (> 0) instead of x (< 0)
-            int             diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
-                                + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = ABS(ady)) * dx
-                                - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y)
-                                * (adx = ABS(adx)) * dy));
+            int                 diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
+                                    + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = ABS(ady)) * dx
+                                    - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y)
+                                    * (adx = ABS(adx)) * dy));
 
             // starting block, and pointer to its blocklist structure
-            unsigned int    b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
+            unsigned int        b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
 
             // ending block
-            const int       bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
-                                + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
+            const unsigned int  bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
+                                    + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
 
             // delta for pointer when moving across y
             dy *= bmapwidth;
@@ -3594,7 +3594,7 @@ static bool P_ParseMapInfo(const char *scriptname)
     while (SC_GetString())
     {
         int ep = 1;
-        int map = 0;
+        int map = -1;
 
         if (SC_Compare("DEFAULTMAP"))
         {
@@ -3675,10 +3675,17 @@ static bool P_ParseMapInfo(const char *scriptname)
                 if (gamemode == commercial)
                 {
                     if (sscanf(temp, "MAP0%1i", &map) != 1)
-                        sscanf(temp, "MAP%2i", &map);
+                        if (sscanf(temp, "MAP%2i", &map) != 1)
+                        {
+                            free(temp);
+                            continue;
+                        }
                 }
-                else
-                    sscanf(temp, "E%1iM%i", &ep, &map);
+                else if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
+                {
+                    free(temp);
+                    continue;
+                }
 
                 free(temp);
             }

@@ -54,12 +54,6 @@
 #include <stdarg.h>
 #include <string.h>
 
-#include "c_console.h"
-#include "i_system.h"
-#include "m_config.h"
-#include "m_misc.h"
-#include "w_file.h"
-
 #if defined(__APPLE__)
 #import <Cocoa/Cocoa.h>
 
@@ -83,6 +77,12 @@
 #include <FindDirectory.h>
 #endif
 #endif
+
+#include "c_console.h"
+#include "i_system.h"
+#include "m_config.h"
+#include "m_misc.h"
+#include "w_file.h"
 
 const char *daynames[7] =
 {
@@ -544,7 +544,7 @@ char *M_StringReplaceFirst(char *haystack, const char *needle, const char *repla
 }
 
 #if !defined(strrstr)
-char *strrstr(const char *haystack, const char *needle)
+static char *strrstr(const char *haystack, const char *needle)
 {
     char    *r = NULL;
 
