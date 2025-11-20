@@ -105,5 +105,16 @@ CONSTATTR static inline fixed_t FixedMod(fixed_t a, fixed_t b)
 
 CONSTATTR static inline uint64_t SafeAdd(uint64_t a, int b)
 {
-    return (b > UINT64_MAX - a ? UINT64_MAX : a + b);
+    if (b >= 0)
+    {
+        uint64_t    ub = (uint64_t)b;
+
+        return (ub > UINT64_MAX - a ? UINT64_MAX : a + ub);
+    }
+    else
+    {
+        uint64_t    ub = (uint64_t)(-(int64_t)b);
+
+        return (ub > a ? 0 : a - ub);
+    }
 }
