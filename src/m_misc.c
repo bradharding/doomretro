@@ -672,7 +672,7 @@ void M_snprintf(char *buf, int buf_len, const char *s, ...)
 }
 
 #if !defined(strndup)
-char *strndup(const char *s, size_t n)
+static char *strndup(const char *s, size_t n)
 {
     const size_t    len = strnlen(s, n);
     char            *new = malloc(len + 1);
@@ -799,36 +799,38 @@ char *commifystring(const char *str)
 {
     size_t  len = strlen(str);
 
-    if (!len)
-        return M_StringDuplicate("");
-
-    bool        negative = (str[0] == '-');
-    size_t      start = (negative ? 1 : 0);
-    const char  *dot = strchr(str + start, '.');
-    size_t      intlen = (dot ? (size_t)(dot - (str + start)) : len - start);
-    size_t      commas = (intlen > 3 ? (intlen - 1) / 3 : 0);
-    size_t      outlen = len + commas + 1;
-    char        *out = (char *)I_Malloc(outlen);
-    size_t      i = intlen;
-    size_t      j = intlen + commas;
-
-    out[j] = '\0';
-
-    while (i > 0)
+    if (len)
     {
-        out[--j] = str[start + --i];
+        bool        negative = (str[0] == '-');
+        size_t      start = (negative ? 1 : 0);
+        const char  *dot = strchr(str + start, '.');
+        size_t      intlen = (dot ? (size_t)(dot - (str + start)) : len - start);
+        size_t      commas = (intlen > 3 ? (intlen - 1) / 3 : 0);
+        size_t      outlen = len + commas + 1;
+        char        *out = (char *)I_Malloc(outlen);
+        size_t      i = intlen;
+        size_t      j = intlen + commas;
 
-        if (i > 0 && (intlen - i) % 3 == 0)
-            out[--j] = ',';
+        out[j] = '\0';
+
+        while (i > 0)
+        {
+            out[--j] = str[start + --i];
+
+            if (i > 0 && (intlen - i) % 3 == 0)
+                out[--j] = ',';
+        }
+
+        if (negative)
+            out[0] = '-';
+
+        if (dot)
+            strcat(out, dot);
+
+        return out;
     }
 
-    if (negative)
-        out[0] = '-';
-
-    if (dot)
-        strcat(out, dot);
-
-    return out;
+    return M_StringDuplicate("");
 }
 
 char *commifystat(uint64_t value)
