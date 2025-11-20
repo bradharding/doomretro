@@ -2047,11 +2047,17 @@ void I_InitGraphics(void)
     SDL_SetWindowTitle(window, DOOMRETRO_NAME);
 
     I_UpdateBlitFunc(false);
-    memset(screens[0], nearestblack, SCREENAREA);
-    blitfunc();
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
 
     if (mapwindow)
-        mapblitfunc();
+    {
+        SDL_SetRenderDrawColor(maprenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+        SDL_RenderClear(maprenderer);
+        SDL_RenderPresent(maprenderer);
+    }
 
     SDL_StopTextInput();
 
