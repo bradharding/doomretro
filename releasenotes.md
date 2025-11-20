@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.8.2
 
-* *DOOM Retro* is now built using [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.0.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
@@ -10,6 +10,8 @@
   * Black pixels are no longer translucent.
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.
 * A bug is fixed whereby music wouldn’t be played in some rare instances when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
+* The screen now always clears to black at startup.
+* A bug is fixed whereby certain player’s stats could become invalid when a monster is resurected.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
