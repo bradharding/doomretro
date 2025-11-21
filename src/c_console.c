@@ -1174,6 +1174,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     if (palindex >= 0 && palindex <= 255)
                     {
                         const int bottom = y + CONSOLELINEHEIGHT - 2;
+                        const int oldx = x;
 
                         for (int yy = y + 1; yy < bottom - 1; yy++)
                         {
@@ -1230,6 +1231,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         }
 
                         i = j;
+                        x = oldx + CONSOLECOLORBACKWIDTH + 2;
                         continue;
                     }
                 }

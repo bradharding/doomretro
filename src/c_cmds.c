@@ -125,6 +125,8 @@
 #define INTEGERCVARWITHDEFAULT          "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT        "It is currently set to " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT            "It is currently set to its default of " BOLD("%s") "."
+#define COLORCVARWITHDEFAULT            "It is currently set to {%s} and is {%s} by default."
+#define COLORCVARISDEFAULT              "It is currently set to its default of {%s}."
 #define DEGREESCVARWITHDEFAULT          "It is currently set to " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
 #define DEGREESCVARISDEFAULT            "It is currently set to its default of " BOLD("%i") "\xB0."
 #define PERCENTCVARWITHDEFAULT          "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
@@ -9901,7 +9903,19 @@ static void int_cvars_func2(char *cmd, char *parms)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                    if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                    if (consolecmds[i].flags & CF_COLOR)
+                    {
+                        if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                            C_Output(COLORCVARISDEFAULT, temp1);
+                        else
+                        {
+                            char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+
+                            C_Output(COLORCVARWITHDEFAULT, temp1, temp2);
+                            free(temp2);
+                        }
+                    }
+                    else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                         C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
                     else
                     {
