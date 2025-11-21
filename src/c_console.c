@@ -1144,6 +1144,83 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         {
             patch_t *patch = NULL;
 
+            if (letter == '{')
+            {
+                int     j = i + 1;
+                int     digitslen = 0;
+                char    digits[4] = { 0 };
+
+                while (j < len && digitslen < 3 && isdigit((unsigned char)text[j]))
+                    digits[digitslen++] = text[j++];
+
+                if (digitslen > 0 && j < len && text[j] == '}')
+                {
+                    int palindex;
+
+                    digits[digitslen] = '\0';
+
+                    if ((palindex = atoi(digits)) >= 0 && palindex <= 255)
+                    {
+                        const int bottom = y + CONSOLELINEHEIGHT - 2;
+
+                        for (int yy = y + 1; yy < bottom - 1; yy++)
+                        {
+                            if (yy < 0 || yy >= SCREENHEIGHT)
+                                continue;
+
+                            screens[0][yy * SCREENWIDTH + x] = (byte)palindex;
+                        }
+
+                        for (int yy = y; yy < bottom; yy++)
+                        {
+                            if (yy < 0 || yy >= SCREENHEIGHT)
+                                continue;
+
+                            int row = yy * SCREENWIDTH;
+                            for (int xx = x + 1; xx < x + 24; xx++)
+                            {
+                                if (xx < 0 || xx >= SCREENWIDTH)
+                                    continue;
+                                screens[0][row + xx] = (byte)palindex;
+                            }
+                        }
+
+                        for (int yy = y + 1; yy < bottom - 1; yy++)
+                        {
+                            if (yy < 0 || yy >= SCREENHEIGHT)
+                                continue;
+
+                            screens[0][yy * SCREENWIDTH + x + 24] = (byte)palindex;
+                        }
+
+                        x += (24 - C_TextWidth(digits, false, false)) / 2 + 1;
+
+                        for (int k = 0; k < digitslen; k++)
+                        {
+                            letter = digits[k];
+
+                            if ((patch = consolefont[letter - CONSOLEFONTSTART]))
+                            {
+                                int width = SHORT(patch->width);
+
+                                consoletextfunc(x, y, patch, width,
+                                    (luminance[palindex] <= 128 ? nearestwhite : nearestblack),
+                                    color2, false, NULL);
+
+                                x += width;
+                            }
+
+                            prevletter3 = prevletter2;
+                            prevletter2 = prevletter;
+                            prevletter = letter;
+                        }
+
+                        i = j;
+                        continue;
+                    }
+                }
+            }
+
             if (letter == ' ' && formatting)
                 x += (monospaced ? zerowidth : spacewidth);
             else if (letter == '\t')

@@ -2759,7 +2759,9 @@ static void cvarlist_func2(char *cmd, char *parms)
                 const int   value = *(int *)consolecmds[i].variable;
                 char        *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                if (value == consolecmds[i].defaultnumber)
+                if (M_StringEndsWith(name, "color"))
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("{%s}") "\t%s", name, temp, description);
+                else if (value == consolecmds[i].defaultnumber)
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
                 else
                     C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
