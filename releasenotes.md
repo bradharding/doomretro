@@ -6,6 +6,7 @@
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
+* A bug is fixed whereby `BOSSACTION` in a `MAPINFO` lump wouldn’t be parsed in some rare instances.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.

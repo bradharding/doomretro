@@ -2668,6 +2668,12 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
         if ((string = M_StringCompare(key, "Name")) || (string = M_StringCompare(key, "Name1")))
         {
+            if (!*mobjinfo[indexnum].name3)
+            {
+                M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1, sizeof(mobjinfo[0].name3));
+                M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss", mobjinfo[indexnum].name1);
+            }
+
             M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name1));
             M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
             namechange = true;
