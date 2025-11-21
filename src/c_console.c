@@ -1178,10 +1178,17 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                         for (int yy = y + 1; yy < bottom - 1; yy++)
                         {
+                            byte    *dest = &screens[0][yy * SCREENWIDTH + x];
+
                             if (yy < 0 || yy >= SCREENHEIGHT)
                                 continue;
 
-                            screens[0][yy * SCREENWIDTH + x] = (byte)palindex;
+                            *dest = (byte)palindex;
+
+                            if (yy == 0)
+                                *dest = tinttab60[*dest];
+                            else if (yy == 1)
+                                *dest = tinttab30[*dest];
                         }
 
                         for (int yy = y; yy < bottom; yy++)
@@ -1193,19 +1200,33 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                             for (int xx = x + 1; xx < x + CONSOLECOLORBACKWIDTH; xx++)
                             {
+                                byte    *dest = &screens[0][row + xx];
+
                                 if (xx < 0 || xx >= SCREENWIDTH)
                                     continue;
 
-                                screens[0][row + xx] = (byte)palindex;
+                                *dest = (byte)palindex;
+
+                                if (yy == 0)
+                                    *dest = tinttab60[*dest];
+                                else if (yy == 1)
+                                    *dest = tinttab30[*dest];
                             }
                         }
 
                         for (int yy = y + 1; yy < bottom - 1; yy++)
                         {
+                            byte    *dest = &screens[0][yy * SCREENWIDTH + x + CONSOLECOLORBACKWIDTH];
+
                             if (yy < 0 || yy >= SCREENHEIGHT)
                                 continue;
 
-                            screens[0][yy * SCREENWIDTH + x + CONSOLECOLORBACKWIDTH] = (byte)palindex;
+                            *dest = (byte)palindex;
+
+                            if (yy == 0)
+                                *dest = tinttab60[*dest];
+                            else if (yy == 1)
+                                *dest = tinttab30[*dest];
                         }
 
                         x += (CONSOLECOLORBACKWIDTH - C_TextWidth(digits, false, false)) / 2 + 1;
