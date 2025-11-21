@@ -1148,18 +1148,30 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int     j = i + 1;
                 int     digitslen = 0;
-                char    digits[4] = { 0 };
+                char    digits[5] = { 0 };
+                bool    autocolor = false;
 
-                while (j < len && digitslen < 3 && isdigit((unsigned char)text[j]))
-                    digits[digitslen++] = text[j++];
+                if (i < len - 5 && tolower(text[i + 1]) == 'a' && tolower(text[i + 2]) == 'u'
+                    && tolower(text[i + 3]) == 't' && tolower(text[i + 4]) == 'o' && text[i + 5] == '}')
+                {
+                    autocolor = true;
+                    M_StringCopy(digits, "auto", sizeof(digits));
+                    digitslen = 4;
+                    j += digitslen;
+                }
+                else
+                    while (j < len && digitslen < 3 && isdigit((unsigned char)text[j]))
+                        digits[digitslen++] = text[j++];
 
-                if (digitslen > 0 && j < len && text[j] == '}')
+                if ((digitslen > 0 && j < len && text[j] == '}') || autocolor)
                 {
                     int palindex;
 
                     digits[digitslen] = '\0';
 
-                    if ((palindex = atoi(digits)) >= 0 && palindex <= 255)
+                    palindex = (autocolor ? consoleedgecolor1 >> 8 : atoi(digits));
+
+                    if (palindex >= 0 && palindex <= 255)
                     {
                         const int bottom = y + CONSOLELINEHEIGHT - 2;
 
@@ -1173,14 +1185,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                         for (int yy = y; yy < bottom; yy++)
                         {
+                            int row = yy * SCREENWIDTH;
+
                             if (yy < 0 || yy >= SCREENHEIGHT)
                                 continue;
 
-                            int row = yy * SCREENWIDTH;
-                            for (int xx = x + 1; xx < x + 24; xx++)
+                            for (int xx = x + 1; xx < x + CONSOLECOLORBACKWIDTH; xx++)
                             {
                                 if (xx < 0 || xx >= SCREENWIDTH)
                                     continue;
+
                                 screens[0][row + xx] = (byte)palindex;
                             }
                         }
@@ -1190,10 +1204,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                             if (yy < 0 || yy >= SCREENHEIGHT)
                                 continue;
 
-                            screens[0][yy * SCREENWIDTH + x + 24] = (byte)palindex;
+                            screens[0][yy * SCREENWIDTH + x + CONSOLECOLORBACKWIDTH] = (byte)palindex;
                         }
 
-                        x += (24 - C_TextWidth(digits, false, false)) / 2 + 1;
+                        x += (CONSOLECOLORBACKWIDTH - C_TextWidth(digits, false, false)) / 2 + 1;
 
                         for (int k = 0; k < digitslen; k++)
                         {

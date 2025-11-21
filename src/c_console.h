@@ -85,6 +85,8 @@
 #define CONSOLELINEHEIGHT                   14
 #define CONSOLEBLANKLINES                   12
 
+#define CONSOLECOLORBACKWIDTH               28
+
 #define CONSOLESCROLLBARWIDTH               5
 #define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (gamestate == GS_TITLESCREEN ? 26 : 22))
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
