@@ -405,7 +405,7 @@ enum
 #define am_correctaspectratio_default       true
 
 #define am_crosshaircolor_min               0
-#define am_crosshaircolor_default           112
+#define am_crosshaircolor_default           4
 #define am_crosshaircolor_max               255
 
 #define am_display_min                      1
@@ -543,7 +543,7 @@ enum
 #define crosshair_max                       crosshair_arcs
 
 #define crosshaircolor_min                  0
-#define crosshaircolor_default              4
+#define crosshaircolor_default              112
 #define crosshaircolor_max                  255
 
 #define english_default                     english_american
