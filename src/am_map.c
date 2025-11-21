@@ -327,7 +327,7 @@ void AM_SetColors(void)
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
-            priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
+            priorities[(x << 8) + y] = (byte)(priority[x] > priority[y] ? x : y);
 
     wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
     bluedoorcolor = &priorities[nearestcolors[am_bluedoorcolor] << 8];

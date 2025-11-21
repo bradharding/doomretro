@@ -119,8 +119,8 @@
 #define NOGAMECCMDWARNING2              "%s can't use this CCMD right now because %s %s playing a game."
 #define NOGAMECVARWARNING1              "You can't change this CVAR right now because you're not playing a game."
 #define NOGAMECVARWARNING2              "%s can't change this CVAR right now because %s %s playing a game."
-#define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("Nightmare!")
-#define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("Nightmare!")
+#define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("%s") "%s"
+#define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("%s") "%s"
 
 #define INTEGERCVARWITHDEFAULT          "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT        "It is currently set to " BOLD("%s") "."
@@ -1698,6 +1698,8 @@ static bool game_ccmd_func1(char *cmd, char *parms)
 
 static bool nightmare_func1(char *cmd, char *parms)
 {
+    char    *nightmare = *skilllevels[sk_nightmare];
+
     if (gamestate != GS_LEVEL)
         return game_ccmd_func1(cmd, parms);
 
@@ -1708,10 +1710,12 @@ static bool nightmare_func1(char *cmd, char *parms)
     C_ShowDescription(C_GetIndex(cmd));
 
     if (M_StringCompare(playername, playername_default))
-        C_Warning(0, NIGHTMAREWARNING1);
+        C_Warning(0, NIGHTMAREWARNING1,
+            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "."));
     else
-        C_Warning(0, NIGHTMAREWARNING2, playername, pronoun(personal),
-            (playergender == playergender_other ? "are" : "is"));
+        C_Warning(0, NIGHTMAREWARNING2,
+            playername, pronoun(personal), (playergender == playergender_other ? "are" : "is"),
+            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "."));
 
     consoleinput[0] = '\0';
 
