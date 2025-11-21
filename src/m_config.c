@@ -1261,13 +1261,23 @@ void M_LoadCVARs(const char *filename)
                 case DEFAULT_UINT64:
                 {
                     char    *temp = uncommify(value);
+                    char    *endptr = NULL;
 
-                    if (sscanf(temp, "%24" PRIu64, (uint64_t *)cvars[i].location) == 1)
+                    errno = 0;
+
+                    if (temp[0] == '-')
+                        *(uint64_t *)cvars[i].location = 0;
+                    else
                     {
-                        if (*(int *)cvars[i].location < 0)
-                            *(uint64_t *)cvars[i].location = 0;
+                        uint64_t    parsed = strtoull(temp, &endptr, 10);
 
-                        statcount++;
+                        if (endptr == temp || *endptr != '\0' || errno == ERANGE)
+                            *(uint64_t *)cvars[i].location = 0;
+                        else
+                        {
+                            *(uint64_t *)cvars[i].location = (uint64_t)parsed;
+                            statcount++;
+                        }
                     }
 
                     free(temp);
