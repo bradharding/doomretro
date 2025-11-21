@@ -1169,7 +1169,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                     digits[digitslen] = '\0';
 
-                    palindex = (autocolor ? consoleedgecolor1 >> 8 : atoi(digits));
+                    palindex = (autocolor ? (consoleedgecolor1 >> 8) : atoi(digits));
 
                     if (palindex >= 0 && palindex <= 255)
                     {
@@ -1219,7 +1219,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                                 consoletextfunc(x, y, patch, width,
                                     (luminance[palindex] <= 128 ? nearestwhite : nearestblack),
-                                    color2, false, NULL);
+                                    color2, false, tinttab70);
 
                                 x += width;
                             }
