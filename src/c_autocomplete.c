@@ -7100,6 +7100,7 @@ autocomplete_t autocompletelist[] =
     { "crosshaircolor ",                             DOOM1AND2        },
     { "crosshaircolor 112",                          DOOM1AND2        },
     { "cvarlist ",                                   DOOM1AND2        },
+    { "cvarlist *color",                             DOOM1AND2        },
     { "cvarlist am_*",                               DOOM1AND2        },
     { "cvarlist am_allmap*",                         DOOM1AND2        },
     { "cvarlist am_blue*",                           DOOM1AND2        },
