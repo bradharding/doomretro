@@ -1173,59 +1173,45 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                     if (palindex >= 0 && palindex <= 255)
                     {
-                        const int bottom = y + CONSOLELINEHEIGHT - 2;
+                        const int bottom = (y + CONSOLELINEHEIGHT - 2) * SCREENWIDTH;
                         const int oldx = x;
 
-                        for (int yy = y + 1; yy < bottom - 1; yy++)
+                        for (int yy = MAX(0, (y + 1) * SCREENWIDTH); yy < bottom - SCREENWIDTH; yy += SCREENWIDTH)
                         {
-                            byte    *dest = &screens[0][yy * SCREENWIDTH + x];
-
-                            if (yy < 0 || yy >= SCREENHEIGHT)
-                                continue;
+                            byte    *dest = &screens[0][yy + x];
 
                             *dest = (byte)palindex;
 
-                            if (yy == 0)
+                            if (!yy)
                                 *dest = tinttab60[*dest];
-                            else if (yy == 1)
+                            else if (yy == SCREENWIDTH)
                                 *dest = tinttab30[*dest];
                         }
 
-                        for (int yy = y; yy < bottom; yy++)
+                        for (int yy = MAX(0, y * SCREENWIDTH); yy < bottom; yy += SCREENWIDTH)
                         {
-                            int row = yy * SCREENWIDTH;
-
-                            if (yy < 0 || yy >= SCREENHEIGHT)
-                                continue;
-
                             for (int xx = x + 1; xx < x + CONSOLECOLORBACKWIDTH; xx++)
                             {
-                                byte    *dest = &screens[0][row + xx];
-
-                                if (xx < 0 || xx >= SCREENWIDTH)
-                                    continue;
+                                byte    *dest = &screens[0][yy + xx];
 
                                 *dest = (byte)palindex;
 
-                                if (yy == 0)
+                                if (!yy)
                                     *dest = tinttab60[*dest];
-                                else if (yy == 1)
+                                else if (yy == SCREENWIDTH)
                                     *dest = tinttab30[*dest];
                             }
                         }
 
-                        for (int yy = y + 1; yy < bottom - 1; yy++)
+                        for (int yy = MAX(0, (y + 1) * SCREENWIDTH); yy < bottom - SCREENWIDTH; yy += SCREENWIDTH)
                         {
-                            byte    *dest = &screens[0][yy * SCREENWIDTH + x + CONSOLECOLORBACKWIDTH];
-
-                            if (yy < 0 || yy >= SCREENHEIGHT)
-                                continue;
+                            byte    *dest = &screens[0][yy + x + CONSOLECOLORBACKWIDTH];
 
                             *dest = (byte)palindex;
 
-                            if (yy == 0)
+                            if (!yy)
                                 *dest = tinttab60[*dest];
-                            else if (yy == 1)
+                            else if (yy == SCREENWIDTH)
                                 *dest = tinttab30[*dest];
                         }
 
