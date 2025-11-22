@@ -127,8 +127,8 @@
 #define INTEGERCVARISDEFAULT            "It is currently set to its default of " BOLD("%s") "."
 #define COLORCVARWITHDEFAULT            "It is currently set to {%s} and is {%s} by default."
 #define COLORCVARISDEFAULT              "It is currently set to its default of {%s}."
-#define DEGREESCVARWITHDEFAULT          "It is currently set to " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
-#define DEGREESCVARISDEFAULT            "It is currently set to its default of " BOLD("%i") "\xB0."
+#define DEGREESCVARWITHDEFAULT          "It is currently set to " BOLD("%i\xB0") " and is " BOLD("%i\xB0") " by default."
+#define DEGREESCVARISDEFAULT            "It is currently set to its default of " BOLD("%i\xB0") "."
 #define PERCENTCVARWITHDEFAULT          "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
 #define PERCENTCVARWITHNODEFAULT        "It is currently set to " BOLD("%s%%") "."
 #define PERCENTCVARISDEFAULT            "It is currently set to its default of " BOLD("%s%%") "."
@@ -137,6 +137,22 @@
 #define STRINGCVARISDEFAULT             "It is currently set to its default of " BOLD("\"%s\"") "."
 #define TIMECVARWITHNODEFAULT1          "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
 #define TIMECVARWITHNODEFAULT2          "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
+
+#define INTEGERCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to " BOLD("%s") "."
+#define INTEGERCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s") " to " BOLD("%s") "."
+#define INTEGERCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to its default of " BOLD("%s") "."
+#define COLORCVARCHANGED                "%s changed the " BOLD("%s") " CVAR from {%s} to {%s}."
+#define COLORCVARCHANGEDFROMDEFAULT     "%s changed the " BOLD("%s") " CVAR from its default of {%s} to {%s}."
+#define COLORCVARCHANGEDTODEFAULT       "%s changed the " BOLD("%s") " CVAR from {%s} to its default of {%s}."
+#define DEGREESCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
+#define DEGREESCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
+#define DEGREESCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " to its default of " BOLD("%i\xB0") "."
+#define PERCENTCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%s%%") " to " BOLD("%s%%") "."
+#define PERCENTCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s%%") " to " BOLD("%s%%") "."
+#define PERCENTCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%s%%") " to its default of " BOLD("%s%%") "."
+#define STRINGCVARCHANGED               "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
+#define STRINGCVARCHANGEDFROMDEFAULT    "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
+#define STRINGCVARCHANGEDTODEFAULT      "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " to its default of " BOLD("\"%s\"") "."
 
 #define INDENT                          "       "
 
@@ -9879,8 +9895,54 @@ static void int_cvars_func2(char *cmd, char *parms)
 
                 if ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1) && value != *(int *)consolecmds[i].variable)
                 {
+                    char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
+                    char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
+
+                    if (!resettingcvar)
+                    {
+                        if (consolecmds[i].flags & CF_PERCENT)
+                        {
+                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else if (value == (int)consolecmds[i].defaultnumber)
+                                C_Output(PERCENTCVARCHANGEDTODEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else
+                                C_Output(PERCENTCVARCHANGED,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        }
+                        else if (consolecmds[i].flags & CF_COLOR)
+                        {
+                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                C_Output(COLORCVARCHANGEDFROMDEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else if (value == (int)consolecmds[i].defaultnumber)
+                                C_Output(COLORCVARCHANGEDTODEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else
+                                C_Output(COLORCVARCHANGED,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        }
+                        else
+                        {
+                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else if (value == (int)consolecmds[i].defaultnumber)
+                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            else
+                                C_Output(INTEGERCVARCHANGED,
+                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        }
+                    }
+
                     *(int *)consolecmds[i].variable = value;
                     M_SaveCVARs();
+
+                    free(temp1);
+                    free(temp2);
                 }
             }
             else
@@ -9949,6 +10011,22 @@ static void str_cvars_func2(char *cmd, char *parms)
         {
             if (M_StringCompare(parms, EMPTYVALUE) && *(char **)consolecmds[i].variable && !(consolecmds[i].flags & CF_READONLY))
             {
+                if (!resettingcvar)
+                {
+                    if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                        C_Output(STRINGCVARCHANGEDFROMDEFAULT,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                            *(char **)consolecmds[i].variable, "");
+                    else if (M_StringCompare(parms, consolecmds[i].defaultstring))
+                        C_Output(STRINGCVARCHANGEDTODEFAULT,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                            *(char **)consolecmds[i].variable, "");
+                    else
+                        C_Output(STRINGCVARCHANGED,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                            *(char **)consolecmds[i].variable, "");
+                }
+
                 *(char **)consolecmds[i].variable = "";
                 M_SaveCVARs();
             }
@@ -9956,6 +10034,22 @@ static void str_cvars_func2(char *cmd, char *parms)
             {
                 if (!(consolecmds[i].flags & CF_READONLY))
                 {
+                    if (!resettingcvar)
+                    {
+                        if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                            C_Output(STRINGCVARCHANGEDFROMDEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                                *(char **)consolecmds[i].variable, parms);
+                        else if (M_StringCompare(parms, consolecmds[i].defaultstring))
+                            C_Output(STRINGCVARCHANGEDTODEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                                *(char **)consolecmds[i].variable, parms);
+                        else
+                            C_Output(STRINGCVARCHANGED,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                                *(char **)consolecmds[i].variable, parms);
+                    }
+
                     *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
                     M_StripQuotes(trimwhitespace(*(char **)consolecmds[i].variable));
                     M_SaveCVARs();
@@ -11205,6 +11299,19 @@ static void r_fov_func2(char *cmd, char *parms)
 
         if (sscanf(parms, "%10i", &value) == 1 && value != r_fov)
         {
+            if (!resettingcvar)
+            {
+                if (r_fov == r_fov_default)
+                    C_Output(DEGREESCVARCHANGEDFROMDEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+                else if (value == r_fov_default)
+                    C_Output(DEGREESCVARCHANGEDTODEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+                else
+                    C_Output(DEGREESCVARCHANGED,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+            }
+
             r_fov = value;
             M_SaveCVARs();
             I_RestartGraphics(false);
