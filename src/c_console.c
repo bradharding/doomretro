@@ -2243,7 +2243,7 @@ void C_Drawer(void)
                     console[i].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
                     (luminance[nearestcolors[con_edgecolor]] <= 128 ? nearestwhite : nearestblack));
 
-            if (wrap < len && i < bottomline)
+            if (wrap < len && (i < bottomline || y + CONSOLELINEHEIGHT >= 0))
             {
                 char    *temp1 = M_SubString(console[i].string, wrap, (size_t)len - wrap);
                 bool    bold = false;
@@ -2297,8 +2297,8 @@ void C_Drawer(void)
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
         {
-            while (i + 1 < numconsolestrings && !strlen(console[++i].string))
-                outputhistory++;
+            while (i + 1 < numconsolestrings && !strlen(console[i + 1].string))
+                i++;
 
             break;
         }
