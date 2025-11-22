@@ -13,7 +13,7 @@
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.
 * A bug is fixed whereby music wouldn’t be played in some rare instances when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * The screen now always clears to black at startup.
-* A bug is fixed whereby certain player’s stats could become invalid when a monster is resurected.
+* A bug is fixed whereby certain player’s stats would become invalid when a monster is resurected.
 * The default values of the `crosshaircolor` and `am_crosshaircolor` CVARs are now correct.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

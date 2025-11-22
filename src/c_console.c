@@ -1160,7 +1160,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     j += digitslen;
                 }
                 else
-                    while (j < len && digitslen < 3 && isdigit((unsigned char)text[j]))
+                    while (j < len && digitslen < 3 && isdigit(text[j]))
                         digits[digitslen++] = text[j++];
 
                 if ((digitslen > 0 && j < len && text[j] == '}') || autocolor)
@@ -1189,7 +1189,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         }
 
                         for (int yy = MAX(0, y * SCREENWIDTH); yy < bottom; yy += SCREENWIDTH)
-                        {
                             for (int xx = x + 1; xx < x + CONSOLECOLORBACKWIDTH; xx++)
                             {
                                 byte    *dest = &screens[0][yy + xx];
@@ -1201,7 +1200,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                                 else if (yy == SCREENWIDTH)
                                     *dest = tinttab30[*dest];
                             }
-                        }
 
                         for (int yy = MAX(0, (y + 1) * SCREENWIDTH); yy < bottom - SCREENWIDTH; yy += SCREENWIDTH)
                         {
@@ -1223,11 +1221,11 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                             if ((patch = consolefont[letter - CONSOLEFONTSTART]))
                             {
-                                int width = SHORT(patch->width);
+                                const int   width = SHORT(patch->width);
 
                                 consoletextfunc(x, y, patch, width,
                                     (luminance[palindex] <= 128 ? nearestwhite : nearestblack),
-                                    color2, false, tinttab70);
+                                    color2, false, tinttab60);
 
                                 x += width;
                             }
