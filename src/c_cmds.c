@@ -477,16 +477,10 @@ static void am_external_func2(char *cmd, char *parms);
 static void am_followmode_func2(char *cmd, char *parms);
 static void am_gridsize_func2(char *cmd, char *parms);
 static void am_path_func2(char *cmd, char *parms);
-static bool am_pathlength_func1(char *cmd, char *parms);
-static void am_pathlength_func2(char *cmd, char *parms);
 static void am_rotatemode_func2(char *cmd, char *parms);
 static bool armortype_func1(char *cmd, char *parms);
 static void armortype_func2(char *cmd, char *parms);
 static void autotilt_func2(char *cmd, char *parms);
-static bool con_timestampformat_func1(char *cmd, char *parms);
-static void con_timestampformat_func2(char *cmd, char *parms);
-static bool crosshair_func1(char *cmd, char *parms);
-static void crosshair_func2(char *cmd, char *parms);
 static bool english_func1(char *cmd, char *parms);
 static void english_func2(char *cmd, char *parms);
 static void episode_func2(char *cmd, char *parms);
@@ -497,15 +491,11 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms);
 static void joy_sensitivity_cvars_func2(char *cmd, char *parms);
 static bool player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
-static bool playergender_func1(char *cmd, char *parms);
-static void playergender_func2(char *cmd, char *parms);
 static void r_antialiasing_func2(char *cmd, char *parms);
-static bool r_blood_func1(char *cmd, char *parms);
 static void r_blood_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
 static void r_brightmaps_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_func2(char *cmd, char *parms);
-static bool r_detail_func1(char *cmd, char *parms);
 static void r_detail_func2(char *cmd, char *parms);
 static void r_diskicon_func2(char *cmd, char *parms);
 static void r_ditheredlighting_func2(char *cmd, char *parms);
@@ -531,16 +521,11 @@ static void savegame_func2(char *cmd, char *parms);
 static void skilllevel_func2(char *cmd, char *parms);
 static bool sucktime_func1(char *cmd, char *parms);
 static void sucktime_func2(char *cmd, char *parms);
-static bool turbo_func1(char *cmd, char *parms);
 static void turbo_func2(char *cmd, char *parms);
-static bool units_func1(char *cmd, char *parms);
-static void units_func2(char *cmd, char *parms);
-static bool vid_aspectratio_func1(char *cmd, char *parms);
 static void vid_aspectratio_func2(char *cmd, char *parms);
 static void vid_blue_func2(char *cmd, char *parms);
 static void vid_borderlesswindow_func2(char *cmd, char *parms);
 static void vid_brightness_func2(char *cmd, char *parms);
-static bool vid_capfps_func1(char *cmd, char *parms);
 static void vid_capfps_func2(char *cmd, char *parms);
 static void vid_contrast_func2(char *cmd, char *parms);
 static void vid_display_func2(char *cmd, char *parms);
@@ -660,7 +645,7 @@ consolecmd_t consolecmds[] =
         "Toggles your path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of your path in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_pathlength, "", "", am_pathlength_func1, am_pathlength_func2, CF_NONE, PATHLENGTHVALUEALIAS,
+    CVAR_INT(am_pathlength, "", "", int_cvars_func1, color_cvars_func2, CF_NONE, PATHLENGTHVALUEALIAS,
         "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", " BOLD("long") " or " BOLD("endless") ")."),
     CVAR_INT(am_playercolor, am_playercolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of your arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
@@ -720,13 +705,13 @@ consolecmd_t consolecmds[] =
         "Dumps the contents of the console to a file."),
     CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, int_cvars_func2, CF_COLOR, EDGECOLORVALUEALIAS,
         "The color of console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(con_timestampformat, "", "", con_timestampformat_func1, con_timestampformat_func2, CF_NONE, TIMESTAMPVALUEALIAS,
+    CVAR_BOOL(con_timestampformat, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, TIMESTAMPVALUEALIAS,
         "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
     CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles timestamps in the console."),
     CVAR_INT(con_warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
-    CVAR_INT(crosshair, "", "", crosshair_func1, crosshair_func2, CF_NONE, CROSSHAIRVALUEALIAS,
+    CVAR_INT(crosshair, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") ", " BOLD("angle") ", " BOLD("dot") ", " BOLD("bigcross") ", "
         BOLD("circle") ", " BOLD("bigcircle") ", " BOLD("chevron") ", " BOLD("chevrons") " or " BOLD("arcs") ")."),
     CVAR_INT(crosshaircolor, crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
@@ -876,7 +861,7 @@ consolecmd_t consolecmds[] =
         "Toggles you starting each map with 100% health, no armor, and only your pistol with 50 bullets."),
     CCMD(play, "", "", play_func1, play_func2, true, PLAYCMDFORMAT,
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
-    CVAR_INT(playergender, "", "", playergender_func1, playergender_func2, CF_NONE, GENDERVALUEALIAS,
+    CVAR_INT(playergender, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, GENDERVALUEALIAS,
         "Your gender (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
     CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE, 16,
         "Your name."),
@@ -895,7 +880,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_berserkeffect, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the red effect when you have a berserk power-up and your fists equipped (" BOLD("0") " to " BOLD("8")
         ")."),
-    CVAR_INT(r_blood, "", "", r_blood_func1, r_blood_func2, CF_NONE, BLOODVALUEALIAS,
+    CVAR_INT(r_blood, "", "", int_cvars_func1, r_blood_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood spilled by you and monsters (" BOLD("all") ", " BOLD("none") ", " BOLD("red") ", " BOLD("green")
         " or " BOLD("nofuzz") ")."),
     CVAR_BOOL(r_blood_gibs, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -926,7 +911,7 @@ consolecmd_t consolecmds[] =
         "Toggles corpses leaving blood splats behind as they slide."),
     CVAR_BOOL(r_damageeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the red effect when you take damage."),
-    CVAR_BOOL(r_detail, "", "", r_detail_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
+    CVAR_BOOL(r_detail, "", "", int_cvars_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
         "Toggles the graphic detail (" BOLD("high") " or " BOLD("low") ")."),
     CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, r_diskicon_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing a disk icon when loading and saving."),
@@ -1069,17 +1054,17 @@ consolecmd_t consolecmds[] =
         "Toggles a " BOLDITALICS("CVAR") " " BOLD("on") " or " BOLD("off") "."),
     CVAR_BOOL(tossdrop, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when they die."),
-    CVAR_INT(turbo, "", "", turbo_func1, turbo_func2, CF_PERCENT, NOVALUEALIAS,
+    CVAR_INT(turbo, "", "", int_cvars_func1, turbo_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed you move (" BOLD("10%") " to " BOLD("400%") ")."),
     CCMD(unbind, "", "", null_func1, unbind_func2, true, UNBINDCMDFORMAT,
         "Unbinds the " BOLDITALICS("+action") " from a " BOLDITALICS("control") "."),
-    CVAR_BOOL(units, "", "", units_func1, units_func2, CF_NONE, UNITSVALUEALIAS,
+    CVAR_BOOL(units, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, UNITSVALUEALIAS,
         "The units used by certain stats (" BOLD("imperial") " or " BOLD("metric") ")."),
     CCMD(vanilla, "", "", null_func1, vanilla_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY, 16,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
-    CVAR_INT(vid_aspectratio, "", "", vid_aspectratio_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
+    CVAR_INT(vid_aspectratio, "", "", int_cvars_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
         "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
         BOLD("32:9") " or " BOLD("auto") ")."),
     CVAR_INT(vid_blue, "", "", int_cvars_func1, vid_blue_func2, CF_PERCENT, NOVALUEALIAS,
@@ -1088,7 +1073,7 @@ consolecmd_t consolecmds[] =
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_brightness, "", "", int_cvars_func1, vid_brightness_func2, CF_PERCENT, NOVALUEALIAS,
         "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_capfps, "", "", vid_capfps_func1, vid_capfps_func2, CF_NONE, CAPVALUEALIAS,
+    CVAR_INT(vid_capfps, "", "", int_cvars_func1, vid_capfps_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
         "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_contrast, "", "", int_cvars_func1, vid_contrast_func2, CF_PERCENT, NOVALUEALIAS,
@@ -9757,8 +9742,27 @@ static void bool_cvars_func2(char *cmd, char *parms)
 
                 if ((value == 0 || value == 1) && value != *(bool *)consolecmds[i].variable)
                 {
+                    char    *temp1 = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
+                    char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
+
+                    if (!resettingcvar)
+                    {
+                        if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
+                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else if (value == (bool)consolecmds[i].defaultnumber)
+                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else
+                            C_Output(INTEGERCVARCHANGED,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                    }
+
                     *(bool *)consolecmds[i].variable = value;
                     M_SaveCVARs();
+
+                    free(temp1);
+                    free(temp2);
                 }
             }
             else
@@ -9831,8 +9835,27 @@ static void float_cvars_func2(char *cmd, char *parms)
 
                 if (sscanf(parms, "%10f", &value) == 1 && value != *(float *)consolecmds[i].variable)
                 {
+                    char    *temp1 = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+                    char    *temp2 = striptrailingzero(value, 1);
+
+                    if (!resettingcvar)
+                    {
+                        if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
+                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else if (value == consolecmds[i].defaultnumber)
+                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else
+                            C_Output(INTEGERCVARCHANGED,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                    }
+
                     *(float *)consolecmds[i].variable = value;
                     M_SaveCVARs();
+
+                    free(temp1);
+                    free(temp2);
                 }
             }
             else
@@ -10221,11 +10244,29 @@ static void am_gridsize_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        am_gridsize = M_StringDuplicate(parms);
-        AM_GetGridSize();
-
         if (!M_StringCompare(am_gridsize, parms))
+        {
+            if (!resettingcvar)
+            {
+                if (M_StringCompare(am_gridsize, am_gridsize_default))
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        am_gridsize, parms);
+                else if (M_StringCompare(parms, am_gridsize_default))
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        am_gridsize, parms);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        am_gridsize, parms);
+            }
+
+            am_gridsize = M_StringDuplicate(parms);
+            AM_GetGridSize();
+
             M_SaveCVARs();
+        }
     }
     else
     {
@@ -10247,9 +10288,11 @@ static void am_gridsize_func2(char *cmd, char *parms)
 //
 static void am_path_func2(char *cmd, char *parms)
 {
+    const bool  am_path_old = am_path;
+
     bool_cvars_func2(cmd, parms);
 
-    if (am_path)
+    if (am_path && !am_path_old)
     {
         viewplayer->cheated++;
         stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -10258,83 +10301,16 @@ static void am_path_func2(char *cmd, char *parms)
 }
 
 //
-// am_pathlength CVAR
-//
-static bool am_pathlength_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, PATHLENGTHVALUEALIAS) != INT_MIN);
-}
-
-static void am_pathlength_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, PATHLENGTHVALUEALIAS);
-
-        if (value >= am_pathlength_min && value <= am_pathlength_max && value != am_pathlength)
-        {
-            am_pathlength = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(am_pathlength, PATHLENGTHVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (am_pathlength == am_pathlength_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(am_pathlength_default, PATHLENGTHVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
 // am_rotatemode CVAR
 //
 static void am_rotatemode_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const bool  am_rotatemode_old = am_rotatemode;
+    const bool  am_rotatemode_old = am_rotatemode;
 
-        bool_cvars_func2(cmd, parms);
+    bool_cvars_func2(cmd, parms);
 
-        if (automapactive && am_rotatemode != am_rotatemode_old)
-            AM_ToggleRotateMode(am_rotatemode);
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(am_rotatemode, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (am_rotatemode == am_rotatemode_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(am_rotatemode_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (automapactive && am_rotatemode != am_rotatemode_old)
+        AM_ToggleRotateMode(am_rotatemode);
 }
 
 //
@@ -10353,6 +10329,22 @@ static void armortype_func2(char *cmd, char *parms)
 
         if (value != INT_MIN && viewplayer->armor)
         {
+            if (!resettingcvar)
+            {
+                if (viewplayer->armortype == armortype_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        viewplayer->armortype, parms);
+                else if (value == armortype_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        viewplayer->armortype, parms);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        viewplayer->armortype, parms);
+            }
+
             viewplayer->armortype = value;
 
             if (value == armortype_none)
@@ -10396,92 +10388,6 @@ static void autotilt_func2(char *cmd, char *parms)
 }
 
 //
-// con_timestampformat CVAR
-//
-static bool con_timestampformat_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS) != INT_MIN);
-}
-
-static void con_timestampformat_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, TIMESTAMPVALUEALIAS);
-
-        if ((value == con_timestampformat_military || value == con_timestampformat_standard) && value != con_timestampformat)
-        {
-            con_timestampformat = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(con_timestampformat, TIMESTAMPVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (con_timestampformat == con_timestampformat_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(con_timestampformat_default, TIMESTAMPVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
-// crosshair CVAR
-//
-static bool crosshair_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, CROSSHAIRVALUEALIAS) != INT_MIN);
-}
-
-static void crosshair_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, CROSSHAIRVALUEALIAS);
-
-        if (value != INT_MIN && crosshair != value)
-        {
-            crosshair = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (crosshair == crosshair_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(crosshair_default, CROSSHAIRVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
 // english CVAR
 //
 static bool english_func1(char *cmd, char *parms)
@@ -10497,6 +10403,22 @@ static void english_func2(char *cmd, char *parms)
 
         if ((value == english_american || value == english_british) && value != english)
         {
+            if (!resettingcvar)
+            {
+                if (english == english_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        english, parms);
+                else if (value == english_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        english, parms);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
+                        english, parms);
+            }
+
             english = value;
             ST_InitStatBar();
             D_TranslateDehStrings();
@@ -10608,16 +10530,54 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
             {
                 if (joy_deadzone_left != value)
                 {
+                    char    *temp1 = striptrailingzero(joy_deadzone_left, 1);
+                    char    *temp2 = striptrailingzero(value, 1);
+
+                    if (!resettingcvar)
+                    {
+                        if (joy_deadzone_left == joy_deadzone_left_default)
+                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else if (value == joy_deadzone_left_default)
+                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        else
+                            C_Output(INTEGERCVARCHANGED,
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                    }
+
                     joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
                     I_SetControllerLeftDeadZone();
                     M_SaveCVARs();
+
+                    free(temp1);
+                    free(temp2);
                 }
             }
             else if (joy_deadzone_right != value)
             {
+                char    *temp1 = striptrailingzero(joy_deadzone_right, 1);
+                char    *temp2 = striptrailingzero(value, 1);
+
+                if (!resettingcvar)
+                {
+                    if (joy_deadzone_right == joy_deadzone_right_default)
+                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                    else if (value == joy_deadzone_right_default)
+                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                    else
+                        C_Output(INTEGERCVARCHANGED,
+                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                }
+
                 joy_deadzone_right = BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
                 I_SetControllerRightDeadZone();
                 M_SaveCVARs();
+
+                free(temp1);
+                free(temp2);
             }
         }
     }
@@ -10884,93 +10844,21 @@ static void player_cvars_func2(char *cmd, char *parms)
 }
 
 //
-// playergender CVAR
-//
-static bool playergender_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, GENDERVALUEALIAS) != INT_MIN);
-}
-
-static void playergender_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, GENDERVALUEALIAS);
-
-        if (value != INT_MIN && playergender != value)
-        {
-            playergender = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(playergender, GENDERVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (playergender == playergender_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(playergender_default, GENDERVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
 // r_blood CVAR
 //
-static bool r_blood_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, BLOODVALUEALIAS) != INT_MIN);
-}
-
 static void r_blood_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const int   r_blood_old = r_blood;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_blood != r_blood_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BLOODVALUEALIAS);
+        R_InitColumnFunctions();
 
-        if (value != INT_MIN && r_blood != value)
-        {
-            r_blood = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
-                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
-                    P_SetBloodSplatColor(splat);
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_blood == r_blood_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_blood_default, BLOODVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        for (int i = 0; i < numsectors; i++)
+            for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
+                P_SetBloodSplatColor(splat);
     }
 }
 
@@ -10979,41 +10867,17 @@ static void r_blood_func2(char *cmd, char *parms)
 //
 static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_bloodsplats_translucency_old = r_bloodsplats_translucency;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_bloodsplats_translucency != r_bloodsplats_translucency_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+        R_InitColumnFunctions();
 
-        if ((value == 0 || value == 1) && value != r_bloodsplats_translucency)
-        {
-            r_bloodsplats_translucency = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
-                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
-                    P_SetBloodSplatColor(splat);
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_bloodsplats_translucency == r_bloodsplats_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_bloodsplats_translucency_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        for (int i = 0; i < numsectors; i++)
+            for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
+                P_SetBloodSplatColor(splat);
     }
 }
 
@@ -11022,38 +10886,14 @@ static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
 //
 static void r_brightmaps_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_brightmaps_old = r_brightmaps;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_brightmaps != r_brightmaps_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_brightmaps)
-        {
-            r_brightmaps = value;
-            M_SaveCVARs();
-            I_SetPalette(&PLAYPAL[st_palette * 768]);
-            R_InitColumnFunctions();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_brightmaps == r_brightmaps_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_brightmaps_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        R_InitColumnFunctions();
     }
 }
 
@@ -11062,100 +10902,42 @@ static void r_brightmaps_func2(char *cmd, char *parms)
 //
 static void r_corpses_mirrored_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_corpses_mirrored_old = r_corpses_mirrored;
 
-        if ((value == 0 || value == 1) && value != r_corpses_mirrored)
-        {
-            r_corpses_mirrored = value;
-            M_SaveCVARs();
+    bool_cvars_func2(cmd, parms);
 
-            for (int i = 0; i < numsectors; i++)
-                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+    if (r_corpses_mirrored != r_corpses_mirrored_old)
+        for (int i = 0; i < numsectors; i++)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+            {
+                if ((thing->flags & MF_CORPSE)
+                    && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+                    && (thing->type != MT_PAIN || !doom4vanilla))
                 {
-                    if ((thing->flags & MF_CORPSE)
-                        && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
-                        && (thing->type != MT_PAIN || !doom4vanilla))
+                    if (r_corpses_mirrored)
                     {
-                        if (r_corpses_mirrored)
-                        {
-                            if (M_BigRandom() & 1)
-                                thing->flags2 |= MF2_MIRRORED;
-                        }
-                        else
-                            thing->flags2 &= ~MF2_MIRRORED;
+                        if (M_BigRandom() & 1)
+                            thing->flags2 |= MF2_MIRRORED;
                     }
+                    else
+                        thing->flags2 &= ~MF2_MIRRORED;
                 }
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_corpses_mirrored, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_corpses_mirrored == r_corpses_mirrored_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_corpses_mirrored_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+            }
 }
 
 //
 // r_detail CVAR
 //
-static bool r_detail_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, DETAILVALUEALIAS) != INT_MIN);
-}
-
 static void r_detail_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const int   r_detail_old = r_detail;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_detail != r_detail_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, DETAILVALUEALIAS);
-
-        if ((value == r_detail_low || value == r_detail_high) && r_detail != value)
-        {
-            r_detail = value;
-            M_SaveCVARs();
-            STLib_Init();
-            R_InitColumnFunctions();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_detail == r_detail_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_detail_default, DETAILVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        AM_InitPixelSize();
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        STLib_Init();
+        R_InitColumnFunctions();
     }
 }
 
@@ -11164,41 +10946,14 @@ static void r_detail_func2(char *cmd, char *parms)
 //
 static void r_diskicon_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_diskicon_old = r_diskicon;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_diskicon && !r_diskicon_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_diskicon)
-        {
-            if ((r_diskicon = value))
-            {
-                drawdisk = true;
-                drawdisktics = TICRATE;
-            }
-
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_diskicon, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_diskicon == r_diskicon_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_diskicon_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        drawdisk = true;
+        drawdisktics = TICRATE;
     }
 }
 
@@ -11207,38 +10962,14 @@ static void r_diskicon_func2(char *cmd, char *parms)
 //
 static void r_ditheredlighting_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_ditheredlighting_old = r_ditheredlighting;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_ditheredlighting != r_ditheredlighting_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_ditheredlighting)
-        {
-            r_ditheredlighting = value;
-            M_SaveCVARs();
-            I_SetPalette(&PLAYPAL[st_palette * 768]);
-            R_InitColumnFunctions();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_ditheredlighting, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_ditheredlighting == r_ditheredlighting_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_ditheredlighting_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
+        R_InitColumnFunctions();
     }
 }
 
@@ -11247,44 +10978,16 @@ static void r_ditheredlighting_func2(char *cmd, char *parms)
 //
 static void r_fixmaperrors_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_fixmaperrors_old = r_fixmaperrors;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_fixmaperrors != r_fixmaperrors_old && gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_fixmaperrors)
-        {
-            r_fixmaperrors = value;
-            M_SaveCVARs();
-
-            if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-            {
-                if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, NEXTMAPWARNING1);
-                else
-                    C_Warning(0, NEXTMAPWARNING2, playername);
-            }
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_fixmaperrors == r_fixmaperrors_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NEXTMAPWARNING1);
         else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+            C_Warning(0, NEXTMAPWARNING2, playername);
     }
 }
 
@@ -11428,38 +11131,12 @@ static void r_hud_func2(char *cmd, char *parms)
 //
 static void r_hud_translucency_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_hud_translucency_old = r_hud_translucency;
 
-        if ((value == 0 || value == 1) && value != r_hud_translucency)
-        {
-            r_hud_translucency = value;
-            M_SaveCVARs();
-            HU_SetTranslucency();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
+    bool_cvars_func2(cmd, parms);
 
-        C_ShowDescription(i);
-
-        if (r_hud_translucency == r_hud_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_hud_translucency_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (r_hud_translucency != r_hud_translucency_old)
+        HU_SetTranslucency();
 }
 
 //
@@ -11493,55 +11170,28 @@ static void r_lowpixelsize_func2(char *cmd, char *parms)
 //
 static void r_mirroredweapons_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_mirroredweapons_old = r_mirroredweapons;
 
-        if ((value == 0 || value == 1) && value != r_mirroredweapons)
-        {
-            r_mirroredweapons = value;
-            M_SaveCVARs();
+    bool_cvars_func2(cmd, parms);
 
-            for (int i = 0; i < numsectors; i++)
-                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+    if (r_mirroredweapons != r_mirroredweapons_old)
+        for (int i = 0; i < numsectors; i++)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+            {
+                const mobjtype_t    type = thing->type;
+
+                if (((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) && (thing->flags & MF_SPECIAL))
+                    || (thing->flags & MF_DROPPED))
                 {
-                    const mobjtype_t    type = thing->type;
-
-                    if (((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) && (thing->flags & MF_SPECIAL))
-                        || (thing->flags & MF_DROPPED))
+                    if (r_mirroredweapons)
                     {
-                        if (r_mirroredweapons)
-                        {
-                            if (M_BigRandom() & 1)
-                                thing->flags2 |= MF2_MIRRORED;
-                        }
-                        else
-                            thing->flags2 &= ~MF2_MIRRORED;
+                        if (M_BigRandom() & 1)
+                            thing->flags2 |= MF2_MIRRORED;
                     }
+                    else
+                        thing->flags2 &= ~MF2_MIRRORED;
                 }
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_mirroredweapons, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_mirroredweapons == r_mirroredweapons_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_mirroredweapons_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+            }
 }
 
 //
@@ -11549,61 +11199,40 @@ static void r_mirroredweapons_func2(char *cmd, char *parms)
 //
 static void r_randomstartframes_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_randomstartframes_old = r_randomstartframes;
 
-        if ((value == 0 || value == 1) && value != r_randomstartframes)
+    bool_cvars_func2(cmd, parms);
+
+    if (r_randomstartframes != r_randomstartframes_old)
+    {
+        if (r_randomstartframes)
         {
-            r_randomstartframes = value;
-            M_SaveCVARs();
+            for (int i = 0; i < numsectors; i++)
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                {
+                    const mobjinfo_t *info = thing->info;
 
-            if (r_randomstartframes)
-                for (int i = 0; i < numsectors; i++)
-                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                    if (info->frames > 1)
                     {
-                        const mobjinfo_t    *info = thing->info;
+                        const int   numframes = M_BigRandomInt(0, info->frames);
+                        state_t *st = thing->state;
 
-                        if (info->frames > 1)
-                        {
-                            const int   numframes = M_BigRandomInt(0, info->frames);
-                            state_t     *st = thing->state;
+                        for (int j = 0; j < numframes && st->nextstate != S_NULL; j++)
+                            st = &states[st->nextstate];
 
-                            for (int j = 0; j < numframes && st->nextstate != S_NULL; j++)
-                                st = &states[st->nextstate];
-
-                            thing->state = st;
-                        }
+                        thing->state = st;
                     }
-            else
-                for (int i = 0; i < numsectors; i++)
-                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                    {
-                        const mobjinfo_t    *info = thing->info;
-
-                        if (info->frames > 1)
-                            thing->state = &states[info->spawnstate];
-                    }
+                }
         }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_randomstartframes, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_randomstartframes == r_randomstartframes_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
         else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_randomstartframes_default, BOOLVALUEALIAS);
+            for (int i = 0; i < numsectors; i++)
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                {
+                    const mobjinfo_t *info = thing->info;
 
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
+                    if (info->frames > 1)
+                        thing->state = &states[info->spawnstate];
+                }
     }
 }
 
@@ -11678,41 +11307,14 @@ static void r_screensize_func2(char *cmd, char *parms)
 //
 static void r_shadows_translucency_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_shadows_translucency_old = r_shadows_translucency;
 
-        if ((value == 0 || value == 1) && value != r_shadows_translucency)
-        {
-            r_shadows_translucency = value;
-            M_SaveCVARs();
+    bool_cvars_func2(cmd, parms);
 
-            for (int i = 0; i < numsectors; i++)
-                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                    P_SetShadowColumnFunction(thing);
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_shadows_translucency == r_shadows_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_shadows_translucency_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (r_shadows_translucency != r_shadows_translucency_old)
+        for (int i = 0; i < numsectors; i++)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                P_SetShadowColumnFunction(thing);
 }
 
 //
@@ -11720,41 +11322,17 @@ static void r_shadows_translucency_func2(char *cmd, char *parms)
 //
 static void r_sprites_translucency_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_sprites_translucency_old = r_sprites_translucency;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_sprites_translucency != r_sprites_translucency_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+        R_InitColumnFunctions();
 
-        if ((value == 0 || value == 1) && value != r_sprites_translucency)
-        {
-            r_sprites_translucency = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
-                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                    thing->colfunc = thing->info->colfunc;
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_sprites_translucency, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_sprites_translucency == r_sprites_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_sprites_translucency_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        for (int i = 0; i < numsectors; i++)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                thing->colfunc = thing->info->colfunc;
     }
 }
 
@@ -11763,38 +11341,12 @@ static void r_sprites_translucency_func2(char *cmd, char *parms)
 //
 static void r_antialiasing_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+    const bool   r_antialiasing_old = r_antialiasing;
 
-        if ((value == 0 || value == 1) && value != r_antialiasing)
-        {
-            r_antialiasing = value;
-            M_SaveCVARs();
-            GetPixelSize();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_antialiasing, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
+    bool_cvars_func2(cmd, parms);
 
-        C_ShowDescription(i);
-
-        if (r_antialiasing == r_antialiasing_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_antialiasing_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (r_antialiasing != r_antialiasing_old)
+        GetPixelSize();
 }
 
 //
@@ -11815,49 +11367,25 @@ static void r_rockettrails_translucency_func2(char *cmd, char *parms)
 //
 static void r_textures_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool  r_textures_old = r_textures;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_textures != r_textures_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+        R_InitColumnFunctions();
 
-        if ((value == 0 || value == 1) && value != r_textures)
+        for (int i = 0; i < numsectors; i++)
         {
-            r_textures = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
+            for (mobj_t *mo = sectors[i].thinglist; mo; mo = mo->snext)
             {
-                for (mobj_t *mo = sectors[i].thinglist; mo; mo = mo->snext)
-                {
-                    mo->colfunc = mo->info->colfunc;
-                    P_SetShadowColumnFunction(mo);
-                }
-
-                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
-                    P_SetBloodSplatColor(splat);
+                mo->colfunc = mo->info->colfunc;
+                P_SetShadowColumnFunction(mo);
             }
+
+            for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
+                P_SetBloodSplatColor(splat);
         }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_textures == r_textures_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
     }
 }
 
@@ -11866,41 +11394,17 @@ static void r_textures_func2(char *cmd, char *parms)
 //
 static void r_textures_translucency_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const bool   r_textures_translucency_old = r_textures_translucency;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_textures_translucency != r_textures_translucency_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+        R_InitColumnFunctions();
 
-        if ((value == 0 || value == 1) && value != r_textures_translucency)
-        {
-            r_textures_translucency = value;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
-                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                    thing->colfunc = thing->info->colfunc;
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_textures_translucency, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_textures_translucency == r_textures_translucency_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_textures_translucency_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        for (int i = 0; i < numsectors; i++)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                thing->colfunc = thing->info->colfunc;
     }
 }
 
@@ -12061,148 +11565,37 @@ static void sucktime_func2(char *cmd, char *parms)
 //
 // turbo CVAR
 //
-static bool turbo_func1(char *cmd, char *parms)
-{
-    int value;
-
-    if (!*parms)
-        return true;
-
-    return ((sscanf(parms, "%10i%%", &value) == 1 || sscanf(parms, "%10i", &value) == 1)
-        && value >= turbo_min && value <= turbo_max);
-}
-
 static void turbo_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const int   turbo_old = turbo;
+
+    int_cvars_func2(cmd, parms);
+
+    if (turbo != turbo_old)
     {
-        int value = INT_MIN;
-
-        if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
-            return;
-
-        if (value >= turbo_min && value <= turbo_max && value != turbo)
+        if (turbo > turbo_default)
         {
-            turbo = value;
-
-            if (turbo > turbo_default)
-            {
-                viewplayer->cheated++;
-                stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
-            }
-
-            M_SaveCVARs();
-            G_SetMovementSpeed(turbo);
-        }
-    }
-    else
-    {
-        char        *temp1 = commify(turbo);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (turbo == turbo_default)
-            C_Output(PERCENTCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = commify(turbo_default);
-
-            C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
+            viewplayer->cheated++;
+            stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         }
 
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
-// units CVAR
-//
-static bool units_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, UNITSVALUEALIAS) != INT_MIN);
-}
-
-static void units_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, UNITSVALUEALIAS);
-
-        if ((value == units_imperial || value == units_metric) && value != units)
-        {
-            units = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(units, UNITSVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (units == units_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(units_default, UNITSVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        G_SetMovementSpeed(turbo);
     }
 }
 
 //
 // vid_aspectratio CVAR
 //
-static bool vid_aspectratio_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, RATIOVALUEALIAS) != INT_MIN);
-}
-
 static void vid_aspectratio_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const int   vid_aspectratio_old = vid_aspectratio;
+
+    int_cvars_func2(cmd, parms);
+
+    if (vid_aspectratio != vid_aspectratio_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, RATIOVALUEALIAS);
-
-        if (value != INT_MIN && vid_aspectratio != value)
-        {
-            vid_aspectratio = value;
-            I_RestartGraphics(false);
-            S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(vid_aspectratio, RATIOVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (vid_aspectratio == vid_aspectratio_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(vid_aspectratio_default, RATIOVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        I_RestartGraphics(false);
+        S_StartSound(NULL, sfx_stnmov);
     }
 }
 
@@ -12248,11 +11641,6 @@ static void vid_brightness_func2(char *cmd, char *parms)
 //
 // vid_capfps CVAR
 //
-static bool vid_capfps_func1(char *cmd, char *parms)
-{
-    return (C_LookupValueFromAlias(parms, CAPVALUEALIAS) != INT_MIN || int_cvars_func1(cmd, parms));
-}
-
 static void vid_capfps_func2(char *cmd, char *parms)
 {
     const int   value = C_LookupValueFromAlias(parms, CAPVALUEALIAS);
