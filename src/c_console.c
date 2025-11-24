@@ -86,6 +86,7 @@ static patch_t          *multiply;
 static patch_t          *warning;
 static patch_t          *fps;
 static patch_t          *ampm[2];
+static patch_t          *colorback;
 
 patch_t                 *bindlist;
 patch_t                 *cmdlist;
@@ -101,6 +102,7 @@ static short            spacewidth;
 static short            altbuddhawidth;
 static short            fpswidth;
 static short            ampmwidth;
+static short            colorbackwidth;
 
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
@@ -834,6 +836,7 @@ void C_Init(void)
     fps = W_CacheLastLumpName("DRFONFPS");
     ampm[0] = W_CacheLastLumpName("DRFONAM");
     ampm[1] = W_CacheLastLumpName("DRFONPM");
+    colorback = W_CacheLastLumpName("DRFONCLR");
 
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");
@@ -851,6 +854,7 @@ void C_Init(void)
     altbuddhawidth = SHORT(altbuddha->width);
     fpswidth = SHORT(fps->width);
     ampmwidth = SHORT(ampm[0]->width);
+    colorbackwidth = SHORT(colorback->width);
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00.00", true);
@@ -1176,32 +1180,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         const int bottom = (y + CONSOLELINEHEIGHT - 2) * SCREENWIDTH;
                         const int oldx = x;
 
-                        for (int yy = MAX(0, y * SCREENWIDTH); yy < bottom; yy += SCREENWIDTH)
-                            for (int xx = x + 1; xx < x + CONSOLECOLORBACKWIDTH; xx++)
-                            {
-                                byte    *dest = &screens[0][yy + xx];
+                        V_DrawConsoleTextPatch(x, y, colorback, colorbackwidth, palindex, -1, false, NULL);
 
-                                *dest = (byte)palindex;
-
-                                if (!yy)
-                                    *dest = tinttab60[*dest];
-                                else if (yy == SCREENWIDTH)
-                                    *dest = tinttab30[*dest];
-                            }
-
-                        for (int yy = MAX(0, (y + 1) * SCREENWIDTH); yy < bottom - SCREENWIDTH; yy += SCREENWIDTH)
-                        {
-                            byte    *dest = &screens[0][yy + x];
-
-                            *dest = *(dest + CONSOLECOLORBACKWIDTH) = (byte)palindex;
-
-                            if (!yy)
-                                *dest = *(dest + CONSOLECOLORBACKWIDTH) = tinttab60[*dest];
-                            else if (yy == SCREENWIDTH)
-                                *dest = *(dest + CONSOLECOLORBACKWIDTH) = tinttab30[*dest];
-                        }
-
-                        x += (CONSOLECOLORBACKWIDTH - C_TextWidth(digits, false, false)) / 2 + 1;
+                        x += (colorbackwidth - C_TextWidth(digits, false, false) - 1) / 2 + 1;
 
                         for (int k = 0; k < digitslen; k++)
                         {
@@ -1224,7 +1205,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         }
 
                         i = j;
-                        x = oldx + CONSOLECOLORBACKWIDTH + 2;
+                        x = oldx + colorbackwidth;
                         continue;
                     }
                 }

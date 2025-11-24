@@ -5,9 +5,9 @@
 * *DOOM Retro* is now built using v18.0.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* When changing a CVAR in the console, a message is now displayed indicating that the CVAR has been changed from its previous value.
+* When changing a CVAR in the console, a message is now displayed indicating that the CVAR has been changed and what it was previously.
 * The values of color CVARs in the console, shown either by entering a CVAR individually or by using the `cvarlist` CCMD, are now shown with a colored background.
-* The `spawn` CCMD now still tries to spawn things somewhere close to the player if there isn’t enough space directly in front of them.
+* The `spawn` CCMD now still tries to spawn things anywhere around the player if there isn’t enough space directly in front of them.
 * A bug is fixed whereby `BOSSACTION` in a `MAPINFO` lump wouldn’t be parsed in some rare instances.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.
