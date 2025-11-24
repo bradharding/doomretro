@@ -1962,6 +1962,7 @@ void C_Drawer(void)
     const int       bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
     int             len;
     const bool      prevconsoleactive = consoleactive;
+    static bool     inputentered;
     static uint64_t consolewait;
     const uint64_t  tics = I_GetTimeMS();
     const int       notabs[MAXTABS] = { 0 };
@@ -2278,6 +2279,8 @@ void C_Drawer(void)
     {
         char    partialinput[255] = "";
 
+        inputentered = true;
+
         // draw input text to left of caret
         for (i = 0; i < MIN(selectstart, caretpos); i++)
             partialinput[i] = consoleinput[i];
@@ -2330,6 +2333,10 @@ void C_Drawer(void)
             }
         }
     }
+    else if (!inputentered)
+        C_DrawConsoleText(x, CONSOLEINPUTY, "Enter " BOLD("cmdlist") " for a list of commands.",
+            nearestlightgray, NOBACKGROUNDCOLOR, nearestwhite, tinttab15, NULL, true, true, false,
+            0, '\0', '\0', &V_DrawConsoleTextPatch);
 
     // draw caret
     if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
