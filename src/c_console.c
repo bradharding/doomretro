@@ -1198,7 +1198,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                             {
                                 const int   width = SHORT(patch->width);
 
-                                consoletextfunc(x, y, patch, width,
+                                consoletextfunc((x -= (letter == '4')), y, patch, width,
                                     (luminance[palindex] <= 128 ? nearestwhite : nearestblack),
                                     color2, false, tinttab60);
 
