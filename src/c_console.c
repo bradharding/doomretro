@@ -1204,9 +1204,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                                 x += width;
                             }
 
-                            prevletter3 = prevletter2;
-                            prevletter2 = prevletter;
-                            prevletter = letter;
+                            prevletter3 = '\0';
+                            prevletter2 = '\0';
+                            prevletter = '\0';
                         }
 
                         i = j;
