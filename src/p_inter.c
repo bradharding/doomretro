@@ -1601,8 +1601,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (*target->info->name1 && !M_StringStartsWith(target->info->name1, "Deh_Actor_") ? target->info->name1 : "monster"));
             }
 
-            C_PlayerMessage("%s telefragged %s.",
-                (M_StringCompare(playername, playername_default) ? "You" : playername), targetname);
+            C_PlayerMessage("%s telefragged %s.", C_GetPlayerName(), targetname);
         }
         else
         {
@@ -1933,18 +1932,16 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 };
 
                 C_PlayerObituary("%s died in %s.",
-                    (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    liquids[sector->terraintype - LIQUID][english]);
+                    C_GetPlayerName(), liquids[sector->terraintype - LIQUID][english]);
             }
             else
             {
                 const short floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
-                    C_PlayerObituary("%s died on molten rock.",
-                        (M_StringCompare(playername, playername_default) ? "You" : playername));
+                    C_PlayerObituary("%s died on molten rock.", C_GetPlayerName());
                 else
-                    C_PlayerObituary("%s died.", (M_StringCompare(playername, playername_default) ? "You" : playername));
+                    C_PlayerObituary("%s died.", C_GetPlayerName());
             }
         }
     }

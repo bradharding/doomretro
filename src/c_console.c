@@ -429,6 +429,11 @@ void C_PlayerWarning(const char *string, ...)
     outputhistory = -1;
 }
 
+char *C_GetPlayerName(void)
+{
+    return (M_StringCompare(playername, playername_default) ? "you" : playername);
+}
+
 void C_ResetWrappedLines(void)
 {
     for (int i = 0; i < numconsolestrings; i++)

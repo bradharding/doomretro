@@ -2716,8 +2716,7 @@ static void D_DoomMainSetup(void)
         P_InitHelperDogs(1);
 
         C_Output("A " BOLD("-dog") " parameter was found on the command-line. "
-            "A friendly dog will enter the game with %s.",
-            (M_StringCompare(playername, playername_default) ? "you" : playername));
+            "A friendly dog will enter the game with %s.", C_GetPlayerName());
     }
     else if ((p = M_CheckParmWithArgs("-dogs", 1)))
     {
@@ -2728,16 +2727,15 @@ static void D_DoomMainSetup(void)
             P_InitHelperDogs(1);
 
             C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-                "A friendly dog will enter the game with %s.",
-                (M_StringCompare(playername, playername_default) ? "you" : playername));
+                "A friendly dog will enter the game with %s.", C_GetPlayerName());
         }
         else if (dogs > 1)
         {
             P_InitHelperDogs(MIN(dogs, MAXFRIENDS));
 
             C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-                "Up to %i friendly dogs will enter the game with %s.", MIN(dogs, MAXFRIENDS),
-                (M_StringCompare(playername, playername_default) ? "you" : playername));
+                "Up to %i friendly dogs will enter the game with %s.",
+                MIN(dogs, MAXFRIENDS), C_GetPlayerName());
         }
     }
     else if (M_CheckParm("-dogs"))
@@ -2745,8 +2743,8 @@ static void D_DoomMainSetup(void)
         P_InitHelperDogs(MAXFRIENDS);
 
         C_Output("A " BOLD("-dogs") " parameter was found on the command-line. "
-            "Up to %i friendly dogs will enter the game with %s.", MAXFRIENDS,
-            (M_StringCompare(playername, playername_default) ? "you" : playername));
+            "Up to %i friendly dogs will enter the game with %s.",
+            MAXFRIENDS, C_GetPlayerName());
     }
 
     M_Init();
@@ -2859,13 +2857,12 @@ static void D_DoomMainSetup(void)
 
             if (M_CheckParmWithArgs("-warp", 1))
                 C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping %s to %s...",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
+                    C_GetPlayerName(), lumpname);
             else if (M_CheckParmWithArgs("+map", 1))
                 C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping %s to %s...",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
+                    C_GetPlayerName(), lumpname);
             else
-                C_Output("Warping %s to %s...",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername), lumpname);
+                C_Output("Warping %s to %s...", C_GetPlayerName(), lumpname);
 
             G_DeferredInitNew(startskill, startepisode, startmap);
         }

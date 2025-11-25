@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.8.2
 
-* *DOOM Retro* is now built using v18.0.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.0.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When changing a CVAR in the console, a message is now displayed indicating that the CVAR has been changed and what it was previously.

@@ -450,8 +450,7 @@ void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, c
 
     if (warning)
     {
-        C_PlayerWarning("%s cheated!",
-            (M_StringCompare(playername, playername_default) ? "You" : playername));
+        C_PlayerWarning("%s cheated!", C_GetPlayerName());
         stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
         viewplayer->cheated++;
         M_SaveCVARs();
@@ -1045,8 +1044,7 @@ bool ST_Responder(const event_t *ev)
                     if (M_StringCompare(lump, mapnum))
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
-                        M_snprintf(message, sizeof(message), s_STSTR_CLEV,
-                            (M_StringCompare(playername, playername_default) ? "you" : playername), lump);
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, C_GetPlayerName(), lump);
 
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);

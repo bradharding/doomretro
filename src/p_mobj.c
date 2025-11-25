@@ -1206,14 +1206,14 @@ static void P_SpawnFriend(const mapthing_t *mthing)
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
         if (gamemap == 1)
-            C_Warning(0, "A friendly %s entered this map with %s!", mobjinfo[mobj->type].name1,
-                (M_StringCompare(playername, playername_default) ? "you" : playername));
+            C_Warning(0, "A friendly %s entered this map with %s!",
+                mobjinfo[mobj->type].name1, C_GetPlayerName());
         else if (*mobj->name)
             C_Warning(0, "%s followed %s into this map!",
-                mobj->name, (M_StringCompare(playername, playername_default) ? "you" : playername));
+                mobj->name, C_GetPlayerName());
         else
             C_Warning(0, "A friendly %s followed %s into this map!",
-                mobjinfo[mobj->type].name1, (M_StringCompare(playername, playername_default) ? "you" : playername));
+                mobjinfo[mobj->type].name1, C_GetPlayerName());
     }
 }
 

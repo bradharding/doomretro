@@ -3338,12 +3338,10 @@ void P_SetupLevel(int ep, int map)
     {
         if (author && *author)
             C_PlayerMessage("%s %s %s by %s.",
-                (M_StringCompare(playername, playername_default) ? "You" : playername),
-                (samelevel ? "reentered" : "entered"), maptitle, author);
+                C_GetPlayerName(), (samelevel ? "reentered" : "entered"), maptitle, author);
         else
             C_PlayerMessage("%s %s %s.",
-                (M_StringCompare(playername, playername_default) ? "You" : playername),
-                (samelevel ? "reentered" : "entered"), maptitle);
+                C_GetPlayerName(), (samelevel ? "reentered" : "entered"), maptitle);
     }
     else
     {
@@ -3351,12 +3349,10 @@ void P_SetupLevel(int ep, int map)
 
         if (author && *author)
             C_PlayerMessage("%s %s " ITALICS("%s") " by %s.",
-                (M_StringCompare(playername, playername_default) ? "You" : playername),
-                (samelevel ? "reentered" : "entered"), temp, author);
+                C_GetPlayerName(), (samelevel ? "reentered" : "entered"), temp, author);
         else
             C_PlayerMessage("%s %s " ITALICS("%s") "%s",
-                (M_StringCompare(playername, playername_default) ? "You" : playername),
-                (samelevel ? "reentered" : "entered"), temp,
+                C_GetPlayerName(), (samelevel ? "reentered" : "entered"), temp,
                 (ispunctuation(temp[strlen(temp) - 1]) ? "" : "."));
 
         free(temp);

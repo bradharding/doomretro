@@ -869,7 +869,7 @@ static void F_CastDrawer(void)
     V_DrawPagePatch(0, patch);
 
     if (type == MT_PLAYER && M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
-        F_CastPrint(M_StringCompare(playername, playername_default) ? "You" : playername);
+        F_CastPrint(C_GetPlayerName());
     else
         F_CastPrint(*castorder[castnum].dehackedname);
 

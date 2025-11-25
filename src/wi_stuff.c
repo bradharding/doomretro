@@ -1092,12 +1092,10 @@ static void WI_InitStats(void)
     cnt_pause = TICRATE;
 
     if (M_StringCompare(maptitle, mapnumandtitle))
-        C_PlayerMessage("%s finished %s!",
-            (M_StringCompare(playername, playername_default) ? "You" : playername), mapname);
+        C_PlayerMessage("%s finished %s!", C_GetPlayerName(), mapname);
     else
         C_PlayerMessage("%s finished " ITALICS("%s%s"),
-            (M_StringCompare(playername, playername_default) ? "You" : playername), mapname,
-            (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+            C_GetPlayerName(), mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
 
     temp1 = commify(wbs->skills);
     temp2 = commify(wbs->maxkills);

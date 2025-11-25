@@ -1179,8 +1179,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 }
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6,
-                    (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    (M_StringCompare(playername, playername_default) ? "" : "s"));
+                    C_GetPlayerName(), (M_StringCompare(playername, playername_default) ? "" : "s"));
 
                 if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
@@ -1204,8 +1203,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 }
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3,
-                    (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    (M_StringCompare(playername, playername_default) ? "" : "s"));
+                    C_GetPlayerName(), (M_StringCompare(playername, playername_default) ? "" : "s"));
 
                 if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
@@ -2505,8 +2503,7 @@ static void P_SecretFound(void)
 {
     char    buffer[133] = "";
 
-    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE,
-        (M_StringCompare(playername, playername_default) ? "you" : playername));
+    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, C_GetPlayerName());
     C_PlayerMessage(buffer);
 
     if (messages && secretmessages)
@@ -2845,7 +2842,7 @@ void P_SpawnSpecials(void)
             timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
             C_Output("A " BOLD("-timer") " parameter was found on the command-line. A timer "
                 "has been set for %s minute%s. %s will automatically exit each map once the timer runs out.",
-                temp, (minutes == 1 ? "" : "s"), (M_StringCompare(playername, playername_default) ? "You" : playername));
+                temp, (minutes == 1 ? "" : "s"), C_GetPlayerName());
             P_SetTimer(minutes);
             free(temp);
         }
@@ -2856,7 +2853,7 @@ void P_SpawnSpecials(void)
         P_SetTimer(20);
         C_Output("An " BOLD("-avg") " parameter was found on the command-line. A timer "
             "has been set for %i minutes. %s will automatically exit each map once the timer runs out.",
-            timer, (M_StringCompare(playername, playername_default) ? "You" : playername));
+            timer, C_GetPlayerName());
     }
 
     // Init special SECTORs.

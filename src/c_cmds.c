@@ -122,21 +122,21 @@
 #define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("%s") "%s"
 #define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("%s") "%s"
 
-#define INTEGERCVARWITHDEFAULT          "It is currently set to " BOLD("%s") " and is " BOLD("%s") " by default."
-#define INTEGERCVARWITHNODEFAULT        "It is currently set to " BOLD("%s") "."
-#define INTEGERCVARISDEFAULT            "It is currently set to its default of " BOLD("%s") "."
-#define COLORCVARWITHDEFAULT            "It is currently set to {%s} and is {%s} by default."
-#define COLORCVARISDEFAULT              "It is currently set to its default of {%s}."
-#define DEGREESCVARWITHDEFAULT          "It is currently set to " BOLD("%i\xB0") " and is " BOLD("%i\xB0") " by default."
-#define DEGREESCVARISDEFAULT            "It is currently set to its default of " BOLD("%i\xB0") "."
-#define PERCENTCVARWITHDEFAULT          "It is currently set to " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
-#define PERCENTCVARWITHNODEFAULT        "It is currently set to " BOLD("%s%%") "."
-#define PERCENTCVARISDEFAULT            "It is currently set to its default of " BOLD("%s%%") "."
-#define STRINGCVARWITHDEFAULT           "It is currently set to " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
-#define STRINGCVARWITHNODEFAULT         "It is currently set to " BOLD("%s%s%s") "."
-#define STRINGCVARISDEFAULT             "It is currently set to its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT1          "It is currently set to " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
-#define TIMECVARWITHNODEFAULT2          "It is currently set to " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
+#define INTEGERCVARWITHDEFAULT          "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHNODEFAULT        "It is currently " BOLD("%s") "."
+#define INTEGERCVARISDEFAULT            "It is currently its default of " BOLD("%s") "."
+#define COLORCVARWITHDEFAULT            "It is currently {%s} and is {%s} by default."
+#define COLORCVARISDEFAULT              "It is currently its default of {%s}."
+#define DEGREESCVARWITHDEFAULT          "It is currently " BOLD("%i\xB0") " and is " BOLD("%i\xB0") " by default."
+#define DEGREESCVARISDEFAULT            "It is currently its default of " BOLD("%i\xB0") "."
+#define PERCENTCVARWITHDEFAULT          "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHNODEFAULT        "It is currently " BOLD("%s%%") "."
+#define PERCENTCVARISDEFAULT            "It is currently its default of " BOLD("%s%%") "."
+#define STRINGCVARWITHDEFAULT           "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHNODEFAULT         "It is currently " BOLD("%s%s%s") "."
+#define STRINGCVARISDEFAULT             "It is currently its default of " BOLD("\"%s\"") "."
+#define TIMECVARWITHNODEFAULT1          "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2          "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
 
 #define INTEGERCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to " BOLD("%s") "."
 #define INTEGERCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s") " to " BOLD("%s") "."
@@ -153,6 +153,12 @@
 #define STRINGCVARCHANGED               "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
 #define STRINGCVARCHANGEDFROMDEFAULT    "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
 #define STRINGCVARCHANGEDTODEFAULT      "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " back to its default of " BOLD("\"%s\"") "."
+
+#define INTEGERCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s") "."
+#define COLORCVARSAMEWARNING            "The " BOLD("%s") " CVAR is already {%s}."
+#define DEGREESCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%i\xB0") "."
+#define PERCENTCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s%%") "."
+#define STRINGCVARSAMEWARNING           "The " BOLD("%s") " CVAR is already " BOLD("\"%s\"") "."
 
 #define INDENT                          "       "
 
@@ -481,7 +487,6 @@ static void am_rotatemode_func2(char *cmd, char *parms);
 static bool armortype_func1(char *cmd, char *parms);
 static void armortype_func2(char *cmd, char *parms);
 static void autotilt_func2(char *cmd, char *parms);
-static bool english_func1(char *cmd, char *parms);
 static void english_func2(char *cmd, char *parms);
 static void episode_func2(char *cmd, char *parms);
 static void expansion_func2(char *cmd, char *parms);
@@ -519,14 +524,11 @@ static bool s_volume_cvars_func1(char *cmd, char *parms);
 static void s_volume_cvars_func2(char *cmd, char *parms);
 static void savegame_func2(char *cmd, char *parms);
 static void skilllevel_func2(char *cmd, char *parms);
-static bool sucktime_func1(char *cmd, char *parms);
-static void sucktime_func2(char *cmd, char *parms);
 static void turbo_func2(char *cmd, char *parms);
 static void vid_aspectratio_func2(char *cmd, char *parms);
 static void vid_blue_func2(char *cmd, char *parms);
 static void vid_borderlesswindow_func2(char *cmd, char *parms);
 static void vid_brightness_func2(char *cmd, char *parms);
-static void vid_capfps_func2(char *cmd, char *parms);
 static void vid_contrast_func2(char *cmd, char *parms);
 static void vid_display_func2(char *cmd, char *parms);
 static void vid_fullscreen_func2(char *cmd, char *parms);
@@ -540,7 +542,6 @@ static bool vid_scalefilter_func1(char *cmd, char *parms);
 static void vid_scalefilter_func2(char *cmd, char *parms);
 static void vid_screenresolution_func2(char *cmd, char *parms);
 static void vid_showfps_func2(char *cmd, char *parms);
-static bool vid_vsync_func1(char *cmd, char *parms);
 static void vid_vsync_func2(char *cmd, char *parms);
 static void vid_widescreen_func2(char *cmd, char *parms);
 static void vid_windowpos_func2(char *cmd, char *parms);
@@ -630,7 +631,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_followmode, "", "", game_cvar_func1, am_followmode_func2, CF_MAPRESET, BOOLVALUEALIAS,
-        "Toggles follow mode in the automap."),
+        "Toggles following you in the automap."),
     CVAR_BOOL(am_grid, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
     CVAR_INT(am_gridcolor, am_gridcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
@@ -658,7 +659,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_redkeycolor, am_redkeycolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of red keycards and skull keys in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_rotatemode, "", "", bool_cvars_func1, am_rotatemode_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles rotate mode in the automap."),
+        "Toggles rotating around you in the automap."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_thingcolor, am_thingcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
@@ -720,7 +721,7 @@ consolecmd_t consolecmds[] =
         "Lists all console variables."),
     CCMD(endgame, "", "", null_func1, endgame_func2, false, "",
         "Ends the game."),
-    CVAR_BOOL(english, "", "", english_func1, english_func2, CF_NONE, ENGLISHVALUEALIAS,
+    CVAR_BOOL(english, "", "", int_cvars_func1, english_func2, CF_NONE, ENGLISHVALUEALIAS,
         "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
     CVAR_INT(episode, "", "", int_cvars_func1, episode_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("6") ")."),
@@ -1039,7 +1040,7 @@ consolecmd_t consolecmds[] =
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount your view and weapon bob up and down when you stand still (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_INT(sucktime, "", "", sucktime_func1, sucktime_func2, CF_NONE, SUCKSVALUEALIAS,
+    CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, SUCKSVALUEALIAS,
         "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or " BOLD("1") " to " BOLD("24") " hours)."),
     CCMD(take, "", "", take_func1, take_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups") ", or " BOLD("all")
@@ -1073,7 +1074,7 @@ consolecmd_t consolecmds[] =
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_brightness, "", "", int_cvars_func1, vid_brightness_func2, CF_PERCENT, NOVALUEALIAS,
         "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_capfps, "", "", int_cvars_func1, vid_capfps_func2, CF_NONE, CAPVALUEALIAS,
+    CVAR_INT(vid_capfps, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
         "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_contrast, "", "", int_cvars_func1, vid_contrast_func2, CF_PERCENT, NOVALUEALIAS,
@@ -1111,10 +1112,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
 #if defined(__APPLE__)
-    CVAR_INT(vid_vsync, "", "", vid_vsync_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
+    CVAR_INT(vid_vsync, "", "", int_cvars_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
         "Toggles vertical sync with the display's refresh rate (" BOLD("on") " or " BOLD("off") ")."),
 #else
-    CVAR_INT(vid_vsync, "", "", vid_vsync_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
+    CVAR_INT(vid_vsync, "", "", int_cvars_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
         "Toggles vertical sync with the display's refresh rate (" BOLD("on") ", " BOLD("off") " or " BOLD("adaptive") ")."),
 #endif
     CVAR_BOOL(vid_widescreen, "", "", bool_cvars_func1, vid_widescreen_func2, CF_NONE, BOOLVALUEALIAS,
@@ -3432,8 +3433,8 @@ static void give_func2(char *cmd, char *parms)
                 {
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                         C_Warning(0, "%s can't be given %s %s in " ITALICS("%s") "!",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
+                            C_GetPlayerName(), (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"),
+                            mobjinfo[i].name1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
@@ -3487,8 +3488,7 @@ static void give_func2(char *cmd, char *parms)
                         }
                         else
                         {
-                            C_Warning(0, "%s can't be given another %s!",
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), mobjinfo[i].name1);
+                            C_Warning(0, "%s can't be given another %s!", C_GetPlayerName(), mobjinfo[i].name1);
 
                             P_RemoveMobj(thing);
                         }
@@ -4857,8 +4857,7 @@ static void map_func2(char *cmd, char *parms)
     if ((samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && !*speciallumpname)))
         M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEVSAME, mapcmdlump);
     else
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV,
-            (M_StringCompare(playername, playername_default) ? "you" : playername), mapcmdlump);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV, C_GetPlayerName(), mapcmdlump);
 
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
@@ -6769,8 +6768,7 @@ static void C_PlayerStats_Game(void)
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled_total);
     C_TabbedOutput(tabs, "Monsters %s %s\t%s of %s (%i%%)\t%s",
-        (M_StringCompare(playername, playername_default) ? "you" : playername), s_KILLED,
-        temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+        C_GetPlayerName(), s_KILLED, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -7397,8 +7395,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters %s %s\t\x96\t%s",
-        (M_StringCompare(playername, playername_default) ? "you" : playername), s_KILLED, temp1);
+    C_TabbedOutput(tabs, "Monsters %s %s\t\x96\t%s", C_GetPlayerName(), s_KILLED, temp1);
     free(temp1);
 
     if (gamemode == commercial)
@@ -8924,15 +8921,11 @@ static void spawn_func2(char *cmd, char *parms)
                     }
 
                     if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
-                        C_PlayerMessage("%s spawned %s.",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            mobjinfo[type].name1);
+                        C_PlayerMessage("%s spawned %s.", C_GetPlayerName(), mobjinfo[type].name1);
                     else
                         C_PlayerMessage("%s spawned %s %s%s.",
-                            (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
-                            (spawncmdfriendly ? "friendly " : ""),
-                            mobjinfo[type].name1);
+                            C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                            (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
 
                     C_HideConsole();
                 }
@@ -8941,12 +8934,10 @@ static void spawn_func2(char *cmd, char *parms)
             {
                 if (spawncmdtype == GreenArmor || spawncmdtype == BlueArmor)
                     C_Warning(0, "There isn't enough room around %s to spawn %s!",
-                        (M_StringCompare(playername, playername_default) ? "you" : playername),
-                        mobjinfo[type].name1);
+                        C_GetPlayerName(), mobjinfo[type].name1);
                 else
                     C_Warning(0, "There isn't enough room around %s to spawn %s %s%s!",
-                        (M_StringCompare(playername, playername_default) ? "you" : playername),
-                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                        C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
                         (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
             }
         }
@@ -9086,8 +9077,7 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("Everything was taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("Everything was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9133,8 +9123,7 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All weapons have been taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All weapons have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9156,8 +9145,7 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All ammo was taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All ammo was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9174,8 +9162,7 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 C_PlayerWarning("All %s was taken from %s!",
-                    (english == english_american ? "armor" : "armour"),
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                    (english == english_american ? "armor" : "armour"), C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9197,8 +9184,7 @@ static void take_func2(char *cmd, char *parms)
             if (result)
             {
                 P_LookForCards();
-                C_PlayerWarning("All keycards and skull keys have been taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All keycards and skull keys have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9214,8 +9200,7 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
                 P_LookForCards();
-                C_PlayerWarning("All keycards have been taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All keycards have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9231,8 +9216,7 @@ static void take_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
                 P_LookForCards();
-                C_PlayerWarning("All skull keys have been taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All skull keys have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9249,8 +9233,7 @@ static void take_func2(char *cmd, char *parms)
 
                 P_CheckAmmo(viewplayer->readyweapon);
 
-                C_PlayerWarning("A pistol was taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("A pistol was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9269,8 +9252,7 @@ static void take_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerWarning("All power-ups have been taken from %s!",
-                    (M_StringCompare(playername, playername_default) ? "you" : playername));
+                C_PlayerWarning("All power-ups have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -9297,14 +9279,12 @@ static void take_func2(char *cmd, char *parms)
                         {
                             char    *temp4 = sentencecase(mobjinfo[i].name1);
 
-                            C_PlayerWarning("%s was taken from %s!", temp4,
-                                (M_StringCompare(playername, playername_default) ? "you" : playername));
+                            C_PlayerWarning("%s was taken from %s!", temp4, C_GetPlayerName());
                             free(temp4);
                         }
                         else
                             C_PlayerWarning("%s %s was taken from %s!",
-                                (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1,
-                                (M_StringCompare(playername, playername_default) ? "you" : playername));
+                                (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, C_GetPlayerName());
 
                         if (viewplayer->health <= 0)
                         {
@@ -9471,7 +9451,7 @@ static void thinglist_func2(char *cmd, char *parms)
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
-            M_StringCopy(name, (M_StringCompare(playername, playername_default) ? "You" : playername), sizeof(name));
+            M_StringCopy(name, C_GetPlayerName(), sizeof(name));
         else if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
@@ -9739,31 +9719,37 @@ static void bool_cvars_func2(char *cmd, char *parms)
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
                 const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+                char        *temp1 = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                if ((value == 0 || value == 1) && value != *(bool *)consolecmds[i].variable)
+                if (value == *(bool *)consolecmds[i].variable)
                 {
-                    char    *temp1 = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
+                    if (!resettingcvar)
+                        C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
+                }
+                else if (value == 0 || value == 1)
+                {
                     char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                     if (!resettingcvar)
                     {
                         if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
                             C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                                C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                         else if (value == (bool)consolecmds[i].defaultnumber)
                             C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                                C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                         else
                             C_Output(INTEGERCVARCHANGED,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                                C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                     }
 
                     *(bool *)consolecmds[i].variable = value;
                     M_SaveCVARs();
 
-                    free(temp1);
                     free(temp2);
                 }
+
+                free(temp1);
             }
             else
             {
@@ -9833,29 +9819,39 @@ static void float_cvars_func2(char *cmd, char *parms)
 
                 M_StringReplaceAll(parms, ",", "", false);
 
-                if (sscanf(parms, "%10f", &value) == 1 && value != *(float *)consolecmds[i].variable)
+                if (sscanf(parms, "%10f", &value) == 1)
                 {
                     char    *temp1 = striptrailingzero(*(float *)consolecmds[i].variable, 1);
-                    char    *temp2 = striptrailingzero(value, 1);
 
-                    if (!resettingcvar)
+                    if (value == *(float *)consolecmds[i].variable)
                     {
-                        if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
-                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        else if (value == consolecmds[i].defaultnumber)
-                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        else
-                            C_Output(INTEGERCVARCHANGED,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        if (!resettingcvar)
+                            C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
+                    }
+                    else
+                    {
+                        char    *temp2 = striptrailingzero(value, 1);
+
+                        if (!resettingcvar)
+                        {
+                            if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
+                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                            else if (value == consolecmds[i].defaultnumber)
+                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                            else
+                                C_Output(INTEGERCVARCHANGED,
+                                    C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                        }
+
+                        *(float *)consolecmds[i].variable = value;
+                        M_SaveCVARs();
+
+                        free(temp2);
                     }
 
-                    *(float *)consolecmds[i].variable = value;
-                    M_SaveCVARs();
-
                     free(temp1);
-                    free(temp2);
                 }
             }
             else
@@ -9916,56 +9912,73 @@ static void int_cvars_func2(char *cmd, char *parms)
 
                 M_StringReplaceAll(parms, ",", "", false);
 
-                if ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1) && value != *(int *)consolecmds[i].variable)
+                if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
-                    char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                    if (!resettingcvar)
+                    if (value == *(int *)consolecmds[i].variable)
                     {
-                        if (consolecmds[i].flags & CF_PERCENT)
+                        if (!resettingcvar)
                         {
-                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                            else if (value == (int)consolecmds[i].defaultnumber)
-                                C_Output(PERCENTCVARCHANGEDTODEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                            if (consolecmds[i].flags & CF_PERCENT)
+                                C_Warning(0, PERCENTCVARSAMEWARNING, consolecmds[i].name, temp1);
+                            else if (consolecmds[i].flags & CF_COLOR)
+                                C_Warning(0, COLORCVARSAMEWARNING, consolecmds[i].name, temp1);
                             else
-                                C_Output(PERCENTCVARCHANGED,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        }
-                        else if (consolecmds[i].flags & CF_COLOR)
-                        {
-                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                C_Output(COLORCVARCHANGEDFROMDEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                            else if (value == (int)consolecmds[i].defaultnumber)
-                                C_Output(COLORCVARCHANGEDTODEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                            else
-                                C_Output(COLORCVARCHANGED,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        }
-                        else
-                        {
-                            if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                            else if (value == (int)consolecmds[i].defaultnumber)
-                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                            else
-                                C_Output(INTEGERCVARCHANGED,
-                                    (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                                C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
                         }
                     }
+                    else
+                    {
+                        char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                    *(int *)consolecmds[i].variable = value;
-                    M_SaveCVARs();
+                        if (!resettingcvar)
+                        {
+                            if (consolecmds[i].flags & CF_PERCENT)
+                            {
+                                if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                    C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else if (value == (int)consolecmds[i].defaultnumber)
+                                    C_Output(PERCENTCVARCHANGEDTODEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else
+                                    C_Output(PERCENTCVARCHANGED,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                            }
+                            else if (consolecmds[i].flags & CF_COLOR)
+                            {
+                                if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                    C_Output(COLORCVARCHANGEDFROMDEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else if (value == (int)consolecmds[i].defaultnumber)
+                                    C_Output(COLORCVARCHANGEDTODEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else
+                                    C_Output(COLORCVARCHANGED,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                            }
+                            else
+                            {
+                                if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
+                                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else if (value == (int)consolecmds[i].defaultnumber)
+                                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                else
+                                    C_Output(INTEGERCVARCHANGED,
+                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                            }
+                        }
+
+                        *(int *)consolecmds[i].variable = value;
+                        M_SaveCVARs();
+
+                        free(temp2);
+                    }
 
                     free(temp1);
-                    free(temp2);
                 }
             }
             else
@@ -10032,22 +10045,21 @@ static void str_cvars_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_STRING))
         {
-            if (M_StringCompare(parms, EMPTYVALUE) && *(char **)consolecmds[i].variable && !(consolecmds[i].flags & CF_READONLY))
+            if (M_StringCompare(parms, EMPTYVALUE) && !(consolecmds[i].flags & CF_READONLY))
             {
                 if (!resettingcvar)
                 {
-                    if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                    if (!*(char **)consolecmds[i].variable)
+                        C_Warning(0, STRINGCVARSAMEWARNING, consolecmds[i].name, "");
+                    else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                         C_Output(STRINGCVARCHANGEDFROMDEFAULT,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                            *(char **)consolecmds[i].variable, "");
+                            C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, "");
                     else if (M_StringCompare(parms, consolecmds[i].defaultstring))
                         C_Output(STRINGCVARCHANGEDTODEFAULT,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                            *(char **)consolecmds[i].variable, "");
+                            C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, "");
                     else
                         C_Output(STRINGCVARCHANGED,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                            *(char **)consolecmds[i].variable, "");
+                            C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, "");
                 }
 
                 *(char **)consolecmds[i].variable = "";
@@ -10059,18 +10071,17 @@ static void str_cvars_func2(char *cmd, char *parms)
                 {
                     if (!resettingcvar)
                     {
-                        if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                        if (M_StringCompare(parms, *(char **)consolecmds[i].variable))
+                            C_Warning(0, STRINGCVARSAMEWARNING, consolecmds[i].name, parms);
+                        else if (M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                             C_Output(STRINGCVARCHANGEDFROMDEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                                *(char **)consolecmds[i].variable, parms);
+                                C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, parms);
                         else if (M_StringCompare(parms, consolecmds[i].defaultstring))
                             C_Output(STRINGCVARCHANGEDTODEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                                *(char **)consolecmds[i].variable, parms);
+                                C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, parms);
                         else
                             C_Output(STRINGCVARCHANGED,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                                *(char **)consolecmds[i].variable, parms);
+                                C_GetPlayerName(), consolecmds[i].name, *(char **)consolecmds[i].variable, parms);
                     }
 
                     *(char **)consolecmds[i].variable = M_StringDuplicate(parms);
@@ -10205,36 +10216,12 @@ static void am_external_func2(char *cmd, char *parms)
 //
 static void am_followmode_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const bool  am_followmode_old = am_followmode;
+    const bool  am_followmode_old = am_followmode;
 
-        bool_cvars_func2(cmd, parms);
+    bool_cvars_func2(cmd, parms);
 
-        if (automapactive && am_followmode != am_followmode_old)
-            AM_ToggleFollowMode(am_followmode);
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(am_followmode, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (am_followmode == am_followmode_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(am_followmode_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (automapactive && am_followmode != am_followmode_old)
+        AM_ToggleFollowMode(am_followmode);
 }
 
 //
@@ -10244,33 +10231,34 @@ static void am_gridsize_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(am_gridsize, parms))
+        if (M_StringCompare(am_gridsize, parms))
         {
             if (!resettingcvar)
-            {
-                if (M_StringCompare(am_gridsize, am_gridsize_default))
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        am_gridsize, parms);
-                else if (M_StringCompare(parms, am_gridsize_default))
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        am_gridsize, parms);
-                else
-                    C_Output(INTEGERCVARCHANGED,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        am_gridsize, parms);
-            }
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(am_gridsize), parms);
 
-            am_gridsize = M_StringDuplicate(parms);
-            AM_GetGridSize();
-
-            M_SaveCVARs();
+            return;
         }
+        else if (!resettingcvar)
+        {
+            if (M_StringCompare(am_gridsize, am_gridsize_default))
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
+            else if (M_StringCompare(parms, am_gridsize_default))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
+        }
+
+        am_gridsize = M_StringDuplicate(parms);
+        AM_GetGridSize();
+
+        M_SaveCVARs();
     }
     else
     {
-        const int   i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(stringize(am_gridsize));
 
         C_ShowDescription(i);
 
@@ -10323,48 +10311,17 @@ static bool armortype_func1(char *cmd, char *parms)
 
 static void armortype_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS);
+    const int   armortype_old = armortype;
 
-        if (value != INT_MIN && viewplayer->armor)
+    int_cvars_func2(cmd, parms);
+
+    if (armortype != armortype_old)
+    {
+        if (viewplayer->armortype == armortype_none)
         {
-            if (!resettingcvar)
-            {
-                if (viewplayer->armortype == armortype_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        viewplayer->armortype, parms);
-                else if (value == armortype_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        viewplayer->armortype, parms);
-                else
-                    C_Output(INTEGERCVARCHANGED,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        viewplayer->armortype, parms);
-            }
-
-            viewplayer->armortype = value;
-
-            if (value == armortype_none)
-            {
-                P_AnimateArmor(viewplayer->armor);
-                viewplayer->armor = 0;
-            }
+            P_AnimateArmor(viewplayer->armor);
+            viewplayer->armor = 0;
         }
-    }
-    else
-    {
-        char        *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->armortype : armortype_default),
-                        ARMORTYPEVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-        C_Output(INTEGERCVARWITHNODEFAULT, temp);
-        C_ShowWarning(i);
-
-        free(temp);
     }
 }
 
@@ -10390,62 +10347,17 @@ static void autotilt_func2(char *cmd, char *parms)
 //
 // english CVAR
 //
-static bool english_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, ENGLISHVALUEALIAS) != INT_MIN);
-}
-
 static void english_func2(char *cmd, char *parms)
 {
-    if (*parms)
+    const int   english_old = english;
+
+    int_cvars_func2(cmd, parms);
+
+    if (english != english_old)
     {
-        const int   value = C_LookupValueFromAlias(parms, ENGLISHVALUEALIAS);
-
-        if ((value == english_american || value == english_british) && value != english)
-        {
-            if (!resettingcvar)
-            {
-                if (english == english_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        english, parms);
-                else if (value == english_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        english, parms);
-                else
-                    C_Output(INTEGERCVARCHANGED,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd,
-                        english, parms);
-            }
-
-            english = value;
-            ST_InitStatBar();
-            D_TranslateDehStrings();
-            M_TranslateAutocomplete();
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(english, ENGLISHVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (english == english_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(english_default, ENGLISHVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
+        ST_InitStatBar();
+        D_TranslateDehStrings();
+        M_TranslateAutocomplete();
     }
 }
 
@@ -10528,48 +10440,60 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
         {
             if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
             {
-                if (joy_deadzone_left != value)
+                char    *temp1 = striptrailingzero(joy_deadzone_left, 1);
+
+                if (joy_deadzone_left == value)
                 {
-                    char    *temp1 = striptrailingzero(joy_deadzone_left, 1);
+                    if (!resettingcvar)
+                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_left), temp1);
+
+                    return;
+
+                }
+                else if (!resettingcvar)
+                {
                     char    *temp2 = striptrailingzero(value, 1);
 
-                    if (!resettingcvar)
-                    {
-                        if (joy_deadzone_left == joy_deadzone_left_default)
-                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        else if (value == joy_deadzone_left_default)
-                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                        else
-                            C_Output(INTEGERCVARCHANGED,
-                                (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
-                    }
+                    if (joy_deadzone_left == joy_deadzone_left_default)
+                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                    else if (value == joy_deadzone_left_default)
+                        C_Output(INTEGERCVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                    else
+                        C_Output(INTEGERCVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
 
-                    joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
-                    I_SetControllerLeftDeadZone();
-                    M_SaveCVARs();
-
-                    free(temp1);
                     free(temp2);
                 }
+
+                joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
+                I_SetControllerLeftDeadZone();
+                M_SaveCVARs();
+
+                free(temp1);
             }
-            else if (joy_deadzone_right != value)
+            else
             {
                 char    *temp1 = striptrailingzero(joy_deadzone_right, 1);
-                char    *temp2 = striptrailingzero(value, 1);
 
-                if (!resettingcvar)
+                if (joy_deadzone_right == value)
                 {
+                    if (!resettingcvar)
+                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_right), temp1);
+
+                    return;
+
+                }
+                else if (!resettingcvar)
+                {
+                    char    *temp2 = striptrailingzero(value, 1);
+
                     if (joy_deadzone_right == joy_deadzone_right_default)
-                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else if (value == joy_deadzone_right_default)
-                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        C_Output(INTEGERCVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else
-                        C_Output(INTEGERCVARCHANGED,
-                            (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, temp1, temp2);
+                        C_Output(INTEGERCVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
+
+                    free(temp2);
                 }
 
                 joy_deadzone_right = BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
@@ -10577,7 +10501,6 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
                 M_SaveCVARs();
 
                 free(temp1);
-                free(temp2);
             }
         }
     }
@@ -10663,9 +10586,11 @@ static void player_cvars_func2(char *cmd, char *parms)
 
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo
-                && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
+            if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo && viewplayer->health > 0)
             {
+                char   *temp1 = commify(viewplayer->ammo[ammotype]);
+                char   *temp2 = commify(value);
+
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
                 if (value > viewplayer->maxammo[ammotype] && !viewplayer->backpack)
@@ -10680,12 +10605,37 @@ static void player_cvars_func2(char *cmd, char *parms)
                 else
                     S_StartSound(viewplayer->mo, weaponinfo[readyweapon].sound);
 
+                if (viewplayer->ammo[ammotype] == value)
+                {
+                    if (!resettingcvar)
+                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(ammo), temp1);
+
+                    free(temp1);
+                    free(temp2);
+                    return;
+                }
+                else if (!resettingcvar)
+                {
+                    if (viewplayer->ammo[ammotype] == value)
+                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            C_GetPlayerName(), stringize(ammo), temp1, temp2);
+                    else if (value == ammo_default)
+                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                            C_GetPlayerName(), stringize(ammo), temp1, temp2);
+                    else
+                        C_Output(INTEGERCVARCHANGED,
+                            C_GetPlayerName(), stringize(ammo), temp1, temp2);
+                }
+
                 P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
                 viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
 
                 if (viewplayer->pendingweapon != wp_nochange)
                     C_HideConsole();
+
+                free(temp1);
+                free(temp2);
             }
         }
         else
@@ -10712,8 +10662,11 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armor)
+            if (sscanf(parms, "%10i", &value) == 1)
             {
+                char   *temp1 = commify(viewplayer->armor);
+                char   *temp2 = commify(value);
+
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
                 if ((value = MIN(value, max_armor)) > viewplayer->armor)
@@ -10727,10 +10680,35 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                 P_AnimateArmor(viewplayer->armor - value);
 
+                if (viewplayer->armor == value)
+                {
+                    if (!resettingcvar)
+                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(armor), temp1);
+
+                    free(temp1);
+                    free(temp2);
+                    return;
+                }
+                else if (!resettingcvar)
+                {
+                    if (viewplayer->armor == value)
+                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            C_GetPlayerName(), stringize(armor), temp1, temp2);
+                    else if (value == armor_default)
+                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                            C_GetPlayerName(), stringize(armor), temp1, temp2);
+                    else
+                        C_Output(INTEGERCVARCHANGED,
+                            C_GetPlayerName(), stringize(armor), temp1, temp2);
+                }
+
                 if (!(viewplayer->armor = value))
                     viewplayer->armortype = armortype_none;
                 else if (!viewplayer->armortype)
                     viewplayer->armortype = green_armor_class;
+
+                free(temp1);
+                free(temp2);
             }
         }
         else
@@ -10760,10 +10738,16 @@ static void player_cvars_func2(char *cmd, char *parms)
                 && ((!negativehealth && value != viewplayer->health)
                 || (negativehealth && (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth)))))
             {
+                char   *temp1;
+                char   *temp2;
+
                 value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 P_AnimateHealth(viewplayer->health - value);
+
+                temp1 = commify(viewplayer->health);
+                temp2 = commify(value);
 
                 if (viewplayer->health <= 0)
                 {
@@ -10771,6 +10755,19 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         if (value < viewplayer->health)
                             viewplayer->damagecount = viewplayer->health - value;
+
+                        if (!resettingcvar)
+                        {
+                            if (viewplayer->health == value)
+                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else if (value == health_default)
+                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else
+                                C_Output(INTEGERCVARCHANGED,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                        }
 
                         viewplayer->health = value;
                         viewplayer->negativehealth = value;
@@ -10795,6 +10792,19 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     if (value < viewplayer->health)
                     {
+                        if (!resettingcvar)
+                        {
+                            if (viewplayer->health == value)
+                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else if (value == health_default)
+                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else
+                                C_Output(INTEGERCVARCHANGED,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                        }
+
                         viewplayer->damagecount = viewplayer->health - value;
                         viewplayer->health = value;
                         viewplayer->negativehealth = value;
@@ -10811,6 +10821,19 @@ static void player_cvars_func2(char *cmd, char *parms)
                     }
                     else
                     {
+                        if (!resettingcvar)
+                        {
+                            if (viewplayer->health == value)
+                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else if (value == health_default)
+                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                            else
+                                C_Output(INTEGERCVARCHANGED,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
+                        }
+
                         P_UpdateHealthStat(value - viewplayer->health);
                         viewplayer->health = value;
                         viewplayer->negativehealth = value;
@@ -10819,12 +10842,15 @@ static void player_cvars_func2(char *cmd, char *parms)
                         S_StartSound(viewplayer->mo, sfx_itemup);
                     }
                 }
+
+                free(temp1);
+                free(temp2);
             }
         }
         else
         {
             char    *temp = commify(gamestate == GS_LEVEL ? (negativehealth && minuspatch && !viewplayer->health ?
-                        viewplayer->negativehealth : viewplayer->health) : health_default);
+                                viewplayer->negativehealth : viewplayer->health) : health_default);
 
             C_ShowDescription(C_GetIndex(cmd));
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
@@ -11000,19 +11026,26 @@ static void r_fov_func2(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && value != r_fov)
+        if (sscanf(parms, "%10i", &value) == 1)
         {
-            if (!resettingcvar)
+            if (value == r_fov)
+            {
+                if (!resettingcvar)
+                    C_Warning(0, DEGREESCVARSAMEWARNING, stringize(r_fov), r_fov);
+
+                return;
+            }
+            else if (!resettingcvar)
             {
                 if (r_fov == r_fov_default)
                     C_Output(DEGREESCVARCHANGEDFROMDEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+                        C_GetPlayerName(), stringize(r_fov), r_fov, value);
                 else if (value == r_fov_default)
                     C_Output(DEGREESCVARCHANGEDTODEFAULT,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+                        C_GetPlayerName(), stringize(r_fov), r_fov, value);
                 else
                     C_Output(DEGREESCVARCHANGED,
-                        (M_StringCompare(playername, playername_default) ? "You" : playername), cmd, r_fov, value);
+                        C_GetPlayerName(), stringize(r_fov), r_fov, value);
             }
 
             r_fov = value;
@@ -11052,12 +11085,41 @@ static void r_gamma_func2(char *cmd, char *parms)
     {
         float   value = (float)C_LookupValueFromAlias(parms, GAMMAVALUEALIAS);
 
-        if ((value != INT_MIN || sscanf(parms, "%10f", &value) == 1) && value != r_gamma)
+        if ((value != INT_MIN || sscanf(parms, "%10f", &value) == 1))
         {
+            char    *temp1 = (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 1));
+
+            if (r_gamma == value)
+            {
+                if (!resettingcvar)
+                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_gamma), temp1);
+
+                free(temp1);
+                return;
+            }
+            else if (!resettingcvar)
+            {
+                char    *temp2 = (value == 1.0f ? "off" : striptrailingzero(value, 1));
+
+                if (r_gamma == r_gamma_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+                else if (value == r_gamma_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+
+                free(temp2);
+            }
+
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
             I_UpdateColors();
             M_SaveCVARs();
+
+            free(temp1);
         }
     }
     else
@@ -11146,13 +11208,34 @@ static void r_lowpixelsize_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
+        if (M_StringCompare(r_lowpixelsize, parms))
+        {
+            if (!resettingcvar)
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_lowpixelsize), parms);
+
+            return;
+        }
+        else if (!resettingcvar)
+        {
+            if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
+            else if (M_StringCompare(parms, r_lowpixelsize_default))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
+        }
+
         r_lowpixelsize = M_StringDuplicate(parms);
-        M_SaveCVARs();
         GetPixelSize();
+
+        M_SaveCVARs();
     }
     else
     {
-        const int   i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(stringize(r_lowpixelsize));
 
         C_ShowDescription(i);
 
@@ -11247,6 +11330,33 @@ static void r_screensize_func2(char *cmd, char *parms)
 
         if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
         {
+            char    *temp1 = commify(r_screensize);
+
+            if (r_screensize == value)
+            {
+                if (!resettingcvar)
+                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_screensize), temp1);
+
+                free(temp1);
+                return;
+            }
+            else if (!resettingcvar)
+            {
+                char    *temp2 = commify(value);
+
+                if (r_screensize == r_screensize_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
+                else if (value == r_screensize_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
+
+                free(temp2);
+            }
+
             r_screensize = value;
             S_StartSound(NULL, sfx_stnmov);
             R_SetViewSize(r_screensize);
@@ -11277,6 +11387,8 @@ static void r_screensize_func2(char *cmd, char *parms)
 
             if (r_playersprites)
                 skippsprinterp = true;
+
+            free(temp1);
         }
     }
     else
@@ -11447,8 +11559,35 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
             return;
 
-        if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
+        if (M_StringCompare(cmd, stringize(s_musicvolume)))
         {
+            char    *temp1 = commify(s_musicvolume);
+
+            if (s_musicvolume == value)
+            {
+                if (!resettingcvar)
+                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(s_musicvolume), temp1);
+
+                free(temp1);
+                return;
+            }
+            else if (!resettingcvar)
+            {
+                char    *temp2 = commify(value);
+
+                if (s_musicvolume == s_musicvolume_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
+                else if (value == s_musicvolume_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
+
+                free(temp2);
+            }
+
             s_musicvolume = value;
             musicvolume = (s_musicvolume * 31 + 50) / 100;
 
@@ -11456,13 +11595,42 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
                 S_LowerMusicVolume();
 
             M_SaveCVARs();
+            free(temp1);
         }
-        else if (s_sfxvolume != value)
+        else
         {
+            char    *temp1 = commify(s_musicvolume);
+
+            if (s_sfxvolume == value)
+            {
+                if (!resettingcvar)
+                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(s_sfxvolume), temp1);
+
+                free(temp1);
+                return;
+            }
+            else if (!resettingcvar)
+            {
+                char    *temp2 = commify(value);
+
+                if (s_sfxvolume == s_sfxvolume_default)
+                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
+                else if (value == s_sfxvolume_default)
+                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
+                else
+                    C_Output(INTEGERCVARCHANGED,
+                        C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
+
+                free(temp2);
+            }
+
             s_sfxvolume = value;
             sfxvolume = (s_sfxvolume * 31 + 50) / 100;
             S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
             M_SaveCVARs();
+            free(temp1);
         }
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
@@ -11539,30 +11707,6 @@ static void skilllevel_func2(char *cmd, char *parms)
 }
 
 //
-// sucktime CVAR
-//
-static bool sucktime_func1(char *cmd, char *parms)
-{
-    return (C_LookupValueFromAlias(parms, SUCKSVALUEALIAS) != INT_MIN || int_cvars_func1(cmd, parms));
-}
-
-static void sucktime_func2(char *cmd, char *parms)
-{
-    const int   value = C_LookupValueFromAlias(parms, SUCKSVALUEALIAS);
-
-    if (value != INT_MIN)
-    {
-        if (value != sucktime)
-        {
-            sucktime = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-        int_cvars_func2(cmd, parms);
-}
-
-//
 // turbo CVAR
 //
 static void turbo_func2(char *cmd, char *parms)
@@ -11636,37 +11780,6 @@ static void vid_brightness_func2(char *cmd, char *parms)
 
     if (vid_brightness != vid_brightness_old)
         I_UpdateColors();
-}
-
-//
-// vid_capfps CVAR
-//
-static void vid_capfps_func2(char *cmd, char *parms)
-{
-    const int   value = C_LookupValueFromAlias(parms, CAPVALUEALIAS);
-
-    if (value != INT_MIN)
-    {
-        if (value != vid_capfps)
-        {
-            vid_capfps = value;
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        const int   vid_capfps_old = vid_capfps;
-
-        int_cvars_func2(cmd, parms);
-
-        if (vid_capfps != vid_capfps_old)
-        {
-            if (vid_capfps)
-                vid_capfps = BETWEEN(TICRATE, vid_capfps, vid_capfps_max);
-
-            M_SaveCVARs();
-        }
-    }
 }
 
 //
@@ -11782,28 +11895,12 @@ static bool vid_scaleapi_func1(char *cmd, char *parms)
 
 static void vid_scaleapi_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        if (!M_StringCompare(parms, vid_scaleapi))
-        {
-            vid_scaleapi = M_StringDuplicate(parms);
-            M_SaveCVARs();
-            I_RestartGraphics(true);
-        }
-    }
-    else
-    {
-        const int   i = C_GetIndex(cmd);
+    const char  *vid_scaleapi_old = M_StringDuplicate(vid_scaleapi);
 
-        C_ShowDescription(i);
+    str_cvars_func2(cmd, parms);
 
-        if (M_StringCompare(vid_scaleapi, vid_scaleapi_default))
-            C_Output(STRINGCVARISDEFAULT, vid_scaleapi);
-        else
-            C_Output(STRINGCVARWITHDEFAULT, vid_scaleapi, vid_scaleapi_default);
-
-        C_ShowWarning(i);
-    }
+    if (!M_StringCompare(vid_scaleapi, vid_scaleapi_old))
+        I_RestartGraphics(true);
 }
 
 //
@@ -11818,28 +11915,12 @@ static bool vid_scalefilter_func1(char *cmd, char *parms)
 
 static void vid_scalefilter_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        if (!M_StringCompare(parms, vid_scalefilter))
-        {
-            vid_scalefilter = M_StringDuplicate(parms);
-            M_SaveCVARs();
-            I_RestartGraphics(false);
-        }
-    }
-    else
-    {
-        const int   i = C_GetIndex(cmd);
+    const char  *vid_scalefilter_old = M_StringDuplicate(vid_scalefilter);
 
-        C_ShowDescription(i);
+    str_cvars_func2(cmd, parms);
 
-        if (M_StringCompare(vid_scalefilter, vid_scalefilter_default))
-            C_Output(STRINGCVARISDEFAULT, vid_scalefilter);
-        else
-            C_Output(STRINGCVARWITHDEFAULT, vid_scalefilter, vid_scalefilter_default);
-
-        C_ShowWarning(i);
-    }
+    if (!M_StringCompare(vid_scalefilter, vid_scalefilter_old))
+        I_RestartGraphics(true);
 }
 
 //
@@ -11849,15 +11930,32 @@ static void vid_screenresolution_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(vid_screenresolution, parms))
+        if (M_StringCompare(vid_screenresolution, parms))
         {
-            vid_screenresolution = M_StringDuplicate(parms);
-            GetScreenResolution();
-            M_SaveCVARs();
+            if (!resettingcvar)
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_screenresolution), parms);
 
-            if (vid_fullscreen)
-                I_RestartGraphics(false);
+            return;
         }
+        else if (!resettingcvar)
+        {
+            if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
+            else if (M_StringCompare(parms, vid_screenresolution_default))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
+        }
+
+        vid_screenresolution = M_StringDuplicate(parms);
+        GetScreenResolution();
+        M_SaveCVARs();
+
+        if (vid_fullscreen)
+            I_RestartGraphics(false);
     }
     else
     {
@@ -11900,45 +11998,14 @@ static void vid_showfps_func2(char *cmd, char *parms)
 //
 // vid_vsync CVAR
 //
-static bool vid_vsync_func1(char *cmd, char *parms)
-{
-    return (!*parms || C_LookupValueFromAlias(parms, VSYNCVALUEALIAS) != INT_MIN);
-}
-
 static void vid_vsync_func2(char *cmd, char *parms)
 {
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, VSYNCVALUEALIAS);
+    const int   vid_vsync_old = vid_vsync;
 
-        if (value != INT_MIN && vid_vsync != value)
-        {
-            vid_vsync = value;
-            I_RestartGraphics(true);
-            M_SaveCVARs();
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(vid_vsync, VSYNCVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
+    int_cvars_func2(cmd, parms);
 
-        C_ShowDescription(i);
-
-        if (vid_vsync == vid_vsync_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(vid_vsync_default, VSYNCVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
+    if (vid_vsync != vid_vsync_old)
+        I_RestartGraphics(true);
 }
 
 //
@@ -11981,20 +12048,37 @@ static void vid_windowpos_func2(char *cmd, char *parms)
     {
         char    *parm = removespaces(parms);
 
-        if (!M_StringCompare(vid_windowpos, parm))
+        if (M_StringCompare(vid_windowpos, parms))
         {
-            vid_windowpos = M_StringDuplicate(parm);
-            GetWindowPosition();
-            M_SaveCVARs();
+            if (!resettingcvar)
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_windowpos), parm);
 
-            if (!vid_fullscreen)
-            {
-                if (M_StringCompare(vid_windowpos, vid_windowpos_centered)
-                    || M_StringCompare(vid_windowpos, vid_windowpos_centred))
-                    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-                else
-                    SDL_SetWindowPosition(window, windowx, windowy);
-            }
+            return;
+        }
+        else if (!resettingcvar)
+        {
+            if (M_StringCompare(vid_windowpos, vid_windowpos_default))
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
+            else if (M_StringCompare(parm, vid_windowpos_default))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
+        }
+
+        vid_windowpos = M_StringDuplicate(parm);
+        GetWindowPosition();
+        M_SaveCVARs();
+
+        if (!vid_fullscreen)
+        {
+            if (M_StringCompare(vid_windowpos, vid_windowpos_centered)
+                || M_StringCompare(vid_windowpos, vid_windowpos_centred))
+                SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            else
+                SDL_SetWindowPosition(window, windowx, windowy);
         }
 
         free(parm);
@@ -12027,15 +12111,32 @@ static void vid_windowsize_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        if (!M_StringCompare(vid_windowsize, parms))
+        if (M_StringCompare(vid_windowsize, parms))
         {
-            vid_windowsize = M_StringDuplicate(parms);
-            GetWindowSize();
-            M_SaveCVARs();
+            if (!resettingcvar)
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_windowsize), parms);
 
-            if (!vid_fullscreen)
-                SDL_SetWindowSize(window, windowwidth, windowheight);
+            return;
         }
+        else if (!resettingcvar)
+        {
+            if (M_StringCompare(vid_windowsize, vid_windowsize_default))
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
+            else if (M_StringCompare(parms, vid_windowsize_default))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
+        }
+
+        vid_windowsize = M_StringDuplicate(parms);
+        GetWindowSize();
+        M_SaveCVARs();
+
+        if (!vid_fullscreen)
+            SDL_SetWindowSize(window, windowwidth, windowheight);
     }
     else
     {
@@ -12136,6 +12237,30 @@ static void weapon_func2(char *cmd, char *parms)
 
         if (value == INT_MIN)
             value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+
+        if (viewplayer->readyweapon == value)
+        {
+            if (!resettingcvar)
+                C_Warning(0, INTEGERCVARSAMEWARNING, stringize(weapon), parms);
+
+            return;
+        }
+        else if (!resettingcvar)
+        {
+            char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
+
+            if (viewplayer->readyweapon == weapon_default)
+                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_GetPlayerName(), stringize(weapon), temp, parms);
+            else if (M_StringCompare(parms, C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS)))
+                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_GetPlayerName(), stringize(weapon), temp, parms);
+            else
+                C_Output(INTEGERCVARCHANGED,
+                    C_GetPlayerName(), stringize(weapon), temp, parms);
+
+            free(temp);
+        }
 
         viewplayer->pendingweapon = value;
 
