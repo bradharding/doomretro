@@ -70,7 +70,6 @@ int                     consoledirection = -1;
 static int              consoleanim;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
-patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
 patch_t                 *altbuddha;
@@ -127,7 +126,6 @@ static int              outputhistory = -1;
 static bool             topofconsole;
 static bool             cheatsequence;
 
-static int              degreewidth;
 static int              suckswidth;
 static int              timerwidth;
 static int              timewidth;
@@ -826,14 +824,13 @@ void C_Init(void)
     brand = W_CacheLastLumpName("DRBRAND");
 
     unknownchar = W_CacheLastLumpName("DRFON000");
-    lsquote = consolefont[0x91 - CONSOLEFONTSTART];
-    ldquote = consolefont[0x93 - CONSOLEFONTSTART];
-    endash = consolefont[0x96 - CONSOLEFONTSTART];
-    trademark = consolefont[0x99 - CONSOLEFONTSTART];
-    copyright = consolefont[0xA9 - CONSOLEFONTSTART];
-    regomark = consolefont[0xAE - CONSOLEFONTSTART];
-    degree = consolefont[0xB0 - CONSOLEFONTSTART];
-    multiply = consolefont[0xD7 - CONSOLEFONTSTART];
+    lsquote = consolefont[145 - CONSOLEFONTSTART];
+    ldquote = consolefont[147 - CONSOLEFONTSTART];
+    endash = consolefont[150 - CONSOLEFONTSTART];
+    trademark = consolefont[153 - CONSOLEFONTSTART];
+    copyright = consolefont[169 - CONSOLEFONTSTART];
+    regomark = consolefont[174 - CONSOLEFONTSTART];
+    multiply = consolefont[215 - CONSOLEFONTSTART];
 
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");
@@ -853,7 +850,6 @@ void C_Init(void)
 
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
-    degreewidth = SHORT(degree->width);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
     altbuddhawidth = SHORT(altbuddha->width);
