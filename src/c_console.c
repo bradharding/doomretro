@@ -1157,7 +1157,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int     j = i + 1;
                 int     digitslen = 0;
-                char    digits[5] = { 0 };
+                char    digits[5];
                 bool    autocolor = false;
 
                 if (i < len - 5 && tolower(text[i + 1]) == 'a' && tolower(text[i + 2]) == 'u'
@@ -1182,8 +1182,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                     if (palindex >= 0 && palindex <= 255)
                     {
-                        const int bottom = (y + CONSOLELINEHEIGHT - 2) * SCREENWIDTH;
-                        const int oldx = x;
+                        const int   oldx = x;
 
                         V_DrawConsoleTextPatch(x, y, colorback, colorbackwidth, palindex, -1, false, NULL);
 
@@ -1348,7 +1347,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x -= 2;
                     else if (letter == ',' && (prevletter2 == 'e' || prevletter2 == 'f'))
                         x--;
-                    else if (letter == '.' && prevletter2 == '\"')
+                    else if (letter == '.' && (prevletter2 == '\"' || prevletter2 == 176))
                         x--;
                 }
             }
