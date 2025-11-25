@@ -441,6 +441,7 @@ static void pistolstart_func2(char *cmd, char *parms);
 static bool play_func1(char *cmd, char *parms);
 static void play_func2(char *cmd, char *parms);
 static void playerstats_func2(char *cmd, char *parms);
+static void playpal_func2(char *cmd, char *parms);
 static void print_func2(char *cmd, char *parms);
 static void quit_func2(char *cmd, char *parms);
 static void readme_func2(char *cmd, char *parms);
@@ -868,6 +869,8 @@ consolecmd_t consolecmds[] =
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
+    CCMD(playpal, "", "", null_func1, playpal_func2, false, "",
+        "Shows all the colors of the current palette."),
     CCMD(print, "", "", game_ccmd_func1, print_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, "", exit, null_func1, quit_func2, false, "",
@@ -7755,6 +7758,17 @@ static void playerstats_func2(char *cmd, char *parms)
         C_PlayerStats_Game();
     else
         C_PlayerStats_NoGame();
+}
+
+//
+// playpal CCMD
+//
+static void playpal_func2(char *cmd, char *parms)
+{
+    for (int i = 0; i < 256; i += 16)
+        C_Output("{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}",
+            i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8,
+            i + 9, i + 10, i + 11, i + 12, i + 13, i + 14, i + 15);
 }
 
 //

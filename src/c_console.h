@@ -202,7 +202,6 @@ typedef struct
 } autocomplete_t;
 
 extern patch_t          *consolefont[CONSOLEFONTSIZE];
-extern patch_t          *degree;
 extern patch_t          *lsquote;
 extern patch_t          *ldquote;
 extern patch_t          *unknownchar;
