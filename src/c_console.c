@@ -107,7 +107,6 @@ static short            colorbackwidth;
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
 size_t                  consolestringsmax = 0;
-static bool             inputentered;
 
 static size_t           undolevels;
 static undohistory_t    *undohistory;
@@ -2336,11 +2335,6 @@ void C_Drawer(void)
             }
         }
     }
-    else if (!inputentered)
-        C_DrawConsoleText(x, CONSOLEINPUTY, "Enter " BOLD("cmdlist") " for a list of commands.",
-            nearestlightgray, NOBACKGROUNDCOLOR, nearestwhite, tinttab15, NULL, true, true, false,
-            0, '\0', '\0', &V_DrawConsoleTextPatch);
-
     // draw caret
     if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
     {
@@ -2682,7 +2676,6 @@ bool C_Responder(event_t *ev)
                         autocomplete = -1;
                         inputhistory = -1;
                         outputhistory = -1;
-                        inputentered = true;
                     }
                 }
                 else
