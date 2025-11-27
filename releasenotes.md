@@ -17,6 +17,7 @@
 * The screen now always clears to black at startup.
 * A bug is fixed whereby certain player’s stats would become invalid when a monster is resurected.
 * The default values of the `crosshaircolor` and `am_crosshaircolor` CVARs are now correct.
+* Improvements have been made to the position of the `STTMINUS` lump in the status bar and widescreen HUD when the player is dead and the `negativehealth` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
