@@ -111,14 +111,14 @@
                                         BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
                                         BOLD("rocketlauncher") ", " BOLD("incinerator") " or " BOLD("calamityblade") ")."
 
-#define DEADPLAYERWARNING1              "You can't change this CVAR right now because you're dead."
-#define DEADPLAYERWARNING2              "%s can't change this CVAR right now because %s %s dead."
-#define NEXTMAPWARNING1                 "You won't see the results of changing this CVAR until the next map."
-#define NEXTMAPWARNING2                 "%s won't see the results of changing this CVAR until the next map."
-#define NOGAMECCMDWARNING1              "You can't use this CCMD right now because you're not playing a game."
-#define NOGAMECCMDWARNING2              "%s can't use this CCMD right now because %s %s playing a game."
-#define NOGAMECVARWARNING1              "You can't change this CVAR right now because you're not playing a game."
-#define NOGAMECVARWARNING2              "%s can't change this CVAR right now because %s %s playing a game."
+#define DEADPLAYERWARNING1              "You can't change this CVAR right now because you're dead!"
+#define DEADPLAYERWARNING2              "%s can't change this CVAR right now because %s %s dead!"
+#define NEXTMAPWARNING1                 "You won't see the results of changing this CVAR until the next map!"
+#define NEXTMAPWARNING2                 "%s won't see the results of changing this CVAR until the next map!"
+#define NOGAMECCMDWARNING1              "You can't use this CCMD right now because you're not playing a game!"
+#define NOGAMECCMDWARNING2              "%s can't use this CCMD right now because %s %s playing a game!"
+#define NOGAMECVARWARNING1              "You can't change this CVAR right now because you're not playing a game!"
+#define NOGAMECVARWARNING2              "%s can't change this CVAR right now because %s %s playing a game!"
 #define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("%s") "%s"
 #define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("%s") "%s"
 
@@ -154,11 +154,11 @@
 #define STRINGCVARCHANGEDFROMDEFAULT    "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
 #define STRINGCVARCHANGEDTODEFAULT      "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " back to its default of " BOLD("\"%s\"") "."
 
-#define INTEGERCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s") "."
-#define COLORCVARSAMEWARNING            "The " BOLD("%s") " CVAR is already {%s}."
-#define DEGREESCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%i\xB0") "."
-#define PERCENTCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s%%") "."
-#define STRINGCVARSAMEWARNING           "The " BOLD("%s") " CVAR is already " BOLD("\"%s\"") "."
+#define INTEGERCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s") "!"
+#define COLORCVARSAMEWARNING            "The " BOLD("%s") " CVAR is already {%s}!"
+#define DEGREESCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%i\xB0") "!"
+#define PERCENTCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s%%") "!"
+#define STRINGCVARSAMEWARNING           "The " BOLD("%s") " CVAR is already " BOLD("\"%s\"") "!"
 
 #define INDENT                          "       "
 
@@ -870,7 +870,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
     CCMD(playpal, "", "", null_func1, playpal_func2, false, "",
-        "Shows all the colors of the current palette."),
+        "Shows all 256 colors in the current palette."),
     CCMD(print, "", "", game_ccmd_func1, print_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, "", exit, null_func1, quit_func2, false, "",
@@ -10630,7 +10630,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 }
                 else if (!resettingcvar)
                 {
-                    if (viewplayer->ammo[ammotype] == value)
+                    if (viewplayer->ammo[ammotype] == ammo_default)
                         C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
                             C_GetPlayerName(), stringize(ammo), temp1, temp2);
                     else if (value == ammo_default)
@@ -10697,7 +10697,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (viewplayer->armor == value)
                 {
                     if (!resettingcvar)
-                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(armor), temp1);
+                        C_Warning(0, PERCENTCVARSAMEWARNING, stringize(armor), temp1);
 
                     free(temp1);
                     free(temp2);
@@ -10705,14 +10705,14 @@ static void player_cvars_func2(char *cmd, char *parms)
                 }
                 else if (!resettingcvar)
                 {
-                    if (viewplayer->armor == value)
-                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    if (viewplayer->armor == armor_default)
+                        C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
                             C_GetPlayerName(), stringize(armor), temp1, temp2);
                     else if (value == armor_default)
-                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_Output(PERCENTCVARCHANGEDTODEFAULT,
                             C_GetPlayerName(), stringize(armor), temp1, temp2);
                     else
-                        C_Output(INTEGERCVARCHANGED,
+                        C_Output(PERCENTCVARCHANGED,
                             C_GetPlayerName(), stringize(armor), temp1, temp2);
                 }
 
@@ -10772,14 +10772,14 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         if (!resettingcvar)
                         {
-                            if (viewplayer->health == value)
-                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            if (viewplayer->health == health_default)
+                                C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else if (value == health_default)
-                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                C_Output(PERCENTCVARCHANGEDTODEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else
-                                C_Output(INTEGERCVARCHANGED,
+                                C_Output(PERCENTCVARCHANGED,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                         }
 
@@ -10808,14 +10808,14 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         if (!resettingcvar)
                         {
-                            if (viewplayer->health == value)
-                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            if (viewplayer->health == health_default)
+                                C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else if (value == health_default)
-                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                C_Output(PERCENTCVARCHANGEDTODEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else
-                                C_Output(INTEGERCVARCHANGED,
+                                C_Output(PERCENTCVARCHANGED,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                         }
 
@@ -10837,14 +10837,14 @@ static void player_cvars_func2(char *cmd, char *parms)
                     {
                         if (!resettingcvar)
                         {
-                            if (viewplayer->health == value)
-                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            if (viewplayer->health == health_default)
+                                C_Output(PERCENTCVARCHANGEDFROMDEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else if (value == health_default)
-                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                C_Output(PERCENTCVARCHANGEDTODEFAULT,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                             else
-                                C_Output(INTEGERCVARCHANGED,
+                                C_Output(PERCENTCVARCHANGED,
                                     C_GetPlayerName(), stringize(health), temp1, temp2);
                         }
 

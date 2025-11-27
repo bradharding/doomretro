@@ -177,10 +177,8 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 
         num = viewplayer->negativehealth + (animatedstats ? healthdiff : 0);
 
-        if ((num >= -79 && num <= -70) || num == -7)
+        if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             offset++;
-        else if ((num >= -19 && num <= -10) || num == -1)
-            offset += 2;
 
         num = ABS(num);
 
