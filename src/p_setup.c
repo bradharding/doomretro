@@ -4045,10 +4045,15 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             if (legacyofrust && extras)
                             {
-                                sc_String[0] = 'O';
+                                sc_String[0] = 'H';
 
                                 if (W_CheckNumForName(sc_String) == -1)
-                                    sc_String[0] = 'D';
+                                {
+                                    sc_String[0] = 'O';
+
+                                    if (W_CheckNumForName(sc_String) == -1)
+                                        sc_String[0] = 'D';
+                                }
                             }
 
                             info->music = W_CheckNumForName(sc_String);
