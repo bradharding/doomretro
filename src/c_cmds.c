@@ -10648,14 +10648,14 @@ static bool player_cvars_func1(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && ammo > viewplayer->maxammo[viewplayer->readyweapon])
+        if (sscanf(parms, "%10i", &value) == 1 && value > viewplayer->maxammo[viewplayer->readyweapon])
             return false;
     }
     else if (M_StringCompare(cmd, stringize(armor)))
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && armor > max_armor)
+        if (sscanf(parms, "%10i", &value) == 1 && value > max_armor)
             return false;
     }
     else if (M_StringCompare(cmd, stringize(health)))
