@@ -563,7 +563,8 @@ extern const int    nummapnamesn;
 extern int          dehcount;
 extern int          dehmaptitlecount;
 extern bool         nobloodsplats;
-extern bool         norockettrails;
+
+extern int          MT_TRAIL2;
 
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded);
 void D_BuildBEXTables(void);

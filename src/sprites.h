@@ -100,5 +100,6 @@ extern int                  numsprites;
 
 void InitSprites(void);
 void FreeSprites(void);
+void dsdh_EnsureSpritesCapacity(const int limit);
 int dsdh_GetDehSpriteIndex(const char *key);
 int dsdh_GetOriginalSpriteIndex(const char *key);

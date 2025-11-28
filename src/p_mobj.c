@@ -1500,7 +1500,7 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
 //
 void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle)
 {
-    mobj_t  *th = P_SpawnMobj(x, y, z + (M_BigSubRandom() << 10), MT_TRAIL);
+    mobj_t  *th = P_SpawnMobj(x, y, z + (M_BigSubRandom() << 10), MT_TRAIL2);
 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
@@ -1794,7 +1794,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->interpolate = -1;
 
     if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
-        && viewplayer->readyweapon == wp_missile && !chex && !hacx && !norockettrails && !incompatiblepalette)
+        && viewplayer->readyweapon == wp_missile && !chex && !hacx && !incompatiblepalette)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         th->pursuecount = 0;

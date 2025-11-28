@@ -936,25 +936,22 @@ void R_InitColumnFunctions(void)
 
     if (r_ditheredlighting)
     {
-        if (!norockettrails)
+        if (r_rockettrails_translucency)
         {
-            if (r_rockettrails_translucency)
+            mobjinfo[MT_TRAIL2].colfunc = &R_DrawCorrectedTranslucent50Column;
+            mobjinfo[MT_TRAIL2].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+        }
+        else
+        {
+            if (r_detail == r_detail_low)
             {
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+                mobjinfo[MT_TRAIL2].colfunc = &R_DrawCorrectedLowResDitheredColumn;
+                mobjinfo[MT_TRAIL2].altcolfunc = &R_DrawCorrectedLowResDitheredColumn;
             }
             else
             {
-                if (r_detail == r_detail_low)
-                {
-                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedLowResDitheredColumn;
-                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedLowResDitheredColumn;
-                }
-                else
-                {
-                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitheredColumn;
-                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitheredColumn;
-                }
+                mobjinfo[MT_TRAIL2].colfunc = &R_DrawCorrectedDitheredColumn;
+                mobjinfo[MT_TRAIL2].altcolfunc = &R_DrawCorrectedDitheredColumn;
             }
         }
 
@@ -974,18 +971,15 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        if (!norockettrails)
+        if (r_rockettrails_translucency)
         {
-            if (r_rockettrails_translucency)
-            {
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
-            }
-            else
-            {
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
-            }
+            mobjinfo[MT_TRAIL2].colfunc = &R_DrawCorrectedTranslucent50Column;
+            mobjinfo[MT_TRAIL2].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+        }
+        else
+        {
+            mobjinfo[MT_TRAIL2].colfunc = &R_DrawCorrectedColumn;
+            mobjinfo[MT_TRAIL2].altcolfunc = &R_DrawCorrectedColumn;
         }
 
         if (!mobjinfo[MT_DOGS].dehacked)

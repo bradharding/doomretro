@@ -987,7 +987,7 @@ void FreeSprites(void)
     array_free(sprnames_state);
 }
 
-static void EnsureSpritesCapacity(const int limit)
+void dsdh_EnsureSpritesCapacity(const int limit)
 {
     const int   old_numsprites = numsprites;
     static bool first_allocation = true;
@@ -1040,7 +1040,7 @@ int dsdh_GetOriginalSpriteIndex(const char *key)
             return -1;
 
     limit = strtol(key, NULL, 10);
-    EnsureSpritesCapacity(limit);
+    dsdh_EnsureSpritesCapacity(limit);
 
     return limit;
 }

@@ -9,6 +9,7 @@
 * The values of color CVARs in the console, shown either by entering a CVAR individually or by using the `cvarlist` CCMD, are now shown with a colored background.
 * A new `playpal` CCMD has been implemented that will display all 256 colors of the current `PLAYPAL` lump in the console.
 * The `spawn` CCMD now still tries to spawn things anywhere around the player if there isn’t enough space directly in front of them.
+* The trail of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` now appear in more PWADs with `DEHACKED` lumps, including [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * A bug is fixed whereby `BOSSACTION` in a `MAPINFO` lump wouldn’t be parsed in some rare instances.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.

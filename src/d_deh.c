@@ -72,7 +72,6 @@ int         dehcount = 0;
 int         dehmaptitlecount = 0;
 bool        dehacked = false;
 bool        nobloodsplats = false;
-bool        norockettrails = false;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -3942,8 +3941,6 @@ static void deh_procText(DEHFILE *fpin, const char *line)
                 states[S_BAR1].nextstate = S_BAR2;
                 mobjinfo[MT_BARREL].frames = 2;
             }
-            else if (i == SPR_RSMK)
-                norockettrails = true;
         }
     }
 
@@ -4240,8 +4237,6 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
                 states[S_BAR1].nextstate = S_BAR2;
                 mobjinfo[MT_BARREL].frames = 2;
             }
-            else if (match == SPR_RSMK)
-                norockettrails = true;
 
             sprnames[match] = M_StringDuplicate(candidate);
         }
@@ -4526,11 +4521,39 @@ void D_TranslateDehStrings(void)
                 M_AmericanToBritishEnglish(*deh_strlookup[i].ppstr);
 }
 
+static void InitRocketTrails(void)
+{
+    int old_numsprites = numsprites;
+    int old_numstates = numstates;
+    int old_nummobjtypes = nummobjtypes;
+
+    dsdh_EnsureSpritesCapacity(numsprites + 1);
+    sprnames[old_numsprites] = M_StringDuplicate("RSMK");
+    numsprites = old_numsprites + 1;
+
+    dsdh_EnsureStatesCapacity(old_numstates + 4);
+    states[old_numstates + 0] = (state_t){ .sprite = old_numsprites, .frame = 0, .tics = 4,  .nextstate = old_numstates + 1 };
+    states[old_numstates + 1] = (state_t){ .sprite = old_numsprites, .frame = 1, .tics = 4,  .nextstate = old_numstates + 2 };
+    states[old_numstates + 2] = (state_t){ .sprite = old_numsprites, .frame = 2, .tics = 10, .nextstate = old_numstates + 3 };
+    states[old_numstates + 3] = (state_t){ .sprite = old_numsprites, .frame = 3, .tics = 14, .nextstate = S_NULL };
+    numstates = old_numstates + 4;
+
+    dsdh_EnsureMobjInfoCapacity(old_nummobjtypes + 1);
+    nummobjtypes = old_nummobjtypes + 1;
+    mobjinfo[nummobjtypes - 1] = mobjinfo[MT_TRAIL];
+    mobjinfo[nummobjtypes - 1].spawnstate = old_numstates;
+    MT_TRAIL2 = nummobjtypes - 1;
+}
+
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };
+
+int MT_TRAIL2 = -1;
 
 void D_PostProcessDeh(void)
 {
     const deh_bexptr    *bexptr_match;
+
+    InitRocketTrails();
 
     for (int i = 0, j; i < numstates; i++)
     {
@@ -4557,8 +4580,6 @@ void D_PostProcessDeh(void)
     }
 
     nobloodsplats = (states[S_BLOOD3].nextstate != S_NULL);
-    norockettrails |= (mobjinfo[MT_TRAIL].dehacked || states[S_TRAIL].dehacked || states[S_TRAIL2].dehacked
-        || states[S_TRAIL3].dehacked || states[S_TRAIL4].dehacked);
 
     dsdh_FreeTables();
 }
