@@ -10638,7 +10638,35 @@ static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 //
 static bool player_cvars_func1(char *cmd, char *parms)
 {
-    return (!*parms || (int_cvars_func1(cmd, parms) && gamestate == GS_LEVEL));
+    if (!*parms)
+        return true;
+
+    if (gamestate != GS_LEVEL)
+        return false;
+
+    if (M_StringCompare(cmd, stringize(ammo)))
+    {
+        int value;
+
+        if (sscanf(parms, "%10i", &value) == 1 && ammo > viewplayer->maxammo[viewplayer->readyweapon])
+            return false;
+    }
+    else if (M_StringCompare(cmd, stringize(armor)))
+    {
+        int value;
+
+        if (sscanf(parms, "%10i", &value) == 1 && armor > max_armor)
+            return false;
+    }
+    else if (M_StringCompare(cmd, stringize(health)))
+    {
+        int value;
+
+        if (sscanf(parms, "%10i", &value) == 1 && value < -99 || value > maxhealth)
+            return false;
+    }
+
+    return int_cvars_func1(cmd, parms);
 }
 
 static void player_cvars_func2(char *cmd, char *parms)
