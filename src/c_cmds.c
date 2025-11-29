@@ -5618,6 +5618,9 @@ static void mapstats_func2(char *cmd, char *parms)
 
         if (*mapinfolump)
             C_TabbedOutput(tabs, INDENT "%s\tYes", mapinfolump);
+
+        if (PLAYPALs > 2)
+            C_TabbedOutput(tabs, INDENT "PLAYPAL\tYes");
     }
 
     C_TabbedOutput(tabs, INDENT "MD5\t" MONOSPACED("%s"),
