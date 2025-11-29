@@ -11214,16 +11214,18 @@ static void r_gamma_func2(char *cmd, char *parms)
 
         if ((value != INT_MIN || sscanf(parms, "%10f", &value) == 1))
         {
-            char    *temp1 = (r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 1));
+            char    *temp1 = striptrailingzero(r_gamma, 1);
 
             if (r_gamma == value)
             {
                 if (!resettingcvar)
                 {
                     if (value == r_gamma_default)
-                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(r_gamma), temp1);
+                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING,
+                            stringize(r_gamma), (r_gamma == 1.0f ? "off" : temp1));
                     else
-                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_gamma), temp1);
+                        C_Warning(0, INTEGERCVARSAMEWARNING,
+                            stringize(r_gamma), (r_gamma == 1.0f ? "off" : temp1));
                 }
 
                 free(temp1);
@@ -11231,17 +11233,20 @@ static void r_gamma_func2(char *cmd, char *parms)
             }
             else if (!resettingcvar)
             {
-                char    *temp2 = (value == 1.0f ? "off" : striptrailingzero(value, 1));
+                char    *temp2 = striptrailingzero(value, 1);
 
                 if (r_gamma == r_gamma_default)
                     C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
-                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+                        C_GetPlayerName(), stringize(r_gamma),
+                        (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
                 else if (value == r_gamma_default)
                     C_Output(INTEGERCVARCHANGEDTODEFAULT,
-                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+                        C_GetPlayerName(), stringize(r_gamma),
+                        (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
                 else
                     C_Output(INTEGERCVARCHANGED,
-                        C_GetPlayerName(), stringize(r_gamma), temp1, temp2);
+                        C_GetPlayerName(), stringize(r_gamma),
+                        (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
 
                 free(temp2);
             }
