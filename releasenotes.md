@@ -9,14 +9,15 @@
 * The values of color CVARs in the console, shown either by entering a CVAR individually or by using the `cvarlist` CCMD, are now shown with a colored background.
 * A new `playpal` CCMD has been implemented that will display all 256 colors of the current `PLAYPAL` lump in the console.
 * The `spawn` CCMD now still tries to spawn things anywhere around the player if there isn’t enough space directly in front of them.
-* The trail of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` now appear in more PWADs with `DEHACKED` lumps, including [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+* Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
+* The trail of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` now appear when playing PWADs with `DEHACKED` lumps, including [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * A bug is fixed whereby `BOSSACTION` in a `MAPINFO` lump wouldn’t be parsed in some rare instances.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.
 * A bug is fixed whereby music wouldn’t be played in some rare instances when [`extras.wad`](https://doomwiki.org/wiki/Extras.wad) was autoloaded.
 * The screen now always clears to black at startup.
-* A bug is fixed whereby certain player’s stats would become invalid when a monster is resurected.
+* A bug is fixed whereby certain player’s stats would become invalid when a monster is resurrected.
 * The default values of the `crosshaircolor` and `am_crosshaircolor` CVARs are now correct.
 * Improvements have been made to the position of the `STTMINUS` lump in the status bar and widescreen HUD when the player is dead and the `negativehealth` CVAR is `on`.
 

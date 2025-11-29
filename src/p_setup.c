@@ -706,10 +706,10 @@ static const char *sectorspecials[] =
 
 static fixed_t GetOffset(const vertex_t *v1, const vertex_t *v2)
 {
-    const fixed_t   dx = (v1->x - v2->x) >> FRACBITS;
-    const fixed_t   dy = (v1->y - v2->y) >> FRACBITS;
+    const float dx = (float)(v1->x - v2->x) / FRACUNIT;
+    const float dy = (float)(v1->y - v2->y) / FRACUNIT;
 
-    return ((fixed_t)(sqrt((double)dx * dx + (double)dy * dy)) << FRACBITS);
+    return ((fixed_t)(sqrt(dx * dx + dy * dy) * FRACUNIT));
 }
 
 // e6y: Smart malloc

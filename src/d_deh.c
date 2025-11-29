@@ -73,6 +73,8 @@ int         dehmaptitlecount = 0;
 bool        dehacked = false;
 bool        nobloodsplats = false;
 
+int         MT_TRAIL2;
+
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
@@ -4523,31 +4525,39 @@ void D_TranslateDehStrings(void)
 
 static void InitRocketTrails(void)
 {
-    int old_numsprites = numsprites;
-    int old_numstates = numstates;
-    int old_nummobjtypes = nummobjtypes;
+    int oldnumsprites = numsprites;
+    int oldnumstates = numstates;
+    int oldnummobjtypes = nummobjtypes;
 
     dsdh_EnsureSpritesCapacity(numsprites + 1);
-    sprnames[old_numsprites] = M_StringDuplicate("RSMK");
-    numsprites = old_numsprites + 1;
+    sprnames[oldnumsprites] = M_StringDuplicate("RSMK");
+    numsprites = oldnumsprites + 1;
 
-    dsdh_EnsureStatesCapacity(old_numstates + 4);
-    states[old_numstates + 0] = (state_t){ .sprite = old_numsprites, .frame = 0, .tics = 4,  .nextstate = old_numstates + 1 };
-    states[old_numstates + 1] = (state_t){ .sprite = old_numsprites, .frame = 1, .tics = 4,  .nextstate = old_numstates + 2 };
-    states[old_numstates + 2] = (state_t){ .sprite = old_numsprites, .frame = 2, .tics = 10, .nextstate = old_numstates + 3 };
-    states[old_numstates + 3] = (state_t){ .sprite = old_numsprites, .frame = 3, .tics = 14, .nextstate = S_NULL };
-    numstates = old_numstates + 4;
+    dsdh_EnsureStatesCapacity(oldnumstates + 4);
+    states[oldnumstates] = (state_t){ .sprite = oldnumsprites, .frame = 0, .tics = 4, .nextstate = oldnumstates + 1 };
+    states[oldnumstates + 1] = (state_t){ .sprite = oldnumsprites, .frame = 1, .tics = 4, .nextstate = oldnumstates + 2 };
+    states[oldnumstates + 2] = (state_t){ .sprite = oldnumsprites, .frame = 2, .tics = 10, .nextstate = oldnumstates + 3 };
+    states[oldnumstates + 3] = (state_t){ .sprite = oldnumsprites, .frame = 3, .tics = 14, .nextstate = S_NULL };
+    numstates = oldnumstates + 4;
 
-    dsdh_EnsureMobjInfoCapacity(old_nummobjtypes + 1);
-    nummobjtypes = old_nummobjtypes + 1;
+    dsdh_EnsureMobjInfoCapacity(oldnummobjtypes + 1);
+    nummobjtypes = oldnummobjtypes + 1;
     mobjinfo[nummobjtypes - 1] = mobjinfo[MT_TRAIL];
-    mobjinfo[nummobjtypes - 1].spawnstate = old_numstates;
+    mobjinfo[nummobjtypes - 1].doomednum = -1;
+    mobjinfo[nummobjtypes - 1].spawnstate = oldnumstates;
+    mobjinfo[nummobjtypes - 1].flags = (MF_NOBLOCKMAP | MF_NOGRAVITY);
+    mobjinfo[nummobjtypes - 1].flags2 = 0;
+    mobjinfo[nummobjtypes - 1].mbf21flags = 0;
+    M_StringCopy(mobjinfo[nummobjtypes - 1].name1, "rocket trail", sizeof(mobjinfo[nummobjtypes - 1].name1));
+    M_StringCopy(mobjinfo[nummobjtypes - 1].plural1, "rocket trails", sizeof(mobjinfo[nummobjtypes - 1].plural1));
+    mobjinfo[nummobjtypes - 1].name2[0] = '\0';
+    mobjinfo[nummobjtypes - 1].plural2[0] = '\0';
+    mobjinfo[nummobjtypes - 1].name3[0] = '\0';
+    mobjinfo[nummobjtypes - 1].plural3[0] = '\0';
     MT_TRAIL2 = nummobjtypes - 1;
 }
 
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };
-
-int MT_TRAIL2 = -1;
 
 void D_PostProcessDeh(void)
 {
