@@ -613,7 +613,8 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
         {
             if (height > 0)
             {
-                *dest = (*source == WHITE ? color2 : tinttab60[color1 + *dest]);
+                *dest = (*source == WHITE ? (color2 == nearestblack ?
+                    tinttab20[color1 + nearestblack] : color2) : tinttab60[color1 + *dest]);
 
                 if (height == 1)
                     *dest = tinttab60[*dest];
