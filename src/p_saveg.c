@@ -36,6 +36,7 @@
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_system.h"
@@ -1403,6 +1404,9 @@ void P_UnarchiveThinkers(void)
                 mobj_t  *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
 
                 saveg_read_mobj_t(mobj);
+
+                if (mobj->type == MT_TRAIL)
+                    mobj->type = MT_TRAIL2;
 
                 mobj->info = &mobjinfo[mobj->type];
                 P_SetThingPosition(mobj);
