@@ -232,8 +232,10 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Doom 2\\masterbase\\doom2",
     "steamapps\\common\\Ultimate Doom\\rerelease",
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
-    "steamapps\\common\\Ultimate Doom\\base"
-    "steamapps\\common\\Ultimate Doom\\base\\doom2"
+    "steamapps\\common\\Ultimate Doom\\base",
+    "steamapps\\common\\Ultimate Doom\\base\\doom2",
+    "steamapps\\common\\Ultimate Doom\\base\\tnt",
+    "steamapps\\common\\Ultimate Doom\\base\\plutonia",
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
     "steamapps\\common\\Final Doom\\base",
     "steamapps\\common\\Master Levels of Doom\\doom2",
