@@ -493,6 +493,7 @@ void R_DrawPlanes(void)
         updateswirl = !(consoleactive || helpscreen || paused || freeze);
 
     dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
+    dc_sectorcolormap = fullcolormap;
 
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
@@ -507,7 +508,6 @@ void R_DrawPlanes(void)
                     if (sky && (!vanilla || sky->type != SkyType_Fire))
                     {
                         id24compatible = true;
-                        dc_sectorcolormap = fullcolormap;
 
                         if (sky->type == SkyType_Fire)
                         {
@@ -538,7 +538,6 @@ void R_DrawPlanes(void)
 
                         dc_texheight = textureheight[texture] >> FRACBITS;
                         dc_texturemid = skytexturemid;
-                        dc_sectorcolormap = fullcolormap;
 
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
@@ -559,7 +558,6 @@ void R_DrawPlanes(void)
                     dc_iscale = skyiscale;
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_texturemid = skytexturemid;
-                    dc_sectorcolormap = fullcolormap;
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
@@ -583,8 +581,6 @@ void R_DrawPlanes(void)
 
                     // Sky transferred from first sidedef
                     const side_t    *side = sides + *line->sidenum;
-
-                    dc_sectorcolormap = fullcolormap;
 
                     if (side->missingtoptexture)
                     {
