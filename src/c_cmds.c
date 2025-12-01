@@ -4669,10 +4669,11 @@ static bool map_func1(char *cmd, char *parms)
                 {
                     char    lump[6];
 
-                    if (mapcmdepisode <= 2 && mapcmdmap <= 7)
-                        mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
-                    else if (mapcmdepisode <= 2 && mapcmdmap == 8)
+                    if (mapcmdepisode <= 2 && !mapcmdmap)
                         mapcmdmap = 14 + mapcmdepisode;
+                    else if (mapcmdepisode <= 2 && mapcmdmap <= 7)
+                        mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
+                    
                     else
                         mapcmdmap = 0;
 
