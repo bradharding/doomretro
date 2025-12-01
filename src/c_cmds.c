@@ -1538,10 +1538,13 @@ static bool cheat_func1(char *cmd, char *parms)
             mapcmdepisode = parms[0] - '0';
             mapcmdmap = parms[1] - '0';
 
-            if (mapcmdepisode <= 2 && mapcmdmap <= 7)
-                mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
-            else if (mapcmdepisode <= 2 && mapcmdmap == 8)
+            if (mapcmdepisode == 9 && mapcmdmap == 9)
+                mapcmdmap = 99;
+            else if (mapcmdepisode <= 2 && !mapcmdmap)
                 mapcmdmap = 14 + mapcmdepisode;
+            else if (mapcmdepisode <= 2 && mapcmdmap <= 7)
+                mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
+            
             else
                 mapcmdmap = mapcmdepisode * 10 + mapcmdmap;
 
