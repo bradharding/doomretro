@@ -4302,6 +4302,9 @@ static bool P_ParseMapInfo(const char *scriptname)
         }
     }
 
+    if (legacyofrust)
+        mapinfo[1][99].secret = true;
+
     temp1 = commify(sc_Line);
     temp2 = uppercase(scriptname);
     C_Output("%s line%s have been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
