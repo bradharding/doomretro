@@ -997,10 +997,12 @@ bool ST_Responder(const event_t *ev)
                     epsd = buffer[0] - '0';
                     map = buffer[1] - '0';
 
-                    if (epsd <= 2 && map <= 7)
-                        map = (epsd - 1) * 7 + map;
-                    else if (epsd <= 2 && map == 8)
+                    if (epsd == 9 && map == 9)
+                        map = 99;
+                    else if (epsd <= 2 && !map)
                         map = 14 + epsd;
+                    else if (epsd <= 2 && map <= 7)
+                        map = (epsd - 1) * 7 + map;
                     else
                         map = epsd * 10 + map;
 
@@ -1027,7 +1029,7 @@ bool ST_Responder(const event_t *ev)
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
                 if (W_CheckNumForName(lump) < 0
                     || (gamemission == pack_nerve && map > 9)
-                    || ((BTSX || legacyofrust) && W_GetNumLumps(lump) == 1))
+                    || ((BTSX || (legacyofrust && map != 99)) && W_GetNumLumps(lump) == 1))
                     return false;
                 else
                 {
