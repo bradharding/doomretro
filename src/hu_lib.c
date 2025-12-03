@@ -562,6 +562,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     {
         len--;
 
+        if (s[len - 4] == ' ')
+            continue;
+
         s[len - 3] = '.';
         s[len - 2] = '.';
         s[len - 1] = '.';
