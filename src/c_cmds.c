@@ -5181,9 +5181,9 @@ static void maplist_func2(char *cmd, char *parms)
                             if (map <= 7)
                                 M_snprintf(lump, sizeof(lump), "E1M%i", map);
                             else if (map == 15)
-                                M_StringCopy(lump, "E1M8", sizeof(lump));
+                                M_StringCopy(lump, "E1M0", sizeof(lump));
                             else if (map == 16)
-                                M_StringCopy(lump, "E2M8", sizeof(lump));
+                                M_StringCopy(lump, "E2M0", sizeof(lump));
                             else if (map != 99)
                                 M_snprintf(lump, sizeof(lump), "E2M%i", map - 7);
                         }
