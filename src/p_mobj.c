@@ -91,7 +91,13 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state)
             // Modified handling.
             // Call action functions when the state is set
             if (st->action)
+            {
                 st->action(mobj, NULL, NULL);
+
+                // [BH] If action function changed the state, don't continue with the original state sequence
+                if (mobj->state != st)
+                    break;
+            }
 
             seenstate[state] = 1 + st->nextstate;   // killough 4/9/98
             state = st->nextstate;
