@@ -1552,8 +1552,8 @@ static void M_DrawPlayPal(void)
     patch_t     *DRCOLOR2 = W_CacheLastLumpName("DRCOLOR2");
     const short width = SHORT(DRCOLOR2->width);
     const short height = SHORT(DRCOLOR2->height);
-    const int   x = (SCREENWIDTH - width * 16 - 2 * 15) / 2;
-    const int   y = (SCREENHEIGHT - height * 16 - 15) / 2;
+    const int   x = (SCREENWIDTH - width * 16 - 2 * 15) / 2 + 1;
+    const int   y = (SCREENHEIGHT - height * 16 - 15) / 2 + 4;
 
     M_DrawMenuBackground();
 
@@ -1581,9 +1581,9 @@ static void M_DrawPlayPal(void)
                 patch_t     *num = consolefont[*p - CONSOLEFONTSTART];
                 const short numwidth = SHORT(num->width);
 
-                V_DrawConsoleTextPatch(numx - (*p == '4'), numy, num, numwidth,
+                V_DrawConsoleTextPatch((numx -= (*p == '4')), numy, num, numwidth,
                     (luminance[color] <= 128 ? nearestwhite : nearestblack), -1, false, tinttab60);
-                numx += numwidth - (*p == '4');
+                numx += numwidth;
             }
         }
 
@@ -2752,6 +2752,7 @@ static void M_ShowHelp(int choice)
 
 void M_ShowPlayPal(void)
 {
+    functionkey = KEY_F1;
     helpscreen = true;
     C_HideConsoleFast();
     D_FadeScreen(false);
@@ -3708,7 +3709,8 @@ bool M_Responder(event_t *ev)
     }
 
     // Help key
-    if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown && !splashscreen)
+    if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown && !splashscreen
+        && currentmenu != &PlayPalDef)
     {
         keydown = key;
 

@@ -1544,7 +1544,6 @@ static bool cheat_func1(char *cmd, char *parms)
                 mapcmdmap = 14 + mapcmdepisode;
             else if (mapcmdepisode <= 2 && mapcmdmap <= 7)
                 mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
-            
             else
                 mapcmdmap = mapcmdepisode * 10 + mapcmdmap;
 
@@ -4676,7 +4675,6 @@ static bool map_func1(char *cmd, char *parms)
                         mapcmdmap = 14 + mapcmdepisode;
                     else if (mapcmdepisode <= 2 && mapcmdmap <= 7)
                         mapcmdmap = (mapcmdepisode - 1) * 7 + mapcmdmap;
-                    
                     else
                         mapcmdmap = 0;
 
