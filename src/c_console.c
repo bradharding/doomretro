@@ -838,7 +838,7 @@ void C_Init(void)
     fps = W_CacheLastLumpName("DRFONFPS");
     ampm[0] = W_CacheLastLumpName("DRFONAM");
     ampm[1] = W_CacheLastLumpName("DRFONPM");
-    colorback = W_CacheLastLumpName("DRFONCLR");
+    colorback = W_CacheLastLumpName("DRCOLOR1");
 
     bindlist = W_CacheLastLumpName("DRBNDLST");
     cmdlist = W_CacheLastLumpName("DRCMDLST");

@@ -7777,10 +7777,7 @@ static void playerstats_func2(char *cmd, char *parms)
 //
 static void playpal_func2(char *cmd, char *parms)
 {
-    for (int i = 0; i < 256; i += 16)
-        C_Output("{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}{%i}",
-            i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8,
-            i + 9, i + 10, i + 11, i + 12, i + 13, i + 14, i + 15);
+    M_ShowPlayPal();
 }
 
 //

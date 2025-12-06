@@ -104,6 +104,8 @@ int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void (*routine)(int), bool input);
 
+void M_ShowPlayPal(void);
+
 void M_QuitResponse(int key);
 void M_QuitDOOM(int choice);
 

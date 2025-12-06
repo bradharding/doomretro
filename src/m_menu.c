@@ -155,6 +155,7 @@ static void M_QuickLoad(void);
 
 static void M_DrawMainMenu(void);
 static void M_DrawHelp(void);
+static void M_DrawPlayPal(void);
 static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
@@ -363,6 +364,22 @@ static menu_t HelpDef =
     &M_DrawHelp,
     330, 175,
     help_empty
+};
+
+enum
+{
+    playpal_empty,
+    playpal_end
+};
+
+static menu_t PlayPalDef =
+{
+    playpal_end,
+    &PlayPalDef,
+    NULL,
+    &M_DrawPlayPal,
+    330, 175,
+    playpal_empty
 };
 
 //
@@ -1528,6 +1545,58 @@ static void M_DrawHelp(void)
 }
 
 //
+// M_DrawPlayPal
+//
+static void M_DrawPlayPal(void)
+{
+    patch_t     *DRCOLOR2 = W_CacheLastLumpName("DRCOLOR2");
+    const short width = SHORT(DRCOLOR2->width);
+    const short height = SHORT(DRCOLOR2->height);
+    const int   x = (SCREENWIDTH - width * 16 - 3 * 15) / 2;
+    const int   y = (SCREENHEIGHT - height * 16 - 2 * 15) / 2;
+
+    M_DrawMenuBackground();
+
+    for (int yy = 0; yy < 16; yy++)
+        for (int xx = 0; xx < 16; xx++)
+        {
+            const int  color = yy * 16 + xx;
+            char       numstr[4];
+            int        totalwidth = 0;
+            int        numx;
+            int        numy;
+
+            V_DrawColorBackPatch(x + xx * (width + 3), y + yy * (height + 2), DRCOLOR2, width, height, color);
+
+            M_snprintf(numstr, sizeof(numstr), "%i", color);
+
+            for (char *p = numstr; *p; p++)
+            {
+                const int   ch = *p - CONSOLEFONTSTART;
+
+                totalwidth += SHORT(consolefont[ch]->width) - (ch == '4');
+            }
+
+            numx = x + xx * (width + 3) + (width - totalwidth) / 2 + 1;
+            numy = y + yy * (height + 2) + 3;
+
+            for (char *p = numstr; *p; p++)
+            {
+                const int   ch = *p - CONSOLEFONTSTART;
+                patch_t     *num = consolefont[ch];
+                const short numwidth = SHORT(num->width);
+
+                V_DrawConsoleTextPatch(numx - (ch == '4'), numy, num, numwidth,
+                    (luminance[color] <= 128 ? nearestwhite : nearestblack), -1, false, tinttab60);
+                numx += numwidth;
+            }
+        }
+
+    if (vid_showfps && framespersecond)
+        C_UpdateFPSOverlay();
+}
+
+//
 // Change SFX and Music volumes
 //
 static void M_DrawSound(void)
@@ -2684,6 +2753,16 @@ static void M_ShowHelp(int choice)
 
     if (gamestate == GS_LEVEL)
         R_SetViewSize(r_screensize_max);
+}
+
+void M_ShowPlayPal(void)
+{
+    helpscreen = true;
+    C_HideConsoleFast();
+    D_FadeScreen(false);
+    M_OpenMainMenu();
+    currentmenu = &PlayPalDef;
+    S_StartSound(NULL, sfx_swtchn);
 }
 
 static void M_ChangeGamma(bool shift)
@@ -4278,7 +4357,7 @@ void M_Drawer(void)
     x = currentmenu->x;
     y = currentmenu->y;
 
-    if (currentmenu != &HelpDef)
+    if (currentmenu != &HelpDef && currentmenu != &PlayPalDef)
     {
         // DRAW SKULL
         const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };

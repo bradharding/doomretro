@@ -493,6 +493,26 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawColorBackPatch(const int x, const int y, const patch_t *patch, const int width,
+    const int height, const int color)
+{
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
+
+        for (int i = 0; i < height; i++)
+        {
+            if (*source++)
+                *dest = color;
+
+            dest += SCREENWIDTH;
+        }
+    }
+}
+
 void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
     const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
 {
