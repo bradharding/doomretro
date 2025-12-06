@@ -196,7 +196,7 @@ void P_Ticker(void)
 
     P_PlayerThink();
 
-    if (consoleactive || helpscreen)
+    if (consoleactive || (helpscreen && !playpalscreen))
         return;
 
     if (menuactive && !freeze)

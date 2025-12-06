@@ -93,6 +93,7 @@ static int      savecharindex;                      // which char we're editing
 static char     saveoldstring[SAVESTRINGSIZE];
 
 bool            helpscreen = false;
+bool            playpalscreen = false;
 bool            menuactive;
 bool            savegames;
 bool            quitting;
@@ -2754,6 +2755,7 @@ void M_ShowPlayPal(void)
 {
     functionkey = KEY_F1;
     helpscreen = true;
+    playpalscreen = true;
     C_HideConsoleFast();
     D_FadeScreen(false);
     M_OpenMainMenu();
@@ -4256,13 +4258,13 @@ void M_OpenMainMenu(void)
 
             playerpitch = viewplayer->pitch;
 
-            if (!helpscreen)
+            if (!helpscreen || playpalscreen)
                 viewplayer->pitch = 0;
         }
 
         R_SetViewSize(r_screensize_max);
 
-        if (menuspin && !helpscreen)
+        if (menuspin && (!helpscreen || playpalscreen))
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
 
         I_RestoreMousePointerPosition();
@@ -4345,6 +4347,7 @@ void M_Drawer(void)
     if (!menuactive)
     {
         helpscreen = false;
+        playpalscreen = false;
         return;
     }
 

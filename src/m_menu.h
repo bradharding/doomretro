@@ -118,6 +118,7 @@ extern bool     nosfx;
 extern bool     firstevent;
 extern bool     savegames;
 extern bool     helpscreen;
+extern bool     playpalscreen;
 extern bool     quitting;
 extern bool     reopenautomap;
 extern int      menuspindirection;

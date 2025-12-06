@@ -169,6 +169,16 @@ void I_InitColors(byte *palette)
         const byte  blue = *playpal++;
 
         nearestcolors[i] = FindNearestColor(palette, red, green, blue);
+    }
+
+    playpal = W_CacheLumpName("PLAYPAL");
+
+    for (int i = 0; i < 256; i++)
+    {
+        const byte  red = *playpal++;
+        const byte  green = *playpal++;
+        const byte  blue = *playpal++;
+
         luminance[i] = (int)(red * 0.299f + green * 0.587f + blue * 0.114f);
     }
 
