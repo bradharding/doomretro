@@ -1552,8 +1552,8 @@ static void M_DrawPlayPal(void)
     patch_t     *DRCOLOR2 = W_CacheLastLumpName("DRCOLOR2");
     const short width = SHORT(DRCOLOR2->width);
     const short height = SHORT(DRCOLOR2->height);
-    const int   x = (SCREENWIDTH - width * 16 - 3 * 15) / 2;
-    const int   y = (SCREENHEIGHT - height * 16 - 2 * 15) / 2;
+    const int   x = (SCREENWIDTH - width * 16 - 2 * 15) / 2;
+    const int   y = (SCREENHEIGHT - height * 16 - 15) / 2;
 
     M_DrawMenuBackground();
 
@@ -1561,34 +1561,29 @@ static void M_DrawPlayPal(void)
         for (int xx = 0; xx < 16; xx++)
         {
             const int  color = yy * 16 + xx;
-            char       numstr[4];
+            char       digits[4];
             int        totalwidth = 0;
-            int        numx;
-            int        numy;
+            int        numx = x + xx * (width + 2);
+            int        numy = y + yy * (height + 1);
 
-            V_DrawColorBackPatch(x + xx * (width + 3), y + yy * (height + 2), DRCOLOR2, width, height, color);
+            V_DrawColorBackPatch(numx, numy, DRCOLOR2, width, height, color);
 
-            M_snprintf(numstr, sizeof(numstr), "%i", color);
+            M_snprintf(digits, sizeof(digits), "%i", color);
 
-            for (char *p = numstr; *p; p++)
+            for (char *p = digits; *p; p++)
+                totalwidth += SHORT(consolefont[*p - CONSOLEFONTSTART]->width) - (*p == '4');
+
+            numx += (width - totalwidth) / 2;
+            numy += 3;
+
+            for (char *p = digits; *p; p++)
             {
-                const int   ch = *p - CONSOLEFONTSTART;
-
-                totalwidth += SHORT(consolefont[ch]->width) - (ch == '4');
-            }
-
-            numx = x + xx * (width + 3) + (width - totalwidth) / 2 + 1;
-            numy = y + yy * (height + 2) + 3;
-
-            for (char *p = numstr; *p; p++)
-            {
-                const int   ch = *p - CONSOLEFONTSTART;
-                patch_t     *num = consolefont[ch];
+                patch_t     *num = consolefont[*p - CONSOLEFONTSTART];
                 const short numwidth = SHORT(num->width);
 
-                V_DrawConsoleTextPatch(numx - (ch == '4'), numy, num, numwidth,
+                V_DrawConsoleTextPatch(numx - (*p == '4'), numy, num, numwidth,
                     (luminance[color] <= 128 ? nearestwhite : nearestblack), -1, false, tinttab60);
-                numx += numwidth;
+                numx += numwidth - (*p == '4');
             }
         }
 
@@ -2762,7 +2757,11 @@ void M_ShowPlayPal(void)
     D_FadeScreen(false);
     M_OpenMainMenu();
     currentmenu = &PlayPalDef;
+    itemon = 0;
     S_StartSound(NULL, sfx_swtchn);
+
+    if (gamestate == GS_LEVEL)
+        R_SetViewSize(r_screensize_max);
 }
 
 static void M_ChangeGamma(bool shift)

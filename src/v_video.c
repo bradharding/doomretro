@@ -505,9 +505,12 @@ void V_DrawColorBackPatch(const int x, const int y, const patch_t *patch, const 
 
         for (int i = 0; i < height; i++)
         {
-            if (*source++)
+            if (*source == WHITE)
                 *dest = color;
+            else if (*source != BLACK)
+                *dest = tinttab33[*dest];
 
+            source++;
             dest += SCREENWIDTH;
         }
     }
