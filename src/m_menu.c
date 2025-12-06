@@ -93,7 +93,7 @@ static int      savecharindex;                      // which char we're editing
 static char     saveoldstring[SAVESTRINGSIZE];
 
 bool            helpscreen = false;
-bool            playpalscreen = false;
+bool            palettescreen = false;
 bool            menuactive;
 bool            savegames;
 bool            quitting;
@@ -156,7 +156,7 @@ static void M_QuickLoad(void);
 
 static void M_DrawMainMenu(void);
 static void M_DrawHelp(void);
-static void M_DrawPlayPal(void);
+static void M_DrawPalette(void);
 static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
@@ -369,18 +369,18 @@ static menu_t HelpDef =
 
 enum
 {
-    playpal_empty,
-    playpal_end
+    palette_empty,
+    palette_end
 };
 
-static menu_t PlayPalDef =
+static menu_t PaletteDef =
 {
-    playpal_end,
-    &PlayPalDef,
+    palette_end,
+    &PaletteDef,
     NULL,
-    &M_DrawPlayPal,
+    &M_DrawPalette,
     330, 175,
-    playpal_empty
+    palette_empty
 };
 
 //
@@ -1546,9 +1546,9 @@ static void M_DrawHelp(void)
 }
 
 //
-// M_DrawPlayPal
+// M_DrawPalette
 //
-static void M_DrawPlayPal(void)
+static void M_DrawPalette(void)
 {
     patch_t     *DRCOLOR2 = W_CacheLastLumpName("DRCOLOR2");
     const short width = SHORT(DRCOLOR2->width);
@@ -2751,15 +2751,15 @@ static void M_ShowHelp(int choice)
         R_SetViewSize(r_screensize_max);
 }
 
-void M_ShowPlayPal(void)
+void M_ShowPalette(void)
 {
     functionkey = KEY_F1;
     helpscreen = true;
-    playpalscreen = true;
+    palettescreen = true;
     C_HideConsoleFast();
     D_FadeScreen(false);
     M_OpenMainMenu();
-    currentmenu = &PlayPalDef;
+    currentmenu = &PaletteDef;
     itemon = 0;
     S_StartSound(NULL, sfx_swtchn);
 
@@ -3712,7 +3712,7 @@ bool M_Responder(event_t *ev)
 
     // Help key
     if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown && !splashscreen
-        && currentmenu != &PlayPalDef)
+        && currentmenu != &PaletteDef)
     {
         keydown = key;
 
@@ -4258,13 +4258,13 @@ void M_OpenMainMenu(void)
 
             playerpitch = viewplayer->pitch;
 
-            if (!helpscreen || playpalscreen)
+            if (!helpscreen || palettescreen)
                 viewplayer->pitch = 0;
         }
 
         R_SetViewSize(r_screensize_max);
 
-        if (menuspin && (!helpscreen || playpalscreen))
+        if (menuspin && (!helpscreen || palettescreen))
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
 
         I_RestoreMousePointerPosition();
@@ -4347,7 +4347,7 @@ void M_Drawer(void)
     if (!menuactive)
     {
         helpscreen = false;
-        playpalscreen = false;
+        palettescreen = false;
         return;
     }
 
@@ -4361,7 +4361,7 @@ void M_Drawer(void)
     x = currentmenu->x;
     y = currentmenu->y;
 
-    if (currentmenu != &HelpDef && currentmenu != &PlayPalDef)
+    if (currentmenu != &HelpDef && currentmenu != &PaletteDef)
     {
         // DRAW SKULL
         const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };

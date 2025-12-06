@@ -104,7 +104,7 @@ int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void (*routine)(int), bool input);
 
-void M_ShowPlayPal(void);
+void M_ShowPalette(void);
 
 void M_QuitResponse(int key);
 void M_QuitDOOM(int choice);
@@ -118,7 +118,7 @@ extern bool     nosfx;
 extern bool     firstevent;
 extern bool     savegames;
 extern bool     helpscreen;
-extern bool     playpalscreen;
+extern bool     palettescreen;
 extern bool     quitting;
 extern bool     reopenautomap;
 extern int      menuspindirection;

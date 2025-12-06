@@ -442,11 +442,11 @@ static void newgame_func2(char *cmd, char *parms);
 static void noclip_func2(char *cmd, char *parms);
 static void nomonsters_func2(char *cmd, char *parms);
 static void notarget_func2(char *cmd, char *parms);
+static void palette_func2(char *cmd, char *parms);
 static void pistolstart_func2(char *cmd, char *parms);
 static bool play_func1(char *cmd, char *parms);
 static void play_func2(char *cmd, char *parms);
 static void playerstats_func2(char *cmd, char *parms);
-static void playpal_func2(char *cmd, char *parms);
 static void print_func2(char *cmd, char *parms);
 static void quit_func2(char *cmd, char *parms);
 static void readme_func2(char *cmd, char *parms);
@@ -864,6 +864,8 @@ consolecmd_t consolecmds[] =
         "Toggles monsters not targeting you."),
     CVAR_BOOL(obituaries, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles displaying obituaries when you or monsters are killed."),
+    CCMD(palette, "", "", null_func1, palette_func2, false, "",
+        "Shows all 256 colors in the current palette."),
     CCMD(pistolstart, "", "", null_func1, pistolstart_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles you starting each map with 100% health, no armor, and only your pistol with 50 bullets."),
     CCMD(play, "", "", play_func1, play_func2, true, PLAYCMDFORMAT,
@@ -874,8 +876,6 @@ consolecmd_t consolecmds[] =
         "Your name."),
     CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
         "Shows stats about you."),
-    CCMD(playpal, "", "", null_func1, playpal_func2, false, "",
-        "Shows all 256 colors in the current palette."),
     CCMD(print, "", "", game_ccmd_func1, print_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, "", exit, null_func1, quit_func2, false, "",
@@ -7771,11 +7771,11 @@ static void playerstats_func2(char *cmd, char *parms)
 }
 
 //
-// playpal CCMD
+// palette CCMD
 //
-static void playpal_func2(char *cmd, char *parms)
+static void palette_func2(char *cmd, char *parms)
 {
-    M_ShowPlayPal();
+    M_ShowPalette();
 }
 
 //
