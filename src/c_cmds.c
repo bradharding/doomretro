@@ -711,7 +711,7 @@ consolecmd_t consolecmds[] =
     CCMD(condump, "", "", condump_func1, condump_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
         "Dumps the contents of the console to a file."),
     CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, int_cvars_func2, CF_COLOR, EDGECOLORVALUEALIAS,
-        "The color of console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
+        "The color of the console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(con_timestampformat, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, TIMESTAMPVALUEALIAS,
         "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
     CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
