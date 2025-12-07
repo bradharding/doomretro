@@ -1574,8 +1574,8 @@ static void M_DrawPalette(void)
             for (char *p = digits; *p; p++)
                 totalwidth += SHORT(consolefont[*p - CONSOLEFONTSTART]->width) - (*p == '4');
 
-            numx += (width - totalwidth) / 2;
-            numy += 3;
+            numx += (width - totalwidth - 2) / 2 + 1;
+            numy += (height - SHORT(consolefont[0]->height) - 2) / 2 + 1;
 
             for (char *p = digits; *p; p++)
             {

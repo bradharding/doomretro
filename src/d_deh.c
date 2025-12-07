@@ -4530,10 +4530,12 @@ static void InitRocketTrails(void)
     int oldnummobjtypes = nummobjtypes;
 
     dsdh_EnsureSpritesCapacity(numsprites + 1);
+
     sprnames[oldnumsprites] = M_StringDuplicate("RSMK");
     numsprites = oldnumsprites + 1;
 
     dsdh_EnsureStatesCapacity(oldnumstates + 4);
+
     states[oldnumstates] = (state_t){ .sprite = oldnumsprites, .frame = 0, .tics = 4, .nextstate = oldnumstates + 1 };
     states[oldnumstates + 1] = (state_t){ .sprite = oldnumsprites, .frame = 1, .tics = 4, .nextstate = oldnumstates + 2 };
     states[oldnumstates + 2] = (state_t){ .sprite = oldnumsprites, .frame = 2, .tics = 10, .nextstate = oldnumstates + 3 };
@@ -4541,20 +4543,21 @@ static void InitRocketTrails(void)
     numstates = oldnumstates + 4;
 
     dsdh_EnsureMobjInfoCapacity(oldnummobjtypes + 1);
+
     nummobjtypes = oldnummobjtypes + 1;
-    mobjinfo[nummobjtypes - 1] = mobjinfo[MT_TRAIL];
-    mobjinfo[nummobjtypes - 1].doomednum = -1;
-    mobjinfo[nummobjtypes - 1].spawnstate = oldnumstates;
-    mobjinfo[nummobjtypes - 1].flags = (MF_NOBLOCKMAP | MF_NOGRAVITY);
-    mobjinfo[nummobjtypes - 1].flags2 = 0;
-    mobjinfo[nummobjtypes - 1].mbf21flags = 0;
-    M_StringCopy(mobjinfo[nummobjtypes - 1].name1, "rocket trail", sizeof(mobjinfo[nummobjtypes - 1].name1));
-    M_StringCopy(mobjinfo[nummobjtypes - 1].plural1, "rocket trails", sizeof(mobjinfo[nummobjtypes - 1].plural1));
-    mobjinfo[nummobjtypes - 1].name2[0] = '\0';
-    mobjinfo[nummobjtypes - 1].plural2[0] = '\0';
-    mobjinfo[nummobjtypes - 1].name3[0] = '\0';
-    mobjinfo[nummobjtypes - 1].plural3[0] = '\0';
     MT_TRAIL2 = nummobjtypes - 1;
+    mobjinfo[MT_TRAIL2] = mobjinfo[MT_TRAIL];
+    mobjinfo[MT_TRAIL2].doomednum = -1;
+    mobjinfo[MT_TRAIL2].spawnstate = oldnumstates;
+    mobjinfo[MT_TRAIL2].flags = (MF_NOBLOCKMAP | MF_NOGRAVITY);
+    mobjinfo[MT_TRAIL2].flags2 = 0;
+    mobjinfo[MT_TRAIL2].mbf21flags = 0;
+    M_StringCopy(mobjinfo[MT_TRAIL2].name1, "rocket trail", sizeof(mobjinfo[MT_TRAIL2].name1));
+    M_StringCopy(mobjinfo[MT_TRAIL2].plural1, "rocket trails", sizeof(mobjinfo[MT_TRAIL2].plural1));
+    mobjinfo[MT_TRAIL2].name2[0] = '\0';
+    mobjinfo[MT_TRAIL2].plural2[0] = '\0';
+    mobjinfo[MT_TRAIL2].name3[0] = '\0';
+    mobjinfo[MT_TRAIL2].plural3[0] = '\0';
 }
 
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };

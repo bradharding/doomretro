@@ -10859,7 +10859,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     return;
                 }
                 else if (!negativehealth
-                    || (negativehealth && (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth))))
+                    || (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth)))
                 {
                     char   *temp1;
                     char   *temp2;
@@ -10880,14 +10880,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                                 viewplayer->damagecount = viewplayer->health - value;
 
                             if (!resettingcvar)
-                            {
-                                if (value == health_default)
-                                    C_Output(PERCENTCVARCHANGEDTODEFAULT,
-                                        C_GetPlayerName(), stringize(health), temp1, temp2);
-                                else
-                                    C_Output(PERCENTCVARCHANGED,
-                                        C_GetPlayerName(), stringize(health), temp1, temp2);
-                            }
+                                C_Output(PERCENTCVARCHANGED,
+                                    C_GetPlayerName(), stringize(health), temp1, temp2);
 
                             viewplayer->health = value;
                             viewplayer->negativehealth = value;

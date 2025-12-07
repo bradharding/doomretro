@@ -7,7 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * When changing a CVAR in the console, a message is now displayed indicating that the CVAR has been changed and what it was previously.
 * The values of color CVARs in the console, shown either by entering a CVAR individually or by using the `cvarlist` CCMD, are now shown with a colored background.
-* A new `palette` CCMD has been implemented that will display a table of all 256 colors of the current `PLAYPAL` lump.
+* A new `palette` CCMD has been implemented that will display a table of all 256 colors in the current palette.
 * The `spawn` CCMD now still tries to spawn things anywhere around the player if there isn’t enough space directly in front of them.
 * Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
 * The trail of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` now appear when playing PWADs with `DEHACKED` lumps, including [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
