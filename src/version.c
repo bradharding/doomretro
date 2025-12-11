@@ -87,10 +87,10 @@ static bool VersionLessThan(const char *a, const char *b)
         int     vb = 0;
         char    *end;
 
-        while (*pa && !isdigit((unsigned char)*pa))
+        while (*pa && !isdigit(*pa))
             pa++;
 
-        if (*pa && isdigit((unsigned char)*pa))
+        if (*pa && isdigit(*pa))
         {
             va = strtol(pa, &end, 10);
             pa = end;
@@ -98,10 +98,10 @@ static bool VersionLessThan(const char *a, const char *b)
         else
             va = 0;
 
-        while (*pb && !isdigit((unsigned char)*pb))
+        while (*pb && !isdigit(*pb))
             pb++;
 
-        if (*pb && isdigit((unsigned char)*pb))
+        if (*pb && isdigit(*pb))
         {
             vb = strtol(pb, &end, 10);
             pb = end;
