@@ -530,7 +530,7 @@ manual_floor:
                 floor->texture = sec->floorpic;
                 floor->newspecial = sec->special;
 
-                for (int i = 0; i < sec->linecount; i++)
+                for (int i = 0, linecount = sec->linecount; i < linecount; i++)
                     if (P_TwoSided(secnum, i))
                     {
                         if (P_GetSide(secnum, i, 0)->sector->id == secnum)
