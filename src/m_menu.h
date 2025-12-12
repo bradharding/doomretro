@@ -134,4 +134,4 @@ extern menu_t   SaveDef;
 extern bool     customepisodes;
 extern uint64_t controllerwait;
 extern uint64_t mousewait;
-extern int      maptoepisode[100];
+extern int      maptoepisode[1000];

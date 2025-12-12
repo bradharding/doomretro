@@ -125,7 +125,7 @@ static fixed_t  playerviewz;
 static patch_t  *menuborder;
 static short    titleheight;
 
-int             maptoepisode[100] = { 0 };
+int             maptoepisode[1000] = { 0 };
 
 //
 // PROTOTYPES
@@ -1755,7 +1755,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             else
                 break;
 
-        for (int i = map + 1; i < 100; i++)
+        for (int i = map + 1; i < 1000; i++)
             if (maptoepisode[i] < episodecount)
                 maptoepisode[i] = episodecount;
 

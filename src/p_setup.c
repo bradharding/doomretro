@@ -62,7 +62,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXMAPINFO  100
 #define NUMLIQUIDS  256
 
 enum
@@ -249,7 +248,7 @@ bool                skipblstart;            // MaxW: Skip initial blocklist shor
 static int          rejectlump = -1;        // cph - store reject lump num if cached
 const byte          *rejectmatrix;          // cph - const*
 
-static mapinfo_t    mapinfo[10][100];
+static mapinfo_t    mapinfo[10][1000];
 
 static char *mapcmdnames[] =
 {
@@ -3019,7 +3018,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel && !masterlevels)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3041,7 +3040,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3054,7 +3053,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3074,7 +3073,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3226,7 +3225,7 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
 //
 void P_SetupLevel(int ep, int map)
 {
-    char        lumpname[6];
+    char        lumpname[9];
     int         lumpnum;
     static int  prevlumpnum = -1;
     const char  *author = P_GetMapAuthor(ep, map);
@@ -3272,7 +3271,7 @@ void P_SetupLevel(int ep, int map)
     {
         if (gamemode == commercial)
         {
-            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%i", map);
 
             if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
@@ -3489,7 +3488,7 @@ static int  noliquidlumps;
 static void P_InitMapInfo(void)
 {
     for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 100; j++)
+        for (int j = 0; j < 1000; j++)
         {
             mapinfo[i][j].allowmonstertelefrags = -1;
             mapinfo[i][j].author[0] = '\0';
@@ -3547,8 +3546,7 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
 
     if (gamemode == commercial)
     {
-        if (sscanf(buffer, "MAP0%1i", &value1) == 1
-            || sscanf(buffer, "MAP%2i", &value1) == 1)
+        if (sscanf(buffer, "MAP%i", &value1) == 1)
             *map = value1;
     }
     else
@@ -3664,18 +3662,17 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
+            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 999)
             {
                 char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
-                    if (sscanf(temp, "MAP0%1i", &map) != 1)
-                        if (sscanf(temp, "MAP%2i", &map) != 1)
-                        {
-                            free(temp);
-                            continue;
-                        }
+                    if (sscanf(temp, "MAP%i", &map) != 1)
+                    {
+                        free(temp);
+                        continue;
+                    }
                 }
                 else if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
                 {
@@ -3686,7 +3683,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 free(temp);
             }
 
-            if (map >= 0 && map <= 99)
+            if (map >= 0 && map <= 999)
             {
                 SC_MustGetString();
 
@@ -3708,13 +3705,13 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
+            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 999)
             {
                 char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
-                    if (sscanf(temp, "MAP0%1i", &map) != 1 && sscanf(temp, "MAP%2i", &map) != 1)
+                    if (sscanf(temp, "MAP%i", &map) != 1)
                     {
                         free(temp);
                         continue;
@@ -3732,7 +3729,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 free(temp);
             }
 
-            if (map < 0 || map > 99)
+            if (map < 0 || map > 999)
             {
                 if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
@@ -4088,13 +4085,13 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 break;
                             }
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 99)
+                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
                             {
                                 char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    if (sscanf(buffer, "MAP0%1i", &nextmap) != 1 && sscanf(buffer, "MAP%2i", &nextmap) != 1)
+                                    if (sscanf(buffer, "MAP%i", &nextmap) != 1)
                                         continue;
                                 }
                                 else
@@ -4162,13 +4159,13 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             SC_MustGetString();
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 99)
+                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
                             {
                                 char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    if (sscanf(buffer, "MAP0%1i", &nextmap) != 1 && sscanf(buffer, "MAP%2i", &nextmap) != 1)
+                                    if (sscanf(buffer, "MAP%i", &nextmap) != 1)
                                         continue;
                                 }
                                 else
@@ -4288,6 +4285,9 @@ static bool P_ParseMapInfo(const char *scriptname)
             if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
                 terraintypes[lump] = SOLID;
         }
+
+        C_Output("map2:%i", map);
+
     }
 
     SC_Close();
