@@ -4963,7 +4963,7 @@ static void map_func2(char *cmd, char *parms)
 #define RPJM2   RP ", " JM2
 #define SPTH    SP ", " TH
 
-char *authors[][6] =
+char *authors[1000][6] =
 {
     /* xy      doom   doom2 tnt    plut  nerve */
     /* 00 */ { "",    "",   "",    DCMC, "" },
@@ -5064,12 +5064,12 @@ static const char *getauthor(int ep, int map, bool replaced)
         return author;
     else if (gamemission == doom)
     {
-        if (!replaced && *authors[ep * 10 + map][gamemission])
+        if (!replaced && authors[ep * 10 + map][gamemission])
             return authors[ep * 10 + map][gamemission];
         else if (REKKR)
             return "Matthew Little";
     }
-    else if (!replaced && *authors[map][gamemission])
+    else if (!replaced && authors[map][gamemission])
         return authors[map][gamemission];
 
     return "\x96";
@@ -5099,12 +5099,9 @@ static void maplist_func2(char *cmd, char *parms)
         M_StringCopy(lump, temp1, sizeof(lump));
         free(temp1);
 
-        if (strlen(lump) > 5)
-            continue;
-
         if (gamemode == commercial)
         {
-            if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
+            if (sscanf(lump, "MAP%i", &map) != 1)
                 continue;
         }
         else
@@ -5461,7 +5458,7 @@ static void mapstats_func2(char *cmd, char *parms)
 
     if (BTSX || KDIKDIZD || legacyofrust || *mapinfolabel)
     {
-        char    lumpname[6];
+        char    lumpname[9];
 
         M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", gamemap);
 

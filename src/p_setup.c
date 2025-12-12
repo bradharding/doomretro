@@ -3018,7 +3018,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel && !masterlevels)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
+                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3040,7 +3040,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
+                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3053,7 +3053,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
+                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3073,7 +3073,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "MAP%i", map);
+                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3271,7 +3271,7 @@ void P_SetupLevel(int ep, int map)
     {
         if (gamemode == commercial)
         {
-            M_snprintf(lumpname, sizeof(lumpname), "MAP%i", map);
+            M_snprintf(lumpname, sizeof(lumpname), (map < 100 ? "MAP%02i" : "MAP%i"), map);
 
             if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
@@ -4285,9 +4285,6 @@ static bool P_ParseMapInfo(const char *scriptname)
             if ((lump = R_CheckFlatNumForName(sc_String)) >= 0)
                 terraintypes[lump] = SOLID;
         }
-
-        C_Output("map2:%i", map);
-
     }
 
     SC_Close();
