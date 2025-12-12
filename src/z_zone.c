@@ -6,8 +6,8 @@
 
 ==============================================================================
 
-    Copyright © 1993-2025 by id Software LLC, a ZeniMax Media company.
-    Copyright © 2013-2025 by Brad Harding <mailto:brad@doomretro.com>.
+    Copyright © 1993-2026 by id Software LLC, a ZeniMax Media company.
+    Copyright © 2013-2026 by Brad Harding <mailto:brad@doomretro.com>.
 
     This file is a part of DOOM Retro.
 
