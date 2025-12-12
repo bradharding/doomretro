@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+### DOOM Retro v5.8.3
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, December 12, 2025
+
 ### DOOM Retro v5.8.2
 
 * *DOOM Retro* is now built using v18.1.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
@@ -13,7 +19,7 @@
 * These changes have been made to the support of `DEHACKED` lumps:
   * The trail of smoke behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` now appear if thing 149 and/or its accompanying states are replaced.
   * A bug is fixed whereby the execution of certain codepointers could be repeated in the same tic in some rare instances.
-* Navigating to E1M0, E2M0 and MAP99 in [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) has been fixed.
+* Navigating to E1M0, E2M0 and MAP99 in [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust) using the `map` CCMD or `IDCLEV` cheat has been fixed.
 * These improvements have been made to the support of `DBIGFONT` lumps:
   * Black pixels are no longer translucent.
   * `ON`/`OFF` and `HIGH`/`LOW` now appear in the options menu.
