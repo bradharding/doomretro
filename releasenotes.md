@@ -2,6 +2,9 @@
 
 ### DOOM Retro v5.8.3
 
+* Maps `MAP100` to `MAP999` specified in a `MAPINFO` lump are now supported.
+* A bug is fixed, present in the original *DOOM*, whereby not all floor textures would change when using line specials 37, 84, 159 and 177.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, December 12, 2025
