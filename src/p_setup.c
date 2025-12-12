@@ -248,7 +248,9 @@ bool                skipblstart;            // MaxW: Skip initial blocklist shor
 static int          rejectlump = -1;        // cph - store reject lump num if cached
 const byte          *rejectmatrix;          // cph - const*
 
-static mapinfo_t    mapinfo[10][1000];
+static mapinfo_t    **mapinfo;
+static int          mapinfo_num_episodes = 10;
+static int          mapinfo_max_map = 0;
 
 static char *mapcmdnames[] =
 {
@@ -403,6 +405,9 @@ bool            mbf21compatible = false;
 bool            blockmaprebuilt;
 bool            nofreelook = false;
 bool            nojump = false;
+
+static int      liquidlumps;
+static int      noliquidlumps;
 
 const char *linespecials[NUMLINESPECIALS] =
 {
@@ -3018,7 +3023,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel && !masterlevels)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3040,7 +3045,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3053,7 +3058,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3073,7 +3078,7 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), (map < 100 ? "MAP%02i" : "MAP%i"), map);
+                M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3271,7 +3276,7 @@ void P_SetupLevel(int ep, int map)
     {
         if (gamemode == commercial)
         {
-            M_snprintf(lumpname, sizeof(lumpname), (map < 100 ? "MAP%02i" : "MAP%i"), map);
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
 
             if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
@@ -3482,60 +3487,93 @@ void P_SetupLevel(int ep, int map)
 
 }
 
-static int  liquidlumps;
-static int  noliquidlumps;
+static void P_InitMapInfoEntry(mapinfo_t *info)
+{
+    info->allowmonstertelefrags = -1;
+    info->author[0] = '\0';
+    info->cluster = 0;
+    info->compat_corpsegibs = false;
+    info->compat_floormove = false;
+    info->compat_light = false;
+    info->compat_limitpain = false;
+    info->compat_nopassover = false;
+    info->compat_stairs = false;
+    info->compat_useblocking = false;
+    info->compat_zombie = false;
+    info->endbunny = false;
+    info->endcast = false;
+    info->endgame = false;
+    info->endpic = 0;
+    info->enteranim[0] = '\0';
+    info->enterpic = 0;
+    info->exitanim[0] = '\0';
+    info->exitpic = 0;
+    info->interbackdrop[0] = '\0';
+    info->intermusic = 0;
+    info->intertext[0] = '\0';
+    info->intertextsecret[0] = '\0';
+    info->label[0] = '\0';
+
+    for (int k = 0; k < NUMLIQUIDS; k++)
+    {
+        info->liquid[k] = -1;
+        info->noliquid[k] = -1;
+    }
+
+    info->music = 0;
+    info->musicartist[0] = '\0';
+    info->musictitle[0] = '\0';
+    info->name[0] = '\0';
+    info->next = 0;
+    info->nofreelook = false;
+    info->nograduallighting = false;
+    info->nojump = false;
+    info->numbossactions = 0;
+    info->par = 0;
+    info->pistolstart = false;
+    info->secret = false;
+    info->secretnext = 0;
+    info->sky1texture = 0;
+    info->sky1scrolldelta = 0.0f;
+    info->titlepatch = 0;
+}
+
+static void P_EnsureMapInfoCapacity(int new_max_map)
+{
+    const int   old_max = mapinfo_max_map;
+    const int   alloc_count = new_max_map + 1;
+
+    if (new_max_map <= mapinfo_max_map)
+        return;
+
+    for (int ep = 0; ep < mapinfo_num_episodes; ep++)
+    {
+        size_t  new_size = (size_t)alloc_count * sizeof(mapinfo_t);
+        size_t  old_size = (size_t)(old_max + 1) * sizeof(mapinfo_t);
+
+        if (!mapinfo[ep])
+        {
+            mapinfo[ep] = (mapinfo_t *)I_Calloc(alloc_count, sizeof(mapinfo_t));
+
+            for (int i = 0; i <= new_max_map; i++)
+                P_InitMapInfoEntry(&mapinfo[ep][i]);
+
+            continue;
+        }
+
+        mapinfo[ep] = (mapinfo_t *)I_Realloc(mapinfo[ep], new_size);
+
+        for (int i = old_max + 1; i <= new_max_map; i++)
+            P_InitMapInfoEntry(&mapinfo[ep][i]);
+    }
+
+    mapinfo_max_map = new_max_map;
+}
 
 static void P_InitMapInfo(void)
 {
-    for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 1000; j++)
-        {
-            mapinfo[i][j].allowmonstertelefrags = -1;
-            mapinfo[i][j].author[0] = '\0';
-            mapinfo[i][j].cluster = 0;
-            mapinfo[i][j].compat_corpsegibs = false;
-            mapinfo[i][j].compat_floormove = false;
-            mapinfo[i][j].compat_light = false;
-            mapinfo[i][j].compat_limitpain = false;
-            mapinfo[i][j].compat_nopassover = false;
-            mapinfo[i][j].compat_stairs = false;
-            mapinfo[i][j].compat_useblocking = false;
-            mapinfo[i][j].compat_zombie = false;
-            mapinfo[i][j].endbunny = false;
-            mapinfo[i][j].endcast = false;
-            mapinfo[i][j].endgame = false;
-            mapinfo[i][j].endpic = 0;
-            mapinfo[i][j].enterpic = 0;
-            mapinfo[i][j].exitpic = 0;
-            mapinfo[i][j].interbackdrop[0] = '\0';
-            mapinfo[i][j].intermusic = 0;
-            mapinfo[i][j].intertext[0] = '\0';
-            mapinfo[i][j].intertextsecret[0] = '\0';
-            mapinfo[i][j].label[0] = '\0';
-
-            for (int k = 0; k < NUMLIQUIDS; k++)
-            {
-                mapinfo[i][j].liquid[k] = -1;
-                mapinfo[i][j].noliquid[k] = -1;
-            }
-
-            mapinfo[i][j].music = 0;
-            mapinfo[i][j].musicartist[0] = '\0';
-            mapinfo[i][j].musictitle[0] = '\0';
-            mapinfo[i][j].name[0] = '\0';
-            mapinfo[i][j].next = 0;
-            mapinfo[i][j].nofreelook = false;
-            mapinfo[i][j].nograduallighting = false;
-            mapinfo[i][j].nojump = false;
-            mapinfo[i][j].numbossactions = 0;
-            mapinfo[i][j].par = 0;
-            mapinfo[i][j].pistolstart = false;
-            mapinfo[i][j].secretnext = 0;
-            mapinfo[i][j].secret = false;
-            mapinfo[i][j].sky1texture = 0;
-            mapinfo[i][j].sky1scrolldelta = 0;
-            mapinfo[i][j].titlepatch = 0;
-        }
+    mapinfo = (mapinfo_t **)I_Calloc((size_t)mapinfo_num_episodes, sizeof(mapinfo_t *));
+    P_EnsureMapInfoCapacity(100);
 }
 
 static void P_ParseMapString(const char *string, int *map, int *ep)
@@ -3746,6 +3784,9 @@ static bool P_ParseMapInfo(const char *scriptname)
                     continue;
                 }
             }
+
+            if (map > mapinfo_max_map)
+                P_EnsureMapInfoCapacity(map);
 
             info = &mapinfo[ep][map];
 
@@ -4288,6 +4329,9 @@ static bool P_ParseMapInfo(const char *scriptname)
     }
 
     SC_Close();
+
+    if (mapmax > mapinfo_max_map)
+        P_EnsureMapInfoCapacity(mapmax);
 
     if (customepisodes)
     {

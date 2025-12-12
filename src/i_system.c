@@ -330,6 +330,19 @@ void *I_Malloc(size_t size)
 }
 
 //
+// I_Calloc
+//
+void *I_Calloc(size_t count, size_t size)
+{
+    void    *newp = calloc(count, size);
+
+    if (!newp && size)
+        I_Error("I_Calloc: Failure trying to allocate %zu bytes", size);
+
+    return newp;
+}
+
+//
 // I_Realloc
 //
 void *I_Realloc(void *block, size_t size)
