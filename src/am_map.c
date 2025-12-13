@@ -2467,6 +2467,6 @@ void AM_Drawer(void)
     else if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
         AM_StatusBarShadow();
 
-    if (!(am_followmode || consoleactive))
+    if (!am_followmode)
         AM_DrawCrosshair();
 }
