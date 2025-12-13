@@ -4681,7 +4681,7 @@ static bool map_func1(char *cmd, char *parms)
                     M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
                     result = (W_CheckNumForName(lump) >= 0);
                 }
-                else if (sscanf(parm, "MAP0%1d", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
+                else if (sscanf(parm, "MAP%d", &mapcmdmap) == 1)
                 {
                     if (!((BTSX && W_GetNumLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
@@ -4696,25 +4696,25 @@ static bool map_func1(char *cmd, char *parms)
                 }
                 else if (BTSX)
                 {
-                    if (sscanf(parm, "MAP%02iC", &mapcmdmap) == 1)
+                    if (sscanf(parm, "MAP%02dC", &mapcmdmap) == 1)
                         result = (W_CheckNumForName(parm) >= 0);
                     else
                     {
                         if ((sscanf(parm, "E%1dM0%1d", &mapcmdepisode, &mapcmdmap) == 2
-                            || sscanf(parm, "E%1dM%2i", &mapcmdepisode, &mapcmdmap) == 2)
+                            || sscanf(parm, "E%1dM%2d", &mapcmdepisode, &mapcmdmap) == 2)
                             && ((mapcmdepisode == 1 && BTSXE1)
                                 || (mapcmdepisode == 2 && BTSXE2)
                                 || (mapcmdepisode == 3 && BTSXE3)))
                         {
                             char    lump[6];
 
-                            M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                            M_snprintf(lump, sizeof(lump), "MAP%d", mapcmdmap);
                             result = (W_GetNumLumps(lump) == 2);
                         }
                     }
                 }
             }
-            else if (sscanf(parm, "E%1dM%i", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parm, "E%1dM%d", &mapcmdepisode, &mapcmdmap) == 2)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
         }
 
@@ -4735,14 +4735,14 @@ static bool map_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 1;
 
-                    if (sscanf(mapcmdlump, "MAP0%1d", &mapcmdmap) != 1 && sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
+                    if (sscanf(mapcmdlump, "MAP%d", &mapcmdmap) != 1)
                         continue;
                 }
                 else
                 {
                     if (sscanf(mapcmdlump, "E%1dM%1dB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
                         M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
-                    else if (sscanf(mapcmdlump, "E%1dM%i", &mapcmdepisode, &mapcmdmap) != 2)
+                    else if (sscanf(mapcmdlump, "E%1dM%d", &mapcmdepisode, &mapcmdmap) != 2)
                         continue;
                 }
 
