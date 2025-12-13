@@ -5101,7 +5101,7 @@ static void maplist_func2(char *cmd, char *parms)
 
         if (gamemode == commercial)
         {
-            if (sscanf(lump, "MAP%i", &map) != 1)
+            if (sscanf(lump, "MAP%d", &map) != 1)
                 continue;
         }
         else
@@ -5109,7 +5109,7 @@ static void maplist_func2(char *cmd, char *parms)
             if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
                 || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
                 continue;
-            else if (sscanf(lump, "E%1dM%i", &ep, &map) != 2)
+            else if (sscanf(lump, "E%1dM%d", &ep, &map) != 2)
                 continue;
         }
 
