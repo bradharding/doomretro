@@ -3584,12 +3584,12 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
 
     if (gamemode == commercial)
     {
-        if (sscanf(buffer, "MAP%i", &value1) == 1)
+        if (sscanf(buffer, "MAP%d", &value1) == 1)
             *map = value1;
     }
     else
     {
-        if (sscanf(buffer, "E%1iM%i", &value1, &value2) == 2)
+        if (sscanf(buffer, "E%1dM%d", &value1, &value2) == 2)
         {
             *ep = value1;
             *map = value2;
@@ -3700,19 +3700,19 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 999)
+            if (sscanf(sc_String, "%d", &map) != 1 || map < 0 || map > 999)
             {
                 char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
-                    if (sscanf(temp, "MAP%i", &map) != 1)
+                    if (sscanf(temp, "MAP%d", &map) != 1)
                     {
                         free(temp);
                         continue;
                     }
                 }
-                else if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
+                else if (sscanf(temp, "E%1dM%d", &ep, &map) != 2)
                 {
                     free(temp);
                     continue;
@@ -3743,13 +3743,13 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 999)
+            if (sscanf(sc_String, "%d", &map) != 1 || map < 0 || map > 999)
             {
                 char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
-                    if (sscanf(temp, "MAP%i", &map) != 1)
+                    if (sscanf(temp, "MAP%d", &map) != 1)
                     {
                         free(temp);
                         continue;
@@ -3757,7 +3757,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 }
                 else
                 {
-                    if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
+                    if (sscanf(temp, "E%1dM%d", &ep, &map) != 2)
                     {
                         free(temp);
                         continue;
@@ -4126,18 +4126,18 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 break;
                             }
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
+                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
                             {
                                 char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    if (sscanf(buffer, "MAP%i", &nextmap) != 1)
+                                    if (sscanf(buffer, "MAP%d", &nextmap) != 1)
                                         continue;
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1iM%i", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%1dM%d", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 
@@ -4200,18 +4200,18 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             SC_MustGetString();
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
+                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
                             {
                                 char    *buffer = uppercase(sc_String);
 
                                 if (gamemode == commercial)
                                 {
-                                    if (sscanf(buffer, "MAP%i", &nextmap) != 1)
+                                    if (sscanf(buffer, "MAP%d", &nextmap) != 1)
                                         continue;
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1iM%i", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%1dM%d", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 

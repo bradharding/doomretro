@@ -347,7 +347,7 @@ void AM_GetGridSize(void)
     int width = -1;
     int height = -1;
 
-    if (sscanf(am_gridsize, "%10ix%10i", &width, &height) == 2
+    if (sscanf(am_gridsize, "%10dx%10d", &width, &height) == 2
         && width >= am_gridsize_width_min && width <= am_gridsize_width_max
         && height >= am_gridsize_height_min && height <= am_gridsize_height_max)
     {

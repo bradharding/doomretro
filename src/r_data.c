@@ -382,13 +382,13 @@ static void R_InitBrightmaps(void)
                     {
                         int color1, color2;
 
-                        if (sscanf(p, "%i-%i", &color1, &color2) == 2)
+                        if (sscanf(p, "%d-%d", &color1, &color2) == 2)
                         {
                             if ((color1 = MIN(color1, 255)) >= 0)
                                 while (color1 <= color2)
                                     masks[nummasks][color1++] = 1;
                         }
-                        else if (sscanf(p, "%i", &color1) == 1)
+                        else if (sscanf(p, "%d", &color1) == 1)
                         {
                             if (color1 >= 0 && color1 <= 255)
                                 masks[nummasks][color1] = 1;

@@ -3080,7 +3080,7 @@ static bool give_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
             if (temp1)
@@ -3439,7 +3439,7 @@ static void give_func2(char *cmd, char *parms)
                     && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                        || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                        || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
                         C_Warning(0, "%s can't be given %s %s in " ITALICS("%s") "!",
@@ -3596,7 +3596,7 @@ static void if_func2(char *cmd, char *parms)
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10i", &value) == 1)
+                if (sscanf(parms, "%10d", &value) == 1)
                     condition = (value != INT_MIN
                         && value == viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype]);
             }
@@ -3604,21 +3604,21 @@ static void if_func2(char *cmd, char *parms)
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10i", &value) == 1)
+                if (sscanf(parms, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->armor);
             }
             else if (M_StringCompare(parm1, "armortype") || M_StringCompare(parm1, "armourtype"))
             {
                 int value = C_LookupValueFromAlias(parm2, ARMORTYPEVALUEALIAS);
 
-                if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+                if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->armortype);
             }
             else if (M_StringCompare(parm1, "health"))
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10i", &value) == 1)
+                if (sscanf(parms, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->health);
             }
             else if (consolecmds[i].type == CT_CVAR)
@@ -3633,7 +3633,7 @@ static void if_func2(char *cmd, char *parms)
                 {
                     int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
-                    if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+                    if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
                         condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
                 }
                 else if (consolecmds[i].flags & CF_FLOAT)
@@ -3788,7 +3788,7 @@ static bool kill_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
-                        || (sscanf(parm, "%10i", &num) == 1 && num == killcmdtype && num != -1)))
+                        || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
                 {
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss)
                         result = false;
@@ -4681,7 +4681,7 @@ static bool map_func1(char *cmd, char *parms)
                     M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
                     result = (W_CheckNumForName(lump) >= 0);
                 }
-                else if (sscanf(parm, "MAP0%1i", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
+                else if (sscanf(parm, "MAP0%1d", &mapcmdmap) == 1 || sscanf(parm, "MAP%2i", &mapcmdmap) == 1)
                 {
                     if (!((BTSX && W_GetNumLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
                     {
@@ -4700,8 +4700,8 @@ static bool map_func1(char *cmd, char *parms)
                         result = (W_CheckNumForName(parm) >= 0);
                     else
                     {
-                        if ((sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) == 2
-                            || sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap) == 2)
+                        if ((sscanf(parm, "E%1dM0%1d", &mapcmdepisode, &mapcmdmap) == 2
+                            || sscanf(parm, "E%1dM%2i", &mapcmdepisode, &mapcmdmap) == 2)
                             && ((mapcmdepisode == 1 && BTSXE1)
                                 || (mapcmdepisode == 2 && BTSXE2)
                                 || (mapcmdepisode == 3 && BTSXE3)))
@@ -4714,7 +4714,7 @@ static bool map_func1(char *cmd, char *parms)
                     }
                 }
             }
-            else if (sscanf(parm, "E%1iM%i", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parm, "E%1dM%i", &mapcmdepisode, &mapcmdmap) == 2)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
         }
 
@@ -4735,14 +4735,14 @@ static bool map_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 1;
 
-                    if (sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap) != 1 && sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
+                    if (sscanf(mapcmdlump, "MAP0%1d", &mapcmdmap) != 1 && sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
                         continue;
                 }
                 else
                 {
-                    if (sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
+                    if (sscanf(mapcmdlump, "E%1dM%1dB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
                         M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
-                    else if (sscanf(mapcmdlump, "E%1iM%i", &mapcmdepisode, &mapcmdmap) != 2)
+                    else if (sscanf(mapcmdlump, "E%1dM%i", &mapcmdepisode, &mapcmdmap) != 2)
                         continue;
                 }
 
@@ -5109,7 +5109,7 @@ static void maplist_func2(char *cmd, char *parms)
             if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
                 || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
                 continue;
-            else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
+            else if (sscanf(lump, "E%1dM%i", &ep, &map) != 2)
                 continue;
         }
 
@@ -8455,7 +8455,7 @@ static bool resurrect_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
-                        || (sscanf(parm, "%10i", &num) == 1 && num == resurrectcmdtype && num != -1)))
+                        || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss)
                         result = false;
@@ -8747,7 +8747,7 @@ static bool spawn_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10i", &num) == 1 && num == spawncmdtype && num != -1))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1))
                 && (!spawncmdfriendly || (mobjinfo[i].flags & MF_SHOOTABLE)))
                 result = true;
 
@@ -8998,7 +8998,7 @@ static bool take_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
             if (temp1)
@@ -9289,7 +9289,7 @@ static void take_func2(char *cmd, char *parms)
                     && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                        || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                        || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (P_TakeSpecialThing(i))
                     {
@@ -9350,7 +9350,7 @@ static bool teleport_func1(char *cmd, char *parms)
     {
         fixed_t x, y;
 
-        return (sscanf(parms, "%10i %10i", &x, &y) == 2);
+        return (sscanf(parms, "%10d %10d", &x, &y) == 2);
     }
 }
 
@@ -9377,7 +9377,7 @@ static void teleport_func2(char *cmd, char *parms)
         fixed_t x, y;
         fixed_t z = ONFLOORZ;
 
-        if (sscanf(parms, "%10i %10i %10i", &x, &y, &z) >= 2)
+        if (sscanf(parms, "%10d %10d %10d", &x, &y, &z) >= 2)
         {
             mobj_t          *mo = viewplayer->mo;
             const fixed_t   oldx = viewx;
@@ -9514,7 +9514,7 @@ static void timer_func2(char *cmd, char *parms)
 
         if (M_StringCompare(parms, "off"))
             value = 0;
-        else if (sscanf(parms, "%10i", &value) != 1)
+        else if (sscanf(parms, "%10d", &value) != 1)
             return;
 
         value = BETWEEN(0, value, TIMERMAXMINUTES);
@@ -9922,7 +9922,7 @@ static bool int_cvars_func1(char *cmd, char *parms)
 
             M_StringReplaceAll(parms, ",", "", false);
 
-            return ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+            return ((value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
                 && value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
 
@@ -9940,7 +9940,7 @@ static void int_cvars_func2(char *cmd, char *parms)
 
                 M_StringReplaceAll(parms, ",", "", false);
 
-                if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+                if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
                 {
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
@@ -10647,21 +10647,21 @@ static bool player_cvars_func1(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && value > viewplayer->maxammo[viewplayer->readyweapon])
+        if (sscanf(parms, "%10d", &value) == 1 && value > viewplayer->maxammo[viewplayer->readyweapon])
             return false;
     }
     else if (M_StringCompare(cmd, stringize(armor)))
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && value > max_armor)
+        if (sscanf(parms, "%10d", &value) == 1 && value > max_armor)
             return false;
     }
     else if (M_StringCompare(cmd, stringize(health)))
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1 && value < -99 || value > maxhealth)
+        if (sscanf(parms, "%10d", &value) == 1 && value < -99 || value > maxhealth)
             return false;
     }
 
@@ -10682,7 +10682,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo && viewplayer->health > 0)
+            if (sscanf(parms, "%10d", &value) == 1 && ammotype != am_noammo && viewplayer->health > 0)
             {
                 char   *temp1 = commify(viewplayer->ammo[ammotype]);
                 char   *temp2 = commify(value);
@@ -10763,7 +10763,7 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1)
+            if (sscanf(parms, "%10d", &value) == 1)
             {
                 char   *temp1 = commify(viewplayer->armor);
                 char   *temp2 = commify(value);
@@ -10840,7 +10840,7 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1)
+            if (sscanf(parms, "%10d", &value) == 1)
 
             {
                 if (value == viewplayer->health)
@@ -11138,7 +11138,7 @@ static void r_fov_func2(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1)
+        if (sscanf(parms, "%10d", &value) == 1)
         {
             if (value == r_fov)
             {
@@ -11680,7 +11680,7 @@ static bool s_volume_cvars_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
+    if (sscanf(parms, "%10d%%", &value) != 1 && sscanf(parms, "%10d", &value) != 1)
         return false;
 
     return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min && value <= s_musicvolume_max)
@@ -11693,7 +11693,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
+        if (sscanf(parms, "%10d%%", &value) != 1 && sscanf(parms, "%10d", &value) != 1)
             return;
 
         if (M_StringCompare(cmd, stringize(s_musicvolume)))
@@ -12328,7 +12328,7 @@ static bool weapon_func1(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        if (sscanf(parms, "%1i", &value) == 1)
+        if (sscanf(parms, "%1d", &value) == 1)
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (value == weaponinfo[i].key - '0')
                 {
@@ -12371,7 +12371,7 @@ static void weapon_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        if (sscanf(parms, "%1i", &value) == 1)
+        if (sscanf(parms, "%1d", &value) == 1)
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (value == weaponinfo[i].key - '0')
                 {

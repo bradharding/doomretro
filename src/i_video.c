@@ -1187,7 +1187,7 @@ void GetWindowPosition(void)
         windowx = 0;
         windowy = 0;
     }
-    else if (sscanf(vid_windowpos, "(%10i,%10i)", &x, &y) != 2)
+    else if (sscanf(vid_windowpos, "(%10d,%10d)", &x, &y) != 2)
     {
         windowx = 0;
         windowy = 0;
@@ -1260,7 +1260,7 @@ void GetScreenResolution(void)
         int width;
         int height;
 
-        if (sscanf(vid_screenresolution, "%10ix%10i", &width, &height) != 2
+        if (sscanf(vid_screenresolution, "%10dx%10d", &width, &height) != 2
             || !ValidScreenMode(width, height))
         {
             screenwidth = 0;

@@ -1897,7 +1897,7 @@ void GetPixelSize(void)
     int width = -1;
     int height = -1;
 
-    if (sscanf(r_lowpixelsize, "%2ix%2i", &width, &height) == 2
+    if (sscanf(r_lowpixelsize, "%2dx%2d", &width, &height) == 2
         && ((width >= 2 && height >= 1) || (width >= 1 && height >= 2)))
     {
         if (width == 2 && height == 2)

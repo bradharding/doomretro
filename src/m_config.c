@@ -978,7 +978,7 @@ static int ParseIntParameter(const char *cvar, const char *strparm, const int va
 
     index = C_GetIndex(cvar);
 
-    if (sscanf(strparm, "%10i", &parm) == 1
+    if (sscanf(strparm, "%10d", &parm) == 1
         && parm >= consolecmds[index].minimumvalue && parm <= consolecmds[index].maximumvalue)
         return parm;
     else
@@ -1037,22 +1037,22 @@ static bool M_EarlierVersion(char *version1, char *version2)
     int minor2 = 0;
     int patch2 = 0;
 
-    if (sscanf(version1, "%i.%i.%i", &major1, &minor1, &patch1) == 3)
+    if (sscanf(version1, "%d.%d.%d", &major1, &minor1, &patch1) == 3)
     {
-        if (sscanf(version2, "%i.%i.%i", &major2, &minor2, &patch2) == 3)
+        if (sscanf(version2, "%d.%d.%d", &major2, &minor2, &patch2) == 3)
             return (major1 < major2
                 || (major1 == major2 && minor1 < minor2)
                 || (major1 == major2 && minor1 == minor2 && patch1 < patch2));
-        else if (sscanf(version2, "%i.%i", &major2, &minor2) == 2)
+        else if (sscanf(version2, "%d.%d", &major2, &minor2) == 2)
             return (major1 < major2
                 || (major1 == major2 && minor1 <= minor2));
     }
-    else if (sscanf(version1, "%i.%i", &major1, &minor1) == 2)
+    else if (sscanf(version1, "%d.%d", &major1, &minor1) == 2)
     {
-        if (sscanf(version2, "%i.%i.%i", &major2, &minor2, &patch2) == 3)
+        if (sscanf(version2, "%d.%d.%d", &major2, &minor2, &patch2) == 3)
             return (major1 < major2
                 || (major1 == major2 && minor1 <= minor2));
-        else if (sscanf(version2, "%i.%i", &major2, &minor2) == 2)
+        else if (sscanf(version2, "%d.%d", &major2, &minor2) == 2)
             return (major1 < major2
                 || (major1 == major2 && minor1 < minor2));
     }
