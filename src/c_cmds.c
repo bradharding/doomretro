@@ -4963,7 +4963,7 @@ static void map_func2(char *cmd, char *parms)
 #define RPJM2   RP ", " JM2
 #define SPTH    SP ", " TH
 
-char *authors[1000][6] =
+char *authors[][6] =
 {
     /* xy      doom   doom2 tnt    plut  nerve */
     /* 00 */ { "",    "",   "",    DCMC, "" },
@@ -5064,12 +5064,12 @@ static const char *getauthor(int ep, int map, bool replaced)
         return author;
     else if (gamemission == doom)
     {
-        if (!replaced && authors[ep * 10 + map][gamemission])
+        if (!replaced && ep * 10 + map < arrlen(authors) && authors[ep * 10 + map][gamemission])
             return authors[ep * 10 + map][gamemission];
         else if (REKKR)
             return "Matthew Little";
     }
-    else if (!replaced && authors[map][gamemission])
+    else if (!replaced && map < arrlen(authors) && authors[map][gamemission])
         return authors[map][gamemission];
 
     return "\x96";
@@ -5532,12 +5532,12 @@ static void mapstats_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
             C_TabbedOutput(tabs, "Author\t%s", s_AUTHOR_ROMERO);
-        else if (canmodify && *authors[gameepisode * 10 + gamemap][gamemission])
+        else if (canmodify && gameepisode * 10 + gamemap < arrlen(authors) && authors[gameepisode * 10 + gamemap][gamemission])
             C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode * 10 + gamemap][gamemission]);
         else if (REKKR)
             C_TabbedOutput(tabs, "Author\tMatthew Little");
     }
-    else if (canmodify && *authors[gamemap][gamemission])
+    else if (canmodify && gamemap < arrlen(authors) && authors[gamemap][gamemission])
         C_TabbedOutput(tabs, "Author\t%s", authors[gamemap][gamemission]);
 
     if (gamemode == commercial)

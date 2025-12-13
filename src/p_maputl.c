@@ -627,7 +627,7 @@ static bool P_TraverseIntercepts(traverser_t func, const fixed_t maxfrac)
         if (dist > maxfrac)
             return true;    // checked everything in range
 
-        if (!in || !func(in))
+        if (!func(in))
             return false;   // don't bother going farther
 
         in->frac = FIXED_MAX;

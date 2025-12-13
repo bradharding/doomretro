@@ -1497,7 +1497,7 @@ static void M_DeleteSaveGame(void)
 //
 static void M_DrawHelp(void)
 {
-    char    lumpname[6] = "HELP1";
+    char    lumpname[9] = "HELP1";
 
     if (gamemode == shareware)
         M_StringCopy(lumpname, "HELP3", sizeof(lumpname));

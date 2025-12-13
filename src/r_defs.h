@@ -611,11 +611,25 @@ enum
     TransferSkyTextureToTaggedSectors                                                                     =  271,
     TransferSkyTextureToTaggedSectors_Flipped                                                             =  272,
 
+    Zokum_DoNotRender                                                                                     =  998,
+    Zokum_NoBlockmap                                                                                      =  999,
+
     MBF21LINESPECIALS                                                                                     = 1024,
 
     Scroll_ScrollWallWithSameTagUsingSidedefOffsets                                                       = 1024,
     Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight                                = 1025,
     Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight                     = 1026,
+
+    Zokum_RemoteScroll                                                                                    = 1048,
+    Zokum_ChangeStartVertex                                                                               = 1078,
+    Zokum_ChangeEndVertex                                                                                 = 1079,
+    Zokum_RotateDegrees                                                                                   = 1080,
+    Zokum_RotateDegreesHard                                                                               = 1081,
+    Zokum_RotateAngleT                                                                                    = 1082,
+    Zokum_RotateAngleTHard                                                                                = 1083,
+    Zokum_DoNotRenderBackSeg                                                                              = 1084,
+    Zokum_DoNotRenderFrontSeg                                                                             = 1085,
+    Zokum_DoNotRenderAnySeg                                                                               = 1086,
 
     ID24LINESPECIALS                                                                                      = 2048,
 

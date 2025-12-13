@@ -2,8 +2,8 @@
 
 ### DOOM Retro v5.8.3
 
-* Maps greater than `MAP99` specified in a `MAPINFO` lump are now supported.
-* A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 and 177.
+* Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
+* A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -2062,7 +2062,7 @@ static void D_DoomMainSetup(void)
     int     p = M_CheckParmWithArgs("-config", 1);
     int     choseniwad = 0;
     bool    autoloading = false;
-    char    lumpname[6];
+    char    lumpname[9];
     char    *appdatafolder = M_GetAppDataFolder();
     char    *iwadfile;
     int     startloadgame;
