@@ -2,6 +2,7 @@
 
 ### DOOM Retro v5.8.3
 
+* Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 

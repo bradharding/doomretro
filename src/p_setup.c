@@ -3700,7 +3700,7 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%d", &map) != 1 || map < 0 || map > 999)
+            if (sscanf(sc_String, "%d", &map) != 1 || map < 0)
             {
                 char    *temp = uppercase(sc_String);
 
@@ -3721,7 +3721,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 free(temp);
             }
 
-            if (map >= 0 && map <= 999)
+            if (map >= 0)
             {
                 SC_MustGetString();
 
@@ -3743,7 +3743,7 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             SC_MustGetString();
 
-            if (sscanf(sc_String, "%d", &map) != 1 || map < 0 || map > 999)
+            if (sscanf(sc_String, "%d", &map) != 1 || map < 0)
             {
                 char    *temp = uppercase(sc_String);
 
@@ -3767,7 +3767,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 free(temp);
             }
 
-            if (map < 0 || map > 999)
+            if (map < 0)
             {
                 if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
@@ -4126,7 +4126,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 break;
                             }
 
-                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
+                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0)
                             {
                                 char    *buffer = uppercase(sc_String);
 
@@ -4200,7 +4200,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             SC_MustGetString();
 
-                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0 || nextmap > 999)
+                            if (sscanf(sc_String, "%d", &nextmap) != 1 || nextmap < 0)
                             {
                                 char    *buffer = uppercase(sc_String);
 

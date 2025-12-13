@@ -2485,7 +2485,6 @@ static void cmdlist_func2(char *cmd, char *parms)
 //
 // condump CCMD
 //
-
 static int indentation(const char *string)
 {
     const int   len = (int)strlen(string);

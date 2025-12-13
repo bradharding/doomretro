@@ -504,7 +504,7 @@ manual_floor:
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
 
-                for (int i = 0; i < sec->linecount; i++)
+                for (int i = 0, linecount = sec->linecount; i < linecount; i++)
                     if (P_TwoSided(secnum, i))
                     {
                         side_t  *side = P_GetSide(secnum, i, 0);
@@ -560,7 +560,7 @@ manual_floor:
         floor->stopsound = (sec->floorheight != floor->floordestheight);
 
         // [BH] floor is no longer secret
-        for (int i = 0; i < sec->linecount; i++)
+        for (int i = 0, linecount = sec->linecount; i < linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
 
         if (zerotag_manual)
@@ -735,7 +735,7 @@ manual_stair:
         {
             okay = false;
 
-            for (int i = 0; i < sec->linecount; i++)
+            for (int i = 0, linecount = sec->linecount; i < linecount; i++)
             {
                 line_t      *li = sec->lines[i];
                 sector_t    *tsec;
