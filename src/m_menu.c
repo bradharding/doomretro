@@ -1861,8 +1861,20 @@ void M_SetWindowCaption(void)
         if (gamemode == commercial)
         {
             if (customepisodes)
-                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                    mapnumandtitle, *episodes[maptoepisode[gamemap] - 1], gamedescription, DOOMRETRO_NAME);
+            {
+                const int   ep = maptoepisode[gamemap];
+                const char  *epname = NULL;
+
+                if (ep > 0 && episodes && episodes[ep - 1])
+                    epname = *episodes[ep - 1];
+
+                if (epname)
+                    M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
+                        mapnumandtitle, epname, gamedescription, DOOMRETRO_NAME);
+                else
+                    M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
+                        mapnumandtitle, gamedescription, DOOMRETRO_NAME);
+            }
             else if ((gamemission == doom2 && !nerve) || gamemission == pack_plut
                 || gamemission == pack_tnt || M_StringEndsWith(gamedescription, ".wad"))
                 M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
@@ -1873,8 +1885,16 @@ void M_SetWindowCaption(void)
                     DOOMRETRO_NAME);
         }
         else
+        {
+            const int   ep = gameepisode;
+            const char  *epname = NULL;
+
+            if (ep > 0 && episodes && episodes[ep - 1])
+                epname = *episodes[ep - 1];
+
             M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
-                mapnumandtitle, *episodes[gameepisode - 1], gamedescription, DOOMRETRO_NAME);
+                mapnumandtitle, (epname ? epname : ""), gamedescription, DOOMRETRO_NAME);
+        }
     }
     else
         M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
