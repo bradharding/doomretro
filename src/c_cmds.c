@@ -5316,20 +5316,27 @@ static int GetNumMaps(int lumpnum)
     for (int i = 0; i < numlumps; i++)
     {
         char    lump[9];
+        int     ep = -1;
+        int     map = -1;
 
         M_StringCopy(lump, lumpinfo[i]->name, sizeof(lump));
 
-        if (!strncmp(lump, "MAP", 3) && isdigit(lump[3]) && isdigit(lump[4]) && strlen(lump) == 5)
+        if (M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
         {
-            int map;
-
-            if (sscanf(lump + 3, "%d", &map) == 1
-                && M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
-                count++;
+            if (gamemode == commercial)
+            {
+                if (sscanf(lump, "MAP%d", &map) == 1 && map != -1)
+                    count++;
+            }
+            else
+            {
+                if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
+                    || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
+                    count++;
+                else if (sscanf(lump, "E%dM%d", &ep, &map) == 2 && ep != -1 && map != -1)
+                    count++;
+            }
         }
-        else if (lump[0] == 'E' && isdigit(lump[1]) && lump[2] == 'M' && isdigit(lump[3]) && strlen(lump) == 4
-            && M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
-            count++;
     }
 
     return count;
