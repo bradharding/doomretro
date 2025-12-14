@@ -337,6 +337,7 @@ static void nextweapon_action_func(void);
 static void path_action_func(void);
 static void pistol_action_func(void);
 static void plasmarifle_action_func(void);
+static void prevmessage_action_func(void);
 static void prevweapon_action_func(void);
 static void right_action_func(void);
 static void rocketlauncher_action_func(void);
@@ -382,6 +383,7 @@ action_t actions[] =
     { "+path",           true,  false, path_action_func,            &keyboardpath,           &keyboardpath2,           &mousepath,           &controllerpath,           NULL            },
     { "+pistol",         true,  false, pistol_action_func,          &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
     { "+plasmarifle",    true,  false, plasmarifle_action_func,     &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
+    { "+prevmessage",    true,  false, prevmessage_action_func,     &keyboardprevmessage,    &keyboardprevmessage2,    &mouseprevmessage,    &controllerprevmessage,    NULL            },
     { "+prevweapon",     true,  false, prevweapon_action_func,      &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
     { "+right",          true,  false, right_action_func,           &keyboardright,          &keyboardright2,          &mouseright,          &controllerright,          NULL            },
     { "+rocketlauncher", true,  false, rocketlauncher_action_func,  &keyboardrocketlauncher, &keyboardrocketlauncher2, &mouserocketlauncher, &controllerrocketlauncher, NULL            },
@@ -1316,6 +1318,12 @@ static void plasmarifle_action_func(void)
         P_ChangeWeapon(wp_plasma, false);
 }
 
+static void prevmessage_action_func(void)
+{
+    if (gamestate == GS_LEVEL)
+        M_ShowPrevMessage();
+}
+
 static void prevweapon_action_func(void)
 {
     if (gamestate == GS_LEVEL)
@@ -1834,34 +1842,6 @@ void alias_func2(char *cmd, char *parms)
 
             return;
         }
-}
-
-bool IsControlBound(const controltype_t type, const int control)
-{
-    for (int i = 0; *actions[i].action; i++)
-        if (type == keyboardcontrol)
-        {
-            if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
-                return true;
-
-            if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
-                return true;
-        }
-        else if (type == mousecontrol)
-        {
-            if (actions[i].mouse1 && controls[control].value == *(int *)actions[i].mouse1)
-                return true;
-        }
-        else if (type == controllercontrol)
-        {
-            if (actions[i].controller1 && controls[control].value == *(int *)actions[i].controller1)
-                return true;
-
-            if (actions[i].controller2 && controls[control].value == *(int *)actions[i].controller2)
-                return true;
-        }
-
-    return false;
 }
 
 static int GetControlWithAction(int action)
