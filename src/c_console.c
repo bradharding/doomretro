@@ -2330,6 +2330,7 @@ void C_Drawer(void)
             }
         }
     }
+
     // draw caret
     if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
     {
