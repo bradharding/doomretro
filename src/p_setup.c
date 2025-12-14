@@ -3589,7 +3589,7 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
     }
     else
     {
-        if (sscanf(buffer, "E%1dM%d", &value1, &value2) == 2)
+        if (sscanf(buffer, "E%dM%d", &value1, &value2) == 2)
         {
             *ep = value1;
             *map = value2;
@@ -3712,7 +3712,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                         continue;
                     }
                 }
-                else if (sscanf(temp, "E%1dM%d", &ep, &map) != 2)
+                else if (sscanf(temp, "E%dM%d", &ep, &map) != 2)
                 {
                     free(temp);
                     continue;
@@ -3757,7 +3757,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 }
                 else
                 {
-                    if (sscanf(temp, "E%1dM%d", &ep, &map) != 2)
+                    if (sscanf(temp, "E%dM%d", &ep, &map) != 2)
                     {
                         free(temp);
                         continue;
@@ -4137,7 +4137,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1dM%d", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%dM%d", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 
@@ -4211,7 +4211,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1dM%d", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%dM%d", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 

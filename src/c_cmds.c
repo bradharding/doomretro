@@ -4666,7 +4666,7 @@ static bool map_func1(char *cmd, char *parms)
             {
                 mapcmdepisode = 1;
 
-                if (legacyofrust && sscanf(parm, "E%iM%i", &mapcmdepisode, &mapcmdmap) == 2)
+                if (legacyofrust && sscanf(parm, "E%dM%d", &mapcmdepisode, &mapcmdmap) == 2)
                 {
                     char    lump[6];
 
@@ -4677,7 +4677,7 @@ static bool map_func1(char *cmd, char *parms)
                     else
                         mapcmdmap = 0;
 
-                    M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                    M_snprintf(lump, sizeof(lump), "MAP%d", mapcmdmap);
                     result = (W_CheckNumForName(lump) >= 0);
                 }
                 else if (sscanf(parm, "MAP%d", &mapcmdmap) == 1)
@@ -4699,8 +4699,7 @@ static bool map_func1(char *cmd, char *parms)
                         result = (W_CheckNumForName(parm) >= 0);
                     else
                     {
-                        if ((sscanf(parm, "E%1dM0%1d", &mapcmdepisode, &mapcmdmap) == 2
-                            || sscanf(parm, "E%1dM%2d", &mapcmdepisode, &mapcmdmap) == 2)
+                        if ((sscanf(parm, "E%dM%d", &mapcmdepisode, &mapcmdmap) == 2)
                             && ((mapcmdepisode == 1 && BTSXE1)
                                 || (mapcmdepisode == 2 && BTSXE2)
                                 || (mapcmdepisode == 3 && BTSXE3)))
@@ -4713,7 +4712,7 @@ static bool map_func1(char *cmd, char *parms)
                     }
                 }
             }
-            else if (sscanf(parm, "E%1dM%d", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parm, "E%dM%d", &mapcmdepisode, &mapcmdmap) == 2)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
         }
 
@@ -4739,9 +4738,9 @@ static bool map_func1(char *cmd, char *parms)
                 }
                 else
                 {
-                    if (sscanf(mapcmdlump, "E%1dM%1dB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
+                    if (sscanf(mapcmdlump, "E%dM%dB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
                         M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
-                    else if (sscanf(mapcmdlump, "E%1dM%d", &mapcmdepisode, &mapcmdmap) != 2)
+                    else if (sscanf(mapcmdlump, "E%dM%d", &mapcmdepisode, &mapcmdmap) != 2)
                         continue;
                 }
 
@@ -5108,7 +5107,7 @@ static void maplist_func2(char *cmd, char *parms)
             if ((M_StringCompare(lump, "E1M4B") && (gamemode == shareware || E1M4))
                 || (M_StringCompare(lump, "E1M8B") && (gamemode == shareware || E1M8)))
                 continue;
-            else if (sscanf(lump, "E%1dM%d", &ep, &map) != 2)
+            else if (sscanf(lump, "E%dM%d", &ep, &map) != 2)
                 continue;
         }
 
@@ -5344,7 +5343,7 @@ static int GetNumMaps(int lumpnum)
         {
             int map;
 
-            if (sscanf(lump + 3, "%2i", &map) == 1
+            if (sscanf(lump + 3, "%d", &map) == 1
                 && M_StringCompare(lumpinfo[lumpnum]->wadfile->path, lumpinfo[i]->wadfile->path))
                 count++;
         }

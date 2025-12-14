@@ -2416,8 +2416,6 @@ static void AM_ApplyAntialiasing(void)
 
 void AM_Drawer(void)
 {
-    const bool  things = (viewplayer->cheats & CF_ALLMAP_THINGS);
-
     AM_SetFrameVariables();
     AM_ClearFB();
 
@@ -2426,33 +2424,35 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (things)
+    if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
         if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
             AM_DrawBloodSplats();
 
         AM_DrawWalls_Cheating();
-    }
-    else if (viewplayer->cheats & CF_ALLMAP)
-        AM_DrawWalls_Cheating();
-    else if (viewplayer->powers[pw_allmap])
-        AM_DrawWalls_AllMap();
-    else
-        AM_DrawWalls();
 
-    if (am_path && numbreadcrumbs > 0)
-        AM_DrawPath();
+        if (am_path && numbreadcrumbs > 0)
+            AM_DrawPath();
 
-    if (things)
         AM_DrawThings();
+    }
+    else
+    {
+        if (viewplayer->cheats & CF_ALLMAP)
+            AM_DrawWalls_Cheating();
+        else if (viewplayer->powers[pw_allmap])
+            AM_DrawWalls_AllMap();
+        else
+            AM_DrawWalls();
+
+        if (am_path && numbreadcrumbs > 0)
+            AM_DrawPath();
+    }
 
     AM_DrawPlayer();
 
     if (am_antialiasing)
         AM_ApplyAntialiasing();
-
-    if (nummarks && r_detail == r_detail_high)
-        AM_DrawMarks(marknums);
 
     if (r_detail == r_detail_low)
     {
@@ -2464,8 +2464,14 @@ void AM_Drawer(void)
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
             AM_BigStatusBarShadow();
     }
-    else if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
-        AM_StatusBarShadow();
+    else
+    {
+        if (nummarks)
+            AM_DrawMarks(marknums);
+
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
+            AM_StatusBarShadow();
+    }
 
     if (!am_followmode)
         AM_DrawCrosshair();
