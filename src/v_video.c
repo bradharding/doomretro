@@ -1992,6 +1992,8 @@ bool V_ScreenShot(void)
 
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));
+    else if (palettescreen)
+        M_StringCopy(mapname, "Palette", sizeof(mapname));
     else if (helpscreen)
         M_StringCopy(mapname, "Help", sizeof(mapname));
     else if (menuactive)
