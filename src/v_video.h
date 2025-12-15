@@ -125,6 +125,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int shadowcolor, int screenwidth, const byte *tinttab);
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int shadowcolor, int screenwidth, const byte *tinttab);
+void V_FillPillarboxes(int screen, int color);
 void V_DrawPagePatch(int screen, patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow);
