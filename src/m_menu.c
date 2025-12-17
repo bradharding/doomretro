@@ -2852,22 +2852,6 @@ static void M_ChangeGamma(bool shift)
     M_SaveCVARs();
 }
 
-void M_ShowPrevMessage(void)
-{
-    if (message_on)
-        message_counter = 4;
-    else
-    {
-        char    buffer[133] = "";
-
-        HU_SetPlayerMessage(prevmessage, false, false);
-        M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, C_GetPlayerName());
-
-        if (M_StringCompare(prevmessage, buffer))
-            message_secret = true;
-    }
-}
-
 //
 // M_Responder
 //
@@ -2993,15 +2977,6 @@ bool M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_scrsht);
                 memset(screens[0], nearestwhite, SCREENAREA);
                 D_FadeScreen(true);
-                return false;
-            }
-
-            // previous message
-            else if ((controllerbuttons & controllerprevmessage) && controllerwait < I_GetTime())
-            {
-                controllerwait = I_GetTime() + 2;
-                usingcontroller = true;
-                M_ShowPrevMessage();
                 return false;
             }
        }
@@ -3253,15 +3228,6 @@ bool M_Responder(event_t *ev)
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
             D_FadeScreen(true);
-            return false;
-        }
-
-        // previous message
-        else if (mouseprevmessage != -1 && (ev->data1 & mouseprevmessage) && mousewait < I_GetTime())
-        {
-            mousewait = I_GetTime() + 5;
-            usingcontroller = false;
-            M_ShowPrevMessage();
             return false;
         }
     }
@@ -3538,12 +3504,24 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    if (key && (key == keyboardprevmessage || key == keyboardprevmessage2) && *prevmessage
-        && viewplayer->health > 0 && !consoleactive && !helpscreen && messages
-        && (r_hud || r_screensize < r_screensize_max) && !keydown2)
+    if (key == KEY_ENTER && *prevmessage && viewplayer->health > 0 && !consoleactive
+        && !helpscreen && messages && (r_hud || r_screensize < r_screensize_max)
+        && !keydown2 && !IsControlBound(keyboardcontrol, KEY_ENTER))
     {
         keydown2 = key;
-        M_ShowPrevMessage();
+
+        if (message_on)
+            message_counter = 4;
+        else
+        {
+            char    buffer[133] = "";
+
+            HU_SetPlayerMessage(prevmessage, false, false);
+            M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, C_GetPlayerName());
+
+            if (M_StringCompare(prevmessage, buffer))
+                message_secret = true;
+        }
     }
     else if (key == '-')
     {

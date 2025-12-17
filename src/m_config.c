@@ -1087,9 +1087,6 @@ static void M_CheckCVARs(void)
     if (M_EarlierVersion(version, DOOMRETRO_VERSIONSTRING_5_7_2))
         stat_distancetraveled /= UNITSPERFOOT;
 
-    if (M_StringCompare(version, DOOMRETRO_VERSIONSTRING_5_8_3) && !IsControlBound(keyboardcontrol, KEY_ENTER))
-        bind_func2("bind", "enter +prevmessage");
-
     if (M_EarlierVersion(version, version_default))
         C_Warning(0, "Thank you for upgrading " ITALICS(DOOMRETRO_NAME "!")
             " Enter " BOLD("releasenotes") " to list what's changed since the last version.");

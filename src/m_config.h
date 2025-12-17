@@ -995,8 +995,6 @@ enum
 #define KEYPISTOL2_DEFAULT                  0
 #define KEYPLASMARIFLE_DEFAULT              0
 #define KEYPLASMARIFLE2_DEFAULT             0
-#define KEYPREVMESSAGE_DEFAULT              KEY_ENTER
-#define KEYPREVMESSAGE2_DEFAULT             0
 #define KEYPREVWEAPON_DEFAULT               0
 #define KEYPREVWEAPON2_DEFAULT              0
 #define KEYRIGHT_DEFAULT                    KEY_RIGHTARROW
@@ -1069,7 +1067,6 @@ enum
 #define MOUSEPATH_DEFAULT                   -1
 #define MOUSEPISTOL_DEFAULT                 -1
 #define MOUSEPLASMARIFLE_DEFAULT            -1
-#define MOUSEPREVMESSAGE_DEFAULT            -1
 #define MOUSEPREVWEAPON_DEFAULT             MOUSE_WHEELUP
 #define MOUSERIGHT_DEFAULT                  -1
 #define MOUSEROCKETLAUNCHER_DEFAULT         -1
@@ -1115,7 +1112,6 @@ enum
 #define CONTROLLERPATH_DEFAULT              0
 #define CONTROLLERPISTOL_DEFAULT            0
 #define CONTROLLERPLASMARIFLE_DEFAULT       0
-#define CONTROLLERPREVMESSAGE_DEFAULT       0
 #define CONTROLLERPREVWEAPON_DEFAULT        CONTROLLER_LEFT_SHOULDER
 #define CONTROLLERRIGHT_DEFAULT             0
 #define CONTROLLERROCKETLAUNCHER_DEFAULT    0

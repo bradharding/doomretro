@@ -111,8 +111,6 @@ void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string);
 
-void M_ShowPrevMessage(void);
-
 extern bool     messagetoprint;
 extern bool     nomusic;
 extern bool     nosound;

@@ -6,7 +6,7 @@
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * The crosshair displayed in the automap when the `am_followmode` CVAR is `off` now remains on the screen while the console is open.
-* Pressing the <kbd><b>ENTER</b></kbd> key to show the previous player message can now be rebound to another control using the `bind` CCMD and the `+prevmessage` action.
+* A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action, when pressed it would also still show the previous player message.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
