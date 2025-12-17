@@ -144,6 +144,7 @@ void alias_func2(char *cmd, char *parms);
 void bind_func2(char *cmd, char *parms);
 void exec_func2(char *cmd, char *parms);
 
+bool IsControlBound(const controltype_t type, const int control);
 char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiastype);
 int C_GetIndex(const char *cmd);
 bool C_ExecuteAlias(const char *alias);

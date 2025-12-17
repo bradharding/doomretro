@@ -1844,6 +1844,47 @@ void alias_func2(char *cmd, char *parms)
         }
 }
 
+bool IsControlBound(const controltype_t type, const int control)
+{
+    if (type == keyboardcontrol && *keyactionlist[control])
+        return true;
+    else if (type == mousecontrol && *mouseactionlist[control])
+        return true;
+
+    for (int i = 0; *actions[i].action; i++)
+        if (type == keyboardcontrol)
+        {
+            if (actions[i].keyboard1
+                && *(int *)actions[i].keyboard1
+                && control == *(int *)actions[i].keyboard1)
+                return true;
+            else if (actions[i].keyboard2
+                && *(int *)actions[i].keyboard2
+                && control == *(int *)actions[i].keyboard2)
+                return true;
+        }
+        else if (type == mousecontrol)
+        {
+            if (actions[i].mouse1
+                && *(int *)actions[i].mouse1 != -1
+                && control == *(int *)actions[i].mouse1)
+                return true;
+        }
+        else if (type == controllercontrol)
+        {
+            if (actions[i].controller1
+                && *(int *)actions[i].controller1
+                && control == *(int *)actions[i].controller1)
+                return true;
+            else if (actions[i].controller2
+                && *(int *)actions[i].controller2
+                && control == *(int *)actions[i].controller2)
+                return true;
+        }
+
+    return false;
+}
+
 static int GetControlWithAction(int action)
 {
     int control = 0;
