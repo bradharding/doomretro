@@ -1013,8 +1013,10 @@ bool G_Responder(const event_t *ev)
             if (mousebuttons[mousealwaysrun])
                 G_ToggleAlwaysRun(ev_mouse);
 
-            if (mouseactionlist[mousebutton][0] && !freeze)
-                C_ExecuteInputString(mouseactionlist[mousebutton]);
+            if (!freeze)
+                for (int i = 0; i < MAXMOUSEBUTTONS; i++)
+                    if (mousebuttons[i] && mouseactionlist[i][0])
+                        C_ExecuteInputString(mouseactionlist[i]);
 
             if (!automapactive && !menuactive && !paused && !freeze)
             {
