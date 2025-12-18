@@ -249,7 +249,6 @@ static int          rejectlump = -1;        // cph - store reject lump num if ca
 const byte          *rejectmatrix;          // cph - const*
 
 static mapinfo_t    **mapinfo;
-static int          mapinfo_num_episodes = 10;
 static int          mapinfo_max_map = 0;
 
 static char *mapcmdnames[] =
@@ -3546,7 +3545,7 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
     if (new_max_map <= mapinfo_max_map)
         return;
 
-    for (int ep = 0; ep < mapinfo_num_episodes; ep++)
+    for (int ep = 0; ep < MAXEPISODES; ep++)
     {
         size_t  new_size = (size_t)alloc_count * sizeof(mapinfo_t);
         size_t  old_size = (size_t)(old_max + 1) * sizeof(mapinfo_t);
@@ -3572,7 +3571,7 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
 
 static void P_InitMapInfo(void)
 {
-    mapinfo = (mapinfo_t **)I_Calloc((size_t)mapinfo_num_episodes, sizeof(mapinfo_t *));
+    mapinfo = (mapinfo_t **)I_Calloc((size_t)MAXEPISODES, sizeof(mapinfo_t *));
     P_EnsureMapInfoCapacity(100);
 }
 

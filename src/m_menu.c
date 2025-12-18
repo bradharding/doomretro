@@ -1873,7 +1873,7 @@ void M_SetWindowCaption(void)
                 const int   ep = maptoepisode[gamemap];
                 const char  *epname = NULL;
 
-                if (ep > 0 && episodes && episodes[ep - 1])
+                if (ep > 0 && ep < MAXEPISODES && episodes[ep - 1])
                     epname = *episodes[ep - 1];
 
                 if (epname)
@@ -1897,7 +1897,7 @@ void M_SetWindowCaption(void)
             const int   ep = gameepisode;
             const char  *epname = NULL;
 
-            if (ep > 0 && episodes && episodes[ep - 1])
+            if (ep > 0 && ep < MAXEPISODES && episodes[ep - 1])
                 epname = *episodes[ep - 1];
 
             M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",

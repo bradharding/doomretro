@@ -42,6 +42,8 @@ typedef struct
     int tag;
 } bossaction_t;
 
+#define MAXEPISODES 10
+
 extern bool         canmodify;
 extern bool         samelevel;
 extern bool         secretmap;
