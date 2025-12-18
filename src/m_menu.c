@@ -125,7 +125,7 @@ static fixed_t  playerviewz;
 static patch_t  *menuborder;
 static short    titleheight;
 
-int             maptoepisode[1000] = { 0 };
+int             *maptoepisode;
 
 //
 // PROTOTYPES
@@ -1736,6 +1736,14 @@ static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1, -1 };
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
+    static int  maxmaps;
+
+    if (map > maxmaps)
+    {
+        maxmaps = map;
+        maptoepisode = I_Realloc(maptoepisode, maxmaps * sizeof(*maptoepisode));
+    }
+
     if (gamemode == commercial)
     {
         static int  episodecount = 0;
@@ -1755,7 +1763,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             else
                 break;
 
-        for (int i = map + 1; i < 1000; i++)
+        for (int i = map + 1; i < maxmaps; i++)
             if (maptoepisode[i] < episodecount)
                 maptoepisode[i] = episodecount;
 
