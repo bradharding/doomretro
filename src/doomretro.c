@@ -177,19 +177,9 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char *argv[])
 {
-    myargc = argc;
-
-    if ((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
-    {
-        memcpy(myargv, argv, myargc * sizeof(myargv[0]));
-
-        for (int i = 0; i < myargc; i++)
-            M_NormalizeSlashes(myargv[i]);
-    }
-
-    M_FindResponseFile();
-
 #if defined(_WIN32)
+    PROCESS_POWER_THROTTLING_STATE  throttlestate;
+
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
@@ -201,6 +191,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // Disable power throttling for this process to improve performance
+    ZeroMemory(&throttlestate, sizeof(throttlestate));
+    throttlestate.Version = PROCESS_POWER_THROTTLING_CURRENT_VERSION;
+    throttlestate.ControlMask = PROCESS_POWER_THROTTLING_EXECUTION_SPEED;
+    throttlestate.StateMask = 0;
+    SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &throttlestate, sizeof(throttlestate));
+
     // Save the current sticky/toggle/filter key settings so they can be restored later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
     SystemParametersInfo(SPI_GETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);
@@ -208,6 +205,18 @@ int main(int argc, char *argv[])
 
     I_AccessibilityShortcutKeys(false);
 #endif
+
+    myargc = argc;
+
+    if ((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
+    {
+        memcpy(myargv, argv, myargc * sizeof(myargv[0]));
+
+        for (int i = 0; i < myargc; i++)
+            M_NormalizeSlashes(myargv[i]);
+    }
+
+    M_FindResponseFile();
 
     D_DoomMain();
 
