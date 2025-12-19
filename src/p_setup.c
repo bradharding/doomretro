@@ -249,7 +249,7 @@ static int          rejectlump = -1;        // cph - store reject lump num if ca
 const byte          *rejectmatrix;          // cph - const*
 
 static mapinfo_t    **mapinfo;
-static int          mapinfo_max_map = 0;
+static int          mapinfomaxmaps = 0;
 
 static char *mapcmdnames[] =
 {
@@ -3537,10 +3537,10 @@ static void P_InitMapInfoEntry(mapinfo_t *info)
 
 static void P_EnsureMapInfoCapacity(int new_max_map)
 {
-    const int   old_max = mapinfo_max_map;
+    const int   old_max = mapinfomaxmaps;
     const int   alloc_count = new_max_map + 1;
 
-    if (new_max_map <= mapinfo_max_map)
+    if (new_max_map <= mapinfomaxmaps)
         return;
 
     for (int ep = 0; ep < MAXEPISODES; ep++)
@@ -3564,7 +3564,7 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
             P_InitMapInfoEntry(&mapinfo[ep][i]);
     }
 
-    mapinfo_max_map = new_max_map;
+    mapinfomaxmaps = new_max_map;
 }
 
 static void P_InitMapInfo(void)
@@ -3598,7 +3598,7 @@ static void P_ParseMapString(const char *string, int *map, int *ep)
 
 static bool P_ParseMapInfo(const char *scriptname)
 {
-    int         mapmax = 1;
+    int         maxmaps = 1;
     int         mcmdvalue;
     mapinfo_t   *info;
     char        *temp1;
@@ -3782,7 +3782,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 }
             }
 
-            if (map > mapinfo_max_map)
+            if (map > mapinfomaxmaps)
                 P_EnsureMapInfoCapacity(map);
 
             info = &mapinfo[ep][map];
@@ -4299,7 +4299,7 @@ static bool P_ParseMapInfo(const char *scriptname)
             if (REKKR && ep <= 2)
                 info->sky1scrolldelta = 0.05f;
 
-            mapmax = MAX(map, mapmax);
+            maxmaps = MAX(map, maxmaps);
         }
         else if (SC_Compare("NOJUMP"))
             nojump = true;
@@ -4327,8 +4327,8 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     SC_Close();
 
-    if (mapmax > mapinfo_max_map)
-        P_EnsureMapInfoCapacity(mapmax);
+    if (maxmaps > mapinfomaxmaps)
+        P_EnsureMapInfoCapacity(maxmaps);
 
     if (customepisodes)
     {

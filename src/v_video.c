@@ -284,16 +284,16 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 
 void V_FillPillarboxes(int screen, int color)
 {
-    const int   pillar = (SCREENWIDTH - NONWIDEWIDTH) / 2;
+    const int   pillarwidth = (SCREENWIDTH - NONWIDEWIDTH) / 2;
     byte        *base = screens[screen];
-    byte        *end = base + (SCREENHEIGHT - 1) * SCREENWIDTH;
+    byte        *end = base + SCREENWIDTH * (SCREENHEIGHT - 1);
 
-    memset(base, color, pillar);
+    memset(base, color, pillarwidth);
 
     for (byte *row = base; row < end; row += SCREENWIDTH)
-        memset(row + SCREENWIDTH - pillar, color, pillar * 2);
+        memset(row + SCREENWIDTH - pillarwidth, color, pillarwidth * 2);
 
-    memset(base + SCREENWIDTH * SCREENHEIGHT - pillar, color, pillar);
+    memset(base + SCREENWIDTH * SCREENHEIGHT - pillarwidth, color, pillarwidth);
 }
 
 void V_DrawPagePatch(int screen, patch_t *patch)
