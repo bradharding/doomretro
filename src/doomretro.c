@@ -178,7 +178,9 @@ void I_ShutdownWindows32(void)
 int main(int argc, char *argv[])
 {
 #if defined(_WIN32)
+#if defined(_WIN64)
     PROCESS_POWER_THROTTLING_STATE  throttlestate;
+#endif
 
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
 
@@ -191,12 +193,14 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+#if defined(_WIN64)
     // Disable power throttling for this process to improve performance
     ZeroMemory(&throttlestate, sizeof(throttlestate));
     throttlestate.Version = PROCESS_POWER_THROTTLING_CURRENT_VERSION;
     throttlestate.ControlMask = PROCESS_POWER_THROTTLING_EXECUTION_SPEED;
     throttlestate.StateMask = 0;
     SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &throttlestate, sizeof(throttlestate));
+#endif
 
     // Save the current sticky/toggle/filter key settings so they can be restored later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
