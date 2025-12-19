@@ -1674,14 +1674,10 @@ static void P_LoadZSegs(const byte *data)
     for (int i = 0; i < numsegs; i++)
     {
         line_t              *ldef;
-        unsigned int        v1, v2;
         unsigned int        linedefnum;
         unsigned char       side;
         seg_t               *li = segs + i;
         const mapseg_znod_t *ml = (const mapseg_znod_t *)data + i;
-
-        v1 = LONG(ml->v1);
-        v2 = LONG(ml->v2);
 
         linedefnum = (unsigned short)SHORT(ml->linedef);
 
@@ -1692,15 +1688,20 @@ static void P_LoadZSegs(const byte *data)
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
-        side = ml->side;
+        li->v1 = &vertexes[LONG(ml->v1)];
+        li->v2 = &vertexes[LONG(ml->v2)];
 
-        // e6y: fix wrong side index
-        if (side != 0 && side != 1)
+        if (ABS(ldef->dx) > ABS(ldef->dy))
+            side = ((ldef->dx < 0) == (li->v2->x - li->v1->x < 0) ? 0 : 1);
+        else
+            side = ((ldef->dy < 0) == (li->v2->y - li->v1->y < 0) ? 0 : 1);
+
+        if (side != ml->side)
         {
             char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
-            side = 1;
+            C_Warning(2, "Seg %s has an incorrect side of %i. It has been changed to %i.",
+                temp, ml->side, side);
             free(temp);
         }
 
@@ -1733,10 +1734,7 @@ static void P_LoadZSegs(const byte *data)
             ldef->flags &= ~ML_TWOSIDED;
         }
 
-        li->v1 = &vertexes[v1];
-        li->v2 = &vertexes[v2];
-
-        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
+        li->angle = R_PointToAngle2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
