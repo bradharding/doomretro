@@ -5112,7 +5112,9 @@ static void maplist_func2(char *cmd, char *parms)
 
         if (gamemode == commercial)
         {
-            if (sscanf(lump, "MAP%d", &map) != 1)
+            char    tail[2];
+
+            if (sscanf(lump, "MAP%d%1s", &map, tail) != 1)
                 continue;
         }
         else
