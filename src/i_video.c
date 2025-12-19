@@ -77,6 +77,7 @@ static int          WIDESCREENWIDTH;
 
 bool                nowidescreen = false;
 bool                vid_widescreen_copy;
+char                *vid_scalefilter_copy;
 
 int                 MAPWIDTH;
 int                 MAPHEIGHT = VANILLAHEIGHT * 2;
@@ -2016,6 +2017,9 @@ void I_InitGraphics(void)
 #if defined(_DEBUG)
     vid_fullscreen = false;
 #endif
+
+    vid_scalefilter_copy = M_StringDuplicate(vid_scalefilter);
+    vid_scalefilter = vid_scalefilter_linear;
 
     vid_widescreen_copy = vid_widescreen;
     vid_widescreen = false;

@@ -584,6 +584,8 @@ void D_DoAdvanceTitle(void)
         {
             I_SetPalette(PLAYPAL);
             splashscreen = false;
+            vid_scalefilter = vid_scalefilter_copy;
+            I_RestartGraphics(false);
 
             I_Sleep(1000);
         }
@@ -2762,6 +2764,8 @@ static void D_DoomMainSetup(void)
     {
         menuactive = false;
         splashscreen = false;
+        vid_scalefilter = vid_scalefilter_copy;
+        I_RestartGraphics(false);
         I_InitKeyboard();
 
         if (alwaysrun)
@@ -2843,6 +2847,8 @@ static void D_DoomMainSetup(void)
         {
             menuactive = false;
             splashscreen = false;
+            vid_scalefilter = vid_scalefilter_copy;
+            I_RestartGraphics(false);
             I_InitKeyboard();
 
             if (vid_widescreen_copy)
@@ -2885,6 +2891,8 @@ static void D_DoomMainSetup(void)
                     ITALICS(DOOMRETRO_NAME "'s") " splash screen wasn't displayed.");
                 menuactive = false;
                 splashscreen = false;
+                vid_scalefilter = vid_scalefilter_copy;
+                I_RestartGraphics(false);
                 D_FadeScreen(false);
                 D_StartTitle(1);
             }

@@ -132,6 +132,7 @@ extern int          WIDEFOVDELTA;
 
 extern bool         nowidescreen;
 extern bool         vid_widescreen_copy;
+extern char         *vid_scalefilter_copy;
 
 extern int          shakedamage;
 
