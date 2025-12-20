@@ -55,8 +55,9 @@
 #include "v_video.h"
 
 // Automap color priorities
-#define WALLPRIORITY            9
-#define DOORPRIORITY            8
+#define WALLPRIORITY           10
+#define DOORPRIORITY            9
+#define SECRETPRIORITY          8
 #define CDWALLPRIORITY          7
 #define FDWALLPRIORITY          6
 #define TELEPORTERPRIORITY      5
@@ -81,6 +82,7 @@ static byte *wallcolor;
 static byte *bluedoorcolor;
 static byte *reddoorcolor;
 static byte *yellowdoorcolor;
+static byte *secretcolor;
 static byte *allmapwallcolor;
 static byte *teleportercolor;
 static byte *fdwallcolor;
@@ -294,6 +296,7 @@ void AM_SetColors(void)
     priority[nearestcolors[am_bluedoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_reddoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_yellowdoorcolor]] = DOORPRIORITY;
+    priority[nearestcolors[am_secretcolor]] = SECRETPRIORITY;
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
     priority[nearestcolors[am_fdwallcolor]] = FDWALLPRIORITY;
     priority[nearestcolors[am_teleportercolor]] = TELEPORTERPRIORITY;
@@ -333,6 +336,7 @@ void AM_SetColors(void)
     bluedoorcolor = &priorities[nearestcolors[am_bluedoorcolor] << 8];
     reddoorcolor = &priorities[nearestcolors[am_reddoorcolor] << 8];
     yellowdoorcolor = &priorities[nearestcolors[am_yellowdoorcolor] << 8];
+    secretcolor = &priorities[nearestcolors[am_secretcolor] << 8];
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
     cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
     allmapcdwallcolor = &priorities[nearestcolors[am_allmapcdwallcolor] << 8];
@@ -1818,7 +1822,14 @@ static void AM_DrawWalls_Cheating(void)
             {
                 const sector_t  *back = line.backsector;
 
-                if (!back || (line.flags & ML_SECRET))
+                if (line.flags & ML_SECRET)
+                {
+                    if (am_secretcolor != am_secretcolor_auto)
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigwalldot);
+                    else
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
+                }
+                else if (!back)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
                 else if (isteleportline[special])
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, putbigdot);

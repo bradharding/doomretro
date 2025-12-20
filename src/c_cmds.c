@@ -666,6 +666,8 @@ consolecmd_t consolecmds[] =
         "The color of red keycards and skull keys in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_rotatemode, "", "", bool_cvars_func1, am_rotatemode_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles rotating around you in the automap."),
+    CVAR_INT(am_secretcolor, am_secretcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, SECRETCOLORVALUEALIAS,
+        "The color of undiscovered secrets in the automap when you cheat (" BOLD("auto") ", or " BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_thingcolor, am_thingcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,

@@ -72,6 +72,7 @@ extern int      am_playerstatscolor;
 extern int      am_reddoorcolor;
 extern int      am_redkeycolor;
 extern bool     am_rotatemode;
+extern int      am_secretcolor;
 extern int      am_teleportercolor;
 extern int      am_thingcolor;
 extern int      am_tswallcolor;
@@ -472,6 +473,11 @@ enum
 #define am_redkeycolor_max                  255
 
 #define am_rotatemode_default               true
+
+#define am_secretcolor_auto                 -1
+#define am_secretcolor_min                  am_secretcolor_auto
+#define am_secretcolor_default              am_secretcolor_auto
+#define am_secretcolor_max                  255
 
 #define am_teleportercolor_min              0
 #define am_teleportercolor_default          184
@@ -1162,7 +1168,7 @@ typedef enum
     GENDERVALUEALIAS,
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
-    SCALEVALUEALIAS,
+    SECRETCOLORVALUEALIAS,
     SUCKSVALUEALIAS,
     TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,
