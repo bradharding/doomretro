@@ -2,12 +2,16 @@
 
 ### DOOM Retro v5.8.3
 
-* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* is now built using v18.1.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to *DOOM Retro’s* splash screen.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
-* The crosshair displayed in the automap when the `am_followmode` CVAR is `off` now remains on the screen while the console is open.
-* A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action, when pressed it would also still show the previous player message.
+* The crosshair displayed in the automap when the `am_followmode` CVAR is `off` now remains on the screen behind the console while it is open.
+* A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
+* A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
+* Texture offsets are now corrected in certain maps with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
