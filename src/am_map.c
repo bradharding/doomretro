@@ -1824,25 +1824,21 @@ static void AM_DrawWalls_Cheating(void)
 
             if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
+            else if ((line.flags & ML_SECRET) && am_secretcolor == am_secretcolor_auto)
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
             else
             {
                 const sector_t  *front = line.frontsector;
                 const sector_t  *back = line.backsector;
 
-                if (line.flags & ML_SECRET)
-                {
-                    if (am_secretcolor == am_secretcolor_auto)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
-                    else
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigdot);
-                }
-                else if ((front->special == Secret || (front->special & SECRET_MASK))
+                if ((front->special == Secret || (front->special & SECRET_MASK))
                     && am_secretcolor != am_secretcolor_auto)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
-                        (back ? putbigdot : putbigwalldot));
+                        (!back || front->floorheight == front->ceilingheight ? putbigwalldot : putbigdot));
                 else if (back && (back->special == Secret || (back->special & SECRET_MASK))
                     && am_secretcolor != am_secretcolor_auto)
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigdot);
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
+                        (back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
                 else if (!back)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
                 else if (isteleportline[special])
