@@ -1836,7 +1836,7 @@ static void AM_DrawWalls_Cheating(void)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
             else if (!back || (line.flags & ML_SECRET))
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
-            else if (isteleportline[special])
+            else if (isteleportline[special] || isteleport[back->floorpic])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, putbigdot);
             else if (back->floorheight != front->floorheight)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, putbigdot);
