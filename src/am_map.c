@@ -55,9 +55,9 @@
 #include "v_video.h"
 
 // Automap color priorities
-#define WALLPRIORITY           10
-#define DOORPRIORITY            9
-#define SECRETPRIORITY          8
+#define SECRETPRIORITY         10
+#define WALLPRIORITY            9
+#define DOORPRIORITY            8
 #define CDWALLPRIORITY          7
 #define FDWALLPRIORITY          6
 #define TELEPORTERPRIORITY      5
@@ -296,7 +296,10 @@ void AM_SetColors(void)
     priority[nearestcolors[am_bluedoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_reddoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_yellowdoorcolor]] = DOORPRIORITY;
-    priority[nearestcolors[am_secretcolor]] = SECRETPRIORITY;
+
+    if (am_secretcolor != am_secretcolor_auto)
+        priority[nearestcolors[am_secretcolor]] = SECRETPRIORITY;
+
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
     priority[nearestcolors[am_fdwallcolor]] = FDWALLPRIORITY;
     priority[nearestcolors[am_teleportercolor]] = TELEPORTERPRIORITY;
@@ -336,7 +339,10 @@ void AM_SetColors(void)
     bluedoorcolor = &priorities[nearestcolors[am_bluedoorcolor] << 8];
     reddoorcolor = &priorities[nearestcolors[am_reddoorcolor] << 8];
     yellowdoorcolor = &priorities[nearestcolors[am_yellowdoorcolor] << 8];
-    secretcolor = &priorities[nearestcolors[am_secretcolor] << 8];
+
+    if (am_secretcolor != am_secretcolor_auto)
+        secretcolor = &priorities[nearestcolors[am_secretcolor] << 8];
+
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
     cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
     allmapcdwallcolor = &priorities[nearestcolors[am_allmapcdwallcolor] << 8];
@@ -1820,30 +1826,33 @@ static void AM_DrawWalls_Cheating(void)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
             else
             {
+                const sector_t  *front = line.frontsector;
                 const sector_t  *back = line.backsector;
 
                 if (line.flags & ML_SECRET)
                 {
-                    if (am_secretcolor != am_secretcolor_auto)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigwalldot);
-                    else
+                    if (am_secretcolor == am_secretcolor_auto)
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
+                    else
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigdot);
                 }
+                else if ((front->special == Secret || (front->special & SECRET_MASK))
+                    && am_secretcolor != am_secretcolor_auto)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
+                        (back ? putbigdot : putbigwalldot));
+                else if (back && (back->special == Secret || (back->special & SECRET_MASK))
+                    && am_secretcolor != am_secretcolor_auto)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor, putbigdot);
                 else if (!back)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
                 else if (isteleportline[special])
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, putbigdot);
+                else if (back->floorheight != front->floorheight)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, putbigdot);
+                else if (back->ceilingheight != front->ceilingheight)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, putbigdot);
                 else
-                {
-                    const sector_t  *front = line.frontsector;
-
-                    if (back->floorheight != front->floorheight)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, putbigdot);
-                    else if (back->ceilingheight != front->ceilingheight)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, putbigdot);
-                    else
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, putbigdot);
-                }
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, putbigdot);
             }
         }
     }
