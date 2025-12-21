@@ -1824,7 +1824,7 @@ static void AM_DrawWalls_Cheating(void)
 
             if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
-            else if ((line.flags & ML_SECRET) && am_secretcolor == am_secretcolor_auto)
+            else if (!back || (line.flags & ML_SECRET))
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
             else
             {
