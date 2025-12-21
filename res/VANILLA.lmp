@@ -25,6 +25,7 @@ am_playerstats off
 am_reddoorcolor 231
 am_redkeycolor 112
 am_rotatemode off
+am_secretcolor auto
 am_teleportercolor 184
 am_thingcolor 112
 am_tswallcolor 96
