@@ -1827,11 +1827,13 @@ static void AM_DrawWalls_Cheating(void)
             if ((front->special == Secret || (front->special & SECRET_MASK))
                 && am_secretcolor != am_secretcolor_none)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
-                    (!back || front->floorheight == front->ceilingheight ? putbigwalldot : putbigdot));
+                    (!back || (line->flags & ML_SECRET) || front->floorheight == front->ceilingheight ?
+                    putbigwalldot : putbigdot));
             else if (back && (back->special == Secret || (back->special & SECRET_MASK))
                 && am_secretcolor != am_secretcolor_none)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
-                    (back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
+                    ((line->flags & ML_SECRET) || back->floorheight == back->ceilingheight ?
+                    putbigwalldot : putbigdot));
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
             else if (!back || (line->flags & ML_SECRET))
