@@ -1673,12 +1673,12 @@ static void AM_DrawWalls(void)
 {
     for (int i = 0; i < numlines; i++)
     {
-        const line_t            line = lines[i];
-        const unsigned short    flags = line.flags;
+        const line_t            *line = &lines[i];
+        const unsigned short    flags = line->flags;
 
         if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
         {
-            const fixed_t   *lbbox = line.bbox;
+            const fixed_t   *lbbox = line->bbox;
             const fixed_t   *ambbox = am_frame.bbox;
 
             if (lbbox[BOXLEFT] <= ambbox[BOXRIGHT]
@@ -1686,9 +1686,9 @@ static void AM_DrawWalls(void)
                 && lbbox[BOXBOTTOM] <= ambbox[BOXTOP]
                 && lbbox[BOXTOP] >= ambbox[BOXBOTTOM])
             {
-                mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
-                                                  { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
-                const unsigned short    special = line.special;
+                mline_t                 mline = { { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS },
+                                                  { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS } };
+                const unsigned short    special = line->special;
                 byte                    *doorcolor;
 
                 if (am_rotatemode)
@@ -1707,7 +1707,7 @@ static void AM_DrawWalls(void)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
                 else
                 {
-                    const sector_t  *back = line.backsector;
+                    const sector_t  *back = line->backsector;
 
                     if (!back || (flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
@@ -1716,7 +1716,7 @@ static void AM_DrawWalls(void)
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, putbigdot);
                     else
                     {
-                        const sector_t  *front = line.frontsector;
+                        const sector_t  *front = line->frontsector;
 
                         if (back->floorheight != front->floorheight)
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, putbigdot);
@@ -1733,12 +1733,12 @@ static void AM_DrawWalls_AllMap(void)
 {
     for (int i = 0; i < numlines; i++)
     {
-        const line_t    line = lines[i];
-        const unsigned short    flags = line.flags;
+        const line_t            *line = &lines[i];
+        const unsigned short    flags = line->flags;
 
         if (!(flags & ML_DONTDRAW))
         {
-            const fixed_t   *lbbox = line.bbox;
+            const fixed_t   *lbbox = line->bbox;
             const fixed_t   *ambbox = am_frame.bbox;
 
             if (lbbox[BOXLEFT] <= ambbox[BOXRIGHT]
@@ -1746,9 +1746,9 @@ static void AM_DrawWalls_AllMap(void)
                 && lbbox[BOXBOTTOM] <= ambbox[BOXTOP]
                 && lbbox[BOXTOP] >= ambbox[BOXBOTTOM])
             {
-                mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
-                                                  { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
-                const unsigned short    special = line.special;
+                mline_t                 mline = { { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS },
+                                                  { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS } };
+                const unsigned short    special = line->special;
                 byte                    *doorcolor;
 
                 if (am_rotatemode)
@@ -1767,7 +1767,7 @@ static void AM_DrawWalls_AllMap(void)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
                 else
                 {
-                    const sector_t  *back = line.backsector;
+                    const sector_t  *back = line->backsector;
 
                     if (!back || (flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
@@ -1777,7 +1777,7 @@ static void AM_DrawWalls_AllMap(void)
                             ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), putbigdot);
                     else
                     {
-                        const sector_t  *front = line.frontsector;
+                        const sector_t  *front = line->frontsector;
 
                         if (back->floorheight != front->floorheight)
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
@@ -1796,8 +1796,8 @@ static void AM_DrawWalls_Cheating(void)
 {
     for (int i = 0; i < numlines; i++)
     {
-        const line_t    line = lines[i];
-        const fixed_t   *lbbox = line.bbox;
+        const line_t    *line = &lines[i];
+        const fixed_t   *lbbox = line->bbox;
         const fixed_t   *ambbox = am_frame.bbox;
 
         if (lbbox[BOXLEFT] <= ambbox[BOXRIGHT]
@@ -1805,12 +1805,12 @@ static void AM_DrawWalls_Cheating(void)
             && lbbox[BOXBOTTOM] <= ambbox[BOXTOP]
             && lbbox[BOXTOP] >= ambbox[BOXBOTTOM])
         {
-            mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
-                                              { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
-            const unsigned short    special = line.special;
+            mline_t                 mline = { { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS },
+                                              { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS } };
+            const unsigned short    special = line->special;
             byte                    *doorcolor;
-            const sector_t          *front = line.frontsector;
-            const sector_t          *back = line.backsector;
+            const sector_t          *front = line->frontsector;
+            const sector_t          *back = line->backsector;
 
             if (am_rotatemode)
             {
@@ -1834,7 +1834,7 @@ static void AM_DrawWalls_Cheating(void)
                     (back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, putbigdot);
-            else if (!back || (line.flags & ML_SECRET))
+            else if (!back || (line->flags & ML_SECRET))
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigwalldot);
             else if (isteleportline[special] || isteleport[back->floorpic])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, putbigdot);
