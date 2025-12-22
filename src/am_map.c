@@ -1809,6 +1809,8 @@ static void AM_DrawWalls_Cheating(void)
                                               { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS } };
             const unsigned short    special = line->special;
             byte                    *doorcolor;
+            byte                    *secretcolor2 = (am_secretcolor != am_secretcolor_none && maptime % 20 < 9 ?
+                                        secretcolor : NULL);
             const sector_t          *front = line->frontsector;
             const sector_t          *back = line->backsector;
 
@@ -1824,14 +1826,12 @@ static void AM_DrawWalls_Cheating(void)
                 AM_CorrectAspectRatio(&mline.b);
             }
 
-            if ((front->special == Secret || (front->special & SECRET_MASK))
-                && am_secretcolor != am_secretcolor_none)
-                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
+            if ((front->special == Secret || (front->special & SECRET_MASK)) && secretcolor2)
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor2,
                     (!back || (line->flags & ML_SECRET) || front->floorheight == front->ceilingheight ?
                     putbigwalldot : putbigdot));
-            else if (back && (back->special == Secret || (back->special & SECRET_MASK))
-                && am_secretcolor != am_secretcolor_none)
-                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
+            else if (back && (back->special == Secret || (back->special & SECRET_MASK)) && secretcolor2)
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor2,
                     ((line->flags & ML_SECRET) || back->floorheight == back->ceilingheight ?
                     putbigwalldot : putbigdot));
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
