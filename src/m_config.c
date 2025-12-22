@@ -639,7 +639,7 @@ valuealias_t valuealiases[] =
     { "16:10",          vid_aspectratio_16_10,        RATIOVALUEALIAS       },
     { "21:9",           vid_aspectratio_21_9,         RATIOVALUEALIAS       },
     { "32:9",           vid_aspectratio_32_9,         RATIOVALUEALIAS       },
-    { "auto",           am_secretcolor_auto,          SECRETCOLORVALUEALIAS },
+    { "none",           am_secretcolor_none,          SECRETCOLORVALUEALIAS },
     { "off",            0,                            SUCKSVALUEALIAS       },
     { "imperial",       units_imperial,               UNITSVALUEALIAS       },
     { "metric",         units_metric,                 UNITSVALUEALIAS       },

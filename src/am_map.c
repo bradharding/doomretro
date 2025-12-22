@@ -297,7 +297,7 @@ void AM_SetColors(void)
     priority[nearestcolors[am_reddoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_yellowdoorcolor]] = DOORPRIORITY;
 
-    if (am_secretcolor != am_secretcolor_auto)
+    if (am_secretcolor != am_secretcolor_none)
         priority[nearestcolors[am_secretcolor]] = SECRETPRIORITY;
 
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
@@ -340,7 +340,7 @@ void AM_SetColors(void)
     reddoorcolor = &priorities[nearestcolors[am_reddoorcolor] << 8];
     yellowdoorcolor = &priorities[nearestcolors[am_yellowdoorcolor] << 8];
 
-    if (am_secretcolor != am_secretcolor_auto)
+    if (am_secretcolor != am_secretcolor_none)
         secretcolor = &priorities[nearestcolors[am_secretcolor] << 8];
 
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
@@ -1825,11 +1825,11 @@ static void AM_DrawWalls_Cheating(void)
             }
 
             if ((front->special == Secret || (front->special & SECRET_MASK))
-                && am_secretcolor != am_secretcolor_auto)
+                && am_secretcolor != am_secretcolor_none)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
                     (!back || front->floorheight == front->ceilingheight ? putbigwalldot : putbigdot));
             else if (back && (back->special == Secret || (back->special & SECRET_MASK))
-                && am_secretcolor != am_secretcolor_auto)
+                && am_secretcolor != am_secretcolor_none)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, secretcolor,
                     (back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
