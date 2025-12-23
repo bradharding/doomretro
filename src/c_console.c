@@ -1157,16 +1157,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 char    digits[5];
                 bool    autocolor = false;
 
-                if (i < len - 5 && tolower(text[i + 1]) == 'a' && tolower(text[i + 2]) == 'u'
-                    && tolower(text[i + 3]) == 't' && tolower(text[i + 4]) == 'o' && text[i + 5] == '}')
+                if (i < len - 5 && !strncasecmp(&text[i + 1], "auto}", 5))
                 {
                     autocolor = true;
                     M_StringCopy(digits, "auto", sizeof(digits));
                     digitslen = 4;
                     j += digitslen;
                 }
-                else if (i < len - 5 && tolower(text[i + 1]) == 'n' && tolower(text[i + 2]) == 'o'
-                    && tolower(text[i + 3]) == 'n' && tolower(text[i + 4]) == 'e' && text[i + 5] == '}')
+                else if (i < len - 5 && !strncasecmp(&text[i + 1], "none}", 5))
                 {
                     nocolor = true;
                     bold = true;

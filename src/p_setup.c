@@ -3537,20 +3537,14 @@ static void P_InitMapInfoEntry(mapinfo_t *info)
 
 static void P_EnsureMapInfoCapacity(int new_max_map)
 {
-    const int   old_max = mapinfomaxmaps;
-    const int   alloc_count = new_max_map + 1;
-
     if (new_max_map <= mapinfomaxmaps)
         return;
 
     for (int ep = 0; ep < MAXEPISODES; ep++)
     {
-        size_t  new_size = (size_t)alloc_count * sizeof(mapinfo_t);
-        size_t  old_size = (size_t)(old_max + 1) * sizeof(mapinfo_t);
-
         if (!mapinfo[ep])
         {
-            mapinfo[ep] = (mapinfo_t *)I_Calloc(alloc_count, sizeof(mapinfo_t));
+            mapinfo[ep] = (mapinfo_t *)I_Calloc(new_max_map + 1, sizeof(mapinfo_t));
 
             for (int i = 0; i <= new_max_map; i++)
                 P_InitMapInfoEntry(&mapinfo[ep][i]);
@@ -3558,9 +3552,9 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
             continue;
         }
 
-        mapinfo[ep] = (mapinfo_t *)I_Realloc(mapinfo[ep], new_size);
+        mapinfo[ep] = (mapinfo_t *)I_Realloc(mapinfo[ep], (size_t)(new_max_map + 1) * sizeof(mapinfo_t));
 
-        for (int i = old_max + 1; i <= new_max_map; i++)
+        for (int i = mapinfomaxmaps + 1; i <= new_max_map; i++)
             P_InitMapInfoEntry(&mapinfo[ep][i]);
     }
 

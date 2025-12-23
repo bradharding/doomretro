@@ -306,8 +306,10 @@ static const SDL_Scancode keypad[] =
 
 static void I_GetEvent(void)
 {
-    SDL_Event   SDLEvent = { 0 };
+    SDL_Event   SDLEvent;
     SDL_Event   *Event = &SDLEvent;
+
+    memset(&SDLEvent, 0, sizeof(SDLEvent));
 
     SDL_PumpEvents();
 
