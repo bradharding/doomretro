@@ -187,14 +187,17 @@ bool MouseShouldBeGrabbed(void)
 
     // if not fullscreen, only grab the mouse when not playing a game
     if (!vid_fullscreen)
-        return (gamestate == GS_LEVEL && !menuactive && !consoleactive);
+        return (gamestate == GS_LEVEL && !menuactive && !consoleactive && !automapactive);
 
     // grab the mouse when on the splash screen
     if (splashscreen)
         return true;
 
     // when menu is active, release the mouse
-    if (((menuactive && !helpscreen) || consoleactive || gamestate == GS_TITLESCREEN)
+    if (((menuactive && !helpscreen)
+        || consoleactive
+        || (automapactive && !am_followmode)
+        || gamestate == GS_TITLESCREEN)
         && m_pointer && usingmouse && !usingcontroller)
         return false;
 
@@ -647,6 +650,12 @@ static void I_ReadMouse(void)
         }
         else
         {
+            if (automapactive && !am_followmode)
+            {
+                usingmouse = true;
+                usingcontroller = false;
+            }
+
             SmoothMouse(&x, &y);
 
             if (m_acceleration)

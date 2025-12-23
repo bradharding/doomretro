@@ -1058,7 +1058,19 @@ bool AM_Responder(const event_t *ev)
             }
             else if (ev->type == ev_mouse && mousewait < I_GetTime())
             {
-                if (ev->data1 == mouseclearmark)
+                if (am_mousepanning && m_pointer && !am_followmode
+                    && ev->data1 == MOUSE_LEFTBUTTON && (ev->data2 || ev->data3) && !mapwindow)
+                {
+                    fixed_t dx = ev->data2;
+                    fixed_t dy = ev->data3;
+
+                    if (am_rotatemode)
+                        AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
+
+                    mouse_pan_x -= (int)(dx * m_sensitivity) >> 5;
+                    mouse_pan_y += (int)(dy * m_sensitivity) >> 5;
+                }
+                else if (ev->data1 == mouseclearmark)
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ClearMarks();
@@ -1102,17 +1114,6 @@ bool AM_Responder(const event_t *ev)
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleZoomOut();
-                }
-                else if (am_mousepanning && !am_followmode && (ev->data2 || ev->data3) && !mapwindow)
-                {
-                    fixed_t dx = ev->data2;
-                    fixed_t dy = ev->data3;
-
-                    if (am_rotatemode)
-                        AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
-
-                    mouse_pan_x += (int)(dx * m_sensitivity) >> 5;
-                    mouse_pan_y -= (int)(dy * m_sensitivity) >> 5;
                 }
             }
             else if (ev->type == ev_mousewheel && !mapwindow)
