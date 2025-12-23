@@ -7,12 +7,14 @@
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
-* The crosshair displayed in the automap when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
+* These changes have been made to the automap:
+  * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`.
+  * To pan around using the mouse when the `am_mousepanning` CVAR is `on` and the `am_followmode` CVAR is `off`, you must now click and drag the mouse.
+  * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
 * Texture offsets are now corrected in certain maps built using [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
-* The color of undiscovered secrets in the automap when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
