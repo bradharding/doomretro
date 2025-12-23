@@ -421,6 +421,9 @@ static void AM_MousePanning(void)
     if (!step_x && !step_y)
         return;
 
+    if (am_correctaspectratio)
+        step_y = step_y * 6 / 5;
+
     center_x = m_x + m_w / 2 + FTOM(step_x);
     center_y = m_y + m_h / 2 + FTOM(step_y);
 
@@ -1059,7 +1062,7 @@ bool AM_Responder(const event_t *ev)
             else if (ev->type == ev_mouse && mousewait < I_GetTime())
             {
                 if (am_mousepanning && m_pointer && !am_followmode
-                    && ev->data1 == MOUSE_LEFTBUTTON && (ev->data2 || ev->data3) && !mapwindow)
+                    && (ev->data1 & MOUSE_LEFTBUTTON) && (ev->data2 || ev->data3) && !mapwindow)
                 {
                     fixed_t dx = ev->data2;
                     fixed_t dy = ev->data3;
