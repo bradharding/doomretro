@@ -647,7 +647,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_markcolor, am_markcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_mousepanning, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles clicking and dragging the mouse to pan in the automap when follow mode is off."),
+        "Toggles clicking and dragging the mouse to pan around the automap when follow mode is off."),
     CVAR_BOOL(am_path, "", "", bool_cvars_func1, am_path_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles your path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,

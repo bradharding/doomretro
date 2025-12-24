@@ -1288,7 +1288,7 @@ bool AM_Responder(const event_t *ev)
 //
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle)
 {
-    const double    radians = ((double)angle * (2.0 * M_PI)) / (double)FINEANGLES;
+    const double    radians = (double)angle * (2.0 * M_PI) / FINEANGLES;
     const double    cosine = cos(radians);
     const double    sine = sin(radians);
     const double    temp = *x * cosine - *y * sine;
@@ -1299,10 +1299,10 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle)
 
 static void AM_RotatePoint(mpoint_t *point)
 {
-    const double x = (double)(point->x - am_frame.center.x);
-    const double y = (double)(point->y - am_frame.center.y);
-    const double cosine = am_frame.cos / FRACUNIT;
-    const double sine = am_frame.sin / FRACUNIT;
+    const double    x = (double)(point->x - am_frame.center.x);
+    const double    y = (double)(point->y - am_frame.center.y);
+    const double    cosine = am_frame.cos / FRACUNIT;
+    const double    sine = am_frame.sin / FRACUNIT;
 
     point->x = am_frame.center.x + (fixed_t)llround(x * cosine - y * sine);
     point->y = am_frame.center.y + (fixed_t)llround(x * sine + y * cosine);
@@ -2396,7 +2396,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const double    angle = ((double)((ANG90 - viewangle) >> ANGLETOFINESHIFT) * (2.0 * M_PI)) / (double)FINEANGLES;
+        const double    angle = (double)((ANG90 - viewangle) >> ANGLETOFINESHIFT) * (2.0 * M_PI) / FINEANGLES;
 
         am_frame.sin = sin(angle) * FRACUNIT;
         am_frame.cos = cos(angle) * FRACUNIT;

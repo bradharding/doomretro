@@ -8,8 +8,8 @@
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * These changes have been made to the automap:
-  * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. Each secret flashes three times when the cheat is entered.
-  * The way you pan around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will show the mouse pointer. Click and drag the mouse to pan around.
+  * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. The secrets flash three times upon entering the cheat.
+  * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse.
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
   * The accuracy of how lines are drawn when the `am_rotatemode` CVAR is `on` has improved.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
