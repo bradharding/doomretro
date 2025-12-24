@@ -60,6 +60,8 @@ typedef struct
     int         data1;          // keys/mouse buttons
     int         data2;          // mouse x move
     int         data3;          // mouse y move
+    int         data4;
+    int         data5;
 } event_t;
 
 typedef enum

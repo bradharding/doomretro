@@ -1064,6 +1064,9 @@ bool AM_Responder(const event_t *ev)
                     fixed_t dx = ev->data2;
                     fixed_t dy = ev->data3;
 
+                    if (ev->data5 >= MAPHEIGHT / 2)
+                        return false;
+
                     if (am_rotatemode)
                         AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
 

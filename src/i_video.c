@@ -656,19 +656,36 @@ static void I_ReadMouse(void)
             {
                 usingmouse = true;
                 usingcontroller = false;
-            }
+                ev.data2 = x;
+                ev.data3 = y;
 
-            SmoothMouse(&x, &y);
+                SDL_GetMouseState(&x, &y);
 
-            if (m_acceleration)
-            {
-                ev.data2 = AccelerateMouse(x);
-                ev.data3 = AccelerateMouse(y);
+                if (vid_widescreen)
+                {
+                    ev.data4 = (x - dest_rect.x) * SCREENWIDTH / dest_rect.w / 2;
+                    ev.data5 = (y - dest_rect.y) * SCREENHEIGHT / dest_rect.h / 2;
+                }
+                else
+                {
+                    ev.data4 = x * WIDESCREENWIDTH / displaywidth / 2;
+                    ev.data5 = y * SCREENHEIGHT / displayheight / 2;
+                }
             }
             else
             {
-                ev.data2 = x;
-                ev.data3 = y;
+                SmoothMouse(&x, &y);
+
+                if (m_acceleration)
+                {
+                    ev.data2 = AccelerateMouse(x);
+                    ev.data3 = AccelerateMouse(y);
+                }
+                else
+                {
+                    ev.data2 = x;
+                    ev.data3 = y;
+                }
             }
         }
 
