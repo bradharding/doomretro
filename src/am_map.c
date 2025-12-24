@@ -1071,8 +1071,8 @@ bool AM_Responder(const event_t *ev)
                     if (am_rotatemode)
                         AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
 
-                    mouse_pan_x -= (int)(dx * m_sensitivity) >> 5;
-                    mouse_pan_y += (int)(dy * m_sensitivity) >> 5;
+                    mouse_pan_x -= (int)(dx * m_sensitivity / 32.0f);
+                    mouse_pan_y += (int)(dy * m_sensitivity / 32.0f);
                 }
 
                 if (mouseclearmark >= 0 && (ev->data1 & mouseclearmark))
