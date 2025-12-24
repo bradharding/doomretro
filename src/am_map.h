@@ -82,8 +82,8 @@ void AM_DropBreadCrumb(void);
 typedef struct
 {
     mpoint_t    center;
-    fixed_t     sin;
-    fixed_t     cos;
+    double      sin;
+    double      cos;
     fixed_t     bbox[4];
     int         angle;
 } am_frame_t;

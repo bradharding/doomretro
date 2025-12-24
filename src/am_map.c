@@ -1288,23 +1288,24 @@ bool AM_Responder(const event_t *ev)
 //
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle)
 {
-    const fixed_t   cosine = finecosine[angle];
-    const fixed_t   sine = finesine[angle];
-    const fixed_t   temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
+    const double    radians = ((double)angle * (2.0 * M_PI)) / (double)FINEANGLES;
+    const double    cosine = cos(radians);
+    const double    sine = sin(radians);
+    const double    temp = *x * cosine - *y * sine;
 
-    *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
-    *x = temp;
+    *y = (fixed_t)llround(*x * sine + *y * cosine);
+    *x = (fixed_t)llround(temp);
 }
 
 static void AM_RotatePoint(mpoint_t *point)
 {
-    fixed_t temp;
+    const double x = (double)(point->x - am_frame.center.x);
+    const double y = (double)(point->y - am_frame.center.y);
+    const double cosine = am_frame.cos / FRACUNIT;
+    const double sine = am_frame.sin / FRACUNIT;
 
-    point->x -= am_frame.center.x;
-    point->y -= am_frame.center.y;
-    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + am_frame.center.x;
-    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos) + am_frame.center.y;
-    point->x = temp;
+    point->x = am_frame.center.x + (fixed_t)llround(x * cosine - y * sine);
+    point->y = am_frame.center.y + (fixed_t)llround(x * sine + y * cosine);
 }
 
 static void AM_CorrectAspectRatio(mpoint_t *point)
@@ -2395,10 +2396,10 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode)
     {
-        const angle_t   angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+        const double    angle = ((double)((ANG90 - viewangle) >> ANGLETOFINESHIFT) * (2.0 * M_PI)) / (double)FINEANGLES;
 
-        am_frame.sin = finesine[angle];
-        am_frame.cos = finecosine[angle];
+        am_frame.sin = sin(angle) * FRACUNIT;
+        am_frame.cos = cos(angle) * FRACUNIT;
     }
 }
 
