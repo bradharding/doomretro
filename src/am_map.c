@@ -1059,7 +1059,7 @@ bool AM_Responder(const event_t *ev)
             else if (ev->type == ev_mouse && mousewait < I_GetTime())
             {
                 if (am_mousepanning && m_pointer && !am_followmode
-                    && (ev->data1 & MOUSE_LEFTBUTTON) && (ev->data2 || ev->data3) && !mapwindow)
+                    && (ev->data1 & MOUSE_LEFTBUTTON) && (ev->data2 || ev->data3) && !mapwindow && !consoleactive)
                 {
                     fixed_t dx = ev->data2;
                     fixed_t dy = ev->data3;
