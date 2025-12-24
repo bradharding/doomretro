@@ -11,6 +11,7 @@
   * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. Each secret flashes three times when the cheat is entered.
   * The way you pan around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will show the mouse pointer. Click and drag the mouse to pan around.
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
+  * The accuracy of how lines are drawn when the `am_rotatemode` CVAR is `on` has improved.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
