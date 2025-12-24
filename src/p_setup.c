@@ -3249,6 +3249,7 @@ void P_SetupLevel(int ep, int map)
 
     idclev = false;
     idclevtics = 0;
+    iddttics = 0;
 
     Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 

@@ -965,6 +965,7 @@ bool ST_Responder(const event_t *ev)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP_THINGS;
                     ST_PlayerCheated(cheat_amap.sequence, "", NULL, false);
+                    iddttics = 0;
                 }
                 else
                 {

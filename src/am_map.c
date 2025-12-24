@@ -408,15 +408,12 @@ void AM_SetAutomapSize(const int screensize)
 
 static void AM_MousePanning(void)
 {
-    static fixed_t  prevfrac = 0;
     int64_t         step_x = FixedMul(mouse_pan_x, FRACUNIT);
     int64_t         step_y = FixedMul(mouse_pan_y, FRACUNIT);
     const int64_t   original_x = step_x;
     const int64_t   original_y = step_y;
     int             center_x;
     int             center_y;
-
-    prevfrac = fractionaltic;
 
     if (!step_x && !step_y)
         return;
