@@ -1075,55 +1075,55 @@ bool AM_Responder(const event_t *ev)
                     mouse_pan_y += (int)(dy * m_sensitivity) >> 5;
                 }
 
-                if (ev->data1 & mouseclearmark)
+                if (mouseclearmark >= 0 && (ev->data1 & mouseclearmark))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ClearMarks();
                 }
 
-                if (ev->data1 & mousefollowmode)
+                if (mousefollowmode >= 0 && (ev->data1 & mousefollowmode))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleFollowMode(!am_followmode);
                 }
 
-                if (ev->data1 & mousegrid)
+                if (mousegrid >= 0 && (ev->data1 & mousegrid))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleGrid();
                 }
 
-                if (ev->data1 & mousemark)
+                if (mousemark >= 0 && (ev->data1 & mousemark))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_AddMark();
                 }
 
-                if (ev->data1 & mousemaxzoom)
+                if (mousemaxzoom >= 0 && (ev->data1 & mousemaxzoom))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleMaxZoom();
                 }
 
-                if (ev->data1 & mousepath)
+                if (mousepath >= 0 && (ev->data1 & mousepath))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_TogglePath(!am_path);
                 }
 
-                if (ev->data1 & mouserotatemode)
+                if (mouserotatemode >= 0 && (ev->data1 & mouserotatemode))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleRotateMode(!am_rotatemode);
                 }
 
-                if (ev->data1 & mousezoomin)
+                if (mousezoomin >= 0 && (ev->data1 & mousezoomin))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleZoomIn();
                 }
 
-                if (ev->data1 & mousezoomout)
+                if (mousezoomout >= 0 && (ev->data1 & mousezoomout))
                 {
                     mousewait = I_GetTime() + 8;
                     AM_ToggleZoomOut();
