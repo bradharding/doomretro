@@ -257,6 +257,7 @@ int                     oldhealth = 100;
 
 bool                    idclev;
 int                     idclevtics = 0;
+int                     iddttics = 0;
 
 bool                    idmus;
 
@@ -973,7 +974,10 @@ bool ST_Responder(const event_t *ev)
                         viewplayer->cheats |= CF_ALLMAP_THINGS;
                     }
                     else
+                    {
                         viewplayer->cheats |= CF_ALLMAP;
+                        iddttics = TICRATE * 2;
+                    }
 
                     ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
                 }
@@ -1307,6 +1311,9 @@ void ST_Ticker(void)
         ST_UpdateFaceWidget();
         st_oldhealth = viewplayer->health;
     }
+
+    if (iddttics)
+        iddttics--;
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
     if (idclevtics && !--idclevtics)

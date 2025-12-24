@@ -88,6 +88,7 @@ void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, c
 
 extern bool         idclev;
 extern int          idclevtics;
+extern int          iddttics;
 extern bool         idmus;
 extern int          st_palette;
 extern bool         oldweaponsowned[NUMWEAPONS];
