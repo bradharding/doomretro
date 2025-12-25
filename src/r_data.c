@@ -1140,11 +1140,9 @@ int R_FlatNumForName(const char *name)
 //
 int R_CheckFlatNumForName(const char *name)
 {
-    for (int i = firstflat; i <= lastflat; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8))
-            return (i - firstflat);
+    const int   i = W_CheckNumForNameFromTo(firstflat, lastflat, name);
 
-    return -1;
+    return (i >= 0 ? i - firstflat : -1);
 }
 
 //
