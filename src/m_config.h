@@ -708,7 +708,9 @@ enum
 
 #define r_damageeffect_default              true
 
+#define r_detail_min                        r_detail_low
 #define r_detail_default                    r_detail_high
+#define r_detail_max                        r_detail_high
 
 #define r_diskicon_default                  false
 

@@ -922,7 +922,7 @@ consolecmd_t consolecmds[] =
         "Toggles corpses leaving blood splats behind as they slide."),
     CVAR_BOOL(r_damageeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the red effect when you take damage."),
-    CVAR_BOOL(r_detail, "", "", int_cvars_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
+    CVAR_INT(r_detail, "", "", int_cvars_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
         "Toggles the graphic detail (" BOLD("high") " or " BOLD("low") ")."),
     CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, r_diskicon_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing a disk icon when loading and saving."),
