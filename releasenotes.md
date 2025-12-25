@@ -16,6 +16,7 @@
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
 * Texture offsets are now corrected in certain maps built using [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
+* A bug is fixed whereby the `r_detail` CVAR couldn’t be changed in the console. This also caused the detail level to not change to low when vanilla mode was enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
