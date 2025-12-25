@@ -536,7 +536,9 @@ enum
 #define con_edgecolor_default               con_edgecolor_auto
 #define con_edgecolor_max                   255
 
+#define con_timestampformat_min             con_timestampformat_military
 #define con_timestampformat_default         con_timestampformat_standard
+#define con_timestampformat_max             con_timestampformat_standard
 
 #define con_timestamps_default              true
 
@@ -552,7 +554,9 @@ enum
 #define crosshaircolor_default              112
 #define crosshaircolor_max                  255
 
+#define english_min                         english_american
 #define english_default                     english_american
+#define english_max                         english_british
 
 #define episode_min                         1
 #define episode_default                     1
@@ -842,7 +846,9 @@ enum
 #define turbo_default                       100
 #define turbo_max                           400
 
+#define units_min                           units_imperial
 #define units_default                       units_imperial
+#define units_max                           units_metric
 
 #define version_default                     DOOMRETRO_VERSIONSTRING
 
