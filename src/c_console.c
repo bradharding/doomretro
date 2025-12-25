@@ -885,7 +885,7 @@ void C_ShowConsole(bool reset)
     for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
         mousebuttons[i] = false;
 
-    if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL && (!automapactive || am_followmode))
         I_RestoreMousePointerPosition();
 
     if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && GetCapsLockState())
@@ -924,7 +924,8 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
-    I_SaveMousePointerPosition();
+    if (!automapactive || am_followmode)
+        I_SaveMousePointerPosition();
 
     S_StartSound(viewplayer->mo, sfx_consol);
     S_RestoreMusicVolume();
