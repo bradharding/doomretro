@@ -4010,8 +4010,16 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 }
                                 else
                                 {
-                                    strcat(buffer, "\n");
-                                    strcat(buffer, sc_String);
+                                    size_t  len = strlen(buffer);
+
+                                    if (len + 1 < sizeof(buffer))
+                                    {
+                                        buffer[len++] = '\n';
+                                        buffer[len] = '\0';
+                                    }
+
+                                    if (len < sizeof(buffer))
+                                        M_snprintf(buffer + len, (int)(sizeof(buffer) - len), "%s", sc_String);
                                 }
                             }
 
@@ -4044,8 +4052,16 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 }
                                 else
                                 {
-                                    strcat(buffer, "\n");
-                                    strcat(buffer, sc_String);
+                                    size_t  len = strlen(buffer);
+
+                                    if (len + 1 < sizeof(buffer))
+                                    {
+                                        buffer[len++] = '\n';
+                                        buffer[len] = '\0';
+                                    }
+
+                                    if (len < sizeof(buffer))
+                                        M_snprintf(buffer + len, (int)(sizeof(buffer) - len), "%s", sc_String);
                                 }
                             }
 

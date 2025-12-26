@@ -1738,10 +1738,14 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
 {
     static int  maxmaps;
 
-    if (map > maxmaps)
+    if (map >= maxmaps)
     {
-        maxmaps = map;
+        const int   oldmaxmaps = maxmaps;
+
+        maxmaps = map + 1;
         maptoepisode = I_Realloc(maptoepisode, maxmaps * sizeof(*maptoepisode));
+
+        memset(maptoepisode + oldmaxmaps, 0, (maxmaps - oldmaxmaps) * sizeof(*maptoepisode));
     }
 
     if (gamemode == commercial)
