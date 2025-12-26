@@ -106,29 +106,29 @@ fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
 
-static const int *keyboardweapons[NUMWEAPONKEYS] =
+static const int *keyboardweaponsA[NUMWEAPONKEYS] =
 {
-    &keyboardweapon1,
-    &keyboardweapon2,
-    &keyboardweapon3,
-    &keyboardweapon4,
-    &keyboardweapon5,
-    &keyboardweapon6,
-    &keyboardweapon7
+    &keyboardweapon1A,
+    &keyboardweapon2A,
+    &keyboardweapon3A,
+    &keyboardweapon4A,
+    &keyboardweapon5A,
+    &keyboardweapon6A,
+    &keyboardweapon7A
 };
 
-static const int *keyboardweapons2[NUMWEAPONKEYS] =
+static const int *keyboardweaponsB[NUMWEAPONKEYS] =
 {
-    &keyboardweapon1_2,
-    &keyboardweapon2_2,
-    &keyboardweapon3_2,
-    &keyboardweapon4_2,
-    &keyboardweapon5_2,
-    &keyboardweapon6_2,
-    &keyboardweapon7_2
+    &keyboardweapon1B,
+    &keyboardweapon2B,
+    &keyboardweapon3B,
+    &keyboardweapon4B,
+    &keyboardweapon5B,
+    &keyboardweapon6B,
+    &keyboardweapon7B
 };
 
-static const int *keyboardweapons3[NUMWEAPONKEYS + 2] =
+static const int *keyboardweaponsC[NUMWEAPONKEYS + 2] =
 {
     &keyboardfists,
     &keyboardpistol,
@@ -141,7 +141,7 @@ static const int *keyboardweapons3[NUMWEAPONKEYS + 2] =
     &keyboardsupershotgun
 };
 
-static const int *keyboardweapons4[NUMWEAPONKEYS + 2] =
+static const int *keyboardweaponsD[NUMWEAPONKEYS + 2] =
 {
     &keyboardfists2,
     &keyboardpistol2,
@@ -480,8 +480,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     {
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
-            const int   key = *keyboardweapons[i];
-            const int   key2 = *keyboardweapons2[i];
+            const int   key = *keyboardweaponsA[i];
+            const int   key2 = *keyboardweaponsB[i];
 
             if (gamekeydown[key] && !keydown)
             {
@@ -521,8 +521,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (!(cmd->buttons & BT_CHANGE))
             for (int i = 0; i < NUMWEAPONKEYS + 2; i++)
             {
-                const int   key = *keyboardweapons3[i];
-                const int   key2 = *keyboardweapons4[i];
+                const int   key = *keyboardweaponsC[i];
+                const int   key2 = *keyboardweaponsD[i];
 
                 if (gamekeydown[key] && !keydown)
                 {

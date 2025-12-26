@@ -70,37 +70,52 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define ALIASCMDFORMAT                  BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
+#define ALIASFORMAT                  BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
                                         BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define BINDCMDFORMAT                   BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
+#define BINDFORMAT                   BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
                                         BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define EXECCMDFORMAT                   BOLDITALICS("filename") "[" BOLD(".cfg") "]"
-#define EXPLODECMDFORMAT                BOLD("barrels") "|" BOLD("missiles")
-#define GIVECMDFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+#define CMDLISTFORMAT                "[" BOLDITALICS("searchstring") "]"
+#define CONDUMPFORMAT                "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]"
+#define CVARLISTFORMAT               "[" BOLDITALICS("searchstring") "]"
+#define EXECFORMAT                   BOLDITALICS("filename") "[" BOLD(".cfg") "]"
+#define EXPLODEFORMAT                BOLD("barrels") "|" BOLD("missiles")
+#define FASTMONSTERSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
+#define FREEZEFORMAT                 "[" BOLD("on") "|" BOLD("off") "]"
+#define GODFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
+#define GIVEFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFCMDFORMAT                     BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+#define IFFORMAT                     BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                         BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
-#define KILLCMDFORMAT                   BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define LOADCMDFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define MAPCMDFORMAT1                   BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
+#define INFINITEAMMOFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
+#define KILLFORMAT                   BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define LOADFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define MAPFORMAT1                   BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
                                         BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define MAPCMDFORMAT2                   BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
+#define MAPFORMAT2                   BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
                                         BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define PLAYCMDFORMAT                   BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
-#define NAMECMDFORMAT                   "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTCMDFORMAT                  "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
-#define REMOVECMDFORMAT                 BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
+#define NOCLIPFORMAT                 "[" BOLD("on") "|" BOLD("off") "]"
+#define NOMONSTERSFORMAT             "[" BOLD("on") "|" BOLD("off") "]"
+#define NOTARGETFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
+#define PISTOLSTARTFORMAT            "[" BOLD("on") "|" BOLD("off") "]"
+#define PLAYFORMAT                   BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
+#define NAMEFORMAT                   "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
+#define PRINTFORMAT                  "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
+#define REGENHEALTHFORMAT            "[" BOLD("on") "|" BOLD("off") "]"
+#define REMOVEFORMAT                 BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
                                         BOLDITALICS("item") "|" BOLD("everything")
-#define RESETCMDFORMAT                  BOLDITALICS("CVAR")
-#define RESURRECTCMDFORMAT              BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define SAVECMDFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define SPAWNCMDFORMAT                  BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define TAKECMDFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+#define RESETFORMAT                  BOLDITALICS("CVAR")
+#define RESPAWNITEMSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
+#define RESPAWNMONSTERSFORMAT        "[" BOLD("on") "|" BOLD("off") "]"
+#define RESURRECTFORMAT              BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define SAVEFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define SPAWNFORMAT                  BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define TAKEFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define TELEPORTCMDFORMAT               BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
-#define TIMERCMDFORMAT                  BOLDITALICS("minutes")
-#define TOGGLECMDFORMAT                 BOLDITALICS("CVAR")
-#define UNBINDCMDFORMAT                 BOLDITALICS("control") "|" BOLDITALICS("+action")
+#define TELEPORTFORMAT               BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
+#define TIMERFORMAT                  BOLDITALICS("minutes")
+#define TOGGLEFORMAT                 BOLDITALICS("CVAR")
+#define UNBINDFORMAT                 BOLDITALICS("control") "|" BOLDITALICS("+action")
+#define VANILLAFORMAT                "[" BOLD("on") "|" BOLD("off") "]"
 
 #define WEAPONDESCRIPTION_SHAREWARE     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                         BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
@@ -315,246 +330,246 @@ const control_t controls[] =
     { "",              0,                 0                         }
 };
 
-static void alwaysrun_action_func(void);
-static void automap_action_func(void);
-static void back_action_func(void);
-static void bfg9000_action_func(void);
-static void chaingun_action_func(void);
-static void chainsaw_action_func(void);
-static void clearmark_action_func(void);
-static void console_action_func(void);
-static void fire_action_func(void);
-static void fists_action_func(void);
-static void followmode_action_func(void);
-static void forward_action_func(void);
-static void grid_action_func(void);
-static void jump_action_func(void);
-static void left_action_func(void);
-static void mark_action_func(void);
-static void maxzoom_action_func(void);
-static void menu_action_func(void);
-static void nextweapon_action_func(void);
-static void path_action_func(void);
-static void pistol_action_func(void);
-static void plasmarifle_action_func(void);
-static void prevweapon_action_func(void);
-static void right_action_func(void);
-static void rocketlauncher_action_func(void);
-static void rotatemode_action_func(void);
-static void screenshot_action_func(void);
-static void shotgun_action_func(void);
-static void strafeleft_action_func(void);
-static void straferight_action_func(void);
-static void supershotgun_action_func(void);
-static void use_action_func(void);
-static void weapon1_action_func(void);
-static void weapon2_action_func(void);
-static void weapon3_action_func(void);
-static void weapon4_action_func(void);
-static void weapon5_action_func(void);
-static void weapon6_action_func(void);
-static void weapon7_action_func(void);
-static void zoomin_action_func(void);
-static void zoomout_action_func(void);
+static void alwaysrunactionfunc(void);
+static void automapactionfunc(void);
+static void backactionfunc(void);
+static void bfg9000actionfunc(void);
+static void chaingunactionfunc(void);
+static void chainsawactionfunc(void);
+static void clearmarkactionfunc(void);
+static void consoleactionfunc(void);
+static void fireactionfunc(void);
+static void fistsactionfunc(void);
+static void followmodeactionfunc(void);
+static void forwardactionfunc(void);
+static void gridactionfunc(void);
+static void jumpactionfunc(void);
+static void leftactionfunc(void);
+static void markactionfunc(void);
+static void maxzoomactionfunc(void);
+static void menuactionfunc(void);
+static void nextweaponactionfunc(void);
+static void pathactionfunc(void);
+static void pistolactionfunc(void);
+static void plasmarifleactionfunc(void);
+static void prevweaponactionfunc(void);
+static void rightactionfunc(void);
+static void rocketlauncheractionfunc(void);
+static void rotatemodeactionfunc(void);
+static void screenshotactionfunc(void);
+static void shotgunactionfunc(void);
+static void strafeleftactionfunc(void);
+static void straferightactionfunc(void);
+static void supershotgunactionfunc(void);
+static void useactionfunc(void);
+static void weapon1actionfunc(void);
+static void weapon2actionfunc(void);
+static void weapon3actionfunc(void);
+static void weapon4actionfunc(void);
+static void weapon5actionfunc(void);
+static void weapon6actionfunc(void);
+static void weapon7actionfunc(void);
+static void zoominactionfunc(void);
+static void zoomoutactionfunc(void);
 
 action_t actions[] =
 {
-    { "+alwaysrun",      true,  false, alwaysrun_action_func,       &keyboardalwaysrun,      &keyboardalwaysrun2,      &mousealwaysrun,      &controlleralwaysrun,      NULL            },
-    { "+automap",        false, false, automap_action_func,         &keyboardautomap,        &keyboardautomap2,        &mouseautomap,        &controllerautomap,        NULL            },
-    { "+back",           true,  false, back_action_func,            &keyboardback,           &keyboardback2,           &mouseback,           &controllerback,           NULL            },
-    { "+bfg9000",        true,  false, bfg9000_action_func,         &keyboardbfg9000,        &keyboardbfg90002,        &mousebfg9000,        &controllerbfg9000,        NULL            },
-    { "+chaingun",       true,  false, chaingun_action_func,        &keyboardchaingun,       &keyboardchaingun2,       &mousechaingun,       &controllerchaingun,       NULL            },
-    { "+chainsaw",       true,  false, chainsaw_action_func,        &keyboardchainsaw,       &keyboardchainsaw2,       &mousechainsaw,       &controllerchainsaw,       NULL            },
-    { "+clearmark",      true,  true,  clearmark_action_func,       &keyboardclearmark,      &keyboardclearmark2,      &mouseclearmark,      &controllerclearmark,      NULL            },
-    { "+console",        false, false, console_action_func,         &keyboardconsole,        &keyboardconsole2,        &mouseconsole,        &controllerconsole,        NULL            },
-    { "+fire",           true,  false, fire_action_func,            &keyboardfire,           &keyboardfire2,           &mousefire,           &controllerfire,           NULL            },
-    { "+fists",          true,  false, fists_action_func,           &keyboardfists,          &keyboardfists2,          &mousefists,          &controllerfists,          NULL            },
-    { "+followmode",     true,  true,  followmode_action_func,      &keyboardfollowmode,     &keyboardfollowmode2,     &mousefollowmode,     &controllerfollowmode,     NULL            },
-    { "+forward",        true,  false, forward_action_func,         &keyboardforward,        &keyboardforward2,        &mouseforward,        &controllerforward,        NULL            },
-    { "+freelook",       true,  false, NULL,                        &keyboardfreelook,       &keyboardfreelook2,       &mousefreelook,       &controllerfreelook,       NULL            },
-    { "+grid",           true,  true,  grid_action_func,            &keyboardgrid,           &keyboardgrid2,           &mousegrid,           &controllergrid,           NULL            },
-    { "+jump",           true,  false, jump_action_func,            &keyboardjump,           &keyboardjump2,           &mousejump,           &controllerjump,           NULL            },
-    { "+left",           true,  false, left_action_func,            &keyboardleft,           &keyboardleft2,           &mouseleft,           &controllerleft,           NULL            },
-    { "+mark",           true,  true,  mark_action_func,            &keyboardmark,           &keyboardmark2,           &mousemark,           &controllermark,           NULL            },
-    { "+maxzoom",        true,  true,  maxzoom_action_func,         &keyboardmaxzoom,        &keyboardmaxzoom2,        &mousemaxzoom,        &controllermaxzoom,        NULL            },
-    { "+menu",           true,  false, menu_action_func,            &keyboardmenu,           &keyboardmenu2,           &mousemenu,           &controllermenu,           NULL            },
-    { "+nextweapon",     true,  false, nextweapon_action_func,      &keyboardnextweapon,     &keyboardnextweapon2,     &mousenextweapon,     &controllernextweapon,     NULL            },
-    { "+path",           true,  false, path_action_func,            &keyboardpath,           &keyboardpath2,           &mousepath,           &controllerpath,           NULL            },
-    { "+pistol",         true,  false, pistol_action_func,          &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
-    { "+plasmarifle",    true,  false, plasmarifle_action_func,     &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
-    { "+prevweapon",     true,  false, prevweapon_action_func,      &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
-    { "+right",          true,  false, right_action_func,           &keyboardright,          &keyboardright2,          &mouseright,          &controllerright,          NULL            },
-    { "+rocketlauncher", true,  false, rocketlauncher_action_func,  &keyboardrocketlauncher, &keyboardrocketlauncher2, &mouserocketlauncher, &controllerrocketlauncher, NULL            },
-    { "+rotatemode",     true,  true,  rotatemode_action_func,      &keyboardrotatemode,     &keyboardrotatemode2,     &mouserotatemode,     &controllerrotatemode,     NULL            },
-    { "+run",            true,  false, NULL,                        &keyboardrun,            &keyboardrun2,            &mouserun,            &controllerrun,            NULL            },
-    { "+screenshot",     false, false, screenshot_action_func,      &keyboardscreenshot,     &keyboardscreenshot2,     &mousescreenshot,     &controllerscreenshot,     NULL            },
-    { "+shotgun",        true,  false, shotgun_action_func,         &keyboardshotgun,        &keyboardshotgun2,        &mouseshotgun,        &controllershotgun,        NULL            },
-    { "+strafe",         true,  false, NULL,                        &keyboardstrafe,         &keyboardstrafe2,         &mousestrafe,         &controllerstrafe,         NULL            },
-    { "+strafeleft",     true,  false, strafeleft_action_func,      &keyboardstrafeleft,     &keyboardstrafeleft2,     &mousestrafeleft,     &controllerstrafeleft,     NULL            },
-    { "+straferight",    true,  false, straferight_action_func,     &keyboardstraferight,    &keyboardstraferight2,    &mousestraferight,    &controllerstraferight,    NULL            },
-    { "+supershotgun",   true,  false, supershotgun_action_func,    &keyboardsupershotgun,   &keyboardsupershotgun2,   &mousesupershotgun,   &controllersupershotgun,   NULL            },
-    { "+use",            true,  false, use_action_func,             &keyboarduse,            &keyboarduse2,            &mouseuse,            &controlleruse,            &controlleruse2 },
-    { "+weapon1",        true,  false, weapon1_action_func,         &keyboardweapon1,        &keyboardweapon1_2,       &mouseweapon1,        &controllerweapon1,        NULL            },
-    { "+weapon2",        true,  false, weapon2_action_func,         &keyboardweapon2,        &keyboardweapon2_2,       &mouseweapon2,        &controllerweapon2,        NULL            },
-    { "+weapon3",        true,  false, weapon3_action_func,         &keyboardweapon3,        &keyboardweapon3_2,       &mouseweapon3,        &controllerweapon3,        NULL            },
-    { "+weapon4",        true,  false, weapon4_action_func,         &keyboardweapon4,        &keyboardweapon4_2,       &mouseweapon4,        &controllerweapon4,        NULL            },
-    { "+weapon5",        true,  false, weapon5_action_func,         &keyboardweapon5,        &keyboardweapon5_2,       &mouseweapon5,        &controllerweapon5,        NULL            },
-    { "+weapon6",        true,  false, weapon6_action_func,         &keyboardweapon6,        &keyboardweapon6_2,       &mouseweapon6,        &controllerweapon6,        NULL            },
-    { "+weapon7",        true,  false, weapon7_action_func,         &keyboardweapon7,        &keyboardweapon7_2,       &mouseweapon7,        &controllerweapon7,        NULL            },
-    { "+zoomin",         true,  true,  zoomin_action_func,          &keyboardzoomin,         &keyboardzoomin2,         &mousezoomin,         &controllerzoomin,         NULL            },
-    { "+zoomout",        true,  true,  zoomout_action_func,         &keyboardzoomout,        &keyboardzoomout2,        &mousezoomout,        &controllerzoomout,        NULL            },
-    { "",                false, false, NULL,                        NULL,                    NULL,                     NULL,                 NULL,                      NULL            }
+    { "+alwaysrun",      true,  false, alwaysrunactionfunc,      &keyboardalwaysrun,      &keyboardalwaysrun2,      &mousealwaysrun,      &controlleralwaysrun,      NULL            },
+    { "+automap",        false, false, automapactionfunc,        &keyboardautomap,        &keyboardautomap2,        &mouseautomap,        &controllerautomap,        NULL            },
+    { "+back",           true,  false, backactionfunc,           &keyboardback,           &keyboardback2,           &mouseback,           &controllerback,           NULL            },
+    { "+bfg9000",        true,  false, bfg9000actionfunc,        &keyboardbfg9000,        &keyboardbfg90002,        &mousebfg9000,        &controllerbfg9000,        NULL            },
+    { "+chaingun",       true,  false, chaingunactionfunc,       &keyboardchaingun,       &keyboardchaingun2,       &mousechaingun,       &controllerchaingun,       NULL            },
+    { "+chainsaw",       true,  false, chainsawactionfunc,       &keyboardchainsaw,       &keyboardchainsaw2,       &mousechainsaw,       &controllerchainsaw,       NULL            },
+    { "+clearmark",      true,  true,  clearmarkactionfunc,      &keyboardclearmark,      &keyboardclearmark2,      &mouseclearmark,      &controllerclearmark,      NULL            },
+    { "+console",        false, false, consoleactionfunc,        &keyboardconsole,        &keyboardconsole2,        &mouseconsole,        &controllerconsole,        NULL            },
+    { "+fire",           true,  false, fireactionfunc,           &keyboardfire,           &keyboardfire2,           &mousefire,           &controllerfire,           NULL            },
+    { "+fists",          true,  false, fistsactionfunc,          &keyboardfists,          &keyboardfists2,          &mousefists,          &controllerfists,          NULL            },
+    { "+followmode",     true,  true,  followmodeactionfunc,     &keyboardfollowmode,     &keyboardfollowmode2,     &mousefollowmode,     &controllerfollowmode,     NULL            },
+    { "+forward",        true,  false, forwardactionfunc,        &keyboardforward,        &keyboardforward2,        &mouseforward,        &controllerforward,        NULL            },
+    { "+freelook",       true,  false, NULL,                     &keyboardfreelook,       &keyboardfreelook2,       &mousefreelook,       &controllerfreelook,       NULL            },
+    { "+grid",           true,  true,  gridactionfunc,           &keyboardgrid,           &keyboardgrid2,           &mousegrid,           &controllergrid,           NULL            },
+    { "+jump",           true,  false, jumpactionfunc,           &keyboardjump,           &keyboardjump2,           &mousejump,           &controllerjump,           NULL            },
+    { "+left",           true,  false, leftactionfunc,           &keyboardleft,           &keyboardleft2,           &mouseleft,           &controllerleft,           NULL            },
+    { "+mark",           true,  true,  markactionfunc,           &keyboardmark,           &keyboardmark2,           &mousemark,           &controllermark,           NULL            },
+    { "+maxzoom",        true,  true,  maxzoomactionfunc,        &keyboardmaxzoom,        &keyboardmaxzoom2,        &mousemaxzoom,        &controllermaxzoom,        NULL            },
+    { "+menu",           true,  false, menuactionfunc,           &keyboardmenu,           &keyboardmenu2,           &mousemenu,           &controllermenu,           NULL            },
+    { "+nextweapon",     true,  false, nextweaponactionfunc,     &keyboardnextweapon,     &keyboardnextweapon2,     &mousenextweapon,     &controllernextweapon,     NULL            },
+    { "+path",           true,  false, pathactionfunc,           &keyboardpath,           &keyboardpath2,           &mousepath,           &controllerpath,           NULL            },
+    { "+pistol",         true,  false, pistolactionfunc,         &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
+    { "+plasmarifle",    true,  false, plasmarifleactionfunc,    &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
+    { "+prevweapon",     true,  false, prevweaponactionfunc,     &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
+    { "+right",          true,  false, rightactionfunc,          &keyboardright,          &keyboardright2,          &mouseright,          &controllerright,          NULL            },
+    { "+rocketlauncher", true,  false, rocketlauncheractionfunc, &keyboardrocketlauncher, &keyboardrocketlauncher2, &mouserocketlauncher, &controllerrocketlauncher, NULL            },
+    { "+rotatemode",     true,  true,  rotatemodeactionfunc,     &keyboardrotatemode,     &keyboardrotatemode2,     &mouserotatemode,     &controllerrotatemode,     NULL            },
+    { "+run",            true,  false, NULL,                     &keyboardrun,            &keyboardrun2,            &mouserun,            &controllerrun,            NULL            },
+    { "+screenshot",     false, false, screenshotactionfunc,     &keyboardscreenshot,     &keyboardscreenshot2,     &mousescreenshot,     &controllerscreenshot,     NULL            },
+    { "+shotgun",        true,  false, shotgunactionfunc,        &keyboardshotgun,        &keyboardshotgun2,        &mouseshotgun,        &controllershotgun,        NULL            },
+    { "+strafe",         true,  false, NULL,                     &keyboardstrafe,         &keyboardstrafe2,         &mousestrafe,         &controllerstrafe,         NULL            },
+    { "+strafeleft",     true,  false, strafeleftactionfunc,     &keyboardstrafeleft,     &keyboardstrafeleft2,     &mousestrafeleft,     &controllerstrafeleft,     NULL            },
+    { "+straferight",    true,  false, straferightactionfunc,    &keyboardstraferight,    &keyboardstraferight2,    &mousestraferight,    &controllerstraferight,    NULL            },
+    { "+supershotgun",   true,  false, supershotgunactionfunc,   &keyboardsupershotgun,   &keyboardsupershotgun2,   &mousesupershotgun,   &controllersupershotgun,   NULL            },
+    { "+use",            true,  false, useactionfunc,            &keyboarduse,            &keyboarduse2,            &mouseuse,            &controlleruse,            &controlleruse2 },
+    { "+weapon1",        true,  false, weapon1actionfunc,        &keyboardweapon1A,       &keyboardweapon1B,        &mouseweapon1,        &controllerweapon1,        NULL            },
+    { "+weapon2",        true,  false, weapon2actionfunc,        &keyboardweapon2A,       &keyboardweapon2B,        &mouseweapon2,        &controllerweapon2,        NULL            },
+    { "+weapon3",        true,  false, weapon3actionfunc,        &keyboardweapon3A,       &keyboardweapon3B,        &mouseweapon3,        &controllerweapon3,        NULL            },
+    { "+weapon4",        true,  false, weapon4actionfunc,        &keyboardweapon4A,       &keyboardweapon4B,        &mouseweapon4,        &controllerweapon4,        NULL            },
+    { "+weapon5",        true,  false, weapon5actionfunc,        &keyboardweapon5A,       &keyboardweapon5B,        &mouseweapon5,        &controllerweapon5,        NULL            },
+    { "+weapon6",        true,  false, weapon6actionfunc,        &keyboardweapon6A,       &keyboardweapon6B,        &mouseweapon6,        &controllerweapon6,        NULL            },
+    { "+weapon7",        true,  false, weapon7actionfunc,        &keyboardweapon7A,       &keyboardweapon7B,        &mouseweapon7,        &controllerweapon7,        NULL            },
+    { "+zoomin",         true,  true,  zoominactionfunc,         &keyboardzoomin,         &keyboardzoomin2,         &mousezoomin,         &controllerzoomin,         NULL            },
+    { "+zoomout",        true,  true,  zoomoutactionfunc,        &keyboardzoomout,        &keyboardzoomout2,        &mousezoomout,        &controllerzoomout,        NULL            },
+    { "",                false, false, NULL,                     NULL,                    NULL,                     NULL,                 NULL,                      NULL            }
 };
 
-static bool alive_func1(char *cmd, char *parms);
-static bool cheat_func1(char *cmd, char *parms);
-static bool game_ccmd_func1(char *cmd, char *parms);
-static bool game_cvar_func1(char *cmd, char *parms);
-static bool nightmare_func1(char *cmd, char *parms);
-static bool null_func1(char *cmd, char *parms);
+static bool alivefunc1(char *cmd, char *parms);
+static bool cheatfunc1(char *cmd, char *parms);
+static bool ingameccmdfunc1(char *cmd, char *parms);
+static bool ingamecvarfunc1(char *cmd, char *parms);
+static bool nightmarefunc1(char *cmd, char *parms);
+static bool nullfunc1(char *cmd, char *parms);
 
-static void bindlist_func2(char *cmd, char *parms);
-static void clear_func2(char *cmd, char *parms);
-static void cmdlist_func2(char *cmd, char *parms);
-static bool condump_func1(char *cmd, char *parms);
-static void condump_func2(char *cmd, char *parms);
-static void cvarlist_func2(char *cmd, char *parms);
-static void endgame_func2(char *cmd, char *parms);
-static void exitmap_func2(char *cmd, char *parms);
-static void fastmonsters_func2(char *cmd, char *parms);
-static void freeze_func2(char *cmd, char *parms);
-static bool give_func1(char *cmd, char *parms);
-static void give_func2(char *cmd, char *parms);
-static void god_func2(char *cmd, char *parms);
-static void if_func2(char *cmd, char *parms);
-static void infiniteammo_func2(char *cmd, char *parms);
-static bool kill_func1(char *cmd, char *parms);
-static void kill_func2(char *cmd, char *parms);
-static void license_func2(char *cmd, char *parms);
-static void load_func2(char *cmd, char *parms);
-static bool map_func1(char *cmd, char *parms);
-static void map_func2(char *cmd, char *parms);
-static void maplist_func2(char *cmd, char *parms);
-static void mapstats_func2(char *cmd, char *parms);
-static bool name_func1(char *cmd, char *parms);
-static void name_func2(char *cmd, char *parms);
-static void newgame_func2(char *cmd, char *parms);
-static void noclip_func2(char *cmd, char *parms);
-static void nomonsters_func2(char *cmd, char *parms);
-static void notarget_func2(char *cmd, char *parms);
-static void palette_func2(char *cmd, char *parms);
-static void pistolstart_func2(char *cmd, char *parms);
-static bool play_func1(char *cmd, char *parms);
-static void play_func2(char *cmd, char *parms);
-static void playerstats_func2(char *cmd, char *parms);
-static void print_func2(char *cmd, char *parms);
-static void quit_func2(char *cmd, char *parms);
-static void readme_func2(char *cmd, char *parms);
-static void regenhealth_func2(char *cmd, char *parms);
-static void releasenotes_func2(char *cmd, char *parms);
-static void reset_func2(char *cmd, char *parms);
-static void resetall_func2(char *cmd, char *parms);
-static void respawnitems_func2(char *cmd, char *parms);
-static void respawnmonsters_func2(char *cmd, char *parms);
-static void restartmap_func2(char *cmd, char *parms);
-static bool resurrect_func1(char *cmd, char *parms);
-static void resurrect_func2(char *cmd, char *parms);
-static void save_func2(char *cmd, char *parms);
-static bool spawn_func1(char *cmd, char *parms);
-static void spawn_func2(char *cmd, char *parms);
-static bool take_func1(char *cmd, char *parms);
-static void take_func2(char *cmd, char *parms);
-static bool teleport_func1(char *cmd, char *parms);
-static void teleport_func2(char *cmd, char *parms);
-static void thinglist_func2(char *cmd, char *parms);
-static void timer_func2(char *cmd, char *parms);
-static void toggle_func2(char *cmd, char *parms);
-static void unbind_func2(char *cmd, char *parms);
-static void vanilla_func2(char *cmd, char *parms);
-static void wiki_func2(char *cmd, char *parms);
+static void bindlistfunc2(char *cmd, char *parms);
+static void clearfunc2(char *cmd, char *parms);
+static void cmdlistfunc2(char *cmd, char *parms);
+static bool condumpfunc1(char *cmd, char *parms);
+static void condumpfunc2(char *cmd, char *parms);
+static void cvarlistfunc2(char *cmd, char *parms);
+static void endgamefunc2(char *cmd, char *parms);
+static void exitmapfunc2(char *cmd, char *parms);
+static void fastmonstersfunc2(char *cmd, char *parms);
+static void freezefunc2(char *cmd, char *parms);
+static bool givefunc1(char *cmd, char *parms);
+static void givefunc2(char *cmd, char *parms);
+static void godfunc2(char *cmd, char *parms);
+static void iffunc2(char *cmd, char *parms);
+static void infiniteammofunc2(char *cmd, char *parms);
+static bool killfunc1(char *cmd, char *parms);
+static void killfunc2(char *cmd, char *parms);
+static void licensefunc2(char *cmd, char *parms);
+static void loadfunc2(char *cmd, char *parms);
+static bool mapfunc1(char *cmd, char *parms);
+static void mapfunc2(char *cmd, char *parms);
+static void maplistfunc2(char *cmd, char *parms);
+static void mapstatsfunc2(char *cmd, char *parms);
+static bool namefunc1(char *cmd, char *parms);
+static void namefunc2(char *cmd, char *parms);
+static void newgamefunc2(char *cmd, char *parms);
+static void noclipfunc2(char *cmd, char *parms);
+static void nomonstersfunc2(char *cmd, char *parms);
+static void notargetfunc2(char *cmd, char *parms);
+static void palettefunc2(char *cmd, char *parms);
+static void pistolstartfunc2(char *cmd, char *parms);
+static bool playfunc1(char *cmd, char *parms);
+static void playfunc2(char *cmd, char *parms);
+static void playerstatsfunc2(char *cmd, char *parms);
+static void printfunc2(char *cmd, char *parms);
+static void quitfunc2(char *cmd, char *parms);
+static void readmefunc2(char *cmd, char *parms);
+static void regenhealthfunc2(char *cmd, char *parms);
+static void releasenotesfunc2(char *cmd, char *parms);
+static void resetfunc2(char *cmd, char *parms);
+static void resetallfunc2(char *cmd, char *parms);
+static void respawnitemsfunc2(char *cmd, char *parms);
+static void respawnmonstersfunc2(char *cmd, char *parms);
+static void restartmapfunc2(char *cmd, char *parms);
+static bool resurrectfunc1(char *cmd, char *parms);
+static void resurrectfunc2(char *cmd, char *parms);
+static void savefunc2(char *cmd, char *parms);
+static bool spawnfunc1(char *cmd, char *parms);
+static void spawnfunc2(char *cmd, char *parms);
+static bool takefunc1(char *cmd, char *parms);
+static void takefunc2(char *cmd, char *parms);
+static bool teleportfunc1(char *cmd, char *parms);
+static void teleportfunc2(char *cmd, char *parms);
+static void thinglistfunc2(char *cmd, char *parms);
+static void timerfunc2(char *cmd, char *parms);
+static void togglefunc2(char *cmd, char *parms);
+static void unbindfunc2(char *cmd, char *parms);
+static void vanillafunc2(char *cmd, char *parms);
+static void wikifunc2(char *cmd, char *parms);
 
-static bool bool_cvars_func1(char *cmd, char *parms);
-static void bool_cvars_func2(char *cmd, char *parms);
-static void color_cvars_func2(char *cmd, char *parms);
-static bool float_cvars_func1(char *cmd, char *parms);
-static void float_cvars_func2(char *cmd, char *parms);
-static bool int_cvars_func1(char *cmd, char *parms);
-static void int_cvars_func2(char *cmd, char *parms);
-static void str_cvars_func2(char *cmd, char *parms);
-static void time_cvars_func2(char *cmd, char *parms);
+static bool boolfunc1(char *cmd, char *parms);
+static void boolfunc2(char *cmd, char *parms);
+static void colorfunc2(char *cmd, char *parms);
+static bool floatfunc1(char *cmd, char *parms);
+static void floatfunc2(char *cmd, char *parms);
+static bool intfunc1(char *cmd, char *parms);
+static void intfunc2(char *cmd, char *parms);
+static void strfunc2(char *cmd, char *parms);
+static void timefunc2(char *cmd, char *parms);
 
-static void alwaysrun_func2(char *cmd, char *parms);
-static void am_display_func2(char *cmd, char *parms);
-static void am_external_func2(char *cmd, char *parms);
-static void am_followmode_func2(char *cmd, char *parms);
-static void am_gridsize_func2(char *cmd, char *parms);
-static void am_path_func2(char *cmd, char *parms);
-static void am_rotatemode_func2(char *cmd, char *parms);
-static bool armortype_func1(char *cmd, char *parms);
-static void armortype_func2(char *cmd, char *parms);
-static void autotilt_func2(char *cmd, char *parms);
-static void english_func2(char *cmd, char *parms);
-static void episode_func2(char *cmd, char *parms);
-static void expansion_func2(char *cmd, char *parms);
-static void freelook_func2(char *cmd, char *parms);
-static bool joy_deadzone_cvars_func1(char *cmd, char *parms);
-static void joy_deadzone_cvars_func2(char *cmd, char *parms);
-static void joy_sensitivity_cvars_func2(char *cmd, char *parms);
-static bool player_cvars_func1(char *cmd, char *parms);
-static void player_cvars_func2(char *cmd, char *parms);
-static void r_antialiasing_func2(char *cmd, char *parms);
-static void r_blood_func2(char *cmd, char *parms);
-static void r_bloodsplats_translucency_func2(char *cmd, char *parms);
-static void r_brightmaps_func2(char *cmd, char *parms);
-static void r_corpses_mirrored_func2(char *cmd, char *parms);
-static void r_detail_func2(char *cmd, char *parms);
-static void r_diskicon_func2(char *cmd, char *parms);
-static void r_ditheredlighting_func2(char *cmd, char *parms);
-static void r_fixmaperrors_func2(char *cmd, char *parms);
-static void r_fov_func2(char *cmd, char *parms);
-static bool r_gamma_func1(char *cmd, char *parms);
-static void r_gamma_func2(char *cmd, char *parms);
-static void r_hud_func2(char *cmd, char *parms);
-static void r_hud_translucency_func2(char *cmd, char *parms);
-static void r_lowpixelsize_func2(char *cmd, char *parms);
-static void r_mirroredweapons_func2(char *cmd, char *parms);
-static void r_randomstartframes_func2(char *cmd, char *parms);
-static void r_rockettrails_translucency_func2(char *cmd, char *parms);
-static void r_screensize_func2(char *cmd, char *parms);
-static void r_shadows_translucency_func2(char *cmd, char *parms);
-static void r_sprites_translucency_func2(char *cmd, char *parms);
-static void r_textures_func2(char *cmd, char *parms);
-static void r_textures_translucency_func2(char *cmd, char *parms);
-static void s_randommusic_func2(char *cmd, char *parms);
-static bool s_volume_cvars_func1(char *cmd, char *parms);
-static void s_volume_cvars_func2(char *cmd, char *parms);
-static void savegame_func2(char *cmd, char *parms);
-static void skilllevel_func2(char *cmd, char *parms);
-static void turbo_func2(char *cmd, char *parms);
-static void vid_aspectratio_func2(char *cmd, char *parms);
-static void vid_blue_func2(char *cmd, char *parms);
-static void vid_borderlesswindow_func2(char *cmd, char *parms);
-static void vid_brightness_func2(char *cmd, char *parms);
-static void vid_contrast_func2(char *cmd, char *parms);
-static void vid_display_func2(char *cmd, char *parms);
-static void vid_fullscreen_func2(char *cmd, char *parms);
-static void vid_green_func2(char *cmd, char *parms);
-static void vid_pillarboxes_func2(char *cmd, char *parms);
-static void vid_red_func2(char *cmd, char *parms);
-static void vid_saturation_func2(char *cmd, char *parms);
-static bool vid_scaleapi_func1(char *cmd, char *parms);
-static void vid_scaleapi_func2(char *cmd, char *parms);
-static bool vid_scalefilter_func1(char *cmd, char *parms);
-static void vid_scalefilter_func2(char *cmd, char *parms);
-static void vid_screenresolution_func2(char *cmd, char *parms);
-static void vid_showfps_func2(char *cmd, char *parms);
-static void vid_vsync_func2(char *cmd, char *parms);
-static void vid_widescreen_func2(char *cmd, char *parms);
-static void vid_windowpos_func2(char *cmd, char *parms);
-static void vid_windowsize_func2(char *cmd, char *parms);
-static bool weapon_func1(char *cmd, char *parms);
-static void weapon_func2(char *cmd, char *parms);
-static void weaponrecoil_func2(char *cmd, char *parms);
+static void alwaysrunfunc2(char *cmd, char *parms);
+static void am_displayfunc2(char *cmd, char *parms);
+static void am_externalfunc2(char *cmd, char *parms);
+static void am_followmodefunc2(char *cmd, char *parms);
+static void am_gridsizefunc2(char *cmd, char *parms);
+static void am_pathfunc2(char *cmd, char *parms);
+static void am_rotatemodefunc2(char *cmd, char *parms);
+static bool armortypefunc1(char *cmd, char *parms);
+static void armortypefunc2(char *cmd, char *parms);
+static void autotiltfunc2(char *cmd, char *parms);
+static void englishfunc2(char *cmd, char *parms);
+static void episodefunc2(char *cmd, char *parms);
+static void expansionfunc2(char *cmd, char *parms);
+static void freelookfunc2(char *cmd, char *parms);
+static bool joy_deadzonecvarsfunc1(char *cmd, char *parms);
+static void joy_deadzonecvarsfunc2(char *cmd, char *parms);
+static void joy_sensitivitycvarsfunc2(char *cmd, char *parms);
+static bool playercvarsfunc1(char *cmd, char *parms);
+static void playercvarsfunc2(char *cmd, char *parms);
+static void r_antialiasingfunc2(char *cmd, char *parms);
+static void r_bloodfunc2(char *cmd, char *parms);
+static void r_bloodsplats_translucencyfunc2(char *cmd, char *parms);
+static void r_brightmapsfunc2(char *cmd, char *parms);
+static void r_corpses_mirroredfunc2(char *cmd, char *parms);
+static void r_detailfunc2(char *cmd, char *parms);
+static void r_diskiconfunc2(char *cmd, char *parms);
+static void r_ditheredlightingfunc2(char *cmd, char *parms);
+static void r_fixmaperrorsfunc2(char *cmd, char *parms);
+static void r_fovfunc2(char *cmd, char *parms);
+static bool r_gammafunc1(char *cmd, char *parms);
+static void r_gammafunc2(char *cmd, char *parms);
+static void r_hudfunc2(char *cmd, char *parms);
+static void r_hud_translucencyfunc2(char *cmd, char *parms);
+static void r_lowpixelsizefunc2(char *cmd, char *parms);
+static void r_mirroredweaponsfunc2(char *cmd, char *parms);
+static void r_randomstartframesfunc2(char *cmd, char *parms);
+static void r_rockettrails_translucencyfunc2(char *cmd, char *parms);
+static void r_screensizefunc2(char *cmd, char *parms);
+static void r_shadows_translucencyfunc2(char *cmd, char *parms);
+static void r_sprites_translucencyfunc2(char *cmd, char *parms);
+static void r_texturesfunc2(char *cmd, char *parms);
+static void r_textures_translucencyfunc2(char *cmd, char *parms);
+static void s_randommusicfunc2(char *cmd, char *parms);
+static bool s_volumecvarsfunc1(char *cmd, char *parms);
+static void s_volumecvarsfunc2(char *cmd, char *parms);
+static void savegamefunc2(char *cmd, char *parms);
+static void skilllevelfunc2(char *cmd, char *parms);
+static void turbofunc2(char *cmd, char *parms);
+static void vid_aspectratiofunc2(char *cmd, char *parms);
+static void vid_bluefunc2(char *cmd, char *parms);
+static void vid_borderlesswindowfunc2(char *cmd, char *parms);
+static void vid_brightnessfunc2(char *cmd, char *parms);
+static void vid_contrastfunc2(char *cmd, char *parms);
+static void vid_displayfunc2(char *cmd, char *parms);
+static void vid_fullscreenfunc2(char *cmd, char *parms);
+static void vid_greenfunc2(char *cmd, char *parms);
+static void vid_pillarboxesfunc2(char *cmd, char *parms);
+static void vid_redfunc2(char *cmd, char *parms);
+static void vid_saturationfunc2(char *cmd, char *parms);
+static bool vid_scaleapifunc1(char *cmd, char *parms);
+static void vid_scaleapifunc2(char *cmd, char *parms);
+static bool vid_scalefilterfunc1(char *cmd, char *parms);
+static void vid_scalefilterfunc2(char *cmd, char *parms);
+static void vid_screenresolutionfunc2(char *cmd, char *parms);
+static void vid_showfpsfunc2(char *cmd, char *parms);
+static void vid_vsyncfunc2(char *cmd, char *parms);
+static void vid_widescreenfunc2(char *cmd, char *parms);
+static void vid_windowposfunc2(char *cmd, char *parms);
+static void vid_windowsizefunc2(char *cmd, char *parms);
+static bool weaponfunc1(char *cmd, char *parms);
+static void weaponfunc2(char *cmd, char *parms);
+static void weaponrecoilfunc2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealiastype_t valuealiastype)
 {
@@ -575,585 +590,619 @@ char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiast
 }
 
 #define CCMD(name, alt1, alt2, cond, func, parms, form, desc) \
-    { #name, #alt1, #alt2, cond, func, parms, CT_CCMD, CF_NONE, 0, NULL, 0, 0, 0, form, desc, 0, 0 }
-#define CMD_CHEAT(name, parms) \
-    { #name, "", "", cheat_func1, NULL, parms, CT_CHEAT, CF_NONE, 0, NULL, 0, 0, 0, "", "", 0, 0 }
-#define CVAR_BOOL(name, alt1, alt2, cond, func, flags, aliases, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), 0, &name, aliases, false, true, "", desc, name##_default, 0 }
-#define CVAR_INT(name, alt1, alt2, cond, func, flags, aliases, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), 0, &name, aliases, name##_min, name##_max, "", desc, name##_default, 0 }
-#define CVAR_FLOAT(name, alt1, alt2, cond, func, flags, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, (int)name##_min, (int)name##_max, "", desc, name##_default, 0 }
-#define CVAR_FLOAT2(name, alt1, alt2, cond, func, flags, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, 0, 0, "", desc, name##_default, 0 }
-#define CVAR_STR(name, alt1, alt2, cond, func, flags, length, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_STRING | flags), length, &name, 0, 0, 0, "", desc, 0, name##_default }
-#define CVAR_TIME(name, alt1, alt2, cond, func, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), 0, &name, 0, 0, 0, "", desc, 0, "" }
-#define CVAR_OTHER(name, alt1, alt2, cond, func, desc) \
-    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, CF_OTHER, 0, &name, 0, 0, 0, "", desc, 0, name##_default }
+    { #name, #alt1, #alt2, cond, func, parms, CT_CCMD, 0, 0, NULL, 0, 0, 0, form, desc, 0, 0 }
+#define CHEATCCMD(name, parms) \
+    { #name, "", "", cheatfunc1, NULL, parms, CT_CHEAT, 0, 0, NULL, 0, 0, 0, "", "", 0, 0 }
+#define BOOLCVAR(name, alt1, alt2, cond, func, flags, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), 0, &name, BOOLVALUEALIAS, \
+      false, true, "", desc, name##_default, 0 }
+#define INTCVAR(name, alt1, alt2, cond, func, flags, aliases, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), 0, &name, aliases, \
+      name##_min, name##_max, "", desc, name##_default, 0 }
+#define COLORCVAR(name, alt1, alt2, desc) \
+    { #name, #alt1, #alt2, intfunc1, colorfunc2, 1, CT_CVAR, (CF_INTEGER | CF_COLOR), 0, &name, 0, \
+      name##_min, name##_max, "", desc, name##_default, 0 }
+#define FLOATCVAR(name, alt1, alt2, cond, func, flags, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, \
+      (int)name##_min, (int)name##_max, "", desc, name##_default, 0 }
+#define FLOATCVAR2(name, alt1, alt2, cond, func, flags, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), 0, &name, 0, 0, 0, "", \
+      desc, name##_default, 0 }
+#define STRCVAR(name, alt1, alt2, cond, func, flags, length, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_STRING | flags), length, &name, 0, 0, 0, \
+      "", desc, 0, name##_default }
+#define TIMECVAR(name, alt1, alt2, cond, func, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), 0, &name, 0, 0, 0, "", \
+      desc, 0, "" }
+#define OTHERCVAR(name, alt1, alt2, cond, func, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, CF_OTHER, 0, &name, 0, 0, 0, "", desc, 0, \
+      name##_default }
 
 consolecmd_t consolecmds[] =
 {
-    CCMD(alias, "", "", null_func1, alias_func2, true, ALIASCMDFORMAT,
+    CCMD(alias, "", "", nullfunc1, aliasfunc2, true, ALIASFORMAT,
         "Creates an " BOLDITALICS("alias") " that executes a string of " BOLDITALICS("commands") "."),
-    CVAR_BOOL(alwaysrun, "", "", bool_cvars_func1, alwaysrun_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(alwaysrun, "", "", boolfunc1, alwaysrunfunc2, 0,
         "Toggles you to always run instead of walk."),
-    CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of unmapped lines in the automap indicating a change in a ceiling's height once you have a computer area map "
+    COLORCVAR(am_allmapcdwallcolor, am_allmapcdwallcolour, "",
+        "The color of unmapped lines in the automap indicating a change in a ceiling's height once "
+        "you have a computer area map power-up (" BOLD("0") " to " BOLD("255") ")."),
+    COLORCVAR(am_allmapfdwallcolor, am_allmapfdwallcolour, "",
+        "The color of unmapped lines in the automap indicating a change in a floor's height once "
+        "you have a computer area map power-up (" BOLD("0") " to " BOLD("255") ")."),
+    COLORCVAR(am_allmapwallcolor, am_allmapwallcolour, "",
+        "The color of unmapped solid walls in the automap once you have a computer area map "
         "power-up (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of unmapped lines in the automap indicating a change in a floor's height once you have a computer area map "
-        "power-up (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of unmapped solid walls in the automap once you have a computer area map power-up (" BOLD("0") " to "
-        BOLD("255") ")."),
-    CVAR_BOOL(am_antialiasing, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_antialiasing, "", "", boolfunc1, boolfunc2, 0,
         "Toggles anti-aliasing in the automap."),
-    CVAR_BOOL(am_author, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_author, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying the map's author (if available) in the automap."),
-    CVAR_INT(am_backcolor, am_backcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_backcolor, am_backcolour, "",
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_bloodsplatcolor, am_bloodsplatcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_bloodsplatcolor, am_bloodsplatcolour, "",
         "The color of blood splats in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_bluedoorcolor, am_bluedoorcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of doors in the automap unlocked with a blue keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_bluekeycolor, am_bluekeycolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of blue keycards and skull keys in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_cdwallcolor, am_cdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_corpsecolor, am_corpsecolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_bluedoorcolor, am_bluedoorcolour, "",
+        "The color of doors in the automap unlocked with a blue keycard or skull key (" BOLD("0")
+        " to " BOLD("255") ")."),
+    COLORCVAR(am_bluekeycolor, am_bluekeycolour, "",
+        "The color of blue keycards and skull keys in the automap when you cheat (" BOLD("0") " to "
+        BOLD("255") ")."),
+    COLORCVAR(am_cdwallcolor, am_cdwallcolour, "",
+        "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0")
+        " to " BOLD("255") ")."),
+    COLORCVAR(am_corpsecolor, am_corpsecolour, "",
         "The color of corpses in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_correctaspectratio, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_correctaspectratio, "", "", boolfunc1, boolfunc2, 0,
         "Toggles aspect ratio correction in the automap."),
-    CVAR_INT(am_crosshaircolor, am_crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_display, "", "", int_cvars_func1, am_display_func2, CF_NONE, NOVALUEALIAS,
+    COLORCVAR(am_crosshaircolor, am_crosshaircolour, "",
+        "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to "
+        BOLD("255") ")."),
+    INTCVAR(am_display, "", "", intfunc1, am_displayfunc2, 0, 0,
         "The display used to show the external automap."),
-    CVAR_BOOL(am_dynamic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_dynamic, "", "", boolfunc1, boolfunc2, 0,
         "Toggles dynamically updating the automap while it is open."),
-    CVAR_BOOL(am_external, "", "", bool_cvars_func1, am_external_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_external, "", "", boolfunc1, am_externalfunc2, 0,
         "Toggles showing the automap on an external display."),
-    CVAR_INT(am_fdwallcolor, am_fdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_followmode, "", "", game_cvar_func1, am_followmode_func2, CF_MAPRESET, BOOLVALUEALIAS,
+    COLORCVAR(am_fdwallcolor, am_fdwallcolour, "",
+        "The color of lines in the automap indicating a change in a floor's height (" BOLD("0")
+        " to " BOLD("255") ")."),
+    BOOLCVAR(am_followmode, "", "", ingamecvarfunc1, am_followmodefunc2, CF_MAPRESET,
         "Toggles following you in the automap."),
-    CVAR_BOOL(am_grid, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_grid, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the grid in the automap."),
-    CVAR_INT(am_gridcolor, am_gridcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_gridcolor, am_gridcolour, "",
         "The color of the grid in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_OTHER(am_gridsize, "", "", null_func1, am_gridsize_func2,
+    OTHERCVAR(am_gridsize, "", "", nullfunc1, am_gridsizefunc2,
         "The size of the grid in the automap (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
-    CVAR_INT(am_markcolor, am_markcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_markcolor, am_markcolour, "",
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_mousepanning, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_mousepanning, "", "", boolfunc1, boolfunc2, 0,
         "Toggles clicking and dragging the mouse to pan around the automap when follow mode is off."),
-    CVAR_BOOL(am_path, "", "", bool_cvars_func1, am_path_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_path, "", "", boolfunc1, am_pathfunc2, 0,
         "Toggles your path in the automap."),
-    CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_pathcolor, am_pathcolour, "",
         "The color of your path in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_pathlength, "", "", int_cvars_func1, color_cvars_func2, CF_NONE, PATHLENGTHVALUEALIAS,
-        "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", " BOLD("long") " or " BOLD("endless") ")."),
-    CVAR_INT(am_playercolor, am_playercolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    INTCVAR(am_pathlength, "", "", intfunc1, colorfunc2, 0, PATHLENGTHVALUEALIAS,
+        "The length of your path in the automap (" BOLD("short") ", " BOLD("medium") ", "
+        BOLD("long") " or " BOLD("endless") ")."),
+    COLORCVAR(am_playercolor, am_playercolour, "",
         "The color of your arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_playerstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(am_playerstats, "", "", boolfunc1, boolfunc2, 0,
         "Toggles your stats in the automap."),
-    CVAR_INT(am_playerstatscolor, am_playerstatscolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_playerstatscolor, am_playerstatscolour, "",
         "The color of your stats in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_reddoorcolor, am_reddoorcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of doors in the automap unlocked with a red keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_redkeycolor, am_redkeycolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of red keycards and skull keys in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_rotatemode, "", "", bool_cvars_func1, am_rotatemode_func2, CF_NONE, BOOLVALUEALIAS,
+    COLORCVAR(am_reddoorcolor, am_reddoorcolour, "",
+        "The color of doors in the automap unlocked with a red keycard or skull key (" BOLD("0")
+        " to " BOLD("255") ")."),
+    COLORCVAR(am_redkeycolor, am_redkeycolour, "",
+        "The color of red keycards and skull keys in the automap when you cheat (" BOLD("0")
+        " to " BOLD("255") ")."),
+    BOOLCVAR(am_rotatemode, "", "", boolfunc1, am_rotatemodefunc2, 0,
         "Toggles rotating around you in the automap."),
-    CVAR_INT(am_secretcolor, am_secretcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, SECRETCOLORVALUEALIAS,
-        "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_teleportercolor, am_teleportercolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
+        "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
+        BOLD("0") " to " BOLD("255") ")."),
+    COLORCVAR(am_teleportercolor, am_teleportercolour, "",
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_thingcolor, am_thingcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_thingcolor, am_thingcolour, "",
         "The color of things in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_tswallcolor, am_tswallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of lines in the automap indicating no change in height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_wallcolor, am_wallcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(am_tswallcolor, am_tswallcolour, "",
+        "The color of lines in the automap indicating no change in height (" BOLD("0") " to "
+        BOLD("255") ")."),
+    COLORCVAR(am_wallcolor, am_wallcolour, "",
         "The color of solid walls in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_yellowdoorcolor, am_yellowdoorcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of doors in the automap unlocked with a yellow keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_yellowkeycolor, am_yellowkeycolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
-        "The color of yellow keycards and skull keys in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(ammo, "", "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
+    COLORCVAR(am_yellowdoorcolor, am_yellowdoorcolour, "",
+        "The color of doors in the automap unlocked with a yellow keycard or skull key (" BOLD("0")
+        " to " BOLD("255") ")."),
+    COLORCVAR(am_yellowkeycolor, am_yellowkeycolour, "",
+        "The color of yellow keycards and skull keys in the automap when you cheat (" BOLD("0")
+        " to " BOLD("255") ")."),
+    INTCVAR(ammo, "", "", playercvarsfunc1, playercvarsfunc2, 0, 0,
         "The amount of ammo you have for your currently equipped weapon."),
-    CVAR_BOOL(animatedstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles animating your health, armor and ammo in the status bar and widescreen HUD when they change."),
-    CVAR_INT(armor, armour, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    BOOLCVAR(animatedstats, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles animating your health, armor and ammo in the status bar and widescreen HUD when "
+        "they change."),
+    INTCVAR(armor, armour, "", playercvarsfunc1, playercvarsfunc2, CF_PERCENT, 0,
         "Your armor (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(armortype, armourtype, "", armortype_func1, armortype_func2, CF_NONE, ARMORTYPEVALUEALIAS,
+    INTCVAR(armortype, armourtype, "", armortypefunc1, armortypefunc2, 0, ARMORTYPEVALUEALIAS,
         "Your armor type (" BOLD("none") ", " BOLD("green") " or " BOLD("blue") ")."),
-    CVAR_BOOL(autoaim, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(autoaim, "", "", boolfunc1, boolfunc2, 0,
         "Toggles vertical autoaiming as you fire your weapon while using freelook."),
-    CVAR_BOOL(autoload, "", "", bool_cvars_func1, bool_cvars_func2, CF_PISTOLSTART, BOOLVALUEALIAS,
+    BOOLCVAR(autoload, "", "", boolfunc1, boolfunc2, CF_PISTOLSTART,
         "Toggles automatically loading the last savegame when you die."),
-    CVAR_BOOL(autosave, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(autosave, "", "", boolfunc1, boolfunc2, 0,
         "Toggles automatically saving the game at the start of each map."),
-    CVAR_BOOL(autoswitch, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(autoswitch, "", "", boolfunc1, boolfunc2, 0,
         "Toggles automatically switching your weapon when picking up a new one or better ammo."),
-    CVAR_BOOL(autotilt, "", "", bool_cvars_func1, autotilt_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(autotilt, "", "", boolfunc1, autotiltfunc2, 0,
         "Toggles automatically tilting your view when going up or down a flight of stairs."),
-    CVAR_BOOL(autouse, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(autouse, "", "", boolfunc1, boolfunc2, 0,
         "Toggles automatically using doors and switches in front of you."),
-    CCMD(bind, "", "", null_func1, bind_func2, true, BINDCMDFORMAT,
-        "Binds an " BOLDITALICS("+action") " or a string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
-    CCMD(bindlist, "", "", null_func1, bindlist_func2, false, "",
+    CCMD(bind, "", "", nullfunc1, bindfunc2, true, BINDFORMAT,
+        "Binds an " BOLDITALICS("+action") " or a string of " BOLDITALICS("commands") " to a "
+        BOLDITALICS("control") "."),
+    CCMD(bindlist, "", "", nullfunc1, bindlistfunc2, false, "",
         "Lists all controls bound to an " BOLDITALICS("+action") " or a string of commands."),
-    CVAR_BOOL(centerweapon, centreweapon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(centerweapon, centreweapon, "", boolfunc1, boolfunc2, 0,
         "Toggles centering your weapon when fired."),
-    CCMD(clear, "", "", null_func1, clear_func2, false, "",
+    CCMD(clear, "", "", nullfunc1, clearfunc2, false, "",
         "Clears the console."),
-    CCMD(cmdlist, "", ccmdlist, null_func1, cmdlist_func2, true, "[" BOLDITALICS("searchstring") "]",
+    CCMD(cmdlist, "", ccmdlist, nullfunc1, cmdlistfunc2, true, CMDLISTFORMAT,
         "Lists all console commands."),
-    CCMD(condump, "", "", condump_func1, condump_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
+    CCMD(condump, "", "", condumpfunc1, condumpfunc2, true, CONDUMPFORMAT,
         "Dumps the contents of the console to a file."),
-    CVAR_INT(con_edgecolor, con_edgecolour, "", int_cvars_func1, int_cvars_func2, CF_COLOR, EDGECOLORVALUEALIAS,
+    INTCVAR(con_edgecolor, con_edgecolour, "", intfunc1, intfunc2, CF_COLOR, EDGECOLORVALUEALIAS,
         "The color of the console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(con_timestampformat, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, TIMESTAMPVALUEALIAS,
+    INTCVAR(con_timestampformat, "", "", intfunc1, intfunc2, 0, TIMESTAMPVALUEALIAS,
         "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
-    CVAR_BOOL(con_timestamps, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(con_timestamps, "", "", boolfunc1, boolfunc2, 0,
         "Toggles timestamps in the console."),
-    CVAR_INT(con_warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(con_warninglevel, "", "", intfunc1, intfunc2, 0, 0,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
-    CVAR_INT(crosshair, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, CROSSHAIRVALUEALIAS,
-        "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") ", " BOLD("angle") ", " BOLD("dot") ", " BOLD("bigcross") ", "
-        BOLD("circle") ", " BOLD("bigcircle") ", " BOLD("chevron") ", " BOLD("chevrons") " or " BOLD("arcs") ")."),
-    CVAR_INT(crosshaircolor, crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    INTCVAR(crosshair, "", "", intfunc1, intfunc2, 0, CROSSHAIRVALUEALIAS,
+        "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") ", " BOLD("angle") ", "
+        BOLD("dot") ", " BOLD("bigcross") ", " BOLD("circle") ", " BOLD("bigcircle") ", "
+        BOLD("chevron") ", " BOLD("chevrons") " or " BOLD("arcs") ")."),
+    COLORCVAR(crosshaircolor, crosshaircolour, "",
         "The color of your crosshair (" BOLD("0") " to " BOLD("255") ")."),
-    CCMD(cvarlist, "", "", null_func1, cvarlist_func2, true, "[" BOLDITALICS("searchstring") "]",
+    CCMD(cvarlist, "", "", nullfunc1, cvarlistfunc2, true, CVARLISTFORMAT,
         "Lists all console variables."),
-    CCMD(endgame, "", "", null_func1, endgame_func2, false, "",
+    CCMD(endgame, "", "", nullfunc1, endgamefunc2, false, "",
         "Ends the game."),
-    CVAR_INT(english, "", "", int_cvars_func1, english_func2, CF_NONE, ENGLISHVALUEALIAS,
+    INTCVAR(english, "", "", intfunc1, englishfunc2, 0, ENGLISHVALUEALIAS,
         "Toggles the use of American or British English (" BOLD("american") " or " BOLD("british") ")."),
-    CVAR_INT(episode, "", "", int_cvars_func1, episode_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(episode, "", "", intfunc1, episodefunc2, 0, 0,
         "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("6") ")."),
-    CCMD(exec, "", "", null_func1, exec_func2, true, EXECCMDFORMAT,
+    CCMD(exec, "", "", nullfunc1, execfunc2, true, EXECFORMAT,
         "Executes all commands in a file."),
-    CCMD(exitmap, "", "", alive_func1, exitmap_func2, false, "",
+    CCMD(exitmap, "", "", alivefunc1, exitmapfunc2, false, "",
         "Exits the current map."),
-    CVAR_INT(expansion, "", "", int_cvars_func1, expansion_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(expansion, "", "", intfunc1, expansionfunc2, 0, 0,
         "The currently selected " ITALICS("DOOM II") " expansion in the menu (" BOLD("1") " or " BOLD("2") ")."),
-    CCMD(explode, "", "", kill_func1, kill_func2, true, EXPLODECMDFORMAT,
+    CCMD(explode, "", "", killfunc1, killfunc2, true, EXPLODEFORMAT,
         "Explodes all " BOLD("barrels") " or " BOLD("missiles") "."),
-    CVAR_INT(facebackcolor, facebackcolour, "", int_cvars_func1, color_cvars_func2, CF_COLOR, NOVALUEALIAS,
+    COLORCVAR(facebackcolor, facebackcolour, "",
         "The color of your face's background in the status bar (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(fade, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(fade, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a fading effect when transitioning between some screens."),
-    CCMD(fastmonsters, "", "", nightmare_func1, fastmonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(fastmonsters, "", "", nightmarefunc1, fastmonstersfunc2, true, FASTMONSTERSFORMAT,
         "Toggles fast monsters."),
-    CVAR_BOOL(flashkeys, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(flashkeys, "", "", boolfunc1, boolfunc2, 0,
         "Toggles flashing the keycard or skull key that is needed when you try to open a locked door."),
-    CVAR_BOOL(freelook, mouselook, "", bool_cvars_func1, freelook_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(freelook, mouselook, "", boolfunc1, freelookfunc2, 0,
         "Toggles freely looking up and down using the mouse or a controller."),
-    CCMD(freeze, "", "", alive_func1, freeze_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(freeze, "", "", alivefunc1, freezefunc2, true, FREEZEFORMAT,
         "Toggles freeze mode."),
-    CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
+    TIMECVAR(gametime, "", "", nullfunc1, timefunc2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
-    CCMD(give, "", "", give_func1, give_func2, true, GIVECMDFORMAT,
-        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups") ", or " BOLD("all")
-        " or certain " BOLDITALICS("items") " to you."),
-    CCMD(god, "", "", alive_func1, god_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(give, "", "", givefunc1, givefunc2, true, GIVEFORMAT,
+        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons")
+        ", " BOLD("powerups") ", or " BOLD("all") " or certain " BOLDITALICS("items") " to you."),
+    CCMD(god, "", "", alivefunc1, godfunc2, true, GODFORMAT,
         "Toggles god mode."),
-    CVAR_BOOL(groupmessages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(groupmessages, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the grouping of identical player messages."),
-    CVAR_INT(health, "", "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(health, "", "", playercvarsfunc1, playercvarsfunc2, CF_PERCENT, 0,
         "Your health (" BOLD("-99%") " to " BOLD("200%") ")."),
-    CMD_CHEAT(idbeholda, false),
-    CMD_CHEAT(idbeholdi, false),
-    CMD_CHEAT(idbeholdl, false),
-    CMD_CHEAT(idbeholdr, false),
-    CMD_CHEAT(idbeholds, false),
-    CMD_CHEAT(idbeholdv, false),
-    CMD_CHEAT(idchoppers, false),
-    CMD_CHEAT(idclev, true),
-    CMD_CHEAT(idclip, false),
-    CMD_CHEAT(iddqd, false),
-    CMD_CHEAT(iddt, false),
-    CMD_CHEAT(idfa, false),
-    CMD_CHEAT(idkfa, false),
-    CMD_CHEAT(idmus, true),
-    CMD_CHEAT(idmypos, false),
-    CMD_CHEAT(idspispopd, false),
-    CCMD(if, "", "", null_func1, if_func2, true, IFCMDFORMAT,
-        "Executes a string of " BOLDITALICS("commands") " if a " BOLDITALICS("CVAR") " equals a " BOLDITALICS("value") "."),
-    CVAR_BOOL(infighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CHEATCCMD(idbeholda, false),
+    CHEATCCMD(idbeholdi, false),
+    CHEATCCMD(idbeholdl, false),
+    CHEATCCMD(idbeholdr, false),
+    CHEATCCMD(idbeholds, false),
+    CHEATCCMD(idbeholdv, false),
+    CHEATCCMD(idchoppers, false),
+    CHEATCCMD(idclev, true),
+    CHEATCCMD(idclip, false),
+    CHEATCCMD(iddqd, false),
+    CHEATCCMD(iddt, false),
+    CHEATCCMD(idfa, false),
+    CHEATCCMD(idkfa, false),
+    CHEATCCMD(idmus, true),
+    CHEATCCMD(idmypos, false),
+    CHEATCCMD(idspispopd, false),
+    CCMD(if, "", "", nullfunc1, iffunc2, true, IFFORMAT,
+        "Executes a string of " BOLDITALICS("commands") " if a " BOLDITALICS("CVAR") " equals a "
+        BOLDITALICS("value") "."),
+    BOOLCVAR(infighting, "", "", boolfunc1, boolfunc2, 0,
         "Toggles infighting amongst monsters once you die."),
-    CCMD(infiniteammo, "", "", game_ccmd_func1, infiniteammo_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(infiniteammo, "", "", ingameccmdfunc1, infiniteammofunc2, true, INFINITEAMMOFORMAT,
         "Toggles an infinite amount of ammo for all of your weapons."),
-    CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(infiniteheight, "", "", boolfunc1, boolfunc2, 0,
         "Toggles giving you and everything else in the current map infinite height."),
-    CVAR_BOOL(joy_analog, joy_analogue, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(joy_analog, joy_analogue, "", boolfunc1, boolfunc2, 0,
         "Toggles whether movement using a controller's thumbsticks is analog or digital."),
-    CVAR_FLOAT(joy_deadzone_left, "", "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
+    FLOATCVAR(joy_deadzone_left, "", "", joy_deadzonecvarsfunc1, joy_deadzonecvarsfunc2, CF_PERCENT,
         "The dead zone of a controller's left thumbstick (" BOLD("0%") " to " BOLD("30%") ")."),
-    CVAR_FLOAT(joy_deadzone_right, "", "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
+    FLOATCVAR(joy_deadzone_right, "", "", joy_deadzonecvarsfunc1, joy_deadzonecvarsfunc2, CF_PERCENT,
         "The dead zone of a controller's right thumbstick (" BOLD("0%") " to " BOLD("30%") ")."),
-    CVAR_BOOL(joy_invertyaxis, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(joy_invertyaxis, "", "", boolfunc1, boolfunc2, 0,
         "Toggles inverting the vertical axis of a controller's right thumbstick when you look up or down."),
-    CVAR_INT(joy_rumble_barrels, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(joy_rumble_barrels, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount a controller rumbles when you are near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(joy_rumble_damage, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(joy_rumble_damage, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount a controller rumbles when you take damage (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_BOOL(joy_rumble_fall, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(joy_rumble_fall, "", "", boolfunc1, boolfunc2, 0,
         "Toggles rumbling a controller when you land after a fall."),
-    CVAR_BOOL(joy_rumble_pickup, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(joy_rumble_pickup, "", "", boolfunc1, boolfunc2, 0,
         "Toggles rumbling a controller when you pick something up."),
-    CVAR_INT(joy_rumble_weapons, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(joy_rumble_weapons, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount a controller rumbles when you fire your weapon (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_FLOAT(joy_sensitivity_horizontal, "", "", float_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE,
+    FLOATCVAR(joy_sensitivity_horizontal, "", "", floatfunc1, joy_sensitivitycvarsfunc2, 0,
         "The horizontal sensitivity of a controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_FLOAT(joy_sensitivity_vertical, "", "", float_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE,
+    FLOATCVAR(joy_sensitivity_vertical, "", "", floatfunc1, joy_sensitivitycvarsfunc2, 0,
         "The vertical sensitivity of a controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_BOOL(joy_swapthumbsticks, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(joy_swapthumbsticks, "", "", boolfunc1, boolfunc2, 0,
         "Toggles swapping a controller's left and right thumbsticks."),
-    CVAR_INT(joy_thumbsticks, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(joy_thumbsticks, "", "", intfunc1, intfunc2, 0, 0,
         "The number of thumbsticks on a controller (" BOLD("1") " or " BOLD("2") ")."),
-    CCMD(kill, "", "", kill_func1, kill_func2, true, KILLCMDFORMAT,
+    CCMD(kill, "", "", killfunc1, killfunc2, true, KILLFORMAT,
         "Kills the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
-    CCMD(license, licence, "", null_func1, license_func2, false, "",
+    CCMD(license, licence, "", nullfunc1, licensefunc2, false, "",
         "Shows the " ITALICS(DOOMRETRO_LICENSE ".")),
-    CCMD(load, "", "", null_func1, load_func2, true, LOADCMDFORMAT,
+    CCMD(load, "", "", nullfunc1, loadfunc2, true, LOADFORMAT,
         "Loads a savegame."),
-    CVAR_BOOL(m_acceleration, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(m_acceleration, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the acceleration of mouse movement."),
-    CVAR_BOOL(m_doubleclick_use, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(m_doubleclick_use, "", "", boolfunc1, boolfunc2, 0,
         "Toggles double-clicking a mouse button to perform the " BOLD("+use") " action."),
-    CVAR_BOOL(m_invertyaxis, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(m_invertyaxis, "", "", boolfunc1, boolfunc2, 0,
         "Toggles inverting the mouse's vertical axis when using freelook."),
-    CVAR_BOOL(m_novertical, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(m_novertical, "", "", boolfunc1, boolfunc2, 0,
         "Toggles no vertical movement of the mouse."),
-    CVAR_BOOL(m_pointer, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(m_pointer, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the mouse pointer in the menu."),
-    CVAR_FLOAT(m_sensitivity, "", "", float_cvars_func1, float_cvars_func2, CF_NONE,
+    FLOATCVAR(m_sensitivity, "", "", floatfunc1, floatfunc2, 0,
         "The mouse's sensitivity (" BOLD("0") " to " BOLD("128") ")."),
-    CCMD(map, "", warp, map_func1, map_func2, true, MAPCMDFORMAT1,
+    CCMD(map, "", warp, mapfunc1, mapfunc2, true, MAPFORMAT1,
         "Warps you to another map."),
-    CCMD(maplist, "", "", null_func1, maplist_func2, false, "",
+    CCMD(maplist, "", "", nullfunc1, maplistfunc2, false, "",
         "Lists all of the maps available to play."),
-    CCMD(mapstats, "", "", null_func1, mapstats_func2, false, "",
+    CCMD(mapstats, "", "", nullfunc1, mapstatsfunc2, false, "",
         "Shows stats about the current map."),
-    CVAR_TIME(maptime, "", "", null_func1, time_cvars_func2,
+    TIMECVAR(maptime, "", "", nullfunc1, timefunc2,
         "The amount of time you have been in the current map."),
-    CVAR_BOOL(melt, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(melt, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a melting effect when transitioning between some screens."),
-    CVAR_BOOL(menuhighlight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(menuhighlight, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the highlighting of items selected in the menu."),
-    CVAR_BOOL(menushadow, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(menushadow, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shadows cast by items in the menu."),
-    CVAR_BOOL(menuspin, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(menuspin, "", "", boolfunc1, boolfunc2, 0,
         "Toggles spinning your view in the menu's background."),
-    CVAR_BOOL(messages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(messages, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying player messages at the top of the screen."),
-    CVAR_INT(movebob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(movebob, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount your view bobs as you move (" BOLD("0%") " to " BOLD("100%") ")."),
-    CCMD(name, "", "", name_func1, name_func2, true, NAMECMDFORMAT,
+    CCMD(name, "", "", namefunc1, namefunc2, true, NAMEFORMAT,
         "Gives a " BOLDITALICS("name") " to the " BOLDITALICS("monster") " nearest to you."),
-    CVAR_BOOL(negativehealth, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(negativehealth, "", "", boolfunc1, boolfunc2, 0,
         "Toggles allowing your health to be less than " BOLD("0%") " when you die."),
-    CCMD(newgame, "", "", null_func1, newgame_func2, true, "",
+    CCMD(newgame, "", "", nullfunc1, newgamefunc2, true, "",
         "Starts a new game."),
-    CCMD(noclip, "", "", game_ccmd_func1, noclip_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(noclip, "", "", ingameccmdfunc1, noclipfunc2, true, NOCLIPFORMAT,
         "Toggles no clipping mode."),
-    CCMD(nomonsters, "", "", null_func1, nomonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(nomonsters, "", "", nullfunc1, nomonstersfunc2, true, NOMONSTERSFORMAT,
         "Toggles the presence of monsters in maps."),
-    CCMD(notarget, "", "", game_ccmd_func1, notarget_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(notarget, "", "", ingameccmdfunc1, notargetfunc2, true, NOTARGETFORMAT,
         "Toggles monsters not targeting you."),
-    CVAR_BOOL(obituaries, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(obituaries, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying obituaries when you or monsters are killed."),
-    CCMD(palette, "", "", null_func1, palette_func2, false, "",
+    CCMD(palette, "", "", nullfunc1, palettefunc2, false, "",
         "Shows all 256 colors in the current palette."),
-    CCMD(pistolstart, "", "", null_func1, pistolstart_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(pistolstart, "", "", nullfunc1, pistolstartfunc2, true, PISTOLSTARTFORMAT,
         "Toggles you starting each map with 100% health, no armor, and only your pistol with 50 bullets."),
-    CCMD(play, "", "", play_func1, play_func2, true, PLAYCMDFORMAT,
+    CCMD(play, "", "", playfunc1, playfunc2, true, PLAYFORMAT,
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
-    CVAR_INT(playergender, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, GENDERVALUEALIAS,
+    INTCVAR(playergender, "", "", intfunc1, intfunc2, 0, GENDERVALUEALIAS,
         "Your gender (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
-    CVAR_STR(playername, "", "", null_func1, str_cvars_func2, CF_NONE, 16,
+    STRCVAR(playername, "", "", nullfunc1, strfunc2, 0, 16,
         "Your name."),
-    CCMD(playerstats, "", "", null_func1, playerstats_func2, false, "",
+    CCMD(playerstats, "", "", nullfunc1, playerstatsfunc2, false, "",
         "Shows stats about you."),
-    CCMD(print, "", "", game_ccmd_func1, print_func2, true, PRINTCMDFORMAT,
+    CCMD(print, "", "", ingameccmdfunc1, printfunc2, true, PRINTFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
-    CCMD(quit, "", exit, null_func1, quit_func2, false, "",
+    CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),
-    CVAR_BOOL(r_althud, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_althud, "", "", boolfunc1, boolfunc2, 0,
         "Toggles an alternate heads-up display when in widescreen."),
-    CVAR_BOOL(r_althudfont, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_althudfont, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying messages in an alternate font when the alternate HUD is displayed."),
-    CVAR_BOOL(r_antialiasing, "", "", bool_cvars_func1, r_antialiasing_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_antialiasing, "", "", boolfunc1, r_antialiasingfunc2, 0,
         "Toggles anti-aliasing when the graphic detail is low."),
-    CVAR_INT(r_berserkeffect, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The intensity of the red effect when you have a berserk power-up and your fists equipped (" BOLD("0") " to " BOLD("8")
-        ")."),
-    CVAR_INT(r_blood, "", "", int_cvars_func1, r_blood_func2, CF_NONE, BLOODVALUEALIAS,
-        "The colors of the blood spilled by you and monsters (" BOLD("all") ", " BOLD("none") ", " BOLD("red") ", " BOLD("green")
-        " or " BOLD("nofuzz") ")."),
-    CVAR_BOOL(r_blood_gibs, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    INTCVAR(r_berserkeffect, "", "", intfunc1, intfunc2, 0, 0,
+        "The intensity of the red effect when you have a berserk power-up and your fists equipped ("
+        BOLD("0") " to " BOLD("8") ")."),
+    INTCVAR(r_blood, "", "", intfunc1, r_bloodfunc2, 0, BLOODVALUEALIAS,
+        "The colors of the blood spilled by you and monsters (" BOLD("all") ", " BOLD("none") ", "
+        BOLD("red") ", " BOLD("green") " or " BOLD("nofuzz") ")."),
+    BOOLCVAR(r_blood_gibs, "", "", boolfunc1, boolfunc2, 0,
         "Toggles spawning blood when monsters are gibbed."),
-    CVAR_BOOL(r_blood_melee, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_blood_melee, "", "", boolfunc1, boolfunc2, 0,
         "Toggles spawning blood during melee attacks from monsters."),
-    CVAR_INT(r_bloodsplats_max, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(r_bloodsplats_max, "", "", intfunc1, intfunc2, 0, 0,
         "The maximum number of blood splats allowed in each map (" BOLD("0") " to " BOLD("1,048,576") ")."),
-    CVAR_INT(r_bloodsplats_total, "", "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
+    INTCVAR(r_bloodsplats_total, "", "", intfunc1, intfunc2, CF_READONLY, 0,
         "The total number of blood splats in the current map."),
-    CVAR_BOOL(r_bloodsplats_translucency, "", "", bool_cvars_func1, r_bloodsplats_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_bloodsplats_translucency, "", "", boolfunc1, r_bloodsplats_translucencyfunc2, 0,
         "Toggles the translucency of blood splats."),
-    CVAR_BOOL(r_brightmaps, "", "", bool_cvars_func1, r_brightmaps_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_brightmaps, "", "", boolfunc1, r_brightmapsfunc2, 0,
         "Toggles brightmaps on some wall textures."),
-    CVAR_BOOL(r_corpses_color, r_corpses_colour, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_color, r_corpses_colour, "", boolfunc1, boolfunc2, 0,
         "Toggles randomly colored marine corpses."),
-    CVAR_BOOL(r_corpses_gib, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_gib, "", "", boolfunc1, boolfunc2, 0,
         "Toggles some corpses gibbing when barrels or rockets explode nearby."),
-    CVAR_BOOL(r_corpses_mirrored, "", "", bool_cvars_func1, r_corpses_mirrored_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_mirrored, "", "", boolfunc1, r_corpses_mirroredfunc2, 0,
         "Toggles randomly mirrored corpses."),
-    CVAR_BOOL(r_corpses_moreblood, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_moreblood, "", "", boolfunc1, boolfunc2, 0,
         "Toggles blood splats spawned around corpses at the start of each map."),
-    CVAR_BOOL(r_corpses_nudge, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_nudge, "", "", boolfunc1, boolfunc2, 0,
         "Toggles corpses and the items they drop being nudged when walked over."),
-    CVAR_BOOL(r_corpses_slide, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_slide, "", "", boolfunc1, boolfunc2, 0,
         "Toggles corpses sliding when barrels or rockets explode nearby."),
-    CVAR_BOOL(r_corpses_smearblood, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_corpses_smearblood, "", "", boolfunc1, boolfunc2, 0,
         "Toggles corpses leaving blood splats behind as they slide."),
-    CVAR_BOOL(r_damageeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_damageeffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the red effect when you take damage."),
-    CVAR_INT(r_detail, "", "", int_cvars_func1, r_detail_func2, CF_NONE, DETAILVALUEALIAS,
+    INTCVAR(r_detail, "", "", intfunc1, r_detailfunc2, 0, DETAILVALUEALIAS,
         "Toggles the graphic detail (" BOLD("high") " or " BOLD("low") ")."),
-    CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, r_diskicon_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_diskicon, r_discicon, "", boolfunc1, r_diskiconfunc2, 0,
         "Toggles showing a disk icon when loading and saving."),
-    CVAR_BOOL(r_ditheredlighting, "", "", bool_cvars_func1, r_ditheredlighting_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_ditheredlighting, "", "", boolfunc1, r_ditheredlightingfunc2, 0,
         "Toggles dithered lighting cast on textures and sprites."),
-    CVAR_INT(r_extralighting, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(r_extralighting, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The extra lighting applied to the current map (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(r_fixmaperrors, "", "", bool_cvars_func1, r_fixmaperrors_func2, CF_NEXTMAP, BOOLVALUEALIAS,
+    BOOLCVAR(r_fixmaperrors, "", "", boolfunc1, r_fixmaperrorsfunc2, CF_NEXTMAP,
         "Toggles fixing many mapping errors in the official " ITALICS("DOOM") " and " ITALICS("DOOM II") " WADs."),
-    CVAR_BOOL(r_fixspriteoffsets, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_fixspriteoffsets, "", "", boolfunc1, boolfunc2, 0,
         "Toggles fixing sprite offsets."),
-    CVAR_BOOL(r_floatbob, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_floatbob, "", "", boolfunc1, boolfunc2, 0,
         "Toggles some power-ups bobbing up and down."),
-    CVAR_INT(r_fov, "", "", int_cvars_func1, r_fov_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(r_fov, "", "", intfunc1, r_fovfunc2, 0, 0,
         "Your field of view (" BOLD("45\xB0") " to " BOLD("135\xB0") ")."),
-    CVAR_FLOAT2(r_gamma, "", "", r_gamma_func1, r_gamma_func2, CF_NONE,
+    FLOATCVAR2(r_gamma, "", "", r_gammafunc1, r_gammafunc2, 0,
         "The screen's gamma correction level (" BOLD("off") ", or " BOLD("0.50") " to " BOLD("2.0") ")."),
-    CVAR_BOOL(r_graduallighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_graduallighting, "", "", boolfunc1, boolfunc2, 0,
         "Toggles gradual lighting under doors and crushing sectors."),
-    CVAR_BOOL(r_homindicator, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_homindicator, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a flashing \"Hall Of Mirrors\" indicator."),
-    CVAR_BOOL(r_hud, "", "", bool_cvars_func1, r_hud_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_hud, "", "", boolfunc1, r_hudfunc2, 0,
         "Toggles a heads-up display when in widescreen."),
-    CVAR_BOOL(r_hud_translucency, "", "", bool_cvars_func1, r_hud_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
         "Toggles the translucency of the heads-up display when in widescreen."),
-    CVAR_BOOL(r_linearskies, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_linearskies, "", "", boolfunc1, boolfunc2, 0,
         "Toggles horizontally linear skies."),
-    CVAR_BOOL(r_liquid_bob, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_bob, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bobbing of liquid sectors."),
-    CVAR_BOOL(r_liquid_bobsprites, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_bobsprites, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bobbing of sprites in liquid sectors."),
-    CVAR_BOOL(r_liquid_clipsprites, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_clipsprites, "", "", boolfunc1, boolfunc2, 0,
         "Toggles clipping the bottom of sprites in liquid sectors."),
-    CVAR_BOOL(r_liquid_current, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_current, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a slight current being applied to liquid sectors."),
-    CVAR_BOOL(r_liquid_lowerview, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_lowerview, "", "", boolfunc1, boolfunc2, 0,
         "Toggles lowering your view when you are in a liquid sector."),
-    CVAR_BOOL(r_liquid_swirl, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_liquid_swirl, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the swirl of liquid sectors."),
-    CVAR_OTHER(r_lowpixelsize, "", "", null_func1, r_lowpixelsize_func2,
+    OTHERCVAR(r_lowpixelsize, "", "", nullfunc1, r_lowpixelsizefunc2,
         "The size of each pixel when the graphic detail is low (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
-    CVAR_BOOL(r_mirroredweapons, "", "", bool_cvars_func1, r_mirroredweapons_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_mirroredweapons, "", "", boolfunc1, r_mirroredweaponsfunc2, 0,
         "Toggles randomly mirroring the weapons dropped by monsters."),
-    CVAR_BOOL(r_percolumnlighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_percolumnlighting, "", "", boolfunc1, boolfunc2, 0,
         "Toggles per-column lighting cast on monsters."),
-    CVAR_BOOL(r_pickupeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_pickupeffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the gold effect when you pick something up."),
-    CVAR_BOOL(r_playersprites, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_playersprites, "", "", boolfunc1, boolfunc2, 0,
         "Toggles showing your weapon."),
-    CVAR_BOOL(r_radsuiteffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_radsuiteffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
-    CVAR_BOOL(r_randomstartframes, "", "", bool_cvars_func1, r_randomstartframes_func2, CF_NEXTMAP, BOOLVALUEALIAS,
+    BOOLCVAR(r_randomstartframes, "", "", boolfunc1, r_randomstartframesfunc2, CF_NEXTMAP,
         "Toggles randomizing the start frames of certain sprites."),
-    CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_rockettrails, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the trail of smoke behind rockets fired by you and cyberdemons."),
-    CVAR_BOOL(r_rockettrails_translucency, "", "", bool_cvars_func1, r_rockettrails_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_rockettrails_translucency, "", "", boolfunc1,
+        r_rockettrails_translucencyfunc2, 0,
         "Toggles the translucency of the trail of smoke behind rockets fired by you and cyberdemons."),
-    CVAR_INT(r_screensize, "", "", int_cvars_func1, r_screensize_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(r_screensize, "", "", intfunc1, r_screensizefunc2, 0, 0,
         "The screen size (" BOLD("0") " to " BOLD("8") ")."),
-    CVAR_BOOL(r_shadows, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_shadows, "", "", boolfunc1, boolfunc2, 0,
         "Toggles sprites casting shadows."),
-    CVAR_BOOL(r_shadows_translucency, "", "", bool_cvars_func1, r_shadows_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_shadows_translucency, "", "", boolfunc1, r_shadows_translucencyfunc2, 0,
         "Toggles the translucency of shadows cast by sprites."),
-    CVAR_BOOL(r_shake_barrels, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_shake_barrels, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking your view when you are near an exploding barrel."),
-    CVAR_BOOL(r_shake_berserk, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_shake_berserk, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking your view when you have a berserk power-up and punch something."),
-    CVAR_BOOL(r_shake_damage, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_shake_damage, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking the screen when you take damage."),
-    CVAR_BOOL(r_sprites_translucency, "", "", bool_cvars_func1, r_sprites_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_sprites_translucency, "", "", boolfunc1, r_sprites_translucencyfunc2, 0,
         "Toggles the translucency of certain sprites."),
-    CVAR_BOOL(r_textures, "", "", bool_cvars_func1, r_textures_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_textures, "", "", boolfunc1, r_texturesfunc2, 0,
         "Toggles showing all textures."),
-    CVAR_BOOL(r_textures_translucency, "", "", bool_cvars_func1, r_textures_translucency_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(r_textures_translucency, "", "", boolfunc1, r_textures_translucencyfunc2, 0,
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
-    CCMD(readme, "", "", null_func1, readme_func2, false, "",
+    CCMD(readme, "", "", nullfunc1, readmefunc2, false, "",
         "Shows the accompanying readme file for the currently loaded PWAD."),
-    CCMD(regenhealth, "", "", game_ccmd_func1, regenhealth_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(regenhealth, "", "", ingameccmdfunc1, regenhealthfunc2, true, REGENHEALTHFORMAT,
         "Toggles regenerating your health by 1% every second when it's less than 100%."),
-    CCMD(releasenotes, "", "", null_func1, releasenotes_func2, false, "",
+    CCMD(releasenotes, "", "", nullfunc1, releasenotesfunc2, false, "",
         "Opens a list of what's changed since the last version of " ITALICS(DOOMRETRO_NAME ".")),
-    CCMD(remove, "", "", kill_func1, kill_func2, true, REMOVECMDFORMAT,
-        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", certain "
-        BOLDITALICS("items") ", or " BOLD("everything") "."),
-    CCMD(reset, "", "", null_func1, reset_func2, true, RESETCMDFORMAT,
+    CCMD(remove, "", "", killfunc1, killfunc2, true, REMOVEFORMAT,
+        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", "
+        BOLD("items") ", certain " BOLDITALICS("items") ", or " BOLD("everything") "."),
+    CCMD(reset, "", "", nullfunc1, resetfunc2, true, RESETFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
-    CCMD(resetall, "", "", null_func1, resetall_func2, false, "",
+    CCMD(resetall, "", "", nullfunc1, resetallfunc2, false, "",
         "Resets all CVARs and bound controls to their defaults."),
-    CCMD(respawnitems, "", "", null_func1, respawnitems_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(respawnitems, "", "", nullfunc1, respawnitemsfunc2, true, RESPAWNITEMSFORMAT,
         "Toggles respawning items."),
-    CCMD(respawnmonsters, "", "", nightmare_func1, respawnmonsters_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(respawnmonsters, "", "", nightmarefunc1, respawnmonstersfunc2, true, RESPAWNMONSTERSFORMAT,
         "Toggles respawning monsters."),
-    CCMD(restartmap, "", "", game_ccmd_func1, restartmap_func2, false, "",
+    CCMD(restartmap, "", "", ingameccmdfunc1, restartmapfunc2, false, "",
         "Restarts the current map."),
-    CCMD(resurrect, "", "", resurrect_func1, resurrect_func2, true, RESURRECTCMDFORMAT,
+    CCMD(resurrect, "", "", resurrectfunc1, resurrectfunc2, true, RESURRECTFORMAT,
         "Resurrects the " BOLD("player") ", " BOLD("all") " monsters, or a type of " BOLDITALICS("monster") "."),
-    CMD_CHEAT(ryhan, false),
-    CVAR_INT(s_channels, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CHEATCCMD(ryhan, false),
+    INTCVAR(s_channels, "", "", intfunc1, intfunc2, 0, 0,
         "The number of sound effects that can be played at the same time (" BOLD("8") " to " BOLD("64") ")."),
-    CVAR_BOOL(s_fullsfx, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_fullsfx, "", "", boolfunc1, boolfunc2, 0,
         "Toggles playing sound effects in full as things are removed from the map."),
-    CVAR_BOOL(s_lowermenumusic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_lowermenumusic, "", "", boolfunc1, boolfunc2, 0,
         "Toggles lowering the music's volume in the menu and console."),
-    CVAR_BOOL(s_musicinbackground, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_musicinbackground, "", "", boolfunc1, boolfunc2, 0,
         "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME) "'s window loses focus."),
-    CVAR_INT(s_musicvolume, "", "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(s_musicvolume, "", "", s_volumecvarsfunc1, s_volumecvarsfunc2, CF_PERCENT, 0,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(s_randommusic, "", "", bool_cvars_func1, s_randommusic_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_randommusic, "", "", boolfunc1, s_randommusicfunc2, 0,
         "Toggles randomizing the music for each map."),
-    CVAR_BOOL(s_randompitch, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_randompitch, "", "", boolfunc1, boolfunc2, 0,
         "Toggles randomizing the pitch of sound effects made by monsters."),
-    CVAR_INT(s_sfxvolume, "", "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(s_sfxvolume, "", "", s_volumecvarsfunc1, s_volumecvarsfunc2, CF_PERCENT, 0,
         "The volume level of sound effects (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(s_stereo, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(s_stereo, "", "", boolfunc1, boolfunc2, 0,
         "Toggles playing sound effects in mono or stereo."),
-    CCMD(save, "", "", alive_func1, save_func2, true, SAVECMDFORMAT,
+    CCMD(save, "", "", alivefunc1, savefunc2, true, SAVEFORMAT,
         "Saves the game."),
-    CVAR_INT(savegame, "", "", int_cvars_func1, savegame_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(savegame, "", "", intfunc1, savegamefunc2, 0, 0,
         "The currently selected savegame in the menu (" BOLD("1") " to " BOLD("8") ")."),
-    CVAR_BOOL(secretmessages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(secretmessages, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying a message when you find a secret."),
-    CVAR_INT(skilllevel, "", "", int_cvars_func1, skilllevel_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(skilllevel, "", "", intfunc1, skilllevelfunc2, 0, 0,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
-    CCMD(spawn, "", summon, spawn_func1, spawn_func2, true, SPAWNCMDFORMAT,
+    CCMD(spawn, "", summon, spawnfunc1, spawnfunc2, true, SPAWNFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
-    CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(stillbob, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount your view and weapon bob up and down when you stand still (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, SUCKSVALUEALIAS,
-        "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or " BOLD("1") " to " BOLD("24") " hours)."),
-    CCMD(take, "", "", take_func1, take_func2, true, TAKECMDFORMAT,
-        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups") ", or " BOLD("all")
-        " or certain " BOLDITALICS("items") " away from you."),
-    CCMD(teleport, "", "", teleport_func1, teleport_func2, true, TELEPORTCMDFORMAT,
-        "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),
-    CCMD(thinglist, "", "", game_ccmd_func1, thinglist_func2, false, "",
+    INTCVAR(sucktime, "", "", intfunc1, intfunc2, 0, SUCKSVALUEALIAS,
+        "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or "
+        BOLD("1") " to " BOLD("24") " hours)."),
+    CCMD(take, "", "", takefunc1, takefunc2, true, TAKEFORMAT,
+        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons")
+        ", " BOLD("powerups") ", or " BOLD("all") " or certain " BOLDITALICS("items") " away from you."),
+    CCMD(teleport, "", "", teleportfunc1, teleportfunc2, true, TELEPORTFORMAT,
+        "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in "
+        "the current map."),
+    CCMD(thinglist, "", "", ingameccmdfunc1, thinglistfunc2, false, "",
         "Lists all things in the current map."),
-    CCMD(timer, "", "", null_func1, timer_func2, true, TIMERCMDFORMAT,
+    CCMD(timer, "", "", nullfunc1, timerfunc2, true, TIMERFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
-    CCMD(toggle, "", "", null_func1, toggle_func2, true, TOGGLECMDFORMAT,
+    CCMD(toggle, "", "", nullfunc1, togglefunc2, true, TOGGLEFORMAT,
         "Toggles a " BOLDITALICS("CVAR") " " BOLD("on") " or " BOLD("off") "."),
-    CVAR_BOOL(tossdrop, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(tossdrop, "", "", boolfunc1, boolfunc2, 0,
         "Toggles tossing items dropped by monsters when they die."),
-    CVAR_INT(turbo, "", "", int_cvars_func1, turbo_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(turbo, "", "", intfunc1, turbofunc2, CF_PERCENT, 0,
         "The speed you move (" BOLD("10%") " to " BOLD("400%") ")."),
-    CCMD(unbind, "", "", null_func1, unbind_func2, true, UNBINDCMDFORMAT,
+    CCMD(unbind, "", "", nullfunc1, unbindfunc2, true, UNBINDFORMAT,
         "Unbinds the " BOLDITALICS("+action") " from a " BOLDITALICS("control") "."),
-    CVAR_INT(units, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, UNITSVALUEALIAS,
+    INTCVAR(units, "", "", intfunc1, intfunc2, 0, UNITSVALUEALIAS,
         "The units used by certain stats (" BOLD("imperial") " or " BOLD("metric") ")."),
-    CCMD(vanilla, "", "", null_func1, vanilla_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(vanilla, "", "", nullfunc1, vanillafunc2, true, VANILLAFORMAT,
         "Toggles vanilla mode."),
-    CVAR_STR(version, "", "", null_func1, str_cvars_func2, CF_READONLY, 16,
+    STRCVAR(version, "", "", nullfunc1, strfunc2, CF_READONLY, 16,
         ITALICS(DOOMRETRO_NAME "'s") " version."),
-    CVAR_INT(vid_aspectratio, "", "", int_cvars_func1, vid_aspectratio_func2, CF_NONE, RATIOVALUEALIAS,
-        "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", " BOLD("21:9") ", "
-        BOLD("32:9") " or " BOLD("auto") ")."),
-    CVAR_INT(vid_blue, "", "", int_cvars_func1, vid_blue_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_aspectratio, "", "", intfunc1, vid_aspectratiofunc2, 0, RATIOVALUEALIAS,
+        "The aspect ratio of the display when in widescreen (" BOLD("16:9") ", " BOLD("16:10") ", "
+        BOLD("21:9") ", " BOLD("32:9") " or " BOLD("auto") ")."),
+    INTCVAR(vid_blue, "", "", intfunc1, vid_bluefunc2, CF_PERCENT, 0,
         "The intensity of blue on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(vid_borderlesswindow, "", "", bool_cvars_func1, vid_borderlesswindow_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(vid_borderlesswindow, "", "", boolfunc1, vid_borderlesswindowfunc2, 0,
         "Toggles using a borderless window when fullscreen."),
-    CVAR_INT(vid_brightness, "", "", int_cvars_func1, vid_brightness_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_brightness, "", "", intfunc1, vid_brightnessfunc2, CF_PERCENT, 0,
         "The screen's brightness (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_capfps, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, CAPVALUEALIAS,
-        "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
-        "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
-    CVAR_INT(vid_contrast, "", "", int_cvars_func1, vid_contrast_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_capfps, "", "", intfunc1, intfunc2, 0, CAPVALUEALIAS,
+        "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to "
+        BOLD("1,000") "). There is no interpolation between frames when this CVAR is " BOLD("35") "."),
+    INTCVAR(vid_contrast, "", "", intfunc1, vid_contrastfunc2, CF_PERCENT, 0,
         "The screen's contrast (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_display, "", "", int_cvars_func1, vid_display_func2, CF_NONE, NOVALUEALIAS,
+    INTCVAR(vid_display, "", "", intfunc1, vid_displayfunc2, 0, 0,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
-    CVAR_STR(vid_driver, "", "", null_func1, str_cvars_func2, CF_NONE, 16,
+    STRCVAR(vid_driver, "", "", nullfunc1, strfunc2, 0, 16,
         "The video driver used to play " ITALICS(DOOMRETRO_NAME) "."),
 #endif
-    CVAR_BOOL(vid_fullscreen, "", "", bool_cvars_func1, vid_fullscreen_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(vid_fullscreen, "", "", boolfunc1, vid_fullscreenfunc2, 0,
         "Toggles between fullscreen and a window."),
-    CVAR_INT(vid_green, "", "", int_cvars_func1, vid_green_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_green, "", "", intfunc1, vid_greenfunc2, CF_PERCENT, 0,
         "The intensity of green on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_motionblur, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_motionblur, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount of motion blur when you turn quickly (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(vid_pillarboxes, "", "", bool_cvars_func1, vid_pillarboxes_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(vid_pillarboxes, "", "", boolfunc1, vid_pillarboxesfunc2, 0,
         "Toggles using the pillarboxes either side of the screen for certain effects when not in widescreen."),
-    CVAR_INT(vid_red, "", "", int_cvars_func1, vid_red_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_red, "", "", intfunc1, vid_redfunc2, CF_PERCENT, 0,
         "The intensity of red on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
-    CVAR_INT(vid_saturation, "", "", int_cvars_func1, vid_saturation_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(vid_saturation, "", "", intfunc1, vid_saturationfunc2, CF_PERCENT, 0,
         "The screen's saturation (" BOLD("-100%") " to " BOLD("100%") ")."),
 #if defined(_WIN32)
-    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE, 16,
-        "The API used to scale every frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
-#else
-    CVAR_STR(vid_scaleapi, "", "", vid_scaleapi_func1, vid_scaleapi_func2, CF_NONE, 16,
-        "The API used to scale every frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "
+    STRCVAR(vid_scaleapi, "", "", vid_scaleapifunc1, vid_scaleapifunc2, 0, 16,
+        "The API used to scale every frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or "
         BOLD("\"software\"") ")."),
+#else
+    STRCVAR(vid_scaleapi, "", "", vid_scaleapifunc1, vid_scaleapifunc2, 0, 16,
+        "The API used to scale every frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", "
+        BOLD("\"opengles2\"") " or " BOLD("\"software\"") ")."),
 #endif
-    CVAR_STR(vid_scalefilter, "", "", vid_scalefilter_func1, vid_scalefilter_func2, CF_NONE, 16,
-        "The filter applied when scaling every frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
-    CVAR_OTHER(vid_screenresolution, "", "", null_func1, vid_screenresolution_func2,
-        "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
-    CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_func2, CF_NONE, BOOLVALUEALIAS,
+    STRCVAR(vid_scalefilter, "", "", vid_scalefilterfunc1, vid_scalefilterfunc2, 0, 16,
+        "The filter applied when scaling every frame (" BOLD("\"nearest\"") ", "
+        BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
+    OTHERCVAR(vid_screenresolution, "", "", nullfunc1, vid_screenresolutionfunc2,
+        "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width")
+        "\xD7" ITALICS("height")) ")."),
+    BOOLCVAR(vid_showfps, "", "", boolfunc1, vid_showfpsfunc2, 0,
         "Toggles showing the number of frames per second."),
 #if defined(__APPLE__)
-    CVAR_INT(vid_vsync, "", "", int_cvars_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
+    INTCVAR(vid_vsync, "", "", intfunc1, vid_vsyncfunc2, 0, VSYNCVALUEALIAS,
         "Toggles vertical sync with the display's refresh rate (" BOLD("on") " or " BOLD("off") ")."),
 #else
-    CVAR_INT(vid_vsync, "", "", int_cvars_func1, vid_vsync_func2, CF_NONE, VSYNCVALUEALIAS,
-        "Toggles vertical sync with the display's refresh rate (" BOLD("on") ", " BOLD("off") " or " BOLD("adaptive") ")."),
+    INTCVAR(vid_vsync, "", "", intfunc1, vid_vsyncfunc2, 0, VSYNCVALUEALIAS,
+        "Toggles vertical sync with the display's refresh rate (" BOLD("on") ", " BOLD("off") " or "
+        BOLD("adaptive") ")."),
 #endif
-    CVAR_BOOL(vid_widescreen, "", "", bool_cvars_func1, vid_widescreen_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(vid_widescreen, "", "", boolfunc1, vid_widescreenfunc2, 0,
         "Toggles widescreen."),
-    CVAR_OTHER(vid_windowpos, "", vid_windowposition, null_func1, vid_windowpos_func2,
-        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") BOLDITALICS("x") BOLD(",") BOLDITALICS("y")
-        BOLD(")") ")."),
-    CVAR_OTHER(vid_windowsize, "", "", null_func1, vid_windowsize_func2,
+    OTHERCVAR(vid_windowpos, "", vid_windowposition, nullfunc1, vid_windowposfunc2,
+        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(")
+        BOLDITALICS("x") BOLD(",") BOLDITALICS("y") BOLD(")") ")."),
+    OTHERCVAR(vid_windowsize, "", "", nullfunc1, vid_windowsizefunc2,
         "The size of the window on the desktop (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
 #if defined(_WIN32)
-    CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY, MAX_PATH,
+    STRCVAR(wad, "", "", nullfunc1, strfunc2, CF_READONLY, MAX_PATH,
         "The last WAD to be opened by the WAD launcher."),
 #endif
-    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE, MAX_PATH,
+    STRCVAR(wadfolder, "", "", nullfunc1, strfunc2, 0, MAX_PATH,
         "The folder the currently loaded WAD is in."),
-    CVAR_INT(weapon, "", "", weapon_func1, weapon_func2, CF_NONE, WEAPONVALUEALIAS,
-        "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", "
-        BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
-    CVAR_INT(weaponbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    INTCVAR(weapon, "", "", weaponfunc1, weaponfunc2, 0, WEAPONVALUEALIAS,
+        "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", "
+        BOLD("shotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", "
+        BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
+    INTCVAR(weaponbob, "", "", intfunc1, intfunc2, CF_PERCENT, 0,
         "The amount your weapon bobs up and down as you move (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(weaponbounce, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(weaponbounce, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bounce of your weapon when you land after a fall."),
-    CVAR_BOOL(weaponrecoil, "", "", bool_cvars_func1, weaponrecoil_func2, CF_NONE, BOOLVALUEALIAS,
+    BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
-    CCMD(wiki, help, "", null_func1, wiki_func2, false, "",
+    CCMD(wiki, help, "", nullfunc1, wikifunc2, false, "",
         "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
 
-    { "", "", "", null_func1, NULL, 0, 0, CF_NONE, 0, NULL, 0, 0, 0, "", "" }
+    { "", "", "", nullfunc1, NULL, 0, 0, 0, 0, NULL, 0, 0, 0, "", "" }
 };
 
 static bool run(void)
@@ -1168,13 +1217,13 @@ static bool strafe(void)
         || (controllerbuttons & controllerstrafe));
 }
 
-static void alwaysrun_action_func(void)
+static void alwaysrunactionfunc(void)
 {
     G_ToggleAlwaysRun(ev_none);
     I_InitKeyboard();
 }
 
-static void automap_action_func(void)
+static void automapactionfunc(void)
 {
     if (gamestate != GS_LEVEL || mapwindow)
         return;
@@ -1185,7 +1234,7 @@ static void automap_action_func(void)
         AM_Stop();
 }
 
-static void back_action_func(void)
+static void backactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1194,31 +1243,31 @@ static void back_action_func(void)
     }
 }
 
-static void bfg9000_action_func(void)
+static void bfg9000actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_bfg, false);
 }
 
-static void chaingun_action_func(void)
+static void chaingunactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_chaingun, false);
 }
 
-static void chainsaw_action_func(void)
+static void chainsawactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_chainsaw, false);
 }
 
-static void clearmark_action_func(void)
+static void clearmarkactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ClearMarks();
 }
 
-static void console_action_func(void)
+static void consoleactionfunc(void)
 {
     if (consoleactive)
         C_HideConsole();
@@ -1226,25 +1275,25 @@ static void console_action_func(void)
         C_ShowConsole(false);
 }
 
-static void fire_action_func(void)
+static void fireactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_FireWeapon();
 }
 
-static void fists_action_func(void)
+static void fistsactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (!viewplayer->weaponowned[wp_chainsaw] || viewplayer->powers[pw_strength]))
         P_ChangeWeapon(wp_fist, false);
 }
 
-static void followmode_action_func(void)
+static void followmodeactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleFollowMode(!am_followmode);
 }
 
-static void forward_action_func(void)
+static void forwardactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1253,19 +1302,19 @@ static void forward_action_func(void)
     }
 }
 
-static void grid_action_func(void)
+static void gridactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleGrid();
 }
 
-static void jump_action_func(void)
+static void jumpactionfunc(void)
 {
     if (gamestate == GS_LEVEL && !nojump)
         viewplayer->cmd.buttons |= BT_JUMP;
 }
 
-static void left_action_func(void)
+static void leftactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1276,55 +1325,55 @@ static void left_action_func(void)
     }
 }
 
-static void mark_action_func(void)
+static void markactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_AddMark();
 }
 
-static void maxzoom_action_func(void)
+static void maxzoomactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleMaxZoom();
 }
 
-static void menu_action_func(void)
+static void menuactionfunc(void)
 {
     M_OpenMainMenu();
     S_StartSound(NULL, sfx_swtchn);
 }
 
-static void nextweapon_action_func(void)
+static void nextweaponactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         G_NextWeapon();
 }
 
-static void path_action_func(void)
+static void pathactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_TogglePath(!am_path);
 }
 
-static void pistol_action_func(void)
+static void pistolactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_pistol, false);
 }
 
-static void plasmarifle_action_func(void)
+static void plasmarifleactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_plasma, false);
 }
 
-static void prevweapon_action_func(void)
+static void prevweaponactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         G_PrevWeapon();
 }
 
-static void right_action_func(void)
+static void rightactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1335,19 +1384,19 @@ static void right_action_func(void)
     }
 }
 
-static void rocketlauncher_action_func(void)
+static void rocketlauncheractionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_missile, false);
 }
 
-static void rotatemode_action_func(void)
+static void rotatemodeactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleRotateMode(!am_rotatemode);
 }
 
-static void screenshot_action_func(void)
+static void screenshotactionfunc(void)
 {
     G_ScreenShot();
     S_StartSound(NULL, sfx_scrsht);
@@ -1355,7 +1404,7 @@ static void screenshot_action_func(void)
     D_FadeScreen(true);
 }
 
-static void shotgun_action_func(void)
+static void shotgunactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1364,19 +1413,19 @@ static void shotgun_action_func(void)
     }
 }
 
-static void strafeleft_action_func(void)
+static void strafeleftactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         viewplayer->cmd.sidemove -= sidemove[run()];
 }
 
-static void straferight_action_func(void)
+static void straferightactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         viewplayer->cmd.sidemove += sidemove[run()];
 }
 
-static void supershotgun_action_func(void)
+static void supershotgunactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1385,61 +1434,61 @@ static void supershotgun_action_func(void)
     }
 }
 
-static void use_action_func(void)
+static void useactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_UseLines();
 }
 
-static void weapon1_action_func(void)
+static void weapon1actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_fist, true);
 }
 
-static void weapon2_action_func(void)
+static void weapon2actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_pistol, false);
 }
 
-static void weapon3_action_func(void)
+static void weapon3actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_shotgun, true);
 }
 
-static void weapon4_action_func(void)
+static void weapon4actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_chaingun, false);
 }
 
-static void weapon5_action_func(void)
+static void weapon5actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_missile, false);
 }
 
-static void weapon6_action_func(void)
+static void weapon6actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_plasma, false);
 }
 
-static void weapon7_action_func(void)
+static void weapon7actionfunc(void)
 {
     if (gamestate == GS_LEVEL)
         P_ChangeWeapon(wp_bfg, false);
 }
 
-static void zoomin_action_func(void)
+static void zoominactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleZoomIn();
 }
 
-static void zoomout_action_func(void)
+static void zoomoutactionfunc(void)
 {
     if (gamestate == GS_LEVEL && (automapactive || mapwindow))
         AM_ToggleZoomOut();
@@ -1506,10 +1555,10 @@ static void C_ShowWarning(int index)
         C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is used.");
 }
 
-static bool alive_func1(char *cmd, char *parms)
+static bool alivefunc1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
-        return game_ccmd_func1(cmd, parms);
+        return ingameccmdfunc1(cmd, parms);
     else if (viewplayer->health > 0)
         return true;
     else
@@ -1529,7 +1578,7 @@ static bool alive_func1(char *cmd, char *parms)
     }
 }
 
-static bool cheat_func1(char *cmd, char *parms)
+static bool cheatfunc1(char *cmd, char *parms)
 {
     if (M_StringCompare(cmd, cheat_clev.sequence))
     {
@@ -1577,7 +1626,7 @@ static bool cheat_func1(char *cmd, char *parms)
 
             S_StartSound(NULL, sfx_getpow);
             ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
-            map_func2("map", mapcmdlump);
+            mapfunc2("map", mapcmdlump);
             return true;
         }
     }
@@ -1666,7 +1715,7 @@ static bool cheat_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool game_cvar_func1(char *cmd, char *parms)
+static bool ingamecvarfunc1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
         return true;
@@ -1688,7 +1737,7 @@ static bool game_cvar_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool game_ccmd_func1(char *cmd, char *parms)
+static bool ingameccmdfunc1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
         return true;
@@ -1710,12 +1759,12 @@ static bool game_ccmd_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool nightmare_func1(char *cmd, char *parms)
+static bool nightmarefunc1(char *cmd, char *parms)
 {
     char    *nightmare = *skilllevels[sk_nightmare];
 
     if (gamestate != GS_LEVEL)
-        return game_ccmd_func1(cmd, parms);
+        return ingameccmdfunc1(cmd, parms);
 
     if (gameskill != sk_nightmare)
         return true;
@@ -1736,7 +1785,7 @@ static bool nightmare_func1(char *cmd, char *parms)
     return false;
 }
 
-static bool null_func1(char *cmd, char *parms)
+static bool nullfunc1(char *cmd, char *parms)
 {
     return true;
 }
@@ -1775,7 +1824,7 @@ bool C_ExecuteAlias(const char *alias)
     return false;
 }
 
-void alias_func2(char *cmd, char *parms)
+void aliasfunc2(char *cmd, char *parms)
 {
     char    parm1[128] = "";
     char    parm2[128] = "";
@@ -1980,7 +2029,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
     }
 }
 
-void bind_func2(char *cmd, char *parms)
+void bindfunc2(char *cmd, char *parms)
 {
     int         i = 0;
     int         action = 0;
@@ -2373,7 +2422,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
     }
 }
 
-static void bindlist_func2(char *cmd, char *parms)
+static void bindlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 110 };
 
@@ -2428,7 +2477,7 @@ static void bindlist_func2(char *cmd, char *parms)
 //
 // clear CCMD
 //
-static void clear_func2(char *cmd, char *parms)
+static void clearfunc2(char *cmd, char *parms)
 {
     C_ClearConsole();
 }
@@ -2436,7 +2485,7 @@ static void clear_func2(char *cmd, char *parms)
 //
 // cmdlist CCMD
 //
-static void cmdlist_func2(char *cmd, char *parms)
+static void cmdlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 326 };
     const int   columnwidth = tabs[0] - 15;
@@ -2459,7 +2508,7 @@ static void cmdlist_func2(char *cmd, char *parms)
                 C_Header(tabs, cmdlist, CMDLISTHEADER);
 
             if (M_StringCompare(name, "map"))
-                M_snprintf(format, sizeof(format), BOLD("map") " %s", (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
+                M_snprintf(format, sizeof(format), BOLD("map") " %s", (gamemission == doom ? MAPFORMAT1 : MAPFORMAT2));
             else
                 M_snprintf(format, sizeof(format), BOLD("%s") " %s", name, consolecmds[i].format);
 
@@ -2514,12 +2563,12 @@ static int indentation(const char *string)
     return count;
 }
 
-static bool condump_func1(char *cmd, char *parms)
+static bool condumpfunc1(char *cmd, char *parms)
 {
     return (numconsolestrings > CONSOLEBLANKLINES);
 }
 
-static void condump_func2(char *cmd, char *parms)
+static void condumpfunc2(char *cmd, char *parms)
 {
     char        consolefolder[MAX_PATH];
     char        filename[MAX_PATH];
@@ -2642,7 +2691,7 @@ static void condump_func2(char *cmd, char *parms)
 //
 // cvarlist CCMD
 //
-static void cvarlist_func2(char *cmd, char *parms)
+static void cvarlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 190, 310 };
 
@@ -2901,7 +2950,7 @@ static void cvarlist_func2(char *cmd, char *parms)
 //
 // endgame CCMD
 //
-static void endgame_func2(char *cmd, char *parms)
+static void endgamefunc2(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
     {
@@ -2923,7 +2972,7 @@ static void endgame_func2(char *cmd, char *parms)
 //
 // exec CCMD
 //
-void exec_func2(char *cmd, char *parms)
+void execfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -2975,7 +3024,7 @@ void exec_func2(char *cmd, char *parms)
 //
 // exitmap CCMD
 //
-static void exitmap_func2(char *cmd, char *parms)
+static void exitmapfunc2(char *cmd, char *parms)
 {
     G_ExitLevel();
     C_HideConsoleFast();
@@ -2987,7 +3036,7 @@ static void exitmap_func2(char *cmd, char *parms)
 //
 // fastmonsters CCMD
 //
-static void fastmonsters_func2(char *cmd, char *parms)
+static void fastmonstersfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -3020,7 +3069,7 @@ static void fastmonsters_func2(char *cmd, char *parms)
 //
 // freeze CCMD
 //
-static void freeze_func2(char *cmd, char *parms)
+static void freezefunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -3062,7 +3111,7 @@ static void freeze_func2(char *cmd, char *parms)
 //
 // give CCMD
 //
-static bool give_func1(char *cmd, char *parms)
+static bool givefunc1(char *cmd, char *parms)
 {
     bool    result = false;
     char    *parm = removenonalpha(parms);
@@ -3115,7 +3164,7 @@ static bool give_func1(char *cmd, char *parms)
     return result;
 }
 
-static void give_func2(char *cmd, char *parms)
+static void givefunc2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -3546,7 +3595,7 @@ static void give_func2(char *cmd, char *parms)
 //
 // god CCMD
 //
-static void god_func2(char *cmd, char *parms)
+static void godfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -3581,7 +3630,7 @@ static bool match(bool value, const char *toggle)
     return ((value && M_StringCompare(toggle, "on")) || (!value && M_StringCompare(toggle, "off")));
 }
 
-static void if_func2(char *cmd, char *parms)
+static void iffunc2(char *cmd, char *parms)
 {
     char    parm1[64] = "";
     char    parm2[64] = "";
@@ -3709,7 +3758,7 @@ static void if_func2(char *cmd, char *parms)
 //
 // infiniteammo CCMD
 //
-static void infiniteammo_func2(char *cmd, char *parms)
+static void infiniteammofunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -3749,7 +3798,7 @@ static int      killcmdtype = NUMMOBJTYPES;
 static mobj_t   *killcmdmobj;
 bool            massacre;
 
-static bool kill_func1(char *cmd, char *parms)
+static bool killfunc1(char *cmd, char *parms)
 {
     bool    result = false;
     char    *parm = removenonalpha(parms);
@@ -3863,7 +3912,7 @@ static bool kill_func1(char *cmd, char *parms)
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static void kill_func2(char *cmd, char *parms)
+static void killfunc2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -3925,7 +3974,7 @@ static void kill_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "%s can't kill %s in buddha mode!", playername, pronoun(reflexive));
 
-                player_cvars_func2(stringize(health), "1");
+                playercvarsfunc2(stringize(health), "1");
                 return;
             }
 
@@ -4406,7 +4455,7 @@ static void kill_func2(char *cmd, char *parms)
 //
 // license CCMD
 //
-static void license_func2(char *cmd, char *parms)
+static void licensefunc2(char *cmd, char *parms)
 {
     C_Output("Opening the " ITALICS(DOOMRETRO_LICENSE) "...");
 
@@ -4424,7 +4473,7 @@ static void license_func2(char *cmd, char *parms)
 //
 // load CCMD
 //
-static void load_func2(char *cmd, char *parms)
+static void loadfunc2(char *cmd, char *parms)
 {
     char    buffer[1024];
 
@@ -4453,7 +4502,7 @@ static void load_func2(char *cmd, char *parms)
 //
 // map CCMD
 //
-static bool map_func1(char *cmd, char *parms)
+static bool mapfunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -4866,14 +4915,14 @@ static bool map_func1(char *cmd, char *parms)
     }
 }
 
-static void map_func2(char *cmd, char *parms)
+static void mapfunc2(char *cmd, char *parms)
 {
     char    buffer[1024];
 
     if (!*parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
+        C_Output(BOLD("%s") " %s", cmd, (gamemission == doom ? MAPFORMAT1 : MAPFORMAT2));
         return;
     }
 
@@ -5088,7 +5137,7 @@ static const char *getauthor(int ep, int map, bool replaced)
     return "\x96";
 }
 
-static void maplist_func2(char *cmd, char *parms)
+static void maplistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 40, 93, 270, 470 };
     int         count = 0;
@@ -5379,7 +5428,7 @@ static int GetNumMaps(int lumpnum)
     return count;
 }
 
-static void mapstats_func2(char *cmd, char *parms)
+static void mapstatsfunc2(char *cmd, char *parms)
 {
     struct
     {
@@ -5967,7 +6016,7 @@ static char namecmdnew[128];
 static char namecmdold[128];
 static int  namecmdtype = NUMMOBJTYPES;
 
-static bool name_func1(char *cmd, char *parms)
+static bool namefunc1(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -6052,7 +6101,7 @@ static bool name_func1(char *cmd, char *parms)
     return false;
 }
 
-static void name_func2(char *cmd, char *parms)
+static void namefunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -6133,7 +6182,7 @@ static void name_func2(char *cmd, char *parms)
 //
 // newgame CCMD
 //
-static void newgame_func2(char *cmd, char *parms)
+static void newgamefunc2(char *cmd, char *parms)
 {
     C_HideConsoleFast();
 
@@ -6146,7 +6195,7 @@ static void newgame_func2(char *cmd, char *parms)
 //
 // noclip CCMD
 //
-static void noclip_func2(char *cmd, char *parms)
+static void noclipfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -6180,7 +6229,7 @@ static void noclip_func2(char *cmd, char *parms)
 //
 // nomonsters CCMD
 //
-static void nomonsters_func2(char *cmd, char *parms)
+static void nomonstersfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -6239,7 +6288,7 @@ static void nomonsters_func2(char *cmd, char *parms)
 //
 // notarget CCMD
 //
-static void notarget_func2(char *cmd, char *parms)
+static void notargetfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -6290,7 +6339,7 @@ static void notarget_func2(char *cmd, char *parms)
 //
 // pistolstart CCMD
 //
-static void pistolstart_func2(char *cmd, char *parms)
+static void pistolstartfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -6333,7 +6382,7 @@ static int  playcmdid;
 static int  playcmdtype;
 static char *playcmdname;
 
-static bool play_func1(char *cmd, char *parms)
+static bool playfunc1(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -6454,7 +6503,7 @@ static bool play_func1(char *cmd, char *parms)
     return false;
 }
 
-static void play_func2(char *cmd, char *parms)
+static void playfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -7781,7 +7830,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 }
 
-static void playerstats_func2(char *cmd, char *parms)
+static void playerstatsfunc2(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION)
         C_PlayerStats_Game();
@@ -7792,7 +7841,7 @@ static void playerstats_func2(char *cmd, char *parms)
 //
 // palette CCMD
 //
-static void palette_func2(char *cmd, char *parms)
+static void palettefunc2(char *cmd, char *parms)
 {
     M_ShowPalette();
 }
@@ -7800,7 +7849,7 @@ static void palette_func2(char *cmd, char *parms)
 //
 // print CCMD
 //
-static void print_func2(char *cmd, char *parms)
+static void printfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -7816,7 +7865,7 @@ static void print_func2(char *cmd, char *parms)
 //
 // quit CCMD
 //
-static void quit_func2(char *cmd, char *parms)
+static void quitfunc2(char *cmd, char *parms)
 {
     quitcmd = true;
 }
@@ -7824,7 +7873,7 @@ static void quit_func2(char *cmd, char *parms)
 //
 // readme CCMD
 //
-static void readme_func2(char *cmd, char *parms)
+static void readmefunc2(char *cmd, char *parms)
 {
     if (!*pwadfile)
         C_Warning(0, "A PWAD hasn't been loaded.");
@@ -7864,7 +7913,7 @@ static void readme_func2(char *cmd, char *parms)
 //
 // regenhealth CCMD
 //
-static void regenhealth_func2(char *cmd, char *parms)
+static void regenhealthfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -7898,7 +7947,7 @@ static void regenhealth_func2(char *cmd, char *parms)
 //
 // releasenotes CCMD
 //
-static void releasenotes_func2(char *cmd, char *parms)
+static void releasenotesfunc2(char *cmd, char *parms)
 {
     C_Output("Opening the release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "..."));
 
@@ -7916,7 +7965,7 @@ static void releasenotes_func2(char *cmd, char *parms)
 //
 // reset CCMD
 //
-static void reset_func2(char *cmd, char *parms)
+static void resetfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -7929,7 +7978,7 @@ static void reset_func2(char *cmd, char *parms)
 
     if (M_StringCompare(parms, "all"))
     {
-        resetall_func2("resetall", "");
+        resetallfunc2("resetall", "");
         return;
     }
 
@@ -8215,20 +8264,20 @@ static void C_VerifyResetAll(const int key)
         keyboardsupershotgun2 = KEYSUPERSHOTGUN2_DEFAULT;
         keyboarduse = KEYUSE_DEFAULT;
         keyboarduse2 = KEYUSE2_DEFAULT;
-        keyboardweapon1 = KEYWEAPON1_DEFAULT;
-        keyboardweapon1_2 = KEYWEAPON1_2_DEFAULT;
-        keyboardweapon2 = KEYWEAPON2_DEFAULT;
-        keyboardweapon2_2 = KEYWEAPON2_2_DEFAULT;
-        keyboardweapon3 = KEYWEAPON3_DEFAULT;
-        keyboardweapon3_2 = KEYWEAPON3_2_DEFAULT;
-        keyboardweapon4 = KEYWEAPON4_DEFAULT;
-        keyboardweapon4_2 = KEYWEAPON4_2_DEFAULT;
-        keyboardweapon5 = KEYWEAPON5_DEFAULT;
-        keyboardweapon5_2 = KEYWEAPON5_2_DEFAULT;
-        keyboardweapon6 = KEYWEAPON6_DEFAULT;
-        keyboardweapon6_2 = KEYWEAPON6_2_DEFAULT;
-        keyboardweapon7 = KEYWEAPON7_DEFAULT;
-        keyboardweapon7_2 = KEYWEAPON7_2_DEFAULT;
+        keyboardweapon1A = KEYWEAPON1A_DEFAULT;
+        keyboardweapon1B = KEYWEAPON1B_DEFAULT;
+        keyboardweapon2A = KEYWEAPON2A_DEFAULT;
+        keyboardweapon2B = KEYWEAPON2B_DEFAULT;
+        keyboardweapon3A = KEYWEAPON3A_DEFAULT;
+        keyboardweapon3B = KEYWEAPON3B_DEFAULT;
+        keyboardweapon4A = KEYWEAPON4A_DEFAULT;
+        keyboardweapon4B = KEYWEAPON4B_DEFAULT;
+        keyboardweapon5A = KEYWEAPON5A_DEFAULT;
+        keyboardweapon5B = KEYWEAPON5B_DEFAULT;
+        keyboardweapon6A = KEYWEAPON6A_DEFAULT;
+        keyboardweapon6B = KEYWEAPON6B_DEFAULT;
+        keyboardweapon7A = KEYWEAPON7A_DEFAULT;
+        keyboardweapon7B = KEYWEAPON7B_DEFAULT;
         keyboardzoomin = KEYZOOMIN_DEFAULT;
         keyboardzoomin2 = KEYZOOMIN2_DEFAULT;
         keyboardzoomout = KEYZOOMOUT_DEFAULT;
@@ -8336,7 +8385,7 @@ static void C_VerifyResetAll(const int key)
     }
 }
 
-static void resetall_func2(char *cmd, char *parms)
+static void resetallfunc2(char *cmd, char *parms)
 {
     static char line2[160];
     static char resetallstring[320];
@@ -8353,7 +8402,7 @@ static void resetall_func2(char *cmd, char *parms)
 //
 // respawnitems CCMD
 //
-static void respawnitems_func2(char *cmd, char *parms)
+static void respawnitemsfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -8387,7 +8436,7 @@ static void respawnitems_func2(char *cmd, char *parms)
 //
 // respawnmonsters CCMD
 //
-static void respawnmonsters_func2(char *cmd, char *parms)
+static void respawnmonstersfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -8418,7 +8467,7 @@ static void respawnmonsters_func2(char *cmd, char *parms)
 //
 // restartmap CCMD
 //
-static void restartmap_func2(char *cmd, char *parms)
+static void restartmapfunc2(char *cmd, char *parms)
 {
     viewplayer->playerstate = PST_REBORN;
 
@@ -8437,7 +8486,7 @@ static void restartmap_func2(char *cmd, char *parms)
 static int      resurrectcmdtype = NUMMOBJTYPES;
 static mobj_t   *resurrectcmdmobj;
 
-static bool resurrect_func1(char *cmd, char *parms)
+static bool resurrectfunc1(char *cmd, char *parms)
 {
     bool    result = false;
     char    *parm = removenonalpha(parms);
@@ -8534,7 +8583,7 @@ static bool resurrect_func1(char *cmd, char *parms)
     return result;
 }
 
-static void resurrect_func2(char *cmd, char *parms)
+static void resurrectfunc2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -8698,7 +8747,7 @@ static void resurrect_func2(char *cmd, char *parms)
 //
 // save CCMD
 //
-static void save_func2(char *cmd, char *parms)
+static void savefunc2(char *cmd, char *parms)
 {
     char    buffer[1024];
 
@@ -8731,7 +8780,7 @@ static void save_func2(char *cmd, char *parms)
 static int  spawncmdtype = NUMMOBJTYPES;
 static bool spawncmdfriendly;
 
-static bool spawn_func1(char *cmd, char *parms)
+static bool spawnfunc1(char *cmd, char *parms)
 {
     bool    result = false;
     char    *parm = removenonalpha(parms);
@@ -8791,7 +8840,7 @@ static bool spawn_func1(char *cmd, char *parms)
     return result;
 }
 
-static void spawn_func2(char *cmd, char *parms)
+static void spawnfunc2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -8989,7 +9038,7 @@ static void spawn_func2(char *cmd, char *parms)
 //
 // take CCMD
 //
-static bool take_func1(char *cmd, char *parms)
+static bool takefunc1(char *cmd, char *parms)
 {
     bool    result = false;
     char    *parm = removenonalpha(parms);
@@ -9040,7 +9089,7 @@ static bool take_func1(char *cmd, char *parms)
     return result;
 }
 
-static void take_func2(char *cmd, char *parms)
+static void takefunc2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
@@ -9364,7 +9413,7 @@ static void take_func2(char *cmd, char *parms)
 //
 // teleport CCMD
 //
-static bool teleport_func1(char *cmd, char *parms)
+static bool teleportfunc1(char *cmd, char *parms)
 {
     if (!*parms || gamestate != GS_LEVEL)
         return true;
@@ -9376,7 +9425,7 @@ static bool teleport_func1(char *cmd, char *parms)
     }
 }
 
-static void teleport_func2(char *cmd, char *parms)
+static void teleportfunc2(char *cmd, char *parms)
 {
     if (!*parms || gamestate != GS_LEVEL)
     {
@@ -9476,7 +9525,7 @@ static void teleport_func2(char *cmd, char *parms)
 //
 // thinglist CCMD
 //
-static void thinglist_func2(char *cmd, char *parms)
+static void thinglistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 50, 300, 450 };
 
@@ -9519,7 +9568,7 @@ static void thinglist_func2(char *cmd, char *parms)
 //
 // timer CCMD
 //
-static void timer_func2(char *cmd, char *parms)
+static void timerfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -9578,7 +9627,7 @@ static void timer_func2(char *cmd, char *parms)
 //
 // toggle CCMD
 //
-static void toggle_func2(char *cmd, char *parms)
+static void togglefunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -9616,7 +9665,7 @@ static void toggle_func2(char *cmd, char *parms)
 //
 // unbind CCMD
 //
-static void unbind_func2(char *cmd, char *parms)
+static void unbindfunc2(char *cmd, char *parms)
 {
     if (!*parms)
     {
@@ -9627,13 +9676,13 @@ static void unbind_func2(char *cmd, char *parms)
         return;
     }
 
-    bind_func2(cmd, parms);
+    bindfunc2(cmd, parms);
 }
 
 //
 // vanilla CCMD
 //
-static void vanilla_func2(char *cmd, char *parms)
+static void vanillafunc2(char *cmd, char *parms)
 {
     static bool buddhamode;
     static bool hud;
@@ -9682,7 +9731,7 @@ static void vanilla_func2(char *cmd, char *parms)
             viewplayer->cheats &= ~CF_BUDDHA;
 
         if ((nomousestrafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
-            bind_func2("bind", "mouse2 +strafe");
+            bindfunc2("bind", "mouse2 +strafe");
     }
     else
     {
@@ -9693,7 +9742,7 @@ static void vanilla_func2(char *cmd, char *parms)
         vid_showfps = showfps;
 
         if (nomousestrafe)
-            bind_func2("unbind", "mouse2 +strafe");
+            bindfunc2("unbind", "mouse2 +strafe");
 
         M_LoadCVARs(configfile);
     }
@@ -9728,7 +9777,7 @@ static void vanilla_func2(char *cmd, char *parms)
 //
 // wiki CCMD
 //
-static void wiki_func2(char *cmd, char *parms)
+static void wikifunc2(char *cmd, char *parms)
 {
     C_Output("Opening the " ITALICS(DOOMRETRO_WIKINAME) "...");
 
@@ -9746,12 +9795,12 @@ static void wiki_func2(char *cmd, char *parms)
 //
 // bool CVARs
 //
-static bool bool_cvars_func1(char *cmd, char *parms)
+static bool boolfunc1(char *cmd, char *parms)
 {
     return (!*parms || C_LookupValueFromAlias(parms, BOOLVALUEALIAS) != INT_MIN);
 }
 
-static void bool_cvars_func2(char *cmd, char *parms)
+static void boolfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_BOOLEAN))
@@ -9824,9 +9873,9 @@ static void bool_cvars_func2(char *cmd, char *parms)
 //
 // color CVARs
 //
-static void color_cvars_func2(char *cmd, char *parms)
+static void colorfunc2(char *cmd, char *parms)
 {
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (M_StringStartsWith(cmd, "am_"))
         AM_SetColors();
@@ -9835,7 +9884,7 @@ static void color_cvars_func2(char *cmd, char *parms)
 //
 // float CVARs
 //
-static bool float_cvars_func1(char *cmd, char *parms)
+static bool floatfunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -9853,7 +9902,7 @@ static bool float_cvars_func1(char *cmd, char *parms)
     return false;
 }
 
-static void float_cvars_func2(char *cmd, char *parms)
+static void floatfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_FLOAT))
@@ -9932,7 +9981,7 @@ static void float_cvars_func2(char *cmd, char *parms)
 //
 // integer CVARs
 //
-static bool int_cvars_func1(char *cmd, char *parms)
+static bool intfunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -9951,7 +10000,7 @@ static bool int_cvars_func1(char *cmd, char *parms)
     return false;
 }
 
-static void int_cvars_func2(char *cmd, char *parms)
+static void intfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_INTEGER))
@@ -10105,7 +10154,7 @@ static void int_cvars_func2(char *cmd, char *parms)
 //
 // string CVARs
 //
-static void str_cvars_func2(char *cmd, char *parms)
+static void strfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_STRING))
@@ -10190,7 +10239,7 @@ static void str_cvars_func2(char *cmd, char *parms)
 //
 // time CVARs
 //
-static void time_cvars_func2(char *cmd, char *parms)
+static void timefunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_TIME))
@@ -10216,9 +10265,9 @@ static void time_cvars_func2(char *cmd, char *parms)
 //
 // alwaysrun CVAR
 //
-static void alwaysrun_func2(char *cmd, char *parms)
+static void alwaysrunfunc2(char *cmd, char *parms)
 {
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (!consoleactive)
         I_InitKeyboard();
@@ -10227,11 +10276,11 @@ static void alwaysrun_func2(char *cmd, char *parms)
 //
 // am_display CVAR
 //
-static void am_display_func2(char *cmd, char *parms)
+static void am_displayfunc2(char *cmd, char *parms)
 {
     const int   am_display_old = am_display;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (am_display != am_display_old && am_external)
     {
@@ -10257,11 +10306,11 @@ static void am_display_func2(char *cmd, char *parms)
 //
 // am_external CVAR
 //
-static void am_external_func2(char *cmd, char *parms)
+static void am_externalfunc2(char *cmd, char *parms)
 {
     const bool  am_external_old = am_external;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (am_external != am_external_old)
     {
@@ -10289,11 +10338,11 @@ static void am_external_func2(char *cmd, char *parms)
 //
 // am_followmode CVAR
 //
-static void am_followmode_func2(char *cmd, char *parms)
+static void am_followmodefunc2(char *cmd, char *parms)
 {
     const bool  am_followmode_old = am_followmode;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (automapactive && am_followmode != am_followmode_old)
         AM_ToggleFollowMode(am_followmode);
@@ -10302,7 +10351,7 @@ static void am_followmode_func2(char *cmd, char *parms)
 //
 // am_gridsize CVAR
 //
-static void am_gridsize_func2(char *cmd, char *parms)
+static void am_gridsizefunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -10354,11 +10403,11 @@ static void am_gridsize_func2(char *cmd, char *parms)
 //
 // am_path CVAR
 //
-static void am_path_func2(char *cmd, char *parms)
+static void am_pathfunc2(char *cmd, char *parms)
 {
     const bool  am_path_old = am_path;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (am_path && !am_path_old)
     {
@@ -10371,11 +10420,11 @@ static void am_path_func2(char *cmd, char *parms)
 //
 // am_rotatemode CVAR
 //
-static void am_rotatemode_func2(char *cmd, char *parms)
+static void am_rotatemodefunc2(char *cmd, char *parms)
 {
     const bool  am_rotatemode_old = am_rotatemode;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (automapactive && am_rotatemode != am_rotatemode_old)
         AM_ToggleRotateMode(am_rotatemode);
@@ -10384,16 +10433,16 @@ static void am_rotatemode_func2(char *cmd, char *parms)
 //
 // armortype CVAR
 //
-static bool armortype_func1(char *cmd, char *parms)
+static bool armortypefunc1(char *cmd, char *parms)
 {
     return (!*parms || (C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS) != INT_MIN && gamestate == GS_LEVEL));
 }
 
-static void armortype_func2(char *cmd, char *parms)
+static void armortypefunc2(char *cmd, char *parms)
 {
     const int   armortype_old = armortype;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (armortype != armortype_old)
     {
@@ -10408,11 +10457,11 @@ static void armortype_func2(char *cmd, char *parms)
 //
 // autotilt CVAR
 //
-static void autotilt_func2(char *cmd, char *parms)
+static void autotiltfunc2(char *cmd, char *parms)
 {
     const bool  autotilt_old = autotilt;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (autotilt != autotilt_old && gamestate == GS_LEVEL)
     {
@@ -10427,11 +10476,11 @@ static void autotilt_func2(char *cmd, char *parms)
 //
 // english CVAR
 //
-static void english_func2(char *cmd, char *parms)
+static void englishfunc2(char *cmd, char *parms)
 {
     const int   english_old = english;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (english != english_old)
     {
@@ -10444,11 +10493,11 @@ static void english_func2(char *cmd, char *parms)
 //
 // episode CVAR
 //
-static void episode_func2(char *cmd, char *parms)
+static void episodefunc2(char *cmd, char *parms)
 {
     const int   episode_old = episode;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (episode != episode_old && gamemode != commercial)
         EpiDef.laston = MIN(episode, (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) :
@@ -10458,11 +10507,11 @@ static void episode_func2(char *cmd, char *parms)
 //
 // expansion CVAR
 //
-static void expansion_func2(char *cmd, char *parms)
+static void expansionfunc2(char *cmd, char *parms)
 {
     const int   expansion_old = expansion;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (expansion != expansion_old && gamemode == commercial)
     {
@@ -10476,11 +10525,11 @@ static void expansion_func2(char *cmd, char *parms)
 //
 // freelook CVAR
 //
-static void freelook_func2(char *cmd, char *parms)
+static void freelookfunc2(char *cmd, char *parms)
 {
     const bool  freelook_old = freelook;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (freelook != freelook_old && gamestate == GS_LEVEL)
     {
@@ -10503,14 +10552,14 @@ static void freelook_func2(char *cmd, char *parms)
 //
 // joy_deadzone_left and joy_deadzone_right CVARs
 //
-static bool joy_deadzone_cvars_func1(char *cmd, char *parms)
+static bool joy_deadzonecvarsfunc1(char *cmd, char *parms)
 {
     float   value;
 
     return (!*parms || sscanf(parms, "%10f%%", &value) == 1 || sscanf(parms, "%10f", &value) == 1);
 }
 
-static void joy_deadzone_cvars_func2(char *cmd, char *parms)
+static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -10641,12 +10690,12 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
 //
 // joy_sensitivity_horizontal and joy_sensitivity_vertical CVARs
 //
-static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
+static void joy_sensitivitycvarsfunc2(char *cmd, char *parms)
 {
     const float joy_sensitivity_horizontal_old = joy_sensitivity_horizontal;
     const float joy_sensitivity_vertical_old = joy_sensitivity_vertical;
 
-    float_cvars_func2(cmd, parms);
+    floatfunc2(cmd, parms);
 
     if (joy_sensitivity_horizontal != joy_sensitivity_horizontal_old)
         I_SetControllerHorizontalSensitivity();
@@ -10657,7 +10706,7 @@ static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 //
 // ammo, armor and health CVARs
 //
-static bool player_cvars_func1(char *cmd, char *parms)
+static bool playercvarsfunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -10687,10 +10736,10 @@ static bool player_cvars_func1(char *cmd, char *parms)
             return false;
     }
 
-    return int_cvars_func1(cmd, parms);
+    return intfunc1(cmd, parms);
 }
 
-static void player_cvars_func2(char *cmd, char *parms)
+static void playercvarsfunc2(char *cmd, char *parms)
 {
     int value;
 
@@ -11006,11 +11055,11 @@ static void player_cvars_func2(char *cmd, char *parms)
 //
 // r_blood CVAR
 //
-static void r_blood_func2(char *cmd, char *parms)
+static void r_bloodfunc2(char *cmd, char *parms)
 {
     const int   r_blood_old = r_blood;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (r_blood != r_blood_old)
     {
@@ -11025,11 +11074,11 @@ static void r_blood_func2(char *cmd, char *parms)
 //
 // r_bloodsplats_translucency CVAR
 //
-static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
+static void r_bloodsplats_translucencyfunc2(char *cmd, char *parms)
 {
     const bool   r_bloodsplats_translucency_old = r_bloodsplats_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_bloodsplats_translucency != r_bloodsplats_translucency_old)
     {
@@ -11044,11 +11093,11 @@ static void r_bloodsplats_translucency_func2(char *cmd, char *parms)
 //
 // r_brightmaps CVAR
 //
-static void r_brightmaps_func2(char *cmd, char *parms)
+static void r_brightmapsfunc2(char *cmd, char *parms)
 {
     const bool   r_brightmaps_old = r_brightmaps;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_brightmaps != r_brightmaps_old)
     {
@@ -11060,11 +11109,11 @@ static void r_brightmaps_func2(char *cmd, char *parms)
 //
 // r_corpses_mirrored CVAR
 //
-static void r_corpses_mirrored_func2(char *cmd, char *parms)
+static void r_corpses_mirroredfunc2(char *cmd, char *parms)
 {
     const bool   r_corpses_mirrored_old = r_corpses_mirrored;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_corpses_mirrored != r_corpses_mirrored_old)
         for (int i = 0; i < numsectors; i++)
@@ -11088,11 +11137,11 @@ static void r_corpses_mirrored_func2(char *cmd, char *parms)
 //
 // r_detail CVAR
 //
-static void r_detail_func2(char *cmd, char *parms)
+static void r_detailfunc2(char *cmd, char *parms)
 {
     const int   r_detail_old = r_detail;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (r_detail != r_detail_old)
     {
@@ -11104,11 +11153,11 @@ static void r_detail_func2(char *cmd, char *parms)
 //
 // r_diskicon CVAR
 //
-static void r_diskicon_func2(char *cmd, char *parms)
+static void r_diskiconfunc2(char *cmd, char *parms)
 {
     const bool   r_diskicon_old = r_diskicon;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_diskicon && !r_diskicon_old)
     {
@@ -11120,11 +11169,11 @@ static void r_diskicon_func2(char *cmd, char *parms)
 //
 // r_ditheredlighting CVAR
 //
-static void r_ditheredlighting_func2(char *cmd, char *parms)
+static void r_ditheredlightingfunc2(char *cmd, char *parms)
 {
     const bool   r_ditheredlighting_old = r_ditheredlighting;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_ditheredlighting != r_ditheredlighting_old)
     {
@@ -11136,11 +11185,11 @@ static void r_ditheredlighting_func2(char *cmd, char *parms)
 //
 // r_fixmaperrors CVAR
 //
-static void r_fixmaperrors_func2(char *cmd, char *parms)
+static void r_fixmaperrorsfunc2(char *cmd, char *parms)
 {
     const bool   r_fixmaperrors_old = r_fixmaperrors;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_fixmaperrors != r_fixmaperrors_old && gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
     {
@@ -11154,7 +11203,7 @@ static void r_fixmaperrors_func2(char *cmd, char *parms)
 //
 // r_fov CVAR
 //
-static void r_fov_func2(char *cmd, char *parms)
+static void r_fovfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -11213,12 +11262,12 @@ static void r_fov_func2(char *cmd, char *parms)
 //
 // r_gamma CVAR
 //
-static bool r_gamma_func1(char *cmd, char *parms)
+static bool r_gammafunc1(char *cmd, char *parms)
 {
-    return (C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN || float_cvars_func1(cmd, parms));
+    return (C_LookupValueFromAlias(parms, GAMMAVALUEALIAS) != INT_MIN || floatfunc1(cmd, parms));
 }
 
-static void r_gamma_func2(char *cmd, char *parms)
+static void r_gammafunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -11308,11 +11357,11 @@ static void r_gamma_func2(char *cmd, char *parms)
 //
 // r_hud CVAR
 //
-static void r_hud_func2(char *cmd, char *parms)
+static void r_hudfunc2(char *cmd, char *parms)
 {
     const bool  r_hud_old = r_hud;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_hud != r_hud_old && r_hud && !togglingvanilla)
     {
@@ -11340,11 +11389,11 @@ static void r_hud_func2(char *cmd, char *parms)
 //
 // r_hud_translucency CVAR
 //
-static void r_hud_translucency_func2(char *cmd, char *parms)
+static void r_hud_translucencyfunc2(char *cmd, char *parms)
 {
     const bool   r_hud_translucency_old = r_hud_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_hud_translucency != r_hud_translucency_old)
         HU_SetTranslucency();
@@ -11353,7 +11402,7 @@ static void r_hud_translucency_func2(char *cmd, char *parms)
 //
 // r_lowpixelsize CVAR
 //
-static void r_lowpixelsize_func2(char *cmd, char *parms)
+static void r_lowpixelsizefunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -11405,11 +11454,11 @@ static void r_lowpixelsize_func2(char *cmd, char *parms)
 //
 // r_mirroredweapons CVAR
 //
-static void r_mirroredweapons_func2(char *cmd, char *parms)
+static void r_mirroredweaponsfunc2(char *cmd, char *parms)
 {
     const bool   r_mirroredweapons_old = r_mirroredweapons;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_mirroredweapons != r_mirroredweapons_old)
         for (int i = 0; i < numsectors; i++)
@@ -11434,11 +11483,11 @@ static void r_mirroredweapons_func2(char *cmd, char *parms)
 //
 // r_randomstartframes CVAR
 //
-static void r_randomstartframes_func2(char *cmd, char *parms)
+static void r_randomstartframesfunc2(char *cmd, char *parms)
 {
     const bool   r_randomstartframes_old = r_randomstartframes;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_randomstartframes != r_randomstartframes_old)
     {
@@ -11476,7 +11525,7 @@ static void r_randomstartframes_func2(char *cmd, char *parms)
 //
 // r_screensize CVAR
 //
-static void r_screensize_func2(char *cmd, char *parms)
+static void r_screensizefunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -11576,11 +11625,11 @@ static void r_screensize_func2(char *cmd, char *parms)
 //
 // r_shadows_translucency CVAR
 //
-static void r_shadows_translucency_func2(char *cmd, char *parms)
+static void r_shadows_translucencyfunc2(char *cmd, char *parms)
 {
     const bool   r_shadows_translucency_old = r_shadows_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_shadows_translucency != r_shadows_translucency_old)
         for (int i = 0; i < numsectors; i++)
@@ -11591,11 +11640,11 @@ static void r_shadows_translucency_func2(char *cmd, char *parms)
 //
 // r_sprites_translucency CVAR
 //
-static void r_sprites_translucency_func2(char *cmd, char *parms)
+static void r_sprites_translucencyfunc2(char *cmd, char *parms)
 {
     const bool   r_sprites_translucency_old = r_sprites_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_sprites_translucency != r_sprites_translucency_old)
     {
@@ -11610,11 +11659,11 @@ static void r_sprites_translucency_func2(char *cmd, char *parms)
 //
 // r_antialiasing CVAR
 //
-static void r_antialiasing_func2(char *cmd, char *parms)
+static void r_antialiasingfunc2(char *cmd, char *parms)
 {
     const bool   r_antialiasing_old = r_antialiasing;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_antialiasing != r_antialiasing_old)
         GetPixelSize();
@@ -11623,11 +11672,11 @@ static void r_antialiasing_func2(char *cmd, char *parms)
 //
 // r_rockettrails_translucency CVAR
 //
-static void r_rockettrails_translucency_func2(char *cmd, char *parms)
+static void r_rockettrails_translucencyfunc2(char *cmd, char *parms)
 {
     const bool  r_rockettrails_translucency_old = r_rockettrails_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_rockettrails_translucency != r_rockettrails_translucency_old)
         R_InitColumnFunctions();
@@ -11636,11 +11685,11 @@ static void r_rockettrails_translucency_func2(char *cmd, char *parms)
 //
 // r_textures CVAR
 //
-static void r_textures_func2(char *cmd, char *parms)
+static void r_texturesfunc2(char *cmd, char *parms)
 {
     const bool  r_textures_old = r_textures;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_textures != r_textures_old)
     {
@@ -11663,11 +11712,11 @@ static void r_textures_func2(char *cmd, char *parms)
 //
 // r_textures_translucency CVAR
 //
-static void r_textures_translucency_func2(char *cmd, char *parms)
+static void r_textures_translucencyfunc2(char *cmd, char *parms)
 {
     const bool   r_textures_translucency_old = r_textures_translucency;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (r_textures_translucency != r_textures_translucency_old)
     {
@@ -11682,11 +11731,11 @@ static void r_textures_translucency_func2(char *cmd, char *parms)
 //
 // s_randommusic CVAR
 //
-static void s_randommusic_func2(char *cmd, char *parms)
+static void s_randommusicfunc2(char *cmd, char *parms)
 {
     const bool  s_randommusic_old = s_randommusic;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (s_randommusic != s_randommusic_old && gamestate == GS_LEVEL)
         S_Start();
@@ -11695,7 +11744,7 @@ static void s_randommusic_func2(char *cmd, char *parms)
 //
 // s_musicvolume and s_sfxvolume CVARs
 //
-static bool s_volume_cvars_func1(char *cmd, char *parms)
+static bool s_volumecvarsfunc1(char *cmd, char *parms)
 {
     int value;
 
@@ -11709,7 +11758,7 @@ static bool s_volume_cvars_func1(char *cmd, char *parms)
         || (M_StringCompare(cmd, stringize(s_sfxvolume)) && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
 }
 
-static void s_volume_cvars_func2(char *cmd, char *parms)
+static void s_volumecvarsfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -11849,11 +11898,11 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
 //
 // savegame CVAR
 //
-static void savegame_func2(char *cmd, char *parms)
+static void savegamefunc2(char *cmd, char *parms)
 {
     const int   savegame_old = savegame;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (savegame != savegame_old)
     {
@@ -11865,11 +11914,11 @@ static void savegame_func2(char *cmd, char *parms)
 //
 // skilllevel CVAR
 //
-static void skilllevel_func2(char *cmd, char *parms)
+static void skilllevelfunc2(char *cmd, char *parms)
 {
     const int   skilllevel_old = skilllevel;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (skilllevel != skilllevel_old)
         NewDef.laston = skilllevel - 1;
@@ -11878,11 +11927,11 @@ static void skilllevel_func2(char *cmd, char *parms)
 //
 // turbo CVAR
 //
-static void turbo_func2(char *cmd, char *parms)
+static void turbofunc2(char *cmd, char *parms)
 {
     const int   turbo_old = turbo;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (turbo != turbo_old)
     {
@@ -11899,11 +11948,11 @@ static void turbo_func2(char *cmd, char *parms)
 //
 // vid_aspectratio CVAR
 //
-static void vid_aspectratio_func2(char *cmd, char *parms)
+static void vid_aspectratiofunc2(char *cmd, char *parms)
 {
     const int   vid_aspectratio_old = vid_aspectratio;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_aspectratio != vid_aspectratio_old)
     {
@@ -11915,11 +11964,11 @@ static void vid_aspectratio_func2(char *cmd, char *parms)
 //
 // vid_blue CVAR
 //
-static void vid_blue_func2(char *cmd, char *parms)
+static void vid_bluefunc2(char *cmd, char *parms)
 {
     const int   vid_blue_old = vid_blue;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_blue != vid_blue_old)
         I_UpdateColors();
@@ -11928,11 +11977,11 @@ static void vid_blue_func2(char *cmd, char *parms)
 //
 // vid_borderlesswindow CVAR
 //
-static void vid_borderlesswindow_func2(char *cmd, char *parms)
+static void vid_borderlesswindowfunc2(char *cmd, char *parms)
 {
     const bool  vid_borderlesswindow_old = vid_borderlesswindow;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (vid_borderlesswindow != vid_borderlesswindow_old && vid_fullscreen)
         I_RestartGraphics(true);
@@ -11941,11 +11990,11 @@ static void vid_borderlesswindow_func2(char *cmd, char *parms)
 //
 // vid_brightness CVAR
 //
-static void vid_brightness_func2(char *cmd, char *parms)
+static void vid_brightnessfunc2(char *cmd, char *parms)
 {
     const int   vid_brightness_old = vid_brightness;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_brightness != vid_brightness_old)
         I_UpdateColors();
@@ -11954,11 +12003,11 @@ static void vid_brightness_func2(char *cmd, char *parms)
 //
 // vid_contrast CVAR
 //
-static void vid_contrast_func2(char *cmd, char *parms)
+static void vid_contrastfunc2(char *cmd, char *parms)
 {
     const int   vid_contrast_old = vid_contrast;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_contrast != vid_contrast_old)
         I_UpdateColors();
@@ -11967,11 +12016,11 @@ static void vid_contrast_func2(char *cmd, char *parms)
 //
 // vid_display CVAR
 //
-static void vid_display_func2(char *cmd, char *parms)
+static void vid_displayfunc2(char *cmd, char *parms)
 {
     const int   vid_display_old = vid_display;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_display != vid_display_old)
         I_RestartGraphics(false);
@@ -11980,11 +12029,11 @@ static void vid_display_func2(char *cmd, char *parms)
 //
 // vid_fullscreen CVAR
 //
-static void vid_fullscreen_func2(char *cmd, char *parms)
+static void vid_fullscreenfunc2(char *cmd, char *parms)
 {
     const bool  vid_fullscreen_old = vid_fullscreen;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (vid_fullscreen != vid_fullscreen_old)
     {
@@ -11996,11 +12045,11 @@ static void vid_fullscreen_func2(char *cmd, char *parms)
 //
 // vid_green CVAR
 //
-static void vid_green_func2(char *cmd, char *parms)
+static void vid_greenfunc2(char *cmd, char *parms)
 {
     const int   vid_green_old = vid_green;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_green != vid_green_old)
         I_UpdateColors();
@@ -12009,11 +12058,11 @@ static void vid_green_func2(char *cmd, char *parms)
 //
 // vid_pillarboxes CVAR
 //
-static void vid_pillarboxes_func2(char *cmd, char *parms)
+static void vid_pillarboxesfunc2(char *cmd, char *parms)
 {
     const bool  vid_pillarboxes_old = vid_pillarboxes;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (vid_pillarboxes != vid_pillarboxes_old)
         I_UpdateColors();
@@ -12022,11 +12071,11 @@ static void vid_pillarboxes_func2(char *cmd, char *parms)
 //
 // vid_red CVAR
 //
-static void vid_red_func2(char *cmd, char *parms)
+static void vid_redfunc2(char *cmd, char *parms)
 {
     const int   vid_red_old = vid_red;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_red != vid_red_old)
         I_UpdateColors();
@@ -12035,11 +12084,11 @@ static void vid_red_func2(char *cmd, char *parms)
 //
 // vid_saturation CVAR
 //
-static void vid_saturation_func2(char *cmd, char *parms)
+static void vid_saturationfunc2(char *cmd, char *parms)
 {
     const int   vid_saturation_old = vid_saturation;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_saturation != vid_saturation_old)
         I_UpdateColors();
@@ -12048,7 +12097,7 @@ static void vid_saturation_func2(char *cmd, char *parms)
 //
 // vid_scaleapi CVAR
 //
-static bool vid_scaleapi_func1(char *cmd, char *parms)
+static bool vid_scaleapifunc1(char *cmd, char *parms)
 {
     return (!*parms
 #if defined(_WIN32)
@@ -12062,11 +12111,11 @@ static bool vid_scaleapi_func1(char *cmd, char *parms)
         || M_StringCompare(parms, vid_scaleapi_software));
 }
 
-static void vid_scaleapi_func2(char *cmd, char *parms)
+static void vid_scaleapifunc2(char *cmd, char *parms)
 {
     const char  *vid_scaleapi_old = M_StringDuplicate(vid_scaleapi);
 
-    str_cvars_func2(cmd, parms);
+    strfunc2(cmd, parms);
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_old))
         I_RestartGraphics(true);
@@ -12075,18 +12124,18 @@ static void vid_scaleapi_func2(char *cmd, char *parms)
 //
 // vid_scalefilter CVAR
 //
-static bool vid_scalefilter_func1(char *cmd, char *parms)
+static bool vid_scalefilterfunc1(char *cmd, char *parms)
 {
     return (!*parms || M_StringCompare(parms, vid_scalefilter_nearest)
         || M_StringCompare(parms, vid_scalefilter_linear)
         || M_StringCompare(parms, vid_scalefilter_nearest_linear));
 }
 
-static void vid_scalefilter_func2(char *cmd, char *parms)
+static void vid_scalefilterfunc2(char *cmd, char *parms)
 {
     const char  *vid_scalefilter_old = M_StringDuplicate(vid_scalefilter);
 
-    str_cvars_func2(cmd, parms);
+    strfunc2(cmd, parms);
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_old))
         I_RestartGraphics(true);
@@ -12095,7 +12144,7 @@ static void vid_scalefilter_func2(char *cmd, char *parms)
 //
 // vid_screenresolution CVAR
 //
-static void vid_screenresolution_func2(char *cmd, char *parms)
+static void vid_screenresolutionfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -12149,11 +12198,11 @@ static void vid_screenresolution_func2(char *cmd, char *parms)
 //
 // vid_showfps CVAR
 //
-static void vid_showfps_func2(char *cmd, char *parms)
+static void vid_showfpsfunc2(char *cmd, char *parms)
 {
     const bool  vid_showfps_old = vid_showfps;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (vid_showfps != vid_showfps_old)
     {
@@ -12172,11 +12221,11 @@ static void vid_showfps_func2(char *cmd, char *parms)
 //
 // vid_vsync CVAR
 //
-static void vid_vsync_func2(char *cmd, char *parms)
+static void vid_vsyncfunc2(char *cmd, char *parms)
 {
     const int   vid_vsync_old = vid_vsync;
 
-    int_cvars_func2(cmd, parms);
+    intfunc2(cmd, parms);
 
     if (vid_vsync != vid_vsync_old)
         I_RestartGraphics(true);
@@ -12185,11 +12234,11 @@ static void vid_vsync_func2(char *cmd, char *parms)
 //
 // vid_widescreen CVAR
 //
-static void vid_widescreen_func2(char *cmd, char *parms)
+static void vid_widescreenfunc2(char *cmd, char *parms)
 {
     const bool  vid_widescreen_old = vid_widescreen;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (vid_widescreen != vid_widescreen_old && !togglingvanilla)
     {
@@ -12216,7 +12265,7 @@ static void vid_widescreen_func2(char *cmd, char *parms)
 //
 // vid_windowpos CVAR
 //
-static void vid_windowpos_func2(char *cmd, char *parms)
+static void vid_windowposfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -12286,7 +12335,7 @@ static void vid_windowpos_func2(char *cmd, char *parms)
 //
 // vid_windowsize CVAR
 //
-static void vid_windowsize_func2(char *cmd, char *parms)
+static void vid_windowsizefunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -12340,7 +12389,7 @@ static void vid_windowsize_func2(char *cmd, char *parms)
 //
 // weapon CVAR
 //
-static bool weapon_func1(char *cmd, char *parms)
+static bool weaponfunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
@@ -12387,7 +12436,7 @@ static bool weapon_func1(char *cmd, char *parms)
     }
 }
 
-static void weapon_func2(char *cmd, char *parms)
+static void weaponfunc2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -12499,11 +12548,11 @@ static void weapon_func2(char *cmd, char *parms)
 //
 // weaponrecoil CVAR
 //
-static void weaponrecoil_func2(char *cmd, char *parms)
+static void weaponrecoilfunc2(char *cmd, char *parms)
 {
     const bool  weaponrecoil_old = weaponrecoil;
 
-    bool_cvars_func2(cmd, parms);
+    boolfunc2(cmd, parms);
 
     if (weaponrecoil != weaponrecoil_old)
     {

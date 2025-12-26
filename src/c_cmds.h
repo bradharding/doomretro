@@ -83,7 +83,6 @@ typedef enum
 
 enum
 {
-    CF_NONE         =    0,
     CF_BOOLEAN      =    1,
     CF_FLOAT        =    2,
     CF_INTEGER      =    4,
@@ -140,9 +139,9 @@ extern bool             togglingcvar;
 extern bool             togglingvanilla;
 extern bool             vanilla;
 
-void alias_func2(char *cmd, char *parms);
-void bind_func2(char *cmd, char *parms);
-void exec_func2(char *cmd, char *parms);
+void aliasfunc2(char *cmd, char *parms);
+void bindfunc2(char *cmd, char *parms);
+void execfunc2(char *cmd, char *parms);
 
 bool IsControlBound(const controltype_t type, const int control);
 char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiastype);

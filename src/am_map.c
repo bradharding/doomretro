@@ -421,8 +421,8 @@ static void AM_MousePanning(void)
     if (am_correctaspectratio)
         step_y = step_y * 6 / 5;
 
-    center_x = m_x + m_w / 2 + FTOM(step_x);
-    center_y = m_y + m_h / 2 + FTOM(step_y);
+    center_x = am_frame.center.x + FTOM(step_x);
+    center_y = am_frame.center.y + FTOM(step_y);
 
     if (center_x > max_x)
         step_x -= MTOF(center_x - max_x);

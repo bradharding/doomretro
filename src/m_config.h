@@ -1039,20 +1039,20 @@ enum
 #define KEYUP2_DEFAULT                      'w'
 #define KEYUSE_DEFAULT                      KEY_SPACE
 #define KEYUSE2_DEFAULT                     'e'
-#define KEYWEAPON1_DEFAULT                  '1'
-#define KEYWEAPON1_2_DEFAULT                0
-#define KEYWEAPON2_DEFAULT                  '2'
-#define KEYWEAPON2_2_DEFAULT                0
-#define KEYWEAPON3_DEFAULT                  '3'
-#define KEYWEAPON3_2_DEFAULT                0
-#define KEYWEAPON4_DEFAULT                  '4'
-#define KEYWEAPON4_2_DEFAULT                0
-#define KEYWEAPON5_DEFAULT                  '5'
-#define KEYWEAPON5_2_DEFAULT                0
-#define KEYWEAPON6_DEFAULT                  '6'
-#define KEYWEAPON6_2_DEFAULT                0
-#define KEYWEAPON7_DEFAULT                  '7'
-#define KEYWEAPON7_2_DEFAULT                0
+#define KEYWEAPON1A_DEFAULT                 '1'
+#define KEYWEAPON1B_DEFAULT                 0
+#define KEYWEAPON2A_DEFAULT                 '2'
+#define KEYWEAPON2B_DEFAULT                 0
+#define KEYWEAPON3A_DEFAULT                 '3'
+#define KEYWEAPON3B_DEFAULT                 0
+#define KEYWEAPON4A_DEFAULT                 '4'
+#define KEYWEAPON4B_DEFAULT                 0
+#define KEYWEAPON5A_DEFAULT                 '5'
+#define KEYWEAPON5B_DEFAULT                 0
+#define KEYWEAPON6A_DEFAULT                 '6'
+#define KEYWEAPON6B_DEFAULT                 0
+#define KEYWEAPON7A_DEFAULT                 '7'
+#define KEYWEAPON7B_DEFAULT                 0
 #define KEYZOOMIN_DEFAULT                   '='
 #define KEYZOOMIN2_DEFAULT                  0
 #define KEYZOOMOUT_DEFAULT                  '-'
@@ -1163,8 +1163,7 @@ typedef enum
 
 typedef enum
 {
-    NOVALUEALIAS,
-    ARMORTYPEVALUEALIAS,
+    ARMORTYPEVALUEALIAS = 1,
     BLOODVALUEALIAS,
     BOOLVALUEALIAS,
     CAPVALUEALIAS,
