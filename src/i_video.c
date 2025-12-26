@@ -187,7 +187,7 @@ bool MouseShouldBeGrabbed(void)
 
     // if not fullscreen, only grab the mouse when not playing a game
     if (!vid_fullscreen)
-        return (gamestate == GS_LEVEL && !menuactive && !consoleactive && !automapactive);
+        return (gamestate == GS_LEVEL && !menuactive && !consoleactive && (!automapactive || am_followmode));
 
     // grab the mouse when on the splash screen
     if (splashscreen)
