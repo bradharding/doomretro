@@ -1808,7 +1808,7 @@ static void P_LoadZNodes(int lump, bool compressed)
             I_Error("P_LoadZNodes: Error during ZNOD nodes decompression shutdown!");
 
         // release the original data lump
-        W_CacheLumpNum(lump);
+        W_ReleaseLumpNum(lump);
         free(zstream);
     }
     else
