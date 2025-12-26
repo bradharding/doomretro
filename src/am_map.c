@@ -158,8 +158,8 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
-static int          mouse_pan_x = 0;
-static int          mouse_pan_y = 0;
+static fixed_t      mouse_pan_x = 0;
+static fixed_t      mouse_pan_y = 0;
 
 int                 lastlevel = -1;
 int                 lastepisode = -1;
@@ -408,12 +408,14 @@ void AM_SetAutomapSize(const int screensize)
 
 static void AM_MousePanning(void)
 {
-    int64_t         step_x = FixedMul(mouse_pan_x, FRACUNIT);
-    int64_t         step_y = FixedMul(mouse_pan_y, FRACUNIT);
-    const int64_t   original_x = step_x;
-    const int64_t   original_y = step_y;
-    int             center_x;
-    int             center_y;
+    fixed_t step_x = mouse_pan_x & ~(FRACUNIT - 1);
+    fixed_t step_y = mouse_pan_y & ~(FRACUNIT - 1);
+    fixed_t original_x = step_x;
+    fixed_t original_y = step_y;
+    fixed_t step_x_pixels;
+    fixed_t step_y_pixels;
+    int     center_x;
+    int     center_y;
 
     if (!step_x && !step_y)
         return;
@@ -421,24 +423,27 @@ static void AM_MousePanning(void)
     if (am_correctaspectratio)
         step_y = step_y * 6 / 5;
 
-    center_x = am_frame.center.x + FTOM(step_x);
-    center_y = am_frame.center.y + FTOM(step_y);
+    step_x_pixels = step_x >> FRACBITS;
+    step_y_pixels = step_y >> FRACBITS;
+
+    center_x = am_frame.center.x + FTOM(step_x_pixels);
+    center_y = am_frame.center.y + FTOM(step_y_pixels);
 
     if (center_x > max_x)
-        step_x -= MTOF(center_x - max_x);
+        step_x_pixels -= MTOF(center_x - max_x);
     else if (center_x < min_x)
-        step_x += MTOF(min_x - center_x);
+        step_x_pixels += MTOF(min_x - center_x);
 
     if (center_y > max_y)
-        step_y -= MTOF(center_y - max_y);
+        step_y_pixels -= MTOF(center_y - max_y);
     else if (center_y < min_y)
-        step_y += MTOF(min_y - center_y);
+        step_y_pixels += MTOF(min_y - center_y);
 
-    m_x += FTOM(step_x);
-    m_y += FTOM(step_y);
+    m_x += FTOM(step_x_pixels);
+    m_y += FTOM(step_y_pixels);
 
-    mouse_pan_x -= (int)original_x;
-    mouse_pan_y -= (int)original_y;
+    mouse_pan_x -= original_x;
+    mouse_pan_y -= original_y;
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -1071,8 +1076,8 @@ bool AM_Responder(const event_t *ev)
                     if (am_rotatemode)
                         AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
 
-                    mouse_pan_x -= (int)(dx * m_sensitivity / 32.0f);
-                    mouse_pan_y += (int)(dy * m_sensitivity / 32.0f);
+                    mouse_pan_x -= (fixed_t)llround((double)dx * m_sensitivity * FRACUNIT / 32.0);
+                    mouse_pan_y += (fixed_t)llround((double)dy * m_sensitivity * FRACUNIT / 32.0);
                 }
 
                 if (mouseclearmark >= 0 && (ev->data1 & mouseclearmark))
