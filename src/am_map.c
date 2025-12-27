@@ -53,6 +53,8 @@
 #include "p_local.h"
 #include "st_stuff.h"
 #include "v_video.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 // Automap color priorities
 #define SECRETPRIORITY         10
@@ -65,6 +67,9 @@
 #define ALLMAPWALLPRIORITY      3
 #define ALLMAPCDWALLPRIORITY    2
 #define ALLMAPFDWALLPRIORITY    1
+
+#define AM_FLAT_SIZE            (64 * 64)
+#define AM_MAX_INTERSECTIONS    256
 
 static byte playercolor;
 static byte thingcolor;
@@ -91,6 +96,8 @@ static byte *cdwallcolor;
 static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *am_crosshaircolor2;
+
+static byte *am_floorpic_color;
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
@@ -128,6 +135,14 @@ typedef struct
     mpoint_t    a;
     mpoint_t    b;
 } mline_t;
+
+typedef struct
+{
+    int         x1, y1;
+    int         x2, y2;
+    int         ymin, ymax;
+    int         dx, dy;
+} edge_t;
 
 bool                automapactive;
 
@@ -186,6 +201,8 @@ am_frame_t          am_frame;
 static bool         isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
+static void AM_RotatePoint(mpoint_t *point);
+static void AM_CorrectAspectRatio(mpoint_t *point);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -193,6 +210,246 @@ static void PUTDOT(int x, int y, const byte *color);
 static inline void PUTDOT2(int x, int y, const byte *color);
 static void PUTBIGDOT(int x, int y, const byte *color);
 static void PUTBIGDOT2(int x, int y, const byte *color);
+
+static byte AM_ColorFromFlat(const int flatnum)
+{
+    const byte  *flat;
+    int         hist[256] = { 0 };
+    int         best = 0;
+    int         bestcount = -1;
+
+    if (flatnum < 0 || flatnum >= numflats)
+        return backcolor;
+
+    if (!(flat = (const byte *)W_CacheLumpNum(flattranslation[flatnum])))
+        return backcolor;
+
+    for (int i = 0; i < AM_FLAT_SIZE; i++)
+        hist[flat[i]]++;
+
+    for (int i = 0; i < 256; i++)
+        if (hist[i] > bestcount)
+        {
+            bestcount = hist[i];
+            best = i;
+        }
+
+    W_ReleaseLumpNum(flattranslation[flatnum]);
+
+    if ((byte)best == backcolor)
+    {
+        int second = best;
+        int secondcount = -1;
+
+        for (int i = 0; i < 256; i++)
+            if (i != best && hist[i] > secondcount)
+            {
+                secondcount = hist[i];
+                second = i;
+            }
+
+        best = second;
+    }
+
+    return (byte)best;
+}
+
+static void AM_BuildFloorPicColors(void)
+{
+    if (am_floorpic_color)
+        return;
+
+    am_floorpic_color = Z_Malloc((size_t)numflats * sizeof(*am_floorpic_color), PU_LEVEL, NULL);
+
+    for (int i = 0; i < numflats; i++)
+        am_floorpic_color[i] = AM_ColorFromFlat(i);
+}
+
+static inline void AM_SortIntersections(int *vals, const int n)
+{
+    for (int i = 1; i < n; i++)
+    {
+        const int   key = vals[i];
+        int         j = i - 1;
+
+        while (j >= 0 && vals[j] > key)
+        {
+            vals[j + 1] = vals[j];
+            j--;
+        }
+
+        vals[j + 1] = key;
+    }
+}
+
+static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const int maxedges)
+{
+    int edgecount = 0;
+
+    for (int i = 0; i < sector->linecount && edgecount < maxedges; i++)
+    {
+        const line_t    *line = sector->lines[i];
+        mpoint_t        a = { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS };
+        mpoint_t        b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
+        int             x1, y1;
+        int             x2, y2;
+
+        if (am_rotatemode)
+        {
+            AM_RotatePoint(&a);
+            AM_RotatePoint(&b);
+        }
+
+        if (am_correctaspectratio)
+        {
+            AM_CorrectAspectRatio(&a);
+            AM_CorrectAspectRatio(&b);
+        }
+
+        x1 = CXMTOF(a.x);
+        y1 = CYMTOF(a.y);
+        x2 = CXMTOF(b.x);
+        y2 = CYMTOF(b.y);
+
+        if (y1 == y2)
+            continue;
+
+        if (y1 > y2)
+        {
+            SWAP(x1, x2);
+            SWAP(y1, y2);
+        }
+
+        edges[edgecount].x1 = x1;
+        edges[edgecount].y1 = y1;
+        edges[edgecount].x2 = x2;
+        edges[edgecount].y2 = y2;
+        edges[edgecount].ymin = y1;
+        edges[edgecount].ymax = y2;
+        edges[edgecount].dx = x2 - x1;
+        edges[edgecount].dy = y2 - y1;
+
+        edgecount++;
+    }
+
+    return edgecount;
+}
+
+static void AM_FillSector(const sector_t *sector)
+{
+    int         intersections[AM_MAX_INTERSECTIONS] = { 0 };
+    fixed_t     minx = FIXED_MAX;
+    fixed_t     miny = FIXED_MAX;
+    fixed_t     maxx2 = FIXED_MIN;
+    fixed_t     maxy2 = FIXED_MIN;
+    byte        fillcolor;
+    int         maxedges;
+    edge_t      *edges;
+    int         edgecount;
+
+    if (!sector || sector->linecount <= 2)
+        return;
+
+    for (int i = 0; i < sector->linecount; i++)
+    {
+        const line_t    *line = sector->lines[i];
+        const fixed_t   x1 = (line->v1->x >> FRACTOMAPBITS);
+        const fixed_t   y1 = (line->v1->y >> FRACTOMAPBITS);
+        const fixed_t   x2 = (line->v2->x >> FRACTOMAPBITS);
+        const fixed_t   y2 = (line->v2->y >> FRACTOMAPBITS);
+
+        minx = MIN(minx, MIN(x1, x2));
+        maxx2 = MAX(maxx2, MAX(x1, x2));
+        miny = MIN(miny, MIN(y1, y2));
+        maxy2 = MAX(maxy2, MAX(y1, y2));
+    }
+
+    if ((maxx2 << FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
+        || (minx << FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
+        || (maxy2 << FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM]
+        || (miny << FRACTOMAPBITS) > am_frame.bbox[BOXTOP])
+        return;
+
+    fillcolor = (sector->floorpic >= 0 && sector->floorpic < numflats ?
+        am_floorpic_color[sector->floorpic] : backcolor);
+    maxedges = MAX(1, sector->linecount);
+
+    if (!(edges = (edge_t *)Z_Malloc(sizeof(edge_t) * maxedges, PU_STATIC, NULL)))
+        return;
+
+    if ((edgecount = AM_ProjectSectorEdges(sector, edges, maxedges)) < 2)
+    {
+        Z_Free(edges);
+        return;
+    }
+
+    for (int y = 0; y < MAPHEIGHT; y++)
+    {
+        int n = 0;
+
+        for (int i = 0; i < edgecount; i++)
+        {
+            const edge_t   *e = &edges[i];
+
+            if (y < e->ymin || y >= e->ymax)
+                continue;
+
+            if (n < AM_MAX_INTERSECTIONS)
+                intersections[n++] = e->x1 + (int)(((int64_t)(y - e->y1) * e->dx) / e->dy);
+        }
+
+        if (n < 2)
+            continue;
+
+        AM_SortIntersections(intersections, n);
+
+        for (int i = 0; i + 1 < n; i += 2)
+        {
+            int x1 = intersections[i];
+            int x2 = intersections[i + 1];
+
+            if (x1 > x2)
+                SWAP(x1, x2);
+
+            if (x2 < 0 || x1 >= MAPWIDTH)
+                continue;
+
+            x1 = MAX(0, x1);
+            x2 = MIN(MAPWIDTH - 1, x2);
+
+            for (int x = x1; x <= x2; x++)
+                mapscreen[y * MAPWIDTH + x] = fillcolor;
+        }
+    }
+
+    Z_Free(edges);
+}
+
+static void AM_DrawSectorFloorColors(void)
+{
+    AM_BuildFloorPicColors();
+
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    {
+        for (int i = 0; i < numsectors; i++)
+            AM_FillSector(&sectors[i]);
+
+        return;
+    }
+
+    for (int i = 0; i < numsectors; i++)
+    {
+        const sector_t  *sector = &sectors[i];
+        const int       linecount = sector->linecount;
+
+        for (int j = 0; j < linecount; j++)
+            if (sector->lines[j]->flags & ML_MAPPED)
+            {
+                AM_FillSector(sector);
+                break;
+            }
+    }
+}
 
 static void AM_ActivateNewScale(void)
 {
@@ -472,6 +729,9 @@ static void AM_LevelInit(void)
 
     putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+
+    am_floorpic_color = NULL;
+    AM_BuildFloorPicColors();
 
     // for saving and restoring
     old_m_x = m_x;
@@ -2453,6 +2713,9 @@ void AM_Drawer(void)
     AM_ClearFB();
 
     skippsprinterp = true;
+
+    if (am_coloredfloors)
+        AM_DrawSectorFloorColors();
 
     if (am_grid)
         AM_DrawGrid();

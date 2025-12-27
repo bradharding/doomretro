@@ -652,6 +652,8 @@ consolecmd_t consolecmds[] =
     COLORCVAR(am_cdwallcolor, am_cdwallcolour,
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0")
         " to " BOLD("255") ")."),
+    BOOLCVAR(am_coloredfloors, am_colouredfloors, "", boolfunc1, boolfunc2, 0,
+        "Toggles colored floors in the automap."),
     COLORCVAR(am_corpsecolor, am_corpsecolour,
         "The color of corpses in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(am_correctaspectratio, "", "", boolfunc1, boolfunc2, 0,
