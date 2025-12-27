@@ -977,7 +977,7 @@ bool ST_Responder(const event_t *ev)
                     else
                     {
                         viewplayer->cheats |= CF_ALLMAP;
-                        iddttics = TICRATE * 2;
+                        iddttics = IDDTTICS;
                     }
 
                     ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);

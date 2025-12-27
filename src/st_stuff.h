@@ -64,6 +64,8 @@
 
 #define IDMUS_MAX               70
 
+#define IDDTTICS                (TICRATE * 2)
+
 //
 // STATUS BAR
 //
