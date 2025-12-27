@@ -334,6 +334,11 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
     return edgecount;
 }
 
+static byte AM_AdjustColorForLightLevel(const byte color, const int lightlevel)
+{
+    return (&colormaps[0][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
+}
+
 static void AM_FillSector(const sector_t *sector)
 {
     int         intersections[MAXINTERSECTIONS] = { 0 };
@@ -372,6 +377,7 @@ static void AM_FillSector(const sector_t *sector)
 
     fillcolor = (sector->floorpic >= 0 && sector->floorpic < numflats ?
         floorpiccolor[sector->floorpic] : backcolor);
+    fillcolor = AM_AdjustColorForLightLevel(fillcolor, sector->lightlevel);
     maxedges = MAX(1, linecount);
 
     if (!(edges = (edge_t *)Z_Malloc(sizeof(edge_t) * maxedges, PU_STATIC, NULL)))
