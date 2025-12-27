@@ -443,7 +443,9 @@ static void AM_DrawSectorFloorColors(void)
         const int       linecount = sector->linecount;
 
         for (int j = 0; j < linecount; j++)
-            if (sector->lines[j]->flags2 & ML_MAPPED2)
+            if ((sector->lines[j]->flags2 & ML_MAPPED2)
+                && sector->special != Secret
+                && !(sector->special & SECRET_MASK))
             {
                 AM_FillSector(sector);
                 break;
