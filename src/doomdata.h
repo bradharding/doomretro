@@ -169,6 +169,9 @@ typedef struct
 // [BH] Line won't be shown as teleporter in automap.
 #define ML_TELEPORTTRIGGERED    32768
 
+// [BH] Line seen by player but not necessarily mapped.
+#define ML_MAPPED2              1
+
 // Sector definition, from editing.
 typedef struct
 {
