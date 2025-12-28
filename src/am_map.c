@@ -205,10 +205,10 @@ static void AM_CorrectAspectRatio(mpoint_t *point);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
-static void PUTDOT(int x, int y, const byte *color);
+static inline void PUTDOT(int x, int y, const byte *color);
 static inline void PUTDOT2(int x, int y, const byte *color);
-static void PUTBIGDOT(int x, int y, const byte *color);
-static void PUTBIGDOT2(int x, int y, const byte *color);
+static inline void PUTBIGDOT(int x, int y, const byte *color);
+static inline void PUTBIGDOT2(int x, int y, const byte *color);
 
 static byte AM_ColorFromFlat(const int flatnum)
 {
@@ -258,7 +258,7 @@ static void AM_BuildFloorPicColors(void)
     if (floorpiccolor)
         return;
 
-    floorpiccolor = Z_Malloc((size_t)numflats * sizeof(*floorpiccolor), PU_LEVEL, NULL);
+    floorpiccolor = malloc((size_t)numflats * sizeof(*floorpiccolor));
 
     for (int i = 0; i < numflats; i++)
         floorpiccolor[i] = AM_ColorFromFlat(i);
@@ -326,9 +326,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
         edges[edgecount].ymin = y1;
         edges[edgecount].ymax = y2;
         edges[edgecount].dx = x2 - x1;
-        edges[edgecount].dy = y2 - y1;
-
-        edgecount++;
+        edges[edgecount++].dy = y2 - y1;
     }
 
     return edgecount;
@@ -346,11 +344,14 @@ static void AM_FillSector(const sector_t *sector)
     fixed_t     miny = FIXED_MAX;
     fixed_t     maxx2 = FIXED_MIN;
     fixed_t     maxy2 = FIXED_MIN;
+    int         miny_screen = MAPHEIGHT - 1;
+    int         maxy_screen = 0;
     byte        fillcolor;
     int         maxedges;
     edge_t      *edges;
     int         edgecount;
     int         linecount;
+    short       floorpic;
 
     if (!sector || (linecount = sector->linecount) <= 2)
         return;
@@ -375,21 +376,31 @@ static void AM_FillSector(const sector_t *sector)
         || (miny << FRACTOMAPBITS) > am_frame.bbox[BOXTOP])
         return;
 
-    fillcolor = (sector->floorpic >= 0 && sector->floorpic < numflats ?
-        floorpiccolor[sector->floorpic] : backcolor);
-    fillcolor = AM_AdjustColorForLightLevel(fillcolor, sector->lightlevel);
+    floorpic = sector->floorpic;
+    fillcolor = AM_AdjustColorForLightLevel((floorpic >= 0 && floorpic < numflats ?
+        floorpiccolor[floorpic] : backcolor), sector->lightlevel);
+
     maxedges = MAX(1, linecount);
 
-    if (!(edges = (edge_t *)Z_Malloc(sizeof(edge_t) * maxedges, PU_STATIC, NULL)))
+    if (!(edges = (edge_t *)malloc(sizeof(edge_t) * maxedges)))
         return;
 
     if ((edgecount = AM_ProjectSectorEdges(sector, edges, maxedges)) < 2)
     {
-        Z_Free(edges);
+        free(edges);
         return;
     }
 
-    for (int y = 0; y < MAPHEIGHT; y++)
+    for (int i = 0; i < edgecount; i++)
+    {
+        miny_screen = MIN(miny_screen, edges[i].ymin);
+        maxy_screen = MAX(maxy_screen, edges[i].ymax);
+    }
+
+    miny_screen = BETWEEN(0, miny_screen, MAPHEIGHT);
+    maxy_screen = BETWEEN(0, maxy_screen, MAPHEIGHT);
+
+    for (int y = miny_screen; y < maxy_screen; y++)
     {
         int n = 0;
 
@@ -409,7 +420,7 @@ static void AM_FillSector(const sector_t *sector)
 
         AM_SortIntersections(intersections, n);
 
-        for (int i = 0, y1 = y * MAPWIDTH; i + 1 < n; i += 2)
+        for (int i = 0, row = y * MAPWIDTH; i + 1 < n; i += 2)
         {
             int x1 = intersections[i];
             int x2 = intersections[i + 1];
@@ -420,15 +431,14 @@ static void AM_FillSector(const sector_t *sector)
             if (x2 < 0 || x1 >= MAPWIDTH)
                 continue;
 
-            x1 = y1 + MAX(0, x1);
-            x2 = y1 + MIN(MAPWIDTH - 1, x2);
+            x1 = MAX(0, x1);
+            x2 = MIN(MAPWIDTH - 1, x2);
 
-            for (int x = x1; x <= x2; x++)
-                mapscreen[x] = fillcolor;
+            memset(&mapscreen[row + x1], fillcolor, (size_t)(x2 - x1 + 1));
         }
     }
 
-    Z_Free(edges);
+    free(edges);
 }
 
 static void AM_DrawSectorFloorColors(void)
