@@ -69,6 +69,7 @@
 #define ALLMAPFDWALLPRIORITY    1
 
 #define MAXINTERSECTIONS        256
+#define INSERTIONSORTTHRESHOLD  32
 
 static byte playercolor;
 static byte thingcolor;
@@ -255,17 +256,31 @@ static byte AM_ColorFromFlat(const int flatnum)
 
 static void AM_BuildFloorPicColors(void)
 {
-    if (floorpiccolor)
-        return;
-
-    floorpiccolor = malloc((size_t)numflats * sizeof(*floorpiccolor));
+    floorpiccolor = I_Malloc((size_t)numflats * sizeof(*floorpiccolor));
 
     for (int i = 0; i < numflats; i++)
         floorpiccolor[i] = AM_ColorFromFlat(i);
 }
 
+static int AM_CompareIntAscending(const void *a, const void *b)
+{
+    const int   ia = *(const int *)a;
+    const int   ib = *(const int *)b;
+
+    return ((ia > ib) - (ia < ib));
+}
+
 static inline void AM_SortIntersections(int *vals, const int n)
 {
+    if (n <= 1)
+        return;
+
+    if (n > INSERTIONSORTTHRESHOLD)
+    {
+        qsort(vals, (size_t)n, sizeof(*vals), AM_CompareIntAscending);
+        return;
+    }
+
     for (int i = 1; i < n; i++)
     {
         const int   key = vals[i];
@@ -292,6 +307,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
         mpoint_t        b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
         int             x1, y1;
         int             x2, y2;
+        edge_t          edge;
 
         if (am_rotatemode)
         {
@@ -319,14 +335,16 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
             SWAP(y1, y2);
         }
 
-        edges[edgecount].x1 = x1;
-        edges[edgecount].y1 = y1;
-        edges[edgecount].x2 = x2;
-        edges[edgecount].y2 = y2;
-        edges[edgecount].ymin = y1;
-        edges[edgecount].ymax = y2;
-        edges[edgecount].dx = x2 - x1;
-        edges[edgecount++].dy = y2 - y1;
+        edge.x1 = x1;
+        edge.y1 = y1;
+        edge.x2 = x2;
+        edge.y2 = y2;
+        edge.ymin = y1;
+        edge.ymax = y2;
+        edge.dx = x2 - x1;
+        edge.dy = y2 - y1;
+
+        edges[edgecount++] = edge;
     }
 
     return edgecount;
@@ -382,8 +400,7 @@ static void AM_FillSector(const sector_t *sector)
 
     maxedges = MAX(1, linecount);
 
-    if (!(edges = (edge_t *)malloc(sizeof(edge_t) * maxedges)))
-        return;
+    edges = (edge_t *)I_Malloc(sizeof(edge_t) * maxedges);
 
     if ((edgecount = AM_ProjectSectorEdges(sector, edges, maxedges)) < 2)
     {
@@ -443,8 +460,6 @@ static void AM_FillSector(const sector_t *sector)
 
 static void AM_DrawSectorFloorColors(void)
 {
-    AM_BuildFloorPicColors();
-
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         for (int i = 0; i < numsectors; i++)
