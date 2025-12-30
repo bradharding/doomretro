@@ -176,6 +176,14 @@ static fixed_t      scale_ftom;
 static fixed_t      mouse_pan_x = 0;
 static fixed_t      mouse_pan_y = 0;
 
+static fixed_t      panvel_x;
+static fixed_t      panvel_y;
+static int          pansign_x;
+static int          pansign_y;
+
+static float        controllerpan_x;
+static float        controllerpan_y;
+
 static float        zoomvelocity;
 static int          zoomsign;
 
@@ -752,6 +760,14 @@ static void AM_InitVariables(const bool mainwindow)
     zoomvelocity = 0.0f;
     zoomsign = 0;
 
+    panvel_x = 0;
+    panvel_y = 0;
+    pansign_x = 0;
+    pansign_y = 0;
+
+    controllerpan_x = 0.0f;
+    controllerpan_y = 0.0f;
+
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
 }
@@ -1037,6 +1053,91 @@ void AM_ToggleRotateMode(const bool value)
     M_SaveCVARs();
 }
 
+static inline void AM_SetPanX(const int dir)
+{
+    pansign_x = SIGN(dir);
+}
+
+static inline void AM_SetPanY(const int dir)
+{
+    pansign_y = SIGN(dir);
+}
+
+static void AM_UpdatePanFromKeys(void)
+{
+    if (am_followmode)
+    {
+        pansign_x = 0;
+        pansign_y = 0;
+        return;
+    }
+
+    if (keystate(keyboardright) || keystate(keyboardright2)
+        || keystate(keyboardstraferight) || keystate(keyboardstraferight2))
+        pansign_x = 1;
+    else if (keystate(keyboardleft) || keystate(keyboardleft2)
+        || keystate(keyboardstrafeleft) || keystate(keyboardstrafeleft2))
+        pansign_x = -1;
+    else
+        pansign_x = 0;
+
+    if (keystate(keyboardforward) || keystate(keyboardforward2))
+        pansign_y = 1;
+    else if (keystate(keyboardback) || keystate(keyboardback2))
+        pansign_y = -1;
+    else
+        pansign_y = 0;
+}
+
+static void AM_ApplyKeyboardPan(void)
+{
+    const fixed_t accel = FTOM(MAX(1, F_PANINC / 2));
+    const fixed_t maxvel = FTOM(F_PANINC * 3);
+
+    if (pansign_x > 0)
+        panvel_x = MIN(panvel_x + accel, maxvel);
+    else if (pansign_x < 0)
+        panvel_x = MAX(panvel_x - accel, -maxvel);
+    else
+        panvel_x = FixedMul(panvel_x, (fixed_t)(FRACUNIT * 0.75f));
+
+    if (pansign_y > 0)
+        panvel_y = MIN(panvel_y + accel, maxvel);
+    else if (pansign_y < 0)
+        panvel_y = MAX(panvel_y - accel, -maxvel);
+    else
+        panvel_y = FixedMul(panvel_y, (fixed_t)(FRACUNIT * 0.75f));
+
+    if (ABS(panvel_x) < FTOM(1))
+        panvel_x = 0;
+
+    if (ABS(panvel_y) < FTOM(1))
+        panvel_y = 0;
+
+    m_paninc.x = panvel_x;
+    m_paninc.y = panvel_y;
+}
+
+static void AM_ApplyControllerPan(void)
+{
+    const fixed_t   maxvel = FTOM(F_PANINC * 3);
+    const float     smooth = 0.35f;
+    const fixed_t   target_x = (fixed_t)llround((double)maxvel * controllerpan_x);
+    const fixed_t   target_y = (fixed_t)llround((double)maxvel * controllerpan_y);
+
+    panvel_x += (fixed_t)llround((double)(target_x - panvel_x) * smooth);
+    panvel_y += (fixed_t)llround((double)(target_y - panvel_y) * smooth);
+
+    if (ABS(panvel_x) < FTOM(1))
+        panvel_x = 0;
+
+    if (ABS(panvel_y) < FTOM(1))
+        panvel_y = 0;
+
+    m_paninc.x = panvel_x;
+    m_paninc.y = panvel_y;
+}
+
 static void AM_AddZoomImpulse(const int direction)
 {
     zoomsign = SIGN(direction);
@@ -1134,7 +1235,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = FTOM(F_PANINC);
+                        AM_SetPanX(1);
                     }
                 }
 
@@ -1154,7 +1255,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = -FTOM(F_PANINC);
+                        AM_SetPanX(-1);
                     }
                 }
 
@@ -1171,7 +1272,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = FTOM(F_PANINC);
+                        AM_SetPanY(1);
                     }
                 }
 
@@ -1188,7 +1289,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -FTOM(F_PANINC);
+                        AM_SetPanY(-1);
                     }
                 }
 
@@ -1354,49 +1455,18 @@ bool AM_Responder(const event_t *ev)
                     if (key == keyboardleft
                         || key == keyboardleft2
                         || key == keyboardstrafeleft
-                        || key == keyboardstrafeleft2)
-                    {
-                        speedtoggle = AM_GetSpeedToggle();
-
-                        if (keystate(keyboardright)
-                            || keystate(keyboardright2)
-                            || keystate(keyboardstraferight)
-                            || keystate(keyboardstraferight2))
-                            m_paninc.x = FTOM(F_PANINC);
-                        else
-                            m_paninc.x = 0;
-                    }
-                    else if (key == keyboardright
+                        || key == keyboardstrafeleft2
+                        || key == keyboardright
                         || key == keyboardright2
                         || key == keyboardstraferight
-                        || key == keyboardstraferight2)
+                        || key == keyboardstraferight2
+                        || key == keyboardforward
+                        || key == keyboardforward2
+                        || key == keyboardback
+                        || key == keyboardback2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
-
-                        if (keystate(keyboardleft)
-                            || keystate(keyboardstrafeleft)
-                            || keystate(keyboardstrafeleft2))
-                            m_paninc.x = -FTOM(F_PANINC);
-                        else
-                            m_paninc.x = 0;
-                    }
-                    else if (key == keyboardforward || key == keyboardforward2)
-                    {
-                        speedtoggle = AM_GetSpeedToggle();
-
-                        if (keystate(keyboardback) || keystate(keyboardback2))
-                            m_paninc.y = FTOM(F_PANINC);
-                        else
-                            m_paninc.y = 0;
-                    }
-                    else if (key == keyboardback || key == keyboardback2)
-                    {
-                        speedtoggle = AM_GetSpeedToggle();
-
-                        if (keystate(keyboardforward) || keystate(keyboardforward2))
-                            m_paninc.y = -FTOM(F_PANINC);
-                        else
-                            m_paninc.y = 0;
+                        AM_UpdatePanFromKeys();
                     }
                 }
             }
@@ -1568,41 +1638,12 @@ bool AM_Responder(const event_t *ev)
 
                 if (!am_followmode)
                 {
-                    // pan right with left thumbstick
-                    if (controllerthumbLX > 0)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)controllerthumbLX / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan left with left thumbstick
-                    else if (controllerthumbLX < 0)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
-                            * ((float)(controllerthumbLX) / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan up with left thumbstick
-                    if (controllerthumbLY < 0)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC)
-                            * (-(float)(controllerthumbLY) / SHRT_MAX) * 1.2f);
-                    }
-
-                    // pan down with left thumbstick
-                    else if (controllerthumbLY > 0)
-                    {
-                        movement = true;
-                        speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
-                            * ((float)controllerthumbLY / SHRT_MAX) * 1.2f);
-                    }
+                    controllerpan_x = ((float)controllerthumbLX / SHRT_MAX) * 1.2f;
+                    controllerpan_y = (-(float)controllerthumbLY / SHRT_MAX) * 1.2f;
+                    controllerpan_x = BETWEENF(-1.0f, controllerpan_x, 1.0f);
+                    controllerpan_y = BETWEENF(-1.0f, controllerpan_y, 1.0f);
+                    movement = (controllerpan_x != 0.0f || controllerpan_y != 0.0f);
+                    speedtoggle = AM_GetSpeedToggle();
                 }
             }
 
@@ -1704,6 +1745,11 @@ void AM_Ticker(void)
     // Change x,y location
     if (!consoleactive && !paused)
     {
+        if (movement)
+            AM_ApplyControllerPan();
+        else
+            AM_ApplyKeyboardPan();
+
         if (m_paninc.x || m_paninc.y)
             AM_ChangeWindowLoc();
 
@@ -1711,14 +1757,7 @@ void AM_Ticker(void)
             AM_MousePanning();
     }
 
-    if (movement)
-    {
-        movement = false;
-        m_paninc.x = 0;
-        m_paninc.y = 0;
-        mtof_zoommul = FRACUNIT;
-        ftom_zoommul = FRACUNIT;
-    }
+    movement = false;
 }
 
 //

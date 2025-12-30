@@ -13,7 +13,7 @@
   * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse.
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
   * The accuracy of the lines drawn when the `am_rotatemode` CVAR is `on` has improved.
-  * Zooming in and out is now smoother.
+  * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
