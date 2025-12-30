@@ -176,8 +176,8 @@ static fixed_t      scale_ftom;
 static fixed_t      mouse_pan_x = 0;
 static fixed_t      mouse_pan_y = 0;
 
-static float        mousewheel_zoomvel;
-static int          mousewheel_zoomsign;
+static float        zoomvelocity;
+static int          zoomsign;
 
 int                 lastlevel = -1;
 int                 lastepisode = -1;
@@ -749,8 +749,8 @@ static void AM_InitVariables(const bool mainwindow)
     ftom_zoommul = FRACUNIT;
     mtof_zoommul = FRACUNIT;
 
-    mousewheel_zoomvel = 0.0f;
-    mousewheel_zoomsign = 0;
+    zoomvelocity = 0.0f;
+    zoomsign = 0;
 
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
@@ -1037,23 +1037,23 @@ void AM_ToggleRotateMode(const bool value)
     M_SaveCVARs();
 }
 
-static void AM_AddMouseWheelZoomImpulse(const int direction)
+static void AM_AddZoomImpulse(const int direction)
 {
-    mousewheel_zoomsign = SIGN(direction);
-    mousewheel_zoomvel += (AM_GetSpeedToggle() ? 1.25f : 0.85f);
+    zoomsign = SIGN(direction);
+    zoomvelocity += (AM_GetSpeedToggle() ? 1.25f : 0.85f);
 
-    if (mousewheel_zoomvel > 6.0f)
-        mousewheel_zoomvel = 6.0f;
+    if (zoomvelocity > 6.0f)
+        zoomvelocity = 6.0f;
 }
 
-static void AM_ApplyMouseWheelZoom(void)
+static void AM_ApplyZoom(void)
 {
     float expv;
 
-    if (!mousewheel_zoomsign || mousewheel_zoomvel <= 0.001f)
+    if (!zoomsign || zoomvelocity <= 0.001f)
         return;
 
-    expv = (mousewheel_zoomsign > 0 ? 0.050f : -0.050f) * mousewheel_zoomvel;
+    expv = (zoomsign > 0 ? 0.050f : -0.050f) * zoomvelocity;
     mtof_zoommul = (fixed_t)llround((double)FRACUNIT * expf(expv));
     ftom_zoommul = (fixed_t)llround((double)FRACUNIT / expf(expv));
 
@@ -1061,12 +1061,12 @@ static void AM_ApplyMouseWheelZoom(void)
     mtof_zoommul = FRACUNIT;
     ftom_zoommul = FRACUNIT;
 
-    mousewheel_zoomvel *= 0.80f;
+    zoomvelocity *= 0.80f;
 
-    if (mousewheel_zoomvel < 0.01f)
+    if (zoomvelocity < 0.01f)
     {
-        mousewheel_zoomvel = 0.0f;
-        mousewheel_zoomsign = 0;
+        zoomvelocity = 0.0f;
+        zoomsign = 0;
     }
 }
 
@@ -1197,13 +1197,15 @@ bool AM_Responder(const event_t *ev)
                     && (!mapwindow || keyboardzoomout != '-'))
                 {
                     keydown = key;
-                    AM_ToggleZoomOut();
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(-1);
                 }
                 else if (key == keyboardzoomout2 && !movement
                     && (!mapwindow || keyboardzoomout2 != '-'))
                 {
                     keydown = key;
-                    AM_ToggleZoomOut();
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(-1);
                 }
 
                 // zoom in
@@ -1211,13 +1213,17 @@ bool AM_Responder(const event_t *ev)
                     && (!mapwindow || keyboardzoomin != '='))
                 {
                     keydown = key;
-                    AM_ToggleZoomIn();
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(1);
+                    bigstate = false;
                 }
                 else if (key == keyboardzoomin2 && !movement
                     && (!mapwindow || keyboardzoomin2 != '='))
                 {
                     keydown = key;
-                    AM_ToggleZoomIn();
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(1);
+                    bigstate = false;
                 }
 
                 // leave automap
@@ -1473,7 +1479,7 @@ bool AM_Responder(const event_t *ev)
                 if (ev->data1 > 0)
                 {
                     speedtoggle = AM_GetSpeedToggle();
-                    AM_AddMouseWheelZoomImpulse(1);
+                    AM_AddZoomImpulse(1);
                     bigstate = false;
                 }
 
@@ -1481,14 +1487,11 @@ bool AM_Responder(const event_t *ev)
                 else if (ev->data1 < 0)
                 {
                     speedtoggle = AM_GetSpeedToggle();
-                    AM_AddMouseWheelZoomImpulse(-1);
+                    AM_AddZoomImpulse(-1);
                 }
             }
             else if (ev->type == ev_controller && controllerwait < I_GetTime())
             {
-                mtof_zoommul = FRACUNIT;
-                ftom_zoommul = FRACUNIT;
-
                 if ((controllerbuttons & controllerautomap) && !backbuttondown)
                 {
                     controllerwait = I_GetTime() + 8;
@@ -1500,12 +1503,19 @@ bool AM_Responder(const event_t *ev)
                 // zoom out
                 else if ((controllerbuttons & controllerzoomout)
                     && !(controllerbuttons & controllerzoomin))
-                    AM_ToggleZoomOut();
+                {
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(-1);
+                }
 
                 // zoom in
                 else if ((controllerbuttons & controllerzoomin)
                     && !(controllerbuttons & controllerzoomout))
-                    AM_ToggleZoomIn();
+                {
+                    speedtoggle = AM_GetSpeedToggle();
+                    AM_AddZoomImpulse(1);
+                    bigstate = false;
+                }
 
                 // toggle maximum zoom
                 else if ((controllerbuttons & controllermaxzoom) && !idclev && !idmus)
@@ -1685,7 +1695,7 @@ void AM_Ticker(void)
         AM_DoFollowPlayer();
 
     if (!consoleactive && !paused)
-        AM_ApplyMouseWheelZoom();
+        AM_ApplyZoom();
 
     // Change the zoom if necessary
     if (ftom_zoommul != FRACUNIT)
