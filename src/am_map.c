@@ -321,6 +321,9 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
         int             x2, y2;
         edge_t          edge;
 
+        if (line->frontsector && line->backsector && line->frontsector == line->backsector)
+            continue;
+
         if (am_rotatemode)
         {
             AM_RotatePoint(&a);
