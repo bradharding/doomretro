@@ -9,13 +9,13 @@ am_backcolor 0
 am_bluedoorcolor 231
 am_bluekeycolor 112
 am_cdwallcolor 231
-am_coloredfloors off
 am_corpsecolor 112
 am_correctaspectratio off
 am_crosshaircolor 96
 am_dynamic off
 am_external off
 am_fdwallcolor 64
+am_fillsectors off
 am_gridcolor 104
 am_gridsize 128x128
 am_markcolor 103

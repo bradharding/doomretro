@@ -50,7 +50,6 @@ extern int      am_bloodsplatcolor;
 extern int      am_bluedoorcolor;
 extern int      am_bluekeycolor;
 extern int      am_cdwallcolor;
-extern bool     am_coloredfloors;
 extern int      am_corpsecolor;
 extern bool     am_correctaspectratio;
 extern int      am_crosshaircolor;
@@ -58,6 +57,7 @@ extern int      am_display;
 extern bool     am_dynamic;
 extern bool     am_external;
 extern int      am_fdwallcolor;
+extern int      am_fillsectors;
 extern bool     am_followmode;
 extern bool     am_grid;
 extern int      am_gridcolor;
@@ -284,6 +284,13 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
+    am_fillsectors_off,
+    am_fillsectors_textures,
+    am_fillsectors_colors
+};
+
+enum
+{
     am_pathlength_short,
     am_pathlength_medium,
     am_pathlength_long,
@@ -400,8 +407,6 @@ enum
 #define am_cdwallcolor_default              160
 #define am_cdwallcolor_max                  255
 
-#define am_coloredfloors_default            false
-
 #define am_corpsecolor_min                  0
 #define am_corpsecolor_default              116
 #define am_corpsecolor_max                  255
@@ -423,6 +428,10 @@ enum
 #define am_fdwallcolor_min                  0
 #define am_fdwallcolor_default              64
 #define am_fdwallcolor_max                  255
+
+#define am_fillsectors_min                  am_fillsectors_off
+#define am_fillsectors_default              am_fillsectors_off
+#define am_fillsectors_max                  am_fillsectors_colors
 
 #define am_followmode_default               true
 
@@ -1174,6 +1183,7 @@ typedef enum
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,
     ENGLISHVALUEALIAS,
+    FILLSECTORSVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
     PATHLENGTHVALUEALIAS,

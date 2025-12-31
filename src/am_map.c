@@ -321,7 +321,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
         int             x2, y2;
         edge_t          edge;
 
-        if (line->frontsector && line->backsector && line->frontsector == line->backsector)
+        if (line->frontsector == line->backsector)
             continue;
 
         if (am_rotatemode)
@@ -372,21 +372,24 @@ static byte AM_AdjustColorForLightLevel(const byte color, const int lightlevel)
 
 static void AM_FillSector(const sector_t *sector)
 {
-    int         intersections[MAXINTERSECTIONS] = { 0 };
-    fixed_t     minx = FIXED_MAX;
-    fixed_t     miny = FIXED_MAX;
-    fixed_t     maxx2 = FIXED_MIN;
-    fixed_t     maxy2 = FIXED_MIN;
-    int         miny_screen = MAPHEIGHT - 1;
-    int         maxy_screen = 0;
-    byte        fillcolor;
-    int         maxedges;
-    edge_t      *edges;
-    int         edgecount;
-    int         linecount;
-    short       floorpic;
+    int             intersections[MAXINTERSECTIONS] = { 0 };
+    fixed_t         minx = FIXED_MAX;
+    fixed_t         miny = FIXED_MAX;
+    fixed_t         maxx2 = FIXED_MIN;
+    fixed_t         maxy2 = FIXED_MIN;
+    int             miny_screen = MAPHEIGHT - 1;
+    int             maxy_screen = 0;
+    fixed_t         x_step;
+    byte            fillcolor;
+    int             edgecount;
+    int             linecount = sector->linecount;
+    short           floorpic;
+    const byte      *flat = NULL;
+    const int       lightlevel = sector->lightlevel;
+    static edge_t   *edges;
+    static int      edges_capacity;
 
-    if (!sector || (linecount = sector->linecount) <= 2)
+    if (linecount <= 2)
         return;
 
     for (int i = 0; i < linecount; i++)
@@ -411,17 +414,16 @@ static void AM_FillSector(const sector_t *sector)
 
     floorpic = sector->floorpic;
     fillcolor = AM_AdjustColorForLightLevel((floorpic >= 0 && floorpic < numflats ?
-        floorpiccolor[floorpic] : backcolor), sector->lightlevel);
+        floorpiccolor[floorpic] : backcolor), lightlevel);
 
-    maxedges = MAX(1, linecount);
-
-    edges = (edge_t *)I_Malloc(sizeof(edge_t) * maxedges);
-
-    if ((edgecount = AM_ProjectSectorEdges(sector, edges, maxedges)) < 2)
+    if (linecount > edges_capacity)
     {
-        free(edges);
-        return;
+        edges_capacity = linecount;
+        edges = I_Realloc(edges, (size_t)edges_capacity * sizeof(*edges));
     }
+
+    if ((edgecount = AM_ProjectSectorEdges(sector, edges, edges_capacity)) < 2)
+        return;
 
     for (int i = 0; i < edgecount; i++)
     {
@@ -431,20 +433,27 @@ static void AM_FillSector(const sector_t *sector)
 
     miny_screen = BETWEEN(0, miny_screen, MAPHEIGHT);
     maxy_screen = BETWEEN(0, maxy_screen, MAPHEIGHT);
+    x_step = (fixed_t)(((int64_t)m_w) / MAPWIDTH);
+
+    if (am_fillsectors == am_fillsectors_textures && floorpic >= 0 && floorpic < numflats)
+        flat = (const byte *)W_CacheLumpNum(flattranslation[floorpic]);
 
     for (int y = miny_screen; y < maxy_screen; y++)
     {
-        int n = 0;
+        int     n = 0;
+        fixed_t ry;
 
         for (int i = 0; i < edgecount; i++)
         {
-            const edge_t   *e = &edges[i];
+            const edge_t    *edge = &edges[i];
 
-            if (y < e->ymin || y >= e->ymax)
+            if (y < edge->ymin || y >= edge->ymax)
                 continue;
 
-            if (n < MAXINTERSECTIONS)
-                intersections[n++] = e->x1 + (int)(((int64_t)(y - e->y1) * e->dx) / e->dy);
+            if (n == MAXINTERSECTIONS)
+                break;
+
+            intersections[n++] = edge->x1 + (int)(((int64_t)(y - edge->y1) * edge->dx) / edge->dy);
         }
 
         if (n < 2)
@@ -452,10 +461,16 @@ static void AM_FillSector(const sector_t *sector)
 
         AM_SortIntersections(intersections, n);
 
+        ry = (fixed_t)(((int64_t)(MAPHEIGHT - y) * m_h) / MAPHEIGHT) + m_y;
+
+        if (am_correctaspectratio)
+            ry = am_frame.center.y + (ry - am_frame.center.y) * 6 / 5;
+
         for (int i = 0, row = y * MAPWIDTH; i + 1 < n; i += 2)
         {
-            int x1 = intersections[i];
-            int x2 = intersections[i + 1];
+            int     x1 = intersections[i];
+            int     x2 = intersections[i + 1];
+            fixed_t rx;
 
             if (x1 > x2)
                 SWAP(x1, x2);
@@ -466,11 +481,41 @@ static void AM_FillSector(const sector_t *sector)
             x1 = MAX(0, x1);
             x2 = MIN(MAPWIDTH - 1, x2);
 
-            memset(&mapscreen[row + x1], fillcolor, (size_t)(x2 - x1 + 1));
+            if (!flat)
+            {
+                memset(&mapscreen[row + x1], fillcolor, (size_t)(x2 - x1 + 1));
+                continue;
+            }
+
+            rx = m_x + (fixed_t)((int64_t)x1 * x_step);
+
+            for (int x = x1; x <= x2; x++, rx += x_step)
+            {
+                fixed_t rrx = rx;
+                fixed_t rry = ry;
+                int     u, v;
+
+                if (am_rotatemode)
+                {
+                    const fixed_t   dx = rrx - am_frame.center.x;
+                    const fixed_t   dy = rry - am_frame.center.y;
+                    const double    cosine = am_frame.cos;
+                    const double    sine = am_frame.sin;
+
+                    rrx = am_frame.center.x + (fixed_t)llround((double)dx * cosine + (double)dy * sine);
+                    rry = am_frame.center.y + (fixed_t)llround(-(double)dx * sine + (double)dy * cosine);
+                }
+
+                u = (int)((rrx - minx) >> MAPBITS) & 63;
+                v = (int)((rry - miny) >> MAPBITS) & 63;
+
+                mapscreen[row + x] = AM_AdjustColorForLightLevel(flat[(v << 6) + u], lightlevel);
+            }
         }
     }
 
-    free(edges);
+    if (flat)
+        W_ReleaseLumpNum(flattranslation[floorpic]);
 }
 
 static void AM_DrawSectorFloorColors(void)
@@ -1094,8 +1139,8 @@ static void AM_UpdatePanFromKeys(void)
 
 static void AM_ApplyKeyboardPan(void)
 {
-    const fixed_t accel = FTOM(MAX(1, F_PANINC / 2));
-    const fixed_t maxvel = FTOM(F_PANINC * 3);
+    const fixed_t   accel = FTOM(MAX(1, F_PANINC / 2));
+    const fixed_t   maxvel = FTOM(F_PANINC * 3);
 
     if (pansign_x > 0)
         panvel_x = MIN(panvel_x + accel, maxvel);
@@ -2840,7 +2885,7 @@ void AM_Drawer(void)
 
     skippsprinterp = true;
 
-    if (am_coloredfloors)
+    if (am_fillsectors != am_fillsectors_off)
         AM_DrawSectorFloorColors();
 
     if (am_grid)

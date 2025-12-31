@@ -652,8 +652,6 @@ consolecmd_t consolecmds[] =
     COLORCVAR(am_cdwallcolor, am_cdwallcolour,
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0")
         " to " BOLD("255") ")."),
-    BOOLCVAR(am_coloredfloors, am_colouredfloors, "", boolfunc1, boolfunc2, 0,
-        "Toggles colored floors in the automap."),
     COLORCVAR(am_corpsecolor, am_corpsecolour,
         "The color of corpses in the automap when you cheat (" BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(am_correctaspectratio, "", "", boolfunc1, boolfunc2, 0,
@@ -669,6 +667,9 @@ consolecmd_t consolecmds[] =
     COLORCVAR(am_fdwallcolor, am_fdwallcolour,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0")
         " to " BOLD("255") ")."),
+    INTCVAR(am_fillsectors, "", "", intfunc1, intfunc2, 0, FILLSECTORSVALUEALIAS,
+        "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
+        BOLD("colors") " or " BOLD("off") ")."),
     BOOLCVAR(am_followmode, "", "", ingamecvarfunc1, am_followmodefunc2, CF_MAPRESET,
         "Toggles following you in the automap."),
     BOOLCVAR(am_grid, "", "", boolfunc1, boolfunc2, 0,
