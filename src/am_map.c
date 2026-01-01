@@ -2817,6 +2817,18 @@ static void AM_BigStatusBarShadow(void)
     }
 }
 
+static fixed_t AM_ShiftToMapFracSaturated(const fixed_t value)
+{
+    const int64_t shifted = (int64_t)value << FRACTOMAPBITS;
+
+    if (shifted > FIXED_MAX)
+        return FIXED_MAX;
+    if (shifted < FIXED_MIN)
+        return FIXED_MIN;
+
+    return (fixed_t)shifted;
+}
+
 static void AM_SetFrameVariables(void)
 {
     const fixed_t   dx = m_w / 2;
@@ -2828,10 +2840,10 @@ static void AM_SetFrameVariables(void)
     am_frame.center.x = x;
     am_frame.center.y = y;
 
-    am_frame.bbox[BOXLEFT] = (x - r) << FRACTOMAPBITS;
-    am_frame.bbox[BOXRIGHT] = (x + r) << FRACTOMAPBITS;
-    am_frame.bbox[BOXBOTTOM] = (y - r) << FRACTOMAPBITS;
-    am_frame.bbox[BOXTOP] = (y + r) << FRACTOMAPBITS;
+    am_frame.bbox[BOXLEFT] = AM_ShiftToMapFracSaturated(x - r);
+    am_frame.bbox[BOXRIGHT] = AM_ShiftToMapFracSaturated(x + r);
+    am_frame.bbox[BOXBOTTOM] = AM_ShiftToMapFracSaturated(y - r);
+    am_frame.bbox[BOXTOP] = AM_ShiftToMapFracSaturated(y + r);
 
     if (am_rotatemode)
     {
