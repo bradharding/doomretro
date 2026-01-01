@@ -553,7 +553,7 @@ static void saveg_read_player_t(void)
         viewplayer->monsterskilled[i] = saveg_read32();
 
     viewplayer->distancetraveled = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2)
-        || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_8_3) ?
+        || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_9) ?
         saveg_readdouble() : saveg_read32() / UNITSPERFOOT);
 
     viewplayer->gamessaved = saveg_read32();
@@ -1053,7 +1053,7 @@ bool P_ReadSaveGameHeader(char *description)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_8_3))
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_9))
     {
         menuactive = false;
         quicksaveslot = -1;
@@ -1278,7 +1278,7 @@ void P_UnarchiveWorld(void)
         if (E2M7)
             line->flags = ((unsigned int)line->flags & 0x03FF);
 
-        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_8_3))
+        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_9))
             line->flags2 = saveg_read16();
 
         line->special = saveg_read16();
