@@ -400,10 +400,10 @@ static void R_MakeSpans(visplane_t *pl)
 static int  offsets[1024 * 4096];
 
 //
-// R_InitDistortedFlats
+// R_InitSwirlingFlats
 // [BH] Moved to separate function and called at startup
 //
-void R_InitDistortedFlats(void)
+void R_InitSwirlingFlats(void)
 {
     for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 64 * 64)
         for (int y = 0; y < 64; y++)
@@ -424,11 +424,10 @@ void R_InitDistortedFlats(void)
 }
 
 //
-// R_DistortedFlat
+// R_SwirlingFlat
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
-// [crispy] Optimized to precalculate offsets
 //
-static byte *R_DistortedFlat(const int flatnum)
+byte *R_SwirlingFlat(const int flatnum)
 {
     static byte distortedflat[64 * 64];
     static int  prevflatnum = -1;
@@ -635,7 +634,7 @@ void R_DrawPlanes(void)
                 {
                     // regular flat
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
-                        R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
+                        R_SwirlingFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
                     ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
                         colormaps[pl->colormap] : fullcolormap);
 

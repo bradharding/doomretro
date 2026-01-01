@@ -436,7 +436,8 @@ static void AM_FillSector(const sector_t *sector)
     validfloorpic = (floorpic >= 0 && floorpic < numflats);
 
     if (am_fillsectors == am_fillsectors_textures && validfloorpic)
-        flat = (const byte *)W_CacheLumpNum(flattranslation[floorpic]);
+        flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
+            R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
     if (!flat)
         fillcolor = AM_AdjustColorForLightLevel((validfloorpic ? floorpiccolor[floorpic] : backcolor),
@@ -517,9 +518,6 @@ static void AM_FillSector(const sector_t *sector)
             }
         }
     }
-
-    if (flat)
-        W_ReleaseLumpNum(flattranslation[floorpic]);
 }
 
 static void AM_FillSectors(void)
