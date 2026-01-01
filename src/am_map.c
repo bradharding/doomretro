@@ -226,44 +226,35 @@ static inline void PUTBIGDOT2(int x, int y, const byte *color);
 static byte AM_ColorFromFlat(const int flatnum)
 {
     const byte  *flat;
-    int         hist[256] = { 0 };
-    int         best = 0;
+    int         colors[256] = { 0 };
+    int         bestcolor = backcolor;
     int         bestcount = -1;
 
     if (flatnum < 0 || flatnum >= numflats)
         return backcolor;
 
-    if (!(flat = (const byte *)W_CacheLumpNum(flattranslation[flatnum])))
+    if (!(flat = lumpinfo[flattranslation[flatnum]]->cache))
         return backcolor;
 
     for (int i = 0; i < 64 * 64; i++)
-        hist[flat[i]]++;
+        colors[flat[i]]++;
 
     for (int i = 0; i < 256; i++)
-        if (hist[i] > bestcount)
+        if (colors[i] > bestcount)
         {
-            bestcount = hist[i];
-            best = i;
+            bestcolor = i;
+            bestcount = colors[i];
         }
 
-    W_ReleaseLumpNum(flattranslation[flatnum]);
-
-    if ((byte)best == backcolor)
-    {
-        int second = best;
-        int secondcount = -1;
-
-        for (int i = 0; i < 256; i++)
-            if (i != best && hist[i] > secondcount)
+    if (bestcolor == backcolor)
+        for (int i = 0, secondcount = -1; i < 256; i++)
+            if (i != backcolor && colors[i] > secondcount)
             {
-                secondcount = hist[i];
-                second = i;
+                bestcolor = i;
+                secondcount = colors[i];
             }
 
-        best = second;
-    }
-
-    return (byte)best;
+    return (byte)bestcolor;
 }
 
 static void AM_BuildFloorPicColors(void)
