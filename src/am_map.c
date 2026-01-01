@@ -2961,7 +2961,8 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(bigmarknums);
 
-        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
+            && am_fillsectors == am_fillsectors_off)
             AM_BigStatusBarShadow();
     }
     else
@@ -2969,7 +2970,8 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(marknums);
 
-        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
+            && am_fillsectors == am_fillsectors_off)
             AM_StatusBarShadow();
     }
 
