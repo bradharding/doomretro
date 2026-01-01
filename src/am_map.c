@@ -395,6 +395,7 @@ static void AM_FillSector(const sector_t *sector)
     const int       lightlevel = sector->lightlevel;
     static edge_t   *edges;
     static int      edgescapacity;
+    int             floorrotation = 0;
 
     if (linecount <= 2)
         return;
@@ -445,7 +446,9 @@ static void AM_FillSector(const sector_t *sector)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
             R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
-    if (!flat)
+    if (flat)
+        floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
+    else
         fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] : backcolor),
             lightlevel);
 
@@ -505,6 +508,9 @@ static void AM_FillSector(const sector_t *sector)
                 fixed_t rrx = rx;
                 fixed_t rry = ry;
                 int     u, v;
+
+                if (floorrotation)
+                    AM_Rotate(&rrx, &rry, floorrotation >> ANGLETOFINESHIFT);
 
                 if (am_rotatemode)
                 {
