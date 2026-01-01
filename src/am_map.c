@@ -365,9 +365,12 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const in
     return edgecount;
 }
 
-static byte AM_AdjustColorForLightLevel(const byte color, const int lightlevel)
+static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
 {
-    return (&colormaps[0][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
+    const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
+                    (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
+
+    return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
 }
 
 static void AM_FillSector(const sector_t *sector)
@@ -440,7 +443,7 @@ static void AM_FillSector(const sector_t *sector)
             R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
     if (!flat)
-        fillcolor = AM_AdjustColorForLightLevel((validfloorpic ? floorpiccolor[floorpic] : backcolor),
+        fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] : backcolor),
             lightlevel);
 
     for (int y = minyscreen; y < maxyscreen; y++)
@@ -514,7 +517,7 @@ static void AM_FillSector(const sector_t *sector)
                 u = (int)((rrx - minx) >> MAPBITS) & 63;
                 v = (int)((rry - miny) >> MAPBITS) & 63;
 
-                mapscreen[row + x] = AM_AdjustColorForLightLevel(flat[(v << 6) + u], lightlevel);
+                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[(v << 6) + u], lightlevel);
             }
         }
     }
