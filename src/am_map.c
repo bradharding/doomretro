@@ -520,7 +520,7 @@ static void AM_FillSector(const sector_t *sector)
                 u = (int)(rrx >> MAPBITS) & 63;
                 v = (int)(rry >> MAPBITS) & 63;
 
-                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[(v << 6) + u], lightlevel);
+                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[((63 - v) << 6) + u], lightlevel);
             }
         }
     }
