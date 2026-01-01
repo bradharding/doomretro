@@ -395,6 +395,8 @@ static void AM_FillSector(const sector_t *sector)
     const int       lightlevel = sector->lightlevel;
     static edge_t   *edges;
     static int      edgescapacity;
+    fixed_t         floorxoffset = 0;
+    fixed_t         flooryoffset = 0;
     int             floorrotation = 0;
 
     if (linecount <= 2)
@@ -447,7 +449,11 @@ static void AM_FillSector(const sector_t *sector)
             R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
     if (flat)
+    {
+        floorxoffset = (sector->floorxoffset >> FRACTOMAPBITS);
+        flooryoffset = (sector->flooryoffset >> FRACTOMAPBITS);
         floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
+    }
     else
         fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] : backcolor),
             lightlevel);
@@ -509,9 +515,6 @@ static void AM_FillSector(const sector_t *sector)
                 fixed_t rry = ry;
                 int     u, v;
 
-                if (floorrotation)
-                    AM_Rotate(&rrx, &rry, floorrotation >> ANGLETOFINESHIFT);
-
                 if (am_rotatemode)
                 {
                     const fixed_t   dx = rrx - am_frame.center.x;
@@ -522,6 +525,12 @@ static void AM_FillSector(const sector_t *sector)
                     rrx = am_frame.center.x + (fixed_t)llround((double)dx * cosine + (double)dy * sine);
                     rry = am_frame.center.y + (fixed_t)llround(-(double)dx * sine + (double)dy * cosine);
                 }
+
+                rrx += floorxoffset;
+                rry -= flooryoffset;
+
+                if (floorrotation)
+                    AM_Rotate(&rrx, &rry, floorrotation >> ANGLETOFINESHIFT);
 
                 u = (int)(rrx >> MAPBITS) & 63;
                 v = (int)(rry >> MAPBITS) & 63;
