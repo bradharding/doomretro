@@ -377,17 +377,18 @@ static void AM_FillSector(const sector_t *sector)
     fixed_t         miny = FIXED_MAX;
     fixed_t         maxx2 = FIXED_MIN;
     fixed_t         maxy2 = FIXED_MIN;
-    int             miny_screen = MAPHEIGHT - 1;
-    int             maxy_screen = 0;
-    fixed_t         x_step;
+    int             maxyscreen = 0;
+    int             minyscreen = MAPHEIGHT - 1;
+    fixed_t         xstep;
     byte            fillcolor;
     int             edgecount;
     int             linecount = sector->linecount;
     short           floorpic;
+    bool            validfloorpic;
     const byte      *flat = NULL;
     const int       lightlevel = sector->lightlevel;
     static edge_t   *edges;
-    static int      edges_capacity;
+    static int      edgescapacity;
 
     if (linecount <= 2)
         return;
@@ -412,33 +413,36 @@ static void AM_FillSector(const sector_t *sector)
         || (miny << FRACTOMAPBITS) > am_frame.bbox[BOXTOP])
         return;
 
-    floorpic = sector->floorpic;
-    fillcolor = AM_AdjustColorForLightLevel((floorpic >= 0 && floorpic < numflats ?
-        floorpiccolor[floorpic] : backcolor), lightlevel);
-
-    if (linecount > edges_capacity)
+    if (linecount > edgescapacity)
     {
-        edges_capacity = linecount;
-        edges = I_Realloc(edges, (size_t)edges_capacity * sizeof(*edges));
+        edgescapacity = linecount;
+        edges = I_Realloc(edges, (size_t)edgescapacity * sizeof(*edges));
     }
 
-    if ((edgecount = AM_ProjectSectorEdges(sector, edges, edges_capacity)) < 2)
+    if ((edgecount = AM_ProjectSectorEdges(sector, edges, edgescapacity)) < 2)
         return;
 
     for (int i = 0; i < edgecount; i++)
     {
-        miny_screen = MIN(miny_screen, edges[i].ymin);
-        maxy_screen = MAX(maxy_screen, edges[i].ymax);
+        minyscreen = MIN(minyscreen, edges[i].ymin);
+        maxyscreen = MAX(maxyscreen, edges[i].ymax);
     }
 
-    miny_screen = BETWEEN(0, miny_screen, MAPHEIGHT);
-    maxy_screen = BETWEEN(0, maxy_screen, MAPHEIGHT);
-    x_step = (fixed_t)(((int64_t)m_w) / MAPWIDTH);
+    minyscreen = BETWEEN(0, minyscreen, MAPHEIGHT);
+    maxyscreen = BETWEEN(0, maxyscreen, MAPHEIGHT);
+    xstep = (fixed_t)(((int64_t)m_w) / MAPWIDTH);
 
-    if (am_fillsectors == am_fillsectors_textures && floorpic >= 0 && floorpic < numflats)
+    floorpic = sector->floorpic;
+    validfloorpic = (floorpic >= 0 && floorpic < numflats);
+
+    if (am_fillsectors == am_fillsectors_textures && validfloorpic)
         flat = (const byte *)W_CacheLumpNum(flattranslation[floorpic]);
 
-    for (int y = miny_screen; y < maxy_screen; y++)
+    if (!flat)
+        fillcolor = AM_AdjustColorForLightLevel((validfloorpic ? floorpiccolor[floorpic] : backcolor),
+            lightlevel);
+
+    for (int y = minyscreen; y < maxyscreen; y++)
     {
         int     n = 0;
         fixed_t ry;
@@ -487,9 +491,9 @@ static void AM_FillSector(const sector_t *sector)
                 continue;
             }
 
-            rx = m_x + (fixed_t)((int64_t)x1 * x_step);
+            rx = m_x + (fixed_t)((int64_t)x1 * xstep);
 
-            for (int x = x1; x <= x2; x++, rx += x_step)
+            for (int x = x1; x <= x2; x++, rx += xstep)
             {
                 fixed_t rrx = rx;
                 fixed_t rry = ry;
@@ -518,7 +522,7 @@ static void AM_FillSector(const sector_t *sector)
         W_ReleaseLumpNum(flattranslation[floorpic]);
 }
 
-static void AM_DrawSectorFloorColors(void)
+static void AM_FillSectors(void)
 {
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -2886,7 +2890,7 @@ void AM_Drawer(void)
     skippsprinterp = true;
 
     if (am_fillsectors != am_fillsectors_off)
-        AM_DrawSectorFloorColors();
+        AM_FillSectors();
 
     if (am_grid)
         AM_DrawGrid();
