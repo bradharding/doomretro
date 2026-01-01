@@ -443,6 +443,13 @@ static void AM_FillSector(const sector_t *sector)
     {
         floorxoffset = (sector->floorxoffset >> FRACTOMAPBITS);
         flooryoffset = (sector->flooryoffset >> FRACTOMAPBITS);
+
+        if (terraintypes[floorpic] >= LIQUID && r_liquid_current && !floorxoffset && !flooryoffset)
+        {
+            floorxoffset = (animatedliquidxoffs >> FRACTOMAPBITS);
+            flooryoffset = (animatedliquidyoffs >> FRACTOMAPBITS);
+        }
+
         floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
     }
     else
