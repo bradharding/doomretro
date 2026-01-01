@@ -308,58 +308,61 @@ static inline void AM_SortIntersections(int *vals, const int n)
     }
 }
 
-static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges, const int maxedges)
+static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges)
 {
     int edgecount = 0;
+    int linecount = sector->linecount;
 
-    for (int i = 0; i < sector->linecount && edgecount < maxedges; i++)
+    for (int i = 0; i < linecount; i++)
     {
         const line_t    *line = sector->lines[i];
-        mpoint_t        a = { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS };
-        mpoint_t        b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
-        int             x1, y1;
-        int             x2, y2;
-        edge_t          edge;
 
-        if (line->frontsector == line->backsector)
-            continue;
-
-        if (am_rotatemode)
+        if (line->frontsector != line->backsector)
         {
-            AM_RotatePoint(&a);
-            AM_RotatePoint(&b);
+            mpoint_t    a = { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS };
+            mpoint_t    b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
+            int         x1, y1;
+            int         x2, y2;
+            edge_t      edge;
+
+            if (am_rotatemode)
+            {
+                AM_RotatePoint(&a);
+                AM_RotatePoint(&b);
+            }
+
+            if (am_correctaspectratio)
+            {
+                AM_CorrectAspectRatio(&a);
+                AM_CorrectAspectRatio(&b);
+            }
+
+            y1 = CYMTOF(a.y);
+            y2 = CYMTOF(b.y);
+
+            if (y1 == y2)
+                continue;
+
+            x1 = CXMTOF(a.x);
+            x2 = CXMTOF(b.x);
+
+            if (y1 > y2)
+            {
+                SWAP(x1, x2);
+                SWAP(y1, y2);
+            }
+
+            edge.x1 = x1;
+            edge.y1 = y1;
+            edge.x2 = x2;
+            edge.y2 = y2;
+            edge.ymin = y1;
+            edge.ymax = y2;
+            edge.dx = x2 - x1;
+            edge.dy = y2 - y1;
+
+            edges[edgecount++] = edge;
         }
-
-        if (am_correctaspectratio)
-        {
-            AM_CorrectAspectRatio(&a);
-            AM_CorrectAspectRatio(&b);
-        }
-
-        x1 = CXMTOF(a.x);
-        y1 = CYMTOF(a.y);
-        x2 = CXMTOF(b.x);
-        y2 = CYMTOF(b.y);
-
-        if (y1 == y2)
-            continue;
-
-        if (y1 > y2)
-        {
-            SWAP(x1, x2);
-            SWAP(y1, y2);
-        }
-
-        edge.x1 = x1;
-        edge.y1 = y1;
-        edge.x2 = x2;
-        edge.y2 = y2;
-        edge.ymin = y1;
-        edge.ymax = y2;
-        edge.dx = x2 - x1;
-        edge.dy = y2 - y1;
-
-        edges[edgecount++] = edge;
     }
 
     return edgecount;
@@ -422,7 +425,7 @@ static void AM_FillSector(const sector_t *sector)
         edges = I_Realloc(edges, (size_t)edgescapacity * sizeof(*edges));
     }
 
-    if ((edgecount = AM_ProjectSectorEdges(sector, edges, edgescapacity)) < 2)
+    if ((edgecount = AM_ProjectSectorEdges(sector, edges)) < 2)
         return;
 
     for (int i = 0; i < edgecount; i++)
@@ -433,10 +436,10 @@ static void AM_FillSector(const sector_t *sector)
 
     minyscreen = BETWEEN(0, minyscreen, MAPHEIGHT);
     maxyscreen = BETWEEN(0, maxyscreen, MAPHEIGHT);
-    xstep = (fixed_t)(((int64_t)m_w) / MAPWIDTH);
+    xstep = (fixed_t)((int64_t)m_w / MAPWIDTH);
 
     floorpic = sector->floorpic;
-    validfloorpic = (floorpic >= 0 && floorpic < numflats && floorpic != skyflatnum);
+    validfloorpic = (floorpic >= 0 && floorpic < numflats && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT));
 
     if (am_fillsectors == am_fillsectors_textures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
@@ -469,7 +472,7 @@ static void AM_FillSector(const sector_t *sector)
 
         AM_SortIntersections(intersections, n);
 
-        ry = (fixed_t)(((int64_t)(MAPHEIGHT - y) * m_h) / MAPHEIGHT) + m_y;
+        ry = (fixed_t)((int64_t)(MAPHEIGHT - y) * m_h / MAPHEIGHT) + m_y;
 
         if (am_correctaspectratio)
             ry = am_frame.center.y + (ry - am_frame.center.y) * 6 / 5;
@@ -2822,7 +2825,7 @@ static void AM_BigStatusBarShadow(void)
 
 static fixed_t AM_ShiftToMapFracSaturated(const fixed_t value)
 {
-    const int64_t shifted = (int64_t)value << FRACTOMAPBITS;
+    const int64_t   shifted = (int64_t)value << FRACTOMAPBITS;
 
     if (shifted > FIXED_MAX)
         return FIXED_MAX;
