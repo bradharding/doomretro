@@ -517,8 +517,8 @@ static void AM_FillSector(const sector_t *sector)
                     rry = am_frame.center.y + (fixed_t)llround(-(double)dx * sine + (double)dy * cosine);
                 }
 
-                u = (int)((rrx - minx) >> MAPBITS) & 63;
-                v = (int)((rry - miny) >> MAPBITS) & 63;
+                u = (int)(rrx >> MAPBITS) & 63;
+                v = (int)(rry >> MAPBITS) & 63;
 
                 mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[(v << 6) + u], lightlevel);
             }
