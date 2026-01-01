@@ -433,7 +433,7 @@ static void AM_FillSector(const sector_t *sector)
     xstep = (fixed_t)(((int64_t)m_w) / MAPWIDTH);
 
     floorpic = sector->floorpic;
-    validfloorpic = (floorpic >= 0 && floorpic < numflats);
+    validfloorpic = (floorpic >= 0 && floorpic < numflats && floorpic != skyflatnum);
 
     if (am_fillsectors == am_fillsectors_textures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
