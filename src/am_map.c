@@ -71,7 +71,7 @@
 #define MAXINTERSECTIONS        256
 #define INSERTIONSORTTHRESHOLD  32
 
-#define SIDETICKLENGTH          (6 << MAPBITS)
+#define SIDETICKLENGTH          (3 << MAPBITS)
 
 static byte playercolor;
 static byte thingcolor;
@@ -2406,18 +2406,15 @@ static void AM_DrawWalls_Cheating(void)
 
             if ((front->special == Secret || (front->special & SECRET_MASK)) && secretcolor2)
             {
-                void (*pd)(int, int, const byte *) =
-                    (!back || (flags & ML_SECRET) || front->floorheight == front->ceilingheight ? putbigwalldot : putbigdot);
-
-                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2, pd);
+                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
+                    (!back || (flags & ML_SECRET) || front->floorheight == front->ceilingheight ?
+                    putbigwalldot : putbigdot));
                 AM_DrawSides(line, secretcolor2);
             }
             else if (back && (back->special == Secret || (back->special & SECRET_MASK)) && secretcolor2)
             {
-                void (*pd)(int, int, const byte *) =
-                    ((flags & ML_SECRET) || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot);
-
-                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2, pd);
+                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
+                    ((flags & ML_SECRET) || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
                 AM_DrawSides(line, secretcolor2);
             }
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
