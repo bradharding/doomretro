@@ -555,7 +555,7 @@ static void AM_FillSectors(void)
     {
         const sector_t  *sector = &sectors[i];
 
-        if (sector->mapped && sector->special != Secret && !(sector->special & SECRET_MASK))
+        if (sector->mapped)
             AM_FillSector(sector);
     }
 }
