@@ -71,6 +71,8 @@
 #define MAXINTERSECTIONS        256
 #define INSERTIONSORTTHRESHOLD  32
 
+#define SIDETICKLENGTH          (6 << MAPBITS)
+
 static byte playercolor;
 static byte thingcolor;
 static byte bloodsplatcolor;
@@ -2142,6 +2144,80 @@ static byte *AM_DoorColor(unsigned short special)
     }
 }
 
+static void AM_DrawSides(const line_t *line, const byte *color)
+{
+    mpoint_t    a, b;
+    fixed_t     dx, dy;
+    fixed_t     mx, my;
+    fixed_t     nx, ny;
+    double      len;
+    mpoint_t    p0, p1;
+
+    if (!am_sides)
+        return;
+
+    a.x = line->v1->x >> FRACTOMAPBITS;
+    a.y = line->v1->y >> FRACTOMAPBITS;
+    b.x = line->v2->x >> FRACTOMAPBITS;
+    b.y = line->v2->y >> FRACTOMAPBITS;
+
+    dx = b.x - a.x;
+    dy = b.y - a.y;
+
+    if (!dx && !dy)
+        return;
+
+    if ((len = sqrt((double)dx * (double)dx + (double)dy * (double)dy)) <= 0.0001)
+        return;
+
+    mx = (a.x + b.x) / 2;
+    my = (a.y + b.y) / 2;
+
+    nx = (fixed_t)llround((double)(-dy) * (double)SIDETICKLENGTH / len);
+    ny = (fixed_t)llround((double)(dx) * (double)SIDETICKLENGTH / len);
+
+    p0.x = mx;
+    p0.y = my;
+    p1.x = mx - nx;
+    p1.y = my - ny;
+
+    if (am_rotatemode)
+    {
+        AM_RotatePoint(&p0);
+        AM_RotatePoint(&p1);
+    }
+
+    if (am_correctaspectratio)
+    {
+        AM_CorrectAspectRatio(&p0);
+        AM_CorrectAspectRatio(&p1);
+    }
+
+    AM_DrawFline(p0.x, p0.y, p1.x, p1.y, color, putbigdot2);
+
+    if (line->backsector)
+    {
+        p0.x = mx;
+        p0.y = my;
+        p1.x = mx + nx;
+        p1.y = my + ny;
+
+        if (am_rotatemode)
+        {
+            AM_RotatePoint(&p0);
+            AM_RotatePoint(&p1);
+        }
+
+        if (am_correctaspectratio)
+        {
+            AM_CorrectAspectRatio(&p0);
+            AM_CorrectAspectRatio(&p1);
+        }
+
+        AM_DrawFline(p0.x, p0.y, p1.x, p1.y, color, putbigdot2);
+    }
+}
+
 static void AM_DrawWalls(void)
 {
     for (int i = 0; i < numlines; i++)
@@ -2177,24 +2253,39 @@ static void AM_DrawWalls(void)
                 }
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
+                {
                     AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
+                    AM_DrawSides(line, doorcolor);
+                }
                 else
                 {
                     const sector_t  *back = line->backsector;
 
                     if (!back || (flags & ML_SECRET))
+                    {
                         AM_DrawFline(a.x, a.y, b.x, b.y, wallcolor, putbigwalldot);
+                        AM_DrawSides(line, wallcolor);
+                    }
                     else if (isteleportline[special] && back->ceilingheight != back->floorheight
                         && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
+                    {
                         AM_DrawFline(a.x, a.y, b.x, b.y, teleportercolor, putbigdot);
+                        AM_DrawSides(line, teleportercolor);
+                    }
                     else
                     {
                         const sector_t  *front = line->frontsector;
 
                         if (back->floorheight != front->floorheight)
+                        {
                             AM_DrawFline(a.x, a.y, b.x, b.y, fdwallcolor, putbigdot);
+                            AM_DrawSides(line, fdwallcolor);
+                        }
                         else if (back->ceilingheight != front->ceilingheight)
+                        {
                             AM_DrawFline(a.x, a.y, b.x, b.y, cdwallcolor, putbigdot);
+                            AM_DrawSides(line, cdwallcolor);
+                        }
                     }
                 }
             }
@@ -2237,27 +2328,47 @@ static void AM_DrawWalls_AllMap(void)
                 }
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
+                {
                     AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
+                    AM_DrawSides(line, doorcolor);
+                }
                 else
                 {
                     const sector_t  *back = line->backsector;
 
                     if (!back || (flags & ML_SECRET))
-                        AM_DrawFline(a.x, a.y, b.x, b.y,
-                            ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor), putbigwalldot);
-                    else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]))
-                        AM_DrawFline(a.x, a.y, b.x, b.y,
-                            ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), putbigdot);
+                    {
+                        byte    *color = ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor);
+
+                        AM_DrawFline(a.x, a.y, b.x, b.y, color, putbigwalldot);
+                        AM_DrawSides(line, color);
+                    }
+                    else if (isteleportline[special]
+                        && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]))
+                    {
+                        byte    *color = ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor);
+
+                        AM_DrawFline(a.x, a.y, b.x, b.y, color, putbigdot);
+                        AM_DrawSides(line, color);
+                    }
                     else
                     {
                         const sector_t  *front = line->frontsector;
 
                         if (back->floorheight != front->floorheight)
-                            AM_DrawFline(a.x, a.y, b.x, b.y,
-                                ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor), putbigdot);
+                        {
+                            byte    *color = ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor);
+
+                            AM_DrawFline(a.x, a.y, b.x, b.y, color, putbigdot);
+                            AM_DrawSides(line, color);
+                        }
                         else if (back->ceilingheight != front->ceilingheight)
-                            AM_DrawFline(a.x, a.y, b.x, b.y,
-                                ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), putbigdot);
+                        {
+                            byte    *color = ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor);
+
+                            AM_DrawFline(a.x, a.y, b.x, b.y, color, putbigdot);
+                            AM_DrawSides(line, color);
+                        }
                     }
                 }
             }
@@ -2286,6 +2397,7 @@ static void AM_DrawWalls_Cheating(void)
             byte                    *doorcolor;
             const sector_t          *front = line->frontsector;
             const sector_t          *back = line->backsector;
+            const unsigned short    flags = line->flags;
 
             if (am_rotatemode)
             {
@@ -2300,25 +2412,51 @@ static void AM_DrawWalls_Cheating(void)
             }
 
             if ((front->special == Secret || (front->special & SECRET_MASK)) && secretcolor2)
-                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
-                    (!back || (line->flags & ML_SECRET) || front->floorheight == front->ceilingheight ?
-                    putbigwalldot : putbigdot));
+            {
+                void (*pd)(int, int, const byte *) =
+                    (!back || (flags & ML_SECRET) || front->floorheight == front->ceilingheight ? putbigwalldot : putbigdot);
+
+                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2, pd);
+                AM_DrawSides(line, secretcolor2);
+            }
             else if (back && (back->special == Secret || (back->special & SECRET_MASK)) && secretcolor2)
-                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
-                    ((line->flags & ML_SECRET) || back->floorheight == back->ceilingheight ?
-                    putbigwalldot : putbigdot));
+            {
+                void (*pd)(int, int, const byte *) =
+                    ((flags & ML_SECRET) || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot);
+
+                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2, pd);
+                AM_DrawSides(line, secretcolor2);
+            }
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
-            else if (!back || (line->flags & ML_SECRET))
+                AM_DrawSides(line, doorcolor);
+            }
+            else if (!back || (flags & ML_SECRET))
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, wallcolor, putbigwalldot);
+                AM_DrawSides(line, wallcolor);
+            }
             else if (isteleportline[special] || isteleport[back->floorpic])
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, teleportercolor, putbigdot);
+                AM_DrawSides(line, teleportercolor);
+            }
             else if (back->floorheight != front->floorheight)
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, fdwallcolor, putbigdot);
+                AM_DrawSides(line, fdwallcolor);
+            }
             else if (back->ceilingheight != front->ceilingheight)
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, cdwallcolor, putbigdot);
+                AM_DrawSides(line, cdwallcolor);
+            }
             else
+            {
                 AM_DrawFline(a.x, a.y, b.x, b.y, tswallcolor, putbigdot);
+                AM_DrawSides(line, tswallcolor);
+            }
         }
     }
 }
