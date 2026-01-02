@@ -547,6 +547,8 @@ static void R_Subsector(int num)
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
+    sector->mapped = true;
+
     // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
     R_InterpolateSector(sector);
 

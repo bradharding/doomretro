@@ -554,16 +554,9 @@ static void AM_FillSectors(void)
     for (int i = 0; i < numsectors; i++)
     {
         const sector_t  *sector = &sectors[i];
-        const int       linecount = sector->linecount;
 
-        for (int j = 0; j < linecount; j++)
-            if ((sector->lines[j]->flags2 & ML_MAPPED2)
-                && sector->special != Secret
-                && !(sector->special & SECRET_MASK))
-            {
-                AM_FillSector(sector);
-                break;
-            }
+        if (sector->mapped && sector->special != Secret && !(sector->special & SECRET_MASK))
+            AM_FillSector(sector);
     }
 }
 

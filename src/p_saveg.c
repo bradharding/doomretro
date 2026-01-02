@@ -1191,13 +1191,13 @@ void P_ArchiveWorld(void)
         saveg_write32(sector->colormap);
         saveg_write32(sector->floorrotation);
         saveg_write32(sector->ceilingrotation);
+        saveg_write32(sector->mapped);
     }
 
     // do lines
     for (int i = 0; i < numlines; i++, line++)
     {
         saveg_write16(line->flags);
-        saveg_write16(line->flags2);
         saveg_write16(line->special);
         saveg_write16(line->tag);
         saveg_write32(line->angle);
@@ -1267,6 +1267,9 @@ void P_UnarchiveWorld(void)
             sector->floorrotation = saveg_read32();
             sector->ceilingrotation = saveg_read32();
         }
+
+        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_9))
+            sector->mapped = saveg_read32();
     }
 
     // do lines
@@ -1277,9 +1280,6 @@ void P_UnarchiveWorld(void)
         // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
         if (E2M7)
             line->flags = ((unsigned int)line->flags & 0x03FF);
-
-        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_9))
-            line->flags2 = saveg_read16();
 
         line->special = saveg_read16();
         line->tag = saveg_read16();
