@@ -48,8 +48,6 @@ sector_t            *backsector;
 drawseg_t           *drawsegs;
 drawseg_t           *ds_p;
 
-static subsector_t  *currentsubsector;
-
 //
 // R_ClearDrawSegs
 //
@@ -85,8 +83,7 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
             const void  *p = memchr(solidcol + first, 1, (size_t)(last - first));
             const int   to = (p ? (int)((const byte *)p - solidcol) : last);
 
-            if (currentsubsector)
-                currentsubsector->sector->mapped = true;
+            frontsector->mapped = true;
 
             R_StoreWallRange(first, to - 1);
 
@@ -552,8 +549,6 @@ static void R_Subsector(int num)
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
 
-    currentsubsector = sub;
-
     // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
     R_InterpolateSector(sector);
 
@@ -609,8 +604,6 @@ static void R_Subsector(int num)
 
     while (count--)
         R_AddLine(line++);
-
-    currentsubsector = NULL;
 }
 
 //
