@@ -159,6 +159,8 @@ bool                    scrollbardrawn;
 int                     scrollbarfacestart;
 int                     scrollbarfaceend;
 
+static byte             tempscreen2[MAXSCREENAREA];
+
 static void C_CreateTimeStamp(const int index)
 {
     const time_t    now = time(NULL);
@@ -1543,13 +1545,13 @@ void C_UpdateFPSOverlay(void)
 
     for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
         for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
-            tempscreen[yy * SCREENWIDTH + xx] = PINK;
+            tempscreen2[yy * SCREENWIDTH + xx] = PINK;
 
     for (int i = 0; i < OVERLAYFPSGRAPHWIDTH; i++)
     {
         const int   px = graphx + i;
         const int   py = pyvals[i];
-        byte        *dest = &tempscreen[py * SCREENWIDTH + px];
+        byte        *dest = &tempscreen2[py * SCREENWIDTH + px];
 
         *dest = color;
         dest += SCREENWIDTH;
@@ -1586,7 +1588,7 @@ void C_UpdateFPSOverlay(void)
             {
                 int e2 = err;
 
-                dest = &tempscreen[y0 * SCREENWIDTH + x0];
+                dest = &tempscreen2[y0 * SCREENWIDTH + x0];
                 *dest = color;
                 dest += SCREENWIDTH;
 
@@ -1617,7 +1619,7 @@ void C_UpdateFPSOverlay(void)
             for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
             {
                 const int   i = yy * SCREENWIDTH + xx;
-                const byte  dot = tempscreen[i];
+                const byte  dot = tempscreen2[i];
 
                 if (dot == BLUE1)
                 {
@@ -1639,7 +1641,7 @@ void C_UpdateFPSOverlay(void)
             for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
             {
                 const int   i = yy * SCREENWIDTH + xx;
-                const byte  dot = tempscreen[i];
+                const byte  dot = tempscreen2[i];
 
                 if (dot == BLUE1)
                 {
