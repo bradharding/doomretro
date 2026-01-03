@@ -2494,7 +2494,7 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_GetNumLumps("PLAYPAL"));
+    PLAYPALs = W_GetNumLumps2("PLAYPAL");
     STBARs = W_GetNumLumps("STBAR");
 
     DBIGFONT = (W_CheckNumForName("DBIGFONT") >= 0);
