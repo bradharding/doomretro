@@ -1957,29 +1957,12 @@ static void P_LoadThings(int map, int lump)
     {
         mapthing_t  mt = data[thingid];
         bool        spawn = true;
-        const short type = SHORT(mt.type);
-
-        if (gamemode != commercial && type >= ArchVile && type <= MonsterSpawner && W_GetNumLumps("DEHACKED") == 1)
-        {
-            const int   doomednum = P_FindDoomedNum(type);
-            static char buffer[128];
-
-            M_StringCopy(buffer, mobjinfo[doomednum].plural1, sizeof(buffer));
-
-            if (!*buffer)
-                M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
-
-            buffer[0] = toupper(buffer[0]);
-            C_Warning(2, "%s can't be spawned in " ITALICS("%s") ".", buffer, gamedescription);
-
-            continue;
-        }
 
         // Do spawn all other stuff.
         mt.x = SHORT(mt.x);
         mt.y = SHORT(mt.y);
         mt.angle = SHORT(mt.angle);
-        mt.type = type;
+        mt.type = SHORT(mt.type);
         mt.options = SHORT(mt.options);
 
         // [BH] Apply any level-specific fixes.
