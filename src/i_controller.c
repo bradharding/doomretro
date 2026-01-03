@@ -306,7 +306,10 @@ void I_ReadController(void)
             || controllerthumbLY
             || controllerthumbRX
             || controllerthumbRY
-            || controllerbuttons != prevcontrollerbuttons)
+            || controllerbuttons != prevcontrollerbuttons
+            || (automapactive
+                && ((controllerzoomin && (controllerbuttons & controllerzoomin))
+                    || (controllerzoomout && (controllerbuttons & controllerzoomout)))))
         {
             event_t ev = { ev_controller, 0, 0, 0 };
 
