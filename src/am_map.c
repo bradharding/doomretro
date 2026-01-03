@@ -180,6 +180,8 @@ static fixed_t      panvel_y;
 static int          pansign_x;
 static int          pansign_y;
 
+static bool         mousedragging;
+
 static float        controllerpan_x;
 static float        controllerpan_y;
 
@@ -789,6 +791,8 @@ static void AM_InitVariables(const bool mainwindow)
     controllerpan_x = 0.0f;
     controllerpan_y = 0.0f;
 
+    mousedragging = false;
+
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
 }
@@ -1110,10 +1114,15 @@ static void AM_UpdatePanFromKeys(void)
         pansign_y = 0;
 }
 
+static inline fixed_t AM_PixelsToMap(const int pixels)
+{
+    return FixedMul((fixed_t)(pixels << FRACBITS), scale_ftom);
+}
+
 static void AM_ApplyKeyboardPan(void)
 {
-    const fixed_t   accel = FTOM(MAX(1, F_PANINC / 2));
-    const fixed_t   maxvel = FTOM(F_PANINC * 3);
+    const fixed_t   accel = AM_PixelsToMap(MAX(1, F_PANINC / 2));
+    const fixed_t   maxvel = AM_PixelsToMap(F_PANINC * 3);
 
     if (pansign_x > 0)
         panvel_x = MIN(panvel_x + accel, maxvel);
@@ -1129,10 +1138,10 @@ static void AM_ApplyKeyboardPan(void)
     else
         panvel_y = FixedMul(panvel_y, (fixed_t)(FRACUNIT * 0.75f));
 
-    if (ABS(panvel_x) < FTOM(1))
+    if (ABS(panvel_x) < AM_PixelsToMap(1))
         panvel_x = 0;
 
-    if (ABS(panvel_y) < FTOM(1))
+    if (ABS(panvel_y) < AM_PixelsToMap(1))
         panvel_y = 0;
 
     m_paninc.x = panvel_x;
@@ -1141,7 +1150,7 @@ static void AM_ApplyKeyboardPan(void)
 
 static void AM_ApplyControllerPan(void)
 {
-    const fixed_t   maxvel = FTOM(F_PANINC * 3);
+    const fixed_t   maxvel = AM_PixelsToMap(F_PANINC * 3);
     const float     smooth = 0.35f;
     const fixed_t   target_x = (fixed_t)llround((double)maxvel * controllerpan_x);
     const fixed_t   target_y = (fixed_t)llround((double)maxvel * controllerpan_y);
@@ -1149,10 +1158,10 @@ static void AM_ApplyControllerPan(void)
     panvel_x += (fixed_t)llround((double)(target_x - panvel_x) * smooth);
     panvel_y += (fixed_t)llround((double)(target_y - panvel_y) * smooth);
 
-    if (ABS(panvel_x) < FTOM(1))
+    if (ABS(panvel_x) < AM_PixelsToMap(1))
         panvel_x = 0;
 
-    if (ABS(panvel_y) < FTOM(1))
+    if (ABS(panvel_y) < AM_PixelsToMap(1))
         panvel_y = 0;
 
     m_paninc.x = panvel_x;
@@ -1494,26 +1503,41 @@ bool AM_Responder(const event_t *ev)
             else if (ev->type == ev_mouse && mousewait < I_GetTime())
             {
                 if (am_mousepanning && m_pointer && !am_followmode
-                    && (ev->data1 & MOUSE_LEFTBUTTON) && (ev->data2 || ev->data3)
                     && !mapwindow && !consoleactive)
                 {
-                    fixed_t         dx = ev->data2;
-                    fixed_t         dy = ev->data3;
-                    const fixed_t   maxvel = FTOM(F_PANINC * 3);
-                    const double    impulse = 0.35;
+                    const bool  lmb = !!(ev->data1 & MOUSE_LEFTBUTTON);
 
-                    if (ev->data5 >= MAPHEIGHT / 2)
-                        return false;
+                    if (lmb && (ev->data2 || ev->data3))
+                    {
+                        int dx = ev->data2;
+                        int dy = ev->data3;
 
-                    if (am_correctaspectratio)
-                        dy = dy * 6 / 5;
+                        if (ev->data5 >= MAPHEIGHT / 2)
+                            return false;
 
-                    panvel_x -= (fixed_t)llround((double)dx * m_sensitivity * impulse * FRACUNIT / 32.0);
-                    panvel_y += (fixed_t)llround((double)dy * m_sensitivity * impulse * FRACUNIT / 32.0);
-                    panvel_x = BETWEEN(-maxvel, panvel_x, maxvel);
-                    panvel_y = BETWEEN(-maxvel, panvel_y, maxvel);
-                    m_paninc.x = panvel_x;
-                    m_paninc.y = panvel_y;
+                        if (am_correctaspectratio)
+                            dy = dy * 6 / 5;
+
+                        m_paninc.x = -AM_PixelsToMap(dx);
+                        m_paninc.y = AM_PixelsToMap(dy);
+
+                        panvel_x = 0;
+                        panvel_y = 0;
+                        pansign_x = 0;
+                        pansign_y = 0;
+
+                        movement = false;
+                        mousedragging = true;
+                    }
+                    else if (!lmb && mousedragging)
+                    {
+                        m_paninc.x = 0;
+                        m_paninc.y = 0;
+                        panvel_x = 0;
+                        panvel_y = 0;
+
+                        mousedragging = false;
+                    }
                 }
 
                 if (mouseclearmark >= 0 && (ev->data1 & mouseclearmark))
@@ -1772,13 +1796,24 @@ void AM_Ticker(void)
     // Change x,y location
     if (!consoleactive && !paused)
     {
-        if (movement)
-            AM_ApplyControllerPan();
-        else
-            AM_ApplyKeyboardPan();
+        if (!mousedragging)
+        {
+            if (movement)
+                AM_ApplyControllerPan();
+            else
+                AM_ApplyKeyboardPan();
+        }
 
         if (m_paninc.x || m_paninc.y)
+        {
             AM_ChangeWindowLoc();
+
+            if (mousedragging)
+            {
+                m_paninc.x = 0;
+                m_paninc.y = 0;
+            }
+        }
     }
 
     movement = false;
