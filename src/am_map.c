@@ -175,9 +175,6 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
-static fixed_t      mouse_pan_x = 0;
-static fixed_t      mouse_pan_y = 0;
-
 static fixed_t      panvel_x;
 static fixed_t      panvel_y;
 static int          pansign_x;
@@ -770,46 +767,6 @@ void AM_SetAutomapSize(const int screensize)
 
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
-}
-
-static void AM_MousePanning(void)
-{
-    fixed_t step_x = mouse_pan_x & ~(FRACUNIT - 1);
-    fixed_t step_y = mouse_pan_y & ~(FRACUNIT - 1);
-    fixed_t original_x = step_x;
-    fixed_t original_y = step_y;
-    fixed_t step_x_pixels;
-    fixed_t step_y_pixels;
-    int     center_x;
-    int     center_y;
-
-    if (!step_x && !step_y)
-        return;
-
-    if (am_correctaspectratio)
-        step_y = step_y * 6 / 5;
-
-    step_x_pixels = step_x >> FRACBITS;
-    step_y_pixels = step_y >> FRACBITS;
-
-    center_x = am_frame.center.x + FTOM(step_x_pixels);
-    center_y = am_frame.center.y + FTOM(step_y_pixels);
-
-    if (center_x > max_x)
-        step_x_pixels -= MTOF(center_x - max_x);
-    else if (center_x < min_x)
-        step_x_pixels += MTOF(min_x - center_x);
-
-    if (center_y > max_y)
-        step_y_pixels -= MTOF(center_y - max_y);
-    else if (center_y < min_y)
-        step_y_pixels += MTOF(min_y - center_y);
-
-    m_x += FTOM(step_x_pixels);
-    m_y += FTOM(step_y_pixels);
-
-    mouse_pan_x -= original_x;
-    mouse_pan_y -= original_y;
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -1540,8 +1497,9 @@ bool AM_Responder(const event_t *ev)
                     && (ev->data1 & MOUSE_LEFTBUTTON) && (ev->data2 || ev->data3)
                     && !mapwindow && !consoleactive)
                 {
-                    fixed_t dx = ev->data2;
-                    fixed_t dy = ev->data3;
+                    fixed_t         dx = ev->data2;
+                    fixed_t         dy = ev->data3;
+                    const fixed_t   maxvel = FTOM(F_PANINC * 3);
 
                     if (ev->data5 >= MAPHEIGHT / 2)
                         return false;
@@ -1549,8 +1507,15 @@ bool AM_Responder(const event_t *ev)
                     if (am_rotatemode)
                         AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
 
-                    mouse_pan_x -= (fixed_t)llround((double)dx * m_sensitivity * FRACUNIT / 32.0);
-                    mouse_pan_y += (fixed_t)llround((double)dy * m_sensitivity * FRACUNIT / 32.0);
+                    if (am_correctaspectratio)
+                        dy = dy * 6 / 5;
+
+                    panvel_x -= (fixed_t)llround((double)FTOM(dx) * (double)m_sensitivity * 12.8);
+                    panvel_y += (fixed_t)llround((double)FTOM(dy) * (double)m_sensitivity * 12.8);
+                    panvel_x = BETWEEN(-maxvel, panvel_x, maxvel);
+                    panvel_y = BETWEEN(-maxvel, panvel_y, maxvel);
+                    m_paninc.x = panvel_x;
+                    m_paninc.y = panvel_y;
                 }
 
                 if (mouseclearmark >= 0 && (ev->data1 & mouseclearmark))
@@ -1816,9 +1781,6 @@ void AM_Ticker(void)
 
         if (m_paninc.x || m_paninc.y)
             AM_ChangeWindowLoc();
-
-        if (mouse_pan_x || mouse_pan_y)
-            AM_MousePanning();
     }
 
     movement = false;
