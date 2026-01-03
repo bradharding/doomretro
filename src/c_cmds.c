@@ -8032,6 +8032,46 @@ static void resetfunc2(char *cmd, char *parms)
 
                 free(temp1);
             }
+            else if (flags & CF_COLOR)
+            {
+                char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+
+                if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
+                {
+                    char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
+
+                    C_ValidateInput(temp2);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default of {%i}.",
+                        consolecmds[i].name, *(int *)consolecmds[i].variable);
+                    free(temp2);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of {%i}.",
+                        consolecmds[i].name, *(int *)consolecmds[i].variable);
+
+                free(temp1);
+            }
+            else if (flags & CF_PERCENT)
+            {
+                char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+
+                if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
+                {
+                    char    *temp2 = uncommify(temp1);
+                    char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+
+                    C_ValidateInput(temp3);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default of " BOLD("%s%%") ".",
+                        consolecmds[i].name, temp1);
+                    free(temp2);
+                    free(temp3);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("%s%%") ".",
+                        consolecmds[i].name, temp1);
+
+                free(temp1);
+            }
             else if (flags & CF_INTEGER)
             {
                 char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
