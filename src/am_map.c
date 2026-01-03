@@ -1500,18 +1500,16 @@ bool AM_Responder(const event_t *ev)
                     fixed_t         dx = ev->data2;
                     fixed_t         dy = ev->data3;
                     const fixed_t   maxvel = FTOM(F_PANINC * 3);
+                    const double    impulse = 0.35;
 
                     if (ev->data5 >= MAPHEIGHT / 2)
                         return false;
 
-                    if (am_rotatemode)
-                        AM_Rotate(&dx, &dy, (ANG90 - viewangle) >> ANGLETOFINESHIFT);
-
                     if (am_correctaspectratio)
                         dy = dy * 6 / 5;
 
-                    panvel_x -= (fixed_t)llround((double)FTOM(dx) * (double)m_sensitivity * 12.8);
-                    panvel_y += (fixed_t)llround((double)FTOM(dy) * (double)m_sensitivity * 12.8);
+                    panvel_x -= (fixed_t)llround((double)dx * m_sensitivity * impulse * FRACUNIT / 32.0);
+                    panvel_y += (fixed_t)llround((double)dy * m_sensitivity * impulse * FRACUNIT / 32.0);
                     panvel_x = BETWEEN(-maxvel, panvel_x, maxvel);
                     panvel_y = BETWEEN(-maxvel, panvel_y, maxvel);
                     m_paninc.x = panvel_x;
