@@ -1810,28 +1810,36 @@ static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
     int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += pixelheight)
+    {
+        const int   maxy = MIN(pixelheight, height - y);
+
         for (int x = left; x < width; x += pixelwidth)
         {
-            byte        *dot = *screens + y + x;
-            const byte  color = *dot;
+            const int       blockw = MIN(pixelwidth, width - x);
+            byte *restrict  dot = screen + y + x;
+            const byte      color = *dot;
 
-            for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
-                *(dot + xx) = color;
+            if (blockw > 1)
+                memset(dot + 1, color, (size_t)(blockw - 1));
 
-            for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                    *(dot + yy + xx) = color;
+            for (int yy = screenwidth; yy < maxy; yy += screenwidth)
+                memset(dot + yy, color, (size_t)blockw);
         }
+    }
 }
 
 static void V_LowGraphicDetail_Antialiased(byte *screen, int screenwidth,
     int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
     for (int y = top; y < height; y += pixelheight)
+    {
+        const int   maxy = MIN(pixelheight, height - y);
+
         for (int x = left; x < width; x += pixelwidth)
         {
-            byte    *dot1 = *screens + y + x;
-            byte    color;
+            const int       blockw = MIN(pixelwidth, width - x);
+            byte *restrict  dot1 = screen + y + x;
+            byte            color;
 
             if (y + pixelheight < height)
             {
@@ -1841,69 +1849,83 @@ static void V_LowGraphicDetail_Antialiased(byte *screen, int screenwidth,
                     const byte  *dot3 = dot2 + pixelheight;
                     const byte  *dot4 = dot3 - pixelwidth;
 
-                    color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+                    color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8)
+                        + tinttab50[(*dot3 << 8) + *dot4]];
                 }
                 else
                     color = tinttab50[(*dot1 << 8) + *(dot1 + pixelheight)];
 
-                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                        *(dot1 + yy + xx) = color;
+                for (int yy = 0; yy < maxy; yy += screenwidth)
+                    memset(dot1 + yy, color, (size_t)blockw);
             }
             else if (x + pixelwidth < width)
             {
                 color = tinttab50[(*dot1 << 8) + *(dot1 + pixelwidth)];
 
-                for (int yy = 0; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                        *(dot1 + yy + xx) = color;
+                for (int yy = 0; yy < maxy; yy += screenwidth)
+                    memset(dot1 + yy, color, (size_t)blockw);
             }
             else
             {
                 color = *dot1;
 
-                for (int xx = 1; xx < pixelwidth && x + xx < width; xx++)
-                    *(dot1 + xx) = color;
+                if (blockw > 1)
+                    memset(dot1 + 1, color, (size_t)(blockw - 1));
 
-                for (int yy = SCREENWIDTH; yy < pixelheight && y + yy < height; yy += SCREENWIDTH)
-                    for (int xx = 0; xx < pixelwidth && x + xx < width; xx++)
-                        *(dot1 + yy + xx) = color;
+                for (int yy = screenwidth; yy < maxy; yy += screenwidth)
+                    memset(dot1 + yy, color, (size_t)blockw);
             }
         }
+    }
 }
 
 void V_LowGraphicDetail_2x2(byte *screen, int screenwidth, int left,
     int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    for (int y = top; y < height; y += 2 * screenwidth)
-        for (int x = left; x < width; x += 2)
-        {
-            byte        *dot = screen + y + x;
-            const byte  color = *dot;
+    const int   xend = width - 1;
 
-            *(++dot) = color;
-            *(dot += screenwidth) = color;
-            *(--dot) = color;
+    for (int y = top; y < height; y += 2 * screenwidth)
+    {
+        byte    *row0 = screen + y;
+        byte    *row1 = row0 + screenwidth;
+
+        for (int x = left; x < xend; x += 2)
+        {
+            byte        *dot0 = row0 + x;
+            const byte  color = *dot0;
+
+            dot0[1] = color;
+            row1[x] = color;
+            row1[x + 1] = color;
         }
+    }
 }
 
 static void V_LowGraphicDetail_2x2_Antialiased(byte *screen, int screenwidth,
     int left, int top, int width, int height, int pixelwidth, int pixelheight)
 {
-    for (int y = top; y < height; y += 2 * screenwidth)
-        for (int x = left; x < width; x += 2)
-        {
-            byte        *dot1 = screen + y + x;
-            byte        *dot2 = dot1 + 1;
-            byte        *dot3 = dot2 + screenwidth;
-            byte        *dot4 = dot3 - 1;
-            const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
+    const int   xend = width - 1;
 
-            *dot1 = color;
-            *dot2 = color;
-            *dot3 = color;
-            *dot4 = color;
+    for (int y = top; y < height; y += 2 * screenwidth)
+    {
+        byte   *row0 = screen + y;
+        byte   *row1 = row0 + screenwidth;
+
+        for (int x = left; x < xend; x += 2)
+        {
+            byte        *dot1 = row0 + x;
+            const byte  *dot2 = dot1 + 1;
+            const byte  *dot3 = dot2 + screenwidth;
+            const byte  *dot4 = dot3 - 1;
+            const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8)
+                            + tinttab50[(*dot3 << 8) + *dot4]];
+
+            dot1[0] = color;
+            dot1[1] = color;
+            row1[x] = color;
+            row1[x + 1] = color;
         }
+    }
 }
 
 void GetPixelSize(void)
