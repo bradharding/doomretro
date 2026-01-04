@@ -4088,6 +4088,8 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural1              */ "tall techno floor lamps",
         /* name2                */ "techlamp",
         /* plural2              */ "",
+        /* name3                */ "",
+        /* plural3              */ ""
     },
 
     // Short techno floor lamp (MT_MISC30)
