@@ -424,6 +424,7 @@ action_t actions[] =
 static bool alivefunc1(char *cmd, char *parms);
 static bool cheatfunc1(char *cmd, char *parms);
 static bool ingameccmdfunc1(char *cmd, char *parms);
+static bool inaftergameccmdfunc1(char *cmd, char *parms);
 static bool ingamecvarfunc1(char *cmd, char *parms);
 static bool nightmarefunc1(char *cmd, char *parms);
 static bool nullfunc1(char *cmd, char *parms);
@@ -1063,7 +1064,7 @@ consolecmd_t consolecmds[] =
         "Toggles respawning items."),
     CCMD(respawnmonsters, "", "", nightmarefunc1, respawnmonstersfunc2, true, RESPAWNMONSTERSFORMAT,
         "Toggles respawning monsters."),
-    CCMD(restartmap, "", "", ingameccmdfunc1, restartmapfunc2, false, "",
+    CCMD(restartmap, "", "", inaftergameccmdfunc1, restartmapfunc2, false, "",
         "Restarts the current map."),
     CCMD(resurrect, "", "", resurrectfunc1, resurrectfunc2, true, RESURRECTFORMAT,
         "Resurrects the " BOLD("player") ", " BOLD("all") " monsters, or a type of " BOLDITALICS("monster") "."),
@@ -1721,28 +1722,6 @@ static bool cheatfunc1(char *cmd, char *parms)
     return false;
 }
 
-static bool ingamecvarfunc1(char *cmd, char *parms)
-{
-    if (gamestate == GS_LEVEL)
-        return true;
-
-    if (!togglingvanilla)
-    {
-        C_Input(consoleinput);
-        C_ShowDescription(C_GetIndex(cmd));
-
-        if (M_StringCompare(playername, playername_default))
-            C_Warning(0, NOGAMECVARWARNING1);
-        else
-            C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
-                (playergender == playergender_other ? "aren't" : "isn't"));
-
-        consoleinput[0] = '\0';
-    }
-
-    return false;
-}
-
 static bool ingameccmdfunc1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
@@ -1757,6 +1736,50 @@ static bool ingameccmdfunc1(char *cmd, char *parms)
             C_Warning(0, NOGAMECCMDWARNING1);
         else
             C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "aren't" : "isn't"));
+
+        consoleinput[0] = '\0';
+    }
+
+    return false;
+}
+
+static bool inaftergameccmdfunc1(char *cmd, char *parms)
+{
+    if (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION)
+        return true;
+
+    if (!togglingvanilla)
+    {
+        C_Input(consoleinput);
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMECCMDWARNING1);
+        else
+            C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
+                (playergender == playergender_other ? "aren't" : "isn't"));
+
+        consoleinput[0] = '\0';
+    }
+
+    return false;
+}
+
+static bool ingamecvarfunc1(char *cmd, char *parms)
+{
+    if (gamestate == GS_LEVEL)
+        return true;
+
+    if (!togglingvanilla)
+    {
+        C_Input(consoleinput);
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMECVARWARNING1);
+        else
+            C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
                 (playergender == playergender_other ? "aren't" : "isn't"));
 
         consoleinput[0] = '\0';
