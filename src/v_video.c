@@ -703,7 +703,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, const int color1, 
                 if (*source == WHITE)
                     *dest = (color3 == nearestblack ? tinttab20[color1 + nearestblack] : color3);
                 else if (*source == LIGHTGRAY2)
-                    *dest = nearestcolors[(color3 == nearestblack ? tinttab25[color1 + nearestblack] : LIGHTGRAY2)];
+                    *dest = (color3 == nearestblack ? tinttab33[color1 + nearestblack] : nearestcolors[LIGHTGRAY2]);
                 else if (*source == CONSOLEEDGECOLOR2)
                     *dest = tinttab60[color2 + *dest];
                 else
