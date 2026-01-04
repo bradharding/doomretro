@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v18.1.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to *DOOM Retro’s* splash screen.
+* Minor changes have been made to text that is output to the console.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * These changes have been made to the automap:
@@ -20,6 +21,10 @@
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
 * Texture offsets are now corrected in certain maps built using [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
+* The `restartmap` CCMD can now be used during intermission.
+* Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Phase 2*](https://freedoom.github.io/).
+* The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.
+* Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
