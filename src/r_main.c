@@ -1135,7 +1135,7 @@ static void R_SetupFrame(void)
     psprscalelight = c_psprscalelight[colormap];
     drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max);
 
-    if (viewplayer->fixedcolormap && r_textures)
+    if (viewplayer->fixedcolormap)
     {
         // killough 03/20/98: localize scalelightfixed (readability/optimization)
         static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
@@ -1143,13 +1143,16 @@ static void R_SetupFrame(void)
         // killough 03/20/98: use fullcolormap
         fixedcolormap = fullcolormap;
 
-        if (viewplayer->fixedcolormap == INVERSECOLORMAP)
-            fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
-
         usebrightmaps = false;
 
-        for (int i = 0; i < MAXLIGHTSCALE; i++)
-            scalelightfixed[i] = fixedcolormap;
+        if (r_textures)
+        {
+            if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+                fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
+
+            for (int i = 0; i < MAXLIGHTSCALE; i++)
+                scalelightfixed[i] = fixedcolormap;
+        }
     }
     else
     {

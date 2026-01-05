@@ -711,7 +711,9 @@ bool P_GivePower(const int power, const bool stat)
     switch (power)
     {
         case pw_invulnerability:
-            viewplayer->fixedcolormap = INVERSECOLORMAP;
+            if (r_textures)
+                viewplayer->fixedcolormap = INVERSECOLORMAP;
+
             break;
 
         case pw_strength:
