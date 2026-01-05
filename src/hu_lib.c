@@ -375,7 +375,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     for (int i = 0; i < screenarea; i++)
         tempscreen[i] = PINK;
 
-    if (len > 40)
+    if (len > 46)
     {
         int         width = l->width;
         const int   maxwidth1 = screenwidth / 2 - (vanilla && !vid_widescreen ? 0 : 20);
@@ -469,7 +469,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                             for (int x2 = 0; x2 < 2; x2++)
                             {
                                 byte    *dest = &tempscreen[((l->y + y1 + 6) * 2 + y2) * screenwidth
-                                            + (l->x + x1 - (r_screensize == r_screensize_max ? 3 : 1)) * 2 + x2];
+                                            + (l->x + x1 - 3) * 2 + x2];
 
                                 *dest = (src == PINK ? 0 : src);
                             }
