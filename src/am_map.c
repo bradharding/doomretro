@@ -362,7 +362,8 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges)
 
 static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
 {
-    if (r_textures && fixedcolormap)
+    if (r_textures && viewplayer->powers[pw_invulnerability] > STARTFLASHING
+        || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
         return fixedcolormap[color];
     else
     {
