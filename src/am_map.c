@@ -434,7 +434,8 @@ static void AM_FillSector(const sector_t *sector)
     xstep = (fixed_t)((int64_t)m_w / MAPWIDTH);
 
     floorpic = sector->floorpic;
-    validfloorpic = (floorpic >= 0 && floorpic < numflats && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT));
+    validfloorpic = (floorpic >= 0 && floorpic < numflats
+        && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT) && r_textures);
 
     if (am_fillsectors == am_fillsectors_textures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
@@ -454,8 +455,8 @@ static void AM_FillSector(const sector_t *sector)
         floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
     }
     else
-        fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] : backcolor),
-            lightlevel);
+        fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
+            (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
 
     for (int y = minyscreen; y < maxyscreen; y++)
     {
