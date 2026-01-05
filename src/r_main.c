@@ -1101,9 +1101,6 @@ static void R_SetupFrame(void)
         }
     }
 
-    if (automapactive)
-        return;
-
     centery = viewheight / 2;
 
     if (pitch)

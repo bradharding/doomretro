@@ -362,10 +362,15 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges)
 
 static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
 {
-    const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
-                    (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
+    if (r_textures && fixedcolormap)
+        return fixedcolormap[color];
+    else
+    {
+        const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
+                        (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
 
-    return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
+        return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
+    }
 }
 
 static void AM_FillSector(const sector_t *sector)
