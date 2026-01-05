@@ -1119,17 +1119,26 @@ bool ST_Responder(const event_t *ev)
 static void ST_UpdateFaceWidget(void)
 {
     static int  priority;
-    int         painoffset;
     static int  faceindex;
+    int         painoffset;
+    int         powerup;
 
     if (paused || menuactive)
         return;
 
     // invulnerability
-    if (((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]))
+    if (viewplayer->cheats & CF_GODMODE)
     {
         priority = 5;
         st_faceindex = ST_GODFACE;
+        st_facecount = 0;
+        return;
+    }
+
+    if ((powerup = viewplayer->powers[pw_invulnerability]))
+    {
+        priority = 5;
+        st_faceindex = (powerup > STARTFLASHING || (powerup & FLASHONTIC) ? ST_GODFACE : ST_STRAIGHTFACE);
         st_facecount = 0;
         return;
     }
