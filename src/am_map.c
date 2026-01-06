@@ -443,7 +443,7 @@ static void AM_FillSector(const sector_t *sector)
     validfloorpic = (floorpic >= 0 && floorpic < numflats
         && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT) && r_textures);
 
-    if (am_fillsectors == am_fillsectors_textures && validfloorpic)
+    if (am_sectors == am_sectors_textures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
             R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
@@ -3048,7 +3048,7 @@ void AM_Drawer(void)
 
     skippsprinterp = true;
 
-    if (am_fillsectors != am_fillsectors_off)
+    if (am_sectors != am_sectors_off)
         AM_FillSectors();
 
     if (am_grid)
@@ -3092,7 +3092,7 @@ void AM_Drawer(void)
             AM_DrawMarks(bigmarknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_fillsectors == am_fillsectors_off)
+            && am_sectors == am_sectors_off)
             AM_BigStatusBarShadow();
     }
     else
@@ -3101,7 +3101,7 @@ void AM_Drawer(void)
             AM_DrawMarks(marknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_fillsectors == am_fillsectors_off)
+            && am_sectors == am_sectors_off)
             AM_StatusBarShadow();
     }
 

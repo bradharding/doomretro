@@ -66,7 +66,6 @@ int         am_display = am_display_default;
 bool        am_dynamic = am_dynamic_default;
 bool        am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
-int         am_fillsectors = am_fillsectors_default;
 bool        am_followmode = am_followmode_default;
 bool        am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
@@ -83,6 +82,7 @@ int         am_reddoorcolor = am_reddoorcolor_default;
 int         am_redkeycolor = am_redkeycolor_default;
 bool        am_rotatemode = am_rotatemode_default;
 int         am_secretcolor = am_secretcolor_default;
+int         am_sectors = am_sectors_default;
 bool        am_sides = am_sides_default;
 int         am_teleportercolor = am_teleportercolor_default;
 int         am_thingcolor = am_thingcolor_default;
@@ -320,7 +320,6 @@ static default_t cvars[] =
     CVAR_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                      0                    ),
     CVAR_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                       0                    ),
     CVAR_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        0                    ),
-    CVAR_BOOL         (am_fillsectors,                   am_fillsectors,                        am_fillsectors,                        FILLSECTORSVALUEALIAS),
     CVAR_INT          (am_corpsecolor,                   am_corpsecolour,                       am_corpsecolor,                        0                    ),
     CVAR_BOOL         (am_correctaspectratio,            am_correctaspectratio,                 am_correctaspectratio,                 BOOLVALUEALIAS       ),
     CVAR_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     0                    ),
@@ -343,6 +342,7 @@ static default_t cvars[] =
     CVAR_INT          (am_redkeycolor,                   am_redkeycolour,                       am_redkeycolor,                        0                    ),
     CVAR_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS       ),
     CVAR_INT          (am_secretcolor,                   am_secretcolour,                       am_secretcolor,                        SECRETCOLORVALUEALIAS),
+    CVAR_INT          (am_sectors,                       am_sectors,                            am_sectors,                            SECTORSVALUEALIAS    ),
     CVAR_BOOL         (am_sides,                         am_sides,                              am_sides,                              BOOLVALUEALIAS       ),
     CVAR_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    0                    ),
     CVAR_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         0                    ),
@@ -630,10 +630,10 @@ valuealias_t valuealiases[] =
     { "auto",           con_edgecolor_auto,           EDGECOLORVALUEALIAS   },
     { "american",       english_american,             ENGLISHVALUEALIAS     },
     { "british",        english_british,              ENGLISHVALUEALIAS     },
-    { "off",            am_fillsectors_off,           FILLSECTORSVALUEALIAS },
-    { "textures",       am_fillsectors_textures,      FILLSECTORSVALUEALIAS },
-    { "colors",         am_fillsectors_colors,        FILLSECTORSVALUEALIAS },
-    { "colours",        am_fillsectors_colors,        FILLSECTORSVALUEALIAS },
+    { "off",            am_sectors_off,               SECTORSVALUEALIAS     },
+    { "textures",       am_sectors_textures,          SECTORSVALUEALIAS     },
+    { "colors",         am_sectors_colors,            SECTORSVALUEALIAS     },
+    { "colours",        am_sectors_colors,            SECTORSVALUEALIAS     },
     { "off",            1,                            GAMMAVALUEALIAS       },
     { "other",          playergender_other,           GENDERVALUEALIAS      },
     { "male",           playergender_male,            GENDERVALUEALIAS      },

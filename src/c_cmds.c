@@ -668,9 +668,6 @@ consolecmd_t consolecmds[] =
     COLORCVAR(am_fdwallcolor, am_fdwallcolour,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0")
         " to " BOLD("255") ")."),
-    INTCVAR(am_fillsectors, "", "", intfunc1, intfunc2, 0, FILLSECTORSVALUEALIAS,
-        "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
-        BOLD("colors") " or " BOLD("off") ")."),
     BOOLCVAR(am_followmode, "", "", ingamecvarfunc1, am_followmodefunc2, CF_MAPRESET,
         "Toggles following you in the automap."),
     BOOLCVAR(am_grid, "", "", boolfunc1, boolfunc2, 0,
@@ -707,6 +704,9 @@ consolecmd_t consolecmds[] =
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
         "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
         BOLD("0") " to " BOLD("255") ")."),
+    INTCVAR(am_sectors, "", "", intfunc1, intfunc2, 0, SECTORSVALUEALIAS,
+        "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
+        BOLD("colors") " or " BOLD("off") ")."),
     BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
         "Toggles indicating whether every line in the automap is one or two-sided."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,

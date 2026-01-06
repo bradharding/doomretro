@@ -15,7 +15,6 @@ am_crosshaircolor 96
 am_dynamic off
 am_external off
 am_fdwallcolor 64
-am_fillsectors off
 am_gridcolor 104
 am_gridsize 128x128
 am_markcolor 103
@@ -27,6 +26,7 @@ am_reddoorcolor 231
 am_redkeycolor 112
 am_rotatemode off
 am_secretcolor none
+am_sectors off
 am_sides off
 am_teleportercolor 184
 am_thingcolor 112

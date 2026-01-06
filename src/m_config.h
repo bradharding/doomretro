@@ -57,7 +57,6 @@ extern int      am_display;
 extern bool     am_dynamic;
 extern bool     am_external;
 extern int      am_fdwallcolor;
-extern int      am_fillsectors;
 extern bool     am_followmode;
 extern bool     am_grid;
 extern int      am_gridcolor;
@@ -74,6 +73,7 @@ extern int      am_reddoorcolor;
 extern int      am_redkeycolor;
 extern bool     am_rotatemode;
 extern int      am_secretcolor;
+extern int      am_sectors;
 extern bool     am_sides;
 extern int      am_teleportercolor;
 extern int      am_thingcolor;
@@ -285,9 +285,9 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
-    am_fillsectors_off,
-    am_fillsectors_textures,
-    am_fillsectors_colors
+    am_sectors_off,
+    am_sectors_textures,
+    am_sectors_colors
 };
 
 enum
@@ -430,10 +430,6 @@ enum
 #define am_fdwallcolor_default              64
 #define am_fdwallcolor_max                  255
 
-#define am_fillsectors_min                  am_fillsectors_off
-#define am_fillsectors_default              am_fillsectors_off
-#define am_fillsectors_max                  am_fillsectors_colors
-
 #define am_followmode_default               true
 
 #define am_grid_default                     false
@@ -491,6 +487,10 @@ enum
 #define am_secretcolor_min                  am_secretcolor_none
 #define am_secretcolor_default              am_secretcolor_none
 #define am_secretcolor_max                  255
+
+#define am_sectors_min                      am_sectors_off
+#define am_sectors_default                  am_sectors_off
+#define am_sectors_max                      am_sectors_colors
 
 #define am_sides_default                    false
 
@@ -1186,7 +1186,7 @@ typedef enum
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,
     ENGLISHVALUEALIAS,
-    FILLSECTORSVALUEALIAS,
+    SECTORSVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
     PATHLENGTHVALUEALIAS,
