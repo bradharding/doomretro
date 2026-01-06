@@ -356,6 +356,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     int         screenwidth;
     int         screenarea;
     int         wrap = -1;
+    bool        showunderscores = (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla);
 
     if (external)
     {
@@ -375,7 +376,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     for (int i = 0; i < screenarea; i++)
         tempscreen[i] = PINK;
 
-    if (len > 46)
+    if (len > 40 && !showunderscores)
     {
         int         width = l->width;
         const int   maxwidth1 = screenwidth / 2 - (vanilla && !vid_widescreen ? 0 : 20);
@@ -458,7 +459,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
 
         // [BH] draw underscores for IDBEHOLD cheat message
-        if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)
+        if (showunderscores)
             for (int y1 = 0; y1 < 4; y1++)
                 for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
                 {
