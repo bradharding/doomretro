@@ -503,7 +503,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     {
         colfunc = vis->colfunc;
 
-        if (colfunc == bloodcolfunc || colfunc == translatedcolfunc)
+        if ((colfunc == bloodcolfunc || colfunc == translatedcolfunc) && mobj->bloodcolor > NOBLOOD)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
@@ -614,7 +614,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     {
         colfunc = vis->colfunc;
 
-        if (colfunc == translatedcolfunc)
+        if (colfunc == translatedcolfunc && mobj->bloodcolor > NOBLOOD)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
