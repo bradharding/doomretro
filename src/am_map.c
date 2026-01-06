@@ -2190,7 +2190,7 @@ static void AM_DrawSides(const line_t *line, const byte *color)
 
     AM_DrawFline(p0.x, p0.y, p1.x, p1.y, color, putbigdot2);
 
-    if (line->backsector)
+    if (line->flags & ML_TWOSIDED)
     {
         p0.x = mx;
         p0.y = my;
