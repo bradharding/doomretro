@@ -22,9 +22,12 @@
 * Texture offsets are now corrected in certain maps built using [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
 * The `restartmap` CCMD can now be used during intermission.
-* Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Phase 2*](https://freedoom.github.io/).
+* Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.
 * Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
+* The player’s face now flashes in the status bar when they have the invulnerability power-up and it starts to wear out.
+* A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
+* The underscores under the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
