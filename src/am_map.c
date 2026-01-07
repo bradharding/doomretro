@@ -1854,6 +1854,17 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 
     *x0 = CXMTOF(*x0);
     *x1 = CXMTOF(*x1);
+    *y0 = CYMTOF(*y0);
+    *y1 = CYMTOF(*y1);
+
+    if (!((*x0 - *x1) | (*y0 - *y1)))
+        return false;
+
+    if ((unsigned int)(*x0) < (unsigned int)MAPWIDTH
+        && (unsigned int)(*x1) < (unsigned int)MAPWIDTH
+        && (unsigned int)(*y0) < (unsigned int)MAPHEIGHT
+        && (unsigned int)(*y1) < (unsigned int)MAPHEIGHT)
+        return true;
 
     if (*x0 < -1)
         outcode1 = LEFT;
@@ -1866,12 +1877,6 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
         outcode2 = RIGHT;
 
     if (outcode1 & outcode2)
-        return false;
-
-    *y0 = CYMTOF(*y0);
-    *y1 = CYMTOF(*y1);
-
-    if (!((*x0 - *x1) | (*y0 - *y1)))
         return false;
 
     if (*y0 < -1)
