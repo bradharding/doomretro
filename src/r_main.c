@@ -1134,9 +1134,6 @@ static void R_SetupFrame(void)
 
     if (viewplayer->fixedcolormap)
     {
-        // killough 03/20/98: localize scalelightfixed (readability/optimization)
-        static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
-
         // killough 03/20/98: use fullcolormap
         fixedcolormap = fullcolormap;
 
@@ -1144,6 +1141,9 @@ static void R_SetupFrame(void)
 
         if (r_textures)
         {
+            // killough 03/20/98: localize scalelightfixed (readability/optimization)
+            static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
+
             if (viewplayer->fixedcolormap == INVERSECOLORMAP)
                 fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
 

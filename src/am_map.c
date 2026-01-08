@@ -2474,8 +2474,8 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
 
         if (am_correctaspectratio)
         {
-            y1 = 5 * y1 / 6;
-            y2 = 5 * y2 / 6;
+            y1 = y1 * 5 / 6;
+            y2 = y2 * 5 / 6;
         }
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &playercolor, putdot);
@@ -2498,8 +2498,8 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
 
         if (am_correctaspectratio)
         {
-            y1 = 5 * y1 / 6;
-            y2 = 5 * y2 / 6;
+            y1 = y1 * 5 / 6;
+            y2 = y2 * 5 / 6;
         }
 
         AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, putdot);
