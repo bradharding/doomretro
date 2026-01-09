@@ -83,7 +83,8 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
             const void  *p = memchr(solidcol + first, 1, (size_t)(last - first));
             const int   to = (p ? (int)((const byte *)p - solidcol) : last);
 
-            frontsector->mapped = true;
+            if (am_dynamic || !automapactive)
+                frontsector->mapped = true;
 
             R_StoreWallRange(first, to - 1);
 
