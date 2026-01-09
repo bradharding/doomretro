@@ -71,7 +71,8 @@ linefix_t linefix[] =
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                             tag
 
     { doom,             1,   1,     159,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 DEFAULT,                                         DEFAULT },
-    { doom,             1,   1,     471,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   W1_Floor_LowerToLowestFloor_ChangesTexture,      DEFAULT },
+    { doom,             1,   1,     471,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 W1_Floor_LowerToLowestFloor_ChangesTexture,      DEFAULT },
+    { doom,             1,   1,     476,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 DEFAULT,                                         DEFAULT },
     { doom,             1,   1,     477,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 DEFAULT,                                         DEFAULT },
     { doom,             1,   1,     479,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 DEFAULT,                                         DEFAULT },
     { doom,             1,   1,     480,    1, "",         "",            "",            DEFAULT,   DEFAULT, ML_SECRET,                 DEFAULT,                                         DEFAULT },
