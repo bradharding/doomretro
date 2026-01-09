@@ -212,6 +212,9 @@ am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
 
+static edge_t       *edges;
+static int          edgescapacity;
+
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
@@ -376,26 +379,24 @@ static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color
 
 static void AM_FillSector(const sector_t *sector)
 {
-    int             intersections[MAXINTERSECTIONS] = { 0 };
-    fixed_t         minx = FIXED_MAX;
-    fixed_t         miny = FIXED_MAX;
-    fixed_t         maxx2 = FIXED_MIN;
-    fixed_t         maxy2 = FIXED_MIN;
-    int             maxyscreen = 0;
-    int             minyscreen = MAPHEIGHT - 1;
-    fixed_t         xstep;
-    byte            fillcolor;
-    int             edgecount;
-    int             linecount = sector->linecount;
-    short           floorpic;
-    bool            validfloorpic;
-    const byte      *flat = NULL;
-    const int       lightlevel = sector->lightlevel;
-    static edge_t   *edges;
-    static int      edgescapacity;
-    fixed_t         floorxoffset = 0;
-    fixed_t         flooryoffset = 0;
-    int             floorrotation = 0;
+    int         intersections[MAXINTERSECTIONS] = { 0 };
+    fixed_t     minx = FIXED_MAX;
+    fixed_t     miny = FIXED_MAX;
+    fixed_t     maxx2 = FIXED_MIN;
+    fixed_t     maxy2 = FIXED_MIN;
+    int         maxyscreen = 0;
+    int         minyscreen = MAPHEIGHT - 1;
+    fixed_t     xstep;
+    byte        fillcolor;
+    int         edgecount;
+    int         linecount = sector->linecount;
+    short       floorpic;
+    bool        validfloorpic;
+    const byte  *flat = NULL;
+    const int   lightlevel = sector->lightlevel;
+    fixed_t     floorxoffset = 0;
+    fixed_t     flooryoffset = 0;
+    int         floorrotation = 0;
 
     if (linecount <= 2)
         return;
@@ -818,7 +819,19 @@ static void AM_LevelInit(void)
     putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
-    floorpiccolor = NULL;
+    if (floorpiccolor)
+    {
+        free(floorpiccolor);
+        floorpiccolor = NULL;
+    }
+
+    if (edges)
+    {
+        free(edges);
+        edges = NULL;
+        edgescapacity = 0;
+    }
+
     AM_BuildFloorPicColors();
 
     // for saving and restoring
