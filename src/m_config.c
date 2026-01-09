@@ -134,6 +134,7 @@ bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
 bool        m_pointer = m_pointer_default;
 float       m_sensitivity = m_sensitivity_default;
+bool        m_smoothing = m_smoothing_default;
 bool        melt = melt_default;
 bool        menuhighlight = menuhighlight_default;
 bool        menushadow = menushadow_default;
@@ -393,6 +394,7 @@ static default_t cvars[] =
     CVAR_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS       ),
     CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                             BOOLVALUEALIAS       ),
     CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                         0                    ),
+    CVAR_BOOL         (m_smoothing,                      m_smoothing,                           m_smoothing,                           BOOLVALUEALIAS       ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS       ),
     CVAR_BOOL         (menuhighlight,                    menuhighlight,                         menuhighlight,                         BOOLVALUEALIAS       ),
     CVAR_BOOL         (menushadow,                       menushadow,                            menushadow,                            BOOLVALUEALIAS       ),

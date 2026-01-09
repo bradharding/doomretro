@@ -880,6 +880,8 @@ consolecmd_t consolecmds[] =
         "Toggles the mouse pointer in the menu."),
     FLOATCVAR(m_sensitivity, "", "", floatfunc1, floatfunc2, 0,
         "The mouse's sensitivity (" BOLD("0") " to " BOLD("128") ")."),
+    BOOLCVAR(m_smoothing, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the smoothing of mouse movement."),
     CCMD(map, "", warp, mapfunc1, mapfunc2, true, MAPFORMAT1,
         "Warps you to another map."),
     CCMD(maplist, "", "", nullfunc1, maplistfunc2, false, "",

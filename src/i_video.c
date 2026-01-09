@@ -674,7 +674,8 @@ static void I_ReadMouse(void)
             }
             else
             {
-                SmoothMouse(&x, &y);
+                if (m_smoothing)
+                    SmoothMouse(&x, &y);
 
                 if (m_acceleration)
                 {
@@ -2059,6 +2060,8 @@ void I_InitGraphics(void)
 #endif
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_BATCHING, "0", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
 
     if (vid_fullscreen)
         SDL_ShowCursor(false);

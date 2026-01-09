@@ -124,6 +124,7 @@ extern bool     m_invertyaxis;
 extern bool     m_novertical;
 extern bool     m_pointer;
 extern float    m_sensitivity;
+extern bool     m_smoothing;
 extern bool     melt;
 extern bool     menuhighlight;
 extern bool     menushadow;
@@ -656,6 +657,8 @@ enum
 #define m_sensitivity_min                   0.0f
 #define m_sensitivity_default               16.0f
 #define m_sensitivity_max                   128.0f
+
+#define m_smoothing_default                 true
 
 #define melt_default                        true
 
