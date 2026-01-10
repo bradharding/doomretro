@@ -3069,9 +3069,6 @@ void AM_Drawer(void)
     if (am_sectors != am_sectors_off)
         AM_FillSectors();
 
-    if (am_grid)
-        AM_DrawGrid();
-
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
         if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
@@ -3122,6 +3119,9 @@ void AM_Drawer(void)
             && am_sectors == am_sectors_off)
             AM_StatusBarShadow();
     }
+
+    if (am_grid)
+        AM_DrawGrid();
 
     if (!am_followmode)
         AM_DrawCrosshair();
