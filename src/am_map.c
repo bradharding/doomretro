@@ -121,6 +121,7 @@ static byte *floorpiccolor;
 #define M_ZOOMOUT               (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
 
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
+#define ARROWPATHANCHOR         -57275
 
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 
@@ -2484,6 +2485,12 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         int             y1 = line.a.y;
         int             x2 = line.b.x;
         int             y2 = line.b.y;
+
+        if (am_path)
+        {
+            x1 -= ARROWPATHANCHOR;
+            x2 -= ARROWPATHANCHOR;
+        }
 
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
