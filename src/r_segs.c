@@ -610,8 +610,6 @@ void R_StoreWallRange(const int start, const int stop)
 
         if (!(flags & ML_DONTDRAW))
             linedef->flags |= ML_MAPPED;
-
-        linedef->seen = true;
     }
 
     // [BH] if in automap, we're done now that line is mapped
