@@ -2505,7 +2505,8 @@ bool C_ValidateInput(char *input)
             {
                 char    *temp = M_StringDuplicate(parms);
 
-                M_StripQuotes(temp);
+                if (!(strlen(temp) == 2 && temp[0] == '"' && temp[1] == '"'))
+                    M_StripQuotes(temp);
 
                 if ((M_StringCompare(cmd, consolecmds[i].name)
                     || M_StringCompare(cmd, consolecmds[i].altspelling)
