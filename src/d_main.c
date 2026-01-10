@@ -396,6 +396,8 @@ void D_Display(void)
 
             if (gamestate == GS_LEVEL)
             {
+                gotoverlaytextcolors = false;
+
                 if (timer)
                     C_UpdateTimerOverlay();
 

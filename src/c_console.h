@@ -239,6 +239,8 @@ extern char             consolecmdparm[255];
 extern int              consoleedgecolor1;
 extern int              consoleedgecolor2;
 
+extern bool             gotoverlaytextcolors;
+
 extern bool             scrollbardrawn;
 
 extern const kern_t     kern[];
