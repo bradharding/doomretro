@@ -45,6 +45,8 @@ line_t              *linedef;
 sector_t            *frontsector;
 sector_t            *backsector;
 
+static sector_t     *visiblesector;
+
 drawseg_t           *drawsegs;
 drawseg_t           *ds_p;
 
@@ -84,7 +86,12 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
             const int   to = (p ? (int)((const byte *)p - solidcol) : last);
 
             if (am_dynamic || !automapactive)
+            {
                 frontsector->mapped = true;
+
+                if (visiblesector && visiblesector != frontsector)
+                    visiblesector->mapped = true;
+            }
 
             R_StoreWallRange(first, to - 1);
 
@@ -549,6 +556,8 @@ static void R_Subsector(int num)
     int         ceilinglightlevel;                          // killough 04/11/98
     int         count = sub->numlines;
     seg_t       *line = segs + sub->firstline;
+
+    visiblesector = sector;
 
     // [AM] Interpolate sector movement. Usually only needed when player is standing inside the sector.
     R_InterpolateSector(sector);
