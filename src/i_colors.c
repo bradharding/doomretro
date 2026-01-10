@@ -310,8 +310,8 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
         if ((filter[foreground] & colors) || colors == ALL)
             for (int background = 0; background < 256; background++)
             {
-                byte        *color1 = &palette[background * 3];
-                byte        *color2 = &palette[foreground * 3];
+                const byte  *color1 = &palette[background * 3];
+                const byte  *color2 = &palette[foreground * 3];
                 const byte  r = ((byte)color1[0] * percent + (byte)color2[0] * (100 - percent)) / 100;
                 const byte  g = ((byte)color1[1] * percent + (byte)color2[1] * (100 - percent)) / 100;
                 const byte  b = ((byte)color1[2] * percent + (byte)color2[2] * (100 - percent)) / 100;

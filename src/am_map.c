@@ -215,6 +215,8 @@ static bool         isteleportline[NUMLINESPECIALS];
 static edge_t       *edges;
 static int          edgescapacity;
 
+static bool         usefixedcolormap;
+
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
@@ -365,8 +367,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
 
 static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
 {
-    if (r_textures && viewplayer->powers[pw_invulnerability] > STARTFLASHING
-        || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
+    if (usefixedcolormap)
         return fixedcolormap[color];
     else
     {
@@ -550,6 +551,8 @@ static void AM_FillSector(const sector_t *sector)
 
 static void AM_FillSectors(void)
 {
+    usefixedcolormap = (r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP);
+
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         for (int i = 0; i < numsectors; i++)

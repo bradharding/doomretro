@@ -1527,7 +1527,7 @@ static void ST_DiffDraw(void)
     ST_DrawWidgets(false);
 }
 
-void ST_Drawer(bool fullscreen, bool refresh)
+void ST_Drawer(const bool fullscreen, const bool refresh)
 {
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();

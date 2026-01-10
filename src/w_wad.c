@@ -92,7 +92,7 @@ static bool IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
-    int         result = false;
+    bool        result = false;
 
     if (!fp)
         return false;
@@ -160,7 +160,7 @@ bool IsUltimateDOOM(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
-    int         result = false;
+    bool        result = false;
 
     if (!fp)
         return false;
@@ -705,7 +705,7 @@ bool HasDehackedLump(const char *pwadname)
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump = { 0 };
     wadinfo_t   header;
-    int         result = false;
+    bool        result = false;
 
     if (!fp)
         return false;
