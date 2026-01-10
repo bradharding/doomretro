@@ -1134,22 +1134,19 @@ static void R_SetupFrame(void)
 
     if (viewplayer->fixedcolormap)
     {
+        // killough 03/20/98: localize scalelightfixed (readability/optimization)
+        static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
+
         // killough 03/20/98: use fullcolormap
         fixedcolormap = fullcolormap;
 
         usebrightmaps = false;
 
-        if (r_textures)
-        {
-            // killough 03/20/98: localize scalelightfixed (readability/optimization)
-            static lighttable_t *scalelightfixed[MAXLIGHTSCALE];
+        if (r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
+            fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
 
-            if (viewplayer->fixedcolormap == INVERSECOLORMAP)
-                fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
-
-            for (int i = 0; i < MAXLIGHTSCALE; i++)
-                scalelightfixed[i] = fixedcolormap;
-        }
+        for (int i = 0; i < MAXLIGHTSCALE; i++)
+            scalelightfixed[i] = fixedcolormap;
     }
     else
     {
