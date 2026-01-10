@@ -31,6 +31,7 @@
 * A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
 * The underscores under the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The `r_textures` CVAR no longer affects the menu’s background.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
