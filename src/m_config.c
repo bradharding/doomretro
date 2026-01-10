@@ -1080,6 +1080,9 @@ static void M_CheckCVARs(void)
 
     I_SetGamma(r_gamma);
 
+    if (M_StringCompare(playername, "you"))
+        playername = playername_default;
+
     if (r_screensize < r_screensize_max)
     {
         r_hud = false;
