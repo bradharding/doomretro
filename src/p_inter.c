@@ -928,7 +928,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 {
                     static char buffer[1024];
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
                     else
                         M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
@@ -1581,7 +1581,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (*source->info->name1 && !M_StringStartsWith(source->info->name1, "Deh_Actor_") ? source->info->name1 : "monster"));
             }
 
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_PlayerObituary("You were telefragged by %s!", sourcename);
             else
                 C_PlayerObituary("%s was telefragged by %s!", playername, sourcename);
@@ -1649,7 +1649,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             {
                 if (inflicter->inflicter == MT_PLAYER)
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         C_PlayerObituary("You were %s by %s %s that you exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1664,7 +1664,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 }
                 else
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         C_PlayerObituary("You were %s by %s %s that %s %s exploded!",
                             (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
@@ -1710,7 +1710,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
                 if (inflicter->inflicter == MT_PLAYER)
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         C_PlayerMessage("%s was %s by %s %s that you exploded.",
                             temp,
                             (gibbed ? s_GIBBED : s_KILLED),
@@ -1752,7 +1752,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             if (source->player && source->player->mo != source)
                 return;
 
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
             {
                 if (target->player)
                 {
@@ -1867,7 +1867,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
             if (target->player)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerObituary("You were %s by %s!",
                         (gibbed ? s_GIBBED : s_KILLED), sourcename);
                 else
@@ -1909,7 +1909,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_PlayerObituary("You were crushed to death!");
             else
                 C_PlayerObituary("%s was crushed to death!", playername);

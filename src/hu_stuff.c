@@ -1669,7 +1669,7 @@ void HU_PlayerMessage(char *message, bool group, bool external)
 
     if (len >= 2 && message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message,
-            M_StringCompare(playername, playername_default) ? "you" : playername);
+            isdefaultplayername() ? "you" : playername);
     else
         for (int i = 0, j = 0; i < len; i++)
         {

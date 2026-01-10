@@ -975,7 +975,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), s_PD_ANY, "You", "", s_PD_KEYCARDORSKULLKEY);
                 else
                     M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername, "s", s_PD_KEYCARDORSKULLKEY);
@@ -1002,7 +1002,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC), "You", "",
                         (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
                 else
@@ -1031,7 +1031,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC), "You", "",
                         (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
                 else
@@ -1060,7 +1060,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), "You", "",
                         (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_KEYCARD));
                 else
@@ -1089,7 +1089,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS), "You", "",
                         (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
                 else
@@ -1118,7 +1118,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES), "You", "",
                         (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
                 else
@@ -1147,7 +1147,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), "You", "",
                         (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET && skulliscard ? s_PD_KEYCARDORSKULLKEY : s_PD_SKULLKEY));
                 else
@@ -1179,7 +1179,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 }
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6,
-                    C_GetPlayerName(), (M_StringCompare(playername, playername_default) ? "" : "s"));
+                    C_GetPlayerName(), (isdefaultplayername() ? "" : "s"));
 
                 if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;
@@ -1203,7 +1203,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 }
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3,
-                    C_GetPlayerName(), (M_StringCompare(playername, playername_default) ? "" : "s"));
+                    C_GetPlayerName(), (isdefaultplayername() ? "" : "s"));
 
                 if (autousing && numconsolestrings > 0 && M_StringCompare(buffer, console[numconsolestrings - 1].string))
                     return false;

@@ -781,7 +781,7 @@ void G_DoLoadLevel(void)
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if (resetplayer && gamemap != 1)
     {
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, "You now have %i%% health, no armor, and only a pistol with %i bullets.",
                 initial_health, initial_bullets);
         else

@@ -1575,7 +1575,7 @@ static bool alivefunc1(char *cmd, char *parms)
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, DEADPLAYERWARNING1);
         else
             C_Warning(0, DEADPLAYERWARNING2, playername, pronoun(personal),
@@ -1734,7 +1734,7 @@ static bool ingameccmdfunc1(char *cmd, char *parms)
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NOGAMECCMDWARNING1);
         else
             C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -1756,7 +1756,7 @@ static bool inaftergameccmdfunc1(char *cmd, char *parms)
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NOGAMECCMDWARNING1);
         else
             C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -1778,7 +1778,7 @@ static bool ingamecvarfunc1(char *cmd, char *parms)
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NOGAMECVARWARNING1);
         else
             C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
@@ -1803,7 +1803,7 @@ static bool nightmarefunc1(char *cmd, char *parms)
     C_Input(consoleinput);
     C_ShowDescription(C_GetIndex(cmd));
 
-    if (M_StringCompare(playername, playername_default))
+    if (isdefaultplayername())
         C_Warning(0, NIGHTMAREWARNING1,
             nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "."));
     else
@@ -2990,7 +2990,7 @@ static void endgamefunc2(char *cmd, char *parms)
         C_ShowFormat(i);
         C_ShowDescription(i);
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NOGAMECCMDWARNING1);
         else
             C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -3208,7 +3208,7 @@ static void givefunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -3248,7 +3248,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given everything.");
                 else
                     C_PlayerMessage("%s has been given everything.", playername);
@@ -3257,7 +3257,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have everything.");
                 else
                     C_Warning(0, "%s already has everything.", playername);
@@ -3273,7 +3273,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given full health.");
                 else
                     C_PlayerMessage("%s has been given full health.", playername);
@@ -3282,7 +3282,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have full health.");
                 else
                     C_Warning(0, "%s already has full health.", playername);
@@ -3298,7 +3298,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given all your weapons.");
                 else
                     C_PlayerMessage("%s has been given all %s weapons.",
@@ -3308,7 +3308,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have all your weapons.");
                 else
                     C_Warning(0, "%s already has all %s weapons.",
@@ -3326,7 +3326,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given full ammo for all %s weapons.",
@@ -3339,7 +3339,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given a backpack and full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
@@ -3349,7 +3349,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have full ammo for all your weapons.");
                 else
                     C_Warning(0, "%s already has full ammo for all %s weapons.",
@@ -3367,7 +3367,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given full %s.",
                         (english == english_american ? "armor" : "armour"));
                 else
@@ -3378,7 +3378,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have full %s.",
                         (english == english_american ? "armor" : "armour"));
                 else
@@ -3396,7 +3396,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given all keycards and skull keys.");
                 else
                     C_PlayerMessage("%s has been given all keycards and skull keys.", playername);
@@ -3405,7 +3405,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have all keycards and skull keys.");
                 else
                     C_Warning(0, "%s already has all keycards and skull keys.", playername);
@@ -3421,7 +3421,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given all keycards.");
                 else
                     C_PlayerMessage("%s has been given all keycards.", playername);
@@ -3430,7 +3430,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have all keycards.");
                 else
                     C_Warning(0, "%s already has all keycards.", playername);
@@ -3446,7 +3446,7 @@ static void givefunc2(char *cmd, char *parms)
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given all skull keys.");
                 else
                     C_PlayerMessage("%s has been given all skull keys.", playername);
@@ -3455,7 +3455,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have all skull keys.");
                 else
                     C_Warning(0, "%s already has all skull keys.", playername);
@@ -3468,7 +3468,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (viewplayer->weaponowned[wp_pistol])
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have a pistol.");
                 else
                     C_Warning(0, "%s already has a pistol.", playername);
@@ -3482,7 +3482,7 @@ static void givefunc2(char *cmd, char *parms)
             viewplayer->pendingweapon = wp_pistol;
             viewplayer->ammo[am_clip] = MAX(1, viewplayer->ammo[am_clip]);
 
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_PlayerMessage("You have been given a pistol.");
             else
                 C_PlayerMessage("%s has been given a pistol.", playername);
@@ -3502,7 +3502,7 @@ static void givefunc2(char *cmd, char *parms)
 
             if (result)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerMessage("You have been given all the power-ups.");
                 else
                     C_PlayerMessage("%s has been given all the power-ups.", playername);
@@ -3511,7 +3511,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You already have all the power-ups.");
                 else
                     C_Warning(0, "%s already has all the power-ups.", playername);
@@ -3542,7 +3542,7 @@ static void givefunc2(char *cmd, char *parms)
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
                     {
-                        if (M_StringCompare(playername, playername_default))
+                        if (isdefaultplayername())
                             C_Warning(0, "You can't be given %s %s in the shareware version of " ITALICS("DOOM") "! "
                                 "You can buy the full version on " ITALICS("Steam") ", etc.",
                                 (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
@@ -3561,7 +3561,7 @@ static void givefunc2(char *cmd, char *parms)
 
                         if (viewplayer->health <= 0)
                         {
-                            if (M_StringCompare(playername, playername_default))
+                            if (isdefaultplayername())
                                 C_Warning(0, "You can't be given %s %s when you are dead!",
                                     (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                             else
@@ -3573,14 +3573,14 @@ static void givefunc2(char *cmd, char *parms)
                         {
                             if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                             {
-                                if (M_StringCompare(playername, playername_default))
+                                if (isdefaultplayername())
                                     C_PlayerMessage("You have been given %s.", mobjinfo[i].name1);
                                 else
                                     C_PlayerMessage("%s has been given %s.", playername, mobjinfo[i].name1);
                             }
                             else
                             {
-                                if (M_StringCompare(playername, playername_default))
+                                if (isdefaultplayername())
                                     C_PlayerMessage("You have been given %s %s.",
                                         (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                                 else
@@ -3956,7 +3956,7 @@ static void killfunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -3972,7 +3972,7 @@ static void killfunc2(char *cmd, char *parms)
         {
             if (viewplayer->cheats & CF_GODMODE)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You can't kill yourself in god mode!");
                 else
                     C_Warning(0, "%s can't kill %s in god mode!", playername, pronoun(reflexive));
@@ -3982,7 +3982,7 @@ static void killfunc2(char *cmd, char *parms)
 
             if (viewplayer->powers[pw_invulnerability])
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You can't kill yourself when you have %s %s!",
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
@@ -4000,7 +4000,7 @@ static void killfunc2(char *cmd, char *parms)
 
             if (viewplayer->cheats & CF_BUDDHA)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You can't kill yourself in buddha mode!");
                 else
                     C_Warning(0, "%s can't kill %s in buddha mode!", playername, pronoun(reflexive));
@@ -4021,7 +4021,7 @@ static void killfunc2(char *cmd, char *parms)
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
             massacre = false;
 
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 M_snprintf(buffer, sizeof(buffer), "You killed yourself!");
             else
                 M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, pronoun(reflexive));
@@ -4091,7 +4091,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                     {
                         if (kills == 1)
                             M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster in this map!",
@@ -4139,7 +4139,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s %s missile%s.",
                             killed, temp, (kills == 1 ? "" : "s"));
                     else
@@ -4173,7 +4173,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s %s item%s.",
                             killed, temp, (kills == 1 ? "" : "s"));
                     else
@@ -4204,7 +4204,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s %s decoration%s.",
                             killed, temp, (kills == 1 ? "" : "s"));
                     else
@@ -4254,7 +4254,7 @@ static void killfunc2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s everything.", killed);
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s everything.", playername, killed);
@@ -4283,7 +4283,7 @@ static void killfunc2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s all corpses.", killed);
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s all corpses.", playername, killed);
@@ -4301,7 +4301,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     P_RemoveBloodSplats();
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s all blood splats.", killed);
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s all blood splats.", playername, killed);
@@ -4331,7 +4331,7 @@ static void killfunc2(char *cmd, char *parms)
 
                         stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
 
-                        if (M_StringCompare(playername, playername_default))
+                        if (isdefaultplayername())
                             M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
                         else
                             M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
@@ -4352,7 +4352,7 @@ static void killfunc2(char *cmd, char *parms)
                     P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
                     massacre = false;
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
                     else
                         M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
@@ -4425,7 +4425,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                     {
                         if (kills == 1)
                             M_snprintf(buffer, sizeof(buffer), "You %s the only %s in this map.",
@@ -5549,7 +5549,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
         C_ShowFormat(i);
         C_ShowDescription(i);
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NOGAMECCMDWARNING1);
         else
             C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -6143,7 +6143,7 @@ static void namefunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -6151,10 +6151,10 @@ static void namefunc2(char *cmd, char *parms)
         }
     }
     else if (M_StringCompare(namecmdold, "player")
-        || M_StringCompare(namecmdold, playername)
-        || M_StringCompare(namecmdold, playername_default))
+        || (*playername && M_StringCompare(namecmdold, playername))
+        || M_StringCompare(namecmdold, "me"))
     {
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_PlayerMessage("You have been named " BOLD("%s") ".", namecmdnew);
         else if (*namecmdnew)
             C_PlayerMessage("%s has been renamed " BOLD("%s") ".", playername, namecmdnew);
@@ -6308,7 +6308,7 @@ static void nomonstersfunc2(char *cmd, char *parms)
 
         if (gamestate == GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NEXTMAPWARNING1);
             else
                 C_Warning(0, NEXTMAPWARNING2, playername);
@@ -6399,7 +6399,7 @@ static void pistolstartfunc2(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
     {
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NEXTMAPWARNING1);
         else
             C_Warning(0, NEXTMAPWARNING2, playername);
@@ -8667,7 +8667,7 @@ static void resurrectfunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -8683,7 +8683,7 @@ static void resurrectfunc2(char *cmd, char *parms)
         {
             P_ResurrectPlayer(initial_health);
 
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
             else
                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
@@ -8924,7 +8924,7 @@ static void spawnfunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -9173,7 +9173,7 @@ static void takefunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -9240,7 +9240,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("Everything was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have anything!");
             else
                 C_Warning(0, "%s doesn't have anything!", playername);
@@ -9254,7 +9254,7 @@ static void takefunc2(char *cmd, char *parms)
                     viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false, false);
                 healthcvar = false;
 
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_PlayerWarning("You killed yourself!");
                 else
                     C_PlayerWarning("%s killed %s!", playername, pronoun(reflexive));
@@ -9263,7 +9263,7 @@ static void takefunc2(char *cmd, char *parms)
             }
             else
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You are already dead!");
                 else
                     C_Warning(0, "%s is already dead!", playername);
@@ -9286,7 +9286,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All weapons have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any weapons!");
             else
                 C_Warning(0, "%s doesn't have any weapons!", playername);
@@ -9308,7 +9308,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All ammo was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any ammo!");
             else
                 C_Warning(0, "%s doesn't have any ammo!", playername);
@@ -9325,7 +9325,7 @@ static void takefunc2(char *cmd, char *parms)
                     (english == english_american ? "armor" : "armour"), C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any %s!",
                     (english == english_american ? "armor" : "armour"));
             else
@@ -9347,7 +9347,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All keycards and skull keys have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any keycards or skull keys!");
             else
                 C_Warning(0, "%s doesn't have any keycards or skull keys!", playername);
@@ -9363,7 +9363,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All keycards have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any keycards!");
             else
                 C_Warning(0, "%s doesn't have any keycards!", playername);
@@ -9379,7 +9379,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All skull keys have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any skull keys!");
             else
                 C_Warning(0, "%s doesn't have any skull keys!", playername);
@@ -9396,7 +9396,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("A pistol was taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have a pistol!");
             else
                 C_Warning(0, "%s doesn't have a pistol!", playername);
@@ -9415,7 +9415,7 @@ static void takefunc2(char *cmd, char *parms)
                 C_PlayerWarning("All power-ups have been taken from %s!", C_GetPlayerName());
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
+            else if (isdefaultplayername())
                 C_Warning(0, "You don't have any power-ups!");
             else
                 C_Warning(0, "%s doesn't have any power-ups!", playername);
@@ -9456,7 +9456,7 @@ static void takefunc2(char *cmd, char *parms)
                         C_HideConsole();
                         result = true;
                     }
-                    else if (M_StringCompare(playername, playername_default))
+                    else if (isdefaultplayername())
                         C_Warning(0, "You don't have %s %s!",
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                     else
@@ -9507,7 +9507,7 @@ static void teleportfunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECCMDWARNING1);
             else
                 C_Warning(0, NOGAMECCMDWARNING2, playername, pronoun(personal),
@@ -9534,7 +9534,7 @@ static void teleportfunc2(char *cmd, char *parms)
 
             if (x == oldx && y == oldy)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, "You are already there!");
                 else
                     C_Warning(0, "%s is already there!", playername);
@@ -9572,14 +9572,14 @@ static void teleportfunc2(char *cmd, char *parms)
 
                 if (z == ONFLOORZ)
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         C_PlayerMessage("You were teleported to (%i, %i).", x >> FRACBITS, y >> FRACBITS);
                     else
                         C_PlayerMessage("%s was teleported to (%i, %i).", playername, x >> FRACBITS, y >> FRACBITS);
                 }
                 else
                 {
-                    if (M_StringCompare(playername, playername_default))
+                    if (isdefaultplayername())
                         C_PlayerMessage("You were teleported to (%i, %i, %i).",
                             x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                     else
@@ -9679,12 +9679,12 @@ static void timerfunc2(char *cmd, char *parms)
                     C_Output("The timer has been %s to %s minute%s. "
                         "%s will automatically exit each map once the timer runs out.",
                         (value == timer ? "reset" : "changed"), temp1, (value == 1 ? "" : "s"),
-                        (M_StringCompare(playername, playername_default) ? "You" : temp2));
+                        (isdefaultplayername() ? "You" : temp2));
                 else
                     C_Output("A timer has been set for %s minute%s. "
                         "%s will automatically exit each map once the timer runs out.",
                         temp1, (value == 1 ? "" : "s"),
-                        (M_StringCompare(playername, playername_default) ? "You" : temp2));
+                        (isdefaultplayername() ? "You" : temp2));
 
                 free(temp1);
                 free(temp2);
@@ -9832,7 +9832,7 @@ static void vanillafunc2(char *cmd, char *parms)
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
 
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, "Changes to any CVARs won't be saved while you are in vanilla mode.");
         else
             C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode.",
@@ -10891,7 +10891,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
 
             if (gamestate != GS_LEVEL)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, NOGAMECVARWARNING1);
                 else
                     C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
@@ -10968,7 +10968,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
 
             if (gamestate != GS_LEVEL)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, NOGAMECVARWARNING1);
                 else
                     C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
@@ -11033,7 +11033,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             P_ResurrectPlayer(value);
                             P_AddBonus();
 
-                            if (M_StringCompare(playername, playername_default))
+                            if (isdefaultplayername())
                                 M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
                             else
                                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
@@ -11111,7 +11111,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
 
             if (gamestate != GS_LEVEL)
             {
-                if (M_StringCompare(playername, playername_default))
+                if (isdefaultplayername())
                     C_Warning(0, NOGAMECVARWARNING1);
                 else
                     C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),
@@ -11264,7 +11264,7 @@ static void r_fixmaperrorsfunc2(char *cmd, char *parms)
 
     if (r_fixmaperrors != r_fixmaperrors_old && gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
     {
-        if (M_StringCompare(playername, playername_default))
+        if (isdefaultplayername())
             C_Warning(0, NEXTMAPWARNING1);
         else
             C_Warning(0, NEXTMAPWARNING2, playername);
@@ -12605,7 +12605,7 @@ static void weaponfunc2(char *cmd, char *parms)
 
         if (gamestate != GS_LEVEL)
         {
-            if (M_StringCompare(playername, playername_default))
+            if (isdefaultplayername())
                 C_Warning(0, NOGAMECVARWARNING1);
             else
                 C_Warning(0, NOGAMECVARWARNING2, playername, pronoun(personal),

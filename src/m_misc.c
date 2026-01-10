@@ -1112,6 +1112,11 @@ const char *pronoun(const pronoun_t type)
             (playergender == playergender_female ? "herself" : "themselves"));
 }
 
+bool isdefaultplayername(void)
+{
+    return (M_StringCompare(playername, playername_default) || M_StringCompare(playername, "you"));
+}
+
 const char *words[][2] =
 {
     { "agoniz",     "agonis"     }, { "airplane",   "aeroplane"  },

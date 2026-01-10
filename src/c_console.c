@@ -430,7 +430,7 @@ void C_PlayerWarning(const char *string, ...)
 
 char *C_GetPlayerName(void)
 {
-    return (M_StringCompare(playername, playername_default) ? "you" : playername);
+    return (isdefaultplayername() ? "you" : playername);
 }
 
 void C_ResetWrappedLines(void)
