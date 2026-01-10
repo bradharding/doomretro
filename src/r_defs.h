@@ -217,8 +217,6 @@ typedef struct sector_s
 
     bool                islift;
     bool                isselfreferencing;
-
-    bool                mapped;
 } sector_t;
 
 //
@@ -285,6 +283,8 @@ typedef struct line_s
 
     // Animation related.
     unsigned short      flags;
+
+    bool                seen;
 
     unsigned short      special;
     short               tag;

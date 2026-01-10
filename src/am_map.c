@@ -215,6 +215,10 @@ static bool         isteleportline[NUMLINESPECIALS];
 static edge_t       *edges;
 static int          edgescapacity;
 
+static int          *sectorfillstamp;
+static int          sectorfillstampcapacity;
+static int          sectorfillframeid;
+
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
@@ -545,25 +549,6 @@ static void AM_FillSector(const sector_t *sector)
                 mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[((63 - v) << 6) + u], lightlevel);
             }
         }
-    }
-}
-
-static void AM_FillSectors(void)
-{
-    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-    {
-        for (int i = 0; i < numsectors; i++)
-            AM_FillSector(&sectors[i]);
-
-        return;
-    }
-
-    for (int i = 0; i < numsectors; i++)
-    {
-        const sector_t  *sector = &sectors[i];
-
-        if (sector->mapped)
-            AM_FillSector(sector);
     }
 }
 
@@ -2231,6 +2216,51 @@ static void AM_DrawSides(const line_t *line, const byte *color)
     }
 }
 
+static inline void AM_TryFillSector(const sector_t *sector)
+{
+    const int   index = (int)(sector - sectors);
+
+    if (sectorfillstamp[index] == sectorfillframeid)
+        return;
+
+    sectorfillstamp[index] = sectorfillframeid;
+    AM_FillSector(sector);
+}
+
+static void AM_FillAllSectors(void)
+{
+    for (int i = 0; i < numsectors; i++)
+        AM_FillSector(&sectors[i]);
+}
+
+static void AM_BeginSectorFills(void)
+{
+    if (numsectors > sectorfillstampcapacity)
+    {
+        sectorfillstampcapacity = numsectors;
+        sectorfillstamp = I_Realloc(sectorfillstamp, (size_t)sectorfillstampcapacity * sizeof(*sectorfillstamp));
+        memset(sectorfillstamp, 0, (size_t)sectorfillstampcapacity * sizeof(*sectorfillstamp));
+    }
+
+    sectorfillframeid++;
+
+    if (!sectorfillframeid)
+        sectorfillframeid = 1;
+}
+
+static inline void AM_MaybeFillSectorsForLine(const line_t *line)
+{
+    sector_t    *back;
+
+    if (am_sectors == am_sectors_off || !line->seen)
+        return;
+
+    AM_TryFillSector(line->frontsector);
+
+    if ((back = line->backsector) && back->ceilingheight > back->floorheight)
+        AM_TryFillSector(back);
+}
+
 static void AM_DrawWalls(void)
 {
     for (int i = 0; i < numlines; i++)
@@ -2252,6 +2282,8 @@ static void AM_DrawWalls(void)
                 mpoint_t                b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
                 const unsigned short    special = line->special;
                 byte                    *doorcolor;
+
+                AM_MaybeFillSectorsForLine(line);
 
                 if (am_rotatemode)
                 {
@@ -2327,6 +2359,8 @@ static void AM_DrawWalls_AllMap(void)
                 mpoint_t                b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
                 const unsigned short    special = line->special;
                 byte                    *doorcolor;
+
+                AM_MaybeFillSectorsForLine(line);
 
                 if (am_rotatemode)
                 {
@@ -3067,7 +3101,12 @@ void AM_Drawer(void)
     skippsprinterp = true;
 
     if (am_sectors != am_sectors_off)
-        AM_FillSectors();
+    {
+        if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+            AM_FillAllSectors();
+        else
+            AM_BeginSectorFills();
+    }
 
     if (am_grid)
         AM_DrawGrid();
