@@ -303,7 +303,7 @@ static inline void AM_SortIntersections(int *vals, const int n)
     }
 }
 
-static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges)
+static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
 {
     int edgecount = 0;
     int linecount = sector->linecount;
@@ -356,7 +356,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *edges)
             edge.dx = x2 - x1;
             edge.dy = y2 - y1;
 
-            edges[edgecount++] = edge;
+            sectoredges[edgecount++] = edge;
         }
     }
 
