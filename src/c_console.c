@@ -1477,20 +1477,19 @@ static void C_GetOverlayTextColors(void)
     {
         overlaytextcolor = nearestblack;
         overlaytextshadowcolor = (r_hud_translucency ? nearestdarkgray : -1);
-        overlaytexttinttab = tinttabinverted;
     }
     else if (automapactive)
     {
         overlaytextcolor = nearestcolors[am_playerstatscolor];
         overlaytextshadowcolor = nearestdarkgray;
-        overlaytexttinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     }
     else
     {
         overlaytextcolor = nearestwhite;
         overlaytextshadowcolor = nearestdarkgray;
-        overlaytexttinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     }
+
+    overlaytexttinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
     gotoverlaytextcolors = true;
 }

@@ -95,7 +95,6 @@ extern byte *tinttabred33;
 extern byte *tinttabredwhite50;
 extern byte *tinttabgreen33;
 extern byte *tinttabblue25;
-extern byte *tinttabinverted;
 
 extern byte nearestcolors[256];
 

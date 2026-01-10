@@ -104,7 +104,6 @@ byte    *tinttabredwhite1;
 byte    *tinttabredwhite2;
 byte    *tinttabgreen;
 byte    *tinttabblue;
-byte    *tinttabinverted;
 
 byte    *tinttabred33;
 byte    *tinttabredwhite50;
@@ -349,29 +348,6 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
     return result;
 }
 
-static byte *GenerateInvertedAdditiveTintTable(byte *palette, int colors)
-{
-    byte    *result = I_Malloc((size_t)256 * 256);
-
-    for (int foreground = 0; foreground < 256; foreground++)
-        if ((filter[foreground] & colors) || colors == ALL)
-            for (int background = 0; background < 256; background++)
-            {
-                const byte  *color1 = &palette[background * 3];
-                const byte  *color2 = &palette[foreground * 3];
-                byte        r = (byte)(255 - MIN(color1[0] + color2[0], 255));
-                byte        g = (byte)(255 - MIN(color1[1] + color2[1], 255));
-                byte        b = (byte)(255 - MIN(color1[2] + color2[2], 255));
-
-                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
-            }
-        else
-            for (int background = 0; background < 256; background++)
-                result[(background << 8) + foreground] = foreground;
-
-    return result;
-}
-
 void I_InitTintTables(byte *palette)
 {
     const int   lump = W_CheckNumForName("TRANMAP");
@@ -402,7 +378,6 @@ void I_InitTintTables(byte *palette)
     tinttabredwhite2 = GenerateAdditiveTintTable(palette, (REDS | WHITES | EXTRAS));
     tinttabgreen = GenerateAdditiveTintTable(palette, GREENS);
     tinttabblue = GenerateAdditiveTintTable(palette, BLUES);
-    tinttabinverted = GenerateInvertedAdditiveTintTable(palette, ALL);
 
     tinttabred33 = GenerateTintTable(palette, 33, REDS);
     tinttabredwhite50 = GenerateTintTable(palette, 50, (REDS | WHITES));
