@@ -315,7 +315,7 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
     {
         const line_t    *line = sector->lines[i];
 
-        if (!line->nosegs && line->frontsector != line->backsector)
+        if (line->frontsector != line->backsector)
         {
             mpoint_t    a = { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS };
             mpoint_t    b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };

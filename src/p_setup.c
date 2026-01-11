@@ -2767,7 +2767,7 @@ static void P_GroupLines(void)
     for (i = 0, li = lines; i < numlines; i++, li++)
     {
         if (linehassegs && !linehassegs[i])
-            li->nosegs = true;
+            continue;
 
         li->frontsector->linecount++;
 
@@ -2777,9 +2777,6 @@ static void P_GroupLines(void)
             total++;
         }
     }
-
-    if (linehassegs)
-        free(linehassegs);
 
     // allocate line tables for each sector
     linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, NULL);
@@ -2795,11 +2792,17 @@ static void P_GroupLines(void)
     // enter those lines
     for (i = 0, li = lines; i < numlines; i++, li++)
     {
+        if (linehassegs && !linehassegs[i])
+            continue;
+
         P_AddLineToSector(li, li->frontsector);
 
         if (li->backsector && li->backsector != li->frontsector)
             P_AddLineToSector(li, li->backsector);
     }
+
+    if (linehassegs)
+        free(linehassegs);
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
