@@ -5214,6 +5214,9 @@ static void maplistfunc2(char *cmd, char *parms)
         M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
         M_StringCopy(author, getauthor(ep, map, replaced), sizeof(author));
 
+        if (!*author)
+            M_StringCopy(author, "\x96", sizeof(author));
+
         switch (gamemission)
         {
             case doom:
