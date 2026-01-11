@@ -2729,6 +2729,7 @@ static void P_GroupLines(void)
     int         i;
     int         total = numlines;
     line_t      **linebuffer;
+    bool        *linehassegs = NULL;
 
     // figgi
     for (i = 0; i < numsubsectors; i++)
@@ -2752,9 +2753,22 @@ static void P_GroupLines(void)
             I_Error("Subsector %s is not a part of any sector.", commify(i));
     }
 
+    // track which linedefs are referenced by segs (i.e., participate in the BSP).
+    if ((linehassegs = I_Calloc((size_t)numlines, sizeof(*linehassegs))))
+        for (i = 0; i < numsegs; i++)
+        {
+            const int   line = (int)(segs[i].linedef - lines);
+
+            if (line >= 0 && line < numlines)
+                linehassegs[line] = true;
+        }
+
     // count number of lines in each sector
     for (i = 0, li = lines; i < numlines; i++, li++)
     {
+        if (linehassegs && !linehassegs[i])
+            li->nosegs = true;
+
         li->frontsector->linecount++;
 
         if (li->backsector && li->backsector != li->frontsector)
@@ -2763,6 +2777,9 @@ static void P_GroupLines(void)
             total++;
         }
     }
+
+    if (linehassegs)
+        free(linehassegs);
 
     // allocate line tables for each sector
     linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, NULL);
@@ -2775,7 +2792,7 @@ static void P_GroupLines(void)
         M_ClearBox(sector->blockbox);
     }
 
-    // Enter those lines
+    // enter those lines
     for (i = 0, li = lines; i < numlines; i++, li++)
     {
         P_AddLineToSector(li, li->frontsector);

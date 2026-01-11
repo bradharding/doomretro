@@ -331,6 +331,8 @@ typedef struct line_s
 
     // sound origin for switches/buttons
     degenmobj_t         soundorg;
+
+    bool                nosegs;
 } line_t;
 
 enum
