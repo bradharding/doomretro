@@ -1094,6 +1094,8 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
 
+    mobj->subsector->sector->mapped = true;
+
     viewplayer->mo = mobj;
     viewplayer->playerstate = PST_LIVE;
     viewplayer->refire = 0;
