@@ -2486,12 +2486,6 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
         int             x2 = line.b.x;
         int             y2 = line.b.y;
 
-        if (am_path)
-        {
-            x1 -= ARROWPATHANCHOR;
-            x2 -= ARROWPATHANCHOR;
-        }
-
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
@@ -3076,6 +3070,9 @@ void AM_Drawer(void)
 
     skippsprinterp = true;
 
+    if (am_grid)
+        AM_DrawGrid();
+
     if (am_sectors != am_sectors_off)
         AM_FillSectors();
 
@@ -3129,9 +3126,6 @@ void AM_Drawer(void)
             && am_sectors == am_sectors_off)
             AM_StatusBarShadow();
     }
-
-    if (am_grid)
-        AM_DrawGrid();
 
     if (!am_followmode)
         AM_DrawCrosshair();
