@@ -19,10 +19,10 @@
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Screenshots taken when the palette displayed by the `palette` CCMD is shown are now saved as `Palette.png`.
-* Texture offsets are now corrected in certain maps built using [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
+* Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
 * The `playername` CVAR can now be changed back to its default of `“”` in the console.
-* If the `playername` CVAR is `“you”` (its default value in earlier versions of *DOOM Retro*), it is now automatically changed to `“”` at startup so it doesn’t affect the grammar of obituaries in the console.
+* If the `playername` CVAR is `“you”` (its default value in earlier versions of *DOOM Retro*), it is now automatically changed to `“”` at startup as it was affecting the grammar of obituaries in the console.
 * The `restartmap` CCMD can now be used during intermission.
 * Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.

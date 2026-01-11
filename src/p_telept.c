@@ -119,7 +119,6 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
                     player->oldpitch = 0;
 
                     thing->subsector->sector->mapped = true;
-
                 }
 
                 thing->angle = m->angle;
