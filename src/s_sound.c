@@ -320,10 +320,7 @@ void S_StopSound(const mobj_t *origin)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
-        {
             S_StopChannel(cnum);
-            break;
-        }
 }
 
 void S_StopSounds(void)
