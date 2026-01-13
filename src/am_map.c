@@ -216,8 +216,6 @@ static bool         isteleportline[NUMLINESPECIALS];
 static edge_t       *edges;
 static int          edgescapacity;
 
-static bool         usefixedcolormap;
-
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
@@ -308,8 +306,8 @@ static inline void AM_SortIntersections(int *vals, const int n)
 
 static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
 {
-    int edgecount = 0;
-    int linecount = sector->linecount;
+    int         edgecount = 0;
+    const int   linecount = sector->linecount;
 
     for (int i = 0; i < linecount; i++)
     {
@@ -368,15 +366,10 @@ static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
 
 static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
 {
-    if (usefixedcolormap)
-        return fixedcolormap[color];
-    else
-    {
-        const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
-                        (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
+    const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
+                    (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
 
-        return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
-    }
+    return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
 }
 
 static void AM_FillSector(const sector_t *sector)
@@ -391,10 +384,10 @@ static void AM_FillSector(const sector_t *sector)
     fixed_t     xstep;
     byte        fillcolor;
     int         edgecount;
-    int         linecount = sector->linecount;
     short       floorpic;
     bool        validfloorpic;
     const byte  *flat = NULL;
+    const int   linecount = sector->linecount;
     const int   lightlevel = sector->lightlevel;
     fixed_t     floorxoffset = 0;
     fixed_t     flooryoffset = 0;
@@ -522,7 +515,6 @@ static void AM_FillSector(const sector_t *sector)
             {
                 fixed_t rrx = rx;
                 fixed_t rry = ry;
-                int     u, v;
 
                 if (am_rotatemode)
                 {
@@ -539,12 +531,10 @@ static void AM_FillSector(const sector_t *sector)
                 rry -= flooryoffset;
 
                 if (floorrotation)
-                    AM_Rotate(&rrx, &rry, floorrotation >> ANGLETOFINESHIFT);
+                    AM_Rotate(&rrx, &rry, (floorrotation >> ANGLETOFINESHIFT));
 
-                u = (int)(rrx >> MAPBITS) & 63;
-                v = (int)(rry >> MAPBITS) & 63;
-
-                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, flat[((63 - v) << 6) + u], lightlevel);
+                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector,
+                    flat[((63 - ((rry >> MAPBITS) & 63)) << 6) + ((rrx >> MAPBITS) & 63)], lightlevel);
             }
         }
     }
@@ -552,8 +542,6 @@ static void AM_FillSector(const sector_t *sector)
 
 static void AM_FillSectors(void)
 {
-    usefixedcolormap = (r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP);
-
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         for (int i = 0; i < numsectors; i++)
