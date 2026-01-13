@@ -309,7 +309,6 @@ void S_StopSoundEffect(const sfxnum_t sfxnum)
         if (channels[cnum].sfxinfo == sfx)
         {
             S_StopChannel(cnum);
-            break;
         }
 }
 
