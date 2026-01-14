@@ -52,6 +52,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+static bloodsplat_t *bloodsplats_fifo_head;
+static bloodsplat_t *bloodsplats_fifo_tail;
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -967,6 +970,9 @@ void P_RemoveBloodSplats(void)
     for (int i = 0; i < numsectors; i++)
         for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
             P_UnsetBloodSplatPosition(splat);
+
+    bloodsplats_fifo_head = NULL;
+    bloodsplats_fifo_tail = NULL;
 }
 
 //
@@ -1640,34 +1646,65 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
     const bool checklineside, const fixed_t maxheight, mobj_t *target)
 {
-    if (r_bloodsplats_total < r_bloodsplats_max && !nobloodsplats)
+    sector_t    *sec;
+
+    if (nobloodsplats || !r_bloodsplats_max)
+        return;
+
+    if (r_bloodsplats_total >= r_bloodsplats_max)
     {
-        sector_t    *sec = R_PointInSubsector(x, y)->sector;
+        bloodsplat_t    *old = bloodsplats_fifo_head;
 
-        if (sec->terraintype == SOLID
-            && (!usemaxheight || sec->interpfloorheight <= maxheight)
-            && (!checklineside || !P_CheckLineSide(target, x, y)))
+        if (!old)
+            return;
+
+        bloodsplats_fifo_head = old->fifonext;
+
+        if (bloodsplats_fifo_head)
+            bloodsplats_fifo_head->fifoprev = NULL;
+        else
+            bloodsplats_fifo_tail = NULL;
+
+        P_UnsetBloodSplatPosition(old);
+        Z_Free(old);
+    }
+
+    sec = R_PointInSubsector(x, y)->sector;
+
+    if (sec->terraintype == SOLID
+        && (!usemaxheight || sec->interpfloorheight <= maxheight)
+        && (!checklineside || !P_CheckLineSide(target, x, y)))
+    {
+        bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+
+        if (splat)
         {
-            bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+            const int   patch = firstbloodsplatlump + (M_BigRandom() & (numbloodsplatlumps - 1));
 
-            if (splat)
-            {
-                const int   patch = firstbloodsplatlump + (M_BigRandom() & (numbloodsplatlumps - 1));
+            splat->patch = firstspritelump + patch;
+            splat->color = color;
+            P_SetBloodSplatColor(splat);
+            splat->x = x;
+            splat->y = y;
+            splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
+            splat->width = spritewidth[patch];
+            splat->sector = sec;
 
-                splat->patch = firstspritelump + patch;
-                splat->color = color;
-                P_SetBloodSplatColor(splat);
-                splat->x = x;
-                splat->y = y;
-                splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
-                splat->width = spritewidth[patch];
-                splat->sector = sec;
-                P_SetBloodSplatPosition(splat);
-                r_bloodsplats_total++;
+            splat->fifoprev = bloodsplats_fifo_tail;
+            splat->fifonext = NULL;
 
-                if (target && target->bloodsplats)
-                    target->bloodsplats--;
-            }
+            if (bloodsplats_fifo_tail)
+                bloodsplats_fifo_tail->fifonext = splat;
+            else
+                bloodsplats_fifo_head = splat;
+
+            bloodsplats_fifo_tail = splat;
+
+            P_SetBloodSplatPosition(splat);
+            r_bloodsplats_total++;
+
+            if (target && target->bloodsplats)
+                target->bloodsplats--;
         }
     }
 }

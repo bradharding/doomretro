@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.9
 
-* *DOOM Retro* is now built using v18.1.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.2.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
@@ -32,6 +32,7 @@
 * The underscores under the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_textures` CVAR no longer affects the menu’s background.
+* When the number of blood splats spawned reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

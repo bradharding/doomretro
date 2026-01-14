@@ -519,6 +519,8 @@ typedef struct bloodsplat_s
     angle_t             angle;
     struct bloodsplat_s *next;
     struct bloodsplat_s **prev;
+    struct bloodsplat_s *fifoprev;
+    struct bloodsplat_s *fifonext;
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;
