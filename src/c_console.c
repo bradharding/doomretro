@@ -117,8 +117,8 @@ int                     selectstart;
 int                     selectend;
 
 bool                    gotoverlaytextcolors;
-static byte             overlaytextcolor;
-static byte             overlaytextshadowcolor;
+static int              overlaytextcolor;
+static int              overlaytextshadowcolor;
 static byte             *overlaytexttinttab;
 
 bool                    pathoverlay;
