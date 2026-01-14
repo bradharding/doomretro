@@ -1646,10 +1646,21 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const bool usemaxheight,
     const bool checklineside, const fixed_t maxheight, mobj_t *target)
 {
-    sector_t    *sec;
+    sector_t        *sec;
+    bloodsplat_t    *splat;
+    int             patch;
 
     if (nobloodsplats || !r_bloodsplats_max)
         return;
+
+    if (checklineside)
+    {
+        if (!target)
+            return;
+
+        if (P_CheckLineSide(target, x, y))
+            return;
+    }
 
     if (r_bloodsplats_total >= r_bloodsplats_max)
     {
@@ -1671,42 +1682,41 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
 
     sec = R_PointInSubsector(x, y)->sector;
 
-    if (sec->terraintype == SOLID
-        && (!usemaxheight || sec->interpfloorheight <= maxheight)
-        && (!checklineside || !P_CheckLineSide(target, x, y)))
-    {
-        bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+    if (sec->terraintype != SOLID)
+        return;
 
-        if (splat)
-        {
-            const int   patch = firstbloodsplatlump + (M_BigRandom() & (numbloodsplatlumps - 1));
+    if (usemaxheight && sec->interpfloorheight > maxheight)
+        return;
 
-            splat->patch = firstspritelump + patch;
-            splat->color = color;
-            P_SetBloodSplatColor(splat);
-            splat->x = x;
-            splat->y = y;
-            splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
-            splat->width = spritewidth[patch];
-            splat->sector = sec;
+    if (!(splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL)))
+        return;
 
-            splat->fifoprev = bloodsplats_fifo_tail;
-            splat->fifonext = NULL;
+    patch = firstbloodsplatlump + M_BigRandomInt(0, numbloodsplatlumps - 1);
 
-            if (bloodsplats_fifo_tail)
-                bloodsplats_fifo_tail->fifonext = splat;
-            else
-                bloodsplats_fifo_head = splat;
+    splat->patch = firstspritelump + patch;
+    splat->color = color;
+    P_SetBloodSplatColor(splat);
+    splat->x = x;
+    splat->y = y;
+    splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
+    splat->width = spritewidth[patch];
+    splat->sector = sec;
 
-            bloodsplats_fifo_tail = splat;
+    splat->fifoprev = bloodsplats_fifo_tail;
+    splat->fifonext = NULL;
 
-            P_SetBloodSplatPosition(splat);
-            r_bloodsplats_total++;
+    if (bloodsplats_fifo_tail)
+        bloodsplats_fifo_tail->fifonext = splat;
+    else
+        bloodsplats_fifo_head = splat;
 
-            if (target && target->bloodsplats)
-                target->bloodsplats--;
-        }
-    }
+    bloodsplats_fifo_tail = splat;
+
+    P_SetBloodSplatPosition(splat);
+    r_bloodsplats_total++;
+
+    if (target && target->bloodsplats)
+        target->bloodsplats--;
 }
 
 //
