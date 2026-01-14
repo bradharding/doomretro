@@ -87,6 +87,7 @@ static mobj_t                   **nearby_sprites;
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
 int                             viewheightarray[MAXWIDTH];
+static int                      zeroarray[MAXWIDTH];
 
 static int                      cliptop[MAXWIDTH];
 static int                      clipbot[MAXWIDTH];
@@ -376,7 +377,10 @@ static vissplat_t   vissplats[r_bloodsplats_max_max];
 void R_InitSprites(void)
 {
     for (int i = 0; i < MAXWIDTH; i++)
+    {
         negonearray[i] = -1;
+        zeroarray[i] = 0;
+    }
 
     R_InitSpriteDefs();
 
@@ -1374,29 +1378,34 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
     const fixed_t   gy = splat->gy;
 
     // initialize the clipping arrays
-    for (int i = x1; i <= x2; i++)
+    memcpy(cliptop + x1, zeroarray + x1, (x2 - x1 + 1) * sizeof(cliptop[0]));
+    memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(clipbot[0]));
+
+    // Scan drawsegs using the same xrange acceleration as sprites.
+    if (drawsegs_xrange_size)
     {
-        cliptop[i] = 0;
-        clipbot[i] = viewheight;
-    }
+        const drawseg_xrange_item_t *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
+        drawseg_xrange_item_t       *curr = &drawsegs_xrange[-1];
 
-    // Scan drawsegs from end to start for obscuring segs.
-    // The first drawseg that has a greater scale is the clip seg.
-    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
-    {
-        const int   silhouette = ds->silhouette;
-
-        // determine if the drawseg obscures the blood splat
-        if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
-            continue;
-
-        if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
-            continue;
-        else
+        while (++curr <= last)
         {
-            // clip this piece of the blood splat
-            const int   r1 = MAX(x1, ds->x1);
-            const int   r2 = MIN(ds->x2, x2);
+            drawseg_t   *ds;
+            int         silhouette;
+
+            if (curr->x1 > x2 || curr->x2 < x1)
+                continue;
+
+            ds = curr->user;
+            silhouette = ds->silhouette;
+
+            if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
+                continue;
+
+            if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
+                continue;
+
+            const int r1 = MAX(x1, ds->x1);
+            const int r2 = MIN(ds->x2, x2);
 
             if (silhouette & SIL_TOP)
                 for (int i = r1; i <= r2; i++)
@@ -1479,11 +1488,8 @@ static void R_DrawSprite(const vissprite_t *spr)
     const fixed_t   gy = spr->gy;
 
     // initialize the clipping arrays
-    for (int i = x1; i <= x2; i++)
-    {
-        cliptop[i] = -1;
-        clipbot[i] = viewheight;
-    }
+    memcpy(cliptop + x1, negonearray + x1, (x2 - x1 + 1) * sizeof(cliptop[0]));
+    memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(clipbot[0]));
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
@@ -1606,48 +1612,82 @@ void R_DrawMasked(void)
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
-    // draw all blood splats
-    for (int i = num_vissplat - 1; i >= 0; i--)
-        R_DrawBloodSplatSprite(&vissplats[i]);
+    if (!num_vissplat && !num_vissprite)
+    {
+        // render any remaining masked midtextures
+        for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
+            if (ds->maskedtexturecol)
+                R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
+
+        if (r_playersprites && !menuactive)
+            R_DrawPlayerSprites();
+
+        return;
+    }
+
+    // Prepare drawseg xranges once (used by both splats and sprites).
+    if (drawsegs_xrange_size < maxdrawsegs)
+    {
+        drawsegs_xrange_size = 2 * maxdrawsegs;
+
+        for (int i = 0; i < DS_RANGES_COUNT; i++)
+            drawsegs_xranges[i].items = I_Realloc(drawsegs_xranges[i].items,
+                drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
+    }
 
     for (int i = 0; i < DS_RANGES_COUNT; i++)
         drawsegs_xranges[i].count = 0;
 
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
+        if (ds->silhouette || ds->maskedtexturecol)
+        {
+            drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
+            drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
+            drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
+
+            // e6y: ~13% of speed improvement on sunder.wad map10
+            if (ds->x1 < centerx)
+            {
+                drawsegs_xranges[1].items[drawsegs_xranges[1].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                drawsegs_xranges[1].count++;
+            }
+
+            if (ds->x2 >= centerx)
+            {
+                drawsegs_xranges[2].items[drawsegs_xranges[2].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                drawsegs_xranges[2].count++;
+            }
+
+            drawsegs_xranges[0].count++;
+        }
+
+    // draw all blood splats
+    for (int i = num_vissplat - 1; i >= 0; i--)
+    {
+        const vissplat_t    *splat = &vissplats[i];
+
+        if (splat->x2 < centerx)
+        {
+            drawsegs_xrange = drawsegs_xranges[1].items;
+            drawsegs_xrange_count = drawsegs_xranges[1].count;
+        }
+        else if (splat->x1 >= centerx)
+        {
+            drawsegs_xrange = drawsegs_xranges[2].items;
+            drawsegs_xrange_count = drawsegs_xranges[2].count;
+        }
+        else
+        {
+            drawsegs_xrange = drawsegs_xranges[0].items;
+            drawsegs_xrange_count = drawsegs_xranges[0].count;
+        }
+
+        R_DrawBloodSplatSprite(splat);
+    }
+
     if (num_vissprite)
     {
         R_SortVisSprites();
-
-        if (drawsegs_xrange_size < maxdrawsegs)
-        {
-            drawsegs_xrange_size = 2 * maxdrawsegs;
-
-            for (int i = 0; i < DS_RANGES_COUNT; i++)
-                drawsegs_xranges[i].items = I_Realloc(drawsegs_xranges[i].items,
-                    drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
-        }
-
-        for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
-            if (ds->silhouette || ds->maskedtexturecol)
-            {
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
-
-                // e6y: ~13% of speed improvement on sunder.wad map10
-                if (ds->x1 < centerx)
-                {
-                    drawsegs_xranges[1].items[drawsegs_xranges[1].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
-                    drawsegs_xranges[1].count++;
-                }
-
-                if (ds->x2 >= centerx)
-                {
-                    drawsegs_xranges[2].items[drawsegs_xranges[2].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
-                    drawsegs_xranges[2].count++;
-                }
-
-                drawsegs_xranges[0].count++;
-            }
 
         // draw all other vissprites back to front
         for (int i = num_vissprite - 1; i >= 0; i--)
