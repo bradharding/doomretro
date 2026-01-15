@@ -1100,7 +1100,7 @@ typedef struct
     // killough 03/27/98: height sector for underwater/fake ceiling support
     sector_t            *heightsec;
 
-    int                 shadowpos;
+    int                 shadowz;
 
     bool                flipped;
     bool                fullbright;

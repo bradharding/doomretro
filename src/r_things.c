@@ -624,7 +624,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;
-    shadowtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
+    shadowtopscreen = centeryfrac - FixedMul(vis->shadowz, spryscale);
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzz1pos = 0;
 
@@ -902,9 +902,9 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright);
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
-        vis->shadowpos = vis->gz + thing->shadowoffset - viewz;
+        vis->shadowz = thing->floorz + thing->shadowoffset - viewz;
     else
-        vis->shadowpos = 1;
+        vis->shadowz = 1;
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
@@ -1627,7 +1627,7 @@ static void R_DrawSprite(const vissprite_t *spr)
     mceilingclip = cliptop;
     mfloorclip = clipbot;
 
-    if (spr->shadowpos <= 0)
+    if (spr->shadowz <= 0)
         R_DrawVisSpriteWithShadow(spr);
     else
         R_DrawVisSprite(spr);
