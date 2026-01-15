@@ -1560,7 +1560,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->mbf21flags = info->mbf21flags;
 
             th->state = st;
-            th->tics = MAX(1, st->tics - M_BigRandomInt(0, 2));
+            th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
             th->sprite = st->sprite;
             th->frame = st->frame;
 

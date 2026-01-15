@@ -1014,7 +1014,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     // too far off the side?
-    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > ((int64_t)tz << 2))
+    if ((int64_t)ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > ((int64_t)tz << 2))
         return;
 
     // calculate edges of the shape
@@ -1033,7 +1033,10 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (x1 >= x2)
         return;
 
-    // store information in a vissprite
+    if (num_vissplat >= r_bloodsplats_max_max)
+        return;
+
+    // store information in a vissplat
     vis = &vissplats[num_vissplat++];
 
     vis->scale = xscale;
@@ -1397,18 +1400,24 @@ static void R_DrawPlayerSprites(void)
 //
 static void R_DrawBloodSplatSprite(const vissplat_t *splat)
 {
-    const int       x1 = splat->x1;
-    const int       x2 = splat->x2;
+    int             x1 = splat->x1;
+    int             x2 = splat->x2;
     const fixed_t   scale = splat->scale;
     const fixed_t   gx = splat->gx;
     const fixed_t   gy = splat->gy;
+
+    if (x2 < 0 || x1 >= viewwidth)
+        return;
+
+    if ((x1 = MAX(0, x1)) > (x2 = MIN(viewwidth - 1, x2)))
+        return;
 
     // initialize the clipping arrays
     memcpy(cliptop + x1, zeroarray + x1, (x2 - x1 + 1) * sizeof(cliptop[0]));
     memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(clipbot[0]));
 
     // Scan drawsegs using the same xrange acceleration as sprites.
-    if (drawsegs_xrange_size)
+    if (drawsegs_xrange_count > 0)
     {
         const drawseg_xrange_item_t *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
         drawseg_xrange_item_t       *curr = &drawsegs_xrange[-1];
