@@ -416,8 +416,6 @@ int         *mceilingclip;
 
 fixed_t     spryscale;
 int64_t     sprtopscreen;
-static int  shadowtopscreen;
-static int  shadowshift;
 static int  splattopscreen;
 
 static void (*shadowcolfunc)(void);
@@ -578,6 +576,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     fixed_t         pcl_cosine = 0;
     fixed_t         pcl_sine = 0;
     int             pcl_lightindex = 0;
+    int64_t         shadowtopscreen;
+    int64_t         shadowspryscale;
 
     spryscale = vis->scale;
 
@@ -624,8 +624,9 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;
-    shadowtopscreen = centeryfrac - FixedMul(vis->shadowz, spryscale);
-    shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
+    shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
+    shadowspryscale = (int64_t)spryscale / 10;
+
     fuzz1pos = 0;
 
     if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
@@ -673,10 +674,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             while (dc_numposts--)
             {
                 const rpost_t   *post = &posts[dc_numposts];
-                const int       topscreen = shadowtopscreen + spryscale * post->topdelta;
+                const int64_t   topscreen = shadowtopscreen + shadowspryscale * post->topdelta;
 
-                if ((dc_yh = MIN((((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
-                    if ((dc_yl = MAX(dc_ceilingclip, ((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift)) <= dc_yh)
+                if ((dc_yh = MIN((int)((topscreen + shadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
                         shadowcolfunc();
             }
 
@@ -1627,10 +1628,10 @@ static void R_DrawSprite(const vissprite_t *spr)
     mceilingclip = cliptop;
     mfloorclip = clipbot;
 
-    if (spr->shadowz <= 0)
-        R_DrawVisSpriteWithShadow(spr);
-    else
+    if (spr->shadowz == 1)
         R_DrawVisSprite(spr);
+    else
+        R_DrawVisSpriteWithShadow(spr);
 }
 
 //
