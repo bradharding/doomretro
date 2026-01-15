@@ -411,12 +411,11 @@ static vissprite_t *R_NewVisSprite(void)
     return (vissprites + num_vissprite++);
 }
 
-int         *mfloorclip;
-int         *mceilingclip;
+int     *mfloorclip;
+int     *mceilingclip;
 
-fixed_t     spryscale;
-int64_t     sprtopscreen;
-static int  splattopscreen;
+fixed_t spryscale;
+int64_t sprtopscreen;
 
 static void (*shadowcolfunc)(void);
 
@@ -722,12 +721,13 @@ static void R_DrawVisSplat(const vissplat_t *vis)
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
     const rcolumn_t *columns = R_CachePatchNum(vis->patch)->columns;
+    int64_t         splattopscreen;
 
     spryscale = vis->scale;
     colfunc = vis->colfunc;
     dc_bloodcolor = &tinttab50[(dc_solidbloodcolor = vis->colormap[vis->color]) << 8];
     dc_sectorcolormap = vis->sectorcolormap;
-    splattopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
+    splattopscreen = (int64_t)centeryfrac - FixedMul(vis->texturemid, spryscale);
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
@@ -736,10 +736,10 @@ static void R_DrawVisSplat(const vissplat_t *vis)
         if (column->numposts)
         {
             const rpost_t   *post = column->posts;
-            const int       topscreen = splattopscreen + spryscale * post->topdelta;
+            const int64_t   topscreen = splattopscreen + spryscale * post->topdelta;
 
-            if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, clipbot[dc_x] - 1)) >= 0)
-                if ((dc_yl = MAX(cliptop[dc_x], topscreen >> FRACBITS)) <= dc_yh)
+            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), clipbot[dc_x] - 1)) >= 0)
+                if ((dc_yl = MAX(cliptop[dc_x], (int)(topscreen >> FRACBITS))) <= dc_yh)
                     colfunc();
         }
     }
