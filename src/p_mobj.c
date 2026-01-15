@@ -52,8 +52,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-static bloodsplat_t *bloodsplats_fifo_head;
-static bloodsplat_t *bloodsplats_fifo_tail;
+bloodsplat_t    *bloodsplats_fifo_head;
+bloodsplat_t    *bloodsplats_fifo_tail;
 
 //
 // P_SetMobjState

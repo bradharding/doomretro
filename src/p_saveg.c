@@ -1344,12 +1344,11 @@ void P_ArchiveThinkers(void)
     }
 
     // save off the bloodsplats
-    for (int i = 0; i < numsectors; i++)
-        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
-        {
-            saveg_write8(tc_bloodsplat);
-            saveg_write_bloodsplat_t(splat);
-        }
+    for (bloodsplat_t *splat = bloodsplats_fifo_head; splat; splat = splat->fifonext)
+    {
+        saveg_write8(tc_bloodsplat);
+        saveg_write_bloodsplat_t(splat);
+    }
 
     // add a terminating marker
     saveg_write8(tc_end);
@@ -1366,6 +1365,31 @@ static void P_SetNewTarget(mobj_t **mop, mobj_t *targ)
 {
     *mop = NULL;
     P_SetTarget(mop, targ);
+}
+
+static void P_AddBloodSplatToFIFO(bloodsplat_t *splat)
+{
+    splat->fifoprev = bloodsplats_fifo_tail;
+    splat->fifonext = NULL;
+
+    if (bloodsplats_fifo_tail)
+        bloodsplats_fifo_tail->fifonext = splat;
+    else
+        bloodsplats_fifo_head = splat;
+
+    bloodsplats_fifo_tail = splat;
+}
+
+static void P_AddBloodSplatToSectorListTail(bloodsplat_t *splat)
+{
+    bloodsplat_t    **link = &splat->sector->splatlist;
+
+    while (*link)
+        link = &(*link)->next;
+
+    splat->next = NULL;
+    splat->prev = link;
+    *link = splat;
 }
 
 //
@@ -1392,6 +1416,9 @@ void P_UnarchiveThinkers(void)
     }
 
     P_InitThinkers();
+
+    bloodsplats_fifo_head = NULL;
+    bloodsplats_fifo_tail = NULL;
 
     thingindex = 0;
 
@@ -1437,7 +1464,7 @@ void P_UnarchiveThinkers(void)
 
             case tc_bloodsplat:
             {
-                bloodsplat_t    *splat = malloc(sizeof(*splat));
+                bloodsplat_t    *splat = Z_Calloc(1, sizeof(*splat), PU_LEVEL, NULL);
 
                 if (splat)
                 {
@@ -1446,14 +1473,17 @@ void P_UnarchiveThinkers(void)
                     if (r_bloodsplats_total < r_bloodsplats_max)
                     {
                         if (splat->patch < firstbloodsplatlump || splat->patch >= firstbloodsplatlump + numbloodsplatlumps)
-                            splat->patch = firstbloodsplatlump + (M_BigRandom() & (numbloodsplatlumps - 1));
+                            splat->patch = firstbloodsplatlump + M_BigRandomInt(0, numbloodsplatlumps - 1);
 
                         splat->width = spritewidth[splat->patch];
                         splat->patch += firstspritelump;
-                        P_SetBloodSplatColor(splat);
                         splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
-                        P_SetBloodSplatPosition(splat);
+
+                        P_SetBloodSplatColor(splat);
+                        P_AddBloodSplatToFIFO(splat);
+                        P_AddBloodSplatToSectorListTail(splat);
+
                         r_bloodsplats_total++;
                     }
                 }
