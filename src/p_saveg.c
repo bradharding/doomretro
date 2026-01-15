@@ -1380,18 +1380,6 @@ static void P_AddBloodSplatToFIFO(bloodsplat_t *splat)
     bloodsplats_fifo_tail = splat;
 }
 
-static void P_AddBloodSplatToSectorListTail(bloodsplat_t *splat)
-{
-    bloodsplat_t    **link = &splat->sector->splatlist;
-
-    while (*link)
-        link = &(*link)->next;
-
-    splat->next = NULL;
-    splat->prev = link;
-    *link = splat;
-}
-
 //
 // P_UnarchiveThinkers
 //
@@ -1481,8 +1469,8 @@ void P_UnarchiveThinkers(void)
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
 
                         P_SetBloodSplatColor(splat);
+                        P_SetBloodSplatPosition(splat);
                         P_AddBloodSplatToFIFO(splat);
-                        P_AddBloodSplatToSectorListTail(splat);
 
                         r_bloodsplats_total++;
                     }

@@ -1993,7 +1993,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
     target->geartime = MAXGEARTIME; // [JN] Limit torque to 15 seconds
-    target->floatbob = (M_BigRandom() & 63);
+    target->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 
     // killough 08/29/98: remove from threaded list
     P_UpdateThinker(&target->thinker);
@@ -2125,7 +2125,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         mo->angle = target->angle + (M_BigSubRandom() << 20);
         mo->flags |= MF_DROPPED;    // special versions of items
         mo->geartime = MAXGEARTIME;
-        mo->floatbob = (M_BigRandom() & 63);
+        mo->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 
         if (r_mirroredweapons && (M_BigRandom() & 1))
             mo->flags2 |= MF2_MIRRORED;

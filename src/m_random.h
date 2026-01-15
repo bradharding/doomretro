@@ -115,14 +115,14 @@ static inline int M_BigSubRandom(void)
 
 static inline int M_BigRandomInt(const int lower, const int upper)
 {
-    return (BIGRAND % (upper - lower + 1) + lower);
+    return ((BIGRAND % (upper - lower + 1)) + lower);
 }
 
 static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, const int previous)
 {
     int result;
 
-    while ((result = BIGRAND % (upper - lower + 1) + lower) == previous);
+    while ((result = (BIGRAND % (upper - lower + 1)) + lower) == previous);
 
     return result;
 }
@@ -134,7 +134,7 @@ static inline void M_BigSeed(const unsigned int value)
 
 static inline int M_Fuzz1RandomInt(const int lower, const int upper)
 {
-    return (FUZZ1RAND % (upper - lower + 1) + lower);
+    return ((FUZZ1RAND % (upper - lower + 1)) + lower);
 }
 
 static inline void M_Fuzz1Seed(const unsigned int value)
@@ -144,7 +144,7 @@ static inline void M_Fuzz1Seed(const unsigned int value)
 
 static inline int M_Fuzz2RandomInt(const int lower, const int upper)
 {
-    return (FUZZ2RAND % (upper - lower + 1) + lower);
+    return ((FUZZ2RAND % (upper - lower + 1)) + lower);
 }
 
 static inline void M_Fuzz2Seed(const unsigned int value)
