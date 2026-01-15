@@ -527,6 +527,11 @@ typedef struct bloodsplat_s
     int                 color;
     int                 viscolor;
     void                (*viscolfunc)(void);
+
+    struct bloodsplat_s *bnext;
+    struct bloodsplat_s **bprev;
+    int                 bx;
+    int                 by;
 } bloodsplat_t;
 
 extern bloodsplat_t *bloodsplats_fifo_head;

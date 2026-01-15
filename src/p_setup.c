@@ -223,6 +223,8 @@ fixed_t             bmaporgy;
 // for thing chains
 mobj_t              **blocklinks;
 
+bloodsplat_t        **bloodsplat_blocklinks;
+
 // MAES: extensions to support 512x512 blockmaps.
 // They represent the maximum negative number which represents
 // a positive offset, otherwise they are left at -257, which
@@ -2654,6 +2656,8 @@ static void P_LoadBlockMap(int lump)
 
     // Clear out mobj chains
     blocklinks = calloc_IfSameLevel(blocklinks, (size_t)bmapwidth * bmapheight, sizeof(*blocklinks));
+    bloodsplat_blocklinks = calloc_IfSameLevel(bloodsplat_blocklinks,
+        (size_t)bmapwidth * bmapheight, sizeof(*bloodsplat_blocklinks));
     blockmap = blockmaplump + 4;
 
     // MAES: set blockmapxneg and blockmapyneg

@@ -229,9 +229,20 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 {
     bloodsplat_t    **prev = splat->prev;
     bloodsplat_t    *next = splat->next;
+    bloodsplat_t    **bprev = splat->bprev;
+    bloodsplat_t    *bnext = splat->bnext;
 
     if ((*prev = next))
         next->prev = prev;
+
+    if (!bprev)
+        return;
+
+    if ((*bprev = bnext))
+        bnext->bprev = bprev;
+
+    splat->bnext = NULL;
+    splat->bprev = NULL;
 
     r_bloodsplats_total--;
 }
@@ -314,12 +325,35 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 {
     bloodsplat_t    **link = &splat->sector->splatlist;
     bloodsplat_t    *next = *link;
+    bloodsplat_t    **blink;
+    bloodsplat_t    *bnext;
+    const int       bx = P_GetSafeBlockX(splat->x - bmaporgx);
+    const int       by = P_GetSafeBlockY(splat->y - bmaporgy);
 
     if ((splat->next = next))
         next->prev = &splat->next;
 
     splat->prev = link;
     *link = splat;
+
+    splat->bx = bx;
+    splat->by = by;
+
+    if (bx < 0 || bx >= bmapwidth || by < 0 || by >= bmapheight)
+    {
+        splat->bnext = NULL;
+        splat->bprev = NULL;
+        return;
+    }
+
+    blink = &bloodsplat_blocklinks[by * bmapwidth + bx];
+    bnext = *blink;
+
+    if ((splat->bnext = bnext))
+        bnext->bprev = &splat->bnext;
+
+    splat->bprev = blink;
+    *blink = splat;
 }
 
 //

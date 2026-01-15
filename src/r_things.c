@@ -1079,32 +1079,13 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // killough 09/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t          *thing = sec->thinglist;
-    bloodsplat_t    *splat = (menuactive || !drawbloodsplats ? NULL : sec->splatlist);
+    mobj_t  *thing = sec->thinglist;
 
-    if (splat)
-    {
-        spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-
-        do
-        {
-            R_ProjectBloodSplat(splat);
-            splat = splat->next;
-        } while (splat);
-
-        if (thing)
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        else
-            return;
-    }
-    else if (thing)
-    {
-        spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    }
-    else
+    if (!thing)
         return;
 
+    spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+    nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
 
     // Handle all things in sector.
@@ -1150,6 +1131,51 @@ void R_DrawNearbySprites(void)
     }
 
     array_clear(nearby_sprites);
+}
+
+static void R_AddBloodSplats(void)
+{
+    const int       radius = (int)((MAXZ / 8 + MAPBLOCKSIZE - 1) / MAPBLOCKSIZE);
+    const int       cx = (viewx - bmaporgx) >> MAPBLOCKSHIFT;
+    const int       cy = (viewy - bmaporgy) >> MAPBLOCKSHIFT;
+    const int       minx = MAX(0, cx - radius);
+    const int       maxx = MIN(bmapwidth - 1, cx + radius);
+    const int       miny = MAX(0, cy - radius);
+    const int       maxy = MIN(bmapheight - 1, cy + radius);
+
+    int             prevlightlevel = INT_MIN;
+    lighttable_t    **cachedspritelights[256];
+    lighttable_t    **cachednextspritelights[256];
+    bool            cached[256];
+
+    memset(cached, 0, sizeof(cached));
+
+    for (int y = miny; y <= maxy; y++)
+        for (int x = minx; x <= maxx; x++)
+            for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
+            {
+                sector_t    *sector = splat->sector;
+                short       lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel : sector->lightlevel);
+
+                if (lightlevel != prevlightlevel)
+                {
+                    const int   i = BETWEEN(0, lightlevel, 255);
+
+                    if (!cached[i])
+                    {
+                        cachedspritelights[i] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                        cachednextspritelights[i] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                        cached[i] = true;
+                    }
+
+                    spritelights = cachedspritelights[i];
+                    nextspritelights = cachednextspritelights[i];
+
+                    prevlightlevel = lightlevel;
+                }
+
+                R_ProjectBloodSplat(splat);
+            }
 }
 
 //
@@ -1611,6 +1637,9 @@ void R_DrawMasked(void)
 
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
+
+    if (drawbloodsplats && bloodsplat_blocklinks && !menuactive)
+        R_AddBloodSplats();
 
     if (!num_vissplat && !num_vissprite)
     {

@@ -3,7 +3,7 @@
 ### DOOM Retro v5.9
 
 * *DOOM Retro* is now built using v18.2.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
