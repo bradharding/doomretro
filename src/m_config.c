@@ -727,6 +727,10 @@ void M_SaveCVARs(void)
         return;
     }
 
+    if (!widestcvar)
+        for (int i = 0; i < numcvars; i++)
+            widestcvar = MAX(widestcvar, (int)strlen(cvars[i].name));
+
     for (int i = 0; i < numcvars; i++)
     {
         if (!*cvars[i].name)
@@ -1367,7 +1371,4 @@ void M_LoadCVARs(const char *filename)
     }
 
     M_CheckCVARs();
-
-    for (int i = 0; i < numcvars; i++)
-        widestcvar = MAX(widestcvar, (int)strlen(cvars[i].name));
 }
