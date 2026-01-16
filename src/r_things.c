@@ -577,6 +577,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     int             pcl_lightindex = 0;
     int64_t         shadowtopscreen;
     int64_t         shadowspryscale;
+    int             shadowbaseclip;
+    fixed_t         shadowfootclip;
 
     spryscale = vis->scale;
 
@@ -625,6 +627,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     shadowcolfunc = mobj->shadowcolfunc;
     shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
     shadowspryscale = (int64_t)spryscale / 10;
+    shadowfootclip = (vis->footclip ? FixedDiv(FixedMul(vis->footclip, (int)shadowspryscale), spryscale) : 0);
+    shadowbaseclip = (shadowfootclip ? (int)(shadowtopscreen + shadowfootclip) >> FRACBITS : viewheight);
 
     fuzz1pos = 0;
 
@@ -648,7 +652,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             const rpost_t   *posts = column->posts;
 
             dc_ceilingclip = mceilingclip[dc_x] + 1;
-            dc_floorclip = mfloorclip[dc_x] - 1;
+            dc_floorclip = MIN(shadowbaseclip, mfloorclip[dc_x]) - 1;
 
             if (percolumnlighting)
             {
@@ -1090,7 +1094,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
+    drawshadows = (!fixedcolormap && r_shadows);
 
     // Handle all things in sector.
     do
