@@ -417,8 +417,6 @@ int     *mceilingclip;
 fixed_t spryscale;
 int64_t sprtopscreen;
 
-static void (*shadowcolfunc)(void);
-
 //
 // R_BlastSpriteColumn
 //
@@ -579,6 +577,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     int64_t         shadowspryscale;
     int             shadowbaseclip;
     fixed_t         shadowfootclip;
+    void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
 
     spryscale = vis->scale;
 
@@ -624,7 +623,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-    shadowcolfunc = mobj->shadowcolfunc;
     shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
     shadowspryscale = (int64_t)spryscale / 10;
     shadowfootclip = (vis->footclip ? FixedDiv(FixedMul(vis->footclip, (int)shadowspryscale), spryscale) : 0);

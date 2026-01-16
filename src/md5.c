@@ -117,7 +117,7 @@ void MD5Final(byte digest[16], MD5Context *ctx)
     *p++ = 0x80;
 
     // Bytes of padding needed to make 56 bytes (-8..55)
-    count = 56 - 1 - count;
+    count = 55 - count;
 
     if (count < 0)
     {
@@ -133,8 +133,8 @@ void MD5Final(byte digest[16], MD5Context *ctx)
     byteswap(ctx->in, 14);
 
     // Append length in bits and transform
-    ctx->in[14] = ctx->bytes[0] << 3;
-    ctx->in[15] = (ctx->bytes[1] << 3 | ctx->bytes[0] >> 29);
+    ctx->in[14] = (ctx->bytes[0] << 3);
+    ctx->in[15] = ((ctx->bytes[1] << 3) | (ctx->bytes[0] >> 29));
     MD5Transform(ctx->buf, ctx->in);
 
     byteswap(ctx->buf, 4);
@@ -237,24 +237,33 @@ void MD5Transform(uint32_t buf[4], const uint32_t in[16])
 
 char *MD5(const char *filename)
 {
-    char    checksum[33] = "";
+    char    checksum[33];
     FILE    *file = fopen(filename, "rb");
+
+    checksum[0] = '\0';
 
     if (file)
     {
-        MD5Context  md5;
-        byte        buffer[8192];
-        size_t      len;
+        MD5Context          md5;
+        byte                buffer[8192];
+        byte                digest[16];
+        size_t              len;
+        static const char   hexdigits[] = "0123456789abcdef";
 
         MD5Init(&md5);
 
         while ((len = fread(buffer, 1, sizeof(buffer), file)) > 0)
             MD5Update(&md5, buffer, (unsigned int)len);
 
-        MD5Final(buffer, &md5);
+        MD5Final(digest, &md5);
 
         for (int i = 0; i < 16; i++)
-            M_snprintf(checksum, sizeof(checksum), "%s%02x", checksum, buffer[i]);
+        {
+            checksum[i * 2] = hexdigits[(digest[i] >> 4) & 0x0F];
+            checksum[i * 2 + 1] = hexdigits[digest[i] & 0x0F];
+        }
+
+        checksum[32] = '\0';
 
         fclose(file);
     }
