@@ -9886,7 +9886,7 @@ static void boolfunc2(char *cmd, char *parms)
 
                 if (value == *(bool *)consolecmds[i].variable)
                 {
-                    if (!resettingcvar)
+                    if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == (bool)consolecmds[i].defaultnumber)
                             C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
@@ -9898,7 +9898,7 @@ static void boolfunc2(char *cmd, char *parms)
                 {
                     char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                    if (!resettingcvar)
+                    if (!resettingcvar && !togglingvanilla)
                     {
                         if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
                             C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -9993,7 +9993,7 @@ static void floatfunc2(char *cmd, char *parms)
 
                     if (value == *(float *)consolecmds[i].variable)
                     {
-                        if (!resettingcvar)
+                        if (!resettingcvar && !togglingvanilla)
                         {
                             if (value == consolecmds[i].defaultnumber)
                                 C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
@@ -10005,7 +10005,7 @@ static void floatfunc2(char *cmd, char *parms)
                     {
                         char    *temp2 = striptrailingzero(value, 1);
 
-                        if (!resettingcvar)
+                        if (!resettingcvar && !togglingvanilla)
                         {
                             if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
                                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -10091,7 +10091,7 @@ static void intfunc2(char *cmd, char *parms)
 
                     if (value == *(int *)consolecmds[i].variable)
                     {
-                        if (!resettingcvar)
+                        if (!resettingcvar && !togglingvanilla)
                         {
                             if (consolecmds[i].flags & CF_PERCENT)
                             {
@@ -10120,7 +10120,7 @@ static void intfunc2(char *cmd, char *parms)
                     {
                         char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                        if (!resettingcvar)
+                        if (!resettingcvar && !togglingvanilla)
                         {
                             if (consolecmds[i].flags & CF_PERCENT)
                             {
@@ -10235,7 +10235,7 @@ static void strfunc2(char *cmd, char *parms)
         {
             if (M_StringCompare(parms, EMPTYVALUE) && !(consolecmds[i].flags & CF_READONLY))
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (!*(char **)consolecmds[i].variable)
                     {
@@ -10262,7 +10262,7 @@ static void strfunc2(char *cmd, char *parms)
             {
                 if (!(consolecmds[i].flags & CF_READONLY))
                 {
-                    if (!resettingcvar)
+                    if (!resettingcvar && !togglingvanilla)
                     {
                         if (M_StringCompare(parms, *(char **)consolecmds[i].variable))
                         {
@@ -10431,7 +10431,7 @@ static void am_gridsizefunc2(char *cmd, char *parms)
     {
         if (M_StringCompare(am_gridsize, parms))
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, am_gridsize_default))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(am_gridsize), parms);
@@ -10441,7 +10441,7 @@ static void am_gridsizefunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(am_gridsize, am_gridsize_default))
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -10647,7 +10647,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
 
                 if (joy_deadzone_left == value)
                 {
-                    if (!resettingcvar)
+                    if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == joy_deadzone_left_default)
                             C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(joy_deadzone_left), temp1);
@@ -10658,7 +10658,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     return;
 
                 }
-                else if (!resettingcvar)
+                else if (!resettingcvar && !togglingvanilla)
                 {
                     char    *temp2 = striptrailingzero(value, 1);
 
@@ -10684,7 +10684,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
 
                 if (joy_deadzone_right == value)
                 {
-                    if (!resettingcvar)
+                    if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == joy_deadzone_right_default)
                             C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(joy_deadzone_right), temp1);
@@ -10695,7 +10695,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     return;
 
                 }
-                else if (!resettingcvar)
+                else if (!resettingcvar && !togglingvanilla)
                 {
                     char    *temp2 = striptrailingzero(value, 1);
 
@@ -11287,7 +11287,7 @@ static void r_fovfunc2(char *cmd, char *parms)
         {
             if (value == r_fov)
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == r_fov_default)
                         C_Warning(0, DEGREESCVARSAMEDEFAULTWARNING, stringize(r_fov), r_fov);
@@ -11297,7 +11297,7 @@ static void r_fovfunc2(char *cmd, char *parms)
 
                 return;
             }
-            else if (!resettingcvar)
+            else if (!resettingcvar && !togglingvanilla)
             {
                 if (r_fov == r_fov_default)
                     C_Output(DEGREESCVARCHANGEDFROMDEFAULT,
@@ -11353,7 +11353,7 @@ static void r_gammafunc2(char *cmd, char *parms)
 
             if (r_gamma == value)
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == r_gamma_default)
                         C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING,
@@ -11366,7 +11366,7 @@ static void r_gammafunc2(char *cmd, char *parms)
                 free(temp1);
                 return;
             }
-            else if (!resettingcvar)
+            else if (!resettingcvar && !togglingvanilla)
             {
                 char    *temp2 = striptrailingzero(value, 1);
 
@@ -11482,7 +11482,7 @@ static void r_lowpixelsizefunc2(char *cmd, char *parms)
     {
         if (M_StringCompare(r_lowpixelsize, parms))
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, r_lowpixelsize_default))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(r_lowpixelsize), parms);
@@ -11492,7 +11492,7 @@ static void r_lowpixelsizefunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -11611,7 +11611,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
 
             if (r_screensize == value)
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == r_screensize_default)
                         C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(r_screensize), temp1);
@@ -11622,7 +11622,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 free(temp1);
                 return;
             }
-            else if (!resettingcvar)
+            else if (!resettingcvar && !togglingvanilla)
             {
                 char    *temp2 = commify(value);
 
@@ -11847,7 +11847,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
 
             if (s_musicvolume == value)
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == s_musicvolume_default)
                         C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(s_musicvolume), temp1);
@@ -11858,7 +11858,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 free(temp1);
                 return;
             }
-            else if (!resettingcvar)
+            else if (!resettingcvar && !togglingvanilla)
             {
                 char    *temp2 = commify(value);
 
@@ -11890,7 +11890,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
 
             if (s_sfxvolume == value)
             {
-                if (!resettingcvar)
+                if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == s_sfxvolume_default)
                         C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(s_sfxvolume), temp1);
@@ -11901,7 +11901,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 free(temp1);
                 return;
             }
-            else if (!resettingcvar)
+            else if (!resettingcvar && !togglingvanilla)
             {
                 char    *temp2 = commify(value);
 
@@ -12224,7 +12224,7 @@ static void vid_screenresolutionfunc2(char *cmd, char *parms)
     {
         if (M_StringCompare(vid_screenresolution, parms))
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_screenresolution_default))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_screenresolution), parms);
@@ -12234,7 +12234,7 @@ static void vid_screenresolutionfunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -12347,7 +12347,7 @@ static void vid_windowposfunc2(char *cmd, char *parms)
 
         if (M_StringCompare(vid_windowpos, parms))
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_windowpos_default))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_windowpos), parm);
@@ -12357,7 +12357,7 @@ static void vid_windowposfunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_windowpos, vid_windowpos_default))
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -12415,7 +12415,7 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
     {
         if (M_StringCompare(vid_windowsize, parms))
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_windowsize_default))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_windowsize), parms);
@@ -12425,7 +12425,7 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_windowsize, vid_windowsize_default))
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -12547,7 +12547,7 @@ static void weaponfunc2(char *cmd, char *parms)
 
         if (viewplayer->readyweapon == value)
         {
-            if (!resettingcvar)
+            if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS)))
                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(weapon), parms);
@@ -12557,7 +12557,7 @@ static void weaponfunc2(char *cmd, char *parms)
 
             return;
         }
-        else if (!resettingcvar)
+        else if (!resettingcvar && !togglingvanilla)
         {
             char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
 
