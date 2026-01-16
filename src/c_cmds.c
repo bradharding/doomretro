@@ -954,6 +954,8 @@ consolecmd_t consolecmds[] =
         "The total number of blood splats in the current map."),
     BOOLCVAR(r_bloodsplats_translucency, "", "", boolfunc1, r_bloodsplats_translucencyfunc2, 0,
         "Toggles the translucency of blood splats."),
+    INTCVAR(r_bloodsplats_visible, "", "", intfunc1, intfunc2, CF_READONLY, 0,
+        "The number of blood splats currently visible."),
     BOOLCVAR(r_brightmaps, "", "", boolfunc1, r_brightmapsfunc2, 0,
         "Toggles brightmaps on some wall textures."),
     BOOLCVAR(r_corpses_color, r_corpses_colour, "", boolfunc1, boolfunc2, 0,

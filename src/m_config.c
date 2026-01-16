@@ -155,6 +155,7 @@ bool        r_blood_melee = r_blood_melee_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+int         r_bloodsplats_visible;
 bool        r_brightmaps = r_brightmaps_default;
 bool        r_corpses_color = r_corpses_color_default;
 bool        r_corpses_gib = r_corpses_gib_default;

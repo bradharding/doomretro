@@ -365,7 +365,6 @@ static void R_InitSpriteDefs(void)
 static vissprite_t  *vissprites;
 static vissprite_t  **vissprite_ptrs;
 static unsigned int num_vissprite;
-static unsigned int num_vissplat;
 static unsigned int num_vissprite_alloc = MAXVISSPRITES;
 
 static vissplat_t   vissplats[r_bloodsplats_max_max];
@@ -394,7 +393,7 @@ void R_InitSprites(void)
 void R_ClearSprites(void)
 {
     num_vissprite = 0;
-    num_vissplat = 0;
+    r_bloodsplats_visible = 0;
 }
 
 //
@@ -1036,11 +1035,11 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (x1 >= x2)
         return;
 
-    if (num_vissplat >= r_bloodsplats_max_max)
+    if (r_bloodsplats_visible >= r_bloodsplats_max)
         return;
 
     // store information in a vissplat
-    vis = &vissplats[num_vissplat++];
+    vis = &vissplats[r_bloodsplats_visible++];
 
     vis->scale = xscale;
     vis->gx = fx;
@@ -1653,7 +1652,7 @@ void R_DrawMasked(void)
     if (drawbloodsplats && bloodsplat_blocklinks && !menuactive)
         R_AddBloodSplats();
 
-    if (!num_vissplat && !num_vissprite)
+    if (!r_bloodsplats_visible && !num_vissprite)
     {
         // render any remaining masked midtextures
         for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
@@ -1703,7 +1702,7 @@ void R_DrawMasked(void)
         }
 
     // draw all blood splats
-    for (int i = num_vissplat - 1; i >= 0; i--)
+    for (int i = r_bloodsplats_visible - 1; i >= 0; i--)
     {
         const vissplat_t    *splat = &vissplats[i];
 
