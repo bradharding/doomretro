@@ -38,6 +38,7 @@
 * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible.
 * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
+* Freeze mode is now remembered in savegames.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

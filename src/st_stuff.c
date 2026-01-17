@@ -790,7 +790,7 @@ bool ST_Responder(const event_t *ev)
                             }
 
                             // [BH] start flashing palette to indicate power-up about to run out
-                            if (freeze)
+                            if (viewplayer->cheats & CF_FREEZE)
                             {
                                 viewplayer->powers[i] = 0;
 
@@ -1143,7 +1143,7 @@ static void ST_UpdateFaceWidget(void)
         return;
     }
 
-    if (freeze)
+    if (viewplayer->cheats & CF_FREEZE)
         return;
 
     if (priority < 10)
@@ -1454,7 +1454,7 @@ static void ST_DrawWidgets(bool refresh)
     if (viewplayer->neededcardflash)
     {
         static bool showkey;
-        const bool  gamepaused = (consoleactive || freeze);
+        const bool  gamepaused = (consoleactive || (viewplayer->cheats & CF_FREEZE));
 
         if (!gamepaused)
         {

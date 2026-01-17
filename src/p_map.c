@@ -143,7 +143,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
     // When the object is straddling sectors with the same
     // floorheight that have different frictions, use the lowest
     // friction value (muddy has precedence over icy).
-    if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)) && !freeze)
+    if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)) && !(viewplayer->cheats & CF_FREEZE))
         for (const msecnode_t *m = mo->touching_sectorlist; m; m = m->m_tnext)
         {
             const sector_t  *sec = m->m_sector;
@@ -682,7 +682,8 @@ static bool PIT_CheckThing(mobj_t *thing)
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
     // killough 04/11/98: Treat no-clipping things as not blocking
-    return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP) && !freeze && (tmflags & MF_SOLID)) || unblocking);
+    return (!((flags & MF_SOLID) && !(flags & MF_NOCLIP)
+        && !(viewplayer->cheats & CF_FREEZE) && (tmflags & MF_SOLID)) || unblocking);
 }
 
 //
@@ -831,7 +832,7 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     validcount++;
     numspechit = 0;
 
-    if ((tmthing->flags & MF_NOCLIP) || freeze)
+    if ((tmthing->flags & MF_NOCLIP) || (viewplayer->cheats & CF_FREEZE))
         return true;
 
     // Check things first, possibly picking things up.
@@ -966,7 +967,7 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     validcount++;
     numspechit = 0;
 
-    if ((tmthing->flags & MF_NOCLIP) || freeze)
+    if ((tmthing->flags & MF_NOCLIP) || (viewplayer->cheats & CF_FREEZE))
         return NULL;
 
     // check things first, possibly picking things up
@@ -1030,7 +1031,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
 
     flags = thing->flags;
 
-    if (!(flags & MF_NOCLIP) && !freeze)
+    if (!(flags & MF_NOCLIP) && !(viewplayer->cheats & CF_FREEZE))
     {
         // killough 07/26/98: reformatted slightly
         // killough 08/01/98: Possibly allow escape if otherwise stuck
@@ -1117,7 +1118,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
     }
 
     // if any special lines were hit, do the effect
-    if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)) && !freeze)
+    if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)) && !(viewplayer->cheats & CF_FREEZE))
         while (numspechit--)
         {
             // see if the line was crossed

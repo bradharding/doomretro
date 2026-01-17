@@ -2553,7 +2553,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case Secret:
-                if (!(viewplayer->cheats & CF_NOCLIP) && !freeze)
+                if (!(viewplayer->cheats & CF_NOCLIP) && !(viewplayer->cheats & CF_FREEZE))
                 {
                     P_SecretFound();
                     sector->special = 0;
@@ -2634,7 +2634,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
         }
 
-        if ((sector->special & SECRET_MASK) && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
+        if ((sector->special & SECRET_MASK) && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
         {
             P_SecretFound();
             sector->special &= ~SECRET_MASK;

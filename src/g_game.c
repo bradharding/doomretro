@@ -462,7 +462,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         cmd->buttons |= BT_JUMP;
 
     // buttons
-    if (!freeze)
+    if (!(viewplayer->cheats & CF_FREEZE))
     {
         if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || gamekeydown[keyboardfire2]
             || (controllerbuttons & controllerfire)))
@@ -747,7 +747,7 @@ void G_DoLoadLevel(void)
     viewplayer->monstersgibbed = 0;
 
     prevmessage[0] = '\0';
-    freeze = false;
+    viewplayer->cheats &= ~CF_FREEZE;
 
     ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
 
@@ -968,9 +968,11 @@ bool G_Responder(const event_t *ev)
         case ev_keydown:
             key = ev->data1;
 
-            if ((key == keyboardprevweapon || key == keyboardprevweapon2) && !menuactive && !paused && !freeze)
+            if ((key == keyboardprevweapon || key == keyboardprevweapon2) && !menuactive && !paused
+                && !(viewplayer->cheats & CF_FREEZE))
                 G_PrevWeapon();
-            else if ((key == keyboardnextweapon || key == keyboardnextweapon2) && !menuactive && !paused && !freeze)
+            else if ((key == keyboardnextweapon || key == keyboardnextweapon2) && !menuactive && !paused
+                && !(viewplayer->cheats & CF_FREEZE))
                 G_NextWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown && !idclevtics)
             {
@@ -1013,12 +1015,12 @@ bool G_Responder(const event_t *ev)
             if (mousebuttons[mousealwaysrun])
                 G_ToggleAlwaysRun(ev_mouse);
 
-            if (!freeze)
+            if (!(viewplayer->cheats & CF_FREEZE))
                 for (int i = 0; i < MAXMOUSEBUTTONS; i++)
                     if (mousebuttons[i] && mouseactionlist[i][0])
                         C_ExecuteInputString(mouseactionlist[i]);
 
-            if (!automapactive && !menuactive && !paused && !freeze)
+            if (!automapactive && !menuactive && !paused && !(viewplayer->cheats & CF_FREEZE))
             {
                 if (mousenextweapon < MAXMOUSEBUTTONS && mousebuttons[mousenextweapon])
                     G_NextWeapon();
@@ -1036,7 +1038,7 @@ bool G_Responder(const event_t *ev)
         }
 
         case ev_mousewheel:
-            if (!automapactive && !menuactive && !paused && !freeze)
+            if (!automapactive && !menuactive && !paused && !(viewplayer->cheats & CF_FREEZE))
             {
                 if (ev->data1 < 0)
                 {
@@ -1070,7 +1072,7 @@ bool G_Responder(const event_t *ev)
                 static uint64_t wait;
                 uint64_t        time = I_GetTime();
 
-                if ((controllerbuttons & controllernextweapon) && wait < time && !freeze)
+                if ((controllerbuttons & controllernextweapon) && wait < time && !(viewplayer->cheats & CF_FREEZE))
                 {
                     wait = time + 7;
 
@@ -1080,7 +1082,7 @@ bool G_Responder(const event_t *ev)
                         controllerpress = false;
                     }
                 }
-                else if ((controllerbuttons & controllerprevweapon) && wait < time && !freeze)
+                else if ((controllerbuttons & controllerprevweapon) && wait < time && !(viewplayer->cheats & CF_FREEZE))
                 {
                     wait = time + 7;
 

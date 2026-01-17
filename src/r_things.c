@@ -1094,13 +1094,22 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     drawshadows = (!fixedcolormap && r_shadows);
 
     // Handle all things in sector.
-    do
-    {
-        if (!menuactive || ((thing->flags & MF_SOLID) && (!(thing->flags & MF_SHOOTABLE) || thing->type == MT_BARREL)))
+    if (!menuactive)
+        do
+        {
             R_ProjectSprite(thing);
+            thing = thing->snext;
+        } while (thing);
+    else
+        do
+        {
+            const int   flags = thing->flags;
 
-        thing = thing->snext;
-    } while (thing);
+            if ((flags & MF_SOLID) && (!(flags & MF_SHOOTABLE) || thing->type == MT_BARREL))
+                R_ProjectSprite(thing);
+
+            thing = thing->snext;
+        } while (thing);
 }
 
 void R_AddNearbySprites(sector_t *sec)
@@ -1640,6 +1649,8 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
+	const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
+
     if (consoleactive || paused || freeze)
     {
         M_Fuzz1Seed(maptime);

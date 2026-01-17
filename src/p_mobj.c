@@ -541,7 +541,7 @@ floater:
             // killough 11/98: touchy objects explode on impact
             if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
                 P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
-            else if (player && player->mo == mo && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
+            else if (player && player->mo == mo && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
             {
                 player->jumptics = 7;
 

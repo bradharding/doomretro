@@ -2600,7 +2600,7 @@ static void AM_DrawThings(void)
                 int         fx, fy;
                 int         width;
 
-                if (consoleactive || paused || freeze)
+                if (consoleactive || paused || (viewplayer->cheats & CF_FREEZE))
                 {
                     angle = thing->angle;
                     point.x = thing->x >> FRACTOMAPBITS;

@@ -3108,17 +3108,17 @@ static void freezefunc2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if (value == 0 && freeze)
-            freeze = false;
-        else if (value == 1 && !freeze)
-            freeze = true;
+        if (value == 0 && (viewplayer->cheats & CF_FREEZE))
+            viewplayer->cheats &= ~CF_FREEZE;
+        else if (value == 1 && !(viewplayer->cheats & CF_FREEZE))
+            viewplayer->cheats |= CF_FREEZE;
         else
             return;
     }
     else
-        freeze = !freeze;
+        viewplayer->cheats ^= CF_FREEZE;
 
-    if (freeze)
+    if (viewplayer->cheats & CF_FREEZE)
     {
         mobj_t  *mo = viewplayer->mo;
 
@@ -3556,10 +3556,11 @@ static void givefunc2(char *cmd, char *parms)
                     }
                     else
                     {
-                        bool    old_freeze = freeze;
-                        mobj_t  *thing = P_SpawnMobj(viewx, viewy, viewz, i);
+                        mobj_t      *thing = P_SpawnMobj(viewx, viewy, viewz, i);
+                        const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
 
-                        freeze = false;
+                        if (freeze)
+                            viewplayer->cheats &= ~CF_FREEZE;
 
                         if (viewplayer->health <= 0)
                         {
@@ -3599,7 +3600,9 @@ static void givefunc2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                         }
 
-                        freeze = old_freeze;
+                        if (freeze)
+                            viewplayer->cheats |= CF_FREEZE;
+
                         result = true;
                     }
                 }
@@ -3745,7 +3748,7 @@ static void iffunc2(char *cmd, char *parms)
             else if (M_StringCompare(parm1, "fastmonsters"))
                 condition = match(fastparm, parm2);
             else if (M_StringCompare(parm1, "freeze"))
-                condition = match(freeze, parm2);
+                condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_FREEZE)), parm2);
             else if (M_StringCompare(parm1, "god"))
                 condition = match((gamestate == GS_LEVEL && (viewplayer->cheats & CF_GODMODE)), parm2);
             else if (M_StringCompare(parm1, "infiniteammo"))
@@ -9061,7 +9064,7 @@ static void spawnfunc2(char *cmd, char *parms)
                             thing->flags2 &= ~MF2_FEETARECLIPPED;
                         }
 
-                        if (!freeze)
+                        if (!(viewplayer->cheats & CF_FREEZE))
                         {
                             fog = P_SpawnMobj(x, y, ((flags & MF_NOGRAVITY) ? thing->z : ONFLOORZ), MT_TFOG);
                             fog->angle = thing->angle;
@@ -9076,7 +9079,7 @@ static void spawnfunc2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        if (!freeze)
+                        if (!(viewplayer->cheats & CF_FREEZE))
                         {
                             fog = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
                                 ((thing->flags2 & MF2_FLOATBOB) ? thing->floorz + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);

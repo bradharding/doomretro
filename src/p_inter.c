@@ -754,7 +754,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
     static int  prevx, prevy;
     bool        duplicate;
 
-    if (freeze)
+    if (viewplayer->cheats & CF_FREEZE)
         return false;
 
     // Dead thing touching.
@@ -1434,7 +1434,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_invulnerability])
                 return false;
 
-            if (freeze)
+            if (viewplayer->cheats & CF_FREEZE)
             {
                 viewplayer->powers[pw_invulnerability] = 0;
                 viewplayer->fixedcolormap = 0;
@@ -1464,7 +1464,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_invisibility])
                 return false;
 
-            viewplayer->powers[pw_invisibility] = STARTFLASHING * !freeze;
+            viewplayer->powers[pw_invisibility] = STARTFLASHING * !(viewplayer->cheats & CF_FREEZE);
             return true;
 
         // radiation shielding suit power-up
@@ -1472,7 +1472,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_ironfeet])
                 return false;
 
-            viewplayer->powers[pw_ironfeet] = STARTFLASHING * !freeze;
+            viewplayer->powers[pw_ironfeet] = STARTFLASHING * !(viewplayer->cheats & CF_FREEZE);
             return true;
 
         // computer area map power-up
@@ -1488,7 +1488,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (!viewplayer->powers[pw_infrared])
                 return false;
 
-            viewplayer->powers[pw_infrared] = STARTFLASHING * !freeze;
+            viewplayer->powers[pw_infrared] = STARTFLASHING * !(viewplayer->cheats & CF_FREEZE);
             return true;
 
         // clip
@@ -2285,7 +2285,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     {
         const int   cheats = tplayer->cheats;
 
-        if (freeze && (!inflicter || !inflicter->player))
+        if ((cheats & CF_FREEZE) && (!inflicter || !inflicter->player))
             return;
 
         // end of game hell hack

@@ -94,7 +94,9 @@ enum
 
     CF_CHOPPERS      = 64,
 
-    CF_BUDDHA        = 128
+    CF_BUDDHA        = 128,
+
+    CF_FREEZE        = 256
 };
 
 //

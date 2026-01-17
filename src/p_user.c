@@ -239,7 +239,7 @@ void P_MovePlayer(void)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    if (autotilt && !(freelook || freeze || (viewplayer->cheats & MF_NOCLIP)))
+    if (autotilt && !freelook && !(viewplayer->cheats & (CF_FREEZE | MF_NOCLIP)))
     {
         if (!P_CheckForSteps(STEP1DISTANCE) && !P_CheckForSteps(STEP2DISTANCE))
         {
@@ -303,10 +303,10 @@ static void P_DeathThink(void)
     weaponrumbletics = 1;
     idlechainsawrumblestrength = 0;
 
-    if (freeze)
+    if (viewplayer->cheats & CF_FREEZE)
     {
+        viewplayer->cheats &= ~CF_FREEZE;
         C_Input("freeze off");
-        freeze = false;
     }
 
     infight = (infighting && !solonet && !(viewplayer->cheats & CF_NOTARGET));
@@ -694,7 +694,7 @@ void P_PlayerThink(void)
 
     P_CalcHeight();
 
-    if (freeze)
+    if (viewplayer->cheats & CF_FREEZE)
         return;
 
     // cycle psprites

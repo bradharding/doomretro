@@ -1179,7 +1179,7 @@ void R_RenderPlayerView(void)
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
             (maptime % 20 < 9 ? nearestred : nearestblack), 0, false, false, NULL, NULL);
-    else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
+    else if (viewplayer->cheats & (CF_NOCLIP | CF_FREEZE))
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
             nearestblack, 0, false, false, NULL, NULL);
 

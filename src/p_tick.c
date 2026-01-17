@@ -199,7 +199,7 @@ void P_Ticker(void)
     if (consoleactive || (helpscreen && !palettescreen))
         return;
 
-    if (menuactive && !freeze)
+    if (menuactive && !(viewplayer->cheats & CF_FREEZE))
     {
         if (!(gametime & 2))
         {
@@ -216,7 +216,7 @@ void P_Ticker(void)
 
     animatedtic++;
 
-    if (freeze)
+    if ((viewplayer->cheats & CF_FREEZE))
     {
         if (!menuactive)
             P_MobjThinker(viewplayer->mo);
