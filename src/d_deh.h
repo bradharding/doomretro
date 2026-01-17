@@ -489,7 +489,6 @@ extern char         *s_CAPTION_EPISODE9;
 extern char         *s_CAPTION_EPISODE10;
 extern char         *s_CAPTION_EXPANSION1;
 extern char         *s_CAPTION_EXPANSION2;
-extern char         *s_CAPTION_EXPANSION3;
 extern char         *s_CAPTION_PLUTONIA;
 extern char         *s_CAPTION_TNT;
 extern char         *s_CAPTION_CHEX;

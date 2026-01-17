@@ -634,7 +634,6 @@ char    *s_CAPTION_EPISODE9 = "";
 char    *s_CAPTION_EPISODE10 = "";
 char    *s_CAPTION_EXPANSION1 = "";
 char    *s_CAPTION_EXPANSION2 = "";
-char    *s_CAPTION_EXPANSION3 = "";
 char    *s_CAPTION_PLUTONIA = "";
 char    *s_CAPTION_TNT = "";
 char    *s_CAPTION_CHEX = "";
@@ -1275,7 +1274,6 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_EPISODE10,       "CAPTION_EPISODE10"       },
     { &s_CAPTION_EXPANSION1,      "CAPTION_EXPANSION1"      },
     { &s_CAPTION_EXPANSION2,      "CAPTION_EXPANSION2"      },
-    { &s_CAPTION_EXPANSION3,      "CAPTION_EXPANSION3"      },
     { &s_CAPTION_PLUTONIA,        "CAPTION_PLUTONIA"        },
     { &s_CAPTION_TNT,             "CAPTION_TNT"             },
     { &s_CAPTION_CHEX,            "CAPTION_CHEX"            },
