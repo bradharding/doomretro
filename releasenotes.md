@@ -6,6 +6,7 @@
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * These changes have been made to the automap:
