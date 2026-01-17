@@ -239,7 +239,7 @@ void P_MovePlayer(void)
             P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
-    if (autotilt && !freelook && !(viewplayer->cheats & (CF_FREEZE | MF_NOCLIP)))
+    if (autotilt && !freelook && !(viewplayer->cheats & (CF_FREEZE | CF_NOCLIP)))
     {
         if (!P_CheckForSteps(STEP1DISTANCE) && !P_CheckForSteps(STEP2DISTANCE))
         {
