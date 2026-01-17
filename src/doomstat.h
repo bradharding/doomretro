@@ -80,10 +80,12 @@ extern bool             autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
-extern skill_t          prevgameskill;
 extern int              gameepisode;
 extern int              gamemap;
+
 extern char             speciallumpname[6];
+extern skill_t          prevgameskill;
+extern int              prevcheats;
 
 extern bool             sigil;
 extern bool             sigil2;

@@ -1161,6 +1161,10 @@ void P_ArchivePlayer(void)
 void P_UnarchivePlayer(void)
 {
     P_InitCards();
+
+    if (viewplayer)
+        prevcheats = viewplayer->cheats;
+
     saveg_read_player_t();
 }
 

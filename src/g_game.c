@@ -78,10 +78,12 @@ static void G_DoSaveGame(void);
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_NONE;
 skill_t         gameskill = sk_none;
-skill_t         prevgameskill = sk_none;
 int             gameepisode;
 int             gamemap;
+
 char            speciallumpname[6] = "";
+skill_t         prevgameskill = sk_none;
+int             prevcheats = 0;
 
 bool            paused;
 bool            sendpause;                          // send a pause event next tic
@@ -1821,6 +1823,24 @@ void G_LoadedGameMessage(void)
 
                 C_Warning(0, "The skill level is now " ITALICS("%s") ".", temp2);
                 free(temp2);
+            }
+
+            if (prevcheats != viewplayer->cheats)
+            {
+                if (!(prevcheats & CF_GODMODE) && (viewplayer->cheats & CF_GODMODE))
+                    C_Warning(0, "God mode is now on.");
+                else if ((prevcheats & CF_GODMODE) && !(viewplayer->cheats & CF_GODMODE))
+                    C_Warning(0, "God mode is now off.");
+
+                if (!(prevcheats & CF_NOCLIP) && (viewplayer->cheats & CF_NOCLIP))
+                    C_Warning(0, "No clipping mode is now on.");
+                else if ((prevcheats & CF_NOCLIP) && !(viewplayer->cheats & CF_NOCLIP))
+                    C_Warning(0, "No clipping mode is now off.");
+
+                if (!(prevcheats & CF_FREEZE) && (viewplayer->cheats & CF_FREEZE))
+                    C_Warning(0, "Freeze mode is now on.");
+                else if ((prevcheats & CF_FREEZE) && !(viewplayer->cheats & CF_FREEZE))
+                    C_Warning(0, "Freeze mode is now off.");
             }
         }
 
