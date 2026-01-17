@@ -904,7 +904,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright);
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
-        vis->shadowz = thing->floorz + thing->shadowoffset - viewz;
+        vis->shadowz = (heightsec ? heightsec->interpfloorheight : thing->floorz) + thing->shadowoffset - viewz;
     else
         vis->shadowz = 1;
 
