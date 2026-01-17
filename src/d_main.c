@@ -312,7 +312,11 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate)
+        {
+            r_bloodsplats_visible = 0;
+            r_bloodsplats_total = 0;
             I_SetPalette(PLAYPAL);
+        }
 
         switch (gamestate)
         {
