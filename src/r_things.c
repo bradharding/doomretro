@@ -476,12 +476,14 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
+    fixed_t         footclip;
     int             baseclip;
     bool            percolumnlighting;
     fixed_t         pcl_patchoffset = 0;
     fixed_t         pcl_cosine = 0;
     fixed_t         pcl_sine = 0;
     int             pcl_lightindex = 0;
+    const int       patchwidth = patch->width;
 
     spryscale = vis->scale;
 
@@ -506,57 +508,92 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-    baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);
+    footclip = vis->footclip;
+    baseclip = (footclip ? (int)(sprtopscreen + footclip) >> FRACBITS : viewheight);
     fuzz1pos = 0;
 
     if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
         && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
     {
-        const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        fixed_t     offset;
+        fixed_t     pcl_gx;
+        fixed_t     pcl_gy;
+        fixed_t     pcl_dx, pcl_dy;
+        subsector_t *lastsubsec = NULL;
 
         pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
         pcl_cosine = finecosine[angle];
         pcl_sine = finesine[angle];
         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+        if (vis->flipped)
+        {
+            offset = pcl_patchoffset - frac;
+            pcl_dx = FixedMul(-xiscale, pcl_cosine);
+            pcl_dy = FixedMul(-xiscale, pcl_sine);
+        }
+        else
+        {
+            offset = frac - pcl_patchoffset;
+            pcl_dx = FixedMul(xiscale, pcl_cosine);
+            pcl_dy = FixedMul(xiscale, pcl_sine);
+        }
+
+        pcl_gx = vis->gx + FixedMul(offset, pcl_cosine);
+        pcl_gy = vis->gy + FixedMul(offset, pcl_sine);
+
+        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale, pcl_gx += pcl_dx, pcl_gy += pcl_dy)
+        {
+            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
+
+            if ((dc_numposts = column->numposts))
+            {
+                dc_ceilingclip = mceilingclip[dc_x] + 1;
+                dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
+
+                subsector_t *subsec = R_PointInSubsector(pcl_gx, pcl_gy);
+
+                if (subsec != lastsubsec)
+                {
+                    sector_t    *sector = subsec->sector;
+                    sector_t    tempsec;
+                    int         floorlightlevel;
+                    int         ceilinglightlevel;
+                    int         lightnum;
+
+                    R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+                    lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
+
+                    dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                    dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                    dc_sectorcolormap = R_GetSectorColormap(sector);
+
+                    lastsubsec = subsec;
+                }
+
+                R_BlastSpriteColumn(column);
+            }
+        }
+
+        return;
     }
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
-        const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
+        const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
 
         if ((dc_numposts = column->numposts))
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
 
-            if (percolumnlighting)
-            {
-                const fixed_t   offset = (vis->flipped ? pcl_patchoffset - frac : frac - pcl_patchoffset);
-                const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
-                const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
-                sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
-                sector_t        tempsec;
-                int             floorlightlevel;
-                int             ceilinglightlevel;
-                int             lightnum;
-
-                R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
-                lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
-
-                dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_sectorcolormap = R_GetSectorColormap(sector);
-            }
-
             R_BlastSpriteColumn(column);
         }
     }
 }
 
-//
-// R_DrawVisSpriteWithShadow
-//
 static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 {
     fixed_t         frac = vis->startfrac;
@@ -574,9 +611,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     int             pcl_lightindex = 0;
     int64_t         shadowtopscreen;
     int64_t         shadowspryscale;
-    int             shadowbaseclip;
     fixed_t         shadowfootclip;
+    int             shadowbaseclip;
     void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
+    const int       patchwidth = patch->width;
 
     spryscale = vis->scale;
 
@@ -632,17 +670,87 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
         && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
     {
-        const int   angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        fixed_t     offset;
+        fixed_t     pcl_gx;
+        fixed_t     pcl_gy;
+        fixed_t     pcl_dx, pcl_dy;
+        subsector_t *lastsubsec = NULL;
 
         pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
         pcl_cosine = finecosine[angle];
         pcl_sine = finesine[angle];
         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+        if (vis->flipped)
+        {
+            offset = pcl_patchoffset - frac;
+            pcl_dx = FixedMul(-xiscale, pcl_cosine);
+            pcl_dy = FixedMul(-xiscale, pcl_sine);
+        }
+        else
+        {
+            offset = frac - pcl_patchoffset;
+            pcl_dx = FixedMul(xiscale, pcl_cosine);
+            pcl_dy = FixedMul(xiscale, pcl_sine);
+        }
+
+        pcl_gx = vis->gx + FixedMul(offset, pcl_cosine);
+        pcl_gy = vis->gy + FixedMul(offset, pcl_sine);
+
+        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale, pcl_gx += pcl_dx, pcl_gy += pcl_dy)
+        {
+            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
+
+            if ((dc_numposts = column->numposts))
+            {
+                const rpost_t   *posts = column->posts;
+
+                dc_ceilingclip = mceilingclip[dc_x] + 1;
+                dc_floorclip = MIN(shadowbaseclip, mfloorclip[dc_x]) - 1;
+
+                subsector_t *subsec = R_PointInSubsector(pcl_gx, pcl_gy);
+
+                if (subsec != lastsubsec)
+                {
+                    sector_t    *sector = subsec->sector;
+                    sector_t    tempsec;
+                    int         floorlightlevel;
+                    int         ceilinglightlevel;
+                    int         lightnum;
+
+                    R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+                    lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
+
+                    dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                    dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
+                    dc_sectorcolormap = R_GetSectorColormap(sector);
+
+                    lastsubsec = subsec;
+                }
+
+                while (dc_numposts--)
+                {
+                    const rpost_t   *post = &posts[dc_numposts];
+                    const int64_t   topscreen = shadowtopscreen + shadowspryscale * post->topdelta;
+
+                    if ((dc_yh = MIN((int)((topscreen + shadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+                        if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+                            shadowcolfunc();
+                }
+
+                dc_numposts = column->numposts;
+                R_BlastSpriteColumn(column);
+            }
+        }
+
+        return;
     }
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
-        const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
+        const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
 
         if ((dc_numposts = column->numposts))
         {
@@ -650,26 +758,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(shadowbaseclip, mfloorclip[dc_x]) - 1;
-
-            if (percolumnlighting)
-            {
-                const fixed_t   offset = (vis->flipped ? pcl_patchoffset - frac : frac - pcl_patchoffset);
-                const fixed_t   gx = vis->gx + FixedMul(offset, pcl_cosine);
-                const fixed_t   gy = vis->gy + FixedMul(offset, pcl_sine);
-                sector_t        *sector = R_PointInSubsector(gx, gy)->sector;
-                sector_t        tempsec;
-                int             floorlightlevel;
-                int             ceilinglightlevel;
-                int             lightnum;
-
-                R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
-                lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
-
-                dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                dc_sectorcolormap = R_GetSectorColormap(sector);
-            }
 
             while (dc_numposts--)
             {
@@ -695,6 +783,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     fixed_t         frac = vis->startfrac;
     const fixed_t   x2 = vis->x2;
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
+    const int       patchwidth = patch->width;
 
     colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
@@ -706,7 +795,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
-        const rcolumn_t *column = R_GetPatchColumnClamped(patch, frac >> FRACBITS);
+        const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
 
         if ((dc_numposts = column->numposts))
             R_BlastPlayerSpriteColumn(column);
@@ -1649,7 +1738,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-	const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
+    const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
 
     if (consoleactive || paused || freeze)
     {
