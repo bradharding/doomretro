@@ -4031,7 +4031,9 @@ static void killfunc2(char *cmd, char *parms)
             else
                 M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, pronoun(reflexive));
 
-            C_PlayerObituary(buffer);
+            C_PlayerWarning(buffer);
+            HU_SetPlayerMessage(buffer, false, false);
+            message_warning = true;
             C_HideConsole();
         }
         else
@@ -8696,7 +8698,9 @@ static void resurrectfunc2(char *cmd, char *parms)
             else
                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
 
-            C_PlayerObituary(buffer);
+            C_PlayerWarning(buffer);
+            HU_SetPlayerMessage(buffer, false, false);
+            message_warning = true;
             C_HideConsole();
             cheated = true;
         }
@@ -11046,7 +11050,9 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             else
                                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
 
-                            C_PlayerObituary(buffer);
+                            C_PlayerWarning(buffer);
+                            HU_SetPlayerMessage(buffer, false, false);
+                            message_warning = true;
                         }
                     }
                     else

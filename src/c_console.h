@@ -165,8 +165,35 @@ typedef enum
     playerwarningstring,
     playermessagestring,
     headerstring,
+    obituarystring,
+    playerobituarystring,
     STRINGTYPES
 } stringtype_t;
+
+typedef struct
+{
+    mobjtype_t      target;
+    mobjtype_t      inflicter;
+    mobjtype_t      source;
+
+    mobjtype_t      barrelinflicter;
+    short           floorpic;
+    terraintype_t   terraintype;
+    bool            crushed;
+    bool            targetisplayer;
+    bool            sourceisplayer;
+    bool            targetfriendly;
+    bool            sourcefriendly;
+    bool            targetcorpse;
+
+    bool            gibbed;
+    bool            telefragged;
+
+    weapontype_t    weapon;
+
+    char            targetname[64];
+    char            sourcename[64];
+} obituaryinfo_t;
 
 typedef struct
 {
@@ -178,6 +205,7 @@ typedef struct
     patch_t         *header;
     int             tabs[MAXTABS];
     struct tm       timestamp;
+    obituaryinfo_t  obituary;
 } console_t;
 
 typedef struct
@@ -259,7 +287,8 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
-void C_PlayerObituary(const char *string, ...);
+void C_RecordObituary(const mobj_t *target, const mobj_t *inflicter, const mobj_t *source,
+    const weapontype_t weapon, const bool gibbed, const bool telefragged);
 void C_PlayerWarning(const char *string, ...);
 char *C_GetPlayerName(void);
 void C_ResetWrappedLines(void);
@@ -280,6 +309,7 @@ void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
+void C_ResolveLazyConsoleString(const int index);
 
 #if defined(_WIN32)
 void C_PrintCompileDate(void);
