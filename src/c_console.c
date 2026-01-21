@@ -2053,7 +2053,7 @@ void C_Drawer(void)
         const stringtype_t  stringtype = console[i].stringtype;
 
         if (stringtype == obituarystring || stringtype == playerobituarystring)
-            C_ResolveLazyConsoleString(i);
+            C_BuildObituaryString(i);
 
         if (stringtype == dividerstring)
         {

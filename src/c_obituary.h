@@ -64,6 +64,6 @@ typedef struct
     char            sourcename[64];
 } obituaryinfo_t;
 
-void C_ResolveLazyConsoleString(const int index);
+void C_BuildObituaryString(const int index);
 void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool gibbed,
     const bool telefragged);

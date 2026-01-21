@@ -2649,7 +2649,7 @@ static void condumpfunc2(char *cmd, char *parms)
                 int             tabcount = 0;
 
                 if (type == obituarystring || type == playerobituarystring)
-                    C_ResolveLazyConsoleString(i);
+                    C_BuildObituaryString(i);
 
                 if (!(len = (int)strlen(string)))
                 {

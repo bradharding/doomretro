@@ -64,16 +64,20 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
         (name && *name && !M_StringStartsWith(name, "Deh_Actor_") ? name : "monster"));
 }
 
-static void C_BuildObituaryString(char *buffer, const int buffersize, const obituaryinfo_t *obituary)
+void C_BuildObituaryString(const int index)
 {
-    const mobjtype_t    target = obituary->target;
-    const mobjtype_t    inflicter = obituary->inflicter;
-    const mobjtype_t    source = obituary->source;
-    const weapontype_t  weapon = obituary->weapon;
-    const bool          gibbed = obituary->gibbed;
-    const bool          telefragged = obituary->telefragged;
+    const obituaryinfo_t    *obituary = &console[index].obituary;
+    char                    *buffer = console[index].string;
+    const int               buffersize = (int)sizeof(console[index].string);
+    const mobjtype_t        target = obituary->target;
+    const mobjtype_t        inflicter = obituary->inflicter;
+    const mobjtype_t        source = obituary->source;
+    const weapontype_t      weapon = obituary->weapon;
+    const bool              gibbed = obituary->gibbed;
+    const bool              telefragged = obituary->telefragged;
 
-    buffer[0] = '\0';
+    if (buffer[0])
+        return;
 
     if (telefragged)
     {
@@ -89,6 +93,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             else
                 M_snprintf(buffer, buffersize, "%s was telefragged by %s!", playername, sourcename);
 
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
         else if (obituary->sourceisplayer)
@@ -98,6 +103,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             C_BuildThingName(targetname, sizeof(targetname), target,
                 obituary->targetfriendly, false, obituary->targetname);
             M_snprintf(buffer, buffersize, "%s telefragged %s.", C_GetPlayerName(), targetname);
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
         else
@@ -110,6 +116,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             C_BuildThingName(targetname, sizeof(targetname), target,
                 obituary->targetfriendly, false, obituary->targetname);
             M_snprintf(buffer, buffersize, "%s was telefragged by %s.", targetname, sourcename);
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
     }
@@ -142,7 +149,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
                 }
                 else
                 {
-                    const mobjtype_t    killer = (mobjtype_t)obituary->barrelinflicter;
+                    const mobjtype_t    killer = obituary->barrelinflicter;
                     const char          *killername1 = (killer > MT_NULL && killer < NUMMOBJTYPES ?
                                             mobjinfo[killer].name1 : "");
 
@@ -156,6 +163,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
                         (*killername1 && !M_StringStartsWith(killername1, "Deh_Actor_") ? killername1 : "monster"));
                 }
 
+                buffer[0] = (char)toupper(buffer[0]);
                 return;
             }
             else
@@ -189,7 +197,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
                         (inflictername ? inflictername : "barrel"));
                 else
                 {
-                    const mobjtype_t    killer = (mobjtype_t)obituary->barrelinflicter;
+                    const mobjtype_t    killer = obituary->barrelinflicter;
                     const char          *killername1 = (killer > MT_NULL && killer < NUMMOBJTYPES ?
                                             mobjinfo[killer].name1 : "");
 
@@ -203,6 +211,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
                 }
 
                 free(temp);
+                buffer[0] = (char)toupper(buffer[0]);
                 return;
             }
         }
@@ -271,6 +280,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
                 }
             }
 
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
 
@@ -289,7 +299,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
         else
         {
             char    targetname[128];
-            char *temp = sentencecase(sourcename);
+            char    *temp = sentencecase(sourcename);
 
             C_BuildThingName(targetname, sizeof(targetname), target,
                 obituary->targetfriendly, false, obituary->targetname);
@@ -303,6 +313,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             free(temp);
         }
 
+        buffer[0] = (char)toupper(buffer[0]);
         return;
     }
 
@@ -315,6 +326,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             else
                 M_snprintf(buffer, buffersize, "%s was crushed to death!", playername);
 
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
 
@@ -337,6 +349,7 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
 
             M_snprintf(buffer, buffersize, "%s died in %s.",
                 C_GetPlayerName(), liquids[obituary->terraintype - LIQUID][english]);
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
         else
@@ -348,18 +361,10 @@ static void C_BuildObituaryString(char *buffer, const int buffersize, const obit
             else
                 M_snprintf(buffer, buffersize, "%s died.", C_GetPlayerName());
 
+            buffer[0] = (char)toupper(buffer[0]);
             return;
         }
     }
-}
-
-void C_ResolveLazyConsoleString(const int index)
-{
-    if (console[index].string[0])
-        return;
-
-    C_BuildObituaryString(console[index].string, sizeof(console[index].string), &console[index].obituary);
-    console[index].string[0] = (char)toupper(console[index].string[0]);
 }
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
@@ -447,7 +452,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
         if (obituaries && console[i].stringtype == playerobituarystring)
         {
             console[i].string[0] = '\0';
-            C_ResolveLazyConsoleString(i);
+            C_BuildObituaryString(i);
             HU_SetPlayerMessage(console[i].string, false, false);
             message_warning = true;
         }
@@ -478,7 +483,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
 
     if (obituaries && console[numconsolestrings].stringtype == playerobituarystring)
     {
-        C_ResolveLazyConsoleString(numconsolestrings);
+        C_BuildObituaryString(numconsolestrings);
         HU_SetPlayerMessage(console[numconsolestrings].string, false, false);
         message_warning = true;
     }
