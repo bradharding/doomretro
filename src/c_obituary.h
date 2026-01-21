@@ -64,8 +64,6 @@ typedef struct
     char            sourcename[64];
 } obituaryinfo_t;
 
-void C_RecordObituary(const mobj_t *target, const mobj_t *inflicter, const mobj_t *source,
-    const weapontype_t weapon, const bool gibbed, const bool telefragged);
 void C_ResolveLazyConsoleString(const int index);
-void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool gibbed,
+void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool gibbed,
     const bool telefragged);

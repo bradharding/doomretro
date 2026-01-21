@@ -1710,7 +1710,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         target->flags2 |= MF2_EXPLODING;
 
     if (obituaries && !hacx && !massacre)
-        P_WriteObituary(target, inflicter, source, gibbed, telefragged);
+        C_WriteObituary(target, inflicter, source, gibbed, telefragged);
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
 
