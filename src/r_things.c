@@ -1368,7 +1368,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     {
         sector_t    *sec = viewplayer->mo->subsector->sector;
 
-        if (r_sprites_translucency)
+        if (r_playerweapon_translucency)
         {
             if (!r_textures)
             {

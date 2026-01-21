@@ -1024,6 +1024,8 @@ consolecmd_t consolecmds[] =
         "Toggles the gold effect when you pick something up."),
     BOOLCVAR(r_playerweapon, "", "", boolfunc1, boolfunc2, 0,
         "Toggles showing your weapon."),
+    BOOLCVAR(r_playerweapon_translucency, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the translucency effect when firing your weapon."),
     BOOLCVAR(r_radsuiteffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
     BOOLCVAR(r_randomstartframes, "", "", boolfunc1, r_randomstartframesfunc2, CF_NEXTMAP,

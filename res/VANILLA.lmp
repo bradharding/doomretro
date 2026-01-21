@@ -115,6 +115,7 @@ r_mirroredweapons off
 r_percolumnlighting off
 r_pickupeffect on
 r_playerweapon on
+r_playerweapon_translucency off
 r_radsuiteffect on
 r_randomstartframes off
 r_rockettrails off

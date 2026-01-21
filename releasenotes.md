@@ -40,6 +40,7 @@
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
+* Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
