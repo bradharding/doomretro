@@ -39,6 +39,7 @@
 * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
+* The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -2582,7 +2582,7 @@ static void M_SizeDisplay(int choice)
 
     blurtic = -1;
 
-    if (r_playersprites)
+    if (r_playerweapon)
         skippsprinterp = true;
 }
 

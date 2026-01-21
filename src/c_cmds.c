@@ -1022,7 +1022,7 @@ consolecmd_t consolecmds[] =
         "Toggles per-column lighting cast on monsters."),
     BOOLCVAR(r_pickupeffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the gold effect when you pick something up."),
-    BOOLCVAR(r_playersprites, "", "", boolfunc1, boolfunc2, 0,
+    BOOLCVAR(r_playerweapon, "", "", boolfunc1, boolfunc2, 0,
         "Toggles showing your weapon."),
     BOOLCVAR(r_radsuiteffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
@@ -11682,7 +11682,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
 
-            if (r_playersprites)
+            if (r_playerweapon)
                 skippsprinterp = true;
 
             free(temp1);

@@ -189,7 +189,7 @@ char        *r_lowpixelsize = r_lowpixelsize_default;
 bool        r_mirroredweapons = r_mirroredweapons_default;
 bool        r_percolumnlighting = r_percolumnlighting_default;
 bool        r_pickupeffect = r_pickupeffect_default;
-bool        r_playersprites = r_playersprites_default;
+bool        r_playerweapon = r_playerweapon_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
 bool        r_randomstartframes = r_randomstartframes_default;
 bool        r_rockettrails = r_rockettrails_default;
@@ -448,7 +448,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_percolumnlighting,              r_percolumnlighting,                   r_percolumnlighting,                   BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS       ),
-    CVAR_BOOL         (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS       ),
+    CVAR_BOOL         (r_playerweapon,                   r_playersprites,                       r_playerweapon,                        BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                       BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                   BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS       ),

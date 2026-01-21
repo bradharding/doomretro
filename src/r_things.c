@@ -1759,7 +1759,7 @@ void R_DrawMasked(void)
             if (ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
-        if (r_playersprites && !menuactive)
+        if (r_playerweapon && !menuactive)
             R_DrawPlayerSprites();
 
         return;
@@ -1860,6 +1860,6 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    if (r_playersprites && !menuactive)
+    if (r_playerweapon && !menuactive)
         R_DrawPlayerSprites();
 }

@@ -114,7 +114,7 @@ r_lowpixelsize 2x2
 r_mirroredweapons off
 r_percolumnlighting off
 r_pickupeffect on
-r_playersprites on
+r_playerweapon on
 r_radsuiteffect on
 r_randomstartframes off
 r_rockettrails off

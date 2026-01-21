@@ -909,7 +909,7 @@ void P_SetupPlayerSprites(void)
     viewplayer->pendingweapon = viewplayer->readyweapon;
     P_BringUpWeapon((r_screensize == r_screensize_max ? 106 : 90) * FRACUNIT);
 
-    if (r_playersprites)
+    if (r_playerweapon)
         skippsprinterp = true;
 }
 

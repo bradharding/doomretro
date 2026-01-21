@@ -1917,7 +1917,7 @@ void I_RestartGraphics(const bool recreatewindow)
 
     setsizeneeded = true;
 
-    if (r_playersprites)
+    if (r_playerweapon)
         skippsprinterp = true;
 }
 
