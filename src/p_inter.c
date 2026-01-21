@@ -36,6 +36,7 @@
 #include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
+#include "c_obituary.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -1558,17 +1559,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
         default:
             return false;
     }
-}
-
-static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
-    const bool gibbed, const bool telefragged)
-{
-    weapontype_t    weapon = wp_nochange;
-
-    if (source && (source->player || source->type == MT_BFG))
-        weapon = viewplayer->readyweapon;
-
-    C_RecordObituary(target, inflicter, source, weapon, gibbed, telefragged);
 }
 
 static void P_SpawnGibBlood(mobj_t *target)

@@ -37,6 +37,7 @@
 
 #include <time.h>
 
+#include "c_obituary.h"
 #include "d_event.h"
 #include "doomdef.h"
 #include "doomtype.h"
@@ -172,31 +173,6 @@ typedef enum
 
 typedef struct
 {
-    mobjtype_t      target;
-    mobjtype_t      inflicter;
-    mobjtype_t      source;
-
-    mobjtype_t      barrelinflicter;
-    short           floorpic;
-    terraintype_t   terraintype;
-    bool            crushed;
-    bool            targetisplayer;
-    bool            sourceisplayer;
-    bool            targetfriendly;
-    bool            sourcefriendly;
-    bool            targetcorpse;
-
-    bool            gibbed;
-    bool            telefragged;
-
-    weapontype_t    weapon;
-
-    char            targetname[64];
-    char            sourcename[64];
-} obituaryinfo_t;
-
-typedef struct
-{
     char            string[1024];
     int             count;
     stringtype_t    stringtype;
@@ -263,6 +239,7 @@ extern bool             pathoverlay;
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
+extern int              outputhistory;
 
 extern int              consoleedgecolor1;
 extern int              consoleedgecolor2;
@@ -276,6 +253,7 @@ extern const kern_t     altkern[];
 
 extern autocomplete_t   autocompletelist[];
 
+void C_CreateTimeStamp(const int index);
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
 void C_IntegerCVAROutput(const char *cvar, const int value);
@@ -287,8 +265,6 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
-void C_RecordObituary(const mobj_t *target, const mobj_t *inflicter, const mobj_t *source,
-    const weapontype_t weapon, const bool gibbed, const bool telefragged);
 void C_PlayerWarning(const char *string, ...);
 char *C_GetPlayerName(void);
 void C_ResetWrappedLines(void);
@@ -309,7 +285,6 @@ void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
-void C_ResolveLazyConsoleString(const int index);
 
 #if defined(_WIN32)
 void C_PrintCompileDate(void);
