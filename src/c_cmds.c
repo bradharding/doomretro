@@ -2642,17 +2642,20 @@ static void condumpfunc2(char *cmd, char *parms)
             else
             {
                 char            *string = M_StringDuplicate(console[i].string);
-                const int       len = (int)strlen(string);
+                int             len;
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
 
-                if (!len)
+                if (type == obituarystring || type == playerobituarystring)
+                    C_ResolveLazyConsoleString(i);
+
+                if (!(len = (int)strlen(string)))
                 {
                     free(string);
                     continue;
                 }
 
-                if (type == warningstring || type == playerwarningstring)
+                if (type == warningstring || type == playerwarningstring || type == playerobituarystring)
                     fputs("! ", file);
 
                 for (int inpos = (indentation(string) - 1) / 2; inpos < len; inpos++)
@@ -2687,7 +2690,8 @@ static void condumpfunc2(char *cmd, char *parms)
                     }
                 }
 
-                if (type == playermessagestring || type == playerwarningstring)
+                if (type == playermessagestring || type == playerwarningstring
+                    || type == obituarystring || type == playerobituarystring)
                 {
                     const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
                     struct tm           timestamp = console[i].timestamp;
