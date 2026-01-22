@@ -1100,6 +1100,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     const fixed_t   tr_y = fy - viewy;
     const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
+    if (r_bloodsplats_visible >= r_bloodsplats_max)
+        return;
+
     // splat is behind view plane or too far away?
     if (tz < MINZ || tz > MAXZ / 8)
         return;
@@ -1122,9 +1125,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     // quickly reject splats with bad x ranges
     if (x1 >= x2)
-        return;
-
-    if (r_bloodsplats_visible >= r_bloodsplats_max)
         return;
 
     // store information in a vissplat
