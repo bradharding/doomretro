@@ -44,10 +44,32 @@
 #include "m_config.h"
 #include "m_misc.h"
 
+static const char *liquids[][2] =
+{
+    { "liquid",     "liquid"     },
+    { "nukage",     "nukage"     },
+    { "water",      "water"      },
+    { "lava",       "lava"       },
+    { "blood",      "blood"      },
+    { "slime",      "slime"      },
+    { "gray slime", "grey slime" },
+    { "goop",       "goop"       },
+    { "icy water",  "icy water"  },
+    { "tar",        "tar"        },
+    { "sludge",     "sludge"     }
+};
+
 static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t type,
     const bool friendly, const bool corpse, const char *customname)
 {
-    char    *name;
+    const bool  validtype = (type > MT_NULL && type < NUMMOBJTYPES);
+    char        *name = (validtype ? mobjinfo[type].name1 : NULL);
+    const bool  validname = (name && *name && !M_StringStartsWith(name, "Deh_Actor_"));
+    const char  *basename = (validname ? name : "monster");
+    const bool  definite = (friendly && validtype && monstercount[type] == 1);
+    const bool  vowelstart = (validname && isvowel((unsigned char)basename[0]));
+    const char  *article = (definite ? "the" : (vowelstart && !corpse && !friendly ? "an" : "a"));
+    const char  *prefix = "";
 
     if (customname && *customname)
     {
@@ -55,13 +77,22 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
         return;
     }
 
-    name = (type > MT_NULL && type < NUMMOBJTYPES ? mobjinfo[type].name1 : NULL);
+    if (corpse && validname && !M_StringStartsWith(basename, "dead "))
+        prefix = "dead ";
+    else if (friendly)
+        prefix = "friendly ";
 
-    M_snprintf(dest, destsize, "%s %s%s",
-        (friendly && type > MT_NULL && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" :
-            (name && *name && isvowel(name[0]) && !corpse && !friendly ? "an" : "a")),
-        (corpse && name && !M_StringStartsWith(name, "dead ") ? "dead " : (friendly ? "friendly " : "")),
-        (name && *name && !M_StringStartsWith(name, "Deh_Actor_") ? name : "monster"));
+    M_snprintf(dest, destsize, "%s %s%s", article, prefix, basename);
+}
+
+static const char *C_KillVerb(const mobjtype_t target, const bool gibbed)
+{
+    if (target == MT_BARREL)
+        return "exploded";
+    else if (target == MT_EXTRA50 && legacyofrust)
+        return "broke";
+    else
+        return (gibbed ? s_GIBBED : s_KILLED);
 }
 
 void C_BuildObituaryString(const int index)
@@ -81,44 +112,31 @@ void C_BuildObituaryString(const int index)
 
     if (telefragged)
     {
-        if (obituary->targetisplayer)
-        {
-            char    sourcename[128];
+        char    sourcename[128] = "";
+        char    targetname[128] = "";
 
+        if (!obituary->sourceisplayer)
             C_BuildThingName(sourcename, sizeof(sourcename), source,
                 obituary->sourcefriendly, false, obituary->sourcename);
 
+        if (!obituary->targetisplayer)
+            C_BuildThingName(targetname, sizeof(targetname), target,
+                obituary->targetfriendly, false, obituary->targetname);
+
+        if (obituary->targetisplayer)
+        {
             if (isdefaultplayername())
                 M_snprintf(buffer, buffersize, "You were telefragged by %s!", sourcename);
             else
                 M_snprintf(buffer, buffersize, "%s was telefragged by %s!", playername, sourcename);
-
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
         }
         else if (obituary->sourceisplayer)
-        {
-            char    targetname[128];
-
-            C_BuildThingName(targetname, sizeof(targetname), target,
-                obituary->targetfriendly, false, obituary->targetname);
             M_snprintf(buffer, buffersize, "%s telefragged %s.", C_GetPlayerName(), targetname);
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
-        }
         else
-        {
-            char    sourcename[128];
-            char    targetname[128];
-
-            C_BuildThingName(sourcename, sizeof(sourcename), source,
-                obituary->sourcefriendly, false, obituary->sourcename);
-            C_BuildThingName(targetname, sizeof(targetname), target,
-                obituary->targetfriendly, false, obituary->targetname);
             M_snprintf(buffer, buffersize, "%s was telefragged by %s.", targetname, sourcename);
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
-        }
+
+        buffer[0] = (char)toupper((unsigned char)buffer[0]);
+        return;
     }
 
     if (source != MT_NULL)
@@ -169,30 +187,29 @@ void C_BuildObituaryString(const int index)
             else
             {
                 char    targetname[128];
-                char    *temp;
 
                 C_BuildThingName(targetname, sizeof(targetname), target, obituary->targetfriendly,
                     (obituary->targetcorpse && source != target), obituary->targetname);
 
-                temp = sentencecase(targetname);
+                targetname[0] = (char)toupper(targetname[0]);
 
                 if (byplayer)
                 {
                     if (isdefaultplayername())
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that you exploded.",
-                            temp, (gibbed ? s_GIBBED : s_KILLED),
+                            targetname, (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded.",
-                            temp, (gibbed ? s_GIBBED : s_KILLED),
+                            targetname, (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             playername);
                 }
                 else if (source == target)
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that they exploded.",
-                        temp, (gibbed ? s_GIBBED : s_KILLED),
+                        targetname, (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"));
                 else
@@ -202,7 +219,7 @@ void C_BuildObituaryString(const int index)
                                             mobjinfo[killer].name1 : "");
 
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s %s exploded.",
-                        temp, (gibbed ? s_GIBBED : s_KILLED),
+                        targetname, (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
                         (inflicter == killer || M_StringCompare(inflictername, killername1) ? "another" :
@@ -210,7 +227,6 @@ void C_BuildObituaryString(const int index)
                         (*killername1 && !M_StringStartsWith(killername1, "Deh_Actor_") ? killername1 : "monster"));
                 }
 
-                free(temp);
                 buffer[0] = (char)toupper(buffer[0]);
                 return;
             }
@@ -237,14 +253,10 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "You %s %s with your %s while %s.",
-                            (target == MT_BARREL ? "exploded" :
-                                (target == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
-                            targetname, weaponinfo[weapon].name, berserk);
+                            C_KillVerb(target, gibbed), targetname, weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "You %s %s with your %s.",
-                            (target == MT_BARREL ? "exploded" :
-                                (target == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
-                            targetname, weaponinfo[weapon].name);
+                            C_KillVerb(target, gibbed), targetname, weaponinfo[weapon].name);
                 }
             }
             else
@@ -267,16 +279,12 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s while %s.",
-                            playername,
-                            (target == MT_BARREL ? "exploded" :
-                                (target == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
-                            targetname, pronoun(possessive), weaponinfo[weapon].name, berserk);
+                            playername, C_KillVerb(target, gibbed), targetname, pronoun(possessive),
+                            weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s.",
-                            playername,
-                            (target == MT_BARREL ? "exploded" :
-                                (target == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
-                            targetname, pronoun(possessive), weaponinfo[weapon].name);
+                            playername, C_KillVerb(target, gibbed), targetname, pronoun(possessive),
+                            weaponinfo[weapon].name);
                 }
             }
 
@@ -299,18 +307,14 @@ void C_BuildObituaryString(const int index)
         else
         {
             char    targetname[128];
-            char    *temp = sentencecase(sourcename);
+
+            sourcename[0] = (char)toupper(sourcename[0]);
 
             C_BuildThingName(targetname, sizeof(targetname), target,
                 obituary->targetfriendly, false, obituary->targetname);
 
             M_snprintf(buffer, buffersize, "%s %s %s.",
-                temp,
-                (target == MT_BARREL ? "exploded" :
-                    (target == MT_EXTRA50 && legacyofrust ? "broke" : (gibbed ? s_GIBBED : s_KILLED))),
-                targetname);
-
-            free(temp);
+                sourcename, C_KillVerb(target, gibbed), targetname);
         }
 
         buffer[0] = (char)toupper(buffer[0]);
@@ -330,23 +334,8 @@ void C_BuildObituaryString(const int index)
             return;
         }
 
-        if (obituary->terraintype >= LIQUID)
+        if (obituary->terraintype >= LIQUID && obituary->terraintype < NUMTERRAINTYPES)
         {
-            const char *liquids[][2] =
-            {
-                { "liquid",     "liquid"     },
-                { "nukage",     "nukage"     },
-                { "water",      "water"      },
-                { "lava",       "lava"       },
-                { "blood",      "blood"      },
-                { "slime",      "slime"      },
-                { "gray slime", "grey slime" },
-                { "goop",       "goop"       },
-                { "icy water",  "icy water"  },
-                { "tar",        "tar"        },
-                { "sludge",     "sludge"     }
-            };
-
             M_snprintf(buffer, buffersize, "%s died in %s.",
                 C_GetPlayerName(), liquids[obituary->terraintype - LIQUID][english]);
             buffer[0] = (char)toupper(buffer[0]);

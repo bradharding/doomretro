@@ -89,7 +89,8 @@ typedef enum
     GOOP,
     ICYWATER,
     TAR,
-    SLUDGE
+    SLUDGE,
+    NUMTERRAINTYPES
 } terraintype_t;
 
 //
