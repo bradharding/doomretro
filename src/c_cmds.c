@@ -5671,7 +5671,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
         }
         else
         {
-            if (customepisodes && maptoepisode[gamemap] > 0)
+            if (customepisodes && gamemap < maxmaptoepisode && maptoepisode[gamemap] > 0)
             {
                 if (**episodes[maptoepisode[gamemap] - 1])
                 {

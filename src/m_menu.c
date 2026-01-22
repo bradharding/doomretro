@@ -1734,19 +1734,19 @@ static int      epi;
 bool            customepisodes = false;
 static short    episodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1, -1, -1 };
 static short    episodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1, -1, -1 };
+int             maxmaptoepisode = 0;
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
-    static int  maxmaps;
-
-    if (map >= maxmaps)
+    if (map >= maxmaptoepisode)
     {
-        const int   oldmaxmaps = maxmaps;
+        const int   oldmaxmaptoepisode = maxmaptoepisode;
 
-        maxmaps = map + 1;
-        maptoepisode = I_Realloc(maptoepisode, maxmaps * sizeof(*maptoepisode));
+        maxmaptoepisode = map + 100;
+        maptoepisode = I_Realloc(maptoepisode, maxmaptoepisode * sizeof(*maptoepisode));
 
-        memset(maptoepisode + oldmaxmaps, 0, (maxmaps - oldmaxmaps) * sizeof(*maptoepisode));
+        memset(maptoepisode + oldmaxmaptoepisode, 0,
+            (maxmaptoepisode - oldmaxmaptoepisode) * sizeof(*maptoepisode));
     }
 
     if (gamemode == commercial)
@@ -1768,7 +1768,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             else
                 break;
 
-        for (int i = map + 1; i < maxmaps; i++)
+        for (int i = map + 1; i < maxmaptoepisode; i++)
             if (maptoepisode[i] < episodecount)
                 maptoepisode[i] = episodecount;
 
