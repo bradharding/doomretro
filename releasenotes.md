@@ -33,10 +33,12 @@
 * The underscores under the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_textures` CVAR no longer affects the menu’s background.
-* A bug is fixed whereby blood splats weren’t as random as intended.
-* When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
-* A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
-* The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
+* These changes have been made to blood splats:
+  * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
+  * There are no longer slight random variations in the colors of blood splats.
+  * When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
+  * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
+  * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
