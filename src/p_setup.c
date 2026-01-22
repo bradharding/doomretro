@@ -4109,7 +4109,9 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 }
                             }
 
-                            info->music = W_CheckNumForName(sc_String);
+                            if (!info->music)
+                                info->music = W_CheckNumForName(sc_String);
+
                             break;
 
                         case MCMD_MUSICARTIST:
