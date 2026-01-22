@@ -60,15 +60,17 @@ static const char *liquids[][2] =
 };
 
 static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t type,
-    const bool friendly, const bool corpse, const char *customname)
+    const bool friendly, const bool corpse, const char *customname, const char *othername)
 {
     const bool  validtype = (type > MT_NULL && type < NUMMOBJTYPES);
-    char        *name = (validtype ? mobjinfo[type].name1 : NULL);
+    char        *name = (validtype ? mobjinfo[type].name1 : "");
     const bool  validname = (name && *name && !M_StringStartsWith(name, "Deh_Actor_"));
     const char  *basename = (validname ? name : "monster");
     const bool  definite = (friendly && validtype && monstercount[type] == 1);
     const bool  vowelstart = (validname && isvowel((unsigned char)basename[0]));
-    const char  *article = (definite ? "the" : (vowelstart && !corpse && !friendly ? "an" : "a"));
+    const bool  sameasother = (othername && *othername && M_StringCompare(basename, othername));
+    const char  *article = (definite ? "the" : (sameasother ? "another" :
+                    (vowelstart && !corpse && !friendly ? "an" : "a")));
     const char  *prefix = "";
 
     if (customname && *customname)
@@ -84,7 +86,6 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
 
     M_snprintf(dest, destsize, "%s %s%s", article, prefix, basename);
 }
-
 static const char *C_KillVerb(const mobjtype_t target, const bool gibbed)
 {
     if (target == MT_BARREL)
@@ -117,11 +118,11 @@ void C_BuildObituaryString(const int index)
 
         if (!obituary->sourceisplayer)
             C_BuildThingName(sourcename, sizeof(sourcename), source,
-                obituary->sourcefriendly, false, obituary->sourcename);
+                obituary->sourcefriendly, false, obituary->sourcename, "");
 
         if (!obituary->targetisplayer)
             C_BuildThingName(targetname, sizeof(targetname), target,
-                obituary->targetfriendly, false, obituary->targetname);
+                obituary->targetfriendly, false, obituary->targetname, "");
 
         if (obituary->targetisplayer)
         {
@@ -189,7 +190,7 @@ void C_BuildObituaryString(const int index)
                 char    targetname[128];
 
                 C_BuildThingName(targetname, sizeof(targetname), target, obituary->targetfriendly,
-                    (obituary->targetcorpse && source != target), obituary->targetname);
+                    (obituary->targetcorpse && source != target), obituary->targetname, "");
 
                 targetname[0] = (char)toupper(targetname[0]);
 
@@ -249,7 +250,7 @@ void C_BuildObituaryString(const int index)
                     char    targetname[128];
 
                     C_BuildThingName(targetname, sizeof(targetname), target,
-                        obituary->targetfriendly, false, obituary->targetname);
+                        obituary->targetfriendly, false, obituary->targetname, "");
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "You %s %s with your %s while %s.",
@@ -275,7 +276,7 @@ void C_BuildObituaryString(const int index)
                     char    targetname[128];
 
                     C_BuildThingName(targetname, sizeof(targetname), target,
-                        obituary->targetfriendly, obituary->targetcorpse, obituary->targetname);
+                        obituary->targetfriendly, obituary->targetcorpse, obituary->targetname, "");
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s while %s.",
@@ -293,7 +294,7 @@ void C_BuildObituaryString(const int index)
         }
 
         C_BuildThingName(sourcename, sizeof(sourcename), source,
-            obituary->sourcefriendly, false, obituary->sourcename);
+            obituary->sourcefriendly, false, obituary->sourcename, "");
 
         if (obituary->targetisplayer)
         {
@@ -311,7 +312,8 @@ void C_BuildObituaryString(const int index)
             sourcename[0] = (char)toupper(sourcename[0]);
 
             C_BuildThingName(targetname, sizeof(targetname), target,
-                obituary->targetfriendly, false, obituary->targetname);
+                obituary->targetfriendly, false, obituary->targetname,
+                (source > MT_NULL && source < NUMMOBJTYPES ? mobjinfo[source].name1 : ""));
 
             M_snprintf(buffer, buffersize, "%s %s %s.",
                 sourcename, C_KillVerb(target, gibbed), targetname);
