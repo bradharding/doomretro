@@ -5588,6 +5588,9 @@ static void mapstatsfunc2(char *cmd, char *parms)
     {
         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
+        if (lump == -1)
+            return;
+
         if (D_IsDOOM2IWAD(lumpinfo[lump]->wadfile->path)
             || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "chex.wad")
             || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
@@ -5668,7 +5671,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
         }
         else
         {
-            if (customepisodes)
+            if (customepisodes && maptoepisode[gamemap] > 0)
             {
                 if (**episodes[maptoepisode[gamemap] - 1])
                 {
@@ -5848,8 +5851,11 @@ static void mapstatsfunc2(char *cmd, char *parms)
             outside++;
     }
 
-    outside = outside * 100 / numsubsectors;
-    C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
+    if (numsubsectors)
+    {
+        outside = outside * 100 / numsubsectors;
+        C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
+    }
 
     temp = commify(totalsecrets);
     C_TabbedOutput(tabs, INDENT "Secret\t%s", temp);
