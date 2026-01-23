@@ -40,7 +40,7 @@
 #include <ShellAPI.h>
 #include <winhttp.h>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "c_console.h"
 #include "i_system.h"

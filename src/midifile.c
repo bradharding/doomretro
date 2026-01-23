@@ -45,11 +45,11 @@ static bool CheckChunkHeader(const chunk_header_t *chunk, const char *expected_i
 }
 
 // Read a single byte. Return false on error.
-static bool ReadByte(byte *result, SDL_RWops *stream)
+static bool ReadByte(byte *result, SDL_IOStream *stream)
 {
     int c;
 
-    if (SDL_RWread(stream, &c, 1, 1))
+    if (SDL_ReadIO(stream, &c, 1) == 1)
     {
         *result = (byte)c;
         return true;
@@ -59,7 +59,7 @@ static bool ReadByte(byte *result, SDL_RWops *stream)
 }
 
 // Read a variable-length value.
-static bool ReadVariableLength(unsigned int *result, SDL_RWops *stream)
+static bool ReadVariableLength(unsigned int *result, SDL_IOStream *stream)
 {
     *result = 0;
 
@@ -83,7 +83,7 @@ static bool ReadVariableLength(unsigned int *result, SDL_RWops *stream)
 }
 
 // Read a byte sequence into the data buffer.
-static void *ReadByteSequence(size_t num_bytes, SDL_RWops *stream)
+static void *ReadByteSequence(size_t num_bytes, SDL_IOStream *stream)
 {
     // Allocate a buffer. Allocate one extra byte, as malloc(0) is non-portable.
     byte    *result = malloc(num_bytes + 1);
@@ -105,7 +105,7 @@ static void *ReadByteSequence(size_t num_bytes, SDL_RWops *stream)
 // Read a MIDI channel event.
 // two_param indicates that the event type takes two parameters
 // (three byte) otherwise it is single parameter (two byte)
-static bool ReadChannelEvent(midi_event_t *event, byte event_type, bool two_param, SDL_RWops *stream)
+static bool ReadChannelEvent(midi_event_t *event, byte event_type, bool two_param, SDL_IOStream *stream)
 {
     byte    b;
 
@@ -132,7 +132,7 @@ static bool ReadChannelEvent(midi_event_t *event, byte event_type, bool two_para
 }
 
 // Read sysex event
-static bool ReadSysExEvent(midi_event_t *event, int event_type, SDL_RWops *stream)
+static bool ReadSysExEvent(midi_event_t *event, int event_type, SDL_IOStream *stream)
 {
     event->event_type = event_type;
 
@@ -149,7 +149,7 @@ static bool ReadSysExEvent(midi_event_t *event, int event_type, SDL_RWops *strea
 }
 
 // Read meta event
-static bool ReadMetaEvent(midi_event_t *event, SDL_RWops *stream)
+static bool ReadMetaEvent(midi_event_t *event, SDL_IOStream *stream)
 {
     byte    b;
 
@@ -174,7 +174,7 @@ static bool ReadMetaEvent(midi_event_t *event, SDL_RWops *stream)
     return true;
 }
 
-static bool ReadEvent(midi_event_t *event, unsigned int *last_event_type, SDL_RWops *stream)
+static bool ReadEvent(midi_event_t *event, unsigned int *last_event_type, SDL_IOStream *stream)
 {
     byte    event_type = 0;
 
@@ -194,7 +194,7 @@ static bool ReadEvent(midi_event_t *event, unsigned int *last_event_type, SDL_RW
     {
         event_type = *last_event_type;
 
-        if (SDL_RWseek(stream, -1, RW_SEEK_CUR) == -1)
+        if (SDL_SeekIO(stream, -1, SDL_IO_SEEK_CUR) == -1)
             return false;
     }
 
@@ -256,11 +256,11 @@ static void FreeEvent(midi_event_t *event)
 }
 
 // Read and check the track chunk header
-static bool ReadTrackHeader(midi_track_t *track, SDL_RWops *stream)
+static bool ReadTrackHeader(midi_track_t *track, SDL_IOStream *stream)
 {
     chunk_header_t  chunk_header;
 
-    if (!SDL_RWread(stream, &chunk_header, sizeof(chunk_header_t), 1))
+    if (SDL_ReadIO(stream, &chunk_header, sizeof(chunk_header_t)) != sizeof(chunk_header_t))
         return false;
 
     if (!CheckChunkHeader(&chunk_header, TRACK_CHUNK_ID))
@@ -271,7 +271,7 @@ static bool ReadTrackHeader(midi_track_t *track, SDL_RWops *stream)
     return true;
 }
 
-static bool ReadTrack(midi_track_t *track, SDL_RWops *stream)
+static bool ReadTrack(midi_track_t *track, SDL_IOStream *stream)
 {
     midi_event_t    *new_events = NULL;
     unsigned int    last_event_type = 0;
@@ -320,7 +320,7 @@ static void FreeTrack(midi_track_t *track)
     free(track->events);
 }
 
-static bool ReadAllTracks(midi_file_t *file, SDL_RWops *stream)
+static bool ReadAllTracks(midi_file_t *file, SDL_IOStream *stream)
 {
     // Allocate list of tracks and read each track
     if (!(file->tracks = malloc(file->num_tracks * sizeof(midi_track_t))))
@@ -337,9 +337,9 @@ static bool ReadAllTracks(midi_file_t *file, SDL_RWops *stream)
 }
 
 // Read and check the header chunk
-static bool ReadFileHeader(midi_file_t *file, SDL_RWops *stream)
+static bool ReadFileHeader(midi_file_t *file, SDL_IOStream *stream)
 {
-    if (!SDL_RWread(stream, &file->header, sizeof(midi_header_t), 1))
+    if (SDL_ReadIO(stream, &file->header, sizeof(midi_header_t)) != sizeof(midi_header_t))
         return false;
 
     if (!CheckChunkHeader(&file->header.chunk_header, HEADER_CHUNK_ID)
@@ -366,7 +366,7 @@ void MIDI_FreeFile(midi_file_t *file)
     free(file);
 }
 
-midi_file_t *MIDI_LoadFile(SDL_RWops *stream)
+midi_file_t *MIDI_LoadFile(SDL_IOStream *stream)
 {
     midi_file_t *file = calloc(1, sizeof(midi_file_t));
 
@@ -383,7 +383,7 @@ midi_file_t *MIDI_LoadFile(SDL_RWops *stream)
     // Read MIDI file header
     if (!ReadFileHeader(file, stream))
     {
-        SDL_RWclose(stream);
+        SDL_CloseIO(stream);
         MIDI_FreeFile(file);
 
         return NULL;
@@ -392,13 +392,13 @@ midi_file_t *MIDI_LoadFile(SDL_RWops *stream)
     // Read all tracks
     if (!ReadAllTracks(file, stream))
     {
-        SDL_RWclose(stream);
+        SDL_CloseIO(stream);
         MIDI_FreeFile(file);
 
         return NULL;
     }
 
-    SDL_RWclose(stream);
+    SDL_CloseIO(stream);
     return file;
 }
 

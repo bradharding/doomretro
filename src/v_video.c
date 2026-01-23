@@ -33,7 +33,7 @@
 ==============================================================================
 */
 
-#include "SDL_image.h"
+#include <SDL3_image/SDL_image.h>
 
 #include "c_cmds.h"
 #include "c_console.h"

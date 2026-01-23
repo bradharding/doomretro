@@ -33,7 +33,7 @@
 ==============================================================================
 */
 
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "c_console.h"
 #include "m_config.h"
@@ -274,12 +274,12 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
     {
-        SDL_RWops       *rwops = SDL_RWFromMem(data, lumplen);
+        SDL_IOStream    *iostream = SDL_IOFromMem(data, lumplen);
         SDL_AudioSpec   spec;
         uint8_t         *buffer = NULL;
         uint32_t        length;
 
-        if (rwops && SDL_LoadWAV_RW(rwops, 1, &spec, &buffer, &length))
+        if (iostream && SDL_LoadWAV_IO(iostream, true, &spec, &buffer, &length))
         {
             if (spec.channels == 1 && SDL_AUDIO_ISINT(spec.format))
             {

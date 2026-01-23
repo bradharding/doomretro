@@ -33,7 +33,7 @@
 ==============================================================================
 */
 
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "c_console.h"
 #include "doomstat.h"
@@ -220,8 +220,8 @@ void *I_RegisterSong(void *data, int size)
         return NULL;
     else
     {
-        Mix_Music   *music = NULL;
-        SDL_RWops   *rwops = NULL;
+        Mix_Music       *music = NULL;
+        SDL_IOStream    *iostream = NULL;
 
         midimusictype = false;
         musmusictype = false;
@@ -269,8 +269,8 @@ void *I_RegisterSong(void *data, int size)
         }
 #endif
 
-        if ((rwops = SDL_RWFromMem(data, size)))
-            music = Mix_LoadMUS_RW(rwops, 0);
+        if ((iostream = SDL_IOFromMem(data, size)))
+            music = Mix_LoadMUS_RW(iostream, 0);
 
         return music;
     }

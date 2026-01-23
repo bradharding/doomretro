@@ -39,7 +39,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 
-static SDL_GameController   *controller;
+static SDL_Gamepad   *controller;
 static bool                 controllerrumbles;
 
 int                         controllerbuttons = 0;
@@ -63,7 +63,7 @@ char                        *selectbutton = "A";
 
 static char *GetControllerName(void)
 {
-    const char  *name = SDL_GameControllerName(controller);
+    const char  *name = SDL_GetGamepadName(controller);
 
     if (name)
         return M_StringJoin("A controller called \"", name, "\" is connected.", NULL);
@@ -71,50 +71,48 @@ static char *GetControllerName(void)
         return "A controller is connected.";
 }
 
-#if SDL_VERSION_ATLEAST(2, 12, 0)
 static char *GetControllerType(void)
 {
-    SDL_GameControllerType  type = SDL_GameControllerGetType(controller);
+    SDL_GamepadType  type = SDL_GetGamepadType(controller);
 
-    if (type == SDL_CONTROLLER_TYPE_XBOX360)
+    if (type == SDL_GAMEPAD_TYPE_XBOX360)
         return "An " ITALICS("Xbox 360") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
+    else if (type == SDL_GAMEPAD_TYPE_XBOXONE)
         return "An " ITALICS("Xbox One") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_PS3)
+    else if (type == SDL_GAMEPAD_TYPE_PS3)
     {
         selectbutton = "X";
         return "A " ITALICS("PlayStation 3 DualShock") " controller is connected.";
     }
-    else if (type == SDL_CONTROLLER_TYPE_PS4)
+    else if (type == SDL_GAMEPAD_TYPE_PS4)
     {
         selectbutton = "X";
         return "A " ITALICS("PlayStation 4 DualShock") " controller is connected.";
     }
-    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
+    else if (type == SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_PRO)
         return "A " ITALICS("Nintendo Switch Pro") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
+    else if (type == SDL_GAMEPAD_TYPE_VIRTUAL)
         return "A virtual controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_PS5)
+    else if (type == SDL_GAMEPAD_TYPE_PS5)
     {
         selectbutton = "X";
         return "A " ITALICS("PlayStation 5 DualSense") " controller is connected.";
     }
-    else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
+    else if (type == SDL_GAMEPAD_TYPE_AMAZON_LUNA)
         return "An " ITALICS("Amazon Luna") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
+    else if (type == SDL_GAMEPAD_TYPE_GOOGLE_STADIA)
         return "A " ITALICS("Google Stadia") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_NVIDIA_SHIELD)
+    else if (type == SDL_GAMEPAD_TYPE_NVIDIA_SHIELD)
         return "An " ITALICS("Nvidia Shield") " controller is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
+    else if (type == SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
         return "A " ITALICS("Nintendo Switch's") " left joycon is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
+    else if (type == SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
         return "A " ITALICS("Nintendo Switch's") " right joycon is connected.";
-    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
+    else if (type == SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
         return "A " ITALICS("Nintendo Switch's") " left and right joycons are connected.";
     else
         return GetControllerName();
 }
-#endif
 
 void I_InitController(void)
 {
@@ -135,39 +133,29 @@ void I_InitController(void)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_RAWINPUT, "0", SDL_HINT_OVERRIDE);
 #endif
 
-    SDL_EventState(SDL_JOYAXISMOTION, SDL_IGNORE);
-    SDL_EventState(SDL_JOYBALLMOTION, SDL_IGNORE);
-    SDL_EventState(SDL_JOYHATMOTION, SDL_IGNORE);
-    SDL_EventState(SDL_JOYBUTTONDOWN, SDL_IGNORE);
-    SDL_EventState(SDL_JOYBUTTONUP, SDL_IGNORE);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_AXIS_MOTION, false);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_BALL_MOTION, false);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_HAT_MOTION, false);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_BUTTON_DOWN, false);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_BUTTON_UP, false);
+    SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_BATTERY_UPDATED, false);
 
-#if SDL_VERSION_ATLEAST(2, 24, 0)
-    SDL_EventState(SDL_JOYBATTERYUPDATED, SDL_IGNORE);
-#endif
-
-    SDL_EventState(SDL_CONTROLLERAXISMOTION, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERBUTTONDOWN, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERBUTTONUP, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERDEVICEREMAPPED, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERTOUCHPADDOWN, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERTOUCHPADMOTION, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERTOUCHPADUP, SDL_IGNORE);
-    SDL_EventState(SDL_CONTROLLERSENSORUPDATE, SDL_IGNORE);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_AXIS_MOTION, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_BUTTON_DOWN, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_BUTTON_UP, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_TOUCHPAD_UP, false);
+    SDL_SetEventEnabled(SDL_EVENT_GAMEPAD_SENSOR_UPDATE, false);
 
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
-        if (SDL_IsGameController(i) && (controller = SDL_GameControllerOpen(i)))
+        if (SDL_IsGamepad(i) && (controller = SDL_OpenGamepad(i)))
         {
-#if SDL_VERSION_ATLEAST(2, 12, 0)
             C_Output(GetControllerType());
-#else
-            C_Output(GetControllerName());
-#endif
 
-#if SDL_VERSION_ATLEAST(2, 18, 0)
-            if (SDL_GameControllerHasRumble(controller))
+            if (SDL_GamepadHasRumble(controller))
                 controllerrumbles = true;
             else
-#endif
                 if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
                     C_Warning(1, "This controller doesn't rumble!");
 
@@ -176,9 +164,7 @@ void I_InitController(void)
             I_SetControllerHorizontalSensitivity();
             I_SetControllerVerticalSensitivity();
 
-#if SDL_VERSION_ATLEAST(2, 14, 0)
-            SDL_GameControllerSetLED(controller, 255, 0, 0);
-#endif
+            SDL_SetGamepadLED(controller, 255, 0, 0);
 
             return;
         }
@@ -191,11 +177,9 @@ void I_ShutdownController(void)
 
     C_Warning(1, "The controller was disconnected!");
 
-#if SDL_VERSION_ATLEAST(2, 14, 0)
-    SDL_GameControllerSetLED(controller, 0, 0, 255);
-#endif
+    SDL_SetGamepadLED(controller, 0, 0, 255);
 
-    SDL_GameControllerClose(controller);
+    SDL_CloseGamepad(controller);
     controller = NULL;
 }
 
@@ -204,7 +188,7 @@ void I_ControllerRumble(const short low, const short high)
     if (!controllerrumbles || !usingcontroller)
         return;
 
-    SDL_GameControllerRumble(controller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
+    SDL_RumbleGamepad(controller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
 }
 
 void I_ReadController(void)
@@ -217,17 +201,17 @@ void I_ReadController(void)
 
         if (joy_swapthumbsticks)
         {
-            LX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
-            LY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
-            RX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-            RY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
+            LX = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_RIGHTX);
+            LY = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_RIGHTY);
+            RX = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_LEFTX);
+            RY = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_LEFTY);
         }
         else
         {
-            LX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-            LY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
-            RX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
-            RY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
+            LX = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_LEFTX);
+            LY = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_LEFTY);
+            RX = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_RIGHTX);
+            RY = SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_RIGHTY);
         }
 
         if (joy_analog)
@@ -281,7 +265,7 @@ void I_ReadController(void)
 
         prevcontrollerbuttons = controllerbuttons;
 
-        if (SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > CONTROLLER_TRIGGER_THRESHOLD)
+        if (SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_LEFT_TRIGGER) > CONTROLLER_TRIGGER_THRESHOLD)
         {
             controllerbuttons = CONTROLLER_LEFT_TRIGGER;
             usingcontroller = true;
@@ -289,14 +273,14 @@ void I_ReadController(void)
         else
             controllerbuttons = 0;
 
-        if (SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > CONTROLLER_TRIGGER_THRESHOLD)
+        if (SDL_GetGamepadAxis(controller, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER) > CONTROLLER_TRIGGER_THRESHOLD)
         {
             controllerbuttons |= CONTROLLER_RIGHT_TRIGGER;
             usingcontroller = true;
         }
 
-        for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
-            if (SDL_GameControllerGetButton(controller, i))
+        for (int i = 0; i < SDL_GAMEPAD_BUTTON_MAX; i++)
+            if (SDL_GetGamepadButton(controller, i))
             {
                 controllerbuttons |= (1 << i);
                 usingcontroller = true;
@@ -343,7 +327,7 @@ void I_ReadController(void)
                 && !barrelrumbletics
                 && !pickuprumbletics
                 && !idlechainsawrumblestrength)
-                SDL_GameControllerRumble(controller, 0, 0, 0);
+                SDL_RumbleGamepad(controller, 0, 0, 0);
         }
     }
 }
@@ -353,7 +337,7 @@ void I_StopControllerRumble(void)
     if (!controllerrumbles)
         return;
 
-    SDL_GameControllerRumble(controller, 0, 0, 0);
+    SDL_RumbleGamepad(controller, 0, 0, 0);
 }
 
 void I_SetControllerHorizontalSensitivity(void)

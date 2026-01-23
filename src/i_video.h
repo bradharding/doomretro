@@ -39,7 +39,7 @@
 #include <Windows.h>
 #endif
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "doomtype.h"
 

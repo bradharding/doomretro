@@ -1648,7 +1648,5 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
 
     WI_InitStats();
 
-#if SDL_VERSION_ATLEAST(2, 24, 0)
     SDL_ResetKeyboard();
-#endif
 }
