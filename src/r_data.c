@@ -919,6 +919,7 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_MISC85].bloodcolor = REDBLOOD;
 
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        mobjinfo[MT_MISC45].flags2 |= MF2_TRANSLUCENT;
         mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;
 
         weaponinfo[wp_pistol].name = M_StringDuplicate("soul bow");
