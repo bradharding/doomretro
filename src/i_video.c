@@ -1152,8 +1152,8 @@ bool I_CreateExternalAutomap(void)
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, 0)))
         I_SDLError("SDL_CreateRenderer", -1);
 
-    if (SDL_RenderSetLogicalSize(maprenderer, MAPWIDTH, MAPHEIGHT) < 0)
-        I_SDLError("SDL_RenderSetLogicalSize", -1);
+    if (!SDL_SetRenderLogicalPresentation(maprenderer, MAPWIDTH, MAPHEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX))
+        I_SDLError("SDL_SetRenderLogicalPresentation", -1);
 
     if (!(mapsurface = SDL_CreateRGBSurface(0, MAPWIDTH, MAPHEIGHT, 8, 0, 0, 0, 0)))
         I_SDLError("SDL_CreateRGBSurface", -1);
@@ -1555,11 +1555,11 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if (vid_widescreen)
     {
-        if (SDL_RenderSetLogicalSize(renderer, 0, 0) < 0)
-            I_SDLError("SDL_RenderSetLogicalSize", -1);
+        if (!SDL_SetRenderLogicalPresentation(renderer, 0, 0, SDL_LOGICAL_PRESENTATION_DISABLED))
+            I_SDLError("SDL_SetRenderLogicalPresentation", -1);
     }
-    else if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, ACTUALHEIGHT) < 0)
-        I_SDLError("SDL_RenderSetLogicalSize", -1);
+    else if (!SDL_SetRenderLogicalPresentation(renderer, SCREENWIDTH, ACTUALHEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX))
+        I_SDLError("SDL_SetRenderLogicalPresentation", -1);
 
     if (output)
     {
