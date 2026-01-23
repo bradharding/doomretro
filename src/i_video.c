@@ -1140,16 +1140,24 @@ bool I_CreateExternalAutomap(void)
 
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE);
 
-    if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0,
+    if (!(mapwindow = SDL_CreateWindow("Automap", 0, 0,
         (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SKIP_TASKBAR))))
         I_SDLError("SDL_CreateWindow", -3);
+
+    // Position window on the specified display
+    if (am_display > 0 && am_display <= numdisplays)
+    {
+        SDL_Rect displaybounds;
+        
+        if (SDL_GetDisplayBounds(am_display - 1, &displaybounds) == 0)
+            SDL_SetWindowPosition(mapwindow, displaybounds.x, displaybounds.y);
+    }
 
     MAPHEIGHT = VANILLAHEIGHT * 2;
     MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
-    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, 0)))
+    if (!(maprenderer = SDL_CreateRenderer(mapwindow, NULL)))
         I_SDLError("SDL_CreateRenderer", -1);
 
     if (!SDL_SetRenderLogicalPresentation(maprenderer, MAPWIDTH, MAPHEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX))
@@ -1444,10 +1452,17 @@ static void SetVideoMode(const bool createwindow, const bool output)
                     (english == english_american ? "initialized" : "initialised"));
 
             if (createwindow)
-                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                    SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
+            {
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height,
                     (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
+
+                // Position window on the specified display
+                SDL_Rect displaybounds;
+                
+                if (SDL_GetDisplayBounds(displayindex, &displaybounds) == 0)
+                    SDL_SetWindowPosition(window, displaybounds.x, displaybounds.y);
+            }
 
             if (output)
             {
@@ -1467,11 +1482,17 @@ static void SetVideoMode(const bool createwindow, const bool output)
             height = screenheight;
 
             if (createwindow)
-                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME,
-                    SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
-                    SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
+            {
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height,
                     (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
+
+                // Position window on the specified display
+                SDL_Rect displaybounds;
+                
+                if (SDL_GetDisplayBounds(displayindex, &displaybounds) == 0)
+                    SDL_SetWindowPosition(window, displaybounds.x, displaybounds.y);
+            }
 
             if (output)
             {
@@ -1501,9 +1522,21 @@ static void SetVideoMode(const bool createwindow, const bool output)
         if (!windowx && !windowy)
         {
             if (createwindow)
-                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
-                    SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
+            {
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height, windowflags)))
                     I_SDLError("SDL_CreateWindow", -2);
+
+                // Center window on the specified display
+                SDL_Rect displaybounds;
+                
+                if (SDL_GetDisplayBounds(displayindex, &displaybounds) == 0)
+                {
+                    int x = displaybounds.x + (displaybounds.w - width) / 2;
+                    int y = displaybounds.y + (displaybounds.h - height) / 2;
+                    
+                    SDL_SetWindowPosition(window, x, y);
+                }
+            }
 
             if (output)
             {
@@ -1520,8 +1553,10 @@ static void SetVideoMode(const bool createwindow, const bool output)
         else
         {
             if (createwindow)
-                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, windowx, windowy, width, height, windowflags)))
+                if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height, windowflags)))
                     I_SDLError("SDL_CreateWindow", -1);
+
+                SDL_SetWindowPosition(window, windowx, windowy);
 
             if (output)
             {
@@ -1542,9 +1577,9 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
 
-    if (createwindow && !(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
+    if (createwindow && !(renderer = SDL_CreateRenderer(window, NULL)) && !software)
     {
-        if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE ))))
+        if ((renderer = SDL_CreateRenderer(window, "software")))
         {
             C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR has been changed from " BOLD("%s")
                 " to " BOLD("\"software\"") ".", vid_scaleapi);
