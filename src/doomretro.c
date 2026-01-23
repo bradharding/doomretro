@@ -36,8 +36,8 @@
 #if defined(_WIN32)
 #include <Windows.h>
 
-#include "SDL_main.h"
-#include "SDL_syswm.h"
+#include <SDL3/SDL_main.h>
+#include <SDL3/SDL_syswm.h>
 #endif
 
 #include "m_argv.h"
@@ -148,12 +148,12 @@ static void I_AccessibilityShortcutKeys(bool bAllowKeys)
 void I_InitWindows32(void)
 {
     HINSTANCE       handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo   info = { 0 };
+    SDL_SysWMinfo   info;
     HWND            hwnd;
 
-    SDL_VERSION(&info.version);
+    if (!SDL_GetWindowWMInfo(window, &info, SDL_SYSWM_CURRENT_VERSION))
+        return;
 
-    SDL_GetWindowWMInfo(window, &info);
     hwnd = info.info.win.window;
 
     icon = LoadIcon(handle, "IDI_ICON1");

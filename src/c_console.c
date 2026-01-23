@@ -37,8 +37,8 @@
 #include <Windows.h>
 #endif
 
-#include "SDL_image.h"
-#include "SDL_mixer.h"
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "am_map.h"
 #include "c_cmds.h"
