@@ -323,7 +323,7 @@ static void I_GetEvent(void)
 
         switch (Event->type)
         {
-            case SDL_KEYDOWN:
+            case SDL_EVENT_KEY_DOWN:
             {
                 const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
@@ -390,7 +390,7 @@ static void I_GetEvent(void)
                 break;
             }
 
-            case SDL_KEYUP:
+            case SDL_EVENT_KEY_UP:
             {
                 const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
@@ -419,7 +419,7 @@ static void I_GetEvent(void)
                 break;
             }
 
-            case SDL_MOUSEBUTTONDOWN:
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
             {
                 const int   button = buttons[Event->button.button];
 
@@ -442,12 +442,12 @@ static void I_GetEvent(void)
                 break;
             }
 
-            case SDL_MOUSEBUTTONUP:
+            case SDL_EVENT_MOUSE_BUTTON_UP:
                 keydown = 0;
                 mousebuttonstate &= ~buttons[Event->button.button];
                 break;
 
-            case SDL_MOUSEWHEEL:
+            case SDL_EVENT_MOUSE_WHEEL:
                 keydown = 0;
                 ev.type = ev_mousewheel;
                 ev.data1 = Event->wheel.y;
@@ -458,7 +458,7 @@ static void I_GetEvent(void)
                 D_PostEvent(&ev);
                 break;
 
-            case SDL_TEXTINPUT:
+            case SDL_EVENT_TEXT_INPUT:
             {
                 char    *text = (char *)SDL_iconv_utf8_ucs4(Event->text.text);
 
@@ -468,15 +468,15 @@ static void I_GetEvent(void)
                 break;
             }
 
-            case SDL_CONTROLLERDEVICEADDED:
+            case SDL_EVENT_GAMEPAD_ADDED:
                 I_InitController();
                 break;
 
-            case SDL_CONTROLLERDEVICEREMOVED:
+            case SDL_EVENT_GAMEPAD_REMOVED:
                 I_ShutdownController();
                 break;
 
-            case SDL_QUIT:
+            case SDL_EVENT_QUIT:
                 if (!quitting && !splashscreen)
                 {
                     keydown = 0;
@@ -495,94 +495,95 @@ static void I_GetEvent(void)
 
                 break;
 
-            case SDL_WINDOWEVENT:
+            case SDL_EVENT_WINDOW_FOCUS_GAINED:
                 if (Event->window.windowID == windowid)
                 {
-                    switch (Event->window.event)
+                    if (!windowfocused)
                     {
-                        case SDL_WINDOWEVENT_FOCUS_GAINED:
-                            if (!windowfocused)
-                            {
-                                windowfocused = true;
-                                paused = false;
-                                S_ResumeMusic();
+                        windowfocused = true;
+                        paused = false;
+                        S_ResumeMusic();
 
-                                if (!mapwindow)
-                                    S_StartSound(NULL, sfx_swtchx);
+                        if (!mapwindow)
+                            S_StartSound(NULL, sfx_swtchx);
 
-                                I_InitKeyboard();
+                        I_InitKeyboard();
 
-                                if (reopenautomap)
-                                {
-                                    reopenautomap = false;
-                                    AM_Start(true);
-                                    viewactive = false;
-                                }
-                            }
-
-                            I_SetPriority(true);
-                            break;
-
-                        case SDL_WINDOWEVENT_FOCUS_LOST:
-                        case SDL_WINDOWEVENT_MINIMIZED:
-                            windowfocused = false;
-
-                            if (!s_musicinbackground)
-                                S_PauseMusic();
-
-                            if (gamestate == GS_LEVEL && !menuactive && !consoleactive && !paused)
-                                sendpause = true;
-                            else if (!mapwindow)
-                                S_StartSound(NULL, sfx_swtchn);
-
-                            I_ShutdownKeyboard();
-                            I_SetPriority(false);
-                            break;
-
-                        case SDL_WINDOWEVENT_EXPOSED:
-                            SDL_SetPaletteColors(palette, colors, 0, 256);
-                            break;
-
-                        case SDL_WINDOWEVENT_SIZE_CHANGED:
-                            if (!vid_fullscreen)
-                            {
-                                char    *temp1 = commify((windowwidth = Event->window.data1));
-                                char    *temp2 = commify((windowheight = Event->window.data2));
-                                char    size[16];
-
-                                M_snprintf(size, sizeof(size), "%sx%s", temp1, temp2);
-                                vid_windowsize = M_StringDuplicate(size);
-                                M_SaveCVARs();
-
-                                displaywidth = windowwidth;
-                                displayheight = windowheight;
-
-                                free(temp1);
-                                free(temp2);
-
-                                I_RestartGraphics(false);
-                            }
-
-                            break;
-
-                        case SDL_WINDOWEVENT_MOVED:
-                            if (!vid_fullscreen && !manuallypositioning)
-                            {
-                                char    pos[16];
-
-                                windowx = Event->window.data1;
-                                windowy = Event->window.data2;
-                                M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
-                                vid_windowpos = M_StringDuplicate(pos);
-                                vid_display = SDL_GetWindowDisplayIndex(window) + 1;
-                                M_SaveCVARs();
-                            }
-
-                            manuallypositioning = false;
-                            break;
+                        if (reopenautomap)
+                        {
+                            reopenautomap = false;
+                            AM_Start(true);
+                            viewactive = false;
+                        }
                     }
+
+                    I_SetPriority(true);
                 }
 
+                break;
+
+            case SDL_EVENT_WINDOW_FOCUS_LOST:
+            case SDL_EVENT_WINDOW_MINIMIZED:
+                if (Event->window.windowID == windowid)
+                {
+                    windowfocused = false;
+
+                    if (!s_musicinbackground)
+                        S_PauseMusic();
+
+                    if (gamestate == GS_LEVEL && !menuactive && !consoleactive && !paused)
+                        sendpause = true;
+                    else if (!mapwindow)
+                        S_StartSound(NULL, sfx_swtchn);
+
+                    I_ShutdownKeyboard();
+                    I_SetPriority(false);
+                }
+
+                break;
+
+            case SDL_EVENT_WINDOW_EXPOSED:
+                if (Event->window.windowID == windowid)
+                    SDL_SetPaletteColors(palette, colors, 0, 256);
+
+                break;
+
+            case SDL_EVENT_WINDOW_RESIZED:
+                if (Event->window.windowID == windowid && !vid_fullscreen)
+                {
+                    char    *temp1 = commify((windowwidth = Event->window.data1));
+                    char    *temp2 = commify((windowheight = Event->window.data2));
+                    char    size[16];
+
+                    M_snprintf(size, sizeof(size), "%sx%s", temp1, temp2);
+                    vid_windowsize = M_StringDuplicate(size);
+                    M_SaveCVARs();
+
+                    displaywidth = windowwidth;
+                    displayheight = windowheight;
+
+                    free(temp1);
+                    free(temp2);
+
+                    I_RestartGraphics(false);
+                }
+
+                break;
+
+            case SDL_EVENT_WINDOW_MOVED:
+                if (Event->window.windowID == windowid && !vid_fullscreen && !manuallypositioning)
+                {
+                    char    pos[16];
+
+                    windowx = Event->window.data1;
+                    windowy = Event->window.data2;
+                    M_snprintf(pos, sizeof(pos), "(%i,%i)", windowx, windowy);
+                    vid_windowpos = M_StringDuplicate(pos);
+                    vid_display = SDL_GetWindowDisplayIndex(window) + 1;
+                    M_SaveCVARs();
+                }
+
+                manuallypositioning = false;
                 break;
         }
     }
@@ -1130,14 +1131,14 @@ bool I_CreateExternalAutomap(void)
 
     if (!(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0,
-        (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
+        (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SKIP_TASKBAR))))
         I_SDLError("SDL_CreateWindow", -3);
 
     MAPHEIGHT = VANILLAHEIGHT * 2;
     MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
-    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
+    if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, 0)))
         I_SDLError("SDL_CreateRenderer", -1);
 
     if (SDL_RenderSetLogicalSize(maprenderer, MAPWIDTH, MAPHEIGHT) < 0)
@@ -1351,7 +1352,7 @@ void I_SetMotionBlur(const int percent)
 
 static void SetVideoMode(const bool createwindow, const bool output)
 {
-    int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
+    int                 rendererflags = 0;
     int                 windowflags = (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     int                 width, height;
     SDL_RendererInfo    rendererinfo;
@@ -1434,7 +1435,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             if (createwindow)
                 if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                     SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
+                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
 
             if (output)
@@ -1458,7 +1459,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 if (!(window = SDL_CreateWindow(DOOMRETRO_NAME,
                     SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                     SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
-                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
+                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
                     I_SDLError("SDL_CreateWindow", -3);
 
             if (output)
@@ -1532,7 +1533,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if (createwindow && !(renderer = SDL_CreateRenderer(window, -1, rendererflags)) && !software)
     {
-        if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
+        if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE ))))
         {
             C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR has been changed from " BOLD("%s")
                 " to " BOLD("\"software\"") ".", vid_scaleapi);
@@ -1923,7 +1924,7 @@ void I_RestartGraphics(const bool recreatewindow)
 void I_ToggleFullscreen(const bool output)
 {
     if (SDL_SetWindowFullscreen(window,
-        (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))) < 0)
+        (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN))) < 0)
     {
         menuactive = false;
         C_ShowConsole(false);
@@ -2070,7 +2071,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+    SDL_SetEventEnabled(SDL_EVENT_MOUSE_MOTION, false);
 
 #if defined(_WIN32)
     I_InitWindows32();
