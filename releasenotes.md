@@ -40,7 +40,9 @@
   * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
   * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
+* Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
+* If god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
