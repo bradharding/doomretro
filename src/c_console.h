@@ -132,17 +132,17 @@
 #define MONOSPACED(text)                    MONOSPACEDON text MONOSPACEDOFF
 
 #if defined(_WIN32)
-#define SDL_FILENAME                        "SDL2.dll"
-#define SDL_MIXER_FILENAME                  "SDL2_mixer.dll"
-#define SDL_IMAGE_FILENAME                  "SDL2_image.dll"
+#define SDL_FILENAME                        "SDL3.dll"
+#define SDL_MIXER_FILENAME                  "SDL3_mixer.dll"
+#define SDL_IMAGE_FILENAME                  "SDL3_image.dll"
 #elif defined(__APPLE__)
-#define SDL_FILENAME                        "SDL2"
-#define SDL_MIXER_FILENAME                  "SDL2_mixer"
-#define SDL_IMAGE_FILENAME                  "SDL2_image"
+#define SDL_FILENAME                        "SDL3"
+#define SDL_MIXER_FILENAME                  "SDL3_mixer"
+#define SDL_IMAGE_FILENAME                  "SDL3_image"
 #else
-#define SDL_FILENAME                        "SDL2.so"
-#define SDL_MIXER_FILENAME                  "SDL2_mixer.so"
-#define SDL_IMAGE_FILENAME                  "SDL2_image.so"
+#define SDL_FILENAME                        "SDL3.so"
+#define SDL_MIXER_FILENAME                  "SDL3_mixer.so"
+#define SDL_IMAGE_FILENAME                  "SDL3_image.so"
 #endif
 
 #define MAXTABS                             10

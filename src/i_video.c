@@ -1454,7 +1454,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             if (createwindow)
             {
                 if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height,
-                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
+                    (windowflags | SDL_WINDOW_FULLSCREEN))))
                     I_SDLError("SDL_CreateWindow", -3);
 
                 // Position window on the specified display
@@ -1484,7 +1484,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             if (createwindow)
             {
                 if (!(window = SDL_CreateWindow(DOOMRETRO_NAME, width, height,
-                    (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN)))))
+                    (windowflags | SDL_WINDOW_FULLSCREEN))))
                     I_SDLError("SDL_CreateWindow", -3);
 
                 // Position window on the specified display
@@ -1969,8 +1969,7 @@ void I_RestartGraphics(const bool recreatewindow)
 
 void I_ToggleFullscreen(const bool output)
 {
-    if (SDL_SetWindowFullscreen(window,
-        (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_FULLSCREEN))) < 0)
+    if (SDL_SetWindowFullscreen(window, (vid_fullscreen ? 0 : SDL_WINDOW_FULLSCREEN)) < 0)
     {
         menuactive = false;
         C_ShowConsole(false);
