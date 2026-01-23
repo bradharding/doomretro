@@ -591,7 +591,11 @@ static void I_GetEvent(void)
 
 void I_SaveMousePointerPosition(void)
 {
-    SDL_GetMouseState(&mousepointerx, &mousepointery);
+    float fx, fy;
+
+    SDL_GetMouseState(&fx, &fy);
+    mousepointerx = (int)fx;
+    mousepointery = (int)fy;
 }
 
 void I_RestoreMousePointerPosition(void)
@@ -620,10 +624,13 @@ static int AccelerateMouse(int value)
 
 static void I_ReadMouse(void)
 {
+    float               fx, fy;
     int                 x, y;
     static unsigned int prevmousebuttonstate;
 
-    SDL_GetRelativeMouseState(&x, &y);
+    SDL_GetRelativeMouseState(&fx, &fy);
+    x = (int)fx;
+    y = (int)fy;
 
     if (x || y || mousebuttonstate != prevmousebuttonstate || (mousebuttonstate && (menuactive || consoleactive)))
     {
@@ -638,7 +645,9 @@ static void I_ReadMouse(void)
                 usingcontroller = false;
             }
 
-            SDL_GetMouseState(&x, &y);
+            SDL_GetMouseState(&fx, &fy);
+            x = (int)fx;
+            y = (int)fy;
 
             if (vid_widescreen)
             {
@@ -660,7 +669,9 @@ static void I_ReadMouse(void)
                 ev.data2 = x;
                 ev.data3 = y;
 
-                SDL_GetMouseState(&x, &y);
+                SDL_GetMouseState(&fx, &fy);
+                x = (int)fx;
+                y = (int)fy;
 
                 if (vid_widescreen)
                 {
