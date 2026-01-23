@@ -651,11 +651,6 @@ void R_StoreWallRange(const int start, const int stop)
     worldtop = frontsector->interpceilingheight - viewz;
     worldbottom = frontsector->interpfloorheight - viewz;
 
-    // [BH] animate liquid sectors
-    if (frontsector->terraintype >= LIQUID
-        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
-        && r_liquid_bob)
-        worldbottom += animatedliquiddiff;
 
     if (!vanilla)
         R_FixWiggle(frontsector);
@@ -889,6 +884,12 @@ void R_StoreWallRange(const int start, const int stop)
     // calculate incremental stepping values for texture edges
     topstep = -FixedMul(rw_scalestep, (worldtop >>= invhgtbits));
     topfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldtop * rw_scale) >> FRACBITS);
+
+    // [BH] animate liquid sectors
+    if (frontsector->terraintype >= LIQUID
+        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
+        && r_liquid_bob)
+        worldbottom += animatedliquiddiff;
 
     bottomstep = -FixedMul(rw_scalestep, (worldbottom >>= invhgtbits));
     bottomfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldbottom * rw_scale) >> FRACBITS);
