@@ -87,7 +87,9 @@ byte            *dc_black40;
 byte            *dc_source;
 byte            *dc_translation;
 
-#define DITHERSIZE  4
+#define DITHERSIZE      4
+#define DITHERMASK      (DITHERSIZE - 1)
+#define DITHERLOWMASK   (DITHERSIZE * 2 - 1)
 
 static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
 {
@@ -101,7 +103,7 @@ static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define ditherlow(x, y, z)  (ditherlowmatrix[(y) & (DITHERSIZE * 2 - 1)][(x) & (DITHERSIZE * 2 - 1)] < (z))
+#define ditherlow(x, y, z)  (ditherlowmatrix[(y) & DITHERLOWMASK][(x) & DITHERLOWMASK] < (z))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -111,7 +113,7 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, y, z)     (dithermatrix[(y) & (DITHERSIZE - 1)][(x) & (DITHERSIZE - 1)] < (z))
+#define dither(x, y, z)     (dithermatrix[(y) & DITHERMASK][(x) & DITHERMASK] < (z))
 
 //
 // A column is a vertical slice/span from a wall texture that,

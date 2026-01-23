@@ -576,7 +576,7 @@ static void R_RenderSegLoop(void)
 //
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 {
-    const int       angle = ANG90 + visangle;
+    const angle_t   angle = ANG90 + visangle;
     const int       den = FixedMul(rw_distance, finesine[angle >> ANGLETOFINESHIFT]);
     const fixed_t   num = FixedMul(projection, finesine[(angle + viewangle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
@@ -637,7 +637,7 @@ void R_StoreWallRange(const int start, const int stop)
     dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
     dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
     len = curline->length;
-    rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len) << 1;
+    rw_distance = (fixed_t)((((int64_t)dy * dx1 - (int64_t)dx * dy1) << 1) / len);
 
     ds_p->x1 = start;
     rw_x = start;
