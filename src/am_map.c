@@ -121,7 +121,6 @@ static byte *floorpiccolor;
 #define M_ZOOMOUT               (fixed_t)((uint64_t)FRACUNIT / (1.0 + F_PANINC / 100.0))
 
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
-#define ARROWPATHANCHOR         -57275
 
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 

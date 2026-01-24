@@ -220,7 +220,6 @@ void *I_RegisterSong(void *data, int size)
         return NULL;
     else
     {
-        Mix_Music   *music = NULL;
         SDL_RWops   *rwops = NULL;
 
         midimusictype = false;
@@ -269,9 +268,9 @@ void *I_RegisterSong(void *data, int size)
         }
 #endif
 
-        if ((rwops = SDL_RWFromMem(data, size)))
-            music = Mix_LoadMUS_RW(rwops, 0);
+        if (!(rwops = SDL_RWFromMem(data, size)))
+            return NULL;
 
-        return music;
+        return Mix_LoadMUS_RW(rwops, 1);
     }
 }

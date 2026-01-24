@@ -7,6 +7,7 @@
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Minor improvements have been made to the parsing of `MAPINFO` lumps.
 * Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * These changes have been made to the automap:
@@ -42,7 +43,7 @@
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
-* If god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
+* Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, they just don’t appear in the console.
