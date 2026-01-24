@@ -222,10 +222,6 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, const int pitch)
         dstbuf[i] = (int16_t)samp;
     }
 
-    // if an extra byte was allocated, just zero it
-    if (alloc_bytes != dstlen_bytes)
-        ((uint8_t *)dstbuf)[dstlen_bytes] = 0;
-
     return outsnd;
 }
 

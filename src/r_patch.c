@@ -512,8 +512,3 @@ const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnindex)
 
     return &patch->columns[columnindex % patch->width];
 }
-
-const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnindex)
-{
-    return &patch->columns[BETWEEN(0, columnindex, patch->width - 1)];
-}

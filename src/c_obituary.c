@@ -169,7 +169,7 @@ void C_BuildObituaryString(const int index)
                 else
                 {
                     const mobjtype_t    killer = obituary->barrelinflicter;
-                    const char          *killername1 = (killer > MT_NULL && killer < NUMMOBJTYPES ?
+                    const char          *killername = (killer > MT_NULL && killer < NUMMOBJTYPES ?
                                             mobjinfo[killer].name1 : "");
 
                     M_snprintf(buffer, buffersize, "%s were %s by %s %s that %s %s exploded!",
@@ -177,9 +177,9 @@ void C_BuildObituaryString(const int index)
                         (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
-                        (inflicter == killer || M_StringCompare(inflictername, killername1) ? "another" :
-                            (killername1 && isvowel(killername1[0]) ? "an" : "a")),
-                        (*killername1 && !M_StringStartsWith(killername1, "Deh_Actor_") ? killername1 : "monster"));
+                        (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
+                            (*killername && isvowel(killername[0]) ? "an" : "a")),
+                        (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
                 }
 
                 buffer[0] = (char)toupper(buffer[0]);
@@ -216,16 +216,16 @@ void C_BuildObituaryString(const int index)
                 else
                 {
                     const mobjtype_t    killer = obituary->barrelinflicter;
-                    const char          *killername1 = (killer > MT_NULL && killer < NUMMOBJTYPES ?
+                    const char          *killername = (killer > MT_NULL && killer < NUMMOBJTYPES ?
                                             mobjinfo[killer].name1 : "");
 
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s %s exploded.",
                         targetname, (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
-                        (inflicter == killer || M_StringCompare(inflictername, killername1) ? "another" :
-                            (*killername1 && isvowel(killername1[0]) ? "an" : "a")),
-                        (*killername1 && !M_StringStartsWith(killername1, "Deh_Actor_") ? killername1 : "monster"));
+                        (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
+                            (*killername && isvowel(killername[0]) ? "an" : "a")),
+                        (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
                 }
 
                 buffer[0] = (char)toupper(buffer[0]);

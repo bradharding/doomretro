@@ -478,11 +478,6 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       translation = (flags & MF_TRANSLATION);
     fixed_t         footclip;
     int             baseclip;
-    bool            percolumnlighting;
-    fixed_t         pcl_patchoffset = 0;
-    fixed_t         pcl_cosine = 0;
-    fixed_t         pcl_sine = 0;
-    int             pcl_lightindex = 0;
     const int       patchwidth = patch->width;
 
     spryscale = vis->scale;
@@ -512,20 +507,17 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     baseclip = (footclip ? (int)(sprtopscreen + footclip) >> FRACBITS : viewheight);
     fuzz1pos = 0;
 
-    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
-        && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
     {
         int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t     offset;
-        fixed_t     pcl_gx;
-        fixed_t     pcl_gy;
+        fixed_t     pcl_gx, pcl_gy;
         fixed_t     pcl_dx, pcl_dy;
+        fixed_t     pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        fixed_t     pcl_cosine = finecosine[angle];
+        fixed_t     pcl_sine = finesine[angle];
+        int         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
         subsector_t *lastsubsec = NULL;
-
-        pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
-        pcl_cosine = finecosine[angle];
-        pcl_sine = finesine[angle];
-        pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
         if (vis->flipped)
         {
@@ -604,11 +596,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     int             black;
-    bool            percolumnlighting;
-    fixed_t         pcl_patchoffset = 0;
-    fixed_t         pcl_cosine = 0;
-    fixed_t         pcl_sine = 0;
-    int             pcl_lightindex = 0;
     int64_t         shadowtopscreen;
     int64_t         shadowspryscale;
     fixed_t         shadowfootclip;
@@ -667,20 +654,17 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     fuzz1pos = 0;
 
-    if ((percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
-        && (flags & (MF_SHOOTABLE | MF_CORPSE)))))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
     {
         int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t     offset;
-        fixed_t     pcl_gx;
-        fixed_t     pcl_gy;
+        fixed_t     pcl_gx, pcl_gy;
         fixed_t     pcl_dx, pcl_dy;
+        fixed_t     pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        fixed_t     pcl_cosine = finecosine[angle];
+        fixed_t     pcl_sine = finesine[angle];
+        int         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
         subsector_t *lastsubsec = NULL;
-
-        pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
-        pcl_cosine = finecosine[angle];
-        pcl_sine = finesine[angle];
-        pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
         if (vis->flipped)
         {
