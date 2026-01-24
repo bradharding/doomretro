@@ -33,6 +33,10 @@
 ==============================================================================
 */
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+
 #include "SDL_mixer.h"
 
 #include "c_console.h"
@@ -187,29 +191,40 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, const int pitch)
     allocated_sound_t   *outsnd;
     int16_t             *srcbuf;
     int16_t             *dstbuf;
-    const uint32_t      srclen = insnd->chunk.alen;
+    const uint32_t      srclen_samples = insnd->chunk.alen / sizeof(int16_t);
 
-    // Determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
-    // This is an approximation of vanilla behavior based on measurements.
-    uint32_t            dstlen = (uint32_t)((1.0f + (1.0f - (float)pitch / NORM_PITCH)) * srclen);
+    // vanilla-ish behavior: pitch is around NORM_PITCH, treat as semitone-ish ratio
+    const uint32_t      dstlen_samples = (uint32_t)(srclen_samples * ((float)NORM_PITCH / (float)pitch));
+    const uint32_t      dstlen_bytes = dstlen_samples * sizeof(int16_t);
 
-    // ensure that the new buffer is an even length
-    if (!(dstlen % 2))
-        dstlen++;
+    // ensure even number of bytes (SDL_mixer requirement for 16-bit)
+    const uint32_t      alloc_bytes = ((dstlen_bytes & 1) ? dstlen_bytes + 1 : dstlen_bytes);
 
-    if (!(outsnd = AllocateSound(insnd->sfxinfo, dstlen)))
+    if (!(outsnd = AllocateSound(insnd->sfxinfo, alloc_bytes)))
         return NULL;
 
     outsnd->pitch = pitch;
     srcbuf = (int16_t *)insnd->chunk.abuf;
     dstbuf = (int16_t *)outsnd->chunk.abuf;
 
-    // Loop over output buffer. Find corresponding input cell, copy over.
-    for (int16_t *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
+    // linear interpolation resampling
+    for (uint32_t i = 0; i < dstlen_samples; i++)
     {
-        inp = &srcbuf[(int)((float)(outp - dstbuf) / dstlen * srclen)];
-        *outp = *inp;
+        const float  src_pos = (float)i / (float)(dstlen_samples - 1) * (srclen_samples - 1);
+        const int    idx     = (int)src_pos;
+        const float  frac    = src_pos - (float)idx;
+
+        const int16_t s0 = srcbuf[idx];
+        const int16_t s1 = (idx + 1 < (int)srclen_samples) ? srcbuf[idx + 1] : s0;
+
+        const float   samp = (1.0f - frac) * (float)s0 + frac * (float)s1;
+
+        dstbuf[i] = (int16_t)samp;
     }
+
+    // if an extra byte was allocated, just zero it
+    if (alloc_bytes != dstlen_bytes)
+        ((uint8_t *)dstbuf)[dstlen_bytes] = 0;
 
     return outsnd;
 }
@@ -232,34 +247,56 @@ static void ReleaseSoundOnChannel(const int channel)
 }
 
 // Generic sound expansion function for any sample rate.
-static void ExpandSoundData(sfxinfo_t *sfxinfo, const byte *data, const int samplerate, const int bits, const int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, const byte *data,
+    const int samplerate, const int bits, const int length)
 {
     const unsigned int  samplecount = length / (bits / 8);
     const unsigned int  expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
-    int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
-    const int           expand_ratio = (samplecount << 8) / expanded_length;
-    const double        dt = 1.0 / mixer_freq;
-    const double        alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
-    if (bits == 8)
-        for (unsigned int i = 0; i < expanded_length; i++)
+    if (snd)
+    {
+        int16_t         *expanded = (int16_t *)(&snd->chunk)->abuf;
+        const double    dt = 1.0 / mixer_freq;
+        const double    alpha = dt / (1.0 / (M_PI * samplerate) + dt);
+        const float     src_last = (float)(samplecount - 1);
+
+        if (bits == 8)
         {
-            const int   src = data[(i * expand_ratio) >> 8];
+            for (unsigned int i = 0; i < expanded_length; i++)
+            {
+                const float src_pos = (float)i / (float)(expanded_length - 1) * src_last;
+                const int   idx = (int)src_pos;
+                const float frac = src_pos - (float)idx;
+                const int   s0 = (int)data[idx];
+                const int   s1 = (idx + 1 < (int)samplecount ? (int)data[idx + 1] : s0);
+                const float lin = (1.0f - frac) * (float)s0 + frac * (float)s1;
+                const int   sample = ((int)lin | ((int)lin << 8)) - 32768;
 
-            expanded[i * 2] = expanded[i * 2 + 1] = (src | (src << 8)) - 32768;
+                expanded[i * 2] = expanded[i * 2 + 1] = (int16_t)sample;
+            }
         }
-    else
-        for (unsigned int i = 0; i < expanded_length; i++)
+        else
         {
-            const int   src = ((i * expand_ratio) >> 8) * 2;
+            const int16_t   *src16 = (const int16_t *)data;
 
-            expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
+            for (unsigned int i = 0; i < expanded_length; i++)
+            {
+                const float     src_pos = (float)i / (float)(expanded_length - 1) * src_last;
+                const int       idx = (int)src_pos;
+                const float     frac = src_pos - (float)idx;
+                const int16_t   s0 = src16[idx];
+                const int16_t   s1 = (idx + 1 < (int)samplecount ? src16[idx + 1] : s0);
+                const float     sample = (1.0f - frac) * (float)s0 + frac * (float)s1;
+
+                expanded[i * 2] = expanded[i * 2 + 1] = (int16_t)sample;
+            }
         }
 
-    // Apply low-pass filter
-    for (unsigned int i = 2; i < expanded_length * 2; i++)
-        expanded[i] = (int16_t)(alpha * expanded[i] + (1.0 - alpha) * expanded[i - 2]);
+        // Apply low-pass filter
+        for (unsigned int i = 2; i < expanded_length * 2; i++)
+            expanded[i] = (int16_t)(alpha * expanded[i] + (1.0 - alpha) * expanded[i - 2]);
+    }
 }
 
 // Load and convert a sound effect
@@ -288,6 +325,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
                 if (bits == 8 || bits == 16)
                 {
                     ExpandSoundData(sfxinfo, buffer, spec.freq, bits, length);
+                    SDL_FreeWAV(buffer);
                     return true;
                 }
             }
@@ -317,7 +355,11 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 {
-    Mix_SetPanning(channel, (254 - sep) * vol / (MIX_MAX_VOLUME - 1), sep * vol / (MIX_MAX_VOLUME - 1));
+    const float     pan = (float)sep / 254.0f;
+    const float     left_f = cosf(pan * (float)M_PI_2);
+    const float     right_f = sinf(pan * (float)M_PI_2);
+
+    Mix_SetPanning(channel, (uint8_t)(left_f * vol), (uint8_t)(right_f * vol));
 }
 
 //
