@@ -214,7 +214,7 @@ static void R_BlastMaskedSegColumn(const rcolumn_t *column)
 void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
 {
     int             texnum;
-    fixed_t         texheight;
+    int64_t         texheight;
     const rpatch_t  *patch;
 
     curline = ds->curline;
@@ -261,8 +261,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
 
     // find positioning
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
-        dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) + texheight - viewz
-            + curline->sidedef->rowoffset;
+        dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight)
+            + (fixed_t)texheight - viewz + curline->sidedef->rowoffset;
     else
         dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) - viewz
             + curline->sidedef->rowoffset;
@@ -289,7 +289,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 const int64_t   t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
                 // skip if the texture is out of screen's range
-                if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
+                if (t + texheight * spryscale < 0 || t > ((int64_t)SCREENHEIGHT << (FRACBITS * 2)))
                     continue;
 
                 sprtopscreen = (int64_t)(t >> FRACBITS);
@@ -297,7 +297,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 // calculate lighting
                 if (!fixedcolormap)
                 {
-                    const int   index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                    const int   index = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
 
                     dc_colormap[0] = walllights[index];
                     dc_nextcolormap[0] = walllightsnext[index];
@@ -332,6 +332,7 @@ static void R_RenderSegLoop(void)
     for (; rw_x < rw_stopx; rw_x++)
     {
         fixed_t     texturecolumn = 0;
+        bool        samecolormap = false;
 
         // no space above wall?
         int         bottom;
@@ -391,6 +392,9 @@ static void R_RenderSegLoop(void)
 
             dc_x = rw_x;
             dc_iscale = UINT_MAX / rw_scale;
+
+            if (r_ditheredlighting)
+                samecolormap = !memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap));
         }
 
         // draw the wall tiers
@@ -414,7 +418,7 @@ static void R_RenderSegLoop(void)
 
                     if (r_ditheredlighting)
                     {
-                        if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                        if (samecolormap)
                             altbmapwallcolfunc();
                         else
                             bmapwallcolfunc();
@@ -424,7 +428,7 @@ static void R_RenderSegLoop(void)
                 }
                 else if (r_ditheredlighting)
                 {
-                    if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                    if (samecolormap)
                         altwallcolfunc();
                     else
                         wallcolfunc();
@@ -466,7 +470,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                                if (samecolormap)
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -476,7 +480,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                            if (samecolormap)
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
@@ -521,7 +525,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                                if (samecolormap)
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -531,7 +535,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
+                            if (samecolormap)
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
@@ -580,7 +584,10 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     const int       den = FixedMul(rw_distance, finesine[angle >> ANGLETOFINESHIFT]);
     const fixed_t   num = FixedMul(projection, finesine[(angle + viewangle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
-    return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
+    if (den <= (num >> FRACBITS))
+        return max_rwscale;
+
+    return BETWEEN(256, FixedDiv(num, den), max_rwscale);
 }
 
 //
@@ -650,7 +657,6 @@ void R_StoreWallRange(const int start, const int stop)
 
     worldtop = frontsector->interpceilingheight - viewz;
     worldbottom = frontsector->interpfloorheight - viewz;
-
 
     if (!vanilla)
         R_FixWiggle(frontsector);

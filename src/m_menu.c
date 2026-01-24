@@ -634,21 +634,26 @@ static void M_DrawHelpBackground(void)
     M_BigSeed(411);
 
     for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+    {
+        byte    *row0 = *screens + y;
+        byte    *row1 = row0 + SCREENWIDTH;
+
         for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte        *dot1 = *screens + y + x;
-            byte        *dot2 = dot1 + 1;
-            byte        *dot3 = dot2 + SCREENWIDTH;
-            byte        *dot4 = dot3 - 1;
+            byte        *dot1 = row0 + x;
+            const byte  *dot2 = dot1 + 1;
+            const byte  *dot3 = dot2 + SCREENWIDTH;
+            const byte  *dot4 = dot3 - 1;
             const byte  color = colormaps[0][M_BigRandomInt(0, 3) * 256
                             + blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8)
                             + tinttab50[(*dot3 << 8) + *dot4]]]];
 
-            *dot1 = color;
-            *dot2 = color;
-            *dot3 = color;
-            *dot4 = color;
+            dot1[0] = color;
+            dot1[1] = color;
+            row1[x] = color;
+            row1[x + 1] = color;
         }
+    }
 
     M_BigSeed((unsigned int)time(NULL));
 
