@@ -591,6 +591,7 @@ void D_DoAdvanceTitle(void)
             splashscreen = false;
             vid_scalefilter = vid_scalefilter_copy;
             I_RestartGraphics(false);
+            I_UpdateBlitFunc(false);
 
             I_Sleep(1000);
         }
@@ -2771,6 +2772,7 @@ static void D_DoomMainSetup(void)
         splashscreen = false;
         vid_scalefilter = vid_scalefilter_copy;
         I_RestartGraphics(false);
+        I_UpdateBlitFunc(false);
         I_InitKeyboard();
 
         if (alwaysrun)
@@ -2854,6 +2856,7 @@ static void D_DoomMainSetup(void)
             splashscreen = false;
             vid_scalefilter = vid_scalefilter_copy;
             I_RestartGraphics(false);
+            I_UpdateBlitFunc(false);
             I_InitKeyboard();
 
             if (vid_widescreen_copy)
@@ -2898,6 +2901,7 @@ static void D_DoomMainSetup(void)
                 splashscreen = false;
                 vid_scalefilter = vid_scalefilter_copy;
                 I_RestartGraphics(false);
+                I_UpdateBlitFunc(false);
                 D_FadeScreen(false);
                 D_StartTitle(1);
             }
