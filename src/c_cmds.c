@@ -706,7 +706,7 @@ consolecmd_t consolecmds[] =
         BOLD("0") " to " BOLD("255") ")."),
     INTCVAR(am_sectors, "", "", intfunc1, intfunc2, 0, SECTORSVALUEALIAS,
         "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
-        BOLD("colors") " or " BOLD("off") ")."),
+        BOLD("colors") " or " BOLD("empty") ")."),
     BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
         "Toggles indicating whether every line in the automap is one or two-sided."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,

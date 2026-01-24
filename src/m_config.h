@@ -288,7 +288,7 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
-    am_sectors_off,
+    am_sectors_empty,
     am_sectors_textures,
     am_sectors_colors
 };
@@ -491,8 +491,8 @@ enum
 #define am_secretcolor_default              am_secretcolor_none
 #define am_secretcolor_max                  255
 
-#define am_sectors_min                      am_sectors_off
-#define am_sectors_default                  am_sectors_off
+#define am_sectors_min                      am_sectors_empty
+#define am_sectors_default                  am_sectors_empty
 #define am_sectors_max                      am_sectors_colors
 
 #define am_sides_default                    false

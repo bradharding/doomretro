@@ -26,7 +26,7 @@ am_reddoorcolor 231
 am_redkeycolor 112
 am_rotatemode off
 am_secretcolor none
-am_sectors off
+am_sectors empty
 am_sides off
 am_teleportercolor 184
 am_thingcolor 112

@@ -635,7 +635,7 @@ valuealias_t valuealiases[] =
     { "auto",           con_edgecolor_auto,           EDGECOLORVALUEALIAS   },
     { "american",       english_american,             ENGLISHVALUEALIAS     },
     { "british",        english_british,              ENGLISHVALUEALIAS     },
-    { "off",            am_sectors_off,               SECTORSVALUEALIAS     },
+    { "empty",          am_sectors_empty,             SECTORSVALUEALIAS     },
     { "textures",       am_sectors_textures,          SECTORSVALUEALIAS     },
     { "colors",         am_sectors_colors,            SECTORSVALUEALIAS     },
     { "colours",        am_sectors_colors,            SECTORSVALUEALIAS     },

@@ -3060,7 +3060,7 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (am_sectors != am_sectors_off)
+    if (am_sectors != am_sectors_empty)
         AM_FillSectors();
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
@@ -3101,7 +3101,7 @@ void AM_Drawer(void)
             AM_DrawMarks(bigmarknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_sectors == am_sectors_off)
+            && am_sectors == am_sectors_empty)
             AM_BigStatusBarShadow();
     }
     else
@@ -3110,7 +3110,7 @@ void AM_Drawer(void)
             AM_DrawMarks(marknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_sectors == am_sectors_off)
+            && am_sectors == am_sectors_empty)
             AM_StatusBarShadow();
     }
 
