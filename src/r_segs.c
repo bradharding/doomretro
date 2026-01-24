@@ -778,6 +778,12 @@ void R_StoreWallRange(const int start, const int stop)
             // draw floors if different specials
             || backsector->special != frontsector->special);
 
+        // [BH] animate liquid sectors
+        if (frontsector->terraintype >= LIQUID
+            && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
+            && r_liquid_bob)
+            worldbottom += animatedliquiddiff;
+
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
             || backsector->lightlevel != frontsector->lightlevel
@@ -884,12 +890,6 @@ void R_StoreWallRange(const int start, const int stop)
     // calculate incremental stepping values for texture edges
     topstep = -FixedMul(rw_scalestep, (worldtop >>= invhgtbits));
     topfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldtop * rw_scale) >> FRACBITS);
-
-    // [BH] animate liquid sectors
-    if (frontsector->terraintype >= LIQUID
-        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
-        && r_liquid_bob)
-        worldbottom += animatedliquiddiff;
 
     bottomstep = -FixedMul(rw_scalestep, (worldbottom >>= invhgtbits));
     bottomfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldbottom * rw_scale) >> FRACBITS);
