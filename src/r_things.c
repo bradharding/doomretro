@@ -509,15 +509,15 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
     {
-        int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-        fixed_t     offset;
-        fixed_t     pcl_gx, pcl_gy;
-        fixed_t     pcl_dx, pcl_dy;
-        fixed_t     pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
-        fixed_t     pcl_cosine = finecosine[angle];
-        fixed_t     pcl_sine = finesine[angle];
-        int         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
-        subsector_t *lastsubsec = NULL;
+        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        fixed_t         offset;
+        fixed_t         pcl_gx, pcl_gy;
+        fixed_t         pcl_dx, pcl_dy;
+        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_cosine = finecosine[angle];
+        const fixed_t   pcl_sine = finesine[angle];
+        const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
+        subsector_t     *lastsubsec = NULL;
 
         if (vis->flipped)
         {
@@ -656,15 +656,15 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
     {
-        int         angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-        fixed_t     offset;
-        fixed_t     pcl_gx, pcl_gy;
-        fixed_t     pcl_dx, pcl_dy;
-        fixed_t     pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
-        fixed_t     pcl_cosine = finecosine[angle];
-        fixed_t     pcl_sine = finesine[angle];
-        int         pcl_lightindex = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
-        subsector_t *lastsubsec = NULL;
+        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        fixed_t         offset;
+        fixed_t         pcl_gx, pcl_gy;
+        fixed_t         pcl_dx, pcl_dy;
+        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_cosine = finecosine[angle];
+        const fixed_t   pcl_sine = finesine[angle];
+        const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
+        subsector_t     *lastsubsec = NULL;
 
         if (vis->flipped)
         {

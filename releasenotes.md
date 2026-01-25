@@ -35,6 +35,7 @@
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_textures` CVAR no longer affects the menu’s background.
 * These changes have been made to blood splats:
+  * Extensive optimizations have been made to the rendering of blood splats.
   * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
   * There are no longer slight random variations in the colors of blood splats.
   * When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
@@ -46,8 +47,8 @@
 * Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, they just don’t appear in the console.
-* Wildcards now work correctly with the `reset` CCMD to reset multiple CVARs at once.
+* Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, but are just not displayed in the console.
+* Wildcard expressions now work correctly with the `reset` CCMD to reset multiple CVARs at once.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

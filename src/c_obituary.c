@@ -86,11 +86,12 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
 
     M_snprintf(dest, destsize, "%s %s%s", article, prefix, basename);
 }
+
 static const char *C_KillVerb(const mobjtype_t target, const bool gibbed)
 {
     if (target == MT_BARREL)
         return "exploded";
-    else if (target == MT_EXTRA50 && legacyofrust)
+    else if (target == MT_LAMP && legacyofrust)
         return "broke";
     else
         return (gibbed ? s_GIBBED : s_KILLED);
@@ -382,54 +383,70 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
 void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     const bool gibbed, const bool telefragged)
 {
-    const int       i = (numconsolestrings > 0 ? numconsolestrings - 1 : 0);
+    const int       i = MAX(0, numconsolestrings - 1);
     obituaryinfo_t  obituary = { 0 };
 
-    obituary.target = (target ? target->type : MT_NULL);
-    obituary.inflicter = (inflicter ? inflicter->type : MT_NULL);
-    obituary.source = (source ? source->type : MT_NULL);
-
-    obituary.weapon = (source && (source->player || source->type == MT_BFG) ?
-        viewplayer->readyweapon : wp_nochange);
-
-    obituary.gibbed = gibbed;
-    obituary.telefragged = telefragged;
-
-    obituary.targetisplayer = (target && target->player);
-    obituary.sourceisplayer = (source && source->player);
-
-    obituary.targetfriendly = (target && (target->flags & MF_FRIEND));
-    obituary.sourcefriendly = (source && (source->flags & MF_FRIEND));
-    obituary.targetcorpse = (target && (target->flags & MF_CORPSE));
-
-    obituary.barrelinflicter = ((inflicter && inflicter->type == MT_BARREL) ?
-        inflicter->inflicter : MT_NULL);
-
-    obituary.targetname[0] = '\0';
-    obituary.sourcename[0] = '\0';
-
-    if (target && *target->name)
-        M_StringCopy(obituary.targetname, target->name, sizeof(obituary.targetname));
-
-    if (source && *source->name)
-        M_StringCopy(obituary.sourcename, source->name, sizeof(obituary.sourcename));
-
-    obituary.crushed = false;
-    obituary.terraintype = -1;
-    obituary.floorpic = -1;
-
-    if (!source && target && target->player && target->player->mo == target)
+    if (target)
     {
-        const sector_t  *sector = viewplayer->mo->subsector->sector;
+        const bool  isplayer = !!target->player;
+        const int   flags = target->flags;
 
-        if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
-            obituary.crushed = true;
-        else
+        obituary.target = target->type;
+        obituary.targetisplayer = isplayer;
+        obituary.targetfriendly = !!(flags & MF_FRIEND);
+        obituary.targetcorpse = !!(flags & MF_CORPSE);
+
+        if (*target->name)
+            M_StringCopy(obituary.targetname, target->name, sizeof(obituary.targetname));
+
+        if (!source && isplayer && target->player->mo == target)
         {
-            obituary.terraintype = sector->terraintype;
-            obituary.floorpic = sector->floorpic;
+            const sector_t  *sector = viewplayer->mo->subsector->sector;
+
+            if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
+                obituary.crushed = true;
+            else
+            {
+                obituary.terraintype = sector->terraintype;
+                obituary.floorpic = sector->floorpic;
+            }
         }
     }
+    else
+        obituary.target = MT_NULL;
+
+    if (inflicter)
+    {
+        const mobjtype_t    type = inflicter->type;
+
+        obituary.inflicter = type;
+        obituary.barrelinflicter = (type == MT_BARREL ? inflicter->inflicter : MT_NULL);
+    }
+    else
+        obituary.inflicter = MT_NULL;
+
+    if (source)
+    {
+        const mobjtype_t    type = source->type;
+
+        obituary.source = type;
+        obituary.weapon = (source->player || type == MT_BFG ? viewplayer->readyweapon : wp_nochange);
+        obituary.sourceisplayer = !!source->player;
+        obituary.sourcefriendly = !!(source->flags & MF_FRIEND);
+
+        if (*source->name)
+            M_StringCopy(obituary.sourcename, source->name, sizeof(obituary.sourcename));
+    }
+    else
+    {
+        obituary.source = MT_NULL;
+        obituary.weapon = wp_nochange;
+    }
+
+    obituary.inflicter = (inflicter ? inflicter->type : MT_NULL);
+    obituary.gibbed = gibbed;
+    obituary.telefragged = telefragged;
+    obituary.barrelinflicter = ((inflicter && inflicter->type == MT_BARREL) ? inflicter->inflicter : MT_NULL);
 
     if (numconsolestrings > 0
         && (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)
