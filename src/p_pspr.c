@@ -870,7 +870,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         for (int j = 0; j < 15; j++)
             damage += (M_Random() & 7);
 
-        P_DamageMobj(linetarget, mo, mo, damage, true, false);
+        P_DamageMobj(linetarget, mo, mo, damage, true, false, false);
     }
 
     viewplayer->shotsfired[wp_bfg]++;

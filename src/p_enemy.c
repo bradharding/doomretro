@@ -1174,7 +1174,7 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         const int   damage = ((M_Random() & 7) + 1) * 3;
 
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(target, actor, actor, damage, true, false);
+        P_DamageMobj(target, actor, actor, damage, true, false, false);
         P_SpawnBloodOnMelee(target, damage);
         return;
     }
@@ -1199,7 +1199,7 @@ void A_SargAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         const int   damage = (M_Random() % 10 + 1) * 4;
 
-        P_DamageMobj(target, actor, actor, damage, true, false);
+        P_DamageMobj(target, actor, actor, damage, true, false, false);
         P_SpawnBloodOnMelee(target, damage);
     }
 }
@@ -1217,7 +1217,7 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         const int   damage = (M_Random() % 6 + 1) * 10;
 
-        P_DamageMobj(target, actor, actor, damage, true, false);
+        P_DamageMobj(target, actor, actor, damage, true, false, false);
         P_SpawnBloodOnMelee(target, damage);
 
         return;
@@ -1262,7 +1262,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         const int   damage = ((M_Random() & 7) + 1) * 10;
 
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(target, actor, actor, damage, true, false);
+        P_DamageMobj(target, actor, actor, damage, true, false, false);
         P_SpawnBloodOnMelee(target, damage);
 
         return;
@@ -1381,7 +1381,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
         const int   damage = (M_Random() % 10 + 1) * 6;
 
         S_StartSound(actor, sfx_skepch);
-        P_DamageMobj(target, actor, actor, damage, true, false);
+        P_DamageMobj(target, actor, actor, damage, true, false, false);
         P_SpawnBloodOnMelee(target, damage);
     }
 }
@@ -1678,7 +1678,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     S_StartSound(actor, sfx_barexp);
-    P_DamageMobj(target, actor, actor, 20, true, false);
+    P_DamageMobj(target, actor, actor, 20, true, false, false);
 
     // [BH] don't apply upward momentum from vile attack to player when no clipping mode on
     if (!target->player || !(target->flags & MF_NOCLIP))
@@ -1816,7 +1816,7 @@ void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, actor->info->attacksound);
     A_FaceTarget(actor, NULL, NULL);
-    P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * actor->info->damage, true, false);
+    P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * actor->info->damage, true, false, false);
 }
 
 void A_Stop(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1865,7 +1865,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
         // kill it immediately
         massacre = true;    // [BH] set this to avoid obituary
         newmobj->flags &= ~MF_COUNTKILL;
-        P_DamageMobj(newmobj, actor, actor, 10000, true, false);
+        P_DamageMobj(newmobj, actor, actor, 10000, true, false, false);
         massacre = false;
 
         return;
@@ -2408,7 +2408,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 // killough 11/98: kill an object
 void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_DamageMobj(actor, NULL, NULL, actor->health, false, false);
+    P_DamageMobj(actor, NULL, NULL, actor->health, false, false, false);
 }
 
 //
@@ -2510,7 +2510,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (state->misc2)
             S_StartSound(actor, state->misc2);
 
-        P_DamageMobj(target, actor, actor, state->misc1, true, false);
+        P_DamageMobj(target, actor, actor, state->misc1, true, false, false);
         P_SpawnBloodOnMelee(target, state->misc1);
     }
 }
@@ -2745,7 +2745,8 @@ void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, actor->state->args[2]);
 
-    P_DamageMobj(target, actor, actor, (M_Random() % actor->state->args[1] + 1) * actor->state->args[0], true, false);
+    P_DamageMobj(target, actor, actor, (M_Random() % actor->state->args[1] + 1) * actor->state->args[0],
+        true, false, false);
 }
 
 //

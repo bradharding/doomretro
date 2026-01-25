@@ -1584,7 +1584,7 @@ static void P_SpawnGibBlood(mobj_t *target)
 //
 // P_KillMobj
 //
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged)
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged, const bool crushed)
 {
     bool                gibbed;
     const mobjtype_t    type = target->type;
@@ -1710,7 +1710,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         target->flags2 |= MF2_EXPLODING;
 
     if (!hacx && !massacre)
-        C_WriteObituary(target, inflicter, source, gibbed, telefragged);
+        C_WriteObituary(target, inflicter, source, gibbed, telefragged, crushed);
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
 
@@ -1766,7 +1766,8 @@ static bool P_InfightingImmune(const mobj_t *target, const mobj_t *source)
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, const bool adjust, const bool telefragged)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
+    const bool adjust, const bool telefragged, const bool crushed)
 {
     player_t            *splayer = NULL;
     player_t            *tplayer;
@@ -1966,7 +1967,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 tplayer->negativehealth = HUD_NUMBER_MIN;
 
             tplayer->damagecount = 100;
-            P_KillMobj(target, inflicter, source, telefragged);
+            P_KillMobj(target, inflicter, source, telefragged, crushed);
         }
         else
         {
@@ -2002,7 +2003,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             && damage >= 10 && info->gibhealth < 0 && P_CheckMeleeRange(target))
             target->health = info->gibhealth - 1;
 
-        P_KillMobj(target, inflicter, source, telefragged);
+        P_KillMobj(target, inflicter, source, telefragged, crushed);
         return;
     }
 

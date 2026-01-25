@@ -120,7 +120,7 @@ static bool PIT_StompThing(mobj_t *thing)
     if (!telefrag)          // killough 08/09/98: make consistent across all levels
         return false;
 
-    P_DamageMobj(thing, NULL, tmthing, 10000, true, true);   // Stomp!
+    P_DamageMobj(thing, NULL, tmthing, 10000, true, true, false);   // Stomp!
 
     return true;
 }
@@ -479,19 +479,19 @@ static bool PIT_CheckThing(mobj_t *thing)
     // If a solid object of a different type comes in contact with a touchy
     // thing, and the touchy thing is not the sole one moving relative to fixed
     // surroundings such as walls, then the touchy thing dies immediately.
-    if ((flags & MF_TOUCHY)                                             // touchy object
-        && (tmflags & MF_SOLID)                                         // solid object touches it
-        && thing->health > 0                                            // touchy object is alive
-        && ((thing->flags2 & MF2_ARMED)                                 // Thing is an armed mine
-            || sentient(thing))                                         // ...or a sentient thing
-        && (type != tmtype                                              // only different species
-            || type == MT_PLAYER)                                       // ...or different players
-        && thing->z + thing->height >= tmthing->z                       // touches vertically
+    if ((flags & MF_TOUCHY)                                                 // touchy object
+        && (tmflags & MF_SOLID)                                             // solid object touches it
+        && thing->health > 0                                                // touchy object is alive
+        && ((thing->flags2 & MF2_ARMED)                                     // Thing is an armed mine
+            || sentient(thing))                                             // ...or a sentient thing
+        && (type != tmtype                                                  // only different species
+            || type == MT_PLAYER)                                           // ...or different players
+        && thing->z + thing->height >= tmthing->z                           // touches vertically
         && tmthing->z + tmthing->height >= thing->z
-        && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))                     // PEs and lost souls are considered same
-        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))                    // (but Barons and Knights are intentionally not)
+        && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))                         // PEs and lost souls are considered same
+        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))                        // (but Barons and Knights are intentionally not)
     {
-        P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
+        P_DamageMobj(thing, NULL, NULL, thing->health, true, false, false); // kill object
         return true;
     }
 
@@ -517,7 +517,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight || compat_nopassover))
     {
-        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false, false);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = 0;
@@ -595,7 +595,7 @@ static bool PIT_CheckThing(mobj_t *thing)
             if (tmthing->info->ripsound)
                 S_StartSound(tmthing, tmthing->info->ripsound);
 
-            P_DamageMobj(thing, tmthing, tmthing->target, damage, true, false);
+            P_DamageMobj(thing, tmthing, tmthing->target, damage, true, false, false);
             numspechit = 0;
 
             if (tmtype == MT_RIPPER)
@@ -608,7 +608,8 @@ static bool PIT_CheckThing(mobj_t *thing)
         }
 
         // damage/explode
-        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
+        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage,
+            true, false, false);
 
         if (type != MT_BARREL && type != MT_LAMP)
         {
@@ -1818,7 +1819,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
     if (la_damage)
     {
         successfulshot = true;
-        P_DamageMobj(th, shootthing, shootthing, la_damage, true, false);
+        P_DamageMobj(th, shootthing, shootthing, la_damage, true, false, false);
     }
 
     // don't go any farther
@@ -2066,7 +2067,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
                         (bombdamage * (bombdistance - dist) / bombdistance) + 1);
 
         // must be in direct path
-        P_DamageMobj(thing, bombspot, bombsource, damage, true, false);
+        P_DamageMobj(thing, bombspot, bombsource, damage, true, false, false);
 
         // [BH] count number of times player's rockets hit a monster
         if (bombspot->type == MT_ROCKET && type != MT_BARREL && type != MT_LAMP && !(thing->flags & MF_CORPSE))
@@ -2212,7 +2213,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     // killough 11/98: kill touchy things immediately
     if ((flags & MF_TOUCHY) && ((flags2 & MF2_ARMED) || sentient(thing)))
     {
-        P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
+        P_DamageMobj(thing, NULL, NULL, thing->health, true, false, false); // kill object
         return;
     }
 
@@ -2259,24 +2260,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             }
         }
 
-        P_DamageMobj(thing, NULL, NULL, 10, true, false);
-
-        if (thing->health <= 0 && !thing->player && type != MT_BARREL && obituaries)
-        {
-            char    name[128];
-
-            if (*thing->name)
-                M_StringCopy(name, thing->name, sizeof(name));
-            else
-                M_snprintf(name, sizeof(name), "%s %s%s",
-                    ((flags & MF_FRIEND) && type > MT_NULL && type < NUMMOBJTYPES && monstercount[type] == 1 ? "the" :
-                        (isvowel(thing->info->name1[0]) && !(flags & MF_FRIEND) ? "an" : "a")),
-                    ((flags & MF_FRIEND) ? "friendly " : ""),
-                    (*thing->info->name1 ? thing->info->name1 : "monster"));
-
-            name[0] = toupper(name[0]);
-            C_PlayerMessage("%s was crushed to death.", name);
-        }
+        P_DamageMobj(thing, NULL, NULL, 10, true, false, true);
     }
 }
 

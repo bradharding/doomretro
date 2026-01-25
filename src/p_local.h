@@ -323,7 +323,8 @@ extern int          blockmapyneg;
 bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool message, const bool stat);
 bool P_TakeSpecialThing(const mobjtype_t type);
 
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, const bool adjust, const bool telefragged);
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
+    const bool adjust, const bool telefragged, const bool crushed);
 
 void P_ResurrectMobj(mobj_t *target);
 

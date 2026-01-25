@@ -4097,7 +4097,7 @@ static void killfunc2(char *cmd, char *parms)
                                     thing->flags2 |= MF2_MASSACRE;
                                     massacre = true;
 
-                                    P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
+                                    P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false, false);
                                     massacre = false;
                                     kills++;
                                 }
@@ -4367,7 +4367,7 @@ static void killfunc2(char *cmd, char *parms)
                 {
                     killcmdmobj->flags2 |= MF2_MASSACRE;
                     massacre = true;
-                    P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
+                    P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false, false);
                     massacre = false;
 
                     if (isdefaultplayername())
@@ -4414,13 +4414,13 @@ static void killfunc2(char *cmd, char *parms)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
                                 massacre = true;
-                                P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
+                                P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false, false);
                                 massacre = false;
                                 kills++;
                             }
                             else if (type == MT_BARREL)
                             {
-                                P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
+                                P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false, false);
                                 kills++;
                             }
                             else if (thing->flags & MF_SPECIAL)
@@ -9220,7 +9220,7 @@ static void takefunc2(char *cmd, char *parms)
             if (viewplayer->health > initial_health)
             {
                 healthcvar = true;
-                P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - initial_health, false, false);
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - initial_health, false, false, false);
                 healthcvar = false;
                 result = true;
             }
@@ -9280,7 +9280,7 @@ static void takefunc2(char *cmd, char *parms)
             {
                 healthcvar = true;
                 P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo,
-                    viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false, false);
+                    viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false, false, false);
                 healthcvar = false;
 
                 if (isdefaultplayername())

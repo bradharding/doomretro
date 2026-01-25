@@ -423,7 +423,7 @@ static void P_ZMovement(mobj_t *mo)
 
                 // killough 11/98: touchy objects explode on impact
                 if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
-                    P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
+                    P_DamageMobj(mo, NULL, NULL, mo->health, true, false, false);
                 else if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
 
@@ -540,7 +540,7 @@ floater:
         {
             // killough 11/98: touchy objects explode on impact
             if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
-                P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
+                P_DamageMobj(mo, NULL, NULL, mo->health, true, false, false);
             else if (player && player->mo == mo && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
             {
                 player->jumptics = 7;
@@ -789,7 +789,7 @@ void P_MobjThinker(mobj_t *mobj)
     if ((sector->special & KILL_MONSTERS_MASK) && mobj->z == mobj->floorz
         && !player && (flags & MF_SHOOTABLE) && !(flags & MF_FLOAT))
     {
-        P_DamageMobj(mobj, NULL, NULL, 10000, false, false);
+        P_DamageMobj(mobj, NULL, NULL, 10000, false, false, false);
 
         if (mobj->thinker.function == &P_RemoveThinkerDelayed)
             return;

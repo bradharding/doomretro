@@ -66,4 +66,4 @@ typedef struct
 
 void C_BuildObituaryString(const int index);
 void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool gibbed,
-    const bool telefragged);
+    const bool telefragged, const bool crushed);

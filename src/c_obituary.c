@@ -357,6 +357,19 @@ void C_BuildObituaryString(const int index)
             return;
         }
     }
+    else if (obituary->crushed)
+    {
+        char    targetname[128];
+
+        C_BuildThingName(targetname, sizeof(targetname), target,
+            obituary->targetfriendly, obituary->targetcorpse, obituary->targetname, "");
+
+        targetname[0] = (char)toupper(targetname[0]);
+
+        M_snprintf(buffer, buffersize, "%s was crushed to death.", targetname);
+        buffer[0] = (char)toupper(buffer[0]);
+        return;
+    }
 }
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
@@ -381,32 +394,31 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
 }
 
 void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
-    const bool gibbed, const bool telefragged)
+    const bool gibbed, const bool telefragged, const bool crushed)
 {
     const int       i = MAX(0, numconsolestrings - 1);
     obituaryinfo_t  obituary = { 0 };
 
     if (target)
     {
-        const bool  isplayer = !!target->player;
         const int   flags = target->flags;
 
         obituary.target = target->type;
-        obituary.targetisplayer = isplayer;
+        obituary.targetisplayer = !!target->player;
         obituary.targetfriendly = !!(flags & MF_FRIEND);
         obituary.targetcorpse = !!(flags & MF_CORPSE);
 
         if (*target->name)
             M_StringCopy(obituary.targetname, target->name, sizeof(obituary.targetname));
 
-        if (!source && isplayer && target->player->mo == target)
+        if (!source)
         {
-            const sector_t  *sector = viewplayer->mo->subsector->sector;
-
-            if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
+            if (crushed)
                 obituary.crushed = true;
             else
             {
+                const sector_t  *sector = target->subsector->sector;
+
                 obituary.terraintype = sector->terraintype;
                 obituary.floorpic = sector->floorpic;
             }

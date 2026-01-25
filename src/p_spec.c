@@ -2533,14 +2533,14 @@ void P_PlayerInSpecialSector(sector_t *sector)
             case DamageNegative5Or10PercentHealth:
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false, false);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false, false);
 
                 break;
 
@@ -2548,7 +2548,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false, false);
 
                 break;
 
@@ -2566,7 +2566,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
                 if (!(maptime & 31))
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false, false);
 
                 if (viewplayer->health <= 10)
                     G_ExitLevel();
@@ -2582,21 +2582,21 @@ void P_PlayerInSpecialSector(sector_t *sector)
             case 0:
                 if (!viewplayer->powers[pw_invulnerability]
                     && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false, false);
 
                 break;
 
             case 1:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false);
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false, false);
                 break;
 
             case 2:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false);
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false, false);
                 G_ExitLevel();
                 break;
 
             case 3:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false);
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false, false);
                 G_SecretExitLevel();
                 break;
         }
@@ -2613,7 +2613,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 // 2/5 damage per 31 tics
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false, false);
 
                 break;
 
@@ -2621,7 +2621,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 // 5/10 damage per 31 tics
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false, false);
 
                 break;
 
@@ -2629,7 +2629,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 // 10/20 damage per 31 tics
                 if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
                     && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false, false);
 
                 break;
         }
