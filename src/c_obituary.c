@@ -105,14 +105,11 @@ void C_BuildObituaryString(const int index)
     const mobjtype_t        target = obituary->target;
     const mobjtype_t        inflicter = obituary->inflicter;
     const mobjtype_t        source = obituary->source;
-    const weapontype_t      weapon = obituary->weapon;
-    const bool              gibbed = obituary->gibbed;
-    const bool              telefragged = obituary->telefragged;
 
     if (buffer[0])
         return;
 
-    if (telefragged)
+    if (obituary->telefragged)
     {
         char    sourcename[128] = "";
         char    targetname[128] = "";
@@ -136,12 +133,8 @@ void C_BuildObituaryString(const int index)
             M_snprintf(buffer, buffersize, "%s telefragged %s.", C_GetPlayerName(), targetname);
         else
             M_snprintf(buffer, buffersize, "%s was telefragged by %s.", targetname, sourcename);
-
-        buffer[0] = (char)toupper((unsigned char)buffer[0]);
-        return;
     }
-
-    if (source != MT_NULL)
+    else if (source != MT_NULL)
     {
         char    sourcename[128];
 
@@ -156,13 +149,13 @@ void C_BuildObituaryString(const int index)
                 {
                     if (isdefaultplayername())
                         M_snprintf(buffer, buffersize, "You were %s by %s %s that you exploded!",
-                            (gibbed ? s_GIBBED : s_KILLED),
+                            (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded!",
                             playername,
-                            (gibbed ? s_GIBBED : s_KILLED),
+                            (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             pronoun(personal));
@@ -175,16 +168,13 @@ void C_BuildObituaryString(const int index)
 
                     M_snprintf(buffer, buffersize, "%s were %s by %s %s that %s %s exploded!",
                         (isdefaultplayername() ? "You" : playername),
-                        (gibbed ? s_GIBBED : s_KILLED),
+                        (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
                         (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
                             (*killername && isvowel(killername[0]) ? "an" : "a")),
                         (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
                 }
-
-                buffer[0] = (char)toupper(buffer[0]);
-                return;
             }
             else
             {
@@ -193,25 +183,23 @@ void C_BuildObituaryString(const int index)
                 C_BuildThingName(targetname, sizeof(targetname), target, obituary->targetfriendly,
                     (obituary->targetcorpse && source != target), obituary->targetname, "");
 
-                targetname[0] = (char)toupper(targetname[0]);
-
                 if (byplayer)
                 {
                     if (isdefaultplayername())
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that you exploded.",
-                            targetname, (gibbed ? s_GIBBED : s_KILLED),
+                            targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded.",
-                            targetname, (gibbed ? s_GIBBED : s_KILLED),
+                            targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             playername);
                 }
                 else if (source == target)
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that they exploded.",
-                        targetname, (gibbed ? s_GIBBED : s_KILLED),
+                        targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"));
                 else
@@ -221,21 +209,19 @@ void C_BuildObituaryString(const int index)
                                             mobjinfo[killer].name1 : "");
 
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s %s exploded.",
-                        targetname, (gibbed ? s_GIBBED : s_KILLED),
+                        targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
                         (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
                             (*killername && isvowel(killername[0]) ? "an" : "a")),
                         (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
                 }
-
-                buffer[0] = (char)toupper(buffer[0]);
-                return;
             }
         }
-
-        if (obituary->sourceisplayer || source == MT_BFG)
+        else if (obituary->sourceisplayer || source == MT_BFG)
         {
+            const weapontype_t  weapon = obituary->weapon;
+
             if (isdefaultplayername())
             {
                 if (obituary->targetisplayer)
@@ -244,7 +230,7 @@ void C_BuildObituaryString(const int index)
                         M_snprintf(buffer, buffersize, "You %s yourself!", s_KILLED);
                     else
                         M_snprintf(buffer, buffersize, "You %s yourself with your own %s!",
-                            (gibbed ? s_GIBBED : s_KILLED), weaponinfo[weapon].name);
+                            (obituary->gibbed ? s_GIBBED : s_KILLED), weaponinfo[weapon].name);
                 }
                 else
                 {
@@ -255,10 +241,10 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "You %s %s with your %s while %s.",
-                            C_KillVerb(target, gibbed), targetname, weaponinfo[weapon].name, berserk);
+                            C_KillVerb(target, obituary->gibbed), targetname, weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "You %s %s with your %s.",
-                            C_KillVerb(target, gibbed), targetname, weaponinfo[weapon].name);
+                            C_KillVerb(target, obituary->gibbed), targetname, weaponinfo[weapon].name);
                 }
             }
             else
@@ -269,7 +255,7 @@ void C_BuildObituaryString(const int index)
                         M_snprintf(buffer, buffersize, "%s %s %s!", playername, s_KILLED, pronoun(reflexive));
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s own %s!",
-                            playername, (gibbed ? s_GIBBED : s_KILLED), pronoun(reflexive),
+                            playername, (obituary->gibbed ? s_GIBBED : s_KILLED), pronoun(reflexive),
                             pronoun(possessive), weaponinfo[weapon].name);
                 }
                 else
@@ -281,50 +267,43 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s while %s.",
-                            playername, C_KillVerb(target, gibbed), targetname, pronoun(possessive),
+                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessive),
                             weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s.",
-                            playername, C_KillVerb(target, gibbed), targetname, pronoun(possessive),
+                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessive),
                             weaponinfo[weapon].name);
                 }
             }
-
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
-        }
-
-        C_BuildThingName(sourcename, sizeof(sourcename), source,
-            obituary->sourcefriendly, false, obituary->sourcename, "");
-
-        if (obituary->targetisplayer)
-        {
-            if (isdefaultplayername())
-                M_snprintf(buffer, buffersize, "You were %s by %s!",
-                    (gibbed ? s_GIBBED : s_KILLED), sourcename);
-            else
-                M_snprintf(buffer, buffersize, "%s was %s by %s!",
-                    playername, (gibbed ? s_GIBBED : s_KILLED), sourcename);
         }
         else
         {
-            char    targetname[128];
+            C_BuildThingName(sourcename, sizeof(sourcename), source,
+                obituary->sourcefriendly, false, obituary->sourcename, "");
 
-            sourcename[0] = (char)toupper(sourcename[0]);
+            if (obituary->targetisplayer)
+            {
+                if (isdefaultplayername())
+                    M_snprintf(buffer, buffersize, "You were %s by %s!",
+                        (obituary->gibbed ? s_GIBBED : s_KILLED), sourcename);
+                else
+                    M_snprintf(buffer, buffersize, "%s was %s by %s!",
+                        playername, (obituary->gibbed ? s_GIBBED : s_KILLED), sourcename);
+            }
+            else
+            {
+                char    targetname[128];
 
-            C_BuildThingName(targetname, sizeof(targetname), target,
-                obituary->targetfriendly, false, obituary->targetname,
-                (source > MT_NULL && source < NUMMOBJTYPES ? mobjinfo[source].name1 : ""));
+                C_BuildThingName(targetname, sizeof(targetname), target,
+                    obituary->targetfriendly, false, obituary->targetname,
+                    (source > MT_NULL && source < NUMMOBJTYPES ? mobjinfo[source].name1 : ""));
 
-            M_snprintf(buffer, buffersize, "%s %s %s.",
-                sourcename, C_KillVerb(target, gibbed), targetname);
+                M_snprintf(buffer, buffersize, "%s %s %s.",
+                    sourcename, C_KillVerb(target, obituary->gibbed), targetname);
+            }
         }
-
-        buffer[0] = (char)toupper(buffer[0]);
-        return;
     }
-
-    if (obituary->targetisplayer)
+    else if (obituary->targetisplayer)
     {
         if (obituary->crushed)
         {
@@ -332,29 +311,18 @@ void C_BuildObituaryString(const int index)
                 M_snprintf(buffer, buffersize, "You were crushed to death!");
             else
                 M_snprintf(buffer, buffersize, "%s was crushed to death!", playername);
-
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
         }
-
-        if (obituary->terraintype >= LIQUID && obituary->terraintype < NUMTERRAINTYPES)
-        {
+        else if (obituary->terraintype >= LIQUID && obituary->terraintype < NUMTERRAINTYPES)
             M_snprintf(buffer, buffersize, "%s died in %s.",
                 C_GetPlayerName(), liquids[obituary->terraintype - LIQUID][english]);
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
-        }
         else
         {
-            const short floorpic = (short)obituary->floorpic;
+            const short floorpic = obituary->floorpic;
 
             if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                 M_snprintf(buffer, buffersize, "%s died on molten rock.", C_GetPlayerName());
             else
                 M_snprintf(buffer, buffersize, "%s died.", C_GetPlayerName());
-
-            buffer[0] = (char)toupper(buffer[0]);
-            return;
         }
     }
     else if (obituary->crushed)
@@ -364,12 +332,11 @@ void C_BuildObituaryString(const int index)
         C_BuildThingName(targetname, sizeof(targetname), target,
             obituary->targetfriendly, obituary->targetcorpse, obituary->targetname, "");
 
-        targetname[0] = (char)toupper(targetname[0]);
-
         M_snprintf(buffer, buffersize, "%s was crushed to death.", targetname);
-        buffer[0] = (char)toupper(buffer[0]);
-        return;
     }
+
+    if (buffer[0])
+        buffer[0] = (char)toupper(buffer[0]);
 }
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
