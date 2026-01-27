@@ -726,7 +726,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* fullbright           */ false,
         /* bloodcolor           */ REDBLOOD,
-        /* shadowoffset         */ 2 * FRACUNIT,
+        /* shadowoffset         */ 0,
         /* mbf21flags           */ 0,
         /* infightinggroup      */ IG_DEFAULT,
         /* projectilegroup      */ PG_DEFAULT,
