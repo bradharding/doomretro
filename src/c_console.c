@@ -319,14 +319,11 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     outputhistory = -1;
 }
 
-void C_Warning(const int minwarninglevel, const char *string, ...)
+void C_Warning(const int warninglevel, const char *string, ...)
 {
     va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = (numconsolestrings > 0 ? numconsolestrings - 1 : 0);
-
-    if (con_warninglevel < minwarninglevel && !devparm)
-        return;
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
@@ -343,7 +340,8 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         console[numconsolestrings].indent = WARNINGWIDTH + 1;
         console[numconsolestrings].wrap = 0;
         console[numconsolestrings].stringtype = warningstring;
-        console[numconsolestrings++].count = 1;
+        console[numconsolestrings].count = 1;
+        console[numconsolestrings++].warninglevel = warninglevel;
     }
 
     outputhistory = -1;
@@ -2059,6 +2057,9 @@ void C_Drawer(void)
             else
                 continue;
         }
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
 
         if (stringtype == dividerstring)
         {

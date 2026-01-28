@@ -48,6 +48,7 @@
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, but are just not displayed in the console.
+* Changing the `con_warninglevel` CVAR will now cause all previously generated warnings in the console to appear or disappear accordingly.
 * Wildcard expressions now work correctly with the `reset` CCMD to reset multiple CVARs at once.
 * The `BIGDOOR1` texture is now aligned correctly.
 

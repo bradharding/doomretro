@@ -182,6 +182,7 @@ typedef struct
     int             tabs[MAXTABS];
     struct tm       timestamp;
     obituaryinfo_t  obituary;
+    int             warninglevel;
 } console_t;
 
 typedef struct
@@ -263,7 +264,7 @@ void C_StringCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
 void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
-void C_Warning(const int minwarninglevel, const char *string, ...);
+void C_Warning(const int warninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_PlayerWarning(const char *string, ...);
 char *C_GetPlayerName(void);

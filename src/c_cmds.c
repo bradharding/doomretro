@@ -2656,6 +2656,9 @@ static void condumpfunc2(char *cmd, char *parms)
                         continue;
                 }
 
+                if (type == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+                    continue;
+
                 if (!(len = (int)strlen(string)))
                 {
                     free(string);
