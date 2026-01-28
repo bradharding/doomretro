@@ -505,6 +505,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     footclip = vis->footclip;
     baseclip = (footclip ? (int)(sprtopscreen + footclip) >> FRACBITS : viewheight);
+
     fuzz1pos = 0;
 
     if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
@@ -1242,21 +1243,21 @@ static void R_AddBloodSplats(void)
             for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
             {
                 sector_t    *sector = splat->sector;
-                short       lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel : sector->lightlevel);
+                const short lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel : sector->lightlevel);
 
                 if (lightlevel != prevlightlevel)
                 {
-                    const int   i = BETWEEN(0, lightlevel, 255);
-
-                    if (!cached[i])
+                    if (!cached[lightlevel])
                     {
-                        cachedspritelights[i] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                        cachednextspritelights[i] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                        cached[i] = true;
+                        cachedspritelights[lightlevel] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight,
+                            LIGHTLEVELS - 1)];
+                        cachednextspritelights[lightlevel] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight,
+                            LIGHTLEVELS - 1)];
+                        cached[lightlevel] = true;
                     }
 
-                    spritelights = cachedspritelights[i];
-                    nextspritelights = cachednextspritelights[i];
+                    spritelights = cachedspritelights[lightlevel];
+                    nextspritelights = cachednextspritelights[lightlevel];
 
                     prevlightlevel = lightlevel;
                 }

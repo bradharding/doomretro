@@ -136,8 +136,6 @@ void C_BuildObituaryString(const int index)
     }
     else if (source != MT_NULL)
     {
-        char    sourcename[128];
-
         if (inflicter == MT_BARREL && target != MT_BARREL)
         {
             const char  *inflictername = mobjinfo[inflicter].name1;
@@ -278,6 +276,8 @@ void C_BuildObituaryString(const int index)
         }
         else
         {
+            char    sourcename[128];
+
             C_BuildThingName(sourcename, sizeof(sourcename), source,
                 obituary->sourcefriendly, false, obituary->sourcename, "");
 
@@ -422,10 +422,8 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
         obituary.weapon = wp_nochange;
     }
 
-    obituary.inflicter = (inflicter ? inflicter->type : MT_NULL);
     obituary.gibbed = gibbed;
     obituary.telefragged = telefragged;
-    obituary.barrelinflicter = ((inflicter && inflicter->type == MT_BARREL) ? inflicter->inflicter : MT_NULL);
 
     if (numconsolestrings > 0
         && (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)

@@ -2101,7 +2101,10 @@ void C_Drawer(void)
                     char    *temp = M_SubString(console[i].string, 0, wrap);
                     int     width = indent;
 
-                    if (stringtype == warningstring || stringtype == playerwarningstring || stringtype == playerobituarystring || !indent)
+                    if (!indent
+                        || stringtype == warningstring
+                        || stringtype == playerwarningstring
+                        || stringtype == playerobituarystring)
                         width += C_TextWidth(temp, true, true);
                     else
                         width += C_TextWidth(strrchr(temp, '\t') + 1, true, true);
