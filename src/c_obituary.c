@@ -106,9 +106,6 @@ void C_BuildObituaryString(const int index)
     const mobjtype_t        inflicter = obituary->inflicter;
     const mobjtype_t        source = obituary->source;
 
-    if (buffer[0])
-        return;
-
     if (obituary->telefragged)
     {
         char    sourcename[128] = "";
@@ -139,23 +136,22 @@ void C_BuildObituaryString(const int index)
         if (inflicter == MT_BARREL && target != MT_BARREL)
         {
             const char  *inflictername = mobjinfo[inflicter].name1;
-            const bool  byplayer = (obituary->barrelinflicter == MT_PLAYER);
 
             if (obituary->targetisplayer)
             {
-                if (byplayer)
+                if (obituary->barrelinflicter == MT_PLAYER)
                 {
                     if (isdefaultplayername())
                         M_snprintf(buffer, buffersize, "You were %s by %s %s that you exploded!",
                             (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                            (inflictername ? inflictername : "barrel"));
+                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1));
                     else
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded!",
                             playername,
                             (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                            (inflictername ? inflictername : "barrel"),
+                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
                             pronoun(personal));
                 }
                 else
@@ -168,7 +164,7 @@ void C_BuildObituaryString(const int index)
                         (isdefaultplayername() ? "You" : playername),
                         (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                        (inflictername ? inflictername : "barrel"),
+                        (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
                         (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
                             (*killername && isvowel(killername[0]) ? "an" : "a")),
                         (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
@@ -181,25 +177,25 @@ void C_BuildObituaryString(const int index)
                 C_BuildThingName(targetname, sizeof(targetname), target, obituary->targetfriendly,
                     (obituary->targetcorpse && source != target), obituary->targetname, "");
 
-                if (byplayer)
+                if (obituary->barrelinflicter == MT_PLAYER)
                 {
                     if (isdefaultplayername())
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that you exploded.",
                             targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                            (inflictername ? inflictername : "barrel"));
+                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1));
                     else
                         M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s exploded.",
                             targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                            (inflictername ? inflictername : "barrel"),
+                            (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
                             playername);
                 }
                 else if (source == target)
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that they exploded.",
                         targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                        (inflictername ? inflictername : "barrel"));
+                        (inflictername ? inflictername : mobjinfo[MT_BARREL].name1));
                 else
                 {
                     const mobjtype_t    killer = obituary->barrelinflicter;
@@ -209,7 +205,7 @@ void C_BuildObituaryString(const int index)
                     M_snprintf(buffer, buffersize, "%s was %s by %s %s that %s %s exploded.",
                         targetname, (obituary->gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
-                        (inflictername ? inflictername : "barrel"),
+                        (inflictername ? inflictername : mobjinfo[MT_BARREL].name1),
                         (inflicter == killer || M_StringCompare(inflictername, killername) ? "another" :
                             (*killername && isvowel(killername[0]) ? "an" : "a")),
                         (*killername && !M_StringStartsWith(killername, "Deh_Actor_") ? killername : "monster"));
@@ -341,23 +337,41 @@ void C_BuildObituaryString(const int index)
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
 {
-    return (a->target == b->target
-        && a->inflicter == b->inflicter
-        && a->source == b->source
-        && a->barrelinflicter == b->barrelinflicter
-        && a->weapon == b->weapon
-        && a->gibbed == b->gibbed
-        && a->telefragged == b->telefragged
-        && a->targetisplayer == b->targetisplayer
-        && a->sourceisplayer == b->sourceisplayer
-        && a->targetfriendly == b->targetfriendly
-        && a->sourcefriendly == b->sourcefriendly
-        && a->targetcorpse == b->targetcorpse
-        && a->crushed == b->crushed
-        && a->terraintype == b->terraintype
-        && a->floorpic == b->floorpic
-        && M_StringCompare(a->targetname, b->targetname)
-        && M_StringCompare(a->sourcename, b->sourcename));
+    if (a->target != b->target
+        || a->source != b->source
+        || a->barrelinflicter != b->barrelinflicter
+        || a->weapon != b->weapon
+        || a->gibbed != b->gibbed
+        || a->telefragged != b->telefragged
+        || a->targetisplayer != b->targetisplayer
+        || a->sourceisplayer != b->sourceisplayer
+        || a->targetfriendly != b->targetfriendly
+        || a->sourcefriendly != b->sourcefriendly
+        || a->targetcorpse != b->targetcorpse
+        || a->crushed != b->crushed)
+        return false;
+
+    if (a->source == MT_NULL)
+    {
+        if (a->terraintype != b->terraintype
+            || a->floorpic != b->floorpic)
+            return false;
+    }
+
+    if ((!a->sourceisplayer && a->source != MT_BFG)
+        || (!b->sourceisplayer && b->source != MT_BFG))
+    {
+        if (a->inflicter != b->inflicter)
+            return false;
+    }
+
+    if (!M_StringCompare(a->targetname, b->targetname))
+        return false;
+
+    if (!M_StringCompare(a->sourcename, b->sourcename))
+        return false;
+
+    return true;
 }
 
 void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
@@ -425,30 +439,21 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     obituary.gibbed = gibbed;
     obituary.telefragged = telefragged;
 
-    if (numconsolestrings > 0
-        && (console[i].stringtype == obituarystring || console[i].stringtype == playerobituarystring)
+    if (groupmessages
+        && numconsolestrings > 0
+        && console[i].stringtype == obituarystring
         && C_SameObituary(&console[i].obituary, &obituary))
     {
         console[i].obituary = obituary;
         C_CreateTimeStamp(i);
         console[i].count++;
         outputhistory = -1;
-
-        if (obituaries && console[i].stringtype == playerobituarystring)
-        {
-            console[i].string[0] = '\0';
-            C_BuildObituaryString(i);
-            HU_SetPlayerMessage(console[i].string, false, false);
-            message_warning = true;
-        }
-
         return;
     }
 
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    console[numconsolestrings].string[0] = '\0';
     console[numconsolestrings].wrap = 0;
     console[numconsolestrings].count = 1;
     C_CreateTimeStamp(numconsolestrings);
@@ -459,18 +464,18 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     {
         console[numconsolestrings].stringtype = playerobituarystring;
         console[numconsolestrings].indent = WARNINGWIDTH + 2;
+
+        if (obituaries)
+        {
+            C_BuildObituaryString(numconsolestrings);
+            HU_SetPlayerMessage(console[numconsolestrings].string, false, false);
+            message_warning = true;
+        }
     }
     else
     {
         console[numconsolestrings].stringtype = obituarystring;
         console[numconsolestrings].indent = 0;
-    }
-
-    if (obituaries && console[numconsolestrings].stringtype == playerobituarystring)
-    {
-        C_BuildObituaryString(numconsolestrings);
-        HU_SetPlayerMessage(console[numconsolestrings].string, false, false);
-        message_warning = true;
     }
 
     numconsolestrings++;

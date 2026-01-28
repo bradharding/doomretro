@@ -337,7 +337,7 @@ void C_Warning(const int warninglevel, const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
-        console[numconsolestrings].indent = WARNINGWIDTH + 1;
+        console[numconsolestrings].indent = WARNINGWIDTH + 2;
         console[numconsolestrings].wrap = 0;
         console[numconsolestrings].stringtype = warningstring;
         console[numconsolestrings].count = 1;
