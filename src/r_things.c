@@ -1317,20 +1317,24 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
             psp_inter.texturemid = psp_inter.texturemid_prev;
         }
 
-        psp_inter.x1_prev = vis->x1;
+        psp_inter.x1_prev = x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
         if (lump == psp_inter.lump && !skippsprinterp)
         {
-            const int   deltax = x2 - vis->x1;
+            const int   basex1 = psp_inter.x1;
+            int         interpx1 = basex1 + FixedMul(x1 - basex1, fractionaltic);
+            int         interpx2 = interpx1 + x2 - basex1;
 
-            vis->x1 = psp_inter.x1 + FixedMul(vis->x1 - psp_inter.x1, fractionaltic);
-            vis->x2 = MIN(vis->x1 + deltax, viewwidth);
-            vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid, fractionaltic);
+            vis->x1 = MAX(0, interpx1);
+            vis->x2 = MIN(interpx2, viewwidth - 1);
+            vis->startfrac = (vis->x1 > interpx1 ? pspriteiscale * (vis->x1 - interpx1) : 0);
+            vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid,
+                fractionaltic);
         }
         else
         {
-            psp_inter.x1 = vis->x1;
+            psp_inter.x1 = x1;
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
 
