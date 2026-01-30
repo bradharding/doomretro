@@ -383,7 +383,7 @@ int             nograduallighting_global = -1;
 bool            canmodify;
 bool            transferredsky;
 
-static int      MAPINFO;
+static int      MAPINFO = -1;
 char            *mapinfolump = "";
 
 bool            samelevel;

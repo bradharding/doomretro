@@ -1291,10 +1291,6 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
     // store information in a vissprite
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy + ABS(viewplayer->bounce) - spritetopoffset[lump]);
-
-    vis->x1 = MAX(0, x1);
-    vis->x2 = MIN(x2, viewwidth - 1);
-    vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
     vis->patch = lump;
 
     // interpolation for weapon bobbing
@@ -1324,10 +1320,9 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             const int   basex1 = psp_inter.x1;
             int         interpx1 = basex1 + FixedMul(x1 - basex1, fractionaltic);
-            int         interpx2 = interpx1 + x2 - basex1;
 
             vis->x1 = MAX(0, interpx1);
-            vis->x2 = MIN(interpx2, viewwidth - 1);
+            vis->x2 = MIN(interpx1 + x2 - basex1, viewwidth - 1);
             vis->startfrac = (vis->x1 > interpx1 ? pspriteiscale * (vis->x1 - interpx1) : 0);
             vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid,
                 fractionaltic);
@@ -1339,7 +1334,17 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
             psp_inter.lump = lump;
 
             skippsprinterp = false;
+
+            vis->x1 = MAX(0, x1);
+            vis->x2 = MIN(x2, viewwidth - 1);
+            vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
         }
+    }
+    else
+    {
+        vis->x1 = MAX(0, x1);
+        vis->x2 = MIN(x2, viewwidth - 1);
+        vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
     }
 
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
