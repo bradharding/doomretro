@@ -590,6 +590,7 @@ void D_DoAdvanceTitle(void)
             I_SetPalette(PLAYPAL);
             splashscreen = false;
             vid_scalefilter = vid_scalefilter_copy;
+            M_SaveCVARs();
             I_RestartGraphics(false);
             I_UpdateBlitFunc(false);
 
@@ -2771,6 +2772,7 @@ static void D_DoomMainSetup(void)
         menuactive = false;
         splashscreen = false;
         vid_scalefilter = vid_scalefilter_copy;
+        M_SaveCVARs();
         I_RestartGraphics(false);
         I_UpdateBlitFunc(false);
         I_InitKeyboard();
@@ -2855,6 +2857,7 @@ static void D_DoomMainSetup(void)
             menuactive = false;
             splashscreen = false;
             vid_scalefilter = vid_scalefilter_copy;
+            M_SaveCVARs();
             I_RestartGraphics(false);
             I_UpdateBlitFunc(false);
             I_InitKeyboard();
@@ -2900,6 +2903,7 @@ static void D_DoomMainSetup(void)
                 menuactive = false;
                 splashscreen = false;
                 vid_scalefilter = vid_scalefilter_copy;
+                M_SaveCVARs();
                 I_RestartGraphics(false);
                 I_UpdateBlitFunc(false);
                 D_FadeScreen(false);
