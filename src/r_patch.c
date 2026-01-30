@@ -51,7 +51,6 @@
 static rpatch_t *patches;
 static rpatch_t *texturecomposites;
 
-static short    BIGDOOR1;
 static short    BIGDOOR7;
 static short    FIREBLU1;
 static short    SKY1;
@@ -370,8 +369,6 @@ static void CreateTextureCompositePatch(const int id)
                 // [BH] use incorrect y-origin for certain textures
                 if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame) || id == TEKWALL1)
                     oy = 0;
-                else if (id == BIGDOOR1)
-                    oy += 32;
                 else if (countsincolumn[tx].patches > 1)
                 {
                     if (!i)
@@ -485,7 +482,6 @@ void R_InitPatches(void)
 
     texturecomposites = calloc(numtextures, sizeof(rpatch_t));
 
-    BIGDOOR1 = R_CheckTextureNumForName("BIGDOOR1");
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");

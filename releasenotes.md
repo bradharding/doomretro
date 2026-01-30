@@ -50,7 +50,6 @@
 * Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, but are just not displayed in the console.
 * Changing the `con_warninglevel` CVAR will now cause all previously generated warnings in the console to appear or disappear accordingly.
 * Wildcard expressions now work correctly with the `reset` CCMD to reset multiple CVARs at once.
-* The `BIGDOOR1` texture is now vertically aligned correctly.
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
