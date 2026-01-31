@@ -1243,7 +1243,8 @@ static void R_AddBloodSplats(void)
             for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
             {
                 sector_t    *sector = splat->sector;
-                const short lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel : sector->lightlevel);
+                const short lightlevel = BETWEEN(0, (sector->floorlightsec ? sector->floorlightsec->lightlevel :
+                                sector->lightlevel), 255);
 
                 if (lightlevel != prevlightlevel)
                 {
