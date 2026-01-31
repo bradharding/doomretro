@@ -714,7 +714,7 @@ void M_SaveCVARs(void)
     const int   numcvars = arrlen(cvars);
     FILE        *file;
 
-    if (!cvarsloaded || vanilla || togglingvanilla)
+    if (!cvarsloaded || vanilla || togglingvanilla || splashscreen)
         return;
 
     if (!(file = fopen(configfile, "wt")))
