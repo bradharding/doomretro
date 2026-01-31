@@ -1475,8 +1475,6 @@ void P_UnarchiveThinkers(void)
                         P_SetBloodSplatColor(splat);
                         P_SetBloodSplatPosition(splat);
                         P_AddBloodSplatToFIFO(splat);
-
-                        r_bloodsplats_total++;
                     }
                 }
 

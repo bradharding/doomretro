@@ -973,6 +973,7 @@ void P_RemoveBloodSplats(void)
 
     bloodsplats_fifo_head = NULL;
     bloodsplats_fifo_tail = NULL;
+    r_bloodsplats_total = 0;
 }
 
 //
@@ -1678,6 +1679,9 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
 
         P_UnsetBloodSplatPosition(old);
         Z_Free(old);
+
+        if (r_bloodsplats_total > 0)
+            r_bloodsplats_total--;
     }
 
     sec = R_PointInSubsector(x, y)->sector;
@@ -1713,10 +1717,12 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
     bloodsplats_fifo_tail = splat;
 
     P_SetBloodSplatPosition(splat);
-    r_bloodsplats_total++;
 
     if (target && target->bloodsplats)
         target->bloodsplats--;
+
+    if (r_bloodsplats_total < r_bloodsplats_max)
+        r_bloodsplats_total++;
 }
 
 //
