@@ -722,13 +722,13 @@ void D_InitWADfolder(void)
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM.WAD", wadfolder);
 
     if (M_FileExists(path))
-        wad = "DOOM.WAD";
+        wad = M_StringDuplicate(leafname(GetCorrectCase(path)));
     else
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM2.WAD", wadfolder);
 
         if (M_FileExists(path))
-            wad = "DOOM2.WAD";
+            wad = M_StringDuplicate(leafname(GetCorrectCase(path)));
     }
 #endif
 }
