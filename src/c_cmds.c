@@ -8203,7 +8203,8 @@ static void resetfunc2(char *cmd, char *parms)
 static void C_VerifyResetAll(const int key)
 {
     messagetoprint = false;
-    SDL_StartTextInput();
+    C_ShowConsole(false);
+    consoleheight = CONSOLEHEIGHT;
 
     if (key == 'y')
     {
@@ -8494,6 +8495,7 @@ static void resetallfunc2(char *cmd, char *parms)
     M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
     M_snprintf(resetallstring, sizeof(resetallstring),
         "Are you sure you want to reset all CVARs\nand controls to their defaults?\n\n%s", line2);
+    C_HideConsole();
     M_StartMessage(resetallstring, &C_VerifyResetAll, true);
 
     SDL_StopTextInput();
