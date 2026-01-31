@@ -4264,8 +4264,18 @@ static bool P_ParseMapInfo(const char *scriptname)
                             break;
 
                         case MCMD_ALLOWMONSTERTELEFRAGS:
-                            SC_MustGetNumber();
-                            info->allowmonstertelefrags = !!((int)sc_Number);
+                            SC_GetString();
+
+                            if (M_StringCompare(sc_String, "0"))
+                                info->allowmonstertelefrags = 0;
+                            else
+                            {
+                                info->allowmonstertelefrags = 1;
+
+                                if (!M_StringCompare(sc_String, "1"))
+                                    SC_UnGet();
+                            }
+
                             break;
 
                         case MCMD_COMPAT_CORPSEGIBS:
