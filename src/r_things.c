@@ -1223,14 +1223,13 @@ void R_DrawNearbySprites(void)
 
 static void R_AddBloodSplats(void)
 {
-    const int       radius = (int)((MAXZ / 8 + MAPBLOCKSIZE - 1) / MAPBLOCKSIZE);
+    const int       radius = (MAXZ / 8 + MAPBLOCKSIZE - 1) / MAPBLOCKSIZE;
     const int       cx = (viewx - bmaporgx) >> MAPBLOCKSHIFT;
     const int       cy = (viewy - bmaporgy) >> MAPBLOCKSHIFT;
     const int       minx = MAX(0, cx - radius);
     const int       maxx = MIN(bmapwidth - 1, cx + radius);
     const int       miny = MAX(0, cy - radius);
     const int       maxy = MIN(bmapheight - 1, cy + radius);
-
     int             prevlightlevel = INT_MIN;
     lighttable_t    **cachedspritelights[256];
     lighttable_t    **cachednextspritelights[256];
@@ -1243,22 +1242,24 @@ static void R_AddBloodSplats(void)
             for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
             {
                 sector_t    *sector = splat->sector;
-                const short lightlevel = BETWEEN(0, (sector->floorlightsec ? sector->floorlightsec->lightlevel :
-                                sector->lightlevel), 255);
+                const short lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel :
+                                sector->lightlevel);
 
                 if (lightlevel != prevlightlevel)
                 {
-                    if (!cached[lightlevel])
+                    const int   i = BETWEEN(0, lightlevel, 255);
+
+                    if (!cached[i])
                     {
-                        cachedspritelights[lightlevel] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight,
+                        cachedspritelights[i] = scalelight[BETWEEN(0, ((i - 2) >> LIGHTSEGSHIFT) + extralight,
                             LIGHTLEVELS - 1)];
-                        cachednextspritelights[lightlevel] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight,
+                        cachednextspritelights[i] = scalelight[BETWEEN(0, ((i + 2) >> LIGHTSEGSHIFT) + extralight,
                             LIGHTLEVELS - 1)];
-                        cached[lightlevel] = true;
+                        cached[i] = true;
                     }
 
-                    spritelights = cachedspritelights[lightlevel];
-                    nextspritelights = cachednextspritelights[lightlevel];
+                    spritelights = cachedspritelights[i];
+                    nextspritelights = cachednextspritelights[i];
 
                     prevlightlevel = lightlevel;
                 }
