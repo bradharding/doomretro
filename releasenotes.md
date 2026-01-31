@@ -7,8 +7,10 @@
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
-* Minor improvements have been made to the parsing of `MAPINFO` lumps.
-* Maps specified in a `MAPINFO` lump greater than `MAP99` are now supported.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * Maps greater than `MAP99` are now supported.
+  * A bug is fixed whereby `MUSIC` wouldn’t be parsed correctly in some rare instances.
+  * `ALLOWMONSTERTELEFRAGS` is now parsed correctly.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
 * These changes have been made to the automap:
   * Sectors can now be filled with floor textures or colors using the new `am_sectors` CVAR, which can be set to `textures`, `colors` or `empty` (the default).
@@ -52,6 +54,8 @@
 * Wildcard expressions now work correctly with the `reset` CCMD to reset multiple CVARs at once.
 * The `BIGDOOR1` texture is now vertically aligned correctly.
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
+* When *DOOM Retro* is run for the first time and an installation of *DOOM* is found, the IWAD in the “File name” field of the WAD launcher is now in the correct case.
+* The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
