@@ -56,6 +56,7 @@
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
 * When *DOOM Retro* is run for the first time and an installation of *DOOM* is found, the IWAD in the “File name” field of the WAD launcher is now in the correct case.
 * The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
+* The console’s input can now be selected by clicking and dragging the mouse when the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -2553,6 +2553,8 @@ bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
     static int  scrollspeed = TICRATE;
+    static bool selectingwithmouse = false;
+    static int  mouseselectanchor = 0;
     int         i;
     int         len;
 
@@ -3120,6 +3122,42 @@ bool C_Responder(event_t *ev)
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
 
+            if (selectingwithmouse && len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
+            {
+                for (i = 0; i < len; i++)
+                {
+                    char    *temp1 = M_SubString(consoleinput, 0, i);
+                    char    *temp2 = M_SubString(consoleinput, i, 1);
+
+                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, false, true) + C_TextWidth(temp2, false, true) / 2)
+                    {
+                        free(temp1);
+                        free(temp2);
+                        break;
+                    }
+
+                    free(temp1);
+                    free(temp2);
+                }
+
+                caretpos = i;
+
+               if (caretpos >= mouseselectanchor)
+               {
+                   selectstart = mouseselectanchor;
+                   selectend = caretpos;
+               }
+               else
+               {
+                   selectstart = caretpos;
+                   selectend = mouseselectanchor;
+               }
+
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                showcaret = true;
+                return true;
+            }
+
             // hide console
             if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
@@ -3149,7 +3187,11 @@ bool C_Responder(event_t *ev)
                     showcaret = true;
                 }
 
-                caretpos = selectstart = selectend = i;
+                caretpos = i;
+                mouseselectanchor = i;
+                selectstart = i;
+                selectend = i;
+                selectingwithmouse = true;
             }
             else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
@@ -3167,9 +3209,16 @@ bool C_Responder(event_t *ev)
             }
         }
 
-        // hide console
-        else if (ev->data1 & MOUSE_RIGHTBUTTON)
-            C_HideConsole();
+        else
+        {
+            // left button released: stop mouse selection
+            if (!(ev->data1 & MOUSE_LEFTBUTTON))
+                selectingwithmouse = false;
+
+            // hide console with right button
+            if (ev->data1 & MOUSE_RIGHTBUTTON)
+                C_HideConsole();
+        }
     }
     else if (ev->type == ev_mousewheel && scrollbardrawn)
     {
