@@ -2033,7 +2033,24 @@ bool V_ScreenShot(void)
     else if (helpscreen)
         M_StringCopy(mapname, "Help", sizeof(mapname));
     else if (menuactive)
-        M_StringCopy(mapname, "Menu", sizeof(mapname));
+    {
+        if (currentmenu == &MainDef)
+            M_StringCopy(mapname, "Main Menu", sizeof(mapname));
+        else if (currentmenu == &EpiDef)
+            M_StringCopy(mapname, "Episode Menu", sizeof(mapname));
+        else if (currentmenu == &ExpDef)
+            M_StringCopy(mapname, "Expansion Menu", sizeof(mapname));
+        else if (currentmenu == &NewDef)
+            M_StringCopy(mapname, "Skill Level Menu", sizeof(mapname));
+        else if (currentmenu == &LoadDef)
+            M_StringCopy(mapname, "Load Game Menu", sizeof(mapname));
+        else if (currentmenu == &SaveDef)
+            M_StringCopy(mapname, "Save Game Menu", sizeof(mapname));
+        else if (currentmenu == &OptionsDef)
+            M_StringCopy(mapname, "Options Menu", sizeof(mapname));
+        else if (currentmenu == &SoundDef)
+            M_StringCopy(mapname, "Sound Volume Menu", sizeof(mapname));
+    }
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
     else if (paused)

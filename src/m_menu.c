@@ -114,7 +114,7 @@ static int      blurtic = -1;
 static int      functionkey;
 
 // current menudef
-static menu_t   *currentmenu;
+menu_t          *currentmenu;
 
 int             menuspindirection;
 int             menuspinspeed;
@@ -342,7 +342,7 @@ static menuitem_t OptionsMenu[] =
     {  1, "M_CONSOL", &M_Console,           &s_M_CONSOLE          }
 };
 
-static menu_t OptionsDef =
+menu_t OptionsDef =
 {
     opt_end,
     &MainDef,
@@ -405,7 +405,7 @@ static menuitem_t SoundMenu[] =
     { -1, "",         NULL,        NULL             }
 };
 
-static menu_t SoundDef =
+menu_t SoundDef =
 {
     sound_end,
     &OptionsDef,
