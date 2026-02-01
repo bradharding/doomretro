@@ -2553,10 +2553,6 @@ bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
     static int  scrollspeed = TICRATE;
-    static bool selectingwithmouse = false;
-    static int  mouseselectanchor = 0;
-    static bool draggingconsolescrollbar = false;
-    static int  dragconsolescrollbaroffset = 0;
     int         i;
     int         len;
 
@@ -3119,10 +3115,15 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
+        static bool selectingwithmouse;
+        static bool draggingconsolescrollbar;
+        static int  dragconsolescrollbaroffset;
+
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
+            static int  mouseselectanchor;
 
             // dragging console scrollbar thumb
             if (draggingconsolescrollbar && scrollbardrawn)
