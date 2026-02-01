@@ -2555,6 +2555,8 @@ bool C_Responder(event_t *ev)
     static int  scrollspeed = TICRATE;
     static bool selectingwithmouse = false;
     static int  mouseselectanchor = 0;
+    static bool draggingconsolescrollbar = false;
+    static int  dragconsolescrollbaroffset = 0;
     int         i;
     int         len;
 
@@ -3122,6 +3124,30 @@ bool C_Responder(event_t *ev)
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
 
+            // dragging console scrollbar thumb
+            if (draggingconsolescrollbar && scrollbardrawn)
+            {
+                int newfacecenter = MAX(0, MIN(y - dragconsolescrollbaroffset,
+                        CONSOLESCROLLBARHEIGHT - (scrollbarfaceend - scrollbarfacestart)));
+
+                scrollbarfacestart = newfacecenter;
+                scrollbarfaceend = scrollbarfacestart
+                    + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+
+                if (numconsolestrings > CONSOLELINES)
+                {
+                    int top = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + CONSOLEBLANKLINES;
+
+                    if (top <= 0 || top + CONSOLELINES >= numconsolestrings)
+                        outputhistory = -1;
+                    else
+                        outputhistory = MAX(0, MIN(numconsolestrings - CONSOLELINES, top));
+                }
+
+                return true;
+            }
+
             if (selectingwithmouse && len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
                 for (i = 0; i < len; i++)
@@ -3142,16 +3168,16 @@ bool C_Responder(event_t *ev)
 
                 caretpos = i;
 
-               if (caretpos >= mouseselectanchor)
-               {
-                   selectstart = mouseselectanchor;
-                   selectend = caretpos;
-               }
-               else
-               {
-                   selectstart = caretpos;
-                   selectend = mouseselectanchor;
-               }
+                if (caretpos >= mouseselectanchor)
+                {
+                    selectstart = mouseselectanchor;
+                    selectend = caretpos;
+                }
+                else
+                {
+                    selectstart = caretpos;
+                    selectend = mouseselectanchor;
+                }
 
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
@@ -3195,16 +3221,26 @@ bool C_Responder(event_t *ev)
             }
             else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
-                // scroll output up
-                if (y < scrollbarfacestart)
-                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
-                        MAX(0, outputhistory - scrollspeed / TICRATE));
-
-                // scroll output down
-                else if (y > scrollbarfaceend && y < CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
+                // click inside scrollbar: start dragging if on face
+                if (y >= scrollbarfacestart && y <= scrollbarfaceend)
                 {
-                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
-                        outputhistory = -1;
+                    draggingconsolescrollbar = true;
+                    dragconsolescrollbaroffset = y - scrollbarfacestart;
+                    return true;
+                }
+                else
+                {
+                    // scroll output up
+                    if (y < scrollbarfacestart)
+                        outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                            MAX(0, outputhistory - scrollspeed / TICRATE));
+
+                    // scroll output down
+                    else if (y > scrollbarfaceend && y < CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
+                    {
+                        if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                            outputhistory = -1;
+                    }
                 }
             }
         }
@@ -3213,7 +3249,10 @@ bool C_Responder(event_t *ev)
         {
             // left button released: stop mouse selection
             if (!(ev->data1 & MOUSE_LEFTBUTTON))
+            {
                 selectingwithmouse = false;
+                draggingconsolescrollbar = false;
+            }
 
             // hide console with right button
             if (ev->data1 & MOUSE_RIGHTBUTTON)
