@@ -293,6 +293,12 @@ void P_InitPicAnims(void)
                     SetTerrainType(lastanim, SLIME);
                     isliquid = true;
                 }
+                else if (M_StrCaseStr(animdefs[i].startname, "SWAMP")
+                    || M_StrCaseStr(animdefs[i].startname, "SWMP"))
+                {
+                    SetTerrainType(lastanim, SWAMP);
+                    isliquid = true;
+                }
                 else if (M_StrCaseStr(animdefs[i].startname, "LIQ"))
                 {
                     SetTerrainType(lastanim, LIQUID);

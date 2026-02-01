@@ -90,6 +90,7 @@ typedef enum
     ICYWATER,
     TAR,
     SLUDGE,
+    SWAMP,
     NUMTERRAINTYPES
 } terraintype_t;
 

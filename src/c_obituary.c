@@ -56,7 +56,8 @@ static const char *liquids[][2] =
     { "goop",       "goop"       },
     { "icy water",  "icy water"  },
     { "tar",        "tar"        },
-    { "sludge",     "sludge"     }
+    { "sludge",     "sludge"     },
+    { "a swamp",    "a swamp"    }
 };
 
 static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t type,
