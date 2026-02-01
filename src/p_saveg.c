@@ -1371,19 +1371,6 @@ static void P_SetNewTarget(mobj_t **mop, mobj_t *targ)
     P_SetTarget(mop, targ);
 }
 
-static void P_AddBloodSplatToFIFO(bloodsplat_t *splat)
-{
-    splat->fifoprev = bloodsplats_fifo_tail;
-    splat->fifonext = NULL;
-
-    if (bloodsplats_fifo_tail)
-        bloodsplats_fifo_tail->fifonext = splat;
-    else
-        bloodsplats_fifo_head = splat;
-
-    bloodsplats_fifo_tail = splat;
-}
-
 //
 // P_UnarchiveThinkers
 //
@@ -1474,9 +1461,6 @@ void P_UnarchiveThinkers(void)
 
                         P_SetBloodSplatColor(splat);
                         P_SetBloodSplatPosition(splat);
-                        P_AddBloodSplatToFIFO(splat);
-
-                        r_bloodsplats_total++;
                     }
                 }
 

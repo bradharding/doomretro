@@ -352,6 +352,19 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 
     splat->bprev = blink;
     *blink = splat;
+
+    splat->fifoprev = bloodsplats_fifo_tail;
+    splat->fifonext = NULL;
+
+    if (bloodsplats_fifo_tail)
+        bloodsplats_fifo_tail->fifonext = splat;
+    else
+        bloodsplats_fifo_head = splat;
+
+    bloodsplats_fifo_tail = splat;
+
+    if (r_bloodsplats_total < r_bloodsplats_max)
+        r_bloodsplats_total++;
 }
 
 //

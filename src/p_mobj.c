@@ -1706,23 +1706,10 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
     splat->width = spritewidth[patch];
     splat->sector = sec;
 
-    splat->fifoprev = bloodsplats_fifo_tail;
-    splat->fifonext = NULL;
-
-    if (bloodsplats_fifo_tail)
-        bloodsplats_fifo_tail->fifonext = splat;
-    else
-        bloodsplats_fifo_head = splat;
-
-    bloodsplats_fifo_tail = splat;
-
     P_SetBloodSplatPosition(splat);
 
     if (target && target->bloodsplats)
         target->bloodsplats--;
-
-    if (r_bloodsplats_total < r_bloodsplats_max)
-        r_bloodsplats_total++;
 }
 
 //
