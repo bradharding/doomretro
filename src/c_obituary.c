@@ -46,18 +46,18 @@
 
 static const char *liquids[][2] =
 {
-    { "liquid",     "liquid"     },
-    { "nukage",     "nukage"     },
-    { "water",      "water"      },
-    { "lava",       "lava"       },
-    { "blood",      "blood"      },
-    { "slime",      "slime"      },
-    { "gray slime", "grey slime" },
-    { "goop",       "goop"       },
-    { "icy water",  "icy water"  },
-    { "tar",        "tar"        },
-    { "sludge",     "sludge"     },
-    { "a swamp",    "a swamp"    }
+    { "liquid",      "liquid"      },
+    { "nukage",      "nukage"      },
+    { "water",       "water"       },
+    { "lava",        "lava"        },
+    { "blood",       "blood"       },
+    { "slime",       "slime"       },
+    { "gray slime",  "grey slime"  },
+    { "goop",        "goop"        },
+    { "icy water",   "icy water"   },
+    { "tar",         "tar"         },
+    { "sludge",      "sludge"      },
+    { "swamp water", "swamp water" }
 };
 
 static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t type,

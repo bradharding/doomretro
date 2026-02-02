@@ -50,7 +50,7 @@
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, but are just not displayed in the console.
-* Changing the `con_warninglevel` CVAR will now cause all previously generated warnings in the console to appear or disappear accordingly.
+* Changing the `con_warninglevel` CVAR will now cause all previously generated warnings in the console to appear or disappear as necessary.
 * Wildcard expressions now work correctly with the `reset` CCMD to reset multiple CVARs at once.
 * The `BIGDOOR1` texture is now vertically aligned correctly.
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
@@ -59,6 +59,7 @@
 * When the `m_pointer` CVAR is `on`:
   * The console’s input can now be selected by clicking and dragging the mouse.
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
+* Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
