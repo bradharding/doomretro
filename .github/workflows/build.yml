@@ -54,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        platform: [Win32, x64]
+        platform: [32-bit, 64-bit]
         configuration: [Release]
 
     env:
