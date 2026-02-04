@@ -38,13 +38,49 @@ name: DOOM Retro
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Build
         run: scripts/build.sh clean
+
+  build-windows:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        platform: [Win32, x64]
+        configuration: [Release]
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore doomretro.sln
+
+      - name: Build
+        run: msbuild doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /m
+
+      - name: Copy WAD file
+        run: copy res\doomretro.wad bin\${{ matrix.platform }}\${{ matrix.configuration }}\
+        shell: cmd
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doomretro-${{ matrix.platform }}-${{ matrix.configuration }}
+          path: |
+            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.exe
+            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
+            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.wad
