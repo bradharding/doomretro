@@ -72,10 +72,6 @@ jobs:
       - name: Build
         run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
 
-      - name: Copy WAD file
-        run: copy res\doomretro.wad bin\${{ matrix.platform }}\${{ matrix.configuration }}\
-        shell: cmd
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -83,4 +79,3 @@ jobs:
           path: |
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.exe
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
-            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.wad
