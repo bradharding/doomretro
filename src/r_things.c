@@ -1230,6 +1230,7 @@ static void R_AddBloodSplats(void)
     const int       maxx = MIN(bmapwidth - 1, cx + radius);
     const int       miny = MAX(0, cy - radius);
     const int       maxy = MIN(bmapheight - 1, cy + radius);
+    const fixed_t   maxdist = MAXZ / 8;
     int             prevlightlevel = INT_MIN;
     lighttable_t    **cachedspritelights[256];
     bool            cached[256];
@@ -1238,29 +1239,56 @@ static void R_AddBloodSplats(void)
 
     for (int y = miny; y <= maxy; y++)
         for (int x = minx; x <= maxx; x++)
+        {
+            sector_t    *prevsector = NULL;
+
             for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
             {
-                sector_t    *sector = splat->sector;
-                const short lightlevel = (sector->floorlightsec ? sector->floorlightsec->lightlevel :
-                                sector->lightlevel);
+                fixed_t     dist = (ABS(splat->x - viewx) + ABS(splat->y - viewy)) >> 1;
+                sector_t    *sector;
 
-                if (lightlevel != prevlightlevel)
+                if (dist >= (maxdist >> 2))
                 {
-                    const int   i = BETWEEN(0, lightlevel, 255);
-
-                    if (!cached[i])
+                    if (dist < (maxdist >> 1))
                     {
-                        cachedspritelights[i] = scalelight[BETWEEN(0, (i >> LIGHTSEGSHIFT) + extralight,
-                            LIGHTLEVELS - 1)];
-                        cached[i] = true;
+                        if ((splat->x + splat->y) & 1)
+                            continue;
+                    }
+                    else if (dist < ((maxdist * 3) >> 2))
+                    {
+                        if ((splat->x + splat->y) & 3)
+                            continue;
+                    }
+                    else if ((splat->x + splat->y) & 7)
+                        continue;
+                }
+
+                if ((sector = splat->sector) != prevsector)
+                {
+                    const short lightlevel = (sector->floorlightsec ? 
+                        sector->floorlightsec->lightlevel : sector->lightlevel);
+
+                    if (lightlevel != prevlightlevel)
+                    {
+                        const int i = BETWEEN(0, lightlevel, 255);
+
+                        if (!cached[i])
+                        {
+                            cachedspritelights[i] = scalelight[BETWEEN(0, 
+                                (i >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                            cached[i] = true;
+                        }
+
+                        spritelights = cachedspritelights[i];
+                        prevlightlevel = lightlevel;
                     }
 
-                    spritelights = cachedspritelights[i];
-                    prevlightlevel = lightlevel;
+                    prevsector = sector;
                 }
 
                 R_ProjectBloodSplat(splat);
             }
+        }
 }
 
 //
