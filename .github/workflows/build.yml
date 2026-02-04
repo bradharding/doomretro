@@ -67,10 +67,10 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Restore NuGet packages
-        run: nuget restore doomretro.sln
+        run: nuget restore msvc\doomretro.sln
 
       - name: Build
-        run: msbuild doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /m
+        run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /m
 
       - name: Copy WAD file
         run: copy res\doomretro.wad bin\${{ matrix.platform }}\${{ matrix.configuration }}\
