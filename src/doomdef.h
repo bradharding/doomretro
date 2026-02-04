@@ -83,6 +83,13 @@
 #else
 #define NORETURN
 #endif
+
+#if defined(_MSC_VER) && _MSC_VER < 1900
+#define restrict            __restrict
+#elif !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#define restrict
+#endif
+
 //
 // Global parameters/defines.
 //
