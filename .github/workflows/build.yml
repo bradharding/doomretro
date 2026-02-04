@@ -66,6 +66,11 @@ jobs:
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: Install v141_xp toolset
+        run: |
+          choco install visualstudio2017-workload-vctools --package-parameters "--add Microsoft.VisualStudio.Component.WinXP" -y
+        continue-on-error: true
+
       - name: Restore NuGet packages
         run: nuget restore msvc\doomretro.sln
 
