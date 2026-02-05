@@ -123,7 +123,11 @@ jobs:
 
     strategy:
       matrix:
-        platform: [32-bit, 64-bit]
+        include:
+          - platform: Win32
+            artifact-name: 32-bit
+          - platform: x64
+            artifact-name: 64-bit
         configuration: [Release]
 
     env:
@@ -160,7 +164,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: doomretro-windows-${{ matrix.platform }}-${{ matrix.configuration }}
+          name: doomretro-windows-${{ matrix.artifact-name }}-${{ matrix.configuration }}
           path: |
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.exe
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
