@@ -123,12 +123,13 @@ jobs:
 
     strategy:
       matrix:
-        include:
-          - platform: Win32
-            artifact-name: 32-bit
-          - platform: x64
-            artifact-name: 64-bit
+        platform: [32-bit, 64-bit]
         configuration: [Release]
+        include:
+          - platform: 32-bit
+            project-platform: Win32
+          - platform: 64-bit
+            project-platform: x64
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -155,17 +156,17 @@ jobs:
 
       - name: Copy WAD file
         run: |
-          if (!(Test-Path "bin\${{ matrix.platform }}\${{ matrix.configuration }}")) {
-            New-Item -ItemType Directory -Force -Path "bin\${{ matrix.platform }}\${{ matrix.configuration }}"
+          if (!(Test-Path "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}")) {
+            New-Item -ItemType Directory -Force -Path "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}"
           }
-          Copy-Item "res\doomretro.wad" -Destination "bin\${{ matrix.platform }}\${{ matrix.configuration }}\"
+          Copy-Item "res\doomretro.wad" -Destination "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}\"
         shell: pwsh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: doomretro-windows-${{ matrix.artifact-name }}-${{ matrix.configuration }}
+          name: doomretro-windows-${{ matrix.platform }}-${{ matrix.configuration }}
           path: |
-            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.exe
-            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
-            bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.wad
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
