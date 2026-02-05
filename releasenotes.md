@@ -43,6 +43,7 @@
   * When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
   * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
   * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
+  * Blood splats spawned when the player is injured in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) are now green.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
