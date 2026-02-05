@@ -125,9 +125,14 @@ jobs:
       - name: Build
         run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
 
-      - name: Copy WAD file
+      - name: Copy artifacts to bin directory
         run: |
-          Copy-Item "res\doomretro.wad" -Destination "msvc\${{ matrix.project-platform }}\${{ matrix.configuration }}\"
+          if (!(Test-Path "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}")) {
+            New-Item -ItemType Directory -Force -Path "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}"
+          }
+          Copy-Item "msvc\${{ matrix.project-platform }}\${{ matrix.configuration }}\*.exe" -Destination "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}\"
+          Copy-Item "msvc\${{ matrix.project-platform }}\${{ matrix.configuration }}\*.dll" -Destination "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}\" -ErrorAction SilentlyContinue
+          Copy-Item "res\doomretro.wad" -Destination "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}\"
         shell: pwsh
 
       - name: Upload artifacts
@@ -135,6 +140,6 @@ jobs:
         with:
           name: doomretro-windows-${{ matrix.platform }}-${{ matrix.configuration }}
           path: |
-            msvc/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
-            msvc/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
-            msvc/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
