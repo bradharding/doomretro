@@ -195,8 +195,8 @@ jobs:
             mingw-w64-${{ matrix.arch }}-toolchain
             mingw-w64-${{ matrix.arch }}-cmake
             mingw-w64-${{ matrix.arch }}-SDL2
-            mingw-w64-${{ matrix.arch }}-SDL2_mixer
-            mingw-w64-${{ matrix.arch }}-SDL2_image
+            mingw-w64-${{ matrix.arch }}-SDL2-mixer
+            mingw-w64-${{ matrix.arch }}-SDL2-image
 
       - name: Configure
         run: |
