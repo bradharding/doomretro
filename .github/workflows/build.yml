@@ -118,7 +118,7 @@ jobs:
             build/doomretro
             build/doomretro.wad
 
-  build-windows-msvc:
+  build-windows:
     runs-on: windows-latest
 
     strategy:
@@ -160,70 +160,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: doomretro-windows-msvc-${{ matrix.platform }}-${{ matrix.configuration }}
+          name: doomretro-windows-${{ matrix.platform }}-${{ matrix.configuration }}
           path: |
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.exe
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
             bin/${{ matrix.platform }}/${{ matrix.configuration }}/*.wad
-
-  build-windows-msys2:
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        sys: [mingw64, mingw32]
-        include:
-          - sys: mingw64
-            arch: x86_64
-            prefix: mingw-w64-x86_64
-          - sys: mingw32
-            arch: i686
-            prefix: mingw-w64-i686
-
-    defaults:
-      run:
-        shell: msys2 {0}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup MSYS2
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{ matrix.sys }}
-          update: true
-          pacboy: >-
-            toolchain:p
-            cmake:p
-            SDL2:p
-            SDL2_mixer:p
-            SDL2_image:p
-
-      - name: Configure
-        run: |
-          mkdir -p build
-          cd build
-          cmake -G "MSYS Makefiles" \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DCMAKE_INSTALL_PREFIX=/usr \
-                ..
-
-      - name: Build
-        run: |
-          cd build
-          make -j$(nproc) VERBOSE=1
-
-      - name: Copy dependencies
-        run: |
-          cd build
-          ldd doomretro.exe | grep mingw | awk '{print $3}' | xargs -I{} cp {} .
-          cp ../res/doomretro.wad .
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: doomretro-windows-msys2-${{ matrix.sys }}
-          path: |
-            build/doomretro.exe
-            build/*.dll
-            build/doomretro.wad
