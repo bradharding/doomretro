@@ -3128,17 +3128,15 @@ bool C_Responder(event_t *ev)
             // dragging console scrollbar thumb
             if (draggingconsolescrollbar && scrollbardrawn)
             {
-                int newfacecenter = MAX(0, MIN(y - dragconsolescrollbaroffset,
-                        CONSOLESCROLLBARHEIGHT - (scrollbarfaceend - scrollbarfacestart)));
-
-                scrollbarfacestart = newfacecenter;
+                scrollbarfacestart = MAX(0, MIN(y - dragconsolescrollbaroffset,
+                    CONSOLESCROLLBARHEIGHT - (scrollbarfaceend - scrollbarfacestart)));
                 scrollbarfaceend = scrollbarfacestart
                     + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
                     * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
                 if (numconsolestrings > CONSOLELINES)
                 {
-                    int top = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + CONSOLEBLANKLINES;
+                    const int   top = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + CONSOLEBLANKLINES;
 
                     if (top <= 0 || top + CONSOLELINES >= numconsolestrings)
                         outputhistory = -1;

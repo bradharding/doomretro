@@ -1244,8 +1244,8 @@ static void R_AddBloodSplats(void)
 
             for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
             {
-                fixed_t     dist = (ABS(splat->x - viewx) + ABS(splat->y - viewy)) >> 1;
-                sector_t    *sector;
+                const fixed_t   dist = (ABS(splat->x - viewx) + ABS(splat->y - viewy)) >> 1;
+                sector_t        *sector;
 
                 if (dist >= (maxdist >> 2))
                 {

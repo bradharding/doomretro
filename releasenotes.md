@@ -61,6 +61,7 @@
   * The console’s input can now be selected by clicking and dragging the mouse.
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
+* The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
