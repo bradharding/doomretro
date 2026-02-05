@@ -189,14 +189,14 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.sys }}
-          update: true
+          update: false
           install: >-
             base-devel
             mingw-w64-${{ matrix.arch }}-toolchain
             mingw-w64-${{ matrix.arch }}-cmake
             mingw-w64-${{ matrix.arch }}-SDL2
-            mingw-w64-${{ matrix.arch }}-SDL2-mixer
-            mingw-w64-${{ matrix.arch }}-SDL2-image
+            mingw-w64-${{ matrix.arch }}-SDL2_mixer
+            mingw-w64-${{ matrix.arch }}-SDL2_image
 
       - name: Configure
         run: |
