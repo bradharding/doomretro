@@ -41,13 +41,37 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev
+
+      - name: Configure
+        run: |
+          mkdir -p build
+          cd build
+          cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=${{ matrix.compiler }} ..
+
       - name: Build
-        run: scripts/build.sh clean
+        run: |
+          cd build
+          make -j$(nproc) VERBOSE=1
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doomretro-linux-${{ matrix.compiler }}
+          path: build/doomretro
 
   build-windows:
     runs-on: windows-latest
