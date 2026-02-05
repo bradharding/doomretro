@@ -175,8 +175,10 @@ jobs:
         include:
           - sys: mingw64
             arch: x86_64
+            prefix: mingw-w64-x86_64
           - sys: mingw32
             arch: i686
+            prefix: mingw-w64-i686
 
     defaults:
       run:
@@ -189,14 +191,13 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.sys }}
-          update: false
-          install: >-
-            base-devel
-            mingw-w64-${{ matrix.arch }}-toolchain
-            mingw-w64-${{ matrix.arch }}-cmake
-            mingw-w64-${{ matrix.arch }}-SDL2
-            mingw-w64-${{ matrix.arch }}-SDL2_mixer
-            mingw-w64-${{ matrix.arch }}-SDL2_image
+          update: true
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            SDL2:p
+            SDL2_mixer:p
+            SDL2_image:p
 
       - name: Configure
         run: |
