@@ -99,8 +99,10 @@ jobs:
         include:
           - platform: 32-bit
             project-platform: Win32
+            output-dir: Release
           - platform: 64-bit
             project-platform: x64
+            output-dir: x64/Release
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -125,29 +127,16 @@ jobs:
       - name: Build
         run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
 
-      - name: List build output
-        run: |
-          Write-Host "Looking for build output..."
-          Get-ChildItem -Path msvc -Recurse -Include *.exe,*.dll,*.wad | Select-Object FullName
-        shell: pwsh
-
       - name: Copy artifacts to bin directory
         run: |
-          $sourcePath = "msvc\${{ matrix.project-platform }}\${{ matrix.configuration }}"
+          $sourcePath = "msvc\${{ matrix.output-dir }}"
           $destPath = "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}"
           
-          if (!(Test-Path $sourcePath)) {
-            Write-Error "Build output directory not found: $sourcePath"
-            exit 1
-          }
+          New-Item -ItemType Directory -Force -Path $destPath | Out-Null
           
-          if (!(Test-Path $destPath)) {
-            New-Item -ItemType Directory -Force -Path $destPath
-          }
-          
-          Copy-Item "$sourcePath\*.exe" -Destination $destPath -ErrorAction Stop
+          Copy-Item "$sourcePath\*.exe" -Destination $destPath
           Copy-Item "$sourcePath\*.dll" -Destination $destPath -ErrorAction SilentlyContinue
-          Copy-Item "res\doomretro.wad" -Destination $destPath -ErrorAction Stop
+          Copy-Item "res\doomretro.wad" -Destination $destPath
         shell: pwsh
 
       - name: Upload artifacts
