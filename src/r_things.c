@@ -1232,10 +1232,8 @@ static void R_AddBloodSplats(void)
     const int       maxy = MIN(bmapheight - 1, cy + radius);
     const fixed_t   maxdist = MAXZ / 8;
     int             prevlightlevel = INT_MIN;
-    lighttable_t    **cachedspritelights[256];
-    bool            cached[256];
-
-    memset(cached, 0, sizeof(cached));
+    lighttable_t    **cachedspritelights[256] = { NULL };
+    bool            cached[256] = { false };
 
     for (int y = miny; y <= maxy; y++)
         for (int x = minx; x <= maxx; x++)
@@ -1275,7 +1273,7 @@ static void R_AddBloodSplats(void)
                         if (!cached[i])
                         {
                             cachedspritelights[i] = scalelight[BETWEEN(0, 
-                                (i >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                                ((i + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
                             cached[i] = true;
                         }
 
