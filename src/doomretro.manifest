@@ -36,6 +36,12 @@
 -->
 
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <application xmlns="urn:schemas-microsoft-com:asm.v3">
+        <windowsSettings>
+            <heapType xmlns="http://schemas.microsoft.com/SMI/2020/WindowsSettings">SegmentHeap</heapType>
+        </windowsSettings>
+    </application>
+
     <dependency>
         <dependentAssembly>
             <assemblyIdentity
