@@ -371,7 +371,7 @@ static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color
     return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
 }
 
-static void AM_FillSector(const sector_t *sector)
+static void AM_FillSector(const sector_t *sector, const bool grayscale)
 {
     int         intersections[MAXINTERSECTIONS] = { 0 };
     fixed_t     minx = FIXED_MAX;
@@ -456,8 +456,13 @@ static void AM_FillSector(const sector_t *sector)
         floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
     }
     else
+    {
         fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
             (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
+
+        if (grayscale)
+            fillcolor = grays[fillcolor];
+    }
 
     for (int y = minyscreen; y < maxyscreen; y++)
     {
@@ -532,8 +537,12 @@ static void AM_FillSector(const sector_t *sector)
                 if (floorrotation)
                     AM_Rotate(&rrx, &rry, (floorrotation >> ANGLETOFINESHIFT));
 
-                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector,
-                    flat[((63 - ((rry >> MAPBITS) & 63)) << 6) + ((rrx >> MAPBITS) & 63)], lightlevel);
+                byte    color = flat[((63 - ((rry >> MAPBITS) & 63)) << 6) + ((rrx >> MAPBITS) & 63)];
+
+                if (grayscale)
+                    color = grays[color];
+
+                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, color, lightlevel);
             }
         }
     }
@@ -544,18 +553,25 @@ static void AM_FillSectors(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         for (int i = 0; i < numsectors; i++)
-            AM_FillSector(&sectors[i]);
-
-        return;
+            AM_FillSector(&sectors[i], false);
     }
-
-    for (int i = 0; i < numsectors; i++)
+    else if (viewplayer->powers[pw_allmap])
     {
-        const sector_t  *sector = &sectors[i];
+        for (int i = 0; i < numsectors; i++)
+        {
+            const sector_t  *sector = &sectors[i];
 
-        if (sector->mapped)
-            AM_FillSector(sector);
+            AM_FillSector(sector, !sector->mapped);
+        }
     }
+    else
+        for (int i = 0; i < numsectors; i++)
+        {
+            const sector_t *sector = &sectors[i];
+
+            if (sector->mapped)
+                AM_FillSector(sector, false);
+        }
 }
 
 static void AM_ActivateNewScale(void)
