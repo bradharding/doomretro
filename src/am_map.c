@@ -436,7 +436,9 @@ static void AM_FillSector(const sector_t *sector, const bool grayscale)
 
     floorpic = sector->floorpic;
     validfloorpic = (floorpic >= 0 && floorpic < numflats
-        && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT) && r_textures);
+        && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT)
+        && sector->interpceilingheight > sector->interpfloorheight
+        && r_textures);
 
     if (am_sectors == am_sectors_textures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
