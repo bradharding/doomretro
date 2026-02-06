@@ -561,13 +561,29 @@ static void AM_FillSectors(void)
         {
             const sector_t  *sector = &sectors[i];
 
-            AM_FillSector(sector, !sector->mapped);
+            if (sector->mapped)
+                AM_FillSector(sector, false);
+            else
+            {
+                const int   linecount = sector->linecount;
+
+                for (int j = 0; j < linecount; j++)
+                {
+                    const line_t    *line = sector->lines[j];
+
+                    if (!(line->flags & ML_DONTDRAW))
+                    {
+                        AM_FillSector(sector, true);
+                        break;
+                    }
+                }
+            }
         }
     }
     else
         for (int i = 0; i < numsectors; i++)
         {
-            const sector_t *sector = &sectors[i];
+            const sector_t  *sector = &sectors[i];
 
             if (sector->mapped)
                 AM_FillSector(sector, false);
