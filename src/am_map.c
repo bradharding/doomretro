@@ -212,6 +212,8 @@ am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
 
+static byte         allmaptint[256][256];
+
 static edge_t       *edges;
 static int          edgescapacity;
 
@@ -267,6 +269,23 @@ static void AM_BuildFloorPicColors(void)
 
     for (int i = 0; i < numflats; i++)
         floorpiccolor[i] = AM_ColorFromFlat(i);
+}
+
+static byte AM_TintColor(const byte sourcecolor, const byte tintcolor, byte *playpal)
+{
+    const byte  gray = (byte)(playpal[sourcecolor * 3] * 0.299f
+                    + playpal[sourcecolor * 3 + 1] * 0.587f
+                    + playpal[sourcecolor * 3 + 2] * 0.114f);
+
+    return FindNearestColor(playpal, (gray + playpal[tintcolor * 3]) / 2,
+        (gray + playpal[tintcolor * 3 + 1]) / 2, (gray + playpal[tintcolor * 3 + 2]) / 2);
+}
+
+static void AM_BuildAllMapTintTables(void)
+{
+    for (int sourcecolor = 0; sourcecolor < 256; sourcecolor++)
+        for (int tintcolor = 0; tintcolor < 256; tintcolor++)
+            allmaptint[sourcecolor][tintcolor] = AM_TintColor(sourcecolor, tintcolor, PLAYPAL);
 }
 
 static int AM_CompareIntAscending(const void *a, const void *b)
@@ -371,7 +390,7 @@ static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color
     return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
 }
 
-static void AM_FillSector(const sector_t *sector, const bool grayscale)
+static void AM_FillSector(const sector_t *sector, const byte tintcolor)
 {
     int         intersections[MAXINTERSECTIONS] = { 0 };
     fixed_t     minx = FIXED_MAX;
@@ -462,8 +481,8 @@ static void AM_FillSector(const sector_t *sector, const bool grayscale)
         fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
             (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
 
-        if (grayscale)
-            fillcolor = grays[fillcolor];
+        if (tintcolor)
+            fillcolor = allmaptint[fillcolor][tintcolor];
     }
 
     for (int y = minyscreen; y < maxyscreen; y++)
@@ -541,8 +560,8 @@ static void AM_FillSector(const sector_t *sector, const bool grayscale)
 
                 byte    color = flat[((63 - ((rry >> MAPBITS) & 63)) << 6) + ((rrx >> MAPBITS) & 63)];
 
-                if (grayscale)
-                    color = grays[color];
+                if (tintcolor)
+                    color = allmaptint[color][tintcolor];
 
                 mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, color, lightlevel);
             }
@@ -555,7 +574,7 @@ static void AM_FillSectors(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         for (int i = 0; i < numsectors; i++)
-            AM_FillSector(&sectors[i], false);
+            AM_FillSector(&sectors[i], 0);
     }
     else if (viewplayer->powers[pw_allmap])
     {
@@ -564,7 +583,7 @@ static void AM_FillSectors(void)
             const sector_t  *sector = &sectors[i];
 
             if (sector->mapped)
-                AM_FillSector(sector, false);
+                AM_FillSector(sector, 0);
             else
             {
                 const int   linecount = sector->linecount;
@@ -575,7 +594,7 @@ static void AM_FillSectors(void)
 
                     if (!(line->flags & ML_DONTDRAW))
                     {
-                        AM_FillSector(sector, true);
+                        AM_FillSector(sector, nearestcolors[am_allmapwallcolor]);
                         break;
                     }
                 }
@@ -588,7 +607,7 @@ static void AM_FillSectors(void)
             const sector_t  *sector = &sectors[i];
 
             if (sector->mapped)
-                AM_FillSector(sector, false);
+                AM_FillSector(sector, 0);
         }
 }
 
@@ -748,6 +767,8 @@ void AM_SetColors(void)
     allmapfdwallcolor = &priorities[nearestcolors[am_allmapfdwallcolor] << 8];
     teleportercolor = &priorities[nearestcolors[am_teleportercolor] << 8];
     tswallcolor = &priorities[nearestcolors[am_tswallcolor] << 8];
+
+    AM_BuildAllMapTintTables();
 }
 
 void AM_GetGridSize(void)
