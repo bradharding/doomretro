@@ -103,8 +103,8 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 // 16 pixels of bob
 #define MAXBOB              0x100000
 #define MLOOKUNIT           4
-#define PLAYERSLOPE(a)      ((((a)->pitch / MLOOKUNIT) << FRACBITS) / (r_screensize == r_screensize_max ? 140 : 160))
-
+#define PLAYERSLOPE(a)      ((((a)->pitch / MLOOKUNIT) << FRACBITS) / \
+                                ((r_screensize == r_screensize_max ? 140 : 160) * 90 * 90 / (r_fov * r_fov)))
 #define AUTOTILTUNIT        30
 #define AUTOTILTMAX         300
 #define MINSTEPSIZE         (8 * FRACUNIT)

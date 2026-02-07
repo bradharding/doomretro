@@ -62,6 +62,7 @@
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
+* The player’s aim is now much more accurate when firing their weapon while the `freelook` CVAR is `on` and the `r_fov` CVAR is a value other than its default of `90°`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
