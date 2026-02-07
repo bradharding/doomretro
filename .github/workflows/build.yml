@@ -100,9 +100,11 @@ jobs:
           - platform: 32-bit
             project-platform: Win32
             output-dir: Release
+            artifact-suffix: win32
           - platform: 64-bit
             project-platform: x64
             output-dir: x64/Release
+            artifact-suffix: win64
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -124,6 +126,14 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore msvc\doomretro.sln
 
+      - name: Extract version
+        id: version
+        run: |
+          $versionLine = Get-Content src\version.h | Select-String -Pattern '#define DOOMRETRO_VERSIONSTRING\s+"([^"]+)"'
+          $version = $versionLine.Matches.Groups[1].Value
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
       - name: Build
         run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
 
@@ -142,7 +152,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: doomretro-windows-${{ matrix.platform }}-${{ matrix.configuration }}
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-${{ matrix.artifact-suffix }}
           path: |
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
             bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
