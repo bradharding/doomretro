@@ -201,6 +201,8 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
                     player->deltaviewheight = deltaviewheight;
 
                     thing->angle += angle;
+
+                    thing->subsector->sector->mapped = true;
                 }
                 else
                     thing->angle = angle;
