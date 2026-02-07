@@ -329,6 +329,8 @@ bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bo
                 // Reset the delta to have the same dynamics as before
                 player->deltaviewheight = deltaviewheight;
 
+                thing->subsector->sector->mapped = true;
+
                 thing->angle += angle;
             }
             else
