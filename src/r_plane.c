@@ -81,8 +81,6 @@ fixed_t             yslopes[PITCHES][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 
-static bool         updateswirl;
-
 static angle_t      *xtoskyangle;
 
 //
@@ -487,10 +485,6 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
 void R_DrawPlanes(void)
 {
     xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
-
-    if (r_liquid_swirl)
-        updateswirl = !(consoleactive || helpscreen || paused || (viewplayer->cheats & CF_FREEZE));
-
     dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
     dc_sectorcolormap = fullcolormap;
 

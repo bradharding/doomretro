@@ -242,6 +242,7 @@ extern gamestate_t      gamestate;
 extern int              gametime;
 
 extern bool             realframe;
+extern bool             updateswirl;
 
 // Intermission stats.
 // Parameters for world map/intermission.

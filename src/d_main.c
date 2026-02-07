@@ -175,6 +175,8 @@ int         fadecount = 0;
 bool        splashscreen = true;
 
 bool        realframe;
+bool        updateswirl;
+
 static bool error;
 
 //
@@ -338,6 +340,9 @@ void D_Display(void)
     else
     {
         HU_Erase();
+
+        updateswirl = (r_liquid_swirl && !(consoleactive || helpscreen || paused || (viewplayer->cheats & CF_FREEZE)));
+
 
         // draw the view directly
         R_RenderPlayerView();
