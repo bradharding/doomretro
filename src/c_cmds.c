@@ -897,7 +897,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(menushadow, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shadows cast by items in the menu."),
     BOOLCVAR(menuspin, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles spinning your view in the menu's background."),
+        "Toggles dropping and spinning your view in the menu's background."),
     BOOLCVAR(messages, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying player messages at the top of the screen."),
     PERCENTCVAR(movebob, "", "", intfunc1, intfunc2,

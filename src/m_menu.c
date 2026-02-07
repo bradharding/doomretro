@@ -64,10 +64,11 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define SPACEWIDTH       7
-#define LINEHEIGHT      17
-#define OFFSET          17
-#define SKULLANIMCOUNT  10
+#define SPACEWIDTH          7
+#define LINEHEIGHT         17
+#define OFFSET             17
+#define SKULLANIMCOUNT     10
+#define MENUVIEWDROPSPEED  35
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -118,6 +119,10 @@ menu_t          *currentmenu;
 
 int             menuspindirection;
 int             menuspinspeed;
+static bool     menuviewdropping;
+static fixed_t  menuviewstart;
+static fixed_t  menuviewtarget;
+static int      menuviewdroptics;
 static angle_t  playerangle;
 static int      playerpitch;
 static fixed_t  playerviewz;
@@ -4306,7 +4311,12 @@ void M_OpenMainMenu(void)
         R_SetViewSize(r_screensize_max);
 
         if (menuspin && (!helpscreen || palettescreen))
-            viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
+        {
+            menuviewstart = viewplayer->viewz;
+            menuviewtarget = viewplayer->mo->floorz + MENUVIEWHEIGHT;
+            menuviewdropping = true;
+            menuviewdroptics = 0;
+        }
 
         I_RestoreMousePointerPosition();
     }
@@ -4706,6 +4716,7 @@ void M_CloseMenu(void)
     menuactive = false;
     blurtic = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
+    menuviewdropping = false;
 
     r_textures = r_textures_old;
 
@@ -4760,6 +4771,20 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
+    if (menuviewdropping && gamestate == GS_LEVEL)
+    {
+        menuviewdroptics++;
+
+        if (menuviewdroptics >= MENUVIEWDROPSPEED)
+        {
+            viewplayer->viewz = menuviewtarget;
+            menuviewdropping = false;
+        }
+        else
+            viewplayer->viewz = menuviewstart + (fixed_t)((menuviewtarget - menuviewstart)
+                * (1.0 - pow(1.0 - (double)menuviewdroptics / MENUVIEWDROPSPEED, 3.0)));
+    }
+
     if (windowfocused)
     {
         if (savestringenter)
