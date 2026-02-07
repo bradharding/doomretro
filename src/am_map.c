@@ -582,23 +582,7 @@ static void AM_FillSectors(void)
         {
             const sector_t  *sector = &sectors[i];
 
-            if (sector->mapped)
-                AM_FillSector(sector, 0);
-            else
-            {
-                const int   linecount = sector->linecount;
-
-                for (int j = 0; j < linecount; j++)
-                {
-                    const line_t    *line = sector->lines[j];
-
-                    if (!(line->flags & ML_DONTDRAW))
-                    {
-                        AM_FillSector(sector, nearestcolors[am_allmapwallcolor]);
-                        break;
-                    }
-                }
-            }
+            AM_FillSector(sector, (sector->mapped ? 0 : nearestcolors[am_allmapwallcolor]));
         }
     }
     else
