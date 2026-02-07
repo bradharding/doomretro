@@ -9602,6 +9602,13 @@ static void teleportfunc2(char *cmd, char *parms)
                 viewplayer->recoil = 0;
                 viewplayer->oldrecoil = 0;
 
+                if (r_teleportzoom)
+                {
+                    teleportzoomduration = 350;
+                    teleportzoom = I_GetTimeMS() + teleportzoomduration;
+                    setsizeneeded = true;
+                }
+
                 viewplayer->cheated++;
                 stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
                 M_SaveCVARs();
