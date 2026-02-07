@@ -35,6 +35,8 @@
 
 #pragma once
 
+#include <stdint.h>
+
 // Called by D_DoomLoop,
 // returns current time in tics.
 uint64_t I_GetTime(void);

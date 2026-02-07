@@ -202,6 +202,7 @@ bool        r_shake_barrels = r_shake_barrels_default;
 bool        r_shake_berserk = r_shake_berserk_default;
 bool        r_shake_damage = r_shake_damage_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
+bool        r_teleportzoom = r_teleportzoom_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
@@ -462,6 +463,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                       BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                        BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,                BOOLVALUEALIAS       ),
+    CVAR_BOOL         (r_teleportzoom,                   r_teleportzoom,                        r_teleportzoom,                        BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS       ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,               BOOLVALUEALIAS       ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                            0                    ),

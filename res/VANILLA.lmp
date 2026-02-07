@@ -126,6 +126,7 @@ r_shake_barrels off
 r_shake_berserk off
 r_shake_damage off
 r_sprites_translucency off
+r_teleportzoom off
 r_textures on
 r_textures_translucency off
 s_channels 8

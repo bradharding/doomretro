@@ -1049,6 +1049,8 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when you take damage."),
     BOOLCVAR(r_sprites_translucency, "", "", boolfunc1, r_sprites_translucencyfunc2, 0,
         "Toggles the translucency of certain sprites."),
+    BOOLCVAR(r_teleportzoom, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles a zoom effect when you teleport."),
     BOOLCVAR(r_textures, "", "", boolfunc1, r_texturesfunc2, 0,
         "Toggles showing all textures."),
     BOOLCVAR(r_textures_translucency, "", "", boolfunc1, r_textures_translucencyfunc2, 0,

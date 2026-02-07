@@ -192,6 +192,7 @@ extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
 extern bool     r_shake_damage;
 extern bool     r_sprites_translucency;
+extern bool     r_teleportzoom;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
@@ -820,6 +821,8 @@ enum
 
 #define r_sprites_translucency_default      true
 
+#define r_teleportzoom_default              true
+
 #define r_textures_default                  true
 
 #define r_textures_translucency_default     true
@@ -828,7 +831,7 @@ enum
 #define s_channels_default                  32
 #define s_channels_max                      64
 
-#define s_fullsfx_default                true
+#define s_fullsfx_default                   true
 
 #define s_lowermenumusic_default            true
 

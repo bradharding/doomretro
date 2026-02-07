@@ -183,6 +183,8 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t
 
 extern uint64_t shake;
 extern int      shakeduration;
+extern uint64_t teleportzoom;
+extern int      teleportzoomduration;
 
 void P_NoiseAlert(mobj_t *target, mobj_t *emitter);
 bool P_CheckMeleeRange(mobj_t *actor);

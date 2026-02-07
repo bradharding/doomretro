@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include "i_timer.h"
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
@@ -117,6 +118,13 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
 
                     player->pitch = 0;
                     player->oldpitch = 0;
+
+                    if (r_teleportzoom)
+                    {
+                        teleportzoomduration = 350;
+                        teleportzoom = I_GetTimeMS() + teleportzoomduration;
+                        setsizeneeded = true;
+                    }
 
                     thing->subsector->sector->mapped = true;
                 }

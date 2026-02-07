@@ -114,6 +114,9 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
+uint64_t            teleportzoom;
+int                 teleportzoomduration;
+
 static fixed_t      fovscale;
 
 // [ceski] [JN] Higher than 21:9 aspect ratios require an extended range
@@ -374,6 +377,7 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
+    int     effectivefov;
     fixed_t num;
 
     setsizeneeded = false;
@@ -397,8 +401,24 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !helpscreen && menuspin ? r_fov_max : r_fov)
-        + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+
+    // Apply teleport zoom effect
+    effectivefov = (menuactive && !helpscreen && menuspin ? r_fov_max : r_fov);
+
+    if (teleportzoom && !menuactive && !consoleactive && !paused)
+    {
+        const uint64_t  time = I_GetTimeMS();
+
+        if (teleportzoom > time && teleportzoomduration)
+        {
+            effectivefov += FixedMul(30 * FRACUNIT, FRACUNIT * (fixed_t)(teleportzoom - time) / teleportzoomduration) >> FRACBITS;
+            effectivefov = MIN(effectivefov, r_fov_max);
+            setsizeneeded = true;
+        }
+    }
+
+    fovscale = finetangent[FINEANGLES / 4 + (effectivefov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+
     fovtx = (vid_aspectratio >= vid_aspectratio_21_9 && r_fov >= 90 ? 4 : 2);
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << (FRACBITS + 2);
