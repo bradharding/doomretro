@@ -1594,7 +1594,7 @@ static void M_DrawPalette(void)
                 const short numwidth = SHORT(num->width);
 
                 V_DrawConsoleTextPatch((numx -= (*p == '4')), numy, num, numwidth,
-                    (luminance[color] <= 192 ? nearestwhite : nearestblack), -1, false, tinttab60);
+                    I_GetContrastingColor(color), -1, false, tinttab60);
                 numx += numwidth;
             }
         }

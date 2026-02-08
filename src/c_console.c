@@ -1006,7 +1006,7 @@ static void C_DrawBackground(void)
     {
         V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
             consoleheight - brandheight + 2, brand, consoleedgecolor1, consoleedgecolor2,
-            (luminance[consoleedgecolor1 >> 8] <= 192 ? nearestwhite : nearestblack));
+            I_GetContrastingColor(consoleedgecolor1 >> 8));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[consoleedgecolor1 + screens[0][i]];
@@ -1018,7 +1018,7 @@ static void C_DrawBackground(void)
 
         V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
             consoleheight - brandheight + 2, brand, color1, color2,
-            (luminance[color1 >> 8] <= 192 ? nearestwhite : nearestblack));
+            I_GetContrastingColor(color1 >> 8));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[color1 + screens[0][i]];
@@ -1179,7 +1179,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                                 const int   width = SHORT(patch->width);
 
                                 consoletextfunc((x -= (letter == '4')), y, patch, width,
-                                    (luminance[palindex] <= 192 ? nearestwhite : nearestblack),
+                                    I_GetContrastingColor(palindex),
                                     color2, false, tinttab60);
 
                                 x += width;
@@ -2213,12 +2213,11 @@ void C_Drawer(void)
             else if (con_edgecolor == con_edgecolor_auto)
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 7, consoleedgecolor1,
-                    (luminance[consoleedgecolor1 >> 8] <= 192 ? nearestwhite : nearestblack));
+                    I_GetContrastingColor(consoleedgecolor1 >> 8));
             else
                 V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
-                    (luminance[nearestcolors[con_edgecolor]] <= 192 ? nearestwhite : nearestblack));
-
+                    I_GetContrastingColor(nearestcolors[con_edgecolor]));
             if (wrap < len && i < bottomline)
             {
                 char    *temp1 = M_SubString(console[i].string, wrap, (size_t)len - wrap);

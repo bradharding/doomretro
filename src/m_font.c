@@ -128,7 +128,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
         const byte  g = *p++;
         const byte  b = *p++;
 
-        translate[i] = FindNearestColor(playpal, r, g, b);
+        translate[i] = I_GetNearestColor(playpal, r, g, b);
     }
 
     // 0 is transparent, last is border color

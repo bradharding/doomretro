@@ -132,7 +132,7 @@ byte    *white75;
 
 byte    luminance[256];
 
-int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue)
+int I_GetNearestColor(byte *palette, const byte red, const byte green, const byte blue)
 {
     int bestdiff = INT_MAX;
     int bestcolor = 0;
@@ -158,6 +158,11 @@ int FindNearestColor(byte *palette, const byte red, const byte green, const byte
     return bestcolor;
 }
 
+byte I_GetContrastingColor(byte backgroundcolor)
+{
+    return (luminance[backgroundcolor] < 192 ? nearestwhite : nearestblack);
+}
+
 void I_InitColors(byte *palette)
 {
     byte    *playpal = W_CacheLumpNameFromResourceWAD("PLAYPAL");
@@ -168,7 +173,7 @@ void I_InitColors(byte *palette)
         const byte  green = *playpal++;
         const byte  blue = *playpal++;
 
-        nearestcolors[i] = FindNearestColor(palette, red, green, blue);
+        nearestcolors[i] = I_GetNearestColor(palette, red, green, blue);
     }
 
     playpal = W_CacheLumpName("PLAYPAL");
@@ -316,7 +321,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
                 const byte  g = ((byte)color1[1] * percent + (byte)color2[1] * (100 - percent)) / 100;
                 const byte  b = ((byte)color1[2] * percent + (byte)color2[2] * (100 - percent)) / 100;
 
-                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
+                result[(background << 8) + foreground] = I_GetNearestColor(palette, r, g, b);
             }
         else
             for (int background = 0; background < 256; background++)
@@ -339,7 +344,7 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
                 const byte  g = MIN(color1[1] + color2[1], 255);
                 const byte  b = MIN(color1[2] + color2[2], 255);
 
-                result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
+                result[(background << 8) + foreground] = I_GetNearestColor(palette, r, g, b);
             }
         else
             for (int background = 0; background < 256; background++)
@@ -506,5 +511,5 @@ byte I_GoldTranslation(byte *playpal, byte color)
     rgb.y *= 255.0f;
     rgb.z *= 255.0f;
 
-    return FindNearestColor(playpal, (int)rgb.x, (int)rgb.y, (int)rgb.z);
+    return I_GetNearestColor(playpal, (int)rgb.x, (int)rgb.y, (int)rgb.z);
 }

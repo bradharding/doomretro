@@ -277,7 +277,7 @@ static byte AM_TintColor(const byte sourcecolor, const byte tintcolor, byte *pla
                     + playpal[sourcecolor * 3 + 1] * 0.587f
                     + playpal[sourcecolor * 3 + 2] * 0.114f);
 
-    return FindNearestColor(playpal, (gray + playpal[tintcolor * 3]) / 2,
+    return I_GetNearestColor(playpal, (gray + playpal[tintcolor * 3]) / 2,
         (gray + playpal[tintcolor * 3 + 1]) / 2, (gray + playpal[tintcolor * 3 + 2]) / 2);
 }
 

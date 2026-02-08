@@ -377,7 +377,7 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    int     effectivefov;
+    int     fov;
     fixed_t num;
 
     setsizeneeded = false;
@@ -403,7 +403,7 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
 
     // Apply teleport zoom effect
-    effectivefov = (menuactive && !helpscreen && menuspin ? r_fov_max : r_fov);
+    fov = (menuactive && !helpscreen && menuspin ? r_fov_max : r_fov);
 
     if (teleportzoom && !menuactive && !consoleactive && !paused)
     {
@@ -411,13 +411,13 @@ void R_ExecuteSetViewSize(void)
 
         if (teleportzoom > time && teleportzoomduration)
         {
-            effectivefov += FixedMul(30 * FRACUNIT, FRACUNIT * (fixed_t)(teleportzoom - time) / teleportzoomduration) >> FRACBITS;
-            effectivefov = MIN(effectivefov, r_fov_max);
+            fov = MIN(fov + (FixedMul(30 * FRACUNIT,
+                FRACUNIT * (fixed_t)(teleportzoom - time) / teleportzoomduration) >> FRACBITS), r_fov_max);
             setsizeneeded = true;
         }
     }
 
-    fovscale = finetangent[FINEANGLES / 4 + (effectivefov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fovscale = finetangent[FINEANGLES / 4 + (fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
 
     fovtx = (vid_aspectratio >= vid_aspectratio_21_9 && r_fov >= 90 ? 4 : 2);
     projection = FixedDiv(centerxfrac, fovscale);

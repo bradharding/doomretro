@@ -1068,12 +1068,12 @@ static void R_InitColormaps(void)
         const byte  blue = *palsrc++;
         byte        gray = (byte)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
 
-        grays[i] = FindNearestColor(PLAYPAL, gray, gray, gray);
+        grays[i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
 
         if (!COLORMAP)
         {
             gray = 255 - gray;
-            colormaps[0][32 * 256 + i] = FindNearestColor(PLAYPAL, gray, gray, gray);
+            colormaps[0][32 * 256 + i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
         }
     }
 }
