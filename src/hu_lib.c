@@ -100,7 +100,7 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth, byt
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
-                    if (src == PINK)
+                    if (src == PINK1)
                     {
                         if (!vanilla)
                             *dest = 0;
@@ -127,7 +127,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
-                    if (src == PINK)
+                    if (src == PINK1)
                     {
                         if (!vanilla)
                             *dest = black40[*dest];
@@ -374,7 +374,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     screenarea = screenwidth * (y + SHORT(hu_font[0]->height) * 4 + 14);
 
     for (int i = 0; i < screenarea; i++)
-        tempscreen[i] = PINK;
+        tempscreen[i] = PINK1;
 
     if (len > 40 && !showunderscores)
     {
@@ -472,7 +472,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                                 byte    *dest = &tempscreen[((l->y + y1 + 6) * 2 + y2) * screenwidth
                                             + (l->x + x1 - 3) * 2 + x2];
 
-                                *dest = (src == PINK ? 0 : src);
+                                *dest = (src == PINK1 ? 0 : src);
                             }
                 }
     }
@@ -505,7 +505,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
             if (!source)
                 *dest = tinttab1[black + fb2[i]];
-            else if (source != PINK)
+            else if (source != PINK1)
                 *dest = tinttab2[(source << 8) + fb2[i]];
         }
     else
@@ -516,7 +516,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
             if (!source)
                 *dest = nearestblack;
-            else if (source != PINK)
+            else if (source != PINK1)
                 *dest = source;
         }
 }
@@ -555,7 +555,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     }
 
     for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
-        tempscreen[i] = PINK;
+        tempscreen[i] = PINK1;
 
     M_StringCopy(s, l->l, sizeof(s));
 
@@ -634,7 +634,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
                 if (!source)
                     *dest = tinttab1[black + fb2[i]];
-                else if (source != PINK)
+                else if (source != PINK1)
                     *dest = tinttab2[(source << 8) + fb2[i]];
             }
         else
@@ -645,7 +645,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
                 if (!source)
                     *dest = nearestblack;
-                else if (source != PINK)
+                else if (source != PINK1)
                     *dest = source;
             }
     }

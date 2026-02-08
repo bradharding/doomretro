@@ -1481,7 +1481,7 @@ static void R_DrawPlayerSprites(void)
     {
         fuzz2pos = 0;
 
-        V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, 0, false, false, NULL, NULL);
+        V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK1, 0, false, false, NULL, NULL);
 
         if (flashstate)
         {

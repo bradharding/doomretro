@@ -1004,7 +1004,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (*dot != 47 && *dot != 191)
-                        *dot = BLUE1;
+                        *dot = PINK2;
                 }
 
                 srccol += DYI;
@@ -1777,7 +1777,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
 void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
-    if (color == PINK)
+    if (color == PINK1)
     {
         if (shadow && menushadow)
         {

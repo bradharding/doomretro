@@ -755,7 +755,7 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
                         if (dot == (unsigned char)'\xC8')
                         {
                             if (!overlapping)
-                                V_DrawPixel(x + x1, y + y1, PINK, highlight, shadow);
+                                V_DrawPixel(x + x1, y + y1, PINK1, highlight, shadow);
                         }
                         else
                             V_DrawPixel(x + x1, y + y1, (int)dot, highlight, shadow);
@@ -4403,7 +4403,7 @@ void M_Drawer(void)
     }
 
     if (DBIGFONT)
-        memset(tempscreen, PINK, MAXSCREENAREA);
+        memset(tempscreen, PINK1, MAXSCREENAREA);
 
     if (currentmenu->routine)
         currentmenu->routine();         // call draw routine
@@ -4693,9 +4693,9 @@ void M_Drawer(void)
             if (DBIGFONT)
             {
                 for (int i = 0; i < MAXSCREENAREA; i++)
-                    if (tempscreen[i] == BLUE1)
+                    if (tempscreen[i] == PINK2)
                         screens[0][i] = black40[screens[0][i]];
-                    else if (tempscreen[i] != PINK)
+                    else if (tempscreen[i] != PINK1)
                         screens[0][i] = tempscreen[i];
             }
 

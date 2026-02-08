@@ -57,7 +57,8 @@
 #define LIGHTGRAY1     80
 #define LIGHTGRAY2     82
 #define LIGHTGRAY3     86
-#define PINK          251
+#define PINK1         251
+#define PINK2         252
 #define RED1          176
 #define RED2          180
 #define WHITE           4

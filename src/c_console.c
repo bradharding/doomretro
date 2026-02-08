@@ -1531,7 +1531,7 @@ void C_UpdateFPSOverlay(void)
 
     for (int yy = graphy; yy < graphy + OVERLAYFPSGRAPHHEIGHT + 1; yy++)
         for (int xx = graphx; xx < graphx + OVERLAYFPSGRAPHWIDTH; xx++)
-            tempscreen2[yy * SCREENWIDTH + xx] = PINK;
+            tempscreen2[yy * SCREENWIDTH + xx] = PINK1;
 
     for (int i = 0; i < OVERLAYFPSGRAPHWIDTH; i++)
     {
@@ -1542,7 +1542,7 @@ void C_UpdateFPSOverlay(void)
         *dest = overlaytextcolor;
         dest += SCREENWIDTH;
 
-        if (*dest == PINK)
+        if (*dest == PINK1)
             *dest = BLUE1;
 
         if (prevpx >= 0 && prevpy >= 0)
@@ -1578,7 +1578,7 @@ void C_UpdateFPSOverlay(void)
                 *dest = overlaytextcolor;
                 dest += SCREENWIDTH;
 
-                if (*dest == PINK)
+                if (*dest == PINK1)
                     *dest = BLUE1;
 
                 if (e2 > -dx)
@@ -1613,7 +1613,7 @@ void C_UpdateFPSOverlay(void)
 
                     *dest = black10[*dest];
                 }
-                else if (dot != PINK)
+                else if (dot != PINK1)
                 {
                     byte    *dest = &screens[0][i];
 
@@ -1634,7 +1634,7 @@ void C_UpdateFPSOverlay(void)
                     if (overlaytextcolor != overlaytextshadowcolor && overlaytextshadowcolor != -1)
                         screens[0][i] = overlaytextshadowcolor;
                 }
-                else if (dot != PINK)
+                else if (dot != PINK1)
                     screens[0][i] = dot;
             }
     }
