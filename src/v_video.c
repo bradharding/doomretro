@@ -531,7 +531,7 @@ void V_DrawColorBackPatch(const int x, const int y, const patch_t *patch, const 
 }
 
 void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, const int width,
-    const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
+    const int color1, const int color2, const bool italics, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -545,7 +545,8 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
         {
             if (y + i >= 0 && *source)
             {
-                byte    *dot = dest;
+                byte        *dot = dest;
+                const int   color = (*source == WHITE || color2 == NOBACKGROUNDCOLOR ? color1 : color2);
 
                 if (italics)
                     dot += italicize[i];
@@ -565,7 +566,7 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
 }
 
 void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *patch, const int width,
-    const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
+    const int color1, const int color2, const bool italics, const byte *tinttab)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
 
@@ -579,9 +580,9 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
             if (y + i >= 0)
             {
                 if (*source == WHITE)
-                    *dest = color;
-                else if (*dest != color)
-                    *dest = backgroundcolor;
+                    *dest = color1;
+                else if (*dest != color1 && color2 != NOBACKGROUNDCOLOR)
+                    *dest = color2;
             }
 
             source++;
