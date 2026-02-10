@@ -112,6 +112,18 @@ static int          upscaledheight;
 
 static bool         software;
 
+bool                drawpillarboxes = false;
+int                 leftpillarwidth = 0;
+int                 rightpillarxoffset = 0;
+
+static bool         animatingpillarboxes = false;
+static bool         expandingpillarboxes = false;
+static uint64_t     pillarboxanimstart = 0;
+static int          pillarboxanimfrom = 0;
+static int          pillarboxanimto = 0;
+static bool         keepwidescreenduringanim = false;
+static bool         needsmoderestart = false;
+
 static int          displayindex;
 static int          numdisplays;
 static SDL_Rect     displays[vid_display_max];
@@ -178,6 +190,8 @@ static bool         capslock;
 
 int                 windowborderwidth = 0;
 int                 windowborderheight = 0;
+
+static void I_GetScreenDimensions(void);
 
 bool MouseShouldBeGrabbed(void)
 {
@@ -760,6 +774,37 @@ void I_CapFPS(const int cap)
     }
 }
 
+static void I_DrawPillarboxes(void)
+{
+    if (animatingpillarboxes || keepwidescreenduringanim)
+    {
+        const uint64_t  elapsed = I_GetTimeMS() - pillarboxanimstart;
+        int             currentwidth;
+
+        if (animatingpillarboxes && elapsed < PILLARBOXANIMTIME)
+            currentwidth = pillarboxanimfrom + (int)((pillarboxanimto - pillarboxanimfrom)
+                * ((float)elapsed / PILLARBOXANIMTIME));
+        else
+        {
+            if (animatingpillarboxes)
+            {
+                animatingpillarboxes = false;
+                needsmoderestart = true;
+                leftpillarwidth = pillarboxanimto;
+            }
+
+            currentwidth = leftpillarwidth;
+        }
+
+        if (currentwidth > 0)
+            for (int y = 0; y < SCREENHEIGHT; y++)
+            {
+                memset(screens[0] + y * SCREENWIDTH, nearestblack, currentwidth);
+                memset(screens[0] + y * SCREENWIDTH + SCREENWIDTH - currentwidth, nearestblack, currentwidth);
+            }
+    }
+}
+
 #if defined(_WIN32)
 void I_WindowResizeBlit(void)
 {
@@ -788,6 +833,7 @@ void I_WindowResizeBlit(void)
 static void I_Blit(void)
 {
     UpdateGrab();
+    I_DrawPillarboxes();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -800,6 +846,7 @@ static void I_Blit(void)
 static void I_Blit_NearestLinear(void)
 {
     UpdateGrab();
+    I_DrawPillarboxes();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -815,6 +862,7 @@ static void I_Blit_NearestLinear(void)
 static void I_Blit_ShowFPS(void)
 {
     UpdateGrab();
+    I_DrawPillarboxes();
     CalculateFPS();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
@@ -828,6 +876,7 @@ static void I_Blit_ShowFPS(void)
 static void I_Blit_NearestLinear_ShowFPS(void)
 {
     UpdateGrab();
+    I_DrawPillarboxes();
     CalculateFPS();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
@@ -847,6 +896,7 @@ static void I_Blit_Shake(void)
     const int   y = dest_rect.y;
 
     UpdateGrab();
+    I_DrawPillarboxes();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -870,6 +920,7 @@ static void I_Blit_NearestLinear_Shake(void)
     const int   y = dest_rect.y;
 
     UpdateGrab();
+    I_DrawPillarboxes();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
@@ -896,6 +947,7 @@ static void I_Blit_ShowFPS_Shake(void)
     const int   y = dest_rect.y;
 
     UpdateGrab();
+    I_DrawPillarboxes();
     CalculateFPS();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
@@ -920,6 +972,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     const int   y = dest_rect.y;
 
     UpdateGrab();
+    I_DrawPillarboxes();
     CalculateFPS();
 
     SDL_LockTexture(texture, &src_rect, &buffer->pixels, &buffer->pitch);
@@ -983,6 +1036,80 @@ void I_UpdateBlitFunc(const bool shaking)
             blitfunc = (vid_showfps && !splashscreen ? &I_Blit_ShowFPS : &I_Blit);
 
         mapblitfunc = (mapwindow ? &I_Blit_Automap : &nullfunc);
+    }
+}
+
+void I_StartPillarboxAnimation(bool expanding)
+{
+    int width;
+    int height;
+    int targetpillarwidth;
+
+    if (vid_fullscreen)
+    {
+        width = displays[displayindex].w;
+        height = displays[displayindex].h;
+    }
+    else
+    {
+        GetWindowSize();
+        width = windowwidth;
+        height = windowheight;
+    }
+
+    targetpillarwidth = (BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH) - NONWIDEWIDTH) / 2;
+
+    if (expanding)
+    {
+        keepwidescreenduringanim = true;
+        vid_widescreen = true;  // Set this FIRST
+
+        I_RestartGraphics(false);  // Restart to create wide buffer
+
+        pillarboxanimfrom = 0;
+        pillarboxanimto = targetpillarwidth;
+        animatingpillarboxes = true;
+        expandingpillarboxes = true;
+        pillarboxanimstart = I_GetTimeMS();
+    }
+    else
+    {
+        keepwidescreenduringanim = true;
+        vid_widescreen = true;
+
+        I_RestartGraphics(false);
+
+        pillarboxanimfrom = targetpillarwidth;
+        pillarboxanimto = 0;
+        animatingpillarboxes = true;
+        expandingpillarboxes = false;
+        pillarboxanimstart = I_GetTimeMS();
+
+        if (!leftpillarwidth)
+            leftpillarwidth = targetpillarwidth;
+    }
+}
+
+void I_CompletePillarboxTransition(void)
+{
+    if (needsmoderestart)
+    {
+        needsmoderestart = false;
+        keepwidescreenduringanim = false;
+
+        if (expandingpillarboxes)
+        {
+            vid_widescreen = false;
+            I_RestartGraphics(false);
+            memset(screens[0], nearestblack, SCREENAREA);
+            C_StringCVAROutput(stringize(vid_widescreen), "off");
+            M_SaveCVARs();
+        }
+        else
+        {
+            C_StringCVAROutput(stringize(vid_widescreen), "on");
+            M_SaveCVARs();
+        }
     }
 }
 
@@ -1520,7 +1647,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
         }
     }
 
-    if (vid_widescreen)
+    if (vid_widescreen || drawpillarboxes)
     {
         if (SDL_RenderSetLogicalSize(renderer, 0, 0) < 0)
             I_SDLError("SDL_RenderSetLogicalSize", -1);
@@ -1798,7 +1925,9 @@ static void I_GetScreenDimensions(void)
         height = windowheight;
     }
 
-    if (vid_widescreen)
+    drawpillarboxes = false;
+
+    if (vid_widescreen || keepwidescreenduringanim)
     {
         dest_rect.w = width;
 
@@ -1851,10 +1980,21 @@ static void I_GetScreenDimensions(void)
         WIDESCREENWIDTH = SCREENWIDTH;
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
-        WIDEFOVDELTA = MIN((int)(atan(dest_rect.w / (dest_rect.h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2,
+        WIDEFOVDELTA = MIN((int)(atan(dest_rect.w / (dest_rect.h / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov,
             MAXWIDEFOVDELTA);
         WIDESCREENDELTA = SCREENWIDTH / 4 - VANILLAWIDTH / 2;
         MAXWIDESCREENDELTA = MAX(53, WIDESCREENDELTA);
+
+        if (keepwidescreenduringanim)
+        {
+            leftpillarwidth = (SCREENWIDTH - NONWIDEWIDTH) / 2;
+            rightpillarxoffset = leftpillarwidth + NONWIDEWIDTH;
+        }
+        else
+        {
+            leftpillarwidth = 0;
+            rightpillarxoffset = 0;
+        }
     }
     else
     {
@@ -1868,6 +2008,9 @@ static void I_GetScreenDimensions(void)
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
         MAXWIDESCREENDELTA = 53;
+
+        leftpillarwidth = 0;
+        rightpillarxoffset = 0;
     }
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;

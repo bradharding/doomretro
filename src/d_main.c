@@ -290,6 +290,8 @@ void D_Display(void)
         oldgamestate = GS_NONE; // force background redraw
     }
 
+    I_CompletePillarboxTransition();
+
     if (drawdisk)
         HU_DrawDisk();
 
@@ -363,7 +365,7 @@ void D_Display(void)
             // see if the border needs to be updated to the screen
             if (!automapactive)
             {
-                if (viewwidth != SCREENWIDTH)
+                if (r_screensize < 7)
                     R_DrawViewBorder();
 
                 if (r_detail == r_detail_low)

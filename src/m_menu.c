@@ -2527,17 +2527,15 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
         {
-            vid_widescreen = false;
-            C_StringCVAROutput(stringize(vid_widescreen), "off");
-            I_RestartGraphics(false);
+            I_StartPillarboxAnimation(true);
             S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
         }
         else if (r_screensize > r_screensize_min)
         {
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), --r_screensize);
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
+            I_RestartGraphics(false);
 
             if (r_screensize == r_screensize_max - 1)
             {
@@ -2563,17 +2561,15 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
         {
-            vid_widescreen = true;
-            C_StringCVAROutput(stringize(vid_widescreen), "on");
-            I_RestartGraphics(false);
+            I_StartPillarboxAnimation(false);
             S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
         }
         else if (r_screensize < r_screensize_max)
         {
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), ++r_screensize);
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
+            I_RestartGraphics(false);
 
             if (r_screensize == r_screensize_max)
             {
