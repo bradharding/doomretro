@@ -958,7 +958,7 @@ static void I_Blit_ShowFPS_Shake(void)
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
 
-    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
 
     dest_rect.x = x;
     dest_rect.y = y;

@@ -66,6 +66,7 @@
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
 * The accuracy of the player’s aim has improved when firing their weapon while the `freelook` CVAR is `on` and the `r_fov` CVAR is a value other than its default of `90°`.
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
