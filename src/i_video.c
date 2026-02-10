@@ -1061,9 +1061,9 @@ void I_StartPillarboxAnimation(bool expanding)
     if (expanding)
     {
         keepwidescreenduringanim = true;
-        vid_widescreen = true;  // Set this FIRST
+        vid_widescreen = true;
 
-        I_RestartGraphics(false);  // Restart to create wide buffer
+        I_RestartGraphics(false);
 
         pillarboxanimfrom = 0;
         pillarboxanimto = targetpillarwidth;

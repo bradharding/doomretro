@@ -2516,9 +2516,6 @@ static void M_ChangeDetail(int choice)
 
 static void M_SizeDisplay(int choice)
 {
-    if (animatingpillarboxes)
-        return;
-
     if (!choice)
     {
         if (r_screensize == r_screensize_max && !r_hud)
@@ -3548,7 +3545,7 @@ bool M_Responder(event_t *ev)
     else if (key == '-')
     {
         // Screen size down
-        if (consoleactive || paused || splashscreen || automapactive || fadecount)
+        if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
             return false;
 
         keydown = key;
@@ -3580,7 +3577,7 @@ bool M_Responder(event_t *ev)
     else if (key == '=')
     {
         // Screen size up
-        if (consoleactive || paused || splashscreen || automapactive || fadecount)
+        if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
             return false;
 
         keydown = key;
