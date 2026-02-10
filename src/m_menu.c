@@ -2516,6 +2516,9 @@ static void M_ChangeDetail(int choice)
 
 static void M_SizeDisplay(int choice)
 {
+    if (animatingpillarboxes)
+        return;
+
     if (!choice)
     {
         if (r_screensize == r_screensize_max && !r_hud)

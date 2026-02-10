@@ -112,11 +112,10 @@ static int          upscaledheight;
 
 static bool         software;
 
-bool                drawpillarboxes = false;
-int                 leftpillarwidth = 0;
-int                 rightpillarxoffset = 0;
-
-static bool         animatingpillarboxes = false;
+bool                animatingpillarboxes = false;
+static bool         drawpillarboxes = false;
+static int          leftpillarwidth = 0;
+static int          rightpillarxoffset = 0;
 static bool         expandingpillarboxes = false;
 static uint64_t     pillarboxanimstart = 0;
 static int          pillarboxanimfrom = 0;

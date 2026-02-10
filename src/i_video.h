@@ -173,6 +173,8 @@ extern SDL_Window   *window;
 extern SDL_Window   *mapwindow;
 extern byte         *mapscreen;
 
+extern bool         animatingpillarboxes;
+
 extern byte         *PLAYPAL;
 
 extern bool         altdown;
