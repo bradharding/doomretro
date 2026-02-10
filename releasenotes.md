@@ -22,6 +22,7 @@
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
+* A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen.
 * Screenshots taken while a menu is open or the `palette` CCMD is in use now have more descriptive filenames.
 * Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
