@@ -3557,8 +3557,8 @@ bool M_Responder(event_t *ev)
             M_SizeDisplay(0);
         else if (vid_widescreen)
         {
-            vid_widescreen = false;
-            C_StringCVAROutput(stringize(vid_widescreen), "off");
+            I_StartPillarboxAnimation(true);
+            S_StartSound(NULL, sfx_stnmov);
 
             if (r_screensize == r_screensize_max)
             {
@@ -3571,11 +3571,6 @@ bool M_Responder(event_t *ev)
                     C_StringCVAROutput(stringize(r_hud), "off");
                 }
             }
-
-            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize_default);
-            I_RestartGraphics(false);
-            S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
 
             pagetic = PAGETICS;
         }
@@ -3594,19 +3589,14 @@ bool M_Responder(event_t *ev)
             M_SizeDisplay(1);
         else if (!vid_widescreen && !nowidescreen)
         {
-            vid_widescreen = true;
-            C_StringCVAROutput(stringize(vid_widescreen), "on");
+            I_StartPillarboxAnimation(false);
+            S_StartSound(NULL, sfx_stnmov);
 
             if (r_screensize < r_screensize_default)
             {
                 r_screensize = r_screensize_default;
                 C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
             }
-
-            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize_default);
-            I_RestartGraphics(false);
-            S_StartSound(NULL, sfx_stnmov);
-            M_SaveCVARs();
 
             pagetic = PAGETICS;
         }
