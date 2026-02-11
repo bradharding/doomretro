@@ -174,7 +174,7 @@ extern SDL_Window   *mapwindow;
 extern byte         *mapscreen;
 
 extern bool         animatingpillarboxes;
-
+extern bool         keepwidescreenduringanim;
 extern byte         *PLAYPAL;
 
 extern bool         altdown;

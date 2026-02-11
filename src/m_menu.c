@@ -562,7 +562,7 @@ void M_DrawMenuBackground(void)
         return;
     }
 
-    if (gametime != blurtic)
+    if (gametime != blurtic || animatingpillarboxes || keepwidescreenduringanim)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
@@ -585,7 +585,8 @@ void M_DrawMenuBackground(void)
             *dot = black40[*dot];
         }
 
-        blurtic = gametime;
+        if (!animatingpillarboxes && !keepwidescreenduringanim)
+            blurtic = gametime;
     }
 
     memcpy(screens[0], blurscreen, SCREENAREA);

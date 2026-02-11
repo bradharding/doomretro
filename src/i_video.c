@@ -113,6 +113,7 @@ static int          upscaledheight;
 static bool         software;
 
 bool                animatingpillarboxes = false;
+bool                keepwidescreenduringanim = false;
 static bool         drawpillarboxes = false;
 static int          leftpillarwidth = 0;
 static int          rightpillarxoffset = 0;
@@ -120,7 +121,6 @@ static bool         expandingpillarboxes = false;
 static uint64_t     pillarboxanimstart = 0;
 static int          pillarboxanimfrom = 0;
 static int          pillarboxanimto = 0;
-static bool         keepwidescreenduringanim = false;
 static bool         needsmoderestart = false;
 
 static int          displayindex;
@@ -1876,8 +1876,6 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if (!(buffer = SDL_CreateRGBSurfaceWithFormatFrom(NULL, SCREENWIDTH, SCREENHEIGHT, 0, 0, SDL_PIXELFORMAT_ARGB8888)))
         I_SDLError("SDL_CreateRGBSurfaceWithFormatFrom", -1);
-
-    SDL_FillRect(buffer, NULL, BLACK);
 
     if (nearestlinear)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter_nearest, SDL_HINT_OVERRIDE);
