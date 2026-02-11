@@ -2038,7 +2038,7 @@ void I_RestartGraphics(const bool recreatewindow)
     setsizeneeded = true;
 
     if (r_playerweapon)
-        skippsprinterp = true;
+        skippsprinterp = 2;
 }
 
 void I_ToggleFullscreen(const bool output)

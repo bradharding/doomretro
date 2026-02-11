@@ -11710,7 +11710,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
             }
 
             if (r_playerweapon)
-                skippsprinterp = true;
+                skippsprinterp = 1;
 
             free(temp1);
         }

@@ -48,7 +48,7 @@
 #define RAISESPEED  (6 * FRACUNIT)
 
 bool    successfulshot;
-bool    skippsprinterp;
+int     skippsprinterp = 0;
 
 //
 // A_Recoil
@@ -910,7 +910,7 @@ void P_SetupPlayerSprites(void)
     P_BringUpWeapon((r_screensize == r_screensize_max ? 106 : 90) * FRACUNIT);
 
     if (r_playerweapon)
-        skippsprinterp = true;
+        skippsprinterp = 1;
 }
 
 //

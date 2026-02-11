@@ -2589,7 +2589,7 @@ static void M_SizeDisplay(int choice)
     blurtic = -1;
 
     if (r_playerweapon)
-        skippsprinterp = true;
+        skippsprinterp = 1;
 }
 
 //

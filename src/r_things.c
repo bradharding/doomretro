@@ -1356,7 +1356,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
 
-            skippsprinterp = false;
+            skippsprinterp--;
 
             vis->x1 = MAX(0, x1);
             vis->x2 = MIN(x2, viewwidth - 1);

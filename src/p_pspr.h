@@ -77,5 +77,5 @@ typedef struct
 bool P_CheckAmmo(const weapontype_t weapon);
 void A_Recoil(const weapontype_t weapon);
 
-extern bool skippsprinterp;
+extern int  skippsprinterp;
 extern bool successfulshot;

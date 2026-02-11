@@ -3094,7 +3094,7 @@ void AM_Drawer(void)
     AM_SetFrameVariables();
     AM_ClearFB();
 
-    skippsprinterp = true;
+    skippsprinterp = 1;
 
     if (am_grid)
         AM_DrawGrid();
