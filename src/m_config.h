@@ -99,7 +99,6 @@ extern int      english;
 extern int      episode;
 extern int      expansion;
 extern int      facebackcolor;
-extern bool     fade;
 extern bool     flashkeys;
 extern bool     freelook;
 extern bool     groupmessages;
@@ -207,6 +206,7 @@ extern bool     s_stereo;
 extern int      savegame;
 extern bool     secretmessages;
 extern int      skilllevel;
+extern bool     smoothtransitions;
 extern int      stillbob;
 extern int      sucktime;
 extern bool     tossdrop;
@@ -589,8 +589,6 @@ enum
 #define facebackcolor_default               5
 #define facebackcolor_max                   255
 
-#define fade_default                        true
-
 #define flashkeys_default                   true
 
 #define freelook_default                    false
@@ -860,6 +858,8 @@ enum
 #define skilllevel_min                      1
 #define skilllevel_default                  3
 #define skilllevel_max                      5
+
+#define smoothtransitions_default           true
 
 #define stillbob_min                        0
 #define stillbob_default                    0

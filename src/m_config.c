@@ -108,7 +108,6 @@ int         english = english_default;
 int         episode = episode_default;
 int         expansion = expansion_default;
 int         facebackcolor = facebackcolor_default;
-bool        fade = fade_default;
 bool        flashkeys = flashkeys_default;
 bool        freelook = freelook_default;
 bool        groupmessages = groupmessages_default;
@@ -217,6 +216,7 @@ bool        s_stereo = s_stereo_default;
 int         savegame = savegame_default;
 bool        secretmessages = secretmessages_default;
 int         skilllevel = skilllevel_default;
+bool        smoothtransitions = smoothtransitions_default;
 int         stillbob = stillbob_default;
 int         sucktime = sucktime_default;
 bool        tossdrop = tossdrop_default;
@@ -372,7 +372,6 @@ static default_t cvars[] =
     CVAR_INT          (episode,                          episode,                               episode,                               0                    ),
     CVAR_INT          (expansion,                        expansion,                             expansion,                             0                    ),
     CVAR_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                         0                    ),
-    CVAR_BOOL         (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS       ),
     CVAR_BOOL         (flashkeys,                        flashkeys,                             flashkeys,                             BOOLVALUEALIAS       ),
     CVAR_BOOL         (freelook,                         mouselook,                             freelook,                              BOOLVALUEALIAS       ),
     CVAR_BOOL         (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS       ),
@@ -478,6 +477,7 @@ static default_t cvars[] =
     CVAR_INT          (savegame,                         savegame,                              savegame,                              0                    ),
     CVAR_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                        BOOLVALUEALIAS       ),
     CVAR_INT          (skilllevel,                       skilllevel,                            skilllevel,                            0                    ),
+    CVAR_BOOL         (smoothtransitions,                fade,                                  smoothtransitions,                     BOOLVALUEALIAS       ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              0                    ),
     CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKSVALUEALIAS      ),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS       ),

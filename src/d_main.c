@@ -203,7 +203,7 @@ void D_FadeScreen(bool screenshot)
 {
     fadecount = 0;
 
-    if ((!fade && !screenshot) || togglingvanilla)
+    if ((!smoothtransitions && !screenshot) || togglingvanilla)
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
@@ -247,7 +247,7 @@ void D_FadeScreenToBlack(void)
 {
     byte    *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
 
-    if (!fade)
+    if (!smoothtransitions)
         return;
 
     for (brightness = 0.95f; brightness >= 0.0f; brightness -= 0.05f)

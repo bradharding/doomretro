@@ -158,7 +158,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     {
         tinttab = tinttab70;
 
-        if (fade)
+        if (smoothtransitions)
         {
             byte    *tinttabs[] = { NULL, tinttab10, tinttab25, tinttab40, tinttab60 };
 
@@ -176,7 +176,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             nearestred : nearestblack))));
         tinttab = tinttab50;
 
-        if (fade)
+        if (smoothtransitions)
         {
             byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40 };
 
@@ -478,7 +478,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     }
 
     // [BH] draw entire message from buffer onto screen
-    if (fade)
+    if (smoothtransitions)
     {
         byte    *tinttabs1[] = { NULL, tinttab10, tinttab20, tinttab20, tinttab30, tinttab30, tinttab40, tinttab40 };
         byte    *tinttabs2[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };

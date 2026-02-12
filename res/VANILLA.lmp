@@ -45,7 +45,6 @@ centerweapon off
 crosshair none
 english american
 facebackcolor 5
-fade off
 flashkeys off
 freelook off
 groupmessages off
@@ -136,6 +135,7 @@ s_randommusic off
 s_randompitch off
 s_stereo on
 secretmessages off
+smoothtransitions off
 stillbob 0%
 sucktime 1
 tossdrop off
