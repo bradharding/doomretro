@@ -1044,6 +1044,15 @@ void I_StartPillarboxAnimation(bool expanding)
     int height;
     int targetpillarwidth;
 
+    if (!smoothtransitions)
+    {
+        vid_widescreen = !expanding;
+        I_RestartGraphics(false);
+        C_StringCVAROutput(stringize(vid_widescreen), (vid_widescreen ? "on" : "off"));
+        M_SaveCVARs();
+        return;
+    }
+
     if (vid_fullscreen)
     {
         width = displays[displayindex].w;
