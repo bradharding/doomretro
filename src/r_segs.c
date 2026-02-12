@@ -658,6 +658,7 @@ void R_StoreWallRange(const int start, const int stop)
     int             worldlow = 0;
     side_t          *sidedef;
     unsigned short  flags;
+    size_t          span;
 
     linedef = curline->linedef;
     flags = linedef->flags;
@@ -704,8 +705,9 @@ void R_StoreWallRange(const int start, const int stop)
     ds_p->x2 = stop;
     ds_p->curline = curline;
     rw_stopx = stop + 1;
+    span = rw_stopx - start;
 
-    if ((rw_stopx - start) * sizeof(*lastopening) + (lastopening - openings) > MAXOPENINGS)
+    if (span * sizeof(*lastopening) + (lastopening - openings) > MAXOPENINGS)
         return;
 
     worldtop = frontsector->interpceilingheight - viewz;
@@ -719,7 +721,6 @@ void R_StoreWallRange(const int start, const int stop)
     ds_p->scale = rw_scale;
 
     rw_scalespan = stop - start;
-    rw_scalerem = 0;
     rw_scaleerr = 0;
     rw_scalespan64 = (int64_t)rw_scalespan;
 
@@ -752,6 +753,7 @@ void R_StoreWallRange(const int start, const int stop)
     else
     {
         ds_p->scalestep = 0;
+        rw_scalerem = 0;
         rw_scalespan = 0;
         rw_scalestep = 0;
         ds_p->minscale = rw_scale;
@@ -765,32 +767,7 @@ void R_StoreWallRange(const int start, const int stop)
     maskedtexture = false;
     ds_p->maskedtexturecol = NULL;
 
-    if (!backsector)
-    {
-        // single sided line
-        if ((missingmidtexture = sidedef->missingmidtexture))
-            midtexture = -1;
-        else
-        {
-            fixed_t height;
-
-            midtexture = texturetranslation[sidedef->midtexture];
-            height = textureheight[midtexture];
-            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : (height >> FRACBITS));
-            midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
-            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight + height - viewz : worldtop)
-                + FixedMod(sidedef->rowoffset, height);
-        }
-
-        // a single sided line is terminal, so it must mark ends
-        markfloor = true;
-        markceiling = true;
-
-        ds_p->sprtopclip = viewheightarray;
-        ds_p->sprbottomclip = negonearray;
-        ds_p->silhouette = SIL_BOTH;
-    }
-    else
+    if (backsector)
     {
         int liquidoffset = 0;
 
@@ -929,6 +906,31 @@ void R_StoreWallRange(const int start, const int stop)
             lastopening += (size_t)rw_stopx - rw_x;
         }
     }
+    else
+    {
+        // single sided line
+        if ((missingmidtexture = sidedef->missingmidtexture))
+            midtexture = -1;
+        else
+        {
+            fixed_t height;
+
+            midtexture = texturetranslation[sidedef->midtexture];
+            height = textureheight[midtexture];
+            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : (height >> FRACBITS));
+            midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
+            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight + height - viewz : worldtop)
+                + FixedMod(sidedef->rowoffset, height);
+        }
+
+        // a single sided line is terminal, so it must mark ends
+        markfloor = true;
+        markceiling = true;
+
+        ds_p->sprtopclip = viewheightarray;
+        ds_p->sprbottomclip = negonearray;
+        ds_p->silhouette = SIL_BOTH;
+    }
 
     // calculate rw_offset (only needed for textured lines)
     if ((segtextured = (midtexture || toptexture || bottomtexture || maskedtexture)))
@@ -961,13 +963,11 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate incremental stepping values for texture edges
-    worldtop >>= invhgtbits;
-    worldbottom >>= invhgtbits;
-
     // [PN] Cache DDA correction constants once per wall range.
-    rw_worldtopcorr = ((int64_t)worldtop >> FRACBITS);
-    rw_worldbottomcorr = ((int64_t)worldbottom >> FRACBITS);
-    rw_worldhighcorr = rw_worldlowcorr = 0;
+    rw_worldtopcorr = ((int64_t)(worldtop >>= invhgtbits) >> FRACBITS);
+    rw_worldbottomcorr = ((int64_t)(worldbottom >>= invhgtbits) >> FRACBITS);
+    rw_worldhighcorr = 0;
+    rw_worldlowcorr = 0;
 
     topstep = -FixedMul64((int64_t)rw_scalestep, (int64_t)worldtop);        // [PN] WiggleFix
     topfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldtop * rw_scale) >> FRACBITS);
@@ -1041,16 +1041,16 @@ void R_StoreWallRange(const int start, const int stop)
     // save sprite clipping info
     if ((ds_p->silhouette & SIL_TOP) && !ds_p->sprtopclip)
     {
-        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * ((size_t)rw_stopx - start));
+        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * span);
         ds_p->sprtopclip = lastopening - start;
-        lastopening += (size_t)rw_stopx - start;
+        lastopening += span;
     }
 
     if ((ds_p->silhouette & SIL_BOTTOM) && !ds_p->sprbottomclip)
     {
-        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * ((size_t)rw_stopx - start));
+        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * span);
         ds_p->sprbottomclip = lastopening - start;
-        lastopening += (size_t)rw_stopx - start;
+        lastopening += span;
     }
 
     ds_p++;
