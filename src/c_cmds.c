@@ -11491,11 +11491,7 @@ static void r_hudfunc2(char *cmd, char *parms)
             }
 
             if (!vid_widescreen)
-            {
-                vid_widescreen = true;
-                C_StringCVAROutput(stringize(vid_widescreen), "on");
-                I_RestartGraphics(false);
-            }
+                I_StartPillarboxAnimation(false);
 
             S_StartSound(NULL, sfx_stnmov);
         }
@@ -11694,17 +11690,9 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 }
 
                 if (vid_widescreen && r_screensize < r_screensize_max - 1)
-                {
-                    vid_widescreen = false;
-                    C_StringCVAROutput(stringize(vid_widescreen), "off");
-                    I_RestartGraphics(false);
-                }
+                    I_StartPillarboxAnimation(true);
                 else if (!vid_widescreen && r_screensize == r_screensize_max)
-                {
-                    vid_widescreen = true;
-                    C_StringCVAROutput(stringize(vid_widescreen), "on");
-                    I_RestartGraphics(false);
-                }
+                    I_StartPillarboxAnimation(false);
 
                 M_SaveCVARs();
             }
@@ -12372,8 +12360,7 @@ static void vid_widescreenfunc2(char *cmd, char *parms)
             M_SaveCVARs();
         }
 
-        R_SetViewSize(r_screensize);
-        I_RestartGraphics(false);
+        I_StartPillarboxAnimation(!vid_widescreen);
         S_StartSound(NULL, sfx_stnmov);
     }
 }
