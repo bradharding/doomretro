@@ -93,6 +93,11 @@ CONSTATTR static inline fixed_t FixedMul(fixed_t a, fixed_t b)
     return (((int64_t)a * b) >> FRACBITS);
 }
 
+CONSTATTR static inline int64_t FixedMul64(int64_t a, int64_t b)
+{
+    return (a * b >> FRACBITS);
+}
+
 CONSTATTR static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (((int64_t)a << FRACBITS) / b));
