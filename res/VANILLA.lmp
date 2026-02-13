@@ -69,6 +69,7 @@ m_smoothing off
 melt on
 menuhighlight off
 menushadow off
+menuspin off
 messages on
 movebob 100%
 negativehealth off
