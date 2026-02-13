@@ -2032,7 +2032,7 @@ static void I_GetScreenDimensions(void)
 
         SCREENWIDTH = NONWIDEWIDTH;
         WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
-        WIDEFOVDELTA = 0.15;
+        WIDEFOVDELTA = 0.1;
         WIDESCREENDELTA = 0;
         MAXWIDESCREENDELTA = 53;
 

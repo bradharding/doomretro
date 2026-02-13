@@ -2751,7 +2751,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
-                    outputhistory = 0;  // scroll to top
+                    outputhistory = CONSOLEBLANKLINES;  // scroll to top
                 else if (caretpos > 0)
                 {
                     // move caret to start
@@ -2765,7 +2765,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_END:
                 if (outputhistory != -1 && numconsolestrings > CONSOLELINES)
-                    outputhistory = -1; // scroll to bottom
+                    outputhistory = -1;                 // scroll to bottom
                 else if (caretpos < len)
                 {
                     // move caret to end
@@ -3116,13 +3116,13 @@ bool C_Responder(event_t *ev)
     {
         static bool selectingwithmouse;
         static bool draggingconsolescrollbar;
-        static int  dragconsolescrollbaroffset;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
             static int  mouseselectanchor;
+            static int  dragconsolescrollbaroffset;
 
             // dragging console scrollbar thumb
             if (draggingconsolescrollbar && scrollbardrawn)
@@ -3135,12 +3135,15 @@ bool C_Responder(event_t *ev)
 
                 if (numconsolestrings > CONSOLELINES)
                 {
-                    const int   top = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + CONSOLEBLANKLINES;
+                    const int   position = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + 1;
+                    const int   top = position + CONSOLEBLANKLINES;
 
-                    if (top <= 0 || top + CONSOLELINES >= numconsolestrings)
+                    if (position <= 0)
+                        outputhistory = CONSOLEBLANKLINES;
+                    else if (top + CONSOLELINES >= numconsolestrings)
                         outputhistory = -1;
                     else
-                        outputhistory = MAX(0, MIN(numconsolestrings - CONSOLELINES, top));
+                        outputhistory = top;
                 }
 
                 return true;
