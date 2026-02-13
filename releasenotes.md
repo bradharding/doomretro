@@ -52,6 +52,7 @@
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
 * Improvements have been made to rendering liquid sectors adjacent to masked midtextures when the `r_liquid_bob` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
+* Wide sprites that are partially obscured by a wall are now always rendered rather than sometimes disappearing.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.

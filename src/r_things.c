@@ -82,8 +82,6 @@ static drawseg_xrange_item_t    *drawsegs_xrange;
 static unsigned int             drawsegs_xrange_size;
 static int                      drawsegs_xrange_count;
 
-static mobj_t                   **nearby_sprites;
-
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
 int                             viewheightarray[MAXWIDTH];
@@ -1184,41 +1182,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
             thing = thing->snext;
         } while (thing);
-}
-
-void R_AddNearbySprites(sector_t *sec)
-{
-    for (msecnode_t *n = sec->touching_thinglist; n; n = n->m_snext)
-    {
-        mobj_t  *thing = n->m_thing;
-
-        if (thing->subsector->sector->validcount != validcount)
-            array_push(nearby_sprites, thing);
-    }
-}
-
-void R_DrawNearbySprites(void)
-{
-    const int   size = array_size(nearby_sprites);
-
-    for (int i = 0; i < size; i++)
-    {
-        mobj_t      *thing = nearby_sprites[i];
-        sector_t    *sec = thing->subsector->sector;
-
-        // [FG] sprites in sector have already been projected
-        if (sec->validcount != validcount)
-        {
-            const short lightlevel = sec->lightlevel;
-
-            spritelights = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-
-            R_ProjectSprite(thing);
-        }
-    }
-
-    array_clear(nearby_sprites);
 }
 
 static void R_AddBloodSplats(void)

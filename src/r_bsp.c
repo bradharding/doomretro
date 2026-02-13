@@ -488,6 +488,17 @@ static bool R_CheckBBox(const fixed_t *bspcoord)
     int         sx1;
     int         sx2;
 
+    // [PN] Expand bounding boxes by MAXRADIUS to keep wide sprites from
+    // disappearing when their centers are just behind a solid wall.
+    fixed_t     expanded[4];
+
+    expanded[BOXLEFT] = bspcoord[BOXLEFT] - MAXRADIUS;
+    expanded[BOXRIGHT] = bspcoord[BOXRIGHT] + MAXRADIUS;
+    expanded[BOXTOP] = bspcoord[BOXTOP] + MAXRADIUS;
+    expanded[BOXBOTTOM] = bspcoord[BOXBOTTOM] - MAXRADIUS;
+
+#define bspcoord    expanded
+
     // Find the corners of the box that define the edges from current viewpoint.
     boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
         + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
@@ -500,6 +511,8 @@ static bool R_CheckBBox(const fixed_t *bspcoord)
     // check clip list for an open space
     angle1 = R_PointToAngleEx(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
     angle2 = R_PointToAngleEx(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
+
+#undef bspcoord
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
@@ -609,7 +622,6 @@ static void R_Subsector(int num)
     {
         sector->validcount = validcount;
         R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
-        R_AddNearbySprites(sector);
     }
 
     while (count--)
