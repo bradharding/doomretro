@@ -417,7 +417,7 @@ void R_ExecuteSetViewSize(void)
         }
     }
 
-    fovscale = finetangent[FINEANGLES / 4 + (fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fovscale = finetangent[(int)(FINEANGLES / 4 + (fov + WIDEFOVDELTA) * FINEANGLES / 360.0 / 2.0)];
 
     fovtx = (vid_aspectratio >= vid_aspectratio_21_9 && r_fov >= 90 ? 4 : 2);
     projection = FixedDiv(centerxfrac, fovscale);

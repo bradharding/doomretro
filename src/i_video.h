@@ -62,7 +62,7 @@
 #define MAXHEIGHT           ((VANILLAHEIGHT + 1) * 2)
 #define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
 
-#define MAXWIDEFOVDELTA     32
+#define MAXWIDEFOVDELTA     32.0
 
 #define MAXMOUSEBUTTONS     8
 
@@ -132,7 +132,7 @@ extern int          SCREENHEIGHT;
 extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;
 extern int          MAXWIDESCREENDELTA;
-extern int          WIDEFOVDELTA;
+extern double       WIDEFOVDELTA;
 
 extern bool         nowidescreen;
 extern bool         vid_widescreen_copy;
