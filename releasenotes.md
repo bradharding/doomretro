@@ -20,9 +20,11 @@
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
   * The accuracy of the lines drawn when the `am_rotatemode` CVAR is `on` has improved.
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
+  * The player’s path is now anchored to the back of the player’s arrow when the `am_path` CVAR is `on`.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
-* A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen.
+* The `fade` CVAR has been renamed `smoothtransitions`.
+* A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
 * Screenshots taken while a menu is open or the `palette` CCMD is in use now have more descriptive filenames.
 * Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
@@ -48,7 +50,8 @@
   * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
   * Blood splats spawned when the player is injured in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) are now green.
 * Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
-* Further improvements have been made to rendering liquid sectors when the `r_liquid_bob` CVAR is `on`.
+* Improvements have been made to rendering liquid sectors adjacent to masked midtextures when the `r_liquid_bob` CVAR is `on`.
+* A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
