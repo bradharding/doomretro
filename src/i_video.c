@@ -1102,13 +1102,35 @@ void I_CompletePillarboxTransition(void)
 {
     if (needsmoderestart)
     {
+        static byte     *preservedscreen = NULL;
+        const int       oldscreenwidth = SCREENWIDTH;
+        const int       oldscreenarea = SCREENAREA;
+
         needsmoderestart = false;
         keepwidescreenduringanim = false;
+
+        if (!preservedscreen)
+            preservedscreen = malloc(MAXSCREENAREA);
+
+        if (preservedscreen)
+            memcpy(preservedscreen, screens[0], oldscreenarea);
 
         if (expandingpillarboxes)
         {
             vid_widescreen = false;
             I_RestartGraphics(false);
+
+            if (preservedscreen)
+            {
+                const int   xoffset = (oldscreenwidth - NONWIDEWIDTH) / 2;
+
+                for (int y = 0; y < SCREENHEIGHT; y++)
+                    memcpy(screens[0] + y * SCREENWIDTH, preservedscreen + y * oldscreenwidth + xoffset,
+                        SCREENWIDTH);
+
+                blitfunc();
+            }
+
             C_StringCVAROutput(stringize(vid_widescreen), "off");
             M_SaveCVARs();
         }
