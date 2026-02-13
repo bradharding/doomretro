@@ -599,7 +599,7 @@ static void R_RenderSegLoop(void)
             if (rw_scaleerr >= rw_scalespan64)
             {
                 rw_scaleerr -= rw_scalespan64;
-                rw_scale += 1;
+                rw_scale++;
                 topfrac -= rw_worldtopcorr;
                 bottomfrac -= rw_worldbottomcorr;
 
@@ -612,7 +612,7 @@ static void R_RenderSegLoop(void)
             else if (rw_scaleerr <= -rw_scalespan64)
             {
                 rw_scaleerr += rw_scalespan64;
-                rw_scale -= 1;
+                rw_scale--;
                 topfrac += rw_worldtopcorr;
                 bottomfrac += rw_worldbottomcorr;
 

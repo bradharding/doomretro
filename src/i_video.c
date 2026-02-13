@@ -1109,7 +1109,6 @@ void I_CompletePillarboxTransition(void)
         {
             vid_widescreen = false;
             I_RestartGraphics(false);
-            memset(screens[0], nearestblack, SCREENAREA);
             C_StringCVAROutput(stringize(vid_widescreen), "off");
             M_SaveCVARs();
         }
