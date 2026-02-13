@@ -396,8 +396,8 @@ static bool P_SmartMove(mobj_t *actor)
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
     // dropoff == 1 means always allow it, dropoff == 2 means only up to 128 high,
     // and only if the target is immediately on the other side of the line.
-    if (actor->type == MT_DOGS
-        && target && !((target->flags ^ actor->flags) & MF_FRIEND)
+    if ((actor->type == MT_DOGS || (actor->flags & MF_FRIEND))
+        && target
         && (target->player || P_ApproxDistance(actor->x - target->x, actor->y - target->y) < 144 * FRACUNIT)
         && M_Random() < 235)
         dropoff = (target->player ? 1 : 2);
