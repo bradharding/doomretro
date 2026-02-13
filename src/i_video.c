@@ -1066,32 +1066,29 @@ void I_StartPillarboxAnimation(bool expanding)
     }
 
     targetpillarwidth = (BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH) - NONWIDEWIDTH) / 2;
+    keepwidescreenduringanim = true;
+    animatingpillarboxes = true;
+    pillarboxanimstart = I_GetTimeMS();
 
     if (expanding)
     {
-        keepwidescreenduringanim = true;
         vid_widescreen = true;
 
         I_RestartGraphics(false);
 
         pillarboxanimfrom = 0;
         pillarboxanimto = targetpillarwidth;
-        animatingpillarboxes = true;
         expandingpillarboxes = true;
-        pillarboxanimstart = I_GetTimeMS();
     }
     else
     {
-        keepwidescreenduringanim = true;
         vid_widescreen = true;
 
         I_RestartGraphics(false);
 
         pillarboxanimfrom = targetpillarwidth;
         pillarboxanimto = 0;
-        animatingpillarboxes = true;
         expandingpillarboxes = false;
-        pillarboxanimstart = I_GetTimeMS();
 
         if (!leftpillarwidth)
             leftpillarwidth = targetpillarwidth;

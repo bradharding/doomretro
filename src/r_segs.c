@@ -684,7 +684,7 @@ void R_StoreWallRange(const int start, const int stop)
     {
         const size_t    pos = ds_p - drawsegs;
 
-        maxdrawsegs = (maxdrawsegs ? 2 * maxdrawsegs : MAXDRAWSEGS);
+        maxdrawsegs = (maxdrawsegs ? maxdrawsegs * 2 : MAXDRAWSEGS);
         drawsegs = I_Realloc(drawsegs, maxdrawsegs * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
     }
@@ -742,7 +742,8 @@ void R_StoreWallRange(const int start, const int stop)
         const int64_t   delta = scale - (int64_t)rw_scale;
         const int64_t   step64 = delta / (int64_t)rw_scalespan;
 
-        ds_p->scalestep = rw_scalestep = (fixed_t)step64;
+        rw_scalestep = (fixed_t)step64;
+        ds_p->scalestep = rw_scalestep;
         rw_scalerem = delta - step64 * (int64_t)rw_scalespan;
 
         if (rw_scale > scale)

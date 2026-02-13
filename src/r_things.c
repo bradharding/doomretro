@@ -1263,7 +1263,7 @@ static void R_AddBloodSplats(void)
 
                 if ((sector = splat->sector) != prevsector)
                 {
-                    const short lightlevel = (sector->floorlightsec ? 
+                    const short lightlevel = (sector->floorlightsec ?
                         sector->floorlightsec->lightlevel : sector->lightlevel);
 
                     if (lightlevel != prevlightlevel)
@@ -1272,7 +1272,7 @@ static void R_AddBloodSplats(void)
 
                         if (!cached[i])
                         {
-                            cachedspritelights[i] = scalelight[BETWEEN(0, 
+                            cachedspritelights[i] = scalelight[BETWEEN(0,
                                 ((i + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
                             cached[i] = true;
                         }

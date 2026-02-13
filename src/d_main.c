@@ -347,7 +347,6 @@ void D_Display(void)
 
         updateswirl = (r_liquid_swirl && !(consoleactive || helpscreen || paused || (viewplayer->cheats & CF_FREEZE)));
 
-
         // draw the view directly
         R_RenderPlayerView();
 
