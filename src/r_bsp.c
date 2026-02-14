@@ -141,18 +141,18 @@ static void R_RecalcLineFlags(line_t *line)
             && (backsector->ceilingpic != skyflatnum
                 || frontsector->ceilingpic != skyflatnum)))
         line->r_flags = RF_CLOSED;
-    else if (backsector->interpceilingheight != frontsector->interpceilingheight
+    else if (curline->sidedef->midtexture
+        || backsector->lightlevel != frontsector->lightlevel
+        || backsector->floorpic != frontsector->floorpic
+        || backsector->ceilingpic != frontsector->ceilingpic
+        || backsector->interpceilingheight != frontsector->interpceilingheight
         || backsector->interpfloorheight != frontsector->interpfloorheight
-        || curline->sidedef->midtexture
         || backsector->floorxoffset != frontsector->floorxoffset
         || backsector->flooryoffset != frontsector->flooryoffset
         || backsector->ceilingxoffset != frontsector->ceilingxoffset
         || backsector->ceilingyoffset != frontsector->ceilingyoffset
         || backsector->floorlightsec != frontsector->floorlightsec
         || backsector->ceilinglightsec != frontsector->ceilinglightsec
-        || backsector->floorpic != frontsector->floorpic
-        || backsector->ceilingpic != frontsector->ceilingpic
-        || backsector->lightlevel != frontsector->lightlevel
         || backsector->colormap != frontsector->colormap
         || backsector->floorrotation != frontsector->floorrotation
         || backsector->ceilingrotation != frontsector->ceilingrotation)
@@ -462,46 +462,41 @@ static void R_AddLine(seg_t *line)
 // Checks BSP node/subtree bounding box.
 // Returns true if some part of the bbox might be visible.
 //
+static const byte checkcoord[12][4] =
+{
+    { 3, 0, 2, 1 },
+    { 3, 0, 2, 0 },
+    { 3, 1, 2, 0 },
+    { 0, 0, 0, 0 },
+    { 2, 0, 2, 1 },
+    { 0, 0, 0, 0 },
+    { 3, 1, 3, 0 },
+    { 0, 0, 0, 0 },
+    { 2, 0, 3, 1 },
+    { 2, 1, 3, 1 },
+    { 2, 1, 3, 0 }
+};
+
 static bool R_CheckBBox(const fixed_t *bspcoord)
 {
-    const byte checkcoord[12][4] =
-    {
-        { 3, 0, 2, 1 },
-        { 3, 0, 2, 0 },
-        { 3, 1, 2, 0 },
-        { 0, 0, 0, 0 },
-        { 2, 0, 2, 1 },
-        { 0, 0, 0, 0 },
-        { 3, 1, 3, 0 },
-        { 0, 0, 0, 0 },
-        { 2, 0, 3, 1 },
-        { 2, 1, 3, 1 },
-        { 2, 1, 3, 0 }
-    };
-
-    byte        boxpos;
-    const byte  *check;
-
-    angle_t     angle1;
-    angle_t     angle2;
-
-    int         sx1;
-    int         sx2;
-
     // [PN] Expand bounding boxes by MAXRADIUS to keep wide sprites from
     // disappearing when their centers are just behind a solid wall.
-    fixed_t     expanded[4];
-
-    expanded[BOXLEFT] = bspcoord[BOXLEFT] - MAXRADIUS;
-    expanded[BOXRIGHT] = bspcoord[BOXRIGHT] + MAXRADIUS;
-    expanded[BOXTOP] = bspcoord[BOXTOP] + MAXRADIUS;
-    expanded[BOXBOTTOM] = bspcoord[BOXBOTTOM] - MAXRADIUS;
-
-#define bspcoord    expanded
+    const fixed_t   left = bspcoord[BOXLEFT] - MAXRADIUS;
+    const fixed_t   right = bspcoord[BOXRIGHT] + MAXRADIUS;
+    const fixed_t   top = bspcoord[BOXTOP] + MAXRADIUS;
+    const fixed_t   bottom = bspcoord[BOXBOTTOM] - MAXRADIUS;
 
     // Find the corners of the box that define the edges from current viewpoint.
-    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : (viewx < bspcoord[BOXRIGHT] ? 1 : 2))
-        + (viewy >= bspcoord[BOXTOP] ? 0 : (viewy > bspcoord[BOXBOTTOM] ? 4 : 8));
+    const byte      boxpos = (viewx <= left ? 0 : (viewx < right ? 1 : 2))
+                        + (viewy >= top ? 0 : (viewy > bottom ? 4 : 8));
+
+    const byte      *check;
+
+    angle_t         angle1;
+    angle_t         angle2;
+
+    int             sx1;
+    int             sx2;
 
     if (boxpos == 5)
         return true;
@@ -511,8 +506,6 @@ static bool R_CheckBBox(const fixed_t *bspcoord)
     // check clip list for an open space
     angle1 = R_PointToAngleEx(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
     angle2 = R_PointToAngleEx(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
-
-#undef bspcoord
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now

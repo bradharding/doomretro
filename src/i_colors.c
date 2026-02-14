@@ -78,59 +78,59 @@ typedef struct
     float   z;
 } vector_t;
 
-byte    *tinttab4;
-byte    *tinttab5;
-byte    *tinttab10;
-byte    *tinttab15;
-byte    *tinttab20;
-byte    *tinttab25;
-byte    *tinttab30;
-byte    *tinttab33;
-byte    *tinttab40;
-byte    *tinttab45;
-byte    *tinttab50;
-byte    *tinttab60;
-byte    *tinttab66;
-byte    *tinttab70;
-byte    *tinttab75;
-byte    *tinttab80;
-byte    *tinttab90;
+byte        *tinttab4;
+byte        *tinttab5;
+byte        *tinttab10;
+byte        *tinttab15;
+byte        *tinttab20;
+byte        *tinttab25;
+byte        *tinttab30;
+byte        *tinttab33;
+byte        *tinttab40;
+byte        *tinttab45;
+byte        *tinttab50;
+byte        *tinttab60;
+byte        *tinttab66;
+byte        *tinttab70;
+byte        *tinttab75;
+byte        *tinttab80;
+byte        *tinttab90;
 
-byte    *tranmap;
+byte        *tranmap;
 
-byte    *tinttabadditive;
-byte    *tinttabred;
-byte    *tinttabredwhite1;
-byte    *tinttabredwhite2;
-byte    *tinttabgreen;
-byte    *tinttabblue;
+byte        *tinttabadditive;
+byte        *tinttabred;
+byte        *tinttabredwhite1;
+byte        *tinttabredwhite2;
+byte        *tinttabgreen;
+byte        *tinttabblue;
 
-byte    *tinttabred33;
-byte    *tinttabredwhite50;
-byte    *tinttabgreen33;
-byte    *tinttabblue25;
+byte        *tinttabred33;
+byte        *tinttabredwhite50;
+byte        *tinttabgreen33;
+byte        *tinttabblue25;
 
-byte    nearestcolors[256];
-byte    nearestblack;
-byte    nearestdarkblue;
-byte    nearestdarkgray;
-byte    nearestgold;
-byte    nearestgreen;
-byte    nearestlightgray;
-byte    nearestred;
-byte    nearestwhite;
+byte        nearestcolors[256];
+byte        nearestblack;
+byte        nearestdarkblue;
+byte        nearestdarkgray;
+byte        nearestgold;
+byte        nearestgreen;
+byte        nearestlightgray;
+byte        nearestred;
+byte        nearestwhite;
 
-byte    *black10;
-byte    *black25;
-byte    *black40;
-byte    *black75;
-byte    *gold4;
-byte    *white5;
-byte    *white25;
-byte    *white33;
-byte    *white75;
+byte        *black10;
+byte        *black25;
+byte        *black40;
+byte        *black75;
+byte        *gold4;
+byte        *white5;
+byte        *white25;
+byte        *white33;
+byte        *white75;
 
-byte    luminance[256];
+static byte luminance[256];
 
 int I_GetNearestColor(byte *palette, const byte red, const byte green, const byte blue)
 {

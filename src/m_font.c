@@ -75,7 +75,6 @@ bool M_LoadFON2(byte *gfx_data, int size)
 {
     fon2_header_t   *header;
     byte            *p;
-    byte            *playpal;
     byte            *translate;
     byte            color_key;
 
@@ -118,8 +117,6 @@ bool M_LoadFON2(byte *gfx_data, int size)
     }
 
     // Build translation table for palette.
-    playpal = W_CacheLumpName("PLAYPAL");
-
     translate = I_Malloc(header->palsize + 1);
 
     for (int i = 0; i <= header->palsize; i++)
@@ -128,7 +125,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
         const byte  g = *p++;
         const byte  b = *p++;
 
-        translate[i] = I_GetNearestColor(playpal, r, g, b);
+        translate[i] = I_GetNearestColor(PLAYPAL, r, g, b);
     }
 
     // 0 is transparent, last is border color

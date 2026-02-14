@@ -48,7 +48,7 @@
 static WNDPROC  oldProc;
 static HICON    icon;
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_SETCURSOR)
     {
@@ -166,6 +166,7 @@ void I_InitWindows32(void)
         + GetSystemMetrics(SM_CYCAPTION);
 }
 
+_Releases_lock_(hInstanceMutex)
 void I_ShutdownWindows32(void)
 {
     DestroyIcon(icon);
