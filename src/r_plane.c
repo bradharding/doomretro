@@ -395,7 +395,20 @@ static void R_MakeSpans(visplane_t *pl)
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (FINEANGLES / 32)
 
+// Cache multiple flats
+#define MAXCACHEDFLATS  8
+
 static int  offsets[1024 * 4096];
+
+typedef struct
+{
+    byte    distortedflat[64 * 64];
+    int     flatnum;
+    int     lasttic;
+} swirlcache_t;
+
+static swirlcache_t swirlcache[MAXCACHEDFLATS];
+static int          currentcache;
 
 //
 // R_InitSwirlingFlats
@@ -419,6 +432,12 @@ void R_InitSwirlingFlats(void)
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
+
+    for (int i = 0; i < MAXCACHEDFLATS; i++)
+    {
+        swirlcache[i].flatnum = -1;
+        swirlcache[i].lasttic = -1;
+    }
 }
 
 //
@@ -427,36 +446,49 @@ void R_InitSwirlingFlats(void)
 //
 byte *R_SwirlingFlat(const int flatnum)
 {
-    static byte distortedflat[64 * 64];
-    static int  prevflatnum = -1;
-    static int  prevtic = -1;
-    static byte *normalflat;
-    static int  *offset = offsets;
+    swirlcache_t    *cache = NULL;
+    int             oldestcache = 0;
+    int             oldesttic = INT_MAX;
 
-    if (prevtic != animatedtic && updateswirl)
+    for (int i = 0; i < MAXCACHEDFLATS; i++)
     {
-        offset = &offsets[(animatedtic & 1023) << 12];
-        prevtic = animatedtic;
-
-        if (prevflatnum != flatnum)
+        if (swirlcache[i].flatnum == flatnum)
         {
-            normalflat = lumpinfo[firstflat + flatnum]->cache;
-            prevflatnum = flatnum;
+            cache = &swirlcache[i];
+            break;
         }
 
-        for (int i = 0; i < 64 * 64; i++)
-            distortedflat[i] = normalflat[offset[i]];
+        if (swirlcache[i].lasttic < oldesttic)
+        {
+            oldesttic = swirlcache[i].lasttic;
+            oldestcache = i;
+        }
     }
-    else if (prevflatnum != flatnum)
+
+    if (!cache)
     {
-        normalflat = lumpinfo[firstflat + flatnum]->cache;
-        prevflatnum = flatnum;
-
-        for (int i = 0; i < 64 * 64; i++)
-            distortedflat[i] = normalflat[offset[i]];
+        cache = &swirlcache[oldestcache];
+        cache->flatnum = flatnum;
     }
 
-    return distortedflat;
+    if (updateswirl && cache->lasttic != animatedtic)
+    {
+        const int   *offset = &offsets[(animatedtic & 1023) << 12];
+        byte        *normalflat = lumpinfo[firstflat + flatnum]->cache;
+        byte        *dest = cache->distortedflat;
+
+        cache->lasttic = animatedtic;
+
+        for (int i = 0; i < 64 * 64; i += 4)
+        {
+            dest[i] = normalflat[offset[i]];
+            dest[i + 1] = normalflat[offset[i + 1]];
+            dest[i + 2] = normalflat[offset[i + 2]];
+            dest[i + 3] = normalflat[offset[i + 3]];
+        }
+    }
+
+    return cache->distortedflat;
 }
 
 static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
