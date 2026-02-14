@@ -383,7 +383,8 @@ static void P_DeathThink(void)
         return;
 
     if ((viewplayer->cmd.buttons & BT_USE) || gamekeydown[KEY_SPACE] || gamekeydown[KEY_ENTER]
-        || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2))
+        || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2
+            && (!automapactive || am_followmode || !am_mousepanning || !m_pointer)))
     {
         deathcount = 0;
         damagerumbletics = 1;
