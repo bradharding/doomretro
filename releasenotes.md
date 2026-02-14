@@ -25,6 +25,7 @@
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
+* The player’s vertical field of view is now exactly the same in both widescreen and non-widescreen modes.
 * Screenshots taken while a menu is open or the `palette` CCMD is in use now have more descriptive filenames.
 * Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
@@ -72,6 +73,7 @@
 * The accuracy of the player’s aim has improved when firing their weapon while the `freelook` CVAR is `on` and the `r_fov` CVAR is a value other than its default of `90°`.
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
+* All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
