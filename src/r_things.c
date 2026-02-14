@@ -1319,12 +1319,13 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
 
-            skippsprinterp--;
-
             vis->x1 = MAX(0, x1);
             vis->x2 = MIN(x2, viewwidth - 1);
             vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
         }
+
+        if (skippsprinterp)
+            skippsprinterp--;
     }
     else
     {
