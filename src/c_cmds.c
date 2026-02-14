@@ -708,7 +708,7 @@ consolecmd_t consolecmds[] =
         "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
         BOLD("colors") " or " BOLD("empty") ")."),
     BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles indicating whether every line in the automap is one or two-sided."),
+        "Toggles indicators showing whether lines are one or two-sided in the automap."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_thingcolor, am_thingcolour,

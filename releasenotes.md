@@ -11,12 +11,12 @@
   * Maps greater than `MAP99` are now supported.
   * A bug is fixed whereby `MUSIC` wouldn’t be parsed correctly in some rare instances.
   * `ALLOWMONSTERTELEFRAGS` is now parsed correctly.
-* A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when using line specials 37, 84, 159 or 177 in some instances.
+* A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when line specials 37, 84, 159 or 177 were triggered in some instances.
 * These changes have been made to the automap:
   * Sectors can now be filled with floor textures or colors using the new `am_sectors` CVAR, which can be set to `textures`, `colors` or `empty` (the default).
-  * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. The secrets also flash three times upon entering the cheat.
-  * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse.
-  * Indicating whether every line is one or two-sided can now be enabled using the new `am_sides` CVAR, which is `off` by default.
+  * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. All secrets flash three times in this color upon entering the cheat.
+  * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse. (This feature also requires the `m_pointer` CVAR to be `on`.)
+  * Indicators that show whether lines are one or two-sided can now be enabled using the new `am_sides` CVAR, which is `off` by default.
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
   * The accuracy of the lines drawn when the `am_rotatemode` CVAR is `on` has improved.
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
@@ -26,7 +26,7 @@
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
 * The player’s vertical field of view is now exactly the same in both widescreen and non-widescreen modes.
-* Screenshots taken while a menu is open or the `palette` CCMD is in use now have more descriptive filenames.
+* Screenshots taken while a menu is open, or if the `palette` CCMD is in use, now have more descriptive filenames.
 * Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
 * The `playername` CVAR can now be changed back to its default of `“”` in the console.
