@@ -479,24 +479,27 @@ static const byte checkcoord[12][4] =
 
 static bool R_CheckBBox(const fixed_t *bspcoord)
 {
+    byte        boxpos;
+    const byte  *check;
+
+    angle_t     angle1;
+    angle_t     angle2;
+
+    int         sx1;
+    int         sx2;
+
     // [PN] Expand bounding boxes by MAXRADIUS to keep wide sprites from
     // disappearing when their centers are just behind a solid wall.
-    const fixed_t   left = bspcoord[BOXLEFT] - MAXRADIUS;
-    const fixed_t   right = bspcoord[BOXRIGHT] + MAXRADIUS;
-    const fixed_t   top = bspcoord[BOXTOP] + MAXRADIUS;
-    const fixed_t   bottom = bspcoord[BOXBOTTOM] - MAXRADIUS;
+    fixed_t     expanded[4];
+
+    expanded[BOXLEFT] = bspcoord[BOXLEFT] - MAXRADIUS;
+    expanded[BOXRIGHT] = bspcoord[BOXRIGHT] + MAXRADIUS;
+    expanded[BOXTOP] = bspcoord[BOXTOP] + MAXRADIUS;
+    expanded[BOXBOTTOM] = bspcoord[BOXBOTTOM] - MAXRADIUS;
 
     // Find the corners of the box that define the edges from current viewpoint.
-    const byte      boxpos = (viewx <= left ? 0 : (viewx < right ? 1 : 2))
-                        + (viewy >= top ? 0 : (viewy > bottom ? 4 : 8));
-
-    const byte      *check;
-
-    angle_t         angle1;
-    angle_t         angle2;
-
-    int             sx1;
-    int             sx2;
+    boxpos = (viewx <= expanded[BOXLEFT] ? 0 : (viewx < expanded[BOXRIGHT] ? 1 : 2))
+        + (viewy >= expanded[BOXTOP] ? 0 : (viewy > expanded[BOXBOTTOM] ? 4 : 8));
 
     if (boxpos == 5)
         return true;
@@ -504,8 +507,8 @@ static bool R_CheckBBox(const fixed_t *bspcoord)
     check = checkcoord[boxpos];
 
     // check clip list for an open space
-    angle1 = R_PointToAngleEx(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
-    angle2 = R_PointToAngleEx(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
+    angle1 = R_PointToAngleEx(expanded[check[0]], expanded[check[1]]) - viewangle;
+    angle2 = R_PointToAngleEx(expanded[check[2]], expanded[check[3]]) - viewangle;
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
