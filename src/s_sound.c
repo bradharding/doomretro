@@ -389,7 +389,6 @@ void S_UnlinkSound(const mobj_t *origin)
             sobj->y = origin->y;
             sobj->z = origin->z;
             channels[cnum].origin = (mobj_t *)sobj;
-            break;
         }
 }
 
