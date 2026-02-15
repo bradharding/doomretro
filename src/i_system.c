@@ -258,7 +258,7 @@ void I_Quit(bool shutdown)
     W_CloseFiles();
 
 #if defined(_WIN32)
-    I_ShutdownWindows32();
+    I_ShutdownWindows();
 #endif
 
     exit(0);
@@ -295,7 +295,7 @@ void I_Error(const char *error, ...)
     W_CloseFiles();
 
 #if defined(_WIN32)
-    I_ShutdownWindows32();
+    I_ShutdownWindows();
 #endif
 
     va_start(args, error);

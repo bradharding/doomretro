@@ -58,7 +58,7 @@
         func, commify(__LINE__ + offset), leafname(__FILE__), SDL_GetError())
 
 #if defined(_WIN32)
-void I_ShutdownWindows32(void);
+void I_ShutdownWindows(void);
 #endif
 
 // Called by M_Responder when quit is selected.

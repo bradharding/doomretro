@@ -63,7 +63,7 @@
 #include "w_wad.h"
 
 #if defined(_WIN32)
-void I_InitWindows32(void);
+void I_InitWindows(void);
 #endif
 
 int                 SCREENWIDTH;
@@ -2224,7 +2224,7 @@ void I_InitGraphics(void)
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 
 #if defined(_WIN32)
-    I_InitWindows32();
+    I_InitWindows();
 #endif
 
     SDL_SetWindowTitle(window, DOOMRETRO_NAME);

@@ -145,7 +145,7 @@ static void I_AccessibilityShortcutKeys(bool bAllowKeys)
     }
 }
 
-void I_InitWindows32(void)
+void I_InitWindows(void)
 {
     HINSTANCE       handle = GetModuleHandle(NULL);
     SDL_SysWMinfo   info = { 0 };
@@ -167,7 +167,7 @@ void I_InitWindows32(void)
 }
 
 _Releases_lock_(hInstanceMutex)
-void I_ShutdownWindows32(void)
+void I_ShutdownWindows(void)
 {
     DestroyIcon(icon);
     ReleaseMutex(hInstanceMutex);
@@ -199,7 +199,6 @@ int main(int argc, char *argv[])
     ZeroMemory(&throttlestate, sizeof(throttlestate));
     throttlestate.Version = PROCESS_POWER_THROTTLING_CURRENT_VERSION;
     throttlestate.ControlMask = PROCESS_POWER_THROTTLING_EXECUTION_SPEED;
-    throttlestate.StateMask = 0;
     SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &throttlestate, sizeof(throttlestate));
 #endif
 

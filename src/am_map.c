@@ -1129,16 +1129,6 @@ void AM_ToggleRotateMode(const bool value)
     M_SaveCVARs();
 }
 
-static inline void AM_SetPanX(const int dir)
-{
-    pansign_x = SIGN(dir);
-}
-
-static inline void AM_SetPanY(const int dir)
-{
-    pansign_y = SIGN(dir);
-}
-
 static void AM_UpdatePanFromKeys(void)
 {
     if (am_followmode)
@@ -1316,7 +1306,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        AM_SetPanX(1);
+                        pansign_x = 1;
                     }
                 }
 
@@ -1336,7 +1326,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        AM_SetPanX(-1);
+                        pansign_x = -1;
                     }
                 }
 
@@ -1353,7 +1343,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        AM_SetPanY(1);
+                        pansign_y = 1;
                     }
                 }
 
@@ -1370,7 +1360,7 @@ bool AM_Responder(const event_t *ev)
                     else
                     {
                         speedtoggle = AM_GetSpeedToggle();
-                        AM_SetPanY(-1);
+                        pansign_y = -1;
                     }
                 }
 
