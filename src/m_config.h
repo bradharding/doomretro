@@ -1018,6 +1018,8 @@ enum
 #define KEYFOLLOWMODE2_DEFAULT              0
 #define KEYFREELOOK_DEFAULT                 0
 #define KEYFREELOOK2_DEFAULT                0
+#define KEYFULLZOOM_DEFAULT                 '0'
+#define KEYFULLZOOM2_DEFAULT                0
 #define KEYGRID_DEFAULT                     'g'
 #define KEYGRID2_DEFAULT                    0
 #define KEYJUMP_DEFAULT                     0
@@ -1026,8 +1028,6 @@ enum
 #define KEYLEFT2_DEFAULT                    0
 #define KEYMARK_DEFAULT                     'm'
 #define KEYMARK2_DEFAULT                    0
-#define KEYMAXZOOM_DEFAULT                  '0'
-#define KEYMAXZOOM2_DEFAULT                 0
 #define KEYMENU_DEFAULT                     KEY_ESCAPE
 #define KEYMENU2_DEFAULT                    0
 #define KEYNEXTWEAPON_DEFAULT               0
@@ -1100,11 +1100,11 @@ enum
 #define MOUSEFOLLOWMODE_DEFAULT             -1
 #define MOUSEFORWARD_DEFAULT                -1
 #define MOUSEFREELOOK_DEFAULT               -1
+#define MOUSEFULLZOOM_DEFAULT               -1
 #define MOUSEGRID_DEFAULT                   -1
 #define MOUSEJUMP_DEFAULT                   -1
 #define MOUSELEFT_DEFAULT                   -1
 #define MOUSEMARK_DEFAULT                   -1
-#define MOUSEMAXZOOM_DEFAULT                -1
 #define MOUSEMENU_DEFAULT                   -1
 #define MOUSENEXTWEAPON_DEFAULT             MOUSE_WHEELDOWN
 #define MOUSEPATH_DEFAULT                   -1
@@ -1145,11 +1145,11 @@ enum
 #define CONTROLLERFOLLOWMODE_DEFAULT        0
 #define CONTROLLERFORWARD_DEFAULT           0
 #define CONTROLLERFREELOOK_DEFAULT          0
+#define CONTROLLERFULLZOOM_DEFAULT          0
 #define CONTROLLERGRID_DEFAULT              0
 #define CONTROLLERJUMP_DEFAULT              0
 #define CONTROLLERLEFT_DEFAULT              0
 #define CONTROLLERMARK_DEFAULT              0
-#define CONTROLLERMAXZOOM_DEFAULT           0
 #define CONTROLLERMENU_DEFAULT              CONTROLLER_START
 #define CONTROLLERNEXTWEAPON_DEFAULT        CONTROLLER_RIGHT_SHOULDER
 #define CONTROLLERPATH_DEFAULT              0

@@ -64,6 +64,7 @@ typedef struct
 typedef struct
 {
     char    *action;
+    char    *oldaction;
     bool    hideconsole;
     bool    automaponly;
     void    (*func)(void);

@@ -67,7 +67,7 @@ void AM_TogglePath(const bool value);
 void AM_ToggleRotateMode(const bool value);
 void AM_ToggleZoomOut(void);
 void AM_ToggleZoomIn(void);
-void AM_ToggleMaxZoom(void);
+void AM_ToggleFullzoom(void);
 
 // Called to force the automap to quit if the level is completed while it is up.
 void AM_Stop(void);

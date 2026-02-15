@@ -956,7 +956,7 @@ void AM_ToggleZoomIn(void)
     bigstate = false;
 }
 
-void AM_ToggleMaxZoom(void)
+void AM_ToggleFullzoom(void)
 {
     if (bigstate)
     {
@@ -1408,12 +1408,12 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // toggle maximum zoom
-                else if ((key == keyboardmaxzoom || key == keyboardmaxzoom2) && !idclev && !idmus)
+                else if ((key == keyboardfullzoom || key == keyboardfullzoom2) && !idclev && !idmus)
                 {
-                    if (keydown != keyboardmaxzoom && (!keyboardmaxzoom2 || keydown != keyboardmaxzoom2))
+                    if (keydown != keyboardfullzoom && (!keyboardfullzoom2 || keydown != keyboardfullzoom2))
                     {
                         keydown = key;
-                        AM_ToggleMaxZoom();
+                        AM_ToggleFullzoom();
                     }
                 }
 
@@ -1605,10 +1605,10 @@ bool AM_Responder(const event_t *ev)
                     AM_AddMark();
                 }
 
-                if (mousemaxzoom >= 0 && (ev->data1 & mousemaxzoom))
+                if (mousefullzoom >= 0 && (ev->data1 & mousefullzoom))
                 {
                     mousewait = I_GetTime() + 8;
-                    AM_ToggleMaxZoom();
+                    AM_ToggleFullzoom();
                 }
 
                 if (mousepath >= 0 && (ev->data1 & mousepath))
@@ -1680,9 +1680,9 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // toggle maximum zoom
-                else if ((controllerbuttons & controllermaxzoom) && !idclev && !idmus)
+                else if ((controllerbuttons & controllerfullzoom) && !idclev && !idmus)
                 {
-                    AM_ToggleMaxZoom();
+                    AM_ToggleFullzoom();
                     controllerwait = I_GetTime() + 12;
                 }
 
