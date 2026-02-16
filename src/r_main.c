@@ -1205,6 +1205,8 @@ void R_RenderPlayerView(void)
 
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
 
+    R_DrawNearbySprites();
+
     R_DrawPlanes();
 
     R_DrawMasked();

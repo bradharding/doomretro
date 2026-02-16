@@ -58,3 +58,5 @@ void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);
 void R_ClearSprites(void);
 void R_DrawMasked(void);
+void R_AddNearbySprites(sector_t *sec);
+void R_DrawNearbySprites(void);
