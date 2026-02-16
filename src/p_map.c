@@ -1333,10 +1333,15 @@ static fixed_t  tmymove;
 //
 static void P_HitSlideLine(const line_t *ld)
 {
-    angle_t     lineangle;
-    angle_t     moveangle;
-    angle_t     deltaangle;
-    fixed_t     movelen;
+    int64_t linedx;
+    int64_t linedy;
+    int64_t movex;
+    int64_t movey;
+    int64_t dot;
+    int64_t lensq;
+    int64_t proj;
+    fixed_t oldlen;
+    fixed_t newlen;
 
     // phares:
     // Under icy conditions, if the angle of approach to the wall
@@ -1348,8 +1353,8 @@ static void P_HitSlideLine(const line_t *ld)
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
     const bool  icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
-                            && slidemo->z <= slidemo->floorz
-                            && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
+                    && slidemo->z <= slidemo->floorz
+                    && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -1383,37 +1388,56 @@ static void P_HitSlideLine(const line_t *ld)
         return;
     }
 
-    lineangle = R_PointToAngle2(0, 0, ld->dx, ld->dy);
+    // [PN/JN] Uses fixed-point vector projection onto linedef direction
+    // instead of angle/LUT projection to avoid diagonal quantization jitter.
+    linedx = (int64_t)ld->dx;
+    linedy = (int64_t)ld->dy;
 
+    // [PN] Keep the old behavior of orienting the blocking line towards the player.
     if (P_PointOnLineSide(slidemo->x, slidemo->y, ld) == 1)
-        lineangle += ANG180;
-
-    moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
-    moveangle += 10;                            // prevents sudden path reversal due to rounding error
-    deltaangle = moveangle - lineangle;
-    movelen = P_ApproxDistance(tmxmove, tmymove);
-
-    if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
-        moveangle = (lineangle - deltaangle) >> ANGLETOFINESHIFT;
-        movelen /= 2;                           // absorb
-        tmxmove = FixedMul(movelen, finecosine[moveangle]);
-        tmymove = FixedMul(movelen, finesine[moveangle]);
+        linedx = -linedx;
+        linedy = -linedy;
+    }
 
+    if ((lensq = linedx * linedx + linedy * linedy) <= 0)
+    {
+        tmxmove = 0;
+        tmymove = 0;
+        return;
+    }
+
+    movex = (int64_t)tmxmove;
+    movey = (int64_t)tmymove;
+    dot = movex * linedx + movey * linedy;
+
+    // [BH] Check for icy floor bouncing on diagonal walls
+    if (icyfloor && llabs(movex * linedy - movey * linedx) > llabs(dot))
+    {
         if (slidemo->health > 0)
             S_StartSound(slidemo, sfx_oof);     // oooff!
+
+        // Bounce and absorb half momentum
+        tmxmove = -tmxmove / 2;
+        tmymove = -tmymove / 2;
+        return;
     }
-    else
+
+    // [PN] Project movement vector onto linedef direction in fixed-point.
+    proj = (dot << FRACBITS) / lensq;
+    tmxmove = (fixed_t)((proj * linedx) >> FRACBITS);
+    tmymove = (fixed_t)((proj * linedy) >> FRACBITS);
+
+    // [PN] Guard against tiny fixed-point overshoots that can increase speed.
+    oldlen = P_ApproxDistance((fixed_t)movex, (fixed_t)movey);
+    newlen = P_ApproxDistance(tmxmove, tmymove);
+
+    if (newlen > oldlen && newlen > 0)
     {
-        fixed_t newlen;
+        const fixed_t   y = FixedDiv(oldlen, newlen);
 
-        if (deltaangle > ANG180)
-            deltaangle += ANG180;
-
-        lineangle >>= ANGLETOFINESHIFT;
-        newlen = FixedMul(movelen, finecosine[deltaangle >> ANGLETOFINESHIFT]);
-        tmxmove = FixedMul(newlen, finecosine[lineangle]);
-        tmymove = FixedMul(newlen, finesine[lineangle]);
+        tmxmove = FixedMul(tmxmove, y);
+        tmymove = FixedMul(tmymove, y);
     }
 }
 
