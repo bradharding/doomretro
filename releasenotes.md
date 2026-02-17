@@ -21,6 +21,7 @@
   * The accuracy of the lines drawn when the `am_rotatemode` CVAR is `on` has improved.
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
   * The player’s path is now anchored to the back of the player’s arrow when the `am_path` CVAR is `on`.
+  * The `+maxzoom` action has been renamed `+fullzoom`.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * The `fade` CVAR has been renamed `smoothtransitions`.
@@ -74,7 +75,6 @@
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
-* The `+maxzoom` action has been renamed `+fullzoom`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -70,52 +70,52 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define ALIASFORMAT                  BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
-                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define BINDFORMAT                   BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
-                                        BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define CMDLISTFORMAT                "[" BOLDITALICS("searchstring") "]"
-#define CONDUMPFORMAT                "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]"
-#define CVARLISTFORMAT               "[" BOLDITALICS("searchstring") "]"
-#define EXECFORMAT                   BOLDITALICS("filename") "[" BOLD(".cfg") "]"
-#define EXPLODEFORMAT                BOLD("barrels") "|" BOLD("missiles")
-#define FASTMONSTERSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
-#define FREEZEFORMAT                 "[" BOLD("on") "|" BOLD("off") "]"
-#define GODFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
-#define GIVEFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFFORMAT                     BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
-#define INFINITEAMMOFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
-#define KILLFORMAT                   BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define LOADFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define MAPFORMAT1                   BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
-                                        BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define MAPFORMAT2                   BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
-                                        BOLD("next") "|" BOLD("last") "|" BOLD("random")
-#define NOCLIPFORMAT                 "[" BOLD("on") "|" BOLD("off") "]"
-#define NOMONSTERSFORMAT             "[" BOLD("on") "|" BOLD("off") "]"
-#define NOTARGETFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
-#define PISTOLSTARTFORMAT            "[" BOLD("on") "|" BOLD("off") "]"
-#define PLAYFORMAT                   BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
-#define NAMEFORMAT                   "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTFORMAT                  "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
-#define REGENHEALTHFORMAT            "[" BOLD("on") "|" BOLD("off") "]"
-#define REMOVEFORMAT                 BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
-                                        BOLDITALICS("item") "|" BOLD("everything")
-#define RESETFORMAT                  BOLDITALICS("CVAR")
-#define RESPAWNITEMSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
-#define RESPAWNMONSTERSFORMAT        "[" BOLD("on") "|" BOLD("off") "]"
-#define RESURRECTFORMAT              BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define SAVEFORMAT                   BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
-#define SPAWNFORMAT                  BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define TAKEFORMAT                   BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define TELEPORTFORMAT               BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
-#define TIMERFORMAT                  BOLDITALICS("minutes")
-#define TOGGLEFORMAT                 BOLDITALICS("CVAR")
-#define UNBINDFORMAT                 BOLDITALICS("control") "|" BOLDITALICS("+action")
-#define VANILLAFORMAT                "[" BOLD("on") "|" BOLD("off") "]"
+#define ALIASFORMAT                     BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
+                                            BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define BINDFORMAT                      BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
+                                            BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define CMDLISTFORMAT                   "[" BOLDITALICS("searchstring") "]"
+#define CONDUMPFORMAT                   "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]"
+#define CVARLISTFORMAT                  "[" BOLDITALICS("searchstring") "]"
+#define EXECFORMAT                      BOLDITALICS("filename") "[" BOLD(".cfg") "]"
+#define EXPLODEFORMAT                   BOLD("barrels") "|" BOLD("missiles")
+#define FASTMONSTERSFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
+#define FREEZEFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
+#define GODFORMAT                       "[" BOLD("on") "|" BOLD("off") "]"
+#define GIVEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                            BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+#define IFFORMAT                        BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+                                            BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
+#define INFINITEAMMOFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
+#define KILLFORMAT                      BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define LOADFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define MAPFORMAT1                      BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
+                                            BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define MAPFORMAT2                      BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
+                                            BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define NOCLIPFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
+#define NOMONSTERSFORMAT                "[" BOLD("on") "|" BOLD("off") "]"
+#define NOTARGETFORMAT                  "[" BOLD("on") "|" BOLD("off") "]"
+#define PISTOLSTARTFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
+#define PLAYFORMAT                      BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
+#define NAMEFORMAT                      "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
+#define PRINTFORMAT                     "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
+#define REGENHEALTHFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
+#define REMOVEFORMAT                    BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
+                                            BOLDITALICS("item") "|" BOLD("everything")
+#define RESETFORMAT                     BOLDITALICS("CVAR")
+#define RESPAWNITEMSFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
+#define RESPAWNMONSTERSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
+#define RESURRECTFORMAT                 BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define SAVEFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
+#define SPAWNFORMAT                     BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define TAKEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                           BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+#define TELEPORTFORMAT                  BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
+#define TIMERFORMAT                     BOLDITALICS("minutes")
+#define TOGGLEFORMAT                    BOLDITALICS("CVAR")
+#define UNBINDFORMAT                    BOLDITALICS("control") "|" BOLDITALICS("+action")
+#define VANILLAFORMAT                   "[" BOLD("on") "|" BOLD("off") "]"
 
 #define WEAPONDESCRIPTION_SHAREWARE     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                         BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
