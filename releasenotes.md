@@ -47,10 +47,14 @@
   * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
   * There are no longer slight random variations in the colors of blood splats.
   * When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
+  * Blood splats are now culled when they are a long way from the player.
   * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
   * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
   * Blood splats spawned when the player is injured in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) are now green.
-* Monsters that are in liquid sectors now cast shadows when the `r_shadows` CVAR is `on`.
+* These changes have been made to shadows when the `r_shadows` CVAR is `on`:
+  * Monsters that are in liquid sectors now cast shadows.
+  * When a monster is close to an edge, its shadow is now cast partially on the floor they’re standing on, as well as the floor below them.
+* The player is now able to slide along walls at any angle without getting stuck.
 * Improvements have been made to rendering liquid sectors adjacent to masked midtextures when the `r_liquid_bob` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
 * Wide sprites that are partially obscured by a wall are now always rendered rather than sometimes disappearing.
