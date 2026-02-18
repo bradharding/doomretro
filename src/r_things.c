@@ -465,6 +465,51 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 }
 
 //
+// R_UpdatePerColumnLighting
+//
+static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int lightindex, 
+    const bool updateshadowtints, const int flags, const vissprite_t *vis, const mobj_t *mobj, int *black)
+{
+    sector_t    *sector = subsec->sector;
+    sector_t    tempsec;
+    int         floorlightlevel;
+    int         ceilinglightlevel;
+    int         lightlevel;
+
+    R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+    lightlevel = (floorlightlevel + ceilinglightlevel) >> 1;
+
+    dc_colormap[0] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][lightindex];
+    dc_nextcolormap[0] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][lightindex];
+    dc_sectorcolormap = R_GetSectorColormap(sector);
+
+    if (updateshadowtints)
+    {
+        dc_black = dc_colormap[0][nearestblack];
+        *black = dc_black << 8;
+
+        if (flags & MF_FUZZ)
+            dc_black33 = &tinttab15[*black];
+        else if (vis->fullbright)
+        {
+            dc_black33 = &tinttab20[*black];
+            dc_black40 = &tinttab25[*black];
+        }
+        else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
+        {
+            dc_black33 = &tinttab10[*black];
+            dc_black40 = &tinttab25[*black];
+        }
+        else
+        {
+            dc_black33 = &tinttab33[*black];
+            dc_black40 = &tinttab40[*black];
+        }
+    }
+}
+
+//
 // R_DrawVisSprite
 //
 static void R_DrawVisSprite(const vissprite_t *vis)
@@ -549,20 +594,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
                 if (subsec != lastsubsec)
                 {
-                    sector_t    *sector = subsec->sector;
-                    sector_t    tempsec;
-                    int         floorlightlevel;
-                    int         ceilinglightlevel;
-                    int         lightnum;
-
-                    R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
-                    lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
-
-                    dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                    dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                    dc_sectorcolormap = R_GetSectorColormap(sector);
-
+                    R_UpdatePerColumnLighting(subsec, pcl_lightindex, false, 0, NULL, NULL, NULL);
                     lastsubsec = subsec;
                 }
 
@@ -587,6 +619,9 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     }
 }
 
+//
+// R_DrawVisSpriteWithShadow
+//
 static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 {
     fixed_t         frac = vis->startfrac;
@@ -695,41 +730,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
                 if (subsec != lastsubsec)
                 {
-                    sector_t    *sector = subsec->sector;
-                    sector_t    tempsec;
-                    int         floorlightlevel;
-                    int         ceilinglightlevel;
-                    int         lightnum;
-
-                    R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
-                    lightnum = ((floorlightlevel + ceilinglightlevel) >> (LIGHTSEGSHIFT + 1)) + extralight;
-
-                    dc_colormap[0] = scalelight[BETWEEN(0, lightnum - 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                    dc_nextcolormap[0] = scalelight[BETWEEN(0, lightnum + 2, LIGHTLEVELS - 1)][pcl_lightindex];
-                    dc_sectorcolormap = R_GetSectorColormap(sector);
-
-                    dc_black = dc_colormap[0][nearestblack];
-                    black = dc_black << 8;
-
-                    if (flags & MF_FUZZ)
-                        dc_black33 = &tinttab15[black];
-                    else if (vis->fullbright)
-                    {
-                        dc_black33 = &tinttab20[black];
-                        dc_black40 = &tinttab25[black];
-                    }
-                    else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
-                    {
-                        dc_black33 = &tinttab10[black];
-                        dc_black40 = &tinttab25[black];
-                    }
-                    else
-                    {
-                        dc_black33 = &tinttab33[black];
-                        dc_black40 = &tinttab40[black];
-                    }
-
+                    R_UpdatePerColumnLighting(subsec, pcl_lightindex, true, flags, vis, mobj, &black);
                     lastsubsec = subsec;
                 }
 
