@@ -2437,20 +2437,24 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
 
         case G1_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
 
         case GR_ChangeMusicAndMakeItLoopOnlyIfATrackIsDefined:
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), true);
+            P_ChangeSwitchTexture(line, true);
             break;
 
         case G1_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
 
         case GR_ChangeMusicAndMakeItPlayOnlyOnceAndStopAllMusicAfter:
             S_ChangeMusInfoMusic((side ? line->backmusic : line->frontmusic), false);
+            P_ChangeSwitchTexture(line, true);
             break;
 
         case G1_SetTheTargetSectorsColormap:
@@ -2474,6 +2478,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             const int   music = (side ? line->backmusic : line->frontmusic);
 
             S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
         }
@@ -2483,6 +2488,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             const int   music = (side ? line->backmusic : line->frontmusic);
 
             S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), true);
+            P_ChangeSwitchTexture(line, true);
             break;
         }
 
@@ -2491,6 +2497,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             const int   music = (side ? line->backmusic : line->frontmusic);
 
             S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
         }
@@ -2500,6 +2507,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             const int   music = (side ? line->backmusic : line->frontmusic);
 
             S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, true);
             break;
         }
     }

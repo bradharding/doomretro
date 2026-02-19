@@ -1100,9 +1100,8 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         {
             const int   music = (side ? line->backmusic : line->frontmusic);
 
-            if (music)
-                S_ChangeMusInfoMusic(music, true);
-
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
         }
@@ -1111,9 +1110,8 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         {
             const int   music = (side ? line->backmusic : line->frontmusic);
 
-            if (music)
-                S_ChangeMusInfoMusic(music, true);
-
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, true);
             break;
         }
 
@@ -1121,9 +1119,8 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         {
             const int   music = (side ? line->backmusic : line->frontmusic);
 
-            if (music)
-                S_ChangeMusInfoMusic(music, false);
-
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, false);
             line->special = 0;
             break;
         }
@@ -1132,9 +1129,8 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         {
             const int   music = (side ? line->backmusic : line->frontmusic);
 
-            if (music)
-                S_ChangeMusInfoMusic(music, false);
-
+            S_ChangeMusInfoMusic((music ? music : musinfo.items[0]), false);
+            P_ChangeSwitchTexture(line, true);
             break;
         }
 
