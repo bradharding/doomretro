@@ -471,7 +471,7 @@ byte *R_SwirlingFlat(const int flatnum)
         cache->flatnum = flatnum;
     }
 
-    if (updateswirl && cache->lasttic != animatedtic)
+    if ((updateswirl || cache->lasttic == -1) && cache->lasttic != animatedtic)
     {
         const int   *offset = &offsets[(animatedtic & 1023) << 12];
         byte        *normalflat = lumpinfo[firstflat + flatnum]->cache;
