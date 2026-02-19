@@ -53,11 +53,11 @@
   * Blood splats spawned when the player is injured in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) are now green.
 * These changes have been made to shadows when the `r_shadows` CVAR is `on`:
   * Monsters that are in liquid sectors now cast shadows.
-  * When a monster is close to an edge, its shadow is now cast partially on the floor they’re standing on, as well as the floor below them.
+  * Shadows can now be cast on multiple floors at different heights.
 * The player is now able to slide along walls at any angle without getting stuck.
 * Improvements have been made to rendering liquid sectors adjacent to masked midtextures when the `r_liquid_bob` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
-* Wide sprites that are partially obscured by a wall are now always rendered rather than sometimes disappearing.
+* Wide sprites that are partially obscured by a wall are now less likely to disappear.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
