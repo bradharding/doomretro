@@ -756,34 +756,36 @@ void I_CapFPS(const int cap)
     }
 }
 
-static void I_DrawPillarboxes(void)
+static inline void I_DrawPillarboxes(void)
 {
-    if (animatingpillarboxes || keepwidescreenduringanim)
+    if (animatingpillarboxes)
     {
         const uint64_t  elapsed = I_GetTimeMS() - pillarboxanimstart;
         int             currentwidth;
 
-        if (animatingpillarboxes && elapsed < PILLARBOXANIMTIME)
+        if (elapsed < PILLARBOXANIMTIME)
             currentwidth = pillarboxanimfrom + (int)((pillarboxanimto - pillarboxanimfrom)
                 * ((float)elapsed / PILLARBOXANIMTIME));
         else
         {
-            if (animatingpillarboxes)
-            {
-                animatingpillarboxes = false;
-                needsmoderestart = true;
-                leftpillarwidth = pillarboxanimto;
-            }
-
+            animatingpillarboxes = false;
+            needsmoderestart = true;
+            leftpillarwidth = pillarboxanimto;
             currentwidth = leftpillarwidth;
         }
 
         if (currentwidth > 0)
-            for (int y = 0; y < SCREENHEIGHT; y++)
+        {
+            const int   rightoffset = SCREENWIDTH - currentwidth;
+
+            for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
             {
-                memset(screens[0] + y * SCREENWIDTH, nearestblack, currentwidth);
-                memset(screens[0] + y * SCREENWIDTH + SCREENWIDTH - currentwidth, nearestblack, currentwidth);
+                byte    *row = screens[0] + y;
+
+                memset(row, nearestblack, currentwidth);
+                memset(row + rightoffset, nearestblack, currentwidth);
             }
+        }
     }
 }
 
