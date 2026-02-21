@@ -89,6 +89,51 @@ jobs:
             build/doomretro
             build/doomretro.wad
 
+  build-macos:
+    runs-on: macos-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/ccache
+            build
+          key: ${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt', 'src/**') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          brew install cmake sdl2 sdl2_mixer sdl2_image ccache
+
+      - name: Configure
+        run: |
+          mkdir -p build
+          cd build
+          cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                ..
+
+      - name: Build
+        run: |
+          cd build
+          make -j$(sysctl -n hw.ncpu) VERBOSE=1
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doomretro-macos
+          path: |
+            build/doomretro
+            build/doomretro.wad
+
   build-windows:
     runs-on: windows-latest
 
