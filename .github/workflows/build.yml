@@ -38,6 +38,75 @@ name: DOOM Retro
 on: [push, pull_request]
 
 jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        platform: [32-bit, 64-bit]
+        configuration: [Release]
+        include:
+          - platform: 32-bit
+            project-platform: Win32
+            output-dir: Release
+            artifact-suffix: win32
+          - platform: 64-bit
+            project-platform: x64
+            output-dir: x64/Release
+            artifact-suffix: win64
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore msvc\doomretro.sln
+
+      - name: Extract version
+        id: version
+        run: |
+          $versionLine = Get-Content src\version.h | Select-String -Pattern '#define DOOMRETRO_VERSIONSTRING\s+"([^"]+)"'
+          $version = $versionLine.Matches.Groups[1].Value
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - name: Build
+        run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
+
+      - name: Copy artifacts to bin directory
+        run: |
+          $sourcePath = "msvc\${{ matrix.output-dir }}"
+          $destPath = "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}"
+          
+          New-Item -ItemType Directory -Force -Path $destPath | Out-Null
+          
+          Copy-Item "$sourcePath\*.exe" -Destination $destPath
+          Copy-Item "$sourcePath\*.dll" -Destination $destPath -ErrorAction SilentlyContinue
+          Copy-Item "res\doomretro.wad" -Destination $destPath
+        shell: pwsh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-${{ matrix.artifact-suffix }}
+          path: |
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
+            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
+
   build-linux:
     runs-on: ubuntu-latest
 
@@ -133,72 +202,3 @@ jobs:
           path: |
             build/doomretro
             build/doomretro.wad
-
-  build-windows:
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        platform: [32-bit, 64-bit]
-        configuration: [Release]
-        include:
-          - platform: 32-bit
-            project-platform: Win32
-            output-dir: Release
-            artifact-suffix: win32
-          - platform: 64-bit
-            project-platform: x64
-            output-dir: x64/Release
-            artifact-suffix: win64
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Restore NuGet packages
-        run: nuget restore msvc\doomretro.sln
-
-      - name: Extract version
-        id: version
-        run: |
-          $versionLine = Get-Content src\version.h | Select-String -Pattern '#define DOOMRETRO_VERSIONSTRING\s+"([^"]+)"'
-          $version = $versionLine.Matches.Groups[1].Value
-          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
-        shell: pwsh
-
-      - name: Build
-        run: msbuild msvc\doomretro.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:PlatformToolset=v143 /m
-
-      - name: Copy artifacts to bin directory
-        run: |
-          $sourcePath = "msvc\${{ matrix.output-dir }}"
-          $destPath = "bin\${{ matrix.project-platform }}\${{ matrix.configuration }}"
-          
-          New-Item -ItemType Directory -Force -Path $destPath | Out-Null
-          
-          Copy-Item "$sourcePath\*.exe" -Destination $destPath
-          Copy-Item "$sourcePath\*.dll" -Destination $destPath -ErrorAction SilentlyContinue
-          Copy-Item "res\doomretro.wad" -Destination $destPath
-        shell: pwsh
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: doomretro-v${{ steps.version.outputs.VERSION }}-${{ matrix.artifact-suffix }}
-          path: |
-            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.exe
-            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.dll
-            bin/${{ matrix.project-platform }}/${{ matrix.configuration }}/*.wad
