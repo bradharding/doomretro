@@ -3542,7 +3542,7 @@ bool M_Responder(event_t *ev)
     {
         // Screen size down
         if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
-            return false;
+            return true;
 
         keydown = key;
 
@@ -3574,7 +3574,7 @@ bool M_Responder(event_t *ev)
     {
         // Screen size up
         if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
-            return false;
+            return true;
 
         keydown = key;
 
