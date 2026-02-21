@@ -41,7 +41,7 @@
 * Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
 * The player’s face now flashes in the status bar when they have the invulnerability power-up and it starts to wear out.
 * A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
-* The underscores under the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
+* The underscores below the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_textures` CVAR no longer affects the menu’s background.
 * These changes have been made to blood splats:
@@ -49,8 +49,8 @@
   * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
   * There are no longer slight random variations in the colors of blood splats.
   * When the number of blood splats spawned in the current map reaches the amount set by the `r_bloodsplats_max` CVAR, the oldest blood splats are now removed to make room for new ones, rather than blood splats stopping being spawned altogether.
-  * Blood splats are now culled when they are a long way from the player.
-  * A new read-only CVAR has been implemented called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
+  * Blood splats are now selectively culled the further they are away from the player.
+  * There is now a new read-only CVAR called `r_bloodsplats_visible` that shows the number of blood splats currently visible to the player.
   * The `r_bloodsplats_total` CVAR is now reset to `0` when the player finishes a map.
   * Blood splats spawned when the player is injured in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) are now green.
 * These changes have been made to shadows when the `r_shadows` CVAR is `on`:
@@ -80,6 +80,7 @@
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
+* Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
