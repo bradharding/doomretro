@@ -704,9 +704,11 @@ consolecmd_t consolecmds[] =
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
         "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
         BOLD("0") " to " BOLD("255") ")."),
-    INTCVAR(am_sectors, "", "", intfunc1, intfunc2, 0, SECTORSVALUEALIAS,
-        "Toggles filling sectors in the automap with floor textures or colors (" BOLD("textures") ", "
-        BOLD("colors") " or " BOLD("empty") ")."),
+    INTCVAR(am_sectorcolors, am_sectorcolours, "", intfunc1, colorfunc2, CF_COLOR, SECTORCOLORSVALUEALIAS,
+        "The color of sectors in the automap (" BOLD("auto") ", " BOLD("off") ", or " BOLD("0")
+        " to " BOLD("255") ")."),
+    BOOLCVAR(am_sectortextures, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles filling sectors in the automap with floor textures."),
     BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
         "Toggles indicators showing whether lines are one or two-sided in the automap."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,

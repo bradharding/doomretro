@@ -460,7 +460,7 @@ static void AM_FillSector(const sector_t *sector, const byte tintcolor)
         && sector->interpceilingheight > sector->interpfloorheight
         && r_textures);
 
-    if (am_sectors == am_sectors_textures && validfloorpic)
+    if (am_sectortextures && validfloorpic)
         flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
             R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
 
@@ -479,8 +479,11 @@ static void AM_FillSector(const sector_t *sector, const byte tintcolor)
     }
     else
     {
-        fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
-            (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
+        if (am_sectorcolors == am_sectorcolors_auto)
+            fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
+                (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
+        else
+            fillcolor = AM_AdjustColorForLightLevel(sector, nearestcolors[am_sectorcolors], lightlevel);
 
         if (tintcolor)
             fillcolor = allmaptint[fillcolor][tintcolor];
@@ -3096,7 +3099,7 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (am_sectors != am_sectors_empty)
+    if (am_sectortextures || am_sectorcolors != am_sectorcolors_off)
         AM_FillSectors();
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
@@ -3137,7 +3140,7 @@ void AM_Drawer(void)
             AM_DrawMarks(bigmarknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_sectors == am_sectors_empty)
+            && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
             AM_BigStatusBarShadow();
     }
     else
@@ -3146,7 +3149,7 @@ void AM_Drawer(void)
             AM_DrawMarks(marknums);
 
         if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && am_sectors == am_sectors_empty)
+            && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
             AM_StatusBarShadow();
     }
 

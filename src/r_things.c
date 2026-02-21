@@ -467,7 +467,7 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 //
 // R_UpdatePerColumnLighting
 //
-static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int lightindex, 
+static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int lightindex,
     const bool updateshadowtints, const int flags, const vissprite_t *vis, const mobj_t *mobj, int *black)
 {
     sector_t    *sector = subsec->sector;

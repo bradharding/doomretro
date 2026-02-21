@@ -73,7 +73,8 @@ extern int      am_reddoorcolor;
 extern int      am_redkeycolor;
 extern bool     am_rotatemode;
 extern int      am_secretcolor;
-extern int      am_sectors;
+extern int      am_sectorcolors;
+extern bool     am_sectortextures;
 extern bool     am_sides;
 extern int      am_teleportercolor;
 extern int      am_thingcolor;
@@ -289,13 +290,6 @@ extern uint64_t stat_timeplayed;
 
 enum
 {
-    am_sectors_empty,
-    am_sectors_textures,
-    am_sectors_colors
-};
-
-enum
-{
     am_pathlength_short,
     am_pathlength_medium,
     am_pathlength_long,
@@ -492,9 +486,13 @@ enum
 #define am_secretcolor_default              am_secretcolor_none
 #define am_secretcolor_max                  255
 
-#define am_sectors_min                      am_sectors_empty
-#define am_sectors_default                  am_sectors_empty
-#define am_sectors_max                      am_sectors_colors
+#define am_sectorcolors_auto                -2
+#define am_sectorcolors_off                 -1
+#define am_sectorcolors_min                 am_sectorcolors_auto
+#define am_sectorcolors_default             am_sectorcolors_off
+#define am_sectorcolors_max                 255
+
+#define am_sectortextures_default           false
 
 #define am_sides_default                    false
 
@@ -1200,12 +1198,12 @@ typedef enum
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,
     ENGLISHVALUEALIAS,
-    SECTORSVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
     SECRETCOLORVALUEALIAS,
+    SECTORCOLORSVALUEALIAS,
     SUCKSVALUEALIAS,
     TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,

@@ -13,7 +13,8 @@
   * `ALLOWMONSTERTELEFRAGS` is now parsed correctly.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when line specials 37, 84, 159 or 177 were triggered in some instances.
 * These changes have been made to the automap:
-  * Sectors can now be filled with floor textures or colors using the new `am_sectors` CVAR, which can be set to `textures`, `colors` or `empty` (the default).
+  * Sectors can now be filled with floor textures using the new `am_sectortextures` CVAR, which is `off` by default and when vanilla mode is enabled.
+  * Sectors can also be filled with a color using the new `am_sectorcolors` CVAR, which can be set to `off` (the default), `auto`, or `0` to `255`. This CVAR can be overridden by the `am_sectortextures` CVAR.
   * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. All secrets flash three times in this color upon entering the cheat.
   * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse. (This feature also requires the `m_pointer` CVAR to be `on`.)
   * Indicators that show whether lines are one or two-sided can now be enabled using the new `am_sides` CVAR, which is `off` by default.
