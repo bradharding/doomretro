@@ -280,6 +280,12 @@ const control_t controls[] =
     { "numpad7",       keyboardcontrol,   KEYP_7                    },
     { "numpad8",       keyboardcontrol,   KEYP_8                    },
     { "numpad9",       keyboardcontrol,   KEYP_9                    },
+    { "numpad/",       keyboardcontrol,   KEYP_DIVIDE               },
+    { "numpad+",       keyboardcontrol,   KEYP_PLUS                 },
+    { "numpad-",       keyboardcontrol,   KEYP_MINUS                },
+    { "numpad*",       keyboardcontrol,   KEYP_MULTIPLY             },
+    { "numpad.",       keyboardcontrol,   KEYP_PERIOD               },
+    { "numpad\\",      keyboardcontrol,   KEYP_BACKSLASH            },
 
     { "mouse1",        mousecontrol,      0                         },
     { "mouse2",        mousecontrol,      1                         },

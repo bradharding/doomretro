@@ -92,3 +92,30 @@
 #define KEYP_7          (0x80 + 0x87)
 #define KEYP_8          (0x80 + 0x88)
 #define KEYP_9          (0x80 + 0x89)
+#define KEYP_DIVIDE     (0x80 + 0x8A)
+#define KEYP_PLUS       (0x80 + 0x8B)
+#define KEYP_MINUS      (0x80 + 0x8C)
+#define KEYP_MULTIPLY   (0x80 + 0x8D)
+#define KEYP_PERIOD     (0x80 + 0x8E)
+#define KEYP_BACKSLASH  (0x80 + 0x8F)
+
+#define SCANCODE_TO_KEYS_ARRAY                                                    \
+{                                                                                 \
+    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',  \
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2',    \
+    '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE, \
+    KEY_TAB, KEY_SPACE, '-', '=', '[', ']', '\\', 0, ';', '\'', '`', ',', '.',    \
+    '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7,    \
+    KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, KEY_PRINTSCREEN, KEY_SCROLLLOCK,   \
+    KEY_PAUSE, KEY_INSERT, KEY_HOME, KEY_PAGEUP, KEY_DELETE, KEY_END,             \
+    KEY_PAGEDOWN, KEY_RIGHTARROW, KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW,      \
+    KEY_NUMLOCK, KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEY_ENTER,    \
+    KEYP_1, KEYP_2, KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9,       \
+    KEYP_0, KEYP_PERIOD, KEYP_BACKSLASH, 0, 0, '=', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, KEY_CTRL, KEY_SHIFT, KEY_ALT, 0, KEY_CTRL, KEY_SHIFT,       \
+    KEY_ALT                                                                       \
+}

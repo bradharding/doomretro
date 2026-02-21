@@ -25,6 +25,7 @@
   * The `+maxzoom` action has been renamed `+fullzoom`.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
+* Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*`, `numpad.`
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
 * The player’s vertical field of view is now exactly the same in both widescreen and non-widescreen modes.
