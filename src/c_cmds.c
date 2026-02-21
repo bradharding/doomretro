@@ -140,8 +140,6 @@
 #define INTEGERCVARWITHDEFAULT          "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT        "It is currently " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT            "It is currently its default of " BOLD("%s") "."
-#define COLORCVARWITHDEFAULT            "It is currently {%s} and is {%s} by default."
-#define COLORCVARISDEFAULT              "It is currently its default of {%s}."
 #define DEGREESCVARWITHDEFAULT          "It is currently " BOLD("%i\xB0") " and is " BOLD("%i\xB0") " by default."
 #define DEGREESCVARISDEFAULT            "It is currently its default of " BOLD("%i\xB0") "."
 #define PERCENTCVARWITHDEFAULT          "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
@@ -156,9 +154,6 @@
 #define INTEGERCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to " BOLD("%s") "."
 #define INTEGERCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s") " to " BOLD("%s") "."
 #define INTEGERCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " back to its default of " BOLD("%s") "."
-#define COLORCVARCHANGED                "%s changed the " BOLD("%s") " CVAR from {%s} to {%s}."
-#define COLORCVARCHANGEDFROMDEFAULT     "%s changed the " BOLD("%s") " CVAR from its default of {%s} to {%s}."
-#define COLORCVARCHANGEDTODEFAULT       "%s changed the " BOLD("%s") " CVAR from {%s} back to its default of {%s}."
 #define DEGREESCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
 #define DEGREESCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
 #define DEGREESCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " back to its default of " BOLD("%i\xB0") "."
@@ -171,8 +166,6 @@
 
 #define INTEGERCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s") "!"
 #define INTEGERCVARSAMEDEFAULTWARNING   "The " BOLD("%s") " CVAR is already its default of " BOLD("%s") "!"
-#define COLORCVARSAMEWARNING            "The " BOLD("%s") " CVAR is already {%s}!"
-#define COLORCVARSAMEDEFAULTWARNING     "The " BOLD("%s") " CVAR is already its default of {%s}!"
 #define DEGREESCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%i\xB0") "!"
 #define DEGREESCVARSAMEDEFAULTWARNING   "The " BOLD("%s") " CVAR is already its default of " BOLD("%i\xB0") "!"
 #define PERCENTCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s%%") "!"
@@ -1572,6 +1565,59 @@ static void C_ShowWarning(int index)
         C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is used.");
 }
 
+static char *C_FormatColorValue(char *string, bool replaceauto)
+{
+    char    output[1024] = "";
+    char    *src = string;
+    char    *dst = output;
+
+    while (*src)
+    {
+        if (replaceauto && M_StringStartsWith(src, "auto"))
+        {
+            if ((src == string || !isalnum((unsigned char)src[-1]))
+                && !isalnum((unsigned char)src[4]))
+            {
+                strcpy(dst, "{auto}");
+                dst += 6;
+                src += 4;
+                continue;
+            }
+        }
+
+        if (isdigit((unsigned char)*src))
+        {
+            char    numstr[4] = "";
+            int     num;
+            int     len = 0;
+
+            while (isdigit((unsigned char)src[len]) && len < 3)
+            {
+                numstr[len] = src[len];
+                len++;
+            }
+
+            numstr[len] = '\0';
+            num = atoi(numstr);
+
+            if (num >= 0 && num <= 255
+                && (src == string || !isalnum((unsigned char)src[-1]))
+                && !isalnum((unsigned char)src[len]))
+            {
+                dst += sprintf(dst, "{%d}", num);
+                src += len;
+                continue;
+            }
+        }
+
+        *dst++ = *src++;
+    }
+
+    *dst = '\0';
+
+    return M_StringDuplicate(output);
+}
+
 static bool alivefunc1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
@@ -2889,16 +2935,25 @@ static void cvarlistfunc2(char *cmd, char *parms)
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 const int   value = *(int *)consolecmds[i].variable;
-                char        *temp = C_LookupAliasFromValue(value, consolecmds[i].aliases);
+                char        *temp1 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                 if (consolecmds[i].flags & CF_COLOR)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t{%s}\t%s", name, temp, description);
-                else if (value == consolecmds[i].defaultnumber)
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp, description);
-                else
-                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp, description);
+                {
+                    char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(name, stringize(am_sectorcolors)));
 
-                free(temp);
+                    if (value == consolecmds[i].defaultnumber)
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp2, description);
+                    else
+                        C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp2, description);
+
+                    free(temp2);
+                }
+                else if (value == consolecmds[i].defaultnumber)
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp1, description);
+                else
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLDER("%s") "\t%s", name, temp1, description);
+
+                free(temp1);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
             {
@@ -8094,20 +8149,23 @@ static void resetfunc2(char *cmd, char *parms)
             else if (flags & CF_COLOR)
             {
                 char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(name, stringize(am_sectorcolors)));
 
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
-                    char    *temp2 = M_StringJoin(name, " ", temp1, NULL);
+                    char    *temp3 = M_StringJoin(name, " ", temp2, NULL);
 
-                    C_ValidateInput(temp2);
-                    C_Output("The " BOLD("%s") " CVAR has been reset to its default of {%i}.",
-                        name, *(int *)consolecmds[i].variable);
-                    free(temp2);
+                    C_ValidateInput(temp3);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default of %s.",
+                        name, temp1);
+
+                    free(temp3);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of {%i}.",
-                        name, *(int *)consolecmds[i].variable);
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of %s.",
+                        name, temp1);
 
+                free(temp2);
                 free(temp1);
             }
             else if (flags & CF_PERCENT)
@@ -10144,10 +10202,15 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
+                                char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(consolecmds[i].name,
+                                            stringize(am_sectorcolors)));
+
                                 if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Warning(0, COLORCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
+                                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
                                 else
-                                    C_Warning(0, COLORCVARSAMEWARNING, consolecmds[i].name, temp1);
+                                    C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp2);
+
+                                free(temp2);
                             }
                             else
                             {
@@ -10178,15 +10241,22 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
+                                bool    replaceauto = !M_StringCompare(consolecmds[i].name, stringize(am_sectorcolors));
+                                char    *temp3 = C_FormatColorValue(temp1, replaceauto);
+                                char    *temp4 = C_FormatColorValue(temp2, replaceauto);
+
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                    C_Output(COLORCVARCHANGEDFROMDEFAULT,
-                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
                                 else if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Output(COLORCVARCHANGEDTODEFAULT,
-                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                        C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
                                 else
-                                    C_Output(COLORCVARCHANGED,
-                                        C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
+                                    C_Output(INTEGERCVARCHANGED,
+                                        C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
+
+                                free(temp3);
+                                free(temp4);
                             }
                             else
                             {
@@ -10237,15 +10307,23 @@ static void intfunc2(char *cmd, char *parms)
 
                     if (consolecmds[i].flags & CF_COLOR)
                     {
+                        char    *temp3 = C_FormatColorValue(temp1, !M_StringCompare(consolecmds[i].name,
+                                    stringize(am_sectorcolors)));
+
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                            C_Output(COLORCVARISDEFAULT, temp1);
+                            C_Output(INTEGERCVARISDEFAULT, temp3);
                         else
                         {
                             char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                            char    *temp4 = C_FormatColorValue(temp2, !M_StringCompare(consolecmds[i].name,
+                                        stringize(am_sectorcolors)));
 
-                            C_Output(COLORCVARWITHDEFAULT, temp1, temp2);
+                            C_Output(INTEGERCVARWITHDEFAULT, temp3, temp4);
                             free(temp2);
+                            free(temp4);
                         }
+
+                        free(temp3);
                     }
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                         C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
