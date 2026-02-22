@@ -521,7 +521,111 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
-    fixed_t         footclip;
+    const int       patchwidth = patch->width;
+
+    spryscale = vis->scale;
+
+    dc_colormap[0] = vis->colormap;
+    dc_nextcolormap[0] = vis->nextcolormap;
+    dc_sectorcolormap = vis->sectorcolormap;
+    dc_z = ((spryscale >> 5) & 255);
+    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+    dc_texturemid = vis->texturemid;
+
+    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
+    }
+    else
+    {
+        colfunc = vis->colfunc;
+
+        if ((colfunc == bloodcolfunc || colfunc == translatedcolfunc) && mobj->bloodcolor > NOBLOOD)
+            dc_translation = colortranslation[mobj->bloodcolor - 1];
+    }
+
+    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
+    fuzz1pos = 0;
+
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
+    {
+        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
+        fixed_t         offset;
+        fixed_t         pcl_gx, pcl_gy;
+        fixed_t         pcl_dx, pcl_dy;
+        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_cosine = finecosine[angle];
+        const fixed_t   pcl_sine = finesine[angle];
+        const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
+        subsector_t     *lastsubsector = NULL;
+
+        if (vis->flipped)
+        {
+            offset = pcl_patchoffset - frac;
+            pcl_dx = FixedMul(-xiscale, pcl_cosine);
+            pcl_dy = FixedMul(-xiscale, pcl_sine);
+        }
+        else
+        {
+            offset = frac - pcl_patchoffset;
+            pcl_dx = FixedMul(xiscale, pcl_cosine);
+            pcl_dy = FixedMul(xiscale, pcl_sine);
+        }
+
+        pcl_gx = vis->gx + FixedMul(offset, pcl_cosine);
+        pcl_gy = vis->gy + FixedMul(offset, pcl_sine);
+
+        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale, pcl_gx += pcl_dx, pcl_gy += pcl_dy)
+        {
+            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
+
+            if ((dc_numposts = column->numposts))
+            {
+                subsector_t *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
+
+                dc_ceilingclip = mceilingclip[dc_x] + 1;
+                dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
+
+                if (subsector != lastsubsector)
+                {
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, false, 0, NULL, NULL, NULL);
+                    lastsubsector = subsector;
+                }
+
+                R_BlastSpriteColumn(column);
+            }
+        }
+
+        return;
+    }
+
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+    {
+        const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
+
+        if ((dc_numposts = column->numposts))
+        {
+            dc_ceilingclip = mceilingclip[dc_x] + 1;
+            dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
+
+            R_BlastSpriteColumn(column);
+        }
+    }
+}
+
+//
+// R_DrawVisSpriteClipped
+//
+static void R_DrawVisSpriteClipped(const vissprite_t *vis)
+{
+    fixed_t         frac = vis->startfrac;
+    const fixed_t   xiscale = vis->xiscale;
+    const fixed_t   x2 = vis->x2;
+    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
+    const mobj_t    *mobj = vis->mobj;
+    const int       flags = mobj->flags;
+    const int       translation = (flags & MF_TRANSLATION);
     int             baseclip;
     const int       patchwidth = patch->width;
 
@@ -548,8 +652,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-    footclip = vis->footclip;
-    baseclip = (footclip ? (int)(sprtopscreen + footclip) >> FRACBITS : viewheight);
+    baseclip = (int)(sprtopscreen + vis->footclip) >> FRACBITS;
 
     fuzz1pos = 0;
 
@@ -563,7 +666,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
-        subsector_t     *lastsubsec = NULL;
+        subsector_t     *lastsubsector = NULL;
 
         if (vis->flipped)
         {
@@ -587,15 +690,15 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
             if ((dc_numposts = column->numposts))
             {
+                subsector_t *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
+
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
                 dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
 
-                subsector_t *subsec = R_PointInSubsector(pcl_gx, pcl_gy);
-
-                if (subsec != lastsubsec)
+                if (subsector != lastsubsector)
                 {
-                    R_UpdatePerColumnLighting(subsec, pcl_lightindex, false, 0, NULL, NULL, NULL);
-                    lastsubsec = subsec;
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, false, 0, NULL, NULL, NULL);
+                    lastsubsector = subsector;
                 }
 
                 R_BlastSpriteColumn(column);
@@ -695,7 +798,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
-        subsector_t     *lastsubsec = NULL;
+        subsector_t     *lastsubsector = NULL;
 
         if (vis->flipped)
         {
@@ -720,15 +823,15 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             if ((dc_numposts = column->numposts))
             {
                 const rpost_t   *posts = column->posts;
-                subsector_t     *subsec = R_PointInSubsector(pcl_gx, pcl_gy);
-                const fixed_t   flooratcolumn = subsec->sector->interpfloorheight;
+                subsector_t     *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
+                const fixed_t   flooratcolumn = subsector->sector->interpfloorheight;
 
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
 
-                if (subsec != lastsubsec)
+                if (subsector != lastsubsector)
                 {
-                    R_UpdatePerColumnLighting(subsec, pcl_lightindex, true, flags, vis, mobj, &black);
-                    lastsubsec = subsec;
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, true, flags, vis, mobj, &black);
+                    lastsubsector = subsector;
                 }
 
                 if (flooratcolumn >= gz - 8 * FRACUNIT)
@@ -737,7 +840,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                                         - FixedMul(flooratcolumn + mobj->shadowoffset - viewz, spryscale);
                     int             numposts = dc_numposts;
 
-                    dc_floorclip = mfloorclip[dc_x] - 1;
+                    dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
 
                     while (numposts--)
                     {
@@ -768,6 +871,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 const rpost_t   *posts = column->posts;
                 fixed_t         coloffset;
                 fixed_t         colgx, colgy;
+                fixed_t         flooratcolumn;
 
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
 
@@ -779,16 +883,13 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 colgx = vis->gx + FixedMul(coloffset, finecosine[angle]);
                 colgy = vis->gy + FixedMul(coloffset, finesine[angle]);
 
-                subsector_t     *subsec = R_PointInSubsector(colgx, colgy);
-                const fixed_t   flooratcolumn = subsec->sector->interpfloorheight;
-
-                if (flooratcolumn >= gz - 8 * FRACUNIT)
+                if ((flooratcolumn = R_PointInSubsector(colgx, colgy)->sector->interpfloorheight) >= gz - 8 * FRACUNIT)
                 {
                     const int64_t   shadowtopscreen = (int64_t)centeryfrac
                                         - FixedMul(flooratcolumn + mobj->shadowoffset - viewz, spryscale);
                     int             numposts = dc_numposts;
 
-                    dc_floorclip = mfloorclip[dc_x] - 1;
+                    dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
 
                     while (numposts--)
                     {
@@ -802,8 +903,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 }
 
                 dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
-                dc_numposts = column->numposts;
-
                 R_BlastSpriteColumn(column);
             }
         }
@@ -891,7 +990,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
-        subsector_t     *lastsubsec = NULL;
+        subsector_t     *lastsubsector = NULL;
 
         if (vis->flipped)
         {
@@ -916,21 +1015,21 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
             if ((dc_numposts = column->numposts))
             {
                 const rpost_t   *posts = column->posts;
+                int             numposts = dc_numposts;
+                subsector_t     *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
 
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
                 dc_floorclip = MIN(shadowbaseclip, mfloorclip[dc_x]) - 1;
 
-                subsector_t *subsec = R_PointInSubsector(pcl_gx, pcl_gy);
-
-                if (subsec != lastsubsec)
+                if (subsector != lastsubsector)
                 {
-                    R_UpdatePerColumnLighting(subsec, pcl_lightindex, true, flags, vis, mobj, &black);
-                    lastsubsec = subsec;
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, true, flags, vis, mobj, &black);
+                    lastsubsector = subsector;
                 }
 
-                while (dc_numposts--)
+                while (numposts--)
                 {
-                    const rpost_t   *post = &posts[dc_numposts];
+                    const rpost_t   *post = &posts[numposts];
                     const int64_t   topscreen = shadowtopscreen + shadowspryscale * post->topdelta;
 
                     if ((dc_yh = MIN((int)((topscreen + shadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
@@ -938,7 +1037,6 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                             shadowcolfunc();
                 }
 
-                dc_numposts = column->numposts;
                 R_BlastSpriteColumn(column);
             }
         }
@@ -953,13 +1051,14 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         if ((dc_numposts = column->numposts))
         {
             const rpost_t   *posts = column->posts;
+            int             numposts = dc_numposts;
 
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = MIN(shadowbaseclip, mfloorclip[dc_x]) - 1;
 
-            while (dc_numposts--)
+            while (numposts--)
             {
-                const rpost_t   *post = &posts[dc_numposts];
+                const rpost_t   *post = &posts[numposts];
                 const int64_t   topscreen = shadowtopscreen + shadowspryscale * post->topdelta;
 
                 if ((dc_yh = MIN((int)((topscreen + shadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
@@ -967,7 +1066,6 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                         shadowcolfunc();
             }
 
-            dc_numposts = column->numposts;
             R_BlastSpriteColumn(column);
         }
     }
@@ -1196,7 +1294,10 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->drawfunc = &R_DrawVisSpriteWithShadow;
     }
     else
+    {
+        vis->shadowz = -1;
         vis->drawfunc = &R_DrawVisSprite;
+    }
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
@@ -1213,7 +1314,7 @@ static void R_ProjectSprite(mobj_t *thing)
                 clipfeet += animatedliquiddiff;
 
             vis->footclip = FixedMul(height - clipfeet, xscale);
-            vis->drawfunc = &R_DrawVisSpriteClippedWithShadow;
+            vis->drawfunc = (vis->shadowz == -1 ? &R_DrawVisSpriteClipped : &R_DrawVisSpriteClippedWithShadow);
         }
         else
             vis->texturemid = gzt - FOOTCLIPSIZE - viewz;
