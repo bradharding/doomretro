@@ -921,6 +921,8 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
+    const int       footclip = vis->footclip;
+    int             baseclip;
     int             black;
     int64_t         shadowtopscreen;
     int64_t         shadowspryscale;
@@ -973,10 +975,13 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
+    baseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
+
     shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
     shadowspryscale = (int64_t)spryscale / 10;
-    shadowfootclip = FixedDiv(FixedMul(vis->footclip, (int)shadowspryscale), spryscale);
+    shadowfootclip = FixedDiv(FixedMul(footclip, (int)shadowspryscale), spryscale);
     shadowbaseclip = (int)(shadowtopscreen + shadowfootclip) >> FRACBITS;
+    shadowtopscreen = ((int64_t)baseclip << FRACBITS) - shadowfootclip;
 
     fuzz1pos = 0;
 
@@ -1037,6 +1042,8 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                             shadowcolfunc();
                 }
 
+                dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
+
                 R_BlastSpriteColumn(column);
             }
         }
@@ -1065,6 +1072,8 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                     if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
                         shadowcolfunc();
             }
+
+            dc_floorclip = MIN(baseclip, mfloorclip[dc_x]) - 1;
 
             R_BlastSpriteColumn(column);
         }
