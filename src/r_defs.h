@@ -1063,7 +1063,7 @@ typedef struct patch_s
 // A vissprite_t is a thing
 //  that will be drawn during a refresh.
 // I.e. a sprite object that is partly visible.
-typedef struct
+typedef struct vissprite_s
 {
     int                 x1;
     int                 x2;
@@ -1094,6 +1094,7 @@ typedef struct
 
     mobj_t              *mobj;
 
+    void                (*drawfunc)(const struct vissprite_s *);
     void                (*colfunc)(void);
 
     // foot clipping

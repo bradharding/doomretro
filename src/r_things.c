@@ -1191,9 +1191,12 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright);
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
+    {
         vis->shadowz = (heightsec ? heightsec->interpfloorheight : thing->floorz) + thing->shadowoffset - viewz;
+        vis->drawfunc = &R_DrawVisSpriteWithShadow;
+    }
     else
-        vis->shadowz = 1;
+        vis->drawfunc = &R_DrawVisSprite;
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
@@ -1210,18 +1213,13 @@ static void R_ProjectSprite(mobj_t *thing)
                 clipfeet += animatedliquiddiff;
 
             vis->footclip = FixedMul(height - clipfeet, xscale);
+            vis->drawfunc = &R_DrawVisSpriteClippedWithShadow;
         }
         else
-        {
             vis->texturemid = gzt - FOOTCLIPSIZE - viewz;
-            vis->footclip = 0;
-        }
     }
     else
-    {
         vis->texturemid = gzt - viewz;
-        vis->footclip = 0;
-    }
 
     if (flip)
     {
@@ -1958,12 +1956,7 @@ static void R_DrawSprite(const vissprite_t *spr)
     mceilingclip = cliptop;
     mfloorclip = clipbot;
 
-    if (spr->shadowz == 1)
-        R_DrawVisSprite(spr);
-    else if (spr->footclip)
-        R_DrawVisSpriteClippedWithShadow(spr);
-    else
-        R_DrawVisSpriteWithShadow(spr);
+    spr->drawfunc(spr);
 }
 
 //
