@@ -335,7 +335,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         || (controllerbuttons & controllerstrafe));
     run = ((gamekeydown[keyboardrun] || gamekeydown[keyboardrun2] || mousebuttons[mouserun]
         || (controllerbuttons & controllerrun)) ^ alwaysrun);
-    usefreelook = (freelook || gamekeydown[keyboardfreelook] || gamekeydown[keyboardfreelook2]
+    usefreelook = (freelook || menuactive || gamekeydown[keyboardfreelook] || gamekeydown[keyboardfreelook2]
         || mousebuttons[mousefreelook] || (controllerbuttons & controllerfreelook));
 
     // use two stage accelerative turning on the keyboard

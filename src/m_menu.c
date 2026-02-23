@@ -123,7 +123,6 @@ static angle_t  playerangle;
 static int      playerpitch;
 static fixed_t  playerviewz;
 static bool     r_textures_old;
-static bool     freelook_old;
 
 static patch_t  *menuborder;
 static short    titleheight;
@@ -4288,9 +4287,6 @@ void M_OpenMainMenu(void)
 
             playerpitch = viewplayer->pitch;
 
-            freelook_old = freelook;
-            freelook = true;
-
             if (!helpscreen || palettescreen)
                 viewplayer->pitch = MENUPITCH;
         }
@@ -4716,7 +4712,6 @@ void M_CloseMenu(void)
             viewplayer->mo->angle = playerangle;
             viewplayer->pitch = playerpitch;
             viewplayer->viewz = playerviewz;
-            freelook = freelook_old;
         }
 
         if (!helpscreen)
