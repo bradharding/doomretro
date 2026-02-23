@@ -44,6 +44,7 @@
 * The underscores below the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The `r_textures` CVAR no longer affects the menu’s background.
+* The player’s view now tilts upwards slightly in the menu’s background.
 * These changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
