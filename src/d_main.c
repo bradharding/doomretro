@@ -1400,6 +1400,20 @@ static bool D_CheckParms(void)
 
 #if defined(_WIN32) || defined(__APPLE__)
 static char *invalidwad;
+static char *collected_wads = NULL;
+
+static void AddToWadList(const char *filename)
+{
+    if (!collected_wads)
+        collected_wads = M_StringDuplicate(filename);
+    else
+    {
+        char    *temp = M_StringJoin(collected_wads, " ", filename, NULL);
+
+        free(collected_wads);
+        collected_wads = temp;
+    }
+}
 
 static int D_OpenWADLauncher(void)
 {
@@ -1415,6 +1429,13 @@ static int D_OpenWADLauncher(void)
     ofn.hwndOwner = HWND_DESKTOP;
     M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
     ofn.lpstrFile = szFile;
+
+    if (collected_wads)
+    {
+        free(collected_wads);
+        collected_wads = NULL;
+    }
+
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.deh;*.bex;*.cfg\0";
     ofn.nFilterIndex = 1;
@@ -1447,7 +1468,6 @@ static int D_OpenWADLauncher(void)
 
         iwadfound = 0;
 
-        // only one file was selected
 #if defined(_WIN32)
         if (wad)
             previouswad = M_StringDuplicate(wad);
@@ -1455,6 +1475,64 @@ static int D_OpenWADLauncher(void)
         wad = "";
 
         onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1];
+
+        if (onlyoneselected && strchr(ofn.lpstrFile, ' '))
+        {
+            char    tempbuf[4096];
+            char    *filenames[100];
+            int     filecount = 0;
+            char    *dest = tempbuf;
+            size_t  remaining = sizeof(tempbuf);
+            char    *inputcopy = M_StringDuplicate(ofn.lpstrFile);
+            char    *token = strtok(inputcopy, " ");
+
+            while (token && filecount < 100)
+            {
+                filenames[filecount++] = M_StringDuplicate(token);
+                token = strtok(NULL, " ");
+            }
+
+            free(inputcopy);
+
+            if (filecount > 1)
+            {
+                char    *basedir;
+
+                if (strchr(filenames[0], '\\'))
+                    basedir = M_ExtractFolder(filenames[0]);
+                else
+                    basedir = M_StringDuplicate(wadfolder);
+
+                M_StringCopy(tempbuf, basedir, sizeof(tempbuf));
+                dest = tempbuf + strlen(tempbuf) + 1;
+                remaining = sizeof(tempbuf) - strlen(tempbuf) - 1;
+
+                for (int i = 0; i < filecount && remaining > 0; i++)
+                {
+                    const char  *filename = leafname(filenames[i]);
+                    size_t      len = strlen(filename);
+
+                    if (len + 1 < remaining)
+                    {
+                        M_StringCopy(dest, filename, remaining);
+                        dest += len + 1;
+                        remaining -= len + 1;
+                    }
+                }
+
+                if (remaining > 0)
+                    *dest = '\0';
+
+                free(basedir);
+
+                memcpy(szFile, tempbuf, sizeof(tempbuf));
+
+                onlyoneselected = false;
+            }
+
+            for (int i = 0; i < filecount; i++)
+                free(filenames[i]);
+        }
 #elif defined(__APPLE__)
         onlyoneselected = ([urls count] == 1);
 #endif
@@ -1499,7 +1577,7 @@ static int D_OpenWADLauncher(void)
                             (char *)ofn.lpstrFile, (M_StringEndsWith((char *)ofn.lpstrFile, ".wad") ? "" : ".wad"), temp);
 
                     file = M_StringDuplicate(temp);
-                    wad = M_StringDuplicate(leafname(temp));
+                    AddToWadList(leafname(temp));
                     free(temp);
                 }
                 else
@@ -1509,7 +1587,7 @@ static int D_OpenWADLauncher(void)
                 }
             }
             else
-                wad = M_StringDuplicate(leafname(file));
+                AddToWadList(leafname(file));
 #endif
 
             // check if it's a valid and supported IWAD
@@ -1545,7 +1623,7 @@ static int D_OpenWADLauncher(void)
 
 #if defined(_WIN32)
                 if (!guess)
-                    wad = M_StringDuplicate(leafname(file));
+                    AddToWadList(leafname(file));
 #endif
 
                 // try the current folder first
@@ -1746,7 +1824,7 @@ static int D_OpenWADLauncher(void)
 
 #if defined(_WIN32)
                         if (!guess)
-                            wad = M_StringDuplicate(leafname(fullpath));
+                            AddToWadList(leafname(fullpath));
 #endif
 
                         wadfolder = M_ExtractFolder(fullpath);
@@ -1792,7 +1870,7 @@ static int D_OpenWADLauncher(void)
 
 #if defined(_WIN32)
                             if (!guess)
-                                wad = M_StringDuplicate(leafname(fullpath));
+                                AddToWadList(leafname(fullpath));
 #endif
 
                             wadfolder = M_ExtractFolder(fullpath);
@@ -1934,7 +2012,7 @@ static int D_OpenWADLauncher(void)
                             {
 #if defined(_WIN32)
                                 if (!guess)
-                                    wad = M_StringDuplicate(leafname(fullpath));
+                                    AddToWadList(leafname(fullpath));
 #endif
 
                                 modifiedgame = true;
@@ -2024,6 +2102,15 @@ static int D_OpenWADLauncher(void)
             else
                 I_Error("Other files can’t be loaded with the shareware version of DOOM.");
         }
+    }
+
+    if (collected_wads)
+    {
+        if (wad)
+            previouswad = M_StringDuplicate(wad);
+
+        wad = collected_wads;
+        collected_wads = NULL;
     }
 
     return iwadfound;
