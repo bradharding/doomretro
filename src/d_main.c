@@ -2104,6 +2104,7 @@ static int D_OpenWADLauncher(void)
         }
     }
 
+#if defined(_WIN32)
     if (collected_wads)
     {
         if (wad)
@@ -2112,6 +2113,7 @@ static int D_OpenWADLauncher(void)
         wad = collected_wads;
         collected_wads = NULL;
     }
+#endif
 
     return iwadfound;
 }
