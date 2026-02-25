@@ -2,7 +2,7 @@
 
 ### DOOM Retro v5.9
 
-* *DOOM Retro* is now built using v18.3.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.3.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
@@ -71,6 +71,7 @@
 * The `BIGDOOR1` texture is now vertically aligned correctly.
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
 * When *DOOM Retro* is run for the first time and an installation of *DOOM* is found, the IWAD in the “File name” field of the WAD launcher is now in the correct case.
+* If multiple files are selected in the WAD launcher, each of those files are now saved in the `wad` CVAR, and then restored in the “File name” field of the WAD launcher the next time *DOOM Retro* is run.
 * The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
 * When the `m_pointer` CVAR is `on`:
   * The console’s input can now be selected by clicking and dragging the mouse.
