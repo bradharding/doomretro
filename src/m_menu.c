@@ -122,7 +122,6 @@ int             menuspinspeed;
 static angle_t  playerangle;
 static int      playerpitch;
 static fixed_t  playerviewz;
-static bool     r_textures_old;
 
 static patch_t  *menuborder;
 static short    titleheight;
@@ -4258,9 +4257,6 @@ void M_OpenMainMenu(void)
     currentmenu = &MainDef;
     itemon = currentmenu->laston;
 
-    r_textures_old = r_textures;
-    r_textures = true;
-
     if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
     {
         restoredrumblestrength = idlechainsawrumblestrength;
@@ -4694,8 +4690,6 @@ void M_CloseMenu(void)
     menuactive = false;
     blurtic = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
-
-    r_textures = r_textures_old;
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {

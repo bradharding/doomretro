@@ -606,7 +606,7 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
 
 void R_InitColumnFunctions(void)
 {
-    if (r_textures)
+    if (r_textures || menuactive)
     {
         skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canfreelook ?
             &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
