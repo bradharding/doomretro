@@ -1462,7 +1462,7 @@ static void C_GetOverlayTextColors(void)
         overlaytextshadowcolor = nearestdarkgray;
     }
 
-    overlaytexttinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    overlaytexttinttab = (r_hud_translucency ? (automapactive && !menuactive ? tinttab70 : tinttab50) : NULL);
 
     gotoverlaytextcolors = true;
 }
