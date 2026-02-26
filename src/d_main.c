@@ -1459,7 +1459,7 @@ static int D_OpenWADLauncher(void)
 
     if (fileopenedok)
     {
-        bool    onlyoneselected;
+        bool    onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1];
         bool    guess = false;
 
 #if defined(__APPLE__)
@@ -1474,9 +1474,13 @@ static int D_OpenWADLauncher(void)
 
         wad = "";
 
-        onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1];
-
-        if (onlyoneselected && strchr(ofn.lpstrFile, ' '))
+        if (onlyoneselected
+            && (strstr(ofn.lpstrFile, ".wad ")
+                || strstr(ofn.lpstrFile, ".iwad ")
+                || strstr(ofn.lpstrFile, ".pwad ")
+                || strstr(ofn.lpstrFile, ".deh ")
+                || strstr(ofn.lpstrFile, ".bex ")
+                || strstr(ofn.lpstrFile, ".cfg ")))
         {
             char    tempbuf[4096];
             char    *filenames[100];
