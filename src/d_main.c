@@ -1481,8 +1481,6 @@ static int D_OpenWADLauncher(void)
             char    tempbuf[4096];
             char    *filenames[100];
             int     filecount = 0;
-            char    *dest = tempbuf;
-            size_t  remaining = sizeof(tempbuf);
             char    *inputcopy = M_StringDuplicate(ofn.lpstrFile);
             char    *token = strtok(inputcopy, " ");
 
@@ -1497,6 +1495,8 @@ static int D_OpenWADLauncher(void)
             if (filecount > 1)
             {
                 char    *basedir;
+                char    *dest;
+                size_t  remaining;
 
                 if (strchr(filenames[0], '\\'))
                     basedir = M_ExtractFolder(filenames[0]);

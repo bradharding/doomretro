@@ -206,7 +206,7 @@ void P_Ticker(void)
             animatedtic++;
 
             for (thinker_t *thinker = thinkers[th_misc].cnext; thinker != &thinkers[th_misc]; thinker = thinker->cnext)
-                if (thinker->menu && thinker->function != &P_RemoveThinkerDelayed)
+                if (thinker->menu)
                     thinker->function((mobj_t *)thinker);
         }
 

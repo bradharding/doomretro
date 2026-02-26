@@ -1597,7 +1597,7 @@ static char *C_FormatColorValue(char *string, bool replaceauto)
             int     num;
             int     len = 0;
 
-            while (isdigit((unsigned char)src[len]) && len < 3)
+            while (len < 3 && isdigit((unsigned char)src[len]))
             {
                 numstr[len] = src[len];
                 len++;

@@ -1817,7 +1817,7 @@ static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
         for (int x = left; x < width; x += pixelwidth)
         {
             const int       blockw = MIN(pixelwidth, width - x);
-            byte *restrict  dot = screen + y + x;
+            byte * restrict dot = screen + y + x;
             const byte      color = *dot;
 
             if (blockw > 1)
@@ -1839,7 +1839,7 @@ static void V_LowGraphicDetail_Antialiased(byte *screen, int screenwidth,
         for (int x = left; x < width; x += pixelwidth)
         {
             const int       blockw = MIN(pixelwidth, width - x);
-            byte *restrict  dot1 = screen + y + x;
+            byte * restrict dot1 = screen + y + x;
             byte            color;
 
             if (y + pixelheight < height)
