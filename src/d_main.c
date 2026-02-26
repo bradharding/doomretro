@@ -1586,8 +1586,6 @@ static int D_OpenWADLauncher(void)
                     invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
                 }
             }
-            else
-                AddToWadList(leafname(file));
 #endif
 
             // check if it's a valid and supported IWAD
@@ -1599,6 +1597,12 @@ static int D_OpenWADLauncher(void)
                 {
                     iwadfound = 1;
                     wadfolder = M_StringDuplicate(folder);
+
+#if defined(_WIN32)
+                    // Add IWAD to list here instead
+                    if (!guess)
+                        AddToWadList(leafname(file));
+#endif
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
