@@ -890,6 +890,9 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     mobj->thinker.function = (type == MT_MUSICSOURCE ? &MusInfoThinker : &P_MobjThinker);
     P_AddThinker(&mobj->thinker);
 
+    if ((mobj->flags & MF_SOLID) && (!(mobj->flags & MF_SHOOTABLE) || type == MT_BARREL))
+        mobj->thinker.menu = true;
+
     return mobj;
 }
 

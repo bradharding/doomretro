@@ -208,6 +208,15 @@ void P_Ticker(void)
             for (thinker_t *thinker = thinkers[th_misc].cnext; thinker != &thinkers[th_misc]; thinker = thinker->cnext)
                 if (thinker->menu)
                     thinker->function((mobj_t *)thinker);
+
+            for (thinker_t *thinker = thinkers[th_mobj].cnext; thinker != &thinkers[th_mobj]; thinker = thinker->cnext)
+                if (thinker->menu)
+                {
+                    mobj_t  *mobj = (mobj_t *)thinker;
+
+                    if (mobj->health > 0)
+                        thinker->function(mobj);
+                }
         }
 
         P_UpdateSpecials();
