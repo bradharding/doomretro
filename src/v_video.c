@@ -1161,6 +1161,8 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab
                 dest += SCREENWIDTH;
             }
 
+            *dest = tinttab25[*dest];
+
             column = (column_t *)((byte *)column + length + 4);
         }
     }
