@@ -837,6 +837,8 @@ consolecmd_t consolecmds[] =
         "Toggles giving you and everything else in the current map infinite height."),
     BOOLCVAR(joy_analog, joy_analogue, "", boolfunc1, boolfunc2, 0,
         "Toggles whether movement using a controller's thumbsticks is analog or digital."),
+    BOOLCVAR(joy_autoaim_horizontal, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles horizontal autoaiming as you fire your weapon using a controller."),
     FLOATCVAR(joy_deadzone_left, "", "", joy_deadzonecvarsfunc1, joy_deadzonecvarsfunc2, CF_PERCENT,
         "The dead zone of a controller's left thumbstick (" BOLD("0%") " to " BOLD("30%") ")."),
     FLOATCVAR(joy_deadzone_right, "", "", joy_deadzonecvarsfunc1, joy_deadzonecvarsfunc2, CF_PERCENT,

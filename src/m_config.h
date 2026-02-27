@@ -106,6 +106,7 @@ extern bool     groupmessages;
 extern bool     infighting;
 extern bool     infiniteheight;
 extern bool     joy_analog;
+extern bool     joy_autoaim_horizontal;
 extern float    joy_deadzone_left;
 extern float    joy_deadzone_right;
 extern bool     joy_invertyaxis;
@@ -602,6 +603,8 @@ enum
 #define infiniteheight_default              false
 
 #define joy_analog_default                  true
+
+#define joy_autoaim_horizontal_default      true
 
 #define joy_deadzone_left_min               0.0f
 #define joy_deadzone_left_default           15.0f

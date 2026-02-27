@@ -626,11 +626,17 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 // the height of the intended target
 //
 static fixed_t  bulletslope;
+static angle_t  bulletangle;
 
 static void P_BulletSlope(mobj_t *actor)
 {
+    angle_t an = actor->angle;
+
     if (usefreelook && !autoaim)
+    {
         bulletslope = PLAYERSLOPE(viewplayer);
+        bulletangle = an;
+    }
     else
     {
         // killough 08/02/98: make autoaiming prefer enemies
@@ -638,9 +644,8 @@ static void P_BulletSlope(mobj_t *actor)
 
         do
         {
-            angle_t an = actor->angle;
-
             // see which target is to be aimed at
+            an = actor->angle;
             bulletslope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT, mask);
 
             if (!linetarget)
@@ -649,12 +654,17 @@ static void P_BulletSlope(mobj_t *actor)
 
                 if (!linetarget)
                 {
-                    bulletslope = P_AimLineAttack(actor, an - (2 << 26), 16 * 64 * FRACUNIT, mask);
+                    bulletslope = P_AimLineAttack(actor, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget && usefreelook)
+                    {
+                        an = actor->angle;
                         bulletslope = PLAYERSLOPE(viewplayer);
+                    }
                 }
             }
+
+            bulletangle = an;
         } while (mask && (mask = 0, !linetarget));  // killough 08/02/98
     }
 }
@@ -664,7 +674,7 @@ static void P_BulletSlope(mobj_t *actor)
 //
 static void P_GunShot(mobj_t *actor, bool accurate)
 {
-    angle_t angle = actor->angle;
+    angle_t angle = (autoaim && joy_autoaim_horizontal && usingcontroller ? bulletangle : actor->angle);
 
     if (!accurate)
         angle += (M_SubRandom() << 18);
@@ -753,7 +763,8 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
     successfulshot = false;
 
     for (int i = 0; i < 20; i++)
-        P_LineAttack(actor, actor->angle + (M_SubRandom() << ANGLETOFINESHIFT), MISSILERANGE,
+        P_LineAttack(actor, (autoaim && joy_autoaim_horizontal && usingcontroller ? bulletangle :
+            actor->angle) + (M_SubRandom() << ANGLETOFINESHIFT), MISSILERANGE,
             bulletslope + (M_SubRandom() << 5), 5 * (M_Random() % 3 + 1));
 
     A_Recoil(readyweapon);
@@ -1061,8 +1072,9 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_BulletSlope(player->mo);
 
     for (int i = 0; i < numbullets; i++)
-        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(state->args[0]),
-            MISSILERANGE, bulletslope + P_RandomHitscanSlope(state->args[1]),
+        P_LineAttack(player->mo, (autoaim && joy_autoaim_horizontal && usingcontroller ?
+            bulletangle : player->mo->angle) + P_RandomHitscanAngle(state->args[0]), MISSILERANGE,
+            bulletslope + P_RandomHitscanSlope(state->args[1]),
             (M_Random() % state->args[4] + 1) * state->args[3]);
 
     ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;

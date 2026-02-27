@@ -52,6 +52,7 @@ groupmessages off
 infighting off
 infiniteheight on
 joy_analog off
+joy_autoaim_horizontal off
 joy_invertyaxis off
 joy_rumble_barrels 0%
 joy_rumble_damage 0%

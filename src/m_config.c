@@ -116,6 +116,7 @@ bool        infighting = infighting_default;
 bool        infiniteheight = infiniteheight_default;
 char        *wadfolder = wadfolder_default;
 bool        joy_analog = joy_analog_default;
+bool        joy_autoaim_horizontal = joy_autoaim_horizontal_default;
 float       joy_deadzone_left = joy_deadzone_left_default;
 float       joy_deadzone_right = joy_deadzone_right_default;
 bool        joy_invertyaxis = joy_invertyaxis_default;
@@ -380,6 +381,7 @@ static default_t cvars[] =
     CVAR_BOOL         (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
     CVAR_BOOL         (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
     CVAR_BOOL         (joy_analog,                       gp_analog,                             joy_analog,                            BOOLVALUEALIAS        ),
+    CVAR_BOOL         (joy_autoaim_horizontal,           joy_autoaim_horizontal,                joy_autoaim_horizontal,                BOOLVALUEALIAS        ),
     CVAR_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                     0                     ),
     CVAR_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                    0                     ),
     CVAR_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                       BOOLVALUEALIAS        ),
