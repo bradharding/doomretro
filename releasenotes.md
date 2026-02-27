@@ -87,8 +87,9 @@
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
 * These changes have been made to the support for controllers:
+  * Controller movement has been made slightly smoother.
   * Controller sensitivity has been reduced.
-  * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health.
+  * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to red), and also flash red when 25% or less health remains.
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
