@@ -680,6 +680,9 @@ static void G_SetInitialWeapon(void)
 static void G_ResetPlayer(void)
 {
     viewplayer->health = initial_health;
+
+    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+
     viewplayer->armor = 0;
     viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
@@ -1313,6 +1316,9 @@ void G_PlayerReborn(void)
 
     viewplayer->playerstate = PST_LIVE;
     viewplayer->health = initial_health;
+
+    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
 

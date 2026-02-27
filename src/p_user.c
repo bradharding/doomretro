@@ -429,6 +429,9 @@ void P_ResurrectPlayer(const int health)
     viewplayer->viewheight = VIEWHEIGHT;
     P_AnimateHealth(viewplayer->negativehealth);
     viewplayer->health = health;
+
+    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+
     viewplayer->negativehealth = health;
     viewplayer->pitch = 0;
     viewplayer->oldpitch = 0;

@@ -180,7 +180,7 @@ void I_InitController(void)
             I_SetControllerVerticalSensitivity();
 
 #if SDL_VERSION_ATLEAST(2, 14, 0)
-            SDL_GameControllerSetLED(controller, 255, 0, 0);
+            SDL_GameControllerSetLED(controller, 0, 255, 0);
 #endif
 
             return;
@@ -208,6 +208,33 @@ void I_ControllerRumble(const short low, const short high)
         return;
 
     SDL_GameControllerRumble(controller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
+}
+
+void I_SetControllerLED(int r, int g, int b)
+{
+#if SDL_VERSION_ATLEAST(2, 14, 0)
+    if (controller)
+        SDL_GameControllerSetLED(controller, r, g, b);
+#endif
+}
+
+void I_UpdateControllerLEDByHealth(int health, int maxhealth)
+{
+#if SDL_VERSION_ATLEAST(2, 14, 0)
+    if (!controller)
+        return;
+
+    if (health <= 0)
+        SDL_GameControllerSetLED(controller, 64, 0, 0);
+    else if (health <= 25)
+        SDL_GameControllerSetLED(controller, 255, 0, 0);
+    else if (health <= 50)
+        SDL_GameControllerSetLED(controller, 255, 128, 0);
+    else if (health <= 75)
+        SDL_GameControllerSetLED(controller, 255, 255, 0);
+    else
+        SDL_GameControllerSetLED(controller, 0, 255, 0);
+#endif
 }
 
 void I_ReadController(void)
@@ -368,6 +395,15 @@ void I_ReadController(void)
                 && !idlechainsawrumblestrength)
                 SDL_GameControllerRumble(controller, 0, 0, 0);
         }
+
+#if SDL_VERSION_ATLEAST(2, 14, 0)
+        if (viewplayer->health > 0 && viewplayer->health <= 25)
+        {
+            static int  ledpulse = 0;
+
+            SDL_GameControllerSetLED(controller, 128 + (int)(127 * sin(ledpulse++ * 0.1f)), 0, 0);
+        }
+#endif
     }
 }
 
