@@ -212,14 +212,6 @@ void I_ControllerRumble(const short low, const short high)
     SDL_GameControllerRumble(controller, MIN(low, USHRT_MAX), MIN(high, USHRT_MAX), UINT_MAX);
 }
 
-void I_SetControllerLED(int r, int g, int b)
-{
-#if SDL_VERSION_ATLEAST(2, 14, 0)
-    if (controller)
-        SDL_GameControllerSetLED(controller, r, g, b);
-#endif
-}
-
 void I_UpdateControllerLEDByHealth(int health)
 {
 #if SDL_VERSION_ATLEAST(2, 14, 0)
@@ -278,8 +270,10 @@ void I_ReadController(void)
                     / (SDL_JOYSTICK_AXIS_MAX - controllerleftdeadzone);
                 normalizedmagnitude = powf(magnitude, 3.0f);
 
-                newLX = (short)(normalizedmagnitude * LX / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
-                newLY = (short)(normalizedmagnitude * LY / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newLX = (short)(normalizedmagnitude * LX
+                    / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newLY = (short)(normalizedmagnitude * LY
+                    / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
 
                 controllerthumbLX = (short)(prevLX * 0.15f + newLX * 0.85f);
                 controllerthumbLY = (short)(prevLY * 0.15f + newLY * 0.85f);
@@ -306,8 +300,10 @@ void I_ReadController(void)
                     / (SDL_JOYSTICK_AXIS_MAX - controllerrightdeadzone);
                 normalizedmagnitude = powf(magnitude, 3.0f);
 
-                newRX = (short)(normalizedmagnitude * RX / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
-                newRY = (short)(normalizedmagnitude * RY / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newRX = (short)(normalizedmagnitude * RX
+                    / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newRY = (short)(normalizedmagnitude * RY
+                    / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
 
                 controllerthumbRX = (short)(prevRX * 0.15f + newRX * 0.85f);
                 controllerthumbRY = (short)(prevRY * 0.15f + newRY * 0.85f);
@@ -399,11 +395,11 @@ void I_ReadController(void)
         }
 
 #if SDL_VERSION_ATLEAST(2, 14, 0)
-        if (viewplayer->health > 0 && viewplayer->health <= 25)
+        if (viewplayer && viewplayer->health > 0 && viewplayer->health <= 25)
         {
             static int  ledpulse = 0;
 
-            SDL_GameControllerSetLED(controller, 128 + (int)(127 * sin(ledpulse++ * 0.1f)), 0, 0);
+            SDL_GameControllerSetLED(controller, 128 + (int)(127 * sinf(ledpulse++ * 0.1f)), 0, 0);
         }
 #endif
     }
