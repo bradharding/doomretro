@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v5.9
+### DOOM Retro v6.0
 
 * *DOOM Retro* is now built using v18.3.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
