@@ -430,7 +430,7 @@ void P_ResurrectPlayer(const int health)
     P_AnimateHealth(viewplayer->negativehealth);
     viewplayer->health = health;
 
-    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+    I_UpdateControllerLEDByHealth(viewplayer->health);
 
     viewplayer->negativehealth = health;
     viewplayer->pitch = 0;

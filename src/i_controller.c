@@ -61,8 +61,10 @@ int                         restoredrumblestrength;
 
 char                        *selectbutton = "A";
 
-static short                prevLX = 0, prevLY = 0;
-static short                prevRX = 0, prevRY = 0;
+static short                prevLX = 0;
+static short                prevLY = 0;
+static short                prevRX = 0;
+static short                prevRY = 0;
 
 static char *GetControllerName(void)
 {
@@ -218,7 +220,7 @@ void I_SetControllerLED(int r, int g, int b)
 #endif
 }
 
-void I_UpdateControllerLEDByHealth(int health, int maxhealth)
+void I_UpdateControllerLEDByHealth(int health)
 {
 #if SDL_VERSION_ATLEAST(2, 14, 0)
     if (!controller)

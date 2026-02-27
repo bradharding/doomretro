@@ -11155,7 +11155,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             viewplayer->negativehealth = value;
                             viewplayer->mo->health = value;
 
-                            I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+                            I_UpdateControllerLEDByHealth(viewplayer->health);
                         }
                         else
                         {
@@ -11197,7 +11197,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             viewplayer->mo->health = value;
                             healthcvar = true;
 
-                            I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+                            I_UpdateControllerLEDByHealth(viewplayer->health);
 
                             if (value <= 0)
                             {
@@ -11227,7 +11227,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             viewplayer->negativehealth = value;
                             viewplayer->mo->health = value;
 
-                            I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+                            I_UpdateControllerLEDByHealth(viewplayer->health);
                             P_AddBonus();
                             S_StartSound(viewplayer->mo, sfx_itemup);
                         }

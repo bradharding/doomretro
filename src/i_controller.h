@@ -93,7 +93,7 @@ void I_InitController(void);
 void I_ShutdownController(void);
 void I_ControllerRumble(const short low, const short high);
 void I_SetControllerLED(int r, int g, int b);
-void I_UpdateControllerLEDByHealth(int health, int maxhealth);
+void I_UpdateControllerLEDByHealth(int health);
 void I_ReadController(void);
 void I_StopControllerRumble(void);
 void I_SetControllerHorizontalSensitivity(void);

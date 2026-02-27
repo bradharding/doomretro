@@ -449,7 +449,7 @@ bool P_GiveHealth(const int num, const int max, const bool stat)
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
     P_AnimateHealth(health - viewplayer->health);
 
-    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+    I_UpdateControllerLEDByHealth(viewplayer->health);
 
     if (stat)
         P_UpdateHealthStat(viewplayer->health - health);
@@ -480,7 +480,7 @@ bool P_GiveMegaHealth(const bool stat)
         viewplayer->health = mega_health;
         viewplayer->mo->health = mega_health;
 
-        I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+        I_UpdateControllerLEDByHealth(viewplayer->health);
 
     }
 
@@ -840,7 +840,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
-                I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+                I_UpdateControllerLEDByHealth(viewplayer->health);
             }
 
             if (message && !duplicate)
@@ -1943,7 +1943,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             target->health -= damage;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
-            I_UpdateControllerLEDByHealth(target->health, tplayer->mo->info->spawnhealth);
+            I_UpdateControllerLEDByHealth(target->health);
 
             if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
             {

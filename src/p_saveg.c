@@ -477,7 +477,7 @@ static void saveg_read_player_t(void)
     viewplayer->momy = saveg_read32();
     viewplayer->health = saveg_read32();
 
-    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+    I_UpdateControllerLEDByHealth(viewplayer->health);
 
     oldhealth = saveg_read32();
     viewplayer->armor = saveg_read32();

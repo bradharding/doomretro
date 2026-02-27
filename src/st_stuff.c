@@ -526,7 +526,7 @@ bool ST_Responder(const event_t *ev)
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
 
-                    I_UpdateControllerLEDByHealth(viewplayer->health, viewplayer->mo->info->spawnhealth);
+                    I_UpdateControllerLEDByHealth(viewplayer->health);
                 }
 
                 message_dontfuckwithme = true;
