@@ -61,6 +61,9 @@ int                         restoredrumblestrength;
 
 char                        *selectbutton = "A";
 
+static short                prevLX = 0, prevLY = 0;
+static short                prevRX = 0, prevRY = 0;
+
 static char *GetControllerName(void)
 {
     const char  *name = SDL_GameControllerName(controller);
@@ -237,6 +240,8 @@ void I_ReadController(void)
 
             if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > controllerleftdeadzone)
             {
+                short   newLX, newLY;
+
                 if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                     magnitude = SDL_JOYSTICK_AXIS_MAX;
 
@@ -244,17 +249,27 @@ void I_ReadController(void)
                     / (SDL_JOYSTICK_AXIS_MAX - controllerleftdeadzone);
                 normalizedmagnitude = powf(magnitude, 3.0f);
 
-                controllerthumbLX = (short)(normalizedmagnitude * LX / magnitude);
-                controllerthumbLY = (short)(normalizedmagnitude * LY / magnitude);
+                newLX = (short)(normalizedmagnitude * LX / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newLY = (short)(normalizedmagnitude * LY / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
+
+                controllerthumbLX = (short)(prevLX * 0.15f + newLX * 0.85f);
+                controllerthumbLY = (short)(prevLY * 0.15f + newLY * 0.85f);
+
+                prevLX = controllerthumbLX;
+                prevLY = controllerthumbLY;
             }
             else
             {
                 controllerthumbLX = 0;
                 controllerthumbLY = 0;
+                prevLX = 0;
+                prevLY = 0;
             }
 
             if ((magnitude = sqrtf((float)RX * RX + RY * RY)) > controllerrightdeadzone)
             {
+                short   newRX, newRY;
+
                 if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                     magnitude = SDL_JOYSTICK_AXIS_MAX;
 
@@ -262,13 +277,21 @@ void I_ReadController(void)
                     / (SDL_JOYSTICK_AXIS_MAX - controllerrightdeadzone);
                 normalizedmagnitude = powf(magnitude, 3.0f);
 
-                controllerthumbRX = (short)(normalizedmagnitude * RX / magnitude);
-                controllerthumbRY = (short)(normalizedmagnitude * RY / magnitude);
+                newRX = (short)(normalizedmagnitude * RX / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                newRY = (short)(normalizedmagnitude * RY / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
+
+                controllerthumbRX = (short)(prevRX * 0.15f + newRX * 0.85f);
+                controllerthumbRY = (short)(prevRY * 0.15f + newRY * 0.85f);
+
+                prevRX = controllerthumbRX;
+                prevRY = controllerthumbRY;
             }
             else
             {
                 controllerthumbRX = 0;
                 controllerthumbRY = 0;
+                prevRX = 0;
+                prevRY = 0;
             }
         }
         else
@@ -358,12 +381,12 @@ void I_StopControllerRumble(void)
 
 void I_SetControllerHorizontalSensitivity(void)
 {
-    controllerhorizontalsensitivity = 2.0f * joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
+    controllerhorizontalsensitivity = joy_sensitivity_horizontal / joy_sensitivity_horizontal_max;
 }
 
 void I_SetControllerVerticalSensitivity(void)
 {
-    controllerverticalsensitivity = 2.0f * joy_sensitivity_vertical / joy_sensitivity_vertical_max;
+    controllerverticalsensitivity = joy_sensitivity_vertical / joy_sensitivity_vertical_max;
 }
 
 void I_SetControllerLeftDeadZone(void)
