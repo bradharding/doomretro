@@ -395,12 +395,17 @@ void I_ReadController(void)
         }
 
 #if SDL_VERSION_ATLEAST(2, 14, 0)
-        if (viewplayer && viewplayer->health > 0 && viewplayer->health <= 25)
+        if (gamestate == GS_LEVEL)
         {
-            static int  ledpulse = 0;
+            if (viewplayer->health > 0 && viewplayer->health <= 25)
+            {
+                static int  ledpulse = 0;
 
-            SDL_GameControllerSetLED(controller, 128 + (int)(127 * sinf(ledpulse++ * 0.1f)), 0, 0);
+                SDL_GameControllerSetLED(controller, 128 + (int)(127 * sinf(ledpulse++ * 0.1f)), 0, 0);
+            }
         }
+        else
+            SDL_GameControllerSetLED(controller, 0, 255, 0);
 #endif
     }
 }
