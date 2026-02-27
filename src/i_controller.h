@@ -70,6 +70,10 @@
 #define FALL_RUMBLE_STRENGTH            10000
 #define FALL_RUMBLE_TICS                15
 
+#define AIM_ACCELERATION_THRESHOLD      0.5f
+#define LOW_SENSITIVITY_MULTIPLIER      0.7f
+#define HIGH_SENSITIVITY_MULTIPLIER     2.5f
+
 extern int      barrelrumbletics;
 extern int      damagerumbletics;
 extern int      pickuprumbletics;

@@ -256,24 +256,44 @@ void I_ReadController(void)
 
         if (joy_analog)
         {
-            float   magnitude;
-            float   normalizedmagnitude;
+            float       magnitude;
+            float       normalizedmagnitude;
 
             if ((magnitude = sqrtf((float)LX * LX + LY * LY)) > controllerleftdeadzone)
             {
                 short   newLX, newLY;
+                float   dirX, dirY;
+                float   normalizedinput;
+                float   outputmagnitude;
 
                 if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                     magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-                magnitude = (magnitude - controllerleftdeadzone)
-                    / (SDL_JOYSTICK_AXIS_MAX - controllerleftdeadzone);
-                normalizedmagnitude = powf(magnitude, 3.0f);
+                dirX = LX / magnitude;
+                dirY = LY / magnitude;
 
-                newLX = (short)(normalizedmagnitude * LX
-                    / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
-                newLY = (short)(normalizedmagnitude * LY
-                    / (magnitude + controllerleftdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                normalizedinput = (magnitude - controllerleftdeadzone)
+                    / (SDL_JOYSTICK_AXIS_MAX - controllerleftdeadzone);
+
+                if (normalizedinput < AIM_ACCELERATION_THRESHOLD)
+                    normalizedmagnitude = powf(normalizedinput / AIM_ACCELERATION_THRESHOLD, 2.0f)
+                        * AIM_ACCELERATION_THRESHOLD * LOW_SENSITIVITY_MULTIPLIER;
+                else
+                {
+                    float   highzone = (normalizedinput - AIM_ACCELERATION_THRESHOLD)
+                        / (1.0f - AIM_ACCELERATION_THRESHOLD);
+
+                    normalizedmagnitude = AIM_ACCELERATION_THRESHOLD * LOW_SENSITIVITY_MULTIPLIER
+                        + powf(highzone, 3.5f) * (1.0f - AIM_ACCELERATION_THRESHOLD) * HIGH_SENSITIVITY_MULTIPLIER;
+                }
+
+                outputmagnitude = normalizedmagnitude * SDL_JOYSTICK_AXIS_MAX;
+
+                if (outputmagnitude > SDL_JOYSTICK_AXIS_MAX)
+                    outputmagnitude = SDL_JOYSTICK_AXIS_MAX;
+
+                newLX = (short)(dirX * outputmagnitude);
+                newLY = (short)(dirY * outputmagnitude);
 
                 controllerthumbLX = (short)(prevLX * 0.15f + newLX * 0.85f);
                 controllerthumbLY = (short)(prevLY * 0.15f + newLY * 0.85f);
@@ -292,18 +312,38 @@ void I_ReadController(void)
             if ((magnitude = sqrtf((float)RX * RX + RY * RY)) > controllerrightdeadzone)
             {
                 short   newRX, newRY;
+                float   dirX, dirY;
+                float   normalizedinput;
+                float   outputmagnitude;
 
                 if (magnitude > SDL_JOYSTICK_AXIS_MAX)
                     magnitude = SDL_JOYSTICK_AXIS_MAX;
 
-                magnitude = (magnitude - controllerrightdeadzone)
-                    / (SDL_JOYSTICK_AXIS_MAX - controllerrightdeadzone);
-                normalizedmagnitude = powf(magnitude, 3.0f);
+                dirX = RX / magnitude;
+                dirY = RY / magnitude;
 
-                newRX = (short)(normalizedmagnitude * RX
-                    / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
-                newRY = (short)(normalizedmagnitude * RY
-                    / (magnitude + controllerrightdeadzone / SDL_JOYSTICK_AXIS_MAX));
+                normalizedinput = (magnitude - controllerrightdeadzone)
+                    / (SDL_JOYSTICK_AXIS_MAX - controllerrightdeadzone);
+
+                if (normalizedinput < AIM_ACCELERATION_THRESHOLD)
+                    normalizedmagnitude = powf(normalizedinput / AIM_ACCELERATION_THRESHOLD, 2.0f)
+                    * AIM_ACCELERATION_THRESHOLD * LOW_SENSITIVITY_MULTIPLIER;
+                else
+                {
+                    float   highzone = (normalizedinput - AIM_ACCELERATION_THRESHOLD)
+                        / (1.0f - AIM_ACCELERATION_THRESHOLD);
+
+                    normalizedmagnitude = AIM_ACCELERATION_THRESHOLD * LOW_SENSITIVITY_MULTIPLIER
+                        + powf(highzone, 4.0f) * (1.0f - AIM_ACCELERATION_THRESHOLD) * HIGH_SENSITIVITY_MULTIPLIER;
+                }
+
+                outputmagnitude = normalizedmagnitude * SDL_JOYSTICK_AXIS_MAX;
+
+                if (outputmagnitude > SDL_JOYSTICK_AXIS_MAX)
+                    outputmagnitude = SDL_JOYSTICK_AXIS_MAX;
+
+                newRX = (short)(dirX * outputmagnitude);
+                newRY = (short)(dirY * outputmagnitude);
 
                 controllerthumbRX = (short)(prevRX * 0.15f + newRX * 0.85f);
                 controllerthumbRY = (short)(prevRY * 0.15f + newRY * 0.85f);
