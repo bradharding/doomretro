@@ -43,8 +43,11 @@
 * A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
 * The underscores below the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The `r_textures` CVAR no longer affects the menu’s background.
-* The player’s view now tilts upwards slightly in the menu’s background.
+* These changes have been made to the menu’s background:
+  * The `r_textures` CVAR no longer affects it.
+  * The player’s view now tilts upwards slightly.
+  * Things such as barrels now animate.
+* Elements in the widescreen HUD now have drop shadows when the `r_hud_translucency` CVAR is `on`.
 * These changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * A bug is fixed whereby the shapes of blood splats weren’t as random as intended.
@@ -83,6 +86,9 @@
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
+* These changes have been made to the support for controllers:
+  * Controller sensitivity has been reduced.
+  * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
