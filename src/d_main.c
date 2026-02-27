@@ -2115,9 +2115,6 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
     if (collected_wads)
     {
-        if (wad)
-            previouswad = M_StringDuplicate(wad);
-
         wad = collected_wads;
         collected_wads = NULL;
     }
