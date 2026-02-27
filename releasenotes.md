@@ -89,6 +89,7 @@
 * These changes have been made to the support for controllers:
   * Controller sensitivity has been reduced.
   * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health.
+  * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
