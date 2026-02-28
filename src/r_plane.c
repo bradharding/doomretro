@@ -54,6 +54,8 @@ static visplane_t   **freehead = &freetail;     // killough
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
 
+fixed_t             planenum;
+
 int                 openings[MAXOPENINGS];
 int                 *lastopening;               // dropoff overflow
 
@@ -94,11 +96,12 @@ static void R_MapPlane(const int y, const int x1)
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
     static angle_t  cachedangle[MAXHEIGHT];
+    static int      cachedcentery[MAXHEIGHT];
     fixed_t         anglecosdistance;
     fixed_t         anglesindistance;
     int             dx;
 
-    if (planeheight != cachedheight[y] || rotation != cachedangle[y])
+    if (planeheight != cachedheight[y] || rotation != cachedangle[y] || centery != cachedcentery[y])
     {
         // SoM: because centery is an actual row of pixels (and it isn't really the
         // center row because there are an even number of rows) some corrections need
@@ -107,7 +110,8 @@ static void R_MapPlane(const int y, const int x1)
 
         cachedheight[y] = planeheight;
         cachedangle[y] = rotation;
-        ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        cachedcentery[y] = centery;
+        ds_z = cacheddistance[y] = FixedMul(planeheight, FixedDiv(planenum, dy));
         anglecosdistance = cachedanglecosdistance[y] = FixedMul(angle_cos, ds_z);
         anglesindistance = cachedanglesindistance[y] = FixedMul(angle_sin, ds_z);
         ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)angle_sin * planeheight / dy);

@@ -378,7 +378,6 @@ void R_SetViewSize(int blocks)
 void R_ExecuteSetViewSize(void)
 {
     int     fov;
-    fixed_t num;
     bool    inmenu;
 
     setsizeneeded = false;
@@ -443,15 +442,14 @@ void R_ExecuteSetViewSize(void)
 
     // planes
     inmenu = (menuactive && !helpscreen && menuspin);
-    num = FixedMul(FixedDiv(FRACUNIT, fovscale), (inmenu ? SCREENWIDTH : viewwidth) * FRACUNIT / 2);
+    planenum = FixedMul(FixedDiv(FRACUNIT, fovscale), (inmenu ? SCREENWIDTH : viewwidth) * FRACUNIT / 2);
 
     for (int i = 0; i < (inmenu ? SCREENHEIGHT : viewheight); i++)
     {
-        const int   row = (inmenu ? i : i);
         const int   center = (inmenu ? SCREENHEIGHT / 2 : viewheight / 2);
 
         for (int j = 0; j < PITCHES; j++)
-            yslopes[j][i] = FixedDiv(num, ABS(((row - (center + (j - PITCHMAX) * 2
+            yslopes[j][i] = FixedDiv(planenum, ABS(((i - (center + (j - PITCHMAX) * 2
                 * (inmenu ? 11 : setblocks) / 10)) << FRACBITS) + FRACUNIT / 2));
     }
 
@@ -1077,7 +1075,8 @@ static void R_SetupFrame(void)
 {
     int     colormap = 0;
     mobj_t  *mo = viewplayer->mo;
-    int     pitch = 0;
+    float   pitchf = 0.0f;
+    int     pitchi = 0;
 
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
@@ -1093,12 +1092,18 @@ static void R_SetupFrame(void)
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle);
 
         if (canfreelook)
-            pitch = (viewplayer->oldpitch + (int)((viewplayer->pitch - viewplayer->oldpitch)
-                * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
+        {
+            const float interpitch = viewplayer->oldpitch + (viewplayer->pitch - viewplayer->oldpitch)
+                            * (float)FIXED2DOUBLE(fractionaltic);
+
+            pitchf = interpitch / MLOOKUNIT;
+        }
 
         if (weaponrecoil)
-            pitch = BETWEEN(-PITCHMAX, pitch + viewplayer->oldrecoil
-                + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic), PITCHMAX);
+            pitchf += viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic);
+
+        pitchf = BETWEENF(-PITCHMAX, pitchf, PITCHMAX);
+        pitchi = (int)floorf(pitchf);
     }
     else
     {
@@ -1108,10 +1113,13 @@ static void R_SetupFrame(void)
         viewangle = mo->angle;
 
         if (canfreelook)
-            pitch = viewplayer->pitch / MLOOKUNIT;
+            pitchf = viewplayer->pitch / (float)MLOOKUNIT;
 
         if (weaponrecoil)
-            pitch = BETWEEN(-PITCHMAX, pitch + viewplayer->recoil, PITCHMAX);
+            pitchf += viewplayer->recoil;
+
+        pitchf = BETWEENF(-PITCHMAX, pitchf, PITCHMAX);
+        pitchi = (int)floorf(pitchf);
     }
 
     if (shake && !menuactive && !consoleactive && !paused)
@@ -1130,13 +1138,13 @@ static void R_SetupFrame(void)
 
     centery = viewheight / 2;
 
-    if (pitch)
-        centery += pitch * 2 * (menuactive && !helpscreen && menuspin ? 11 : (r_screensize + 3)) / 10;
+    if (pitchf)
+        centery += (int)(pitchf * 2.0f * (menuactive && !helpscreen && menuspin ? 11 : (r_screensize + 3)) / 10.0f);
 
     extralight = (viewplayer->extralight << 2) + r_extralighting / 3;
 
     centeryfrac = centery << FRACBITS;
-    yslope = yslopes[PITCHMAX + pitch];
+    yslope = yslopes[PITCHMAX + pitchi];
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];

@@ -46,6 +46,7 @@ extern int      ceilingclip[MAXWIDTH];
 extern fixed_t  *yslope;
 extern fixed_t  yslopes[PITCHES][MAXHEIGHT];
 extern int      openings[MAXOPENINGS];
+extern fixed_t  planenum;
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
