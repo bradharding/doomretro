@@ -106,6 +106,14 @@ void P_AddThinker(thinker_t *thinker)
     thinker->cnext = NULL;
     thinker->cprev = NULL;
     P_UpdateThinker(thinker);
+
+    if (thinker->function == &P_MobjThinker)
+    {
+        mobj_t  *mobj = (mobj_t *)thinker;
+
+        if ((mobj->flags & MF_SOLID) && (!(mobj->flags & MF_SHOOTABLE) || mobj->type == MT_BARREL))
+            thinker->menu = true;
+    }
 }
 
 //
