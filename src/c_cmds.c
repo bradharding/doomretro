@@ -9700,6 +9700,17 @@ static void teleportfunc2(char *cmd, char *parms)
 
                 C_HideConsoleFast();
             }
+            else
+            {
+                if (isdefaultplayername())
+                    C_Warning(0, "You can't teleport to (%i, %i%s)!",
+                        x >> FRACBITS, y >> FRACBITS,
+                        (z == ONFLOORZ ? "" : M_StringJoin(", ", commify(z >> FRACBITS), NULL)));
+                else
+                    C_Warning(0, "%s can't teleport to (%i, %i%s)!",
+                        playername, x >> FRACBITS, y >> FRACBITS,
+                        (z == ONFLOORZ ? "" : M_StringJoin(", ", commify(z >> FRACBITS), NULL)));
+            }
         }
     }
 }
