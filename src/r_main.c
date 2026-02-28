@@ -379,6 +379,7 @@ void R_ExecuteSetViewSize(void)
 {
     int     fov;
     fixed_t num;
+    bool    inmenu;
 
     setsizeneeded = false;
 
@@ -441,12 +442,18 @@ void R_ExecuteSetViewSize(void)
         viewheightarray[i] = viewheight;
 
     // planes
-    num = FixedMul(FixedDiv(FRACUNIT, fovscale), viewwidth * FRACUNIT / 2);
+    inmenu = (menuactive && !helpscreen && menuspin);
+    num = FixedMul(FixedDiv(FRACUNIT, fovscale), (inmenu ? SCREENWIDTH : viewwidth) * FRACUNIT / 2);
 
-    for (int i = 0; i < viewheight; i++)
+    for (int i = 0; i < (inmenu ? SCREENHEIGHT : viewheight); i++)
+    {
+        const int   row = (inmenu ? i : i);
+        const int   center = (inmenu ? SCREENHEIGHT / 2 : viewheight / 2);
+
         for (int j = 0; j < PITCHES; j++)
-            yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - PITCHMAX) * 2
-                * setblocks / 10)) << FRACBITS) + FRACUNIT / 2));
+            yslopes[j][i] = FixedDiv(num, ABS(((row - (center + (j - PITCHMAX) * 2
+                * (inmenu ? 11 : setblocks) / 10)) << FRACBITS) + FRACUNIT / 2));
+    }
 
     yslope = yslopes[PITCHMAX];
 
@@ -1124,7 +1131,7 @@ static void R_SetupFrame(void)
     centery = viewheight / 2;
 
     if (pitch)
-        centery += pitch * 2 * (r_screensize + 3) / 10;
+        centery += pitch * 2 * (menuactive && !helpscreen && menuspin ? 11 : (r_screensize + 3)) / 10;
 
     extralight = (viewplayer->extralight << 2) + r_extralighting / 3;
 
