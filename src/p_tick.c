@@ -214,7 +214,7 @@ void P_Ticker(void)
                 {
                     mobj_t  *mobj = (mobj_t *)thinker;
 
-                    if (mobj->health > 0)
+                    if (mobj->health > 0 || mobj->type != MT_BARREL)
                         thinker->function(mobj);
                 }
         }
