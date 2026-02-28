@@ -89,6 +89,7 @@ static HANDLE       hExitEvent;
 static HANDLE       hPlayerThread;
 
 static float        volume_factor = 1.0f;
+static bool         volume_needs_update = false;
 
 // Save the last volume for each MIDI channel.
 static int          channel_volume[MIDI_CHANNELS_PER_TRACK];
@@ -109,6 +110,18 @@ static void FillBuffer(void)
 {
     int i;
 
+    // Apply pending volume update at buffer boundary
+    if (volume_needs_update)
+    {
+        volume_needs_update = false;
+
+        // Send MIDI controller events to adjust the volume.
+        for (int j = 0; j < MIDI_CHANNELS_PER_TRACK; j++)
+            midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | j
+                | (MIDI_CONTROLLER_MAIN_VOLUME << 8)
+                | ((int)((float)channel_volume[j] * volume_factor) << 16)));
+    }
+
     for (i = 0; i < STREAM_MAX_EVENTS; i++)
     {
         native_event_t  *event = &buffer.events[i];
@@ -116,7 +129,29 @@ static void FillBuffer(void)
         if (song.position >= song.num_events)
         {
             if (song.looping)
+            {
                 song.position = 0;
+
+                // Reset delta time for first event after loop to avoid gap
+                if (song.num_events > 0)
+                {
+                    *event = song.native_events[0];
+                    event->dwDeltaTime = 0;  // Start immediately
+
+                    if (MIDIEVENT_TYPE(event->dwEvent) == MIDI_EVENT_CONTROLLER
+                        && MIDIEVENT_DATA1(event->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
+                    {
+                        const int   volume = MIDIEVENT_VOLUME(event->dwEvent);
+
+                        channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
+                        event->dwEvent = ((event->dwEvent & 0xFF00FFFF)
+                            | (((int)((float)volume * volume_factor) & 0x7F) << 16));
+                    }
+
+                    song.position++;
+                    continue;
+                }
+            }
             else
                 break;
         }
@@ -176,6 +211,10 @@ static DWORD WINAPI PlayerProc(void)
         {
             case WAIT_OBJECT_0:
                 FillBuffer();
+
+                if (!buffer.num_events && !song.looping)
+                    return 0;
+
                 StreamOut();
                 break;
 
@@ -305,13 +344,16 @@ static void MIDItoStream(midi_file_t *file)
                 current_time = min_time;
             }
         }
+
+        for (int i = 0; i < num_tracks; i++)
+            if (tracks[i].iter)
+                free(tracks[i].iter);
     }
 
     if (!non_meta_events)
         FreeSong();
 
-    if (tracks)
-        free(tracks);
+    free(tracks);
 }
 
 bool I_Windows_InitMusic(void)
@@ -340,22 +382,35 @@ bool I_Windows_InitMusic(void)
     if ((mmr = midiOutPrepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR))) != MMSYSERR_NOERROR)
     {
         MidiErrorMessage(mmr);
+        midiStreamClose(hMidiStream);
+        hMidiStream = NULL;
         return false;
     }
 
     hBufferReturnEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     hExitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+    if (!hBufferReturnEvent || !hExitEvent)
+    {
+        if (hBufferReturnEvent)
+            CloseHandle(hBufferReturnEvent);
+
+        if (hExitEvent)
+            CloseHandle(hExitEvent);
+
+        midiOutUnprepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
+        midiStreamClose(hMidiStream);
+        hMidiStream = NULL;
+        return false;
+    }
+
     return true;
 }
 
 void I_Windows_SetMusicVolume(int volume)
 {
     volume_factor = sqrtf((float)volume / (MIX_MAX_VOLUME - 1));
-
-    // Send MIDI controller events to adjust the volume.
-    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
-        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8)
-            | ((int)((float)channel_volume[i] * volume_factor) << 16)));
+    volume_needs_update = true;
 }
 
 void I_Windows_StopSong(void)
@@ -412,8 +467,10 @@ void I_Windows_PlaySong(bool looping)
 
     song.looping = looping;
 
-    if ((hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&PlayerProc, 0, 0, 0)))
-        SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
+    if (!(hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&PlayerProc, 0, 0, 0)))
+        return;
+
+    SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
 
     if ((mmr = midiStreamRestart(hMidiStream)) != MMSYSERR_NOERROR)
         MidiErrorMessage(mmr);
