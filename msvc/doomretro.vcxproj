@@ -517,6 +517,7 @@
     <None Include="..\res\BRGHTMPS.lmp" />
     <None Include="..\res\CHEXBEX.lmp" />
     <None Include="..\res\DEHACKED.lmp" />
+    <None Include="..\res\doomretro.desktop" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\DRCOMPAT.lmp" />
     <None Include="..\res\VANILLA.lmp" />

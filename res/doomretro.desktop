@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=DOOM Retro
+Comment=The classic, refined DOOM source port
+Exec=doomretro
+Icon=doomretro
+Categories=Game;ActionGame;
+Terminal=false
+StartupNotify=false
+StartupWMClass=doomretro
+Keywords=doom;retro;fps;shooter;classic;

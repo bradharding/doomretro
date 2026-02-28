@@ -133,7 +133,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y cmake libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev ccache
+          sudo apt install -y cmake libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev ccache wget file
+
+      - name: Extract version
+        id: version
+        run: |
+          version=$(grep -oP '#define DOOMRETRO_VERSIONSTRING\s+"\K[^"]+' src/version.h)
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
 
       - name: Configure
         run: |
@@ -150,13 +156,38 @@ jobs:
           cd build
           make -j$(nproc) VERBOSE=1
 
-      - name: Upload artifacts
+      - name: Create AppImage
+        if: matrix.compiler == 'gcc'
+        run: |
+          wget -q https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          cp build/doomretro AppDir/usr/bin/
+          cp build/doomretro.wad AppDir/usr/bin/ || cp res/doomretro.wad AppDir/usr/bin/
+          cp res/doomretro.desktop AppDir/usr/share/applications/
+
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+
+          mv DOOM_Retro*.AppImage doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
+
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: doomretro-linux-${{ matrix.compiler }}
           path: |
             build/doomretro
             build/doomretro.wad
+
+      - name: Upload AppImage
+        if: matrix.compiler == 'gcc'
+        uses: actions/upload-artifact@v4
+        with:
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64-AppImage
+          path: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
 
   build-macos:
     runs-on: macos-latest
