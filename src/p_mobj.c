@@ -558,7 +558,7 @@ floater:
                     {
                         S_StartSound(mo, sfx_oof);
 
-                        if (joy_rumble_fall)
+                        if (joy_rumble_fall && mo->subsector->sector->terraintype == SOLID)
                         {
                             I_ControllerRumble(FALL_RUMBLE_STRENGTH, FALL_RUMBLE_STRENGTH);
                             damagerumbletics += FALL_RUMBLE_TICS;
