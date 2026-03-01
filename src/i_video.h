@@ -68,7 +68,7 @@
 
 #define GAMMALEVELS         21
 
-#define PILLARBOXANIMTIME   150
+#define PILLARBOXANIMTIME   200
 
 bool MouseShouldBeGrabbed(void);
 void I_InitKeyboard(void);
