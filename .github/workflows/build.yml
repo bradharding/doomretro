@@ -169,6 +169,7 @@ jobs:
           cp build/doomretro AppDir/usr/bin/
           cp build/doomretro.wad AppDir/usr/bin/ || cp res/doomretro.wad AppDir/usr/bin/
           cp res/doomretro.desktop AppDir/usr/share/applications/
+          cp res/doomretro.iconset/icon_256x256.png AppDir/usr/share/icons/hicolor/256x256/apps/doomretro.png
 
           ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
 
