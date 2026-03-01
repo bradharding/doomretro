@@ -968,6 +968,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
+    int         startx = x;
 
     x += WIDESCREENDELTA - SHORT(patch->leftoffset);
     y -= SHORT(patch->topoffset);
@@ -976,6 +977,11 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
 
     for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
     {
+        int currentx = ((startx * DX) >> FRACBITS) + i;
+        
+        if (currentx >= SCREENWIDTH)
+            break;
+
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
         // step through the posts in a column
@@ -1000,7 +1006,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
 
                 dest += SCREENWIDTH;
 
-                if (menushadow && height + 2 > 0 && i <= shadowwidth)
+                if (menushadow && height + 2 > 0 && i <= shadowwidth && currentx + 2 < SCREENWIDTH)
                 {
                     byte    *dot = dest + SCREENWIDTH + 2;
 
