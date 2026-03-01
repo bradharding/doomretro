@@ -2186,7 +2186,7 @@ static void M_DrawOptions(void)
     }
     else
     {
-        dot = roundf(m_sensitivity) / m_sensitivity_max * 8.0f;
+        dot = roundf(m_sensitivity_horizontal) / m_sensitivity_horizontal_max * 8.0f;
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
             + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
@@ -2454,26 +2454,26 @@ static void M_ChangeSensitivity(int choice)
     {
         if (!choice)
         {
-            if (m_sensitivity > m_sensitivity_min)
+            if (m_sensitivity_horizontal > m_sensitivity_horizontal_min)
             {
-                if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
-                    m_sensitivity++;
+                if ((int)(m_sensitivity_horizontal = roundf(m_sensitivity_horizontal)) & 1)
+                    m_sensitivity_horizontal++;
 
-                m_sensitivity -= 2.0f;
-                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity), (int)m_sensitivity);
+                m_sensitivity_horizontal -= 2.0f;
+                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity_horizontal), (int)m_sensitivity_horizontal);
                 M_SliderSound();
                 M_SaveCVARs();
             }
         }
         else
         {
-            if (m_sensitivity < m_sensitivity_max)
+            if (m_sensitivity_horizontal < m_sensitivity_horizontal_max)
             {
-                if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
-                    m_sensitivity--;
+                if ((int)(m_sensitivity_horizontal = roundf(m_sensitivity_horizontal)) & 1)
+                    m_sensitivity_horizontal--;
 
-                m_sensitivity += 2.0f;
-                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity), (int)m_sensitivity);
+                m_sensitivity_horizontal += 2.0f;
+                C_IntegerCVAROutputNoRepeat(stringize(m_sensitivity_horizontal), (int)m_sensitivity_horizontal);
                 M_SliderSound();
                 M_SaveCVARs();
             }

@@ -134,7 +134,8 @@ bool        m_doubleclick_use = m_doubleclick_use_default;
 bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
 bool        m_pointer = m_pointer_default;
-float       m_sensitivity = m_sensitivity_default;
+float       m_sensitivity_horizontal = m_sensitivity_horizontal_default;
+float       m_sensitivity_vertical = m_sensitivity_vertical_default;
 bool        m_smoothing = m_smoothing_default;
 bool        melt = melt_default;
 bool        menuhighlight = menuhighlight_default;
@@ -399,7 +400,8 @@ static default_t cvars[] =
     CVAR_BOOL         (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
     CVAR_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS        ),
     CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                             BOOLVALUEALIAS        ),
-    CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                         0                     ),
+    CVAR_FLOAT        (m_sensitivity_horizontal,         m_sensitivity,                         m_sensitivity_horizontal,              0                     ),
+    CVAR_FLOAT        (m_sensitivity_vertical,           m_sensitivity_vertical,                m_sensitivity_vertical,                0                     ),
     CVAR_BOOL         (m_smoothing,                      m_smoothing,                           m_smoothing,                           BOOLVALUEALIAS        ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS        ),
     CVAR_BOOL         (menuhighlight,                    menuhighlight,                         menuhighlight,                         BOOLVALUEALIAS        ),

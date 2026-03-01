@@ -43,6 +43,8 @@
 * A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
 * The underscores below the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The mouse’s vertical sensitivity can now be changed using the new `m_sensitivity_vertical` CVAR, which is `16.0` by default.
+* The `m_sensitivity` CVAR has been renamed `m_sensitivity_horizontal` to reflect that it now only affects horizontal sensitivity. Also, adjusting “mouse sensitivity” in the options menu now only changes this CVAR.
 * These changes have been made to the menu’s background:
   * The `r_textures` CVAR no longer affects it.
   * The player’s view now tilts upwards slightly.
