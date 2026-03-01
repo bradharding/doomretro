@@ -43,7 +43,7 @@
 * A crash no longer occurs when the player picks up an invulnerability power-up and the `r_textures` CVAR is `off`.
 * The underscores below the player message displayed when using the `IDBEHOLD` cheat are now always aligned correctly.
 * Smoothing of the mouse can now be toggled off using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The mouse’s vertical sensitivity can now be changed using the new `m_sensitivity_vertical` CVAR, which is `16.0` by default.
+* The mouse’s vertical sensitivity when the `freelook` CVAR is `on` can now be changed separately from its horizontal sensitivity using the new `m_sensitivity_vertical` CVAR, which is `16` by default.
 * The `m_sensitivity` CVAR has been renamed `m_sensitivity_horizontal` to reflect that it now only affects horizontal sensitivity. Also, adjusting “mouse sensitivity” in the options menu now only changes this CVAR.
 * These changes have been made to the menu’s background:
   * The `r_textures` CVAR no longer affects it.
@@ -92,8 +92,9 @@
 * These changes have been made to the support for controllers:
   * Controller movement has been made slightly smoother.
   * Controller sensitivity has been reduced.
-  * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to red), and also flash red when 25% or less health remains.
+  * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to flashing red).
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * When the `joy_rumble_fall` CVAR is `on`, the controller will no longer rumble when the player falls into liquid.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
