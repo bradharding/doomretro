@@ -123,7 +123,7 @@ static angle_t  playerangle;
 static int      playerpitch;
 static fixed_t  playerviewz;
 
-static patch_t  *menuborder;
+patch_t         *menuborder;
 static short    titleheight;
 
 int             *maptoepisode;

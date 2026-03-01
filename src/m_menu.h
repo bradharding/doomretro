@@ -139,3 +139,4 @@ extern uint64_t controllerwait;
 extern uint64_t mousewait;
 extern int      *maptoepisode;
 extern int      maxmaptoepisode;
+extern patch_t  *menuborder;

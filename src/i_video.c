@@ -785,6 +785,9 @@ static inline void I_DrawPillarboxes(void)
                 memset(row, nearestblack, currentwidth);
                 memset(row + rightoffset, nearestblack, currentwidth);
             }
+
+            if (menuactive && !helpscreen)
+                V_DrawMenuBorderPatch(currentwidth, 0, menuborder);
         }
     }
 }
