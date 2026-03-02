@@ -96,6 +96,9 @@ static bool P_CrossSubsector(const int num)
         vertex_t    *v1;
         vertex_t    *v2;
 
+        if (!line)  // figgi -- skip minisegs
+            continue;
+
         if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT]
             || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
             || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP]
