@@ -95,6 +95,9 @@ int W_GetNumLumps2(const char *name);
 
 int W_LumpLength(int lump);
 
+bool W_LumpExistsWithName(int lump, char *name);
+int W_LumpLengthWithName(int lump, char *name);
+
 void *W_CacheLumpNum(int lumpnum);
 
 #define W_CacheLumpName(name)                   W_CacheLumpNum(W_GetNumForName(name))

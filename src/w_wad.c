@@ -844,6 +844,17 @@ int W_CheckNumForName(const char *name)
     return i;
 }
 
+bool W_LumpExistsWithName(int lump, char *name)
+{
+    if (lump < 0 || lump >= numlumps)
+        return false;
+
+    if (name && strncasecmp(lumpinfo[lump]->name, name, 8))
+        return false;
+
+    return true;
+}
+
 //
 // W_GetNumLumps
 // Check if there's more than one of the same lump.
@@ -1049,6 +1060,14 @@ int W_LumpLength(int lump)
         I_Error("W_LumpLength: %i >= numlumps", lump);
 
     return lumpinfo[lump]->size;
+}
+
+int W_LumpLengthWithName(int lump, char *name)
+{
+    if (!W_LumpExistsWithName(lump, name))
+        return 0;
+
+    return W_LumpLength(lump);
 }
 
 //

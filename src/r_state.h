@@ -114,7 +114,14 @@ typedef enum
     DOOMBSP,
     DEEPBSP,
     ZDBSPX,
-    ZDBSPZ
+    ZDBSPZ,
+    ZDBSPXGL,
+    ZDBSPXGL2,
+    ZDBSPXGL3,
+    ZDBSPZGL,
+    ZDBSPZGL2,
+    ZDBSPZGL3,
+    NANOBSP
 } nodeformat_t;
 
 extern nodeformat_t nodeformat;

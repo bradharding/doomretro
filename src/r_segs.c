@@ -660,7 +660,9 @@ void R_StoreWallRange(const int start, const int stop)
     unsigned short  flags;
     size_t          span;
 
-    linedef = curline->linedef;
+    if (!(linedef = curline->linedef))
+        return;
+
     flags = linedef->flags;
 
     // mark the segment as visible for automap

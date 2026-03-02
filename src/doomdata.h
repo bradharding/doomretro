@@ -58,7 +58,8 @@ enum
     ML_NODES,       // BSP nodes
     ML_SECTORS,     // Sectors, from editing
     ML_REJECT,      // LUT, sector-sector visibility
-    ML_BLOCKMAP     // LUT, motion clipping, walls/grid element
+    ML_BLOCKMAP,    // LUT, motion clipping, walls/grid element
+    ML_BEHAVIOR     // Hexen-format, ACS byte code. Unsupported.
 };
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -231,6 +232,20 @@ typedef struct
     unsigned char   side;
 } PACKEDATTR mapseg_znod_t;
 
+typedef struct
+{
+    unsigned int    vertex, partner;
+    unsigned short  linedef;
+    unsigned char   side;
+} PACKEDATTR mapseg_xgln_t;
+
+typedef struct
+{
+    unsigned int    vertex, partner;
+    unsigned int    linedef;
+    unsigned char   side;
+} PACKEDATTR mapseg_xgl2_t;
+
 // BSP node structure.
 
 // Indicate a leaf.
@@ -250,6 +265,14 @@ typedef struct
     // else it's a node of another subtree.
     unsigned short  children[2];
 } PACKEDATTR mapnode_t;
+
+typedef struct
+{
+    int             x, y;
+    int             dx, dy;
+    short           bbox[2][4];
+    int             children[2];
+} PACKEDATTR mapnode_xgl3_t;
 
 typedef struct
 {

@@ -396,7 +396,14 @@ const char *nodeformats[] =
     "Vanilla",
     ITALICS("DeeP"),
     ITALICS("ZDoom") " extended",
-    ITALICS("ZDoom") " extended"
+    ITALICS("ZDoom") " extended",
+    ITALICS("ZDoom") " GL",
+    ITALICS("ZDoom") " GL2",
+    ITALICS("ZDoom") " GL3",
+    ITALICS("ZDoom") " GL",
+    ITALICS("ZDoom") " GL2",
+    ITALICS("ZDoom") " GL3",
+    ITALICS("NanoBSP")
 };
 
 bool            boomcompatible = false;
@@ -1325,6 +1332,110 @@ static void P_LoadSegs_V4(int lump)
     P_CheckLinedefs();
 }
 
+static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
+{
+    const mapseg_xgln_t *mln = (const mapseg_xgln_t *)data;
+    const mapseg_xgl2_t *ml2 = (const mapseg_xgl2_t *)data;
+
+    for (int i = 0; i < numsubsectors; i++)
+    {
+        for (int j = 0; j < subsectors[i].numlines; j++)
+        {
+            unsigned int    v1;
+            unsigned int    line;
+            unsigned char   side;
+            seg_t           *seg;
+
+            if (format == ZDBSPXGL || format == ZDBSPZGL)
+            {
+                v1 = LONG(mln->vertex);
+                line = (unsigned short)SHORT(mln->linedef);
+                side = mln->side;
+
+                if (line == 0xFFFF)
+                    line = 0xFFFFFFFF;
+
+                mln++;
+            }
+            else
+            {
+                v1 = LONG(ml2->vertex);
+                line = (unsigned int)LONG(ml2->linedef);
+                side = ml2->side;
+                ml2++;
+            }
+
+            seg = &segs[subsectors[i].firstline + j];
+            seg->v1 = &vertexes[v1];
+
+            if (!j)
+                seg[subsectors[i].numlines - 1].v2 = seg->v1;
+            else
+                seg[-1].v2 = seg->v1;
+
+            if (line != 0xFFFFFFFF)
+            {
+                line_t  *ldef;
+
+                if ((unsigned int)line >= (unsigned int)numlines)
+                    I_Error("Seg %d, %d references a non-existent linedef %d.",
+                        i, j, (unsigned int)line);
+
+                ldef = &lines[line];
+                seg->linedef = ldef;
+
+                if (side != 0 && side != 1)
+                    I_Error("Seg %d, %d references a non-existent side %d.",
+                        i, j, (unsigned int)side);
+
+                if ((unsigned)ldef->sidenum[side] >= (unsigned)numsides)
+                {
+                    I_Error("Linedef %d for seg %d, %d references a non-existent sidedef %d.",
+                        line, i, j, (unsigned)ldef->sidenum[side]);
+                }
+
+                seg->sidedef = &sides[ldef->sidenum[side]];
+
+                // cph 2006/09/30 - our frontsector can be the second side of
+                // the linedef, so must check for NO_INDEX in case we are
+                // incorrectly referencing the back of a 1S line
+                if (ldef->sidenum[side] != NO_INDEX)
+                    seg->frontsector = sides[ldef->sidenum[side]].sector;
+                else
+                {
+                    seg->frontsector = 0;
+                    C_Warning(2, "The front of seg %d, %d has no sidedef.", i, j);
+                }
+
+                if ((ldef->flags & ML_TWOSIDED) && (ldef->sidenum[side ^ 1] != NO_INDEX))
+                    seg->backsector = sides[ldef->sidenum[side ^ 1]].sector;
+                else
+                    seg->backsector = 0;
+
+                seg->offset = GetOffset(seg->v1, (side ? ldef->v2 : ldef->v1));
+            }
+            else
+            {
+                seg->angle = 0;
+                seg->offset = 0;
+                seg->linedef = NULL;
+                seg->sidedef = NULL;
+                seg->frontsector = segs[subsectors[i].firstline].frontsector;
+                seg->backsector = seg->frontsector;
+            }
+        }
+
+        // Need all vertices to be defined before setting angles
+        for (int j = 0; j < subsectors[i].numlines; j++)
+        {
+            seg_t   *seg = &segs[subsectors[i].firstline + j];
+
+            if (seg->linedef)
+                seg->angle = R_PointToAngle2(seg->v1->x, seg->v1->y, seg->v2->x, seg->v2->y);
+        }
+    }
+}
+
 //
 // P_LoadSubsectors
 //
@@ -1755,7 +1866,7 @@ static void P_LoadZSegs(const byte *data)
 
 // MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
 // <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
-static void P_LoadZNodes(int lump, bool compressed)
+static void P_LoadZNodes(int lump, nodeformat_t format)
 {
     byte            *data = W_CacheLumpNum(lump);
     byte            *output = NULL;
@@ -1766,6 +1877,8 @@ static void P_LoadZNodes(int lump, bool compressed)
     unsigned int    numSegs;
     unsigned int    numNodes;
     vertex_t        *newvertarray = NULL;
+    bool            compressed = (format == ZDBSPZ || format == ZDBSPZGL
+                        || format == ZDBSPZGL2 || format == ZDBSPZGL3);
 
     if (compressed)
     {
@@ -1898,31 +2011,67 @@ static void P_LoadZNodes(int lump, bool compressed)
 
     numsegs = numSegs;
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
-    P_LoadZSegs(data);
-    data += numsegs * sizeof(mapseg_znod_t);
+
+    if (format == ZDBSPX || format == ZDBSPZ)
+    {
+        P_LoadZSegs(data);
+        data += numsegs * sizeof(mapseg_znod_t);
+    }
+    else if (format == ZDBSPXGL || format == ZDBSPZGL)
+    {
+        P_LoadSegs_XGL(data, format);
+        data += numsegs * sizeof(mapseg_xgln_t);
+    }
+    else if (format == ZDBSPXGL2 || format == ZDBSPZGL2 || format == ZDBSPXGL3 || format == ZDBSPZGL3)
+    {
+        P_LoadSegs_XGL(data, format);
+        data += numsegs * sizeof(mapseg_xgl2_t);
+    }
 
     // Read nodes
     numNodes = LONG(*((const unsigned int *)data));
     data += sizeof(numNodes);
+
     numnodes = numNodes;
     nodes = calloc_IfSameLevel(nodes, numNodes, sizeof(node_t));
 
     for (unsigned int i = 0; i < numNodes; i++)
     {
-        node_t                  *no = nodes + i;
-        const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
+        node_t  *no = nodes + i;
 
-        no->x = SHORT(mn->x) << FRACBITS;
-        no->y = SHORT(mn->y) << FRACBITS;
-        no->dx = SHORT(mn->dx) << FRACBITS;
-        no->dy = SHORT(mn->dy) << FRACBITS;
-
-        for (int j = 0; j < 2; j++)
+        if (format == ZDBSPXGL3 || format == ZDBSPZGL3)
         {
-            no->children[j] = LONG(mn->children[j]);
+            const mapnode_xgl3_t    *mn3 = (const mapnode_xgl3_t *)data + i;
 
-            for (int k = 0; k < 4; k++)
-                no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+            no->x = LONG(mn3->x);
+            no->y = LONG(mn3->y);
+            no->dx = LONG(mn3->dx);
+            no->dy = LONG(mn3->dy);
+
+            for (int j = 0; j < 2; j++)
+            {
+                no->children[j] = LONG(mn3->children[j]);
+
+                for (int k = 0; k < 4; k++)
+                    no->bbox[j][k] = SHORT(mn3->bbox[j][k]) << FRACBITS;
+            }
+        }
+        else
+        {
+            const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
+
+            no->x = SHORT(mn->x) << FRACBITS;
+            no->y = SHORT(mn->y) << FRACBITS;
+            no->dx = SHORT(mn->dx) << FRACBITS;
+            no->dy = SHORT(mn->dy) << FRACBITS;
+
+            for (int j = 0; j < 2; j++)
+            {
+                no->children[j] = LONG(mn->children[j]);
+
+                for (int k = 0; k < 4; k++)
+                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+            }
         }
     }
 
@@ -2881,6 +3030,9 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
     {
         const line_t    *l = segs[i].linedef;           // The parent linedef
 
+        if (!l)
+            continue;
+
         if (l->dx && l->dy)                             // We can ignore orthogonal lines
         {
             vertex_t    *v = segs[i].v1;
@@ -3205,26 +3357,61 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
 {
     nodeformat_t    format = DOOMBSP;
     byte            *n = NULL;
-    int             b = lumpnum + ML_BLOCKMAP + 1;
+    int             subsize = 0;
+    int             nodesize = 0;
 
-    if (b < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
+    if (W_LumpExistsWithName(lumpnum + ML_BEHAVIOR, "BEHAVIOR"))
         I_Error("Hexen format maps are not supported.");
 
-    if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))
+    if ((subsize = W_LumpLengthWithName(lumpnum + ML_SSECTORS, "SSECTORS")) >= sizeof(mapsubsector_t))
     {
-        if (!memcmp(n, "xNd4\0\0\0\0", 8))
-            format = DEEPBSP;
-        else if (!W_LumpLength(lumpnum + ML_SEGS) && W_LumpLength(lumpnum + ML_NODES) >= 12)
+        n = W_CacheLumpNum(lumpnum + ML_SSECTORS);
+
+        if (!memcmp(n, "XGLN", 4))
+            format = ZDBSPXGL;
+        else if (!memcmp(n, "ZGLN", 4))
+            format = ZDBSPZGL;
+        else if (!memcmp(n, "XGL2", 4))
+            format = ZDBSPXGL2;
+        else if (!memcmp(n, "ZGL2", 4))
+            format = ZDBSPZGL2;
+        else if (!memcmp(n, "XGL3", 4))
+            format = ZDBSPXGL3;
+        else if (!memcmp(n, "ZGL3", 4))
+            format = ZDBSPZGL3;
+    }
+
+    if (n)
+    {
+        Z_Free(n);
+        n = NULL;
+    }
+
+    if (format == DOOMBSP)
+    {
+        if ((nodesize = W_LumpLengthWithName(lumpnum + ML_NODES, "NODES")) >= sizeof(mapnode_t))
         {
-            if (!memcmp(n, "XNOD", 4))
+            n = W_CacheLumpNum(lumpnum + ML_NODES);
+
+            if (!memcmp(n, "xNd4\0\0\0\0", 8))
+                format = DEEPBSP;
+            else if (!memcmp(n, "XNOD", 4))
                 format = ZDBSPX;
             else if (!memcmp(n, "ZNOD", 4))
                 format = ZDBSPZ;
         }
+        else
+            format = NANOBSP;
     }
 
+    if (subsize == sizeof(mapsubsector_t) && !nodesize)
+        format = DOOMBSP;
+
     if (n)
-        W_ReleaseLumpNum(b);
+    {
+        Z_Free(n);
+        n = NULL;
+    }
 
     return format;
 }
@@ -3406,10 +3593,10 @@ void P_SetupLevel(int ep, int map)
     else
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    if (nodeformat == ZDBSPX)
-        P_LoadZNodes(lumpnum + ML_NODES, false);
-    else if (nodeformat == ZDBSPZ)
-        P_LoadZNodes(lumpnum + ML_NODES, true);
+    if (nodeformat == ZDBSPX || nodeformat == ZDBSPZ)
+        P_LoadZNodes(lumpnum + ML_NODES, nodeformat);
+    else if (nodeformat >= ZDBSPXGL && nodeformat <= ZDBSPZGL3)
+        P_LoadZNodes(lumpnum + ML_SSECTORS, nodeformat);
     else if (nodeformat == DEEPBSP)
     {
         P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
