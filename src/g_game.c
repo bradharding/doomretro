@@ -315,6 +315,123 @@ void G_PrevWeapon(void)
 }
 
 //
+// G_CheckAutoFire
+// Check if there's a monster in front of the player that can be targeted
+//
+static bool G_CheckAutoFire(void)
+{
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    fixed_t             distance;
+    fixed_t             maxdistance;
+    angle_t             angle;
+
+    // Don't autofire if dead, frozen, or changing weapons
+    if (viewplayer->health <= 0
+        || (viewplayer->cheats & CF_FREEZE)
+        || pendingweapon != wp_nochange)
+        return false;
+
+    // Don't autofire if out of ammo
+    if (!infiniteammo)
+    {
+        const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
+        const int           ammopershot = weaponinfo[readyweapon].ammopershot;
+
+        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < ammopershot)
+            return false;
+    }
+
+    // Set appropriate distance based on weapon type
+    // Melee weapons have shorter range
+    if (readyweapon == wp_fist || readyweapon == wp_chainsaw)
+    {
+        distance = MELEERANGE;
+        maxdistance = MELEERANGE;
+    }
+    else
+    {
+        // For ranged weapons, limit autofire to a reasonable distance
+        // Don't waste ammo on very distant targets
+        distance = MISSILERANGE;
+        maxdistance = MISSILERANGE / 2;
+    }
+
+    // Check if there's a target in the player's view
+    angle = viewplayer->mo->angle;
+
+    if (autoaim)
+    {
+        // Use autoaim to find targets within a narrow field of view
+        // Try center first
+        P_AimLineAttack(viewplayer->mo, angle, distance, MF_FRIEND);
+
+        if (linetarget
+            && (linetarget->flags & MF_SHOOTABLE)
+            && !(linetarget->flags & MF_FRIEND))
+        {
+            // Check if target is within reasonable distance
+            fixed_t dx = linetarget->x - viewplayer->mo->x;
+            fixed_t dy = linetarget->y - viewplayer->mo->y;
+            fixed_t dist = P_ApproxDistance(dx, dy);
+
+            if (dist <= maxdistance)
+                return true;
+        }
+
+        // Try slight left and right variations for more forgiving autofire
+        const angle_t spread = ANG5 / 2;
+
+        P_AimLineAttack(viewplayer->mo, angle + spread, distance, MF_FRIEND);
+
+        if (linetarget
+            && (linetarget->flags & MF_SHOOTABLE)
+            && !(linetarget->flags & MF_FRIEND))
+        {
+            fixed_t dx = linetarget->x - viewplayer->mo->x;
+            fixed_t dy = linetarget->y - viewplayer->mo->y;
+            fixed_t dist = P_ApproxDistance(dx, dy);
+
+            if (dist <= maxdistance)
+                return true;
+        }
+
+        P_AimLineAttack(viewplayer->mo, angle - spread, distance, MF_FRIEND);
+
+        if (linetarget
+            && (linetarget->flags & MF_SHOOTABLE)
+            && !(linetarget->flags & MF_FRIEND))
+        {
+            fixed_t dx = linetarget->x - viewplayer->mo->x;
+            fixed_t dy = linetarget->y - viewplayer->mo->y;
+            fixed_t dist = P_ApproxDistance(dx, dy);
+
+            if (dist <= maxdistance)
+                return true;
+        }
+    }
+    else
+    {
+        // Without autoaim, check directly along the view angle
+        P_AimLineAttack(viewplayer->mo, angle, distance, MF_FRIEND);
+
+        if (linetarget
+            && (linetarget->flags & MF_SHOOTABLE)
+            && !(linetarget->flags & MF_FRIEND))
+        {
+            fixed_t dx = linetarget->x - viewplayer->mo->x;
+            fixed_t dy = linetarget->y - viewplayer->mo->y;
+            fixed_t dist = P_ApproxDistance(dx, dy);
+
+            if (dist <= maxdistance)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+//
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs.
 //
@@ -466,8 +583,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // buttons
     if (!(viewplayer->cheats & CF_FREEZE))
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || gamekeydown[keyboardfire2]
-            || (controllerbuttons & controllerfire)))
+        if (mousebuttons[mousefire] || gamekeydown[keyboardfire] || gamekeydown[keyboardfire2]
+            || (controllerbuttons & controllerfire)
+            || (autofire && G_CheckAutoFire()))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]

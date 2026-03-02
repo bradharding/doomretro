@@ -95,6 +95,7 @@
   * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to flashing red).
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_fall` CVAR is `on`, the controller will no longer rumble when the player falls into liquid.
+* An accessibility feature has been implemented that causes the player to automatically fire their currently equipped weapon when there's a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

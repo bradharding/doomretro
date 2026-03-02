@@ -37,6 +37,7 @@ am_yellowdoorcolor 231
 am_yellowkeycolor 112
 animatedstats off
 autoaim on
+autofire off
 autoload off
 autosave off
 autoswitch on

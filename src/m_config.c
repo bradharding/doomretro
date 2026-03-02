@@ -93,6 +93,7 @@ int         am_yellowdoorcolor = am_yellowdoorcolor_default;
 int         am_yellowkeycolor = am_yellowkeycolor_default;
 bool        animatedstats = animatedstats_default;
 bool        autoaim = autoaim_default;
+bool        autofire = autofire_default;
 bool        autoload = autoload_default;
 bool        autosave = autosave_default;
 bool        autoswitch = autoswitch_default;
@@ -360,6 +361,7 @@ static default_t cvars[] =
     CVAR_INT          (am_yellowkeycolor,                am_yellowkeycolour,                    am_yellowkeycolor,                     0                     ),
     CVAR_BOOL         (animatedstats,                    animatedstats,                         animatedstats,                         BOOLVALUEALIAS        ),
     CVAR_BOOL         (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS        ),
+    CVAR_BOOL         (autofire,                         autofire,                              autofire,                              BOOLVALUEALIAS        ),
     CVAR_BOOL         (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS        ),
     CVAR_BOOL         (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS        ),
     CVAR_BOOL         (autoswitch,                       autoswitch,                            autoswitch,                            BOOLVALUEALIAS        ),

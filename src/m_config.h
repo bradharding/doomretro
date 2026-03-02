@@ -84,6 +84,7 @@ extern int      am_yellowdoorcolor;
 extern int      am_yellowkeycolor;
 extern bool     animatedstats;
 extern bool     autoaim;
+extern bool     autofire;
 extern bool     autoload;
 extern bool     autosave;
 extern bool     autoswitch;
@@ -537,6 +538,8 @@ enum
 #define armortype_max                       armortype_blue
 
 #define autoaim_default                     true
+
+#define autofire_default                    false
 
 #define autoload_default                    true
 
