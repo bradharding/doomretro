@@ -23,11 +23,11 @@
 //
 //----------------------------------------------------------------------------
 
-#include "..\m_bbox.h"
-#include "..\r_defs.h"
-#include "..\p_setup.h"
-#include "..\r_main.h"
-#include "..\z_zone.h"
+#include "../m_bbox.h"
+#include "../r_defs.h"
+#include "../p_setup.h"
+#include "../r_main.h"
+#include "../z_zone.h"
 
 #include "nano_bsp.h"
 
