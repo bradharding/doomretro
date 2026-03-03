@@ -54,6 +54,7 @@
 #define DOOMRETRO_CONFIGFILE            "doomretro.cfg"
 #define DOOMRETRO_CONSOLEFOLDER         "console"
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962026 by Brad Harding. All rights reserved."
+#define DOOMRETRO_CRASHFOLDER           "crash"
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
 #define DOOMRETRO_FILENAME              "doomretro.exe"

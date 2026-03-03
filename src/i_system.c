@@ -35,6 +35,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <DbgHelp.h>
 #else
 #include <unistd.h>
 #endif
@@ -51,6 +52,8 @@
 #include "w_wad.h"
 
 #if defined(_WIN32)
+#pragma comment(lib, "Dbghelp.lib")
+
 #define PRODUCT_CORE        0x00000065
 #define PRODUCT_EDUCATION   0x00000079
 
@@ -223,6 +226,94 @@ void I_PrintWindowsVersion(void)
         if (bits == 64 && sizeof(intptr_t) == 4)
             C_Warning(1, "The 64-bit version of " ITALICS(DOOMRETRO_NAME) " is recommended on this PC.");
     }
+}
+
+static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
+{
+    char        crashfolder[MAX_PATH];
+    char        dumppath[MAX_PATH];
+    char        logpath[MAX_PATH];
+    HANDLE      hDumpFile;
+    time_t      now = time(NULL);
+    struct tm   *tm_info = localtime(&now);
+    char        timestamp[64];
+    FILE        *logFile;
+
+    // Create timestamp
+    strftime(timestamp, sizeof(timestamp), "%Y%m%d_%H%M%S", tm_info);
+
+    // Create crash dump filename
+    M_snprintf(crashfolder, sizeof(crashfolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CRASHFOLDER,
+        M_GetAppDataFolder());
+    M_MakeDirectory(crashfolder);
+    M_snprintf(dumppath, sizeof(dumppath), "%s" DIR_SEPARATOR_S "crash_%s.dmp",
+        crashfolder, timestamp);
+    M_snprintf(logpath, sizeof(logpath), "%s" DIR_SEPARATOR_S "crash_%s.txt",
+        crashfolder, timestamp);
+
+    // Write minidump
+    hDumpFile = CreateFile(dumppath, GENERIC_WRITE, 0, NULL,
+        CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+    if (hDumpFile != INVALID_HANDLE_VALUE)
+    {
+        MINIDUMP_EXCEPTION_INFORMATION  mdei;
+
+        mdei.ThreadId = GetCurrentThreadId();
+        mdei.ExceptionPointers = exceptionInfo;
+        mdei.ClientPointers = FALSE;
+
+        MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile,
+            MiniDumpWithFullMemory, &mdei, NULL, NULL);
+        CloseHandle(hDumpFile);
+    }
+
+    // Write crash log with system info
+    if ((logFile = fopen(logpath, "w")))
+    {
+        fprintf(logFile, "%s %s Crash Report\n", DOOMRETRO_NAME, DOOMRETRO_VERSIONSTRING);
+        fprintf(logFile, "Date/Time: %s\n", timestamp);
+        fprintf(logFile, "Exception Code: 0x%08lX\n",
+            exceptionInfo->ExceptionRecord->ExceptionCode);
+        fprintf(logFile, "Exception Address: 0x%p\n",
+            exceptionInfo->ExceptionRecord->ExceptionAddress);
+        fprintf(logFile, "Exception Flags: 0x%08lX\n\n",
+            exceptionInfo->ExceptionRecord->ExceptionFlags);
+
+        // Add system info
+        fprintf(logFile, "System Information:\n");
+        fprintf(logFile, "CPU Cores: %d\n", SDL_GetCPUCount());
+        fprintf(logFile, "RAM: %d MB\n", SDL_GetSystemRAM());
+
+        // Add game state info
+        fprintf(logFile, "\nGame State: %d\n", gamestate);
+        fprintf(logFile, "Map: %d\n", gamemap);
+        if (wad)
+            fprintf(logFile, "WAD: %s\n", wad);
+
+        fclose(logFile);
+    }
+
+    // Show user dialog
+    char message[1024];
+    M_snprintf(message, sizeof(message),
+        "%s has crashed unexpectedly.\n\n"
+        "Information about this crash has been saved to:\n"
+        "%s\n"
+        "%s\n\n"
+        "Please send these files to %s to help fix the issue.\n\n"
+        "Exception Code: 0x%08lX",
+        DOOMRETRO_NAME, dumppath, logpath, DOOMRETRO_CREATORANDEMAIL,
+        exceptionInfo->ExceptionRecord->ExceptionCode);
+
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", message, NULL);
+
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+
+void I_InitCrashHandler(void)
+{
+    SetUnhandledExceptionFilter(I_ExceptionHandler);
 }
 #endif
 

@@ -164,6 +164,8 @@ void I_InitWindows(void)
     windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
     windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
         + GetSystemMetrics(SM_CYCAPTION);
+
+    I_InitCrashHandler();
 }
 
 _Releases_lock_(hInstanceMutex)
