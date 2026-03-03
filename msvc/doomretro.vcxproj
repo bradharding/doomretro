@@ -516,13 +516,8 @@
     <None Include="..\LICENSE.md" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
-    <None Include="..\res\BRGHTMPS.lmp" />
-    <None Include="..\res\CHEXBEX.lmp" />
-    <None Include="..\res\DEHACKED.lmp" />
     <None Include="..\res\doomretro.desktop" />
     <None Include="..\res\doomretro.ico" />
-    <None Include="..\res\DRCOMPAT.lmp" />
-    <None Include="..\res\VANILLA.lmp" />
     <None Include="..\src\doomretro.manifest" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.mingw" />
@@ -531,6 +526,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
+    <Text Include="..\res\BRGHTMPS.txt" />
+    <Text Include="..\res\CHEXBEX.txt" />
+    <Text Include="..\res\DEHACKED.txt" />
+    <Text Include="..\res\DRCOMPAT.txt" />
+    <Text Include="..\res\VANILLA.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

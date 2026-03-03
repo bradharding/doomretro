@@ -48,10 +48,10 @@ typedef struct Nanode   nanode_t;
 struct Nanode
 {
     // when non-NULL, this is actually a leaf of the BSP tree
-    seg_t   *segs;
+    seg_t           *segs;
 
     // final index number of this node / leaf
-    int     index;
+    int             index;
 
     // partition line (start coord, delta to end)
     fixed_t         x, y, dx, dy;
@@ -76,7 +76,7 @@ seg_t *BSP_NewSeg(void)
 {
     seg_t   *seg = Z_Malloc(sizeof(seg_t), PU_LEVEL, NULL);
 
-    memset (seg, 0, sizeof(*seg));
+    memset(seg, 0, sizeof(*seg));
 
     return seg;
 }
@@ -85,7 +85,7 @@ nanode_t *BSP_NewNode(void)
 {
     nanode_t    *node = Z_Malloc(sizeof(nanode_t), PU_LEVEL, NULL);
 
-    memset (node, 0, sizeof(*node));
+    memset(node, 0, sizeof(*node));
 
     return node;
 }
@@ -113,7 +113,7 @@ void BSP_BoundingBox(seg_t *soup, fixed_t *bbox)
     bbox[BOXBOTTOM] = INT_MAX;
     bbox[BOXTOP] = INT_MIN;
 
-    for (seg_t *S = soup ; S; S = S->next)
+    for (seg_t *S = soup; S; S = S->next)
     {
         bbox[BOXLEFT] = MIN(bbox[BOXLEFT], S->v1->x);
         bbox[BOXLEFT] = MIN(bbox[BOXLEFT], S->v2->x);
@@ -127,7 +127,7 @@ void BSP_BoundingBox(seg_t *soup, fixed_t *bbox)
     }
 }
 
-void BSP_MergeBounds (fixed_t *out, fixed_t *box1, fixed_t *box2)
+void BSP_MergeBounds(fixed_t *out, fixed_t *box1, fixed_t *box2)
 {
     out[BOXLEFT] = MIN(box1[BOXLEFT], box2[BOXLEFT]);
     out[BOXBOTTOM] = MIN(box1[BOXBOTTOM], box2[BOXBOTTOM]);
@@ -135,7 +135,7 @@ void BSP_MergeBounds (fixed_t *out, fixed_t *box1, fixed_t *box2)
     out[BOXTOP] = MAX(box1[BOXTOP], box2[BOXTOP]);
 }
 
-void BSP_SegForLineSide (int i, int side, seg_t **list_var)
+void BSP_SegForLineSide(int i, int side, seg_t **list_var)
 {
     line_t  *ld = &lines[i];
 
@@ -166,7 +166,7 @@ seg_t *BSP_CreateSegs(void)
 {
     seg_t   *list = NULL;
 
-    for (int i = 0 ; i < numlines ; i++)
+    for (int i = 0; i < numlines; i++)
     {
         BSP_SegForLineSide(i, 0, &list);
         BSP_SegForLineSide(i, 1, &list);
@@ -197,7 +197,7 @@ int BSP_PointOnSide(seg_t *part, fixed_t x, fixed_t y)
     x -= part->v1->x;
     y -= part->v1->y;
 
-    if (dx == 0)
+    if (!dx)
     {
         if (x < - DIST_EPSILON)
             return (dy < 0 ? +1 : -1);
@@ -208,7 +208,7 @@ int BSP_PointOnSide(seg_t *part, fixed_t x, fixed_t y)
         return 0;
     }
 
-    if (dy == 0)
+    if (!dy)
     {
         if (y < - DIST_EPSILON)
             return (dx > 0 ? +1 : -1);
@@ -297,7 +297,7 @@ bool BSP_EvalPartition(seg_t *part, seg_t *soup, struct NodeEval *eval)
         && ABS(part->v2->y - part->v1->y) < 4 * DIST_EPSILON)
         return false;
 
-    for (seg_t *S = soup ; S != NULL ; S = S->next)
+    for (seg_t *S = soup; S; S = S->next)
     {
         int side = BSP_SegOnSide(part, S);
 
@@ -331,7 +331,7 @@ seg_t *BSP_PickNode_Fast(seg_t *soup)
     // use slower method when number of segs is below a threshold
     int count = 0;
 
-    for (seg_t *S = soup ; S != NULL ; S = S->next)
+    for (seg_t *S = soup; S; S = S->next)
         count++;
 
     if (count < FAST_THRESHOLD)
@@ -340,7 +340,7 @@ seg_t *BSP_PickNode_Fast(seg_t *soup)
     // determine bounding box of the segs
     fixed_t bbox[4];
 
-    BSP_BoundingBox (soup, bbox);
+    BSP_BoundingBox(soup, bbox);
 
     fixed_t mid_x = bbox[BOXLEFT] / 2 + bbox[BOXRIGHT] / 2;
     fixed_t mid_y = bbox[BOXBOTTOM] / 2 + bbox[BOXTOP] / 2;
@@ -352,7 +352,7 @@ seg_t *BSP_PickNode_Fast(seg_t *soup)
     fixed_t horiz_dist = (1 << 30);
 
     // find the seg closest to the middle of the bbox
-    for (seg_t *part = soup ; part != NULL ; part = part->next)
+    for (seg_t *part = soup; part; part = part->next)
     {
         if (part->v1->x == part->v2->x)
         {
@@ -380,8 +380,8 @@ seg_t *BSP_PickNode_Fast(seg_t *soup)
     struct NodeEval v_eval;
     struct NodeEval h_eval;
 
-    bool            vert_ok  = (vert_part  != NULL) && BSP_EvalPartition (vert_part,  soup, &v_eval);
-    bool            horiz_ok = (horiz_part != NULL) && BSP_EvalPartition (horiz_part, soup, &h_eval);
+    bool            vert_ok  = (vert_part && BSP_EvalPartition(vert_part,  soup, &v_eval));
+    bool            horiz_ok = (horiz_part && BSP_EvalPartition(horiz_part, soup, &h_eval));
 
     if (vert_ok && horiz_ok)
     {
@@ -410,7 +410,7 @@ seg_t *BSP_PickNode_Slow(seg_t *soup)
     seg_t   *best  = NULL;
     int     best_cost = (1 << 30);
 
-    for (seg_t *part = soup ; part != NULL ; part = part->next)
+    for (seg_t *part = soup; part; part = part->next)
     {
         struct NodeEval eval;
 
@@ -512,7 +512,7 @@ void BSP_ComputeIntersection(seg_t *part, seg_t *seg, fixed_t *x, fixed_t *y)
 //
 void BSP_SplitSegs(seg_t *part, seg_t *soup, seg_t **lefts, seg_t **rights)
 {
-    while (soup != NULL)
+    while (soup)
     {
         seg_t   *S = soup;
         int     where = BSP_SegOnSide(part, S);
@@ -521,16 +521,16 @@ void BSP_SplitSegs(seg_t *part, seg_t *soup, seg_t **lefts, seg_t **rights)
 
         if (where < 0)
         {
-            S->next  = (*lefts);
-            (*lefts) = S;
+            S->next  = *lefts;
+            *lefts = S;
 
             continue;
         }
 
         if (where > 0)
         {
-            S->next   = (*rights);
-            (*rights) = S;
+            S->next   = *rights;
+            *rights = S;
 
             continue;
         }
@@ -540,8 +540,8 @@ void BSP_SplitSegs(seg_t *part, seg_t *soup, seg_t **lefts, seg_t **rights)
 
         BSP_ComputeIntersection(part, S, &ix, &iy);
 
-        vertex_t    *iv = BSP_NewVertex (ix, iy);
-        seg_t       *T = BSP_NewSeg ();
+        vertex_t    *iv = BSP_NewVertex(ix, iy);
+        seg_t       *T = BSP_NewSeg();
 
         T->v2 = S->v2;
         T->v1 = iv;
@@ -560,19 +560,19 @@ void BSP_SplitSegs(seg_t *part, seg_t *soup, seg_t **lefts, seg_t **rights)
 
         if (BSP_PointOnSide(part, S->v1->x, S->v1->y) < 0)
         {
-            S->next = (*lefts);
-            (*lefts) = S;
+            S->next = *lefts;
+            *lefts = S;
 
-            T->next = (*rights);
-            (*rights) = T;
+            T->next = *rights;
+            *rights = T;
         }
         else
         {
-            S->next = (*rights);
-            (*rights) = S;
+            S->next = *rights;
+            *rights = S;
 
-            T->next = (*lefts);
-            (*lefts) = T;
+            T->next = *lefts;
+            *lefts = T;
         }
     }
 }
@@ -587,7 +587,7 @@ nanode_t *BSP_SubdivideSegs(seg_t *soup)
     if (!part)
         return BSP_CreateLeaf(soup);
 
-    nanode_t *N = BSP_NewNode();
+    nanode_t    *N = BSP_NewNode();
 
     N->x = part->v1->x;
     N->y = part->v1->y;
@@ -635,7 +635,7 @@ void BSP_CountStuff(nanode_t *N)
         N->index = numsubsectors;
         numsubsectors++;
 
-        for (seg_t *seg = N->segs ; seg; seg = seg->next)
+        for (seg_t *seg = N->segs; seg; seg = seg->next)
             numsegs++;
     }
 }
@@ -728,5 +728,5 @@ void BSP_BuildNodes(void)
     fixed_t dummy[4];
 
     // this also frees stuff as it goes
-    BSP_WriteNode (root, dummy);
+    BSP_WriteNode(root, dummy);
 }
