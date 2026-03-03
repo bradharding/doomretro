@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v18.3.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
