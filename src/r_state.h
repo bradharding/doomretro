@@ -113,14 +113,14 @@ typedef enum
 {
     DOOMBSP,
     DEEPBSP,
-    ZDBSPX,
-    ZDBSPZ,
-    ZDBSPXGL,
-    ZDBSPXGL2,
-    ZDBSPXGL3,
-    ZDBSPZGL,
-    ZDBSPZGL2,
-    ZDBSPZGL3,
+    XNOD,
+    ZNOD,
+    XGLN,
+    XGL2,
+    XGL3,
+    ZGLN,
+    ZGL2,
+    ZGL3,
     NANOBSP
 } nodeformat_t;
 

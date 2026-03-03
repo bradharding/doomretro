@@ -946,7 +946,7 @@ typedef struct msecnode_s
 //
 // The LineSeg.
 //
-typedef struct
+typedef struct seg_s
 {
     vertex_t            *v1;
     vertex_t            *v2;
@@ -969,6 +969,8 @@ typedef struct
     sector_t            *backsector;
 
     int                 fakecontrast;
+
+    struct seg_s        *next;
 } seg_t;
 
 //

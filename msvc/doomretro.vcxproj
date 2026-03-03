@@ -371,6 +371,7 @@
     <ClInclude Include="..\src\m_misc.h" />
     <ClInclude Include="..\src\m_random.h" />
     <ClInclude Include="..\src\mus2mid.h" />
+    <ClInclude Include="..\src\nano_bsp\nano_bsp.h" />
     <ClInclude Include="..\src\p_fix.h" />
     <ClInclude Include="..\src\p_inter.h" />
     <ClInclude Include="..\src\p_local.h" />
@@ -454,6 +455,7 @@
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />
     <ClCompile Include="..\src\mus2mid.c" />
+    <ClCompile Include="..\src\nano_bsp\nano_bsp.c" />
     <ClCompile Include="..\src\p_ceiling.c" />
     <ClCompile Include="..\src\p_doors.c" />
     <ClCompile Include="..\src\p_enemy.c" />

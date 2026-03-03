@@ -51,6 +51,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "miniz/miniz.h"
+#include "nano_bsp/nano_bsp.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "p_setup.h"
@@ -393,17 +394,17 @@ nodeformat_t    nodeformat;
 
 const char *nodeformats[] =
 {
-    "Vanilla",
-    ITALICS("DeeP"),
-    ITALICS("ZDoom") " extended",
-    ITALICS("ZDoom") " extended",
-    ITALICS("ZDoom") " GL",
-    ITALICS("ZDoom") " GL2",
-    ITALICS("ZDoom") " GL3",
-    ITALICS("ZDoom") " GL",
-    ITALICS("ZDoom") " GL2",
-    ITALICS("ZDoom") " GL3",
-    ITALICS("NanoBSP")
+    [DOOMBSP] = "DOOM",
+    [DEEPBSP] = "DeepBSP",
+    [XNOD] = "XNOD",
+    [ZNOD] = "ZNOD",
+    [XGLN] = "XGLN",
+    [ZGLN] = "ZGLN",
+    [XGL2] = "XGL2",
+    [ZGL2] = "ZGL2",
+    [XGL3] = "XGL3",
+    [ZGL3] = "ZGL3",
+    [NANOBSP] = "NanoBSP"
 };
 
 bool            boomcompatible = false;
@@ -716,7 +717,7 @@ static const char *sectorspecials[] =
     "Light flickers (randomly)"
 };
 
-static fixed_t GetOffset(const vertex_t *v1, const vertex_t *v2)
+fixed_t P_GetOffset(const vertex_t *v1, const vertex_t *v2)
 {
     const float dx = (float)(v1->x - v2->x) / FRACUNIT;
     const float dy = (float)(v1->y - v2->y) / FRACUNIT;
@@ -996,7 +997,7 @@ static void P_LoadSegs(int lump)
         }
 
         li->angle = (SHORT(ml->angle)) << FRACBITS;
-        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
+        li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         // [BH] Apply any map-specific fixes.
         if (canmodify && r_fixmaperrors && gamemode != shareware)
@@ -1312,7 +1313,7 @@ static void P_LoadSegs_V4(int lump)
         }
 
         li->angle = (SHORT(ml->angle)) << FRACBITS;
-        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
+        li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             id24compatible = true;
@@ -1346,7 +1347,7 @@ static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
             unsigned char   side;
             seg_t           *seg;
 
-            if (format == ZDBSPXGL || format == ZDBSPZGL)
+            if (format == XGLN || format == ZGLN)
             {
                 v1 = LONG(mln->vertex);
                 line = (unsigned short)SHORT(mln->linedef);
@@ -1412,7 +1413,7 @@ static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
                 else
                     seg->backsector = 0;
 
-                seg->offset = GetOffset(seg->v1, (side ? ldef->v2 : ldef->v1));
+                seg->offset = P_GetOffset(seg->v1, (side ? ldef->v2 : ldef->v1));
             }
             else
             {
@@ -1848,7 +1849,7 @@ static void P_LoadZSegs(const byte *data)
         }
 
         li->angle = R_PointToAngle2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
-        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
+        li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             id24compatible = true;
@@ -1877,8 +1878,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     unsigned int    numSegs;
     unsigned int    numNodes;
     vertex_t        *newvertarray = NULL;
-    bool            compressed = (format == ZDBSPZ || format == ZDBSPZGL
-                        || format == ZDBSPZGL2 || format == ZDBSPZGL3);
+    bool            compressed = (format == ZNOD || format == ZGLN || format == ZGL2 || format == ZGL3);
 
     if (compressed)
     {
@@ -2012,17 +2012,17 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     numsegs = numSegs;
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
 
-    if (format == ZDBSPX || format == ZDBSPZ)
+    if (format == XNOD || format == ZNOD)
     {
         P_LoadZSegs(data);
         data += numsegs * sizeof(mapseg_znod_t);
     }
-    else if (format == ZDBSPXGL || format == ZDBSPZGL)
+    else if (format == XGLN || format == ZGLN)
     {
         P_LoadSegs_XGL(data, format);
         data += numsegs * sizeof(mapseg_xgln_t);
     }
-    else if (format == ZDBSPXGL2 || format == ZDBSPZGL2 || format == ZDBSPXGL3 || format == ZDBSPZGL3)
+    else if (format == XGL2 || format == ZGL2 || format == XGL3 || format == ZGL3)
     {
         P_LoadSegs_XGL(data, format);
         data += numsegs * sizeof(mapseg_xgl2_t);
@@ -2039,7 +2039,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     {
         node_t  *no = nodes + i;
 
-        if (format == ZDBSPXGL3 || format == ZDBSPZGL3)
+        if (format == XGL3 || format == ZGL3)
         {
             const mapnode_xgl3_t    *mn3 = (const mapnode_xgl3_t *)data + i;
 
@@ -3363,22 +3363,24 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
     if (W_LumpExistsWithName(lumpnum + ML_BEHAVIOR, "BEHAVIOR"))
         I_Error("Hexen format maps are not supported.");
 
-    if ((subsize = W_LumpLengthWithName(lumpnum + ML_SSECTORS, "SSECTORS")) >= sizeof(mapsubsector_t))
+    if (M_CheckParm("-bsp"))
+        format = NANOBSP;
+    else if ((subsize = W_LumpLengthWithName(lumpnum + ML_SSECTORS, "SSECTORS")) >= sizeof(mapsubsector_t))
     {
         n = W_CacheLumpNum(lumpnum + ML_SSECTORS);
 
         if (!memcmp(n, "XGLN", 4))
-            format = ZDBSPXGL;
+            format = XGLN;
         else if (!memcmp(n, "ZGLN", 4))
-            format = ZDBSPZGL;
+            format = ZGLN;
         else if (!memcmp(n, "XGL2", 4))
-            format = ZDBSPXGL2;
+            format = XGL2;
         else if (!memcmp(n, "ZGL2", 4))
-            format = ZDBSPZGL2;
+            format = ZGL2;
         else if (!memcmp(n, "XGL3", 4))
-            format = ZDBSPXGL3;
+            format = XGL3;
         else if (!memcmp(n, "ZGL3", 4))
-            format = ZDBSPZGL3;
+            format = ZGL3;
     }
 
     if (n)
@@ -3396,9 +3398,9 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
             if (!memcmp(n, "xNd4\0\0\0\0", 8))
                 format = DEEPBSP;
             else if (!memcmp(n, "XNOD", 4))
-                format = ZDBSPX;
+                format = XNOD;
             else if (!memcmp(n, "ZNOD", 4))
-                format = ZDBSPZ;
+                format = ZNOD;
         }
         else
             format = NANOBSP;
@@ -3593,9 +3595,11 @@ void P_SetupLevel(int ep, int map)
     else
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    if (nodeformat == ZDBSPX || nodeformat == ZDBSPZ)
+    if (nodeformat >= NANOBSP)
+        BSP_BuildNodes();
+    else if (nodeformat == XNOD || nodeformat == ZNOD)
         P_LoadZNodes(lumpnum + ML_NODES, nodeformat);
-    else if (nodeformat >= ZDBSPXGL && nodeformat <= ZDBSPZGL3)
+    else if (nodeformat >= XGLN && nodeformat <= ZGL3)
         P_LoadZNodes(lumpnum + ML_SSECTORS, nodeformat);
     else if (nodeformat == DEEPBSP)
     {
@@ -3613,7 +3617,8 @@ void P_SetupLevel(int ep, int map)
     P_GroupLines();
     P_LoadReject(lumpnum);
 
-    P_RemoveSlimeTrails();
+    if (nodeformat != NANOBSP)
+        P_RemoveSlimeTrails();
 
     P_CalcSegsLength();
 

@@ -5913,9 +5913,9 @@ static void mapstatsfunc2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, INDENT "Format\t%s", nodeformats[nodeformat]);
 
-    if (nodeformat == ZDBSPX)
+    if (nodeformat == XNOD)
         C_TabbedOutput(tabs, INDENT "Compressed\tNo");
-    else if (nodeformat == ZDBSPZ)
+    else if (nodeformat == ZNOD || nodeformat == ZGLN || nodeformat == ZGL2 || nodeformat == ZGL3)
         C_TabbedOutput(tabs, INDENT "Compressed\tYes");
 
     temp = commify(numsectors);

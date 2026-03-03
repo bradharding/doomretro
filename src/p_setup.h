@@ -70,6 +70,7 @@ extern char         automaptitle[512];
 
 void P_SetupLevel(int ep, int map);
 void P_MapName(int ep, int map);
+fixed_t P_GetOffset(const vertex_t *v1, const vertex_t *v2);
 
 // Called by startup code.
 void P_Init(void);
