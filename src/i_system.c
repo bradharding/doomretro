@@ -383,8 +383,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         "%s\n"
         "%s\n\n"
         "Please send these files to %s.\n"
-        DOOMRETRO_NAME, dumppath, logpath, DOOMRETRO_CREATORANDEMAIL,
-        exceptionInfo->ExceptionRecord->ExceptionCode);
+        DOOMRETRO_NAME, dumppath, logpath, DOOMRETRO_CREATORANDEMAIL);
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME " crashed!", message, NULL);
 
