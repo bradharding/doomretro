@@ -297,58 +297,106 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         fprintf(logfile, "File:              %s\n", exepath);
         fprintf(logfile, "Version:           %s\n", DOOMRETRO_VERSIONSTRING);
 
-        M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%s, %s %d, %d at %d:%02d:%02d%s",
-            daynames[tm_info->tm_wday],
-            monthnames[tm_info->tm_mon],
-            tm_info->tm_mday,
-            1900 + tm_info->tm_year,
+        M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%d:%02d:%02d%s on %s, %s %d, %d",
             (!(tm_info->tm_hour % 12) ? 12 : (tm_info->tm_hour % 12)),
             tm_info->tm_min,
             tm_info->tm_sec,
-            (tm_info->tm_hour < 12 ? "am" : "pm"));
+            (tm_info->tm_hour < 12 ? "am" : "pm"),
+            daynames[tm_info->tm_wday],
+            monthnames[tm_info->tm_mon],
+            tm_info->tm_mday,
+            1900 + tm_info->tm_year);
         fprintf(logfile, "Date/Time:         %s\n", readabletimestamp);
 
         switch (exceptioncode)
         {
-            case EXCEPTION_ACCESS_VIOLATION:
-                exceptionname = "Access Violation";
-                break;
+        case EXCEPTION_ACCESS_VIOLATION:
+            exceptionname = "Access Violation";
+            break;
 
-            case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-                exceptionname = "Array Bounds Exceeded";
-                break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+            exceptionname = "Array Bounds Exceeded";
+            break;
 
-            case EXCEPTION_BREAKPOINT:
-                exceptionname = "Breakpoint";
-                break;
+        case EXCEPTION_BREAKPOINT:
+            exceptionname = "Breakpoint";
+            break;
 
-            case EXCEPTION_DATATYPE_MISALIGNMENT:
-                exceptionname = "Datatype Misalignment";
-                break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT:
+            exceptionname = "Datatype Misalignment";
+            break;
 
-            case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-                exceptionname = "Floating Point Division by Zero";
-                break;
+        case EXCEPTION_FLT_DENORMAL_OPERAND:
+            exceptionname = "Floating Point Denormal Operand";
+            break;
 
-            case EXCEPTION_FLT_OVERFLOW:
-                exceptionname = "Floating Point Overflow";
-                break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+            exceptionname = "Floating Point Division by Zero";
+            break;
 
-            case EXCEPTION_ILLEGAL_INSTRUCTION:
-                exceptionname = "Illegal Instruction";
-                break;
+        case EXCEPTION_FLT_INEXACT_RESULT:
+            exceptionname = "Floating Point Inexact Result";
+            break;
 
-            case EXCEPTION_INT_DIVIDE_BY_ZERO:
-                exceptionname = "Integer Division by Zero";
-                break;
+        case EXCEPTION_FLT_INVALID_OPERATION:
+            exceptionname = "Floating Point Invalid Operation";
+            break;
 
-            case EXCEPTION_INT_OVERFLOW:
-                exceptionname = "Integer Overflow";
-                break;
+        case EXCEPTION_FLT_OVERFLOW:
+            exceptionname = "Floating Point Overflow";
+            break;
 
-            case EXCEPTION_STACK_OVERFLOW:
-                exceptionname = "Stack Overflow";
-                break;
+        case EXCEPTION_FLT_STACK_CHECK:
+            exceptionname = "Floating Point Stack Check";
+            break;
+
+        case EXCEPTION_FLT_UNDERFLOW:
+            exceptionname = "Floating Point Underflow";
+            break;
+
+        case EXCEPTION_GUARD_PAGE:
+            exceptionname = "Guard Page Violation";
+            break;
+
+        case EXCEPTION_ILLEGAL_INSTRUCTION:
+            exceptionname = "Illegal Instruction";
+            break;
+
+        case EXCEPTION_IN_PAGE_ERROR:
+            exceptionname = "Page Error";
+            break;
+
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
+            exceptionname = "Integer Division by Zero";
+            break;
+
+        case EXCEPTION_INT_OVERFLOW:
+            exceptionname = "Integer Overflow";
+            break;
+
+        case EXCEPTION_INVALID_DISPOSITION:
+            exceptionname = "Invalid Disposition";
+            break;
+
+        case EXCEPTION_INVALID_HANDLE:
+            exceptionname = "Invalid Handle";
+            break;
+
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION:
+            exceptionname = "Non-Continuable Exception";
+            break;
+
+        case EXCEPTION_PRIV_INSTRUCTION:
+            exceptionname = "Privileged Instruction";
+            break;
+
+        case EXCEPTION_SINGLE_STEP:
+            exceptionname = "Single Step";
+            break;
+
+        case EXCEPTION_STACK_OVERFLOW:
+            exceptionname = "Stack Overflow";
+            break;
         }
 
         fprintf(logfile, "Exception:         %s (0x%08lX)\n", exceptionname, exceptioncode);
@@ -361,15 +409,15 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
 
         if (wadsloaded[0])
             fprintf(logfile, "WAD%s              %s\n",
-                (strchr(wadsloaded, ',') ? "s:" : ": "), wadsloaded);
+                (strchr(wadsloaded, ',') ? "s:" : ": "), M_StringReplaceLast(wadsloaded, ",", " and"));
 
         if (gamestate == GS_LEVEL)
         {
-            if (mapnum[0])
-                fprintf(logfile, "Map                %s\n", mapnum);
+            if (mapnumandtitle[0])
+                fprintf(logfile, "Map:               %s\n", removenonprintable(mapnumandtitle));
 
             if (viewplayer && viewplayer->mo)
-                fprintf(logfile, "Player Position    (%d, %d, %d)\n",
+                fprintf(logfile, "Player Position:   (%d, %d, %d)\n",
                     viewplayer->mo->x >> FRACBITS, viewplayer->mo->y >> FRACBITS, viewplayer->mo->z >> FRACBITS);
         }
 
@@ -379,7 +427,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     // Show user dialog
     M_snprintf(message, sizeof(message),
         "%s has crashed unexpectedly.\n\n"
-        "Information about this crash has been saved to:\n"
+        "Important information about this crash has been saved as:\n"
         "%s\n"
         "%s\n\n"
         "Please send these files to %s.\n",
