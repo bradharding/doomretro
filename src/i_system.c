@@ -61,6 +61,9 @@ typedef long    (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL    (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL    (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
+static char windowsname[128];
+static char windowsbuild[32];
+
 void I_PrintWindowsVersion(void)
 {
     PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
@@ -160,6 +163,8 @@ void I_PrintWindowsVersion(void)
             char    infoname[32] = "NT";
             char    *build = commify(info.dwBuildNumber);
 
+            M_snprintf(windowsbuild, sizeof(windowsbuild), "(Build %s)", build);
+
             if (info.dwMajorVersion == 5)
             {
                 if (info.dwMinorVersion == 0)
@@ -211,14 +216,25 @@ void I_PrintWindowsVersion(void)
             }
 
             if (wcslen(info.szCSDVersion) > 0)
-                C_Output("It is running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
-                    bits, infoname, (*typename ? " " : ""), typename, info.szCSDVersion, build);
+            {
+                M_snprintf(windowsname, sizeof(windowsname), "Microsoft Windows %s%s%s (%ws)",
+                    infoname, (*typename ? " " : ""), typename, info.szCSDVersion);
+                C_Output("It is running on the %i-bit edition of " ITALICS("%s") " %s.",
+                    bits, windowsname, windowsbuild);
+            }
             else if (info.dwMajorVersion < 10 || info.dwBuildNumber < 22000)
-                C_Output("It is running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
-                    bits, infoname, (*typename ? " " : ""), typename, build);
+            {
+                M_snprintf(windowsname, sizeof(windowsname), "Microsoft Windows %s%s%s",
+                    infoname, (*typename ? " " : ""), typename);
+                C_Output("It is running on the %i-bit edition of " ITALICS("%s") " %s.",
+                    bits, windowsname, windowsbuild);
+            }
             else
-                C_Output("It is running on " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
-                    infoname, (*typename ? " " : ""), typename, build);
+            {
+                M_snprintf(windowsname, sizeof(windowsname), "Microsoft Windows %s%s%s",
+                    infoname, (*typename ? " " : ""), typename);
+                C_Output("It is running on " ITALICS("%s") " %s.", windowsname, windowsbuild);
+            }
 
             free(build);
         }
@@ -233,22 +249,23 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     char        crashfolder[MAX_PATH];
     char        dumppath[MAX_PATH];
     char        logpath[MAX_PATH];
+    char        message[1024];
     HANDLE      hDumpFile;
     time_t      now = time(NULL);
     struct tm   *tm_info = localtime(&now);
     char        timestamp[64];
-    FILE        *logFile;
+    char        readabletimestamp[64];
+    FILE        *logfile;
 
     // Create timestamp
-    strftime(timestamp, sizeof(timestamp), "%Y%m%d_%H%M%S", tm_info);
+    strftime(timestamp, sizeof(timestamp), "%Y%m%d%H%M%S", tm_info);
 
     // Create crash dump filename
     M_snprintf(crashfolder, sizeof(crashfolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CRASHFOLDER,
         M_GetAppDataFolder());
     M_MakeDirectory(crashfolder);
-    M_snprintf(dumppath, sizeof(dumppath), "%s" DIR_SEPARATOR_S "crash_%s.dmp",
-        crashfolder, timestamp);
-    M_snprintf(logpath, sizeof(logpath), "%s" DIR_SEPARATOR_S "crash_%s.txt",
+    M_snprintf(dumppath, sizeof(dumppath), "%s" DIR_SEPARATOR_S "%s.dmp", crashfolder, timestamp);
+    M_snprintf(logpath, sizeof(logpath), "%s" DIR_SEPARATOR_S "%s.txt",
         crashfolder, timestamp);
 
     // Write minidump
@@ -269,39 +286,96 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     }
 
     // Write crash log with system info
-    if ((logFile = fopen(logpath, "w")))
+    if ((logfile = fopen(logpath, "w")))
     {
-        fprintf(logFile, "%s %s Crash Report\n", DOOMRETRO_NAME, DOOMRETRO_VERSIONSTRING);
-        fprintf(logFile, "Date/Time: %s\n", timestamp);
-        fprintf(logFile, "Exception Code: 0x%08lX\n",
-            exceptionInfo->ExceptionRecord->ExceptionCode);
-        fprintf(logFile, "Exception Address: 0x%p\n",
+        DWORD       exceptioncode = exceptionInfo->ExceptionRecord->ExceptionCode;
+        const char  *exceptionname = "Unknown Exception";
+
+        fprintf(logfile, "Application:       %s\n", DOOMRETRO_FILENAME);
+        fprintf(logfile, "Version:           %s\n", DOOMRETRO_VERSIONSTRING);
+
+        M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%s, %s %d, %d at %d:%02d:%02d%s",
+            daynames[tm_info->tm_wday],
+            monthnames[tm_info->tm_mon],
+            tm_info->tm_mday,
+            1900 + tm_info->tm_year,
+            (!(tm_info->tm_hour % 12) ? 12 : (tm_info->tm_hour % 12)),
+            tm_info->tm_min,
+            tm_info->tm_sec,
+            (tm_info->tm_hour < 12 ? "am" : "pm"));
+        fprintf(logfile, "Date/Time:         %s\n", readabletimestamp);
+
+        switch (exceptioncode)
+        {
+            case EXCEPTION_ACCESS_VIOLATION:
+                exceptionname = "Access Violation";
+                break;
+
+            case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+                exceptionname = "Array Bounds Exceeded";
+                break;
+
+            case EXCEPTION_BREAKPOINT:
+                exceptionname = "Breakpoint";
+                break;
+
+            case EXCEPTION_DATATYPE_MISALIGNMENT:
+                exceptionname = "Datatype Misalignment";
+                break;
+
+            case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+                exceptionname = "Floating Point Division by Zero";
+                break;
+
+            case EXCEPTION_FLT_OVERFLOW:
+                exceptionname = "Floating Point Overflow";
+                break;
+
+            case EXCEPTION_ILLEGAL_INSTRUCTION:
+                exceptionname = "Illegal Instruction";
+                break;
+
+            case EXCEPTION_INT_DIVIDE_BY_ZERO:
+                exceptionname = "Integer Division by Zero";
+                break;
+
+            case EXCEPTION_INT_OVERFLOW:
+                exceptionname = "Integer Overflow";
+                break;
+
+            case EXCEPTION_STACK_OVERFLOW:
+                exceptionname = "Stack Overflow";
+                break;
+        }
+
+        fprintf(logfile, "Exception:         %s (0x%08lX)\n", exceptionname, exceptioncode);
+        fprintf(logfile, "Exception Address: 0x%p\n",
             exceptionInfo->ExceptionRecord->ExceptionAddress);
-        fprintf(logFile, "Exception Flags: 0x%08lX\n\n",
+        fprintf(logfile, "Exception Flags:   0x%08lX\n",
             exceptionInfo->ExceptionRecord->ExceptionFlags);
 
-        // Add system info
-        fprintf(logFile, "System Information:\n");
-        fprintf(logFile, "CPU Cores: %d\n", SDL_GetCPUCount());
-        fprintf(logFile, "RAM: %d MB\n", SDL_GetSystemRAM());
+        if (exceptioncode == EXCEPTION_ACCESS_VIOLATION
+            && exceptionInfo->ExceptionRecord->NumberParameters >= 2)
+        {
+            fprintf(logfile, "Access Type:       %s\n",
+                exceptionInfo->ExceptionRecord->ExceptionInformation[0] ? "write" : "read");
+            fprintf(logfile, "Target Address:    0x%p\n",
+                (void *)exceptionInfo->ExceptionRecord->ExceptionInformation[1]);
+        }
 
-        // Add game state info
-        fprintf(logFile, "\nGame State: %d\n", gamestate);
-        fprintf(logFile, "Map: %d\n", gamemap);
-        if (wad)
-            fprintf(logFile, "WAD: %s\n", wad);
+        if (windowsname[0] && windowsbuild[0])
+            fprintf(logfile, "Operating System:  %s %s\n", windowsname, windowsbuild);
 
-        fclose(logFile);
+        fclose(logfile);
     }
 
     // Show user dialog
-    char message[1024];
     M_snprintf(message, sizeof(message),
         "%s has crashed unexpectedly.\n\n"
         "Information about this crash has been saved to:\n"
         "%s\n"
         "%s\n\n"
-        "Please send these files to %s to help fix the issue.\n\n"
+        "Please send these files to %s.\n\n"
         "Exception Code: 0x%08lX",
         DOOMRETRO_NAME, dumppath, logpath, DOOMRETRO_CREATORANDEMAIL,
         exceptionInfo->ExceptionRecord->ExceptionCode);
