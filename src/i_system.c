@@ -47,6 +47,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "version.h"
 #include "w_wad.h"
@@ -288,10 +289,12 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     // Write crash log with system info
     if ((logfile = fopen(logpath, "w")))
     {
+        char        exepath[MAX_PATH];
         DWORD       exceptioncode = exceptionInfo->ExceptionRecord->ExceptionCode;
         const char  *exceptionname = "Unknown Exception";
 
-        fprintf(logfile, "Application:       %s\n", DOOMRETRO_FILENAME);
+        GetModuleFileName(NULL, exepath, sizeof(exepath));
+        fprintf(logfile, "File:              %s\n", exepath);
         fprintf(logfile, "Version:           %s\n", DOOMRETRO_VERSIONSTRING);
 
         M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%s, %s %d, %d at %d:%02d:%02d%s",
@@ -349,22 +352,26 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         }
 
         fprintf(logfile, "Exception:         %s (0x%08lX)\n", exceptionname, exceptioncode);
+
         fprintf(logfile, "Exception Address: 0x%p\n",
             exceptionInfo->ExceptionRecord->ExceptionAddress);
-        fprintf(logfile, "Exception Flags:   0x%08lX\n",
-            exceptionInfo->ExceptionRecord->ExceptionFlags);
-
-        if (exceptioncode == EXCEPTION_ACCESS_VIOLATION
-            && exceptionInfo->ExceptionRecord->NumberParameters >= 2)
-        {
-            fprintf(logfile, "Access Type:       %s\n",
-                exceptionInfo->ExceptionRecord->ExceptionInformation[0] ? "write" : "read");
-            fprintf(logfile, "Target Address:    0x%p\n",
-                (void *)exceptionInfo->ExceptionRecord->ExceptionInformation[1]);
-        }
 
         if (windowsname[0] && windowsbuild[0])
             fprintf(logfile, "Operating System:  %s %s\n", windowsname, windowsbuild);
+
+        if (wadsloaded[0])
+            fprintf(logfile, "WAD%s              %s\n",
+                (strchr(wadsloaded, ',') ? "s:" : ": "), wadsloaded);
+
+        if (gamestate == GS_LEVEL)
+        {
+            if (mapnum[0])
+                fprintf(logfile, "Map                %s\n", mapnum);
+
+            if (viewplayer && viewplayer->mo)
+                fprintf(logfile, "Player Position    (%d, %d, %d)\n",
+                    viewplayer->mo->x >> FRACBITS, viewplayer->mo->y >> FRACBITS, viewplayer->mo->z >> FRACBITS);
+        }
 
         fclose(logfile);
     }
@@ -375,8 +382,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         "Information about this crash has been saved to:\n"
         "%s\n"
         "%s\n\n"
-        "Please send these files to %s.\n\n"
-        "Exception Code: 0x%08lX",
+        "Please send these files to %s.\n"
         DOOMRETRO_NAME, dumppath, logpath, DOOMRETRO_CREATORANDEMAIL,
         exceptionInfo->ExceptionRecord->ExceptionCode);
 
