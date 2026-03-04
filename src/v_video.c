@@ -481,7 +481,7 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
 
             while (count-- > 0)
             {
-                if (*source == GRAY2)
+                if (*source == GRAY3)
                 {
                     *destleft = tinttab50[*destleft + black];
                     *destright = tinttab50[*destright];
@@ -952,7 +952,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                 {
                     byte    *dot = dest + SCREENWIDTH + 2;
 
-                    if (i <= shadowwidth && *dot != 47 && *dot != 191)
+                    if (i <= shadowwidth && *dot != BROWN1 && *dot != BROWN2)
                         *dot = black40[*dot];
                 }
 
@@ -977,12 +977,11 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
 
     for (int col = 0, i = 0; col < width; col += DXI, i++, desttop++)
     {
-        int currentx = ((startx * DX) >> FRACBITS) + i;
-        
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+        const int   currentx = ((startx * DX) >> FRACBITS) + i;
+
         if (currentx >= SCREENWIDTH)
             break;
-
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -1010,7 +1009,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
                 {
                     byte    *dot = dest + SCREENWIDTH + 2;
 
-                    if (*dot != 47 && *dot != 191)
+                    if (*dot != BROWN1 && *dot != BROWN2)
                         *dot = PINK2;
                 }
 
@@ -1732,7 +1731,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
                     *dest = src;
                     dot = dest + 2 * (size_t)SCREENWIDTH + 2;
 
-                    if (*dot != 47 && *dot != 191)
+                    if (*dot != BROWN1 && *dot != BROWN2)
                         *dot = black40[*dot];
                 }
 

@@ -665,10 +665,10 @@ typedef struct
 static altkeypic_t altkeypics[NUMCARDS] =
 {
     { BLUE3,   NULL, NULL },
-    { YELLOW1, NULL, NULL },
+    { YELLOW2, NULL, NULL },
     { RED2,    NULL, NULL },
     { BLUE3,   NULL, NULL },
-    { YELLOW1, NULL, NULL },
+    { YELLOW2, NULL, NULL },
     { RED2,    NULL, NULL }
 };
 
@@ -692,8 +692,8 @@ static int      green3;
 static int      blue2;
 static int      blue3;
 static int      red2;
-static int      yellow1;
 static int      yellow2;
+static int      yellow3;
 
 typedef struct
 {
@@ -982,8 +982,8 @@ static void HU_DrawAltHUD(void)
         green2 = nearestblack;
         green3 = nearestblack;
         red2 = nearestblack;
-        yellow1 = nearestblack;
         yellow2 = nearestblack;
+        yellow3 = nearestblack;
         shadowcolor = -1;
     }
     else
@@ -1003,8 +1003,8 @@ static void HU_DrawAltHUD(void)
         green2 = nearestcolors[GREEN2];
         green3 = nearestcolors[GREEN3];
         red2 = nearestcolors[RED2];
-        yellow1 = nearestcolors[YELLOW1];
         yellow2 = nearestcolors[YELLOW2];
+        yellow3 = nearestcolors[YELLOW3];
         shadowcolor = nearestdarkgray;
     }
 
@@ -1270,19 +1270,19 @@ static void HU_DrawAltHUD(void)
                     if (r_hud_translucency)
                     {
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, yellow2, yellow2, true, true, tinttab60, tinttab25);
+                            8, yellow3, yellow3, true, true, tinttab60, tinttab25);
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
                     }
                     else
                     {
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, yellow2, yellow2, true, true, NULL, NULL);
+                            8, yellow3, yellow3, true, true, NULL, NULL);
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL, shadowcolor);
                     }
 
-                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow1, NULL, -1);
-                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, yellow1, NULL, shadowcolor);
-                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, yellow1, NULL, -1);
+                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow2, NULL, -1);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, yellow2, NULL, shadowcolor);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, yellow2, NULL, -1);
                 }
                 else
                 {

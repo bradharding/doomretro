@@ -266,8 +266,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         M_GetAppDataFolder());
     M_MakeDirectory(crashfolder);
     M_snprintf(dumppath, sizeof(dumppath), "%s" DIR_SEPARATOR_S "%s.dmp", crashfolder, timestamp);
-    M_snprintf(logpath, sizeof(logpath), "%s" DIR_SEPARATOR_S "%s.txt",
-        crashfolder, timestamp);
+    M_snprintf(logpath, sizeof(logpath), "%s" DIR_SEPARATOR_S "%s.txt", crashfolder, timestamp);
 
     // Write minidump
     hDumpFile = CreateFile(dumppath, GENERIC_WRITE, 0, NULL,
@@ -306,7 +305,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
             monthnames[tm_info->tm_mon],
             tm_info->tm_mday,
             1900 + tm_info->tm_year);
-        fprintf(logfile, "Date/Time:         %s\n", readabletimestamp);
+        fprintf(logfile, "Time/Date:         %s\n", readabletimestamp);
 
         switch (exceptioncode)
         {

@@ -190,7 +190,7 @@ void I_InitColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestdarkblue = nearestcolors[DARKBLUE];
     nearestdarkgray = nearestcolors[DARKGRAY2];
-    nearestgold = nearestcolors[YELLOW2];
+    nearestgold = nearestcolors[YELLOW3];
     nearestgreen = nearestcolors[GREEN4];
     nearestlightgray = nearestcolors[LIGHTGRAY3];
     nearestred = nearestcolors[RED1];

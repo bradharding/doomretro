@@ -36,6 +36,8 @@
 * The `playername` CVAR can now be changed back to its default of `“”` in the console.
 * If the `playername` CVAR is `“you”` (its default value in earlier versions of *DOOM Retro*), it is now automatically changed to `“”` at startup as it was affecting the grammar of obituaries in the console.
 * The `restartmap` CCMD can now be used during intermission.
+* Support has been added for maps with *ZDoom’s* XGLN, ZGLN, XGL2, ZGL2, XGL3 and ZGL3 extended formats.
+* Maps without nodes, or unsupported node formats, will now be rebuilt using the integrated [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder.
 * Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The use of the `DBIGFONT` lump to display `CONSOLE...` in the options menu of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) has been fixed.
 * The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.

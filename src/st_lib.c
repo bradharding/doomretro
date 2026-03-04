@@ -34,6 +34,7 @@
 */
 
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "st_lib.h"
@@ -218,12 +219,12 @@ void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
 
     // in the special case of 0, you draw 0
     if (!num)
-        statbarnumfunc(0, 160, 47, x - 4, y, n->p[0]);
+        statbarnumfunc(0, YELLOW1, BROWN1, x - 4, y, n->p[0]);
     else
         // draw the new number
         while (num)
         {
-            statbarnumfunc(num % 10, 160, 47, (x -= 4), y, n->p[num % 10]);
+            statbarnumfunc(num % 10, YELLOW1, BROWN1, (x -= 4), y, n->p[num % 10]);
             num /= 10;
         }
 }
@@ -236,12 +237,12 @@ void STlib_UpdateSmallMaxAmmoNum(st_number_t *n, ammotype_t ammotype)
 
     // in the special case of 0, you draw 0
     if (!num)
-        statbarnumfunc(0, 160, 47, x - 4, y, n->p[0]);
+        statbarnumfunc(0, YELLOW1, BROWN1, x - 4, y, n->p[0]);
     else
         // draw the new number
         while (num)
         {
-            statbarnumfunc(num % 10, 160, 47, (x -= 4), y, n->p[num % 10]);
+            statbarnumfunc(num % 10, YELLOW1, BROWN1, (x -= 4), y, n->p[num % 10]);
             num /= 10;
         }
 }
@@ -292,7 +293,7 @@ void STlib_UpdateSmallWeaponNum(st_multicon_t *mi, bool refresh, int i)
 
     if ((mi->oldinum != inum || refresh) && inum != -1)
     {
-        statbarnumfunc(i + 2, (inum ? 160 : 93), 47, mi->x, mi->y, mi->patch[inum]);
+        statbarnumfunc(i + 2, (inum ? YELLOW1 : GRAY2), BROWN1, mi->x, mi->y, mi->patch[inum]);
         mi->oldinum = inum;
     }
 }

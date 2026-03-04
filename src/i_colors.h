@@ -43,13 +43,16 @@
 #define BLUE1         198
 #define BLUE2         201
 #define BLUE3         203
+#define BROWN1         47
+#define BROWN2        191
 #define DARKBLUE      244
 #define DARKGRAY1     102
 #define DARKGRAY2     106
 #define DARKGRAY3     109
 #define DARKGRAY4     111
 #define GRAY1          92
-#define GRAY2          96
+#define GRAY2          93
+#define GRAY3          96
 #define GREEN1        112
 #define GREEN2        114
 #define GREEN3        118
@@ -62,8 +65,9 @@
 #define RED1          176
 #define RED2          180
 #define WHITE           4
-#define YELLOW1       161
-#define YELLOW2       231
+#define YELLOW1       160
+#define YELLOW2       161
+#define YELLOW3       231
 
 #define CTOLERANCE 0.0001
 
