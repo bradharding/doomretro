@@ -126,6 +126,7 @@ void I_WindowResizeBlit(void);
 
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
+void I_RenderPresent(void);
 
 extern int          SCREENWIDTH;
 extern int          SCREENHEIGHT;

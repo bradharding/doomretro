@@ -2009,6 +2009,8 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 
     SDL_GetWindowSize(sdlwindow, &width, &height);
 
+    blitfunc();
+
     if (width > 0 && height > 0)
     {
         SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3),

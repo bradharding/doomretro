@@ -829,7 +829,6 @@ static void I_Blit(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear(void)
@@ -844,7 +843,6 @@ static void I_Blit_NearestLinear(void)
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_ShowFPS(void)
@@ -857,7 +855,6 @@ static void I_Blit_ShowFPS(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, &dest_rect);
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear_ShowFPS(void)
@@ -873,7 +870,6 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_Shake(void)
@@ -895,8 +891,6 @@ static void I_Blit_Shake(void)
 
     dest_rect.x = x;
     dest_rect.y = y;
-
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear_Shake(void)
@@ -921,8 +915,6 @@ static void I_Blit_NearestLinear_Shake(void)
 
     dest_rect.x = x;
     dest_rect.y = y;
-
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_ShowFPS_Shake(void)
@@ -945,8 +937,6 @@ static void I_Blit_ShowFPS_Shake(void)
 
     dest_rect.x = x;
     dest_rect.y = y;
-
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_NearestLinear_ShowFPS_Shake(void)
@@ -972,8 +962,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
     dest_rect.x = x;
     dest_rect.y = y;
-
-    SDL_RenderPresent(renderer);
 }
 
 static void I_Blit_Automap(void)
@@ -995,6 +983,11 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_SetRenderTarget(maprenderer, NULL);
     SDL_RenderCopy(maprenderer, maptexture_upscaled, NULL, NULL);
     SDL_RenderPresent(maprenderer);
+}
+
+void I_RenderPresent(void)
+{
+    SDL_RenderPresent(renderer);
 }
 
 void I_UpdateBlitFunc(const bool shaking)

@@ -256,11 +256,13 @@ void D_FadeScreenToBlack(void)
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * brightness));
         blitfunc();
+        I_RenderPresent();
         I_CapFPS(60);
     }
 
     memset(screens[0], nearestblack, SCREENAREA);
     blitfunc();
+    I_RenderPresent();
 }
 
 //
@@ -437,6 +439,8 @@ void D_Display(void)
 
         // normal update
         blitfunc();
+        I_RenderPresent();
+
         mapblitfunc();
 
         if ((!vid_capfps || vid_capfps > 60 || (vid_vsync && refreshrate > 60))
@@ -467,6 +471,8 @@ void D_Display(void)
         done = Wipe_ScreenWipe();
 
         blitfunc();
+        I_RenderPresent();
+
         mapblitfunc();
     } while (!done);
 }
@@ -560,6 +566,7 @@ void D_SplashDrawer(void)
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)) * 768]);
     blitfunc();
+    I_RenderPresent();
     I_CapFPS(60);
 }
 
