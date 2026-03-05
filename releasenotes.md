@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v18.3.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
@@ -90,6 +91,7 @@
 * The accuracy of the player’s aim has improved when firing their weapon while the `freelook` CVAR is `on` and the `r_fov` CVAR is a value other than its default of `90°`.
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
+* Vsync is now forced on when the `vid_motionblur` CVAR is greater than `0%`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
 * These changes have been made to the support for controllers:
