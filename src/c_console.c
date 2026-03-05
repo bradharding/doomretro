@@ -106,6 +106,7 @@ static short            colorbackwidth;
 
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
+int                     numvisibleconsolestrings = 0;
 size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;
@@ -1950,12 +1951,32 @@ static bool IsCheatSequence(char *string)
     return false;
 }
 
+static int C_CountVisibleStrings(void)
+{
+    int count = 0;
+
+    for (int i = 0; i < numconsolestrings; i++)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        count++;
+    }
+
+    return count;
+}
+
 void C_Drawer(void)
 {
     int             i;
     int             x = CONSOLEINPUTX;
     int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int       bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
+    int             bottomline;
     int             len;
     const bool      prevconsoleactive = consoleactive;
     static uint64_t consolewait;
@@ -1963,6 +1984,9 @@ void C_Drawer(void)
     const int       notabs[MAXTABS] = { 0 };
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
+
+    numvisibleconsolestrings = C_CountVisibleStrings();
+    bottomline = (outputhistory == -1 ? numvisibleconsolestrings : outputhistory + CONSOLELINES) - 1;
 
     cheatsequence = false;
 
@@ -2273,7 +2297,7 @@ void C_Drawer(void)
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
         {
-            while (i + 1 < numconsolestrings && !strlen(console[++i].string))
+            while (i + 1 < numvisibleconsolestrings && !strlen(console[++i].string))
                 outputhistory++;
 
             break;
@@ -2751,7 +2775,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_HOME:
-                if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
+                if ((outputhistory != -1 || !caretpos) && outputhistory && numvisibleconsolestrings > CONSOLELINES)
                     outputhistory = CONSOLEBLANKLINES;  // scroll to top
                 else if (caretpos > 0)
                 {
@@ -2765,7 +2789,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_END:
-                if (outputhistory != -1 && numconsolestrings > CONSOLELINES)
+                if (outputhistory != -1 && numvisibleconsolestrings > CONSOLELINES)
                     outputhistory = -1;                 // scroll to bottom
                 else if (caretpos < len)
                 {
@@ -2883,11 +2907,11 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_UPARROW:
-                if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES && scrollbardrawn)
+                if ((modstate & KMOD_CTRL) && !topofconsole && numvisibleconsolestrings > CONSOLELINES && scrollbardrawn)
                 {
                     // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                    outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - scrollspeed / TICRATE));
                 }
                 else
@@ -2896,7 +2920,7 @@ bool C_Responder(event_t *ev)
                     if (inputhistory == -1)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
-                    for (i = (inputhistory == -1 ? numconsolestrings : inputhistory) - 1; i >= 0; i--)
+                    for (i = (inputhistory == -1 ? numvisibleconsolestrings : inputhistory) - 1; i >= 0; i--)
                         if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
                             && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2918,7 +2942,7 @@ bool C_Responder(event_t *ev)
                     // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
-                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numvisibleconsolestrings)
                         outputhistory = -1;
                 }
                 else
@@ -2926,7 +2950,7 @@ bool C_Responder(event_t *ev)
                     // next input
                     if (inputhistory != -1)
                     {
-                        for (i = inputhistory + 1; i < numconsolestrings; i++)
+                        for (i = inputhistory + 1; i < numvisibleconsolestrings; i++)
                             if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
                                 && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2936,7 +2960,7 @@ bool C_Responder(event_t *ev)
                                 break;
                             }
 
-                        if (i == numconsolestrings)
+                        if (i == numvisibleconsolestrings)
                         {
                             inputhistory = -1;
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
@@ -2952,10 +2976,10 @@ bool C_Responder(event_t *ev)
 
             case KEY_PAGEUP:
                 // scroll output up
-                if (!topofconsole && numconsolestrings > CONSOLELINES && scrollbardrawn)
+                if (!topofconsole && numvisibleconsolestrings > CONSOLELINES && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                    outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
                         MAX(0, outputhistory - scrollspeed / TICRATE));
                 }
 
@@ -2967,7 +2991,7 @@ bool C_Responder(event_t *ev)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
-                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numvisibleconsolestrings)
                         outputhistory = -1;
                 }
 
@@ -3132,16 +3156,16 @@ bool C_Responder(event_t *ev)
                     CONSOLESCROLLBARHEIGHT - (scrollbarfaceend - scrollbarfacestart)));
                 scrollbarfaceend = scrollbarfacestart
                     + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+                    * MAX(0, numvisibleconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numvisibleconsolestrings;
 
-                if (numconsolestrings > CONSOLELINES)
+                if (numvisibleconsolestrings > CONSOLELINES)
                 {
-                    const int   position = scrollbarfacestart * numconsolestrings / CONSOLESCROLLBARHEIGHT + 1;
+                    const int   position = scrollbarfacestart * numvisibleconsolestrings / CONSOLESCROLLBARHEIGHT + 1;
                     const int   top = position + CONSOLEBLANKLINES;
 
                     if (position <= 0)
                         outputhistory = CONSOLEBLANKLINES;
-                    else if (top + CONSOLELINES >= numconsolestrings)
+                    else if (top + CONSOLELINES >= numvisibleconsolestrings)
                         outputhistory = -1;
                     else
                         outputhistory = top;
@@ -3234,13 +3258,13 @@ bool C_Responder(event_t *ev)
                 {
                     // scroll output up
                     if (y < scrollbarfacestart)
-                        outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                        outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
                             MAX(0, outputhistory - scrollspeed / TICRATE));
 
                     // scroll output down
                     else if (y > scrollbarfaceend && y < CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
                     {
-                        if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                        if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numvisibleconsolestrings)
                             outputhistory = -1;
                     }
                 }
@@ -3266,15 +3290,15 @@ bool C_Responder(event_t *ev)
         // scroll output up
         if (ev->data1 > 0)
         {
-            if (!topofconsole && numconsolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+            if (!topofconsole && numvisibleconsolestrings > CONSOLELINES)
+                outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
                     MAX(0, outputhistory - 1));
         }
 
         // scroll output down
         else if (ev->data1 < 0)
         {
-            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numconsolestrings)
+            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numvisibleconsolestrings)
                 outputhistory = -1;
         }
     }
@@ -3295,8 +3319,8 @@ bool C_Responder(event_t *ev)
         {
             controllerwait = I_GetTime() + 2;
 
-            if (!topofconsole && numconsolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+            if (!topofconsole && numvisibleconsolestrings > CONSOLELINES)
+                outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
                     MAX(0, outputhistory - 1));
         }
 
@@ -3307,7 +3331,7 @@ bool C_Responder(event_t *ev)
         {
             controllerwait = I_GetTime() + 2;
 
-            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numconsolestrings)
+            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numvisibleconsolestrings)
                 outputhistory = -1;
         }
     }
