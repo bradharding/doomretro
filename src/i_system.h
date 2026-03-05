@@ -58,6 +58,7 @@
         func, commify(__LINE__ + offset), leafname(__FILE__), SDL_GetError())
 
 #if defined(_WIN32)
+_Releases_lock_(hInstanceMutex)
 void I_ShutdownWindows(void);
 #endif
 
