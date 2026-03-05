@@ -1532,7 +1532,13 @@ static void SetVideoMode(const bool createwindow, const bool output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
     }
 
+#if defined(_WIN64)
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER,
+        (M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d) ? "direct3d11" : vid_scaleapi),
+        SDL_HINT_OVERRIDE);
+#else
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+#endif
 
     software = M_StringCompare(vid_scaleapi, vid_scaleapi_software);
 
@@ -1719,13 +1725,22 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
 #if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;
+                C_StringCVAROutput(stringize(vid_scaleapi), vid_scaleapi);
                 M_SaveCVARs();
 
-                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi_direct3d, SDL_HINT_OVERRIDE);
+#if defined(_WIN64)
+                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, "direct3d11", SDL_HINT_OVERRIDE);
 
                 if (output)
                     C_Output("This scaling is now done using hardware acceleration with "
                         ITALICS("Direct3D 11."));
+#else
+                SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaleapi, SDL_HINT_OVERRIDE);
+
+                if (output)
+                    C_Output("This scaling is now done using hardware acceleration with "
+                        ITALICS("Direct3D 9."));
+#endif
 #endif
             }
             else
@@ -1745,9 +1760,15 @@ static void SetVideoMode(const bool createwindow, const bool output)
 #if defined(_WIN32)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
+#if defined(_WIN64)
+            if (output)
+                C_Output("This scaling is done using hardware acceleration with "
+                    ITALICS("Direct3D 11."));
+#else
             if (output)
                 C_Output("This scaling is done using hardware acceleration with "
                     ITALICS("Direct3D 9."));
+#endif
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
