@@ -554,6 +554,7 @@ static void vid_contrastfunc2(char *cmd, char *parms);
 static void vid_displayfunc2(char *cmd, char *parms);
 static void vid_fullscreenfunc2(char *cmd, char *parms);
 static void vid_greenfunc2(char *cmd, char *parms);
+static void vid_motionblurfunc2(char *cmd, char *parms);
 static void vid_pillarboxesfunc2(char *cmd, char *parms);
 static void vid_redfunc2(char *cmd, char *parms);
 static void vid_saturationfunc2(char *cmd, char *parms);
@@ -1165,7 +1166,7 @@ consolecmd_t consolecmds[] =
         "Toggles between fullscreen and a window."),
     PERCENTCVAR(vid_green, "", "", intfunc1, vid_greenfunc2,
         "The intensity of green on the screen (" BOLD("-100%") " to " BOLD("100%") ")."),
-    PERCENTCVAR(vid_motionblur, "", "", intfunc1, intfunc2,
+    PERCENTCVAR(vid_motionblur, "", "", intfunc1, vid_motionblurfunc2,
         "The amount of motion blur when you turn quickly (" BOLD("0%") " to " BOLD("100%") ")."),
     BOOLCVAR(vid_pillarboxes, "", "", boolfunc1, vid_pillarboxesfunc2, 0,
         "Toggles using the pillarboxes either side of the screen for certain effects when not widescreen."),
@@ -12266,6 +12267,19 @@ static void vid_greenfunc2(char *cmd, char *parms)
 
     if (vid_green != vid_green_old)
         I_UpdateColors();
+}
+
+//
+// vid_motionblur CVAR
+//
+static void vid_motionblurfunc2(char *cmd, char *parms)
+{
+    const int   vid_motionblur_old = vid_motionblur;
+
+    intfunc2(cmd, parms);
+
+    if (vid_motionblur != vid_motionblur_old)
+        I_RestartGraphics(true);
 }
 
 //

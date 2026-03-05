@@ -1529,7 +1529,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             ITALICS(DOOMRETRO_NAME) " in widescreen.", displayindex + 1);
     }
 
-    if (vid_vsync)
+    if (vid_vsync || vid_motionblur)
         rendererflags |= SDL_RENDERER_PRESENTVSYNC;
 
     if (M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
