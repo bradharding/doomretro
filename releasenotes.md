@@ -101,6 +101,7 @@
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_fall` CVAR is `on`, the controller will no longer rumble when the player falls into liquid.
 * An accessibility feature has been implemented that causes the player to automatically fire their currently equipped weapon when there's a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
+* A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

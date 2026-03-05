@@ -179,7 +179,7 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
                 const fixed_t   momy = thing->momy;
 
                 // Whether this is the player, and if so, a pointer to their player_t
-                player_t    *player = thing->player;
+                player_t        *player = thing->player;
 
                 // Attempt to teleport, aborting if blocked
                 if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
@@ -194,26 +194,31 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
 
                 // Adjust player's view, in case there has been a height change
                 // Voodoo dolls are excluded by making sure player->mo == thing.
-                if (player && player->mo == thing)
+                if (player)
                 {
-                    // Save the current deltaviewheight, used in stepping
-                    const fixed_t   deltaviewheight = player->deltaviewheight;
+                    if (player->mo == thing)
+                    {
+                        // Save the current deltaviewheight, used in stepping
+                        const fixed_t   deltaviewheight = player->deltaviewheight;
 
-                    // Clear deltaviewheight, since we don't want any changes
-                    player->deltaviewheight = 0;
+                        // Clear deltaviewheight, since we don't want any changes
+                        player->deltaviewheight = 0;
 
-                    // Set player's view according to the newly set parameters
-                    P_CalcHeight();
+                        // Set player's view according to the newly set parameters
+                        P_CalcHeight();
 
-                    // Reset the delta to have the same dynamics as before
-                    player->deltaviewheight = deltaviewheight;
+                        // Reset the delta to have the same dynamics as before
+                        player->deltaviewheight = deltaviewheight;
 
-                    thing->angle += angle;
+                        thing->angle += angle;
 
-                    thing->subsector->sector->mapped = true;
+                        thing->subsector->sector->mapped = true;
+                    }
+                    else
+                        thing->angle = angle;
                 }
                 else
-                    thing->angle = angle;
+                    thing->angle += angle;
 
                 return true;
             }
@@ -323,26 +328,31 @@ bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bo
             thing->momy = FixedMul(y, c) + FixedMul(x, s);
 
             // Adjust the player's view, in case there has been a height change
-            if (player && player->mo == thing)
+            if (player)
             {
-                // Save the current deltaviewheight, used in stepping
-                const fixed_t   deltaviewheight = player->deltaviewheight;
+                if (player->mo == thing)
+                {
+                    // Save the current deltaviewheight, used in stepping
+                    const fixed_t   deltaviewheight = player->deltaviewheight;
 
-                // Clear deltaviewheight, since we don't want any changes now
-                player->deltaviewheight = 0;
+                    // Clear deltaviewheight, since we don't want any changes now
+                    player->deltaviewheight = 0;
 
-                // Set player's view according to the newly set parameters
-                P_CalcHeight();
+                    // Set player's view according to the newly set parameters
+                    P_CalcHeight();
 
-                // Reset the delta to have the same dynamics as before
-                player->deltaviewheight = deltaviewheight;
+                    // Reset the delta to have the same dynamics as before
+                    player->deltaviewheight = deltaviewheight;
 
-                thing->subsector->sector->mapped = true;
+                    thing->subsector->sector->mapped = true;
 
-                thing->angle += angle;
+                    thing->angle += angle;
+                }
+                else
+                    thing->angle = angle;
             }
             else
-                thing->angle = angle;
+                thing->angle += angle;
 
             return true;
         }
