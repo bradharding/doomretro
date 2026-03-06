@@ -72,7 +72,6 @@ typedef struct
     state_t *state; // a NULL state means not active
     int     tics;
     fixed_t sx, sy;
-    fixed_t oldsx, oldsy;
 } pspdef_t;
 
 bool P_CheckAmmo(const weapontype_t weapon);

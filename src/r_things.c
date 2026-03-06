@@ -1617,8 +1617,6 @@ static bool muzzleflash;
 
 static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool altered)
 {
-    fixed_t             interpsx;
-    fixed_t             interpsy;
     fixed_t             tx;
     int                 x1, x2;
     vissprite_t         tempvis = { 0 };
@@ -1629,34 +1627,70 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     const spriteframe_t *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
     const int           lump = sprframe->lump[0];
 
-    // interpolate weapon position
-    if (interpolatesprites && !skippsprinterp)
-    {
-        interpsx = psp->oldsx + FixedMul(psp->sx - psp->oldsx, fractionaltic);
-        interpsy = psp->oldsy + FixedMul(psp->sy - psp->oldsy, fractionaltic);
-    }
-    else
-    {
-        interpsx = psp->sx;
-        interpsy = psp->sy;
-    }
-
     // calculate edges of the shape
-    tx = interpsx - VANILLAWIDTH / 2 * FRACUNIT
+    tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT
         - (!r_fixspriteoffsets || (altered && !vanilla) ? spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritescale)) >> FRACBITS;
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;
 
     // store information in a vissprite
-    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 
-        - (interpsy + ABS(viewplayer->bounce) - spritetopoffset[lump]);
+    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy + ABS(viewplayer->bounce) - spritetopoffset[lump]);
     vis->patch = lump;
-    vis->x1 = MAX(0, x1);
-    vis->x2 = MIN(x2, viewwidth - 1);
-    vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
 
-    if (skippsprinterp)
-        skippsprinterp--;
+    // interpolation for weapon bobbing
+    if (interpolatesprites)
+    {
+        typedef struct
+        {
+            int x1;
+            int x1_prev;
+            int texturemid;
+            int texturemid_prev;
+            int lump;
+        } psp_interpolate_t;
+
+        static psp_interpolate_t    psp_inter;
+
+        if (realframe && !skippsprinterp)
+        {
+            psp_inter.x1 = psp_inter.x1_prev;
+            psp_inter.texturemid = psp_inter.texturemid_prev;
+        }
+
+        psp_inter.x1_prev = x1;
+        psp_inter.texturemid_prev = vis->texturemid;
+
+        if (lump == psp_inter.lump && !skippsprinterp)
+        {
+            const int   basex1 = psp_inter.x1;
+            int         interpx1 = basex1 + FixedMul(x1 - basex1, fractionaltic);
+
+            vis->x1 = MAX(0, interpx1);
+            vis->x2 = MIN(interpx1 + x2 - basex1, viewwidth - 1);
+            vis->startfrac = (vis->x1 > interpx1 ? pspriteiscale * (vis->x1 - interpx1) : 0);
+            vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid,
+                fractionaltic);
+        }
+        else
+        {
+            psp_inter.x1 = x1;
+            psp_inter.texturemid = vis->texturemid;
+            psp_inter.lump = lump;
+
+            vis->x1 = MAX(0, x1);
+            vis->x2 = MIN(x2, viewwidth - 1);
+            vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
+        }
+
+        if (skippsprinterp)
+            skippsprinterp--;
+    }
+    else
+    {
+        vis->x1 = MAX(0, x1);
+        vis->x2 = MIN(x2, viewwidth - 1);
+        vis->startfrac = (vis->x1 > x1 ? pspriteiscale * (vis->x1 - x1) : 0);
+    }
 
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
 
