@@ -630,12 +630,124 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
     return width;
 }
 
+static int C_NextVisibleLine(int current)
+{
+    for (int i = current + 1; i < numconsolestrings; i++)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        return i;
+    }
+
+    return numconsolestrings - 1;
+}
+
+static int C_PrevVisibleLine(int current)
+{
+    for (int i = current - 1; i >= 0; i--)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        return i;
+    }
+
+    return CONSOLEBLANKLINES;
+}
+
+static int C_GetVisibleLineForArrayIndex(int arrayindex)
+{
+    int visiblecount = 0;
+
+    for (int i = 0; i <= arrayindex && i < numconsolestrings; i++)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        visiblecount++;
+    }
+
+    return visiblecount - 1;
+}
+
+static int C_GetTopLineForDisplay(void)
+{
+    int visiblecount = 0;
+
+    for (int i = numconsolestrings - 1; i >= 0; i--)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        visiblecount++;
+
+        if (visiblecount >= CONSOLELINES + 1)
+            return i;
+    }
+
+    return CONSOLEBLANKLINES;
+}
+
+static void C_ScrollUpFromBottom(void)
+{
+    int screenlinescount = 0;
+
+    outputhistory = -1;
+
+    for (int i = numconsolestrings - 1; i >= CONSOLEBLANKLINES && screenlinescount <= CONSOLELINES; i--)
+    {
+        const stringtype_t  stringtype = console[i].stringtype;
+
+        if (stringtype == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
+            continue;
+
+        if ((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries)
+            continue;
+
+        screenlinescount++;
+
+        if (console[i].wrap > 0 && console[i].wrap < (int)strlen(console[i].string))
+            screenlinescount++;
+
+        if (screenlinescount >= CONSOLELINES + 1)
+        {
+            outputhistory = i;
+            break;
+        }
+    }
+
+    if (outputhistory == -1)
+        outputhistory = CONSOLEBLANKLINES;
+}
+
 static void C_DrawScrollbar(void)
 {
     scrollbarfacestart = CONSOLESCROLLBARHEIGHT * MAX(0, (outputhistory == -1 ?
-        numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES : outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
+        numvisibleconsolestrings - CONSOLEBLANKLINES - CONSOLELINES :
+        C_GetVisibleLineForArrayIndex(outputhistory) - CONSOLEBLANKLINES)) / numvisibleconsolestrings;
     scrollbarfaceend = scrollbarfacestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-        * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+        * MAX(0, numvisibleconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numvisibleconsolestrings;
 
     if (!scrollbarfacestart && scrollbarfaceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
@@ -1986,7 +2098,7 @@ void C_Drawer(void)
     unsigned char   prevletter2 = '\0';
 
     numvisibleconsolestrings = C_CountVisibleStrings();
-    bottomline = (outputhistory == -1 ? numvisibleconsolestrings : outputhistory + CONSOLELINES) - 1;
+    bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
 
     cheatsequence = false;
 
@@ -2297,7 +2409,7 @@ void C_Drawer(void)
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
         {
-            while (i + 1 < numvisibleconsolestrings && !strlen(console[++i].string))
+            while (i + 1 < numconsolestrings && !strlen(console[++i].string))
                 outputhistory++;
 
             break;
@@ -2911,8 +3023,12 @@ bool C_Responder(event_t *ev)
                 {
                     // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
-                        MAX(0, outputhistory - scrollspeed / TICRATE));
+
+                    if (outputhistory == -1)
+                        outputhistory = C_GetTopLineForDisplay();
+
+                    for (int j = 0; j < scrollspeed / TICRATE && outputhistory > CONSOLEBLANKLINES; j++)
+                        outputhistory = C_PrevVisibleLine(outputhistory);
                 }
                 else
                 {
@@ -2920,7 +3036,7 @@ bool C_Responder(event_t *ev)
                     if (inputhistory == -1)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
-                    for (i = (inputhistory == -1 ? numvisibleconsolestrings : inputhistory) - 1; i >= 0; i--)
+                    for (i = (inputhistory == -1 ? numconsolestrings : inputhistory) - 1; i >= 0; i--)
                         if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
                             && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2942,15 +3058,25 @@ bool C_Responder(event_t *ev)
                     // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
-                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numvisibleconsolestrings)
-                        outputhistory = -1;
+                    for (int j = 0; j < scrollspeed / TICRATE; j++)
+                    {
+                        int next = C_NextVisibleLine(outputhistory);
+
+                        if (next + CONSOLELINES >= numvisibleconsolestrings)
+                        {
+                            outputhistory = -1;
+                            break;
+                        }
+
+                        outputhistory = next;
+                    }
                 }
                 else
                 {
                     // next input
                     if (inputhistory != -1)
                     {
-                        for (i = inputhistory + 1; i < numvisibleconsolestrings; i++)
+                        for (i = inputhistory + 1; i < numconsolestrings; i++)
                             if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
                                 && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2979,8 +3105,12 @@ bool C_Responder(event_t *ev)
                 if (!topofconsole && numvisibleconsolestrings > CONSOLELINES && scrollbardrawn)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
-                        MAX(0, outputhistory - scrollspeed / TICRATE));
+
+                    if (outputhistory == -1)
+                        outputhistory = C_GetTopLineForDisplay();
+
+                    for (int j = 0; j < scrollspeed / TICRATE && outputhistory > CONSOLEBLANKLINES; j++)
+                        outputhistory = C_PrevVisibleLine(outputhistory);
                 }
 
                 break;
@@ -2991,8 +3121,18 @@ bool C_Responder(event_t *ev)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
 
-                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numvisibleconsolestrings)
-                        outputhistory = -1;
+                    for (int j = 0; j < scrollspeed / TICRATE; j++)
+                    {
+                        int next = C_NextVisibleLine(outputhistory);
+
+                        if (next + CONSOLELINES >= numvisibleconsolestrings)
+                        {
+                            outputhistory = -1;
+                            break;
+                        }
+
+                        outputhistory = next;
+                    }
                 }
 
                 break;
@@ -3291,15 +3431,24 @@ bool C_Responder(event_t *ev)
         if (ev->data1 > 0)
         {
             if (!topofconsole && numvisibleconsolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
-                    MAX(0, outputhistory - 1));
+            {
+                if (outputhistory == -1)
+                    C_ScrollUpFromBottom();
+                else
+                    outputhistory = C_PrevVisibleLine(outputhistory);
+            }
         }
 
         // scroll output down
         else if (ev->data1 < 0)
         {
-            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numvisibleconsolestrings)
-                outputhistory = -1;
+            if (outputhistory != -1)
+            {
+                outputhistory = C_NextVisibleLine(outputhistory);
+
+                if (outputhistory + CONSOLELINES >= numvisibleconsolestrings)
+                    outputhistory = -1;
+            }
         }
     }
     else if (ev->type == ev_controller)
@@ -3320,8 +3469,12 @@ bool C_Responder(event_t *ev)
             controllerwait = I_GetTime() + 2;
 
             if (!topofconsole && numvisibleconsolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? numvisibleconsolestrings - (CONSOLELINES + 1) :
-                    MAX(0, outputhistory - 1));
+            {
+                if (outputhistory == -1)
+                    C_ScrollUpFromBottom();
+                else
+                    outputhistory = C_PrevVisibleLine(outputhistory);
+            }
         }
 
         // scroll output down
@@ -3331,8 +3484,13 @@ bool C_Responder(event_t *ev)
         {
             controllerwait = I_GetTime() + 2;
 
-            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numvisibleconsolestrings)
-                outputhistory = -1;
+            if (outputhistory != -1)
+            {
+                outputhistory = C_NextVisibleLine(outputhistory);
+
+                if (outputhistory + CONSOLELINES >= numvisibleconsolestrings)
+                    outputhistory = -1;
+            }
         }
     }
 
