@@ -1,4 +1,4 @@
-﻿#
+#
 #============================================================================
 #
 #                                 DOOM Retro
@@ -59,10 +59,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
@@ -99,7 +99,7 @@ jobs:
         shell: pwsh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: doomretro-v${{ steps.version.outputs.VERSION }}-${{ matrix.artifact-suffix }}
           path: |
@@ -118,10 +118,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cache/ccache
@@ -176,7 +176,7 @@ jobs:
           mv DOOM_Retro*.AppImage doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: doomretro-linux-${{ matrix.compiler }}
           path: |
@@ -185,7 +185,7 @@ jobs:
 
       - name: Upload AppImage
         if: matrix.compiler == 'gcc'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64-AppImage
           path: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
@@ -197,10 +197,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/ccache
@@ -228,7 +228,7 @@ jobs:
           make -j$(sysctl -n hw.ncpu) VERBOSE=1
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: doomretro-macos
           path: |
