@@ -9664,7 +9664,9 @@ static void teleportfunc2(char *cmd, char *parms)
 
                 mo->reactiontime = 18;
                 viewplayer->psprites[ps_weapon].sx = 0;
+                viewplayer->psprites[ps_weapon].oldsx = 0;
                 viewplayer->psprites[ps_weapon].sy = WEAPONTOP;
+                viewplayer->psprites[ps_weapon].oldsy = WEAPONTOP;
                 viewplayer->momx = 0;
                 viewplayer->momy = 0;
                 mo->momx = 0;

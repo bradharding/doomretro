@@ -108,7 +108,9 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
                     thing->reactiontime = 18;
 
                     player->psprites[ps_weapon].sx = 0;
+                    player->psprites[ps_weapon].oldsx = 0;
                     player->psprites[ps_weapon].sy = WEAPONTOP;
+                    player->psprites[ps_weapon].oldsy = WEAPONTOP;
 
                     player->momx = 0;
                     player->momy = 0;

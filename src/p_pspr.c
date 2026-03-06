@@ -82,8 +82,8 @@ static void P_SetPlayerSpritePtr(pspdef_t *psp, statenum_t stnum)
             if (state->misc1)
             {
                 // coordinate set
-                psp->sx = state->misc1 << FRACBITS;
-                psp->sy = state->misc2 << FRACBITS;
+                psp->sx = psp->oldsx = state->misc1 << FRACBITS;
+                psp->sy = psp->oldsy = state->misc2 << FRACBITS;
             }
 
             // Call action routine.
@@ -234,10 +234,16 @@ void P_FireWeapon(void)
         const state_t   *state = psp->state;
 
         if (!state->misc1)
+        {
+            psp->oldsx = psp->sx;
             psp->sx = 0;
+        }
 
         if (!state->misc2)
+        {
+            psp->oldsy = psp->sy;
             psp->sy = WEAPONTOP;
+        }
     }
 }
 
@@ -345,6 +351,7 @@ void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    psp->oldsy = psp->sy;
     psp->sy += LOWERSPEED;
 
     // Is already down.
@@ -378,6 +385,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    psp->oldsy = psp->sy;
     psp->sy -= RAISESPEED;
 
     if (psp->sy > WEAPONTOP)
@@ -950,6 +958,9 @@ void P_MovePlayerSprites(void)
         if (momx | momy)
             bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * weaponbob / 100, bob);
 
+        weapon->oldsx = weapon->sx;
+        weapon->oldsy = weapon->sy;
+
         // [BH] smooth out weapon bob by zeroing out really small bobs
         if (bob < FRACUNIT / 2)
         {
@@ -970,11 +981,15 @@ void P_MovePlayerSprites(void)
     {
         if (weapon->state == &states[S_BFG1])
         {
+            weapon->oldsx = weapon->sx;
+            weapon->oldsy = weapon->sy;
             weapon->sx = M_BigRandomInt(-2, 2) * FRACUNIT;
             weapon->sy = WEAPONTOP + M_BigRandomInt(-1, 1) * FRACUNIT;
         }
         else if (weapon->state == &states[S_BFG2])
         {
+            weapon->oldsx = weapon->sx;
+            weapon->oldsy = weapon->sy;
             weapon->sx = 0;
             weapon->sy = WEAPONTOP;
         }

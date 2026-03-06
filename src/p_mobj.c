@@ -1113,6 +1113,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->fixedcolormap = 0;
 
     viewplayer->psprites[ps_weapon].sx = 0;
+    viewplayer->psprites[ps_weapon].oldsx = 0;
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->bloodsplats = CORPSEBLOODSPLATS;
