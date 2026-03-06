@@ -509,6 +509,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitattributes" />
+    <None Include="..\.github\dependabot.yml" />
     <None Include="..\.github\FUNDING.yml" />
     <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
