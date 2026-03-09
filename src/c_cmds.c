@@ -4867,7 +4867,7 @@ static bool mapfunc1(char *cmd, char *parms)
                     else
                         mapcmdmap = 0;
 
-                    M_snprintf(lump, sizeof(lump), "MAP%d", mapcmdmap);
+                    M_snprintf(lump, sizeof(lump), "MAP%02d", mapcmdmap);
                     result = (W_CheckNumForName(lump) >= 0);
                 }
                 else if (sscanf(parm, "MAP%d", &mapcmdmap) == 1)
