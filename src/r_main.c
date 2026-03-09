@@ -1199,17 +1199,39 @@ void R_RenderPlayerView(void)
 {
     R_SetupFrame();
 
-    // Clear buffers.
+    if (automapactive)
+    {
+        R_ClearClipSegs();
+        R_ClearDrawSegs();
+        R_ClearPlanes();
+        R_ClearSprites();
+        R_RenderBSPNode(numnodes - 1);
+        return;
+    }
+
+    if (r_liquid_reflections)
+    {
+        const int   savedvalidcount = validcount;
+
+        validcount++;
+
+        R_ClearClipSegs();
+        R_ClearDrawSegs();
+        R_ClearPlanes();
+        R_ClearSprites();
+
+        R_RenderBSPNode(numnodes - 1);
+        R_DrawNearbySprites();
+        R_DrawPlanes();
+
+        validcount = savedvalidcount;
+    }
+
+    // Clear state for the actual on-screen render pass.
     R_ClearClipSegs();
     R_ClearDrawSegs();
     R_ClearPlanes();
     R_ClearSprites();
-
-    if (automapactive)
-    {
-        R_RenderBSPNode(numnodes - 1);
-        return;
-    }
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
@@ -1218,13 +1240,18 @@ void R_RenderPlayerView(void)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
             nearestblack, 0, false, false, NULL, NULL);
 
-    R_RenderBSPNode(numnodes - 1);  // head node is the last node output
+    R_RenderBSPNode(numnodes - 1);
 
     R_DrawNearbySprites();
 
     R_DrawPlanes();
 
-    R_DrawMasked();
+    if (r_liquid_reflections)
+        R_RenderLiquidReflection();
+
+    R_DrawMaskedNoPlayerSprites();
+
+    R_DrawPlayerSpritesOnly();
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
         V_InvertScreen();

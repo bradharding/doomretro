@@ -113,6 +113,7 @@ r_liquid_bobsprites off
 r_liquid_clipsprites off
 r_liquid_current off
 r_liquid_lowerview off
+r_liquid_reflections off
 r_liquid_swirl off
 r_lowpixelsize 2x2
 r_mirroredweapons off

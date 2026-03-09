@@ -36,6 +36,7 @@
 #include "doomstat.h"
 #include "m_bbox.h"
 #include "m_config.h"
+#include "p_spec.h"
 #include "r_plane.h"
 #include "r_segs.h"
 #include "r_things.h"
@@ -577,13 +578,20 @@ static void R_Subsector(int num)
     floorlightsec = frontsector->floorlightsec;
     ceilinglightsec = frontsector->ceilinglightsec;
 
-    floorplane = (frontsector->interpfloorheight < viewz    // killough 03/07/98
+    fixed_t floorheight = frontsector->interpfloorheight;
+
+    if (frontsector->terraintype >= LIQUID
+        && r_liquid_bob
+        && (!heightsec || viewz > heightsec->interpfloorheight))
+        floorheight += animatedliquiddiff;
+
+    floorplane = (floorheight < viewz                         // killough 03/07/98
         || (heightsec && heightsec->ceilingpic == skyflatnum) ?
-        R_FindPlane(frontsector->interpfloorheight,
-            (frontsector->floorpic == skyflatnum            // killough 10/98
+        R_FindPlane(floorheight,
+            (frontsector->floorpic == skyflatnum             // killough 10/98
                 && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic),
-            floorlightlevel,                                // killough 03/16/98
-            frontsector->floorxoffset,                      // killough 03/07/98
+            floorlightlevel,                                 // killough 03/16/98
+            frontsector->floorxoffset,                       // killough 03/07/98
             frontsector->flooryoffset,
             (floorlightsec ? floorlightsec->colormap :
                 (heightsec ? heightsec->colormap : frontsector->colormap)),

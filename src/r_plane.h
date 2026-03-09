@@ -47,9 +47,11 @@ extern fixed_t  *yslope;
 extern fixed_t  yslopes[PITCHES][MAXHEIGHT];
 extern int      openings[MAXOPENINGS];
 extern fixed_t  planenum;
+extern bool     renderingreflection;
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
+void R_RenderLiquidReflection(void);
 visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel,
     const fixed_t x, const fixed_t y, const int colormap, const angle_t angle);
 visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop);

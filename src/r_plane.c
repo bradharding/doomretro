@@ -36,54 +36,316 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "m_config.h"
 #include "m_menu.h"
+#include "p_spec.h"
+#include "r_bsp.h"
 #include "r_sky.h"
+#include "r_things.h"
+#include "v_video.h"
 #include "w_wad.h"
 
-#define MAXVISPLANES    1024                    // must be a power of 2
+#define MAXVISPLANES            1024    // must be a power of 2
+
+// Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
+#define SPEED                   24
+
+// swirl factors determine the number of waves per flat width
+// 1 cycle per 64 units
+#define SWIRLFACTOR             (FINEANGLES / 64)
+
+// 1 cycle per 32 units         (2 in 64)
+#define SWIRLFACTOR2            (FINEANGLES / 32)
+
+// Cache multiple flats
+#define MAXCACHEDFLATS          8
+
+#define REFLECTIONSWIRLBORDER   4
 
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
 #define visplane_hash(picnum, lightlevel, height, colormap) \
     ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7 + (colormap) * 11) & (MAXVISPLANES - 1))
 
-static visplane_t   *visplanes[MAXVISPLANES];   // killough
-static visplane_t   *freetail;                  // killough
-static visplane_t   **freehead = &freetail;     // killough
-visplane_t          *floorplane;
-visplane_t          *ceilingplane;
+static int  offsets[1024 * 4096];
 
-fixed_t             planenum;
+static swirlcache_t                 swirlcache[MAXCACHEDFLATS];
 
-int                 openings[MAXOPENINGS];
-int                 *lastopening;               // dropoff overflow
+static visplane_t                   *visplanes[MAXVISPLANES];   // killough
+static visplane_t                   *freetail;                  // killough
+static visplane_t                   **freehead = &freetail;     // killough
+visplane_t                          *floorplane;
+visplane_t                          *ceilingplane;
+
+fixed_t                             planenum;
+
+int                                 openings[MAXOPENINGS];
+int                                 *lastopening;               // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                 floorclip[MAXWIDTH];        // dropoff overflow
-int                 ceilingclip[MAXWIDTH];      // dropoff overflow
+int                                 floorclip[MAXWIDTH];        // dropoff overflow
+int                                 ceilingclip[MAXWIDTH];      // dropoff overflow
 
 // texture mapping
-static lighttable_t **planezlight;
-static fixed_t      planeheight;
+static lighttable_t                 **planezlight;
+static fixed_t                      planeheight;
 
-static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
+static fixed_t                      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
-static angle_t      rotation;
+static angle_t                      rotation;
 
-static fixed_t      angle_sin;
-static fixed_t      angle_cos;
-static fixed_t      viewx_trans;
-static fixed_t      viewy_trans;
+static fixed_t                      angle_sin;
+static fixed_t                      angle_cos;
+static fixed_t                      viewx_trans;
+static fixed_t                      viewy_trans;
 
-fixed_t             *yslope;
-fixed_t             yslopes[PITCHES][MAXHEIGHT];
+fixed_t                             *yslope;
+fixed_t                             yslopes[PITCHES][MAXHEIGHT];
 
-static fixed_t      cachedheight[MAXHEIGHT];
+static fixed_t                      cachedheight[MAXHEIGHT];
 
-static angle_t      *xtoskyangle;
+static angle_t                      *xtoskyangle;
+
+bool                                renderingreflection;
+static fixed_t                      reflectionheight;
+
+static liquidplanesnapshot_t        liquidsnapshots[MAXVISPLANES];
+static int                          numliquidsnapshots;
+static const liquidplanesnapshot_t  *currentreflectionsnapshot;
+
+static void R_AddUniqueReflectionHeight(fixed_t *heights, int *count, const fixed_t height)
+{
+    for (int i = 0; i < *count; i++)
+        if (heights[i] == height)
+            return;
+
+    if (*count < MAXVISPLANES)
+        heights[(*count)++] = height;
+}
+
+static void R_CaptureLiquidPlane(const visplane_t *pl)
+{
+    liquidplanesnapshot_t *snapshot;
+
+    if (numliquidsnapshots >= MAXVISPLANES)
+        return;
+
+    snapshot = &liquidsnapshots[numliquidsnapshots++];
+    snapshot->height = pl->height;
+    snapshot->left = pl->left;
+    snapshot->right = pl->right;
+
+    memcpy(snapshot->top, pl->top, viewwidth * sizeof(*snapshot->top));
+    memcpy(snapshot->bottom, pl->bottom, viewwidth * sizeof(*snapshot->bottom));
+}
+
+static bool R_LiquidPlaneOverlapsSnapshot(const visplane_t *pl, const liquidplanesnapshot_t *snapshot)
+{
+    const int left = MAX(pl->left, snapshot->left);
+    const int right = MIN(pl->right, snapshot->right);
+
+    for (int x = left; x <= right; x++)
+    {
+        const unsigned short    ptop = pl->top[x];
+        const unsigned short    pbottom = pl->bottom[x];
+        const unsigned short    stop = snapshot->top[x];
+        const unsigned short    sbottom = snapshot->bottom[x];
+
+        if (ptop == USHRT_MAX || stop == USHRT_MAX || stop > sbottom)
+            continue;
+
+        // Convert the main-view receiver span into reflection-view screen space.
+        const int reflectedtop = viewheight - 1 - sbottom;
+        const int reflectedbottom = viewheight - 1 - stop;
+
+        if (ptop <= reflectedbottom && pbottom >= reflectedtop)
+            return true;
+    }
+
+    return false;
+}
+
+static bool R_LiquidSnapshotCoversPixel(const liquidplanesnapshot_t *snapshot, const int x, const int y)
+{
+    return (x >= snapshot->left && x <= snapshot->right
+        && snapshot->top[x] != USHRT_MAX
+        && y >= snapshot->top[x] && y <= snapshot->bottom[x]);
+}
+
+static bool R_LiquidSnapshotPixelIsOccluded(const int snapshotindex, const int x, const int y)
+{
+    const liquidplanesnapshot_t *snapshot = &liquidsnapshots[snapshotindex];
+
+    for (int i = 0; i < numliquidsnapshots; i++)
+        if (i != snapshotindex && R_LiquidSnapshotCoversPixel(&liquidsnapshots[i], x, y))
+        {
+            const liquidplanesnapshot_t *other = &liquidsnapshots[i];
+
+            if (other->top[x] > snapshot->top[x])
+                return true;
+
+            if (other->top[x] == snapshot->top[x] && other->bottom[x] > snapshot->bottom[x])
+                return true;
+        }
+
+    return false;
+}
+
+static bool R_GetSwirledReflectionPixel(const int x, const int y,
+    const int left, const int right, const int top, const int bottom, byte *pixel)
+{
+    int sourcex = x;
+    int sourcey = viewheight - 1 - y;
+
+    if (updateswirl
+        && x >= left + REFLECTIONSWIRLBORDER && x <= right - REFLECTIONSWIRLBORDER
+        && y >= top + REFLECTIONSWIRLBORDER && y <= bottom - REFLECTIONSWIRLBORDER)
+    {
+        const int   tic = (animatedtic & 1023) * SPEED;
+        const int   deltax = ((finesine[(sourcey * SWIRLFACTOR + tic * 5 + 900) & FINEMASK] * 2)
+                        + (finesine[(sourcex * SWIRLFACTOR2 + tic * 4 + 300) & FINEMASK] * 2)) >> FRACBITS;
+        const int   deltay = ((finesine[(sourcex * SWIRLFACTOR + tic * 3 + 700) & FINEMASK] * 2)
+                        + (finesine[(sourcey * SWIRLFACTOR2 + tic * 4 + 1200) & FINEMASK] * 2)) >> FRACBITS;
+
+        sourcex += deltax;
+        sourcey += deltay / 2;
+
+        if (sourcex < 0 || sourcex >= viewwidth || sourcey < 0 || sourcey >= viewheight)
+            return false;
+    }
+
+    *pixel = screens[1][(viewwindowy + sourcey) * SCREENWIDTH + viewwindowx + sourcex];
+    return true;
+}
+
+static void R_BlendLiquidSnapshotReflection(const int snapshotindex)
+{
+    const liquidplanesnapshot_t *snapshot = &liquidsnapshots[snapshotindex];
+
+    for (int x = snapshot->left; x <= snapshot->right; x++)
+    {
+        const unsigned short    top = snapshot->top[x];
+        const unsigned short    bottom = snapshot->bottom[x];
+        byte                    *dest;
+
+        if (top == USHRT_MAX || top > bottom)
+            continue;
+
+        dest = screens[0] + (viewwindowy + top) * SCREENWIDTH + viewwindowx + x;
+
+        for (int y = top; y <= bottom; y++)
+        {
+            byte    source;
+
+            if (!R_LiquidSnapshotPixelIsOccluded(snapshotindex, x, y)
+                && R_GetSwirledReflectionPixel(x, y, snapshot->left, snapshot->right, top, bottom, &source))
+                *dest = tinttab30[(source << 8) + *dest];
+
+            dest += SCREENWIDTH;
+        }
+    }
+}
+
+static void R_SwapRenderBuffers(void)
+{
+    byte    *temp = screens[0];
+
+    screens[0] = screens[1];
+    screens[1] = temp;
+
+    R_InitBuffer();
+}
+
+static void R_RebuildMainMaskedState(void)
+{
+    validcount++;
+
+    R_ClearClipSegs();
+    R_ClearDrawSegs();
+    R_ClearPlanes();
+    R_ClearSprites();
+
+    R_RenderBSPNode(numnodes - 1);
+    R_DrawNearbySprites();
+}
+
+void R_RenderLiquidReflection(void)
+{
+    const int       savedvalidcount = validcount;
+    const fixed_t   savedviewz = viewz;
+    const int       savedcentery = centery;
+    const fixed_t   savedcenteryfrac = centeryfrac;
+    fixed_t         *savedyslope = yslope;
+    fixed_t         *reflectedyslope = yslope;
+    bool            renderedany = false;
+
+    if (!r_liquid_reflections || automapactive || menuactive || !numliquidsnapshots)
+        return;
+
+    if (savedyslope)
+    {
+        const int   pitchindex = (int)((savedyslope - yslopes[0]) / MAXHEIGHT);
+        const int   reflectedpitchindex = BETWEEN(0, PITCHMAX * 2 - pitchindex, PITCHES - 1);
+
+        reflectedyslope = yslopes[reflectedpitchindex];
+    }
+
+    renderingreflection = true;
+
+    for (int i = 0; i < numliquidsnapshots; i++)
+    {
+        const liquidplanesnapshot_t *snapshot = &liquidsnapshots[i];
+
+        currentreflectionsnapshot = snapshot;
+
+        reflectionheight = snapshot->height;
+
+        if (reflectionheight >= savedviewz)
+            continue;
+
+        viewz = 2 * reflectionheight - savedviewz;
+        centery = viewheight - 1 - savedcentery;
+        centeryfrac = centery << FRACBITS;
+        yslope = reflectedyslope;
+
+        validcount = savedvalidcount + 2 + i;
+
+        R_SwapRenderBuffers();
+
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+            nearestblack, 0, false, false, NULL, NULL);
+
+        R_ClearClipSegs();
+        R_ClearDrawSegs();
+        R_ClearPlanes();
+        R_ClearSprites();
+
+        R_RenderBSPNode(numnodes - 1);
+        R_DrawPlanes();
+        R_DrawNearbySprites();
+
+        R_DrawMaskedNoPlayerSprites();
+
+        R_SwapRenderBuffers();
+
+        R_BlendLiquidSnapshotReflection(i);
+        renderedany = true;
+    }
+
+    validcount = savedvalidcount;
+    viewz = savedviewz;
+    centery = savedcentery;
+    centeryfrac = savedcenteryfrac;
+    yslope = savedyslope;
+
+    currentreflectionsnapshot = NULL;
+    renderingreflection = false;
+
+    R_RebuildMainMaskedState();
+}
 
 //
 // R_MapPlane
@@ -164,6 +426,9 @@ static void R_MapPlane(const int y, const int x1)
 //
 void R_ClearPlanes(void)
 {
+    if (!renderingreflection)
+        numliquidsnapshots = 0;
+
     // opening/clipping determination
     for (int i = 0; i < viewwidth; i++)
     {
@@ -389,31 +654,6 @@ static void R_MakeSpans(visplane_t *pl)
     }
 }
 
-// Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
-#define SPEED           24
-
-// swirl factors determine the number of waves per flat width
-// 1 cycle per 64 units
-#define SWIRLFACTOR     (FINEANGLES / 64)
-
-// 1 cycle per 32 units (2 in 64)
-#define SWIRLFACTOR2    (FINEANGLES / 32)
-
-// Cache multiple flats
-#define MAXCACHEDFLATS  8
-
-static int  offsets[1024 * 4096];
-
-typedef struct
-{
-    byte    distortedflat[64 * 64];
-    int     flatnum;
-    int     lasttic;
-} swirlcache_t;
-
-static swirlcache_t swirlcache[MAXCACHEDFLATS];
-static int          currentcache;
-
 //
 // R_InitSwirlingFlats
 // [BH] Moved to separate function and called at startup
@@ -520,6 +760,9 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
 //
 void R_DrawPlanes(void)
 {
+    fixed_t foundreflectionheights[MAXVISPLANES];
+    int     numfoundreflectionheights = 0;
+
     xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
     dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
     dc_sectorcolormap = fullcolormap;
@@ -667,6 +910,20 @@ void R_DrawPlanes(void)
                         R_SwirlingFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
                     ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
                         colormaps[pl->colormap] : fullcolormap);
+
+                    const fixed_t   renderheight = pl->height;
+
+                    if (renderingreflection && terraintypes[picnum] >= LIQUID
+                        && currentreflectionsnapshot
+                        && R_LiquidPlaneOverlapsSnapshot(pl, currentreflectionsnapshot))
+                        continue;
+
+                    if (!renderingreflection && terraintypes[picnum] >= LIQUID && renderheight < viewz)
+                        R_AddUniqueReflectionHeight(foundreflectionheights,
+                            &numfoundreflectionheights, renderheight);
+
+                    if (!renderingreflection && terraintypes[picnum] >= LIQUID)
+                        R_CaptureLiquidPlane(pl);
 
                     R_MakeSpans(pl);
                 }
