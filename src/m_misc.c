@@ -271,7 +271,7 @@ char *M_GetAppDataFolder(void)
 
         closedir(resourcedir);
 
-        return strdup((char *)appSupportURL.fileSystemRepresentation);
+        return M_StringDuplicate((char *)appSupportURL.fileSystemRepresentation);
 #else
         // On Linux, store generated application files in /home/<username>/.config/doomretro
         char    *buffer = getenv("HOME");
@@ -316,11 +316,12 @@ char *M_GetResourceFolder(void)
 #if defined(__APPLE__)
     // On macOS, load resources from the Contents/Resources folder within the application bundle
     // if ../share/doomretro is not available.
-    closedir(resourcedir);
-    free(executablefolder);
     NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
 
-    return strdup((char *)resourceURL.fileSystemRepresentation);
+    closedir(resourcedir);
+    free(executablefolder);
+
+    return M_StringDuplicate((char *)resourceURL.fileSystemRepresentation);
 #else
     free(resourcefolder);
     // And on Linux, fall back to the same folder as the executable.

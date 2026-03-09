@@ -148,3 +148,4 @@ DerivedData/
 src/doomretro
 *.db
 *.layout
+msvc/.github/copilot-instructions.md

@@ -7,7 +7,7 @@
 * *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
 * Changes have been made to *DOOM Retro’s* splash screen.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
@@ -99,7 +99,7 @@
   * Controller sensitivity has been reduced.
   * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to flashing red).
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-  * When the `joy_rumble_fall` CVAR is `on`, the controller will no longer rumble when the player falls into liquid.
+  * When the `joy_rumble_fall` CVAR is `on`, controllers no longer rumble when the player falls into liquid.
 * An accessibility feature has been implemented that causes the player to automatically fire their currently equipped weapon when there's a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
 * A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
 
