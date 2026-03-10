@@ -110,21 +110,10 @@ static fixed_t                      cachedheight[MAXHEIGHT];
 static angle_t                      *xtoskyangle;
 
 bool                                renderingreflection;
-static fixed_t                      reflectionheight;
-
+static short                        liquidreflectionowners[MAXWIDTH][MAXHEIGHT];
 static liquidplanesnapshot_t        liquidsnapshots[MAXVISPLANES];
 static int                          numliquidsnapshots;
 static const liquidplanesnapshot_t  *currentreflectionsnapshot;
-
-static void R_AddUniqueReflectionHeight(fixed_t *heights, int *count, const fixed_t height)
-{
-    for (int i = 0; i < *count; i++)
-        if (heights[i] == height)
-            return;
-
-    if (*count < MAXVISPLANES)
-        heights[(*count)++] = height;
-}
 
 static void R_CaptureLiquidPlane(const visplane_t *pl)
 {
@@ -138,8 +127,10 @@ static void R_CaptureLiquidPlane(const visplane_t *pl)
     snapshot->left = pl->left;
     snapshot->right = pl->right;
 
-    memcpy(snapshot->top, pl->top, viewwidth * sizeof(*snapshot->top));
-    memcpy(snapshot->bottom, pl->bottom, viewwidth * sizeof(*snapshot->bottom));
+    const size_t width = (size_t)(snapshot->right - snapshot->left + 1);
+
+    memcpy(&snapshot->top[snapshot->left], &pl->top[snapshot->left], width * sizeof(*snapshot->top));
+    memcpy(&snapshot->bottom[snapshot->left], &pl->bottom[snapshot->left], width * sizeof(*snapshot->bottom));
 }
 
 static bool R_LiquidPlaneOverlapsSnapshot(const visplane_t *pl, const liquidplanesnapshot_t *snapshot)
@@ -168,34 +159,64 @@ static bool R_LiquidPlaneOverlapsSnapshot(const visplane_t *pl, const liquidplan
     return false;
 }
 
-static bool R_LiquidSnapshotCoversPixel(const liquidplanesnapshot_t *snapshot, const int x, const int y)
+static void R_BuildLiquidReflectionOwners(void)
 {
-    return (x >= snapshot->left && x <= snapshot->right
-        && snapshot->top[x] != USHRT_MAX
-        && y >= snapshot->top[x] && y <= snapshot->bottom[x]);
-}
+    for (int i = 0; i < numliquidsnapshots; i++)
+    {
+        const liquidplanesnapshot_t *snapshot = &liquidsnapshots[i];
 
-static bool R_LiquidSnapshotPixelIsOccluded(const int snapshotindex, const int x, const int y)
-{
-    const liquidplanesnapshot_t *snapshot = &liquidsnapshots[snapshotindex];
+        for (int x = snapshot->left; x <= snapshot->right; x++)
+        {
+            const unsigned short top = snapshot->top[x];
+            const unsigned short bottom = snapshot->bottom[x];
+
+            if (top == USHRT_MAX || top > bottom)
+                continue;
+
+            memset(&liquidreflectionowners[x][top], 0xFF,
+                (bottom - top + 1) * sizeof(liquidreflectionowners[x][top]));
+        }
+    }
 
     for (int i = 0; i < numliquidsnapshots; i++)
-        if (i != snapshotindex && R_LiquidSnapshotCoversPixel(&liquidsnapshots[i], x, y))
+    {
+        const liquidplanesnapshot_t *snapshot = &liquidsnapshots[i];
+
+        for (int x = snapshot->left; x <= snapshot->right; x++)
         {
-            const liquidplanesnapshot_t *other = &liquidsnapshots[i];
+            const unsigned short top = snapshot->top[x];
+            const unsigned short bottom = snapshot->bottom[x];
 
-            if (other->top[x] > snapshot->top[x])
-                return true;
+            if (top == USHRT_MAX || top > bottom)
+                continue;
 
-            if (other->top[x] == snapshot->top[x] && other->bottom[x] > snapshot->bottom[x])
-                return true;
+            for (int y = top; y <= bottom; y++)
+            {
+                const short owner = liquidreflectionowners[x][y];
+
+                if (owner < 0)
+                    liquidreflectionowners[x][y] = (short)i;
+                else
+                {
+                    const liquidplanesnapshot_t *current = &liquidsnapshots[owner];
+
+                    if (top > current->top[x]
+                        || (top == current->top[x] && bottom > current->bottom[x]))
+                        liquidreflectionowners[x][y] = (short)i;
+                }
+            }
         }
+    }
+}
 
-    return false;
+static bool R_LiquidSnapshotOwnsPixel(const int snapshotindex, const int x, const int y)
+{
+    return (liquidreflectionowners[x][y] == snapshotindex);
 }
 
 static bool R_GetSwirledReflectionPixel(const int x, const int y,
-    const int left, const int right, const int top, const int bottom, byte *pixel)
+    const int left, const int right, const int top, const int bottom,
+    const int tic, const byte *sourcebuffer, byte *pixel)
 {
     int sourcex = x;
     int sourcey = viewheight - 1 - y;
@@ -204,7 +225,6 @@ static bool R_GetSwirledReflectionPixel(const int x, const int y,
         && x >= left + REFLECTIONSWIRLBORDER && x <= right - REFLECTIONSWIRLBORDER
         && y >= top + REFLECTIONSWIRLBORDER && y <= bottom - REFLECTIONSWIRLBORDER)
     {
-        const int   tic = (animatedtic & 1023) * SPEED;
         const int   deltax = ((finesine[(sourcey * SWIRLFACTOR + tic * 5 + 900) & FINEMASK] * 2)
                         + (finesine[(sourcex * SWIRLFACTOR2 + tic * 4 + 300) & FINEMASK] * 2)) >> FRACBITS;
         const int   deltay = ((finesine[(sourcex * SWIRLFACTOR + tic * 3 + 700) & FINEMASK] * 2)
@@ -217,13 +237,15 @@ static bool R_GetSwirledReflectionPixel(const int x, const int y,
             return false;
     }
 
-    *pixel = screens[1][(viewwindowy + sourcey) * SCREENWIDTH + viewwindowx + sourcex];
+    *pixel = sourcebuffer[(viewwindowy + sourcey) * SCREENWIDTH + viewwindowx + sourcex];
     return true;
 }
 
 static void R_BlendLiquidSnapshotReflection(const int snapshotindex)
 {
     const liquidplanesnapshot_t *snapshot = &liquidsnapshots[snapshotindex];
+    const int                   tic = (animatedtic & 1023) * SPEED;
+    const byte                  *sourcebuffer = screens[1] + viewwindowx;
 
     for (int x = snapshot->left; x <= snapshot->right; x++)
     {
@@ -240,8 +262,9 @@ static void R_BlendLiquidSnapshotReflection(const int snapshotindex)
         {
             byte    source;
 
-            if (!R_LiquidSnapshotPixelIsOccluded(snapshotindex, x, y)
-                && R_GetSwirledReflectionPixel(x, y, snapshot->left, snapshot->right, top, bottom, &source))
+            if (R_LiquidSnapshotOwnsPixel(snapshotindex, x, y)
+                && R_GetSwirledReflectionPixel(x, y, snapshot->left, snapshot->right, top, bottom,
+                    tic, sourcebuffer, &source))
                 *dest = tinttab30[(source << 8) + *dest];
 
             dest += SCREENWIDTH;
@@ -293,15 +316,16 @@ void R_RenderLiquidReflection(void)
         reflectedyslope = yslopes[reflectedpitchindex];
     }
 
+    R_BuildLiquidReflectionOwners();
+
     renderingreflection = true;
 
     for (int i = 0; i < numliquidsnapshots; i++)
     {
         const liquidplanesnapshot_t *snapshot = &liquidsnapshots[i];
+        const fixed_t               reflectionheight = snapshot->height;
 
         currentreflectionsnapshot = snapshot;
-
-        reflectionheight = snapshot->height;
 
         if (reflectionheight >= savedviewz)
             continue;
@@ -344,7 +368,8 @@ void R_RenderLiquidReflection(void)
     currentreflectionsnapshot = NULL;
     renderingreflection = false;
 
-    R_RebuildMainMaskedState();
+    if (renderedany)
+        R_RebuildMainMaskedState();
 }
 
 //
@@ -760,9 +785,6 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
 //
 void R_DrawPlanes(void)
 {
-    fixed_t foundreflectionheights[MAXVISPLANES];
-    int     numfoundreflectionheights = 0;
-
     xtoskyangle = (r_linearskies ? linearskyangle : xtoviewangle);
     dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
     dc_sectorcolormap = fullcolormap;
@@ -911,16 +933,10 @@ void R_DrawPlanes(void)
                     ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
                         colormaps[pl->colormap] : fullcolormap);
 
-                    const fixed_t   renderheight = pl->height;
-
                     if (renderingreflection && terraintypes[picnum] >= LIQUID
                         && currentreflectionsnapshot
                         && R_LiquidPlaneOverlapsSnapshot(pl, currentreflectionsnapshot))
                         continue;
-
-                    if (!renderingreflection && terraintypes[picnum] >= LIQUID && renderheight < viewz)
-                        R_AddUniqueReflectionHeight(foundreflectionheights,
-                            &numfoundreflectionheights, renderheight);
 
                     if (!renderingreflection && terraintypes[picnum] >= LIQUID)
                         R_CaptureLiquidPlane(pl);
