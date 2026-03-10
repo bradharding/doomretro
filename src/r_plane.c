@@ -938,7 +938,7 @@ void R_DrawPlanes(void)
                         && R_LiquidPlaneOverlapsSnapshot(pl, currentreflectionsnapshot))
                         continue;
 
-                    if (!renderingreflection && terraintypes[picnum] >= LIQUID)
+                    if (r_liquid_reflections && !renderingreflection && terraintypes[picnum] >= LIQUID)
                         R_CaptureLiquidPlane(pl);
 
                     R_MakeSpans(pl);
