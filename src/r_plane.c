@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <stdint.h>
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -402,7 +404,7 @@ static void R_MakeSpans(visplane_t *pl)
 // Cache multiple flats
 #define MAXCACHEDFLATS  8
 
-static int  offsets[1024 * 4096];
+static uint16_t offsets[1024 * 4096];
 
 typedef struct
 {
@@ -412,7 +414,6 @@ typedef struct
 } swirlcache_t;
 
 static swirlcache_t swirlcache[MAXCACHEDFLATS];
-static int          currentcache;
 
 //
 // R_InitSwirlingFlats
@@ -420,22 +421,35 @@ static int          currentcache;
 //
 void R_InitSwirlingFlats(void)
 {
-    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 64 * 64)
+    for (int i = 0; i < 1024 * SPEED; i += SPEED)
+    {
+        int         xoffset1[64];
+        int         xoffset2[64];
+        int         yoffset1[64];
+        int         yoffset2[64];
+        uint16_t    *offset = &offsets[(i / SPEED) << 12];
+
+        for (int x = 0; x < 64; x++)
+        {
+            xoffset1[x] = (finesine[(x * SWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
+            xoffset2[x] = (finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
+        }
+
+        for (int y = 0; y < 64; y++)
+        {
+            yoffset1[y] = (finesine[(y * SWIRLFACTOR + i * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
+            yoffset2[y] = (finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
+        }
+
         for (int y = 0; y < 64; y++)
             for (int x = 0; x < 64; x++)
             {
-                int sinvalue, sinvalue2;
-                int x1, y1;
-
-                sinvalue = finesine[(y * SWIRLFACTOR + i * 5 + 900) & FINEMASK] * 2;
-                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2;
-                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-                sinvalue = finesine[(x * SWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2;
-                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2;
-                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+                const int   x1 = x + 128 + yoffset1[y] + xoffset2[x];
+                const int   y1 = y + 128 + xoffset1[x] + yoffset2[y];
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
             }
+    }
 
     for (int i = 0; i < MAXCACHEDFLATS; i++)
     {
@@ -477,9 +491,9 @@ byte *R_SwirlingFlat(const int flatnum)
 
     if ((updateswirl || cache->lasttic == -1) && cache->lasttic != animatedtic)
     {
-        const int   *offset = &offsets[(animatedtic & 1023) << 12];
-        byte        *normalflat = lumpinfo[firstflat + flatnum]->cache;
-        byte        *dest = cache->distortedflat;
+        const uint16_t  *offset = &offsets[(animatedtic & 1023) << 12];
+        byte            *normalflat = lumpinfo[firstflat + flatnum]->cache;
+        byte            *dest = cache->distortedflat;
 
         cache->lasttic = animatedtic;
 

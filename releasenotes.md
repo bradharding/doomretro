@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.0
 
-* *DOOM Retro* is now built using v18.3.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.4.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
