@@ -1018,8 +1018,6 @@ consolecmd_t consolecmds[] =
         "Toggles a slight current being applied to liquid sectors."),
     BOOLCVAR(r_liquid_lowerview, "", "", boolfunc1, boolfunc2, 0,
         "Toggles lowering your view when you are in a liquid sector."),
-    BOOLCVAR(r_liquid_reflections, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles reflections in liquid sectors."),
     BOOLCVAR(r_liquid_swirl, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the swirl of liquid sectors."),
     OTHERCVAR(r_lowpixelsize, "", "", nullfunc1, r_lowpixelsizefunc2,

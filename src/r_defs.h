@@ -1200,20 +1200,4 @@ typedef struct visplane_s
     int                 colormap;
     angle_t             angle;
 } visplane_t;
-
-typedef struct
-{
-    byte                distortedflat[64 * 64];
-    int                 flatnum;
-    int                 lasttic;
-} swirlcache_t;
-
-typedef struct
-{
-    fixed_t             height;
-    int                 left;
-    int                 right;
-    unsigned short      top[MAXWIDTH];
-    unsigned short      bottom[MAXWIDTH];
-} liquidplanesnapshot_t;
 #endif

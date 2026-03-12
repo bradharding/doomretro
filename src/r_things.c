@@ -41,7 +41,6 @@
 #include "i_system.h"
 #include "m_array.h"
 #include "m_config.h"
-#include "r_plane.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -1317,18 +1316,13 @@ static void R_ProjectSprite(mobj_t *thing)
         if (topoffset - height <= 4 * FRACUNIT)
         {
             fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
-            fixed_t visibleheight;
 
-            if (r_liquid_bobsprites)
-                clipfeet += (renderingreflection ? -animatedliquiddiff : animatedliquiddiff);
-
-            visibleheight = height - clipfeet;
             vis->texturemid = gzt - viewz - clipfeet;
 
-            if (renderingreflection)
-                vis->texturemid += visibleheight;
+            if (r_liquid_bobsprites)
+                clipfeet += animatedliquiddiff;
 
-            vis->footclip = FixedMul(visibleheight, xscale);
+            vis->footclip = FixedMul(height - clipfeet, xscale);
             vis->drawfunc = (vis->shadowz == -1 ? &R_DrawVisSpriteClipped : &R_DrawVisSpriteClippedWithShadow);
         }
         else
@@ -2078,7 +2072,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 // R_DrawMasked
 //
-static void R_DrawMaskedInternal(const bool drawplayersprites)
+void R_DrawMasked(void)
 {
     const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
 
@@ -2101,7 +2095,7 @@ static void R_DrawMaskedInternal(const bool drawplayersprites)
             if (ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
-        if (drawplayersprites && r_playerweapon && !menuactive)
+        if (r_playerweapon && !menuactive)
             R_DrawPlayerSprites();
 
         return;
@@ -2127,23 +2121,23 @@ static void R_DrawMaskedInternal(const bool drawplayersprites)
             drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
             drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
 
+            // e6y: ~13% of speed improvement on sunder.wad map10
             if (ds->x1 < centerx)
             {
-                drawsegs_xranges[1].items[drawsegs_xranges[1].count] =
-                    drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                drawsegs_xranges[1].items[drawsegs_xranges[1].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
                 drawsegs_xranges[1].count++;
             }
 
             if (ds->x2 >= centerx)
             {
-                drawsegs_xranges[2].items[drawsegs_xranges[2].count] =
-                    drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                drawsegs_xranges[2].items[drawsegs_xranges[2].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
                 drawsegs_xranges[2].count++;
             }
 
             drawsegs_xranges[0].count++;
         }
 
+    // draw all blood splats
     for (int i = r_bloodsplats_visible - 1; i >= 0; i--)
     {
         const vissplat_t    *splat = &vissplats[i];
@@ -2171,6 +2165,7 @@ static void R_DrawMaskedInternal(const bool drawplayersprites)
     {
         R_SortVisSprites();
 
+        // draw all other vissprites back to front
         for (int i = num_vissprite - 1; i >= 0; i--)
         {
             const vissprite_t   *spr = vissprite_ptrs[i];
@@ -2195,26 +2190,12 @@ static void R_DrawMaskedInternal(const bool drawplayersprites)
         }
     }
 
+    // render any remaining masked midtextures
     for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
         if (ds->maskedtexturecol)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
-    if (drawplayersprites && r_playerweapon && !menuactive)
-        R_DrawPlayerSprites();
-}
-
-void R_DrawMasked(void)
-{
-    R_DrawMaskedInternal(true);
-}
-
-void R_DrawMaskedNoPlayerSprites(void)
-{
-    R_DrawMaskedInternal(false);
-}
-
-void R_DrawPlayerSpritesOnly(void)
-{
+    // draw the psprites on top of everything
     if (r_playerweapon && !menuactive)
         R_DrawPlayerSprites();
 }
