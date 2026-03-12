@@ -37,6 +37,8 @@
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "r_draw.h"
+#include "r_plane.h"
 
 static bool         segtextured;        // True if any of the segs textures might be visible.
 
@@ -575,7 +577,8 @@ static void R_RenderSegLoop(void)
 
             // cph - if we completely blocked further sight through this column,
             // add this info to the solid columns array for r_bsp.c
-            if ((markceiling || markfloor) && floorclip[rw_x] <= ceilingclip[rw_x] + 1)
+            if (!renderingreflection
+                && (markceiling || markfloor) && floorclip[rw_x] <= ceilingclip[rw_x] + 1)
             {
                 solidcol[rw_x] = 1;
                 didsolidcol = true;
@@ -718,7 +721,8 @@ void R_StoreWallRange(const int start, const int stop)
     // [BH] animate liquid sectors
     if (frontsector->terraintype >= LIQUID
         && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
-        && r_liquid_bob)
+        && r_liquid_bob
+        && !renderingreflection)
         worldbottom += animatedliquiddiff;
 
     if (!vanilla)
@@ -811,7 +815,8 @@ void R_StoreWallRange(const int start, const int stop)
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
-            && r_liquid_bob)
+        && r_liquid_bob
+        && !renderingreflection)
         {
             liquidoffset = animatedliquiddiff;
             worldlow += liquidoffset;

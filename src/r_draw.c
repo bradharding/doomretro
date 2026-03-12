@@ -34,6 +34,7 @@
 */
 
 #include "i_colors.h"
+#include "r_plane.h"
 #include "st_stuff.h"
 #include "v_video.h"
 
@@ -125,9 +126,17 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 
 void R_DrawColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -142,9 +151,17 @@ void R_DrawColumn(void)
 
 void R_DrawColumnWithBrightmap(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t frac = dc_texturefrac;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
+    fixed_t frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     byte    dot;
 
     while (--count)
@@ -161,43 +178,67 @@ void R_DrawColumnWithBrightmap(void)
 
 void R_DrawLowResDitheredColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawDitheredColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawLowResDitheredColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
@@ -205,20 +246,28 @@ void R_DrawLowResDitheredColumnWithBrightmap(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl++, dc_z)][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl, dc_z)][dot]];
 }
 
 void R_DrawDitheredColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
@@ -226,20 +275,28 @@ void R_DrawDitheredColumnWithBrightmap(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl++, dc_z)][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl, dc_z)][dot]];
 }
 
 void R_DrawCorrectedColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -254,42 +311,66 @@ void R_DrawCorrectedColumn(void)
 
 void R_DrawCorrectedLowResDitheredColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedDitheredColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawSolidColorColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = ylookup0[dc_yl] + dc_x;
+    int         yl = dc_yl;
+    int         yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int         count = yh - yl + 1;
+    byte        *dest = ylookup0[yl] + dc_x;
     const byte  color = dc_sectorcolormap[dc_colormap[0][NOTEXTURECOLOR]];
 
     while (--count)
@@ -303,38 +384,62 @@ void R_DrawSolidColorColumn(void)
 
 void R_DrawLowResDitheredSolidColorColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][NOTEXTURECOLOR]];
 }
 
 void R_DrawDitheredSolidColorColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][NOTEXTURECOLOR]];
 }
 
 void R_DrawShadowColumn(void)
 {
-    int     count = dc_yh - dc_yl;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl;
+    byte    *dest = ylookup0[yl] + dc_x;
 
     if (count)
     {
@@ -357,13 +462,21 @@ void R_DrawFuzzyShadowColumn(void)
 {
     byte    *dest;
     int     count;
+    int     yl;
+    int     yh;
 
     if (dc_x & 1)
         return;
 
-    dest = ylookup0[dc_yl] + dc_x;
+    yl = dc_yl;
+    yh = dc_yh;
 
-    if ((count = dc_yh - dc_yl))
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    dest = ylookup0[yl] + dc_x;
+
+    if ((count = yh - yl))
     {
         *dest = *(*dest + dc_black33);
         *(dest + 1) = *(*(dest + 1) + dc_black33);
@@ -388,8 +501,16 @@ void R_DrawFuzzyShadowColumn(void)
 
 void R_DrawSolidShadowColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
 
     while (--count)
     {
@@ -402,8 +523,16 @@ void R_DrawSolidShadowColumn(void)
 
 void R_DrawBloodSplatColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
 
     while (--count)
     {
@@ -416,8 +545,16 @@ void R_DrawBloodSplatColumn(void)
 
 void R_DrawSolidBloodSplatColumn(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
 
     while (--count)
     {
@@ -430,9 +567,17 @@ void R_DrawSolidBloodSplatColumn(void)
 
 void R_DrawWallColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             heightmask = dc_texheight - 1;
 
@@ -472,9 +617,17 @@ void R_DrawWallColumn(void)
 
 void R_DrawLowResDitheredWallColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     fixed_t             heightmask = dc_texheight - 1;
 
@@ -490,33 +643,41 @@ void R_DrawLowResDitheredWallColumn(void)
 
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
 }
 
 void R_DrawDitheredWallColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     fixed_t             heightmask = dc_texheight - 1;
 
@@ -532,33 +693,41 @@ void R_DrawDitheredWallColumn(void)
 
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+            *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
         }
 
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
 }
 
 void R_DrawWallColumnWithBrightmap(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
+    fixed_t frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     fixed_t heightmask = dc_texheight - 1;
     byte    dot;
 
@@ -602,9 +771,17 @@ void R_DrawWallColumnWithBrightmap(void)
 
 void R_DrawLowResDitheredWallColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     fixed_t             heightmask = dc_texheight - 1;
@@ -623,7 +800,7 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -631,28 +808,36 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl, dc_z)][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, yl, dc_z)][dot]];
     }
 }
 
 void R_DrawDitheredWallColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     fixed_t             heightmask = dc_texheight - 1;
@@ -671,7 +856,7 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
@@ -679,20 +864,20 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl, dc_z)][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl++, dc_z)][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, yl, dc_z)][dot]];
     }
 }
 
@@ -714,9 +899,17 @@ void R_DrawPlayerSpriteColumn(void)
 
 void R_DrawSkyColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             heightmask = dc_texheight - 1;
     byte                dot;
@@ -763,9 +956,17 @@ void R_DrawSkyColumn(void)
 
 void R_DrawFlippedSkyColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturemid + (fixed_t)(yl - centery) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -780,9 +981,17 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawTranslucentBloodColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -797,9 +1006,17 @@ void R_DrawTranslucentBloodColumn(void)
 
 void R_DrawTranslucentColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -814,9 +1031,17 @@ void R_DrawTranslucentColumn(void)
 
 void R_DrawTranslucent50Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -831,9 +1056,17 @@ void R_DrawTranslucent50Column(void)
 
 void R_DrawTranslucent50ColumnWithBrightmap(void)
 {
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t frac = dc_texturefrac;
+    int     yl = dc_yl;
+    int     yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int     count = yh - yl + 1;
+    byte    *dest = ylookup0[yl] + dc_x;
+    fixed_t frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     byte    dot;
 
     while (--count)
@@ -850,9 +1083,17 @@ void R_DrawTranslucent50ColumnWithBrightmap(void)
 
 void R_DrawDitheredTranslucent50ColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
@@ -860,20 +1101,28 @@ void R_DrawDitheredTranslucent50ColumnWithBrightmap(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, yl++, dc_z)][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, yl, dc_z)][dot]]];
 }
 
 void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
@@ -881,54 +1130,78 @@ void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, yl++, dc_z)][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, yl, dc_z)][dot]]];
 }
 
 void R_DrawLowResDitheredTranslucent50Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitheredTranslucent50Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, yl, dc_z)][dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedTranslucent50Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -943,8 +1216,16 @@ void R_DrawCorrectedTranslucent50Column(void)
 
 void R_DrawTranslucent50SolidColorColumn(void)
 {
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = ylookup0[dc_yl] + dc_x;
+    int         yl = dc_yl;
+    int         yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int         count = yh - yl + 1;
+    byte        *dest = ylookup0[yl] + dc_x;
     const int   color = (NOTEXTURECOLOR << 8);
 
     while (--count)
@@ -958,39 +1239,63 @@ void R_DrawTranslucent50SolidColorColumn(void)
 
 void R_DrawLowResDitheredTranslucent50SolidColorColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, yl++, dc_z)][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, yl, dc_z)][NOTEXTURECOLOR]]];
 }
 
 void R_DrawDitheredTranslucent50SolidColorColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, yl++, dc_z)][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, yl, dc_z)][NOTEXTURECOLOR]]];
 }
 
 void R_DrawTranslucent33Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1005,9 +1310,17 @@ void R_DrawTranslucent33Column(void)
 
 void R_DrawTranslucentRedColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1022,9 +1335,17 @@ void R_DrawTranslucentRedColumn(void)
 
 void R_DrawTranslucentRedWhiteColumn1(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1039,9 +1360,17 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 
 void R_DrawTranslucentRedWhiteColumn2(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1056,9 +1385,17 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 
 void R_DrawTranslucentRedWhite50Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1073,9 +1410,17 @@ void R_DrawTranslucentRedWhite50Column(void)
 
 void R_DrawTranslucentGreenColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1090,9 +1435,17 @@ void R_DrawTranslucentGreenColumn(void)
 
 void R_DrawTranslucentBlueColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1107,9 +1460,17 @@ void R_DrawTranslucentBlueColumn(void)
 
 void R_DrawTranslucentRed33Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1124,9 +1485,17 @@ void R_DrawTranslucentRed33Column(void)
 
 void R_DrawTranslucentGreen33Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1141,9 +1510,17 @@ void R_DrawTranslucentGreen33Column(void)
 
 void R_DrawTranslucentBlue25Column(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1160,17 +1537,25 @@ void R_DrawFuzzColumn(void)
 {
     byte    *dest;
     int     count;
+    int     yl;
+    int     yh;
 
     if (dc_x & 1)
         return;
 
-    if (!(count = (dc_yh - dc_yl) / 2))
+    yl = dc_yl;
+    yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
         return;
 
-    dest = ylookup0[dc_yl] + dc_x;
+    if (!(count = (yh - yl) / 2))
+        return;
+
+    dest = ylookup0[yl] + dc_x;
 
     // top
-    BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1((dc_yl >= 2 ? -1 : 0), 1)));
+    BIGFUZZYPIXEL(6, (fuzz1table[fuzz1pos++] = FUZZ1((yl >= 2 ? -1 : 0), 1)));
 
     dest += SCREENWIDTH * 2;
 
@@ -1182,7 +1567,7 @@ void R_DrawFuzzColumn(void)
     }
 
     // bottom
-    if (dc_yl & 1)
+    if (yl & 1)
         HALFBIGFUZZYPIXEL(5, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 0)));
     else
         BIGFUZZYPIXEL(5, (fuzz1table[fuzz1pos++] = FUZZ1(-1, 0)));
@@ -1219,9 +1604,17 @@ byte    translationtables[256 * 3];
 
 void R_DrawTranslatedColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
@@ -1236,36 +1629,52 @@ void R_DrawTranslatedColumn(void)
 
 void R_DrawLowResDitheredTranslatedColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitheredTranslatedColumn(void)
 {
-    int                 count = dc_yh - dc_yl + 1;
-    byte                *dest = ylookup0[dc_yl] + dc_x;
-    fixed_t             frac = dc_texturefrac;
+    int                 yl = dc_yl;
+    int                 yh = dc_yh;
+
+    if (!R_ClipReflectionColumn(dc_x, &yl, &yh))
+        return;
+
+    R_MarkReflectionColumn(dc_x, yl, yh);
+
+    int                 count = yh - yl + 1;
+    byte                *dest = ylookup0[yl] + dc_x;
+    fixed_t             frac = dc_texturefrac + (fixed_t)(yl - dc_yl) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[dither(dc_x, yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[dither(dc_x, yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
 }
 
 //
@@ -1328,7 +1737,7 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int                 count = ds_x2 - ds_x1;
+    int                 count = ds_x2 - ds_x1 + 1;
     byte                *dest = ylookup0[ds_y] + ds_x1;
     const lighttable_t  *colormap = ds_colormap[0];
 
@@ -1344,7 +1753,7 @@ void R_DrawSpan(void)
 
 void R_DrawLowResDitheredSpan(void)
 {
-    int     count = ds_x2 - ds_x1;
+    int     count = ds_x2 - ds_x1 + 1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
@@ -1359,7 +1768,7 @@ void R_DrawLowResDitheredSpan(void)
 
 void R_DrawDitheredSpan(void)
 {
-    int     count = ds_x2 - ds_x1;
+    int     count = ds_x2 - ds_x1 + 1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
@@ -1374,7 +1783,7 @@ void R_DrawDitheredSpan(void)
 
 void R_DrawSolidColorSpan(void)
 {
-    int         count = ds_x2 - ds_x1;
+    int         count = ds_x2 - ds_x1 + 1;
     byte        *dest = ylookup0[ds_y] + ds_x1;
     const byte  color = ds_sectorcolormap[ds_colormap[0][NOTEXTURECOLOR]];
 
@@ -1386,7 +1795,7 @@ void R_DrawSolidColorSpan(void)
 
 void R_DrawLowResDitheredSolidColorSpan(void)
 {
-    int     count = ds_x2 - ds_x1;
+    int     count = ds_x2 - ds_x1 + 1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
@@ -1397,7 +1806,7 @@ void R_DrawLowResDitheredSolidColorSpan(void)
 
 void R_DrawDitheredSolidColorSpan(void)
 {
-    int     count = ds_x2 - ds_x1;
+    int     count = ds_x2 - ds_x1 + 1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)

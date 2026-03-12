@@ -61,8 +61,6 @@
 // Cache multiple flats
 #define MAXCACHEDFLATS          8
 
-#define REFLECTIONSWIRLBORDER   4
-
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
 #define visplane_hash(picnum, lightlevel, height, colormap) \
@@ -111,13 +109,74 @@ static angle_t                      *xtoskyangle;
 
 bool                                renderingreflection;
 static short                        liquidreflectionowners[MAXWIDTH][MAXHEIGHT];
+static byte                         liquidreflectionxphase[MAXWIDTH][MAXHEIGHT];
+static byte                         liquidreflectionyphase[MAXWIDTH][MAXHEIGHT];
+static bool                         liquidreflectioncoverage[MAXWIDTH][MAXHEIGHT];
+static int                          reflectionswirltic = -1;
 static liquidplanesnapshot_t        liquidsnapshots[MAXVISPLANES];
 static int                          numliquidsnapshots;
 static const liquidplanesnapshot_t  *currentreflectionsnapshot;
+static unsigned short               currentreflectionmasktop[MAXWIDTH];
+static unsigned short               currentreflectionmaskbottom[MAXWIDTH];
+static bool                         currentreflectionmaskactive;
+static bool                         recordingliquiddepth;
+
+static void R_ClearLiquidReflectionMask(void)
+{
+    currentreflectionmaskactive = false;
+
+    memset(currentreflectionmasktop, USHRT_MAX, viewwidth * sizeof(*currentreflectionmasktop));
+    memset(currentreflectionmaskbottom, 0, viewwidth * sizeof(*currentreflectionmaskbottom));
+}
+
+static void R_SetLiquidReflectionMask(const liquidplanesnapshot_t *snapshot)
+{
+    R_ClearLiquidReflectionMask();
+    currentreflectionmaskactive = true;
+
+    for (int x = snapshot->left; x <= snapshot->right; x++)
+    {
+        const unsigned short    top = snapshot->top[x];
+        const unsigned short    bottom = snapshot->bottom[x];
+
+        if (top == USHRT_MAX || top > bottom)
+            continue;
+
+        currentreflectionmasktop[x] = (unsigned short)(viewheight - 1 - bottom);
+        currentreflectionmaskbottom[x] = (unsigned short)(viewheight - 1 - top);
+    }
+}
+
+bool R_ClipReflectionColumn(const int x, int *yl, int *yh)
+{
+    if (!renderingreflection || !currentreflectionmaskactive)
+        return true;
+
+    if (x < 0 || x >= viewwidth)
+        return false;
+
+    const unsigned short    top = currentreflectionmasktop[x];
+    const unsigned short    bottom = currentreflectionmaskbottom[x];
+
+    if (top == USHRT_MAX || top > bottom)
+        return false;
+
+    *yl = MAX(*yl, (int)top);
+    *yh = MIN(*yh, (int)bottom);
+
+    return (*yl <= *yh);
+}
+
+static bool R_ReflectionMaskOwnsPixel(const int x, const int y)
+{
+    return (!renderingreflection || !currentreflectionmaskactive
+        || (x >= 0 && x < viewwidth
+            && y >= currentreflectionmasktop[x] && y <= currentreflectionmaskbottom[x]));
+}
 
 static void R_CaptureLiquidPlane(const visplane_t *pl)
 {
-    liquidplanesnapshot_t *snapshot;
+    liquidplanesnapshot_t   *snapshot;
 
     if (numliquidsnapshots >= MAXVISPLANES)
         return;
@@ -127,16 +186,114 @@ static void R_CaptureLiquidPlane(const visplane_t *pl)
     snapshot->left = pl->left;
     snapshot->right = pl->right;
 
-    const size_t width = (size_t)(snapshot->right - snapshot->left + 1);
+    const size_t    width = (size_t)(snapshot->right - snapshot->left + 1);
 
     memcpy(&snapshot->top[snapshot->left], &pl->top[snapshot->left], width * sizeof(*snapshot->top));
     memcpy(&snapshot->bottom[snapshot->left], &pl->bottom[snapshot->left], width * sizeof(*snapshot->bottom));
 }
 
+static void R_DrawCurrentPlaneSpan(void)
+{
+    if (recordingliquiddepth)
+    {
+        fixed_t xfrac = ds_xfrac;
+        fixed_t yfrac = ds_yfrac;
+
+        for (int x = ds_x1; x <= ds_x2; x++)
+        {
+            liquidreflectionxphase[x][ds_y] = (byte)((xfrac >> FRACBITS) & 63);
+            liquidreflectionyphase[x][ds_y] = (byte)((yfrac >> FRACBITS) & 63);
+            xfrac += ds_xstep;
+            yfrac += ds_ystep;
+        }
+    }
+
+    if (renderingreflection)
+        for (int x = ds_x1; x <= ds_x2; x++)
+            liquidreflectioncoverage[x][ds_y] = true;
+
+    if (fixedcolormap)
+    {
+        ds_colormap[0] = ds_colormap[1] = fixedcolormap;
+        altspanfunc();
+    }
+    else
+    {
+        ds_colormap[0] = planezlight[BETWEEN(0, ds_z >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
+
+        if (r_ditheredlighting)
+        {
+            ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
+
+            if (ds_colormap[0] == ds_colormap[1])
+                altspanfunc();
+            else
+            {
+                ds_z = ((ds_z >> 12) & 255);
+                spanfunc();
+            }
+        }
+        else
+            spanfunc();
+    }
+}
+
+static void R_DrawCurrentPlaneSpanWithReflectionMask(void)
+{
+    const int       originalx1 = ds_x1;
+    const int       originalx2 = ds_x2;
+    const fixed_t   originalxfrac = ds_xfrac;
+    const fixed_t   originalyfrac = ds_yfrac;
+    fixed_t         xfrac = ds_xfrac;
+    fixed_t         yfrac = ds_yfrac;
+    int             runstart = -1;
+    fixed_t         runxfrac = 0;
+    fixed_t         runyfrac = 0;
+
+    for (int x = ds_x1; x <= ds_x2; x++)
+    {
+        if (R_ReflectionMaskOwnsPixel(x, ds_y))
+        {
+            if (runstart < 0)
+            {
+                runstart = x;
+                runxfrac = xfrac;
+                runyfrac = yfrac;
+            }
+        }
+        else if (runstart >= 0)
+        {
+            ds_x1 = runstart;
+            ds_x2 = x - 1;
+            ds_xfrac = runxfrac;
+            ds_yfrac = runyfrac;
+            R_DrawCurrentPlaneSpan();
+            runstart = -1;
+        }
+
+        xfrac += ds_xstep;
+        yfrac += ds_ystep;
+    }
+
+    if (runstart >= 0)
+    {
+        ds_x1 = runstart;
+        ds_x2 = originalx2;
+        ds_xfrac = runxfrac;
+        ds_yfrac = runyfrac;
+        R_DrawCurrentPlaneSpan();
+    }
+
+    ds_x1 = originalx1;
+    ds_x2 = originalx2;
+    ds_xfrac = originalxfrac;
+    ds_yfrac = originalyfrac;
+}
+
 static bool R_LiquidPlaneOverlapsSnapshot(const visplane_t *pl, const liquidplanesnapshot_t *snapshot)
 {
-    const int left = MAX(pl->left, snapshot->left);
-    const int right = MIN(pl->right, snapshot->right);
+    const int   left = MAX(pl->left, snapshot->left);
+    const int   right = MIN(pl->right, snapshot->right);
 
     for (int x = left; x <= right; x++)
     {
@@ -214,28 +371,57 @@ static bool R_LiquidSnapshotOwnsPixel(const int snapshotindex, const int x, cons
     return (liquidreflectionowners[x][y] == snapshotindex);
 }
 
-static bool R_GetSwirledReflectionPixel(const int x, const int y,
-    const int left, const int right, const int top, const int bottom,
-    const int tic, const byte *sourcebuffer, byte *pixel)
+static bool R_HasReflectedPixel(const int x, const int y)
 {
-    int sourcex = x;
-    int sourcey = viewheight - 1 - y;
+    return (x >= 0 && x < viewwidth && y >= 0 && y < viewheight && liquidreflectioncoverage[x][y]);
+}
 
-    if (updateswirl
-        && x >= left + REFLECTIONSWIRLBORDER && x <= right - REFLECTIONSWIRLBORDER
-        && y >= top + REFLECTIONSWIRLBORDER && y <= bottom - REFLECTIONSWIRLBORDER)
+static bool R_HasReflectedVerticalInterior(const int x, const int y)
+{
+    return (R_HasReflectedPixel(x, y - 1) && R_HasReflectedPixel(x, y) && R_HasReflectedPixel(x, y + 1));
+}
+
+void R_MarkReflectionColumn(const int x, const int yl, const int yh)
+{
+    if (!renderingreflection || x < 0 || x >= viewwidth)
+        return;
+
+    for (int y = MAX(0, yl); y <= MIN(yh, viewheight - 1); y++)
+        liquidreflectioncoverage[x][y] = true;
+}
+
+static bool R_GetSwirledReflectionPixel(const int snapshotindex, const int x, const int y,
+    const byte xphase, const byte yphase, const int tic, const byte *sourcebuffer, byte *pixel)
+{
+    const int   originalsourcex = x;
+    const int   originalsourcey = viewheight - 1 - y;
+    int         sourcex = originalsourcex;
+    int         sourcey = originalsourcey;
+
+    if (r_liquid_swirl)
     {
-        const int   deltax = ((finesine[(sourcey * SWIRLFACTOR + tic * 5 + 900) & FINEMASK] * 2)
-                        + (finesine[(sourcex * SWIRLFACTOR2 + tic * 4 + 300) & FINEMASK] * 2)) >> FRACBITS;
-        const int   deltay = ((finesine[(sourcex * SWIRLFACTOR + tic * 3 + 700) & FINEMASK] * 2)
-                        + (finesine[(sourcey * SWIRLFACTOR2 + tic * 4 + 1200) & FINEMASK] * 2)) >> FRACBITS;
+        const int   deltax = ((finesine[(yphase * SWIRLFACTOR + tic * 5 + 900) & FINEMASK] * 2)
+                        + (finesine[(xphase * SWIRLFACTOR2 + tic * 4 + 300) & FINEMASK] * 2)) >> FRACBITS;
+        const int   deltay = ((finesine[(xphase * SWIRLFACTOR + tic * 3 + 700) & FINEMASK] * 2)
+                        + (finesine[(yphase * SWIRLFACTOR2 + tic * 4 + 1200) & FINEMASK] * 2)) >> FRACBITS;
 
         sourcex += deltax;
-        sourcey += deltay / 2;
 
-        if (sourcex < 0 || sourcex >= viewwidth || sourcey < 0 || sourcey >= viewheight)
-            return false;
+        if (R_HasReflectedVerticalInterior(originalsourcex, originalsourcey)
+            && R_HasReflectedVerticalInterior(sourcex, originalsourcey))
+            sourcey += deltay / 2;
+
+        if (sourcex < 0 || sourcex >= viewwidth || sourcey < 0 || sourcey >= viewheight
+            || !R_LiquidSnapshotOwnsPixel(snapshotindex, sourcex, viewheight - 1 - sourcey)
+            || !R_HasReflectedPixel(sourcex, sourcey))
+        {
+            sourcex = originalsourcex;
+            sourcey = originalsourcey;
+        }
     }
+
+    if (!R_HasReflectedPixel(sourcex, sourcey))
+        return false;
 
     *pixel = sourcebuffer[(viewwindowy + sourcey) * SCREENWIDTH + viewwindowx + sourcex];
     return true;
@@ -244,7 +430,7 @@ static bool R_GetSwirledReflectionPixel(const int x, const int y,
 static void R_BlendLiquidSnapshotReflection(const int snapshotindex)
 {
     const liquidplanesnapshot_t *snapshot = &liquidsnapshots[snapshotindex];
-    const int                   tic = (animatedtic & 1023) * SPEED;
+    const int                   tic = ((reflectionswirltic >= 0 ? reflectionswirltic : animatedtic) & 1023) * SPEED;
     const byte                  *sourcebuffer = screens[1] + viewwindowx;
 
     for (int x = snapshot->left; x <= snapshot->right; x++)
@@ -263,8 +449,8 @@ static void R_BlendLiquidSnapshotReflection(const int snapshotindex)
             byte    source;
 
             if (R_LiquidSnapshotOwnsPixel(snapshotindex, x, y)
-                && R_GetSwirledReflectionPixel(x, y, snapshot->left, snapshot->right, top, bottom,
-                    tic, sourcebuffer, &source))
+                && R_GetSwirledReflectionPixel(snapshotindex, x, y,
+                    liquidreflectionxphase[x][y], liquidreflectionyphase[x][y], tic, sourcebuffer, &source))
                 *dest = tinttab30[(source << 8) + *dest];
 
             dest += SCREENWIDTH;
@@ -280,6 +466,14 @@ static void R_SwapRenderBuffers(void)
     screens[1] = temp;
 
     R_InitBuffer();
+}
+
+static void R_InitReflectionBufferFromMainView(void)
+{
+    for (int y = 0; y < viewheight; y++)
+        memcpy(screens[0] + (viewwindowy + y) * SCREENWIDTH + viewwindowx,
+            screens[1] + (viewwindowy + y) * SCREENWIDTH + viewwindowx,
+            viewwidth * sizeof(*screens[0]));
 }
 
 static void R_RebuildMainMaskedState(void)
@@ -308,6 +502,9 @@ void R_RenderLiquidReflection(void)
     if (!r_liquid_reflections || automapactive || menuactive || !numliquidsnapshots)
         return;
 
+    if (updateswirl || reflectionswirltic < 0)
+        reflectionswirltic = animatedtic;
+
     if (savedyslope)
     {
         const int   pitchindex = (int)((savedyslope - yslopes[0]) / MAXHEIGHT);
@@ -317,6 +514,7 @@ void R_RenderLiquidReflection(void)
     }
 
     R_BuildLiquidReflectionOwners();
+    R_ClearLiquidReflectionMask();
 
     renderingreflection = true;
 
@@ -325,10 +523,11 @@ void R_RenderLiquidReflection(void)
         const liquidplanesnapshot_t *snapshot = &liquidsnapshots[i];
         const fixed_t               reflectionheight = snapshot->height;
 
-        currentreflectionsnapshot = snapshot;
-
         if (reflectionheight >= savedviewz)
             continue;
+
+        currentreflectionsnapshot = snapshot;
+        R_SetLiquidReflectionMask(snapshot);
 
         viewz = 2 * reflectionheight - savedviewz;
         centery = viewheight - 1 - savedcentery;
@@ -336,11 +535,11 @@ void R_RenderLiquidReflection(void)
         yslope = reflectedyslope;
 
         validcount = savedvalidcount + 2 + i;
+        memset(liquidreflectioncoverage, 0, sizeof(liquidreflectioncoverage));
 
         R_SwapRenderBuffers();
 
-        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            nearestblack, 0, false, false, NULL, NULL);
+        R_InitReflectionBufferFromMainView();
 
         R_ClearClipSegs();
         R_ClearDrawSegs();
@@ -365,6 +564,7 @@ void R_RenderLiquidReflection(void)
     centeryfrac = savedcenteryfrac;
     yslope = savedyslope;
 
+    R_ClearLiquidReflectionMask();
     currentreflectionsnapshot = NULL;
     renderingreflection = false;
 
@@ -419,30 +619,10 @@ static void R_MapPlane(const int y, const int x1)
     ds_y = y;
     ds_x1 = x1;
 
-    if (fixedcolormap)
-    {
-        ds_colormap[0] = ds_colormap[1] = fixedcolormap;
-        altspanfunc();
-    }
+    if (renderingreflection && currentreflectionmaskactive)
+        R_DrawCurrentPlaneSpanWithReflectionMask();
     else
-    {
-        ds_colormap[0] = planezlight[BETWEEN(0, ds_z >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-
-        if (r_ditheredlighting)
-        {
-            ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
-
-            if (ds_colormap[0] == ds_colormap[1])
-                altspanfunc();
-            else
-            {
-                ds_z = ((ds_z >> 12) & 255);
-                spanfunc();
-            }
-        }
-        else
-            spanfunc();
-    }
+        R_DrawCurrentPlaneSpan();
 }
 
 //
@@ -453,6 +633,8 @@ void R_ClearPlanes(void)
 {
     if (!renderingreflection)
         numliquidsnapshots = 0;
+
+    recordingliquiddepth = false;
 
     // opening/clipping determination
     for (int i = 0; i < viewwidth; i++)
@@ -935,13 +1117,16 @@ void R_DrawPlanes(void)
 
                     if (renderingreflection && terraintypes[picnum] >= LIQUID
                         && currentreflectionsnapshot
-                        && R_LiquidPlaneOverlapsSnapshot(pl, currentreflectionsnapshot))
+                        && (pl->height == currentreflectionsnapshot->height
+                            || R_LiquidPlaneOverlapsSnapshot(pl, currentreflectionsnapshot)))
                         continue;
 
                     if (r_liquid_reflections && !renderingreflection && terraintypes[picnum] >= LIQUID)
                         R_CaptureLiquidPlane(pl);
 
+                    recordingliquiddepth = (!renderingreflection && terraintypes[picnum] >= LIQUID);
                     R_MakeSpans(pl);
+                    recordingliquiddepth = false;
                 }
             }
 }

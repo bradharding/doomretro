@@ -96,7 +96,7 @@ static void R_ClipWallSegment(int first, const int last, const bool solid)
 
             R_StoreWallRange(first, to - 1);
 
-            if (solid)
+            if (solid && !renderingreflection)
                 memset(solidcol + first, 1, (size_t)(to - first));
 
             first = to;
@@ -579,11 +579,6 @@ static void R_Subsector(int num)
     ceilinglightsec = frontsector->ceilinglightsec;
 
     fixed_t floorheight = frontsector->interpfloorheight;
-
-    if (frontsector->terraintype >= LIQUID
-        && r_liquid_bob
-        && (!heightsec || viewz > heightsec->interpfloorheight))
-        floorheight += animatedliquiddiff;
 
     floorplane = (floorheight < viewz                         // killough 03/07/98
         || (heightsec && heightsec->ceilingpic == skyflatnum) ?
