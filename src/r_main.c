@@ -1192,6 +1192,57 @@ static void R_SetupFrame(void)
     validcount++;
 }
 
+#define VIEWSWIRLSPEED      24
+#define VIEWSWIRLFACTOR     (FINEANGLES / 64)
+#define VIEWSWIRLFACTOR2    (FINEANGLES / 32)
+
+static void R_SwirlView(void)
+{
+    byte        *source = screens[1];
+    byte        *dest = screens[0];
+    int         xoffset1[64];
+    int         xoffset2[64];
+    int         yoffset1[64];
+    int         yoffset2[64];
+    const int   phase = (animatedtic & 1023) * VIEWSWIRLSPEED;
+    const int   xbase = ((int)(viewx >> FRACBITS) & 63);
+    const int   ybase = ((int)(viewy >> FRACBITS) & 63);
+
+    for (int x = 0; x < 64; x++)
+    {
+        xoffset1[x] = (finesine[(x * VIEWSWIRLFACTOR + phase * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
+        xoffset2[x] = (finesine[(x * VIEWSWIRLFACTOR2 + phase * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
+    }
+
+    for (int y = 0; y < 64; y++)
+    {
+        yoffset1[y] = (finesine[(y * VIEWSWIRLFACTOR + phase * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
+        yoffset2[y] = (finesine[(y * VIEWSWIRLFACTOR2 + phase * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
+    }
+
+    for (int y = 0; y < viewheight; y++)
+    {
+        const int   row = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+
+        memcpy(source + row, dest + row, (size_t)viewwidth);
+    }
+
+    for (int y = 0; y < viewheight; y++)
+    {
+        byte        *destrow = dest + (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+        const int   ymod = ((y + ybase) & 63);
+
+        for (int x = 0; x < viewwidth; x++)
+        {
+            const int   xmod = ((x + xbase) & 63);
+            const int   srcx = BETWEEN(0, x + yoffset1[ymod] + xoffset2[xmod], viewwidth - 1);
+            const int   srcy = BETWEEN(0, y + xoffset1[xmod] + yoffset2[ymod], viewheight - 1);
+
+            destrow[x] = source[(viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
+        }
+    }
+}
+
 //
 // R_RenderPlayerView
 //
@@ -1225,6 +1276,17 @@ void R_RenderPlayerView(void)
     R_DrawPlanes();
 
     R_DrawMasked();
+
+    if (r_liquid_swirl)
+    {
+        sector_t    *sector = viewplayer->mo->subsector->sector;
+        sector_t    *heightsec = sector->heightsec;
+
+        if (heightsec
+            && viewz <= heightsec->interpfloorheight
+            && (sector->terraintype >= LIQUID || heightsec->terraintype >= LIQUID))
+            R_SwirlView();
+    }
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
         V_InvertScreen();

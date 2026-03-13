@@ -102,6 +102,8 @@
   * When the `joy_rumble_fall` CVAR is `on`, controllers no longer rumble when the player falls into liquid.
 * An accessibility feature has been implemented that causes the player to automatically fire their currently equipped weapon when there's a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
 * A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
+* The `MAP` CCMD now works correctly when playing [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+* A swirling effect is now applied to the player’s view when they are in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water and the `r_liquid_swirl` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
