@@ -980,7 +980,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
         const int   currentx = ((startx * DX) >> FRACBITS) + i;
 
-        if (currentx >= SCREENWIDTH)
+        if (currentx + WIDESCREENDELTA * 2 >= SCREENWIDTH)
             break;
 
         // step through the posts in a column
