@@ -1205,8 +1205,6 @@ static void R_SwirlView(void)
     int         yoffset1[64];
     int         yoffset2[64];
     const int   phase = (animatedtic & 1023) * VIEWSWIRLSPEED;
-    const int   xbase = ((int)(viewx >> FRACBITS) & 63);
-    const int   ybase = ((int)(viewy >> FRACBITS) & 63);
 
     for (int x = 0; x < 64; x++)
     {
@@ -1230,15 +1228,18 @@ static void R_SwirlView(void)
     for (int y = 0; y < viewheight; y++)
     {
         byte        *destrow = dest + (viewwindowy + y) * SCREENWIDTH + viewwindowx;
-        const int   ymod = ((y + ybase) & 63);
+        const int   ymod = (y & 63);
+        const int   yoffset1row = yoffset1[ymod];
+        const int   yoffset2row = yoffset2[ymod];
+        int         xmod = 0;
 
         for (int x = 0; x < viewwidth; x++)
         {
-            const int   xmod = ((x + xbase) & 63);
-            const int   srcx = BETWEEN(0, x + yoffset1[ymod] + xoffset2[xmod], viewwidth - 1);
-            const int   srcy = BETWEEN(0, y + xoffset1[xmod] + yoffset2[ymod], viewheight - 1);
+            const int   srcx = BETWEEN(0, x + yoffset1row + xoffset2[xmod], viewwidth - 1);
+            const int   srcy = BETWEEN(0, y + xoffset1[xmod] + yoffset2row, viewheight - 1);
 
             destrow[x] = source[(viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
+            xmod = ((xmod + 1) & 63);
         }
     }
 }
