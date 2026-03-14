@@ -951,6 +951,11 @@ void P_RemoveBloodMobj(mobj_t *mobj)
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
+    if (s_fullsfx)
+        S_UnlinkSound(mobj);
+    else
+        S_StopSound(mobj);
+
     // Delete all nodes on the current sector_list
     if (sector_list)
     {

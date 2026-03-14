@@ -43,6 +43,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "m_argv.h"
 #include "m_bbox.h"
 #include "m_config.h"
@@ -3453,6 +3454,8 @@ void P_SetupLevel(int ep, int map)
     idclevtics = 0;
     iddttics = 0;
 
+    I_Sleep(400);
+    S_StopSounds();
     Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
     if (rejectlump != -1)
