@@ -445,6 +445,10 @@ static void I_GetEvent(void)
                 ev.data1 = (text[0] ? text[0] : Event->text.text[strlen(Event->text.text) - 1]);
                 ev.type = ev_textinput;
                 D_PostEvent(&ev);
+
+                if (text)
+                    SDL_free(text);
+
                 break;
             }
 
