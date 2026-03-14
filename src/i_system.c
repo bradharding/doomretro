@@ -540,6 +540,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
 
         fprintf(logfile, "File:              %s\n", exepath);
         fprintf(logfile, "Version:           %s\n", DOOMRETRO_VERSIONSTRING);
+        fprintf(logfile, "Architecture:      %i-bit\n", (int)(sizeof(void *) * 8));
         fprintf(logfile, "Thread ID:         %lu\n", GetCurrentThreadId());
 
         M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%d:%02d:%02d%s on %s, %s %d, %d",

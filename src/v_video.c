@@ -2208,12 +2208,12 @@ typedef struct
     r++
 
 #define PUTSHORT(r, v)                              \
-    *(r + 0) = (byte)(((uint16_t)(v) >> 0) & 0xFF); \
+    *r = (byte)(((uint16_t)(v) >> 0) & 0xFF);       \
     *(r + 1) = (byte)(((uint16_t)(v) >> 8) & 0xFF); \
     r += 2
 
 #define PUTLONG(r, v)                                \
-    *(r + 0) = (byte)(((uint32_t)(v) >> 0) & 0xFF);  \
+    *r = (byte)(((uint32_t)(v) >> 0) & 0xFF);        \
     *(r + 1) = (byte)(((uint32_t)(v) >> 8) & 0xFF);  \
     *(r + 2) = (byte)(((uint32_t)(v) >> 16) & 0xFF); \
     *(r + 3) = (byte)(((uint32_t)(v) >> 24) & 0xFF); \

@@ -544,7 +544,6 @@ void BSP_SplitSegs(seg_t *part, seg_t *soup, seg_t **lefts, seg_t **rights)
         vertex_t    *iv;
         seg_t       *T;
 
-
         soup = soup->next;
 
         if (where < 0)
