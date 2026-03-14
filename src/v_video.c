@@ -448,13 +448,13 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         td;
         int         topdelta = -1;
-        int         lastlength = 0;
 
         while ((td = column->topdelta) != 0xFF)
         {
-            byte    *source = (byte *)column + 3;
-            int     count = lastlength = column->length;
-            int     posttop = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            byte        *source = (byte *)column + 3;
+            const int   length = column->length;
+            int         count = length;
+            int         posttop = (td <= topdelta ? topdelta + td : td);
 
             topdelta = posttop;
 
@@ -466,7 +466,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 
                     if (skip >= count)
                     {
-                        column = (column_t *)((byte *)column + lastlength + 4);
+                        column = (column_t *)((byte *)column + length + 4);
                         continue;
                     }
 
@@ -493,7 +493,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
                 }
             }
 
-            column = (column_t *)((byte *)column + lastlength + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
