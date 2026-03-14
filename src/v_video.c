@@ -430,24 +430,70 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 {
-    short   col = 0;
+    int     startcol = 0;
+    int     endcol = width;
+    byte    *desttop;
 
-    if (width > SCREENWIDTH)
+    if (endcol > SCREENWIDTH)
     {
-        col = (width - SCREENWIDTH) / 2;
-        width = SCREENWIDTH + col;
+        startcol = (endcol - SCREENWIDTH) / 2;
+        endcol = SCREENWIDTH + startcol;
         x = 0;
     }
 
-    for (byte *desttop = &screens[0][y * SCREENWIDTH + x]; col < width; col++, desttop++)
-    {
-        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
-        byte    *dest = desttop;
+    desttop = &screens[0][y * SCREENWIDTH + x];
 
-        for (short i = 0; i < height; i++)
+    for (int col = startcol; col < endcol; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        int         td;
+        int         topdelta = -1;
+        int         lastlength = 0;
+
+        while ((td = column->topdelta) != 0xFF)
         {
-            *dest = *source++;
-            dest += SCREENWIDTH;
+            byte    *source = (byte *)column + 3;
+            int     count = lastlength = column->length;
+            int     posttop = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+
+            topdelta = posttop;
+
+            if (posttop < height && y + posttop < SCREENHEIGHT)
+            {
+                if (posttop < 0)
+                {
+                    const int   skip = -posttop;
+
+                    if (skip >= count)
+                    {
+                        column = (column_t *)((byte *)column + lastlength + 4);
+                        continue;
+                    }
+
+                    source += skip;
+                    count -= skip;
+                    posttop = 0;
+                }
+
+                if (posttop + count > height)
+                    count = height - posttop;
+
+                if (y + posttop + count > SCREENHEIGHT)
+                    count = SCREENHEIGHT - (y + posttop);
+
+                if (count > 0)
+                {
+                    byte    *dest = desttop + posttop * SCREENWIDTH;
+
+                    while (count-- > 0)
+                    {
+                        *dest = *source++;
+                        dest += SCREENWIDTH;
+                    }
+                }
+            }
+
+            column = (column_t *)((byte *)column + lastlength + 4);
         }
     }
 }
