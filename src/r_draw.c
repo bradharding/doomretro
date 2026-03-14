@@ -1423,8 +1423,8 @@ void R_InitBuffer(void)
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH * 2;
 
-    memset(fuzz1table, 0, MAXSCREENAREA);
-    memset(fuzz2table, 0, MAXSCREENAREA);
+    memset(fuzz1table, 0, MAXSCREENAREA * sizeof(int));
+    memset(fuzz2table, 0, MAXSCREENAREA * sizeof(int));
 
     for (int i = 0; i < 256; i++)
         flipindex[i] = (i < 128 ? i : 126 - (i & 127));

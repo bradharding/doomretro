@@ -3171,8 +3171,9 @@ bool C_Responder(event_t *ev)
                     char    buffer[255];
                     char    *temp1 = M_SubString(consoleinput, 0, selectstart);
                     char    *temp2 = M_SubString(consoleinput, selectend, (size_t)len - selectend);
+                    char    *clipboard = SDL_GetClipboardText();
 
-                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, SDL_GetClipboardText(), temp2);
+                    M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, clipboard, temp2);
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
 
@@ -3180,12 +3181,13 @@ bool C_Responder(event_t *ev)
                     {
                         C_AddToUndoHistory();
                         M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
-                        selectstart += (int)strlen(SDL_GetClipboardText());
+                        selectstart += (int)strlen(clipboard);
                         selectend = caretpos = selectstart;
                     }
 
                     free(temp1);
                     free(temp2);
+                    SDL_free(clipboard);
                 }
 
                 break;
