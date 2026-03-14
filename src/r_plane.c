@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#include <stdint.h>
-
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -443,12 +441,8 @@ void R_InitSwirlingFlats(void)
 
         for (int y = 0; y < 64; y++)
             for (int x = 0; x < 64; x++)
-            {
-                const int   x1 = x + 128 + yoffset1[y] + xoffset2[x];
-                const int   y1 = y + 128 + xoffset1[x] + yoffset2[y];
-
-                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
-            }
+                offset[(y << 6) + x] = (((y + 128 + xoffset1[x] + yoffset2[y]) & 63) << 6)
+                    + ((x + 128 + yoffset1[y] + xoffset2[x]) & 63);
     }
 
     for (int i = 0; i < MAXCACHEDFLATS; i++)

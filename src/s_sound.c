@@ -727,19 +727,23 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
 void S_StopMusic(void)
 {
-    if (!mus_playing)
+    musicinfo_t *music = mus_playing;
+
+    if (!music)
         return;
 
     if (mus_paused)
         I_ResumeSong();
 
     I_StopSong();
-    I_UnregisterSong(mus_playing->handle);
+    I_UnregisterSong(music->handle);
 
-    if (mus_playing->lumpnum >= 0)
-        W_ReleaseLumpNum(mus_playing->lumpnum);
+    if (music->lumpnum >= 0)
+        W_ReleaseLumpNum(music->lumpnum);
 
-    mus_playing->data = NULL;
+    music->handle = NULL;
+    music->data = NULL;
+    mus_paused = false;
     mus_playing = NULL;
 }
 
@@ -778,7 +782,11 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
             free(filename);
 
             if (!handle)
+            {
+                music->handle = NULL;
+                music->data = NULL;
                 return;
+            }
         }
 
     music->handle = handle;

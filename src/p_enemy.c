@@ -1485,9 +1485,9 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                     mobjinfo_t          *info = corpsehit->info;
                     const mobjtype_t    type = corpsehit->type;
 
-                    actor->target = corpsehit;
+                    P_SetTarget(&actor->target, corpsehit);
                     A_FaceTarget(actor, NULL, NULL);
-                    actor->target = prevtarget;
+                    P_SetTarget(&actor->target, prevtarget);
 
                     P_SetMobjState(actor, healstate);
                     S_StartSound(corpsehit, healsound);
@@ -2816,7 +2816,8 @@ void A_FindTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor || actor->tracer)
         return;
 
-    actor->tracer = P_RoughTargetSearch(actor, FixedToAngle(actor->state->args[0]), actor->state->args[1]);
+    P_SetTarget(&actor->tracer,
+        P_RoughTargetSearch(actor, FixedToAngle(actor->state->args[0]), actor->state->args[1]));
 }
 
 //
@@ -2828,7 +2829,7 @@ void A_ClearTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor)
         return;
 
-    actor->tracer = NULL;
+    P_SetTarget(&actor->tracer, NULL);
 }
 
 //

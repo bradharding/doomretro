@@ -64,10 +64,13 @@ void I_ShutdownMusic(void)
     if (!music_initialized)
         return;
 
-    music_initialized = false;
-
     if (mus_playing)
+    {
+        I_StopSong();
         I_UnregisterSong(mus_playing->handle);
+    }
+
+    music_initialized = false;
 
     Mix_CloseAudio();
 
