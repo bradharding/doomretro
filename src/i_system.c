@@ -245,6 +245,245 @@ void I_PrintWindowsVersion(void)
     }
 }
 
+static const char *I_GetExceptionName(DWORD exceptioncode)
+{
+    switch (exceptioncode)
+    {
+        case EXCEPTION_ACCESS_VIOLATION:
+            return "Access Violation";
+
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+            return "Array Bounds Exceeded";
+
+        case EXCEPTION_BREAKPOINT:
+            return "Breakpoint";
+
+        case EXCEPTION_DATATYPE_MISALIGNMENT:
+            return "Datatype Misalignment";
+
+        case EXCEPTION_FLT_DENORMAL_OPERAND:
+            return "Floating Point Denormal Operand";
+
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+            return "Floating Point Division by Zero";
+
+        case EXCEPTION_FLT_INEXACT_RESULT:
+            return "Floating Point Inexact Result";
+
+        case EXCEPTION_FLT_INVALID_OPERATION:
+            return "Floating Point Invalid Operation";
+
+        case EXCEPTION_FLT_OVERFLOW:
+            return "Floating Point Overflow";
+
+        case EXCEPTION_FLT_STACK_CHECK:
+            return "Floating Point Stack Check";
+
+        case EXCEPTION_FLT_UNDERFLOW:
+            return "Floating Point Underflow";
+
+        case EXCEPTION_GUARD_PAGE:
+            return "Guard Page Violation";
+
+        case EXCEPTION_ILLEGAL_INSTRUCTION:
+            return "Illegal Instruction";
+
+        case EXCEPTION_IN_PAGE_ERROR:
+            return "Page Error";
+
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
+            return "Integer Division by Zero";
+
+        case EXCEPTION_INT_OVERFLOW:
+            return "Integer Overflow";
+
+        case EXCEPTION_INVALID_DISPOSITION:
+            return "Invalid Disposition";
+
+        case EXCEPTION_INVALID_HANDLE:
+            return "Invalid Handle";
+
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION:
+            return "Non-Continuable Exception";
+
+        case EXCEPTION_PRIV_INSTRUCTION:
+            return "Privileged Instruction";
+
+        case EXCEPTION_SINGLE_STEP:
+            return "Single Step";
+
+        case EXCEPTION_STACK_OVERFLOW:
+            return "Stack Overflow";
+
+        default:
+            return "Unknown Exception";
+    }
+}
+
+static void I_LogAddressDetails(FILE *logfile, HANDLE process, DWORD64 address, const char *label)
+{
+    char                symbolbuffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME];
+    PSYMBOL_INFO        symbol = (PSYMBOL_INFO)symbolbuffer;
+    DWORD64             displacement64 = 0;
+    DWORD               displacement = 0;
+    BOOL                hasline;
+    IMAGEHLP_LINE64     line;
+    IMAGEHLP_MODULE64   module;
+    char                moduleprefix[64] = "";
+    char                symboltext[512];
+
+    ZeroMemory(symbolbuffer, sizeof(symbolbuffer));
+    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+    symbol->MaxNameLen = MAX_SYM_NAME - 1;
+
+    ZeroMemory(&line, sizeof(line));
+    line.SizeOfStruct = sizeof(line);
+
+    ZeroMemory(&module, sizeof(module));
+    module.SizeOfStruct = sizeof(module);
+
+    if (SymGetModuleInfo64(process, address, &module) && module.ModuleName[0])
+        M_snprintf(moduleprefix, sizeof(moduleprefix), "%s!", module.ModuleName);
+
+    if (SymFromAddr(process, address, &displacement64, symbol))
+        M_snprintf(symboltext, sizeof(symboltext), "%s%s + 0x%I64X", moduleprefix, symbol->Name, displacement64);
+    else if (module.ModuleName[0])
+        M_snprintf(symboltext, sizeof(symboltext), "%s+0x%I64X", module.ModuleName, address - module.BaseOfImage);
+    else
+        M_snprintf(symboltext, sizeof(symboltext), "0x%p", (void *)(uintptr_t)address);
+
+    fprintf(logfile, "%s%s", label, symboltext);
+
+    hasline = SymGetLineFromAddr64(process, address, &displacement, &line);
+
+    if (hasline)
+        fprintf(logfile, " (%s:%lu", line.FileName, line.LineNumber);
+
+    if (hasline && displacement)
+        fprintf(logfile, "+%lu", displacement);
+
+    if (hasline)
+        fprintf(logfile, ")");
+
+    fputc('\n', logfile);
+}
+
+static void I_LogExceptionParameters(FILE *logfile, const EXCEPTION_RECORD *record)
+{
+    if (record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION || record->ExceptionCode == EXCEPTION_IN_PAGE_ERROR)
+    {
+        const char  *operation = "accessing";
+
+        if (record->NumberParameters >= 2)
+        {
+            if (record->ExceptionInformation[0] == 0)
+                operation = "reading";
+            else if (record->ExceptionInformation[0] == 1)
+                operation = "writing";
+            else if (record->ExceptionInformation[0] == 8)
+                operation = "executing";
+
+            fprintf(logfile, "Fault Details:     Tried %s address 0x%p\n", operation,
+                (void *)(uintptr_t)record->ExceptionInformation[1]);
+        }
+
+        if (record->ExceptionCode == EXCEPTION_IN_PAGE_ERROR && record->NumberParameters >= 3)
+            fprintf(logfile, "In-Page Status:    0x%08lX\n", (DWORD)record->ExceptionInformation[2]);
+    }
+}
+
+static void I_LogRegisters(FILE *logfile, const CONTEXT *context)
+{
+    fprintf(logfile, "Registers:\n");
+
+#if defined(_M_X64)
+    fprintf(logfile, "    RIP=0x%016I64X RSP=0x%016I64X RBP=0x%016I64X\n",
+        context->Rip, context->Rsp, context->Rbp);
+    fprintf(logfile, "    RAX=0x%016I64X RBX=0x%016I64X RCX=0x%016I64X\n",
+        context->Rax, context->Rbx, context->Rcx);
+    fprintf(logfile, "    RDX=0x%016I64X RSI=0x%016I64X RDI=0x%016I64X\n",
+        context->Rdx, context->Rsi, context->Rdi);
+    fprintf(logfile, "    R8 =0x%016I64X R9 =0x%016I64X R10=0x%016I64X\n",
+        context->R8, context->R9, context->R10);
+    fprintf(logfile, "    R11=0x%016I64X R12=0x%016I64X R13=0x%016I64X\n",
+        context->R11, context->R12, context->R13);
+    fprintf(logfile, "    R14=0x%016I64X R15=0x%016I64X EFlags=0x%08lX\n",
+        context->R14, context->R15, context->EFlags);
+#elif defined(_M_IX86)
+    fprintf(logfile, "    EIP=0x%08lX ESP=0x%08lX EBP=0x%08lX\n",
+        context->Eip, context->Esp, context->Ebp);
+    fprintf(logfile, "    EAX=0x%08lX EBX=0x%08lX ECX=0x%08lX EDX=0x%08lX\n",
+        context->Eax, context->Ebx, context->Ecx, context->Edx);
+    fprintf(logfile, "    ESI=0x%08lX EDI=0x%08lX EFlags=0x%08lX\n",
+        context->Esi, context->Edi, context->EFlags);
+#else
+    fprintf(logfile, "    Register logging isn't implemented for this architecture.\n");
+#endif
+}
+
+static void I_LogCallStack(FILE *logfile, HANDLE process, HANDLE thread, const CONTEXT *contextrecord)
+{
+    CONTEXT         context = *contextrecord;
+    STACKFRAME64    stackframe;
+    DWORD64         address;
+    DWORD64         lastaddress = 0;
+    DWORD           machinetype;
+    int             frame = 0;
+
+    ZeroMemory(&stackframe, sizeof(stackframe));
+
+#if defined(_M_X64)
+    machinetype = IMAGE_FILE_MACHINE_AMD64;
+    stackframe.AddrPC.Offset = context.Rip;
+    stackframe.AddrFrame.Offset = context.Rbp;
+    stackframe.AddrStack.Offset = context.Rsp;
+#elif defined(_M_IX86)
+    machinetype = IMAGE_FILE_MACHINE_I386;
+    stackframe.AddrPC.Offset = context.Eip;
+    stackframe.AddrFrame.Offset = context.Ebp;
+    stackframe.AddrStack.Offset = context.Esp;
+#else
+    fprintf(logfile, "Call Stack:        Unavailable on this architecture.\n");
+    return;
+#endif
+
+    stackframe.AddrPC.Mode = AddrModeFlat;
+    stackframe.AddrFrame.Mode = AddrModeFlat;
+    stackframe.AddrStack.Mode = AddrModeFlat;
+
+    fprintf(logfile, "Call Stack:\n");
+
+    address = stackframe.AddrPC.Offset;
+
+    if (address)
+    {
+        fprintf(logfile, "    #%02d ", frame);
+        I_LogAddressDetails(logfile, process, address, "");
+        lastaddress = address;
+        frame++;
+    }
+
+    while (frame < 64)
+    {
+        if (!StackWalk64(machinetype, process, thread, &stackframe, &context, NULL,
+            SymFunctionTableAccess64, SymGetModuleBase64, NULL) || !stackframe.AddrPC.Offset)
+            break;
+
+        address = stackframe.AddrPC.Offset;
+
+        if (address == lastaddress)
+            break;
+
+        fprintf(logfile, "    #%02d ", frame);
+        I_LogAddressDetails(logfile, process, address, "");
+        lastaddress = address;
+        frame++;
+    }
+
+    if (!frame)
+        fprintf(logfile, "    <unavailable>\n");
+}
+
 static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
 {
     char        crashfolder[MAX_PATH];
@@ -289,12 +528,19 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     if ((logfile = fopen(logpath, "w")))
     {
         char        exepath[MAX_PATH];
+        HANDLE      process = GetCurrentProcess();
+        HANDLE      thread = GetCurrentThread();
         DWORD       exceptioncode = exceptionInfo->ExceptionRecord->ExceptionCode;
-        const char  *exceptionname = "Unknown Exception";
+        const char  *exceptionname = I_GetExceptionName(exceptioncode);
+        BOOL        symsinitialized;
 
         GetModuleFileName(NULL, exepath, sizeof(exepath));
+        SymSetOptions(SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES | SYMOPT_UNDNAME);
+        symsinitialized = SymInitialize(process, NULL, TRUE);
+
         fprintf(logfile, "File:              %s\n", exepath);
         fprintf(logfile, "Version:           %s\n", DOOMRETRO_VERSIONSTRING);
+        fprintf(logfile, "Thread ID:         %lu\n", GetCurrentThreadId());
 
         M_snprintf(readabletimestamp, sizeof(readabletimestamp), "%d:%02d:%02d%s on %s, %s %d, %d",
             (!(tm_info->tm_hour % 12) ? 12 : (tm_info->tm_hour % 12)),
@@ -307,101 +553,16 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
             1900 + tm_info->tm_year);
         fprintf(logfile, "Time/Date:         %s\n", readabletimestamp);
 
-        switch (exceptioncode)
-        {
-        case EXCEPTION_ACCESS_VIOLATION:
-            exceptionname = "Access Violation";
-            break;
-
-        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-            exceptionname = "Array Bounds Exceeded";
-            break;
-
-        case EXCEPTION_BREAKPOINT:
-            exceptionname = "Breakpoint";
-            break;
-
-        case EXCEPTION_DATATYPE_MISALIGNMENT:
-            exceptionname = "Datatype Misalignment";
-            break;
-
-        case EXCEPTION_FLT_DENORMAL_OPERAND:
-            exceptionname = "Floating Point Denormal Operand";
-            break;
-
-        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-            exceptionname = "Floating Point Division by Zero";
-            break;
-
-        case EXCEPTION_FLT_INEXACT_RESULT:
-            exceptionname = "Floating Point Inexact Result";
-            break;
-
-        case EXCEPTION_FLT_INVALID_OPERATION:
-            exceptionname = "Floating Point Invalid Operation";
-            break;
-
-        case EXCEPTION_FLT_OVERFLOW:
-            exceptionname = "Floating Point Overflow";
-            break;
-
-        case EXCEPTION_FLT_STACK_CHECK:
-            exceptionname = "Floating Point Stack Check";
-            break;
-
-        case EXCEPTION_FLT_UNDERFLOW:
-            exceptionname = "Floating Point Underflow";
-            break;
-
-        case EXCEPTION_GUARD_PAGE:
-            exceptionname = "Guard Page Violation";
-            break;
-
-        case EXCEPTION_ILLEGAL_INSTRUCTION:
-            exceptionname = "Illegal Instruction";
-            break;
-
-        case EXCEPTION_IN_PAGE_ERROR:
-            exceptionname = "Page Error";
-            break;
-
-        case EXCEPTION_INT_DIVIDE_BY_ZERO:
-            exceptionname = "Integer Division by Zero";
-            break;
-
-        case EXCEPTION_INT_OVERFLOW:
-            exceptionname = "Integer Overflow";
-            break;
-
-        case EXCEPTION_INVALID_DISPOSITION:
-            exceptionname = "Invalid Disposition";
-            break;
-
-        case EXCEPTION_INVALID_HANDLE:
-            exceptionname = "Invalid Handle";
-            break;
-
-        case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-            exceptionname = "Non-Continuable Exception";
-            break;
-
-        case EXCEPTION_PRIV_INSTRUCTION:
-            exceptionname = "Privileged Instruction";
-            break;
-
-        case EXCEPTION_SINGLE_STEP:
-            exceptionname = "Single Step";
-            break;
-
-        case EXCEPTION_STACK_OVERFLOW:
-            exceptionname = "Stack Overflow";
-            break;
-        }
-
         fprintf(logfile, "Exception:         %s (0x%08lX)\n", exceptionname, exceptioncode);
 
         fprintf(logfile, "Exception Address: 0x%p\n",
             exceptionInfo->ExceptionRecord->ExceptionAddress);
+
+        I_LogExceptionParameters(logfile, exceptionInfo->ExceptionRecord);
+
+        if (symsinitialized)
+            I_LogAddressDetails(logfile, process, (DWORD64)(uintptr_t)exceptionInfo->ExceptionRecord->ExceptionAddress,
+                "Exception Symbol:  ");
 
         if (windowsname[0] && windowsbuild[0])
             fprintf(logfile, "Operating System:  %s %s\n", windowsname, windowsbuild);
@@ -419,6 +580,16 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
                 fprintf(logfile, "Player Position:   (%d, %d, %d)\n",
                     viewplayer->mo->x >> FRACBITS, viewplayer->mo->y >> FRACBITS, viewplayer->mo->z >> FRACBITS);
         }
+
+        I_LogRegisters(logfile, exceptionInfo->ContextRecord);
+
+        if (symsinitialized)
+            I_LogCallStack(logfile, process, thread, exceptionInfo->ContextRecord);
+        else
+            fprintf(logfile, "Call Stack:        Unavailable (symbol initialization failed).\n");
+
+        if (symsinitialized)
+            SymCleanup(process);
 
         fclose(logfile);
     }
