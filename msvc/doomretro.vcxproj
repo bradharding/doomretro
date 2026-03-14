@@ -211,7 +211,7 @@
       <CallingConvention>Cdecl</CallingConvention>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/GA /GF /Gs %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/GF %(AdditionalOptions)</AdditionalOptions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <BrowseInformation>false</BrowseInformation>
@@ -277,7 +277,7 @@
       <CallingConvention>Cdecl</CallingConvention>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalOptions>/GA /GF /Gs /Ob3 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/GF %(AdditionalOptions)</AdditionalOptions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <BrowseInformation>false</BrowseInformation>
