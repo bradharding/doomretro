@@ -140,12 +140,6 @@ static int              timerwidth;
 static int              timewidth;
 static int              zerowidth;
 
-static void C_ScrollToBottom(void)
-{
-    outputhistory = -1;
-    outputhistoryoffset = 0;
-}
-
 static byte             *consoleautomapbevelcolor;
 static byte             *consolebackcolor1;
 static byte             *consolebackcolor2;
@@ -182,6 +176,12 @@ void C_CreateTimeStamp(const int index)
     struct tm       *currenttime = localtime(&now);
 
     console[index].timestamp = *currenttime;
+}
+
+static void C_ScrollToBottom(void)
+{
+    outputhistory = -1;
+    outputhistoryoffset = 0;
 }
 
 static void C_StoreConsoleString(char *dest, const char *src, const size_t dest_size)
@@ -393,7 +393,8 @@ void C_PlayerMessage(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (numconsolestrings > 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
+    if (numconsolestrings > 0 && console[i].stringtype == playermessagestring
+        && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
         C_CreateTimeStamp(i);
         console[i].count++;
@@ -847,7 +848,8 @@ static void C_DrawScrollbar(void)
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
-        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH - offset;
+        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH
+                        - offset;
         const int   trackend = MAX(0, CONSOLESCROLLBARHEIGHT * SCREENWIDTH - offset);
 
         // draw scrollbar track
@@ -1223,8 +1225,7 @@ static void C_DrawBackground(void)
         const int   color2 = black25[color1 >> 8] << 8;
 
         V_DrawConsoleBrandingPatch(SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44),
-            consoleheight - brandheight + 2, brand, color1, color2,
-            I_GetContrastingColor(color1 >> 8));
+            consoleheight - brandheight + 2, brand, color1, color2, I_GetContrastingColor(color1 >> 8));
 
         for (int i = height - 3 * SCREENWIDTH; i < height; i++)
             screens[0][i] = tinttab60[color1 + screens[0][i]];
@@ -1413,30 +1414,32 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x += (monospaced ? zerowidth : spacewidth);
             else if (letter == '\t')
                 x = (x > tabs[++tab] + CONSOLETEXTX - 10 ? x + spacewidth : tabs[tab] + CONSOLETEXTX - 10);
-            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
-                && formatting)
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
+                && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
             {
                 patch = trademark;
                 i += 3;
             }
-            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'a' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
-                && formatting)
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'a'
+                && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
             {
                 patch = ampm[0];
                 i += 3;
             }
-            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'p' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
-                && formatting)
+            else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'p'
+                && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
             {
                 patch = ampm[1];
                 i += 3;
             }
-            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
+            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c'
+                && text[i + 2] == ')' && formatting)
             {
                 patch = copyright;
                 i += 2;
             }
-            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
+            else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r'
+                && text[i + 2] == ')' && formatting)
             {
                 patch = regomark;
                 i += 2;
@@ -1720,7 +1723,8 @@ void C_UpdateFPSOverlay(void)
 
         if (maxfpsseen > 0)
         {
-            int offset = (fpshistory[(fpshistoryindex + i) % OVERLAYFPSGRAPHWIDTH] * OVERLAYFPSGRAPHHEIGHT) / maxfpsseen;
+            int offset = (fpshistory[(fpshistoryindex + i) % OVERLAYFPSGRAPHWIDTH] * OVERLAYFPSGRAPHHEIGHT)
+                    / maxfpsseen;
 
             if (offset > OVERLAYFPSGRAPHHEIGHT - 1)
                 offset = OVERLAYFPSGRAPHHEIGHT - 1;
@@ -2325,9 +2329,9 @@ static void C_DrawConsoleStringParts(const int index, const int y1, const bool d
             free(temp2);
         }
 
-        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y2, trimwhitespace(temp1), consolecolors[stringtype],
-            NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, true, 0, '\0', '\0',
-            &V_DrawConsoleTextPatch);
+        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y2, trimwhitespace(temp1),
+            consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
+            notabs, true, true, true, 0, '\0', '\0', &V_DrawConsoleTextPatch);
         free(temp1);
     }
 }
@@ -3094,9 +3098,11 @@ bool C_Responder(event_t *ev)
                                 char    *temp;
 
                                 if (isuppercase(input))
-                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(uppercase(output), input, input), NULL);
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(uppercase(output), input, input),
+                                        NULL);
                                 else if (islowercase(input))
-                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(lowercase(output), input, input), NULL);
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(lowercase(output), input, input),
+                                        NULL);
                                 else
                                     temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
 
@@ -3259,7 +3265,7 @@ bool C_Responder(event_t *ev)
 
                     free(temp1);
                     free(temp2);
-                    SDL_free(clipboard);
+                    free(clipboard);
                 }
 
                 break;

@@ -8,6 +8,7 @@
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Several changes have been made to text that is output to the console.
+* Improvements have been made to scrolling in the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
