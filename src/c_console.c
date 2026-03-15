@@ -176,6 +176,33 @@ void C_CreateTimeStamp(const int index)
     console[index].timestamp = *currenttime;
 }
 
+static void C_StoreConsoleString(char *dest, const char *src)
+{
+#if defined(_WIN32)
+    char    codepage[8] = "";
+
+    if (GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_IDEFAULTANSICODEPAGE, codepage, sizeof(codepage)) > 1)
+    {
+        const UINT  consolecodepage = (UINT)atoi(codepage);
+
+        if (consolecodepage && consolecodepage != CP_UTF8)
+        {
+            WCHAR   wide[CONSOLETEXTMAXLENGTH];
+            char    buffer[CONSOLETEXTMAXLENGTH];
+
+            if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, wide, arrlen(wide))
+                && WideCharToMultiByte(consolecodepage, 0, wide, -1, buffer, (int)sizeof(buffer), NULL, NULL))
+            {
+                M_StringCopy(dest, buffer, sizeof(dest));
+                return;
+            }
+        }
+    }
+#endif
+
+    M_StringCopy(dest, src, sizeof(dest));
+}
+
 void C_Input(const char *string, ...)
 {
     va_list args;
@@ -191,7 +218,7 @@ void C_Input(const char *string, ...)
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    C_StoreConsoleString(console[numconsolestrings].string, buffer);
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
     console[numconsolestrings++].stringtype = inputstring;
@@ -279,7 +306,7 @@ void C_Output(const char *string, ...)
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    C_StoreConsoleString(console[numconsolestrings].string, buffer);
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
@@ -299,7 +326,7 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    C_StoreConsoleString(console[numconsolestrings].string, buffer);
     console[numconsolestrings].stringtype = outputstring;
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
@@ -316,7 +343,7 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].header = header;
     console[numconsolestrings].wrap = 0;
-    M_StringCopy(console[numconsolestrings++].string, string, sizeof(console[0].string));
+    C_StoreConsoleString(console[numconsolestrings++].string, string);
     outputhistory = -1;
 }
 
