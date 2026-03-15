@@ -3265,7 +3265,7 @@ bool C_Responder(event_t *ev)
 
                     free(temp1);
                     free(temp2);
-                    free(clipboard);
+                    SDL_free(clipboard);
                 }
 
                 break;

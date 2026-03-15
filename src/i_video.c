@@ -447,7 +447,7 @@ static void I_GetEvent(void)
                 D_PostEvent(&ev);
 
                 if (text)
-                    free(text);
+                    SDL_free(text);
 
                 break;
             }
