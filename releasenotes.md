@@ -81,6 +81,7 @@
 * A bug is fixed whereby the player’s weapon could bleed from the right side of the screen to the left in some rare instances.
 * When *DOOM Retro* is run for the first time and an installation of *DOOM* is found, the IWAD in the “File name” field of the WAD launcher is now in the correct case.
 * If multiple files are selected in the WAD launcher, each of those files are now saved in the `wad` CVAR, and then restored in the “File name” field of the WAD launcher the next time *DOOM Retro* is run.
+* The `wad` and `wadfolder` CVARs now retain any non-Latin characters when saved to `doomretro.cfg`.
 * The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
 * When the `m_pointer` CVAR is `on`:
   * The console’s input can now be selected by clicking and dragging the mouse.
@@ -104,6 +105,7 @@
 * A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
 * The `MAP` CCMD now works correctly when playing [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * A swirling effect is now applied to the player’s view when they are in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water and the `r_liquid_swirl` CVAR is `on`.
+* `AASTINKY` and `AASHITTY` textures in maps are now treated as intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
