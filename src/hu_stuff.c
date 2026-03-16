@@ -93,7 +93,6 @@ static short            crosshairheight[NUMCROSSHAIRS];
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
-static short            stdiskheight;
 bool                    drawdisk = false;
 int                     drawdisktics;
 
@@ -265,7 +264,6 @@ void HU_Init(void)
     {
         stdisk = W_CacheLumpNum(lump);
         stdiskwidth = SHORT(stdisk->width);
-        stdiskheight = SHORT(stdisk->height);
     }
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);

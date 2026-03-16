@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#define __STDC_WANT_LIB_EXT1__  1
-
 #include <time.h>
 
 #if defined(_WIN32)
@@ -275,7 +273,6 @@ gamestate_t wipegamestate = GS_TITLESCREEN;
 
 void D_Display(void)
 {
-    static bool         pausedstate;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          saved_gametime = -1;
     uint64_t            nowtime;
@@ -382,7 +379,7 @@ void D_Display(void)
     oldgamestate = wipegamestate = gamestate;
 
     // draw pause pic
-    if ((pausedstate = paused))
+    if (paused)
     {
         M_DrawMenuBackground();
 

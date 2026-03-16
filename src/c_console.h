@@ -61,13 +61,11 @@
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
 #define CONSOLEOUTPUTCOLOR                  88
-#define CONSOLEOVERLAYWARNINGCOLOR          176
 #define CONSOLEPLAYERMESSAGECOLOR           161
 #define CONSOLESCROLLBARFACECOLOR           96
 #define CONSOLESCROLLBARTRACKCOLOR          100
 #define CONSOLESELECTEDINPUTBACKGROUNDCOLOR 100
 #define CONSOLESELECTEDINPUTCOLOR           4
-#define CONSOLETIMESTAMPCOLOR               161
 #define CONSOLEWARNINGBOLDCOLOR             176
 #define CONSOLEWARNINGCOLOR                 180
 
@@ -81,7 +79,6 @@
 
 #define CONSOLELINES                        (gamestate == GS_TITLESCREEN ? 27 : 13)
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
-#define CONSOLETEXTY                        8
 #define CONSOLETEXTMAXLENGTH                1024
 #define CONSOLELINEHEIGHT                   14
 #define CONSOLEBLANKLINES                   12
