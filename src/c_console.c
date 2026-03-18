@@ -716,7 +716,7 @@ static int C_GetWrapPosition(const int index)
 
 static int C_GetConsoleDisplayRows(const int index)
 {
-    const int len = (int)strlen(console[index].string);
+    const int   len = (int)strlen(console[index].string);
 
     return (len > 0 && C_GetWrapPosition(index) < len ? 2 : 1);
 }
@@ -734,7 +734,7 @@ static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int off
             C_BuildObituaryString(i);
 
         if (i == arrayindex)
-            return visiblecount + MIN(offset, C_GetConsoleDisplayRows(i) - 1);
+            return (visiblecount + MIN(offset, C_GetConsoleDisplayRows(i) - 1));
 
         visiblecount += C_GetConsoleDisplayRows(i);
     }
@@ -802,7 +802,7 @@ static void C_ScrollToTop(void)
 
 static void C_SetTopRow(int row)
 {
-    const int toprow = row;
+    const int   toprow = row;
 
     if (toprow > C_GetTopRowForDisplay())
         C_ScrollToBottom();
@@ -1956,8 +1956,7 @@ void C_UpdatePathOverlay(void)
 
     if (*distance)
     {
-        int x;
-        int y;
+        int x, y;
 
         if (mapwindow)
         {
@@ -2368,7 +2367,7 @@ void C_Drawer(void)
 
     if (outputhistory != -1)
     {
-        const int currenttoprow = C_GetCurrentTopRow();
+        const int   currenttoprow = C_GetCurrentTopRow();
 
         if (currenttoprow < C_GetMinimumTopRow())
             C_ScrollToTop();
@@ -2510,14 +2509,10 @@ void C_Drawer(void)
             }
         }
         else if (strlen(console[i].string))
-        {
             C_DrawConsoleStringParts(i,
-                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1,
-                len >= toprow,
+                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1, len >= toprow,
                 CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + 1,
-                rows > 1 && len + 1 <= bottomrow,
-                notabs);
-        }
+                (rows > 1 && len + 1 <= bottomrow), notabs);
 
         len += rows;
     }

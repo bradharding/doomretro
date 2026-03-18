@@ -37,7 +37,6 @@
 #include <Windows.h>
 #include <io.h>
 #include <sys/stat.h>
-
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
