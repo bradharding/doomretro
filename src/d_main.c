@@ -555,8 +555,10 @@ void D_SplashDrawer(void)
 {
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch((SCREENWIDTH - logowidth) / 2, (SCREENHEIGHT - logoheight) / 2 + 1, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
-    V_DrawBigPatch((SCREENWIDTH - fineprintwidth) / 2, SCREENHEIGHT - fineprintheight - 16, fineprintwidth, fineprintheight, fineprintlump);
+    V_DrawBigPatch((SCREENWIDTH - logowidth) / 2, (SCREENHEIGHT - logoheight) / 2 + 1,
+        logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
+    V_DrawBigPatch((SCREENWIDTH - fineprintwidth) / 2, SCREENHEIGHT - fineprintheight - 16,
+        fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)) * 768]);
     blitfunc();
     I_RenderPresent();
