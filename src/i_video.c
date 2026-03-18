@@ -1680,7 +1680,12 @@ static void SetVideoMode(const bool createwindow, const bool output)
         }
     }
 
-    if (vid_widescreen || drawpillarboxes)
+    if (splashscreen)
+    {
+        if (SDL_RenderSetLogicalSize(renderer, SPLASHWIDTH, SPLASHACTUALHEIGHT) < 0)
+            I_SDLError("SDL_RenderSetLogicalSize", -1);
+    }
+    else if (vid_widescreen || drawpillarboxes)
     {
         if (SDL_RenderSetLogicalSize(renderer, 0, 0) < 0)
             I_SDLError("SDL_RenderSetLogicalSize", -1);
@@ -1983,9 +1988,27 @@ static void I_GetScreenDimensions(void)
         height = windowheight;
     }
 
+    SCREENHEIGHT = (splashscreen ? SPLASHHEIGHT : VANILLAHEIGHT * 2);
+
     drawpillarboxes = false;
 
-    if (vid_widescreen || keepwidescreenduringanim)
+    if (splashscreen)
+    {
+        dest_rect.w = SPLASHWIDTH;
+        dest_rect.h = SPLASHACTUALHEIGHT;
+        dest_rect.x = 0;
+        dest_rect.y = 0;
+
+        SCREENWIDTH = SPLASHWIDTH;
+        WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
+        WIDEFOVDELTA = 0.1;
+        WIDESCREENDELTA = 0;
+        MAXWIDESCREENDELTA = 53;
+
+        leftpillarwidth = 0;
+        rightpillarxoffset = 0;
+    }
+    else if (vid_widescreen || keepwidescreenduringanim)
     {
         dest_rect.w = width;
 
