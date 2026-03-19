@@ -2621,7 +2621,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         char    *ptr = strchr(name, '(');
 
         if (name[0] == '_')
-            strcpy(&name[0], &name[1]);
+            memmove(&name[0], &name[1], strlen(name));
 
         if (ptr)
             *ptr = '\0';
