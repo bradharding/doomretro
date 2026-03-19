@@ -2803,7 +2803,7 @@ static void condumpfunc2(char *cmd, char *parms)
 //
 static void cvarlistfunc2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 190, 310 };
+    const int   tabs[MAXTABS] = { 195, 310 };
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
