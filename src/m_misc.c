@@ -50,6 +50,7 @@
 #endif
 
 #include <ctype.h>
+#include <limits.h>
 #include <math.h>
 #include <stdarg.h>
 #include <string.h>
@@ -138,7 +139,7 @@ char *M_FileCaseExists(const char *path)
 {
     char    *basedir;
     char    *filename;
-    char    *retpath;
+    char    *retpath = NULL;
     char    *tmpfilename = NULL;
     char    *pos;
 
@@ -220,6 +221,8 @@ void M_StringCopy(char *dest, const char *src, const size_t dest_size)
 
 void M_CopyLumpName(char *dest, const char *src)
 {
+    memset(dest, 0, 8);
+
     for (int i = 0; i < 8; i++)
     {
         dest[i] = src[i];
@@ -232,12 +235,7 @@ void M_CopyLumpName(char *dest, const char *src)
 char *M_ExtractFolder(const char *path)
 {
     char    *pos;
-    char    *folder;
-
-    if (!*path)
-        return "";
-
-    folder = M_StringDuplicate(path);
+    char    *folder = M_StringDuplicate(path);
 
     if ((pos = strrchr(folder, DIR_SEPARATOR)))
         *pos = '\0';
@@ -318,7 +316,7 @@ char *M_GetResourceFolder(void)
     // if ../share/doomretro is not available.
     NSURL   *resourceURL = [NSBundle mainBundle].resourceURL;
 
-    closedir(resourcedir);
+    free(resourcefolder);
     free(executablefolder);
 
     return M_StringDuplicate((char *)resourceURL.fileSystemRepresentation);
@@ -473,10 +471,22 @@ char *M_StringJoin(const char *s, ...)
 
 bool M_StrToInt(const char *str, int *result)
 {
-    return (sscanf(str, " 0x%2x", (unsigned int *)result) == 1
-        || sscanf(str, " 0X%2x", (unsigned int *)result) == 1
-        || sscanf(str, " 0%3o", (unsigned int *)result) == 1
-        || sscanf(str, " %12d", result) == 1);
+    char    *end;
+    long    value;
+
+    value = strtol(str, &end, 0);
+
+    if (end == str)
+        return false;
+
+    while (*end && isspace((unsigned char)*end))
+        end++;
+
+    if (*end || value < INT_MIN || value > INT_MAX)
+        return false;
+
+    *result = (int)value;
+    return true;
 }
 
 // Case-insensitive version of strstr()
@@ -501,49 +511,43 @@ const char *M_StrCaseStr(const char *haystack, const char *needle)
 #if !defined(stristr)
 static char *stristr(char *ch1, const char *ch2)
 {
-    char    *chN1 = M_StringDuplicate(ch1);
-    char    *chN2 = M_StringDuplicate(ch2);
-    char    *chRet = NULL;
-    char    *chNdx = chN1;
-
-    while (*chNdx)
-    {
-        *chNdx = (char)tolower(*chNdx);
-        chNdx++;
-    }
-
-    chNdx = chN2;
-
-    while (*chNdx)
-    {
-        *chNdx = (char)tolower(*chNdx);
-        chNdx++;
-    }
-
-    if ((chNdx = strstr(chN1, chN2)))
-        chRet = ch1 + (chNdx - chN1);
-
-    free(chN1);
-    free(chN2);
-
-    return chRet;
+    return (char *)M_StrCaseStr(ch1, ch2);
 }
 #endif
+
+static char *stringreplacebuffer;
+static size_t stringreplacebuffersize;
+
+static char *M_StringReplaceAt(const char *haystack, const char *needle, const char *replacement,
+    const char *match)
+{
+    const size_t    needle_len = strlen(needle);
+    const size_t    replacement_len = strlen(replacement);
+    const size_t    prefix_len = (size_t)(match - haystack);
+    const size_t    result_len = prefix_len + replacement_len + strlen(match + needle_len) + 1;
+
+    if (stringreplacebuffersize < result_len)
+    {
+        stringreplacebuffer = I_Realloc(stringreplacebuffer, result_len);
+        stringreplacebuffersize = result_len;
+    }
+
+    memcpy(stringreplacebuffer, haystack, prefix_len);
+    memcpy(stringreplacebuffer + prefix_len, replacement, replacement_len);
+    strcpy(stringreplacebuffer + prefix_len + replacement_len, match + needle_len);
+
+    return stringreplacebuffer;
+}
 
 // String replace function.
 char *M_StringReplaceFirst(char *haystack, const char *needle, const char *replacement)
 {
-    static char buffer[4096];
-    char        *p;
+    char    *p;
 
-    if (!(p = stristr(haystack, (char *)needle)))
+    if (!*needle || !(p = stristr(haystack, needle)))
         return haystack;
 
-    strncpy(buffer, haystack, p - haystack);
-    buffer[p - haystack] = '\0';
-    sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
-
-    return buffer;
+    return M_StringReplaceAt(haystack, needle, replacement, p);
 }
 
 #if !defined(strrstr)
@@ -569,30 +573,48 @@ static char *strrstr(const char *haystack, const char *needle)
 
 char *M_StringReplaceLast(char *haystack, const char *needle, const char *replacement)
 {
-    static char buffer[4096];
-    char        *p;
+    char    *p;
 
-    if (!(p = strrstr(haystack, (char *)needle)))
+    if (!*needle || !(p = strrstr(haystack, needle)))
         return haystack;
 
-    strncpy(buffer, haystack, p - haystack);
-    buffer[p - haystack] = '\0';
-    sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
-
-    return buffer;
+    return M_StringReplaceAt(haystack, needle, replacement, p);
 }
 
 void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement, bool usecase)
 {
-    char        buffer[1024] = "";
-    char        *insert_point = &buffer[0];
-    char        *temp = haystack;
-    const int   needle_len = (int)strlen(needle);
-    const int   repl_len = (int)strlen(replacement);
+    char            *buffer;
+    char            *insert_point;
+    char            *temp = haystack;
+    const size_t    haystack_len = strlen(haystack);
+    const size_t    needle_len = strlen(needle);
+    const size_t    repl_len = strlen(replacement);
+    size_t          count = 0;
+
+    if (!needle_len)
+        return;
 
     while (true)
     {
-        char    *p = (usecase ? strstr(temp, (char *)needle) : stristr(temp, (char *)needle));
+        char    *p = (usecase ? strstr(temp, needle) : stristr(temp, needle));
+
+        if (!p)
+            break;
+
+        count++;
+        temp = p + needle_len;
+    }
+
+    if (!count)
+        return;
+
+    buffer = I_Malloc(haystack_len + count * repl_len + 1 - count * needle_len);
+    insert_point = buffer;
+    temp = haystack;
+
+    while (true)
+    {
+        char    *p = (usecase ? strstr(temp, needle) : stristr(temp, needle));
 
         if (!p)
         {
@@ -610,6 +632,7 @@ void M_StringReplaceAll(char *haystack, const char *needle, const char *replacem
     }
 
     strcpy(haystack, buffer);
+    free(buffer);
 }
 
 // Safe version of strdup() that checks the string was successfully allocated.
@@ -703,7 +726,7 @@ char *uppercase(const char *str)
     char    *newstr;
     char    *p = newstr = M_StringDuplicate(str);
 
-    while ((*p = toupper(*p)))
+    while ((*p = (char)toupper((unsigned char)*p)))
         p++;
 
     return newstr;
@@ -712,7 +735,7 @@ char *uppercase(const char *str)
 char *lowercase(char *str)
 {
     for (char *p = str; *p; p++)
-        *p = tolower(*p);
+        *p = (char)tolower((unsigned char)*p);
 
     return str;
 }
@@ -724,14 +747,14 @@ char *titlecase(const char *str)
 
     if (len > 0)
     {
-        newstr[0] = toupper(newstr[0]);
+        newstr[0] = (char)toupper((unsigned char)newstr[0]);
 
         if (len > 1)
             for (int i = 1; i < len; i++)
                 if ((newstr[i - 1] != '\'' || (i >= 2 && newstr[i - 2] == ' '))
                     && !isalnum((unsigned char)newstr[i - 1])
                     && isalnum((unsigned char)newstr[i]))
-                    newstr[i] = toupper(newstr[i]);
+                    newstr[i] = (char)toupper((unsigned char)newstr[i]);
     }
 
     return newstr;
@@ -742,7 +765,7 @@ char *sentencecase(const char *str)
     char    *newstr = M_StringDuplicate(str);
 
     if (newstr[0] != '\0')
-        newstr[0] = toupper(newstr[0]);
+        newstr[0] = (char)toupper((unsigned char)newstr[0]);
 
     return newstr;
 }
@@ -752,7 +775,7 @@ bool isuppercase(const char *str)
     const int   len = (int)strlen(str);
 
     for (int i = 0; i < len; i++)
-        if (islower(str[i]))
+        if (islower((unsigned char)str[i]))
             return false;
 
     return true;
@@ -763,7 +786,7 @@ bool islowercase(const char *str)
     const int   len = (int)strlen(str);
 
     for (int i = 0; i < len; i++)
-        if (isupper(str[i]))
+        if (isupper((unsigned char)str[i]))
             return false;
 
     return true;
@@ -867,23 +890,17 @@ char *commifystat(uint64_t value)
 
 char *uncommify(const char *input)
 {
-    char    *p;
+    char    *p = I_Malloc(strlen(input) + 1);
 
-    if (!*input)
-        return "";
+    char    *p2 = p;
 
-    if ((p = malloc(strlen(input) + 1)))
-    {
-        char    *p2 = p;
+    while (*input != '\0')
+        if (*input != ',' || *(input + 1) == '\0')
+            *p2++ = *input++;
+        else
+            input++;
 
-        while (*input != '\0')
-            if (*input != ',' || *(input + 1) == '\0')
-                *p2++ = *input++;
-            else
-                input++;
-
-        *p2 = '\0';
-    }
+    *p2 = '\0';
 
     return p;
 }
@@ -940,69 +957,51 @@ int numspaces(const char *str)
 
 char *removespaces(const char *input)
 {
-    char    *p;
+    char    *p = I_Malloc(strlen(input) + 1);
 
-    if (!*input)
-        return "";
+    char    *p2 = p;
 
-    if ((p = malloc(strlen(input) + 1)))
-    {
-        char    *p2 = p;
+    while (*input != '\0')
+        if (!isspace((unsigned char)*input))
+            *p2++ = *input++;
+        else
+            input++;
 
-        while (*input != '\0')
-            if (!isspace((unsigned char)*input))
-                *p2++ = *input++;
-            else
-                input++;
-
-        *p2 = '\0';
-    }
+    *p2 = '\0';
 
     return p;
 }
 
 char *removenonalpha(const char *input)
 {
-    char    *p;
+    char    *p = I_Malloc(strlen(input) + 1);
 
-    if (!*input)
-        return "";
+    char    *p2 = p;
 
-    if ((p = malloc(strlen(input) + 1)))
-    {
-        char    *p2 = p;
+    while (*input != '\0')
+        if (isalnum((unsigned char)*input))
+            *p2++ = *input++;
+        else
+            input++;
 
-        while (*input != '\0')
-            if (isalnum((unsigned char)*input))
-                *p2++ = *input++;
-            else
-                input++;
-
-        *p2 = '\0';
-    }
+    *p2 = '\0';
 
     return p;
 }
 
 char *removenonprintable(const char *input)
 {
-    char    *p;
+    char    *p = I_Malloc(strlen(input) + 1);
 
-    if (!*input)
-        return "";
+    char    *p2 = p;
 
-    if ((p = malloc(strlen(input) + 1)))
-    {
-        char    *p2 = p;
+    while (*input != '\0')
+        if (isprint((unsigned char)*input))
+            *p2++ = *input++;
+        else
+            input++;
 
-        while (*input != '\0')
-            if (isprint((unsigned char)*input))
-                *p2++ = *input++;
-            else
-                input++;
-
-        *p2 = '\0';
-    }
+    *p2 = '\0';
 
     return p;
 }
@@ -1060,7 +1059,8 @@ char *removeext(const char *file)
     char    *newstr = M_StringDuplicate(file);
     char    *lastdot = strrchr(newstr, '.');
 
-    *lastdot = '\0';
+    if (lastdot)
+        *lastdot = '\0';
 
     return newstr;
 }
@@ -1193,8 +1193,8 @@ static void M_Translate(char *string, const char *word1, const char *word2)
 
     M_StringReplaceAll(string, temp1, temp2, true);
 
-    temp1[0] = toupper(temp1[0]);
-    temp2[0] = toupper(temp2[0]);
+    temp1[0] = (char)toupper((unsigned char)temp1[0]);
+    temp2[0] = (char)toupper((unsigned char)temp2[0]);
 
     M_StringReplaceAll(string, temp1, temp2, true);
 

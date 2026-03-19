@@ -1137,7 +1137,22 @@ void P_ReadSaveGameFooter(void)
 
     if (*buffer && !M_StringCompare(buffer, wadsloaded))
     {
-        char    *temp = M_StringJoin(BOLDON, buffer, BOLDOFF, NULL);
+        size_t          separatorcount = 0;
+        const char      *separator = buffer;
+        size_t          tempsize;
+        char            *temp;
+
+        while ((separator = strstr(separator, ", ")))
+        {
+            separatorcount++;
+            separator += 2;
+        }
+
+        tempsize = strlen(BOLDON) + strlen(buffer) + strlen(BOLDOFF) + 1
+            + separatorcount * (strlen(BOLDOFF) + strlen(BOLDON)) + 4;
+        temp = I_Malloc(tempsize);
+
+        M_snprintf(temp, (int)tempsize, "%s%s%s", BOLDON, buffer, BOLDOFF);
 
         menuactive = false;
         quicksaveslot = -1;
