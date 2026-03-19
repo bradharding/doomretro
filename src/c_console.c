@@ -44,6 +44,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "c_obituary.h"
+#include "d_main.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -2793,9 +2794,6 @@ bool C_Responder(event_t *ev)
     int         i;
     int         len;
 
-    if (quitcmd)
-        M_QuitResponse('y');
-
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messagetoprint)
         return false;
 
@@ -2919,6 +2917,12 @@ bool C_Responder(event_t *ev)
                         autocomplete = -1;
                         inputhistory = -1;
                         C_ScrollToBottom();
+
+                        if (quitcmd)
+                        {
+                            D_Display();
+                            M_QuitResponse('y');
+                        }
                     }
                 }
                 else
