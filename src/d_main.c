@@ -2216,6 +2216,10 @@ static void D_DoomMainSetup(void)
     if (M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
         D_InitWADfolder();
 
+    if (M_CheckParm("-nosplash"))
+        C_Warning(0, "A " BOLD("-nosplash") " parameter was found on the command-line. "
+            ITALICS(DOOMRETRO_NAME "'s") " splash screen wasn't displayed.");
+
     if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("A " BOLD("-respawn") " parameter was found on the command-line. "
             "Monsters will now respawn.");
@@ -2998,8 +3002,6 @@ static void D_DoomMainSetup(void)
 
             if (M_CheckParm("-nosplash"))
             {
-                C_Warning(0, "A " BOLD("-nosplash") " parameter was found on the command-line. "
-                    ITALICS(DOOMRETRO_NAME "'s") " splash screen wasn't displayed.");
                 menuactive = false;
                 splashscreen = false;
                 vid_scalefilter = vid_scalefilter_copy;
