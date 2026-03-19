@@ -893,19 +893,29 @@ bool wildcard(char *input, char *pattern)
     if (!*pattern || M_StringCompare(input, pattern))
         return true;
 
-    for (int i = 0; pattern[i] != '\0'; i++)
+    while (*pattern)
     {
-        if (pattern[i] == '?')
-            continue;
-        else if (pattern[i] == '*')
+        if (*pattern == '?')
         {
-            for (int j = i; input[j] != '\0'; j++)
-                if (wildcard(input + j, pattern + i + 1))
+            if (!*input)
+                return false;
+
+            input++;
+            pattern++;
+        }
+        else if (*pattern == '*')
+        {
+            pattern++;
+
+            do
+            {
+                if (wildcard(input, pattern))
                     return true;
+            } while (*input++);
 
             return false;
         }
-        else if (pattern[i] != input[i])
+        else if (*pattern++ != *input++)
             return false;
     }
 
