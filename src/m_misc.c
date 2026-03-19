@@ -96,6 +96,10 @@ const char *monthnames[12] =
     "July",    "August",   "September", "October", "November", "December"
 };
 
+#if !defined(S_ISDIR)
+#define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)
+#endif
+
 // Create a directory
 void M_MakeDirectory(const char *path)
 {
@@ -109,15 +113,9 @@ void M_MakeDirectory(const char *path)
 // Check if a file exists
 bool M_FileExists(const char *filename)
 {
-    FILE    *fstream = fopen(filename, "r");
+    struct stat status;
 
-    if (fstream)
-    {
-        fclose(fstream);
-        return true;
-    }
-
-    return false;
+    return (!stat(filename, &status) && !S_ISDIR(status.st_mode));
 }
 
 #if !defined(_WIN32) && !defined(__APPLE__)
@@ -204,7 +202,7 @@ bool M_FolderExists(const char *folder)
 {
     struct stat status;
 
-    return (!stat(folder, &status) && (status.st_mode & S_IFDIR));
+    return (!stat(folder, &status) && S_ISDIR(status.st_mode));
 }
 
 // Safe string copy function that works like OpenBSD's strlcpy().
@@ -275,7 +273,17 @@ char *M_GetAppDataFolder(void)
         char    *buffer = getenv("HOME");
 
         if (!buffer)
-            buffer = getpwuid(getuid())->pw_dir;
+        {
+            struct passwd   *pwd = getpwuid(getuid());
+
+            if (!pwd)
+            {
+                closedir(resourcedir);
+                return executablefolder;
+            }
+
+            buffer = pwd->pw_dir;
+        }
 
         closedir(resourcedir);
         free(executablefolder);
@@ -905,7 +913,7 @@ char *uncommify(const char *input)
     return p;
 }
 
-bool wildcard(char *input, char *pattern)
+bool wildcard(const char *input, const char *pattern)
 {
     if (!*pattern || M_StringCompare(input, pattern))
         return true;
@@ -932,11 +940,11 @@ bool wildcard(char *input, char *pattern)
 
             return false;
         }
-        else if (*pattern++ != *input++)
+        else if (tolower((unsigned char)*pattern++) != tolower((unsigned char)*input++))
             return false;
     }
 
-    return false;
+    return (*input == '\0');
 }
 
 int gcd(int a, int b)
@@ -1058,8 +1066,11 @@ char *removeext(const char *file)
 {
     char    *newstr = M_StringDuplicate(file);
     char    *lastdot = strrchr(newstr, '.');
+    char    *lastforwardslash = strrchr(newstr, '/');
+    char    *lastbackslash = strrchr(newstr, '\\');
+    char    *lastseparator = (lastforwardslash > lastbackslash ? lastforwardslash : lastbackslash);
 
-    if (lastdot)
+    if (lastdot && (!lastseparator || lastdot > lastseparator + 1))
         *lastdot = '\0';
 
     return newstr;
@@ -1115,24 +1126,64 @@ void M_StripQuotes(char *str)
     }
 }
 
+static size_t M_PathRootLength(const char *path)
+{
+#if defined(_WIN32)
+    if (path[0] && isalpha((unsigned char)path[0]) && path[1] == ':')
+        return (2 + (path[2] == DIR_SEPARATOR));
+
+    if (path[0] == DIR_SEPARATOR && path[1] == DIR_SEPARATOR)
+        return 2;
+#endif
+
+    return (path[0] == DIR_SEPARATOR);
+}
+
 void M_NormalizeSlashes(char *str)
 {
-    char    *p;
+    char            *p = str;
+    char            *q = str;
+    size_t          rootlength;
+    bool            wasslash = false;
 
     // Convert all slashes/backslashes to DIR_SEPARATOR
     for (p = str; *p; p++)
         if ((*p == '/' || *p == '\\') && *p != DIR_SEPARATOR)
             *p = DIR_SEPARATOR;
 
-    // Remove trailing slashes
-    while (p > str && *(--p) == DIR_SEPARATOR)
-        *p = 0;
+    rootlength = M_PathRootLength(str);
+    p = str;
 
     // Collapse multiple slashes
-    for (p = str; (*str++ = *p); )
-        if (*p++ == DIR_SEPARATOR)
-            while (*p == DIR_SEPARATOR)
-                p++;
+    for (size_t i = 0; i < rootlength && *p; i++)
+        *q++ = *p++;
+
+    wasslash = (q > str && q[-1] == DIR_SEPARATOR);
+
+    while (*p)
+    {
+        if (*p == DIR_SEPARATOR)
+        {
+            if (!wasslash)
+            {
+                *q++ = *p;
+                wasslash = true;
+            }
+        }
+        else
+        {
+            *q++ = *p;
+            wasslash = false;
+        }
+
+        p++;
+    }
+
+    // Remove trailing slashes without stripping the root path.
+    while (q > str + rootlength && q[-1] == DIR_SEPARATOR)
+        q--;
+
+    *q = '\0';
 }
 
 const char *pronoun(const pronoun_t type)

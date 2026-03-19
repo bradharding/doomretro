@@ -101,7 +101,7 @@ char *commify(int64_t value);
 char *commifystring(const char *str);
 char *commifystat(uint64_t value);
 char *uncommify(const char *input);
-bool wildcard(char *input, char *pattern);
+bool wildcard(const char *input, const char *pattern);
 int gcd(int a, int b);
 int numspaces(const char *str);
 char *removespaces(const char *input);
