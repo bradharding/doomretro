@@ -1150,7 +1150,7 @@ static void R_SetupFrame(void)
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
     // killough 03/20/98, 04/04/98: select colormap based on player status
-    if (mo->subsector->sector->heightsec)
+    if (mo->subsector->sector->heightsec && !viewplayer->powers[pw_invulnerability])
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
 
