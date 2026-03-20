@@ -10,6 +10,7 @@
 * Several changes have been made to text that is output to the console.
 * Wrapped lines are no longer skipped when scrolling in the console.
 * A bug is fixed whereby it sometimes wasn’t possible to scroll all the way to the top of the console.
+* The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
