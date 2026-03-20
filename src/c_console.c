@@ -2335,6 +2335,8 @@ void C_Drawer(void)
     int             len;
     int             toprow;
     int             bottomrow;
+    int             outputyoffset;
+    bool            bottomaligned;
     bool            showscrollbar = scrollbardrawn;
     const bool      prevconsoleactive = consoleactive;
     static uint64_t consolewait;
@@ -2365,6 +2367,11 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
+    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT;
+    bottomaligned = (C_CanScrollOutput() && toprow == C_GetTopRowForDisplay());
+
+    if (bottomaligned)
+        outputyoffset += 3;
 
     cheatsequence = false;
 
@@ -2473,7 +2480,7 @@ void C_Drawer(void)
 
         if (stringtype == dividerstring)
         {
-            const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1;
+            const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset;
             int         yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
             if (yy >= 0)
@@ -2498,8 +2505,9 @@ void C_Drawer(void)
         }
         else if (strlen(console[i].string))
             C_DrawConsoleStringParts(i,
-                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1, len >= toprow,
-                CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + 1,
+                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset,
+                len >= toprow,
+                CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset,
                 (rows > 1 && len + 1 <= bottomrow), notabs);
 
         len += rows;
