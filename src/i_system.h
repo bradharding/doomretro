@@ -71,6 +71,6 @@ void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 void I_InitCrashHandler(void);
 
-void *I_Malloc(size_t size);
-void *I_Calloc(size_t count, size_t size);
-void *I_Realloc(void *block, size_t size);
+RETNOTNULL ALLOCATTR(1) void *I_Malloc(size_t size);
+RETNOTNULL ALLOCSATTR(1, 2) void *I_Calloc(size_t count, size_t size);
+RETNOTNULL void *I_Realloc(void *block, size_t size);

@@ -1131,9 +1131,9 @@ static void R_DrawVisSplat(const vissplat_t *vis)
         if (column->numposts)
         {
             const rpost_t   *post = column->posts;
-            const int64_t   topscreen = splattopscreen + spryscale * post->topdelta;
+            const int64_t   topscreen = splattopscreen + (int64_t)spryscale * post->topdelta;
 
-            if ((dc_yh = MIN((int)((topscreen + spryscale * post->length) >> FRACBITS), clipbot[dc_x] - 1)) >= 0)
+            if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), clipbot[dc_x] - 1)) >= 0)
                 if ((dc_yl = MAX(cliptop[dc_x], (int)(topscreen >> FRACBITS))) <= dc_yh)
                     colfunc();
         }
@@ -1851,9 +1851,11 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
     if ((x1 = MAX(0, x1)) > (x2 = MIN(viewwidth - 1, x2)))
         return;
 
+    const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
+
     // initialize the clipping arrays
-    memcpy(cliptop + x1, zeroarray + x1, (x2 - x1 + 1) * sizeof(cliptop[0]));
-    memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(clipbot[0]));
+    memcpy(cliptop + x1, zeroarray + x1, clipcount * sizeof(cliptop[0]));
+    memcpy(clipbot + x1, viewheightarray + x1, clipcount * sizeof(clipbot[0]));
 
     // Scan drawsegs using the same xrange acceleration as sprites.
     if (drawsegs_xrange_count > 0)
@@ -1899,6 +1901,9 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
 
 static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
 {
+    if (!s || !t || !n)
+        return;
+
     if (n >= 16)
     {
         unsigned int    n1 = n / 2;
@@ -1913,11 +1918,17 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
         while ((*s1)->scale > (*s2)->scale ? (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
 
         if (n2)
-            memcpy(d, s2, n2 * sizeof(void *));
-        else
-            memcpy(d, s1, n1 * sizeof(void *));
+            do
+                *d++ = *s2++;
+            while (--n2);
+        else if (n1)
+            do
+                *d++ = *s1++;
+            while (--n1);
 
-        memcpy(s, t, n * sizeof(void *));
+        for (unsigned int i = 0; i < n; i++)
+            s[i] = t[i];
+
         return;
     }
 
@@ -1960,10 +1971,11 @@ static void R_DrawSprite(const vissprite_t *spr)
     const fixed_t   scale = spr->scale;
     const fixed_t   gx = spr->gx;
     const fixed_t   gy = spr->gy;
+    const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
 
     // initialize the clipping arrays
-    memcpy(cliptop + x1, negonearray + x1, (x2 - x1 + 1) * sizeof(cliptop[0]));
-    memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(clipbot[0]));
+    memcpy(cliptop + x1, negonearray + x1, clipcount * sizeof(cliptop[0]));
+    memcpy(clipbot + x1, viewheightarray + x1, clipcount * sizeof(clipbot[0]));
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.

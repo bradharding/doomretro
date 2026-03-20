@@ -277,11 +277,11 @@ static void R_InitTables(void)
 {
     // viewangle tangent table
     for (int i = 0; i < FINEANGLES / 2; i++)
-        finetangent[i] = (fixed_t)(tan(((double)i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES) * FRACUNIT);
+        finetangent[i] = (fixed_t)(tan(((double)i - FINEANGLES / 4 + 0.5) * M_PI * 2 / FINEANGLES) * (double)FRACUNIT);
 
     // finesine table
     for (int i = 0; i < 5 * FINEANGLES / 4; i++)
-        finesine[i] = (fixed_t)(sin((i + 0.5) * M_PI * 2 / FINEANGLES) * FRACUNIT);
+        finesine[i] = (fixed_t)(sin((i + 0.5) * M_PI * 2 / FINEANGLES) * (double)FRACUNIT);
 
     // slope (tangent) to angle lookup
     for (int i = 0; i <= SLOPERANGE; i++)
@@ -1220,14 +1220,14 @@ static void R_SwirlView(void)
 
     for (int y = 0; y < viewheight; y++)
     {
-        const int   row = (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+        const size_t    row = ((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx;
 
         memcpy(source + row, dest + row, (size_t)viewwidth);
     }
 
     for (int y = 0; y < viewheight; y++)
     {
-        byte        *destrow = dest + (viewwindowy + y) * SCREENWIDTH + viewwindowx;
+        byte        *destrow = dest + (((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx);
         const int   ymod = (y & 63);
         const int   yoffset1row = yoffset1[ymod];
         const int   yoffset2row = yoffset2[ymod];

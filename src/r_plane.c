@@ -508,7 +508,7 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
     const int       texture = R_TextureNumForName(skytex->name);
     const angle_t   angle = viewangle + (skytex->currx << (ANGLETOSKYSHIFT - FRACBITS));
 
-    dc_texturemid = (fixed_t)(skytex->mid * FRACUNIT) + skytex->curry;
+    dc_texturemid = (fixed_t)(skytex->mid * (double)FRACUNIT) + skytex->curry;
     dc_texheight = textureheight[texture] >> FRACBITS;
     dc_iscale = FixedMul(skyiscale, skytex->scaley);
 

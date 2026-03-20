@@ -1319,9 +1319,10 @@ static void WI_DrawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX + !BTSX * (SP_TIMEX - FREEDOOM * 17 + 3) - 18,
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX
+            + (!BTSX ? (SP_TIMEX - (FREEDOOM ? 17 : 0) + 3) : 0) - 18,
             SP_TIMEY + 1, wipar, false, SCREENWIDTH);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par,
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - ((BTSX || FREEDOOM) ? 17 : 0), SP_TIMEY, cnt_par,
             ms, (cnt_par == wbs->partime), false);
     }
 }
@@ -1632,16 +1633,16 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
 
     if (enteranim[0])
     {
-        if (!animation)
-            animation = calloc(1, sizeof(*animation));
+        if (!animation && !(animation = calloc(1, sizeof(*animation))))
+            return;
 
         animation->interlevelentering = WI_ParseInterlevel(enteranim);
     }
 
     if (exitanim[0])
     {
-        if (!animation)
-            animation = calloc(1, sizeof(*animation));
+        if (!animation && !(animation = calloc(1, sizeof(*animation))))
+            return;
 
         animation->interlevelexiting = WI_ParseInterlevel(exitanim);
     }

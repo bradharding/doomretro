@@ -286,14 +286,14 @@ void V_FillPillarboxes(int screen, int color)
 {
     const int   pillarwidth = (SCREENWIDTH - NONWIDEWIDTH) / 2;
     byte        *base = screens[screen];
-    byte        *end = base + SCREENWIDTH * (SCREENHEIGHT - 1);
+    byte        *end = base + (size_t)SCREENWIDTH * ((size_t)SCREENHEIGHT - 1);
 
     memset(base, color, pillarwidth);
 
     for (byte *row = base; row < end; row += SCREENWIDTH)
-        memset(row + SCREENWIDTH - pillarwidth, color, pillarwidth * 2);
+        memset(row + SCREENWIDTH - pillarwidth, color, (size_t)pillarwidth * 2);
 
-    memset(base + SCREENWIDTH * SCREENHEIGHT - pillarwidth, color, pillarwidth);
+    memset(base + (size_t)SCREENWIDTH * SCREENHEIGHT - pillarwidth, color, pillarwidth);
 }
 
 void V_DrawPagePatch(int screen, patch_t *patch)
@@ -483,7 +483,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 
                 if (count > 0)
                 {
-                    byte    *dest = desttop + posttop * SCREENWIDTH;
+                    byte    *dest = desttop + (size_t)posttop * SCREENWIDTH;
 
                     while (count-- > 0)
                     {
@@ -1835,7 +1835,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow && menushadow)
         {
-            byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+            byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2);
 
             *dot = black40[*dot];
             dot++;
@@ -1848,7 +1848,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + (y * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
+        byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2);
 
         if (menuhighlight)
             color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
@@ -1874,7 +1874,7 @@ static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
             const byte      color = *dot;
 
             if (blockw > 1)
-                memset(dot + 1, color, (size_t)(blockw - 1));
+                memset(dot + 1, color, ((size_t)blockw - 1));
 
             for (int yy = screenwidth; yy < maxy; yy += screenwidth)
                 memset(dot + yy, color, (size_t)blockw);
@@ -1924,7 +1924,7 @@ static void V_LowGraphicDetail_Antialiased(byte *screen, int screenwidth,
                 color = *dot1;
 
                 if (blockw > 1)
-                    memset(dot1 + 1, color, (size_t)(blockw - 1));
+                    memset(dot1 + 1, color, ((size_t)blockw - 1));
 
                 for (int yy = screenwidth; yy < maxy; yy += screenwidth)
                     memset(dot1 + yy, color, (size_t)blockw);
@@ -2309,25 +2309,37 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
         array_push(columns, col);
     }
 
+    const int   numcolumns = array_size(columns);
+
     // Calculate needed memory size to allocate patch buffer
     size += 4 * sizeof(int16_t);                                // 4 header shorts
-    size += array_size(columns) * sizeof(int32_t);              // offsets table
+    size += (size_t)numcolumns * sizeof(int32_t);               // offsets table
 
-    for (int c = 0; c < array_size(columns); c++)
+    if (columns)
     {
-        for (int p = 0; p < array_size(columns[c].posts); p++)
+        for (int c = 0; c < numcolumns; c++)
         {
-            size_t  post_len = 0;
+            vcolumn_t   *column = &columns[c];
+            const int   numposts = array_size(column->posts);
 
-            post_len += 2;                                      // two bytes for post header
-            post_len++;                                         // dummy byte
-            post_len += array_size(columns[c].posts[p].pixels); // pixels
-            post_len++;                                         // dummy byte
+            if (!column->posts)
+                continue;
 
-            size += post_len;
+            for (int p = 0; p < numposts; p++)
+            {
+                vpost_t *post = &column->posts[p];
+                size_t  post_len = 0;
+
+                post_len += 2;                                      // two bytes for post header
+                post_len++;                                         // dummy byte
+                post_len += array_size(post->pixels);               // pixels
+                post_len++;                                         // dummy byte
+
+                size += post_len;
+            }
+
+            size++;                                                 // room for 0xFF cap byte
         }
-
-        size++;                                                 // room for 0xFF cap byte
     }
 
     output = I_Malloc(size);
@@ -2344,47 +2356,66 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
     // set starting position of column offsets table, and skip over it
     col_offsets = rover;
 
-    rover += array_size(columns) * 4;
+    rover += (size_t)numcolumns * 4;
 
-    for (int c = 0; c < array_size(columns); c++)
+    if (columns)
     {
-        // write column offset to offset table
-        uint32_t    offs = (uint32_t)(rover - output);
-
-        PUTLONG(col_offsets, offs);
-
-        // write column posts
-        for (int p = 0; p < array_size(columns[c].posts); p++)
+        for (int c = 0; c < numcolumns; c++)
         {
-            int     numpixels = array_size(columns[c].posts[p].pixels);
-            byte    lastval = (numpixels ? columns[c].posts[p].pixels[0] : 0);
+            vcolumn_t   *column = &columns[c];
+            const int   numposts = array_size(column->posts);
 
-            // Write row offset
-            PUTBYTE(rover, columns[c].posts[p].row_off);
+            // write column offset to offset table
+            uint32_t    offs = (uint32_t)(rover - output);
 
-            // Write number of pixels
-            PUTBYTE(rover, numpixels);
+            PUTLONG(col_offsets, offs);
 
-            // Write pad byte
-            PUTBYTE(rover, lastval);
-
-            // Write pixels
-            for (int a = 0; a < numpixels; a++)
+            if (!column->posts)
             {
-                lastval = columns[c].posts[p].pixels[a];
-                PUTBYTE(rover, lastval);
+                PUTBYTE(rover, 0xFF);
+                continue;
             }
 
-            // Write pad byte
-            PUTBYTE(rover, lastval);
+            // write column posts
+            for (int p = 0; p < numposts; p++)
+            {
+                vpost_t *post = &column->posts[p];
+                int     numpixels = array_size(post->pixels);
+                byte    lastval = 0;
 
-            array_free(columns[c].posts[p].pixels);
+                if (numpixels && post->pixels)
+                    lastval = post->pixels[0];
+
+                // Write row offset
+                PUTBYTE(rover, post->row_off);
+
+                // Write number of pixels
+                PUTBYTE(rover, numpixels);
+
+                // Write pad byte
+                PUTBYTE(rover, lastval);
+
+                // Write pixels
+                if (post->pixels)
+                {
+                    for (int a = 0; a < numpixels; a++)
+                    {
+                        lastval = post->pixels[a];
+                        PUTBYTE(rover, lastval);
+                    }
+                }
+
+                // Write pad byte
+                PUTBYTE(rover, lastval);
+
+                array_free(post->pixels);
+            }
+
+            // Write 255 cap byte
+            PUTBYTE(rover, 0xFF);
+
+            array_free(column->posts);
         }
-
-        // Write 255 cap byte
-        PUTBYTE(rover, 0xFF);
-
-        array_free(columns[c].posts);
     }
 
     array_free(columns);

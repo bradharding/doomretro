@@ -80,10 +80,10 @@ static bool ParseSkyTex(cJSON *json, skytex_t *out)
         return false;
 
     out->mid = mid->valuedouble;
-    out->scrollx = (fixed_t)(scrollx->valuedouble * (1.0 / TICRATE) * FRACUNIT);
-    out->scrolly = (fixed_t)(scrolly->valuedouble * (1.0 / TICRATE) * FRACUNIT);
-    out->scalex = (scalex->valuedouble ? (fixed_t)(1.0 / scalex->valuedouble * FRACUNIT) : FRACUNIT);
-    out->scaley = (scaley->valuedouble ? (fixed_t)(1.0 / scaley->valuedouble * FRACUNIT) : FRACUNIT);
+    out->scrollx = (fixed_t)(scrollx->valuedouble * (1.0 / TICRATE) * (double)FRACUNIT);
+    out->scrolly = (fixed_t)(scrolly->valuedouble * (1.0 / TICRATE) * (double)FRACUNIT);
+    out->scalex = (scalex->valuedouble ? (fixed_t)(1.0 / scalex->valuedouble * (double)FRACUNIT) : FRACUNIT);
+    out->scaley = (scaley->valuedouble ? (fixed_t)(1.0 / scaley->valuedouble * (double)FRACUNIT) : FRACUNIT);
     return true;
 }
 
@@ -163,7 +163,12 @@ skydefs_t *R_ParseSkyDefs(void)
         return NULL;
     }
 
-    out = calloc(1, sizeof(*out));
+    if (!(out = calloc(1, sizeof(*out))))
+    {
+        cJSON_Delete(json);
+        return NULL;
+    }
+
     js_skies = cJSON_GetObjectItemCaseSensitive(data, "skies");
 
     cJSON_ArrayForEach(js_sky, js_skies)

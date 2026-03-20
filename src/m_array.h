@@ -93,7 +93,7 @@ inline static void array_clear(const void *v)
 #define array_foreach(ptr, v) \
     for (ptr = (v); ptr < (v) + array_size(v); ptr++)
 
-inline static void *M_ArrayGrow(void *v, size_t esize, int n)
+RETNOTNULL inline static void *M_ArrayGrow(void *v, size_t esize, int n)
 {
     m_array_buffer_t    *p;
 

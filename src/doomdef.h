@@ -36,6 +36,11 @@
 #pragma once
 
 #include <stdio.h>
+
+#if defined(_MSC_VER)
+#include <sal.h>
+#endif
+
 #if !defined(_WIN32)
 #include <strings.h>
 #endif
@@ -82,6 +87,12 @@
 #define NORETURN            __declspec(noreturn)
 #else
 #define NORETURN
+#endif
+
+#if defined(_MSC_VER)
+#define RETNOTNULL          _Ret_notnull_
+#else
+#define RETNOTNULL
 #endif
 
 #if defined(_MSC_VER) && _MSC_VER < 1900

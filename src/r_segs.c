@@ -707,9 +707,9 @@ void R_StoreWallRange(const int start, const int stop)
     ds_p->x2 = stop;
     ds_p->curline = curline;
     rw_stopx = stop + 1;
-    span = rw_stopx - start;
+    span = (int)((int64_t)rw_stopx - start);
 
-    if (span * sizeof(*lastopening) + (lastopening - openings) > MAXOPENINGS)
+    if ((size_t)span * sizeof(*lastopening) + (size_t)(lastopening - openings) > MAXOPENINGS)
         return;
 
     worldtop = frontsector->interpceilingheight - viewz;
