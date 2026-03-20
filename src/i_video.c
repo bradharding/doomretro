@@ -430,7 +430,14 @@ static void I_GetEvent(void)
             case SDL_MOUSEWHEEL:
                 keydown = 0;
                 ev.type = ev_mousewheel;
-                ev.data1 = Event->wheel.y;
+                ev.data1 = Event->wheel.x;
+                ev.data2 = Event->wheel.y;
+
+                if (Event->wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
+                {
+                    ev.data1 = -ev.data1;
+                    ev.data2 = -ev.data2;
+                }
 
                 if (menuactive || consoleactive)
                     usingmouse = false;

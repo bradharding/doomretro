@@ -114,7 +114,7 @@ extern char         lbmname1[MAX_PATH];
 extern char         lbmpath1[MAX_PATH];
 extern char         lbmpath2[MAX_PATH];
 extern char         keyactionlist[NUMKEYS][255];
-extern char         mouseactionlist[MAXMOUSEBUTTONS + 2][255];
+extern char         mouseactionlist[MAXMOUSEBUTTONS + 4][255];
 extern int          st_facecount;
 extern char         savename[MAX_PATH];
 extern int          savegameslot;

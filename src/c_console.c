@@ -1060,7 +1060,7 @@ void C_ShowConsole(bool reset)
         C_ScrollToBottom();
     }
 
-    for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
+    for (int i = 0; i < MAXMOUSEBUTTONS + 4; i++)
         mousebuttons[i] = false;
 
     if (gamestate == GS_LEVEL && (!automapactive || am_followmode))
@@ -3510,14 +3510,14 @@ bool C_Responder(event_t *ev)
     else if (ev->type == ev_mousewheel && scrollbardrawn)
     {
         // scroll output up
-        if (ev->data1 > 0)
+        if (ev->data2 > 0)
         {
             if (!topofconsole && C_CanScrollOutput())
                 C_ScrollOutputUp();
         }
 
         // scroll output down
-        else if (ev->data1 < 0)
+        else if (ev->data2 < 0)
         {
             if (outputhistory != -1)
                 C_ScrollOutputDown();

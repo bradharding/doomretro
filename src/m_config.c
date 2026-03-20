@@ -1208,7 +1208,7 @@ void M_LoadCVARs(const char *filename)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
-        for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
+        for (int i = 0; i < MAXMOUSEBUTTONS + 4; i++)
             mouseactionlist[i][0] = '\0';
     }
 

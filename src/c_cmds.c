@@ -297,6 +297,8 @@ const control_t controls[] =
     { "mouse8",        mousecontrol,      7                         },
     { "wheelup",       mousecontrol,      MOUSE_WHEELUP             },
     { "wheeldown",     mousecontrol,      MOUSE_WHEELDOWN           },
+    { "wheelleft",     mousecontrol,      MOUSE_WHEELLEFT           },
+    { "wheelright",    mousecontrol,      MOUSE_WHEELRIGHT          },
 
     { "button1",       controllercontrol, CONTROLLER_A              },
     { "gamepad1",      controllercontrol, CONTROLLER_A              },
@@ -8359,7 +8361,7 @@ static void C_VerifyResetAll(const int key)
         for (int i = 0; i < NUMKEYS; i++)
             keyactionlist[i][0] = '\0';
 
-        for (int i = 0; i < MAXMOUSEBUTTONS + 2; i++)
+        for (int i = 0; i < MAXMOUSEBUTTONS + 4; i++)
             mouseactionlist[i][0] = '\0';
 
         // reset stretched sky

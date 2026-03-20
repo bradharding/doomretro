@@ -207,9 +207,9 @@ bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static bool     mousearray[MAXMOUSEBUTTONS + 3];
+static bool     mousearray[MAXMOUSEBUTTONS + 5];
 bool            *mousebuttons = &mousearray[1]; // allow [-1]
-char            mouseactionlist[MAXMOUSEBUTTONS + 2][255] = { "" };
+char            mouseactionlist[MAXMOUSEBUTTONS + 4][255] = { "" };
 
 static int      mousex;
 static int      mousey;
@@ -1084,6 +1084,8 @@ bool G_Responder(const event_t *ev)
 
     mousebuttons[MOUSE_WHEELUP] = false;
     mousebuttons[MOUSE_WHEELDOWN] = false;
+    mousebuttons[MOUSE_WHEELLEFT] = false;
+    mousebuttons[MOUSE_WHEELRIGHT] = false;
 
     switch (ev->type)
     {
@@ -1162,7 +1164,7 @@ bool G_Responder(const event_t *ev)
         case ev_mousewheel:
             if (!automapactive && !menuactive && !paused && !(viewplayer->cheats & CF_FREEZE))
             {
-                if (ev->data1 < 0)
+                if (ev->data2 < 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELDOWN)
                         G_NextWeapon();
@@ -1173,7 +1175,7 @@ bool G_Responder(const event_t *ev)
                     else
                         mousebuttons[MOUSE_WHEELDOWN] = true;
                 }
-                else if (ev->data1 > 0)
+                else if (ev->data2 > 0)
                 {
                     if (mousenextweapon == MOUSE_WHEELUP)
                         G_NextWeapon();
@@ -1183,6 +1185,29 @@ bool G_Responder(const event_t *ev)
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
                     else
                         mousebuttons[MOUSE_WHEELUP] = true;
+                }
+
+                if (ev->data1 < 0)
+                {
+                    if (mousenextweapon == MOUSE_WHEELLEFT)
+                        G_NextWeapon();
+                    else if (mouseprevweapon == MOUSE_WHEELLEFT)
+                        G_PrevWeapon();
+                    else if (mouseactionlist[MOUSE_WHEELLEFT][0])
+                        C_ExecuteInputString(mouseactionlist[MOUSE_WHEELLEFT]);
+                    else
+                        mousebuttons[MOUSE_WHEELLEFT] = true;
+                }
+                else if (ev->data1 > 0)
+                {
+                    if (mousenextweapon == MOUSE_WHEELRIGHT)
+                        G_NextWeapon();
+                    else if (mouseprevweapon == MOUSE_WHEELRIGHT)
+                        G_PrevWeapon();
+                    else if (mouseactionlist[MOUSE_WHEELRIGHT][0])
+                        C_ExecuteInputString(mouseactionlist[MOUSE_WHEELRIGHT]);
+                    else
+                        mousebuttons[MOUSE_WHEELRIGHT] = true;
                 }
             }
 

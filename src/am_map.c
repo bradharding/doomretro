@@ -1641,7 +1641,7 @@ bool AM_Responder(const event_t *ev)
             else if (ev->type == ev_mousewheel && !mapwindow)
             {
                 // zoom in
-                if (ev->data1 > 0)
+                if (ev->data2 > 0)
                 {
                     speedtoggle = AM_GetSpeedToggle();
                     AM_AddZoomImpulse(1);
@@ -1649,7 +1649,7 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (ev->data1 < 0)
+                else if (ev->data2 < 0)
                 {
                     speedtoggle = AM_GetSpeedToggle();
                     AM_AddZoomImpulse(-1);
