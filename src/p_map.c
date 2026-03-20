@@ -601,7 +601,7 @@ static bool PIT_CheckThing(mobj_t *thing)
             if (tmtype == MT_RIPPER)
             {
                 viewplayer->shotssuccessful_calamityblade++;
-                stat_shotssuccessful_incinerator = SafeAdd(stat_shotssuccessful_calamityblade, 1);
+                stat_shotssuccessful_calamityblade = SafeAdd(stat_shotssuccessful_calamityblade, 1);
             }
 
             return true;
