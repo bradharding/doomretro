@@ -1045,7 +1045,7 @@ int W_GetNumForNameFromResourceWAD(const char *name)
             break;
 
     if (i == numlumps)
-        I_Error("W_GetLastNumForName: %s not found!", name);
+        I_Error("W_GetNumForNameFromResourceWAD: %s not found!", name);
 
     return i;
 }

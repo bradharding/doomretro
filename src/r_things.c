@@ -313,7 +313,7 @@ static void R_InitSpriteDefs(void)
 
                             for (int rot = 0; rot < 16; rot++)
                                 if (sprtemp[frame].lump[rot] == -1)
-                                    I_Error("R_InitSprites: Frame %c of sprite %.8s is missing rotations",
+                                    I_Error("R_InitSpriteDefs: Frame %c of sprite %.8s is missing rotations",
                                         frame + 'A', sprnames[i]);
 
                             break;
