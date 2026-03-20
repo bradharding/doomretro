@@ -35,6 +35,8 @@
 
 #pragma once
 
+#include "doomtype.h"
+
 #include "SDL_gamecontroller.h"
 
 #define CONTROLLER_A                    0x00000001
@@ -84,6 +86,9 @@ extern short    controllerthumbLX;
 extern short    controllerthumbLY;
 extern short    controllerthumbRX;
 extern short    controllerthumbRY;
+extern bool     controllertouchpaddown;
+extern float    controllertouchpaddx;
+extern float    controllertouchpaddy;
 extern int      idlechainsawrumblestrength;
 extern int      restoredrumblestrength;
 extern float    controllerhorizontalsensitivity;

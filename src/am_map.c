@@ -182,6 +182,7 @@ static int          pansign_x;
 static int          pansign_y;
 
 static bool         mousedragging;
+static bool         touchpaddragging;
 
 static float        controllerpan_x;
 static float        controllerpan_y;
@@ -1192,6 +1193,41 @@ static void AM_ApplyKeyboardPan(void)
     m_paninc.y = panvel_y;
 }
 
+static void AM_UpdateTouchpadPan(void)
+{
+    if (controllertouchpaddown && !am_followmode && !mapwindow)
+    {
+        int dx = (int)llround(controllertouchpaddx * MAPWIDTH);
+        int dy = (int)llround(controllertouchpaddy * MAPHEIGHT);
+
+        if (dx || dy || touchpaddragging)
+        {
+            if (am_correctaspectratio)
+                dy = dy * 6 / 5;
+
+            m_paninc.x = AM_PixelsToMap(dx) / 2;
+            m_paninc.y = -AM_PixelsToMap(dy) / 2;
+
+            panvel_x = 0;
+            panvel_y = 0;
+            pansign_x = 0;
+            pansign_y = 0;
+
+            movement = false;
+            touchpaddragging = true;
+        }
+    }
+    else if (touchpaddragging)
+    {
+        m_paninc.x = 0;
+        m_paninc.y = 0;
+        panvel_x = 0;
+        panvel_y = 0;
+
+        touchpaddragging = false;
+    }
+}
+
 static void AM_ApplyControllerPan(void)
 {
     const fixed_t   maxvel = AM_PixelsToMap(F_PANINC * 3);
@@ -1840,7 +1876,9 @@ void AM_Ticker(void)
     // Change x,y location
     if (!consoleactive && !paused)
     {
-        if (!mousedragging)
+        AM_UpdateTouchpadPan();
+
+        if (!mousedragging && !touchpaddragging)
         {
             if (movement)
                 AM_ApplyControllerPan();
@@ -1852,7 +1890,7 @@ void AM_Ticker(void)
         {
             AM_ChangeWindowLoc();
 
-            if (mousedragging)
+            if (mousedragging || touchpaddragging)
             {
                 m_paninc.x = 0;
                 m_paninc.y = 0;

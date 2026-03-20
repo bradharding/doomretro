@@ -102,6 +102,7 @@
   * Controller movement has been made slightly smoother.
   * Controller sensitivity has been reduced.
   * The LED lights on *PS5 DualSense* controllers now change color based on the player’s health (from green to yellow to orange to flashing red).
+  * The touchpad on *PS5 DualSense* controllers can now be used to pan around the automap when the `am_followmode` CVAR is `off`.
   * Horizontal autoaiming is now applied when the player fires their weapon. This can be disabled using the new `joy_autoaim_horizontal` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_fall` CVAR is `on`, controllers no longer rumble when the player falls into liquid.
 * An accessibility feature has been implemented that allows the player to automatically fire their currently equipped weapon when there’s a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.

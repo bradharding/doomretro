@@ -47,6 +47,9 @@ short                       controllerthumbLX = 0;
 short                       controllerthumbLY = 0;
 short                       controllerthumbRX = 0;
 short                       controllerthumbRY = 0;
+bool                        controllertouchpaddown = false;
+float                       controllertouchpaddx = 0.0f;
+float                       controllertouchpaddy = 0.0f;
 float                       controllerhorizontalsensitivity;
 float                       controllerverticalsensitivity;
 short                       controllerleftdeadzone;
@@ -65,6 +68,8 @@ static short                prevLX = 0;
 static short                prevLY = 0;
 static short                prevRX = 0;
 static short                prevRY = 0;
+static float                prevtouchpadx;
+static float                prevtouchpady;
 
 static char *GetControllerName(void)
 {
@@ -202,6 +207,11 @@ void I_ShutdownController(void)
 
     SDL_GameControllerClose(controller);
     controller = NULL;
+    controllertouchpaddown = false;
+    controllertouchpaddx = 0.0f;
+    controllertouchpaddy = 0.0f;
+    prevtouchpadx = 0.0f;
+    prevtouchpady = 0.0f;
 }
 
 void I_ControllerRumble(const short low, const short high)
@@ -389,6 +399,49 @@ void I_ReadController(void)
                 controllerbuttons |= (1 << i);
                 usingcontroller = true;
             }
+
+#if SDL_VERSION_ATLEAST(2, 14, 0)
+        controllertouchpaddx = 0.0f;
+        controllertouchpaddy = 0.0f;
+
+        if (SDL_GameControllerGetNumTouchpads(controller) > 0)
+        {
+            Uint8   state = 0;
+            float   x = 0.0f;
+            float   y = 0.0f;
+            float   pressure;
+
+            if (SDL_GameControllerGetTouchpadFinger(controller, 0, 0, &state, &x, &y, &pressure) == 0 && state)
+            {
+                if (controllertouchpaddown)
+                {
+                    controllertouchpaddx = x - prevtouchpadx;
+                    controllertouchpaddy = y - prevtouchpady;
+                }
+
+                prevtouchpadx = x;
+                prevtouchpady = y;
+                controllertouchpaddown = true;
+
+                if (controllertouchpaddx || controllertouchpaddy)
+                    usingcontroller = true;
+            }
+            else
+            {
+                controllertouchpaddown = false;
+                prevtouchpadx = 0.0f;
+                prevtouchpady = 0.0f;
+            }
+        }
+        else
+#endif
+        {
+            controllertouchpaddown = false;
+            controllertouchpaddx = 0.0f;
+            controllertouchpaddy = 0.0f;
+            prevtouchpadx = 0.0f;
+            prevtouchpady = 0.0f;
+        }
 
         if (controllerthumbLX
             || controllerthumbLY
