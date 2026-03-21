@@ -10952,7 +10952,7 @@ static bool playercvarsfunc1(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10d", &value) == 1 && value < -99 || value > maxhealth)
+        if (sscanf(parms, "%10d", &value) == 1 && (value < -99 || value > maxhealth))
             return false;
     }
 

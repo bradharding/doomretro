@@ -4071,7 +4071,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
 
         len = (int)strlen(inbuffer);
 
-        while (strlen(holdstring) + len > (unsigned int)maxstrlen)
+        while (strlen(holdstring) + len >= (unsigned int)maxstrlen)
         {
             // killough 11/98: allocate enough the first time
             maxstrlen = (int)strlen(holdstring) + len + 1;
