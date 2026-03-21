@@ -2367,7 +2367,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT;
+    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT - 2;
     bottomaligned = (C_CanScrollOutput() && toprow == C_GetTopRowForDisplay());
 
     if (bottomaligned)
@@ -2505,9 +2505,9 @@ void C_Drawer(void)
         }
         else if (strlen(console[i].string))
             C_DrawConsoleStringParts(i,
-                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset,
-                len >= toprow,
-                CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset,
+                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
+                (len >= toprow),
+                CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
                 (rows > 1 && len + 1 <= bottomrow), notabs);
 
         len += rows;
