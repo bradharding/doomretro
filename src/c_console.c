@@ -2367,11 +2367,16 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT - 2;
+    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT;
     bottomaligned = (C_CanScrollOutput() && toprow == C_GetTopRowForDisplay());
 
     if (bottomaligned)
         outputyoffset += 3;
+
+    if (gamestate == GS_TITLESCREEN)
+        outputyoffset++;
+    else
+        outputyoffset -= 2;
 
     cheatsequence = false;
 
