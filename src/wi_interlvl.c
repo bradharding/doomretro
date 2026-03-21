@@ -187,7 +187,10 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
     }
 
     if (!(out = calloc(1, sizeof(*out))))
+    {
+        cJSON_Delete(json);
         return NULL;
+    }
 
     out->musiclump = M_StringDuplicate(music->valuestring);
     out->backgroundlump = M_StringDuplicate(backgroundimage->valuestring);
