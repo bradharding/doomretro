@@ -115,7 +115,7 @@ static void LoadResponseFile(size_t argv_index, const char *filename)
     // Create new arguments list array
     if (!(newargv = malloc(sizeof(char *) * MAXARGVS)))
     {
-	free(file);
+        free(file);
         return;
     }
 

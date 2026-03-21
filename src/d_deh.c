@@ -2384,10 +2384,10 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         infile.resourcewad = D_IsResourceWAD(filename);
 
         if (D_IsSIGILWAD(filename) || D_IsSIGIL2WAD(filename))
-	{
+        {
             mem_fclose(infile.lump);
             return;
-	}
+        }
     }
 
     // loop until end of file
