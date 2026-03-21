@@ -513,7 +513,7 @@ void I_Windows_RegisterSong(void *data, int size)
     if ((mmr = midiStreamProperty(hMidiStream, (LPBYTE)&timediv, (MIDIPROP_SET | MIDIPROP_TIMEDIV))) != MMSYSERR_NOERROR)
     {
         MidiErrorMessage(mmr);
-	MIDI_FreeFile(file);
+        MIDI_FreeFile(file);
         return;
     }
 
@@ -524,7 +524,7 @@ void I_Windows_RegisterSong(void *data, int size)
     if ((mmr = midiStreamProperty(hMidiStream, (LPBYTE)&tempo, (MIDIPROP_SET | MIDIPROP_TEMPO))) != MMSYSERR_NOERROR)
     {
         MidiErrorMessage(mmr);
-	MIDI_FreeFile(file);
+        MIDI_FreeFile(file);
         return;
     }
 
