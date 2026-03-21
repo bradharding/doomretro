@@ -2336,7 +2336,6 @@ void C_Drawer(void)
     int             toprow;
     int             bottomrow;
     int             outputyoffset;
-    bool            bottomaligned;
     bool            showscrollbar = scrollbardrawn;
     const bool      prevconsoleactive = consoleactive;
     static uint64_t consolewait;
@@ -2367,16 +2366,8 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = MAX(0, CONSOLELINES - (bottomrow - toprow + 1)) * CONSOLELINEHEIGHT;
-    bottomaligned = (C_CanScrollOutput() && toprow == C_GetTopRowForDisplay());
-
-    if (bottomaligned)
-        outputyoffset += 3;
-
-    if (gamestate == GS_TITLESCREEN)
-        outputyoffset++;
-    else
-        outputyoffset -= 2;
+    outputyoffset = CONSOLEINPUTY - (gamestate == GS_TITLESCREEN ? 20 : 16)
+        - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1);
 
     cheatsequence = false;
 
