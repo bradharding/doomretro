@@ -115,7 +115,6 @@ bool        freelook = freelook_default;
 bool        groupmessages = groupmessages_default;
 bool        infighting = infighting_default;
 bool        infiniteheight = infiniteheight_default;
-char        *wadfolder = wadfolder_default;
 bool        joy_analog = joy_analog_default;
 bool        joy_autoaim_horizontal = joy_autoaim_horizontal_default;
 float       joy_deadzone_left = joy_deadzone_left_default;
@@ -254,6 +253,7 @@ char        *vid_windowsize = vid_windowsize_default;
 #if defined(_WIN32)
 char        *wad = wad_default;
 #endif
+char        *wadfolder = wadfolder_default;
 int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponrecoil = weaponrecoil_default;

@@ -87,18 +87,18 @@ static char *GetControllerType(void)
     SDL_GameControllerType  type = SDL_GameControllerGetType(controller);
 
     if (type == SDL_CONTROLLER_TYPE_XBOX360)
-        return "An " ITALICS("Xbox 360") " controller is connected.";
+        return "A " ITALICS("Microsoft Xbox 360") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
-        return "An " ITALICS("Xbox One") " controller is connected.";
+        return "A " ITALICS("Microsoft Xbox One") " controller is connected.";
     else if (type == SDL_CONTROLLER_TYPE_PS3)
     {
         selectbutton = "X";
-        return "A " ITALICS("PlayStation 3 DualShock") " controller is connected.";
+        return "A " ITALICS("Sony PlayStation 3 DualShock") " controller is connected.";
     }
     else if (type == SDL_CONTROLLER_TYPE_PS4)
     {
         selectbutton = "X";
-        return "A " ITALICS("PlayStation 4 DualShock") " controller is connected.";
+        return "A " ITALICS("Sony PlayStation 4 DualShock") " controller is connected.";
     }
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
         return "A " ITALICS("Nintendo Switch Pro") " controller is connected.";
@@ -107,7 +107,7 @@ static char *GetControllerType(void)
     else if (type == SDL_CONTROLLER_TYPE_PS5)
     {
         selectbutton = "X";
-        return "A " ITALICS("PlayStation 5 DualSense") " controller is connected.";
+        return "A " ITALICS("Sony PlayStation 5 DualSense") " controller is connected.";
     }
     else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
         return "An " ITALICS("Amazon Luna") " controller is connected.";
@@ -175,11 +175,21 @@ void I_InitController(void)
 
 #if SDL_VERSION_ATLEAST(2, 18, 0)
             if (SDL_GameControllerHasRumble(controller))
+            {
                 controllerrumbles = true;
+
+                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
+                    C_Output("This controller will rumble in certain situations.");
+            }
             else
 #endif
                 if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
                     C_Warning(1, "This controller doesn't rumble!");
+
+#if SDL_VERSION_ATLEAST(2, 14, 0)
+            if (SDL_GameControllerHasLED(controller))
+                C_Output("This controller has LEDs that will change color based on your health.");
+#endif
 
             I_SetControllerLeftDeadZone();
             I_SetControllerRightDeadZone();
@@ -411,7 +421,7 @@ void I_ReadController(void)
             float   y = 0.0f;
             float   pressure;
 
-            if (SDL_GameControllerGetTouchpadFinger(controller, 0, 0, &state, &x, &y, &pressure) == 0 && state)
+            if (!SDL_GameControllerGetTouchpadFinger(controller, 0, 0, &state, &x, &y, &pressure) && state)
             {
                 if (controllertouchpaddown)
                 {

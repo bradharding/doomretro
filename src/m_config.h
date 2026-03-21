@@ -983,9 +983,6 @@ enum
 
 #if defined(_WIN32)
 #define wad_default                         ""
-#endif
-
-#if defined(_WIN32)
 #define wadfolder_default                   "C:\\"
 #else
 #define wadfolder_default                   "/"
