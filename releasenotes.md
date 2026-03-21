@@ -96,7 +96,7 @@
 * The accuracy of the player’s aim has improved when firing their weapon while the `freelook` CVAR is `on` and the `r_fov` CVAR is a value other than its default of `90°`.
 * When the player teleports, a zoom effect is now applied to their field of view. This can be disabled using the new `r_teleportzoom` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the screen would momentarily go black if the player was injured and the `r_shake_damage` CVAR was `on`, the `vid_scalefilter` CVAR was `nearest` and the `vid_showfps` CVAR was `on`.
-* Vsync is now forced on when the `vid_motionblur` CVAR is greater than `0%`.
+* VSync is now forced on when the `vid_motionblur` CVAR is greater than `0%`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
 * These changes have been made to the support for controllers:
@@ -109,6 +109,7 @@
 * An accessibility feature has been implemented that allows the player to automatically fire their currently equipped weapon when there’s a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
 * A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
 * The `MAP` CCMD now works correctly when playing [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+* A bug is fixed whereby the wrong stat was being updated when the player fired their calamity blade in [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * These changes have been made to the support of [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * A swirling effect is now applied to the player’s view when the `r_liquid_swirl` CVAR is `on`.
   * The effect when the player has an invulnerability power-up is no longer affected.
