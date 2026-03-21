@@ -102,7 +102,10 @@ static void LoadResponseFile(size_t argv_index, const char *filename)
     // at the end of the response file, in which case a '\0' will be
     // needed.
     if (!(file = malloc(size + 1)))
+    {
+        fclose(handle);
         return;
+    }
 
     while (i < size)
         i += fread(file + i, 1, size - i, handle);
@@ -111,7 +114,10 @@ static void LoadResponseFile(size_t argv_index, const char *filename)
 
     // Create new arguments list array
     if (!(newargv = malloc(sizeof(char *) * MAXARGVS)))
+    {
+	free(file);
         return;
+    }
 
     newargc = 0;
     memset(newargv, 0, sizeof(char *) * MAXARGVS);
