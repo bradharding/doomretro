@@ -2665,7 +2665,7 @@ static int indentation(const char *string)
 
 static bool condumpfunc1(char *cmd, char *parms)
 {
-    return (numconsolestrings > CONSOLEBLANKLINES);
+    return (numconsolestrings > 1);
 }
 
 static void condumpfunc2(char *cmd, char *parms)
@@ -2698,7 +2698,7 @@ static void condumpfunc2(char *cmd, char *parms)
 
     if ((file = fopen(filename, "wt")))
     {
-        char    *temp = commify((int64_t)numconsolestrings - CONSOLEBLANKLINES - 1);
+        char    *temp = commify((int64_t)numconsolestrings);
 
         for (int i = 1; i < numconsolestrings - 1; i++)
         {
