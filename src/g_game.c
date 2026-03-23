@@ -437,6 +437,9 @@ static bool G_CheckAutoFire(void)
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
     bool    strafe;
+    bool    lookup;
+    bool    lookdown;
+    bool    lookcenter;
     int     run;
     int     forward = 0;
     int     side = 0;
@@ -451,8 +454,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         || (controllerbuttons & controllerstrafe));
     run = ((gamekeydown[keyboardrun] || gamekeydown[keyboardrun2] || mousebuttons[mouserun]
         || (controllerbuttons & controllerrun)) ^ alwaysrun);
+    lookup = (gamekeydown[keyboardlookup] || gamekeydown[keyboardlookup2] || mousebuttons[mouselookup]
+        || (controllerbuttons & controllerlookup));
+    lookdown = (gamekeydown[keyboardlookdown] || gamekeydown[keyboardlookdown2] || mousebuttons[mouselookdown]
+        || (controllerbuttons & controllerlookdown));
+    lookcenter = (gamekeydown[keyboardlookcenter] || gamekeydown[keyboardlookcenter2] || mousebuttons[mouselookcenter]
+        || (controllerbuttons & controllerlookcenter));
     usefreelook = (freelook || menuactive || gamekeydown[keyboardfreelook] || gamekeydown[keyboardfreelook2]
-        || mousebuttons[mousefreelook] || (controllerbuttons & controllerfreelook));
+        || mousebuttons[mousefreelook] || (controllerbuttons & controllerfreelook)
+        || lookup || lookdown || lookcenter);
 
     // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardright2] || gamekeydown[keyboardleft] || gamekeydown[keyboardleft2]
@@ -755,6 +765,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             forward += mousey / 2;
 
         mousey = 0;
+    }
+
+    if (canfreelook && !automapactive)
+    {
+        if (lookup != lookdown)
+            cmd->pitch += (lookup ? 16 * MLOOKUNIT : -16 * MLOOKUNIT);
+        else if (lookcenter && viewplayer->pitch)
+            cmd->pitch += SIGN(-viewplayer->pitch) * MIN(ABS(viewplayer->pitch), 16 * MLOOKUNIT);
     }
 
     if (forward)

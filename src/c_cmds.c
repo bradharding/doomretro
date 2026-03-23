@@ -388,6 +388,9 @@ action_t actions[] =
     { "+followmode",     "+followmode",     true,  true,  followmodeactionfunc,     &keyboardfollowmode,     &keyboardfollowmode2,     &mousefollowmode,     &controllerfollowmode,     NULL            },
     { "+forward",        "+forward",        true,  false, forwardactionfunc,        &keyboardforward,        &keyboardforward2,        &mouseforward,        &controllerforward,        NULL            },
     { "+freelook",       "+freelook",       true,  false, NULL,                     &keyboardfreelook,       &keyboardfreelook2,       &mousefreelook,       &controllerfreelook,       NULL            },
+    { "+lookcenter",     "+lookcentre",     true,  false, NULL,                     &keyboardlookcenter,     &keyboardlookcenter2,     &mouselookcenter,     &controllerlookcenter,     NULL            },
+    { "+lookdown",       "+lookdown",       true,  false, NULL,                     &keyboardlookdown,       &keyboardlookdown2,       &mouselookdown,       &controllerlookdown,       NULL            },
+    { "+lookup",         "+lookup",         true,  false, NULL,                     &keyboardlookup,         &keyboardlookup2,         &mouselookup,         &controllerlookup,         NULL            },
     { "+fullzoom",       "+maxzoom",        true,  true,  fullzoomactionfunc,       &keyboardfullzoom,       &keyboardfullzoom2,       &mousefullzoom,       &controllerfullzoom,        NULL            },
     { "+grid",           "+grid",           true,  true,  gridactionfunc,           &keyboardgrid,           &keyboardgrid2,           &mousegrid,           &controllergrid,           NULL            },
     { "+jump",           "+jump",           true,  false, jumpactionfunc,           &keyboardjump,           &keyboardjump2,           &mousejump,           &controllerjump,           NULL            },
@@ -2135,7 +2138,10 @@ void bindfunc2(char *cmd, char *parms)
     int         action = 0;
     char        parm1[128] = "";
     char        parm2[128] = "";
-    const bool  freelookcontrols = (keyboardfreelook || keyboardfreelook2 || controllerfreelook || mousefreelook != -1);
+    const bool  freelookcontrols = (keyboardfreelook || keyboardfreelook2 || keyboardlookcenter || keyboardlookcenter2
+        || keyboardlookdown || keyboardlookdown2 || keyboardlookup || keyboardlookup2 || controllerfreelook
+        || controllerlookcenter || controllerlookdown || controllerlookup || mousefreelook != -1
+        || mouselookcenter != -1 || mouselookdown != -1 || mouselookup != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -2488,7 +2494,10 @@ void bindfunc2(char *cmd, char *parms)
         return;
     }
 
-    if (freelookcontrols != (keyboardfreelook || keyboardfreelook2 || controllerfreelook || mousefreelook != -1))
+    if (freelookcontrols != (keyboardfreelook || keyboardfreelook2 || keyboardlookcenter || keyboardlookcenter2
+        || keyboardlookdown || keyboardlookdown2 || keyboardlookup || keyboardlookup2 || controllerfreelook
+        || controllerlookcenter || controllerlookdown || controllerlookup || mousefreelook != -1
+        || mouselookcenter != -1 || mouselookdown != -1 || mouselookup != -1))
     {
         if (gamestate == GS_LEVEL)
         {
@@ -8399,6 +8408,12 @@ static void C_VerifyResetAll(const int key)
         keyboardfollowmode2 = KEYFOLLOWMODE2_DEFAULT;
         keyboardforward = KEYUP_DEFAULT;
         keyboardforward2 = KEYUP2_DEFAULT;
+        keyboardlookcenter = KEYLOOKCENTER_DEFAULT;
+        keyboardlookcenter2 = KEYLOOKCENTER2_DEFAULT;
+        keyboardlookdown = KEYLOOKDOWN_DEFAULT;
+        keyboardlookdown2 = KEYLOOKDOWN2_DEFAULT;
+        keyboardlookup = KEYLOOKUP_DEFAULT;
+        keyboardlookup2 = KEYLOOKUP2_DEFAULT;
         keyboardfreelook = KEYFREELOOK_DEFAULT;
         keyboardfreelook2 = KEYFREELOOK2_DEFAULT;
         keyboardfullzoom = KEYFULLZOOM_DEFAULT;
@@ -8474,6 +8489,9 @@ static void C_VerifyResetAll(const int key)
         mousefists = MOUSEFISTS_DEFAULT;
         mousefollowmode = MOUSEFOLLOWMODE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
+        mouselookcenter = MOUSELOOKCENTER_DEFAULT;
+        mouselookdown = MOUSELOOKDOWN_DEFAULT;
+        mouselookup = MOUSELOOKUP_DEFAULT;
         mousefreelook = MOUSEFREELOOK_DEFAULT;
         mousefullzoom = MOUSEFULLZOOM_DEFAULT;
         mousegrid = MOUSEGRID_DEFAULT;
@@ -8518,6 +8536,9 @@ static void C_VerifyResetAll(const int key)
         controllerfists = CONTROLLERFISTS_DEFAULT;
         controllerfollowmode = CONTROLLERFOLLOWMODE_DEFAULT;
         controllerforward = CONTROLLERFORWARD_DEFAULT;
+        controllerlookcenter = CONTROLLERLOOKCENTER_DEFAULT;
+        controllerlookdown = CONTROLLERLOOKDOWN_DEFAULT;
+        controllerlookup = CONTROLLERLOOKUP_DEFAULT;
         controllerfreelook = CONTROLLERFREELOOK_DEFAULT;
         controllerfullzoom = CONTROLLERFULLZOOM_DEFAULT;
         controllergrid = CONTROLLERGRID_DEFAULT;

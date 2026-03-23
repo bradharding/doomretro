@@ -1024,6 +1024,12 @@ enum
 #define KEYFOLLOWMODE2_DEFAULT              0
 #define KEYFREELOOK_DEFAULT                 0
 #define KEYFREELOOK2_DEFAULT                0
+#define KEYLOOKCENTER_DEFAULT               0
+#define KEYLOOKCENTER2_DEFAULT              0
+#define KEYLOOKDOWN_DEFAULT                 0
+#define KEYLOOKDOWN2_DEFAULT                0
+#define KEYLOOKUP_DEFAULT                   0
+#define KEYLOOKUP2_DEFAULT                  0
 #define KEYFULLZOOM_DEFAULT                 '0'
 #define KEYFULLZOOM2_DEFAULT                0
 #define KEYGRID_DEFAULT                     'g'
@@ -1106,6 +1112,9 @@ enum
 #define MOUSEFOLLOWMODE_DEFAULT             -1
 #define MOUSEFORWARD_DEFAULT                -1
 #define MOUSEFREELOOK_DEFAULT               -1
+#define MOUSELOOKCENTER_DEFAULT             -1
+#define MOUSELOOKDOWN_DEFAULT               -1
+#define MOUSELOOKUP_DEFAULT                 -1
 #define MOUSEFULLZOOM_DEFAULT               -1
 #define MOUSEGRID_DEFAULT                   -1
 #define MOUSEJUMP_DEFAULT                   -1
@@ -1151,6 +1160,9 @@ enum
 #define CONTROLLERFOLLOWMODE_DEFAULT        0
 #define CONTROLLERFORWARD_DEFAULT           0
 #define CONTROLLERFREELOOK_DEFAULT          0
+#define CONTROLLERLOOKCENTER_DEFAULT        0
+#define CONTROLLERLOOKDOWN_DEFAULT          0
+#define CONTROLLERLOOKUP_DEFAULT            0
 #define CONTROLLERFULLZOOM_DEFAULT          0
 #define CONTROLLERGRID_DEFAULT              0
 #define CONTROLLERJUMP_DEFAULT              0
