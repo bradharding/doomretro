@@ -343,6 +343,9 @@ static void fireactionfunc(void);
 static void fistsactionfunc(void);
 static void followmodeactionfunc(void);
 static void forwardactionfunc(void);
+static void lookcenteractionfunc(void);
+static void lookdownactionfunc(void);
+static void lookupactionfunc(void);
 static void fullzoomactionfunc(void);
 static void gridactionfunc(void);
 static void jumpactionfunc(void);
@@ -388,9 +391,9 @@ action_t actions[] =
     { "+followmode",     "+followmode",     true,  true,  followmodeactionfunc,     &keyboardfollowmode,     &keyboardfollowmode2,     &mousefollowmode,     &controllerfollowmode,     NULL            },
     { "+forward",        "+forward",        true,  false, forwardactionfunc,        &keyboardforward,        &keyboardforward2,        &mouseforward,        &controllerforward,        NULL            },
     { "+freelook",       "+freelook",       true,  false, NULL,                     &keyboardfreelook,       &keyboardfreelook2,       &mousefreelook,       &controllerfreelook,       NULL            },
-    { "+lookcenter",     "+lookcentre",     true,  false, NULL,                     &keyboardlookcenter,     &keyboardlookcenter2,     &mouselookcenter,     &controllerlookcenter,     NULL            },
-    { "+lookdown",       "+lookdown",       true,  false, NULL,                     &keyboardlookdown,       &keyboardlookdown2,       &mouselookdown,       &controllerlookdown,       NULL            },
-    { "+lookup",         "+lookup",         true,  false, NULL,                     &keyboardlookup,         &keyboardlookup2,         &mouselookup,         &controllerlookup,         NULL            },
+    { "+lookcenter",     "+lookcentre",     true,  false, lookcenteractionfunc,     &keyboardlookcenter,     &keyboardlookcenter2,     &mouselookcenter,     &controllerlookcenter,     NULL            },
+    { "+lookdown",       "+lookdown",       true,  false, lookdownactionfunc,       &keyboardlookdown,       &keyboardlookdown2,       &mouselookdown,       &controllerlookdown,       NULL            },
+    { "+lookup",         "+lookup",         true,  false, lookupactionfunc,         &keyboardlookup,         &keyboardlookup2,         &mouselookup,         &controllerlookup,         NULL            },
     { "+fullzoom",       "+maxzoom",        true,  true,  fullzoomactionfunc,       &keyboardfullzoom,       &keyboardfullzoom2,       &mousefullzoom,       &controllerfullzoom,        NULL            },
     { "+grid",           "+grid",           true,  true,  gridactionfunc,           &keyboardgrid,           &keyboardgrid2,           &mousegrid,           &controllergrid,           NULL            },
     { "+jump",           "+jump",           true,  false, jumpactionfunc,           &keyboardjump,           &keyboardjump2,           &mousejump,           &controllerjump,           NULL            },
@@ -1327,6 +1330,39 @@ static void forwardactionfunc(void)
     {
         viewplayer->cmd.forwardmove += forwardmove[run()];
         P_MovePlayer();
+    }
+}
+
+static void lookcenteractionfunc(void)
+{
+    if (gamestate == GS_LEVEL && canfreelook && !automapactive && !mapwindow)
+    {
+        if (viewplayer->pitch > 0)
+            viewplayer->pitch -= MIN(viewplayer->pitch, 16 * MLOOKUNIT);
+        else if (viewplayer->pitch < 0)
+            viewplayer->pitch += MIN(-viewplayer->pitch, 16 * MLOOKUNIT);
+
+        viewplayer->oldpitch = viewplayer->pitch;
+    }
+}
+
+static void lookdownactionfunc(void)
+{
+    if (gamestate == GS_LEVEL && canfreelook && !automapactive && !mapwindow)
+    {
+        viewplayer->pitch = BETWEEN(-PITCHMAX * MLOOKUNIT, viewplayer->pitch - 16 * MLOOKUNIT,
+            PITCHMAX * MLOOKUNIT);
+        viewplayer->oldpitch = viewplayer->pitch;
+    }
+}
+
+static void lookupactionfunc(void)
+{
+    if (gamestate == GS_LEVEL && canfreelook && !automapactive && !mapwindow)
+    {
+        viewplayer->pitch = BETWEEN(-PITCHMAX * MLOOKUNIT, viewplayer->pitch + 16 * MLOOKUNIT,
+            PITCHMAX * MLOOKUNIT);
+        viewplayer->oldpitch = viewplayer->pitch;
     }
 }
 
