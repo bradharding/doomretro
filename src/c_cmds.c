@@ -2099,7 +2099,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                 if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " key.",
                             actions[i].action, controls[control].control);
                     else
                         C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " key.",
@@ -2111,7 +2111,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                 if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " key.",
                             actions[i].action, controls[control].control);
                     else
                         C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " key.",
@@ -2152,8 +2152,13 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
     {
         if (*keyactionlist[controls[control].value])
         {
-            C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("'%s'") " key.",
-                keyactionlist[controls[control].value], controls[control].control);
+            if (strlen(controls[control].control) == 1)
+                C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("\x91%s\x92") " key.",
+                    keyactionlist[controls[control].value], controls[control].control);
+            else
+                C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("%s") " key.",
+                    keyactionlist[controls[control].value], controls[control].control);
+
             keyactionlist[controls[control].value][0] = '\0';
         }
     }
@@ -2161,7 +2166,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
     {
         if (*mouseactionlist[controls[control].value])
         {
-            C_Warning(0, BOLD("\"%s\"") " has been unbound from the " BOLD("'%s'") " key.",
+            C_Warning(0, BOLD("\"%s\"") " has been unbound from " BOLD("%s") ".",
                 mouseactionlist[controls[control].value], controls[control].control);
             mouseactionlist[controls[control].value][0] = '\0';
         }
@@ -2413,7 +2418,7 @@ void bindfunc2(char *cmd, char *parms)
                     if (!nobindoutput)
                     {
                         if (strlen(controls[i].control) == 1)
-                            C_Output("The " BOLD("%s") " action was bound to the " BOLD("'%s'") " key.",
+                            C_Output("The " BOLD("%s") " action was bound to the " BOLD("\x91%s\x92") " key.",
                                 parm2, controls[i].control);
                         else
                             C_Output("The " BOLD("%s") " action was bound to the " BOLD("%s") " control.",
@@ -2423,7 +2428,7 @@ void bindfunc2(char *cmd, char *parms)
                 else
                 {
                     if (strlen(controls[i].control) == 1)
-                        C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("'%s'") " key.",
+                        C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("\x91%s\x92") " key.",
                             parm2, controls[i].control);
                     else
                         C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("%s") " control.",
@@ -2443,7 +2448,7 @@ void bindfunc2(char *cmd, char *parms)
                     if (!nobindoutput)
                     {
                         if (strlen(controls[i].control) == 1)
-                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("'%s'") " key.",
+                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("\x91%s\x92") " key.",
                                 parm2, controls[i].control);
                         else
                             C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " key.",
@@ -2474,7 +2479,7 @@ void bindfunc2(char *cmd, char *parms)
                     int control = GetControlWithAction(action);
 
                     if (strlen(controls[control].control) == 1)
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " control.",
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
                             actions[action].action, controls[control].control);
                     else
                         C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
@@ -2488,7 +2493,7 @@ void bindfunc2(char *cmd, char *parms)
                     int control = GetControlWithAction(action);
 
                     if (strlen(controls[control].control) == 1)
-                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("'%s'") " control.",
+                        C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
                             actions[action].action, controls[control].control);
                     else
                         C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
@@ -2558,7 +2563,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
             const char  *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "'%s'\t%s", (control[0] == '=' ? "+" : control), action);
+                C_TabbedOutput(tabs, "\x91%s\x92\t%s", (control[0] == '=' ? "+" : control), action);
             else
                 C_TabbedOutput(tabs, "%s\t%s", control, action);
 
@@ -2600,9 +2605,9 @@ static void bindlistfunc2(char *cmd, char *parms)
             const char  *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "'%s'\t\"%s\"", (control[0] == '=' ? "+" : control), keyactionlist[value]);
+                C_TabbedOutput(tabs, "\x91%s\x92\t\"%s\"", (control[0] == '=' ? "+" : control), keyactionlist[value]);
             else
-                C_TabbedOutput(tabs, "%s\t\"%s\"", control, keyactionlist[value]);
+                C_TabbedOutput(tabs, "%s\t\x93%s\x94", control, keyactionlist[value]);
         }
     }
 
