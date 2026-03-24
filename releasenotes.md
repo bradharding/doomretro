@@ -32,6 +32,7 @@
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*`, `numpad.`
 * Actions may now be bound to tilting the mouse wheel left or right using the `bind` CCMD with the values `wheelleft` and `wheelright`.
+* Looking up, down, and centering the view can now be bound a control using the `bind` CCMD with the actions `+lookup`, `+lookdown` and `+lookcenter`.
 * The `bindlist` CCMD now also lists all unbound controls and actions.
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
