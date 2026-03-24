@@ -2567,6 +2567,15 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
     }
 }
 
+static bool C_ActionIsBound(const action_t *action)
+{
+    return ((action->keyboard1 && *(int *)action->keyboard1)
+        || (action->keyboard2 && *(int *)action->keyboard2)
+        || (action->mouse1 && *(int *)action->mouse1 != -1)
+        || (action->controller1 && *(int *)action->controller1)
+        || (action->controller2 && *(int *)action->controller2));
+}
+
 static void bindlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 110 };
@@ -2617,6 +2626,21 @@ static void bindlistfunc2(char *cmd, char *parms)
         if (actions[i].controller2)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].controller2, controllercontrol, tabs);
     }
+
+    for (int i = 0; *actions[i].action; i++)
+        if (!C_ActionIsBound(&actions[i]))
+            C_TabbedOutput(tabs, "\x96\t%s", actions[i].action);
+
+    for (int i = 0; controls[i].type; i++)
+        if (!IsControlBound(controls[i].type, controls[i].value))
+        {
+            const char  *control = controls[i].control;
+
+            if (strlen(control) == 1)
+                C_TabbedOutput(tabs, "\x91%s\x92\t\x96", (control[0] == '=' ? "+" : control));
+            else
+                C_TabbedOutput(tabs, "%s\t\x96", control);
+        }
 }
 
 //
@@ -8444,12 +8468,6 @@ static void C_VerifyResetAll(const int key)
         keyboardfollowmode2 = KEYFOLLOWMODE2_DEFAULT;
         keyboardforward = KEYUP_DEFAULT;
         keyboardforward2 = KEYUP2_DEFAULT;
-        keyboardlookcenter = KEYLOOKCENTER_DEFAULT;
-        keyboardlookcenter2 = KEYLOOKCENTER2_DEFAULT;
-        keyboardlookdown = KEYLOOKDOWN_DEFAULT;
-        keyboardlookdown2 = KEYLOOKDOWN2_DEFAULT;
-        keyboardlookup = KEYLOOKUP_DEFAULT;
-        keyboardlookup2 = KEYLOOKUP2_DEFAULT;
         keyboardfreelook = KEYFREELOOK_DEFAULT;
         keyboardfreelook2 = KEYFREELOOK2_DEFAULT;
         keyboardfullzoom = KEYFULLZOOM_DEFAULT;
@@ -8460,6 +8478,12 @@ static void C_VerifyResetAll(const int key)
         keyboardjump2 = KEYJUMP2_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardleft2 = KEYLEFT2_DEFAULT;
+        keyboardlookcenter = KEYLOOKCENTER_DEFAULT;
+        keyboardlookcenter2 = KEYLOOKCENTER2_DEFAULT;
+        keyboardlookdown = KEYLOOKDOWN_DEFAULT;
+        keyboardlookdown2 = KEYLOOKDOWN2_DEFAULT;
+        keyboardlookup = KEYLOOKUP_DEFAULT;
+        keyboardlookup2 = KEYLOOKUP2_DEFAULT;
         keyboardmark = KEYMARK_DEFAULT;
         keyboardmark2 = KEYMARK2_DEFAULT;
         keyboardmenu = KEYMENU_DEFAULT;
@@ -8525,14 +8549,14 @@ static void C_VerifyResetAll(const int key)
         mousefists = MOUSEFISTS_DEFAULT;
         mousefollowmode = MOUSEFOLLOWMODE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
-        mouselookcenter = MOUSELOOKCENTER_DEFAULT;
-        mouselookdown = MOUSELOOKDOWN_DEFAULT;
-        mouselookup = MOUSELOOKUP_DEFAULT;
         mousefreelook = MOUSEFREELOOK_DEFAULT;
         mousefullzoom = MOUSEFULLZOOM_DEFAULT;
         mousegrid = MOUSEGRID_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
         mouseleft = MOUSELEFT_DEFAULT;
+        mouselookcenter = MOUSELOOKCENTER_DEFAULT;
+        mouselookdown = MOUSELOOKDOWN_DEFAULT;
+        mouselookup = MOUSELOOKUP_DEFAULT;
         mousemark = MOUSEMARK_DEFAULT;
         mousemenu = MOUSEMENU_DEFAULT;
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
@@ -8572,14 +8596,14 @@ static void C_VerifyResetAll(const int key)
         controllerfists = CONTROLLERFISTS_DEFAULT;
         controllerfollowmode = CONTROLLERFOLLOWMODE_DEFAULT;
         controllerforward = CONTROLLERFORWARD_DEFAULT;
-        controllerlookcenter = CONTROLLERLOOKCENTER_DEFAULT;
-        controllerlookdown = CONTROLLERLOOKDOWN_DEFAULT;
-        controllerlookup = CONTROLLERLOOKUP_DEFAULT;
         controllerfreelook = CONTROLLERFREELOOK_DEFAULT;
         controllerfullzoom = CONTROLLERFULLZOOM_DEFAULT;
         controllergrid = CONTROLLERGRID_DEFAULT;
         controllerjump = CONTROLLERJUMP_DEFAULT;
         controllerleft = CONTROLLERLEFT_DEFAULT;
+        controllerlookcenter = CONTROLLERLOOKCENTER_DEFAULT;
+        controllerlookdown = CONTROLLERLOOKDOWN_DEFAULT;
+        controllerlookup = CONTROLLERLOOKUP_DEFAULT;
         controllermark = CONTROLLERMARK_DEFAULT;
         controllermenu = CONTROLLERMENU_DEFAULT;
         controllernextweapon = CONTROLLERNEXTWEAPON_DEFAULT;
