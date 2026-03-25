@@ -282,7 +282,7 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
-int C_TextWidth(const char *text, const bool formatting, const bool kerning);
+int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning);
 
 #if defined(_WIN32)
 void C_PrintCompileDate(void);

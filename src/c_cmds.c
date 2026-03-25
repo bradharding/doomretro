@@ -2688,7 +2688,7 @@ static void cmdlistfunc2(char *cmd, char *parms)
 
             len = (int)strlen(format);
 
-            while (C_TextWidth(format, true, true) > columnwidth)
+            while (C_TextWidth(format, NULL, true, true) > columnwidth)
             {
                 if (len >= 2 && format[len - 2] == ' ')
                 {

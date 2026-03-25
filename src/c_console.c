@@ -534,45 +534,42 @@ const kern_t altkern[] =
     { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-int C_TextWidth(const char *text, const bool formatting, const bool kerning)
+int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting, const bool kerning)
 {
     bool            italics = false;
     bool            monospaced = false;
     const int       len = (int)strlen(text);
+    int             tab = -1;
+    unsigned char   prevletter3 = '\0';
+    unsigned char   prevletter2 = '\0';
     unsigned char   prevletter = '\0';
     int             width = 0;
 
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
-        unsigned char       nextletter = text[i + 1];
+        const unsigned char nextletter = text[i + 1];
 
-        if (letter == ' ')
-            width += spacewidth;
-        else if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
-            continue;
+        if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
+        {
+        }
         else if (letter == ITALICSONCHAR)
-        {
             italics = true;
-            continue;
-        }
         else if (letter == ITALICSOFFCHAR)
-        {
             italics = false;
-            continue;
-        }
         else if (letter == MONOSPACEDONCHAR)
-        {
             monospaced = true;
-            continue;
-        }
         else if (letter == MONOSPACEDOFFCHAR)
-        {
             monospaced = false;
-            continue;
+        else if (letter == ' ' && formatting)
+            width += (monospaced ? zerowidth : spacewidth);
+        else if (letter == '\t')
+        {
+            if (tabs && tab + 1 < MAXTABS && tabs[tab + 1])
+                width = (width > tabs[++tab] - 10 ? width + spacewidth : tabs[tab] - 10);
+            else
+                width += spacewidth;
         }
-        else if (monospaced)
-            width += zerowidth;
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
             && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
@@ -601,46 +598,117 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
             width += SHORT(regomark->width);
             i += 2;
         }
-        else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
+        else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
             width += SHORT(multiply->width);
-        else if (letter == '-' && prevletter == ' ' && !isdigit(nextletter))
+        else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDONCHAR && prevletter2 == ' '))
+            && !isdigit(nextletter))
             width += SHORT(endash->width);
-        else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
-        {
-            if (letter == '\'')
-                width += SHORT(lsquote->width);
-            else if (letter == '"')
-                width += SHORT(ldquote->width);
-            else
-            {
-                const int   c = letter - CONSOLEFONTSTART;
-
-                width += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
-            }
-        }
+        else if (letter == '\n')
+            break;
         else
         {
+            int         adjust = 0;
             const int   c = letter - CONSOLEFONTSTART;
+            patch_t     *patch = (c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar);
 
-            width += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
-
-            if (letter == '-' && italics)
-                width++;
-        }
-
-        if (kerning)
-        {
-            for (int j = 0; altkern[j].char1; j++)
-                if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+            if (letter == '\'')
+            {
+                if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
+                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                    || prevletter == '{' || prevletter == '<' || prevletter == '"'
+                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                        && prevletter2 != '.' && nextletter != '.'))
                 {
-                    width += altkern[j].adjust;
-                    break;
-                }
+                    patch = lsquote;
 
-            if (prevletter == '/' && italics)
-                width -= 2;
+                    if (prevletter == '\0' && formatting)
+                        adjust--;
+                }
+                else if (prevletter == 'I' && italics)
+                    adjust++;
+            }
+            else if (letter == '"')
+            {
+                if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
+                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                    || prevletter == '{' || prevletter == '<' || prevletter == '\''
+                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                        && prevletter2 != '.' && nextletter != '.'))
+                {
+                    patch = ldquote;
+
+                    if (prevletter == '\0' && formatting)
+                        adjust--;
+                }
+            }
+
+            if (kerning && !monospaced)
+            {
+                for (int j = 0; altkern[j].char1; j++)
+                    if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                    {
+                        adjust += altkern[j].adjust;
+                        break;
+                    }
+
+                if (italics)
+                {
+                    if (letter == '-')
+                        adjust++;
+                    else if (letter == '\'' && prevletter != 'M')
+                        adjust--;
+                    else if (letter == 'v' && prevletter == '-')
+                        adjust--;
+
+                    if (prevletter == '/')
+                        adjust--;
+                    else if (prevletter == '\'')
+                        adjust++;
+
+                    if (letter == 'T' && prevletter == ITALICSONCHAR && prevletter2 == ' ')
+                        adjust--;
+
+                    if (prevletter == ITALICSONCHAR && prevletter2 == '\t')
+                        adjust--;
+                }
+                else if ((letter == '-' || letter == '|' || letter == '[' || letter == ']' || letter == 215)
+                    && prevletter == ITALICSOFFCHAR)
+                    adjust++;
+                else if (letter == '(' && prevletter == ' ')
+                {
+                    if (prevletter2 == '.')
+                        adjust--;
+                    else if (prevletter2 == '!')
+                        adjust -= 2;
+                }
+                else if (prevletter == BOLDONCHAR
+                    && (prevletter2 == '\t' || (prevletter2 == BOLDONCHAR && prevletter3 == '\t')))
+                {
+                    if (letter == '"' || letter == '\'' || letter == '(' || letter == '4')
+                        adjust--;
+                }
+                else if (prevletter == BOLDOFFCHAR)
+                {
+                    if ((letter == ' ' || letter == ')' || letter == '.') && prevletter2 == 'r')
+                        adjust--;
+                    else if (letter == 'f' && prevletter2 == '[')
+                        adjust--;
+                    else if (letter == ',' && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
+                        adjust -= 2;
+                    else if (letter == ',' && (prevletter2 == 'e' || prevletter2 == 'f'))
+                        adjust--;
+                    else if (letter == '.' && (prevletter2 == '"' || prevletter2 == 176))
+                        adjust--;
+                }
+            }
+
+            width += adjust;
+            width += (monospaced && SHORT(patch->width) < zerowidth ? zerowidth : SHORT(patch->width))
+                - (monospaced && letter == '4');
         }
 
+        prevletter3 = prevletter2;
+        prevletter2 = prevletter;
         prevletter = letter;
     }
 
@@ -689,16 +757,16 @@ static int C_GetWrapPosition(const int index)
     do
     {
         char        *temp = M_SubString(console[index].string, 0, wrap);
-        int         width = console[index].indent;
+        int         width = 0;
         const int   stringtype = console[index].stringtype;
 
         if (!console[index].indent
             || stringtype == warningstring
             || stringtype == playerwarningstring
             || stringtype == playerobituarystring)
-            width += C_TextWidth(temp, true, true);
+            width += C_TextWidth(temp, NULL, true, true);
         else
-            width += C_TextWidth(strrchr(temp, '\t') + 1, true, true);
+            width += C_TextWidth(temp, console[index].tabs, true, true);
 
         free(temp);
 
@@ -1360,7 +1428,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                         V_DrawConsoleTextPatch(x, y, colorback, colorbackwidth, palindex, -1, false, NULL);
 
-                        x += (colorbackwidth - C_TextWidth(digits, false, false) - 1) / 2 + 1;
+                        x += (colorbackwidth - C_TextWidth(digits, NULL, false, false) - 1) / 2 + 1;
 
                         for (int k = 0; k < digitslen; k++)
                         {
@@ -3127,7 +3195,7 @@ bool C_Responder(event_t *ev)
                     for (i = (inputhistory == -1 ? numconsolestrings : inputhistory) - 1; i >= 0; i--)
                         if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
-                            && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
@@ -3157,7 +3225,7 @@ bool C_Responder(event_t *ev)
                         for (i = inputhistory + 1; i < numconsolestrings; i++)
                             if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
-                                && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                             {
                                 inputhistory = i;
                                 M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
@@ -3242,7 +3310,7 @@ bool C_Responder(event_t *ev)
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
 
-                    if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
+            if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {
                         C_AddToUndoHistory();
                         M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
@@ -3305,10 +3373,10 @@ bool C_Responder(event_t *ev)
         if (ch >= CONSOLEFONTSTART
             && ch != keyboardconsole
             && ch != keyboardconsole2
-            && C_TextWidth(consoleinput, false, true)
+                && C_TextWidth(consoleinput, NULL, false, true)
                 + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
                 - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
-                (size_t)selectend - selectstart)), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
+                (size_t)selectend - selectstart)), NULL, false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
             C_AddToUndoHistory();
 
@@ -3391,7 +3459,8 @@ bool C_Responder(event_t *ev)
                     char    *temp1 = M_SubString(consoleinput, 0, i);
                     char    *temp2 = M_SubString(consoleinput, i, 1);
 
-                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, false, true) + C_TextWidth(temp2, false, true) / 2)
+                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, NULL, false, true)
+                        + C_TextWidth(temp2, NULL, false, true) / 2)
                     {
                         free(temp1);
                         free(temp2);
@@ -3432,7 +3501,8 @@ bool C_Responder(event_t *ev)
                     char    *temp1 = M_SubString(consoleinput, 0, i);
                     char    *temp2 = M_SubString(consoleinput, i, 1);
 
-                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, false, true) + C_TextWidth(temp2, false, true) / 2)
+                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, NULL, false, true)
+                        + C_TextWidth(temp2, NULL, false, true) / 2)
                     {
                         free(temp1);
                         free(temp2);
