@@ -213,6 +213,12 @@ jobs:
         run: |
           brew install cmake sdl2 sdl2_mixer sdl2_image ccache
 
+      - name: Extract version
+        id: version
+        run: |
+          version=$(grep -oP '#define DOOMRETRO_VERSIONSTRING\s+"\K[^"]+' src/version.h)
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+
       - name: Configure
         run: |
           mkdir -p build
@@ -227,10 +233,21 @@ jobs:
           cd build
           make -j$(sysctl -n hw.ncpu) VERBOSE=1
 
+      - name: Install app bundle
+        run: |
+          rm -rf dist
+          cmake --install build --prefix "$PWD/dist"
+
+      - name: Ad-hoc sign app bundle
+        run: |
+          codesign --force --deep --sign - dist/doomretro.app
+
+      - name: Archive app bundle
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent dist/doomretro.app doomretro-v${{ steps.version.outputs.VERSION }}-macos.zip
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: doomretro-macos
-          path: |
-            build/doomretro
-            build/doomretro.wad
+          name: doomretro-v${{ steps.version.outputs.VERSION }}-macos
+          path: doomretro-v${{ steps.version.outputs.VERSION }}-macos.zip
