@@ -138,7 +138,7 @@ jobs:
       - name: Extract version
         id: version
         run: |
-          version=$(grep -oP '#define DOOMRETRO_VERSIONSTRING\s+"\K[^"]+' src/version.h)
+          version=$(awk -F'"' '/#define DOOMRETRO_VERSIONSTRING/ { print $2; exit }' src/version.h)
           echo "VERSION=$version" >> $GITHUB_OUTPUT
 
       - name: Configure
@@ -216,7 +216,7 @@ jobs:
       - name: Extract version
         id: version
         run: |
-          version=$(grep -oP '#define DOOMRETRO_VERSIONSTRING\s+"\K[^"]+' src/version.h)
+          version=$(awk -F'"' '/#define DOOMRETRO_VERSIONSTRING/ { print $2; exit }' src/version.h)
           echo "VERSION=$version" >> $GITHUB_OUTPUT
 
       - name: Configure
