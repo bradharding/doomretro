@@ -92,6 +92,7 @@
 * When the `m_pointer` CVAR is `on`:
   * The console’s input can now be selected by either double-clicking, or clicking and dragging the mouse.
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
+  * The mouse pointer no longer briefly appears centered on the screen before it is hidden.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
 * Looking up and down is now smoother when the `freelook` CVAR is `on`.
