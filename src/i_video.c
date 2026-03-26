@@ -227,7 +227,18 @@ bool MouseShouldBeGrabbed(void)
 static inline void SetShowCursor(const bool show)
 {
     SDL_PumpEvents();
-    SDL_SetRelativeMouseMode(!show);
+
+    if (show)
+    {
+        SDL_SetRelativeMouseMode(false);
+        SDL_ShowCursor(SDL_ENABLE);
+    }
+    else
+    {
+        SDL_ShowCursor(SDL_DISABLE);
+        SDL_SetRelativeMouseMode(true);
+    }
+
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
