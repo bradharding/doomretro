@@ -93,6 +93,8 @@
 #define CONSOLEINPUTY                       (CONSOLEHEIGHT - 16)
 
 #define CONSOLEINPUTPIXELWIDTH              (SCREENWIDTH - CONSOLETEXTX * 2 - brandwidth - 2)
+#define CONSOLEINPUTDOUBLECLICKTIME         500
+#define CONSOLEINPUTDOUBLECLICKDISTANCE     8
 
 #define OVERLAYTEXTX                        (vid_widescreen ? MAXWIDESCREENDELTA - 18 : 14)
 #define OVERLAYTEXTY                        (vid_widescreen && r_screensize == r_screensize_max && !menuactive ? 17 : 11)

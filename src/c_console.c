@@ -757,16 +757,16 @@ static int C_GetWrapPosition(const int index)
     do
     {
         char        *temp = M_SubString(console[index].string, 0, wrap);
-        int         width = 0;
+        int         width;
         const int   stringtype = console[index].stringtype;
 
         if (!console[index].indent
             || stringtype == warningstring
             || stringtype == playerwarningstring
             || stringtype == playerobituarystring)
-            width += C_TextWidth(temp, NULL, true, true);
+            width = C_TextWidth(temp, NULL, true, true);
         else
-            width += C_TextWidth(temp, console[index].tabs, true, true);
+            width = C_TextWidth(temp, console[index].tabs, true, true);
 
         free(temp);
 
@@ -3414,15 +3414,23 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        static bool selectingwithmouse;
-        static bool draggingconsolescrollbar;
+        static bool     selectingwithmouse;
+        static bool     draggingconsolescrollbar;
+        static bool     leftbuttondown;
+        static bool     doubleclickselection;
+        static uint64_t lastinputclicktime;
+        static int      lastinputclickx;
+        static int      lastinputclicky;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
+            const bool  newleftbuttonpress = !leftbuttondown;
             static int  mouseselectanchor;
             static int  dragconsolescrollbaroffset;
+
+            leftbuttondown = true;
 
             // dragging console scrollbar thumb
             if (draggingconsolescrollbar && scrollbardrawn)
@@ -3451,6 +3459,9 @@ bool C_Responder(event_t *ev)
 
                 return true;
             }
+
+            if (doubleclickselection)
+                return true;
 
             if (selectingwithmouse && len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
@@ -3513,6 +3524,51 @@ bool C_Responder(event_t *ev)
                     free(temp2);
                 }
 
+                if (newleftbuttonpress && lastinputclicktime
+                    && I_GetTimeMS() - lastinputclicktime <= CONSOLEINPUTDOUBLECLICKTIME
+                    && x >= lastinputclickx - CONSOLEINPUTDOUBLECLICKDISTANCE
+                    && x <= lastinputclickx + CONSOLEINPUTDOUBLECLICKDISTANCE
+                    && y >= lastinputclicky - CONSOLEINPUTDOUBLECLICKDISTANCE
+                    && y <= lastinputclicky + CONSOLEINPUTDOUBLECLICKDISTANCE)
+                {
+                    int wordstart = i;
+                    int wordend = i;
+
+                    if (wordstart == len && wordstart > 0)
+                        wordstart = --wordend;
+
+                    if (!isalnum((unsigned char)consoleinput[wordstart])
+                        && consoleinput[wordstart] != '_'
+                        && wordstart > 0
+                        && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                    {
+                        wordstart--;
+                        wordend = wordstart;
+                    }
+
+                    if (isalnum((unsigned char)consoleinput[wordstart]) || consoleinput[wordstart] == '_')
+                    {
+                        while (wordstart > 0
+                            && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                            wordstart--;
+
+                        while (wordend < len
+                            && (isalnum((unsigned char)consoleinput[wordend]) || consoleinput[wordend] == '_'))
+                            wordend++;
+
+                        selectstart = wordstart;
+                        caretpos = selectend = wordend;
+                    }
+                    else
+                        selectstart = caretpos = selectend = i;
+
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    showcaret = true;
+                    selectingwithmouse = false;
+                    doubleclickselection = true;
+                    return true;
+                }
+
                 if (caretpos != i)
                 {
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -3524,6 +3580,9 @@ bool C_Responder(event_t *ev)
                 selectstart = i;
                 selectend = i;
                 selectingwithmouse = true;
+                lastinputclicktime = I_GetTimeMS();
+                lastinputclickx = x;
+                lastinputclicky = y;
             }
             else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
@@ -3554,8 +3613,10 @@ bool C_Responder(event_t *ev)
             // left button released: stop mouse selection
             if (!(ev->data1 & MOUSE_LEFTBUTTON))
             {
+                leftbuttondown = false;
                 selectingwithmouse = false;
                 draggingconsolescrollbar = false;
+                doubleclickselection = false;
             }
 
             // hide console with right button
