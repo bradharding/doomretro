@@ -3541,7 +3541,10 @@ bool M_Responder(event_t *ev)
     else if (key == '-')
     {
         // Screen size down
-        if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
+        if (automapactive)
+            return false;
+
+        if (consoleactive || paused || splashscreen || fadecount || animatingpillarboxes)
             return true;
 
         keydown = key;
@@ -3573,7 +3576,10 @@ bool M_Responder(event_t *ev)
     else if (key == '=')
     {
         // Screen size up
-        if (consoleactive || paused || splashscreen || automapactive || fadecount || animatingpillarboxes)
+        if (automapactive)
+            return false;
+
+        if (consoleactive || paused || splashscreen || fadecount || animatingpillarboxes)
             return true;
 
         keydown = key;
