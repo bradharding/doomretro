@@ -90,7 +90,7 @@
 * The `wad` and `wadfolder` CVARs now retain any non-Latin characters when saved to `doomretro.cfg`.
 * The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
 * When the `m_pointer` CVAR is `on`:
-  * The console’s input can now be selected by clicking and dragging the mouse.
+  * The console’s input can now be selected by either double-clicking, or clicking and dragging the mouse.
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
