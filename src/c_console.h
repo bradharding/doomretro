@@ -176,6 +176,7 @@ typedef struct
     int             count;
     stringtype_t    stringtype;
     int             wrap;
+    int             wrapwidth;
     int             indent;
     patch_t         *header;
     int             tabs[MAXTABS];

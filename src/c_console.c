@@ -230,6 +230,7 @@ void C_Input(const char *string, ...)
     C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = inputstring;
     inputhistory = -1;
     C_ScrollToBottom();
@@ -255,6 +256,7 @@ void C_Cheat(const char *string)
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = cheatstring;
     inputhistory = -1;
     C_ScrollToBottom();
@@ -319,6 +321,7 @@ void C_Output(const char *string, ...)
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
     C_ScrollToBottom();
 }
@@ -339,6 +342,7 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
     console[numconsolestrings].stringtype = outputstring;
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].wrap = 0;
     C_ScrollToBottom();
 }
@@ -352,6 +356,7 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].header = header;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     C_StoreConsoleString(console[numconsolestrings++].string, string, sizeof(console[0].string));
     C_ScrollToBottom();
 }
@@ -376,6 +381,7 @@ void C_Warning(const int warninglevel, const char *string, ...)
         C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].indent = WARNINGWIDTH + 2;
         console[numconsolestrings].wrap = 0;
+        console[numconsolestrings].wrapwidth = 0;
         console[numconsolestrings].stringtype = warningstring;
         console[numconsolestrings].count = 1;
         console[numconsolestrings++].warninglevel = warninglevel;
@@ -412,6 +418,7 @@ void C_PlayerMessage(const char *string, ...)
         console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
         console[numconsolestrings].indent = 0;
         console[numconsolestrings].wrap = 0;
+        console[numconsolestrings].wrapwidth = 0;
         console[numconsolestrings++].count = 1;
     }
 
@@ -436,6 +443,7 @@ void C_PlayerWarning(const char *string, ...)
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = WARNINGWIDTH + 2;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].count = 1;
 
     C_ScrollToBottom();
@@ -449,7 +457,10 @@ char *C_GetPlayerName(void)
 void C_ResetWrappedLines(void)
 {
     for (int i = 0; i < numconsolestrings; i++)
+    {
         console[i].wrap = 0;
+        console[i].wrapwidth = 0;
+    }
 }
 
 static void C_AddToUndoHistory(void)
@@ -746,40 +757,42 @@ static bool C_IsVisibleConsoleString(const int index)
 static int C_GetWrapPosition(const int index)
 {
     const int   len = (int)strlen(console[index].string);
-    int         wrap = len;
+    const int   wrapwidth = CONSOLETEXTPIXELWIDTH;
+    const int   stringtype = console[index].stringtype;
+    const int   *tabs = (!console[index].indent
+                    || stringtype == warningstring
+                    || stringtype == playerwarningstring
+                    || stringtype == playerobituarystring ? NULL : console[index].tabs);
+    int         wrap = 0;
 
     if (!len)
         return 0;
 
-    if (console[index].wrap)
+    if (console[index].wrapwidth == wrapwidth)
         return console[index].wrap;
 
-    do
+    for (int i = len; i > 0; i--)
     {
-        char        *temp = M_SubString(console[index].string, 0, wrap);
-        int         width;
-        const int   stringtype = console[index].stringtype;
+        if (!isbreak(console[index].string[i]))
+            continue;
 
-        if (!console[index].indent
-            || stringtype == warningstring
-            || stringtype == playerwarningstring
-            || stringtype == playerobituarystring)
-            width = C_TextWidth(temp, NULL, true, true);
-        else
-            width = C_TextWidth(temp, console[index].tabs, true, true);
+        const unsigned char breakchar = console[index].string[i];
+        const char          prev = console[index].string[i];
+        int                 width;
 
-        free(temp);
+        console[index].string[i] = '\0';
+        width = C_TextWidth(console[index].string, tabs, true, true);
+        console[index].string[i] = prev;
 
-        if (width <= CONSOLETEXTPIXELWIDTH + 10 && isbreak(console[index].string[wrap]))
+        if (width <= wrapwidth + 10)
         {
-            if (console[index].string[wrap] == '-')
-                wrap++;
-
+            wrap = i + (breakchar == '-');
             break;
         }
-    } while (wrap-- > 0);
+    }
 
     console[index].wrap = wrap;
+    console[index].wrapwidth = wrapwidth;
     return wrap;
 }
 
@@ -975,6 +988,7 @@ void C_ClearConsole(void)
     console[numconsolestrings].string[0] = '\0';
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
 }
 
@@ -2409,7 +2423,6 @@ void C_Drawer(void)
     do
     {
         scrollbardrawn = showscrollbar;
-        C_ResetWrappedLines();
         numvisibleconsolerows = C_CountVisibleRows();
         showscrollbar = C_CanScrollOutput();
     } while (showscrollbar != scrollbardrawn);

@@ -102,10 +102,13 @@ void C_BuildObituaryString(const int index)
 {
     const obituaryinfo_t    *obituary = &console[index].obituary;
     char                    *buffer = console[index].string;
+    char                    oldstring[sizeof(console[index].string)];
     const int               buffersize = (int)sizeof(console[index].string);
     const mobjtype_t        target = obituary->target;
     const mobjtype_t        inflicter = obituary->inflicter;
     const mobjtype_t        source = obituary->source;
+
+    memcpy(oldstring, buffer, sizeof(oldstring));
 
     if (obituary->telefragged)
     {
@@ -334,6 +337,12 @@ void C_BuildObituaryString(const int index)
 
     if (buffer[0])
         buffer[0] = (char)toupper(buffer[0]);
+
+    if (strcmp(oldstring, buffer))
+    {
+        console[index].wrap = 0;
+        console[index].wrapwidth = 0;
+    }
 }
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
@@ -456,6 +465,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     console[numconsolestrings].wrap = 0;
+    console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings].count = 1;
     C_CreateTimeStamp(numconsolestrings);
 
