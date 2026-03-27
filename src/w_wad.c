@@ -304,13 +304,17 @@ bool W_AddFile(char *filename, bool autoloaded)
     filelump_t  *filerover;
     lumpinfo_t  *filelumps;
     char        *temp;
-    char        *file = leafname(filename);
+    char        *file;
+    wadfile_t   *wadfile;
+
+    if (!filename || !*filename)
+        return false;
 
     // open the file and add to directory
-    wadfile_t   *wadfile = W_OpenFile(filename);
-
-    if (!wadfile)
+    if (!(wadfile = W_OpenFile(filename)))
         return false;
+
+    file = leafname(filename);
 
     if (numwads < MAXWADS)
         wadlist[numwads++] = wadfile;
