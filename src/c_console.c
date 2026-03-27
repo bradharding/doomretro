@@ -770,7 +770,7 @@ static int C_GetWrapPosition(const int index)
 
         free(temp);
 
-        if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[index].string[wrap]))
+        if (width <= CONSOLETEXTPIXELWIDTH + 10 && isbreak(console[index].string[wrap]))
         {
             if (console[index].string[wrap] == '-')
                 wrap++;
