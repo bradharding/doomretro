@@ -3665,10 +3665,9 @@ void P_SetupLevel(int ep, int map)
 
     if (!musinfo.fromsavegame)
         S_Start();
-    else
-        musinfo.fromsavegame = false;
 
     S_ParseMusInfo(lumpname);
+    musinfo.fromsavegame = false;
 
     compat_corpsegibs = (compat_corpsegibs_global != -1 ? compat_corpsegibs_global : mapinfo[ep][map].compat_corpsegibs);
     compat_floormove = (compat_floormove_global != -1 ? compat_floormove_global : mapinfo[ep][map].compat_floormove);

@@ -252,6 +252,11 @@ void S_Init(void)
         // no sounds are playing, and they are not mus_paused
         mus_paused = false;
 
+        for (int i = 0; i < MAX_MUS_ENTRIES; i++)
+            musinfo.items[i] = -1;
+
+        musinfo.currentitem = -1;
+        musinfo.fromsavegame = false;
         musinfo.mapthing = NULL;
 
         for (int i = mus_e4m1, j = 0; i <= mus_e4m9; i++, j++)
@@ -718,7 +723,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     mus_playing = music;
 
     // [crispy] musinfo.items[0] is reserved for the map's default music
-    if (!musinfo.items[0])
+    if (mapstart || musinfo.items[0] < 0)
     {
         musinfo.items[0] = music->lumpnum;
         s_music[mus_musinfo].lumpnum = -1;
@@ -808,8 +813,18 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
 //
 void S_ParseMusInfo(const char *lumpname)
 {
+    const int   currentitem = musinfo.currentitem;
+    const int   defaultmusic = musinfo.items[0];
+    const bool  fromsavegame = musinfo.fromsavegame;
+
     memset(&musinfo, 0, sizeof(musinfo));
-    musinfo.currentitem = -1;
+
+    for (int i = 0; i < MAX_MUS_ENTRIES; i++)
+        musinfo.items[i] = -1;
+
+    musinfo.items[0] = defaultmusic;
+    musinfo.currentitem = (fromsavegame ? currentitem : -1);
+    musinfo.fromsavegame = fromsavegame;
 
     s_music[NUMMUSIC].lumpnum = -1;
 
@@ -875,7 +890,7 @@ void T_MAPMusic(void)
         {
             const int   lumpnum = musinfo.items[arraypt];
 
-            if (lumpnum > 0 && lumpnum < numlumps)
+            if (lumpnum >= 0 && lumpnum < numlumps)
                 S_ChangeMusInfoMusic(lumpnum, true);
         }
 

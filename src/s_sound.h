@@ -128,7 +128,7 @@ void S_LowerMusicVolume(void);
 void S_RestoreMusicVolume(void);
 void S_SetSfxVolume(const int volume);
 
-#define MAX_MUS_ENTRIES 64
+#define MAX_MUS_ENTRIES 65
 
 typedef struct
 {
