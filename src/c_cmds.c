@@ -9813,16 +9813,19 @@ static void teleportfunc2(char *cmd, char *parms)
 //
 static void thinglistfunc2(char *cmd, char *parms)
 {
-    const int   tabs[MAXTABS] = { 50, 300, 450 };
+    const int   tabs[MAXTABS] = { 50, 100, 150, 400, 550 };
 
     C_Header(tabs, thinglist, THINGLISTHEADER);
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t      *mobj = (mobj_t *)th;
+        mobjtype_t  type = mobj->type;
         const int   flags = mobj->flags;
         char        name[128];
-        char        *temp;
+        char        *temp1;
+        char        *temp2;
+        char        *temp3;
         const int   angle = (int)(mobj->angle * 90.0 / ANG90);
 
         if (mobj == viewplayer->mo)
@@ -9832,22 +9835,26 @@ static void thinglistfunc2(char *cmd, char *parms)
         else
             M_snprintf(name, sizeof(name), "%s%s",
                 ((flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
-                    ((flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " :
+                    ((flags & MF_FRIEND) && type != MT_PLAYER ? "friendly " :
                     ((flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")));
+                (type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")));
 
-        temp = sentencecase(name);
+        temp1 = commify(type);
+        temp2 = commify(mobj->info->doomednum);
+        temp3 = sentencecase(name);
 
         if (mobj->id >= 0)
-            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t(%i, %i, %i)\t%i\xB0", mobj->id,
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
-                (angle == 360 ? 0 : angle));
+            C_TabbedOutput(tabs, MONOSPACED("%4i") ".\t%s\t%s\t%s\t(%i, %i, %i)\t%i\xB0",
+                mobj->id, temp1, temp2, temp3, mobj->x >> FRACBITS, mobj->y >> FRACBITS,
+                mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
         else
-            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)\t%i\xB0",
-                temp, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS,
-                (angle == 360 ? 0 : angle));
+            C_TabbedOutput(tabs, "\t%s\t%s\t%s\t(%i, %i, %i)\t%i\xB0",
+                mobj->id, temp1, temp2, temp3, mobj->x >> FRACBITS, mobj->y >> FRACBITS,
+                mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
 
-        free(temp);
+        free(temp1);
+        free(temp2);
+        free(temp3);
     }
 }
 
