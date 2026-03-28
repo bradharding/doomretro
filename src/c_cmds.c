@@ -686,6 +686,8 @@ consolecmd_t consolecmds[] =
         "The size of the grid in the automap (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     COLORCVAR(am_markcolor, am_markcolour,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
+    BOOLCVAR(am_minimap, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the minimap."),
     BOOLCVAR(am_mousepanning, "", "", boolfunc1, boolfunc2, 0,
         "Toggles clicking and dragging the mouse to pan around the automap when follow mode is off."),
     BOOLCVAR(am_path, "", "", boolfunc1, am_pathfunc2, 0,

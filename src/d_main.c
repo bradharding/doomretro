@@ -373,6 +373,9 @@ void D_Display(void)
             }
 
             HU_Drawer();
+
+            if (!automapactive)
+                AM_DrawMiniMap();
         }
     }
 

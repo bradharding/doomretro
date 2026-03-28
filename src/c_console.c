@@ -1743,6 +1743,11 @@ static void C_GetOverlayTextColors(void)
     gotoverlaytextcolors = true;
 }
 
+static int C_GetOverlayTextY(void)
+{
+    return MAX(OVERLAYTEXTY, AM_GetMiniMapBottom());
+}
+
 void C_UpdateFPSOverlay(void)
 {
     const int       x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
@@ -1753,7 +1758,7 @@ void C_UpdateFPSOverlay(void)
     static int      maxfpsseen = 60;
     uint64_t        now = I_GetTimeMS();
     int             graphx = SCREENWIDTH - OVERLAYFPSGRAPHWIDTH - OVERLAYTEXTX;
-    int             graphy = OVERLAYTEXTY + 1;
+    int             graphy = C_GetOverlayTextY() + 1;
     int             prevpx = -1;
     int             prevpy = -1;
     int             pyvals[OVERLAYFPSGRAPHWIDTH];
@@ -1927,7 +1932,7 @@ void C_UpdateTimerOverlay(void)
 {
     static char buffer[16];
     static int  prevtime = -1;
-    int         y = OVERLAYTEXTY;
+    int         y = C_GetOverlayTextY();
 
     C_GetOverlayTextColors();
 
@@ -1957,7 +1962,7 @@ void C_UpdateTimerOverlay(void)
 void C_UpdatePlayerPositionOverlay(void)
 {
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
-    int         y = OVERLAYTEXTY;
+    int         y = C_GetOverlayTextY();
     static char angle[32];
     static char coordinates[32];
 
@@ -2028,7 +2033,7 @@ void C_UpdatePathOverlay(void)
         else
         {
             x = MAPWIDTH - OVERLAYTEXTX + 1;
-            y = OVERLAYTEXTY;
+            y = C_GetOverlayTextY();
 
             if (vid_showfps && framespersecond)
                 y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
@@ -2066,7 +2071,7 @@ void C_UpdatePlayerStatsOverlay(void)
     else
     {
         x = MAPWIDTH - OVERLAYTEXTX + 1;
-        y = OVERLAYTEXTY;
+        y = C_GetOverlayTextY();
 
         if (vid_showfps && framespersecond)
             y += OVERLAYFPSGRAPHHEIGHT + 2 + OVERLAYLINEHEIGHT + OVERLAYSPACING;

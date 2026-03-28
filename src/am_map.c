@@ -215,14 +215,21 @@ am_frame_t          am_frame;
 static bool         isteleportline[NUMLINESPECIALS];
 
 static byte         allmaptint[256][256];
+static byte         minimappriority[256];
 
 static edge_t       *edges;
 static int          edgescapacity;
+
+#define MINIMAPBORDER 1
+#define MINIMAPSHADOWOFFSET 1
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
+static bool AM_MiniMapVisible(void);
+static int AM_GetMiniMapWidth(void);
+static int AM_GetMiniMapHeight(void);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -812,6 +819,39 @@ void AM_SetAutomapSize(const int screensize)
 
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
+}
+
+static bool AM_MiniMapVisible(void)
+{
+    return (am_minimap && gamestate == GS_LEVEL && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
+}
+
+static int AM_GetMiniMapHeight(void)
+{
+    int height = SCREENHEIGHT / 4;
+    int maxheight = SCREENHEIGHT - OVERLAYTEXTY * 2 - MINIMAPBORDER * 2;
+
+    if (height > maxheight)
+        height = maxheight;
+
+    return MAX(height, 0);
+}
+
+static int AM_GetMiniMapWidth(void)
+{
+    int width = AM_GetMiniMapHeight() * 4 / 3;
+    int maxwidth = SCREENWIDTH - OVERLAYTEXTX * 2 - MINIMAPBORDER * 2;
+
+    if (width > maxwidth)
+        width = maxwidth;
+
+    return MAX(width, 0);
+}
+
+int AM_GetMiniMapBottom(void)
+{
+    return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2 + AM_GetMiniMapHeight()
+        + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -3193,4 +3233,213 @@ void AM_Drawer(void)
 
     if (!am_followmode)
         AM_DrawCrosshair();
+}
+
+void AM_DrawMiniMap(void)
+{
+    static byte minimapscreen[MAXSCREENAREA];
+    static byte minimapbuffer[MAXSCREENAREA];
+
+    const int   width = AM_GetMiniMapWidth();
+    const int   height = AM_GetMiniMapHeight();
+    const int   frameheight = height + MINIMAPBORDER * 2;
+    const int   bufferwidth = width + MINIMAPBORDER * 2;
+    const int   bufferheight = frameheight + MINIMAPSHADOWOFFSET;
+    const int   bufferarea = bufferwidth * bufferheight;
+    const int   x = SCREENWIDTH - width - OVERLAYTEXTX - MINIMAPBORDER * 2;
+    const int   y = OVERLAYTEXTY;
+    const int   saved_mapwidth = MAPWIDTH;
+    const int   saved_mapheight = MAPHEIGHT;
+    const int   saved_maparea = MAPAREA;
+    const int   saved_mapbottom = MAPBOTTOM;
+    fixed_t     saved_scale_mtof = scale_mtof;
+    fixed_t     saved_scale_ftom = scale_ftom;
+    fixed_t     saved_m_x = m_x;
+    fixed_t     saved_m_y = m_y;
+    fixed_t     saved_m_w = m_w;
+    fixed_t     saved_m_h = m_h;
+    const byte  saved_playercolor = playercolor;
+    const byte  saved_thingcolor = thingcolor;
+    const byte  saved_bloodsplatcolor = bloodsplatcolor;
+    const byte  saved_corpsecolor = corpsecolor;
+    const byte  saved_bluekeycolor = bluekeycolor;
+    const byte  saved_redkeycolor = redkeycolor;
+    const byte  saved_yellowkeycolor = yellowkeycolor;
+    const byte  saved_markcolor = markcolor;
+    const byte  saved_backcolor = backcolor;
+    const byte  saved_pathcolor = pathcolor;
+    const byte  saved_gridcolor = gridcolor;
+    byte        *saved_wallcolor = wallcolor;
+    byte        *saved_bluedoorcolor = bluedoorcolor;
+    byte        *saved_reddoorcolor = reddoorcolor;
+    byte        *saved_yellowdoorcolor = yellowdoorcolor;
+    byte        *saved_secretcolor = secretcolor;
+    byte        *saved_allmapwallcolor = allmapwallcolor;
+    byte        *saved_teleportercolor = teleportercolor;
+    byte        *saved_fdwallcolor = fdwallcolor;
+    byte        *saved_allmapfdwallcolor = allmapfdwallcolor;
+    byte        *saved_cdwallcolor = cdwallcolor;
+    byte        *saved_allmapcdwallcolor = allmapcdwallcolor;
+    byte        *saved_tswallcolor = tswallcolor;
+    byte        *saved_mapscreen = mapscreen;
+    void        (*saved_putbigwalldot)(int, int, const byte *) = putbigwalldot;
+    const bool  saved_followmode = am_followmode;
+    const bool  saved_antialiasing = am_antialiasing;
+    const bool  saved_sectortextures = am_sectortextures;
+    const int   saved_sectorcolors = am_sectorcolors;
+    const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
+
+    if (!AM_MiniMapVisible() || !width || !height)
+        return;
+
+    if (levelchanged)
+    {
+        AM_LevelInit();
+        lastlevel = gamemap;
+        lastepisode = gameepisode;
+
+        saved_scale_mtof = scale_mtof;
+        saved_scale_ftom = scale_ftom;
+        saved_putbigwalldot = putbigwalldot;
+    }
+
+    for (int i = 0; i < 256; i++)
+        minimappriority[i] = nearestwhite;
+
+    mapscreen = minimapscreen;
+
+    MAPWIDTH = width;
+    MAPHEIGHT = height;
+    MAPAREA = MAPWIDTH * MAPHEIGHT;
+    MAPBOTTOM = MAPWIDTH * (MAPHEIGHT - 1);
+
+    scale_mtof = FixedDiv(INITSCALEMTOF, FRACUNIT * 7 / 10);
+
+    if (scale_mtof > max_scale_mtof)
+        scale_mtof = min_scale_mtof;
+
+    scale_mtof = FixedMul(scale_mtof, FRACUNIT * 7 / 8);
+    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+
+    AM_InitPixelSize();
+
+    m_w = FTOM(MAPWIDTH);
+    m_h = FTOM(MAPHEIGHT);
+    AM_DoFollowPlayer();
+
+    playercolor = nearestwhite;
+    thingcolor = nearestwhite;
+    bloodsplatcolor = nearestwhite;
+    corpsecolor = nearestwhite;
+    bluekeycolor = nearestwhite;
+    redkeycolor = nearestwhite;
+    yellowkeycolor = nearestwhite;
+    markcolor = nearestwhite;
+    backcolor = nearestblack;
+    pathcolor = nearestwhite;
+    gridcolor = nearestwhite;
+
+    wallcolor = minimappriority;
+    bluedoorcolor = minimappriority;
+    reddoorcolor = minimappriority;
+    yellowdoorcolor = minimappriority;
+    secretcolor = minimappriority;
+    allmapwallcolor = minimappriority;
+    teleportercolor = minimappriority;
+    fdwallcolor = minimappriority;
+    allmapfdwallcolor = minimappriority;
+    cdwallcolor = minimappriority;
+    allmapcdwallcolor = minimappriority;
+    tswallcolor = minimappriority;
+
+    am_followmode = true;
+    am_antialiasing = false;
+    am_sectortextures = false;
+    am_sectorcolors = am_sectorcolors_off;
+
+    AM_Drawer();
+
+    for (int i = 0; i < MAPAREA; i++)
+        minimapscreen[i] = (minimapscreen[i] == nearestblack ? nearestblack : nearestwhite);
+
+    MAPWIDTH = saved_mapwidth;
+    MAPHEIGHT = saved_mapheight;
+    MAPAREA = saved_maparea;
+    MAPBOTTOM = saved_mapbottom;
+    scale_mtof = saved_scale_mtof;
+    scale_ftom = saved_scale_ftom;
+
+    m_x = saved_m_x;
+    m_y = saved_m_y;
+    m_w = saved_m_w;
+    m_h = saved_m_h;
+
+    playercolor = saved_playercolor;
+    thingcolor = saved_thingcolor;
+    bloodsplatcolor = saved_bloodsplatcolor;
+    corpsecolor = saved_corpsecolor;
+    bluekeycolor = saved_bluekeycolor;
+    redkeycolor = saved_redkeycolor;
+    yellowkeycolor = saved_yellowkeycolor;
+    markcolor = saved_markcolor;
+    backcolor = saved_backcolor;
+    pathcolor = saved_pathcolor;
+    gridcolor = saved_gridcolor;
+
+    wallcolor = saved_wallcolor;
+    bluedoorcolor = saved_bluedoorcolor;
+    reddoorcolor = saved_reddoorcolor;
+    yellowdoorcolor = saved_yellowdoorcolor;
+    secretcolor = saved_secretcolor;
+    allmapwallcolor = saved_allmapwallcolor;
+    teleportercolor = saved_teleportercolor;
+    fdwallcolor = saved_fdwallcolor;
+    allmapfdwallcolor = saved_allmapfdwallcolor;
+    cdwallcolor = saved_cdwallcolor;
+    allmapcdwallcolor = saved_allmapcdwallcolor;
+    tswallcolor = saved_tswallcolor;
+
+    mapscreen = saved_mapscreen;
+    putbigwalldot = saved_putbigwalldot;
+
+    am_followmode = saved_followmode;
+    am_antialiasing = saved_antialiasing;
+    am_sectortextures = saved_sectortextures;
+    am_sectorcolors = saved_sectorcolors;
+
+    memset(minimapbuffer, nearestblack, bufferarea);
+
+    for (int yy = 0; yy < frameheight; yy++)
+        for (int xx = 0; xx < bufferwidth; xx++)
+            if (yy < MINIMAPBORDER || yy >= height + MINIMAPBORDER
+                || xx < MINIMAPBORDER || xx >= width + MINIMAPBORDER)
+                minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
+
+    for (int yy = 0; yy < height; yy++)
+        for (int xx = 0; xx < width; xx++)
+        {
+            const byte    color = minimapscreen[yy * width + xx];
+
+            if (color != nearestblack)
+                minimapbuffer[(yy + MINIMAPBORDER) * bufferwidth + xx + MINIMAPBORDER] = color;
+        }
+
+    for (int yy = 1; yy < bufferheight; yy++)
+        for (int xx = 0; xx < bufferwidth; xx++)
+            if (minimapbuffer[yy * bufferwidth + xx] == nearestblack
+                && minimapbuffer[(yy - 1) * bufferwidth + xx] != nearestblack)
+            {
+                byte    *dest = &screens[0][(y + yy) * SCREENWIDTH + x + xx];
+
+                *dest = tinttab50[(*dest << 8) + nearestdarkgray];
+            }
+
+    for (int yy = 0; yy < frameheight; yy++)
+        for (int xx = 0; xx < bufferwidth; xx++)
+            if (minimapbuffer[yy * bufferwidth + xx] != nearestblack)
+            {
+                byte    *dest = &screens[0][(y + yy) * SCREENWIDTH + x + xx];
+
+                *dest = tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]];
+            }
 }
