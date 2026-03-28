@@ -133,6 +133,9 @@ static byte *floorpiccolor;
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
+#define MINIMAPBORDER           2
+#define MINIMAPSHADOWOFFSET     1
+
 typedef struct
 {
     mpoint_t    a;
@@ -219,9 +222,6 @@ static byte         minimappriority[256];
 
 static edge_t       *edges;
 static int          edgescapacity;
-
-#define MINIMAPBORDER 1
-#define MINIMAPSHADOWOFFSET 1
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
@@ -828,7 +828,7 @@ static bool AM_MiniMapVisible(void)
 
 static int AM_GetMiniMapHeight(void)
 {
-    int height = SCREENHEIGHT / 4;
+    int height = SCREENHEIGHT / 5;
     int maxheight = SCREENHEIGHT - OVERLAYTEXTY * 2 - MINIMAPBORDER * 2;
 
     if (height > maxheight)
@@ -3285,8 +3285,10 @@ void AM_DrawMiniMap(void)
     void        (*saved_putbigwalldot)(int, int, const byte *) = putbigwalldot;
     const bool  saved_followmode = am_followmode;
     const bool  saved_antialiasing = am_antialiasing;
+    const bool  saved_grid = am_grid;
     const bool  saved_sectortextures = am_sectortextures;
     const int   saved_sectorcolors = am_sectorcolors;
+    const int   saved_detail = r_detail;
     const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
 
     if (!AM_MiniMapVisible() || !width || !height)
@@ -3318,7 +3320,7 @@ void AM_DrawMiniMap(void)
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
 
-    scale_mtof = FixedMul(scale_mtof, FRACUNIT * 7 / 8);
+    scale_mtof = FixedMul(scale_mtof, FRACUNIT * 5 / 6);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     AM_InitPixelSize();
@@ -3354,9 +3356,12 @@ void AM_DrawMiniMap(void)
 
     am_followmode = true;
     am_antialiasing = false;
+    am_grid = false;
     am_sectortextures = false;
     am_sectorcolors = am_sectorcolors_off;
+    r_detail = r_detail_high;
 
+    AM_InitPixelSize();
     AM_Drawer();
 
     for (int i = 0; i < MAPAREA; i++)
@@ -3404,8 +3409,10 @@ void AM_DrawMiniMap(void)
 
     am_followmode = saved_followmode;
     am_antialiasing = saved_antialiasing;
+    am_grid = saved_grid;
     am_sectortextures = saved_sectortextures;
     am_sectorcolors = saved_sectorcolors;
+    r_detail = saved_detail;
 
     memset(minimapbuffer, nearestblack, bufferarea);
 
@@ -3413,7 +3420,11 @@ void AM_DrawMiniMap(void)
         for (int xx = 0; xx < bufferwidth; xx++)
             if (yy < MINIMAPBORDER || yy >= height + MINIMAPBORDER
                 || xx < MINIMAPBORDER || xx >= width + MINIMAPBORDER)
-                minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
+                if (!((yy == 0 && xx == 0)
+                    || (yy == 0 && xx == bufferwidth - 1)
+                    || (yy == frameheight - 1 && xx == 0)
+                    || (yy == frameheight - 1 && xx == bufferwidth - 1)))
+                    minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
 
     for (int yy = 0; yy < height; yy++)
         for (int xx = 0; xx < width; xx++)

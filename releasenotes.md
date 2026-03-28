@@ -28,6 +28,7 @@
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
   * The player’s path is now anchored to the back of the player’s arrow when the `am_path` CVAR is `on`.
   * The `+maxzoom` action has been renamed `+fullzoom`.
+  * A minimap can now be displayed in the top right of the screen by enabling the new `am_minimap` CVAR, which is `off` by default and when vanilla mode is enabled.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*`, `numpad.`
