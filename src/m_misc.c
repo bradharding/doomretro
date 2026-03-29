@@ -997,6 +997,28 @@ char *removenonalpha(const char *input)
     return p;
 }
 
+char *trimnonalpha(const char *input)
+{
+    const char  *start = input;
+    const char  *end = input + strlen(input);
+    char        *trimmed;
+    size_t      len;
+
+    while (*start && !isalpha((unsigned char)*start))
+        start++;
+
+    while (end > start && !isalpha((unsigned char)*(end - 1)))
+        end--;
+
+    len = (size_t)(end - start);
+    trimmed = I_Malloc(len + 1);
+
+    memcpy(trimmed, start, len);
+    trimmed[len] = '\0';
+
+    return trimmed;
+}
+
 char *removenonprintable(const char *input)
 {
     char    *p = I_Malloc(strlen(input) + 1);

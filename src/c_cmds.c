@@ -6229,32 +6229,29 @@ static int  namecmdtype = NUMMOBJTYPES;
 
 static bool namefunc1(char *cmd, char *parms)
 {
-    char    *parm = removenonalpha(parms);
-
-    if (!*parm || gamestate != GS_LEVEL)
+    if (!*parms || gamestate != GS_LEVEL)
         return true;
 
-    if (M_StringStartsWith(parm, "player"))
+    if (M_StringStartsWith(parms, "player"))
     {
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
-        M_StringReplaceAll(parm, "player", "", false);
-        M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
-
+        M_StringReplaceAll(parms, "player", "", false);
+        M_StringCopy(namecmdnew, parms, sizeof(namecmdnew));
         return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
     }
 
     if (gamestate == GS_LEVEL)
     {
-        if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
-            M_StringReplaceAll(parm, "friendly", "", false);
-        else if (M_StringStartsWith(parm, "unfriendly"))
-            M_StringReplaceAll(parm, "unfriendly", "", false);
+        if ((namecmdfriendly = M_StringStartsWith(parms, "friendly")))
+            M_StringReplaceAll(parms, "friendly", "", false);
+        else if (M_StringStartsWith(parms, "unfriendly"))
+            M_StringReplaceAll(parms, "unfriendly", "", false);
 
-        if (M_StringStartsWith(parm, "monster"))
+        if (M_StringStartsWith(parms, "monster"))
         {
             M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
-            M_StringReplaceAll(parm, "monster", "", false);
-            M_StringCopy(namecmdnew, parm, sizeof(namecmdnew));
+            M_StringReplaceAll(parms, "monster", "", false);
+            M_StringCopy(namecmdnew, trimnonalpha(parms), sizeof(namecmdnew));
             namecmdanymonster = true;
 
             return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 64);
@@ -6266,43 +6263,31 @@ static bool namefunc1(char *cmd, char *parms)
             if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
                 bool    result = false;
-                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-                char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-                char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
-                if (*mobjinfo[i].name1 && M_StringStartsWith(parm, temp1))
+                if (*mobjinfo[i].name1 && M_StringStartsWith(parms, mobjinfo[i].name1))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp1, "", false);
-                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+                    M_StringReplaceAll(parms, mobjinfo[i].name1, "", false);
+                    M_StringCopy(namecmdnew, trimnonalpha(parms), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
                 }
-                else if (*mobjinfo[i].name2 && M_StringStartsWith(parm, temp2))
+                else if (*mobjinfo[i].name2 && M_StringStartsWith(parms, mobjinfo[i].name2))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name2, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp2, "", false);
-                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+                    M_StringReplaceAll(parms, mobjinfo[i].name2, "", false);
+                    M_StringCopy(namecmdnew, trimnonalpha(parms), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
                 }
-                else if (*mobjinfo[i].name3 && M_StringStartsWith(parm, temp3))
+                else if (*mobjinfo[i].name3 && M_StringStartsWith(parms, mobjinfo[i].name3))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name3, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp3, "", false);
-                    M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
+                    M_StringReplaceAll(parms, mobjinfo[i].name3, "", false);
+                    M_StringCopy(namecmdnew, trimnonalpha(parms), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
                 }
-
-                if (temp1)
-                    free(temp1);
-
-                if (temp2)
-                    free(temp2);
-
-                if (temp3)
-                    free(temp3);
 
                 if (result)
                     return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 64);
@@ -6379,7 +6364,7 @@ static void namefunc2(char *cmd, char *parms)
             M_StripQuotes(namecmdnew);
 
             C_PlayerMessage("The nearest %s%s to %s has been %s " BOLD("%s") ".",
-                (namecmdfriendly ? "friendly " : ""), namecmdold, playername,
+                (namecmdfriendly ? "friendly " : ""), namecmdold, C_GetPlayerName(),
                 (*bestmobj->name ? "renamed" : "named"), namecmdnew);
 
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));

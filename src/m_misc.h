@@ -106,6 +106,7 @@ int gcd(int a, int b);
 int numspaces(const char *str);
 char *removespaces(const char *input);
 char *removenonalpha(const char *input);
+char *trimnonalpha(const char *input);
 char *removenonprintable(const char *input);
 char *trimwhitespace(char *input);
 char *makevalidfilename(const char *input);
