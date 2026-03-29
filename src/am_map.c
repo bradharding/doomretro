@@ -237,6 +237,7 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
 static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
+static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
 static bool AM_MiniMapVisible(void);
 static int AM_GetMiniMapWidth(void);
 static int AM_GetMiniMapHeight(void);
@@ -858,6 +859,28 @@ static int AM_GetMiniMapWidth(void)
     return MAX(width, 0);
 }
 
+static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const int *secondarybinding)
+{
+    if (key <= 0 || key >= NUMKEYS)
+        return false;
+
+    if (keyactionlist[key][0])
+        return true;
+
+    for (int i = 0; *actions[i].action; i++)
+    {
+        if (actions[i].keyboard1 && actions[i].keyboard1 != primarybinding
+            && actions[i].keyboard1 != secondarybinding && *(int *)actions[i].keyboard1 == key)
+            return true;
+
+        if (actions[i].keyboard2 && actions[i].keyboard2 != primarybinding
+            && actions[i].keyboard2 != secondarybinding && *(int *)actions[i].keyboard2 == key)
+            return true;
+    }
+
+    return false;
+}
+
 int AM_GetMiniMapBottom(void)
 {
     return (AM_MiniMapVisible() ? OVERLAYTEXTY - MINIMAPYOFFSET + MINIMAPBORDER * 2
@@ -1353,13 +1376,15 @@ bool AM_Responder(const event_t *ev)
             if (AM_MiniMapVisible())
             {
                 if (ev->type == ev_keydown
-                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2)
+                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardclearmark, &keyboardclearmark2))
                 {
                     AM_ClearMarks();
                     result = true;
                 }
                 else if (ev->type == ev_keyup
-                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2)
+                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardclearmark, &keyboardclearmark2))
                 {
                     markpress = 0;
                     result = true;
@@ -1367,7 +1392,8 @@ bool AM_Responder(const event_t *ev)
                 else if (ev->type == ev_keydown
                     && (ev->data1 == keyboardpath || ev->data1 == keyboardpath2)
                     && keydown != keyboardpath
-                    && (!keyboardpath2 || keydown != keyboardpath2))
+                    && (!keyboardpath2 || keydown != keyboardpath2)
+                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardpath, &keyboardpath2))
                 {
                     keydown = ev->data1;
                     AM_TogglePath(!am_path);
@@ -1376,7 +1402,8 @@ bool AM_Responder(const event_t *ev)
                 else if (ev->type == ev_keydown
                     && (ev->data1 == keyboardrotatemode || ev->data1 == keyboardrotatemode2)
                     && keydown != keyboardrotatemode
-                    && (!keyboardrotatemode2 || keydown != keyboardrotatemode2))
+                    && (!keyboardrotatemode2 || keydown != keyboardrotatemode2)
+                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardrotatemode, &keyboardrotatemode2))
                 {
                     keydown = ev->data1;
                     AM_ToggleRotateMode(!am_rotatemode);
@@ -1385,14 +1412,16 @@ bool AM_Responder(const event_t *ev)
                 else if (ev->type == ev_keydown
                     && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
                     && keydown != keyboardmark
-                    && (!keyboardmark2 || keydown != keyboardmark2))
+                    && (!keyboardmark2 || keydown != keyboardmark2)
+                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardmark, &keyboardmark2))
                 {
                     keydown = ev->data1;
                     AM_AddMark();
                     result = true;
                 }
             }
-            else if ((ev->type == ev_keydown
+
+            if (!result && ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
                     || ev->data1 == keyboardautomap2)
                 && keydown != keyboardautomap
@@ -1403,7 +1432,7 @@ bool AM_Responder(const event_t *ev)
                     && (ev->data1 & mouseautomap))
                 || (ev->type == ev_controller
                     && (controllerbuttons & controllerautomap)
-                    && !backbuttondown))
+                    && !backbuttondown)))
             {
                 keydown = ev->data1;
                 backbuttondown = true;
