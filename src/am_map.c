@@ -231,8 +231,9 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
+static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[]);
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery);
+    const char *nums[], int number, int centerx, int centery, const bool clearoutline);
 static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
@@ -2861,8 +2862,25 @@ static void AM_DrawMarks(const char *nums[])
     }
 }
 
+static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[])
+{
+    for (int i = 0; i < nummarks; i++)
+    {
+        mpoint_t    point = { mark[i].x, mark[i].y };
+
+        if (am_rotatemode)
+            AM_RotatePoint(&point);
+
+        if (am_correctaspectratio)
+            AM_CorrectAspectRatio(&point);
+
+        AM_DrawMarkNumberToBuffer(buffer, bufferwidth, bufferheight, nums, i + 1,
+            CXMTOF(point.x), CYMTOF(point.y), true);
+    }
+}
+
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery)
+    const char *nums[], int number, int centerx, int centery, const bool clearoutline)
 {
     int temp = number;
     int digits = 1;
@@ -2906,7 +2924,10 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
                     {
                         byte    *dest = &buffer[fy * bufferwidth + fx];
 
-                        *dest = *(*dest + tinttab40);
+                        if (clearoutline)
+                            *dest = nearestblack;
+                        else
+                            *dest = *(*dest + tinttab40);
                     }
                 }
             }
@@ -2921,7 +2942,7 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
 
 static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery)
 {
-    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery);
+    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery, false);
 }
 
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
@@ -3389,6 +3410,7 @@ void AM_DrawMiniMap(void)
     const bool  saved_sectortextures = am_sectortextures;
     const int   saved_sectorcolors = am_sectorcolors;
     const int   saved_detail = r_detail;
+    const int   saved_nummarks = nummarks;
     const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
 
     if (!AM_MiniMapVisible() || !width || !height)
@@ -3462,10 +3484,15 @@ void AM_DrawMiniMap(void)
     r_detail = r_detail_high;
 
     AM_InitPixelSize();
+    nummarks = 0;
     AM_Drawer();
+    nummarks = saved_nummarks;
 
     for (int i = 0; i < MAPAREA; i++)
         minimapscreen[i] = (minimapscreen[i] == nearestblack ? nearestblack : nearestwhite);
+
+    if (nummarks)
+        AM_DrawMiniMapMarks(minimapscreen, MAPWIDTH, MAPHEIGHT, marknums);
 
     memset(minimapbuffer, nearestblack, bufferarea);
 
