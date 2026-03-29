@@ -528,10 +528,10 @@
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
     <Text Include="..\res\BRGHTMPS.txt" />
-    <Text Include="..\res\CHEXBEX.txt" />
+    <Text Include="..\res\CHEXBEX.deh" />
     <Text Include="..\res\DEHACKED.txt" />
     <Text Include="..\res\DRCOMPAT.txt" />
-    <Text Include="..\res\VANILLA.txt" />
+    <Text Include="..\res\VANILLA.cfg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
