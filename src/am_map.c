@@ -1350,26 +1350,47 @@ bool AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if (AM_MiniMapVisible() && ev->type == ev_keydown
-                && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+            if (AM_MiniMapVisible())
             {
-                AM_ClearMarks();
-                result = true;
-            }
-            else if (AM_MiniMapVisible() && ev->type == ev_keyup
-                && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
-            {
-                markpress = 0;
-                result = true;
-            }
-            else if (AM_MiniMapVisible() && ev->type == ev_keydown
-                && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
-                && keydown != keyboardmark
-                && (!keyboardmark2 || keydown != keyboardmark2))
-            {
-                keydown = ev->data1;
-                AM_AddMark();
-                result = true;
+                if (ev->type == ev_keydown
+                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+                {
+                    AM_ClearMarks();
+                    result = true;
+                }
+                else if (ev->type == ev_keyup
+                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+                {
+                    markpress = 0;
+                    result = true;
+                }
+                else if (ev->type == ev_keydown
+                    && (ev->data1 == keyboardpath || ev->data1 == keyboardpath2)
+                    && keydown != keyboardpath
+                    && (!keyboardpath2 || keydown != keyboardpath2))
+                {
+                    keydown = ev->data1;
+                    AM_TogglePath(!am_path);
+                    result = true;
+                }
+                else if (ev->type == ev_keydown
+                    && (ev->data1 == keyboardrotatemode || ev->data1 == keyboardrotatemode2)
+                    && keydown != keyboardrotatemode
+                    && (!keyboardrotatemode2 || keydown != keyboardrotatemode2))
+                {
+                    keydown = ev->data1;
+                    AM_ToggleRotateMode(!am_rotatemode);
+                    result = true;
+                }
+                else if (ev->type == ev_keydown
+                    && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
+                    && keydown != keyboardmark
+                    && (!keyboardmark2 || keydown != keyboardmark2))
+                {
+                    keydown = ev->data1;
+                    AM_AddMark();
+                    result = true;
+                }
             }
             else if ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
