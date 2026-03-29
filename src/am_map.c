@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include <float.h>
 #include <math.h>
 
 #include "am_map.h"
@@ -135,6 +136,9 @@ static byte *floorpiccolor;
 
 #define MINIMAPBORDER           2
 #define MINIMAPSHADOWOFFSET     1
+#define MINIMAPMARKMARGINX      10
+#define MINIMAPMARKMARGINY      14
+#define MINIMAPYOFFSET          4
 
 typedef struct
 {
@@ -227,6 +231,11 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
+static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
+    const char *nums[], int number, int centerx, int centery);
+static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery);
+static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
+    const char *nums[], int framex, int framey, int framewidth, int frameheight);
 static bool AM_MiniMapVisible(void);
 static int AM_GetMiniMapWidth(void);
 static int AM_GetMiniMapHeight(void);
@@ -850,8 +859,8 @@ static int AM_GetMiniMapWidth(void)
 
 int AM_GetMiniMapBottom(void)
 {
-    return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2 + AM_GetMiniMapHeight()
-        + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
+    return (AM_MiniMapVisible() ? OVERLAYTEXTY - MINIMAPYOFFSET + MINIMAPBORDER * 2
+        + AM_GetMiniMapHeight() + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -1340,7 +1349,16 @@ bool AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if ((ev->type == ev_keydown
+            if (AM_MiniMapVisible() && ev->type == ev_keydown
+                && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
+                && keydown != keyboardmark
+                && (!keyboardmark2 || keydown != keyboardmark2))
+            {
+                keydown = ev->data1;
+                AM_AddMark();
+                result = true;
+            }
+            else if ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
                     || ev->data1 == keyboardautomap2)
                 && keydown != keyboardautomap
@@ -2831,10 +2849,6 @@ static void AM_DrawMarks(const char *nums[])
 {
     for (int i = 0; i < nummarks; i++)
     {
-        int         number = i + 1;
-        int         temp = number;
-        int         digits = 1;
-        int         x, y;
         mpoint_t    point = { mark[i].x, mark[i].y };
 
         if (am_rotatemode)
@@ -2843,57 +2857,140 @@ static void AM_DrawMarks(const char *nums[])
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
-        y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
+        AM_DrawMarkNumber(nums, i + 1, CXMTOF(point.x), CYMTOF(point.y));
+    }
+}
 
-        while ((temp /= 10))
-            digits++;
+static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
+    const char *nums[], int number, int centerx, int centery)
+{
+    int temp = number;
+    int digits = 1;
+    int x = centerx - MARKWIDTH / 2 + 1;
+    int y = centery - MARKHEIGHT / 2 - 1;
 
-        x += (digits - 1) * MARKWIDTH / 2;
-        x -= (number % 10 == 1);
-        x -= (number / 10 == 1);
+    while ((temp /= 10))
+        digits++;
 
-        do
+    x += (digits - 1) * MARKWIDTH / 2;
+    x -= (number % 10 == 1);
+    x -= (number / 10 == 1);
+
+    do
+    {
+        const int   digit = number % 10;
+
+        x += (digits > 1 && digit == 1);
+
+        if (r_detail == r_detail_low)
         {
-            const int   digit = number % 10;
+            x += (x & 1);
+            y += (y & 1);
+        }
 
-            x += (i > 0 && digit == 1);
+        for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
+        {
+            const unsigned int  fx = x + j % MARKWIDTH;
 
-            if (r_detail == r_detail_low)
+            if (fx < (unsigned int)bufferwidth)
             {
-                x += (x & 1);
-                y += (y & 1);
-            }
+                const unsigned int  fy = y + j / MARKWIDTH;
 
-            for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
-            {
-                const unsigned int  fx = x + j % MARKWIDTH;
-
-                if (fx < (unsigned int)MAPWIDTH)
+                if (fy < (unsigned int)bufferheight)
                 {
-                    const unsigned int  fy = y + j / MARKWIDTH;
+                    const char  src = nums[digit][j];
 
-                    if (fy < (unsigned int)MAPHEIGHT)
+                    if (src == '1')
+                        buffer[fy * bufferwidth + fx] = markcolor;
+                    else if (src == '2')
                     {
-                        const char  src = nums[digit][j];
+                        byte    *dest = &buffer[fy * bufferwidth + fx];
 
-                        if (src == '1')
-                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
-                        else if (src == '2')
-                        {
-                            byte    *dest = &mapscreen[fy * MAPWIDTH + fx];
-
-                            *dest = *(*dest + tinttab40);
-                        }
+                        *dest = *(*dest + tinttab40);
                     }
                 }
             }
+        }
 
-            x -= MARKWIDTH - 2;
+        x -= MARKWIDTH - 2;
 
-            if (r_detail == r_detail_low)
-                x--;
-        } while ((number /= 10) > 0);
+        if (r_detail == r_detail_low)
+            x--;
+    } while ((number /= 10) > 0);
+}
+
+static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery)
+{
+    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery);
+}
+
+static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
+    const char *nums[], int framex, int framey, int framewidth, int frameheight)
+{
+    const int       dotsize = 3;
+    const int       gap = 1;
+    const double    centerx = framex + framewidth / 2.0;
+    const double    centery = framey + frameheight / 2.0;
+    const double    left = framex;
+    const double    right = framex + framewidth - 1;
+    const double    top = framey;
+    const double    bottom = framey + frameheight - 1;
+    const double    minx = 0;
+    const double    maxx = bufferwidth - dotsize;
+    const double    miny = 0;
+    const double    maxy = bufferheight - MINIMAPSHADOWOFFSET - dotsize;
+
+    (void)nums;
+
+    for (int i = 0; i < nummarks; i++)
+    {
+        mpoint_t    point = { mark[i].x, mark[i].y };
+        int         number = i + 1;
+        int         digits = 1;
+        int         localx;
+        int         localy;
+        int         x;
+        int         y;
+
+        if (am_rotatemode)
+            AM_RotatePoint(&point);
+
+        if (am_correctaspectratio)
+            AM_CorrectAspectRatio(&point);
+
+        localx = CXMTOF(point.x);
+        localy = CYMTOF(point.y);
+        x = framex + MINIMAPBORDER + localx;
+        y = framey + MINIMAPBORDER + localy;
+
+        while ((number /= 10))
+            digits++;
+
+        if (localx < -((digits * (MARKWIDTH - 2) + 2) / 2) || localx >= MAPWIDTH + (digits * (MARKWIDTH - 2) + 2) / 2
+            || localy < -(MARKHEIGHT / 2) || localy >= MAPHEIGHT + MARKHEIGHT / 2)
+        {
+            const double    dx = x - centerx;
+            const double    dy = y - centery;
+            const double    scalex = (!dx ? DBL_MAX : ((dx > 0.0 ? right : left) - centerx) / dx);
+            const double    scaley = (!dy ? DBL_MAX : ((dy > 0.0 ? bottom : top) - centery) / dy);
+            int             edgex;
+            int             edgey;
+
+            if (scalex < scaley)
+            {
+                edgex = (dx > 0.0 ? (int)(right + gap + 1) : (int)(left - gap - dotsize));
+                edgey = BETWEEN((int)miny, (int)lround(centery + dy * scalex), (int)maxy);
+            }
+            else
+            {
+                edgex = BETWEEN((int)minx, (int)lround(centerx + dx * scaley), (int)maxx);
+                edgey = (dy > 0.0 ? (int)(bottom + gap + 1) : (int)(top - gap - dotsize));
+            }
+
+            for (int yy = 0; yy < dotsize; yy++)
+                for (int xx = 0; xx < dotsize; xx++)
+                    buffer[(edgey + yy) * bufferwidth + edgex + xx] = markcolor;
+        }
     }
 }
 
@@ -3242,12 +3339,15 @@ void AM_DrawMiniMap(void)
 
     const int   width = AM_GetMiniMapWidth();
     const int   height = AM_GetMiniMapHeight();
+    const int   framex = MINIMAPMARKMARGINX;
+    const int   framey = MINIMAPMARKMARGINY;
+    const int   framewidth = width + MINIMAPBORDER * 2;
     const int   frameheight = height + MINIMAPBORDER * 2;
-    const int   bufferwidth = width + MINIMAPBORDER * 2;
-    const int   bufferheight = frameheight + MINIMAPSHADOWOFFSET;
+    const int   bufferwidth = framex * 2 + framewidth;
+    const int   bufferheight = framey * 2 + frameheight + MINIMAPSHADOWOFFSET;
     const int   bufferarea = bufferwidth * bufferheight;
-    const int   x = SCREENWIDTH - width - OVERLAYTEXTX - MINIMAPBORDER * 2;
-    const int   y = OVERLAYTEXTY;
+    const int   x = SCREENWIDTH - OVERLAYTEXTX - framewidth - framex;
+    const int   y = OVERLAYTEXTY - framey - MINIMAPYOFFSET;
     const int   saved_mapwidth = MAPWIDTH;
     const int   saved_mapheight = MAPHEIGHT;
     const int   saved_maparea = MAPAREA;
@@ -3367,6 +3467,62 @@ void AM_DrawMiniMap(void)
     for (int i = 0; i < MAPAREA; i++)
         minimapscreen[i] = (minimapscreen[i] == nearestblack ? nearestblack : nearestwhite);
 
+    memset(minimapbuffer, nearestblack, bufferarea);
+
+    for (int yy = framey; yy < framey + frameheight; yy++)
+        for (int xx = framex; xx < framex + framewidth; xx++)
+            if (yy < framey + MINIMAPBORDER || yy >= framey + height + MINIMAPBORDER
+                || xx < framex + MINIMAPBORDER || xx >= framex + width + MINIMAPBORDER)
+                if (!((yy == framey && xx == framex)
+                    || (yy == framey && xx == framex + framewidth - 1)
+                    || (yy == framey + frameheight - 1 && xx == framex)
+                    || (yy == framey + frameheight - 1 && xx == framex + framewidth - 1)))
+                    minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
+
+    for (int yy = 0; yy < height; yy++)
+        for (int xx = 0; xx < width; xx++)
+        {
+            const byte    color = minimapscreen[yy * width + xx];
+
+            if (color != nearestblack)
+                minimapbuffer[(framey + yy + MINIMAPBORDER) * bufferwidth + framex + xx + MINIMAPBORDER] = color;
+        }
+
+    if (nummarks)
+        AM_DrawOffscreenMarks(minimapbuffer, bufferwidth, bufferheight, marknums,
+            framex, framey, framewidth, frameheight);
+
+    for (int yy = 1; yy < bufferheight; yy++)
+        for (int xx = 0; xx < bufferwidth; xx++)
+            if (minimapbuffer[yy * bufferwidth + xx] == nearestblack
+                && minimapbuffer[(yy - 1) * bufferwidth + xx] != nearestblack)
+            {
+                const int   destx = x + xx;
+                const int   desty = y + yy;
+
+                if ((unsigned int)destx < (unsigned int)SCREENWIDTH && (unsigned int)desty < (unsigned int)SCREENHEIGHT)
+                {
+                    byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
+
+                    *dest = tinttab50[(*dest << 8) + nearestdarkgray];
+                }
+            }
+
+    for (int yy = 0; yy < bufferheight - MINIMAPSHADOWOFFSET; yy++)
+        for (int xx = 0; xx < bufferwidth; xx++)
+            if (minimapbuffer[yy * bufferwidth + xx] != nearestblack)
+            {
+                const int   destx = x + xx;
+                const int   desty = y + yy;
+
+                if ((unsigned int)destx < (unsigned int)SCREENWIDTH && (unsigned int)desty < (unsigned int)SCREENHEIGHT)
+                {
+                    byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
+
+                    *dest = tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]];
+                }
+            }
+
     MAPWIDTH = saved_mapwidth;
     MAPHEIGHT = saved_mapheight;
     MAPAREA = saved_maparea;
@@ -3413,44 +3569,4 @@ void AM_DrawMiniMap(void)
     am_sectortextures = saved_sectortextures;
     am_sectorcolors = saved_sectorcolors;
     r_detail = saved_detail;
-
-    memset(minimapbuffer, nearestblack, bufferarea);
-
-    for (int yy = 0; yy < frameheight; yy++)
-        for (int xx = 0; xx < bufferwidth; xx++)
-            if (yy < MINIMAPBORDER || yy >= height + MINIMAPBORDER
-                || xx < MINIMAPBORDER || xx >= width + MINIMAPBORDER)
-                if (!((yy == 0 && xx == 0)
-                    || (yy == 0 && xx == bufferwidth - 1)
-                    || (yy == frameheight - 1 && xx == 0)
-                    || (yy == frameheight - 1 && xx == bufferwidth - 1)))
-                    minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
-
-    for (int yy = 0; yy < height; yy++)
-        for (int xx = 0; xx < width; xx++)
-        {
-            const byte    color = minimapscreen[yy * width + xx];
-
-            if (color != nearestblack)
-                minimapbuffer[(yy + MINIMAPBORDER) * bufferwidth + xx + MINIMAPBORDER] = color;
-        }
-
-    for (int yy = 1; yy < bufferheight; yy++)
-        for (int xx = 0; xx < bufferwidth; xx++)
-            if (minimapbuffer[yy * bufferwidth + xx] == nearestblack
-                && minimapbuffer[(yy - 1) * bufferwidth + xx] != nearestblack)
-            {
-                byte    *dest = &screens[0][(y + yy) * SCREENWIDTH + x + xx];
-
-                *dest = tinttab50[(*dest << 8) + nearestdarkgray];
-            }
-
-    for (int yy = 0; yy < frameheight; yy++)
-        for (int xx = 0; xx < bufferwidth; xx++)
-            if (minimapbuffer[yy * bufferwidth + xx] != nearestblack)
-            {
-                byte    *dest = &screens[0][(y + yy) * SCREENWIDTH + x + xx];
-
-                *dest = tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]];
-            }
 }

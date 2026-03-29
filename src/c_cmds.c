@@ -1399,7 +1399,7 @@ static void leftactionfunc(void)
 
 static void markactionfunc(void)
 {
-    if (gamestate == GS_LEVEL && (automapactive || mapwindow))
+    if (gamestate == GS_LEVEL && (automapactive || mapwindow || AM_GetMiniMapBottom()))
         AM_AddMark();
 }
 
