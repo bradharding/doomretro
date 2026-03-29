@@ -1351,6 +1351,18 @@ bool AM_Responder(const event_t *ev)
         if (!automapactive && !mapwindow)
         {
             if (AM_MiniMapVisible() && ev->type == ev_keydown
+                && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+            {
+                AM_ClearMarks();
+                result = true;
+            }
+            else if (AM_MiniMapVisible() && ev->type == ev_keyup
+                && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2))
+            {
+                markpress = 0;
+                result = true;
+            }
+            else if (AM_MiniMapVisible() && ev->type == ev_keydown
                 && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
                 && keydown != keyboardmark
                 && (!keyboardmark2 || keydown != keyboardmark2))
