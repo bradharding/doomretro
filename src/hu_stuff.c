@@ -830,10 +830,7 @@ static void HU_AltInit(void)
         M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
         if (W_CheckNumForName(buffer) >= 0)
-        {
             weaponinfo[i].weaponpatch = W_CacheLumpName(buffer);
-            weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
-        }
         else
         {
             const spritenum_t   sprite = weaponinfo[i].weaponsprite;
@@ -851,7 +848,6 @@ static void HU_AltInit(void)
                     {
                         weaponinfo[i].weaponpatch = W_CacheLumpNum(firstspritelump
                             + sprites[state->sprite].spriteframes[state->frame & FF_FRAMEMASK].lump[0]);
-                        weaponinfo[i].weapony = ALTHUD_Y + 11 - SHORT(weaponinfo[i].weaponpatch->height) / 2;
                         break;
                     }
                 }
@@ -1315,7 +1311,8 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            althudweaponfunc(ALTHUD_RIGHT_X + 108, weaponinfo[weapon].weapony, patch, color, shadowcolor, tinttab60);
+            althudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 11 - SHORT(patch->height) / 2,
+                patch, color, shadowcolor, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)

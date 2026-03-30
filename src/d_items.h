@@ -82,7 +82,6 @@ typedef struct
     char            key;
     bool            altered;
     patch_t         *weaponpatch;
-    int             weapony;
     patch_t         *ammopatch;
 } weaponinfo_t;
 
