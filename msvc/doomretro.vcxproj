@@ -529,7 +529,7 @@
     <Text Include="..\CMakeLists.txt" />
     <Text Include="..\res\BRGHTMPS.txt" />
     <Text Include="..\res\CHEXBEX.deh" />
-    <Text Include="..\res\DEHACKED.txt" />
+    <Text Include="..\res\DEHACKED.deh" />
     <Text Include="..\res\DRCOMPAT.txt" />
     <Text Include="..\res\VANILLA.cfg" />
   </ItemGroup>
