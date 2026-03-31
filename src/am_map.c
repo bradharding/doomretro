@@ -138,7 +138,6 @@ static byte *floorpiccolor;
 #define MINIMAPSHADOWOFFSET     1
 #define MINIMAPMARKMARGINX      10
 #define MINIMAPMARKMARGINY      14
-#define MINIMAPYOFFSET          4
 
 typedef struct
 {
@@ -883,7 +882,7 @@ static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const
 
 int AM_GetMiniMapBottom(void)
 {
-    return (AM_MiniMapVisible() ? OVERLAYTEXTY - MINIMAPYOFFSET + MINIMAPBORDER * 2
+    return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2
         + AM_GetMiniMapHeight() + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
 }
 
@@ -3430,7 +3429,7 @@ void AM_DrawMiniMap(void)
     const int   bufferheight = framey * 2 + frameheight + MINIMAPSHADOWOFFSET;
     const int   bufferarea = bufferwidth * bufferheight;
     const int   x = SCREENWIDTH - OVERLAYTEXTX - framewidth - framex;
-    const int   y = OVERLAYTEXTY - framey - MINIMAPYOFFSET;
+    const int   y = OVERLAYTEXTY - framey;
     const int   saved_mapwidth = MAPWIDTH;
     const int   saved_mapheight = MAPHEIGHT;
     const int   saved_maparea = MAPAREA;
