@@ -160,6 +160,9 @@ bool SC_GetString(void)
 
         while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
         {
+            if (ScriptPtr >= ScriptEndPtr || text >= &sc_String[MAX_STRING_SIZE - 1])
+                break;
+
             if (*ScriptPtr == ASCII_ESCAPE
                 && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
             {
@@ -170,9 +173,6 @@ bool SC_GetString(void)
                 *text++ = *ScriptPtr++;
             else
                 ScriptPtr++;
-
-            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
-                break;
         }
 
         ScriptPtr++;
