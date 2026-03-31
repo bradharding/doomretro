@@ -3522,7 +3522,7 @@ void AM_DrawMiniMap(void)
     yellowkeycolor = nearestwhite;
     markcolor = nearestwhite;
     backcolor = nearestblack;
-    pathcolor = nearestwhite;
+    pathcolor = nearestlightgray;
     gridcolor = nearestwhite;
 
     wallcolor = minimappriority;
@@ -3551,7 +3551,8 @@ void AM_DrawMiniMap(void)
     nummarks = saved_nummarks;
 
     for (int i = 0; i < MAPAREA; i++)
-        minimapscreen[i] = (minimapscreen[i] == nearestblack ? nearestblack : nearestwhite);
+        if (minimapscreen[i] != nearestblack && minimapscreen[i] != playercolor && minimapscreen[i] != pathcolor)
+            minimapscreen[i] = nearestwhite;
 
     if (nummarks)
         AM_DrawMiniMapMarks(minimapscreen, MAPWIDTH, MAPHEIGHT, marknums);
@@ -3608,7 +3609,9 @@ void AM_DrawMiniMap(void)
                 {
                     byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
 
-                    *dest = tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]];
+                    *dest = (minimapbuffer[yy * bufferwidth + xx] == nearestlightgray
+                        ? tinttab75[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]
+                        : tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]);
                 }
             }
 
