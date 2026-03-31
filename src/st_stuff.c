@@ -959,7 +959,7 @@ bool ST_Responder(const event_t *ev)
                 message_dontfuckwithme = true;
             }
 
-            else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
+            else if ((automapactive || mapwindow || AM_MiniMapVisible()) && cht_CheckCheat(&cheat_amap, ev->data2))
             {
                 S_StartSound(NULL, sfx_getpow);
 

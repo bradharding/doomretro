@@ -58,6 +58,7 @@ void AM_Drawer(void);
 void AM_DrawMiniMap(void);
 void AM_ClearFB(void);
 
+bool AM_MiniMapVisible(void);
 int AM_GetMiniMapBottom(void);
 
 void AM_InitPixelSize(void);

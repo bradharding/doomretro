@@ -238,7 +238,7 @@ static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int c
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
 static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
-static bool AM_MiniMapVisible(void);
+bool AM_MiniMapVisible(void);
 static int AM_GetMiniMapWidth(void);
 static int AM_GetMiniMapHeight(void);
 static void (*putbigwalldot)(int, int, const byte *);
@@ -832,7 +832,7 @@ void AM_SetAutomapSize(const int screensize)
     m_h = FTOM(MAPHEIGHT);
 }
 
-static bool AM_MiniMapVisible(void)
+bool AM_MiniMapVisible(void)
 {
     return (am_minimap && gamestate == GS_LEVEL && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
 }
