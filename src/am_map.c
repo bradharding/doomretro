@@ -222,6 +222,7 @@ static bool         isteleportline[NUMLINESPECIALS];
 
 static byte         allmaptint[256][256];
 static byte         minimappriority[256];
+static bool         drawingminimap;
 
 static edge_t       *edges;
 static int          edgescapacity;
@@ -3361,7 +3362,7 @@ void AM_Drawer(void)
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
-        if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
+        if (!drawingminimap && am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
             AM_DrawBloodSplats();
 
         AM_DrawWalls_Cheating();
@@ -3369,7 +3370,8 @@ void AM_Drawer(void)
         if (am_path && numbreadcrumbs > 0)
             AM_DrawPath();
 
-        AM_DrawThings();
+        if (!drawingminimap)
+            AM_DrawThings();
     }
     else
     {
@@ -3544,9 +3546,11 @@ void AM_DrawMiniMap(void)
     am_sectorcolors = am_sectorcolors_off;
     r_detail = r_detail_high;
 
+    drawingminimap = true;
     AM_InitPixelSize();
     nummarks = 0;
     AM_Drawer();
+    drawingminimap = false;
     nummarks = saved_nummarks;
 
     for (int i = 0; i < MAPAREA; i++)
