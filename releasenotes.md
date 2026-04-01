@@ -121,6 +121,7 @@
   * The effect when the player has an invulnerability power-up is no longer affected.
 * `AASTINKY` and `AASHITTY` textures in maps are now treated as intended.
 * `MUSINFO` things 14,100 and 14,164 are now supported.
+* Using `Fullbright` in `DEHACKED` lumps to make the frames of all things fullbright now works as intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

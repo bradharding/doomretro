@@ -2836,6 +2836,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 if (value >= 0 && value <= 8)
                     mobjinfo[indexnum].bloodcolor = value + 1;
             }
+            else if (M_StringCompare(key, "Fullbright"))
+                mobjinfo[indexnum].fullbright = !!value;
             else if (M_StringCompare(key, "Blood"))
             {
                 if (value == MT_BLOOD)
