@@ -2619,7 +2619,7 @@ static void D_DoomMainSetup(void)
     DSFLAMST = (W_GetNumLumps("DSFLAMST") > 1);
     E1M4 = (W_GetNumLumps("E1M4") > 1);
     E1M8 = (W_GetNumLumps("E1M8") > 1);
-    M_DOOM = (W_GetNumLumps("M_DOOM") > 2 && !nerve);
+    M_DOOM = (W_GetNumLumps2("M_DOOM") > 2 && !nerve);
     M_EPISOD = (W_GetNumLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_GetNumLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_GetNumLumps("M_GDLOW") > 1);
