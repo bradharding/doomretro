@@ -627,7 +627,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     if (STCFNxxx)
     {
         if (r_hud_translucency)
-            for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
+            for (int i = screenarea - screenwidth * 60; i < screenarea; i++)
             {
                 byte    source = tempscreen[i];
                 byte    *dest = &fb1[i];
@@ -638,7 +638,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     *dest = tinttab2[(source << 8) + fb2[i]];
             }
         else
-            for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
+            for (int i = screenarea - screenwidth * 60; i < screenarea; i++)
             {
                 byte    source = tempscreen[i];
                 byte    *dest = &fb1[i];
