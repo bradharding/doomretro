@@ -3613,7 +3613,7 @@ void AM_DrawMiniMap(void)
                     byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
 
                     *dest = (minimapbuffer[yy * bufferwidth + xx] == nearestlightgray
-                        ? tinttab75[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]
+                        ? tinttab66[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]
                         : tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]);
                 }
             }
