@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.0
 
-* *DOOM Retro* is now built using v18.4.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.4.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
@@ -47,7 +47,7 @@
 * The `restartmap` CCMD can now be used during intermission.
 * Support has been added for maps with *ZDoom’s* XGLN, ZGLN, XGL2, ZGL2, XGL3 and ZGL3 extended formats.
 * Maps without nodes, or unsupported node formats, will now be rebuilt using the integrated [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder.
-* Custom palettes now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* Custom palettes and `M_DOOM` patches now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The use of the `DBIGFONT` lump to display `CONSOLE...` in the options menu of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) has been fixed.
 * The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.
 * Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
