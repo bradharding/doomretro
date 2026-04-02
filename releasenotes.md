@@ -4,18 +4,20 @@
 
 * *DOOM Retro* is now built using v18.4.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
+* *DOOM Retro* now uses *Direct3D 11* rather than *Direct3D 9* to scale every frame on the screen when the `vid_scaleapi` CVAR is its default of `direct3d`, resulting in a considerable increase in performance.
 * Changes have been made to *DOOM Retro’s* splash screen.
 * Several changes have been made to text that is output to the console.
-* Wrapped lines are no longer skipped when scrolling in the console.
-* A bug is fixed whereby it sometimes wasn’t possible to scroll all the way to the top of the console.
-* The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
+* These changes have been made to scrolling in the console:
+  * Wrapped lines are no longer skipped.
+  * A bug is fixed whereby it sometimes wasn’t possible to scroll all the way to the top of the console.
+  * The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
   * A bug is fixed whereby `MUSIC` wouldn’t be parsed correctly in some rare instances.
   * `ALLOWMONSTERTELEFRAGS` is now parsed correctly.
+  * `ENDGAME = TRUE` is now parsed correctly.
 * A bug is fixed, present in the original *DOOM*, whereby some floor textures wouldn’t change when line specials 37, 84, 159 or 177 were triggered in some instances.
 * These changes have been made to the automap:
   * Sectors can now be filled with floor textures using the new `am_sectortextures` CVAR, which is `off` by default and when vanilla mode is enabled.
