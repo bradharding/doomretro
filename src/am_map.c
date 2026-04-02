@@ -81,6 +81,9 @@ static byte corpsecolor;
 static byte bluekeycolor;
 static byte redkeycolor;
 static byte yellowkeycolor;
+static byte markbluekeycolor;
+static byte markredkeycolor;
+static byte markyellowkeycolor;
 static byte markcolor;
 static byte backcolor;
 static byte pathcolor;
@@ -138,6 +141,7 @@ static byte *floorpiccolor;
 #define MINIMAPSHADOWOFFSET     1
 #define MINIMAPMARKMARGINX      10
 #define MINIMAPMARKMARGINY      14
+#define MARKLOCKRANGE           (64 << MAPBITS)
 
 typedef struct
 {
@@ -233,8 +237,8 @@ static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
 static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[]);
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery, const bool clearoutline);
-static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery);
+    const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline);
+static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery, byte color);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
 static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
@@ -248,6 +252,106 @@ static inline void PUTDOT(int x, int y, const byte *color);
 static inline void PUTDOT2(int x, int y, const byte *color);
 static inline void PUTBIGDOT(int x, int y, const byte *color);
 static inline void PUTBIGDOT2(int x, int y, const byte *color);
+
+static int AM_GetMarkKeyColor(unsigned short special)
+{
+    if (special >= GenLockedBase && special < GenDoorBase)
+    {
+        if (!(special = ((special - GenLockedBase) & LockedKey) >> LockedKeyShift) || special == AllKeys)
+            return -1;
+        else if (!(special = (special - 1) % 3))
+            return markredkeycolor;
+        else if (special == 1)
+            return markbluekeycolor;
+        else
+            return markyellowkeycolor;
+    }
+
+    switch (special)
+    {
+        case DR_Door_Red_OpenWaitClose:
+        case D1_Door_Red_OpenStay:
+        case SR_Door_Red_OpenStay_Fast:
+        case S1_Door_Red_OpenStay_Fast:
+            return markredkeycolor;
+
+        case DR_Door_Blue_OpenWaitClose:
+        case D1_Door_Blue_OpenStay:
+        case SR_Door_Blue_OpenStay_Fast:
+        case S1_Door_Blue_OpenStay_Fast:
+            return markbluekeycolor;
+
+        case DR_Door_Yellow_OpenWaitClose:
+        case D1_Door_Yellow_OpenStay:
+        case SR_Door_Yellow_OpenStay_Fast:
+        case S1_Door_Yellow_OpenStay_Fast:
+            return markyellowkeycolor;
+
+        default:
+            return -1;
+    }
+}
+
+static uint64_t AM_PointToSegmentDistanceSquared(const mpoint_t point, const line_t *line)
+{
+    const double    x1 = (double)(line->v1->x >> FRACTOMAPBITS);
+    const double    y1 = (double)(line->v1->y >> FRACTOMAPBITS);
+    const double    x2 = (double)(line->v2->x >> FRACTOMAPBITS);
+    const double    y2 = (double)(line->v2->y >> FRACTOMAPBITS);
+    const double    dx = x2 - x1;
+    const double    dy = y2 - y1;
+    const double    px = (double)point.x;
+    const double    py = (double)point.y;
+    double          t;
+    double          nearestx;
+    double          nearesty;
+    double          ddx;
+    double          ddy;
+
+    if (!dx && !dy)
+    {
+        const double    distx = px - x1;
+        const double    disty = py - y1;
+
+        return (uint64_t)(distx * distx + disty * disty);
+    }
+
+    t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
+    t = BETWEEN(0.0, t, 1.0);
+    nearestx = x1 + t * dx;
+    nearesty = y1 + t * dy;
+
+    ddx = px - nearestx;
+    ddy = py - nearesty;
+
+    return (uint64_t)(ddx * ddx + ddy * ddy);
+}
+
+static byte AM_GetMarkColor(const mpoint_t point)
+{
+    const uint64_t  maxdistance = (uint64_t)MARKLOCKRANGE * MARKLOCKRANGE;
+    uint64_t        bestdistance = maxdistance + 1;
+    byte            color = markcolor;
+
+    for (int i = 0; i < numlines; i++)
+    {
+        const int       keycolor = AM_GetMarkKeyColor(lines[i].special);
+        uint64_t        distance;
+
+        if (keycolor < 0)
+            continue;
+
+        distance = AM_PointToSegmentDistanceSquared(point, &lines[i]);
+
+        if (distance <= maxdistance && distance < bestdistance)
+        {
+            bestdistance = distance;
+            color = (byte)keycolor;
+        }
+    }
+
+    return color;
+}
 
 static byte AM_ColorFromFlat(const int flatnum)
 {
@@ -738,6 +842,9 @@ void AM_SetColors(void)
     bluekeycolor = nearestcolors[am_bluekeycolor];
     redkeycolor = nearestcolors[am_redkeycolor];
     yellowkeycolor = nearestcolors[am_yellowkeycolor];
+    markbluekeycolor = nearestcolors[200];
+    markredkeycolor = nearestcolors[184];
+    markyellowkeycolor = nearestcolors[160];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
@@ -2912,7 +3019,9 @@ static void AM_DrawMarks(const char *nums[])
 {
     for (int i = 0; i < nummarks; i++)
     {
-        mpoint_t    point = { mark[i].x, mark[i].y };
+        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
+        mpoint_t        point = markpoint;
+        const byte      color = AM_GetMarkColor(markpoint);
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -2920,7 +3029,7 @@ static void AM_DrawMarks(const char *nums[])
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        AM_DrawMarkNumber(nums, i + 1, CXMTOF(point.x), CYMTOF(point.y));
+        AM_DrawMarkNumber(nums, i + 1, CXMTOF(point.x), CYMTOF(point.y), color);
     }
 }
 
@@ -2928,7 +3037,9 @@ static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight,
 {
     for (int i = 0; i < nummarks; i++)
     {
-        mpoint_t    point = { mark[i].x, mark[i].y };
+        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
+        mpoint_t        point = markpoint;
+        const byte      color = AM_GetMarkColor(markpoint);
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -2937,12 +3048,12 @@ static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight,
             AM_CorrectAspectRatio(&point);
 
         AM_DrawMarkNumberToBuffer(buffer, bufferwidth, bufferheight, nums, i + 1,
-            CXMTOF(point.x), CYMTOF(point.y), true);
+            CXMTOF(point.x), CYMTOF(point.y), color, true);
     }
 }
 
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery, const bool clearoutline)
+    const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline)
 {
     int temp = number;
     int digits = 1;
@@ -2981,7 +3092,7 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
                     const char  src = nums[digit][j];
 
                     if (src == '1')
-                        buffer[fy * bufferwidth + fx] = markcolor;
+                        buffer[fy * bufferwidth + fx] = color;
                     else if (src == '2')
                     {
                         byte    *dest = &buffer[fy * bufferwidth + fx];
@@ -3002,9 +3113,9 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
     } while ((number /= 10) > 0);
 }
 
-static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery)
+static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery, byte color)
 {
-    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery, false);
+    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery, color, false);
 }
 
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
@@ -3027,13 +3138,15 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
 
     for (int i = 0; i < nummarks; i++)
     {
-        mpoint_t    point = { mark[i].x, mark[i].y };
-        int         number = i + 1;
-        int         digits = 1;
-        int         localx;
-        int         localy;
-        int         x;
-        int         y;
+        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
+        mpoint_t        point = markpoint;
+        int             number = i + 1;
+        int             digits = 1;
+        int             localx;
+        int             localy;
+        int             x;
+        int             y;
+        const byte      color = AM_GetMarkColor(markpoint);
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -3072,7 +3185,7 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
 
             for (int yy = 0; yy < dotsize; yy++)
                 for (int xx = 0; xx < dotsize; xx++)
-                    buffer[(edgey + yy) * bufferwidth + edgex + xx] = markcolor;
+                    buffer[(edgey + yy) * bufferwidth + edgex + xx] = color;
         }
     }
 }
