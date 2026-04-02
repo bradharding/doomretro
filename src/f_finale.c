@@ -107,6 +107,9 @@ void F_StartFinale(void)
     char    *intertext = P_GetInterText(gameepisode, gamemap);
     char    *intersecret = P_GetInterSecretText(gameepisode, gamemap);
 
+    finaletext = "";
+    finaleflat = "FLOOR4_8";
+
     viewactive = false;
     automapactive = false;
 
@@ -267,6 +270,12 @@ void F_StartFinale(void)
 
     if (strlen(finaletext) <= 1)
     {
+        if (P_GetMapEndGame(gameepisode, gamemap))
+        {
+            D_StartTitle(1);
+            return;
+        }
+
         gameaction = ga_worlddone;
         return;
     }
@@ -332,6 +341,11 @@ void F_Ticker(void)
                         || (gamemode != commercial && gameepisode == 3))
                         S_StartMusic(mus_bunny);
                 }
+            }
+            else if (P_GetMapEndGame(gameepisode, gamemap))
+            {
+                D_StartTitle(1);
+                return;
             }
             else if (P_GetMapNext(gameepisode, gamemap))
                 gameaction = ga_worlddone;
