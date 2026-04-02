@@ -140,7 +140,7 @@ extern bool     obituaries;
 extern int      playergender;
 extern char     *playername;
 extern bool     r_althud;
-extern bool     r_althud_ammocounts;
+extern bool     r_althud_ammobars;
 extern bool     r_althudfont;
 extern bool     r_antialiasing;
 extern int      r_berserkeffect;
@@ -700,7 +700,7 @@ enum
 
 #define r_althud_default                    false
 
-#define r_althud_ammocounts_default         false
+#define r_althud_ammobars_default           false
 
 #define r_althudfont_default                true
 
