@@ -36,6 +36,7 @@
 * Looking up, down, and centering the view can now be bound a control using the `bind` CCMD with the actions `+lookup`, `+lookdown` and `+lookcenter`.
 * The `bindlist` CCMD now also lists all unbound controls and actions.
 * The `thinglist` CCMD now also lists the type and DoomEd numbers of each thing.
+* The `ammo` CCMD now always successfully changes the amount of ammo for the currently equipped weapon.
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
 * The player’s vertical field of view is now exactly the same in both widescreen and non-widescreen modes.

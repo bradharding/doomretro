@@ -11018,7 +11018,7 @@ static bool playercvarsfunc1(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10d", &value) == 1 && value > viewplayer->maxammo[viewplayer->readyweapon])
+        if (sscanf(parms, "%10d", &value) == 1 && value > viewplayer->maxammo[weaponinfo[viewplayer->readyweapon].ammotype])
             return false;
     }
     else if (M_StringCompare(cmd, stringize(armor)))
