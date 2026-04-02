@@ -316,8 +316,11 @@ static uint64_t AM_PointToSegmentDistanceSquared(const mpoint_t point, const lin
         return (uint64_t)(distx * distx + disty * disty);
     }
 
-    t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
-    t = BETWEEN(0.0, t, 1.0);
+    if ((t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)) < 0.0)
+        t = 0.0;
+    else if (t > 1.0)
+        t = 1.0;
+
     nearestx = x1 + t * dx;
     nearesty = y1 + t * dy;
 
