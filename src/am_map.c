@@ -3535,6 +3535,7 @@ void AM_Drawer(void)
 void AM_DrawMiniMap(void)
 {
     static byte minimapscreen[MAXSCREENAREA];
+    static byte minimappathscreen[MAXSCREENAREA];
     static byte minimapbuffer[MAXSCREENAREA];
 
     const int   width = AM_GetMiniMapWidth();
@@ -3669,6 +3670,16 @@ void AM_DrawMiniMap(void)
     drawingminimap = false;
     nummarks = saved_nummarks;
 
+    memset(minimappathscreen, nearestblack, MAPAREA);
+
+    if (am_path && numbreadcrumbs > 0)
+    {
+        mapscreen = minimappathscreen;
+        AM_SetFrameVariables();
+        AM_DrawPath();
+        mapscreen = minimapscreen;
+    }
+
     for (int i = 0; i < MAPAREA; i++)
         if (minimapscreen[i] != nearestblack && minimapscreen[i] != playercolor && minimapscreen[i] != pathcolor)
             minimapscreen[i] = nearestwhite;
@@ -3726,11 +3737,18 @@ void AM_DrawMiniMap(void)
 
                 if ((unsigned int)destx < (unsigned int)SCREENWIDTH && (unsigned int)desty < (unsigned int)SCREENHEIGHT)
                 {
-                    byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
+                    byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
+                    const byte  color = minimapbuffer[yy * bufferwidth + xx];
+                    const bool  pathpixel = (yy >= framey + MINIMAPBORDER
+                                    && yy < framey + height + MINIMAPBORDER
+                                    && xx >= framex + MINIMAPBORDER
+                                    && xx < framex + width + MINIMAPBORDER
+                                    && minimappathscreen[(yy - framey - MINIMAPBORDER) * width
+                                        + xx - framex - MINIMAPBORDER] != nearestblack);
 
-                    *dest = (minimapbuffer[yy * bufferwidth + xx] == nearestlightgray
-                        ? tinttab66[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]
-                        : tinttab50[(*dest << 8) + minimapbuffer[yy * bufferwidth + xx]]);
+                    *dest = ((color == nearestlightgray || (pathpixel && color == nearestwhite))
+                        ? tinttab66[(*dest << 8) + color]
+                        : tinttab50[(*dest << 8) + color]);
                 }
             }
 
