@@ -3592,6 +3592,7 @@ void AM_DrawMiniMap(void)
     const int   saved_detail = r_detail;
     const int   saved_nummarks = nummarks;
     const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
+    const bool  invertcolors = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
 
     if (!AM_MiniMapVisible() || !width || !height)
         return;
@@ -3745,10 +3746,12 @@ void AM_DrawMiniMap(void)
                                     && xx < framex + width + MINIMAPBORDER
                                     && minimappathscreen[(yy - framey - MINIMAPBORDER) * width
                                         + xx - framex - MINIMAPBORDER] != nearestblack);
+                    const byte  sourcecolor = (pathpixel && color == nearestwhite ? nearestlightgray : color);
+                    const byte  blendcolor = (invertcolors ? (sourcecolor == nearestlightgray ?
+                                    nearestdarkgray : nearestblack) : sourcecolor);
 
-                    *dest = ((color == nearestlightgray || (pathpixel && color == nearestwhite))
-                        ? tinttab66[(*dest << 8) + color]
-                        : tinttab50[(*dest << 8) + color]);
+                    *dest = (sourcecolor == nearestlightgray ? tinttab66[(*dest << 8) + blendcolor] :
+                        tinttab50[(*dest << 8) + blendcolor]);
                 }
             }
 
