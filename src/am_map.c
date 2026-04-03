@@ -994,7 +994,7 @@ static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const
 int AM_GetMiniMapBottom(void)
 {
     return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2
-        + AM_GetMiniMapHeight() + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
+        + AM_GetMiniMapHeight() + 6 + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -3539,7 +3539,7 @@ void AM_DrawMiniMap(void)
     static byte minimapbuffer[MAXSCREENAREA];
 
     const int   width = AM_GetMiniMapWidth();
-    const int   height = AM_GetMiniMapHeight();
+    const int   height = AM_GetMiniMapHeight() + 6;
     const int   framex = MINIMAPMARKMARGINX;
     const int   framey = MINIMAPMARKMARGINY;
     const int   framewidth = width + MINIMAPBORDER * 2;
