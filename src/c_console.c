@@ -944,7 +944,6 @@ static void C_DrawScrollbar(void)
                 *dot = tinttab50[*dot + consolescrollbartrackcolor];
             }
 
-
         // init scrollbar grip
         for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
             if (y >= 0)
@@ -1745,7 +1744,7 @@ static void C_GetOverlayTextColors(void)
 
 static int C_GetOverlayTextY(void)
 {
-    return (menuactive ? OVERLAYTEXTY + 6 : MAX(OVERLAYTEXTY, AM_GetMiniMapBottom()));
+    return MAX(OVERLAYTEXTY, AM_GetMiniMapBottom());
 }
 
 void C_UpdateFPSOverlay(void)

@@ -944,7 +944,7 @@ void AM_SetAutomapSize(const int screensize)
 
 bool AM_MiniMapVisible(void)
 {
-    return (am_minimap && gamestate == GS_LEVEL && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
+    return (am_minimap && gamestate == GS_LEVEL && !menuactive && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
 }
 
 static int AM_GetMiniMapHeight(void)
