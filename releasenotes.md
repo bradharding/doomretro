@@ -79,7 +79,6 @@
   * Monsters that are in liquid sectors now cast shadows.
   * Shadows can now be cast on multiple floors at different heights.
 * The player is now able to slide along walls at any angle without getting stuck.
-* Improvements have been made to rendering liquid sectors adjacent to masked midtextures when the `r_liquid_bob` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
 * Wide sprites that are partially obscured by a wall are now less likely to disappear.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
