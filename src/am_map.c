@@ -845,9 +845,9 @@ void AM_SetColors(void)
     bluekeycolor = nearestcolors[am_bluekeycolor];
     redkeycolor = nearestcolors[am_redkeycolor];
     yellowkeycolor = nearestcolors[am_yellowkeycolor];
-    markbluekeycolor = nearestcolors[200];
-    markredkeycolor = nearestcolors[184];
-    markyellowkeycolor = nearestcolors[160];
+    markbluekeycolor = (BTSX ? BLUE3 : nearestcolors[BLUE3]);
+    markredkeycolor = nearestcolors[RED2];
+    markyellowkeycolor = nearestcolors[YELLOW2];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];

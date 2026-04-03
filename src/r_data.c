@@ -346,18 +346,26 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    int nummasks = 0;
-    int numbrightmaps = 0;
+    int     nummasks = 0;
+    int     numbrightmaps = 0;
+    int     maxmasks = 16;
+    int     *texturemasks = I_Calloc((size_t)numtextures, sizeof(*texturemasks));
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
+    for (int i = 0; i < numtextures; i++)
+        texturemasks[i] = -1;
+
     if ((BTSX || chex || FREEDOOM || hacx || harmony || harmonyc || REKKR)
         && W_GetNumLumps2("BRGHTMPS") == 1)
+    {
+        free(texturemasks);
         return;
+    }
 
-    masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
-    masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
+    masks = I_Calloc((size_t)maxmasks, sizeof(*masks));
+    masknames = I_Calloc((size_t)maxmasks, sizeof(*masknames));
 
     for (int i = 0; i < numlumps; i++)
         if (M_StringCompare(lumpinfo[i]->name, "BRGHTMPS"))
@@ -369,6 +377,13 @@ static void R_InitBrightmaps(void)
                 {
                     char    colors[1024];
                     char    *p;
+
+                    if (nummasks >= maxmasks)
+                    {
+                        maxmasks *= 2;
+                        masks = I_Realloc(masks, (size_t)maxmasks * sizeof(*masks));
+                        masknames = I_Realloc(masknames, (size_t)maxmasks * sizeof(*masknames));
+                    }
 
                     SC_MustGetString();
                     M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[0]));
@@ -436,8 +451,7 @@ static void R_InitBrightmaps(void)
                             for (int j = 0; j < nummasks; j++)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
-                                    brightmap[texture] = masks[j];
-                                    numbrightmaps++;
+                                    texturemasks[texture] = j;
                                     break;
                                 }
                     }
@@ -468,13 +482,19 @@ static void R_InitBrightmaps(void)
                 SC_MustGetString();
 
                 if (texture >= 0 && SC_Compare(pwadfile))
-                {
                     nobrightmap[texture] = true;
-                    numbrightmaps--;
-                }
             }
 
         SC_Close();
+
+    for (int i = 0; i < numtextures; i++)
+        if (!nobrightmap[i] && texturemasks[i] >= 0)
+        {
+            brightmap[i] = masks[texturemasks[i]];
+            numbrightmaps++;
+        }
+
+    free(texturemasks);
 
     if (r_brightmaps && numbrightmaps > 0)
     {
