@@ -2802,6 +2802,19 @@ static void condumpfunc2(char *cmd, char *parms)
                 if (type == warningstring && con_warninglevel < console[i].warninglevel && !devparm)
                     continue;
 
+                if ((type == playermessagestring || type == playerwarningstring
+                    || type == obituarystring || type == playerobituarystring)
+                    && console[i].count > 1)
+                {
+                    char    buffer[CONSOLETEXTMAXLENGTH];
+                    char    *temp = commify(console[i].count);
+
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", string, temp);
+                    free(temp);
+                    free(string);
+                    string = M_StringDuplicate(buffer);
+                }
+
                 if (!(len = (int)strlen(string)))
                 {
                     free(string);
