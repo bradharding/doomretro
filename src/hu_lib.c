@@ -554,7 +554,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
         screenarea = (r_screensize == r_screensize_max ? SCREENAREA : SCREENAREA - SBARHEIGHT * SCREENWIDTH);
     }
 
-    for (int i = screenarea - screenwidth * 50; i < screenarea; i++)
+    for (int i = screenarea - screenwidth * 60; i < screenarea; i++)
         tempscreen[i] = PINK1;
 
     M_StringCopy(s, l->l, sizeof(s));
