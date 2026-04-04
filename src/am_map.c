@@ -141,6 +141,8 @@ static byte *floorpiccolor;
 #define MINIMAPSHADOWOFFSET     1
 #define MINIMAPMARKMARGINX      10
 #define MINIMAPMARKMARGINY      14
+#define MINIMAPWIDTH            106
+#define MINIMAPHEIGHT           87
 #define MARKLOCKRANGE           (64 << MAPBITS)
 
 typedef struct
@@ -243,8 +245,6 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
 static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
 bool AM_MiniMapVisible(void);
-static int AM_GetMiniMapWidth(void);
-static int AM_GetMiniMapHeight(void);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -947,28 +947,6 @@ bool AM_MiniMapVisible(void)
     return (am_minimap && gamestate == GS_LEVEL && !menuactive && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
 }
 
-static int AM_GetMiniMapHeight(void)
-{
-    int height = SCREENHEIGHT / 5;
-    int maxheight = SCREENHEIGHT - OVERLAYTEXTY * 2 - MINIMAPBORDER * 2;
-
-    if (height > maxheight)
-        height = maxheight;
-
-    return MAX(height, 0);
-}
-
-static int AM_GetMiniMapWidth(void)
-{
-    int width = AM_GetMiniMapHeight() * 4 / 3;
-    int maxwidth = SCREENWIDTH - OVERLAYTEXTX * 2 - MINIMAPBORDER * 2;
-
-    if (width > maxwidth)
-        width = maxwidth;
-
-    return MAX(width, 0);
-}
-
 static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const int *secondarybinding)
 {
     if (key <= 0 || key >= NUMKEYS)
@@ -994,7 +972,7 @@ static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const
 int AM_GetMiniMapBottom(void)
 {
     return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2
-        + AM_GetMiniMapHeight() + 6 + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
+        + MINIMAPHEIGHT + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
 }
 
 static void AM_InitVariables(const bool mainwindow)
@@ -2764,8 +2742,8 @@ static void AM_DrawWalls_Cheating(void)
     }
 }
 
-static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
-    const angle_t angle, const fixed_t x, const fixed_t y, void (*putdot)(int, int, const byte *))
+static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines, const angle_t angle,
+    const fixed_t x, const fixed_t y, void (*putdot)(int, int, const byte *))
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -3538,16 +3516,14 @@ void AM_DrawMiniMap(void)
     static byte minimappathscreen[MAXSCREENAREA];
     static byte minimapbuffer[MAXSCREENAREA];
 
-    const int   width = AM_GetMiniMapWidth();
-    const int   height = AM_GetMiniMapHeight() + 6;
     const int   framex = MINIMAPMARKMARGINX;
     const int   framey = MINIMAPMARKMARGINY;
-    const int   framewidth = width + MINIMAPBORDER * 2;
-    const int   frameheight = height + MINIMAPBORDER * 2;
+    const int   framewidth = MINIMAPWIDTH + MINIMAPBORDER * 2;
+    const int   frameheight = MINIMAPHEIGHT + MINIMAPBORDER * 2;
     const int   bufferwidth = framex * 2 + framewidth;
     const int   bufferheight = framey * 2 + frameheight + MINIMAPSHADOWOFFSET;
     const int   bufferarea = bufferwidth * bufferheight;
-    const int   x = SCREENWIDTH - OVERLAYTEXTX - framewidth - framex;
+    const int   x = SCREENWIDTH - OVERLAYTEXTX - framewidth - framex + 1;
     const int   y = OVERLAYTEXTY - framey;
     const int   saved_mapwidth = MAPWIDTH;
     const int   saved_mapheight = MAPHEIGHT;
@@ -3594,7 +3570,7 @@ void AM_DrawMiniMap(void)
     const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
     const bool  invertcolors = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
 
-    if (!AM_MiniMapVisible() || !width || !height)
+    if (!AM_MiniMapVisible())
         return;
 
     if (levelchanged)
@@ -3613,8 +3589,8 @@ void AM_DrawMiniMap(void)
 
     mapscreen = minimapscreen;
 
-    MAPWIDTH = width;
-    MAPHEIGHT = height;
+    MAPWIDTH = MINIMAPWIDTH;
+    MAPHEIGHT = MINIMAPHEIGHT;
     MAPAREA = MAPWIDTH * MAPHEIGHT;
     MAPBOTTOM = MAPWIDTH * (MAPHEIGHT - 1);
 
@@ -3692,18 +3668,24 @@ void AM_DrawMiniMap(void)
 
     for (int yy = framey; yy < framey + frameheight; yy++)
         for (int xx = framex; xx < framex + framewidth; xx++)
-            if (yy < framey + MINIMAPBORDER || yy >= framey + height + MINIMAPBORDER
-                || xx < framex + MINIMAPBORDER || xx >= framex + width + MINIMAPBORDER)
+            if (yy < framey + MINIMAPBORDER || yy >= framey + MAPHEIGHT + MINIMAPBORDER
+                || xx < framex + MINIMAPBORDER || xx >= framex + MAPWIDTH + MINIMAPBORDER)
                 if (!((yy == framey && xx == framex)
                     || (yy == framey && xx == framex + framewidth - 1)
                     || (yy == framey + frameheight - 1 && xx == framex)
                     || (yy == framey + frameheight - 1 && xx == framex + framewidth - 1)))
                     minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
 
-    for (int yy = 0; yy < height; yy++)
-        for (int xx = 0; xx < width; xx++)
+    minimapbuffer[(framey + MINIMAPBORDER) * bufferwidth + framex + MINIMAPBORDER] = nearestwhite;
+    minimapbuffer[(framey + MINIMAPBORDER) * bufferwidth + framex + framewidth - MINIMAPBORDER - 1] = nearestwhite;
+    minimapbuffer[(framey + frameheight - MINIMAPBORDER - 1) * bufferwidth + framex + MINIMAPBORDER] = nearestwhite;
+    minimapbuffer[(framey + frameheight - MINIMAPBORDER - 1) * bufferwidth
+        + framex + framewidth - MINIMAPBORDER - 1] = nearestwhite;
+
+    for (int yy = 0; yy < MAPHEIGHT; yy++)
+        for (int xx = 0; xx < MAPWIDTH; xx++)
         {
-            const byte    color = minimapscreen[yy * width + xx];
+            const byte    color = minimapscreen[yy * MAPWIDTH + xx];
 
             if (color != nearestblack)
                 minimapbuffer[(framey + yy + MINIMAPBORDER) * bufferwidth + framex + xx + MINIMAPBORDER] = color;
@@ -3741,10 +3723,10 @@ void AM_DrawMiniMap(void)
                     byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
                     const byte  color = minimapbuffer[yy * bufferwidth + xx];
                     const bool  pathpixel = (yy >= framey + MINIMAPBORDER
-                                    && yy < framey + height + MINIMAPBORDER
+                                    && yy < framey + MAPHEIGHT + MINIMAPBORDER
                                     && xx >= framex + MINIMAPBORDER
-                                    && xx < framex + width + MINIMAPBORDER
-                                    && minimappathscreen[(yy - framey - MINIMAPBORDER) * width
+                                    && xx < framex + MAPWIDTH + MINIMAPBORDER
+                                    && minimappathscreen[(yy - framey - MINIMAPBORDER) * MAPWIDTH
                                         + xx - framex - MINIMAPBORDER] != nearestblack);
                     const byte  sourcecolor = (pathpixel && color == nearestwhite ? nearestlightgray : color);
                     const byte  blendcolor = (invertcolors ? (sourcecolor == nearestlightgray ?
