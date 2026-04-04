@@ -621,6 +621,9 @@ static byte blues[] =
 //
 static void M_DrawHelpBackground(void)
 {
+    bool    bluepillarboxes = false;
+    int     pillarwidth = 0;
+
     if (automapactive)
     {
         automapactive = false;
@@ -630,7 +633,15 @@ static void M_DrawHelpBackground(void)
     }
 
     if (gamestate != GS_LEVEL)
+    {
         V_DrawPagePatch(0, titlelump);
+
+        if (SCREENWIDTH != NONWIDEWIDTH && SHORT(titlelump->width) <= VANILLAWIDTH)
+        {
+            bluepillarboxes = true;
+            pillarwidth = (SCREENWIDTH - NONWIDEWIDTH) / 2;
+        }
+    }
 
     M_BigSeed(411);
 
@@ -639,13 +650,14 @@ static void M_DrawHelpBackground(void)
         byte    *row0 = *screens + y;
         byte    *row1 = row0 + SCREENWIDTH;
 
-        for (int x = 0; x < SCREENWIDTH; x += 2)
+        for (int x = 0; x < SCREENWIDTH - 1; x += 2)
         {
             byte        *dot1 = row0 + x;
             const byte  *dot2 = dot1 + 1;
             const byte  *dot3 = dot2 + SCREENWIDTH;
             const byte  *dot4 = dot3 - 1;
-            const byte  color = colormaps[0][M_BigRandomInt(0, 3) * 256
+            const bool  pillarbox = (bluepillarboxes && (x < pillarwidth || x >= SCREENWIDTH - pillarwidth));
+            const byte  color = colormaps[0][(pillarbox ? 0 : M_BigRandomInt(0, 3)) * 256
                             + blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8)
                             + tinttab50[(*dot3 << 8) + *dot4]]]];
 
