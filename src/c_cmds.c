@@ -2849,7 +2849,7 @@ static void condumpfunc2(char *cmd, char *parms)
                     const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
                     struct tm           timestamp = console[i].timestamp;
 
-                    for (unsigned int j = (type == playermessagestring ? 0 : 2); j < spaces; j++)
+                    for (unsigned int j = ((type == playerwarningstring || type == playerobituarystring) ? 2 : 0); j < spaces; j++)
                         fputc(' ', file);
 
                     if (con_timestampformat == con_timestampformat_standard)
