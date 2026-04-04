@@ -126,6 +126,7 @@
 * `MUSINFO` things 14,100 and 14,164 are now supported.
 * Using `Fullbright` in `DEHACKED` lumps to make the frames of all things fullbright now works as intended.
 * Additional bars for all ammo types can now be shown in the alternate widescreen HUD by enabling the new `r_althud_ammobars` CVAR, which is `off` by default.
+* Noise is no longer applied to the pillarbox areas when displaying the help screen over a non-widescreen `TITLEPIC` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
