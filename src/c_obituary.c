@@ -347,40 +347,150 @@ void C_BuildObituaryString(const int index)
 
 static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
 {
+    const bool  defaultplayername = isdefaultplayername();
+
+    if (a->telefragged != b->telefragged)
+        return false;
+
+    if (a->telefragged)
+    {
+        if (a->targetisplayer != b->targetisplayer
+            || a->sourceisplayer != b->sourceisplayer)
+            return false;
+
+        if (!a->sourceisplayer
+            && (a->source != b->source
+                || a->sourcefriendly != b->sourcefriendly
+                || !M_StringCompare(a->sourcename, b->sourcename)))
+            return false;
+
+        if (!a->targetisplayer
+            && (a->target != b->target
+                || a->targetfriendly != b->targetfriendly
+                || !M_StringCompare(a->targetname, b->targetname)))
+            return false;
+
+        return true;
+    }
+
+    if (a->source != MT_NULL)
+    {
+        const bool  barrelobituarya = (a->inflicter == MT_BARREL && a->target != MT_BARREL);
+        const bool  barrelobituaryb = (b->inflicter == MT_BARREL && b->target != MT_BARREL);
+        const bool  playerobituarya = (a->sourceisplayer || a->source == MT_BFG);
+        const bool  playerobituaryb = (b->sourceisplayer || b->source == MT_BFG);
+
+        if (b->source == MT_NULL
+            || barrelobituarya != barrelobituaryb
+            || playerobituarya != playerobituaryb)
+            return false;
+
+        if (barrelobituarya)
+        {
+            if (a->targetisplayer != b->targetisplayer
+                || a->inflicter != b->inflicter
+                || a->gibbed != b->gibbed)
+                return false;
+
+            if (a->barrelinflicter != b->barrelinflicter)
+                return false;
+
+            if (!a->targetisplayer)
+            {
+                if (a->target != b->target
+                    || a->targetfriendly != b->targetfriendly
+                    || !M_StringCompare(a->targetname, b->targetname)
+                    || ((a->source == a->target) != (b->source == b->target)))
+                    return false;
+
+                if (a->source != a->target
+                    && b->source != b->target
+                    && a->targetcorpse != b->targetcorpse)
+                    return false;
+            }
+
+            return true;
+        }
+
+        if (playerobituarya)
+        {
+            if (a->targetisplayer != b->targetisplayer)
+                return false;
+
+            if (a->targetisplayer)
+            {
+                if (!healthcvar
+                    && (a->weapon != b->weapon || a->gibbed != b->gibbed))
+                    return false;
+            }
+            else
+            {
+                if (a->target != b->target
+                    || a->targetfriendly != b->targetfriendly
+                    || a->weapon != b->weapon
+                    || !M_StringCompare(a->targetname, b->targetname)
+                    || C_KillVerb(a->target, a->gibbed) != C_KillVerb(b->target, b->gibbed))
+                    return false;
+
+                if (!defaultplayername && a->targetcorpse != b->targetcorpse)
+                    return false;
+            }
+
+            return true;
+        }
+
+        if (a->targetisplayer != b->targetisplayer
+            || a->source != b->source
+            || a->sourcefriendly != b->sourcefriendly
+            || !M_StringCompare(a->sourcename, b->sourcename))
+            return false;
+
+        if (a->targetisplayer)
+            return (a->gibbed == b->gibbed);
+
+        if (a->target != b->target
+            || a->targetfriendly != b->targetfriendly
+            || !M_StringCompare(a->targetname, b->targetname)
+            || C_KillVerb(a->target, a->gibbed) != C_KillVerb(b->target, b->gibbed))
+            return false;
+
+        return true;
+    }
+
+    if (b->source != MT_NULL || a->targetisplayer != b->targetisplayer)
+        return false;
+
+    if (a->targetisplayer)
+    {
+        const bool  moltenrocka = ((a->floorpic >= RROCK05 && a->floorpic <= RROCK08)
+                                || (a->floorpic >= SLIME09 && a->floorpic <= SLIME12));
+        const bool  moltenrockb = ((b->floorpic >= RROCK05 && b->floorpic <= RROCK08)
+                                || (b->floorpic >= SLIME09 && b->floorpic <= SLIME12));
+        const bool  liquida = (a->terraintype >= LIQUID && a->terraintype < NUMTERRAINTYPES);
+        const bool  liquidb = (b->terraintype >= LIQUID && b->terraintype < NUMTERRAINTYPES);
+
+        if (a->crushed != b->crushed)
+            return false;
+
+        if (a->crushed)
+            return true;
+
+        if (liquida != liquidb)
+            return false;
+
+        if (liquida)
+            return (a->terraintype == b->terraintype);
+
+        return (moltenrocka == moltenrockb);
+    }
+
+    if (a->crushed != b->crushed || !a->crushed)
+        return false;
+
     if (a->target != b->target
-        || a->source != b->source
-        || a->barrelinflicter != b->barrelinflicter
-        || a->weapon != b->weapon
-        || a->telefragged != b->telefragged
-        || a->targetisplayer != b->targetisplayer
-        || a->sourceisplayer != b->sourceisplayer
         || a->targetfriendly != b->targetfriendly
-        || a->sourcefriendly != b->sourcefriendly
         || a->targetcorpse != b->targetcorpse
-        || a->crushed != b->crushed)
-        return false;
-
-    if (C_KillVerb(a->target, a->gibbed) != C_KillVerb(b->target, b->gibbed))
-        return false;
-
-    if (a->source == MT_NULL)
-    {
-        if (a->terraintype != b->terraintype
-            || a->floorpic != b->floorpic)
-            return false;
-    }
-
-    if ((!a->sourceisplayer && a->source != MT_BFG)
-        || (!b->sourceisplayer && b->source != MT_BFG))
-    {
-        if (a->inflicter != b->inflicter)
-            return false;
-    }
-
-    if (!M_StringCompare(a->targetname, b->targetname))
-        return false;
-
-    if (!M_StringCompare(a->sourcename, b->sourcename))
+        || !M_StringCompare(a->targetname, b->targetname))
         return false;
 
     return true;
