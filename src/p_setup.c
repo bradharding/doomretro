@@ -4166,6 +4166,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             else
                             {
                                 M_StringCopy(string, sc_String, sizeof(string));
+                                P_ParseMapString(lumpname, &map, &ep);
                                 M_AddEpisode(map, ep, lumpname, string);
                             }
 

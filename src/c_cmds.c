@@ -5730,6 +5730,8 @@ static void mapstatsfunc2(char *cmd, char *parms)
     int         width;
     int         height;
     int         depth;
+    const int   maptoepisodeindex = (gamemode == commercial ? gamemap : gameepisode * 10 + gamemap);
+    const int   currentepisode = (maptoepisodeindex < maxmaptoepisode ? maptoepisode[maptoepisodeindex] : 0);
 
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
     {
@@ -5844,23 +5846,23 @@ static void mapstatsfunc2(char *cmd, char *parms)
         }
         else
         {
-            if (customepisodes && gamemap < maxmaptoepisode && maptoepisode[gamemap] > 0)
+            if (customepisodes && currentepisode > 0)
             {
-                if (**episodes[maptoepisode[gamemap] - 1])
+                if (**episodes[currentepisode - 1])
                 {
-                    temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
+                    temp = titlecase(*episodes[currentepisode - 1]);
 
-                    if (maptoepisode[gamemap] == 1 && EpiDef.numitems == 1)
+                    if (currentepisode == 1 && EpiDef.numitems == 1)
                         C_TabbedOutput(tabs, "Episode\t" ITALICS("%s"), temp);
                     else
                         C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                            temp, maptoepisode[gamemap], EpiDef.numitems);
+                            temp, currentepisode, EpiDef.numitems);
 
                     free(temp);
                 }
                 else
                     C_TabbedOutput(tabs, "Episode\t%i of %i",
-                        maptoepisode[gamemap], EpiDef.numitems);
+                        currentepisode, EpiDef.numitems);
             }
             else if (nerve)
             {
@@ -5874,16 +5876,16 @@ static void mapstatsfunc2(char *cmd, char *parms)
     {
         if (customepisodes)
         {
-            if (**episodes[maptoepisode[gamemap] - 1])
+            if (currentepisode > 0 && **episodes[currentepisode - 1])
             {
-                temp = titlecase(*episodes[maptoepisode[gamemap] - 1]);
+                temp = titlecase(*episodes[currentepisode - 1]);
                 C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") " (%i of %i)",
-                    temp, maptoepisode[gamemap], EpiDef.numitems);
+                    temp, currentepisode, EpiDef.numitems);
                 free(temp);
             }
             else
                 C_TabbedOutput(tabs, "Episode\t%i of %i",
-                    maptoepisode[gamemap], EpiDef.numitems);
+                    currentepisode, EpiDef.numitems);
         }
         else if (!chex && !hacx)
         {

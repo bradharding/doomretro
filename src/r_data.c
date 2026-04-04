@@ -639,9 +639,13 @@ static void R_InitSpriteLumps(void)
     if (FREEDOOM)
     {
         s_M_EPISODE1 = M_StringDuplicate("Outpost Outbreak");
+        s_CAPTION_EPISODE1 = M_StringDuplicate("Outpost Outbreak");
         s_M_EPISODE2 = M_StringDuplicate("Military Labs");
+        s_CAPTION_EPISODE2 = M_StringDuplicate("Military Labs");
         s_M_EPISODE3 = M_StringDuplicate("Event Horizon");
+        s_CAPTION_EPISODE3 = M_StringDuplicate("Event Horizon");
         s_M_EPISODE4 = M_StringDuplicate("Double Impact");
+        s_CAPTION_EPISODE4 = M_StringDuplicate("Double Impact");
 
         s_M_SKILLLEVEL1 = M_StringDuplicate("Please don't kill me!");
         s_M_SKILLLEVEL2 = M_StringDuplicate("Will this hurt?");

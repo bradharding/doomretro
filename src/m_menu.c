@@ -1756,11 +1756,13 @@ int             maxmaptoepisode = 0;
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
-    if (map >= maxmaptoepisode)
+    const int   mapindex = (gamemode == commercial ? map : ep * 10 + map);
+
+    if (mapindex >= maxmaptoepisode)
     {
         const int   oldmaxmaptoepisode = maxmaptoepisode;
 
-        maxmaptoepisode = map + 100;
+        maxmaptoepisode = mapindex + 100;
         maptoepisode = I_Realloc(maptoepisode, maxmaptoepisode * sizeof(*maptoepisode));
 
         memset(maptoepisode + oldmaxmaptoepisode, 0,
@@ -1778,15 +1780,15 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
             prevmap = map;
         }
 
-        maptoepisode[map] = episodecount;
+        maptoepisode[mapindex] = episodecount;
 
-        for (int i = map - 1; i >= 0; i--)
+        for (int i = mapindex - 1; i >= 0; i--)
             if (!maptoepisode[i])
                 maptoepisode[i] = episodecount - 1;
             else
                 break;
 
-        for (int i = map + 1; i < maxmaptoepisode; i++)
+        for (int i = mapindex + 1; i < maxmaptoepisode; i++)
             if (maptoepisode[i] < episodecount)
                 maptoepisode[i] = episodecount;
 
@@ -1794,9 +1796,9 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
     }
     else
     {
-        maptoepisode[map] = ep;
+        maptoepisode[mapindex] = ep;
 
-        for (int i = map - 1; i >= 0; i--)
+        for (int i = mapindex - 1; i >= 0; i--)
             if (!maptoepisode[i])
                 maptoepisode[i] = ep - 1;
             else
@@ -1893,7 +1895,7 @@ void M_SetWindowCaption(void)
         {
             if (customepisodes)
             {
-                const int   ep = maptoepisode[gamemap];
+                const int   ep = (gamemap < maxmaptoepisode ? maptoepisode[gamemap] : 0);
                 const char  *epname = NULL;
 
                 if (ep > 0 && ep < MAXEPISODES && episodes[ep - 1])
