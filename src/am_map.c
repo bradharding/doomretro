@@ -971,8 +971,7 @@ static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const
 
 int AM_GetMiniMapBottom(void)
 {
-    return (AM_MiniMapVisible() ? OVERLAYTEXTY + MINIMAPBORDER * 2
-        + MINIMAPHEIGHT + MINIMAPSHADOWOFFSET + OVERLAYSPACING : 0);
+    return (OVERLAYTEXTY + MINIMAPBORDER * 2 + MINIMAPHEIGHT + MINIMAPSHADOWOFFSET + OVERLAYSPACING);
 }
 
 static void AM_InitVariables(const bool mainwindow)
