@@ -351,7 +351,6 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
         || a->source != b->source
         || a->barrelinflicter != b->barrelinflicter
         || a->weapon != b->weapon
-        || a->gibbed != b->gibbed
         || a->telefragged != b->telefragged
         || a->targetisplayer != b->targetisplayer
         || a->sourceisplayer != b->sourceisplayer
@@ -359,6 +358,9 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
         || a->sourcefriendly != b->sourcefriendly
         || a->targetcorpse != b->targetcorpse
         || a->crushed != b->crushed)
+        return false;
+
+    if (C_KillVerb(a->target, a->gibbed) != C_KillVerb(b->target, b->gibbed))
         return false;
 
     if (a->source == MT_NULL)
