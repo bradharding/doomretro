@@ -1766,6 +1766,9 @@ int             maxmaptoepisode = 0;
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
+    if (map <= 0 || ep <= 0)
+        return;
+
     const int   mapindex = (gamemode == commercial ? map : ep * 10 + map);
 
     if (mapindex >= maxmaptoepisode)
@@ -4826,6 +4829,11 @@ void M_Init(void)
     ExpDef.laston = expansion - 1;
     NewDef.laston = skilllevel - 1;
     SaveDef.laston = LoadDef.laston = savegame - 1;
+
+    if (SaveDef.laston < 0)
+        SaveDef.laston = LoadDef.laston = 0;
+    else if (SaveDef.laston >= load_end)
+        SaveDef.laston = LoadDef.laston = load_end - 1;
 
     if (!*savegamestrings[SaveDef.laston])
         while (SaveDef.laston && !*savegamestrings[SaveDef.laston])
