@@ -3438,6 +3438,7 @@ bool C_Responder(event_t *ev)
         static uint64_t lastinputclicktime;
         static int      lastinputclickx;
         static int      lastinputclicky;
+        static int      inputclickcount;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3524,6 +3525,8 @@ bool C_Responder(event_t *ev)
             // move caret
             else if (len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
+                const uint64_t  clicktime = I_GetTimeMS();
+
                 for (i = 0; i < len; i++)
                 {
                     char    *temp1 = M_SubString(consoleinput, 0, i);
@@ -3541,12 +3544,35 @@ bool C_Responder(event_t *ev)
                     free(temp2);
                 }
 
-                if (newleftbuttonpress && lastinputclicktime
-                    && I_GetTimeMS() - lastinputclicktime <= CONSOLEINPUTDOUBLECLICKTIME
-                    && x >= lastinputclickx - CONSOLEINPUTDOUBLECLICKDISTANCE
-                    && x <= lastinputclickx + CONSOLEINPUTDOUBLECLICKDISTANCE
-                    && y >= lastinputclicky - CONSOLEINPUTDOUBLECLICKDISTANCE
-                    && y <= lastinputclicky + CONSOLEINPUTDOUBLECLICKDISTANCE)
+                if (newleftbuttonpress)
+                {
+                    if (lastinputclicktime
+                        && clicktime - lastinputclicktime <= CONSOLEINPUTDOUBLECLICKTIME
+                        && x >= lastinputclickx - CONSOLEINPUTDOUBLECLICKDISTANCE
+                        && x <= lastinputclickx + CONSOLEINPUTDOUBLECLICKDISTANCE
+                        && y >= lastinputclicky - CONSOLEINPUTDOUBLECLICKDISTANCE
+                        && y <= lastinputclicky + CONSOLEINPUTDOUBLECLICKDISTANCE)
+                        inputclickcount++;
+                    else
+                        inputclickcount = 1;
+
+                    lastinputclicktime = clicktime;
+                    lastinputclickx = x;
+                    lastinputclicky = y;
+                }
+
+                if (newleftbuttonpress && inputclickcount >= 3)
+                {
+                    selectstart = 0;
+                    caretpos = selectend = len;
+                    caretwait = clicktime + CARETBLINKTIME;
+                    showcaret = true;
+                    selectingwithmouse = false;
+                    doubleclickselection = true;
+                    return true;
+                }
+
+                if (newleftbuttonpress && inputclickcount == 2)
                 {
                     int wordstart = i;
                     int wordend = i;
@@ -3579,7 +3605,7 @@ bool C_Responder(event_t *ev)
                     else
                         selectstart = caretpos = selectend = i;
 
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    caretwait = clicktime + CARETBLINKTIME;
                     showcaret = true;
                     selectingwithmouse = false;
                     doubleclickselection = true;
@@ -3597,9 +3623,6 @@ bool C_Responder(event_t *ev)
                 selectstart = i;
                 selectend = i;
                 selectingwithmouse = true;
-                lastinputclicktime = I_GetTimeMS();
-                lastinputclickx = x;
-                lastinputclicky = y;
             }
             else if (scrollbardrawn && x >= CONSOLESCROLLBARX && x <= CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH)
             {
