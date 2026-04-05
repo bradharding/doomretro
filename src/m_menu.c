@@ -1915,18 +1915,18 @@ void M_SetWindowCaption(void)
                     epname = *episodes[ep - 1];
 
                 if (epname)
-                    M_snprintf(caption, sizeof(caption), "%s · %s · %s · %s",
+                    M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
                         mapnumandtitle, epname, gamedescription, DOOMRETRO_NAME);
                 else
-                    M_snprintf(caption, sizeof(caption), "%s · %s · %s",
+                    M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                         mapnumandtitle, gamedescription, DOOMRETRO_NAME);
             }
             else if ((gamemission == doom2 && !nerve) || gamemission == pack_plut
                 || gamemission == pack_tnt || M_StringEndsWith(gamedescription, ".wad"))
-                M_snprintf(caption, sizeof(caption), "%s · %s · %s",
+                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, DOOMRETRO_NAME);
             else
-                M_snprintf(caption, sizeof(caption), "%s · %s: %s · %s",
+                M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s: %s \xC2\xB7 %s",
                     mapnumandtitle, gamedescription, *expansions[(gamemission == pack_nerve ? ex2 : ex1)],
                     DOOMRETRO_NAME);
         }
@@ -1938,12 +1938,12 @@ void M_SetWindowCaption(void)
             if (ep > 0 && ep < MAXEPISODES && episodes[ep - 1])
                 epname = *episodes[ep - 1];
 
-            M_snprintf(caption, sizeof(caption), "%s · %s · %s · %s",
+            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s \xC2\xB7 %s",
                 mapnumandtitle, (epname ? epname : ""), gamedescription, DOOMRETRO_NAME);
         }
     }
     else
-        M_snprintf(caption, sizeof(caption), "%s · %s", gamedescription, DOOMRETRO_NAME);
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
 
     SDL_SetWindowTitle(window, caption);
 }
