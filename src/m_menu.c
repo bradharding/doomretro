@@ -881,10 +881,20 @@ static void M_ReadSaveStrings(void)
             continue;
         }
 
-        if (fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle) && *savegamestrings[i])
+        if (fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle))
         {
-            savegames = true;
-            LoadGameMenu[i].status = 1;
+            savegamestrings[i][SAVESTRINGSIZE - 1] = '\0';
+
+            if (*savegamestrings[i])
+            {
+                savegames = true;
+                LoadGameMenu[i].status = 1;
+            }
+            else
+            {
+                M_StringCopy(savegamestrings[i], s_EMPTYSTRING, sizeof(savegamestrings[0]));
+                LoadGameMenu[i].status = 0;
+            }
         }
         else
         {
