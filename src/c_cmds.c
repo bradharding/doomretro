@@ -2815,6 +2815,9 @@ static void condumpfunc2(char *cmd, char *parms)
                     string = M_StringDuplicate(buffer);
                 }
 
+                M_StringReplaceAll(string, "(AM)", "am", false);
+                M_StringReplaceAll(string, "(PM)", "pm", false);
+
                 if (!(len = (int)strlen(string)))
                 {
                     free(string);
