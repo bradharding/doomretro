@@ -2281,7 +2281,9 @@ static void M_EndGameResponse(int key)
         return;
     }
 
-    currentmenu->laston = itemon + 1;
+    if (menuactive)
+        currentmenu->laston = itemon;
+
     S_StopMusic();
     C_HideConsoleFast();
     M_CloseMenu();
@@ -3593,6 +3595,8 @@ bool M_Responder(event_t *ev)
                     r_hud = false;
                     C_StringCVAROutput(stringize(r_hud), "off");
                 }
+
+                R_SetViewSize(r_screensize);
             }
 
             pagetic = PAGETICS;
@@ -3622,6 +3626,7 @@ bool M_Responder(event_t *ev)
             {
                 r_screensize = r_screensize_default;
                 C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                R_SetViewSize(r_screensize);
             }
 
             pagetic = PAGETICS;
