@@ -197,6 +197,26 @@ static void R_FixWiggle(sector_t *sector)
     }
 }
 
+// [PN] Shared sub-pixel DDA step for solid and masked wall passes.
+// Returns +1 / -1 when error compensation must be applied this column.
+static inline int R_DDACompStep(int64_t *const err, const int64_t rem, const int64_t span)
+{
+    *err += rem;
+
+    if (*err >= span)
+    {
+        *err -= span;
+        return 1;
+    }
+    else if (*err <= -span)
+    {
+        *err += span;
+        return -1;
+    }
+
+    return 0;
+}
+
 static lighttable_t **GetLightTable(const int lightlevel)
 {
     return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
@@ -235,6 +255,10 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     int             texnum;
     int64_t         texheight;
     const rpatch_t  *patch;
+    int64_t         masked_scalerem = 0;
+    int64_t         masked_scaleerr = 0;
+    int64_t         masked_scalespan64 = 0;
+    const int       masked_scalespan = ds->x2 - ds->x1;
 
     curline = ds->curline;
     frontsector = curline->frontsector;
@@ -275,6 +299,23 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     maskedtexturecol = ds->maskedtexturecol;
     rw_scalestep = ds->scalestep;
     spryscale = ds->scale + (x1 - ds->x1) * rw_scalestep;
+
+    // [PN] Sub-pixel stable DDA for masked pass (transparent upper/mid).
+    // Keeps masked columns aligned with solid-pass scale stepping.
+    if (masked_scalespan > 0)
+    {
+        const int64_t   delta = (int64_t)ds->minscale - (int64_t)ds->scale;
+        const int64_t   step64 = delta / (int64_t)masked_scalespan;
+        const int       advance = x1 - ds->x1;
+
+        masked_scalerem = delta - step64 * (int64_t)masked_scalespan;
+        masked_scalespan64 = (int64_t)masked_scalespan;
+
+        if (advance > 0 && masked_scalerem)
+            for (int i = 0; i < advance; i++)
+                spryscale += R_DDACompStep(&masked_scaleerr, masked_scalerem, masked_scalespan64);
+    }
+
     mceilingclip = ds->sprtopclip;
     mfloorclip = ds->sprbottomclip;
 
@@ -289,7 +330,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     patch = R_CacheTextureCompositePatchNum(texnum);
 
     // draw the columns
-    for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
+    for (dc_x = x1; dc_x <= x2; dc_x++)
+    {
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
             const rcolumn_t *column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
@@ -308,8 +350,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 const int64_t   t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
                 // skip if the texture is out of screen's range
-                if (t + texheight * spryscale < 0 || t > ((int64_t)SCREENHEIGHT << (FRACBITS * 2)))
-                    continue;
+                if (t + texheight * spryscale < 0 || t >((int64_t)SCREENHEIGHT << (FRACBITS * 2)))
+                    goto next_column;   // [PN] Keep DDA progression even if this column is skipped.
 
                 sprtopscreen = (int64_t)(t >> FRACBITS);
 
@@ -330,6 +372,13 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
             }
         }
+
+next_column:
+        spryscale += rw_scalestep;
+
+        if (masked_scalerem)
+            spryscale += R_DDACompStep(&masked_scaleerr, masked_scalerem, masked_scalespan64);
+    }
 }
 
 //
@@ -594,33 +643,19 @@ static void R_RenderSegLoop(void)
         // This removes the tiny right-edge drift/jitter on long walls.
         if (rw_scalerem)
         {
-            rw_scaleerr += rw_scalerem;
+            const int   dda = R_DDACompStep(&rw_scaleerr, rw_scalerem, rw_scalespan64);
 
-            if (rw_scaleerr >= rw_scalespan64)
+            if (dda)
             {
-                rw_scaleerr -= rw_scalespan64;
-                rw_scale++;
-                topfrac -= rw_worldtopcorr;
-                bottomfrac -= rw_worldbottomcorr;
+                rw_scale += dda;
+                topfrac -= dda * rw_worldtopcorr;
+                bottomfrac -= dda * rw_worldbottomcorr;
 
                 if (have_pixhigh)
-                    pixhigh -= rw_worldhighcorr;
+                    pixhigh -= dda * rw_worldhighcorr;
 
                 if (have_pixlow)
-                    pixlow -= rw_worldlowcorr;
-            }
-            else if (rw_scaleerr <= -rw_scalespan64)
-            {
-                rw_scaleerr += rw_scalespan64;
-                rw_scale--;
-                topfrac += rw_worldtopcorr;
-                bottomfrac += rw_worldbottomcorr;
-
-                if (have_pixhigh)
-                    pixhigh += rw_worldhighcorr;
-
-                if (have_pixlow)
-                    pixlow += rw_worldlowcorr;
+                    pixlow -= dda * rw_worldlowcorr;
             }
         }
     }
