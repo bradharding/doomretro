@@ -43,7 +43,7 @@ extern "C" {
  */
 #define SDL_IMAGE_MAJOR_VERSION 2
 #define SDL_IMAGE_MINOR_VERSION 8
-#define SDL_IMAGE_PATCHLEVEL    8
+#define SDL_IMAGE_PATCHLEVEL    10
 
 /**
  * This macro can be used to fill a version structure with the compile-time
@@ -248,7 +248,6 @@ extern DECLSPEC void SDLCALL IMG_Quit(void);
  *
  * \sa IMG_Load
  * \sa IMG_Load_RW
- * \sa SDL_FreeSurface
  */
 extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadTyped_RW(SDL_RWops *src, int freesrc, const char *type);
 
@@ -290,7 +289,6 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_LoadTyped_RW(SDL_RWops *src, int frees
  *
  * \sa IMG_LoadTyped_RW
  * \sa IMG_Load_RW
- * \sa SDL_FreeSurface
  */
 extern DECLSPEC SDL_Surface * SDLCALL IMG_Load(const char *file);
 
@@ -343,7 +341,6 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_Load(const char *file);
  *
  * \sa IMG_Load
  * \sa IMG_LoadTyped_RW
- * \sa SDL_FreeSurface
  */
 extern DECLSPEC SDL_Surface * SDLCALL IMG_Load_RW(SDL_RWops *src, int freesrc);
 
@@ -381,7 +378,6 @@ extern DECLSPEC SDL_Surface * SDLCALL IMG_Load_RW(SDL_RWops *src, int freesrc);
  *
  * \sa IMG_LoadTextureTyped_RW
  * \sa IMG_LoadTexture_RW
- * \sa SDL_DestroyTexture
  */
 extern DECLSPEC SDL_Texture * SDLCALL IMG_LoadTexture(SDL_Renderer *renderer, const char *file);
 
@@ -428,7 +424,6 @@ extern DECLSPEC SDL_Texture * SDLCALL IMG_LoadTexture(SDL_Renderer *renderer, co
  *
  * \sa IMG_LoadTexture
  * \sa IMG_LoadTextureTyped_RW
- * \sa SDL_DestroyTexture
  */
 extern DECLSPEC SDL_Texture * SDLCALL IMG_LoadTexture_RW(SDL_Renderer *renderer, SDL_RWops *src, int freesrc);
 
@@ -483,7 +478,6 @@ extern DECLSPEC SDL_Texture * SDLCALL IMG_LoadTexture_RW(SDL_Renderer *renderer,
  *
  * \sa IMG_LoadTexture
  * \sa IMG_LoadTexture_RW
- * \sa SDL_DestroyTexture
  */
 extern DECLSPEC SDL_Texture * SDLCALL IMG_LoadTextureTyped_RW(SDL_Renderer *renderer, SDL_RWops *src, int freesrc, const char *type);
 #endif /* SDL 2.0 */
@@ -2039,16 +2033,17 @@ extern DECLSPEC int SDLCALL IMG_SaveJPG(SDL_Surface *surface, const char *file, 
 extern DECLSPEC int SDLCALL IMG_SaveJPG_RW(SDL_Surface *surface, SDL_RWops *dst, int freedst, int quality);
 
 /**
- * Animated image support.
+ * Animated image support
  *
- * Currently only animated GIFs are supported.
+ * Currently only animated GIFs and WEBP images are supported.
  */
 typedef struct IMG_Animation
 {
-	int w, h;
-	int count;
-	SDL_Surface **frames;
-	int *delays;
+    int w;                  /**< The width of the frames */
+    int h;                  /**< The height of the frames */
+    int count;              /**< The number of frames */
+    SDL_Surface **frames;   /**< An array of frames */
+    int *delays;            /**< An array of frame delays, in milliseconds */
 } IMG_Animation;
 
 /**
