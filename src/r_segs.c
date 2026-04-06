@@ -304,7 +304,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     // Keeps masked columns aligned with solid-pass scale stepping.
     if (masked_scalespan > 0)
     {
-        const int64_t   delta = (int64_t)ds->minscale - (int64_t)ds->scale;
+        const int64_t   delta = (int64_t)ds->scale2 - (int64_t)ds->scale;
         const int64_t   step64 = delta / (int64_t)masked_scalespan;
         const int       advance = x1 - ds->x1;
 
@@ -773,6 +773,7 @@ void R_StoreWallRange(const int start, const int stop)
         const int64_t   delta = scale - (int64_t)rw_scale;
         const int64_t   step64 = delta / (int64_t)rw_scalespan;
 
+        ds_p->scale2 = (fixed_t)scale;
         rw_scalestep = (fixed_t)step64;
         ds_p->scalestep = rw_scalestep;
         rw_scalerem = delta - step64 * (int64_t)rw_scalespan;
@@ -790,6 +791,7 @@ void R_StoreWallRange(const int start, const int stop)
     }
     else
     {
+        ds_p->scale2 = rw_scale;
         ds_p->scalestep = 0;
         rw_scalerem = 0;
         rw_scalespan = 0;
