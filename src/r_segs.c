@@ -175,7 +175,7 @@ static void R_FixWiggle(sector_t *sector)
         {
             { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
             {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
-            {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
+            {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }
         };
 
         int                 scaleindex = 0;
@@ -441,7 +441,7 @@ static void R_RenderSegLoop(void)
         if (segtextured)
         {
             // calculate texture offset and lighting
-            const angle_t   angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
+            const angle_t   angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x0FFF;
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
