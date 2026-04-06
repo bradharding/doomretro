@@ -592,7 +592,7 @@ void M_DrawMenuBackground(void)
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
-    if (vid_showfps && framespersecond)
+    if (vid_showfps && framespersecond && (!messageneedsinput || !AM_MiniMapVisible()))
         C_UpdateFPSOverlay();
 }
 
