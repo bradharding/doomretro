@@ -1705,17 +1705,92 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
     if (output)
     {
-        char    *temp1 = commify(SCREENWIDTH);
-        char    *temp2 = commify(SCREENHEIGHT);
+        int     outputscreenwidth = SCREENWIDTH;
+        int     outputscreenheight = SCREENHEIGHT;
+        int     outputupscaledwidth = upscaledwidth;
+        int     outputupscaledheight = upscaledheight;
+        bool    outputnearestlinear = nearestlinear;
+        bool    outputlinearfilter = M_StringCompare(vid_scalefilter, vid_scalefilter_linear);
+
+        if (splashscreen)
+        {
+            int outputwidth = width;
+            int outputheight = height;
+
+            outputscreenheight = VANILLAHEIGHT * 2;
+            outputnearestlinear = M_StringCompare(vid_scalefilter_copy, vid_scalefilter_nearest_linear);
+            outputlinearfilter = M_StringCompare(vid_scalefilter_copy, vid_scalefilter_linear);
+
+            if (vid_widescreen_copy)
+            {
+                if (vid_aspectratio != vid_aspectratio_auto)
+                {
+                    if (vid_aspectratio == vid_aspectratio_16_9)
+                    {
+                        if ((outputheight = width * 9 / 16) > height)
+                        {
+                            outputwidth = height * 16 / 9;
+                            outputheight = height;
+                        }
+                    }
+                    else if (vid_aspectratio == vid_aspectratio_16_10)
+                    {
+                        if ((outputheight = width * 10 / 16) > height)
+                        {
+                            outputwidth = height * 16 / 10;
+                            outputheight = height;
+                        }
+                    }
+                    else if (vid_aspectratio == vid_aspectratio_21_9)
+                    {
+                        if ((outputheight = width * 9 / 21) > height)
+                        {
+                            outputwidth = height * 21 / 9;
+                            outputheight = height;
+                        }
+                    }
+                    else if (vid_aspectratio == vid_aspectratio_32_9)
+                    {
+                        if ((outputheight = width * 9 / 32) > height)
+                        {
+                            outputwidth = height * 32 / 9;
+                            outputheight = height;
+                        }
+                    }
+                }
+
+                outputscreenwidth = BETWEEN(NONWIDEWIDTH,
+                    ((outputwidth * ACTUALHEIGHT / outputheight + 1) & ~3), MAXWIDTH);
+            }
+            else
+                outputscreenwidth = NONWIDEWIDTH;
+
+            if (outputnearestlinear)
+            {
+                outputwidth = width;
+                outputheight = height;
+
+                if (outputwidth * ACTUALHEIGHT < outputheight * outputscreenwidth)
+                    outputheight = outputwidth * ACTUALHEIGHT / outputscreenwidth;
+                else
+                    outputwidth = outputheight * outputscreenwidth / ACTUALHEIGHT;
+
+                outputupscaledwidth = (outputwidth + outputscreenwidth - 1) / outputscreenwidth;
+                outputupscaledheight = (outputheight + outputscreenheight - 1) / outputscreenheight;
+            }
+        }
+
+        char    *temp1 = commify(outputscreenwidth);
+        char    *temp2 = commify(outputscreenheight);
         char    *temp3 = commify(width);
         char    *temp4 = commify(height);
 
         C_Output("A software renderer is used to render every frame.");
 
-        if (nearestlinear)
+        if (outputnearestlinear)
         {
-            char    *temp5 = commify((int64_t)upscaledwidth * SCREENWIDTH);
-            char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
+            char    *temp5 = commify((int64_t)outputupscaledwidth * outputscreenwidth);
+            char    *temp6 = commify((int64_t)outputupscaledheight * outputscreenheight);
 
             C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation "
                 "and then back down to %sx%s using linear filtering.", temp1, temp2, temp5, temp6,
@@ -1724,7 +1799,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             free(temp5);
             free(temp6);
         }
-        else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
+        else if (outputlinearfilter && !software)
             C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.",
                 temp1, temp2, temp3, temp4);
         else
