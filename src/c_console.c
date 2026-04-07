@@ -229,7 +229,7 @@ void C_Input(const char *string, ...)
 
     C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].indent = 0;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = inputstring;
     inputhistory = -1;
@@ -255,7 +255,7 @@ void C_Cheat(const char *string)
 
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].indent = 0;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = cheatstring;
     inputhistory = -1;
@@ -320,7 +320,7 @@ void C_Output(const char *string, ...)
     C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = 0;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
     C_ScrollToBottom();
@@ -343,7 +343,8 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
     console[numconsolestrings].wrapwidth = 0;
-    console[numconsolestrings++].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
+    numconsolestrings++;
     C_ScrollToBottom();
 }
 
@@ -355,7 +356,7 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     console[numconsolestrings].stringtype = headerstring;
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].header = header;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     C_StoreConsoleString(console[numconsolestrings++].string, string, sizeof(console[0].string));
     C_ScrollToBottom();
@@ -380,7 +381,7 @@ void C_Warning(const int warninglevel, const char *string, ...)
 
         C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].indent = WARNINGWIDTH + 2;
-        console[numconsolestrings].wrap = 0;
+        memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
         console[numconsolestrings].wrapwidth = 0;
         console[numconsolestrings].stringtype = warningstring;
         console[numconsolestrings].count = 1;
@@ -417,7 +418,7 @@ void C_PlayerMessage(const char *string, ...)
         C_CreateTimeStamp(numconsolestrings);
         console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
         console[numconsolestrings].indent = 0;
-        console[numconsolestrings].wrap = 0;
+        memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
         console[numconsolestrings].wrapwidth = 0;
         console[numconsolestrings++].count = 1;
     }
@@ -442,7 +443,7 @@ void C_PlayerWarning(const char *string, ...)
     C_CreateTimeStamp(numconsolestrings);
     console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = WARNINGWIDTH + 2;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].count = 1;
 
@@ -458,7 +459,7 @@ void C_ResetWrappedLines(void)
 {
     for (int i = 0; i < numconsolestrings; i++)
     {
-        console[i].wrap = 0;
+        memset(console[i].wrap, 0, sizeof(console[0].wrap));
         console[i].wrapwidth = 0;
     }
 }
@@ -754,53 +755,79 @@ static bool C_IsVisibleConsoleString(const int index)
         && !((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries);
 }
 
-static int C_GetWrapPosition(const int index)
+static int C_GetWrapWidth(const int index, const int wrap)
+{
+    return (wrap ? MAX(0, CONSOLETEXTPIXELWIDTH - console[index].indent) : CONSOLETEXTPIXELWIDTH);
+}
+
+static void C_GetWrapPositions(const int index, int wrappositions[2])
 {
     const int   len = (int)strlen(console[index].string);
-    const int   wrapwidth = CONSOLETEXTPIXELWIDTH;
     const int   stringtype = console[index].stringtype;
     const int   *tabs = (!console[index].indent
                     || stringtype == warningstring
                     || stringtype == playerwarningstring
                     || stringtype == playerobituarystring ? NULL : console[index].tabs);
-    int         wrap = 0;
+
+    memset(wrappositions, 0, sizeof(console[index].wrap));
 
     if (!len)
-        return 0;
+        return;
 
-    if (console[index].wrapwidth == wrapwidth)
-        return console[index].wrap;
-
-    for (int i = len; i > 0; i--)
+    if (console[index].wrapwidth == CONSOLETEXTPIXELWIDTH)
     {
-        if (!isbreak(console[index].string[i]))
-            continue;
-
-        const unsigned char breakchar = console[index].string[i];
-        const char          prev = console[index].string[i];
-        int                 width;
-
-        console[index].string[i] = '\0';
-        width = C_TextWidth(console[index].string, tabs, true, true);
-        console[index].string[i] = prev;
-
-        if (width <= wrapwidth + 10)
-        {
-            wrap = i + (breakchar == '-');
-            break;
-        }
+        memcpy(wrappositions, console[index].wrap, sizeof(console[index].wrap));
+        return;
     }
 
-    console[index].wrap = wrap;
-    console[index].wrapwidth = wrapwidth;
-    return wrap;
+    for (int wrap = 0, start = 0; wrap < arrlen(console[index].wrap) && start < len; wrap++)
+    {
+        for (int i = len; i > start; i--)
+        {
+            if (!isbreak(console[index].string[i]))
+                continue;
+
+            const unsigned char breakchar = console[index].string[i];
+            const char          prev = console[index].string[i];
+            int                 width;
+
+            console[index].string[i] = '\0';
+            width = C_TextWidth(&console[index].string[start], (wrap ? NULL : tabs), true, true);
+            console[index].string[i] = prev;
+
+            if (width <= C_GetWrapWidth(index, wrap) + 10)
+            {
+                wrappositions[wrap] = i + (breakchar == '-');
+                start = wrappositions[wrap];
+                break;
+            }
+        }
+
+        if (!wrappositions[wrap])
+            break;
+    }
+
+    memcpy(console[index].wrap, wrappositions, sizeof(console[index].wrap));
+    console[index].wrapwidth = CONSOLETEXTPIXELWIDTH;
 }
 
 static int C_GetConsoleDisplayRows(const int index)
 {
     const int   len = (int)strlen(console[index].string);
+    int         wraps[2];
 
-    return (len > 0 && C_GetWrapPosition(index) < len ? 2 : 1);
+    if (!len)
+        return 1;
+
+    C_GetWrapPositions(index, wraps);
+
+    for (int i = 1, prev = 0; i <= arrlen(wraps); i++)
+        if (!(wraps[i - 1] > prev && wraps[i - 1] < len))
+            return i;
+        else
+            prev = wraps[i - 1];
+
+    return arrlen(wraps) + 1;
 }
 
 static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int offset)
@@ -986,7 +1013,7 @@ void C_ClearConsole(void)
 
     console[numconsolestrings].string[0] = '\0';
     console[numconsolestrings].indent = 0;
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
 }
@@ -2259,16 +2286,77 @@ static int C_CountVisibleRows(void)
     return count;
 }
 
+static char *C_GetWrappedTextSegment(const int index, const int start, const int end)
+{
+    bool    bold = false;
+    bool    bolder = false;
+    bool    italics = false;
+    bool    monospaced = false;
+    char    prefix[5] = "";
+    int     prefixlen = 0;
+    char    *text = M_SubString(console[index].string, start, (size_t)(end - start));
+
+    for (int i = 0; i < start; i++)
+        if (console[index].string[i] == BOLDONCHAR)
+        {
+            if (bold)
+                bolder = true;
+            else
+                bold = true;
+        }
+        else if (console[index].string[i] == BOLDOFFCHAR)
+        {
+            if (bolder)
+                bolder = false;
+            else
+                bold = false;
+        }
+        else if (console[index].string[i] == ITALICSONCHAR)
+            italics = true;
+        else if (console[index].string[i] == ITALICSOFFCHAR)
+            italics = false;
+        else if (console[index].string[i] == MONOSPACEDONCHAR)
+            monospaced = true;
+        else if (console[index].string[i] == MONOSPACEDOFFCHAR)
+            monospaced = false;
+
+    if (bold)
+        prefix[prefixlen++] = BOLDONCHAR;
+
+    if (bolder)
+        prefix[prefixlen++] = BOLDONCHAR;
+
+    if (italics)
+        prefix[prefixlen++] = ITALICSONCHAR;
+
+    if (monospaced)
+        prefix[prefixlen++] = MONOSPACEDONCHAR;
+
+    if (prefixlen)
+    {
+        char    *temp;
+
+        prefix[prefixlen] = '\0';
+        temp = text;
+        text = M_StringJoin(prefix, text, NULL);
+        free(temp);
+    }
+
+    return text;
+}
+
 static void C_DrawConsoleStringParts(const int index, const int y1, const bool drawfirst,
-    const int y2, const bool drawsecond, const int notabs[MAXTABS])
+    const int y2, const bool drawsecond, const int y3, const bool drawthird, const int notabs[MAXTABS])
 {
     const stringtype_t  stringtype = console[index].stringtype;
     const int           len = (int)strlen(console[index].string);
-    const int           wrap = (len > 0 ? C_GetWrapPosition(index) : 0);
+    int                 wraps[2] = { 0 };
+    const int           wrap1 = (len > 0 ? (C_GetWrapPositions(index, wraps), wraps[0]) : 0);
+    const int           wrap2 = wraps[1];
 
     if (drawfirst && len > 0)
     {
-        char    *text = (wrap < len ? M_SubString(console[index].string, 0, wrap) :
+        char    *text = (wrap1 < len ? M_SubString(console[index].string, 0, wrap1) :
                     M_StringDuplicate(console[index].string));
 
         if (stringtype == playermessagestring || stringtype == obituarystring)
@@ -2359,50 +2447,24 @@ static void C_DrawConsoleStringParts(const int index, const int y1, const bool d
         free(text);
     }
 
-    if (drawsecond && wrap < len)
+    if (drawsecond && wrap1 < len)
     {
-        char    *temp1 = M_SubString(console[index].string, wrap, (size_t)len - wrap);
-        bool    bold = false;
-        bool    italics = false;
+        char    *temp = C_GetWrappedTextSegment(index, wrap1, (wrap2 > wrap1 ? wrap2 : len));
 
-        for (int j = 1; j < (int)strlen(temp1); j++)
-            if (temp1[j] == BOLDONCHAR)
-                break;
-            else if (temp1[j] == BOLDOFFCHAR)
-            {
-                bold = true;
-                break;
-            }
+        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y2, trimwhitespace(temp),
+            consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
+            notabs, true, true, !(wrap2 > wrap1 && wrap2 < len), 0, '\0', '\0', &V_DrawConsoleTextPatch);
+        free(temp);
+    }
 
-        if (bold)
-        {
-            char    *temp2 = temp1;
+    if (drawthird && wrap2 < len)
+    {
+        char    *temp = C_GetWrappedTextSegment(index, wrap2, len);
 
-            temp1 = M_StringJoin(BOLDON, temp1, NULL);
-            free(temp2);
-        }
-
-        for (int j = 1; j < (int)strlen(temp1); j++)
-            if (temp1[j] == ITALICSONCHAR)
-                break;
-            else if (temp1[j] == ITALICSOFFCHAR)
-            {
-                italics = true;
-                break;
-            }
-
-        if (italics)
-        {
-            char    *temp2 = temp1;
-
-            temp1 = M_StringJoin(ITALICSON, temp1, NULL);
-            free(temp2);
-        }
-
-        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y2, trimwhitespace(temp1),
+        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y3, trimwhitespace(temp),
             consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
             notabs, true, true, true, 0, '\0', '\0', &V_DrawConsoleTextPatch);
-        free(temp1);
+        free(temp);
     }
 }
 
@@ -2581,7 +2643,9 @@ void C_Drawer(void)
                 CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
                 (len >= toprow),
                 CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
-                (rows > 1 && len + 1 <= bottomrow), notabs);
+                (rows > 1 && len + 1 <= bottomrow),
+                CONSOLELINEHEIGHT * (len + 2 - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
+                (rows > 2 && len + 2 <= bottomrow), notabs);
 
         len += rows;
     }

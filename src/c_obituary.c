@@ -340,7 +340,7 @@ void C_BuildObituaryString(const int index)
 
     if (strcmp(oldstring, buffer))
     {
-        console[index].wrap = 0;
+        memset(console[index].wrap, 0, sizeof(console[0].wrap));
         console[index].wrapwidth = 0;
     }
 }
@@ -576,7 +576,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    console[numconsolestrings].wrap = 0;
+    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings].count = 1;
     C_CreateTimeStamp(numconsolestrings);

@@ -175,7 +175,7 @@ typedef struct
     char            string[1024];
     int             count;
     stringtype_t    stringtype;
-    int             wrap;
+    int             wrap[2];
     int             wrapwidth;
     int             indent;
     patch_t         *header;
