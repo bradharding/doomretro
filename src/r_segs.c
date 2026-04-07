@@ -750,6 +750,12 @@ void R_StoreWallRange(const int start, const int stop)
     worldtop = frontsector->interpceilingheight - viewz;
     worldbottom = frontsector->interpfloorheight - viewz;
 
+    // [BH] animate liquid sectors
+    if (frontsector->terraintype >= LIQUID
+        && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
+        && r_liquid_bob)
+        worldbottom += animatedliquiddiff;
+
     if (!vanilla)
         R_FixWiggle(frontsector);
 
@@ -842,6 +848,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
+            && !sidedef->midtexture
             && r_liquid_bob)
         {
             liquidoffset = animatedliquiddiff;
@@ -866,12 +873,6 @@ void R_StoreWallRange(const int start, const int stop)
 
             // draw floors if different specials
             || backsector->special != frontsector->special);
-
-        // [BH] animate liquid sectors
-        if (frontsector->terraintype >= LIQUID
-            && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
-            && r_liquid_bob)
-            worldbottom += animatedliquiddiff;
 
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
