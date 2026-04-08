@@ -2856,7 +2856,7 @@ static void AM_DrawPlayer(void)
             AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, putbigdot2);
     }
     else if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
-        AM_DrawPlayerArrow(playerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
+        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
     else
         AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y, putbigdot2);
 }
