@@ -343,6 +343,8 @@ static void CreateTextureCompositePatch(const int id)
     rpatch_t            *compositepatch = &texturecomposites[id];
     const texture_t     *texture = textures[id];
     const texpatch_t    *texpatch;
+    const int           defaultpatchnum = W_GetNumForName("TNT1A0");
+    int                 *patchsources;
     int                 patchnum;
     const patch_t       *oldpatch;
     const column_t      *oldcolumn;
@@ -367,39 +369,162 @@ static void CreateTextureCompositePatch(const int id)
 
     // count the number of posts in each column
     countsincolumn = (count_t *)calloc(compositepatch->width, sizeof(count_t));
+    patchsources = malloc(texture->patchcount * sizeof(*patchsources));
+
+    if (!countsincolumn || !patchsources)
+    {
+        free(countsincolumn);
+        free(patchsources);
+        memset(compositepatch, 0, sizeof(*compositepatch));
+        return;
+    }
 
     for (int i = 0; i < texture->patchcount; i++)
     {
+        bool    usedefault = false;
+
         texpatch = &texture->patches[i];
         patchnum = texpatch->patch;
+        patchsources[i] = -1;
 
-        if (!R_CheckIfPatch(patchnum))
-            patchnum = W_GetNumForName("TNT1A0");
-
-        oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);
-
-        for (int x = 0; x < SHORT(oldpatch->width); x++)
+        while (true)
         {
-            const int   tx = texpatch->originx + x;
+            const byte  *oldpatchdata;
+            const byte  *oldpatchend;
+            size_t      oldpatchsize;
+            bool        badpatch = false;
 
-            if (tx < 0)
-                continue;
-
-            if (tx >= compositepatch->width)
-                break;
-
-            countsincolumn[tx].patches++;
-            oldcolumn = (const column_t *)((const byte *)oldpatch + LONG(oldpatch->columnoffset[x]));
-
-            while (oldcolumn->topdelta != 0xFF)
+            if (!R_CheckIfPatch(patchnum))
             {
-                countsincolumn[tx].posts++;
-                numpoststotal++;
-                oldcolumn = (const column_t *)((const byte *)oldcolumn + oldcolumn->length + 4);
+                patchnum = defaultpatchnum;
+                usedefault = true;
             }
-        }
 
-        W_ReleaseLumpNum(patchnum);
+            oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);
+            oldpatchdata = (const byte *)oldpatch;
+            oldpatchsize = (size_t)W_LumpLength(patchnum);
+            oldpatchend = oldpatchdata + oldpatchsize;
+
+            for (int x = 0; x < SHORT(oldpatch->width); x++)
+            {
+                const int           tx = texpatch->originx + x;
+                const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
+
+                if (tx < 0)
+                    continue;
+
+                if (tx >= compositepatch->width)
+                    break;
+
+                if (columnoffset >= oldpatchsize)
+                {
+                    badpatch = true;
+                    break;
+                }
+
+                countsincolumn[tx].patches++;
+                oldcolumn = (const column_t *)(oldpatchdata + columnoffset);
+
+                while ((const byte *)oldcolumn < oldpatchend && oldcolumn->topdelta != 0xFF)
+                {
+                    const byte      *oldcolumnbytes = (const byte *)oldcolumn;
+                    const size_t    oldcolumnsize = (size_t)oldcolumn->length + 4;
+
+                    if ((size_t)(oldpatchend - oldcolumnbytes) < oldcolumnsize)
+                    {
+                        badpatch = true;
+                        break;
+                    }
+
+                    countsincolumn[tx].posts++;
+                    numpoststotal++;
+                    oldcolumn = (const column_t *)(oldcolumnbytes + oldcolumnsize);
+                }
+
+                if (badpatch || (const byte *)oldcolumn >= oldpatchend)
+                {
+                    badpatch = true;
+                    break;
+                }
+            }
+
+            W_ReleaseLumpNum(patchnum);
+
+            if (!badpatch)
+            {
+                patchsources[i] = patchnum;
+                break;
+            }
+
+            for (int x = 0; x < compositepatch->width; x++)
+            {
+                countsincolumn[x].patches = 0;
+                countsincolumn[x].posts = 0;
+            }
+
+            numpoststotal = 0;
+
+            for (int j = 0; j < i; j++)
+            {
+                const texpatch_t    *prevtexpatch = &texture->patches[j];
+                const int           prevpatchnum = patchsources[j];
+                const patch_t       *prevpatch;
+                const byte          *prevpatchdata;
+                const byte          *prevpatchend;
+                size_t              prevpatchsize;
+
+                if (prevpatchnum < 0)
+                    continue;
+
+                prevpatchsize = (size_t)W_LumpLength(prevpatchnum);
+                prevpatch = (const patch_t *)W_CacheLumpNum(prevpatchnum);
+                prevpatchdata = (const byte *)prevpatch;
+                prevpatchend = prevpatchdata + prevpatchsize;
+
+                for (int x = 0; x < SHORT(prevpatch->width); x++)
+                {
+                    const int           tx = prevtexpatch->originx + x;
+                    const unsigned int  columnoffset = LONG(prevpatch->columnoffset[x]);
+
+                    if (tx < 0)
+                        continue;
+
+                    if (tx >= compositepatch->width)
+                        break;
+
+                    if (columnoffset >= prevpatchsize)
+                        break;
+
+                    countsincolumn[tx].patches++;
+                    oldcolumn = (const column_t *)(prevpatchdata + columnoffset);
+
+                    while ((const byte *)oldcolumn < prevpatchend && oldcolumn->topdelta != 0xFF)
+                    {
+                        const byte  *oldcolumnbytes = (const byte *)oldcolumn;
+                        const size_t oldcolumnsize = (size_t)oldcolumn->length + 4;
+
+                        if ((size_t)(prevpatchend - oldcolumnbytes) < oldcolumnsize)
+                            break;
+
+                        countsincolumn[tx].posts++;
+                        numpoststotal++;
+                        oldcolumn = (const column_t *)(oldcolumnbytes + oldcolumnsize);
+                    }
+                }
+
+                W_ReleaseLumpNum(prevpatchnum);
+            }
+
+            if (!usedefault && patchnum != defaultpatchnum)
+            {
+                patchnum = defaultpatchnum;
+                usedefault = true;
+                continue;
+            }
+
+            patchsources[i] = -1;
+            break;
+        }
     }
 
     postsdatasize = numpoststotal * sizeof(rpost_t);
@@ -429,10 +554,10 @@ static void CreateTextureCompositePatch(const int id)
     for (int i = 0; i < texture->patchcount; i++)
     {
         texpatch = &texture->patches[i];
-        patchnum = texpatch->patch;
+        patchnum = patchsources[i];
 
-        if (!R_CheckIfPatch(patchnum))
-            patchnum = W_GetNumForName("TNT1A0");
+        if (patchnum < 0)
+            continue;
 
         oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);
 
@@ -440,6 +565,10 @@ static void CreateTextureCompositePatch(const int id)
         {
             int         top = -1;
             const int   tx = texpatch->originx + x;
+            const byte  *oldpatchdata = (const byte *)oldpatch;
+            const size_t oldpatchsize = (size_t)W_LumpLength(patchnum);
+            const byte  *oldpatchend = oldpatchdata + oldpatchsize;
+            const unsigned int columnoffset = LONG(oldpatch->columnoffset[x]);
 
             if (tx < 0)
                 continue;
@@ -447,12 +576,23 @@ static void CreateTextureCompositePatch(const int id)
             if (tx >= compositepatch->width)
                 break;
 
-            oldcolumn = (const column_t *)((const byte *)oldpatch + LONG(oldpatch->columnoffset[x]));
+            if (columnoffset >= oldpatchsize)
+                break;
 
-            while (oldcolumn->topdelta != 0xFF)
+            oldcolumn = (const column_t *)(oldpatchdata + columnoffset);
+
+            while ((const byte *)oldcolumn < oldpatchend && oldcolumn->topdelta != 0xFF)
             {
                 int     oy = texpatch->originy;
-                rpost_t *post = &compositepatch->columns[tx].posts[countsincolumn[tx].postsused];
+                const byte  *oldcolumnbytes = (const byte *)oldcolumn;
+                const size_t oldcolumnsize = (size_t)oldcolumn->length + 4;
+                rpost_t *post;
+
+                if ((size_t)(oldpatchend - oldcolumnbytes) < oldcolumnsize
+                    || countsincolumn[tx].postsused >= countsincolumn[tx].posts)
+                    break;
+
+                post = &compositepatch->columns[tx].posts[countsincolumn[tx].postsused];
 
                 // e6y: support for DeePsea's true tall patches
                 if (oldcolumn->topdelta <= top)
@@ -460,7 +600,7 @@ static void CreateTextureCompositePatch(const int id)
                 else
                     top = oldcolumn->topdelta;
 
-                oldcolumnpixeldata = (const byte *)oldcolumn + 3;
+                oldcolumnpixeldata = oldcolumnbytes + 3;
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
@@ -527,7 +667,7 @@ static void CreateTextureCompositePatch(const int id)
                     compositepatch->pixels[tx * compositepatch->height + ty] = oldcolumnpixeldata[y];
                 }
 
-                oldcolumn = (const column_t *)((const byte *)oldcolumn + oldcolumn->length + 4);
+                oldcolumn = (const column_t *)(oldcolumnbytes + oldcolumnsize);
                 countsincolumn[tx].postsused++;
                 SDL_assert(countsincolumn[tx].postsused <= countsincolumn[tx].posts);
             }
@@ -573,6 +713,7 @@ static void CreateTextureCompositePatch(const int id)
     }
 
     free(countsincolumn);
+    free(patchsources);
 }
 
 void R_InitPatches(void)
