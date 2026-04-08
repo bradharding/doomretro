@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <string.h>
+
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -100,112 +102,206 @@ bool R_CheckIfPatch(const int lump)
 
 static void CreatePatch(int patchnum)
 {
-    rpatch_t            *patch;
-    const patch_t       *oldpatch;
-    const column_t      *oldcolumn = NULL;
-    int                 pixeldatasize;
-    int                 columnsdatasize;
-    int                 postsdatasize;
-    int                 datasize;
-    int                 *numpostsincolumn;
-    int                 numpoststotal = 0;
-    const unsigned char *oldcolumnpixeldata;
+    const int   defaultpatchnum = W_GetNumForName("TNT1A0");
+    int         sourcepatchnum = patchnum;
+    rpatch_t    *patch = &patches[patchnum];
+    bool        usedefault = false;
 
-    if (!R_CheckIfPatch(patchnum))
-        patchnum = W_GetNumForName("TNT1A0");
-
-    oldpatch = W_CacheLumpNum(patchnum);
-    patch = &patches[patchnum];
-    patch->width = SHORT(oldpatch->width);
-    patch->widthmask = 0;
-    patch->height = SHORT(oldpatch->height);
-    patch->leftoffset = SHORT(oldpatch->leftoffset);
-    patch->topoffset = SHORT(oldpatch->topoffset);
-
-    // count the number of posts in each column
-    if (patch->width <= 0 || !(numpostsincolumn = malloc(patch->width * sizeof(int))))
+    if (!R_CheckIfPatch(sourcepatchnum))
     {
-        C_Warning(1, "The " BOLD("%.8s") " patch couldn't be created.", lumpinfo[patchnum]->name);
-        return;
+        sourcepatchnum = defaultpatchnum;
+        usedefault = true;
     }
 
-    // work out how much memory we need to allocate for this patch's data
-    pixeldatasize = ((patch->width * patch->height + 4) & ~3);
-    columnsdatasize = patch->width * sizeof(rcolumn_t);
+    memset(patch, 0, sizeof(*patch));
 
-    for (int x = 0; x < patch->width; x++)
+    while (true)
     {
-        oldcolumn = (const column_t *)((const byte *)oldpatch + LONG(oldpatch->columnoffset[x]));
-        numpostsincolumn[x] = 0;
+        const patch_t   *oldpatch = W_CacheLumpNum(sourcepatchnum);
+        const column_t  *oldcolumn = NULL;
+        const byte      *oldpatchdata = (const byte *)oldpatch;
+        const size_t    oldpatchsize = (size_t)W_LumpLength(sourcepatchnum);
+        const byte      *oldpatchend = oldpatchdata + oldpatchsize;
+        int             pixeldatasize;
+        int             columnsdatasize;
+        int             postsdatasize;
+        int             datasize;
+        int             *numpostsincolumn = NULL;
+        int             numpoststotal = 0;
+        bool            badpatch = false;
 
-        while (oldcolumn->topdelta != 0xFF)
+        patch->width = SHORT(oldpatch->width);
+        patch->widthmask = 0;
+        patch->height = SHORT(oldpatch->height);
+        patch->leftoffset = SHORT(oldpatch->leftoffset);
+        patch->topoffset = SHORT(oldpatch->topoffset);
+
+        // count the number of posts in each column
+        if (patch->width <= 0 || !(numpostsincolumn = malloc(patch->width * sizeof(int))))
         {
-            numpostsincolumn[x]++;
-            numpoststotal++;
-            oldcolumn = (const column_t *)((const byte *)oldcolumn + oldcolumn->length + 4);
+            W_ReleaseLumpNum(sourcepatchnum);
+            memset(patch, 0, sizeof(*patch));
+            C_Warning(1, "The " BOLD("%.8s") " patch couldn't be created.", lumpinfo[patchnum]->name);
+            return;
         }
-    }
 
-    postsdatasize = numpoststotal * sizeof(rpost_t);
+        // work out how much memory we need to allocate for this patch's data
+        pixeldatasize = ((patch->width * patch->height + 4) & ~3);
+        columnsdatasize = patch->width * sizeof(rcolumn_t);
 
-    // allocate our data chunk
-    datasize = pixeldatasize + columnsdatasize + postsdatasize;
-    patch->data = Z_Calloc(1, datasize, PU_CACHE, (void **)&patch->data);
-
-    // set out pixel, column, and post pointers into our data array
-    patch->pixels = patch->data;
-    patch->columns = (rcolumn_t *)((unsigned char *)patch->pixels + pixeldatasize);
-    patch->posts = (rpost_t *)((unsigned char *)patch->columns + columnsdatasize);
-
-    // sanity check that we've got all the memory allocated we need
-    SDL_assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
-
-    // fill in the pixels, posts, and columns
-    for (int x = 0, numpostsusedsofar = 0; x < patch->width; x++)
-    {
-        int top = -1;
-
-        oldcolumn = (const column_t *)((const byte *)oldpatch + LONG(oldpatch->columnoffset[x]));
-
-        // setup the column's data
-        patch->columns[x].pixels = &patch->pixels[x * patch->height];
-        patch->columns[x].numposts = numpostsincolumn[x];
-        patch->columns[x].posts = patch->posts + numpostsusedsofar;
-
-        while (oldcolumn->topdelta != 0xFF)
+        for (int x = 0; x < patch->width && !badpatch; x++)
         {
-            int len = oldcolumn->length;
+            const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
 
-            // e6y: support for DeePsea's true tall patches
-            if (oldcolumn->topdelta <= top)
-                top += oldcolumn->topdelta;
-            else
-                top = oldcolumn->topdelta;
-
-            // Clip posts that extend past the bottom
-            if (top + oldcolumn->length > patch->height)
-                len = patch->height - top;
-
-            if (len > 0)
+            if (columnoffset >= oldpatchsize)
             {
-                // set up the post's data
-                patch->posts[numpostsusedsofar].topdelta = top;
-                patch->posts[numpostsusedsofar].length = len;
-
-                // fill in the post's pixels
-                oldcolumnpixeldata = (const byte *)oldcolumn + 3;
-
-                for (int y = 0; y < len; y++)
-                    patch->pixels[x * patch->height + top + y] = oldcolumnpixeldata[y];
+                badpatch = true;
+                break;
             }
 
-            oldcolumn = (const column_t *)((const byte *)oldcolumn + oldcolumn->length + 4);
-            numpostsusedsofar++;
-        }
-    }
+            oldcolumn = (const column_t *)(oldpatchdata + columnoffset);
+            numpostsincolumn[x] = 0;
 
-    W_ReleaseLumpNum(patchnum);
-    free(numpostsincolumn);
+            while ((const byte *)oldcolumn < oldpatchend && oldcolumn->topdelta != 0xFF)
+            {
+                const byte  *oldcolumnbytes = (const byte *)oldcolumn;
+                const size_t oldcolumnsize = (size_t)oldcolumn->length + 4;
+
+                if ((size_t)(oldpatchend - oldcolumnbytes) < oldcolumnsize)
+                {
+                    badpatch = true;
+                    break;
+                }
+
+                numpostsincolumn[x]++;
+                numpoststotal++;
+                oldcolumn = (const column_t *)(oldcolumnbytes + oldcolumnsize);
+            }
+
+            if ((const byte *)oldcolumn >= oldpatchend)
+                badpatch = true;
+        }
+
+        if (badpatch)
+        {
+            W_ReleaseLumpNum(sourcepatchnum);
+            free(numpostsincolumn);
+
+            if (!usedefault && sourcepatchnum != defaultpatchnum)
+            {
+                sourcepatchnum = defaultpatchnum;
+                usedefault = true;
+                memset(patch, 0, sizeof(*patch));
+                continue;
+            }
+
+            memset(patch, 0, sizeof(*patch));
+            C_Warning(1, "The " BOLD("%.8s") " patch couldn't be created.", lumpinfo[patchnum]->name);
+            return;
+        }
+
+        postsdatasize = numpoststotal * sizeof(rpost_t);
+
+        // allocate our data chunk
+        datasize = pixeldatasize + columnsdatasize + postsdatasize;
+        patch->data = Z_Calloc(1, datasize, PU_CACHE, (void **)&patch->data);
+
+        // set out pixel, column, and post pointers into our data array
+        patch->pixels = patch->data;
+        patch->columns = (rcolumn_t *)((unsigned char *)patch->pixels + pixeldatasize);
+        patch->posts = (rpost_t *)((unsigned char *)patch->columns + columnsdatasize);
+
+        // sanity check that we've got all the memory allocated we need
+        SDL_assert((((byte *)patch->posts + numpoststotal * sizeof(rpost_t)) - (byte *)patch->data) == datasize);
+
+        // fill in the pixels, posts, and columns
+        for (int x = 0, numpostsusedsofar = 0; x < patch->width && !badpatch; x++)
+        {
+            int                 top = -1;
+            const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
+
+            if (columnoffset >= oldpatchsize)
+            {
+                badpatch = true;
+                break;
+            }
+
+            oldcolumn = (const column_t *)(oldpatchdata + columnoffset);
+
+            // setup the column's data
+            patch->columns[x].pixels = &patch->pixels[x * patch->height];
+            patch->columns[x].numposts = numpostsincolumn[x];
+            patch->columns[x].posts = patch->posts + numpostsusedsofar;
+
+            while ((const byte *)oldcolumn < oldpatchend && oldcolumn->topdelta != 0xFF)
+            {
+                const byte          *oldcolumnbytes = (const byte *)oldcolumn;
+                const size_t        oldcolumnsize = (size_t)oldcolumn->length + 4;
+                const unsigned char *oldcolumnpixeldata;
+                int                 len = oldcolumn->length;
+
+                if ((size_t)(oldpatchend - oldcolumnbytes) < oldcolumnsize || numpostsusedsofar >= numpoststotal)
+                {
+                    badpatch = true;
+                    break;
+                }
+
+                // e6y: support for DeePsea's true tall patches
+                if (oldcolumn->topdelta <= top)
+                    top += oldcolumn->topdelta;
+                else
+                    top = oldcolumn->topdelta;
+
+                // Clip posts that extend past the bottom
+                if (top + oldcolumn->length > patch->height)
+                    len = patch->height - top;
+
+                if (len > 0)
+                {
+                    // set up the post's data
+                    patch->posts[numpostsusedsofar].topdelta = top;
+                    patch->posts[numpostsusedsofar].length = len;
+
+                    // fill in the post's pixels
+                    oldcolumnpixeldata = oldcolumnbytes + 3;
+
+                    for (int y = 0; y < len; y++)
+                        patch->pixels[x * patch->height + top + y] = oldcolumnpixeldata[y];
+                }
+
+                oldcolumn = (const column_t *)(oldcolumnbytes + oldcolumnsize);
+                numpostsusedsofar++;
+            }
+
+            if ((const byte *)oldcolumn >= oldpatchend || numpostsusedsofar != patch->columns[x].numposts + (int)(patch->columns[x].posts - patch->posts))
+                badpatch = true;
+        }
+
+        if (badpatch)
+        {
+            if (patch->data)
+                Z_Free(patch->data);
+
+            W_ReleaseLumpNum(sourcepatchnum);
+            free(numpostsincolumn);
+
+            if (!usedefault && sourcepatchnum != defaultpatchnum)
+            {
+                sourcepatchnum = defaultpatchnum;
+                usedefault = true;
+                memset(patch, 0, sizeof(*patch));
+                continue;
+            }
+
+            memset(patch, 0, sizeof(*patch));
+            C_Warning(1, "The " BOLD("%.8s") " patch couldn't be created.", lumpinfo[patchnum]->name);
+            return;
+        }
+
+        W_ReleaseLumpNum(sourcepatchnum);
+        free(numpostsincolumn);
+        return;
+    }
 }
 
 typedef struct
