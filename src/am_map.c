@@ -3580,7 +3580,7 @@ void AM_DrawMiniMap(void)
     const bool  invertcolors = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     const byte  minimapcolor = (invertcolors ? nearestblack : nearestwhite);
     const int   minimapshadowcolor = (invertcolors && !r_hud_translucency ? -1 : nearestdarkgray);
-    const byte  minimappathcolor = (invertcolors ? nearestdarkgray : nearestlightgray);
+    const byte  minimappathcolor = (invertcolors ? nearestdarkgray : nearestwhite2);
 
     if (!AM_MiniMapVisible())
         return;
@@ -3629,7 +3629,7 @@ void AM_DrawMiniMap(void)
     yellowkeycolor = nearestwhite;
     markcolor = nearestwhite;
     backcolor = nearestblack;
-    pathcolor = nearestlightgray;
+    pathcolor = nearestwhite2;
     gridcolor = nearestwhite;
 
     wallcolor = minimappriority;
@@ -3729,7 +3729,7 @@ void AM_DrawMiniMap(void)
                     const byte  blendcolor = (color == pathcolor ? minimappathcolor : minimapcolor);
 
                     if (r_hud_translucency)
-                        *dest = (blendcolor == minimappathcolor ? tinttab66[(*dest << 8) + blendcolor] :
+                        *dest = (blendcolor == minimappathcolor ? tinttab75[(*dest << 8) + blendcolor] :
                             tinttab50[(*dest << 8) + blendcolor]);
                     else
                         *dest = blendcolor;

@@ -65,6 +65,7 @@
 #define RED1          176
 #define RED2          180
 #define WHITE           4
+#define WHITE2         80
 #define YELLOW1       160
 #define YELLOW2       161
 #define YELLOW3       231
@@ -111,6 +112,7 @@ extern byte nearestgreen;
 extern byte nearestlightgray;
 extern byte nearestred;
 extern byte nearestwhite;
+extern byte nearestwhite2;
 
 extern byte *black10;
 extern byte *black25;
