@@ -638,6 +638,8 @@ void I_Quit(bool shutdown)
 
         M_SaveCVARs();
 
+        SDL_StopTextInput();
+
         I_ShutdownKeyboard();
         I_ShutdownController();
         I_ShutdownGraphics();
@@ -666,6 +668,8 @@ void I_Error(const char *error, ...)
         exit(-1);
 
     already_quitting = true;
+
+    SDL_StopTextInput();
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
