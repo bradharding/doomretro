@@ -204,7 +204,6 @@ jobs:
         with:
           path: |
             ~/Library/Caches/ccache
-            build
           key: ${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt', 'src/**') }}
           restore-keys: |
             ${{ runner.os }}-
@@ -221,6 +220,7 @@ jobs:
 
       - name: Configure
         run: |
+          rm -rf build
           mkdir -p build
           cd build
           cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
