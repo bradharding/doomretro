@@ -71,7 +71,9 @@ static searchlist_t     pwad;
 
 static searchlist_t     iwad_flats;
 static searchlist_t     pwad_sprites;
+static searchlist_t     pwad_sprites2;
 static searchlist_t     pwad_flats;
+static searchlist_t     pwad_flats2;
 
 // lumps with these sprites must be replaced in the IWAD
 static sprite_frame_t   *sprite_frames;
@@ -130,8 +132,10 @@ static void SetupLists(void)
         I_Error("Sprites section not found in IWAD");
 
     // PWAD
-    SetupList(&pwad_flats, &pwad, "F_START", "F_END", "FF_START", "FF_END");
-    SetupList(&pwad_sprites, &pwad, "S_START", "S_END", "SS_START", "SS_END");
+    SetupList(&pwad_flats, &pwad, "F_START", "F_END", NULL, NULL);
+    SetupList(&pwad_flats2, &pwad, "FF_START", "FF_END", NULL, NULL);
+    SetupList(&pwad_sprites, &pwad, "S_START", "S_END", NULL, NULL);
+    SetupList(&pwad_sprites2, &pwad, "SS_START", "SS_END", NULL, NULL);
 }
 
 // Initialize the replace list
@@ -381,6 +385,14 @@ static void GenerateSpriteList(void)
         if (M_StringCompare(pwad_sprites.lumps[i]->name, "PUFFA0"))
             PUFFA0 = true;
     }
+
+    for (int i = 0; i < pwad_sprites2.numlumps; i++)
+    {
+        AddSpriteLump(pwad_sprites2.lumps[i]);
+
+        if (M_StringCompare(pwad_sprites2.lumps[i]->name, "PUFFA0"))
+            PUFFA0 = true;
+    }
 }
 
 // Perform the merge.
@@ -431,6 +443,9 @@ static void DoMerge(void)
                     for (int n = 0; n < pwad_flats.numlumps; n++)
                         newlumps[num_newlumps++] = pwad_flats.lumps[n];
 
+                    for (int n = 0; n < pwad_flats2.numlumps; n++)
+                        newlumps[num_newlumps++] = pwad_flats2.lumps[n];
+
                     newlumps[num_newlumps++] = lump;
 
                     // Back to normal reading
@@ -442,7 +457,7 @@ static void DoMerge(void)
                     // do not add it now. All PWAD flats are added to the
                     // end of the section. Otherwise, if it is only in the
                     // IWAD, add it now
-                    if (FindInList(&pwad_flats, lump->name) < 0)
+                    if (FindInList(&pwad_flats, lump->name) < 0 && FindInList(&pwad_flats2, lump->name) < 0)
                         newlumps[num_newlumps++] = lump;
                 }
 
@@ -456,6 +471,10 @@ static void DoMerge(void)
                     for (int n = 0; n < pwad_sprites.numlumps; n++)
                         if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
+
+                    for (int n = 0; n < pwad_sprites2.numlumps; n++)
+                        if (SpriteLumpNeeded(pwad_sprites2.lumps[n]))
+                            newlumps[num_newlumps++] = pwad_sprites2.lumps[n];
 
                     // Copy the ending
                     newlumps[num_newlumps++] = lump;
