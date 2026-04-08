@@ -34,6 +34,8 @@
   * The `+maxzoom` action has been renamed `+fullzoom`.
   * A minimap can now be displayed in the top right of the screen by enabling the new `am_minimap` CVAR, which is `off` by default and when vanilla mode is enabled. Certain automap controls work while the minimap is displayed, such as the <kbd><b>M</b></kbd> key, which can be pressed to add a mark. If a mark is such that is off of the minimap, an indicator will be shown on the edge of the minimap pointing in the direction of the mark.
   * If a mark is added near a locked door, the color of that mark will now be the same as the keycard or skull key needed to open it.
+  * The correct player arrow is now shown when the player has a partial invisibility power-up.
+* Flat textures between both `F_START`/`F_END` and `FF_START`/`FF_END` markers are now always found.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
 * Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*`, `numpad.`
