@@ -3513,6 +3513,7 @@ void AM_DrawMiniMap(void)
 {
     static byte minimapscreen[MAXSCREENAREA];
     static byte minimappathscreen[MAXSCREENAREA];
+    static byte minimapplayerscreen[MAXSCREENAREA];
     static byte minimapbuffer[MAXSCREENAREA];
 
     const int   framex = MINIMAPMARKMARGINX;
@@ -3658,14 +3659,19 @@ void AM_DrawMiniMap(void)
     nummarks = saved_nummarks;
 
     memset(minimappathscreen, nearestblack, MAPAREA);
+    memset(minimapplayerscreen, nearestblack, MAPAREA);
 
     if (am_path && numbreadcrumbs > 0)
     {
         mapscreen = minimappathscreen;
         AM_SetFrameVariables();
         AM_DrawPath();
-        mapscreen = minimapscreen;
     }
+
+    mapscreen = minimapplayerscreen;
+    AM_SetFrameVariables();
+    AM_DrawPlayer();
+    mapscreen = minimapscreen;
 
     for (int i = 0; i < MAPAREA; i++)
         if (minimapscreen[i] != nearestblack && minimapscreen[i] != playercolor && minimapscreen[i] != pathcolor)
@@ -3735,8 +3741,9 @@ void AM_DrawMiniMap(void)
                     byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
                     const byte  color = minimapbuffer[yy * bufferwidth + xx];
                     const bool  inmap = (yy >= innertop && yy <= innerbottom && xx >= innerleft && xx <= innerright);
+                    const bool  playerpixel = (inmap && minimapplayerscreen[(yy - innertop) * MAPWIDTH + xx - innerleft] != nearestblack);
                     const bool  pathpixel = (inmap && minimappathscreen[(yy - innertop) * MAPWIDTH + xx - innerleft] != nearestblack);
-                    const byte  blendcolor = ((pathpixel || color == pathcolor) ? minimappathcolor : minimapcolor);
+                    const byte  blendcolor = ((pathpixel || color == pathcolor) && !playerpixel ? minimappathcolor : minimapcolor);
 
                     if (r_hud_translucency)
                         *dest = (blendcolor == minimappathcolor ? tinttab66[(*dest << 8) + blendcolor] :
