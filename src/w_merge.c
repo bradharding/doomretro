@@ -132,10 +132,10 @@ static void SetupLists(void)
         I_Error("Sprites section not found in IWAD");
 
     // PWAD
-    SetupList(&pwad_flats, &pwad, "F_START", "F_END", NULL, NULL);
-    SetupList(&pwad_flats2, &pwad, "FF_START", "FF_END", NULL, NULL);
-    SetupList(&pwad_sprites, &pwad, "S_START", "S_END", NULL, NULL);
-    SetupList(&pwad_sprites2, &pwad, "SS_START", "SS_END", NULL, NULL);
+    SetupList(&pwad_flats, &pwad, "F_START", "F_END", NULL, "FF_END");
+    SetupList(&pwad_flats2, &pwad, "FF_START", "FF_END", NULL, "F_END");
+    SetupList(&pwad_sprites, &pwad, "S_START", "S_END", NULL, "SS_END");
+    SetupList(&pwad_sprites2, &pwad, "SS_START", "SS_END", NULL, "S_END");
 }
 
 // Initialize the replace list
