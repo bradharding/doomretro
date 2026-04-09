@@ -3103,16 +3103,13 @@ static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int c
 static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
     int framex, int framey, int framewidth, int frameheight)
 {
-    const int       gap = 2;
-    const int       ticklength = 6;
+    const int       ticklength = 5;
     const double    centerx = framex + (framewidth - 1) / 2.0;
     const double    centery = framey + (frameheight - 1) / 2.0;
-    const double    aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
-    const double    outerradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0) + MINIMAPBORDER + gap;
-    const double    cosine = (am_rotatemode ? am_frame.cos : 1.0);
-    const double    sine = (am_rotatemode ? am_frame.sin : 0.0);
-    const double    vx = -sine;
-    const double    vy = -cosine;
+    const double    aspectratio = 6.0 / 5.0;
+    const double    outerradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0) + MINIMAPBORDER + 2;
+    const double    vx = (am_rotatemode ? -am_frame.sin : 0.0);
+    const double    vy = -(am_rotatemode ? am_frame.cos : 1.0);
     const double    length = sqrt(vx * vx + (vy * aspectratio) * (vy * aspectratio));
     const double    tickx = centerx + vx * outerradius / length;
     const double    ticky = centery + vy * outerradius / length;
@@ -3682,6 +3679,7 @@ void AM_DrawMiniMap(void)
     void        (*saved_putbigwalldot)(int, int, const byte *) = putbigwalldot;
     const bool  saved_followmode = am_followmode;
     const bool  saved_antialiasing = am_antialiasing;
+    const bool  saved_correctaspectratio = am_correctaspectratio;
     const bool  saved_grid = am_grid;
     const bool  saved_sectortextures = am_sectortextures;
     const int   saved_sectorcolors = am_sectorcolors;
@@ -3758,6 +3756,7 @@ void AM_DrawMiniMap(void)
 
     am_followmode = true;
     am_antialiasing = false;
+    am_correctaspectratio = true;
     am_grid = false;
     am_sectortextures = false;
     am_sectorcolors = am_sectorcolors_off;
@@ -3899,6 +3898,7 @@ void AM_DrawMiniMap(void)
 
     am_followmode = saved_followmode;
     am_antialiasing = saved_antialiasing;
+    am_correctaspectratio = saved_correctaspectratio;
     am_grid = saved_grid;
     am_sectortextures = saved_sectortextures;
     am_sectorcolors = saved_sectorcolors;
