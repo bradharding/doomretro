@@ -3726,7 +3726,14 @@ void AM_DrawMiniMap(void)
                 {
                     byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
                     const byte  color = minimapbuffer[yy * bufferwidth + xx];
-                    const byte  blendcolor = (color == pathcolor ? minimappathcolor : minimapcolor);
+                    byte        blendcolor;
+
+                    if (color == pathcolor)
+                        blendcolor = minimappathcolor;
+                    else if (color == markredkeycolor || color == markbluekeycolor || color == markyellowkeycolor)
+                        blendcolor = color;
+                    else
+                        blendcolor = minimapcolor;
 
                     if (r_hud_translucency)
                         *dest = (blendcolor == minimappathcolor ? tinttab75[(*dest << 8) + blendcolor] :
