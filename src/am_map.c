@@ -137,7 +137,7 @@ static byte *floorpiccolor;
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
-#define MINIMAPBORDER           2
+#define MINIMAPBORDER           3
 #define MINIMAPSHADOWOFFSET     1
 #define MINIMAPMARKMARGINX      10
 #define MINIMAPMARKMARGINY      14
@@ -3101,14 +3101,15 @@ static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int c
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight)
 {
-    const int       dotsize = 3;
-    const int       gap = 2;
-    const double    centerx = framex + framewidth / 2.0;
-    const double    centery = framey + frameheight / 2.0;
-    const double    left = framex;
-    const double    right = framex + framewidth - 1;
-    const double    top = framey;
-    const double    bottom = framey + frameheight - 1;
+    const int       dotsize = 4;
+    const int       gap = 3;
+    const double    dotradius = dotsize / 2.0 - 0.25;
+    const double    centerx = framex + (framewidth - 1) / 2.0;
+    const double    centery = framey + (frameheight - 1) / 2.0;
+    const double    aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
+    const double    radius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0)
+                            + MINIMAPBORDER + gap + dotsize / 2.0;
+    const double    minimapradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0);
     const double    minx = 0;
     const double    maxx = bufferwidth - dotsize;
     const double    miny = 0;
@@ -3142,30 +3143,27 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
         while ((number /= 10))
             digits++;
 
-        if (localx < -((digits * (MARKWIDTH - 2) + 2) / 2) || localx >= MAPWIDTH + (digits * (MARKWIDTH - 2) + 2) / 2
-            || localy < -(MARKHEIGHT / 2) || localy >= MAPHEIGHT + MARKHEIGHT / 2)
+        if ((x - centerx) * (x - centerx) + ((y - centery) * aspectratio) * ((y - centery) * aspectratio)
+            > minimapradius * minimapradius)
         {
             const double    dx = x - centerx;
             const double    dy = y - centery;
-            const double    scalex = (!dx ? DBL_MAX : ((dx > 0.0 ? right : left) - centerx) / dx);
-            const double    scaley = (!dy ? DBL_MAX : ((dy > 0.0 ? bottom : top) - centery) / dy);
+            const double    length = sqrt(dx * dx + (dy * aspectratio) * (dy * aspectratio));
             int             edgex;
             int             edgey;
 
-            if (scalex < scaley)
-            {
-                edgex = (dx > 0.0 ? (int)(right + gap + 1) : (int)(left - gap - dotsize));
-                edgey = BETWEEN((int)miny, (int)lround(centery + dy * scalex), (int)maxy);
-            }
-            else
-            {
-                edgex = BETWEEN((int)minx, (int)lround(centerx + dx * scaley), (int)maxx);
-                edgey = (dy > 0.0 ? (int)(bottom + gap + 1) : (int)(top - gap - dotsize));
-            }
+            edgex = BETWEEN((int)minx, (int)lround(centerx + dx * radius / length - dotsize / 2.0), (int)maxx);
+            edgey = BETWEEN((int)miny, (int)lround(centery + dy * radius / length - dotsize / 2.0), (int)maxy);
 
             for (int yy = 0; yy < dotsize; yy++)
                 for (int xx = 0; xx < dotsize; xx++)
-                    buffer[(edgey + yy) * bufferwidth + edgex + xx] = color;
+                {
+                    const double    dotx = xx - (dotsize - 1) / 2.0;
+                    const double    doty = yy - (dotsize - 1) / 2.0;
+
+                    if (dotx * dotx + doty * doty <= dotradius * dotradius)
+                        buffer[(edgey + yy) * bufferwidth + edgex + xx] = color;
+                }
         }
     }
 }
@@ -3532,8 +3530,15 @@ void AM_DrawMiniMap(void)
     const int   innertop = framey + MINIMAPBORDER;
     const int   innerright = innerleft + MINIMAPWIDTH - 1;
     const int   innerbottom = innertop + MINIMAPHEIGHT - 1;
-    const int   screenx = SCREENWIDTH - OVERLAYTEXTX - framewidth - framex + 1;
     const int   screeny = OVERLAYTEXTY - framey;
+    const double aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
+    const double minimapcenterx = (MINIMAPWIDTH - 1) / 2.0;
+    const double minimapcentery = (MINIMAPHEIGHT - 1) / 2.0;
+    const double framecenterx = framex + (framewidth - 1) / 2.0;
+    const double framecentery = framey + (frameheight - 1) / 2.0;
+    const double minimapradius = fmin(MINIMAPWIDTH / 2.0, MINIMAPHEIGHT * aspectratio / 2.0);
+    const double minimapouterradius = minimapradius + MINIMAPBORDER;
+    const int   screenx = SCREENWIDTH - OVERLAYTEXTX - (int)lround(framecenterx + minimapouterradius) + 3;
     const int   saved_mapwidth = MAPWIDTH;
     const int   saved_mapheight = MAPHEIGHT;
     const int   saved_maparea = MAPAREA;
@@ -3670,24 +3675,25 @@ void AM_DrawMiniMap(void)
 
     for (int yy = frametop; yy <= framebottom; yy++)
         for (int xx = frameleft; xx <= frameright; xx++)
-            if ((yy < innertop || yy > innerbottom || xx < innerleft || xx > innerright)
-                && !((yy == frametop && xx == frameleft)
-                    || (yy == frametop && xx == frameright)
-                    || (yy == framebottom && xx == frameleft)
-                    || (yy == framebottom && xx == frameright)))
-                minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
+        {
+            const double    dx = xx - framecenterx;
+            const double    dy = yy - framecentery;
+            const double    distance = dx * dx + (dy * aspectratio) * (dy * aspectratio);
 
-    minimapbuffer[innertop * bufferwidth + innerleft] = nearestwhite;
-    minimapbuffer[innertop * bufferwidth + innerright] = nearestwhite;
-    minimapbuffer[innerbottom * bufferwidth + innerleft] = nearestwhite;
-    minimapbuffer[innerbottom * bufferwidth + innerright] = nearestwhite;
+            if (distance <= minimapouterradius * minimapouterradius
+                && distance > minimapradius * minimapradius)
+                minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
+        }
 
     for (int yy = 0; yy < MAPHEIGHT; yy++)
         for (int xx = 0; xx < MAPWIDTH; xx++)
         {
             const byte    color = minimapscreen[yy * MAPWIDTH + xx];
+            const double  dx = xx - minimapcenterx;
+            const double  dy = yy - minimapcentery;
 
-            if (color != nearestblack)
+            if (color != nearestblack
+                && dx * dx + (dy * aspectratio) * (dy * aspectratio) <= minimapradius * minimapradius)
                 minimapbuffer[(innertop + yy) * bufferwidth + innerleft + xx] = color;
         }
 
