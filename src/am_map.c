@@ -3102,7 +3102,7 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
     const char *nums[], int framex, int framey, int framewidth, int frameheight)
 {
     const int       dotsize = 3;
-    const int       gap = 1;
+    const int       gap = 2;
     const double    centerx = framex + framewidth / 2.0;
     const double    centery = framey + frameheight / 2.0;
     const double    left = framex;
