@@ -241,6 +241,8 @@ static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight,
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline);
 static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery, byte color);
+static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
+    int framex, int framey, int framewidth, int frameheight);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
 static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
@@ -3098,6 +3100,110 @@ static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int c
     AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery, color, false);
 }
 
+static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
+    int framex, int framey, int framewidth, int frameheight)
+{
+    const int       gap = 2;
+    const int       ticklength = 6;
+    const double    centerx = framex + (framewidth - 1) / 2.0;
+    const double    centery = framey + (frameheight - 1) / 2.0;
+    const double    aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
+    const double    outerradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0) + MINIMAPBORDER + gap;
+    const double    cosine = (am_rotatemode ? am_frame.cos : 1.0);
+    const double    sine = (am_rotatemode ? am_frame.sin : 0.0);
+    const double    vx = -sine;
+    const double    vy = -cosine;
+    const double    length = sqrt(vx * vx + (vy * aspectratio) * (vy * aspectratio));
+    const double    tickx = centerx + vx * outerradius / length;
+    const double    ticky = centery + vy * outerradius / length;
+    const double    dx = tickx - centerx;
+    const double    dy = ticky - centery;
+    const double    linelength = sqrt(dx * dx + dy * dy);
+    const double    ux = dx / linelength;
+    const double    uy = dy / linelength;
+    int             startx = (int)lround(tickx - ux * (ticklength - 1) / 2.0);
+    int             starty = (int)lround(ticky - uy * (ticklength - 1) / 2.0);
+    const int       endx = (int)lround(tickx + ux * (ticklength - 1) / 2.0);
+    const int       endy = (int)lround(ticky + uy * (ticklength - 1) / 2.0);
+    const int       stepx = SIGN(endx - startx);
+    const int       stepy = SIGN(endy - starty);
+    int             deltax = ABS(endx - startx);
+    int             deltay = ABS(endy - starty);
+
+    if (deltax >= deltay)
+    {
+        int error = (deltay << 1) - deltax;
+
+        while (true)
+        {
+            if ((unsigned int)startx < (unsigned int)bufferwidth
+                && (unsigned int)starty < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
+            {
+                buffer[starty * bufferwidth + startx] = nearestwhite;
+
+                if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
+                    buffer[starty * bufferwidth + startx + 1] = nearestwhite;
+
+                if ((unsigned int)(starty + 1) < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
+                {
+                    buffer[(starty + 1) * bufferwidth + startx] = nearestwhite;
+
+                    if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
+                        buffer[(starty + 1) * bufferwidth + startx + 1] = nearestwhite;
+                }
+            }
+
+            if (startx == endx && starty == endy)
+                break;
+
+            if (error >= 0)
+            {
+                starty += stepy;
+                error -= deltax << 1;
+            }
+
+            startx += stepx;
+            error += deltay << 1;
+        }
+    }
+    else
+    {
+        int error = (deltax << 1) - deltay;
+
+        while (true)
+        {
+            if ((unsigned int)startx < (unsigned int)bufferwidth
+                && (unsigned int)starty < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
+            {
+                buffer[starty * bufferwidth + startx] = nearestwhite;
+
+                if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
+                    buffer[starty * bufferwidth + startx + 1] = nearestwhite;
+
+                if ((unsigned int)(starty + 1) < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
+                {
+                    buffer[(starty + 1) * bufferwidth + startx] = nearestwhite;
+
+                    if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
+                        buffer[(starty + 1) * bufferwidth + startx + 1] = nearestwhite;
+                }
+            }
+
+            if (startx == endx && starty == endy)
+                break;
+
+            if (error >= 0)
+            {
+                startx += stepx;
+                error -= deltay << 1;
+            }
+
+            starty += stepy;
+            error += deltax << 1;
+        }
+    }
+}
+
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight)
 {
@@ -3700,6 +3806,8 @@ void AM_DrawMiniMap(void)
     if (nummarks)
         AM_DrawOffscreenMarks(minimapbuffer, bufferwidth, bufferheight, marknums,
             framex, framey, framewidth, frameheight);
+
+    AM_DrawMiniMapCompass(minimapbuffer, bufferwidth, bufferheight, framex, framey, framewidth, frameheight);
 
     for (int yy = 1; yy < bufferheight; yy++)
         for (int xx = 0; xx < bufferwidth; xx++)
