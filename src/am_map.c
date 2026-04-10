@@ -238,13 +238,13 @@ static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
 static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[]);
-static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline);
+static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
+    const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline);
 static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
     int framex, int framey, int framewidth, int frameheight);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int framex, int framey, int framewidth, int frameheight);
-static bool AM_KeyBoundElsewhere(int key, const int *primarybinding, const int *secondarybinding);
+static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const int *secondarybinding);
 bool AM_MiniMapVisible(void);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
@@ -3010,7 +3010,7 @@ static void AM_DrawMarks(const char *nums[])
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, i + 1,
+        AM_DrawMarkNumber(mapscreen, MAPWIDTH, MAPHEIGHT, nums, i + 1,
             CXMTOF(point.x), CYMTOF(point.y), color, false);
     }
 }
@@ -3029,12 +3029,12 @@ static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight,
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        AM_DrawMarkNumberToBuffer(buffer, bufferwidth, bufferheight, nums, i + 1,
+        AM_DrawMarkNumber(buffer, bufferwidth, bufferheight, nums, i + 1,
             CXMTOF(point.x), CYMTOF(point.y), color, true);
     }
 }
 
-static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
+static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline)
 {
     int temp = number;
