@@ -35,7 +35,12 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+
+#pragma warning(push)
+#pragma warning(disable: 4091)
 #include <DbgHelp.h>
+#pragma warning(pop)
+
 #else
 #include <unistd.h>
 #endif
