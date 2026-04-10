@@ -3834,20 +3834,13 @@ void AM_DrawMiniMap(void)
                 {
                     byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
                     const byte  color = minimapbuffer[yy * bufferwidth + xx];
-                    byte        blendcolor;
 
-                    if (color == pathcolor)
-                        blendcolor = minimappathcolor;
-                    else if (color == markredkeycolor || color == markbluekeycolor || color == markyellowkeycolor)
-                        blendcolor = color;
+                    if (color == markredkeycolor || color == markbluekeycolor || color == markyellowkeycolor)
+                        *dest = (r_hud_translucency ? tinttab25[(*dest << 8) + color] : color);
+                    else if (color == pathcolor)
+                        *dest = (r_hud_translucency ? tinttab75[(*dest << 8) + minimappathcolor] : minimappathcolor);
                     else
-                        blendcolor = minimapcolor;
-
-                    if (r_hud_translucency)
-                        *dest = (blendcolor == minimappathcolor ? tinttab75[(*dest << 8) + blendcolor] :
-                            tinttab50[(*dest << 8) + blendcolor]);
-                    else
-                        *dest = blendcolor;
+                        *dest = (r_hud_translucency ? tinttab50[(*dest << 8) + minimapcolor] : minimapcolor);
                 }
             }
 

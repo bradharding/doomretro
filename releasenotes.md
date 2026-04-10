@@ -124,15 +124,15 @@
   * When the `joy_rumble_fall` CVAR is `on`, controllers no longer rumble when the player falls into liquid.
 * An accessibility feature has been implemented that allows the player to automatically fire their currently equipped weapon when there’s a monster in front of them. This can be enabled using the new `autofire` CVAR, which is `off` by default and when vanilla mode is enabled.
 * A bug is fixed whereby the angles of things passing through silent teleporters wouldn’t be preserved.
-* The `MAP` CCMD now works correctly when playing [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+* The `map` CCMD now works correctly when playing [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * A bug is fixed whereby the wrong stat was being updated when the player fired their calamity blade in [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * These changes have been made to the support of [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * A swirling effect is now applied to the player’s view when the `r_liquid_swirl` CVAR is `on`.
   * The effect when the player has an invulnerability power-up is no longer affected.
-* `AASTINKY` and `AASHITTY` textures in maps are now treated as intended.
+* `AASTINKY` and `AASHITTY` textures in maps are now treated as blank as intended.
 * `MUSINFO` things 14,100 and 14,164 are now supported.
 * Using `Fullbright` in `DEHACKED` lumps to make the frames of all things fullbright now works as intended.
-* Additional bars for all ammo types can now be shown in the alternate widescreen HUD by enabling the new `r_althud_ammobars` CVAR, which is `off` by default.
+* Additional bars indicating the amount of ammo the player has for all ammo types can now be shown in the alternate widescreen HUD by enabling the new `r_althud_ammobars` CVAR, which is `off` by default.
 * Noise is no longer applied to the pillarbox areas when displaying the help screen over a non-widescreen `TITLEPIC` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

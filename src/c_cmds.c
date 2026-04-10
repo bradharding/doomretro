@@ -951,7 +951,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_althud, "", "", boolfunc1, boolfunc2, 0,
         "Toggles an alternate heads-up display when widescreen."),
     BOOLCVAR(r_althud_ammobars, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles additional bars for all ammo types in the alternate HUD."),
+        "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate HUD."),
     BOOLCVAR(r_althudfont, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying messages in an alternate font when the alternate HUD is displayed."),
     BOOLCVAR(r_antialiasing, "", "", boolfunc1, r_antialiasingfunc2, 0,

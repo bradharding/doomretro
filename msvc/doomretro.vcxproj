@@ -179,7 +179,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Manifest>
-      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro-x64.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
@@ -310,7 +310,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.32.10\lib\x64;$(ProjectDir)..\SDL2_mixer-2.8.1\lib\x64;$(ProjectDir)..\SDL2_image-2.8.10\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro-x64.manifest</AdditionalManifestFiles>
       <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
     <ResourceCompile>
@@ -519,7 +519,7 @@
     <None Include="..\releasenotes.md" />
     <None Include="..\res\doomretro.desktop" />
     <None Include="..\res\doomretro.ico" />
-    <None Include="..\src\doomretro.manifest" />
+    <None Include="..\src\doomretro-x64.manifest" />
     <None Include="..\src\doomretro-x86.manifest" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.mingw" />
