@@ -206,6 +206,8 @@ static const int *controllerweapons2[NUMWEAPONKEYS + 2] =
 bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
+static bool     lookcenterdown;
+static bool     pendinglookcenter;
 
 static bool     mousearray[MAXMOUSEBUTTONS + 5];
 bool            *mousebuttons = &mousearray[1]; // allow [-1]
@@ -464,6 +466,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         || mousebuttons[mousefreelook] || (controllerbuttons & controllerfreelook)
         || lookup || lookdown || lookcenter);
 
+    if (lookcenter && !lookcenterdown)
+        pendinglookcenter = true;
+
+    lookcenterdown = lookcenter;
+
     // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardright2] || gamekeydown[keyboardleft] || gamekeydown[keyboardleft2]
         || (controllerbuttons & (controllerleft | controllerright)))
@@ -527,6 +534,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             {
                 cmd->pitch = (int)(96 * ((float)controllerthumbRY / SHRT_MAX)
                     * controllerverticalsensitivity);
+
+                pendinglookcenter = false;
 
                 if (!joy_invertyaxis)
                     cmd->pitch = -cmd->pitch;
@@ -760,7 +769,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (mousey)
     {
         if (usefreelook && !automapactive)
+        {
             cmd->pitch = (m_invertyaxis ? -mousey : mousey);
+            pendinglookcenter = false;
+        }
         else if (!m_novertical)
             forward += mousey / 2;
 
@@ -770,9 +782,22 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (canfreelook && !automapactive)
     {
         if (lookup != lookdown)
+        {
+            pendinglookcenter = false;
             cmd->pitch += (lookup ? 16 * MLOOKUNIT : -16 * MLOOKUNIT);
-        else if (lookcenter && viewplayer->pitch)
-            cmd->pitch += SIGN(-viewplayer->pitch) * MIN(ABS(viewplayer->pitch), 16 * MLOOKUNIT);
+        }
+        else if (pendinglookcenter)
+        {
+            if (viewplayer->pitch)
+            {
+                cmd->pitch += SIGN(-viewplayer->pitch) * MIN(ABS(viewplayer->pitch), 16 * MLOOKUNIT);
+
+                if (ABS(viewplayer->pitch) <= 16 * MLOOKUNIT)
+                    pendinglookcenter = false;
+            }
+            else
+                pendinglookcenter = false;
+        }
     }
 
     if (forward)
@@ -946,6 +971,8 @@ void G_DoLoadLevel(void)
     sendsave = false;
     paused = false;
     memset(mousearray, 0, sizeof(mousearray));
+    lookcenterdown = false;
+    pendinglookcenter = false;
 
     // [BH] clear these as well, since data from prev map can be copied over in G_BuildTiccmd()
     for (int i = 0; i < BACKUPTICS; i++)
