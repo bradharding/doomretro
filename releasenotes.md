@@ -50,7 +50,7 @@
 * The `fade` CVAR has been renamed `smoothtransitions`.
 * A transition effect now occurs when pressing the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys to toggle widescreen. This effect can be disabled using the `smoothtransitions` CVAR.
 * The player’s vertical field of view is now exactly the same in both widescreen and non-widescreen modes.
-* Screenshots taken while a menu is open, or if the `palette` CCMD is in use, now have more descriptive filenames.
+* Screenshots taken while the menu is open, or if the `palette` CCMD is in use, now have more descriptive filenames.
 * Texture offsets are now corrected in certain maps built with [*ZDBSP*](https://zdoom.org/wiki/ZDBSP) extended nodes.
 * A bug is fixed whereby the `con_timestampformat`, `english`, `r_detail` and `units` CVARs couldn’t be changed in the console. These CVARs also weren’t being reset when vanilla mode was enabled.
 * The `playername` CVAR can now be changed back to its default of `“”` in the console.

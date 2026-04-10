@@ -240,7 +240,6 @@ static void AM_ChangeWindowScale(void);
 static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[]);
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline);
-static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery, byte color);
 static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
     int framex, int framey, int framewidth, int frameheight);
 static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
@@ -3011,7 +3010,8 @@ static void AM_DrawMarks(const char *nums[])
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        AM_DrawMarkNumber(nums, i + 1, CXMTOF(point.x), CYMTOF(point.y), color);
+        AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, i + 1,
+            CXMTOF(point.x), CYMTOF(point.y), color, false);
     }
 }
 
@@ -3035,12 +3035,12 @@ static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight,
 }
 
 static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int centerx, int centery, byte color, const bool clearoutline)
+    const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline)
 {
     int temp = number;
     int digits = 1;
-    int x = centerx - MARKWIDTH / 2 + 1;
-    int y = centery - MARKHEIGHT / 2 - 1;
+    int x = cx - MARKWIDTH / 2 + 1;
+    int y = cy - MARKHEIGHT / 2 - 1;
 
     while ((temp /= 10))
         digits++;
@@ -3095,26 +3095,21 @@ static void AM_DrawMarkNumberToBuffer(byte *buffer, int bufferwidth, int bufferh
     } while ((number /= 10) > 0);
 }
 
-static void AM_DrawMarkNumber(const char *nums[], int number, int centerx, int centery, byte color)
-{
-    AM_DrawMarkNumberToBuffer(mapscreen, MAPWIDTH, MAPHEIGHT, nums, number, centerx, centery, color, false);
-}
-
 static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
     int framex, int framey, int framewidth, int frameheight)
 {
     const int       ticklength = 5;
-    const double    centerx = framex + (framewidth - 1) / 2.0;
-    const double    centery = framey + (frameheight - 1) / 2.0;
+    const double    cx = framex + (framewidth - 1) / 2.0;
+    const double    cy = framey + (frameheight - 1) / 2.0;
     const double    aspectratio = 6.0 / 5.0;
     const double    outerradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0) + MINIMAPBORDER + 2;
     const double    vx = (am_rotatemode ? -am_frame.sin : 0.0);
     const double    vy = -(am_rotatemode ? am_frame.cos : 1.0);
     const double    length = sqrt(vx * vx + (vy * aspectratio) * (vy * aspectratio));
-    const double    tickx = centerx + vx * outerradius / length;
-    const double    ticky = centery + vy * outerradius / length;
-    const double    dx = tickx - centerx;
-    const double    dy = ticky - centery;
+    const double    tickx = cx + vx * outerradius / length;
+    const double    ticky = cy + vy * outerradius / length;
+    const double    dx = tickx - cx;
+    const double    dy = ticky - cy;
     const double    linelength = sqrt(dx * dx + dy * dy);
     const double    ux = dx / linelength;
     const double    uy = dy / linelength;
@@ -3207,8 +3202,8 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
     const int       dotsize = 4;
     const int       gap = 3;
     const double    dotradius = dotsize / 2.0 - 0.25;
-    const double    centerx = framex + (framewidth - 1) / 2.0;
-    const double    centery = framey + (frameheight - 1) / 2.0;
+    const double    cx = framex + (framewidth - 1) / 2.0;
+    const double    cy = framey + (frameheight - 1) / 2.0;
     const double    aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
     const double    radius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0)
                             + MINIMAPBORDER + gap + dotsize / 2.0;
@@ -3246,17 +3241,17 @@ static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheigh
         while ((number /= 10))
             digits++;
 
-        if ((x - centerx) * (x - centerx) + ((y - centery) * aspectratio) * ((y - centery) * aspectratio)
+        if ((x - cx) * (x - cx) + ((y - cy) * aspectratio) * ((y - cy) * aspectratio)
             > minimapradius * minimapradius)
         {
-            const double    dx = x - centerx;
-            const double    dy = y - centery;
+            const double    dx = x - cx;
+            const double    dy = y - cy;
             const double    length = sqrt(dx * dx + (dy * aspectratio) * (dy * aspectratio));
             int             edgex;
             int             edgey;
 
-            edgex = BETWEEN((int)minx, (int)lround(centerx + dx * radius / length - dotsize / 2.0), (int)maxx);
-            edgey = BETWEEN((int)miny, (int)lround(centery + dy * radius / length - dotsize / 2.0), (int)maxy);
+            edgex = BETWEEN((int)minx, (int)lround(cx + dx * radius / length - dotsize / 2.0), (int)maxx);
+            edgey = BETWEEN((int)miny, (int)lround(cy + dy * radius / length - dotsize / 2.0), (int)maxy);
 
             for (int yy = 0; yy < dotsize; yy++)
                 for (int xx = 0; xx < dotsize; xx++)
