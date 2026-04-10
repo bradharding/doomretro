@@ -166,6 +166,9 @@ int                 keydown2 = 0;
 bool                nokeyevent = false;
 
 static bool         keys[NUMKEYS];
+static bool         processingevents;
+static bool         pendinggraphicsrestart;
+static bool         pendingrecreatewindow;
 
 static byte         gammatable[GAMMALEVELS][256];
 
@@ -291,6 +294,7 @@ static void I_GetEvent(void)
 
     memset(&SDLEvent, 0, sizeof(SDLEvent));
 
+    processingevents = true;
     SDL_PumpEvents();
 
     while (SDL_PollEvent(Event))
@@ -353,6 +357,7 @@ static void I_GetEvent(void)
                     {
                         enterdown = true;
                         I_ToggleFullscreen(true);
+                        processingevents = false;
 
                         return;
                     }
@@ -578,6 +583,8 @@ static void I_GetEvent(void)
                 break;
         }
     }
+
+    processingevents = false;
 }
 
 void I_SaveMousePointerPosition(void)
@@ -693,6 +700,16 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
+
+    if (pendinggraphicsrestart)
+    {
+        const bool recreatewindow = pendingrecreatewindow;
+
+        pendinggraphicsrestart = false;
+        pendingrecreatewindow = false;
+        I_RestartGraphics(recreatewindow);
+    }
+
     I_ReadMouse();
     I_ReadController();
 }
@@ -2189,6 +2206,21 @@ static void I_GetScreenDimensions(void)
 
 void I_RestartGraphics(const bool recreatewindow)
 {
+    bool    textinputactive = false;
+
+    if (recreatewindow && processingevents)
+    {
+        pendinggraphicsrestart = true;
+        pendingrecreatewindow = true;
+        return;
+    }
+
+    if (recreatewindow && SDL_IsTextInputActive())
+    {
+        textinputactive = true;
+        SDL_StopTextInput();
+    }
+
     if (recreatewindow)
         SDL_DestroyWindow(window);
 
@@ -2206,6 +2238,9 @@ void I_RestartGraphics(const bool recreatewindow)
     C_ResetWrappedLines();
 
     setsizeneeded = true;
+
+    if (textinputactive)
+        SDL_StartTextInput();
 
     if (r_playerweapon)
         skippsprinterp = 2;
