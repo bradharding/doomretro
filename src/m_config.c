@@ -36,6 +36,10 @@
 #include <errno.h>
 #include <string.h>
 
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_iwad.h"
@@ -717,6 +721,60 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
         }
 }
 
+#if defined(_WIN32)
+static char *M_ConvertAnsiToUtf8(const char *input)
+{
+    WCHAR   wide[32768];
+    int     widelen;
+    int     utf8len;
+    char    *output;
+
+    if (!input)
+        return M_StringDuplicate("");
+
+    if (!(widelen = MultiByteToWideChar(CP_ACP, 0, input, -1, wide, arrlen(wide))))
+        return M_StringDuplicate(input);
+
+    if (!(utf8len = WideCharToMultiByte(CP_UTF8, 0, wide, -1, NULL, 0, NULL, NULL))
+        || !(output = malloc((size_t)utf8len)))
+        return M_StringDuplicate(input);
+
+    if (!WideCharToMultiByte(CP_UTF8, 0, wide, -1, output, utf8len, NULL, NULL))
+    {
+        free(output);
+        return M_StringDuplicate(input);
+    }
+
+    return output;
+}
+
+static char *M_ConvertUtf8ToAnsi(const char *input)
+{
+    WCHAR   wide[32768];
+    int     widelen;
+    int     ansilen;
+    char    *output;
+
+    if (!input)
+        return M_StringDuplicate("");
+
+    if (!(widelen = MultiByteToWideChar(CP_UTF8, 0, input, -1, wide, arrlen(wide))))
+        return M_StringDuplicate(input);
+
+    if (!(ansilen = WideCharToMultiByte(CP_ACP, 0, wide, -1, NULL, 0, "?", NULL))
+        || !(output = malloc((size_t)ansilen)))
+        return M_StringDuplicate(input);
+
+    if (!WideCharToMultiByte(CP_ACP, 0, wide, -1, output, ansilen, "?", NULL))
+    {
+        free(output);
+        return M_StringDuplicate(input);
+    }
+
+    return output;
+}
+#endif
+
 //
 // M_SaveCVARs
 //
@@ -729,7 +787,7 @@ void M_SaveCVARs(void)
     if (!cvarsloaded || vanilla || togglingvanilla || splashscreen)
         return;
 
-    if (!(file = fopen(configfile, "wt")))
+    if (!(file = fopen(configfile, "wb")))
     {
         static bool warning;
 
@@ -741,6 +799,10 @@ void M_SaveCVARs(void)
 
         return;
     }
+
+#if defined(_WIN32)
+    fputs("\xEF\xBB\xBF", file);
+#endif
 
     if (!widestcvar)
         for (int i = 0; i < numcvars; i++)
@@ -915,17 +977,41 @@ void M_SaveCVARs(void)
             }
 
             case DEFAULT_STRING:
+            {
+#if defined(_WIN32)
+                char        *temp = M_ConvertAnsiToUtf8(*(char **)cvars[i].location);
+                const bool  raw = (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
+                                || M_StringCompare(cvars[i].name, stringize(version)));
+
+                if (raw)
+                    fputs(temp, file);
+                else
+                    fprintf(file, "\"%s\"", temp);
+
+                free(temp);
+#else
                 if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
                     || M_StringCompare(cvars[i].name, stringize(version)))
                     fputs(*(char **)cvars[i].location, file);
                 else
                     fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+#endif
 
                 break;
+            }
 
             case DEFAULT_OTHER:
+            {
+#if defined(_WIN32)
+                char    *temp = M_ConvertAnsiToUtf8(*(char **)cvars[i].location);
+
+                fputs(temp, file);
+                free(temp);
+#else
                 fputs(*(char **)cvars[i].location, file);
+#endif
                 break;
+            }
         }
 
         fputs("\n", file);
@@ -1166,7 +1252,7 @@ void M_LoadCVARs(const char *filename)
     const int   numcvars = arrlen(cvars);
 
     // read the file in, overriding any set defaults
-    FILE        *file = fopen(filename, "rt");
+    FILE        *file = fopen(filename, "rb");
 
     if (!file)
     {
@@ -1218,10 +1304,18 @@ void M_LoadCVARs(const char *filename)
 
     while (!feof(file))
     {
+        char    line[1024] = "";
         char    cvar[64] = "";
         char    value[256] = "";
 
-        if (fscanf(file, "%63s %255[^\n]\n", cvar, value) != 2)
+        if (!fgets(line, sizeof(line), file))
+            continue;
+
+        if (ftell(file) == (long)strlen(line) && (unsigned char)line[0] == 0xEF
+            && (unsigned char)line[1] == 0xBB && (unsigned char)line[2] == 0xBF)
+            memmove(line, line + 3, strlen(line + 3) + 1);
+
+        if (sscanf(line, "%63s %255[^\r\n]", cvar, value) != 2)
             continue;
 
         if (cvar[0] == ';')
@@ -1265,9 +1359,20 @@ void M_LoadCVARs(const char *filename)
             {
                 case DEFAULT_STRING:
                 {
-                    char    *temp = Z_StringDuplicate(value, PU_STATIC, NULL);
-                    size_t  length = strlen(temp);
+                    char    *temp;
+                    size_t  length;
                     size_t  cmdlength = (size_t)consolecmds[C_GetIndex(cvar)].length;
+
+#if defined(_WIN32)
+                    char    *decoded = M_ConvertUtf8ToAnsi(value);
+
+                    temp = Z_StringDuplicate(decoded, PU_STATIC, NULL);
+                    free(decoded);
+#else
+                    temp = Z_StringDuplicate(value, PU_STATIC, NULL);
+#endif
+
+                    length = strlen(temp);
 
                     M_StripQuotes(temp);
 
@@ -1357,9 +1462,18 @@ void M_LoadCVARs(const char *filename)
                 }
 
                 case DEFAULT_OTHER:
+                {
+#if defined(_WIN32)
+                    char    *decoded = M_ConvertUtf8ToAnsi(value);
+
+                    *(char **)cvars[i].location = Z_StringDuplicate(decoded, PU_STATIC, NULL);
+                    free(decoded);
+#else
                     *(char **)cvars[i].location = Z_StringDuplicate(value, PU_STATIC, NULL);
+#endif
                     cvarcount++;
                     break;
+                }
             }
         }
     }
