@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -137,7 +137,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Manifest>
-      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro-x86.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
@@ -243,7 +243,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.32.10\lib\x86;$(ProjectDir)..\SDL2_mixer-2.8.1\lib\x86;$(ProjectDir)..\SDL2_image-2.8.10\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>..\src\doomretro-x86.manifest</AdditionalManifestFiles>
       <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
     <ResourceCompile>
@@ -520,6 +520,7 @@
     <None Include="..\res\doomretro.desktop" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\src\doomretro.manifest" />
+    <None Include="..\src\doomretro-x86.manifest" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
