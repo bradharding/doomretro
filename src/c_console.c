@@ -784,12 +784,15 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
     {
         for (int i = len; i > start; i--)
         {
-            if (!isbreak(console[index].string[i]))
-                continue;
-
             const unsigned char breakchar = console[index].string[i];
             const char          prev = console[index].string[i];
             int                 width;
+
+            if (!isbreak(breakchar))
+                continue;
+
+            if (i > 0 && console[index].string[i - 1] == ':' && (breakchar == '/' || breakchar == '\\'))
+                continue;
 
             console[index].string[i] = '\0';
             width = C_TextWidth(&console[index].string[start], (wrap ? NULL : tabs), true, true);
