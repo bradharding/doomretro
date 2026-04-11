@@ -2849,7 +2849,7 @@ static void AM_DrawPlayer(void)
     if (am_correctaspectratio)
         AM_CorrectAspectRatio(&point);
 
-    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    if (!drawingminimap && (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS)))
     {
         if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
             AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
