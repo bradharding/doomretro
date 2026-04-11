@@ -89,7 +89,7 @@
 * A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
 * Wide sprites that are partially obscured by a wall are now less likely to disappear.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
-* Whether god mode, no clipping mode or freeze mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
+* Whether god mode, no clipping mode, freeze mode or no target mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
 * The `r_playersprites` CVAR has been renamed `r_playerweapon`.
 * Instead of using the `r_sprites_translucency` CVAR, the translucency effect when the player fires their weapon can now be disabled on its own using the new `r_playerweapon_translucency` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Obituaries are now still recorded every time something is killed when the `obituaries` CVAR is `off`, but are just not displayed in the console.

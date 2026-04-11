@@ -2034,6 +2034,11 @@ void G_LoadedGameMessage(void)
                     C_Warning(0, "Freeze mode is now on.");
                 else if ((prevcheats & CF_FREEZE) && !(viewplayer->cheats & CF_FREEZE))
                     C_Warning(0, "Freeze mode is now off.");
+
+                if (!(prevcheats & CF_NOTARGET) && (viewplayer->cheats & CF_NOTARGET))
+                    C_Warning(0, "No target mode is now on.");
+                else if ((prevcheats & CF_NOTARGET) && !(viewplayer->cheats & CF_NOTARGET))
+                    C_Warning(0, "No target mode is now off.");
             }
         }
 
