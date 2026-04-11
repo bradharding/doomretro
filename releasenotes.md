@@ -34,8 +34,8 @@
   * The `+maxzoom` action has been renamed `+fullzoom`.
   * A circular minimap can now be displayed in the top right of the screen by enabling the new `am_minimap` CVAR, which is `off` by default and when vanilla mode is enabled. Here are a few things to note about this new feature:
     * Certain automap controls work while the minimap is displayed, such as the <kbd><b>M</b></kbd> key to add a mark, and the <kbd><b>R</b></kbd> key to toggle rotate mode.
-    * To assist in orienting the player, a vertical indicator always shows which way is north.
-    * If a mark is such that is off of the minimap, a circular indicator will be shown off the edge of the minimap pointing in the direction of the mark.
+    * To assist in orienting the player, a vertical indicator always points towards the top of the map.
+    * If a mark is such that is off of the minimap, a circular indicator will be shown off the edge of the minimap showing the direction the mark is.
   * If a mark is added near a locked door, the color of that mark will now be the same as the keycard or skull key needed to open it.
   * The correct player arrow is now shown when the player has a partial invisibility power-up.
 * Flat textures between both `F_START`/`F_END` and `FF_START`/`FF_END` markers are now always found.

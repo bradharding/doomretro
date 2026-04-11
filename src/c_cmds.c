@@ -2776,7 +2776,7 @@ static void condumpfunc2(char *cmd, char *parms)
 
     if ((file = fopen(filename, "wt")))
     {
-        char    *temp = commify((int64_t)numconsolestrings);
+        char    *temp1 = commify((int64_t)numconsolestrings);
 
         for (int i = 1; i < numconsolestrings - 1; i++)
         {
@@ -2807,10 +2807,10 @@ static void condumpfunc2(char *cmd, char *parms)
                     && console[i].count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
-                    char    *temp = commify(console[i].count);
+                    char    *temp2 = commify(console[i].count);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", string, temp);
-                    free(temp);
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", string, temp2);
+                    free(temp2);
                     free(string);
                     string = M_StringDuplicate(buffer);
                 }
@@ -2887,8 +2887,8 @@ static void condumpfunc2(char *cmd, char *parms)
 
         fclose(file);
 
-        C_Output("%s lines from the console were dumped into " BOLD("%s") ".", temp, filename);
-        free(temp);
+        C_Output("%s lines from the console were dumped into " BOLD("%s") ".", temp1, filename);
+        free(temp1);
     }
     else
         C_Warning(0, BOLD("%s") " couldn't be created.", filename);

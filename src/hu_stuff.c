@@ -1439,11 +1439,11 @@ static void HU_DrawAltHUD(void)
                 if (showallammo || otherammoorder[i] != ammotype)
                 {
                     const int   x = ALTHUD_RIGHT_X + bar++ * barstep;
-                    const int   maxammo = viewplayer->maxammo[otherammoorder[i]];
+                    const int   max = viewplayer->maxammo[otherammoorder[i]];
                     const int   ammo = BETWEEN(0, viewplayer->ammo[otherammoorder[i]] + ammodiff[otherammoorder[i]],
                                     HUD_NUMBER_MAX);
-                    const int   remaining = (maxammo ? MIN((ammo * barwidth + maxammo - 1) / maxammo, barwidth) : 0);
-                    const int   barcolor = (remaining && ammo * 100 / maxammo < HUD_AMMO_MIN ? yellow3 : color);
+                    const int   remaining = (max ? MIN((ammo * barwidth + max - 1) / max, barwidth) : 0);
+                    const int   barcolor = (remaining && ammo * 100 / max < HUD_AMMO_MIN ? yellow3 : color);
 
                     fillrectfunc2(0, x, ALTHUD_Y + 27, barwidth, 3, color2, color2, false, false, tinttab20, NULL);
 

@@ -338,7 +338,7 @@ void C_BuildObituaryString(const int index)
     if (buffer[0])
         buffer[0] = (char)toupper(buffer[0]);
 
-    if (strcmp(oldstring, buffer))
+    if (M_StringCompare(oldstring, buffer))
     {
         memset(console[index].wrap, 0, sizeof(console[0].wrap));
         console[index].wrapwidth = 0;

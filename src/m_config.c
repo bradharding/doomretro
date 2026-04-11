@@ -724,7 +724,7 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
 #if defined(_WIN32)
 static char *M_ConvertAnsiToUtf8(const char *input)
 {
-    WCHAR   wide[32768];
+    WCHAR   *wide;
     int     widelen;
     int     utf8len;
     char    *output;
@@ -732,25 +732,36 @@ static char *M_ConvertAnsiToUtf8(const char *input)
     if (!input)
         return M_StringDuplicate("");
 
-    if (!(widelen = MultiByteToWideChar(CP_ACP, 0, input, -1, wide, arrlen(wide))))
+    if (!(wide = (WCHAR *)malloc(32768 * sizeof(WCHAR))))
         return M_StringDuplicate(input);
+
+    if (!(widelen = MultiByteToWideChar(CP_ACP, 0, input, -1, wide, 32768)))
+    {
+        free(wide);
+        return M_StringDuplicate(input);
+    }
 
     if (!(utf8len = WideCharToMultiByte(CP_UTF8, 0, wide, -1, NULL, 0, NULL, NULL))
         || !(output = malloc((size_t)utf8len)))
+    {
+        free(wide);
         return M_StringDuplicate(input);
+    }
 
     if (!WideCharToMultiByte(CP_UTF8, 0, wide, -1, output, utf8len, NULL, NULL))
     {
+        free(wide);
         free(output);
         return M_StringDuplicate(input);
     }
 
+    free(wide);
     return output;
 }
 
 static char *M_ConvertUtf8ToAnsi(const char *input)
 {
-    WCHAR   wide[32768];
+    WCHAR   *wide;
     int     widelen;
     int     ansilen;
     char    *output;
@@ -758,19 +769,30 @@ static char *M_ConvertUtf8ToAnsi(const char *input)
     if (!input)
         return M_StringDuplicate("");
 
-    if (!(widelen = MultiByteToWideChar(CP_UTF8, 0, input, -1, wide, arrlen(wide))))
+    if (!(wide = (WCHAR *)malloc(32768 * sizeof(WCHAR))))
         return M_StringDuplicate(input);
+
+    if (!(widelen = MultiByteToWideChar(CP_UTF8, 0, input, -1, wide, 32768)))
+    {
+        free(wide);
+        return M_StringDuplicate(input);
+    }
 
     if (!(ansilen = WideCharToMultiByte(CP_ACP, 0, wide, -1, NULL, 0, "?", NULL))
         || !(output = malloc((size_t)ansilen)))
+    {
+        free(wide);
         return M_StringDuplicate(input);
+    }
 
     if (!WideCharToMultiByte(CP_ACP, 0, wide, -1, output, ansilen, "?", NULL))
     {
+        free(wide);
         free(output);
         return M_StringDuplicate(input);
     }
 
+    free(wide);
     return output;
 }
 #endif
