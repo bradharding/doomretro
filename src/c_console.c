@@ -233,7 +233,9 @@ void C_Input(const char *string, ...)
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = inputstring;
     inputhistory = -1;
+
     C_ScrollToBottom();
+
     consoleinput[0] = '\0';
     caretpos = 0;
     selectstart = 0;
@@ -259,7 +261,9 @@ void C_Cheat(const char *string)
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = cheatstring;
     inputhistory = -1;
+
     C_ScrollToBottom();
+
     consoleinput[0] = '\0';
     caretpos = 0;
     selectstart = 0;
@@ -323,6 +327,7 @@ void C_Output(const char *string, ...)
     memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
+
     C_ScrollToBottom();
 }
 
@@ -343,8 +348,8 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
     memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[numconsolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
     console[numconsolestrings].wrapwidth = 0;
-    memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
-    numconsolestrings++;
+    memset(console[numconsolestrings++].wrap, 0, sizeof(console[0].wrap));
+
     C_ScrollToBottom();
 }
 
@@ -359,6 +364,7 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
     console[numconsolestrings].wrapwidth = 0;
     C_StoreConsoleString(console[numconsolestrings++].string, string, sizeof(console[0].string));
+
     C_ScrollToBottom();
 }
 
@@ -562,10 +568,7 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
         const unsigned char letter = text[i];
         const unsigned char nextletter = text[i + 1];
 
-        if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
-        {
-        }
-        else if (letter == ITALICSONCHAR)
+        if (letter == ITALICSONCHAR)
             italics = true;
         else if (letter == ITALICSOFFCHAR)
             italics = false;
@@ -617,7 +620,7 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
             width += SHORT(endash->width);
         else if (letter == '\n')
             break;
-        else
+        else if (letter != BOLDONCHAR && letter != BOLDOFFCHAR)
         {
             int         adjust = 0;
             const int   c = letter - CONSOLEFONTSTART;
@@ -751,8 +754,8 @@ static bool C_IsVisibleConsoleString(const int index)
 {
     const stringtype_t  stringtype = console[index].stringtype;
 
-    return !(stringtype == warningstring && con_warninglevel < console[index].warninglevel && !devparm)
-        && !((stringtype == obituarystring || stringtype == playerobituarystring) && !obituaries);
+    return ((stringtype != warningstring || con_warninglevel >= console[index].warninglevel || devparm)
+        && ((stringtype != obituarystring && stringtype != playerobituarystring) || obituaries));
 }
 
 static int C_GetWrapWidth(const int index, const int wrap)
@@ -764,9 +767,7 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
 {
     const int   len = (int)strlen(console[index].string);
     const int   stringtype = console[index].stringtype;
-    const int   *tabs = (!console[index].indent
-                    || stringtype == warningstring
-                    || stringtype == playerwarningstring
+    const int   *tabs = (!console[index].indent || stringtype == warningstring || stringtype == playerwarningstring
                     || stringtype == playerobituarystring ? NULL : console[index].tabs);
 
     memset(wrappositions, 0, sizeof(console[index].wrap));
@@ -830,7 +831,7 @@ static int C_GetConsoleDisplayRows(const int index)
         else
             prev = wraps[i - 1];
 
-    return arrlen(wraps) + 1;
+    return (arrlen(wraps) + 1);
 }
 
 static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int offset)
@@ -860,10 +861,8 @@ static void C_GetHistoryPositionForVisibleRow(int row, int *arrayindex, int *off
 
     row = BETWEEN(0, row, MAX(0, numvisibleconsolerows - 1));
 
-    for (int i = 0; i < numconsolestrings; i++)
+    for (int i = 0, rows; i < numconsolestrings; i++)
     {
-        int rows;
-
         if (!C_IsVisibleConsoleString(i))
             continue;
 
@@ -893,8 +892,8 @@ static int C_GetTopRowForDisplay(void)
 
 static int C_GetCurrentTopRow(void)
 {
-    return MAX(0, (outputhistory == -1 ?
-        C_GetTopRowForDisplay() : C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset)));
+    return MAX(0, (outputhistory == -1 ? C_GetTopRowForDisplay() :
+        C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset)));
 }
 
 static bool C_CanScrollOutput(void)
@@ -1013,7 +1012,6 @@ void C_ClearConsole(void)
     consolestringsmax = CONSOLESTRINGSMAX;
     console = I_Realloc(console, consolestringsmax * sizeof(*console));
     memset(console, 0, consolestringsmax * sizeof(*console));
-
     console[numconsolestrings].string[0] = '\0';
     console[numconsolestrings].indent = 0;
     memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
@@ -1208,7 +1206,7 @@ void C_HideConsole(void)
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
 
-    S_StartSound(viewplayer->mo, sfx_consol);
+    S_StartSound(NULL, sfx_consol);
     S_RestoreMusicVolume();
 }
 
@@ -1681,8 +1679,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(byte *screen, const int screenwidth, int x,
-    const int y, const char *text, const bool monospaced)
+static void C_DrawOverlayText(byte *screen, const int screenwidth,
+    int x, const int y, const char *text, const bool monospaced)
 {
     const int   len = (int)strlen(text);
 
@@ -1830,9 +1828,7 @@ void C_UpdateFPSOverlay(void)
             if (offset > OVERLAYFPSGRAPHHEIGHT - 1)
                 offset = OVERLAYFPSGRAPHHEIGHT - 1;
 
-            py -= offset;
-
-            if (py < graphy)
+            if ((py -= offset) < graphy)
                 py = graphy;
             else if (py > graphy + OVERLAYFPSGRAPHHEIGHT - 1)
                 py = graphy + OVERLAYFPSGRAPHHEIGHT - 1;
@@ -2084,8 +2080,7 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    int         x;
-    int         y;
+    int         x, y;
     static char buffer[16];
     static int  prevmaptime = -1;
     static int  width;
@@ -2189,19 +2184,19 @@ void C_UpdatePlayerStatsOverlay(void)
 
 static bool IsCheatSequence(char *string)
 {
-    const int   length = (int)strlen(string);
+    const int   len = (int)strlen(string);
 
     if (M_StringStartsWith(string, cheat_clev_xy.sequence)
-        && length == strlen(cheat_clev_xy.sequence) + cheat_clev_xy.parameter_chars
-        && isdigit(string[length - 1])
-        && isdigit(string[length - 2]))
+        && len == strlen(cheat_clev_xy.sequence) + cheat_clev_xy.parameter_chars
+        && isdigit(string[len - 1])
+        && isdigit(string[len - 2]))
     {
         static char lump[7];
 
         if (legacyofrust)
         {
-            int ep = string[length - 2] - '0';
-            int map = string[length - 1] - '0';
+            int ep = string[len - 2] - '0';
+            int map = string[len - 1] - '0';
 
             if (ep <= 2 && map <= 7)
                 map = (ep - 1) * 7 + map;
@@ -2213,16 +2208,16 @@ static bool IsCheatSequence(char *string)
             M_snprintf(lump, sizeof(lump), "MAP%02i", map);
         }
         else if (gamemode == commercial)
-            M_snprintf(lump, sizeof(lump), "MAP%c%c", string[length - 2], string[length - 1]);
+            M_snprintf(lump, sizeof(lump), "MAP%c%c", string[len - 2], string[len - 1]);
         else
-            M_snprintf(lump, sizeof(lump), "E%cM%c", string[length - 2], string[length - 1]);
+            M_snprintf(lump, sizeof(lump), "E%cM%c", string[len - 2], string[len - 1]);
 
         return (W_CheckNumForName(lump) >= 0);
     }
     else if (M_StringStartsWith(string, cheat_mus_xy.sequence)
-        && length == strlen(cheat_mus_xy.sequence) + cheat_mus_xy.parameter_chars
-        && isdigit(string[length - 1])
-        && isdigit(string[length - 2]))
+        && len == strlen(cheat_mus_xy.sequence) + cheat_mus_xy.parameter_chars
+        && isdigit(string[len - 1])
+        && isdigit(string[len - 2]))
         return (!nomusic && musicvolume);
     else if (gamestate != GS_LEVEL)
         return false;
@@ -3282,7 +3277,7 @@ bool C_Responder(event_t *ev)
                     for (i = (inputhistory == -1 ? numconsolestrings : inputhistory) - 1; i >= 0; i--)
                         if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
-                && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                            && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
@@ -3312,7 +3307,7 @@ bool C_Responder(event_t *ev)
                         for (i = inputhistory + 1; i < numconsolestrings; i++)
                             if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
-                && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                                && C_TextWidth(console[i].string, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                             {
                                 inputhistory = i;
                                 M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
