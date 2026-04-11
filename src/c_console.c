@@ -168,6 +168,9 @@ static int              consoleboldcolors[STRINGTYPES];
 bool                    scrollbardrawn;
 int                     scrollbarfacestart;
 int                     scrollbarfaceend;
+static bool             dragconsolescrollbaractive;
+static int              dragconsolescrollbarfacestart;
+static int              dragconsolescrollbaroffset;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
@@ -951,7 +954,8 @@ static void C_DrawScrollbar(void)
     const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
     const int   currentrow = C_GetCurrentTopRow();
 
-    scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
+    scrollbarfacestart = (dragconsolescrollbaractive ? dragconsolescrollbarfacestart :
+        (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0));
     scrollbarfaceend = scrollbarfacestart + faceheight;
 
     if (!scrollbarfacestart && scrollbarfaceend == CONSOLESCROLLBARHEIGHT)
@@ -3497,7 +3501,6 @@ bool C_Responder(event_t *ev)
     else if (ev->type == ev_mouse)
     {
         static bool     selectingwithmouse;
-        static bool     draggingconsolescrollbar;
         static bool     leftbuttondown;
         static bool     doubleclickselection;
         static uint64_t lastinputclicktime;
@@ -3511,26 +3514,26 @@ bool C_Responder(event_t *ev)
             const int   y = ev->data3 * 2;
             const bool  newleftbuttonpress = !leftbuttondown;
             static int  mouseselectanchor;
-            static int  dragconsolescrollbaroffset;
 
             leftbuttondown = true;
 
             // dragging console scrollbar thumb
-            if (draggingconsolescrollbar && scrollbardrawn)
+            if (dragconsolescrollbaractive && scrollbardrawn)
             {
                 const int   totalrows = MAX(1, numvisibleconsolerows);
                 const int   visiblerows = MIN(CONSOLELINES, totalrows);
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
-                const int   faceheight = MAX(1, CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
+                const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
+                                        CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
                 const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
 
-                scrollbarfacestart = MAX(0, MIN(y - dragconsolescrollbaroffset, facetravel));
-                scrollbarfaceend = scrollbarfacestart + faceheight;
+                dragconsolescrollbarfacestart = MAX(0, MIN(y - dragconsolescrollbaroffset, facetravel));
 
                 if (C_CanScrollOutput())
                 {
-                    const int   position = (scrollrange > 0 ?
-                                    scrollbarfacestart * scrollrange / MAX(1, facetravel) : 0);
+                    const int   position = (facetravel > 0 ?
+                                    (int)(((int64_t)dragconsolescrollbarfacestart * scrollrange
+                                    + facetravel / 2) / facetravel) : 0);
 
                     if (position <= 0)
                         C_ScrollToTop();
@@ -3694,7 +3697,8 @@ bool C_Responder(event_t *ev)
                 // click inside scrollbar: start dragging if on face
                 if (y >= scrollbarfacestart && y <= scrollbarfaceend)
                 {
-                    draggingconsolescrollbar = true;
+                    dragconsolescrollbaractive = true;
+                    dragconsolescrollbarfacestart = scrollbarfacestart;
                     dragconsolescrollbaroffset = y - scrollbarfacestart;
                     return true;
                 }
@@ -3720,7 +3724,7 @@ bool C_Responder(event_t *ev)
             {
                 leftbuttondown = false;
                 selectingwithmouse = false;
-                draggingconsolescrollbar = false;
+                dragconsolescrollbaractive = false;
                 doubleclickselection = false;
             }
 
