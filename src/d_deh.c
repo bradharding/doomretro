@@ -4030,6 +4030,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
     char        inbuffer[DEH_BUFFERMAX];
     int         value;
     char        *strval = NULL;         // holds the string value of the line
+    bool        havepair = false;
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
     static char *holdstring;
@@ -4069,6 +4070,8 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
                 C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
                 continue;
             }
+            else
+                havepair = true;
 
         len = (int)strlen(inbuffer);
 
@@ -4098,11 +4101,12 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
             continue;           // ready to concatenate
         }
 
-        if (*holdstring)        // didn't have a backslash, trap above would catch that
+        if (havepair)           // didn't have a backslash, trap above would catch that
         {
             // go process the current string
             deh_procStringSub(key, NULL, trimwhitespace(holdstring));
             *holdstring = '\0';  // empty string for the next one
+            havepair = false;
         }
     }
 }
