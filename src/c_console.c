@@ -2452,11 +2452,11 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                 }
                 else if (con_edgecolor == con_edgecolor_auto)
                     V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                        console[index].header, CONSOLETEXTPIXELWIDTH + 7, consoleedgecolor1,
+                        console[index].header, CONSOLEHEADERWIDTH, consoleedgecolor1,
                         I_GetContrastingColor(consoleedgecolor1 >> 8));
                 else
                     V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                        console[index].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
+                        console[index].header, CONSOLEHEADERWIDTH, (nearestcolors[con_edgecolor] << 8),
                         I_GetContrastingColor(nearestcolors[con_edgecolor]));
 
                 free(temp1);
@@ -2627,7 +2627,7 @@ void C_Drawer(void)
             int         yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
             if (yy >= 0)
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 7; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
@@ -2638,7 +2638,7 @@ void C_Drawer(void)
             {
                 const byte  *tinttab = (!yy ? tinttab40 : tinttab50);
 
-                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX + 7; xx++)
+                for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
