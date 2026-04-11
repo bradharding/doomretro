@@ -81,6 +81,7 @@
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
 #define CONSOLETEXTMAXLENGTH                1024
 #define CONSOLELINEHEIGHT                   14
+#define CONSOLEWRAPS                        32
 
 #define CONSOLESCROLLBARWIDTH               5
 #define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (gamestate == GS_TITLESCREEN ? 26 : 22))
@@ -175,7 +176,7 @@ typedef struct
     char            string[1024];
     int             count;
     stringtype_t    stringtype;
-    int             wrap[2];
+    int             wrap[CONSOLEWRAPS];
     int             wrapwidth;
     int             indent;
     patch_t         *header;

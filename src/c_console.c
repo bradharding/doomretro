@@ -760,7 +760,7 @@ static int C_GetWrapWidth(const int index, const int wrap)
     return (wrap ? MAX(0, CONSOLETEXTPIXELWIDTH - console[index].indent) : CONSOLETEXTPIXELWIDTH);
 }
 
-static void C_GetWrapPositions(const int index, int wrappositions[2])
+static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
 {
     const int   len = (int)strlen(console[index].string);
     const int   stringtype = console[index].stringtype;
@@ -814,7 +814,7 @@ static void C_GetWrapPositions(const int index, int wrappositions[2])
 static int C_GetConsoleDisplayRows(const int index)
 {
     const int   len = (int)strlen(console[index].string);
-    int         wraps[2];
+    int         wraps[CONSOLEWRAPS];
 
     if (!len)
         return 1;
@@ -2345,126 +2345,134 @@ static char *C_GetWrappedTextSegment(const int index, const int start, const int
     return text;
 }
 
-static void C_DrawConsoleStringParts(const int index, const int y1, const bool drawfirst,
-    const int y2, const bool drawsecond, const int y3, const bool drawthird, const int notabs[MAXTABS])
+static void C_DrawConsoleStringParts(const int index, const int row, const int toprow,
+    const int bottomrow, const int outputyoffset, const int notabs[MAXTABS])
 {
     const stringtype_t  stringtype = console[index].stringtype;
     const int           len = (int)strlen(console[index].string);
-    int                 wraps[2] = { 0 };
-    const int           wrap1 = (len > 0 ? (C_GetWrapPositions(index, wraps), wraps[0]) : 0);
-    const int           wrap2 = wraps[1];
+    int                 wraps[CONSOLEWRAPS] = { 0 };
+    int                 start = 0;
 
-    if (drawfirst && len > 0)
+    if (!len)
+        return;
+
+    C_GetWrapPositions(index, wraps);
+
+    for (int part = 0; part <= arrlen(wraps) && start < len; part++)
     {
-        char    *text = (wrap1 < len ? M_SubString(console[index].string, 0, wrap1) :
-                    M_StringDuplicate(console[index].string));
+        const int   end = (part < arrlen(wraps) && wraps[part] > start && wraps[part] < len ? wraps[part] : len);
+        const int   currentrow = row + part;
+        const int   y = CONSOLELINEHEIGHT * (currentrow - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset;
 
-        if (stringtype == playermessagestring || stringtype == obituarystring)
+        if (currentrow > bottomrow)
+            break;
+
+        if (currentrow >= toprow)
         {
-            const int   count = console[index].count;
-
-            if (count > 1)
+            if (!part)
             {
-                char    buffer[CONSOLETEXTMAXLENGTH];
-                char    *temp = commify(count);
+                char    *temp1 = (end < len ? M_SubString(console[index].string, 0, end) :
+                            M_StringDuplicate(console[index].string));
 
-                M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
-                C_DrawConsoleText(CONSOLETEXTX, y1, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
-                    consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
-                free(temp);
+                if (stringtype == playermessagestring || stringtype == obituarystring)
+                {
+                    const int   count = console[index].count;
+
+                    if (count > 1)
+                    {
+                        char    buffer[CONSOLETEXTMAXLENGTH];
+                        char    *temp2 = commify(count);
+
+                        M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
+                        C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
+                            consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+                        free(temp2);
+                    }
+                    else
+                        C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
+                            consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+
+                    if (con_timestamps)
+                        C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
+                            y - (CONSOLEHEIGHT - consoleheight), index, consoleplayermessagecolor);
+                }
+                else if (stringtype == outputstring)
+                    C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleoutputcolor, NOBACKGROUNDCOLOR,
+                        consoleboldcolor, tinttab66, console[index].tabs, true, true, false, index, '\0', '\0',
+                        &V_DrawConsoleTextPatch);
+                else if (stringtype == inputstring || stringtype == cheatstring)
+                    C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleinputcolor, NOBACKGROUNDCOLOR,
+                        consoleboldcolor, tinttab75, notabs, true, true, false, index, '\0', '\0',
+                        &V_DrawConsoleTextPatch);
+                else if (stringtype == warningstring)
+                {
+                    const int   count = console[index].count;
+
+                    if (count > 1)
+                    {
+                        char    buffer[CONSOLETEXTMAXLENGTH];
+                        char    *temp2 = commify(count);
+
+                        M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
+                        C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
+                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+                        free(temp2);
+                    }
+                    else
+                        C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
+                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+                }
+                else if (stringtype == playerwarningstring || stringtype == playerobituarystring)
+                {
+                    const int   count = console[index].count;
+
+                    if (count > 1)
+                    {
+                        char    buffer[CONSOLETEXTMAXLENGTH];
+                        char    *temp2 = commify(count);
+
+                        M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
+                        C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
+                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+                        free(temp2);
+                    }
+                    else
+                        C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
+                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            &V_DrawConsoleTextPatch);
+
+                    if (con_timestamps)
+                        C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
+                            y - (CONSOLEHEIGHT - consoleheight), index, consolewarningboldcolor);
+                }
+                else if (con_edgecolor == con_edgecolor_auto)
+                    V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                        console[index].header, CONSOLETEXTPIXELWIDTH + 7, consoleedgecolor1,
+                        I_GetContrastingColor(consoleedgecolor1 >> 8));
+                else
+                    V_DrawConsoleHeaderPatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                        console[index].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
+                        I_GetContrastingColor(nearestcolors[con_edgecolor]));
+
+                free(temp1);
             }
             else
-                C_DrawConsoleText(CONSOLETEXTX, y1, text, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
-                    consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
-
-            if (con_timestamps)
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
-                    y1 - (CONSOLEHEIGHT - consoleheight), index, consoleplayermessagecolor);
-        }
-        else if (stringtype == outputstring)
-            C_DrawConsoleText(CONSOLETEXTX, y1, text, consoleoutputcolor, NOBACKGROUNDCOLOR,
-                consoleboldcolor, tinttab66, console[index].tabs, true, true, false, index, '\0', '\0',
-                &V_DrawConsoleTextPatch);
-        else if (stringtype == inputstring || stringtype == cheatstring)
-            C_DrawConsoleText(CONSOLETEXTX, y1, text, consoleinputcolor, NOBACKGROUNDCOLOR,
-                consoleboldcolor, tinttab75, notabs, true, true, false, index, '\0', '\0',
-                &V_DrawConsoleTextPatch);
-        else if (stringtype == warningstring)
-        {
-            const int   count = console[index].count;
-
-            if (count > 1)
             {
-                char    buffer[CONSOLETEXTMAXLENGTH];
-                char    *temp = commify(count);
+                char    *temp = C_GetWrappedTextSegment(index, start, end);
 
-                M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
-                C_DrawConsoleText(CONSOLETEXTX, y1, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
+                C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y, trimwhitespace(temp),
+                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
+                    notabs, true, true, (end >= len), 0, '\0', '\0', &V_DrawConsoleTextPatch);
                 free(temp);
             }
-            else
-                C_DrawConsoleText(CONSOLETEXTX, y1, text, consolewarningcolor, NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
         }
-        else if (stringtype == playerwarningstring || stringtype == playerobituarystring)
-        {
-            const int   count = console[index].count;
 
-            if (count > 1)
-            {
-                char    buffer[CONSOLETEXTMAXLENGTH];
-                char    *temp = commify(count);
-
-                M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
-                C_DrawConsoleText(CONSOLETEXTX, y1, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
-                free(temp);
-            }
-            else
-                C_DrawConsoleText(CONSOLETEXTX, y1, text, consolewarningcolor, NOBACKGROUNDCOLOR,
-                    consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                    &V_DrawConsoleTextPatch);
-
-            if (con_timestamps)
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
-                    y1 - (CONSOLEHEIGHT - consoleheight), index, consolewarningboldcolor);
-        }
-        else if (con_edgecolor == con_edgecolor_auto)
-            V_DrawConsoleHeaderPatch(CONSOLETEXTX, y1 + 4 - (CONSOLEHEIGHT - consoleheight),
-                console[index].header, CONSOLETEXTPIXELWIDTH + 7, consoleedgecolor1,
-                I_GetContrastingColor(consoleedgecolor1 >> 8));
-        else
-            V_DrawConsoleHeaderPatch(CONSOLETEXTX, y1 + 4 - (CONSOLEHEIGHT - consoleheight),
-                console[index].header, CONSOLETEXTPIXELWIDTH + 7, (nearestcolors[con_edgecolor] << 8),
-                I_GetContrastingColor(nearestcolors[con_edgecolor]));
-
-        free(text);
-    }
-
-    if (drawsecond && wrap1 < len)
-    {
-        char    *temp = C_GetWrappedTextSegment(index, wrap1, (wrap2 > wrap1 ? wrap2 : len));
-
-        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y2, trimwhitespace(temp),
-            consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
-            notabs, true, true, !(wrap2 > wrap1 && wrap2 < len), 0, '\0', '\0', &V_DrawConsoleTextPatch);
-        free(temp);
-    }
-
-    if (drawthird && wrap2 < len)
-    {
-        char    *temp = C_GetWrappedTextSegment(index, wrap2, len);
-
-        C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y3, trimwhitespace(temp),
-            consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
-            notabs, true, true, true, 0, '\0', '\0', &V_DrawConsoleTextPatch);
-        free(temp);
+        start = end;
     }
 }
 
@@ -2639,13 +2647,7 @@ void C_Drawer(void)
             }
         }
         else if (strlen(console[i].string))
-            C_DrawConsoleStringParts(i,
-                CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
-                (len >= toprow),
-                CONSOLELINEHEIGHT * (len + 1 - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
-                (rows > 1 && len + 1 <= bottomrow),
-                CONSOLELINEHEIGHT * (len + 2 - toprow) - CONSOLELINEHEIGHT / 2 + outputyoffset,
-                (rows > 2 && len + 2 <= bottomrow), notabs);
+            C_DrawConsoleStringParts(i, len, toprow, bottomrow, outputyoffset, notabs);
 
         len += rows;
     }
