@@ -2541,7 +2541,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, const char *line)
             break;                              // killough 11/98: really exit on blank line
 
         // killough 08/98: allow hex numbers in input:
-        if ((sscanf(inbuffer, "%s %i = %s", key, &indexnum, mnemonic) != 3)
+        if ((sscanf(inbuffer, "%31s %i = %31s", key, &indexnum, mnemonic) != 3)
             || !M_StringCompare(key, "FRAME"))  // NOTE: different format from normal
         {
             C_Warning(1, "Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".", inbuffer);
@@ -2559,8 +2559,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, const char *line)
 
         dsdh_EnsureStatesCapacity(indexnum);
 
-        strcpy(key, "A_");                      // reusing the key area to prefix the mnemonic
-        strcat(key, ptr_lstrip(mnemonic));
+        M_snprintf(key, sizeof(key), "A_%s", ptr_lstrip(mnemonic));
 
         do
         {
@@ -2611,8 +2610,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if ((ix = sscanf(inbuffer, "%s %i (%[^)]", key, &indexnum, name)) != 3)
-        if ((ix = sscanf(inbuffer, "%s %i", key, &indexnum)) != 2)
+    if ((ix = sscanf(inbuffer, "%31s %i (%63[^)]", key, &indexnum, name)) != 3)
+        if ((ix = sscanf(inbuffer, "%31s %i", key, &indexnum)) != 2)
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             return;
@@ -2925,7 +2924,7 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%31s %i", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3107,7 +3106,7 @@ static void deh_procPointer(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%*s %*i (%s %i)", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%*31s %*i (%31s %i)", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3186,7 +3185,7 @@ static void deh_procSounds(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%31s %i", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3256,7 +3255,7 @@ static void deh_procAmmo(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%31s %i", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3321,7 +3320,7 @@ static void deh_procWeapon(DEHFILE *fpin, const char *line)
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%31s %i", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3430,7 +3429,7 @@ static void deh_procSprite(DEHFILE *fpin, const char *line) // Not supported
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%31s %i", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
         return;
@@ -3902,7 +3901,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
         return;
     }
 
-    if (sscanf(line, "%s %i %i", key, &fromlen, &tolen) != 3)
+    if (sscanf(line, "%31s %i %i", key, &fromlen, &tolen) != 3)
         return;
 
     if (devparm)
