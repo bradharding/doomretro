@@ -2168,11 +2168,16 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
     }
     else if (type == mousecontrol)
     {
-        if (*mouseactionlist[controls[control].value])
+        const int   mousevalue = controls[control].value;
+
+        if (mousevalue >= 0 && mousevalue < (int)(sizeof(mouseactionlist) / sizeof(mouseactionlist[0])))
         {
-            C_Warning(0, BOLD("\"%s\"") " has been unbound from " BOLD("%s") ".",
-                mouseactionlist[controls[control].value], controls[control].control);
-            mouseactionlist[controls[control].value][0] = '\0';
+            if (*mouseactionlist[mousevalue])
+            {
+                C_Warning(0, BOLD("\"%s\"") " has been unbound from " BOLD("%s") ".",
+                    mouseactionlist[mousevalue], controls[control].control);
+                mouseactionlist[mousevalue][0] = '\0';
+            }
         }
     }
 }
