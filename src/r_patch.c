@@ -206,6 +206,24 @@ static void CreatePatch(int patchnum)
         datasize = pixeldatasize + columnsdatasize + postsdatasize;
         patch->data = Z_Calloc(1, datasize, PU_CACHE, (void **)&patch->data);
 
+        if (!patch->data)
+        {
+            W_ReleaseLumpNum(sourcepatchnum);
+            free(numpostsincolumn);
+
+            if (!usedefault && sourcepatchnum != defaultpatchnum)
+            {
+                sourcepatchnum = defaultpatchnum;
+                usedefault = true;
+                memset(patch, 0, sizeof(*patch));
+                continue;
+            }
+
+            memset(patch, 0, sizeof(*patch));
+            C_Warning(1, "The " BOLD("%.8s") " patch couldn't be created.", lumpinfo[patchnum]->name);
+            return;
+        }
+
         // set out pixel, column, and post pointers into our data array
         patch->pixels = patch->data;
         patch->columns = (rcolumn_t *)((unsigned char *)patch->pixels + pixeldatasize);
