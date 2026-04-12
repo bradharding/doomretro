@@ -15,6 +15,7 @@
   * The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Long lines in the console can now wrap over multiple lines.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Changes made to the console’s input that have been undone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Z</b></kbd> can now be redone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
   * A bug is fixed whereby `MUSIC` wouldn’t be parsed correctly in some rare instances.

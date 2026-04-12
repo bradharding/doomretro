@@ -113,6 +113,7 @@ size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;
 static undohistory_t    *undohistory;
+static size_t           maxundolevels;
 
 static bool             showcaret = true;
 static uint64_t         caretwait;
@@ -480,7 +481,7 @@ static void C_AddToUndoHistory(void)
     undohistory[undolevels].caretpos = caretpos;
     undohistory[undolevels].selectstart = selectstart;
     undohistory[undolevels].selectend = selectend;
-    undolevels++;
+    maxundolevels = ++undolevels;
 }
 
 void C_AddConsoleDivider(void)
@@ -3428,6 +3429,18 @@ bool C_Responder(event_t *ev)
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
+                }
+
+                break;
+
+            case 'y':
+                // redo
+                if ((modstate & KMOD_CTRL) && undolevels < maxundolevels)
+                {
+                    M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                    caretpos = undohistory[undolevels].caretpos;
+                    selectstart = undohistory[undolevels].selectstart;
+                    selectend = undohistory[undolevels++].selectend;
                 }
 
                 break;
