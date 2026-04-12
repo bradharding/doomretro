@@ -459,7 +459,7 @@ char *M_StringJoin(const char *s, ...)
     va_end(args);
 
     if (!(result = malloc(result_len)))
-        return NULL;
+        I_Error("Failed to allocate memory.");
 
     M_StringCopy(result, s, result_len);
 
