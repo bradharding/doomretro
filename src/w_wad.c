@@ -1088,7 +1088,7 @@ static void W_ReadLump(int lump, void *dest)
         return;
 
     if ((c = W_Read(l->wadfile, l->position, dest, l->size)) < (size_t)l->size)
-        I_Error("W_ReadLump: only read %zd of %i on lump %i", c, l->size, lump);
+        I_Error("W_ReadLump: only read %zu of %i on lump %i", c, l->size, lump);
 }
 
 void *W_CacheLumpNum(int lumpnum)
