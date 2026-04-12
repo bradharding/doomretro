@@ -203,7 +203,6 @@ void S_Init(void)
         if (audiodriver)
         {
             C_Warning(1, "The " BOLD("SDL_AUDIODRIVER") " environment variable has been set to " BOLD("\"%s\"") ".", audiodriver);
-            free(audiodriver);
         }
 #endif
 
