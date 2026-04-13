@@ -243,7 +243,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->y = saveg_read32();
     str->z = saveg_read32();
     str->angle = saveg_read32();
-    str->sprite = ((sprite = saveg_read_enum()) > 0 && sprite < NUMSPRITES ? sprite : SPR_TNT1);
+    str->sprite = ((sprite = saveg_read_enum()) > 0 && sprite < numsprites ? sprite : SPR_TNT1);
     str->frame = saveg_read32();
     str->floorz = saveg_read32();
     str->ceilingz = saveg_read32();
@@ -253,7 +253,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->momx = saveg_read32();
     str->momy = saveg_read32();
     str->momz = saveg_read32();
-    str->type = ((type = saveg_read_enum()) > 0 && type < NUMMOBJTYPES ? type : MT_NULL);
+    str->type = ((type = saveg_read_enum()) > 0 && type < nummobjtypes ? type : MT_NULL);
     str->tics = saveg_read32();
     str->state = ((state = saveg_read32()) > 0 && state < numstates ? &states[state] : NULL);
     str->flags = saveg_read32();
