@@ -236,12 +236,14 @@ static mobj_t *P_IndexToThing(const int index)
 static void saveg_read_mobj_t(mobj_t *str)
 {
     int state;
+    spritenum_t sprite;
+    mobjtype_t type;
 
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->z = saveg_read32();
     str->angle = saveg_read32();
-    str->sprite = (spritenum_t)saveg_read_enum();
+    str->sprite = ((sprite = saveg_read_enum()) > 0 && sprite < NUMSPRITES ? sprite : SPR_TNT1);
     str->frame = saveg_read32();
     str->floorz = saveg_read32();
     str->ceilingz = saveg_read32();
@@ -251,7 +253,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->momx = saveg_read32();
     str->momy = saveg_read32();
     str->momz = saveg_read32();
-    str->type = (mobjtype_t)saveg_read_enum();
+    str->type = ((type = saveg_read_enum()) > 0 && type < NUMMOBJTYPES ? type : MT_NULL);
     str->tics = saveg_read32();
     str->state = ((state = saveg_read32()) > 0 && state < numstates ? &states[state] : NULL);
     str->flags = saveg_read32();
