@@ -2327,10 +2327,10 @@ static void D_DoomMainSetup(void)
 
     if (M_CheckParm("-nodeh"))
         C_Output("A " BOLD("-nodeh") " parameter was found on the command-line. "
-            "All " BOLD("DEHACKED") " lumps will now be ignored.");
+            "No " BOLD("DEHACKED") " lumps have been parsed.");
     else if (M_CheckParm("-nobex"))
         C_Output("A " BOLD("-nobex") " parameter was found on the command-line. "
-            "All " BOLD("DEHACKED") " lumps will now be ignored.");
+            "No " BOLD("DEHACKED") " lumps have been parsed.");
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1);
 

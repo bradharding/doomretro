@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.0
 
-* *DOOM Retro* is now built using v18.4.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.5.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL_image v2.8.10*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.10).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
