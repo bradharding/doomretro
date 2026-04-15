@@ -4766,7 +4766,10 @@ void P_Init(void)
     P_InitSwitchList();
     P_InitPicAnims();
 
-    if (!M_CheckParm("-nomapinfo"))
+    if (M_CheckParm("-nomapinfo"))
+        C_Output("A " BOLD("-nomapinfo") " parameter was found on the command-line. "
+            "No " BOLD("MAPINFO") " lumps have been parsed.");
+    else
     {
         P_InitMapInfo();
 
