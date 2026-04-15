@@ -126,8 +126,7 @@ bool SC_GetString(void)
     {
         while (ScriptPtr < ScriptEndPtr
             && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '='
-                || (*ScriptPtr == ',' && !SkipComma
-                    && (ScriptPtr == ScriptBuffer || *(ScriptPtr - 1) != '\''))))
+                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -138,7 +137,7 @@ bool SC_GetString(void)
         }
 
         if (*ScriptPtr != ASCII_COMMENT1
-            && (*ScriptPtr != ASCII_COMMENT2 || ScriptPtr + 1 >= ScriptEndPtr || *(ScriptPtr + 1) != ASCII_COMMENT2))
+            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
             foundToken = true;
         else
         {
@@ -159,12 +158,12 @@ bool SC_GetString(void)
     {
         ScriptPtr++;
 
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE))
+        while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
         {
-            if (text >= &sc_String[MAX_STRING_SIZE - 1])
+            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
 
-            if (*ScriptPtr == ASCII_ESCAPE && ScriptPtr + 1 < ScriptEndPtr
+            if (*ScriptPtr == ASCII_ESCAPE
                 && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
             {
                 ScriptPtr += 2;
@@ -176,28 +175,27 @@ bool SC_GetString(void)
                 ScriptPtr++;
         }
 
-        if (ScriptPtr < ScriptEndPtr)
-            ScriptPtr++;
+        ScriptPtr++;
     }
     else
-        while (ScriptPtr < ScriptEndPtr && *ScriptPtr > 32
+        while (*ScriptPtr > 32
             && *ScriptPtr != ASCII_COMMENT1
-            && (*ScriptPtr != ASCII_COMMENT2 || ScriptPtr + 1 >= ScriptEndPtr || *(ScriptPtr + 1) != ASCII_COMMENT2))
+            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
         {
             if (*ScriptPtr == '}')
                 ScriptPtr++;
 
             *text++ = *ScriptPtr++;
 
-            if (ScriptPtr < ScriptEndPtr && (*ScriptPtr == '{'
+            if (*ScriptPtr == '{'
                 || *ScriptPtr == '='
-                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
+                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
             {
                 ScriptPtr++;
                 break;
             }
 
-            if (text == &sc_String[MAX_STRING_SIZE - 1])
+            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
         }
 
