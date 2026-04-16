@@ -3468,8 +3468,37 @@ bool C_Responder(event_t *ev)
     {
         const unsigned char ch = (unsigned char)ev->data1;
         char                *temp = NULL;
+        const bool          singlecommand = (M_StringStartsWith(consoleinput, "bind ")
+                                    || M_StringStartsWith(consoleinput, "unbind ")
+                                    || M_StringStartsWith(consoleinput, "alias "));
 
-        if (ch >= CONSOLEFONTSTART
+        if (ch == ';' && !singlecommand)
+        {
+            char    buffer[255];
+            char    *temp1 = M_SubString(consoleinput, 0, selectstart);
+            char    *temp2 = M_SubString(consoleinput, selectend, (size_t)len - selectend);
+            int     pos = (int)strlen(temp1);
+
+            while (pos > 0 && isspace((unsigned char)temp1[pos - 1]))
+                temp1[--pos] = '\0';
+
+            M_snprintf(buffer, sizeof(buffer), "%s; %s", temp1, temp2);
+
+            if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
+            {
+                C_AddToUndoHistory();
+                M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                caretpos = selectstart = selectend = pos + 2;
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                showcaret = true;
+                autocomplete = -1;
+                inputhistory = -1;
+            }
+
+            free(temp1);
+            free(temp2);
+        }
+        else if (ch >= CONSOLEFONTSTART
             && ch != keyboardconsole
             && ch != keyboardconsole2
                 && C_TextWidth(consoleinput, NULL, false, true)
