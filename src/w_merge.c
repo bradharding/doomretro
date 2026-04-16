@@ -274,7 +274,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     if (!ValidSpriteLumpName(lump->name))
         return;
 
-    if (lump->wadfile->type == PWAD)
+    if (lump->wadfile->type == PWAD && !BTSX)
     {
         if (!isresourcewad)
         {
