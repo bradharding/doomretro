@@ -426,12 +426,10 @@ char *M_TempFile(char *s)
     char    *tempdir;
 
 #if defined(_WIN32)
-    tempdir = getenv("TEMP");
-
-    if (!tempdir)
+    if (!(tempdir = getenv("TEMP")))
         tempdir = ".";
 #else
-    tempdir = "/tmp";
+    tempdir = DIR_SEPARATOR_S "tmp";
 #endif
 
     return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);

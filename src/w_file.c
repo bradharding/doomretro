@@ -87,11 +87,8 @@ bool W_WriteFile(char const *name, const void *source, size_t length)
 
 size_t W_FileLength(FILE *handle)
 {
-    long savedpos;
-    long length;
-
-    // save the current position in the file
-    savedpos = ftell(handle);
+    long    savedpos = ftell(handle);   // save the current position in the file
+    long    length;
 
     // jump to the end and find the length
     fseek(handle, 0, SEEK_END);

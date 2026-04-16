@@ -1185,7 +1185,7 @@ void C_ShowConsole(bool reset)
     S_StopSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
-    S_StartSound(NULL, sfx_consol);
+    S_StartSound(viewplayer->mo, sfx_consol);
 }
 
 void C_HideConsole(void)
@@ -1211,7 +1211,7 @@ void C_HideConsole(void)
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
 
-    S_StartSound(NULL, sfx_consol);
+    S_StartSound(viewplayer->mo, sfx_consol);
     S_RestoreMusicVolume();
 }
 
