@@ -14,7 +14,8 @@
   * A bug is fixed whereby it sometimes wasn’t possible to scroll all the way to the top of the console.
   * The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Long lines in the console can now wrap over multiple lines.
-* Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Minor improvements have been made to text autocompleted in the console.
+* When a semicolon is used to enter another command on the same line in the console, the <kbd><b>TAB</b></kbd> key can now be pressed to autocomplete that command.
 * Changes made to the console’s input that have been undone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Z</b></kbd> can now be redone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
