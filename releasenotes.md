@@ -12,10 +12,10 @@
 * These changes have been made to scrolling in the console:
   * Wrapped lines are no longer skipped.
   * A bug is fixed whereby it sometimes wasn’t possible to scroll all the way to the top of the console.
-  * The scroll bar’s thumb in the console is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
+  * The scroll bar’s thumb is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Long lines in the console can now wrap over multiple lines.
 * Minor improvements have been made to text autocompleted in the console.
-* When a semicolon is used to enter another command on the same line in the console, the <kbd><b>TAB</b></kbd> key can now be pressed to autocomplete that command.
+* When a semicolon is used so another command can be entered in the input in the console, any whitespace preceding it will be removed, a space will be added after it, and the <kbd><b>TAB</b></kbd> key can be pressed to autocomplete that command.
 * Changes made to the console’s input that have been undone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Z</b></kbd> can now be redone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
@@ -61,7 +61,7 @@
 * Support has been added for maps with *ZDoom’s* XGLN, ZGLN, XGL2, ZGL2, XGL3 and ZGL3 extended formats.
 * Maps without nodes, or unsupported node formats, will now be rebuilt using the integrated [*NanoBSP*](https://doomwiki.org/wiki/NanoBSP) node builder.
 * Custom palettes and `M_DOOM` patches now work as intended when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
-* The use of the `DBIGFONT` lump to display `CONSOLE...` in the options menu of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) has been fixed.
+* Minor improvements have been made to the support of [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960).
 * The FPS graph displayed when the `vid_showfps` CVAR is `on` now displays correctly when the menu is open and a `DBIGFONT` lump is being used.
 * Minor improvements have been made to the colors used for the *DOOM Retro* logo in the console when the edge color is bright.
 * The player’s face now flashes in the status bar when they have the invulnerability power-up and it starts to wear out.
