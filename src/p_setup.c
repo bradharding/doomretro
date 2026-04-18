@@ -3393,7 +3393,11 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
         I_Error("Hexen format maps are not supported.");
 
     if (M_CheckParm("-bsp"))
+    {
         format = NANOBSP;
+        C_Output("A " BOLD("-bsp") " parameter was found on the command-line. "
+            "The nodes of all maps will be rebuilt.");
+    }
     else if ((subsize = W_LumpLengthWithName(lumpnum + ML_SSECTORS, "SSECTORS")) >= sizeof(mapsubsector_t))
     {
         n = W_CacheLumpNum(lumpnum + ML_SSECTORS);

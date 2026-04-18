@@ -165,14 +165,14 @@ static void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type;
-    int         flags;
+    int         flags = mo->flags;
     int         flags2;
     bool        corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
     {
-        if (mo->flags & MF_SKULLFLY)
+        if (flags & MF_SKULLFLY)
         {
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
@@ -185,7 +185,6 @@ static void P_XYMovement(mobj_t *mo)
 
     player = mo->player;
     type = mo->type;
-    flags = mo->flags;
     flags2 = mo->flags2;
     corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
 

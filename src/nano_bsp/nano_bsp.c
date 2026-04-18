@@ -90,7 +90,7 @@ nanode_t *BSP_NewNode(void)
     return node;
 }
 
-void BSP_CalcOffset (seg_t *seg)
+void BSP_CalcOffset(seg_t *seg)
 {
     // compute which side of the linedef the seg is on
     line_t  *ld = seg->linedef;
