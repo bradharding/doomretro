@@ -3295,7 +3295,11 @@ void P_MapName(int ep, int map)
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
+                capitalizeword(maptitle, "DOOM");
+                capitalizeword(maptitle, "UAC");
+
                 temp = titlecase(maptitle);
+
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
             }
             else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1])
@@ -3306,7 +3310,11 @@ void P_MapName(int ep, int map)
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
+                capitalizeword(maptitle, "DOOM");
+                capitalizeword(maptitle, "UAC");
+
                 temp = titlecase(maptitle);
+
                 M_snprintf(mapnum, sizeof(mapnum), "E%iM%02i", ep, map);
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
             }
@@ -3320,7 +3328,11 @@ void P_MapName(int ep, int map)
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
+                capitalizeword(maptitle, "DOOM");
+                capitalizeword(maptitle, "UAC");
+
                 temp = titlecase(maptitle);
+
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
             }
             else if (toupper(maptitle[0]) == 'L' && isdigit(maptitle[1]) && isdigit(maptitle[2]))
@@ -3330,7 +3342,11 @@ void P_MapName(int ep, int map)
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
+                capitalizeword(maptitle, "DOOM");
+                capitalizeword(maptitle, "UAC");
+
                 temp = titlecase(maptitle);
+
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "L%02i: " ITALICS("%s"), map, temp);
             }
             else
@@ -3341,7 +3357,11 @@ void P_MapName(int ep, int map)
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
+                capitalizeword(maptitle, "DOOM");
+                capitalizeword(maptitle, "UAC");
+
                 temp = titlecase(maptitle);
+
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
             }
 

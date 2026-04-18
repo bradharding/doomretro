@@ -93,6 +93,7 @@ char *M_StringDuplicate(const char *orig);
 bool M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(char *str);
+void capitalizeword(char *source, const char *substring);
 char *titlecase(const char *str);
 char *sentencecase(const char *str);
 bool isuppercase(const char *str);

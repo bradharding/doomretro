@@ -745,6 +745,20 @@ char *lowercase(char *str)
     return str;
 }
 
+void capitalizeword(char *source, const char *substring)
+{
+    const size_t    len = strlen(substring);
+
+    if (!len)
+        return;
+
+    for (char *p = source; (p = (char *)M_StrCaseStr(p, substring)); p += len)
+        if ((p == source || !isalnum((unsigned char)p[-1]))
+            && (!p[len] || !isalnum((unsigned char)p[len])))
+            for (size_t i = 0; i < len; i++)
+                p[i] = (char)toupper((unsigned char)p[i]);
+}
+
 char *titlecase(const char *str)
 {
     char        *newstr = M_StringDuplicate(str);
