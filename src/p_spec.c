@@ -2926,15 +2926,15 @@ void P_SpawnSpecials(void)
         }
     }
 
-    P_RemoveAllActiveCeilings();        // jff 02/22/98 use killough's scheme
-    P_RemoveAllActivePlats();           // killough
+    P_RemoveAllActiveCeilings();    // jff 02/22/98 use killough's scheme
+    P_RemoveAllActivePlats();       // killough
 
     for (int i = 0; i < maxbuttons; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
 
-    P_SpawnScrollers();                 // killough 03/07/98: Add generalized scrollers
-    P_SpawnFriction();                  // phares 03/12/98: New friction model using linedefs
-    P_SpawnPushers();                   // phares 03/20/98: New pusher model using linedefs
+    P_SpawnScrollers();             // killough 03/07/98: Add generalized scrollers
+    P_SpawnFriction();              // phares 03/12/98: New friction model using linedefs
+    P_SpawnPushers();               // phares 03/20/98: New pusher model using linedefs
 
     for (int i = 0; i < numlines; i++, line++)
         switch (line->special)
@@ -3224,10 +3224,16 @@ void T_Scroll(scroll_t *scroller)
             dx <<= 3;
             dy <<= 3;
 
-            // [BH] scroll any blood splats as well
-            for (bloodsplat_t *splat = sec->splatlist; splat; splat = splat->next)
-                if (sec != R_PointInSubsector((splat->x += dx), (splat->y += dy))->sector)
+            for (bloodsplat_t *splat = sec->splatlist, *next; splat; splat = next)
+            {
+                next = splat->next;
+
+                splat->x += dx;
+                splat->y += dy;
+
+                if (sec != R_PointInSubsector(splat->x, splat->y)->sector)
                     P_UnsetBloodSplatPosition(splat);
+            }
 
             break;
         }

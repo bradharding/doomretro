@@ -1429,11 +1429,11 @@ static void HU_DrawAltHUD(void)
         }
         else if (r_althud_ammobars)
         {
-            static const ammotype_t otherammoorder[] = { am_clip, am_shell, am_misl, am_cell };
-            const int               color2 = (r_hud_translucency ? color : darkgray);
-            const bool              showallammo = (ammotype == am_noammo);
-            const int               barstep = (showallammo ? 26 : 35);
-            const int               barwidth = (showallammo ? 23 : 31);
+            const ammotype_t    otherammoorder[] = { am_clip, am_shell, am_misl, am_cell };
+            const int           color2 = (r_hud_translucency ? color : darkgray);
+            const bool          showallammo = (ammotype == am_noammo);
+            const int           barstep = (showallammo ? 26 : 35);
+            const int           barwidth = (showallammo ? 23 : 31);
 
             for (int i = 0, bar = 0; i < arrlen(otherammoorder); i++)
                 if (showallammo || otherammoorder[i] != ammotype)

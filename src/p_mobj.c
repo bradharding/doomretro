@@ -973,8 +973,11 @@ void P_RemoveBloodMobj(mobj_t *mobj)
 void P_RemoveBloodSplats(void)
 {
     for (int i = 0; i < numsectors; i++)
-        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
+        for (bloodsplat_t *splat = sectors[i].splatlist, *next; splat; splat = next)
+        {
+            next = splat->next;
             P_UnsetBloodSplatPosition(splat);
+        }
 
     bloodsplats_fifo_head = NULL;
     bloodsplats_fifo_tail = NULL;
