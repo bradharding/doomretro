@@ -3335,12 +3335,14 @@ void P_MapName(int ep, int map)
             }
             else
             {
-                temp = titlecase(maptitle);
-                M_StringCopy(mapnumandtitle, temp, sizeof(mapnumandtitle));
+                M_StringCopy(mapnum, uppercase(maptitle), index);
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
+
+                temp = titlecase(maptitle);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICS("%s"), mapnum, temp);
             }
 
             free(temp);
