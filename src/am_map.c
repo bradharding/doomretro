@@ -137,12 +137,6 @@ static byte *floorpiccolor;
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
-#define MINIMAPBORDER           3
-#define MINIMAPSHADOWOFFSET     1
-#define MINIMAPMARKMARGINX      10
-#define MINIMAPMARKMARGINY      14
-#define MINIMAPWIDTH            106
-#define MINIMAPHEIGHT           87
 #define MARKLOCKRANGE           (64 << MAPBITS)
 
 typedef struct
@@ -227,9 +221,6 @@ am_frame_t          am_frame;
 static bool         isteleportline[NUMLINESPECIALS];
 
 static byte         allmaptint[256][256];
-static byte         minimappriority[256];
-static bool         drawingminimap;
-
 static edge_t       *edges;
 static int          edgescapacity;
 
@@ -237,15 +228,8 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
-static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[]);
 static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline);
-static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
-    int framex, int framey, int framewidth, int frameheight);
-static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int framex, int framey, int framewidth, int frameheight);
-static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const int *secondarybinding);
-bool AM_MiniMapVisible(void);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -943,38 +927,6 @@ void AM_SetAutomapSize(const int screensize)
     m_h = FTOM(MAPHEIGHT);
 }
 
-bool AM_MiniMapVisible(void)
-{
-    return (am_minimap && gamestate == GS_LEVEL && !menuactive && !automapactive && !mapwindow && viewplayer && viewplayer->mo);
-}
-
-static bool AM_KeyBoundElsewhere(const int key, const int *primarybinding, const int *secondarybinding)
-{
-    if (key <= 0 || key >= NUMKEYS)
-        return false;
-
-    if (keyactionlist[key][0])
-        return true;
-
-    for (int i = 0; *actions[i].action; i++)
-    {
-        if (actions[i].keyboard1 && actions[i].keyboard1 != primarybinding
-            && actions[i].keyboard1 != secondarybinding && *(int *)actions[i].keyboard1 == key)
-            return true;
-
-        if (actions[i].keyboard2 && actions[i].keyboard2 != primarybinding
-            && actions[i].keyboard2 != secondarybinding && *(int *)actions[i].keyboard2 == key)
-            return true;
-    }
-
-    return false;
-}
-
-int AM_GetMiniMapBottom(void)
-{
-    return (OVERLAYTEXTY + MINIMAPBORDER * 2 + MINIMAPHEIGHT + MINIMAPSHADOWOFFSET + OVERLAYSPACING);
-}
-
 static void AM_InitVariables(const bool mainwindow)
 {
     automapactive = mainwindow;
@@ -1461,54 +1413,6 @@ bool AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if (AM_MiniMapVisible())
-            {
-                if (ev->type == ev_keydown
-                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2)
-                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardclearmark, &keyboardclearmark2))
-                {
-                    AM_ClearMarks();
-                    result = true;
-                }
-                else if (ev->type == ev_keyup
-                    && (ev->data1 == keyboardclearmark || ev->data1 == keyboardclearmark2)
-                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardclearmark, &keyboardclearmark2))
-                {
-                    markpress = 0;
-                    result = true;
-                }
-                else if (ev->type == ev_keydown
-                    && (ev->data1 == keyboardpath || ev->data1 == keyboardpath2)
-                    && keydown != keyboardpath
-                    && (!keyboardpath2 || keydown != keyboardpath2)
-                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardpath, &keyboardpath2))
-                {
-                    keydown = ev->data1;
-                    AM_TogglePath(!am_path);
-                    result = true;
-                }
-                else if (ev->type == ev_keydown
-                    && (ev->data1 == keyboardrotatemode || ev->data1 == keyboardrotatemode2)
-                    && keydown != keyboardrotatemode
-                    && (!keyboardrotatemode2 || keydown != keyboardrotatemode2)
-                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardrotatemode, &keyboardrotatemode2))
-                {
-                    keydown = ev->data1;
-                    AM_ToggleRotateMode(!am_rotatemode);
-                    result = true;
-                }
-                else if (ev->type == ev_keydown
-                    && (ev->data1 == keyboardmark || ev->data1 == keyboardmark2)
-                    && keydown != keyboardmark
-                    && (!keyboardmark2 || keydown != keyboardmark2)
-                    && !AM_KeyBoundElsewhere(ev->data1, &keyboardmark, &keyboardmark2))
-                {
-                    keydown = ev->data1;
-                    AM_AddMark();
-                    result = true;
-                }
-            }
-
             if (!result && ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
                     || ev->data1 == keyboardautomap2)
@@ -2849,7 +2753,7 @@ static void AM_DrawPlayer(void)
     if (am_correctaspectratio)
         AM_CorrectAspectRatio(&point);
 
-    if (!drawingminimap && (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS)))
+    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
             AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
@@ -3015,25 +2919,6 @@ static void AM_DrawMarks(const char *nums[])
     }
 }
 
-static void AM_DrawMiniMapMarks(byte *buffer, int bufferwidth, int bufferheight, const char *nums[])
-{
-    for (int i = 0; i < nummarks; i++)
-    {
-        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
-        mpoint_t        point = markpoint;
-        const byte      color = AM_GetMarkColor(markpoint);
-
-        if (am_rotatemode)
-            AM_RotatePoint(&point);
-
-        if (am_correctaspectratio)
-            AM_CorrectAspectRatio(&point);
-
-        AM_DrawMarkNumber(buffer, bufferwidth, bufferheight, nums, i + 1,
-            CXMTOF(point.x), CYMTOF(point.y), color, true);
-    }
-}
-
 static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
     const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline)
 {
@@ -3093,177 +2978,6 @@ static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
         if (r_detail == r_detail_low)
             x--;
     } while ((number /= 10) > 0);
-}
-
-static void AM_DrawMiniMapCompass(byte *buffer, int bufferwidth, int bufferheight,
-    int framex, int framey, int framewidth, int frameheight)
-{
-    const int       ticklength = 5;
-    const double    cx = framex + (framewidth - 1) / 2.0;
-    const double    cy = framey + (frameheight - 1) / 2.0;
-    const double    aspectratio = 6.0 / 5.0;
-    const double    outerradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0) + MINIMAPBORDER + 2;
-    const double    vx = (am_rotatemode ? -am_frame.sin : 0.0);
-    const double    vy = -(am_rotatemode ? am_frame.cos : 1.0);
-    const double    length = sqrt(vx * vx + (vy * aspectratio) * (vy * aspectratio));
-    const double    tickx = cx + vx * outerradius / length;
-    const double    ticky = cy + vy * outerradius / length;
-    const double    dx = tickx - cx;
-    const double    dy = ticky - cy;
-    const double    linelength = sqrt(dx * dx + dy * dy);
-    const double    ux = dx / linelength;
-    const double    uy = dy / linelength;
-    int             startx = (int)lround(tickx - ux * (ticklength - 1) / 2.0);
-    int             starty = (int)lround(ticky - uy * (ticklength - 1) / 2.0);
-    const int       endx = (int)lround(tickx + ux * (ticklength - 1) / 2.0);
-    const int       endy = (int)lround(ticky + uy * (ticklength - 1) / 2.0);
-    const int       stepx = SIGN(endx - startx);
-    const int       stepy = SIGN(endy - starty);
-    int             deltax = ABS(endx - startx);
-    int             deltay = ABS(endy - starty);
-
-    if (deltax >= deltay)
-    {
-        int error = (deltay << 1) - deltax;
-
-        while (true)
-        {
-            if ((unsigned int)startx < (unsigned int)bufferwidth
-                && (unsigned int)starty < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
-            {
-                buffer[starty * bufferwidth + startx] = nearestwhite;
-
-                if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
-                    buffer[starty * bufferwidth + startx + 1] = nearestwhite;
-
-                if ((unsigned int)(starty + 1) < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
-                {
-                    buffer[(starty + 1) * bufferwidth + startx] = nearestwhite;
-
-                    if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
-                        buffer[(starty + 1) * bufferwidth + startx + 1] = nearestwhite;
-                }
-            }
-
-            if (startx == endx && starty == endy)
-                break;
-
-            if (error >= 0)
-            {
-                starty += stepy;
-                error -= deltax << 1;
-            }
-
-            startx += stepx;
-            error += deltay << 1;
-        }
-    }
-    else
-    {
-        int error = (deltax << 1) - deltay;
-
-        while (true)
-        {
-            if ((unsigned int)startx < (unsigned int)bufferwidth
-                && (unsigned int)starty < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
-            {
-                buffer[starty * bufferwidth + startx] = nearestwhite;
-
-                if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
-                    buffer[starty * bufferwidth + startx + 1] = nearestwhite;
-
-                if ((unsigned int)(starty + 1) < (unsigned int)(bufferheight - MINIMAPSHADOWOFFSET))
-                {
-                    buffer[(starty + 1) * bufferwidth + startx] = nearestwhite;
-
-                    if ((unsigned int)(startx + 1) < (unsigned int)bufferwidth)
-                        buffer[(starty + 1) * bufferwidth + startx + 1] = nearestwhite;
-                }
-            }
-
-            if (startx == endx && starty == endy)
-                break;
-
-            if (error >= 0)
-            {
-                startx += stepx;
-                error -= deltay << 1;
-            }
-
-            starty += stepy;
-            error += deltax << 1;
-        }
-    }
-}
-
-static void AM_DrawOffscreenMarks(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int framex, int framey, int framewidth, int frameheight)
-{
-    const int       dotsize = 4;
-    const int       gap = 3;
-    const double    dotradius = dotsize / 2.0 - 0.25;
-    const double    cx = framex + (framewidth - 1) / 2.0;
-    const double    cy = framey + (frameheight - 1) / 2.0;
-    const double    aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
-    const double    radius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0)
-                            + MINIMAPBORDER + gap + dotsize / 2.0;
-    const double    minimapradius = fmin(MAPWIDTH / 2.0, MAPHEIGHT * aspectratio / 2.0);
-    const double    minx = 0;
-    const double    maxx = bufferwidth - dotsize;
-    const double    miny = 0;
-    const double    maxy = bufferheight - MINIMAPSHADOWOFFSET - dotsize;
-
-    (void)nums;
-
-    for (int i = 0; i < nummarks; i++)
-    {
-        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
-        mpoint_t        point = markpoint;
-        int             number = i + 1;
-        int             digits = 1;
-        int             localx;
-        int             localy;
-        int             x;
-        int             y;
-        const byte      color = AM_GetMarkColor(markpoint);
-
-        if (am_rotatemode)
-            AM_RotatePoint(&point);
-
-        if (am_correctaspectratio)
-            AM_CorrectAspectRatio(&point);
-
-        localx = CXMTOF(point.x);
-        localy = CYMTOF(point.y);
-        x = framex + MINIMAPBORDER + localx;
-        y = framey + MINIMAPBORDER + localy;
-
-        while ((number /= 10))
-            digits++;
-
-        if ((x - cx) * (x - cx) + ((y - cy) * aspectratio) * ((y - cy) * aspectratio)
-            > minimapradius * minimapradius)
-        {
-            const double    dx = x - cx;
-            const double    dy = y - cy;
-            const double    length = sqrt(dx * dx + (dy * aspectratio) * (dy * aspectratio));
-            int             edgex;
-            int             edgey;
-
-            edgex = BETWEEN((int)minx, (int)lround(cx + dx * radius / length - dotsize / 2.0), (int)maxx);
-            edgey = BETWEEN((int)miny, (int)lround(cy + dy * radius / length - dotsize / 2.0), (int)maxy);
-
-            for (int yy = 0; yy < dotsize; yy++)
-                for (int xx = 0; xx < dotsize; xx++)
-                {
-                    const double    dotx = xx - (dotsize - 1) / 2.0;
-                    const double    doty = yy - (dotsize - 1) / 2.0;
-
-                    if (dotx * dotx + doty * doty <= dotradius * dotradius)
-                        buffer[(edgey + yy) * bufferwidth + edgex + xx] = color;
-                }
-        }
-    }
 }
 
 const int lengths[] =
@@ -3543,9 +3257,6 @@ void AM_Drawer(void)
 
     skippsprinterp = 1;
 
-    if (drawingminimap && am_path && numbreadcrumbs > 0)
-        AM_DrawPath();
-
     if (am_grid)
         AM_DrawGrid();
 
@@ -3554,16 +3265,15 @@ void AM_Drawer(void)
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
-        if (!drawingminimap && am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
+        if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
             AM_DrawBloodSplats();
 
         AM_DrawWalls_Cheating();
 
-        if (!drawingminimap && am_path && numbreadcrumbs > 0)
+        if (am_path && numbreadcrumbs > 0)
             AM_DrawPath();
 
-        if (!drawingminimap)
-            AM_DrawThings();
+        AM_DrawThings();
     }
     else
     {
@@ -3574,7 +3284,7 @@ void AM_Drawer(void)
         else
             AM_DrawWalls();
 
-        if (!drawingminimap && am_path && numbreadcrumbs > 0)
+        if (am_path && numbreadcrumbs > 0)
             AM_DrawPath();
     }
 
@@ -3590,7 +3300,7 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(bigmarknums);
 
-        if (!drawingminimap && r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
             && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
             AM_BigStatusBarShadow();
     }
@@ -3599,7 +3309,7 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(marknums);
 
-        if (!drawingminimap && r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
             && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
             AM_StatusBarShadow();
     }
@@ -3608,287 +3318,3 @@ void AM_Drawer(void)
         AM_DrawCrosshair();
 }
 
-void AM_DrawMiniMap(void)
-{
-    static byte minimapscreen[MAXSCREENAREA];
-    static byte minimapbuffer[MAXSCREENAREA];
-
-    const int   framex = MINIMAPMARKMARGINX;
-    const int   framey = MINIMAPMARKMARGINY;
-    const int   framewidth = MINIMAPWIDTH + MINIMAPBORDER * 2;
-    const int   frameheight = MINIMAPHEIGHT + MINIMAPBORDER * 2;
-    const int   bufferwidth = framex * 2 + framewidth;
-    const int   bufferheight = framey * 2 + frameheight + MINIMAPSHADOWOFFSET;
-    const int   bufferarea = bufferwidth * bufferheight;
-    const int   frameleft = framex;
-    const int   frametop = framey;
-    const int   frameright = framex + framewidth - 1;
-    const int   framebottom = framey + frameheight - 1;
-    const int   innerleft = framex + MINIMAPBORDER;
-    const int   innertop = framey + MINIMAPBORDER;
-    const int   innerright = innerleft + MINIMAPWIDTH - 1;
-    const int   innerbottom = innertop + MINIMAPHEIGHT - 1;
-    const int   screeny = OVERLAYTEXTY - framey;
-    const double aspectratio = (am_correctaspectratio ? 6.0 / 5.0 : 1.0);
-    const double minimapcenterx = (MINIMAPWIDTH - 1) / 2.0;
-    const double minimapcentery = (MINIMAPHEIGHT - 1) / 2.0;
-    const double framecenterx = framex + (framewidth - 1) / 2.0;
-    const double framecentery = framey + (frameheight - 1) / 2.0;
-    const double minimapradius = fmin(MINIMAPWIDTH / 2.0, MINIMAPHEIGHT * aspectratio / 2.0);
-    const double minimapouterradius = minimapradius + MINIMAPBORDER;
-    const int   screenx = SCREENWIDTH - OVERLAYTEXTX - (int)lround(framecenterx + minimapouterradius) + 3;
-    const int   saved_mapwidth = MAPWIDTH;
-    const int   saved_mapheight = MAPHEIGHT;
-    const int   saved_maparea = MAPAREA;
-    const int   saved_mapbottom = MAPBOTTOM;
-    fixed_t     saved_scale_mtof = scale_mtof;
-    fixed_t     saved_scale_ftom = scale_ftom;
-    fixed_t     saved_m_x = m_x;
-    fixed_t     saved_m_y = m_y;
-    fixed_t     saved_m_w = m_w;
-    fixed_t     saved_m_h = m_h;
-    const byte  saved_playercolor = playercolor;
-    const byte  saved_thingcolor = thingcolor;
-    const byte  saved_bloodsplatcolor = bloodsplatcolor;
-    const byte  saved_corpsecolor = corpsecolor;
-    const byte  saved_bluekeycolor = bluekeycolor;
-    const byte  saved_redkeycolor = redkeycolor;
-    const byte  saved_yellowkeycolor = yellowkeycolor;
-    const byte  saved_markcolor = markcolor;
-    const byte  saved_backcolor = backcolor;
-    const byte  saved_pathcolor = pathcolor;
-    const byte  saved_gridcolor = gridcolor;
-    byte        *saved_wallcolor = wallcolor;
-    byte        *saved_bluedoorcolor = bluedoorcolor;
-    byte        *saved_reddoorcolor = reddoorcolor;
-    byte        *saved_yellowdoorcolor = yellowdoorcolor;
-    byte        *saved_secretcolor = secretcolor;
-    byte        *saved_allmapwallcolor = allmapwallcolor;
-    byte        *saved_teleportercolor = teleportercolor;
-    byte        *saved_fdwallcolor = fdwallcolor;
-    byte        *saved_allmapfdwallcolor = allmapfdwallcolor;
-    byte        *saved_cdwallcolor = cdwallcolor;
-    byte        *saved_allmapcdwallcolor = allmapcdwallcolor;
-    byte        *saved_tswallcolor = tswallcolor;
-    byte        *saved_mapscreen = mapscreen;
-    void        (*saved_putbigwalldot)(int, int, const byte *) = putbigwalldot;
-    const bool  saved_followmode = am_followmode;
-    const bool  saved_antialiasing = am_antialiasing;
-    const bool  saved_correctaspectratio = am_correctaspectratio;
-    const bool  saved_grid = am_grid;
-    const bool  saved_sectortextures = am_sectortextures;
-    const int   saved_sectorcolors = am_sectorcolors;
-    const int   saved_detail = r_detail;
-    const int   saved_nummarks = nummarks;
-    const bool  levelchanged = (lastlevel != gamemap || lastepisode != gameepisode);
-    const bool  invertcolors = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    const byte  minimapcolor = (invertcolors ? nearestblack : nearestwhite);
-    const int   minimapshadowcolor = (invertcolors && !r_hud_translucency ? -1 : nearestdarkgray);
-    const byte  minimappathcolor = (invertcolors ? nearestdarkgray : nearestwhite2);
-
-    if (!AM_MiniMapVisible())
-        return;
-
-    if (levelchanged)
-    {
-        AM_LevelInit();
-        lastlevel = gamemap;
-        lastepisode = gameepisode;
-
-        saved_scale_mtof = scale_mtof;
-        saved_scale_ftom = scale_ftom;
-        saved_putbigwalldot = putbigwalldot;
-    }
-
-    for (int i = 0; i < 256; i++)
-        minimappriority[i] = nearestwhite;
-
-    mapscreen = minimapscreen;
-
-    MAPWIDTH = MINIMAPWIDTH;
-    MAPHEIGHT = MINIMAPHEIGHT;
-    MAPAREA = MAPWIDTH * MAPHEIGHT;
-    MAPBOTTOM = MAPWIDTH * (MAPHEIGHT - 1);
-
-    scale_mtof = FixedDiv(INITSCALEMTOF, FRACUNIT * 7 / 10);
-
-    if (scale_mtof > max_scale_mtof)
-        scale_mtof = min_scale_mtof;
-
-    scale_mtof = FixedMul(scale_mtof, FRACUNIT * 5 / 6);
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
-
-    AM_InitPixelSize();
-
-    m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(MAPHEIGHT);
-    AM_DoFollowPlayer();
-
-    playercolor = nearestwhite;
-    thingcolor = nearestwhite;
-    bloodsplatcolor = nearestwhite;
-    corpsecolor = nearestwhite;
-    bluekeycolor = nearestwhite;
-    redkeycolor = nearestwhite;
-    yellowkeycolor = nearestwhite;
-    markcolor = nearestwhite;
-    backcolor = nearestblack;
-    pathcolor = nearestwhite2;
-    gridcolor = nearestwhite;
-
-    wallcolor = minimappriority;
-    bluedoorcolor = minimappriority;
-    reddoorcolor = minimappriority;
-    yellowdoorcolor = minimappriority;
-    secretcolor = minimappriority;
-    allmapwallcolor = minimappriority;
-    teleportercolor = minimappriority;
-    fdwallcolor = minimappriority;
-    allmapfdwallcolor = minimappriority;
-    cdwallcolor = minimappriority;
-    allmapcdwallcolor = minimappriority;
-    tswallcolor = minimappriority;
-
-    am_followmode = true;
-    am_antialiasing = false;
-    am_correctaspectratio = true;
-    am_grid = false;
-    am_sectortextures = false;
-    am_sectorcolors = am_sectorcolors_off;
-    r_detail = r_detail_high;
-
-    drawingminimap = true;
-    AM_InitPixelSize();
-    nummarks = 0;
-    AM_Drawer();
-    drawingminimap = false;
-    nummarks = saved_nummarks;
-
-    for (int i = 0; i < MAPAREA; i++)
-        if (minimapscreen[i] != nearestblack && minimapscreen[i] != playercolor && minimapscreen[i] != pathcolor)
-            minimapscreen[i] = nearestwhite;
-
-    if (nummarks)
-        AM_DrawMiniMapMarks(minimapscreen, MAPWIDTH, MAPHEIGHT, marknums);
-
-    memset(minimapbuffer, nearestblack, bufferarea);
-
-    for (int yy = frametop; yy <= framebottom; yy++)
-        for (int xx = frameleft; xx <= frameright; xx++)
-        {
-            const double    dx = xx - framecenterx;
-            const double    dy = yy - framecentery;
-            const double    distance = dx * dx + (dy * aspectratio) * (dy * aspectratio);
-
-            if (distance <= minimapouterradius * minimapouterradius
-                && distance > minimapradius * minimapradius)
-                minimapbuffer[yy * bufferwidth + xx] = nearestwhite;
-        }
-
-    for (int yy = 0; yy < MAPHEIGHT; yy++)
-        for (int xx = 0; xx < MAPWIDTH; xx++)
-        {
-            const byte    color = minimapscreen[yy * MAPWIDTH + xx];
-            const double  dx = xx - minimapcenterx;
-            const double  dy = yy - minimapcentery;
-
-            if (color != nearestblack
-                && dx * dx + (dy * aspectratio) * (dy * aspectratio) <= minimapradius * minimapradius)
-                minimapbuffer[(innertop + yy) * bufferwidth + innerleft + xx] = color;
-        }
-
-    if (nummarks)
-        AM_DrawOffscreenMarks(minimapbuffer, bufferwidth, bufferheight, marknums,
-            framex, framey, framewidth, frameheight);
-
-    AM_DrawMiniMapCompass(minimapbuffer, bufferwidth, bufferheight, framex, framey, framewidth, frameheight);
-
-    for (int yy = 1; yy < bufferheight; yy++)
-        for (int xx = 0; xx < bufferwidth; xx++)
-            if (minimapbuffer[yy * bufferwidth + xx] == nearestblack
-                && minimapbuffer[(yy - 1) * bufferwidth + xx] != nearestblack)
-            {
-                const int   destx = screenx + xx;
-                const int   desty = screeny + yy;
-
-                if (minimapshadowcolor >= 0
-                    && (unsigned int)destx < (unsigned int)SCREENWIDTH && (unsigned int)desty < (unsigned int)SCREENHEIGHT)
-                {
-                    byte    *dest = &screens[0][desty * SCREENWIDTH + destx];
-
-                    if (r_hud_translucency)
-                        *dest = black10[*dest];
-                    else
-                        *dest = (byte)minimapshadowcolor;
-                }
-            }
-
-    for (int yy = 0; yy < bufferheight - MINIMAPSHADOWOFFSET; yy++)
-        for (int xx = 0; xx < bufferwidth; xx++)
-            if (minimapbuffer[yy * bufferwidth + xx] != nearestblack)
-            {
-                const int   destx = screenx + xx;
-                const int   desty = screeny + yy;
-
-                if ((unsigned int)destx < (unsigned int)SCREENWIDTH && (unsigned int)desty < (unsigned int)SCREENHEIGHT)
-                {
-                    byte        *dest = &screens[0][desty * SCREENWIDTH + destx];
-                    const byte  color = minimapbuffer[yy * bufferwidth + xx];
-
-                    if (color == markredkeycolor || color == markbluekeycolor || color == markyellowkeycolor)
-                        *dest = (r_hud_translucency ? tinttab25[(*dest << 8) + color] : color);
-                    else if (color == pathcolor)
-                        *dest = (r_hud_translucency ? tinttab75[(*dest << 8) + minimappathcolor] : minimappathcolor);
-                    else
-                        *dest = (r_hud_translucency ? tinttab50[(*dest << 8) + minimapcolor] : minimapcolor);
-                }
-            }
-
-    MAPWIDTH = saved_mapwidth;
-    MAPHEIGHT = saved_mapheight;
-    MAPAREA = saved_maparea;
-    MAPBOTTOM = saved_mapbottom;
-    scale_mtof = saved_scale_mtof;
-    scale_ftom = saved_scale_ftom;
-
-    m_x = saved_m_x;
-    m_y = saved_m_y;
-    m_w = saved_m_w;
-    m_h = saved_m_h;
-
-    playercolor = saved_playercolor;
-    thingcolor = saved_thingcolor;
-    bloodsplatcolor = saved_bloodsplatcolor;
-    corpsecolor = saved_corpsecolor;
-    bluekeycolor = saved_bluekeycolor;
-    redkeycolor = saved_redkeycolor;
-    yellowkeycolor = saved_yellowkeycolor;
-    markcolor = saved_markcolor;
-    backcolor = saved_backcolor;
-    pathcolor = saved_pathcolor;
-    gridcolor = saved_gridcolor;
-
-    wallcolor = saved_wallcolor;
-    bluedoorcolor = saved_bluedoorcolor;
-    reddoorcolor = saved_reddoorcolor;
-    yellowdoorcolor = saved_yellowdoorcolor;
-    secretcolor = saved_secretcolor;
-    allmapwallcolor = saved_allmapwallcolor;
-    teleportercolor = saved_teleportercolor;
-    fdwallcolor = saved_fdwallcolor;
-    allmapfdwallcolor = saved_allmapfdwallcolor;
-    cdwallcolor = saved_cdwallcolor;
-    allmapcdwallcolor = saved_allmapcdwallcolor;
-    tswallcolor = saved_tswallcolor;
-
-    mapscreen = saved_mapscreen;
-    putbigwalldot = saved_putbigwalldot;
-
-    am_followmode = saved_followmode;
-    am_antialiasing = saved_antialiasing;
-    am_correctaspectratio = saved_correctaspectratio;
-    am_grid = saved_grid;
-    am_sectortextures = saved_sectortextures;
-    am_sectorcolors = saved_sectorcolors;
-    r_detail = saved_detail;
-}

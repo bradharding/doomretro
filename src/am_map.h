@@ -55,11 +55,7 @@ void AM_Ticker(void);
 
 // Called by main loop, called instead of view drawer if automap active.
 void AM_Drawer(void);
-void AM_DrawMiniMap(void);
 void AM_ClearFB(void);
-
-bool AM_MiniMapVisible(void);
-int AM_GetMiniMapBottom(void);
 
 void AM_InitPixelSize(void);
 void AM_Start(const bool mainwindow);

@@ -1777,7 +1777,7 @@ static void C_GetOverlayTextColors(void)
 
 static int C_GetOverlayTextY(void)
 {
-    return (AM_MiniMapVisible() ? AM_GetMiniMapBottom() : OVERLAYTEXTY);
+    return OVERLAYTEXTY;
 }
 
 void C_UpdateFPSOverlay(void)

@@ -960,26 +960,6 @@ bool ST_Responder(const event_t *ev)
                 message_dontfuckwithme = true;
             }
 
-            else if (AM_MiniMapVisible() && cht_CheckCheat(&cheat_amap, ev->data2))
-            {
-                S_StartSound(NULL, sfx_getpow);
-
-                if (viewplayer->cheats & CF_ALLMAP_THINGS)
-                {
-                    viewplayer->cheats &= ~CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, false);
-                }
-                else if (viewplayer->cheats & CF_ALLMAP)
-                {
-                    viewplayer->cheats &= ~CF_ALLMAP;
-                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, false);
-                }
-                else
-                {
-                    viewplayer->cheats |= CF_ALLMAP;
-                    ST_PlayerCheated(cheat_amap.sequence, "", NULL, true);
-                }
-            }
             else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
             {
                 S_StartSound(NULL, sfx_getpow);
