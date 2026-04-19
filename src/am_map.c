@@ -238,109 +238,6 @@ static inline void PUTDOT2(int x, int y, const byte *color);
 static inline void PUTBIGDOT(int x, int y, const byte *color);
 static inline void PUTBIGDOT2(int x, int y, const byte *color);
 
-static int AM_GetMarkKeyColor(unsigned short special)
-{
-    if (special >= GenLockedBase && special < GenDoorBase)
-    {
-        if (!(special = ((special - GenLockedBase) & LockedKey) >> LockedKeyShift) || special == AllKeys)
-            return -1;
-        else if (!(special = (special - 1) % 3))
-            return markredkeycolor;
-        else if (special == 1)
-            return markbluekeycolor;
-        else
-            return markyellowkeycolor;
-    }
-
-    switch (special)
-    {
-        case DR_Door_Red_OpenWaitClose:
-        case D1_Door_Red_OpenStay:
-        case SR_Door_Red_OpenStay_Fast:
-        case S1_Door_Red_OpenStay_Fast:
-            return markredkeycolor;
-
-        case DR_Door_Blue_OpenWaitClose:
-        case D1_Door_Blue_OpenStay:
-        case SR_Door_Blue_OpenStay_Fast:
-        case S1_Door_Blue_OpenStay_Fast:
-            return markbluekeycolor;
-
-        case DR_Door_Yellow_OpenWaitClose:
-        case D1_Door_Yellow_OpenStay:
-        case SR_Door_Yellow_OpenStay_Fast:
-        case S1_Door_Yellow_OpenStay_Fast:
-            return markyellowkeycolor;
-
-        default:
-            return -1;
-    }
-}
-
-static uint64_t AM_PointToSegmentDistanceSquared(const mpoint_t point, const line_t *line)
-{
-    const double    x1 = (double)(line->v1->x >> FRACTOMAPBITS);
-    const double    y1 = (double)(line->v1->y >> FRACTOMAPBITS);
-    const double    x2 = (double)(line->v2->x >> FRACTOMAPBITS);
-    const double    y2 = (double)(line->v2->y >> FRACTOMAPBITS);
-    const double    dx = x2 - x1;
-    const double    dy = y2 - y1;
-    const double    px = (double)point.x;
-    const double    py = (double)point.y;
-    double          t;
-    double          nearestx;
-    double          nearesty;
-    double          ddx;
-    double          ddy;
-
-    if (!dx && !dy)
-    {
-        const double    distx = px - x1;
-        const double    disty = py - y1;
-
-        return (uint64_t)(distx * distx + disty * disty);
-    }
-
-    if ((t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)) < 0.0)
-        t = 0.0;
-    else if (t > 1.0)
-        t = 1.0;
-
-    nearestx = x1 + t * dx;
-    nearesty = y1 + t * dy;
-
-    ddx = px - nearestx;
-    ddy = py - nearesty;
-
-    return (uint64_t)(ddx * ddx + ddy * ddy);
-}
-
-static byte AM_GetMarkColor(const mpoint_t point)
-{
-    const uint64_t  maxdistance = (uint64_t)MARKLOCKRANGE * MARKLOCKRANGE;
-    uint64_t        bestdistance = maxdistance + 1;
-    byte            color = markcolor;
-
-    for (int i = 0; i < numlines; i++)
-    {
-        const int       keycolor = AM_GetMarkKeyColor(lines[i].special);
-        uint64_t        distance;
-
-        if (keycolor < 0)
-            continue;
-
-        distance = AM_PointToSegmentDistanceSquared(point, &lines[i]);
-
-        if (distance <= maxdistance && distance < bestdistance)
-        {
-            bestdistance = distance;
-            color = (byte)keycolor;
-        }
-    }
-
-    return color;
-}
-
 static byte AM_ColorFromFlat(const int flatnum)
 {
     const byte  *flat;
@@ -2906,7 +2803,6 @@ static void AM_DrawMarks(const char *nums[])
     {
         const mpoint_t  markpoint = { mark[i].x, mark[i].y };
         mpoint_t        point = markpoint;
-        const byte      color = AM_GetMarkColor(markpoint);
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -2915,7 +2811,7 @@ static void AM_DrawMarks(const char *nums[])
             AM_CorrectAspectRatio(&point);
 
         AM_DrawMarkNumber(mapscreen, MAPWIDTH, MAPHEIGHT, nums, i + 1,
-            CXMTOF(point.x), CYMTOF(point.y), color, false);
+            CXMTOF(point.x), CYMTOF(point.y), markcolor, false);
     }
 }
 
