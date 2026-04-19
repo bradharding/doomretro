@@ -2508,102 +2508,111 @@ static void D_DoomMainSetup(void)
     W_Init();
     D_IdentifyVersion();
 
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    if (gamemode != shareware)
     {
-        D_SetAutoloadFolder();
-
-        if (gamemission == doom)
-        {
-            bool    nosigil = false;
-
-            if (W_GetNumLumps("M_DOOM") > 2
-                || W_GetNumLumps("E1M1") > 1
-                || !W_GetNumLumps("E4M1")
-                || W_GetNumLumps("M_EPI5")
-                || W_GetNumLumps("E5M1"))
-                nosigil = true;
-            else
-            {
-                autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadfolder, false);
-                autoloading |= W_AutoloadFile("SIGIL.wad", autoloadfolder, false);
-
-                if (!autoloading && !REKKRSL)
-                {
-                    autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
-                    autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
-                }
-
-                if (autoloading)
-                {
-                    bool    autoloading2 = false;
-
-                    autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadfolder, false);
-                    autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadfolder, false);
-                    autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadfolder, false);
-
-                    if (!autoloading2)
-                    {
-                        autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
-                        autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
-                        autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadiwadsubfolder, false);
-                    }
-
-                    autoloading |= autoloading2;
-                }
-            }
-
-            autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
-            autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
-
-            if (sigil && autoloadsigilsubfolder)
-            {
-                autoloadsigilsubfolder = M_StringJoin(autoloadfolder, autoloadsigilsubfolder, DIR_SEPARATOR_S, NULL);
-                autoloading |= W_AutoloadFiles(autoloadsigilsubfolder, false);
-            }
-
-            if (sigil2 && autoloadsigil2subfolder)
-            {
-                autoloadsigil2subfolder = M_StringJoin(autoloadfolder, autoloadsigil2subfolder, DIR_SEPARATOR_S, NULL);
-                autoloading |= W_AutoloadFiles(autoloadsigil2subfolder, false);
-            }
-        }
+        if (M_CheckParm("-noautoload"))
+            C_Warning(0, "A " BOLD("-noautoload") " parameter was found on the command-line. "
+                "No PWADs will be autoloaded.");
         else
         {
-            bool    nonerve = false;
+            D_SetAutoloadFolder();
 
-            if (gamemission == doom2)
+            if (gamemission == doom)
             {
-                if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
-                    nonerve = true;
+                bool    nosigil = false;
+
+                if (W_GetNumLumps("M_DOOM") > 2
+                    || W_GetNumLumps("E1M1") > 1
+                    || !W_GetNumLumps("E4M1")
+                    || W_GetNumLumps("M_EPI5")
+                    || W_GetNumLumps("E5M1"))
+                    nosigil = true;
                 else
-                    autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+                {
+                    autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadfolder, false);
+                    autoloading |= W_AutoloadFile("SIGIL.wad", autoloadfolder, false);
+
+                    if (!autoloading && !REKKRSL)
+                    {
+                        autoloading = W_AutoloadFile("SIGIL_V1_23_REG.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL_V1_23.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL_v1_21.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL_v1_2.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL_v1_1.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL_v1_0.wad", autoloadiwadsubfolder, false);
+                        autoloading |= W_AutoloadFile("SIGIL.wad", autoloadiwadsubfolder, false);
+                    }
+
+                    if (autoloading)
+                    {
+                        bool    autoloading2 = false;
+
+                        autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadfolder, false);
+                        autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadfolder, false);
+                        autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadfolder, false);
+
+                        if (!autoloading2)
+                        {
+                            autoloading2 = W_AutoloadFile("SIGIL_II_MP3_V1_0.WAD", autoloadiwadsubfolder, false);
+                            autoloading2 |= W_AutoloadFile("SIGIL_II_V1_0.WAD", autoloadiwadsubfolder, false);
+                            autoloading2 |= W_AutoloadFile("SIGIL2.WAD", autoloadiwadsubfolder, false);
+                        }
+
+                        autoloading |= autoloading2;
+                    }
+                }
+
+                autoloading |= W_AutoloadFiles(autoloadfolder, nosigil);
+                autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nosigil);
+
+                if (sigil && autoloadsigilsubfolder)
+                {
+                    autoloadsigilsubfolder = M_StringJoin(autoloadfolder, autoloadsigilsubfolder,
+                        DIR_SEPARATOR_S, NULL);
+                    autoloading |= W_AutoloadFiles(autoloadsigilsubfolder, false);
+                }
+
+                if (sigil2 && autoloadsigil2subfolder)
+                {
+                    autoloadsigil2subfolder = M_StringJoin(autoloadfolder, autoloadsigil2subfolder,
+                        DIR_SEPARATOR_S, NULL);
+                    autoloading |= W_AutoloadFiles(autoloadsigil2subfolder, false);
+                }
             }
-
-            autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
-            autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
-
-            if (nerve && autoloadnervesubfolder)
+            else
             {
-                autoloadnervesubfolder = M_StringJoin(autoloadfolder, autoloadnervesubfolder, DIR_SEPARATOR_S, NULL);
-                autoloading |= W_AutoloadFiles(autoloadnervesubfolder, false);
+                bool    nonerve = false;
+
+                if (gamemission == doom2)
+                {
+                    if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
+                        nonerve = true;
+                    else
+                        autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+                }
+
+                autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
+                autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
+
+                if (nerve && autoloadnervesubfolder)
+                {
+                    autoloadnervesubfolder = M_StringJoin(autoloadfolder, autoloadnervesubfolder,
+                        DIR_SEPARATOR_S, NULL);
+                    autoloading |= W_AutoloadFiles(autoloadnervesubfolder, false);
+                }
             }
+
+            if (autoloadpwadsubfolder)
+                autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
+
+            if (autoloading)
+                W_Init();
         }
-
-        if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder, false);
-
-        if (autoloading)
-            W_Init();
     }
 
     W_CheckForPNGLumps();

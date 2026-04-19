@@ -15,7 +15,7 @@
   * The scroll bar’s thumb is now sized more accurately, and no longer gets too small such that its grip isn’t shown.
 * Long lines in the console can now wrap over multiple lines.
 * Minor improvements have been made to text autocompleted in the console.
-* When a semicolon is used so another command can be entered in the console’s input, any whitespace preceding it will be removed, a space after it will be added, and the <kbd><b>TAB</b></kbd> key can be pressed to autocomplete that command.
+* When a semicolon is used so another command can be entered in the console’s input, any whitespace preceding it will be removed, a space will be added after it, and the <kbd><b>TAB</b></kbd> key can be pressed to autocomplete that command.
 * Changes made to the console’s input that have been undone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Z</b></kbd> can now be redone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Y</b></kbd>.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Maps greater than `MAP99` are now supported.
