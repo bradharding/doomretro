@@ -31,7 +31,6 @@
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
   * The player’s path is now anchored to the back of the player’s arrow when the `am_path` CVAR is `on`.
   * The `+maxzoom` action has been renamed `+fullzoom`.
-  * If a mark is added near a locked door, the color of that mark will now be the same as the keycard or skull key needed to open it.
   * The correct player arrow is now shown when the player has a partial invisibility power-up.
 * Flat textures between both `F_START`/`F_END` and `FF_START`/`FF_END` markers are now always found.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
@@ -81,7 +80,7 @@
   * Monsters that are in liquid sectors now cast shadows.
   * Shadows can now be cast on multiple floors at different heights.
 * The player is now able to slide along walls at any angle without getting stuck.
-* A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forward as the player moved relative to them.
+* A bug is fixed, present in the original *DOOM* and called the [“long wall error”](http://doomwiki.org/wiki/Long_wall_error), whereby very long walls would shift back and forth as the player moved relative to them.
 * Wide sprites that are partially obscured by a wall are now less likely to disappear.
 * Freeze mode, enabled using the `freeze` CCMD, is now remembered in savegames.
 * Whether god mode, no clipping mode, freeze mode or no target mode are enabled or disabled as a result of loading a savegame is now displayed in the console.
