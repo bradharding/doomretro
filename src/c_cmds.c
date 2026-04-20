@@ -712,8 +712,6 @@ consolecmd_t consolecmds[] =
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
         "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
         BOLD("0") " to " BOLD("255") ")."),
-    BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles indicators showing whether lines are one or two-sided in the automap."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_thingcolor, am_thingcolour,

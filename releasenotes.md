@@ -26,7 +26,6 @@
 * These changes have been made to the automap:
   * The color of undiscovered secrets when using the `IDDT` cheat can now be changed using the new `am_secretcolor` CVAR, which can be set to `none` (the default), or `0` to `255`. All secrets flash three times in this color upon entering the cheat.
   * Panning around using the mouse has changed. When the `am_mousepanning` CVAR is `on`, pressing the <kbd>F</kbd> key to turn follow mode off and moving the mouse will now show the mouse pointer. You may then click and drag the mouse to pan around instead of just moving the mouse. (This feature also requires the `m_pointer` CVAR to be `on`.)
-  * Indicators that show whether lines are one or two-sided can now be enabled using the new `am_sides` CVAR, which is `off` by default and when vanilla mode is enabled.
   * The crosshair displayed when the `am_followmode` CVAR is `off` now remains behind the console while it is open.
   * The accuracy of the lines drawn when the `am_rotatemode` CVAR is `on` has improved.
   * Both zooming and panning, using the keyboard, mouse or controller, are now smoother.
