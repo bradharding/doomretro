@@ -712,11 +712,6 @@ consolecmd_t consolecmds[] =
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
         "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
         BOLD("0") " to " BOLD("255") ")."),
-    INTCVAR(am_sectorcolors, am_sectorcolours, "", intfunc1, colorfunc2, CF_COLOR, SECTORCOLORSVALUEALIAS,
-        "The color of sectors in the automap (" BOLD("auto") ", " BOLD("off") ", or " BOLD("0")
-        " to " BOLD("255") ")."),
-    BOOLCVAR(am_sectortextures, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles filling sectors in the automap with floor textures."),
     BOOLCVAR(am_sides, "", "", boolfunc1, boolfunc2, 0,
         "Toggles indicators showing whether lines are one or two-sided in the automap."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
@@ -3051,7 +3046,7 @@ static void cvarlistfunc2(char *cmd, char *parms)
 
                 if (consolecmds[i].flags & CF_COLOR)
                 {
-                    char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(name, stringize(am_sectorcolors)));
+                    char    *temp2 = C_FormatColorValue(temp1, false);
 
                     if (value == consolecmds[i].defaultnumber)
                         C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s", name, temp2, description);
@@ -8248,7 +8243,7 @@ static void resetfunc2(char *cmd, char *parms)
             else if (flags & CF_COLOR)
             {
                 char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(name, stringize(am_sectorcolors)));
+                char    *temp2 = C_FormatColorValue(temp1, false);
 
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
@@ -10331,8 +10326,7 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                char    *temp2 = C_FormatColorValue(temp1, !M_StringCompare(consolecmds[i].name,
-                                            stringize(am_sectorcolors)));
+                                char    *temp2 = C_FormatColorValue(temp1, false);
 
                                 if (value == (int)consolecmds[i].defaultnumber)
                                     C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
@@ -10370,9 +10364,8 @@ static void intfunc2(char *cmd, char *parms)
                             }
                             else if (consolecmds[i].flags & CF_COLOR)
                             {
-                                bool    replaceauto = !M_StringCompare(consolecmds[i].name, stringize(am_sectorcolors));
-                                char    *temp3 = C_FormatColorValue(temp1, replaceauto);
-                                char    *temp4 = C_FormatColorValue(temp2, replaceauto);
+                                char    *temp3 = C_FormatColorValue(temp1, false);
+                                char    *temp4 = C_FormatColorValue(temp2, false);
 
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                                     C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -10436,16 +10429,14 @@ static void intfunc2(char *cmd, char *parms)
 
                     if (consolecmds[i].flags & CF_COLOR)
                     {
-                        char    *temp3 = C_FormatColorValue(temp1, !M_StringCompare(consolecmds[i].name,
-                                    stringize(am_sectorcolors)));
+                        char    *temp3 = C_FormatColorValue(temp1, false);
 
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                             C_Output(INTEGERCVARISDEFAULT, temp3);
                         else
                         {
                             char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                            char    *temp4 = C_FormatColorValue(temp2, !M_StringCompare(consolecmds[i].name,
-                                        stringize(am_sectorcolors)));
+                            char    *temp4 = C_FormatColorValue(temp2, false);
 
                             C_Output(INTEGERCVARWITHDEFAULT, temp3, temp4);
                             free(temp2);

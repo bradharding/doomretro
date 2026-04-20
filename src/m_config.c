@@ -86,8 +86,6 @@ int         am_reddoorcolor = am_reddoorcolor_default;
 int         am_redkeycolor = am_redkeycolor_default;
 bool        am_rotatemode = am_rotatemode_default;
 int         am_secretcolor = am_secretcolor_default;
-int         am_sectorcolors = am_sectorcolors_default;
-bool        am_sectortextures = am_sectortextures_default;
 bool        am_sides = am_sides_default;
 int         am_teleportercolor = am_teleportercolor_default;
 int         am_thingcolor = am_thingcolor_default;
@@ -355,8 +353,6 @@ static default_t cvars[] =
     CVAR_INT          (am_redkeycolor,                   am_redkeycolour,                       am_redkeycolor,                        0                     ),
     CVAR_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
     CVAR_INT          (am_secretcolor,                   am_secretcolour,                       am_secretcolor,                        SECRETCOLORVALUEALIAS ),
-    CVAR_INT          (am_sectorcolors,                  am_sectorcolours,                      am_sectorcolors,                       SECTORCOLORSVALUEALIAS),
-    CVAR_BOOL         (am_sectortextures,                am_sectortextures,                     am_sectortextures,                     BOOLVALUEALIAS        ),
     CVAR_BOOL         (am_sides,                         am_sides,                              am_sides,                              BOOLVALUEALIAS        ),
     CVAR_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    0                     ),
     CVAR_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         0                     ),
@@ -651,8 +647,6 @@ valuealias_t valuealiases[] =
     { "auto",           con_edgecolor_auto,           EDGECOLORVALUEALIAS   },
     { "american",       english_american,             ENGLISHVALUEALIAS     },
     { "british",        english_british,              ENGLISHVALUEALIAS     },
-    { "auto",           am_sectorcolors_auto,         SECTORCOLORSVALUEALIAS },
-    { "off",            am_sectorcolors_off,          SECTORCOLORSVALUEALIAS },
     { "off",            1,                            GAMMAVALUEALIAS       },
     { "other",          playergender_other,           GENDERVALUEALIAS      },
     { "male",           playergender_male,            GENDERVALUEALIAS      },

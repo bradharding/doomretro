@@ -103,8 +103,6 @@ static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *am_crosshaircolor2;
 
-static byte *floorpiccolor;
-
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF           125114
@@ -220,10 +218,6 @@ am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
 
-static byte         allmaptint[256][256];
-static edge_t       *edges;
-static int          edgescapacity;
-
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
@@ -237,375 +231,6 @@ static inline void PUTDOT(int x, int y, const byte *color);
 static inline void PUTDOT2(int x, int y, const byte *color);
 static inline void PUTBIGDOT(int x, int y, const byte *color);
 static inline void PUTBIGDOT2(int x, int y, const byte *color);
-
-static byte AM_ColorFromFlat(const int flatnum)
-{
-    const byte  *flat;
-    int         colors[256] = { 0 };
-    int         bestcolor = backcolor;
-    int         bestcount = -1;
-
-    if (flatnum < 0 || flatnum >= numflats)
-        return backcolor;
-
-    if (!(flat = lumpinfo[flattranslation[flatnum]]->cache))
-        return backcolor;
-
-    for (int i = 0; i < 64 * 64; i++)
-        colors[flat[i]]++;
-
-    for (int i = 0; i < 256; i++)
-        if (colors[i] > bestcount)
-        {
-            bestcolor = i;
-            bestcount = colors[i];
-        }
-
-    if (bestcolor == backcolor)
-        for (int i = 0, secondcount = -1; i < 256; i++)
-            if (i != backcolor && colors[i] > secondcount)
-            {
-                bestcolor = i;
-                secondcount = colors[i];
-            }
-
-    return (byte)bestcolor;
-}
-
-static void AM_BuildFloorPicColors(void)
-{
-    floorpiccolor = I_Malloc((size_t)numflats * sizeof(*floorpiccolor));
-
-    for (int i = 0; i < numflats; i++)
-        floorpiccolor[i] = AM_ColorFromFlat(i);
-}
-
-static byte AM_TintColor(const byte sourcecolor, const byte tintcolor, byte *playpal)
-{
-    const byte  gray = (byte)(playpal[sourcecolor * 3] * 0.299f
-                    + playpal[sourcecolor * 3 + 1] * 0.587f
-                    + playpal[sourcecolor * 3 + 2] * 0.114f);
-
-    return I_GetNearestColor(playpal, (gray + playpal[tintcolor * 3]) / 2,
-        (gray + playpal[tintcolor * 3 + 1]) / 2, (gray + playpal[tintcolor * 3 + 2]) / 2);
-}
-
-static void AM_BuildAllMapTintTables(void)
-{
-    for (int sourcecolor = 0; sourcecolor < 256; sourcecolor++)
-        for (int tintcolor = 0; tintcolor < 256; tintcolor++)
-            allmaptint[sourcecolor][tintcolor] = AM_TintColor(sourcecolor, tintcolor, PLAYPAL);
-}
-
-static int AM_CompareIntAscending(const void *a, const void *b)
-{
-    const int   ia = *(const int *)a;
-    const int   ib = *(const int *)b;
-
-    return ((ia > ib) - (ia < ib));
-}
-
-static inline void AM_SortIntersections(int *vals, const int n)
-{
-    if (n <= 1)
-        return;
-
-    if (n > INSERTIONSORTTHRESHOLD)
-    {
-        qsort(vals, (size_t)n, sizeof(*vals), AM_CompareIntAscending);
-        return;
-    }
-
-    for (int i = 1; i < n; i++)
-    {
-        const int   key = vals[i];
-        int         j = i - 1;
-
-        while (j >= 0 && vals[j] > key)
-        {
-            vals[j + 1] = vals[j];
-            j--;
-        }
-
-        vals[j + 1] = key;
-    }
-}
-
-static int AM_ProjectSectorEdges(const sector_t *sector, edge_t *sectoredges)
-{
-    int         edgecount = 0;
-    const int   linecount = sector->linecount;
-
-    for (int i = 0; i < linecount; i++)
-    {
-        const line_t    *line = sector->lines[i];
-
-        if (line->frontsector != line->backsector)
-        {
-            mpoint_t    a = { line->v1->x >> FRACTOMAPBITS, line->v1->y >> FRACTOMAPBITS };
-            mpoint_t    b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
-            int         x1, y1;
-            int         x2, y2;
-            edge_t      edge;
-
-            if (am_rotatemode)
-            {
-                AM_RotatePoint(&a);
-                AM_RotatePoint(&b);
-            }
-
-            if (am_correctaspectratio)
-            {
-                AM_CorrectAspectRatio(&a);
-                AM_CorrectAspectRatio(&b);
-            }
-
-            y1 = CYMTOF(a.y);
-            y2 = CYMTOF(b.y);
-
-            if (y1 == y2)
-                continue;
-
-            x1 = CXMTOF(a.x);
-            x2 = CXMTOF(b.x);
-
-            if (y1 > y2)
-            {
-                SWAP(x1, x2);
-                SWAP(y1, y2);
-            }
-
-            edge.x1 = x1;
-            edge.y1 = y1;
-            edge.x2 = x2;
-            edge.y2 = y2;
-            edge.ymin = y1;
-            edge.ymax = y2;
-            edge.dx = x2 - x1;
-            edge.dy = y2 - y1;
-
-            sectoredges[edgecount++] = edge;
-        }
-    }
-
-    return edgecount;
-}
-
-static byte AM_AdjustColorForLightLevel(const sector_t *sector, const byte color, const int lightlevel)
-{
-    const int   colormap = (sector->floorlightsec ? sector->floorlightsec->colormap :
-                    (sector->heightsec ? sector->heightsec->colormap : sector->colormap));
-
-    return (&colormaps[colormap][BETWEEN(0, ((255 - BETWEEN(0, lightlevel, 255)) >> 3), 31) << 8])[color];
-}
-
-static void AM_FillSector(const sector_t *sector, const byte tintcolor)
-{
-    int         intersections[MAXINTERSECTIONS] = { 0 };
-    fixed_t     minx = FIXED_MAX;
-    fixed_t     miny = FIXED_MAX;
-    fixed_t     maxx2 = FIXED_MIN;
-    fixed_t     maxy2 = FIXED_MIN;
-    int         maxyscreen = 0;
-    int         minyscreen = MAPHEIGHT - 1;
-    fixed_t     xstep;
-    byte        fillcolor;
-    int         edgecount;
-    short       floorpic;
-    bool        validfloorpic;
-    const byte  *flat = NULL;
-    const int   linecount = sector->linecount;
-    const int   lightlevel = sector->lightlevel;
-    fixed_t     floorxoffset = 0;
-    fixed_t     flooryoffset = 0;
-    int         floorrotation = 0;
-
-    if (linecount <= 2)
-        return;
-
-    for (int i = 0; i < linecount; i++)
-    {
-        const line_t    *line = sector->lines[i];
-        const fixed_t   x1 = (line->v1->x >> FRACTOMAPBITS);
-        const fixed_t   y1 = (line->v1->y >> FRACTOMAPBITS);
-        const fixed_t   x2 = (line->v2->x >> FRACTOMAPBITS);
-        const fixed_t   y2 = (line->v2->y >> FRACTOMAPBITS);
-
-        minx = MIN(minx, MIN(x1, x2));
-        maxx2 = MAX(maxx2, MAX(x1, x2));
-        miny = MIN(miny, MIN(y1, y2));
-        maxy2 = MAX(maxy2, MAX(y1, y2));
-    }
-
-    if ((maxx2 << FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
-        || (minx << FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
-        || (maxy2 << FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM]
-        || (miny << FRACTOMAPBITS) > am_frame.bbox[BOXTOP])
-        return;
-
-    if (linecount > edgescapacity)
-    {
-        edgescapacity = linecount;
-        edges = I_Realloc(edges, (size_t)edgescapacity * sizeof(*edges));
-    }
-
-    if ((edgecount = AM_ProjectSectorEdges(sector, edges)) < 2)
-        return;
-
-    for (int i = 0; i < edgecount; i++)
-    {
-        minyscreen = MIN(minyscreen, edges[i].ymin);
-        maxyscreen = MAX(maxyscreen, edges[i].ymax);
-    }
-
-    minyscreen = BETWEEN(0, minyscreen, MAPHEIGHT);
-    maxyscreen = BETWEEN(0, maxyscreen, MAPHEIGHT);
-    xstep = (fixed_t)((int64_t)m_w / MAPWIDTH);
-
-    floorpic = sector->floorpic;
-    validfloorpic = (floorpic >= 0 && floorpic < numflats
-        && floorpic != skyflatnum && !(floorpic & PL_SKYFLAT)
-        && sector->interpceilingheight > sector->interpfloorheight
-        && r_textures);
-
-    if (am_sectortextures && validfloorpic)
-        flat = (terraintypes[floorpic] >= LIQUID && r_liquid_swirl ?
-            R_SwirlingFlat(floorpic) : lumpinfo[flattranslation[floorpic]]->cache);
-
-    if (flat)
-    {
-        floorxoffset = (sector->floorxoffset >> FRACTOMAPBITS);
-        flooryoffset = (sector->flooryoffset >> FRACTOMAPBITS);
-
-        if (terraintypes[floorpic] >= LIQUID && r_liquid_current && !floorxoffset && !flooryoffset)
-        {
-            floorxoffset = (animatedliquidxoffs >> FRACTOMAPBITS);
-            flooryoffset = (animatedliquidyoffs >> FRACTOMAPBITS);
-        }
-
-        floorrotation = (sector->heightsec ? sector->heightsec->floorrotation : sector->floorrotation);
-    }
-    else
-    {
-        if (am_sectorcolors == am_sectorcolors_auto)
-            fillcolor = AM_AdjustColorForLightLevel(sector, (validfloorpic ? floorpiccolor[floorpic] :
-                (r_textures ? backcolor : NOTEXTURECOLOR)), lightlevel);
-        else
-            fillcolor = AM_AdjustColorForLightLevel(sector, nearestcolors[am_sectorcolors], lightlevel);
-
-        if (tintcolor)
-            fillcolor = allmaptint[fillcolor][tintcolor];
-    }
-
-    for (int y = minyscreen; y < maxyscreen; y++)
-    {
-        int     n = 0;
-        fixed_t ry;
-
-        for (int i = 0; i < edgecount; i++)
-        {
-            const edge_t    *edge = &edges[i];
-
-            if (y < edge->ymin || y >= edge->ymax)
-                continue;
-
-            if (n == MAXINTERSECTIONS)
-                break;
-
-            intersections[n++] = edge->x1 + (int)(((int64_t)(y - edge->y1) * edge->dx) / edge->dy);
-        }
-
-        if (n < 2)
-            continue;
-
-        AM_SortIntersections(intersections, n);
-
-        ry = (fixed_t)((int64_t)(MAPHEIGHT - y) * m_h / MAPHEIGHT) + m_y;
-
-        if (am_correctaspectratio)
-            ry = am_frame.center.y + (ry - am_frame.center.y) * 6 / 5;
-
-        for (int i = 0, row = y * MAPWIDTH; i + 1 < n; i += 2)
-        {
-            int     x1 = intersections[i];
-            int     x2 = intersections[i + 1];
-            fixed_t rx;
-
-            if (x1 > x2)
-                SWAP(x1, x2);
-
-            if (x2 < 0 || x1 >= MAPWIDTH)
-                continue;
-
-            x1 = MAX(0, x1);
-            x2 = MIN(MAPWIDTH - 1, x2);
-
-            if (!flat)
-            {
-                memset(&mapscreen[row + x1], fillcolor, (size_t)(x2 - x1 + 1));
-                continue;
-            }
-
-            rx = m_x + (fixed_t)((int64_t)x1 * xstep);
-
-            for (int x = x1; x <= x2; x++, rx += xstep)
-            {
-                fixed_t rrx = rx;
-                fixed_t rry = ry;
-
-                if (am_rotatemode)
-                {
-                    const fixed_t   dx = rrx - am_frame.center.x;
-                    const fixed_t   dy = rry - am_frame.center.y;
-                    const double    cosine = am_frame.cos;
-                    const double    sine = am_frame.sin;
-
-                    rrx = am_frame.center.x + (fixed_t)llround((double)dx * cosine + (double)dy * sine);
-                    rry = am_frame.center.y + (fixed_t)llround(-(double)dx * sine + (double)dy * cosine);
-                }
-
-                rrx += floorxoffset;
-                rry -= flooryoffset;
-
-                if (floorrotation)
-                    AM_Rotate(&rrx, &rry, (floorrotation >> ANGLETOFINESHIFT));
-
-                byte    color = flat[((63 - ((rry >> MAPBITS) & 63)) << 6) + ((rrx >> MAPBITS) & 63)];
-
-                if (tintcolor)
-                    color = allmaptint[color][tintcolor];
-
-                mapscreen[row + x] = AM_AdjustColorForLightLevel(sector, color, lightlevel);
-            }
-        }
-    }
-}
-
-static void AM_FillSectors(void)
-{
-    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-    {
-        for (int i = 0; i < numsectors; i++)
-            AM_FillSector(&sectors[i], 0);
-    }
-    else if (viewplayer->powers[pw_allmap])
-    {
-        for (int i = 0; i < numsectors; i++)
-        {
-            const sector_t  *sector = &sectors[i];
-
-            AM_FillSector(sector, (sector->mapped ? 0 : nearestcolors[am_allmapwallcolor]));
-        }
-    }
-    else
-        for (int i = 0; i < numsectors; i++)
-        {
-            const sector_t  *sector = &sectors[i];
-
-            if (sector->mapped)
-                AM_FillSector(sector, 0);
-        }
-}
 
 static void AM_ActivateNewScale(void)
 {
@@ -766,8 +391,6 @@ void AM_SetColors(void)
     allmapfdwallcolor = &priorities[nearestcolors[am_allmapfdwallcolor] << 8];
     teleportercolor = &priorities[nearestcolors[am_teleportercolor] << 8];
     tswallcolor = &priorities[nearestcolors[am_tswallcolor] << 8];
-
-    AM_BuildAllMapTintTables();
 }
 
 void AM_GetGridSize(void)
@@ -863,21 +486,6 @@ static void AM_LevelInit(void)
 
     putbigwalldot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
-
-    if (floorpiccolor)
-    {
-        free(floorpiccolor);
-        floorpiccolor = NULL;
-    }
-
-    if (edges)
-    {
-        free(edges);
-        edges = NULL;
-        edgescapacity = 0;
-    }
-
-    AM_BuildFloorPicColors();
 
     // for saving and restoring
     old_m_x = m_x;
@@ -3156,9 +2764,6 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (am_sectortextures || am_sectorcolors != am_sectorcolors_off)
-        AM_FillSectors();
-
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
         if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
@@ -3196,8 +2801,7 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(bigmarknums);
 
-        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
             AM_BigStatusBarShadow();
     }
     else
@@ -3205,8 +2809,7 @@ void AM_Drawer(void)
         if (nummarks)
             AM_DrawMarks(marknums);
 
-        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla
-            && !am_sectortextures && am_sectorcolors == am_sectorcolors_off)
+        if (r_screensize < r_screensize_max && am_backcolor == nearestblack && !vanilla)
             AM_StatusBarShadow();
     }
 

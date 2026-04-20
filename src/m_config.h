@@ -73,8 +73,6 @@ extern int      am_reddoorcolor;
 extern int      am_redkeycolor;
 extern bool     am_rotatemode;
 extern int      am_secretcolor;
-extern int      am_sectorcolors;
-extern bool     am_sectortextures;
 extern bool     am_sides;
 extern int      am_teleportercolor;
 extern int      am_thingcolor;
@@ -489,14 +487,6 @@ enum
 #define am_secretcolor_min                  am_secretcolor_none
 #define am_secretcolor_default              am_secretcolor_none
 #define am_secretcolor_max                  255
-
-#define am_sectorcolors_auto                -2
-#define am_sectorcolors_off                 -1
-#define am_sectorcolors_min                 am_sectorcolors_auto
-#define am_sectorcolors_default             am_sectorcolors_off
-#define am_sectorcolors_max                 255
-
-#define am_sectortextures_default           false
 
 #define am_sides_default                    false
 
