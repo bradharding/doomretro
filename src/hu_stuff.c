@@ -1604,6 +1604,8 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
+    char    *message;
+
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)
     {
@@ -1611,28 +1613,27 @@ void HU_Ticker(void)
         message_nottobefuckedwith = false;
         message_secret = false;
         message_warning = false;
+        return;
     }
 
-    // display message if necessary
-    else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme)
-        && (r_hud || r_screensize < r_screensize_max))
+    if (!(message = viewplayer->message)
+        || (message_nottobefuckedwith && !message_dontfuckwithme)
+        || (!r_hud && r_screensize == r_screensize_max))
+        return;
+
+    if (messages)
     {
-        if (messages || message_dontfuckwithme || message_secret || message_warning)
-        {
-            HUlib_AddMessageToSText(&w_message, viewplayer->message);
+        HUlib_AddMessageToSText(&w_message, message);
 
-            message_fadeon = (!message_on || message_counter <= 5);
-            message_on = true;
-            message_counter = HU_MSGTIMEOUT;
-            message_nottobefuckedwith = message_dontfuckwithme;
-            message_dontfuckwithme = false;
-
-            if (viewplayer->message)
-                free(viewplayer->message);
-
-            viewplayer->message = NULL;
-        }
+        message_fadeon = (!message_on || message_counter <= 5);
+        message_on = true;
+        message_counter = HU_MSGTIMEOUT;
+        message_nottobefuckedwith = message_dontfuckwithme;
+        message_dontfuckwithme = false;
     }
+
+    free(message);
+    viewplayer->message = NULL;
 }
 
 void HU_SetPlayerMessage(char *message, bool group, bool external)
