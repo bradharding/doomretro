@@ -33,7 +33,6 @@
 ==============================================================================
 */
 
-#include <float.h>
 #include <math.h>
 
 #include "am_map.h"
@@ -54,8 +53,6 @@
 #include "p_local.h"
 #include "st_stuff.h"
 #include "v_video.h"
-#include "w_wad.h"
-#include "z_zone.h"
 
 // Automap color priorities
 #define SECRETPRIORITY         10
@@ -69,11 +66,6 @@
 #define ALLMAPCDWALLPRIORITY    2
 #define ALLMAPFDWALLPRIORITY    1
 
-#define MAXINTERSECTIONS        256
-#define INSERTIONSORTTHRESHOLD  32
-
-#define SIDETICKLENGTH          (3 << MAPBITS)
-
 static byte playercolor;
 static byte thingcolor;
 static byte bloodsplatcolor;
@@ -81,9 +73,6 @@ static byte corpsecolor;
 static byte bluekeycolor;
 static byte redkeycolor;
 static byte yellowkeycolor;
-static byte markbluekeycolor;
-static byte markredkeycolor;
-static byte markyellowkeycolor;
 static byte markcolor;
 static byte backcolor;
 static byte pathcolor;
@@ -134,8 +123,6 @@ static byte *am_crosshaircolor2;
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
-
-#define MARKLOCKRANGE           (64 << MAPBITS)
 
 typedef struct
 {
@@ -222,8 +209,6 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
-static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -352,9 +337,6 @@ void AM_SetColors(void)
     bluekeycolor = nearestcolors[am_bluekeycolor];
     redkeycolor = nearestcolors[am_redkeycolor];
     yellowkeycolor = nearestcolors[am_yellowkeycolor];
-    markbluekeycolor = (BTSX ? BLUE3 : nearestcolors[BLUE3]);
-    markredkeycolor = nearestcolors[RED2];
-    markyellowkeycolor = nearestcolors[YELLOW2];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
@@ -2278,8 +2260,11 @@ static void AM_DrawMarks(const char *nums[])
 {
     for (int i = 0; i < nummarks; i++)
     {
-        const mpoint_t  markpoint = { mark[i].x, mark[i].y };
-        mpoint_t        point = markpoint;
+        int         number = i + 1;
+        int         temp = number;
+        int         digits = 1;
+        int         x, y;
+        mpoint_t    point = { mark[i].x, mark[i].y };
 
         if (am_rotatemode)
             AM_RotatePoint(&point);
@@ -2287,70 +2272,58 @@ static void AM_DrawMarks(const char *nums[])
         if (am_correctaspectratio)
             AM_CorrectAspectRatio(&point);
 
-        AM_DrawMarkNumber(mapscreen, MAPWIDTH, MAPHEIGHT, nums, i + 1,
-            CXMTOF(point.x), CYMTOF(point.y), markcolor, false);
-    }
-}
+        x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
+        y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
 
-static void AM_DrawMarkNumber(byte *buffer, int bufferwidth, int bufferheight,
-    const char *nums[], int number, int cx, int cy, byte color, const bool clearoutline)
-{
-    int temp = number;
-    int digits = 1;
-    int x = cx - MARKWIDTH / 2 + 1;
-    int y = cy - MARKHEIGHT / 2 - 1;
+        while ((temp /= 10))
+            digits++;
 
-    while ((temp /= 10))
-        digits++;
+        x += (digits - 1) * MARKWIDTH / 2;
+        x -= (number % 10 == 1);
+        x -= (number / 10 == 1);
 
-    x += (digits - 1) * MARKWIDTH / 2;
-    x -= (number % 10 == 1);
-    x -= (number / 10 == 1);
-
-    do
-    {
-        const int   digit = number % 10;
-
-        x += (digits > 1 && digit == 1);
-
-        if (r_detail == r_detail_low)
+        do
         {
-            x += (x & 1);
-            y += (y & 1);
-        }
+            const int   digit = number % 10;
 
-        for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
-        {
-            const unsigned int  fx = x + j % MARKWIDTH;
+            x += (i > 0 && digit == 1);
 
-            if (fx < (unsigned int)bufferwidth)
+            if (r_detail == r_detail_low)
             {
-                const unsigned int  fy = y + j / MARKWIDTH;
+                x += (x & 1);
+                y += (y & 1);
+            }
 
-                if (fy < (unsigned int)bufferheight)
+            for (int j = 0; j < MARKWIDTH * MARKHEIGHT; j++)
+            {
+                const unsigned int  fx = x + j % MARKWIDTH;
+
+                if (fx < (unsigned int)MAPWIDTH)
                 {
-                    const char  src = nums[digit][j];
+                    const unsigned int  fy = y + j / MARKWIDTH;
 
-                    if (src == '1')
-                        buffer[fy * bufferwidth + fx] = color;
-                    else if (src == '2')
+                    if (fy < (unsigned int)MAPHEIGHT)
                     {
-                        byte    *dest = &buffer[fy * bufferwidth + fx];
+                        const char  src = nums[digit][j];
 
-                        if (clearoutline)
-                            *dest = nearestblack;
-                        else
+                        if (src == '1')
+                            mapscreen[fy * MAPWIDTH + fx] = markcolor;
+                        else if (src == '2')
+                        {
+                            byte *dest = &mapscreen[fy * MAPWIDTH + fx];
+
                             *dest = *(*dest + tinttab40);
+                        }
                     }
                 }
             }
-        }
 
-        x -= MARKWIDTH - 2;
+            x -= MARKWIDTH - 2;
 
-        if (r_detail == r_detail_low)
-            x--;
-    } while ((number /= 10) > 0);
+            if (r_detail == r_detail_low)
+                x--;
+        } while ((number /= 10) > 0);
+    }
 }
 
 const int lengths[] =

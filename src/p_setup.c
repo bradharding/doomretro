@@ -3715,7 +3715,6 @@ void P_SetupLevel(int ep, int map)
     if (P_GetMapNoFreelook(ep, map) && canfreelook)
         C_Warning(1, "This %s has disabled use of the " BOLD("freelook") " CVAR and " BOLD("+freelook") " action.",
             (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
-
 }
 
 static void P_InitMapInfoEntry(mapinfo_t *info)
