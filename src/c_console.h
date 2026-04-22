@@ -156,7 +156,7 @@
 #define MAPLISTHEADER                       "\tMAP\tTITLE\tAUTHOR\tWAD"
 #define MAPSTATSHEADER                      "STAT\tVALUE"
 #define PLAYERSTATSHEADER                   "STAT\tCURRENT MAP\tTOTAL"
-#define THINGLISTHEADER                     "\tTHING\tPOSITION\tANGLE\tFLAGS"
+#define THINGLISTHEADER                     "\tTYPE\tDESCRIPTION\tPOSITION\tANGLE"
 
 typedef enum
 {
