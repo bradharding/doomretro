@@ -501,6 +501,12 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
 {
     const int       i = MAX(0, numconsolestrings - 1);
     obituaryinfo_t  obituary = { 0 };
+    mobj_t          *obituarysource = source;
+
+    if (target && target->type == MT_BARREL
+        && source && (source->flags & MF_MISSILE)
+        && source->target && !source->target->player)
+        obituarysource = source->target;
 
     if (target)
     {
@@ -540,17 +546,17 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     else
         obituary.inflicter = MT_NULL;
 
-    if (source)
+    if (obituarysource)
     {
-        const mobjtype_t    type = source->type;
+        const mobjtype_t    type = obituarysource->type;
 
         obituary.source = type;
-        obituary.weapon = (source->player || type == MT_BFG ? viewplayer->readyweapon : wp_nochange);
-        obituary.sourceisplayer = !!source->player;
-        obituary.sourcefriendly = !!(source->flags & MF_FRIEND);
+        obituary.weapon = (obituarysource->player || type == MT_BFG ? viewplayer->readyweapon : wp_nochange);
+        obituary.sourceisplayer = !!obituarysource->player;
+        obituary.sourcefriendly = !!(obituarysource->flags & MF_FRIEND);
 
-        if (*source->name)
-            M_StringCopy(obituary.sourcename, source->name, sizeof(obituary.sourcename));
+        if (*obituarysource->name)
+            M_StringCopy(obituary.sourcename, obituarysource->name, sizeof(obituary.sourcename));
     }
     else
     {
