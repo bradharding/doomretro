@@ -94,6 +94,7 @@
 * When *DOOM Retro* is run for the first time and an installation of *DOOM* is found, the IWAD in the “File name” field of the WAD launcher is now in the correct case.
 * If multiple files are selected in the WAD launcher, each of those files are now saved in the `wad` CVAR, and then restored in the “File name” field of the WAD launcher the next time *DOOM Retro* is run.
 * The `wad` and `wadfolder` CVARs now retain any non-Latin characters when saved to `doomretro.cfg`.
+* The files output from the `condump` CCMD now retain any non-Latin characters.
 * The console will now be closed while the `resetall` CCMD’s confirmation message is displayed.
 * When the `m_pointer` CVAR is `on`:
   * The console’s input can now be selected by double-clicking, triple-clicking, or clicking and dragging the mouse.
