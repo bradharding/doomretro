@@ -2737,6 +2737,24 @@ static int indentation(const char *string)
     return count;
 }
 
+#if defined(_WIN32)
+static void condumpwriteline(FILE *file, const char *string)
+{
+    WCHAR   wide[CONSOLETEXTMAXLENGTH * 2];
+    char    utf8[CONSOLETEXTMAXLENGTH * 4];
+    int     widelen;
+
+    if (!(widelen = MultiByteToWideChar(CP_ACP, 0, string, -1, wide, (int)(sizeof(wide) / sizeof(*wide))))
+        || !WideCharToMultiByte(CP_UTF8, 0, wide, widelen, utf8, sizeof(utf8), NULL, NULL))
+    {
+        fputs(string, file);
+        return;
+    }
+
+    fputs(utf8, file);
+}
+#endif
+
 static bool condumpfunc1(char *cmd, char *parms)
 {
     return (numconsolestrings > 1);
@@ -2770,20 +2788,36 @@ static void condumpfunc2(char *cmd, char *parms)
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s%s",
             consolefolder, parms, (strchr(parms, '.') ? "" : ".txt"));
 
+#if defined(_WIN32)
+    if ((file = fopen(filename, "wb")))
+#else
     if ((file = fopen(filename, "wt")))
+#endif
     {
         char    *temp1 = commify((int64_t)numconsolestrings);
+
+#if defined(_WIN32)
+        fputs("\xEF\xBB\xBF", file);
+#endif
 
         for (int i = 1; i < numconsolestrings - 1; i++)
         {
             stringtype_t    type = console[i].stringtype;
 
             if (type == dividerstring)
+            {
+#if defined(_WIN32)
+                condumpwriteline(file, DIVIDERSTRING "\n");
+#else
                 fprintf(file, "%s\n", DIVIDERSTRING);
+#endif
+            }
             else
             {
                 char            *string = M_StringDuplicate(console[i].string);
+                char            line[CONSOLETEXTMAXLENGTH * 2];
                 int             len;
+                int             linepos = 0;
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
 
@@ -2821,7 +2855,10 @@ static void condumpfunc2(char *cmd, char *parms)
                 }
 
                 if (type == warningstring || type == playerwarningstring || type == playerobituarystring)
-                    fputs("! ", file);
+                {
+                    line[linepos++] = '!';
+                    line[linepos++] = ' ';
+                }
 
                 for (int inpos = (indentation(string) - 1) / 2; inpos < len; inpos++)
                 {
@@ -2834,14 +2871,17 @@ static void condumpfunc2(char *cmd, char *parms)
                         if (outpos < tabstop)
                         {
                             for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
-                                fputc(' ', file);
+                                if (linepos < (int)sizeof(line) - 1)
+                                    line[linepos++] = ' ';
 
                             outpos = tabstop;
                             tabcount++;
                         }
                         else
                         {
-                            fputc(' ', file);
+                            if (linepos < (int)sizeof(line) - 1)
+                                line[linepos++] = ' ';
+
                             outpos++;
                         }
                     }
@@ -2850,7 +2890,9 @@ static void condumpfunc2(char *cmd, char *parms)
                         && letter != ITALICSONCHAR && letter != ITALICSOFFCHAR
                         && letter != MONOSPACEDONCHAR && letter != MONOSPACEDOFFCHAR)
                     {
-                        fputc(letter, file);
+                        if (linepos < (int)sizeof(line) - 1)
+                            line[linepos++] = letter;
+
                         outpos++;
                     }
                 }
@@ -2862,21 +2904,32 @@ static void condumpfunc2(char *cmd, char *parms)
                     struct tm           timestamp = console[i].timestamp;
 
                     for (unsigned int j = ((type == playerwarningstring || type == playerobituarystring) ? 2 : 0); j < spaces; j++)
-                        fputc(' ', file);
+                        if (linepos < (int)sizeof(line) - 1)
+                            line[linepos++] = ' ';
 
                     if (con_timestampformat == con_timestampformat_standard)
                     {
                         const int   hour = timestamp.tm_hour;
 
-                        fprintf(file, "%2i:%02i:%02i%s",
+                        M_snprintf(line + linepos, sizeof(line) - linepos, "%2i:%02i:%02i%s",
                             (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min, timestamp.tm_sec, (hour < 12 ? "AM" : "PM"));
                     }
                     else
-                        fprintf(file, "%02i:%02i:%02i",
+                        M_snprintf(line + linepos, sizeof(line) - linepos, "%02i:%02i:%02i",
                             timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
+
+                    linepos = (int)strlen(line);
                 }
 
-                fputc('\n', file);
+                line[(linepos < (int)sizeof(line) - 2 ? linepos : (int)sizeof(line) - 2)] = '\n';
+                line[(linepos < (int)sizeof(line) - 2 ? linepos : (int)sizeof(line) - 2) + 1] = '\0';
+
+#if defined(_WIN32)
+                condumpwriteline(file, line);
+#else
+                fputs(line, file);
+#endif
+
                 free(string);
             }
         }
