@@ -71,9 +71,9 @@
 #include "w_wad.h"
 
 #define ALIASFORMAT                     BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
-                                            BOLDITALICS("command") " ..." BOLD("\"") "]]"
+                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
 #define BINDFORMAT                      BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
-                                            BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
+                                        BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
 #define CMDLISTFORMAT                   "[" BOLDITALICS("searchstring") "]"
 #define CONDUMPFORMAT                   "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]"
 #define CVARLISTFORMAT                  "[" BOLDITALICS("searchstring") "]"
@@ -83,16 +83,16 @@
 #define FREEZEFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
 #define GODFORMAT                       "[" BOLD("on") "|" BOLD("off") "]"
 #define GIVEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                            BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define IFFORMAT                        BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                            BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
+                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define INFINITEAMMOFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
 #define KILLFORMAT                      BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define MAPFORMAT1                      BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
-                                            BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
+                                        BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define MAPFORMAT2                      BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
-                                            BOLD("next") "|" BOLD("last") "|" BOLD("random")
+                                        BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define NOCLIPFORMAT                    "[" BOLD("on") "|" BOLD("off") "]"
 #define NOMONSTERSFORMAT                "[" BOLD("on") "|" BOLD("off") "]"
 #define NOTARGETFORMAT                  "[" BOLD("on") "|" BOLD("off") "]"
@@ -102,7 +102,7 @@
 #define PRINTFORMAT                     "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
 #define REGENHEALTHFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
 #define REMOVEFORMAT                    BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
-                                            BOLDITALICS("item") "|" BOLD("everything")
+                                        BOLDITALICS("item") "|" BOLD("everything")
 #define RESETFORMAT                     BOLDITALICS("CVAR")
 #define RESPAWNITEMSFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
 #define RESPAWNMONSTERSFORMAT           "[" BOLD("on") "|" BOLD("off") "]"
@@ -110,7 +110,7 @@
 #define SAVEFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define SPAWNFORMAT                     BOLDITALICS("item") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                           BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
+                                        BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define TELEPORTFORMAT                  BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
 #define TIMERFORMAT                     BOLDITALICS("minutes")
 #define TOGGLEFORMAT                    BOLDITALICS("CVAR")
@@ -394,7 +394,7 @@ action_t actions[] =
     { "+lookcenter",     "+lookcentre",     true,  false, lookcenteractionfunc,     &keyboardlookcenter,     &keyboardlookcenter2,     &mouselookcenter,     &controllerlookcenter,     NULL            },
     { "+lookdown",       "+lookdown",       true,  false, lookdownactionfunc,       &keyboardlookdown,       &keyboardlookdown2,       &mouselookdown,       &controllerlookdown,       NULL            },
     { "+lookup",         "+lookup",         true,  false, lookupactionfunc,         &keyboardlookup,         &keyboardlookup2,         &mouselookup,         &controllerlookup,         NULL            },
-    { "+fullzoom",       "+maxzoom",        true,  true,  fullzoomactionfunc,       &keyboardfullzoom,       &keyboardfullzoom2,       &mousefullzoom,       &controllerfullzoom,        NULL            },
+    { "+fullzoom",       "+maxzoom",        true,  true,  fullzoomactionfunc,       &keyboardfullzoom,       &keyboardfullzoom2,       &mousefullzoom,       &controllerfullzoom,       NULL            },
     { "+grid",           "+grid",           true,  true,  gridactionfunc,           &keyboardgrid,           &keyboardgrid2,           &mousegrid,           &controllergrid,           NULL            },
     { "+jump",           "+jump",           true,  false, jumpactionfunc,           &keyboardjump,           &keyboardjump2,           &mousejump,           &controllerjump,           NULL            },
     { "+left",           "+left",           true,  false, leftactionfunc,           &keyboardleft,           &keyboardleft2,           &mouseleft,           &controllerleft,           NULL            },
@@ -8262,7 +8262,7 @@ static void resetfunc2(char *cmd, char *parms)
             }
             else if (flags & CF_PERCENT)
             {
-                char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
 
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
@@ -10891,7 +10891,6 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     }
 
                     return;
-
                 }
                 else if (!resettingcvar && !togglingvanilla)
                 {
@@ -10928,7 +10927,6 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     }
 
                     return;
-
                 }
                 else if (!resettingcvar && !togglingvanilla)
                 {
@@ -11064,8 +11062,8 @@ static void playercvarsfunc2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10d", &value) == 1 && ammotype != am_noammo && viewplayer->health > 0)
             {
-                char   *temp1 = commify(viewplayer->ammo[ammotype]);
-                char   *temp2 = commify(value);
+                char    *temp1 = commify(viewplayer->ammo[ammotype]);
+                char    *temp2 = commify(value);
 
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
@@ -11145,8 +11143,8 @@ static void playercvarsfunc2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10d", &value) == 1)
             {
-                char   *temp1 = commify(viewplayer->armor);
-                char   *temp2 = commify(value);
+                char    *temp1 = commify(viewplayer->armor);
+                char    *temp2 = commify(value);
 
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
@@ -11221,7 +11219,6 @@ static void playercvarsfunc2(char *cmd, char *parms)
         if (*parms)
         {
             if (sscanf(parms, "%10d", &value) == 1)
-
             {
                 if (value == viewplayer->health)
                 {
@@ -11238,8 +11235,8 @@ static void playercvarsfunc2(char *cmd, char *parms)
                 else if (!negativehealth
                     || (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth)))
                 {
-                    char   *temp1;
-                    char   *temp2;
+                    char    *temp1;
+                    char    *temp2;
 
                     value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
