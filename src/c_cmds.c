@@ -2767,7 +2767,8 @@ static void condumpfunc2(char *cmd, char *parms)
     const char  *appdatafolder = M_GetAppDataFolder();
     FILE        *file;
 
-    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
+    M_snprintf(consolefolder, sizeof(consolefolder),
+        "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
 
     if (!*parms)
@@ -2780,7 +2781,8 @@ static void condumpfunc2(char *cmd, char *parms)
         {
             char    *temp = commify(++count);
 
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s (%s).txt", consolefolder, cmd, temp);
+            M_snprintf(filename, sizeof(filename),
+                "%s" DIR_SEPARATOR_S "%s (%s).txt", consolefolder, cmd, temp);
             free(temp);
         }
     }
@@ -2805,13 +2807,11 @@ static void condumpfunc2(char *cmd, char *parms)
             stringtype_t    type = console[i].stringtype;
 
             if (type == dividerstring)
-            {
 #if defined(_WIN32)
                 condumpwriteline(file, DIVIDERSTRING "\n");
 #else
                 fprintf(file, "%s\n", DIVIDERSTRING);
 #endif
-            }
             else
             {
                 char            *string = M_StringDuplicate(console[i].string);
@@ -2852,12 +2852,6 @@ static void condumpfunc2(char *cmd, char *parms)
                 {
                     free(string);
                     continue;
-                }
-
-                if (type == warningstring || type == playerwarningstring || type == playerobituarystring)
-                {
-                    line[linepos++] = '!';
-                    line[linepos++] = ' ';
                 }
 
                 for (int inpos = (indentation(string) - 1) / 2; inpos < len; inpos++)
@@ -2903,7 +2897,7 @@ static void condumpfunc2(char *cmd, char *parms)
                     const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
                     struct tm           timestamp = console[i].timestamp;
 
-                    for (unsigned int j = ((type == playerwarningstring || type == playerobituarystring) ? 2 : 0); j < spaces; j++)
+                    for (unsigned int j = 0; j < spaces; j++)
                         if (linepos < (int)sizeof(line) - 1)
                             line[linepos++] = ' ';
 
