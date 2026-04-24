@@ -10557,7 +10557,7 @@ static void strfunc2(char *cmd, char *parms)
                     if (!*(char **)consolecmds[i].variable)
                     {
                         if (!consolecmds[i].defaultstring)
-                            C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, "");
+                            C_Warning(0, STRINGCVARSAMEDEFAULTWARNING, consolecmds[i].name, "");
                         else
                             C_Warning(0, STRINGCVARSAMEWARNING, consolecmds[i].name, "");
                     }
