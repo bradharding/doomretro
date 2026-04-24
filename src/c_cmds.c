@@ -2847,6 +2847,7 @@ static void condumpfunc2(char *cmd, char *parms)
 
                 M_StringReplaceAll(string, "(AM)", "am", false);
                 M_StringReplaceAll(string, "(PM)", "pm", false);
+                M_StringReplaceAll(string, "\x95", "*", false);
 
                 if (!(len = (int)strlen(string)))
                 {
@@ -2894,23 +2895,27 @@ static void condumpfunc2(char *cmd, char *parms)
                 if (type == playermessagestring || type == playerwarningstring
                     || type == obituarystring || type == playerobituarystring)
                 {
-                    const unsigned int  spaces = (con_timestampformat == con_timestampformat_standard ? 90 : 92) - outpos;
-                    struct tm           timestamp = console[i].timestamp;
+                    int         spaces = (int)strlen(DIVIDERSTRING) - 10 - outpos;
+                    struct tm   timestamp = console[i].timestamp;
 
-                    for (unsigned int j = 0; j < spaces; j++)
+                    if (con_timestampformat == con_timestampformat_military)
+                        spaces += 2;
+
+                    for (int j = 0; j < spaces; j++)
                         if (linepos < (int)sizeof(line) - 1)
                             line[linepos++] = ' ';
 
-                    if (con_timestampformat == con_timestampformat_standard)
+                    if (con_timestampformat == con_timestampformat_military)
+                        M_snprintf(line + linepos, sizeof(line) - linepos, "%02i:%02i:%02i",
+                            timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
+                    else
                     {
                         const int   hour = timestamp.tm_hour;
 
                         M_snprintf(line + linepos, sizeof(line) - linepos, "%2i:%02i:%02i%s",
-                            (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min, timestamp.tm_sec, (hour < 12 ? "AM" : "PM"));
+                            (hour ? hour - 12 * (hour > 12) : 12), timestamp.tm_min,
+                            timestamp.tm_sec, (hour < 12 ? "AM" : "PM"));
                     }
-                    else
-                        M_snprintf(line + linepos, sizeof(line) - linepos, "%02i:%02i:%02i",
-                            timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
 
                     linepos = (int)strlen(line);
                 }
