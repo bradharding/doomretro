@@ -6081,7 +6081,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
     }
 
     temp = commify(numlines);
-    C_TabbedOutput(tabs, "Lines\t%s", temp);
+    C_TabbedOutput(tabs, "Linedefs\t%s", temp);
     free(temp);
 
     temp = commify(numspeciallines);
@@ -6097,7 +6097,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(numsegs);
-    C_TabbedOutput(tabs, "Segments\t%s", temp);
+    C_TabbedOutput(tabs, "Segs\t%s", temp);
     free(temp);
 
     temp = commify(numsubsectors);
@@ -6123,7 +6123,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
     {
         const short picnum = subsectors[i].sector->ceilingpic;
 
-        if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
+        if (picnum == skyflatnum || (picnum & PL_SKYFLAT) || (picnum & PL_FLATMAPPING) == PL_FLATMAPPING)
             outside++;
     }
 
