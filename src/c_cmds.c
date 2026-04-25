@@ -5371,7 +5371,7 @@ char *authors[][6] =
 //
 // maplist CCMD
 //
-static void removemapnum(char *title)
+static void RemoveMapNum(char *title)
 {
     const char  *pos = strchr(title, ':');
 
@@ -5386,7 +5386,7 @@ static void removemapnum(char *title)
     }
 }
 
-static const char *getauthor(int ep, int map, bool replaced)
+static const char *GetAuthor(int ep, int map, bool replaced)
 {
     const char  *author = P_GetMapAuthor(ep, map);
 
@@ -5439,7 +5439,6 @@ static void maplistfunc2(char *cmd, char *parms)
         bool    replaced;
         bool    pwad;
         char    mapinfoname[128];
-        char    maptitle[128];
         char    author[128];
         char    truncatedtitle[128];
         char    truncatedauthor[128];
@@ -5468,7 +5467,7 @@ static void maplistfunc2(char *cmd, char *parms)
         replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM && !nerve);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
         M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
-        M_StringCopy(author, getauthor(ep, map, replaced), sizeof(author));
+        M_StringCopy(author, GetAuthor(ep, map, replaced), sizeof(author));
         TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
 
         if (!*author)
@@ -5497,7 +5496,7 @@ static void maplistfunc2(char *cmd, char *parms)
                         else
                             temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnames[(ep - 1) * 9 + map - 1]);
 
-                        removemapnum(temp1);
+                        RemoveMapNum(temp1);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%.30s%s") "\t%.30s%s\t%s",
                             lump, temp1, (strlen(temp1) > 30 ? "..." : ""), author, (strlen(author) > 30 ? "..." : ""), wadname);
                         free(temp1);
@@ -5517,7 +5516,7 @@ static void maplistfunc2(char *cmd, char *parms)
 
                             temp1 = M_SubString(*mapnames2[map - 1], 0, 5);
                             temp2 = titlecase(*mapnames2[map - 1]);
-                            removemapnum(temp2);
+                            RemoveMapNum(temp2);
                             TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp2);
                             TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
@@ -5546,7 +5545,7 @@ static void maplistfunc2(char *cmd, char *parms)
                         else
                         {
                             temp1 = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]));
-                            removemapnum(temp1);
+                            RemoveMapNum(temp1);
                             TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                             TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
@@ -5562,7 +5561,7 @@ static void maplistfunc2(char *cmd, char *parms)
                 if (D_IsNERVEWAD(wadname))
                 {
                     temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map - 1]);
-                    removemapnum(temp1);
+                    RemoveMapNum(temp1);
                     TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                     TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
                     M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
@@ -5581,7 +5580,7 @@ static void maplistfunc2(char *cmd, char *parms)
                     else
                     {
                         temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map - 1]);
-                        removemapnum(temp1);
+                        RemoveMapNum(temp1);
                         TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                         TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
@@ -5601,7 +5600,7 @@ static void maplistfunc2(char *cmd, char *parms)
                     else
                     {
                         temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map - 1]);
-                        removemapnum(temp1);
+                        RemoveMapNum(temp1);
                         TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                         TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
                         M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",

@@ -4064,7 +4064,8 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
         if (!*inbuffer && !*holdstring)
             break;                      // killough 11/98
 
-        if (!*holdstring)               // first one--get the key
+        if (!*holdstring)               // first one -- get the key
+        {
             if (!deh_GetData(inbuffer, key, &value, &strval))   // returns true if ok
             {
                 C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
@@ -4072,6 +4073,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
             }
             else
                 havepair = true;
+        }
 
         len = (int)strlen(inbuffer);
 
