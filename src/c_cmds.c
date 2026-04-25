@@ -186,6 +186,7 @@ static int  weapon;
 static int  mapcmdepisode;
 static int  mapcmdmap;
 static char mapcmdlump[7];
+static char mapcmdmapnum[7];
 
 bool        executingalias = false;
 bool        healthcvar = false;
@@ -4770,6 +4771,23 @@ static void loadfunc2(char *cmd, char *parms)
 //
 // map CCMD
 //
+static void C_SetMapCmdMapNum(void)
+{
+    if (legacyofrust && mapcmdmap != 99)
+    {
+        if (mapcmdmap <= 7)
+            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E1M%i", mapcmdmap);
+        else if (mapcmdmap == 15)
+            M_StringCopy(mapcmdmapnum, "E1M0", sizeof(mapcmdmapnum));
+        else if (mapcmdmap == 16)
+            M_StringCopy(mapcmdmapnum, "E2M0", sizeof(mapcmdmapnum));
+        else
+            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E2M%i", mapcmdmap - 7);
+    }
+    else if (!*mapcmdmapnum)
+        M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
+}
+
 static bool mapfunc1(char *cmd, char *parms)
 {
     if (!*parms)
@@ -4783,6 +4801,7 @@ static bool mapfunc1(char *cmd, char *parms)
         mapcmdepisode = 0;
         mapcmdmap = 0;
         speciallumpname[0] = '\0';
+        mapcmdmapnum[0] = '\0';
 
         if (M_StringCompare(parm, "first"))
         {
@@ -5176,6 +5195,7 @@ static bool mapfunc1(char *cmd, char *parms)
             }
         }
 
+
         free(temp1);
         free(parm);
 
@@ -5195,9 +5215,9 @@ static void mapfunc2(char *cmd, char *parms)
     }
 
     if ((samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && !*speciallumpname)))
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEVSAME, mapcmdlump);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEVSAME, mapcmdmapnum);
     else
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV, C_GetPlayerName(), mapcmdlump);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV, C_GetPlayerName(), mapcmdmapnum);
 
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
@@ -11295,7 +11315,9 @@ static void playercvarsfunc2(char *cmd, char *parms)
             free(temp);
         }
     }
-    else if (M_StringCompare(cmd, stringize(health)) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
+    else if (M_StringCompare(cmd, stringize(health))
+        && !(viewplayer->cheats & CF_GODMODE)
+        && !viewplayer->powers[pw_invulnerability])
     {
         if (*parms)
         {
@@ -11306,15 +11328,16 @@ static void playercvarsfunc2(char *cmd, char *parms)
                     if (!resettingcvar)
                     {
                         if (value == health_default)
-                            C_Warning(0, PERCENTCVARSAMEDEFAULTWARNING, stringize(health), commify(viewplayer->health));
+                            C_Warning(0, PERCENTCVARSAMEDEFAULTWARNING,
+                                stringize(health), commify(viewplayer->health));
                         else
-                            C_Warning(0, PERCENTCVARSAMEWARNING, stringize(health), commify(viewplayer->health));
+                            C_Warning(0, PERCENTCVARSAMEWARNING,
+                                stringize(health), commify(viewplayer->health));
                     }
 
                     return;
                 }
-                else if (!negativehealth
-                    || (value != viewplayer->negativehealth || (value >= 0 && !viewplayer->negativehealth)))
+                else if (!negativehealth || value != viewplayer->negativehealth)
                 {
                     char    *temp1;
                     char    *temp2;
@@ -11354,7 +11377,8 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             if (isdefaultplayername())
                                 M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
                             else
-                                M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
+                                M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
+                                    playername, pronoun(reflexive));
 
                             C_PlayerWarning(buffer);
                             HU_SetPlayerMessage(buffer, false, false);
