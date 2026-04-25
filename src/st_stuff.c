@@ -1042,19 +1042,33 @@ bool ST_Responder(const event_t *ev)
                 else
                 {
                     static char message[128];
+                    char        mapnumbuffer[16];
 
                     S_StartSound(NULL, sfx_getpow);
                     ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
 
-                    if (legacyofrust && map != 99)
-                        M_snprintf(lump, sizeof(lump), "E%cM%c", buffer[0], buffer[1]);
+                    if (legacyofrust)
+                    {
+                        if (map <= 7)
+                            M_snprintf(mapnumbuffer, sizeof(mapnumbuffer), "E1M%i", map);
+                        else if (map == 15)
+                            M_StringCopy(mapnumbuffer, "E1M0", sizeof(mapnumbuffer));
+                        else if (map == 16)
+                            M_StringCopy(mapnumbuffer, "E2M0", sizeof(mapnumbuffer));
+                        else if (map == 99)
+                            M_StringCopy(mapnumbuffer, "MAP99", sizeof(mapnumbuffer));
+                        else
+                            M_snprintf(mapnumbuffer, sizeof(mapnumbuffer), "E2M%i", map - 7);
+                    }
                     else if (BTSX)
-                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
-
-                    if (M_StringCompare(lump, mapnum))
-                        M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
+                        M_snprintf(mapnumbuffer, sizeof(mapnumbuffer), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
                     else
-                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, C_GetPlayerName(), lump);
+                        M_StringCopy(mapnumbuffer, lump, sizeof(mapnumbuffer));
+
+                    if (M_StringCompare(mapnumbuffer, mapnum))
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, mapnumbuffer);
+                    else
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, C_GetPlayerName(), mapnumbuffer);
 
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);

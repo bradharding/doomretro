@@ -5195,6 +5195,7 @@ static bool mapfunc1(char *cmd, char *parms)
             }
         }
 
+        C_SetMapCmdMapNum();
 
         free(temp1);
         free(parm);
