@@ -4494,7 +4494,7 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
         okrc = 0;
     else
     {
-        if (!*++t)
+        if (!*(++t))
             okrc = 0;                           // in case "thiskey =" with no value
 
         // we've incremented t
@@ -4533,9 +4533,9 @@ void D_TranslateDehStrings(void)
 
 static void InitRocketTrails(void)
 {
-    int oldnumsprites = numsprites;
-    int oldnumstates = numstates;
-    int oldnummobjtypes = nummobjtypes;
+    const int   oldnumsprites = numsprites;
+    const int   oldnumstates = numstates;
+    const int   oldnummobjtypes = nummobjtypes;
 
     dsdh_EnsureSpritesCapacity(numsprites + 1);
 
@@ -4555,17 +4555,7 @@ static void InitRocketTrails(void)
     nummobjtypes = oldnummobjtypes + 1;
     MT_TRAIL2 = nummobjtypes - 1;
     mobjinfo[MT_TRAIL2] = mobjinfo[MT_TRAIL];
-    mobjinfo[MT_TRAIL2].doomednum = -1;
     mobjinfo[MT_TRAIL2].spawnstate = oldnumstates;
-    mobjinfo[MT_TRAIL2].flags = (MF_NOBLOCKMAP | MF_NOGRAVITY);
-    mobjinfo[MT_TRAIL2].flags2 = 0;
-    mobjinfo[MT_TRAIL2].mbf21flags = 0;
-    M_StringCopy(mobjinfo[MT_TRAIL2].name1, "rocket trail", sizeof(mobjinfo[MT_TRAIL2].name1));
-    M_StringCopy(mobjinfo[MT_TRAIL2].plural1, "rocket trails", sizeof(mobjinfo[MT_TRAIL2].plural1));
-    mobjinfo[MT_TRAIL2].name2[0] = '\0';
-    mobjinfo[MT_TRAIL2].plural2[0] = '\0';
-    mobjinfo[MT_TRAIL2].name3[0] = '\0';
-    mobjinfo[MT_TRAIL2].plural3[0] = '\0';
 }
 
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };

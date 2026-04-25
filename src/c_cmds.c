@@ -10583,7 +10583,7 @@ static void strfunc2(char *cmd, char *parms)
                         if (M_StringCompare(parms, *(char **)consolecmds[i].variable))
                         {
                             if (M_StringCompare(parms, consolecmds[i].defaultstring))
-                                C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, parms);
+                                C_Warning(0, STRINGCVARSAMEDEFAULTWARNING, consolecmds[i].name, parms);
                             else
                                 C_Warning(0, STRINGCVARSAMEWARNING, consolecmds[i].name, parms);
                         }
