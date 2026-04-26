@@ -500,9 +500,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     vldoor_t    *door;
 
     // if the wrong side of door is pushed, give oof sound
-    if (line->sidenum[1] == NO_INDEX && player)     // killough
+    if (line->sidenum[1] == NO_INDEX)     // killough
     {
-        if (!autousing && P_DoorClosed(line))
+        if (player && !autousing && P_DoorClosed(line))
             S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
         return;
