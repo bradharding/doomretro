@@ -230,6 +230,7 @@ bool MouseShouldBeGrabbed(void)
 static inline void SetShowCursor(const bool show)
 {
     SDL_PumpEvents();
+    SDL_ShowCursor(show);
     SDL_SetRelativeMouseMode(!show);
     SDL_GetRelativeMouseState(NULL, NULL);
 }
@@ -2388,9 +2389,6 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, "0", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
-
-    if (vid_fullscreen)
-        SDL_ShowCursor(false);
 
     SetVideoMode(true, true);
 
