@@ -1420,7 +1420,7 @@ static void HU_DrawAltHUD(void)
 
         if (powertics && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
-            const int   color2 = (r_hud_translucency ? color : darkgray);
+            const int   color2 = (r_hud_translucency ? color : nearestdarkgray);
 
             fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar,
                 3, color2, color2, false, false, tinttab20, NULL);
@@ -1430,7 +1430,7 @@ static void HU_DrawAltHUD(void)
         else if (r_althud_ammobars)
         {
             const ammotype_t    otherammoorder[] = { am_clip, am_shell, am_misl, am_cell };
-            const int           color2 = (r_hud_translucency ? color : darkgray);
+            const int           color2 = (r_hud_translucency ? color : nearestdarkgray);
             const bool          showallammo = (ammotype == am_noammo);
             const int           barstep = (showallammo ? 26 : 35);
             const int           barwidth = (showallammo ? 23 : 31);
@@ -1443,13 +1443,12 @@ static void HU_DrawAltHUD(void)
                     const int   ammo = BETWEEN(0, viewplayer->ammo[otherammoorder[i]] + ammodiff[otherammoorder[i]],
                                     HUD_NUMBER_MAX);
                     const int   remaining = (max ? MIN((ammo * barwidth + max - 1) / max, barwidth) : 0);
-                    const int   barcolor = (remaining && ammo * 100 / max < HUD_AMMO_MIN ? yellow3 : color);
 
                     fillrectfunc2(0, x, ALTHUD_Y + 27, barwidth, 3, color2, color2, false, false, tinttab20, NULL);
 
                     if (remaining)
                         fillrectfunc2(0, x + barwidth - remaining, ALTHUD_Y + 27, remaining,
-                            3, barcolor, barcolor, false, false, tinttab60, NULL);
+                            3, color, color, false, false, tinttab60, NULL);
                 }
         }
     }
