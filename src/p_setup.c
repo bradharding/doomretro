@@ -395,8 +395,8 @@ nodeformat_t    nodeformat;
 
 const char *nodeformats[] =
 {
-    [DOOMBSP] = "Vanilla",
-    [DEEPBSP] = "DeePBSP",
+    [DOOMBSP] = "Regular",
+    [DEEPBSP] = "DeePBSP v4",
     [XNOD] = "XNOD",
     [ZNOD] = "ZNOD",
     [XGLN] = "XGLN",

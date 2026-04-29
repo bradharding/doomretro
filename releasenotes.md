@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.0
 
-* *DOOM Retro* is now built using v18.5.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.5.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL_image v2.8.10*](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.8.10).
 * Extensive changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If *DOOM Retro* does happen to crash, a dialog box is now displayed and a crash report is generated that you are then encouraged to send to [the developer](mailto:brad@doomretro.com).
@@ -101,6 +101,7 @@
   * You can now scroll up and down in the console by clicking and dragging the mouse on the scroll bar.
   * The mouse pointer no longer briefly appears centered on the screen before it is hidden.
   * The mouse pointer no longer becomes hidden when certain CVARs are changed in the console.
+  * In the save game menu, clicking on a savegame slot to edit its description now shifts the text caret to where the mouse pointer is clicked rather than always placing it at the end.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
 * Looking up and down is now smoother when the `freelook` CVAR is `on`.
