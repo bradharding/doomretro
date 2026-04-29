@@ -89,6 +89,7 @@ static void (*messageroutine)(int);
 // we are going to be entering a savegame string
 static bool     savestringenter;
 static int      savecharindex;                      // which char we're editing
+static int      savepointerx = -1;
 
 // old save description before edit
 static char     saveoldstring[SAVESTRINGSIZE];
@@ -1364,7 +1365,15 @@ static void M_SaveSelect(int choice)
     itemon = choice;
     M_StringCopy(saveoldstring, savegamestrings[itemon], sizeof(saveoldstring));
     M_UpdateSaveGameName(itemon);
-    savecharindex = (int)strlen(savegamestrings[itemon]);
+
+    if (savepointerx >= 0)
+    {
+        M_SetCaretPos(savepointerx);
+        savepointerx = -1;
+    }
+    else
+        savecharindex = (int)strlen(savegamestrings[itemon]);
+
     showcaret = true;
     caretwait = SKULLANIMCOUNT;
 }
@@ -3094,6 +3103,9 @@ bool M_Responder(event_t *ev)
                                 }
                                 else
                                 {
+                                    if (currentmenu == &SaveDef)
+                                        savepointerx = ev->data2;
+
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
                                 }
