@@ -134,6 +134,7 @@
 * Turning the `messages` CVAR `on` no longer causes the last player message to be immediately displayed.
 * The spectre’s fuzz effect now appears correctly in *DOOM II’s* cast sequence.
 * *DOOM II’s* cast sequence no longer tries to display [*Legacy Of Rust’s*](https://doomwiki.org/wiki/Legacy_of_Rust) new monsters towards the end.
+* Corpses whose `Exploding frame` has been altered in a `DEHACKED` lump no longer gib when the `r_corpses_gib` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -1857,7 +1857,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             statenum_t  state = info->xdeathstate;
 
-            if (state != S_NULL)
+            if (state != S_NULL && !states[state].dehacked)
             {
                 if (!target->giblevel)
                 {
