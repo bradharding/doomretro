@@ -570,10 +570,10 @@ static void F_CastTicker(void)
         castdeath = false;
         castdeathflip = false;
 
-        if (++castnum == MT_GHOUL && !legacyofrust)
-            castnum = CASTNUMMAX - 1;
-        else if (castnum == CASTNUMMAX)
+        if (++castnum == CASTNUMMAX)
             castnum = 0;
+        else if (castorder[castnum].type == MT_GHOUL && !legacyofrust)
+            castnum = CASTNUMMAX - 1;
         else
             D_FadeScreen(false);
 
