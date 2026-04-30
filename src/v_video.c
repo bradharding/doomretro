@@ -1652,6 +1652,8 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
+    int         lastsourcecol = -1;
+    int         lastfuzzpos = 0;
     const int   width = SHORT(patch->width) << FRACBITS;
 
     x += WIDESCREENDELTA - SHORT(patch->leftoffset);
@@ -1663,7 +1665,10 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < width; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+        const int   sourcecol = col >> FRACBITS;
+        const bool  duplicate = (sourcecol == lastsourcecol);
+        int         fuzzpos = (duplicate ? lastfuzzpos : fuzz1pos);
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[sourcecol]));
 
         while (column->topdelta != 0xFF)
         {
@@ -1675,17 +1680,24 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
             {
                 if (count & 1)
                 {
-                    fuzz1pos++;
+                    fuzzpos++;
 
-                    if (!menuactive && !consoleactive && !paused)
-                        fuzz1table[fuzz1pos] = FUZZ1(-1, 1);
+                    if (!duplicate && !menuactive && !consoleactive && !paused)
+                        fuzz1table[fuzzpos] = FUZZ1(-1, 1);
                 }
 
-                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzz1pos]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzzpos]]];
                 dest += SCREENWIDTH;
             }
 
             column = (column_t *)((byte *)column + length + 4);
+        }
+
+        if (!duplicate)
+        {
+            lastsourcecol = sourcecol;
+            lastfuzzpos = fuzz1pos;
+            fuzz1pos = fuzzpos;
         }
     }
 }
@@ -1693,6 +1705,8 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
+    int         lastsourcecol = -1;
+    int         lastfuzzpos = 0;
     const int   width = SHORT(patch->width) << FRACBITS;
 
     x += WIDESCREENDELTA - SHORT(patch->leftoffset);
@@ -1704,7 +1718,10 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < width; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        const int   sourcecol = SHORT(patch->width) - 1 - (col >> FRACBITS);
+        const bool  duplicate = (sourcecol == lastsourcecol);
+        int         fuzzpos = (duplicate ? lastfuzzpos : fuzz1pos);
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[sourcecol]));
 
         while (column->topdelta != 0xFF)
         {
@@ -1716,17 +1733,24 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
             {
                 if (count & 1)
                 {
-                    fuzz1pos++;
+                    fuzzpos++;
 
-                    if (!menuactive && !consoleactive && !paused)
-                        fuzz1table[fuzz1pos] = FUZZ1(-1, 1);
+                    if (!duplicate && !menuactive && !consoleactive && !paused)
+                        fuzz1table[fuzzpos] = FUZZ1(-1, 1);
                 }
 
-                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzz1pos]]];
+                *dest = fullcolormap[6 * 256 + dest[fuzz1table[fuzzpos]]];
                 dest += SCREENWIDTH;
             }
 
             column = (column_t *)((byte *)column + length + 4);
+        }
+
+        if (!duplicate)
+        {
+            lastsourcecol = sourcecol;
+            lastfuzzpos = fuzz1pos;
+            fuzz1pos = fuzzpos;
         }
     }
 }
