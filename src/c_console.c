@@ -1961,7 +1961,7 @@ void C_UpdateTimerOverlay(void)
 
     C_GetOverlayTextColors();
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining != prevtime)
@@ -1993,7 +1993,7 @@ void C_UpdatePlayerPositionOverlay(void)
 
     C_GetOverlayTextColors();
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timer)
@@ -2060,7 +2060,7 @@ void C_UpdatePathOverlay(void)
             x = MAPWIDTH - OVERLAYTEXTX + 1;
             y = OVERLAYTEXTY;
 
-            if (vid_showfps)
+            if (vid_showfps && framespersecond)
                 y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
             if (timer)
@@ -2097,7 +2097,7 @@ void C_UpdatePlayerStatsOverlay(void)
         x = MAPWIDTH - OVERLAYTEXTX + 1;
         y = OVERLAYTEXTY;
 
-        if (vid_showfps)
+        if (vid_showfps && framespersecond)
             y += OVERLAYFPSGRAPHHEIGHT + 2 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
         if (timer)

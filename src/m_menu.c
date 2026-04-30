@@ -593,7 +593,7 @@ void M_DrawMenuBackground(void)
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         C_UpdateFPSOverlay();
 }
 
@@ -1579,7 +1579,7 @@ static void M_DrawHelp(void)
         }
     }
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         C_UpdateFPSOverlay();
 }
 
@@ -1626,7 +1626,7 @@ static void M_DrawPalette(void)
             }
         }
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         C_UpdateFPSOverlay();
 }
 
