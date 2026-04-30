@@ -133,6 +133,7 @@
 * Noise is no longer applied to the pillarbox areas when displaying the help screen over a non-widescreen `TITLEPIC` lump.
 * Turning the `messages` CVAR `on` no longer causes the last player message to be immediately displayed.
 * The spectre’s fuzz effect now appears correctly in *DOOM II’s* cast sequence.
+* *DOOM II’s* cast sequence no longer tries to display [*Legacy Of Rust’s*](https://doomwiki.org/wiki/Legacy_of_Rust) new monsters towards the end.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
