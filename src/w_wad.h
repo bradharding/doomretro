@@ -107,6 +107,7 @@ void *W_CacheLumpNum(int lumpnum);
 
 void W_Init(void);
 void W_CheckForPNGLumps(void);
+void W_CheckForJPGLumps(void);
 
 unsigned int W_LumpNameHash(const char *s);
 

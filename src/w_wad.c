@@ -997,6 +997,36 @@ void W_CheckForPNGLumps(void)
                 lumpinfo[i]->name);
 }
 
+static bool W_IsJPGLump(const int lump)
+{
+    bool    result = false;
+
+    if (W_LumpLength(lump) >= 3)
+    {
+        const unsigned char *patch = (const unsigned char *)W_CacheLumpNum(lump);
+
+        if (patch[0] == 0xFF && patch[1] == 0xD8 && patch[2] == 0xFF)
+            result = true;
+
+        W_ReleaseLumpNum(lump);
+    }
+
+    return result;
+}
+
+void W_CheckForJPGLumps(void)
+{
+    const int   lump = W_CheckNumForName("TITLEPIC");
+
+    if (lump >= 0 && W_IsJPGLump(lump))
+        I_Error("The TITLEPIC lump is an unsupported JPG image!");
+
+    for (int i = 0; i < numlumps; i++)
+        if (W_IsJPGLump(i))
+            C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported JPG image.",
+                lumpinfo[i]->name);
+}
+
 //
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.

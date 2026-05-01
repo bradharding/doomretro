@@ -2616,6 +2616,7 @@ static void D_DoomMainSetup(void)
     }
 
     W_CheckForPNGLumps();
+    W_CheckForJPGLumps();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
