@@ -967,7 +967,7 @@ void W_Init(void)
     }
 }
 
-static bool W_IsPNGLump(const int lump)
+bool W_IsPNGLump(const int lump)
 {
     bool    result = false;
 
@@ -986,18 +986,13 @@ static bool W_IsPNGLump(const int lump)
 
 void W_CheckForPNGLumps(void)
 {
-    const int   lump = W_CheckNumForName("TITLEPIC");
-
-    if (lump >= 0 && W_IsPNGLump(lump))
-        I_Error("The TITLEPIC lump is an unsupported PNG image!");
-
     for (int i = 0; i < numlumps; i++)
         if (W_IsPNGLump(i))
             C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported PNG image.",
                 lumpinfo[i]->name);
 }
 
-static bool W_IsJPGLump(const int lump)
+bool W_IsJPGLump(const int lump)
 {
     bool    result = false;
 
@@ -1016,11 +1011,6 @@ static bool W_IsJPGLump(const int lump)
 
 void W_CheckForJPGLumps(void)
 {
-    const int   lump = W_CheckNumForName("TITLEPIC");
-
-    if (lump >= 0 && W_IsJPGLump(lump))
-        I_Error("The TITLEPIC lump is an unsupported JPG image!");
-
     for (int i = 0; i < numlumps; i++)
         if (W_IsJPGLump(i))
             C_Warning(0, "The " BOLD("%.8s") " lump is an unsupported JPG image.",

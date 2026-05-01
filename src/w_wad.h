@@ -106,7 +106,9 @@ void *W_CacheLumpNum(int lumpnum);
 #define W_CacheLumpNameFromResourceWAD(name)    W_CacheLumpNum(W_GetNumForNameFromResourceWAD(name))
 
 void W_Init(void);
+bool W_IsPNGLump(const int lump);
 void W_CheckForPNGLumps(void);
+bool W_IsJPGLump(const int lump);
 void W_CheckForJPGLumps(void);
 
 unsigned int W_LumpNameHash(const char *s);
