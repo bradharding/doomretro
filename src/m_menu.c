@@ -1561,6 +1561,7 @@ static void M_DrawHelp(void)
         else if (autosigil)
         {
             viewplayer->fixedcolormap = 0;
+            viewplayer->mo->angle = playerangle;
             M_DrawHelpBackground();
             V_DrawHelpPatch(W_CacheXLumpName(lumpname, 2));
         }
@@ -1574,6 +1575,7 @@ static void M_DrawHelp(void)
         else
         {
             viewplayer->fixedcolormap = 0;
+            viewplayer->mo->angle = playerangle;
             M_DrawHelpBackground();
             V_DrawHelpPatch(W_CacheLumpName(lumpname));
         }
@@ -4332,14 +4334,12 @@ void M_OpenMainMenu(void)
             menuspinspeed = 0;
 
             playerpitch = viewplayer->pitch;
-
-            if (!helpscreen || palettescreen)
-                viewplayer->pitch = MENUPITCH;
+            viewplayer->pitch = MENUPITCH;
         }
 
         R_SetViewSize(r_screensize_max);
 
-        if (menuspin && (!helpscreen || palettescreen))
+        if (menuspin)
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
 
         I_RestoreMousePointerPosition();
