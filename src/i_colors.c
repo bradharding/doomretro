@@ -296,10 +296,8 @@ int FindDominantEdgeColor(patch_t *patch)
                 colors[*source++]++;
         }
 
-        colors[nearestblack] /= 2;
-
         for (int i = 0, dominant = 0; i < 256; i++)
-            if (colors[i] > dominant)
+            if (colors[i] > dominant && luminance[i] >= 5)
             {
                 color = i;
                 dominant = colors[i];
