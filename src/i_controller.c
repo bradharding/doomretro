@@ -167,6 +167,9 @@ void I_InitController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i) && (controller = SDL_GameControllerOpen(i)))
         {
+            const bool  rumble = (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall
+                            || joy_rumble_pickup || joy_rumble_weapons);
+
 #if SDL_VERSION_ATLEAST(2, 12, 0)
             C_Output(GetControllerType());
 #else
@@ -178,13 +181,15 @@ void I_InitController(void)
             {
                 controllerrumbles = true;
 
-                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
+                if (rumble)
                     C_Output("This controller will rumble in certain situations.");
             }
-            else
+            else if (rumble)
+                C_Warning(1, "This controller doesn't rumble!");
+#else
+            if (rumble)
+                C_Warning(1, "This controller doesn't rumble!");
 #endif
-                if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_fall || joy_rumble_pickup || joy_rumble_weapons)
-                    C_Warning(1, "This controller doesn't rumble!");
 
 #if SDL_VERSION_ATLEAST(2, 14, 0)
             if (SDL_GameControllerHasLED(controller))

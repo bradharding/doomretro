@@ -1558,26 +1558,19 @@ static void M_DrawHelp(void)
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
         }
-        else if (autosigil)
+        else if (autosigil || W_GetNumLumps(lumpname) <= 2)
         {
             viewplayer->fixedcolormap = 0;
             viewplayer->mo->angle = playerangle;
             M_DrawHelpBackground();
             V_DrawHelpPatch(W_CacheXLumpName(lumpname, 2));
         }
-        else if (W_GetNumLumps(lumpname) > 2)
+        else
         {
             V_DrawPagePatch(0, W_CacheLumpName(lumpname));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
-        }
-        else
-        {
-            viewplayer->fixedcolormap = 0;
-            viewplayer->mo->angle = playerangle;
-            M_DrawHelpBackground();
-            V_DrawHelpPatch(W_CacheLumpName(lumpname));
         }
     }
 
