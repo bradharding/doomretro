@@ -7777,7 +7777,8 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     if (favoriteskilllevel1 == sk_none)
-        C_TabbedOutput(tabs, "%s skill level\t\x96\t\x96");
+        C_TabbedOutput(tabs, "%s skill level\t\x96\t\x96",
+            (english == english_american ? "Favorite" : "Favourite"));
     else
     {
         temp1 = titlecase(*skilllevels[favoriteskilllevel1]);
