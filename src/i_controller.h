@@ -100,6 +100,7 @@ extern char     *selectbutton;
 
 void I_InitController(void);
 void I_ShutdownController(void);
+void I_ShutdownControllerDevice(const int id);
 void I_ControllerRumble(const short low, const short high);
 void I_UpdateControllerLEDByHealth(int health);
 void I_ReadController(void);

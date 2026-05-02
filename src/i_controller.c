@@ -216,12 +216,32 @@ void I_ShutdownController(void)
 #endif
 
     SDL_GameControllerClose(controller);
+
     controller = NULL;
+    controllerrumbles = false;
+    controllerbuttons = 0;
+    controllerthumbLX = 0;
+    controllerthumbLY = 0;
+    controllerthumbRX = 0;
+    controllerthumbRY = 0;
+    prevLX = 0;
+    prevLY = 0;
+    prevRX = 0;
+    prevRY = 0;
     controllertouchpaddown = false;
     controllertouchpaddx = 0.0f;
     controllertouchpaddy = 0.0f;
     prevtouchpadx = 0.0f;
     prevtouchpady = 0.0f;
+}
+
+void I_ShutdownControllerDevice(const int id)
+{
+    if (!controller)
+        return;
+
+    if (SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller)) == id)
+        I_ShutdownController();
 }
 
 void I_ControllerRumble(const short low, const short high)

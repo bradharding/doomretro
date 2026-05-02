@@ -473,7 +473,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_CONTROLLERDEVICEREMOVED:
-                I_ShutdownController();
+                I_ShutdownControllerDevice(Event->cdevice.which);
                 break;
 
             case SDL_QUIT:
