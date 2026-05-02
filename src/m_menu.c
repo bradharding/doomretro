@@ -4832,7 +4832,7 @@ void M_Init(void)
     menuborder = W_CacheLastLumpName("DRBORDER");
     titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
-    caretcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
+    caretcolor = tinttab15[FindBrightDominantColor(W_CacheLumpName("STCFN065"))];
 
     if (autostart)
     {

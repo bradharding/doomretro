@@ -102,6 +102,7 @@
   * The mouse pointer no longer briefly appears centered on the screen before it is hidden.
   * The mouse pointer no longer becomes hidden when certain CVARs are changed in the console.
   * In the save game menu, clicking on a savegame slot to edit its description now shifts the text caret to where the mouse pointer is clicked rather than always placing it at the end.
+* The text caret in the save game menu is now slightly darker.
 * Animated flats with `SWAMP` or `SWMP` in their names are now recognized as liquid textures.
 * The vertical sprite offset of dead pinky demons has improved when the `r_fixspriteoffsets` CVAR is `on`.
 * Looking up and down is now smoother when the `freelook` CVAR is `on`.
