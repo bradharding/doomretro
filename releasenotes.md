@@ -113,6 +113,7 @@
 * Motion blur is now also applied when the player looks up and down while the `freelook` CVAR is `on` and the `vid_motionblur` CVAR is greater than `0%`.
 * All friendly monsters, not just dogs, are now able to drop down from high ledges to follow the player.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24) line specials.
+* Better colors are now chosen to fill the pillarboxes when a 320×200 fullscreen lump such as `TITLEPIC` is displayed in widescreen mode.
 * These changes have been made to the support for controllers:
   * Controller movement has been made slightly smoother.
   * Controller sensitivity has been reduced.
