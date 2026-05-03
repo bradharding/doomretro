@@ -1676,7 +1676,7 @@ static bool alivefunc1(char *cmd, char *parms)
         return true;
     else
     {
-        C_Input(consoleinput);
+        C_Input("%s", consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
         if (isdefaultplayername())
@@ -1835,7 +1835,7 @@ static bool ingameccmdfunc1(char *cmd, char *parms)
 
     if (!togglingvanilla)
     {
-        C_Input(consoleinput);
+        C_Input("%s", consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
         if (isdefaultplayername())
@@ -1857,7 +1857,7 @@ static bool inaftergameccmdfunc1(char *cmd, char *parms)
 
     if (!togglingvanilla)
     {
-        C_Input(consoleinput);
+        C_Input("%s", consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
         if (isdefaultplayername())
@@ -1879,7 +1879,7 @@ static bool ingamecvarfunc1(char *cmd, char *parms)
 
     if (!togglingvanilla)
     {
-        C_Input(consoleinput);
+        C_Input("%s", consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
 
         if (isdefaultplayername())
@@ -1904,7 +1904,7 @@ static bool nightmarefunc1(char *cmd, char *parms)
     if (gameskill != sk_nightmare)
         return true;
 
-    C_Input(consoleinput);
+    C_Input("%s", consoleinput);
     C_ShowDescription(C_GetIndex(cmd));
 
     if (isdefaultplayername())
@@ -1950,7 +1950,7 @@ bool C_ExecuteAlias(const char *alias)
                 }
 
                 executingalias = false;
-                C_Input(alias);
+                C_Input("%s", alias);
                 free(string);
 
                 return true;
@@ -4262,7 +4262,7 @@ static void killfunc2(char *cmd, char *parms)
             else
                 M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, pronoun(reflexive));
 
-            C_PlayerWarning(buffer);
+            C_PlayerWarning("%s", buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_warning = true;
             C_HideConsole();
@@ -4348,7 +4348,7 @@ static void killfunc2(char *cmd, char *parms)
                                 playername, killed, temp, (friends ? "friendly " : ""));
                     }
 
-                    C_PlayerMessage(buffer);
+                    C_PlayerMessage("%s", buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
@@ -5220,7 +5220,7 @@ static void mapfunc2(char *cmd, char *parms)
     else
         M_snprintf(buffer, sizeof(buffer), s_STSTR_CLEV, C_GetPlayerName(), mapcmdmapnum);
 
-    C_Output(buffer);
+    C_Output("%s", buffer);
     HU_SetPlayerMessage(buffer, false, false);
 
     if (legacyofrust)
@@ -8990,7 +8990,7 @@ static void resurrectfunc2(char *cmd, char *parms)
             else
                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
 
-            C_PlayerWarning(buffer);
+            C_PlayerWarning("%s", buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_warning = true;
             C_HideConsole();
@@ -9029,7 +9029,7 @@ static void resurrectfunc2(char *cmd, char *parms)
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s dead monster%s in this map %s been resurrected.",
                         (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
-                    C_Output(buffer);
+                    C_Output("%s", buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     free(temp);
@@ -9049,7 +9049,7 @@ static void resurrectfunc2(char *cmd, char *parms)
                     cheated = true;
 
                 M_snprintf(buffer, sizeof(buffer), "%s was resurrected.", temp);
-                C_Output(buffer);
+                C_Output("%s", buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
                 free(temp);
@@ -9079,7 +9079,7 @@ static void resurrectfunc2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s been resurrected.",
                         (resurrected == 1 ? "The" : "All"), temp, (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                         (resurrected == 1 ? "has" : "have"));
-                    C_Output(buffer);
+                    C_Output("%s", buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
                     free(temp);
@@ -11383,7 +11383,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                                 M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
                                     playername, pronoun(reflexive));
 
-                            C_PlayerWarning(buffer);
+                            C_PlayerWarning("%s", buffer);
                             HU_SetPlayerMessage(buffer, false, false);
                             message_warning = true;
                         }

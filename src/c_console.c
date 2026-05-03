@@ -292,7 +292,7 @@ void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
     if (numconsolestrings && M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
         M_StringCopy(console[numconsolestrings - 1].string, buffer, sizeof(console[0].string));
     else
-        C_Input(buffer);
+        C_Input("%s", buffer);
 
     free(temp);
 }
@@ -2903,7 +2903,7 @@ bool C_ValidateInput(char *input)
     for (int i = 0; *actions[i].action; i++)
         if (M_StringCompare(input, actions[i].action))
         {
-            C_Input(input);
+            C_Input("%s", input);
 
             if (actions[i].func)
             {
