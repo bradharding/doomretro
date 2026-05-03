@@ -797,8 +797,8 @@ static void AM_UpdateTouchpadPan(void)
 {
     if (controllertouchpaddown && !am_followmode && !mapwindow)
     {
-        int dx = (int)llround(controllertouchpaddx * MAPWIDTH);
-        int dy = (int)llround(controllertouchpaddy * MAPHEIGHT);
+        int dx = (int)llround((double)controllertouchpaddx * MAPWIDTH);
+        int dy = (int)llround((double)controllertouchpaddy * MAPHEIGHT);
 
         if (dx || dy || touchpaddragging)
         {

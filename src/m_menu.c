@@ -1486,7 +1486,7 @@ static void M_DeleteSaveGameResponse(int key)
         }
 
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
-        C_Output(buffer);
+        C_Output("%s", buffer);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
         M_ReadSaveStrings();

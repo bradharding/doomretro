@@ -7113,7 +7113,7 @@ static void C_PlayerStats_Game(void)
     temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, (stat_mapsstarted ? stat_mapsfinished * 100 / stat_mapsstarted : 0));
+        temp1, temp2, (stat_mapsstarted ? (int)(stat_mapsfinished * 100 / stat_mapsstarted) : 0));
     free(temp1);
     free(temp2);
 
@@ -7764,7 +7764,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = commifystat(stat_mapsfinished);
     temp2 = commifystat(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps finished\t\x96\t%s of %s (%i%%)",
-        temp1, temp2, (stat_mapsstarted ? stat_mapsfinished * 100 / stat_mapsstarted : 0));
+        temp1, temp2, (stat_mapsstarted ? (int)(stat_mapsfinished * 100 / stat_mapsstarted) : 0));
     free(temp1);
     free(temp2);
 
@@ -9954,7 +9954,7 @@ static void thinglistfunc2(char *cmd, char *parms)
                 mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
         else
             C_TabbedOutput(tabs, "\t%s\t%s\t(%i, %i, %i)\t%i\xB0",
-                mobj->id, temp1, temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS,
+                temp1, temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS,
                 mobj->z >> FRACBITS, (angle == 360 ? 0 : angle));
 
         free(temp1);

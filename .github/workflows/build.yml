@@ -37,6 +37,9 @@ name: DOOM Retro
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   build-windows:
     runs-on: windows-latest

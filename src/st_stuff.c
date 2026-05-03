@@ -1070,7 +1070,7 @@ bool ST_Responder(const event_t *ev)
                     else
                         M_snprintf(message, sizeof(message), s_STSTR_CLEV, C_GetPlayerName(), mapnumbuffer);
 
-                    C_Output(message);
+                    C_Output("%s", message);
                     HU_SetPlayerMessage(message, false, false);
 
                     if (legacyofrust)
