@@ -214,7 +214,6 @@ int FindBrightDominantColor(patch_t *patch)
     int         color = 0;
     int         colors[256] = { 0 };
     const int   width = SHORT(patch->width);
-    byte        *playpal = PLAYPAL;
 
     for (int x = 0; x < width; x++)
     {
@@ -234,35 +233,19 @@ int FindBrightDominantColor(patch_t *patch)
     }
 
     for (int i = 0, dominant = 1; i < 256; i++)
-    {
-        const byte  red = *playpal++;
-        const byte  green = *playpal++;
-        const byte  blue = *playpal++;
-
-        if (colors[i] > dominant && (red >= 128 || green >= 128 || blue >= 128))
+        if (colors[i] > dominant && luminance[i] >= 128)
         {
             color = i;
             dominant = colors[i];
         }
-    }
 
     if (!color)
-    {
-        playpal = PLAYPAL;
-
         for (int i = 0, dominant = 1; i < 256; i++)
-        {
-            const byte  red = *playpal++;
-            const byte  green = *playpal++;
-            const byte  blue = *playpal++;
-
-            if (colors[i] > dominant && (red >= 64 || green >= 64 || blue >= 64))
+            if (colors[i] > dominant && luminance[i] >= 64)
             {
                 color = i;
                 dominant = colors[i];
             }
-        }
-    }
 
     return (color ? color : nearestwhite);
 }
