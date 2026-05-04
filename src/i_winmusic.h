@@ -45,7 +45,7 @@ void I_Windows_PauseSong(void);
 void I_Windows_ResumeSong(void);
 void I_Windows_StopSong(void);
 void I_Windows_SetMusicVolume(int volume);
-void I_Windows_RegisterSong(void *data, int size);
+bool I_Windows_RegisterSong(void *data, int size);
 void I_Windows_UnregisterSong(void);
 void I_Windows_ShutdownMusic(void);
 

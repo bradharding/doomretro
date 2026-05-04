@@ -492,7 +492,7 @@ void I_Windows_ResumeSong(void)
         MidiErrorMessage(mmr);
 }
 
-void I_Windows_RegisterSong(void *data, int size)
+bool I_Windows_RegisterSong(void *data, int size)
 {
     SDL_RWops       *rwops = SDL_RWFromMem(data, size);
     midi_file_t     *file = MIDI_LoadFile(rwops);
@@ -501,7 +501,7 @@ void I_Windows_RegisterSong(void *data, int size)
     MMRESULT        mmr;
 
     if (!file)
-        return;
+        return false;
 
     // Initialize channels volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
@@ -514,7 +514,7 @@ void I_Windows_RegisterSong(void *data, int size)
     {
         MidiErrorMessage(mmr);
         MIDI_FreeFile(file);
-        return;
+        return false;
     }
 
     // Set initial tempo.
@@ -525,7 +525,7 @@ void I_Windows_RegisterSong(void *data, int size)
     {
         MidiErrorMessage(mmr);
         MIDI_FreeFile(file);
-        return;
+        return false;
     }
 
     MIDItoStream(file);
@@ -537,6 +537,8 @@ void I_Windows_RegisterSong(void *data, int size)
 
     FillBuffer();
     StreamOut();
+
+    return true;
 }
 
 void I_Windows_UnregisterSong(void)
@@ -550,8 +552,11 @@ void I_Windows_ShutdownMusic(void)
     MMRESULT    mmr;
 #endif
 
-    I_Windows_StopSong();
-    I_Windows_UnregisterSong();
+    if (hPlayerThread || song.native_events)
+    {
+        I_Windows_StopSong();
+        I_Windows_UnregisterSong();
+    }
 
 #if !defined(__SANITIZE_ADDRESS__)
     if ((mmr = midiOutUnprepareHeader((HMIDIOUT)hMidiStream, &buffer.MidiStreamHdr, sizeof(MIDIHDR))) != MMSYSERR_NOERROR)

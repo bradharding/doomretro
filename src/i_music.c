@@ -50,6 +50,7 @@ bool        musmusictype;
 
 #if defined(_WIN32)
 bool        windowsmidi = false;
+static bool windowsmidisong;
 #else
 static int  paused_midi_volume;
 #endif
@@ -75,6 +76,8 @@ void I_ShutdownMusic(void)
     Mix_CloseAudio();
 
 #if defined(_WIN32)
+    windowsmidisong = false;
+
     if (windowsmidi)
     {
         I_Windows_ShutdownMusic();
@@ -124,7 +127,7 @@ void I_SetMusicVolume(const int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    if (midimusictype && windowsmidi)
+    if (windowsmidisong)
         I_Windows_SetMusicVolume(current_music_volume);
     else
         Mix_VolumeMusic(current_music_volume);
@@ -140,7 +143,7 @@ void I_PlaySong(void *handle, const bool looping)
         return;
 
 #if defined(_WIN32)
-    if (midimusictype && windowsmidi)
+    if (windowsmidisong)
         I_Windows_PlaySong(looping);
     else if (handle)
         Mix_PlayMusic(handle, (looping ? -1 : 1));
@@ -155,7 +158,7 @@ void I_PauseSong(void)
         return;
 
 #if defined(_WIN32)
-    if (midimusictype && windowsmidi)
+    if (windowsmidisong)
         I_Windows_PauseSong();
     else
         Mix_PauseMusic();
@@ -176,7 +179,7 @@ void I_ResumeSong(void)
         return;
 
 #if defined(_WIN32)
-    if (midimusictype && windowsmidi)
+    if (windowsmidisong)
         I_Windows_ResumeSong();
     else
         Mix_ResumeMusic();
@@ -194,7 +197,7 @@ void I_StopSong(void)
         return;
 
 #if defined(_WIN32)
-    if (windowsmidi)
+    if (windowsmidisong)
         I_Windows_StopSong();
 #endif
 
@@ -207,8 +210,11 @@ void I_UnregisterSong(void *handle)
         return;
 
 #if defined(_WIN32)
-    if (windowsmidi)
+    if (windowsmidisong)
+    {
         I_Windows_UnregisterSong();
+        windowsmidisong = false;
+    }
     else if (handle)
         Mix_FreeMusic(handle);
 #else
@@ -264,10 +270,15 @@ void *I_RegisterSong(void *data, int size)
         }
 
 #if defined(_WIN32)
+        windowsmidisong = false;
+
         if (midimusictype && windowsmidi)
         {
-            I_Windows_RegisterSong(data, size);
-            return NULL;
+            if (I_Windows_RegisterSong(data, size))
+            {
+                windowsmidisong = true;
+                return NULL;
+            }
         }
 #endif
 
