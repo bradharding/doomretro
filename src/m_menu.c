@@ -3568,7 +3568,7 @@ bool M_Responder(event_t *ev)
             char    buffer[133] = "";
 
             HU_SetPlayerMessage(prevmessage, false, false);
-            M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, C_GetPlayerName());
+            M_snprintf(buffer, sizeof(buffer), s_HUSTR_SECRETFOUND, C_GetPlayerName());
 
             if (M_StringCompare(prevmessage, buffer))
                 message_secret = true;

@@ -168,8 +168,6 @@ extern char         *s_PD_KEYCARDORSKULLKEY;
 extern char         *s_KILLED;
 extern char         *s_GIBBED;
 
-extern char         *s_SECRETMESSAGE;
-
 extern char         *s_GGSAVED;
 extern char         *s_GGAUTOSAVED;
 extern char         *s_GGLOADED;
@@ -328,6 +326,8 @@ extern char         *s_NHUSTR_6;
 extern char         *s_NHUSTR_7;
 extern char         *s_NHUSTR_8;
 extern char         *s_NHUSTR_9;
+
+extern char         *s_HUSTR_SECRETFOUND;
 
 extern char         *s_AMSTR_FOLLOWON;
 extern char         *s_AMSTR_FOLLOWOFF;

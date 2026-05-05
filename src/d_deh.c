@@ -268,8 +268,6 @@ char    *s_PD_YELLOWCO = "";
 char    *s_KILLED = "";
 char    *s_GIBBED = "";
 
-char    *s_SECRETMESSAGE = "";
-
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGAUTOSAVED = "";
 char    *s_GGLOADED = "";
@@ -467,6 +465,8 @@ char    *s_HUSTR_TALKTOSELF4 = HUSTR_TALKTOSELF4;
 char    *s_HUSTR_TALKTOSELF5 = HUSTR_TALKTOSELF5;
 
 char    *s_HUSTR_MESSAGESENT = HUSTR_MESSAGESENT;
+
+char    *s_HUSTR_SECRETFOUND = "";
 
 char    *s_HUSTR_PLRGREEN = HUSTR_PLRGREEN;
 char    *s_HUSTR_PLRINDIGO = HUSTR_PLRINDIGO;
@@ -911,8 +911,6 @@ deh_strs deh_strlookup[] =
     { &s_KILLED,                  "KILLED"                  },
     { &s_GIBBED,                  "GIBBED"                  },
 
-    { &s_SECRETMESSAGE,           "SECRETMESSAGE"           },
-
     { &s_GGSAVED,                 "GGSAVED"                 },
     { &s_GGAUTOSAVED,             "GGAUTOSAVED"             },
     { &s_GGLOADED,                "GGLOADED"                },
@@ -1102,12 +1100,17 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_CHATMACRO8,        "HUSTR_CHATMACRO8"        },
     { &s_HUSTR_CHATMACRO9,        "HUSTR_CHATMACRO9"        },
     { &s_HUSTR_CHATMACRO0,        "HUSTR_CHATMACRO0"        },
+
     { &s_HUSTR_TALKTOSELF1,       "HUSTR_TALKTOSELF1"       },
     { &s_HUSTR_TALKTOSELF2,       "HUSTR_TALKTOSELF2"       },
     { &s_HUSTR_TALKTOSELF3,       "HUSTR_TALKTOSELF3"       },
     { &s_HUSTR_TALKTOSELF4,       "HUSTR_TALKTOSELF4"       },
     { &s_HUSTR_TALKTOSELF5,       "HUSTR_TALKTOSELF5"       },
+
     { &s_HUSTR_MESSAGESENT,       "HUSTR_MESSAGESENT"       },
+
+    { &s_HUSTR_SECRETFOUND,       "HUSTR_SECRETFOUND"       },
+
     { &s_HUSTR_PLRGREEN,          "HUSTR_PLRGREEN"          },
     { &s_HUSTR_PLRINDIGO,         "HUSTR_PLRINDIGO"         },
     { &s_HUSTR_PLRBROWN,          "HUSTR_PLRBROWN"          },

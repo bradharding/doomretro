@@ -2517,7 +2517,7 @@ static void P_SecretFound(void)
 {
     char    buffer[133] = "";
 
-    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, C_GetPlayerName());
+    M_snprintf(buffer, sizeof(buffer), s_HUSTR_SECRETFOUND, C_GetPlayerName());
     C_PlayerMessage(buffer);
 
     if (messages && secretmessages)
