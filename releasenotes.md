@@ -130,13 +130,15 @@
   * The effect when the player has an invulnerability power-up is no longer affected.
 * `AASTINKY` and `AASHITTY` textures in maps are now treated as blank as intended.
 * `MUSINFO` things 14,100 and 14,164 are now supported.
-* Using `Fullbright` in `DEHACKED` lumps to make the frames of all things fullbright now works as intended.
+* These changes have been made to the support of `DEHACKED` lumps:
+  * Using `Fullbright` to make the frames of all things fullbright now works as intended.
+  * Corpses whose `Exploding frame` has been altered no longer gib when the `r_corpses_gib` CVAR is `on`.
+  * `HUSTR_SECRETFOUND` can now be used to change the player message that is displayed when a secret is found and the `secretmessages` CVAR is `on`.
 * Additional bars indicating the amount of ammo the player has for all ammo types can now be shown in the alternate widescreen HUD by enabling the new `r_althud_ammobars` CVAR, which is `off` by default.
 * Noise is no longer applied to the pillarbox areas when displaying the help screen over a non-widescreen `TITLEPIC` lump.
 * Turning the `messages` CVAR `on` no longer causes the last player message to be immediately displayed.
 * The spectre’s fuzz effect now appears correctly in *DOOM II’s* cast sequence.
 * *DOOM II’s* cast sequence no longer tries to display [*Legacy Of Rust’s*](https://doomwiki.org/wiki/Legacy_of_Rust) new monsters towards the end.
-* Corpses whose `Exploding frame` has been altered in a `DEHACKED` lump no longer gib when the `r_corpses_gib` CVAR is `on`.
 * If the `TITLEPIC` lump in a PWAD is an unsupported PNG or JPG image, the IWAD’s `TITLEPIC` lump is now displayed instead, rather than *DOOM Retro* exiting with an error.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
