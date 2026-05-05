@@ -1190,35 +1190,77 @@ static bool D_AutoloadOtherBTSXWAD(void)
     if (BTSXE1A && !BTSXE1B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e1b.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE1B = true;
+            return true;
+        }
+
+        return false;
     }
     else if (!BTSXE1A && BTSXE1B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e1a.wad");
         pwadfile = M_StringDuplicate("btsx_e1a.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE1A = true;
+            return true;
+        }
+
+        return false;
     }
     else if (BTSXE2A && !BTSXE2B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e2b.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE2B = true;
+            return true;
+        }
+
+        return false;
     }
     else if (!BTSXE2A && BTSXE2B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e2a.wad");
         pwadfile = M_StringDuplicate("btsx_e2a.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE2A = true;
+            return true;
+        }
+
+        return false;
     }
     else if (BTSXE3A && !BTSXE3B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3b.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE3B = true;
+            return true;
+        }
+
+        return false;
     }
     else if (!BTSXE3A && BTSXE3B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3a.wad");
         pwadfile = M_StringDuplicate("btsx_e3a.wad");
-        return W_MergeFile(path, true);
+
+        if (W_MergeFile(path, true))
+        {
+            BTSXE3A = true;
+            return true;
+        }
+
+        return false;
     }
 
     return false;
