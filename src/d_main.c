@@ -1449,13 +1449,16 @@ static char *collected_wads = NULL;
 
 static void AddToWadList(const char *filename)
 {
+    char    *wadname = GetCorrectCase(M_StringDuplicate(filename));
+
     if (!collected_wads)
-        collected_wads = M_StringDuplicate(filename);
+        collected_wads = wadname;
     else
     {
-        char    *temp = M_StringJoin(collected_wads, " ", filename, NULL);
+        char    *temp = M_StringJoin(collected_wads, " ", wadname, NULL);
 
         free(collected_wads);
+        free(wadname);
         collected_wads = temp;
     }
 }
@@ -2405,7 +2408,7 @@ static void D_DoomMainSetup(void)
                         (*wad ? wad : "any IWADs"));
 
                     if (previouswad)
-                        wad = M_StringDuplicate(previouswad);
+                        wad = GetCorrectCase(M_StringDuplicate(previouswad));
 #else
                     M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n");
 #endif

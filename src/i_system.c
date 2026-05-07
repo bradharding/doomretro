@@ -681,7 +681,7 @@ void I_Error(const char *error, ...)
 
 #if defined(_WIN32)
     if (previouswad && gamestate <= GS_TITLESCREEN)
-        wad = M_StringDuplicate(previouswad);
+        wad = GetCorrectCase(M_StringDuplicate(previouswad));
 #endif
 
     M_SaveCVARs();
