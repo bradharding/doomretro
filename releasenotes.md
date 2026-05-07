@@ -140,6 +140,7 @@
 * The spectre’s fuzz effect now appears correctly in *DOOM II’s* cast sequence.
 * *DOOM II’s* cast sequence no longer tries to display [*Legacy Of Rust’s*](https://doomwiki.org/wiki/Legacy_of_Rust) new monsters towards the end.
 * If the `TITLEPIC` lump in a PWAD is an unsupported PNG or JPG image, the IWAD’s `TITLEPIC` lump is now displayed instead, rather than *DOOM Retro* exiting with an error.
+* Platforms that are not going to move no longer make their start or stop sounds when activated.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
