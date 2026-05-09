@@ -73,8 +73,6 @@ void I_ShutdownMusic(void)
 
     music_initialized = false;
 
-    Mix_CloseAudio();
-
 #if defined(_WIN32)
     windowsmidisong = false;
 
