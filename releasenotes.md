@@ -35,7 +35,7 @@
 * Flat textures between both `F_START`/`F_END` and `FF_START`/`FF_END` markers are now always found.
 * A bug is fixed whereby if the <kbd><b>ENTER</b></kbd> key was bound to an action using the `bind` CCMD, when pressed it would also still show the previous player message.
 * A bug is fixed whereby strings of commands bound to mouse buttons using the `bind` CCMD wouldn’t always execute.
-* Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*`, `numpad.`
+* Actions may now be bound to more keys on the numeric keypad using the `bind` CCMD with the values `numpad/`, `numpad+`, `numpad-`, `numpad*` and `numpad.`.
 * Actions may now be bound to tilting the mouse wheel left or right using the `bind` CCMD with the values `wheelleft` and `wheelright`.
 * Looking up, down, and centering the view can now be bound a control using the `bind` CCMD with the actions `+lookup`, `+lookdown` and `+lookcenter`.
 * The `bindlist` CCMD now also lists all unbound controls and actions.

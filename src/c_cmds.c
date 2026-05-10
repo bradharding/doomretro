@@ -740,7 +740,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(autoaim, "", "", boolfunc1, boolfunc2, 0,
         "Toggles vertical autoaiming as you fire your weapon while using freelook."),
     BOOLCVAR(autofire, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles automatically firing your currently equipped weapon if there is a monster in front of you."),
+        "Toggles automatically firing your weapon if there is a monster in front of you."),
     BOOLCVAR(autoload, "", "", boolfunc1, boolfunc2, CF_PISTOLSTART,
         "Toggles automatically loading the last savegame when you die."),
     BOOLCVAR(autosave, "", "", boolfunc1, boolfunc2, 0,
