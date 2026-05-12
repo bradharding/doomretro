@@ -2,6 +2,8 @@
 
 ### DOOM Retro v6.0.1
 
+* *DOOM Retro* now uses [*SDL_mixer v2.8.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.2).
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, May 10, 2026
