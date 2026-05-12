@@ -358,36 +358,38 @@ void P_InitPicAnims(void)
     // [BH] indicate obvious teleport textures for automap
     if (BTSX)
     {
-        isteleport[R_CheckFlatNumForName("SLIME05")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME08")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME09")] = true;
-        isteleport[R_CheckFlatNumForName("SLIME12")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT02")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT03")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT04")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT05")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT06")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT07")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT08")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT09")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT10")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT11")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT12")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT13")] = true;
-        isteleport[R_CheckFlatNumForName("SHNPRT14")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT1")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT2")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT3")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT4")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT5")] = true;
-        isteleport[R_CheckFlatNumForName("TELEPRT6")] = true;
+        static const char *names[] =
+        {
+            "SLIME05",  "SLIME08",  "SLIME09",  "SLIME12",
+            "SHNPRT02", "SHNPRT03", "SHNPRT04", "SHNPRT05",
+            "SHNPRT06", "SHNPRT07", "SHNPRT08", "SHNPRT09",
+            "SHNPRT10", "SHNPRT11", "SHNPRT12", "SHNPRT13",
+            "SHNPRT14", "TELEPRT1", "TELEPRT2", "TELEPRT3",
+            "TELEPRT4", "TELEPRT5", "TELEPRT6"
+        };
+
+        for (int i = 0; i < arrlen(names); i++)
+        {
+            const int   flat = R_CheckFlatNumForName(names[i]);
+
+            if (flat >= 0)
+                isteleport[flat] = true;
+        }
     }
     else
     {
-        isteleport[R_CheckFlatNumForName("GATE1")] = true;
-        isteleport[R_CheckFlatNumForName("GATE2")] = true;
-        isteleport[R_CheckFlatNumForName("GATE3")] = true;
-        isteleport[R_CheckFlatNumForName("GATE4")] = true;
+        static const char *names[] =
+        {
+            "GATE1", "GATE2", "GATE3", "GATE4"
+        };
+
+        for (int i = 0; i < arrlen(names); i++)
+        {
+            const int   flat = R_CheckFlatNumForName(names[i]);
+
+            if (flat >= 0)
+                isteleport[flat] = true;
+        }
     }
 
     for (anim_t *anim = anims; anim < lastanim; anim++)
