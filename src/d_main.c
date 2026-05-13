@@ -906,7 +906,8 @@ static bool D_IsUnsupportedIWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.\n", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.\n",
+                unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, DOOMRETRO_NAME, buffer, NULL);
 
 #if defined(_WIN32)
@@ -980,8 +981,7 @@ void D_CheckSupportedPWAD(char *filename)
         KDIKDIZD = KDIKDIZDB = true;
     else if (M_StringCompare(leaf, "one-humanity.wad"))
         onehumanity = true;
-    else if (M_StringCompare(leaf, "d1spfx18.wad")
-        || M_StringCompare(leaf, "d2spfx18.wad"))
+    else if (M_StringCompare(leaf, "d1spfx18.wad") || M_StringCompare(leaf, "d2spfx18.wad"))
         sprfix18 = true;
     else if (M_StringStartsWith(leaf, "Eviternity"))
         eviternity = true;
@@ -991,8 +991,7 @@ void D_CheckSupportedPWAD(char *filename)
         REKKR = true;
     else if (M_StringCompare(leaf, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
-    else if (M_StringCompare(leaf, "REKKRSL.wad")
-        || M_StringCompare(leaf, "REKKRSL.iwad"))
+    else if (M_StringCompare(leaf, "REKKRSL.wad") || M_StringCompare(leaf, "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
     else if (M_StringCompare(leaf, "ar.wad"))
         anomalyreport = true;
@@ -1025,10 +1024,8 @@ void D_CheckSupportedPWAD(char *filename)
         neis = true;
     else if (M_StringCompare(leaf, "TVR!.wad"))
         revolution = true;
-    else if (M_StringCompare(leaf, "SCI.wad")
-        || M_StringCompare(leaf, "SCI2.wad")
-        || M_StringCompare(leaf, "sci-c.wad")
-        || M_StringCompare(leaf, "sci2023.wad"))
+    else if (M_StringCompare(leaf, "SCI.wad") || M_StringCompare(leaf, "SCI2.wad")
+        || M_StringCompare(leaf, "sci-c.wad") || M_StringCompare(leaf, "sci2023.wad"))
         scientist = true;
     else if (M_StringCompare(leaf, "SD21.wad"))
     {
@@ -1183,106 +1180,76 @@ static void D_AutoloadNerveWAD(void)
         nerve = true;
 }
 
-static bool D_AutoloadOtherBTSXWAD(void)
+static void D_AutoloadOtherBTSXWAD(void)
 {
     char    path[MAX_PATH];
 
     if (BTSXE1A && !BTSXE1B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e1b.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE1B = true;
-            return true;
-        }
-
-        return false;
+        W_MergeFile(path, true);
     }
     else if (!BTSXE1A && BTSXE1B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e1a.wad");
+        W_MergeFile(path, true);
+
+        if (*pwadfile)
+            free(pwadfile);
+
         pwadfile = M_StringDuplicate("btsx_e1a.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE1A = true;
-            return true;
-        }
-
-        return false;
     }
     else if (BTSXE2A && !BTSXE2B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e2b.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE2B = true;
-            return true;
-        }
-
-        return false;
+        W_MergeFile(path, true);
     }
     else if (!BTSXE2A && BTSXE2B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e2a.wad");
+        W_MergeFile(path, true);
+
+        if (*pwadfile)
+            free(pwadfile);
+
         pwadfile = M_StringDuplicate("btsx_e2a.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE2A = true;
-            return true;
-        }
-
-        return false;
     }
     else if (BTSXE3A && !BTSXE3B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3b.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE3B = true;
-            return true;
-        }
-
-        return false;
+        W_MergeFile(path, true);
     }
     else if (!BTSXE3A && BTSXE3B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3a.wad");
+        W_MergeFile(path, true);
+
+        if (*pwadfile)
+            free(pwadfile);
+
         pwadfile = M_StringDuplicate("btsx_e3a.wad");
-
-        if (W_MergeFile(path, true))
-        {
-            BTSXE3A = true;
-            return true;
-        }
-
-        return false;
     }
-
-    return false;
 }
 
-static bool D_AutoloadOtherKDIKDIZDWAD(void)
+static void D_AutoloadOtherKDIKDIZDWAD(void)
 {
     char    path[MAX_PATH];
 
     if (KDIKDIZDA && !KDIKDIZDB)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "KDiKDi_B.wad");
-        return W_MergeFile(path, true);
+        W_MergeFile(path, true);
     }
     else if (!KDIKDIZDA && KDIKDIZDB)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "KDiKDi_A.wad");
-        pwadfile = M_StringDuplicate("KDiKDi_A.wad");
-        return W_MergeFile(path, true);
-    }
+        W_MergeFile(path, true);
 
-    return false;
+        if (*pwadfile)
+            free(pwadfile);
+
+        pwadfile = M_StringDuplicate("KDiKDi_A.wad");
+    }
 }
 
 static bool D_CheckParms(void)
@@ -1346,7 +1313,12 @@ static bool D_CheckParms(void)
                         D_AutoloadExtrasWAD();
 
                     if (IWADRequiredByPWAD(myargv[1]) != none)
+                    {
+                        if (*pwadfile)
+                            free(pwadfile);
+
                         pwadfile = M_StringDuplicate(leafname(myargv[1]));
+                    }
 
                     LoadCfgFile(myargv[1]);
 
@@ -1392,7 +1364,12 @@ static bool D_CheckParms(void)
                             D_AutoloadExtrasWAD();
 
                         if (IWADRequiredByPWAD(myargv[1]) != none)
+                        {
+                            if (*pwadfile)
+                                free(pwadfile);
+
                             pwadfile = M_StringDuplicate(leafname(myargv[1]));
+                        }
 
                         LoadCfgFile(myargv[1]);
 
@@ -1420,7 +1397,12 @@ static bool D_CheckParms(void)
                                 D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(myargv[1]) != none)
+                            {
+                                if (*pwadfile)
+                                    free(pwadfile);
+
                                 pwadfile = M_StringDuplicate(leafname(myargv[1]));
+                            }
 
                             LoadCfgFile(myargv[1]);
 
@@ -1704,7 +1686,12 @@ static int D_OpenWADLauncher(void)
                             D_AutoloadExtrasWAD();
 
                         if (IWADRequiredByPWAD(file) != none)
+                        {
+                            if (*pwadfile)
+                                free(pwadfile);
+
                             pwadfile = M_StringDuplicate(leafname(file));
+                        }
 
                         LoadCfgFile(file);
 
@@ -1752,7 +1739,12 @@ static int D_OpenWADLauncher(void)
                                 D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(file) != none)
+                            {
+                                if (*pwadfile)
+                                    free(pwadfile);
+
                                 pwadfile = M_StringDuplicate(leafname(file));
+                            }
 
                             LoadCfgFile(file);
 
@@ -1796,7 +1788,12 @@ static int D_OpenWADLauncher(void)
                                     D_AutoloadExtrasWAD();
 
                                 if (IWADRequiredByPWAD(file) != none)
+                                {
+                                    if (*pwadfile)
+                                        free(pwadfile);
+
                                     pwadfile = M_StringDuplicate(leafname(file));
+                                }
 
                                 LoadCfgFile(file);
 
@@ -2084,6 +2081,9 @@ static int D_OpenWADLauncher(void)
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {
                                     mapspresent = true;
+                                    if (*pwadfile)
+                                        free(pwadfile);
+
                                     pwadfile = M_StringDuplicate(leafname(fullpath));
                                 }
                             }
@@ -2488,7 +2488,12 @@ static void D_DoomMainSetup(void)
                                 D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(file) != none)
+                            {
+                                if (*pwadfile)
+                                    free(pwadfile);
+
                                 pwadfile = M_StringDuplicate(leafname(file));
+                            }
                         }
                     }
                     else
@@ -2514,7 +2519,12 @@ static void D_DoomMainSetup(void)
                                     D_AutoloadExtrasWAD();
 
                                 if (IWADRequiredByPWAD(file) != none)
+                                {
+                                    if (*pwadfile)
+                                        free(pwadfile);
+
                                     pwadfile = M_StringDuplicate(leafname(file));
+                                }
                             }
                         }
                         else
@@ -2536,7 +2546,12 @@ static void D_DoomMainSetup(void)
                                         D_AutoloadExtrasWAD();
 
                                     if (IWADRequiredByPWAD(file) != none)
+                                    {
+                                        if (*pwadfile)
+                                            free(pwadfile);
+
                                         pwadfile = M_StringDuplicate(leafname(file));
+                                    }
                                 }
                             }
                         }
