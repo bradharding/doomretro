@@ -645,6 +645,10 @@ void I_Quit(bool shutdown)
 
         SDL_StopTextInput();
 
+#if defined(_WIN32)
+        I_ShutdownWindows();
+#endif
+
         I_ShutdownKeyboard();
         I_ShutdownController();
         I_ShutdownGraphics();
@@ -652,10 +656,6 @@ void I_Quit(bool shutdown)
     }
 
     W_CloseFiles();
-
-#if defined(_WIN32)
-    I_ShutdownWindows();
-#endif
 
     exit(0);
 }
@@ -681,7 +681,7 @@ void I_Error(const char *error, ...)
 
 #if defined(_WIN32)
     if (previouswad && gamestate <= GS_TITLESCREEN)
-        wad = GetCorrectCase(M_StringDuplicate(previouswad));
+        wad = M_StringDuplicate(previouswad);
 #endif
 
     M_SaveCVARs();

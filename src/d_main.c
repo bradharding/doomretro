@@ -137,7 +137,7 @@ char        *autoloadsigilsubfolder = "";
 char        *autoloadsigil2subfolder = "";
 char        *autoloadnervesubfolder = "";
 
-char        *pwadfile = "";
+char        *pwadfile;
 
 char        *configfile;
 char        *resourcewad;
@@ -658,6 +658,14 @@ void D_StartTitle(int page)
 
 static char dehfiles[MAXDEHFILES][MAX_PATH];
 static int  dehfilecount;
+
+static void D_SetString(char **dest, const char *value)
+{
+    if (*dest)
+        free(*dest);
+
+    *dest = M_StringDuplicate(value);
+}
 
 static bool DehFileProcessed(const char *path)
 {
@@ -1194,10 +1202,7 @@ static void D_AutoloadOtherBTSXWAD(void)
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e1a.wad");
         W_MergeFile(path, true);
 
-        if (*pwadfile)
-            free(pwadfile);
-
-        pwadfile = M_StringDuplicate("btsx_e1a.wad");
+        D_SetString(&pwadfile, "btsx_e1a.wad");
     }
     else if (BTSXE2A && !BTSXE2B)
     {
@@ -1209,10 +1214,7 @@ static void D_AutoloadOtherBTSXWAD(void)
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e2a.wad");
         W_MergeFile(path, true);
 
-        if (*pwadfile)
-            free(pwadfile);
-
-        pwadfile = M_StringDuplicate("btsx_e2a.wad");
+        D_SetString(&pwadfile, "btsx_e2a.wad");
     }
     else if (BTSXE3A && !BTSXE3B)
     {
@@ -1224,10 +1226,7 @@ static void D_AutoloadOtherBTSXWAD(void)
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "btsx_e3a.wad");
         W_MergeFile(path, true);
 
-        if (*pwadfile)
-            free(pwadfile);
-
-        pwadfile = M_StringDuplicate("btsx_e3a.wad");
+        D_SetString(&pwadfile, "btsx_e3a.wad");
     }
 }
 
@@ -1245,10 +1244,7 @@ static void D_AutoloadOtherKDIKDIZDWAD(void)
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "KDiKDi_A.wad");
         W_MergeFile(path, true);
 
-        if (*pwadfile)
-            free(pwadfile);
-
-        pwadfile = M_StringDuplicate("KDiKDi_A.wad");
+        D_SetString(&pwadfile, "KDiKDi_A.wad");
     }
 }
 
@@ -1314,10 +1310,7 @@ static bool D_CheckParms(void)
 
                     if (IWADRequiredByPWAD(myargv[1]) != none)
                     {
-                        if (*pwadfile)
-                            free(pwadfile);
-
-                        pwadfile = M_StringDuplicate(leafname(myargv[1]));
+                        D_SetString(&pwadfile, leafname(myargv[1]));
                     }
 
                     LoadCfgFile(myargv[1]);
@@ -1365,10 +1358,7 @@ static bool D_CheckParms(void)
 
                         if (IWADRequiredByPWAD(myargv[1]) != none)
                         {
-                            if (*pwadfile)
-                                free(pwadfile);
-
-                            pwadfile = M_StringDuplicate(leafname(myargv[1]));
+                            D_SetString(&pwadfile, leafname(myargv[1]));
                         }
 
                         LoadCfgFile(myargv[1]);
@@ -1397,12 +1387,7 @@ static bool D_CheckParms(void)
                                 D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(myargv[1]) != none)
-                            {
-                                if (*pwadfile)
-                                    free(pwadfile);
-
-                                pwadfile = M_StringDuplicate(leafname(myargv[1]));
-                            }
+                                D_SetString(&pwadfile, leafname(myargv[1]));
 
                             LoadCfgFile(myargv[1]);
 
@@ -1500,9 +1485,9 @@ static int D_OpenWADLauncher(void)
 
 #if defined(_WIN32)
         if (wad)
-            previouswad = M_StringDuplicate(wad);
+            D_SetString(&previouswad, wad);
 
-        wad = "";
+        D_SetString(&wad, "");
 
         if ((onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
             && (strstr(ofn.lpstrFile, ".wad ")
@@ -1617,7 +1602,7 @@ static int D_OpenWADLauncher(void)
                 else
                 {
                     error = true;
-                    invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
+                    D_SetString(&invalidwad, (char *)ofn.lpstrFile);
                 }
             }
 #endif
@@ -1686,12 +1671,7 @@ static int D_OpenWADLauncher(void)
                             D_AutoloadExtrasWAD();
 
                         if (IWADRequiredByPWAD(file) != none)
-                        {
-                            if (*pwadfile)
-                                free(pwadfile);
-
-                            pwadfile = M_StringDuplicate(leafname(file));
-                        }
+                            D_SetString(&pwadfile, leafname(file));
 
                         LoadCfgFile(file);
 
@@ -1739,12 +1719,7 @@ static int D_OpenWADLauncher(void)
                                 D_AutoloadExtrasWAD();
 
                             if (IWADRequiredByPWAD(file) != none)
-                            {
-                                if (*pwadfile)
-                                    free(pwadfile);
-
-                                pwadfile = M_StringDuplicate(leafname(file));
-                            }
+                                D_SetString(&pwadfile, leafname(file));
 
                             LoadCfgFile(file);
 
@@ -1788,12 +1763,7 @@ static int D_OpenWADLauncher(void)
                                     D_AutoloadExtrasWAD();
 
                                 if (IWADRequiredByPWAD(file) != none)
-                                {
-                                    if (*pwadfile)
-                                        free(pwadfile);
-
-                                    pwadfile = M_StringDuplicate(leafname(file));
-                                }
+                                    D_SetString(&pwadfile, leafname(file));
 
                                 LoadCfgFile(file);
 
@@ -2081,10 +2051,7 @@ static int D_OpenWADLauncher(void)
                                 if (IWADRequiredByPWAD(fullpath) != none)
                                 {
                                     mapspresent = true;
-                                    if (*pwadfile)
-                                        free(pwadfile);
-
-                                    pwadfile = M_StringDuplicate(leafname(fullpath));
+                                    D_SetString(&pwadfile, leafname(fullpath));
                                 }
                             }
                         }
@@ -2229,6 +2196,7 @@ static void D_DoomMainSetup(void)
 
     resourcewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_RESOURCEWAD, NULL);
     free(resourcefolder);
+    pwadfile = M_StringDuplicate("");
 
     M_MakeDirectory(appdatafolder);
     configfile = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIGFILE, NULL));
@@ -2546,12 +2514,7 @@ static void D_DoomMainSetup(void)
                                         D_AutoloadExtrasWAD();
 
                                     if (IWADRequiredByPWAD(file) != none)
-                                    {
-                                        if (*pwadfile)
-                                            free(pwadfile);
-
-                                        pwadfile = M_StringDuplicate(leafname(file));
-                                    }
+                                        D_SetString(&pwadfile, leafname(file));
                                 }
                             }
                         }

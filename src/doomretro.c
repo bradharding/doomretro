@@ -172,9 +172,31 @@ void I_InitWindows(void)
 _Releases_lock_(hInstanceMutex)
 void I_ShutdownWindows(void)
 {
-    DestroyIcon(icon);
-    ReleaseMutex(hInstanceMutex);
-    CloseHandle(hInstanceMutex);
+    if (window && oldProc)
+    {
+        SDL_SysWMinfo   info = { 0 };
+
+        SDL_VERSION(&info.version);
+
+        if (SDL_GetWindowWMInfo(window, &info))
+            SetWindowLongPtr(info.info.win.window, GWLP_WNDPROC, (LONG_PTR)oldProc);
+
+        oldProc = NULL;
+    }
+
+    if (icon)
+    {
+        DestroyIcon(icon);
+        icon = NULL;
+    }
+
+    if (hInstanceMutex)
+    {
+        ReleaseMutex(hInstanceMutex);
+        CloseHandle(hInstanceMutex);
+        hInstanceMutex = NULL;
+    }
+
     I_AccessibilityShortcutKeys(true);
 }
 #endif
