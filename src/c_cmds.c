@@ -10932,7 +10932,8 @@ static void expansionfunc2(char *cmd, char *parms)
         ExpDef.laston = ((expansion >= 1 && expansion <= ExpDef.numitems) ? expansion - 1 : 0);
 
         if (gamestate != GS_LEVEL)
-            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+            gamemission = (expansion == 2 && nerve ? pack_nerve : (expansion == (nerve ? 3 : 2)
+                && masterlevels ? pack_masterlevels : doom2));
     }
 }
 

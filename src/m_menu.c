@@ -944,7 +944,7 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
         if (gamemission == doom2)
             return true;
 
-        if (gamemission == pack_nerve)
+        if (gamemission == pack_nerve || gamemission == pack_masterlevels)
         {
             ExpDef.laston = ex1;
             expansion = 1;
@@ -966,6 +966,23 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
             ExpDef.laston = ex2;
             expansion = 2;
             gamemission = pack_nerve;
+            M_SaveCVARs();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    if (mission == pack_masterlevels)
+    {
+        if (gamemission == pack_masterlevels)
+            return true;
+
+        if (gamemission == doom2 && masterlevels)
+        {
+            ExpDef.laston = (nerve ? ex3 : ex2);
+            expansion = (nerve ? 3 : 2);
+            gamemission = pack_masterlevels;
             M_SaveCVARs();
             return true;
         }
@@ -2059,7 +2076,8 @@ static void M_Episode(int choice)
 
 static void M_Expansion(int choice)
 {
-    gamemission = (choice == ex2 && nerve ? pack_nerve : doom2);
+    gamemission = (choice == ex2 && nerve ? pack_nerve :
+        (choice == (nerve ? ex3 : ex2) && masterlevels ? pack_masterlevels : doom2));
     D_SetSaveGameFolder(false);
     M_ReadSaveStrings();
     M_SetupNextMenu(&NewDef);
@@ -3154,8 +3172,8 @@ bool M_Responder(event_t *ev)
                             else if (currentmenu == &ExpDef)
                             {
                                 if (gamestate != GS_LEVEL)
-                                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
-                                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                                    gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
                             }
                             else if (currentmenu == &SaveDef)
                                 LoadDef.laston = itemon;
@@ -3927,8 +3945,8 @@ bool M_Responder(event_t *ev)
             if (currentmenu == &ExpDef)
             {
                 if (gamestate != GS_LEVEL)
-                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
-                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                    gamemission = (expansion == 2 && nerve ? pack_nerve :
+                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
             }
             else if (currentmenu == &SaveDef)
                 LoadDef.laston = itemon;
@@ -4004,7 +4022,6 @@ bool M_Responder(event_t *ev)
             if (currentmenu == &ExpDef)
             {
                 if (gamestate != GS_LEVEL)
-                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
             else if (currentmenu == &SaveDef)
@@ -4211,8 +4228,8 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
-                            // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
-                            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                            gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
 
                         expansion = itemon + 1;
                         M_SaveCVARs();
@@ -4270,8 +4287,8 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
-                            // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
-                            gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                            gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
 
                         expansion = itemon + 1;
                         M_SaveCVARs();

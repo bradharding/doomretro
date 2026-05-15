@@ -574,7 +574,7 @@ enum
 
 #define expansion_min                       1
 #define expansion_default                   1
-#define expansion_max                       2
+#define expansion_max                       3
 
 #define facebackcolor_min                   0
 #define facebackcolor_default               5

@@ -3184,7 +3184,7 @@ void P_MapName(int ep, int map)
             break;
 
         case doom2:
-            if (*mapinfolabel && !D_IsMasterLevelsWAD(pwadfile))
+            if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
                 M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
@@ -3215,6 +3215,16 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
             else if (map <= nummapnamesn)
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesn[map - 1]), sizeof(maptitle));
+
+            break;
+
+        case pack_masterlevels:
+            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+
+            if (*mapinfoname)
+                M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
+            else if (map <= nummapnamest)
+                M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
 
             break;
 
@@ -3561,6 +3571,7 @@ void P_SetupLevel(int ep, int map)
         || (sigil && gamemission == doom)
         || (sigil2 && gamemission == doom)
         || gamemission == pack_nerve
+        || gamemission == pack_masterlevels
         || (nerve && gamemission == doom2))
         && !FREEDOOM
         && !(gamemission == doom && *speciallumpname && (map == 4 || map == 8)));

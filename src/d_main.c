@@ -967,6 +967,8 @@ void D_CheckSupportedPWAD(char *filename)
 
         if (!nerve)
             expansion = 2;
+
+        gamemission = pack_masterlevels;
     }
     else if (M_StringCompare(leaf, "chex.wad"))
         chex = chex1 = true;
@@ -1213,6 +1215,7 @@ static void D_AutoloadMasterLevelsWAD(void)
     if (W_MergeFile(path, true))
     {
         masterlevels = true;
+        gamemission = pack_masterlevels;
 
         if (!nerve)
             expansion = 2;
@@ -2668,6 +2671,7 @@ static void D_DoomMainSetup(void)
                         if (W_AutoloadFile("masterlevels.wad", autoloadiwadsubfolder, false))
                         {
                             autoloading = true;
+                            gamemission = pack_masterlevels;
 
                             if (!nerve)
                                 expansion = 2;
@@ -2865,7 +2869,8 @@ static void D_DoomMainSetup(void)
 
         if (temp <= (masterlevels ? (nerve ? 3 : 2) : 1))
         {
-            gamemission = (temp == 2 && nerve ? pack_nerve : doom2);
+            gamemission = (temp == 2 && nerve ? pack_nerve : (temp == (nerve ? 3 : 2) && masterlevels ?
+                pack_masterlevels : doom2));
             expansion = temp;
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
@@ -3032,6 +3037,7 @@ static void D_DoomMainSetup(void)
 
                 case doom2:
                 case pack_nerve:
+                case pack_masterlevels:
                     titlelump = W_CacheLumpName("TITLEPI2");
                     break;
 

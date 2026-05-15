@@ -490,14 +490,15 @@ typedef struct
 
 static const iwads_t iwads[] =
 {
-    { "doom2",    doom2      },
-    { "nerve",    pack_nerve },
-    { "plutonia", pack_plut  },
-    { "tnt",      pack_tnt   },
-    { "doom",     doom       },
-    { "doom1",    doom       },
-    { "hacx",     doom2      },
-    { "",         0          }
+    { "doom2",        doom2             },
+    { "nerve",        pack_nerve        },
+    { "masterlevels", pack_masterlevels },
+    { "plutonia",     pack_plut         },
+    { "tnt",          pack_tnt          },
+    { "doom",         doom              },
+    { "doom1",        doom              },
+    { "hacx",         doom2             },
+    { "",             0                 }
 };
 
 #if !defined(_WIN32) && !defined(__APPLE__)
@@ -1035,13 +1036,8 @@ void D_SetGameDescription(void)
             if (D_IsNERVEWAD(pwadfile))
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
             else if (D_IsMasterLevelsWAD(pwadfile))
-            {
-                if (expansion == (nerve ? 3 : 2))
-                    M_StringCopy(gamedescription, s_CAPTION_EXPANSION3, sizeof(gamedescription));
-                else
-                    M_snprintf(gamedescription, sizeof(gamedescription), "%s: %s", s_CAPTION_DOOM2,
-                        s_CAPTION_EXPANSION1);
-            }
+                M_StringCopy(gamedescription, (gamemission == pack_masterlevels ? s_CAPTION_EXPANSION3 :
+                    s_CAPTION_DOOM2), sizeof(gamedescription));
             else
                 M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         }
@@ -1051,6 +1047,8 @@ void D_SetGameDescription(void)
             M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
         else if (gamemission == doom2)
             M_snprintf(gamedescription, sizeof(gamedescription), "%s: %s", s_CAPTION_DOOM2, s_CAPTION_EXPANSION1);
+        else if (gamemission == pack_masterlevels)
+            M_StringCopy(gamedescription, s_CAPTION_EXPANSION3, sizeof(gamedescription));
         else if (gamemission == pack_plut)
             M_StringCopy(gamedescription, s_CAPTION_PLUTONIA, sizeof(gamedescription));
         else if (gamemission == pack_tnt)
