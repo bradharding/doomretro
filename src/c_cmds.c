@@ -5528,7 +5528,7 @@ static void maplistfunc2(char *cmd, char *parms)
                 break;
 
             case doom2:
-                if ((!D_IsNERVEWAD(wadname) && (!replaced || pwad || nerve)) || hacx || harmony)
+                if ((!D_IsNERVEWAD(wadname) && (!replaced || pwad || nerve || masterlevels)) || hacx || harmony)
                 {
                     if (BTSX)
                     {
@@ -5561,7 +5561,7 @@ static void maplistfunc2(char *cmd, char *parms)
                                 M_snprintf(lump, sizeof(lump), "E2M%i", map - 7);
                         }
 
-                        if (replaced && dehcount == 1 && !nerve && !*mapinfoname)
+                        if (replaced && dehcount == 1 && !nerve && !masterlevels && !*mapinfoname)
                             M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t\x96\t%s\t%s",
                                 lump, truncatedauthor, wadname);
                         else
@@ -5583,6 +5583,20 @@ static void maplistfunc2(char *cmd, char *parms)
                 if (D_IsNERVEWAD(wadname))
                 {
                     temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map - 1]);
+                    RemoveMapNum(temp1);
+                    TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
+                    TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
+                    M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACED("%s") "\t" ITALICS("%s") "\t%s\t%s",
+                        lump, truncatedtitle, truncatedauthor, wadname);
+                    free(temp1);
+                }
+
+                break;
+
+            case pack_masterlevels:
+                if (D_IsMasterLevelsWAD(wadname))
+                {
+                    temp1 = titlecase(mapinfoname);
                     RemoveMapNum(temp1);
                     TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                     TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
