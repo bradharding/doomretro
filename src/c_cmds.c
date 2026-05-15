@@ -44,6 +44,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
@@ -10928,7 +10929,7 @@ static void expansionfunc2(char *cmd, char *parms)
 
     if (expansion != expansion_old && gamemode == commercial)
     {
-        ExpDef.laston = (nerve ? expansion - 1 : 0);
+        ExpDef.laston = ((expansion >= 1 && expansion <= ExpDef.numitems) ? expansion - 1 : 0);
 
         if (gamestate != GS_LEVEL)
             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);

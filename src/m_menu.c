@@ -260,13 +260,15 @@ enum
 {
     ex1,
     ex2,
+    ex3,
     ex_end
 };
 
 static menuitem_t ExpansionMenu[] =
 {
     { 1, "M_EPI1", &M_Expansion, &s_M_EXPANSION1 },
-    { 1, "M_EPI2", &M_Expansion, &s_M_EXPANSION2 }
+    { 1, "M_EPI2", &M_Expansion, &s_M_EXPANSION2 },
+    { 1, "M_EPI3", &M_Expansion, &s_M_EXPANSION3 }
 };
 
 menu_t ExpDef =
@@ -2057,7 +2059,7 @@ static void M_Episode(int choice)
 
 static void M_Expansion(int choice)
 {
-    gamemission = (choice == ex1 ? doom2 : pack_nerve);
+    gamemission = (choice == ex2 && nerve ? pack_nerve : doom2);
     D_SetSaveGameFolder(false);
     M_ReadSaveStrings();
     M_SetupNextMenu(&NewDef);
@@ -2103,7 +2105,7 @@ static void M_DrawNewGame(void)
 static void M_NewGame(int choice)
 {
     M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !customepisodes) || EpiDef.numitems <= 1 ?
-        (nerve ? &ExpDef : &NewDef) : &EpiDef));
+        ((nerve || masterlevels) ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
@@ -3152,6 +3154,7 @@ bool M_Responder(event_t *ev)
                             else if (currentmenu == &ExpDef)
                             {
                                 if (gamestate != GS_LEVEL)
+                                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                             }
                             else if (currentmenu == &SaveDef)
@@ -3924,6 +3927,7 @@ bool M_Responder(event_t *ev)
             if (currentmenu == &ExpDef)
             {
                 if (gamestate != GS_LEVEL)
+                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
             else if (currentmenu == &SaveDef)
@@ -4000,6 +4004,7 @@ bool M_Responder(event_t *ev)
             if (currentmenu == &ExpDef)
             {
                 if (gamestate != GS_LEVEL)
+                    // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
             else if (currentmenu == &SaveDef)
@@ -4206,6 +4211,7 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
+                            // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
 
                         expansion = itemon + 1;
@@ -4264,6 +4270,7 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         if (gamestate != GS_LEVEL)
+                            // Keep Master Levels under doom2; only NERVE maps to pack_nerve.
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
 
                         expansion = itemon + 1;
@@ -4836,6 +4843,23 @@ void M_Init(void)
     if (gamemode != shareware)
         EpiDef.laston = episode - 1;
 
+    M_StringCopy(ExpansionMenu[ex1].name, "M_EPI1", sizeof(ExpansionMenu[ex1].name));
+    ExpansionMenu[ex1].text = &s_M_EXPANSION1;
+
+    if (nerve)
+    {
+        M_StringCopy(ExpansionMenu[ex2].name, "M_EPI2", sizeof(ExpansionMenu[ex2].name));
+        ExpansionMenu[ex2].text = &s_M_EXPANSION2;
+    }
+    else
+    {
+        M_StringCopy(ExpansionMenu[ex2].name, "M_EPI3", sizeof(ExpansionMenu[ex2].name));
+        ExpansionMenu[ex2].text = &s_M_EXPANSION3;
+    }
+
+    M_StringCopy(ExpansionMenu[ex3].name, "M_EPI3", sizeof(ExpansionMenu[ex3].name));
+    ExpansionMenu[ex3].text = &s_M_EXPANSION3;
+
     ExpDef.laston = expansion - 1;
     NewDef.laston = skilllevel - 1;
     SaveDef.laston = LoadDef.laston = savegame - 1;
@@ -4865,7 +4889,10 @@ void M_Init(void)
         NewDef.prevmenu = &MainDef;
     }
     else if (gamemode == commercial)
-        NewDef.prevmenu = (nerve ? &ExpDef : &MainDef);
+    {
+        ExpDef.numitems = (masterlevels ? (nerve ? 3 : 2) : (nerve ? 2 : 1));
+        NewDef.prevmenu = ((nerve || masterlevels) ? &ExpDef : &MainDef);
+    }
     else if (gamemode == registered)
         EpiDef.numitems = 3;
     else if (gamemode == retail && sigil2)
@@ -4885,6 +4912,13 @@ void M_Init(void)
     {
         EpiDef.laston = 5;
         episode = 6;
+        M_SaveCVARs();
+    }
+
+    if (ExpDef.laston >= ExpDef.numitems)
+    {
+        ExpDef.laston = 0;
+        expansion = 1;
         M_SaveCVARs();
     }
 

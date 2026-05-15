@@ -498,6 +498,8 @@ bool W_AddFile(char *filename, bool autoloaded)
 
             autoloadnervesubfolder = removeext(leafname(GetCorrectCase(filename)));
         }
+        else if (D_IsMasterLevelsWAD(file))
+            C_Output("You can play the " ITALICS("Master Levels") " by choosing it in the expansion menu.");
         else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
             extraswadadded = true;

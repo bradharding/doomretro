@@ -598,6 +598,7 @@ char    *s_M_EPISODE10 = "";
 char    *s_M_WHICHEXPANSION = "";
 char    *s_M_EXPANSION1 = "";
 char    *s_M_EXPANSION2 = "";
+char    *s_M_EXPANSION3 = "";
 char    *s_M_CHOOSESKILLLEVEL = "";
 char    *s_M_SKILLLEVEL1 = "";
 char    *s_M_SKILLLEVEL2 = "";
@@ -634,6 +635,7 @@ char    *s_CAPTION_EPISODE9 = "";
 char    *s_CAPTION_EPISODE10 = "";
 char    *s_CAPTION_EXPANSION1 = "";
 char    *s_CAPTION_EXPANSION2 = "";
+char    *s_CAPTION_EXPANSION3 = "";
 char    *s_CAPTION_PLUTONIA = "";
 char    *s_CAPTION_TNT = "";
 char    *s_CAPTION_CHEX = "";
@@ -660,7 +662,6 @@ char    *s_CAPTION_HARMONY = "";
 char    *s_CAPTION_ID1 = "";
 char    *s_CAPTION_IDDM1 = "";
 char    *s_CAPTION_KDIKDIZD = "";
-char    *s_CAPTION_MASTERLEVELS = "";
 char    *s_CAPTION_NEIS = "";
 char    *s_CAPTION_REVOLUTION = "";
 char    *s_CAPTION_SCIENTIST = "";
@@ -1241,6 +1242,7 @@ deh_strs deh_strlookup[] =
     { &s_M_WHICHEXPANSION,        "M_WHICHEXPANSION"        },
     { &s_M_EXPANSION1,            "M_EXPANSION1"            },
     { &s_M_EXPANSION2,            "M_EXPANSION2"            },
+    { &s_M_EXPANSION3,            "M_EXPANSION3"            },
     { &s_M_CHOOSESKILLLEVEL,      "M_CHOOSESKILLLEVEL"      },
     { &s_M_SKILLLEVEL1,           "M_SKILLLEVEL1"           },
     { &s_M_SKILLLEVEL2,           "M_SKILLLEVEL2"           },
@@ -1277,6 +1279,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_EPISODE10,       "CAPTION_EPISODE10"       },
     { &s_CAPTION_EXPANSION1,      "CAPTION_EXPANSION1"      },
     { &s_CAPTION_EXPANSION2,      "CAPTION_EXPANSION2"      },
+    { &s_CAPTION_EXPANSION3,      "CAPTION_EXPANSION3"      },
     { &s_CAPTION_PLUTONIA,        "CAPTION_PLUTONIA"        },
     { &s_CAPTION_TNT,             "CAPTION_TNT"             },
     { &s_CAPTION_CHEX,            "CAPTION_CHEX"            },
@@ -1303,7 +1306,6 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_ID1,             "CAPTION_ID1"             },
     { &s_CAPTION_IDDM1,           "CAPTION_IDDM1"           },
     { &s_CAPTION_KDIKDIZD,        "CAPTION_KDIKDIZD"        },
-    { &s_CAPTION_MASTERLEVELS,    "CAPTION_MASTERLEVELS"    },
     { &s_CAPTION_NEIS,            "CAPTION_NEIS"            },
     { &s_CAPTION_REVOLUTION,      "CAPTION_REVOLUTION"      },
     { &s_CAPTION_SCIENTIST,       "CAPTION_SCIENTIST"       },

@@ -105,7 +105,8 @@ char **episodes[] =
 char **expansions[] =
 {
     &s_CAPTION_EXPANSION1,
-    &s_CAPTION_EXPANSION2
+    &s_CAPTION_EXPANSION2,
+    &s_CAPTION_EXPANSION3
 };
 
 char **skilllevels[] =
@@ -860,6 +861,11 @@ bool D_IsNERVEWAD(char *filename)
     return (M_StringCompare(leafname(filename), "NERVE.WAD"));
 }
 
+bool D_IsMasterLevelsWAD(char *filename)
+{
+    return (M_StringCompare(leafname(filename), "masterlevels.wad"));
+}
+
 bool D_IsLegacyOfRustWAD(char *filename)
 {
     return (M_StringCompare(leafname(filename), "ID1.WAD"));
@@ -955,6 +961,13 @@ void D_CheckSupportedPWAD(char *filename)
         nerve = true;
         expansion = 2;
     }
+    else if (D_IsMasterLevelsWAD(filename))
+    {
+        masterlevels = true;
+
+        if (!nerve)
+            expansion = 2;
+    }
     else if (M_StringCompare(leaf, "chex.wad"))
         chex = chex1 = true;
     else if (M_StringCompare(leaf, "chex2.wad"))
@@ -1026,8 +1039,6 @@ void D_CheckSupportedPWAD(char *filename)
         legacyofrust = true;
         moreblood = true;
     }
-    else if (M_StringCompare(leaf, "masterlevels.wad"))
-        masterlevels = true;
     else if (M_StringCompare(leaf, "neis.wad"))
         neis = true;
     else if (M_StringCompare(leaf, "TVR!.wad"))
@@ -1188,6 +1199,26 @@ static void D_AutoloadNerveWAD(void)
         nerve = true;
 }
 
+static void D_AutoloadMasterLevelsWAD(void)
+{
+    char    path[MAX_PATH];
+
+    D_AutoloadExtrasWAD();
+
+    if (M_CheckParm("-noautoload"))
+        return;
+
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "masterlevels.wad");
+
+    if (W_MergeFile(path, true))
+    {
+        masterlevels = true;
+
+        if (!nerve)
+            expansion = 2;
+    }
+}
+
 static void D_AutoloadOtherBTSXWAD(void)
 {
     char    path[MAX_PATH];
@@ -1274,7 +1305,10 @@ static bool D_CheckParms(void)
                 }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                 else if (D_IsDOOM2IWAD(myargv[1]))
+                {
                     D_AutoloadNerveWAD();
+                    D_AutoloadMasterLevelsWAD();
+                }
             }
         }
 
@@ -1631,7 +1665,10 @@ static int D_OpenWADLauncher(void)
                     }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                     else if (D_IsDOOM2IWAD(file))
+                    {
                         D_AutoloadNerveWAD();
+                        D_AutoloadMasterLevelsWAD();
+                    }
                 }
             }
 
@@ -1694,7 +1731,10 @@ static int D_OpenWADLauncher(void)
                                 }
                             }
                             else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
+                            {
                                 D_AutoloadNerveWAD();
+                                D_AutoloadMasterLevelsWAD();
+                            }
                         }
                     }
                 }
@@ -1742,7 +1782,10 @@ static int D_OpenWADLauncher(void)
                                     }
                                 }
                                 else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
+                                {
                                     D_AutoloadNerveWAD();
+                                    D_AutoloadMasterLevelsWAD();
+                                }
                             }
                         }
                     }
@@ -1786,7 +1829,10 @@ static int D_OpenWADLauncher(void)
                                         }
                                     }
                                     else if (D_IsDOOM2IWAD(fullpath) && W_GetNumLumps("MAP01") == 1)
+                                    {
                                         D_AutoloadNerveWAD();
+                                        D_AutoloadMasterLevelsWAD();
+                                    }
                                 }
                             }
                         }
@@ -2616,7 +2662,17 @@ static void D_DoomMainSetup(void)
                     if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
                         nonerve = true;
                     else
+                    {
                         autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+
+                        if (W_AutoloadFile("masterlevels.wad", autoloadiwadsubfolder, false))
+                        {
+                            autoloading = true;
+
+                            if (!nerve)
+                                expansion = 2;
+                        }
+                    }
                 }
 
                 autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
@@ -2807,9 +2863,9 @@ static void D_DoomMainSetup(void)
     {
         const int   temp = myargv[p + 1][0] - '0';
 
-        if (temp <= (nerve ? 2 : 1))
+        if (temp <= (masterlevels ? (nerve ? 3 : 2) : 1))
         {
-            gamemission = (temp == 1 ? doom2 : pack_nerve);
+            gamemission = (temp == 2 && nerve ? pack_nerve : doom2);
             expansion = temp;
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);

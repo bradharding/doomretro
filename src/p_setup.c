@@ -40,6 +40,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -3183,7 +3184,7 @@ void P_MapName(int ep, int map)
             break;
 
         case doom2:
-            if (*mapinfolabel && !masterlevels)
+            if (*mapinfolabel && !D_IsMasterLevelsWAD(pwadfile))
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
                 M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
@@ -3518,7 +3519,8 @@ void P_SetupLevel(int ep, int map)
                 secretmap = true;
         }
 
-        lumpnum = (nerve && gamemission == doom2 ? W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
+        lumpnum = ((gamemission == doom2 && (nerve || masterlevels) && expansion == 1) ?
+            W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
     }
 
     if (!secretmap)

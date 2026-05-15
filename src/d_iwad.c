@@ -1005,8 +1005,6 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_IDDM1, sizeof(gamedescription));
     else if (KDIKDIZD)
         M_StringCopy(gamedescription, s_CAPTION_KDIKDIZD, sizeof(gamedescription));
-    else if (masterlevels)
-        M_StringCopy(gamedescription, s_CAPTION_MASTERLEVELS, sizeof(gamedescription));
     else if (neis)
         M_StringCopy(gamedescription, s_CAPTION_NEIS, sizeof(gamedescription));
     else if (revolution)
@@ -1036,6 +1034,14 @@ void D_SetGameDescription(void)
         {
             if (D_IsNERVEWAD(pwadfile))
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
+            else if (D_IsMasterLevelsWAD(pwadfile))
+            {
+                if (expansion == (nerve ? 3 : 2))
+                    M_StringCopy(gamedescription, s_CAPTION_EXPANSION3, sizeof(gamedescription));
+                else
+                    M_snprintf(gamedescription, sizeof(gamedescription), "%s: %s", s_CAPTION_DOOM2,
+                        s_CAPTION_EXPANSION1);
+            }
             else
                 M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         }
