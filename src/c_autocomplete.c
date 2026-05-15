@@ -9842,7 +9842,7 @@ autocomplete_t autocompletelist[] =
     { "mapstats",                                    DOOM1AND2        },
     { "maptime",                                     DOOM1AND2        },
     { "+mark",                                       DOOM1AND2        },
-    { "+fullzoom",                                    DOOM1AND2        },
+    { "+fullzoom",                                   DOOM1AND2        },
     { "melt ",                                       DOOM1AND2        },
     { "melt off",                                    DOOM1AND2        },
     { "melt on",                                     DOOM1AND2        },
