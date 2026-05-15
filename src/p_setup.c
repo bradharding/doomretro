@@ -3582,7 +3582,7 @@ void P_SetupLevel(int ep, int map)
 
     if (M_StringCompare(maptitle, mapnumandtitle))
     {
-        if (author && *author)
+        if (author && *author && !masterlevels)
             C_PlayerMessage("%s %s %s by %s.",
                 C_GetPlayerName(), (samelevel ? "reentered" : "entered"), maptitle, author);
         else
@@ -3593,7 +3593,7 @@ void P_SetupLevel(int ep, int map)
     {
         char    *temp = titlecase(maptitle);
 
-        if (author && *author)
+        if (author && *author && !masterlevels)
             C_PlayerMessage("%s %s " ITALICS("%s") " by %s.",
                 C_GetPlayerName(), (samelevel ? "reentered" : "entered"), temp, author);
         else
