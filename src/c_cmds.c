@@ -5719,6 +5719,13 @@ static void OutputReleaseDate(const int tabs[MAXTABS], char *wadname)
     }
     else if (M_StringCompare(wadname, "NERVE.WAD"))
         C_TabbedOutput(tabs, INDENT "Release date\tMay 26, 2010");
+    else if (M_StringCompare(wadname, "masterlevels.wad"))
+    {
+        if (kex)
+            C_TabbedOutput(tabs, INDENT "Release date\tAugust 8, 2024");
+        else
+            C_TabbedOutput(tabs, INDENT "Release date\tOctober 3, 2024");
+    }
     else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
         C_TabbedOutput(tabs, INDENT "Release date\tJune 17, 1996");
     else if (onehumanity)
