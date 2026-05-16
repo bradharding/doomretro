@@ -1869,7 +1869,7 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
         *episodes[EpiDef.numitems++] = M_StringDuplicate(string);
     }
 
-    NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : &MainDef);
+    NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : (nerve || masterlevels ? &ExpDef : &MainDef));
 }
 
 static void M_DrawEpisode(void)
