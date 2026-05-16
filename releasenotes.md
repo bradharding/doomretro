@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL_mixer v2.8.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.2).
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * The *Master Levels* are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
+* A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
