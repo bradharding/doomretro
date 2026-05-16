@@ -137,6 +137,7 @@ char        *autoloadpwadsubfolder;
 char        *autoloadsigilsubfolder = "";
 char        *autoloadsigil2subfolder = "";
 char        *autoloadnervesubfolder = "";
+char        *autoloadmasterlevelssubfolder = "";
 
 char        *pwadfile;
 
@@ -2114,12 +2115,8 @@ static int D_OpenWADLauncher(void)
                     // have maps present
                     if (isDOOM2 && !mapspresent)
                     {
-                        char    fullpath[MAX_PATH];
-
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, "NERVE.WAD");
-
-                        if (W_MergeFile(fullpath, true))
-                            nerve = true;
+                        D_AutoloadNerveWAD();
+                        D_AutoloadMasterLevelsWAD();
                     }
 
 #if defined(_WIN32)
@@ -2658,35 +2655,34 @@ static void D_DoomMainSetup(void)
             }
             else
             {
-                bool    nonerve = false;
+                bool    noexpansions = false;
 
                 if (gamemission == doom2)
                 {
                     if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
-                        nonerve = true;
+                        noexpansions = true;
                     else
                     {
                         autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
-
-                        if (W_AutoloadFile("masterlevels.wad", autoloadiwadsubfolder, false))
-                        {
-                            autoloading = true;
-                            gamemission = pack_masterlevels;
-
-                            if (!nerve)
-                                expansion = 2;
-                        }
+                        autoloading |= W_AutoloadFile("masterlevels.wad", autoloadiwadsubfolder, false);
                     }
                 }
 
-                autoloading |= W_AutoloadFiles(autoloadfolder, nonerve);
-                autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, nonerve);
+                autoloading |= W_AutoloadFiles(autoloadfolder, noexpansions);
+                autoloading |= W_AutoloadFiles(autoloadiwadsubfolder, noexpansions);
 
                 if (nerve && autoloadnervesubfolder)
                 {
                     autoloadnervesubfolder = M_StringJoin(autoloadfolder, autoloadnervesubfolder,
                         DIR_SEPARATOR_S, NULL);
                     autoloading |= W_AutoloadFiles(autoloadnervesubfolder, false);
+                }
+
+                if (masterlevels && autoloadmasterlevelssubfolder)
+                {
+                    autoloadmasterlevelssubfolder = M_StringJoin(autoloadfolder, autoloadmasterlevelssubfolder,
+                        DIR_SEPARATOR_S, NULL);
+                    autoloading |= W_AutoloadFiles(autoloadmasterlevelssubfolder, false);
                 }
             }
 

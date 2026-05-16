@@ -77,8 +77,8 @@ char *W_GuessFilename(char *path, const char *string);
 #endif
 
 bool W_AddFile(char *filename, bool autoloaded);
-bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerveorsigil);
-bool W_AutoloadFiles(const char *folder, const bool nonerveorsigil);
+bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpansions);
+bool W_AutoloadFiles(const char *folder, const bool noexpansions);
 int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);

@@ -296,6 +296,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     static bool sigilwadadded;
     static bool sigil2wadadded;
     static bool nervewadadded;
+    static bool masterlevelswadadded;
     static bool extraswadadded;
     wadinfo_t   header;
     size_t      length;
@@ -499,7 +500,12 @@ bool W_AddFile(char *filename, bool autoloaded)
             autoloadnervesubfolder = removeext(leafname(GetCorrectCase(filename)));
         }
         else if (D_IsMasterLevelsWAD(file))
+        {
+            masterlevelswadadded = true;
             C_Output("You can play the " ITALICS("Master Levels") " by choosing it in the expansion menu.");
+
+            autoloadmasterlevelssubfolder = removeext(leafname(GetCorrectCase(filename)));
+        }
         else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
             extraswadadded = true;
@@ -518,7 +524,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerveorsigil)
+bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpansions)
 {
 #if defined(_WIN32)
     bool            result = false;
@@ -538,10 +544,12 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
             if (*filename && !M_StringCompare(filename, FindFileData.cFileName))
                 continue;
 
-            if (nonerveorsigil
+            if (noexpansions
                 && (D_IsSIGILWAD(FindFileData.cFileName)
                     || D_IsSIGIL2WAD(FindFileData.cFileName)
-                    || D_IsSIGILSHREDSWAD(FindFileData.cFileName)))
+                    || D_IsSIGILSHREDSWAD(FindFileData.cFileName)
+                    || D_IsNERVEWAD(FindFileData.cFileName)
+                    || D_IsMasterLevelsWAD(FindFileData.cFileName)))
                 continue;
 
             temp = M_StringJoin(folder, FindFileData.cFileName, NULL);
@@ -682,9 +690,9 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool nonerve
     return result;
 }
 
-bool W_AutoloadFiles(const char *folder, const bool nonerveorsigil)
+bool W_AutoloadFiles(const char *folder, const bool noexpansions)
 {
-    return W_AutoloadFile("", folder, nonerveorsigil);
+    return W_AutoloadFile("", folder, noexpansions);
 }
 
 // Hash function used for lump names.
