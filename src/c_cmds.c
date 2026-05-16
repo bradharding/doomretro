@@ -1712,35 +1712,36 @@ static bool cheatfunc1(char *cmd, char *parms)
             else
                 mapcmdmap = mapcmdepisode * 10 + mapcmdmap;
 
-            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
+            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "MAP%02i", mapcmdmap);
         }
         else if (gamemode == commercial)
         {
             mapcmdepisode = 1;
             mapcmdmap = (parms[0] - '0') * 10 + parms[1] - '0';
-            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%c%c", parms[0], parms[1]);
+            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "MAP%c%c", parms[0], parms[1]);
         }
         else
         {
             mapcmdepisode = parms[0] - '0';
             mapcmdmap = parms[1] - '0';
-            M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%cM%c", parms[0], parms[1]);
+            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E%cM%c", parms[0], parms[1]);
         }
 
-        result = (W_CheckNumForName(mapcmdlump) >= 0
+        result = (W_CheckNumForName(mapcmdmapnum) >= 0
             && (gamemission != pack_nerve || mapcmdmap <= 9)
-            && (!BTSX || W_GetNumLumps(mapcmdlump) > 1));
+            && (gamemission != pack_masterlevels || mapcmdmap <= 21)
+            && (!BTSX || W_GetNumLumps(mapcmdmapnum) > 1));
 
         if (gamestate == GS_LEVEL)
             return result;
         else if (result)
         {
             if (legacyofrust && mapcmdmap != 99)
-                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%cM%c", parms[0], parms[1]);
+                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E%cM%c", parms[0], parms[1]);
 
             S_StartSound(NULL, sfx_getpow);
             ST_PlayerCheated(cheat_clev_xy.sequence, "xy", NULL, true);
-            mapfunc2("map", mapcmdlump);
+            mapfunc2("map", mapcmdmapnum);
             return true;
         }
     }

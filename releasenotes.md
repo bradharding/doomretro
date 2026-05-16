@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v18.6.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL_mixer v2.8.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.2).
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The *Master Levels* are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 
