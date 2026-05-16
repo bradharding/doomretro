@@ -1322,7 +1322,7 @@ static void WI_DrawStats(void)
         V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX
             + (!BTSX ? (SP_TIMEX - (FREEDOOM ? 17 : 0) + 3) : 0) - 18,
             SP_TIMEY + 1, wipar, false, SCREENWIDTH);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - ((BTSX || FREEDOOM) ? 17 : 0), SP_TIMEY, cnt_par,
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par,
             ms, (cnt_par == wbs->partime), false);
     }
 }

@@ -1789,10 +1789,12 @@ int             maxmaptoepisode = 0;
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string)
 {
+    int   mapindex;
+
     if (map <= 0 || ep <= 0)
         return;
 
-    const int   mapindex = (gamemode == commercial ? map : ep * 10 + map);
+    mapindex = (gamemode == commercial ? map : ep * 10 + map);
 
     if (mapindex >= maxmaptoepisode)
     {
@@ -2123,7 +2125,7 @@ static void M_DrawNewGame(void)
 static void M_NewGame(int choice)
 {
     M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !customepisodes) || EpiDef.numitems <= 1 ?
-        ((nerve || masterlevels) ? &ExpDef : &NewDef) : &EpiDef));
+        (nerve || masterlevels ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
@@ -4908,7 +4910,7 @@ void M_Init(void)
     else if (gamemode == commercial)
     {
         ExpDef.numitems = (masterlevels ? (nerve ? 3 : 2) : (nerve ? 2 : 1));
-        NewDef.prevmenu = ((nerve || masterlevels) ? &ExpDef : &MainDef);
+        NewDef.prevmenu = (nerve || masterlevels ? &ExpDef : &MainDef);
     }
     else if (gamemode == registered)
         EpiDef.numitems = 3;
