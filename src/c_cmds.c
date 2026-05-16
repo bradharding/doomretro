@@ -792,7 +792,7 @@ consolecmd_t consolecmds[] =
     CCMD(exitmap, "", "", alivefunc1, exitmapfunc2, false, "",
         "Exits the current map."),
     INTCVAR(expansion, "", "", intfunc1, expansionfunc2, 0, 0,
-        "The currently selected " ITALICS("DOOM II") " expansion in the menu (" BOLD("1") " or " BOLD("2") ")."),
+        "The currently selected " ITALICS("DOOM II") " expansion in the menu (" BOLD("1") " to " BOLD("3") ")."),
     CCMD(explode, "", "", killfunc1, killfunc2, true, EXPLODEFORMAT,
         "Explodes all " BOLD("barrels") " or " BOLD("missiles") "."),
     COLORCVAR(facebackcolor, facebackcolour,
