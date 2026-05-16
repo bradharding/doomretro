@@ -4865,7 +4865,7 @@ static bool mapfunc1(char *cmd, char *parms)
         {
             if (gamemode == commercial)
             {
-                if (gamemap != (gamemission == pack_nerve ? 8 : 30))
+                if (gamemap != (gamemission == pack_nerve ? 8 : (gamemission == pack_masterlevels ? 20 : 30)))
                 {
                     mapcmdepisode = gameepisode;
                     mapcmdmap = gamemap + 1;
@@ -4905,6 +4905,16 @@ static bool mapfunc1(char *cmd, char *parms)
                         mapcmdepisode = gameepisode;
                         mapcmdmap = 8;
                         M_StringCopy(mapcmdlump, "MAP08", sizeof(mapcmdlump));
+                        result = true;
+                    }
+                }
+                else if (gamemission == pack_masterlevels)
+                {
+                    if (gamemap != 20)
+                    {
+                        mapcmdepisode = gameepisode;
+                        mapcmdmap = 20;
+                        M_StringCopy(mapcmdlump, "MAP20", sizeof(mapcmdlump));
                         result = true;
                     }
                 }
@@ -4975,7 +4985,8 @@ static bool mapfunc1(char *cmd, char *parms)
             if (gamemode == commercial)
             {
                 mapcmdepisode = gameepisode;
-                mapcmdmap = M_BigRandomIntNoRepeat(1, (gamemission == pack_nerve ? 8 : 30), gamemap);
+                mapcmdmap = M_BigRandomIntNoRepeat(1,
+                    (gamemission == pack_nerve ? 8 : (gamemission == pack_masterlevels ? 20 : 30)), gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                 result = true;
             }
@@ -5035,9 +5046,12 @@ static bool mapfunc1(char *cmd, char *parms)
                 }
                 else if (sscanf(parm, "MAP%d", &mapcmdmap) == 1)
                 {
-                    if (!((BTSX && W_GetNumLumps(parm) == 1) || (gamemission == pack_nerve && mapcmdmap > 9)))
+                    if (!((BTSX && W_GetNumLumps(parm) == 1)
+                        || (gamemission == pack_nerve && mapcmdmap > 9)
+                        || (gamemission == pack_masterlevels && mapcmdmap > 21)))
                     {
-                        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+                        if (gamestate != GS_LEVEL
+                            && (gamemission == pack_nerve || gamemission == pack_masterlevels))
                         {
                             gamemission = doom2;
                             expansion = 1;
@@ -5162,6 +5176,19 @@ static bool mapfunc1(char *cmd, char *parms)
 
                         break;
 
+                    case pack_masterlevels:
+                        if (D_IsMasterLevelsWAD(wadname))
+                        {
+                            temp2 = removenonalpha(mapinfoname);
+
+                            if (M_StringCompare(parm, temp2))
+                                result = true;
+
+                            free(temp2);
+                        }
+
+                        break;
+
                     case pack_plut:
                         if (!replaced || pwad)
                         {
@@ -5234,7 +5261,8 @@ static void mapfunc2(char *cmd, char *parms)
     {
         if (mapcmdmap == 31 || mapcmdmap == 32
             || (mapcmdmap == 33 && bfgedition)
-            || (gamemission == pack_nerve && mapcmdmap == 9))
+            || (gamemission == pack_nerve && mapcmdmap == 9)
+            || (gamemission == pack_masterlevels && mapcmdmap == 21))
             message_secret = true;
     }
     else if (mapcmdmap == 9)
@@ -5906,8 +5934,12 @@ static void mapstatsfunc2(char *cmd, char *parms)
         {
             if (gamemission == pack_nerve)
                 C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
+            else if (gamemission == pack_masterlevels)
+                C_TabbedOutput(tabs, "Map\t%i of 21", gamemap);
+            else if (legacyofrust)
+                C_TabbedOutput(tabs, "Map\t%i of 16", gamemap);
             else
-                C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (legacyofrust ? 16 : (bfgedition ? 33 : 32)));
+                C_TabbedOutput(tabs, "Map\t%i of %i", gamemap, (bfgedition ? 33 : 32));
         }
         else
             C_TabbedOutput(tabs, "Map\t%i of 9", gamemap);
@@ -5967,7 +5999,13 @@ static void mapstatsfunc2(char *cmd, char *parms)
         if (gamemission == pack_nerve)
         {
             temp = titlecase(*expansions[1]);
-            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (2 of 2)", temp);
+            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (%s)", temp, (masterlevels ? "2 of 3" : "2 of 2"));
+            free(temp);
+        }
+        else if (gamemission == pack_masterlevels)
+        {
+            temp = titlecase(*expansions[2]);
+            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (%s)", temp, (nerve ? "3 of 3" : "2 of 2"));
             free(temp);
         }
         else

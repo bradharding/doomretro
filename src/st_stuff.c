@@ -1037,6 +1037,7 @@ bool ST_Responder(const event_t *ev)
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
                 if (W_CheckNumForName(lump) < 0
                     || (gamemission == pack_nerve && map > 9)
+                    || (gamemission == pack_masterlevels && map > 21)
                     || ((BTSX || (legacyofrust && map != 99)) && W_GetNumLumps(lump) == 1))
                     return false;
                 else
@@ -1080,7 +1081,8 @@ bool ST_Responder(const event_t *ev)
                         message_secret = true;
                     else if (gamemode == commercial)
                     {
-                        if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
+                        if (map == 31 || map == 32 || (map == 33 && bfgedition)
+                            || (gamemission == pack_nerve && map == 9) || (gamemission == pack_masterlevels && map == 21))
                             message_secret = true;
                     }
                     else
