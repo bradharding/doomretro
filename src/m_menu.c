@@ -3249,6 +3249,11 @@ bool M_Responder(event_t *ev)
                             else if (currentmenu == &ExpDef)
                             {
                                 expansion = itemon + 1;
+
+                                if (gamestate != GS_LEVEL)
+                                    gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+
                                 M_SaveCVARs();
                                 C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
                             }
@@ -3930,6 +3935,11 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         expansion = itemon + 1;
+
+                        if (gamestate != GS_LEVEL)
+                            gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
                     }
@@ -4007,6 +4017,11 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &ExpDef)
                     {
                         expansion = itemon + 1;
+
+                        if (gamestate != GS_LEVEL)
+                            gamemission = (expansion == 2 && nerve ? pack_nerve :
+                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
                     }
@@ -4030,7 +4045,8 @@ bool M_Responder(event_t *ev)
             if (currentmenu == &ExpDef)
             {
                 if (gamestate != GS_LEVEL)
-                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                    gamemission = (expansion == 2 && nerve ? pack_nerve :
+                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
             }
             else if (currentmenu == &SaveDef)
                 LoadDef.laston = itemon;
@@ -4235,11 +4251,12 @@ bool M_Responder(event_t *ev)
                     }
                     else if (currentmenu == &ExpDef)
                     {
+                        expansion = itemon + 1;
+
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve :
                                 (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
 
-                        expansion = itemon + 1;
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
                     }

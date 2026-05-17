@@ -3517,10 +3517,34 @@ void P_SetupLevel(int ep, int map)
     {
         if (gamemode == commercial)
         {
+            int iwadlump = -1;
+            int nervelump = -1;
+            int masterlevelslump = -1;
+
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
 
             if (map == 31 || map == 32 || (map == 33 && bfgedition) || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
+
+            for (int i = 0; i < numlumps; i++)
+                if (!strncasecmp(lumpinfo[i]->name, lumpname, 8))
+                {
+                    if (D_IsDOOM2IWAD(lumpinfo[i]->wadfile->path))
+                        iwadlump = i;
+                    else if (D_IsNERVEWAD(lumpinfo[i]->wadfile->path))
+                        nervelump = i;
+                    else if (D_IsMasterLevelsWAD(lumpinfo[i]->wadfile->path))
+                        masterlevelslump = i;
+                }
+
+            if (gamemission == pack_nerve && nervelump >= 0)
+                lumpnum = nervelump;
+            else if (gamemission == pack_masterlevels && masterlevelslump >= 0)
+                lumpnum = masterlevelslump;
+            else if (gamemission == doom2 && expansion == 1 && iwadlump >= 0 && (nerve || masterlevels))
+                lumpnum = iwadlump;
+            else
+                lumpnum = W_GetNumForName(lumpname);
         }
         else
         {
@@ -3528,10 +3552,9 @@ void P_SetupLevel(int ep, int map)
 
             if (map == 9)
                 secretmap = true;
-        }
 
-        lumpnum = ((gamemission == doom2 && (nerve || masterlevels) && expansion == 1) ?
-            W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
+            lumpnum = W_GetNumForName(lumpname);
+        }
     }
 
     if (!secretmap)
@@ -3850,7 +3873,8 @@ static bool P_ParseMapInfo(const char *scriptname)
         {
             char    *file = leafname(lumpinfo[MAPINFO]->wadfile->path);
 
-            if (!D_IsNERVEWAD(file) && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file) && !D_IsFinalDOOMIWAD(file))
+            if (!D_IsNERVEWAD(file) && !D_IsMasterLevelsWAD(file) && !D_IsFinalDOOMIWAD(file)
+                && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file))
                 break;
         }
 
