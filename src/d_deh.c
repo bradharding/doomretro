@@ -437,15 +437,37 @@ char    *s_THUSTR_29 = THUSTR_29;
 char    *s_THUSTR_30 = THUSTR_30;
 char    *s_THUSTR_31 = THUSTR_31;
 char    *s_THUSTR_32 = THUSTR_32;
-char    *s_NHUSTR_1 = "";
-char    *s_NHUSTR_2 = "";
-char    *s_NHUSTR_3 = "";
-char    *s_NHUSTR_4 = "";
-char    *s_NHUSTR_5 = "";
-char    *s_NHUSTR_6 = "";
-char    *s_NHUSTR_7 = "";
-char    *s_NHUSTR_8 = "";
-char    *s_NHUSTR_9 = "";
+char    *s_NHUSTR_1 = NHUSTR_1;
+char    *s_NHUSTR_2 = NHUSTR_2;
+char    *s_NHUSTR_3 = NHUSTR_3;
+char    *s_NHUSTR_4 = NHUSTR_4;
+char    *s_NHUSTR_5 = NHUSTR_5;
+char    *s_NHUSTR_6 = NHUSTR_6;
+char    *s_NHUSTR_7 = NHUSTR_7;
+char    *s_NHUSTR_8 = NHUSTR_8;
+char    *s_NHUSTR_9 = NHUSTR_9;
+char    *s_MHUSTR_1 = MHUSTR_1;
+char    *s_MHUSTR_2 = MHUSTR_2;
+char    *s_MHUSTR_3 = MHUSTR_3;
+char    *s_MHUSTR_4 = MHUSTR_4;
+char    *s_MHUSTR_5 = MHUSTR_5;
+char    *s_MHUSTR_6 = MHUSTR_6;
+char    *s_MHUSTR_7 = MHUSTR_7;
+char    *s_MHUSTR_8 = MHUSTR_8;
+char    *s_MHUSTR_9 = MHUSTR_9;
+char    *s_MHUSTR_10 = MHUSTR_10;
+char    *s_MHUSTR_11 = MHUSTR_11;
+char    *s_MHUSTR_12 = MHUSTR_12;
+char    *s_MHUSTR_13 = MHUSTR_13;
+char    *s_MHUSTR_14 = MHUSTR_14;
+char    *s_MHUSTR_15 = MHUSTR_15;
+char    *s_MHUSTR_16 = MHUSTR_16;
+char    *s_MHUSTR_17 = MHUSTR_17;
+char    *s_MHUSTR_18 = MHUSTR_18;
+char    *s_MHUSTR_19 = MHUSTR_19;
+char    *s_MHUSTR_20 = MHUSTR_20;
+char    *s_MHUSTR_21 = MHUSTR_21;
+
 
 char    *s_HUSTR_CHATMACRO1 = HUSTR_CHATMACRO1;
 char    *s_HUSTR_CHATMACRO2 = HUSTR_CHATMACRO2;
@@ -1090,6 +1112,27 @@ deh_strs deh_strlookup[] =
     { &s_NHUSTR_7,                "NHUSTR_7"                },
     { &s_NHUSTR_8,                "NHUSTR_8"                },
     { &s_NHUSTR_9,                "NHUSTR_9"                },
+    { &s_MHUSTR_1,                "MHUSTR_1"                },
+    { &s_MHUSTR_2,                "MHUSTR_2"                },
+    { &s_MHUSTR_3,                "MHUSTR_3"                },
+    { &s_MHUSTR_4,                "MHUSTR_4"                },
+    { &s_MHUSTR_5,                "MHUSTR_5"                },
+    { &s_MHUSTR_6,                "MHUSTR_6"                },
+    { &s_MHUSTR_7,                "MHUSTR_7"                },
+    { &s_MHUSTR_8,                "MHUSTR_8"                },
+    { &s_MHUSTR_9,                "MHUSTR_9"                },
+    { &s_MHUSTR_10,               "MHUSTR_10"               },
+    { &s_MHUSTR_11,               "MHUSTR_11"               },
+    { &s_MHUSTR_12,               "MHUSTR_12"               },
+    { &s_MHUSTR_13,               "MHUSTR_13"               },
+    { &s_MHUSTR_14,               "MHUSTR_14"               },
+    { &s_MHUSTR_15,               "MHUSTR_15"               },
+    { &s_MHUSTR_16,               "MHUSTR_16"               },
+    { &s_MHUSTR_17,               "MHUSTR_17"               },
+    { &s_MHUSTR_18,               "MHUSTR_18"               },
+    { &s_MHUSTR_19,               "MHUSTR_19"               },
+    { &s_MHUSTR_20,               "MHUSTR_20"               },
+    { &s_MHUSTR_21,               "MHUSTR_21"               },
 
     { &s_HUSTR_CHATMACRO1,        "HUSTR_CHATMACRO1"        },
     { &s_HUSTR_CHATMACRO2,        "HUSTR_CHATMACRO2"        },
@@ -1645,12 +1688,39 @@ char **mapnamesn[] =
     &s_NHUSTR_9
 };
 
+// Master Level WAD map names.
+char **mapnamesm[] =
+{
+    &s_MHUSTR_1,
+    &s_MHUSTR_2,
+    &s_MHUSTR_3,
+    &s_MHUSTR_4,
+    &s_MHUSTR_5,
+    &s_MHUSTR_6,
+    &s_MHUSTR_7,
+    &s_MHUSTR_8,
+    &s_MHUSTR_9,
+    &s_MHUSTR_10,
+    &s_MHUSTR_11,
+    &s_MHUSTR_12,
+    &s_MHUSTR_13,
+    &s_MHUSTR_14,
+    &s_MHUSTR_15,
+    &s_MHUSTR_16,
+    &s_MHUSTR_17,
+    &s_MHUSTR_18,
+    &s_MHUSTR_19,
+    &s_MHUSTR_20,
+    &s_MHUSTR_21
+};
+
 const int   nummapnames = sizeof(mapnames) / sizeof(mapnames[0]);
 const int   nummapnames2 = sizeof(mapnames2) / sizeof(mapnames2[0]);
 const int   nummapnames2_bfg = sizeof(mapnames2_bfg) / sizeof(mapnames2_bfg[0]);
 const int   nummapnamesp = sizeof(mapnamesp) / sizeof(mapnamesp[0]);
 const int   nummapnamest = sizeof(mapnamest) / sizeof(mapnamest[0]);
 const int   nummapnamesn = sizeof(mapnamesn) / sizeof(mapnamesn[0]);
+const int   nummapnamesm = sizeof(mapnamesm) / sizeof(mapnamesm[0]);
 
 // Function prototypes
 static void lfstrip(char *s);       // strip the \r and/or \n off of a line

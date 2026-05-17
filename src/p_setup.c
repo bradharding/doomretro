@@ -3166,8 +3166,9 @@ void P_MapName(int ep, int map)
             if (*mapinfolabel)
                 M_StringCopy(mapnum, mapinfolabel, sizeof(mapnum));
             else
-                M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map, (((E1M4B || *speciallumpname) && ep == 1 && map == 4)
-                    || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
+                M_snprintf(mapnum, sizeof(mapnum), "E%iM%i%s", ep, map,
+                    (((E1M4B || *speciallumpname) && ep == 1 && map == 4)
+                        || ((E1M8B || *speciallumpname) && ep == 1 && map == 8) ? "B" : ""));
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
@@ -3223,8 +3224,8 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (map <= 21)
-                M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
+            else if (map <= nummapnamesm)
+                M_StringCopy(maptitle, trimwhitespace(*mapnamesm[map - 1]), sizeof(maptitle));
 
             break;
 

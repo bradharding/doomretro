@@ -552,6 +552,7 @@ extern char         **mapnames2_bfg[];
 extern char         **mapnamesp[];
 extern char         **mapnamest[];
 extern char         **mapnamesn[];
+extern char         **mapnamesm[];
 
 extern const int    nummapnames;
 extern const int    nummapnames2;
@@ -559,6 +560,7 @@ extern const int    nummapnames2_bfg;
 extern const int    nummapnamesp;
 extern const int    nummapnamest;
 extern const int    nummapnamesn;
+extern const int    nummapnamesm;
 
 extern int          dehcount;
 extern int          dehmaptitlecount;

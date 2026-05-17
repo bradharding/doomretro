@@ -1353,6 +1353,12 @@ void M_UpdateSaveGameName(int i)
 
                         break;
 
+                    case pack_masterlevels:
+                        if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnamesm[map - 1])))
+                            match = true;
+
+                        break;
+
                     case pack_plut:
                         if (M_StringCompare(savegamestrings[i], RemoveMapNum(*mapinfoname ? mapinfoname : *mapnamesp[map - 1])))
                             match = true;
