@@ -59,7 +59,6 @@ enum
 
 void *Z_Malloc(size_t size, unsigned char tag, void **user) ALLOCATTR(1);
 void *Z_Calloc(size_t size1, size_t size2, unsigned char tag, void **user) ALLOCSATTR(1, 2);
-char *Z_StringDuplicate(const char *, unsigned char tag, void **user);
 void Z_Free(void *ptr);
 void Z_FreeTags(unsigned char lowtag, unsigned char hightag);
 void Z_ChangeTag(void *ptr, unsigned char tag);

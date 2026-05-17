@@ -1378,10 +1378,10 @@ void M_LoadCVARs(const char *filename)
 #if defined(_WIN32)
                     char    *decoded = M_ConvertUtf8ToAnsi(value);
 
-                    temp = Z_StringDuplicate(decoded, PU_STATIC, NULL);
+                    temp = M_StringDuplicate(decoded);
                     free(decoded);
 #else
-                    temp = Z_StringDuplicate(value, PU_STATIC, NULL);
+                    temp = M_StringDuplicate(value);
 #endif
 
                     length = strlen(temp);
@@ -1478,10 +1478,10 @@ void M_LoadCVARs(const char *filename)
 #if defined(_WIN32)
                     char    *decoded = M_ConvertUtf8ToAnsi(value);
 
-                    *(char **)cvars[i].location = Z_StringDuplicate(decoded, PU_STATIC, NULL);
+                    *(char **)cvars[i].location = M_StringDuplicate(decoded);
                     free(decoded);
 #else
-                    *(char **)cvars[i].location = Z_StringDuplicate(value, PU_STATIC, NULL);
+                    *(char **)cvars[i].location = M_StringDuplicate(value);
 #endif
                     cvarcount++;
                     break;
