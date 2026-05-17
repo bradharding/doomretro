@@ -5179,7 +5179,7 @@ static bool mapfunc1(char *cmd, char *parms)
                     case pack_masterlevels:
                         if (D_IsMasterLevelsWAD(wadname))
                         {
-                            temp2 = removenonalpha(mapinfoname);
+                            temp2 = removenonalpha(*mapinfoname ? mapinfoname : *mapnamesm[mapcmdmap - 1]);
 
                             if (M_StringCompare(parm, temp2))
                                 result = true;
