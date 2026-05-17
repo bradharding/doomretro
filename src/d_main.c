@@ -900,20 +900,29 @@ bool D_IsResourceWAD(char *filename)
     return (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD));
 }
 
-static bool D_IsUnsupportedIWAD(char *filename)
+static bool D_IsUnsupportedWAD(char *filename)
 {
     const struct
     {
         char    *iwad;
         char    *title;
     } unsupported[] = {
-        { "heretic.wad",  "Heretic" },
-        { "heretic1.wad", "Heretic" },
-        { "hexen.wad",    "Hexen"   },
-        { "hexdd.wad",    "Hexen"   },
-        { "strife0.wad",  "Strife"  },
-        { "strife1.wad",  "Strife"  },
-        { "voices.wad",   "Strife"  }
+        { "heretic.wad",           "Heretic" },
+        { "heretic_ex.wad",        "Heretic" },
+        { "heretic_fr.wad",        "Heretic" },
+        { "heretic_mus_orig.wad",  "Heretic" },
+        { "heretic_mus_remix.wad", "Heretic" },
+        { "heretic1.wad",          "Heretic" },
+        { "hexen.wad",             "Hexen"   },
+        { "hexen_mus_orig.wad",    "Hexen"   },
+        { "hexen_mus_remix.wad",   "Hexen"   },
+        { "hexen_vog.wad",         "Hexen"   },
+        { "hexdd.wad",             "Hexen"   },
+        { "hexdd_ex.wad",          "Hexen"   },
+        { "hextest.wad",           "Hexen"   },
+        { "strife0.wad",           "Strife"  },
+        { "strife1.wad",           "Strife"  },
+        { "voices.wad",            "Strife"  }
     };
 
     for (int i = 0; i < arrlen(unsupported); i++)
@@ -1292,7 +1301,7 @@ static bool D_CheckParms(void)
         char    *folder = M_ExtractFolder(myargv[1]);
 
         // check if it's a valid and supported IWAD
-        if (D_IsDOOMIWAD(myargv[1]) || (W_WadType(myargv[1]) == IWAD && !D_IsUnsupportedIWAD(myargv[1])))
+        if (D_IsDOOMIWAD(myargv[1]) || (W_WadType(myargv[1]) == IWAD && !D_IsUnsupportedWAD(myargv[1])))
         {
             D_IdentifyIWADByName(myargv[1]);
 
@@ -1646,7 +1655,7 @@ static int D_OpenWADLauncher(void)
 #endif
 
             // check if it's a valid and supported IWAD
-            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
+            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedWAD(file)))
             {
                 D_IdentifyIWADByName(file);
 
@@ -1929,7 +1938,7 @@ static int D_OpenWADLauncher(void)
                 szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
-                if (W_WadType(fullpath) == IWAD && !D_IsUnsupportedIWAD(fullpath))
+                if (W_WadType(fullpath) == IWAD && !D_IsUnsupportedWAD(fullpath))
                 {
                     if (!iwadfound)
                     {
