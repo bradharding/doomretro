@@ -375,6 +375,7 @@
     <ClInclude Include="..\src\p_fix.h" />
     <ClInclude Include="..\src\p_inter.h" />
     <ClInclude Include="..\src\p_local.h" />
+    <ClInclude Include="..\src\p_mapinfo.h" />
     <ClInclude Include="..\src\p_mobj.h" />
     <ClInclude Include="..\src\p_pspr.h" />
     <ClInclude Include="..\src\p_saveg.h" />
@@ -464,6 +465,7 @@
     <ClCompile Include="..\src\p_genlin.c" />
     <ClCompile Include="..\src\p_inter.c" />
     <ClCompile Include="..\src\p_lights.c" />
+    <ClCompile Include="..\src\p_mapinfo.c" />
     <ClCompile Include="..\src\p_map.c" />
     <ClCompile Include="..\src\p_maputl.c" />
     <ClCompile Include="..\src\p_mobj.c" />
@@ -537,3 +539,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
+
