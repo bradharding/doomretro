@@ -651,7 +651,6 @@ void I_Quit(bool shutdown)
 
         I_ShutdownKeyboard();
         I_ShutdownController();
-        I_ShutdownGraphics();
         SDL_Quit();
     }
 
@@ -688,7 +687,6 @@ void I_Error(const char *error, ...)
 
     I_ShutdownKeyboard();
     I_ShutdownController();
-    I_ShutdownGraphics();
 
     W_CloseFiles();
 
