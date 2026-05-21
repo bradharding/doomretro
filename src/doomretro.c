@@ -49,6 +49,10 @@
 static WNDPROC  oldProc;
 static HICON    icon;
 
+#if defined(_WIN64)
+typedef BOOL (WINAPI *PSETPROCESSINFORMATION)(HANDLE, PROCESS_INFORMATION_CLASS, LPVOID, DWORD);
+#endif
+
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_SETCURSOR)
@@ -206,6 +210,8 @@ int main(int argc, char *argv[])
 #if defined(_WIN32)
 #if defined(_WIN64)
     PROCESS_POWER_THROTTLING_STATE  throttlestate;
+    PSETPROCESSINFORMATION          pSetProcessInformation = (PSETPROCESSINFORMATION)GetProcAddress(
+                                        GetModuleHandle("kernel32.dll"), "SetProcessInformation");
 #endif
 
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
@@ -224,7 +230,9 @@ int main(int argc, char *argv[])
     ZeroMemory(&throttlestate, sizeof(throttlestate));
     throttlestate.Version = PROCESS_POWER_THROTTLING_CURRENT_VERSION;
     throttlestate.ControlMask = PROCESS_POWER_THROTTLING_EXECUTION_SPEED;
-    SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &throttlestate, sizeof(throttlestate));
+
+    if (pSetProcessInformation)
+        pSetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &throttlestate, sizeof(throttlestate));
 #endif
 
     // Save the current sticky/toggle/filter key settings so they can be restored later
