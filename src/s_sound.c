@@ -359,6 +359,29 @@ static int S_GetMusicNum(void)
         (gameepisode == 5 && sigil ? mus_e5m1 : (gameepisode == 6 && sigil2 ? mus_e6m1 : mus_e1m1)) + map);
 }
 
+static int S_GetPreferredMusicLump(const int lumpnum)
+{
+    if (extras && lumpnum > 0 && lumpnum < numlumps)
+    {
+        char    namebuf[9];
+
+        M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
+
+        if (namebuf[0] == 'D' && namebuf[1] == '_')
+        {
+            int preferredlumpnum;
+
+            namebuf[0] = 'H';
+            preferredlumpnum = W_CheckNumForName(namebuf);
+
+            if (preferredlumpnum >= 0)
+                return preferredlumpnum;
+        }
+    }
+
+    return lumpnum;
+}
+
 //
 // Per level startup code.
 // Kills playing sounds at start of level,
@@ -617,64 +640,67 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     const bool allowrestart, const bool mapstart)
 {
     musicinfo_t *music = &s_music[musicnum];
+    const char  *name = music->name2;
     char        namebuf[9];
     void        *handle;
+    int         lumpnum;
     int         mapinfomusic;
 
     // current music which should play
     musinfo.currentitem = -1;
     s_music[mus_musinfo].lumpnum = -1;
 
-    if (nomusic || (mus_playing == music && !allowrestart))
-        return;
-
-    // shutdown old music
-    S_StopMusic();
-
-    if (M_StringStartsWith(music->name1, "d_"))
-        M_StringCopy(namebuf, music->name1, sizeof(namebuf));
+    if (M_StringStartsWith(name, "d_"))
+        M_StringCopy(namebuf, name, sizeof(namebuf));
     else if (*music->IDKFA && !legacyofrust)
     {
         M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
 
         if (W_CheckNumForName(namebuf) == -1)
-            M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+            M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
     }
     else
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
 
-    // get lumpnum if necessary
+    // get lumpnum
     if (autosigil)
     {
         if (musicnum == mus_intro)
-            music->lumpnum = W_GetLastNumForName(namebuf);
+            lumpnum = W_GetLastNumForName(namebuf);
         else if (musicnum == mus_inter && sigil && sigil2)
         {
             if (gameepisode == 5)
             {
-                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
-                music->lumpnum = W_GetXNumForName(namebuf, (buckethead ? 4 : 2));
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
+                lumpnum = W_GetXNumForName(namebuf, (buckethead ? 4 : 2));
             }
             else if (gameepisode == 6)
             {
-                M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name1);
-                music->lumpnum = W_GetXNumForName(namebuf,
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
+                lumpnum = W_GetXNumForName(namebuf,
                     (registeredsigil ? 4 : (thorr && buckethead ? 5 : 3)));
             }
             else
-                music->lumpnum = W_GetLastNumForName(namebuf);
+                lumpnum = W_GetLastNumForName(namebuf);
         }
         else
-            music->lumpnum = W_CheckNumForName(namebuf);
+            lumpnum = W_CheckNumForName(namebuf);
     }
     else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, S_GetMapNum())) > 0)
     {
-        music->lumpnum = mapinfomusic;
-        M_StringCopy(music->name1, lumpinfo[mapinfomusic]->name, sizeof(music->name1));
-        M_StringCopy(namebuf, lumpinfo[mapinfomusic]->name, sizeof(namebuf));
+        lumpnum = S_GetPreferredMusicLump(mapinfomusic);
+        M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
     }
-    else if (!music->lumpnum)
-        music->lumpnum = W_CheckNumForName(namebuf);
+    else
+        lumpnum = W_CheckNumForName(namebuf);
+
+    if (nomusic || (mus_playing == music && mus_playing->lumpnum == lumpnum && !allowrestart))
+        return;
+
+    // shutdown old music
+    S_StopMusic();
+
+    music->lumpnum = lumpnum;
 
     if (music->lumpnum == -1)
     {
@@ -685,6 +711,9 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
         return;
     }
+
+    if (mapstart && mapinfomusic > 0)
+        M_StringCopy(music->name1, lumpinfo[music->lumpnum]->name, sizeof(music->name1));
 
     // load and register it
     music->data = W_CacheLumpNum(music->lumpnum);
@@ -753,34 +782,35 @@ void S_StopMusic(void)
 
 void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
 {
+    const int   preferredlumpnum = S_GetPreferredMusicLump(lumpnum);
     musicinfo_t *music;
     void        *handle;
 
-    if (nomusic || (mus_playing && mus_playing->lumpnum == lumpnum))
+    if (nomusic || (mus_playing && mus_playing->lumpnum == preferredlumpnum))
         return;
 
     music = &s_music[mus_musinfo];
 
-    if (music->lumpnum == lumpnum)
+    if (music->lumpnum == preferredlumpnum)
         return;
 
     // shutdown old music
     S_StopMusic();
 
     // save lumpnum
-    music->lumpnum = lumpnum;
+    music->lumpnum = preferredlumpnum;
 
     // load and register it
-    music->data = W_CacheLumpNum(lumpnum);
+    music->data = W_CacheLumpNum(music->lumpnum);
 
-    if (!(handle = I_RegisterSong(music->data, W_LumpLength(lumpnum))))
+    if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
 #if defined(_WIN32)
         if (!midimusictype || !windowsmidi)
 #endif
         {
             char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
-            if (W_WriteFile(filename, music->data, W_LumpLength(lumpnum)))
+            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
                 handle = Mix_LoadMUS(filename);
 
             free(filename);
@@ -801,9 +831,9 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
     I_PlaySong(handle, looping);
 
     mus_playing = music;
-    M_StringCopy(mus_playing->name1, lumpinfo[lumpnum]->name, sizeof(mus_playing->name1));
+    M_StringCopy(mus_playing->name1, lumpinfo[music->lumpnum]->name, sizeof(mus_playing->name1));
 
-    musinfo.currentitem = lumpnum;
+    musinfo.currentitem = music->lumpnum;
 }
 
 //
