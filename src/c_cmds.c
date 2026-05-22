@@ -6301,50 +6301,66 @@ static void mapstatsfunc2(char *cmd, char *parms)
     {
         int                 lumps;
         char                namebuf[9];
+        const musicinfo_t   *musicinfo = NULL;
+        const musicinfo_t   *music = mus_playing;
         const char          *musicartist = P_GetMapMusicComposer(gameepisode, gamemap);
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
-        temp = uppercase(mus_playing->name1);
+        M_StringCopy(namebuf, lumpinfo[mus_playing->lumpnum]->name, sizeof(namebuf));
 
-        if ((temp[0] == 'D' || temp[0] == 'O') && temp[1] == '_')
-            M_StringCopy(namebuf, temp, sizeof(namebuf));
-        else
+        for (int i = 1; i < NUMMUSIC; i++)
         {
-            if (*mus_playing->IDKFA)
-            {
-                M_StringCopy(namebuf, mus_playing->IDKFA, sizeof(namebuf));
+            char    lumpname[9];
 
-                if (W_CheckNumForName(namebuf) == -1)
-                    M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+            if ((*s_music[i].IDKFA && M_StringCompare(namebuf, s_music[i].IDKFA)))
+            {
+                musicinfo = &s_music[i];
+                break;
             }
-            else
-                M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+
+            M_snprintf(lumpname, sizeof(lumpname), "H_%s", s_music[i].name2);
+
+            if (M_StringCompare(namebuf, lumpname))
+            {
+                musicinfo = &s_music[i];
+                break;
+            }
+
+            M_snprintf(lumpname, sizeof(lumpname), "D_%s", s_music[i].name2);
+
+            if (M_StringCompare(namebuf, lumpname))
+            {
+                musicinfo = &s_music[i];
+                break;
+            }
         }
 
+        if (musicinfo)
+            music = musicinfo;
+
         C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
-        free(temp);
 
         lumps = W_GetNumLumps(namebuf);
 
         if (*musictitle)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), musictitle);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? music->title2 : music->title1));
         else if (sigil2 && gameepisode == 6)
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? mus_playing->title2 : mus_playing->title1));
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (thorr ? music->title2 : music->title1));
         else if (legacyofrust && gamemap <= 15)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), legacyofrustmusic[gamemap - 1].title);
-        else if (namebuf[0] == 'H' && namebuf[1] == '_' && !M_StringCompare(mus_playing->title1, "n/a"))
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
+        else if (namebuf[0] == 'H' && namebuf[1] == '_' && !M_StringCompare(music->title1, "n/a"))
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), music->title1);
         else if (lumps == 1 && wadtype == IWAD && gamemission == pack_tnt)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), tntmusic[gamemap - 1].title);
-        else if (!M_StringCompare(mus_playing->title1, "n/a")
+        else if (!M_StringCompare(music->title1, "n/a")
             && (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
                 || (gamemode != commercial && gameepisode == 1 && lumps == 2)
                 || gamemode == shareware
                 || gamemission == pack_nerve))
-            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), music->title1);
 
         if (*musicartist)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", musicartist);
