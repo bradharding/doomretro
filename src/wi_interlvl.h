@@ -92,3 +92,4 @@ typedef struct
 } interlevel_t;
 
 interlevel_t *WI_ParseInterlevel(const char *lumpname);
+void WI_FreeInterlevel(interlevel_t *interlevel);

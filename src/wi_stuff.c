@@ -536,6 +536,19 @@ static bool UpdateMusic(bool enteringcondition)
     return false;
 }
 
+static void WI_ResetAnimation(void)
+{
+    if (animation)
+    {
+        array_free(animation->exitingstates);
+        array_free(animation->enteringstates);
+        WI_FreeInterlevel(animation->interlevelexiting);
+        WI_FreeInterlevel(animation->interlevelentering);
+        free(animation);
+        animation = NULL;
+    }
+}
+
 // slam background
 static void WI_SlamBackground(void)
 {
@@ -1574,6 +1587,7 @@ static void WI_UnloadCallback(const char *name, patch_t **variable)
 
 static void WI_UnloadData(void)
 {
+    WI_ResetAnimation();
     WI_LoadUnloadData(&WI_UnloadCallback);
 }
 
@@ -1632,6 +1646,7 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
     char    *enteranim = P_GetMapEnterAnim(gameepisode, gamemap);
     char    *exitanim = P_GetMapExitAnim(gameepisode, gamemap);
 
+    WI_ResetAnimation();
     WI_InitVariables(wbstartstruct);
 
     if (enteranim[0])

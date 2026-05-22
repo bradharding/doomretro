@@ -210,3 +210,36 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
     cJSON_Delete(json);
     return out;
 }
+
+void WI_FreeInterlevel(interlevel_t *interlevel)
+{
+    if (interlevel)
+    {
+        interlevellayer_t   *layer;
+
+        free(interlevel->musiclump);
+        free(interlevel->backgroundlump);
+
+        array_foreach(layer, interlevel->layers)
+        {
+            interlevelanim_t    *anim;
+
+            array_foreach(anim, layer->anims)
+            {
+                interlevelframe_t   *frame;
+
+                array_foreach(frame, anim->frames)
+                    free(frame->imagelump);
+
+                array_free(anim->frames);
+                array_free(anim->conditions);
+            }
+
+            array_free(layer->anims);
+            array_free(layer->conditions);
+        }
+
+        array_free(interlevel->layers);
+        free(interlevel);
+    }
+}
