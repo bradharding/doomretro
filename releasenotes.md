@@ -6,6 +6,9 @@
 * *DOOM Retro* now uses [*SDL_mixer v2.8.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.2).
 * Several changes have been made to further improve the overall stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* These bugs have been fixed on older versions of *Windows* that were affecting some users:
+  * An error message about `SetProcessInformation` would appear at startup.
+  * The screen’s palette would be corrupted.
 * The *Master Levels* are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
