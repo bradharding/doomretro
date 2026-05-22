@@ -454,11 +454,14 @@ static bool DrawAnimation(void)
         V_DrawPagePatch(0, W_CacheLumpName(animation->backgroundlump));
 
     array_foreach(animstate, animation->states)
-        if (!animstate->xpos && !animstate->ypos)
-            V_DrawPagePatch(0, W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump));
+    {
+        patch_t *patch = W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump);
+
+        if (!animstate->xpos && !animstate->ypos && SHORT(patch->width) >= VANILLAWIDTH)
+            V_DrawPagePatch(0, patch);
         else
-            V_DrawMenuPatch(animstate->xpos, animstate->ypos,
-                W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump), false, SCREENWIDTH);
+            V_DrawMenuPatch(animstate->xpos, animstate->ypos, patch, false, SCREENWIDTH);
+    }
 
     return true;
 }
