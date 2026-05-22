@@ -764,7 +764,11 @@ static bool C_IsVisibleConsoleString(const int index)
 
 static int C_GetWrapWidth(const int index, const int wrap)
 {
-    return (wrap ? MAX(0, CONSOLETEXTPIXELWIDTH - console[index].indent) : CONSOLETEXTPIXELWIDTH);
+    const stringtype_t  stringtype = console[index].stringtype;
+
+    return (((wrap || stringtype == warningstring || stringtype == playerwarningstring
+        || stringtype == playerobituarystring) ? MAX(0, CONSOLETEXTPIXELWIDTH - console[index].indent) :
+        CONSOLETEXTPIXELWIDTH));
 }
 
 static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])

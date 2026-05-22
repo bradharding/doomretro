@@ -12,6 +12,7 @@
 * The *Master Levels* are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
+* Warnings in the console now wrap correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
