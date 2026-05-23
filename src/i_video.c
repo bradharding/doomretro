@@ -1505,7 +1505,7 @@ void I_SetMotionBlur(const int percent)
 static void SetVideoMode(const bool createwindow, const bool output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
-    int                 windowflags = (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    int                 windowflags = SDL_WINDOW_RESIZABLE;
     int                 width, height;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
@@ -1580,6 +1580,9 @@ static void SetVideoMode(const bool createwindow, const bool output)
 #endif
 
     software = M_StringCompare(vid_scaleapi, vid_scaleapi_software);
+
+    if (M_StringStartsWith(vid_scaleapi, "opengl"))
+        windowflags |= SDL_WINDOW_OPENGL;
 
     GetWindowPosition();
     GetWindowSize();
