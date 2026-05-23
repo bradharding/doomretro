@@ -37,7 +37,9 @@
 #include <Windows.h>
 #else
 #include <dirent.h>
+#include <fcntl.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 #include "c_cmds.h"
@@ -642,12 +644,30 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
             }
             else if (M_StringEndsWith(dir->d_name, ".cfg"))
             {
-                char    strparm[512] = "";
-                FILE    *file;
-                int     linecount = 0;
+                char        strparm[512] = "";
+                FILE        *file;
+                int         fd;
+                int         linecount = 0;
+                struct stat filestatus;
 
-                if (!(file = fopen(temp1, "rt")))
+                if ((fd = open(temp1, O_RDONLY)) == -1)
                 {
+                    C_Warning(0, BOLD("%s") " couldn't be opened.", temp1);
+                    free(temp1);
+                    closedir(d);
+                    return false;
+                }
+
+                if (fstat(fd, &filestatus) == -1 || !S_ISREG(filestatus.st_mode))
+                {
+                    close(fd);
+                    free(temp1);
+                    continue;
+                }
+
+                if (!(file = fdopen(fd, "rt")))
+                {
+                    close(fd);
                     C_Warning(0, BOLD("%s") " couldn't be opened.", temp1);
                     free(temp1);
                     closedir(d);
