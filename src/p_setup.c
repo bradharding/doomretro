@@ -3311,7 +3311,7 @@ void P_SetupLevel(int ep, int map)
                 lumpnum = nervelump;
             else if (gamemission == pack_masterlevels && masterlevelslump >= 0)
                 lumpnum = masterlevelslump;
-            else if (gamemission == doom2 && expansion == 1 && iwadlump >= 0 && (nerve || masterlevels))
+            else if (gamemission == doom2 && iwadlump >= 0 && (nerve || masterlevels))
                 lumpnum = iwadlump;
             else
                 lumpnum = W_GetNumForName(lumpname);

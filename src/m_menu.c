@@ -168,6 +168,8 @@ static void M_DrawLoad(void);
 static void M_DrawSave(void);
 
 static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
+static bool M_IsPlayingGame(void);
+static void M_UpdateGameMissionFromExpansion(void);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
@@ -2084,11 +2086,25 @@ static void M_Episode(int choice)
 
 static void M_Expansion(int choice)
 {
-    gamemission = (choice == ex2 && nerve ? pack_nerve :
-        (choice == (nerve ? ex3 : ex2) && masterlevels ? pack_masterlevels : doom2));
+    expansion = choice + 1;
+
+    if (!M_IsPlayingGame())
+        M_UpdateGameMissionFromExpansion();
+
     D_SetSaveGameFolder(false);
     M_ReadSaveStrings();
     M_SetupNextMenu(&NewDef);
+}
+
+static bool M_IsPlayingGame(void)
+{
+    return (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION || gamestate == GS_FINALE);
+}
+
+static void M_UpdateGameMissionFromExpansion(void)
+{
+    gamemission = (expansion == 2 && nerve ? pack_nerve :
+        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
 }
 
 //
@@ -2327,7 +2343,7 @@ static void M_EndGameResponse(int key)
     st_palette = 0;
     endinggame = true;
 
-    if (gamemission == pack_nerve)
+    if (gamemission == pack_nerve || gamemission == pack_masterlevels)
         gamemission = doom2;
 
     if (!numconsolestrings || !M_StringCompare(console[numconsolestrings - 1].string, "endgame"))
@@ -3179,9 +3195,8 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &ExpDef)
                             {
-                                if (gamestate != GS_LEVEL)
-                                    gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                                if (!M_IsPlayingGame())
+                                    M_UpdateGameMissionFromExpansion();
                             }
                             else if (currentmenu == &SaveDef)
                                 LoadDef.laston = itemon;
@@ -3250,9 +3265,8 @@ bool M_Responder(event_t *ev)
                             {
                                 expansion = itemon + 1;
 
-                                if (gamestate != GS_LEVEL)
-                                    gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                                if (!M_IsPlayingGame())
+                                    M_UpdateGameMissionFromExpansion();
 
                                 M_SaveCVARs();
                                 C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
@@ -3936,9 +3950,8 @@ bool M_Responder(event_t *ev)
                     {
                         expansion = itemon + 1;
 
-                        if (gamestate != GS_LEVEL)
-                            gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                        if (!M_IsPlayingGame())
+                            M_UpdateGameMissionFromExpansion();
 
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
@@ -3962,9 +3975,8 @@ bool M_Responder(event_t *ev)
 
             if (currentmenu == &ExpDef)
             {
-                if (gamestate != GS_LEVEL)
-                    gamemission = (expansion == 2 && nerve ? pack_nerve :
-                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                if (!M_IsPlayingGame())
+                    M_UpdateGameMissionFromExpansion();
             }
             else if (currentmenu == &SaveDef)
                 LoadDef.laston = itemon;
@@ -4018,9 +4030,8 @@ bool M_Responder(event_t *ev)
                     {
                         expansion = itemon + 1;
 
-                        if (gamestate != GS_LEVEL)
-                            gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                        if (!M_IsPlayingGame())
+                            M_UpdateGameMissionFromExpansion();
 
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
@@ -4044,9 +4055,8 @@ bool M_Responder(event_t *ev)
 
             if (currentmenu == &ExpDef)
             {
-                if (gamestate != GS_LEVEL)
-                    gamemission = (expansion == 2 && nerve ? pack_nerve :
-                        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                if (!M_IsPlayingGame())
+                    M_UpdateGameMissionFromExpansion();
             }
             else if (currentmenu == &SaveDef)
                 LoadDef.laston = itemon;
@@ -4253,9 +4263,8 @@ bool M_Responder(event_t *ev)
                     {
                         expansion = itemon + 1;
 
-                        if (gamestate != GS_LEVEL)
-                            gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+                        if (!M_IsPlayingGame())
+                            M_UpdateGameMissionFromExpansion();
 
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
@@ -4311,11 +4320,11 @@ bool M_Responder(event_t *ev)
                     }
                     else if (currentmenu == &ExpDef)
                     {
-                        if (gamestate != GS_LEVEL)
-                            gamemission = (expansion == 2 && nerve ? pack_nerve :
-                                (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
-
                         expansion = itemon + 1;
+
+                        if (!M_IsPlayingGame())
+                            M_UpdateGameMissionFromExpansion();
+
                         M_SaveCVARs();
                         C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
                     }
