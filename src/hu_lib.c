@@ -143,8 +143,8 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
-    int             x = HU_ALTHUDMSGX;
-    int             y = HU_ALTHUDMSGY;
+    int             x = l->x;
+    int             y = l->y;
     int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
                         (r_hud_translucency ? nearestwhite : nearestlightgray)));
     int             shadowcolor = nearestdarkgray;
@@ -210,7 +210,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
             if (letter == '\n')
             {
-                x = OVERLAYTEXTX;
+                x = l->x;
                 y += OVERLAYLINEHEIGHT;
                 continue;
             }

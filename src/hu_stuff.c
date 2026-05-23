@@ -54,8 +54,9 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-#define NUMCROSSHAIRS   9
-#define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
+#define NUMCROSSHAIRS       9
+#define STSTR_BEHOLD2       "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
+#define MESSAGESCROLLTICS   7
 
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
@@ -75,9 +76,15 @@ bool                    idbehold = false;
 bool                    s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
+static hu_stext_t       w_prevmessage;
 int                     message_counter;
+static int              message_scrollcounter;
+static bool             groupedmessage;
 
 static bool             headsupactive;
+static bool             current_message_external;
+static bool             prev_message_external;
+static bool             prev_message_on;
 
 patch_t                 *minuspatch = NULL;
 patch_t                 *buddha;
@@ -126,6 +133,35 @@ static struct
 };
 
 static void HU_AltInit(void);
+
+static void HU_SetMessagePosition(hu_stext_t *message, bool external, int yoffset)
+{
+    if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+    {
+        message->l.x = HU_ALTHUDMSGX;
+        message->l.y = HU_ALTHUDMSGY + yoffset;
+    }
+    else if (vanilla && !vid_widescreen)
+    {
+        message->l.x = 0;
+        message->l.y = yoffset;
+    }
+    else if ((r_screensize == r_screensize_max && !(r_althud && r_althudfont)) || external)
+    {
+        message->l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
+        message->l.y = HU_MSGY + 4 + yoffset;
+    }
+    else if (vid_widescreen && r_screensize == r_screensize_max - 1)
+    {
+        message->l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
+        message->l.y = HU_MSGY + 1 + yoffset;
+    }
+    else
+    {
+        message->l.x = (!vid_widescreen && automapactive ? 0 : HU_MSGX);
+        message->l.y = HU_MSGY + 1 + yoffset;
+    }
+}
 
 static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
@@ -294,9 +330,15 @@ void HU_Start(void)
     message_warning = false;
     message_nottobefuckedwith = false;
     message_external = false;
+    current_message_external = false;
+    prev_message_external = false;
+    prev_message_on = false;
+    message_scrollcounter = 0;
+    groupedmessage = false;
 
     // create the message widget
     HUlib_InitSText(&w_message, w_message.l.x, w_message.l.y, hu_font, HU_FONTSTART, &message_on);
+    HUlib_InitSText(&w_prevmessage, w_prevmessage.l.x, w_prevmessage.l.y, hu_font, HU_FONTSTART, &prev_message_on);
 
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
@@ -1473,28 +1515,44 @@ void HU_Drawer(void)
 
     if (*w_message.l.l)
     {
-        if (vanilla && !vid_widescreen)
+        if (smoothtransitions && message_scrollcounter && prev_message_on && *w_prevmessage.l.l)
         {
-            w_message.l.x = 0;
-            w_message.l.y = 0;
-        }
-        else if ((r_screensize == r_screensize_max && !(r_althud && r_althudfont)) || message_external)
-        {
-            w_message.l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
-            w_message.l.y = HU_MSGY + 4;
-        }
-        else if (vid_widescreen && r_screensize == r_screensize_max - 1)
-        {
-            w_message.l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
-            w_message.l.y = HU_MSGY + 1;
+            const int   progress = MESSAGESCROLLTICS - message_scrollcounter + 1;
+            const int   lineheight = (r_althud && r_althudfont && r_screensize == r_screensize_max ?
+                                OVERLAYLINEHEIGHT : SHORT(hu_font[0]->height) + 2);
+            const int   saved_message_counter = message_counter;
+            const bool  saved_message_fadeon = message_fadeon;
+
+            HU_SetMessagePosition(&w_prevmessage, prev_message_external, 0);
+            HU_SetMessagePosition(&w_message, current_message_external, 0);
+
+            {
+                const int   prevdistance = MIN(lineheight, w_prevmessage.l.y);
+                const int   currentdistance = MIN(lineheight, w_message.l.y);
+                const int   prevoffset = (prevdistance * progress + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+                const int   currentoffset = (currentdistance * (MESSAGESCROLLTICS - progress)
+                                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+
+                w_prevmessage.l.y -= prevoffset;
+                w_message.l.y += currentoffset;
+            }
+
+            message_counter = message_scrollcounter;
+            message_fadeon = false;
+            HUlib_DrawSText(&w_prevmessage, prev_message_external);
+
+            message_counter = HU_MSGTIMEOUT - progress + 1;
+            message_fadeon = true;
+            HUlib_DrawSText(&w_message, current_message_external);
+
+            message_counter = saved_message_counter;
+            message_fadeon = saved_message_fadeon;
         }
         else
         {
-            w_message.l.x = (!vid_widescreen && automapactive ? 0 : HU_MSGX);
-            w_message.l.y = HU_MSGY + 1;
+            HU_SetMessagePosition(&w_message, current_message_external, 0);
+            HUlib_DrawSText(&w_message, current_message_external);
         }
-
-        HUlib_DrawSText(&w_message, message_external);
     }
 
     if (automapactive)
@@ -1597,6 +1655,9 @@ void HU_Erase(void)
     if (message_on)
         HUlib_EraseSText(&w_message);
 
+    if (prev_message_on)
+        HUlib_EraseSText(&w_prevmessage);
+
     if (mapwindow || automapactive)
         HUlib_EraseTextLine(&w_title);
 }
@@ -1612,8 +1673,13 @@ void HU_Ticker(void)
         message_nottobefuckedwith = false;
         message_secret = false;
         message_warning = false;
+        prev_message_on = false;
+        message_scrollcounter = 0;
         return;
     }
+
+    if (message_scrollcounter && !menuactive && !--message_scrollcounter)
+        prev_message_on = false;
 
     if (!(message = viewplayer->message)
         || (message_nottobefuckedwith && !message_dontfuckwithme)
@@ -1622,11 +1688,28 @@ void HU_Ticker(void)
 
     if (messages)
     {
+        const bool  replacing = (message_on && *w_message.l.l);
+        const bool  scroll = (replacing && !(groupmessages && groupedmessage));
+
+        if (scroll)
+        {
+            w_prevmessage.l = w_message.l;
+            prev_message_external = current_message_external;
+            prev_message_on = true;
+            message_scrollcounter = MESSAGESCROLLTICS;
+        }
+        else
+        {
+            prev_message_on = false;
+            message_scrollcounter = 0;
+        }
+
         HUlib_AddMessageToSText(&w_message, message);
 
-        message_fadeon = (!message_on || message_counter <= 5);
+        message_fadeon = (!groupedmessage && (!message_on || message_counter <= 5 || replacing));
         message_on = true;
         message_counter = HU_MSGTIMEOUT;
+        current_message_external = message_external;
         message_nottobefuckedwith = message_dontfuckwithme;
         message_dontfuckwithme = false;
     }
@@ -1646,6 +1729,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     {
         free(viewplayer->message);
         viewplayer->message = sentencecase(message);
+        groupedmessage = false;
     }
     else
     {
@@ -1661,12 +1745,14 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
             free(viewplayer->message);
             viewplayer->message = sentencecase(buffer);
             free(temp);
+            groupedmessage = true;
         }
         else
         {
             messagecount = 1;
             viewplayer->message = sentencecase(message);
             M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
+            groupedmessage = false;
         }
 
         viewplayer->prevmessagetics = gametime;
@@ -1715,9 +1801,14 @@ void HU_ClearMessages(void)
 
     viewplayer->message = NULL;
     message_counter = 7;
+    message_scrollcounter = 0;
     message_on = false;
+    prev_message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
     message_secret = false;
     message_warning = false;
+    current_message_external = false;
+    prev_message_external = false;
+    groupedmessage = false;
 }
