@@ -296,6 +296,8 @@ static patch_t          **lnames;
 
 static int              enterpic;
 static int              exitpic;
+static int              finishedtitlepatch;
+static int              enteringtitlepatch;
 
 typedef struct
 {
@@ -627,12 +629,11 @@ static void WI_DrawWILV(int y, char *str)
 static void WI_DrawLF(void)
 {
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->last + 1);
 
     // draw <LevelName>
-    if (titlepatch > 0)
+    if (finishedtitlepatch > 0)
     {
-        patch_t     *patch = W_CacheLumpNum(titlepatch);
+        patch_t     *patch = W_CacheLumpNum(finishedtitlepatch);
         const short height = SHORT(patch->height);
 
         if (height < VANILLAHEIGHT)
@@ -684,7 +685,6 @@ static void WI_DrawLF(void)
 static void WI_DrawEL(void)
 {
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->next + 1);
 
     // draw "Entering"
     if (SHORT(wienter->height) < VANILLAHEIGHT)
@@ -695,9 +695,9 @@ static void WI_DrawEL(void)
     // draw "<LevelName>"
     y += SHORT(wienter->height) + 4;
 
-    if (titlepatch > 0)
+    if (enteringtitlepatch > 0)
     {
-        patch_t *patch = W_CacheLumpNum(titlepatch);
+        patch_t *patch = W_CacheLumpNum(enteringtitlepatch);
 
         if (SHORT(patch->height) < VANILLAHEIGHT)
             V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
@@ -1636,6 +1636,9 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
+
+    finishedtitlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->last + 1);
+    enteringtitlepatch = P_GetMapTitlePatch(wbs->epsd + 1, wbs->next + 1);
 
     M_StringCopy(mapname, temp, sizeof(mapname));
     free(temp);
