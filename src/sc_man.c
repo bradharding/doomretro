@@ -59,6 +59,21 @@ static bool     ScriptOpen;
 static bool     AlreadyGot;
 static bool     SkipComma;
 
+static bool SC_PreviousCharIs(const char c)
+{
+    return (ScriptPtr > ScriptBuffer && *(ScriptPtr - 1) == c);
+}
+
+static bool SC_NextCharIs(const char c)
+{
+    return (ScriptPtr + 1 < ScriptEndPtr && *(ScriptPtr + 1) == c);
+}
+
+static bool SC_IsComment(void)
+{
+    return (*ScriptPtr == ASCII_COMMENT1 || (*ScriptPtr == ASCII_COMMENT2 && SC_NextCharIs(ASCII_COMMENT2)));
+}
+
 static void SC_ScriptError(void)
 {
     char    *temp = commify(sc_Line);
@@ -125,8 +140,8 @@ bool SC_GetString(void)
     while (!foundToken)
     {
         while (ScriptPtr < ScriptEndPtr
-            && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '='
-                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
+            && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '}' || *ScriptPtr == '='
+                || (*ScriptPtr == ',' && !SkipComma && !SC_PreviousCharIs('\''))))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -136,8 +151,7 @@ bool SC_GetString(void)
             return false;
         }
 
-        if (*ScriptPtr != ASCII_COMMENT1
-            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        if (!SC_IsComment())
             foundToken = true;
         else
         {
@@ -158,13 +172,13 @@ bool SC_GetString(void)
     {
         ScriptPtr++;
 
-        while (*ScriptPtr != ASCII_QUOTE || *(ScriptPtr - 1) == ASCII_ESCAPE)
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr != ASCII_QUOTE || SC_PreviousCharIs(ASCII_ESCAPE)))
         {
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
 
             if (*ScriptPtr == ASCII_ESCAPE
-                && (*(ScriptPtr + 1) == 'n' || *(ScriptPtr + 1) == 'N'))
+                && (SC_NextCharIs('n') || SC_NextCharIs('N')))
             {
                 ScriptPtr += 2;
                 *text++ = '\n';
@@ -175,28 +189,26 @@ bool SC_GetString(void)
                 ScriptPtr++;
         }
 
-        ScriptPtr++;
+        if (ScriptPtr < ScriptEndPtr)
+            ScriptPtr++;
     }
     else
-        while (*ScriptPtr > 32
-            && *ScriptPtr != ASCII_COMMENT1
-            && *ScriptPtr != ASCII_COMMENT2 && *(ScriptPtr + 1) != ASCII_COMMENT2)
+        while (ScriptPtr < ScriptEndPtr
+            && *ScriptPtr > 32
+            && !SC_IsComment())
         {
-            if (*ScriptPtr == '}')
-                ScriptPtr++;
-
             *text++ = *ScriptPtr++;
+
+            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
+                break;
 
             if (*ScriptPtr == '{'
                 || *ScriptPtr == '='
-                || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
+                || (*ScriptPtr == ',' && !SkipComma && !SC_PreviousCharIs('\'')))
             {
                 ScriptPtr++;
                 break;
             }
-
-            if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
-                break;
         }
 
     *text = '\0';
