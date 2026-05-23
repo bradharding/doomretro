@@ -125,10 +125,13 @@ typedef struct
     bool            endgame;
     int             endpic;
     char            enteranim[9];
+    int             enteranimlump;
     int             enterpic;
     char            exitanim[9];
+    int             exitanimlump;
     int             exitpic;
     char            interbackdrop[9];
+    int             interbackdroplump;
     int             intermusic;
     char            intertext[1024];
     char            intertextsecret[1024];
@@ -163,6 +166,9 @@ typedef enum
 
 static void P_InitMapInfoEntry(mapinfo_t *info);
 static mapinfoexpansion_t P_GetMapInfoExpansionFromGameMission(void);
+static bool P_IsMatchingExpansionWAD(const char *path, mapinfoexpansion_t expansion);
+static int P_CheckNumForNameForExpansionFromTo(const char *name, mapinfoexpansion_t expansion, int from, int to);
+static int P_CheckNumForNameForExpansion(const char *name, mapinfoexpansion_t expansion);
 static mapinfo_t *P_GetMapInfoEntryForExpansion(mapinfoexpansion_t expansion, int ep, int map);
 static mapinfo_t *P_GetMapInfoEntry(int ep, int map);
 static void P_EnsureMapInfoCapacity(int new_max_map);
@@ -353,13 +359,88 @@ static mapinfoexpansion_t P_GetMapInfoExpansionFromGameMission(void)
     if (gamemode != commercial)
         return MAPINFOEXPANSION_HELLONEARTH;
 
-    if ((nerve && expansion == 2) || gamemission == pack_nerve)
+    if (gamemission == pack_nerve)
         return MAPINFOEXPANSION_NERVE;
 
-    if ((masterlevels && expansion == (nerve ? 3 : 2)) || gamemission == pack_masterlevels)
+    if (gamemission == pack_masterlevels)
         return MAPINFOEXPANSION_MASTERLEVELS;
 
     return MAPINFOEXPANSION_HELLONEARTH;
+}
+
+static bool P_IsMatchingExpansionWAD(const char *path, const mapinfoexpansion_t expansion)
+{
+    switch (expansion)
+    {
+        case MAPINFOEXPANSION_NERVE:
+            return D_IsNERVEWAD(path);
+
+        case MAPINFOEXPANSION_MASTERLEVELS:
+            return D_IsMasterLevelsWAD(path);
+
+        case MAPINFOEXPANSION_HELLONEARTH:
+        default:
+            return (!D_IsNERVEWAD(path) && !D_IsMasterLevelsWAD(path));
+    }
+}
+
+static int P_CheckNumForNameForExpansionFromTo(const char *name, const mapinfoexpansion_t expansion,
+    const int from, const int to)
+{
+    int fallback = -1;
+    int pwadlump = -1;
+    int expansionlump = -1;
+    int baselump = -1;
+
+    if (from > to)
+        return -1;
+
+    for (int i = to; i >= from; i--)
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
+        {
+            char    *path = lumpinfo[i]->wadfile->path;
+
+            if (fallback < 0)
+                fallback = i;
+
+            if (pwadlump < 0 && lumpinfo[i]->wadfile->type == PWAD && !D_IsResourceWAD(path)
+                && P_IsMatchingExpansionWAD(path, expansion))
+                pwadlump = i;
+
+            switch (expansion)
+            {
+                case MAPINFOEXPANSION_NERVE:
+                    if (expansionlump < 0 && D_IsNERVEWAD(path))
+                        expansionlump = i;
+                    else if (baselump < 0 && lumpinfo[i]->wadfile->type == IWAD)
+                        baselump = i;
+
+                    break;
+
+                case MAPINFOEXPANSION_MASTERLEVELS:
+                    if (expansionlump < 0 && D_IsMasterLevelsWAD(path))
+                        expansionlump = i;
+                    else if (baselump < 0 && lumpinfo[i]->wadfile->type == IWAD)
+                        baselump = i;
+
+                    break;
+
+                case MAPINFOEXPANSION_HELLONEARTH:
+                default:
+                    if (baselump < 0 && !D_IsNERVEWAD(path) && !D_IsMasterLevelsWAD(path)
+                        && !D_IsResourceWAD(path))
+                        baselump = i;
+
+                    break;
+            }
+        }
+
+    return (pwadlump >= 0 ? pwadlump : (expansionlump >= 0 ? expansionlump : (baselump >= 0 ? baselump : fallback)));
+}
+
+static int P_CheckNumForNameForExpansion(const char *name, const mapinfoexpansion_t expansion)
+{
+    return P_CheckNumForNameForExpansionFromTo(name, expansion, 0, numlumps - 1);
 }
 
 static mapinfo_t *P_GetMapInfoEntryForExpansion(const mapinfoexpansion_t expansion, const int ep, const int map)
@@ -774,7 +855,7 @@ bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_ENDPIC:
                             SC_MustGetString();
-                            info->endpic = W_CheckNumForName(sc_String);
+                            info->endpic = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
                             break;
 
                         case MCMD_ENTERANIM:
@@ -784,7 +865,7 @@ bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_ENTERPIC:
                             SC_MustGetString();
-                            info->enterpic = W_CheckNumForName(sc_String);
+                            info->enterpic = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
                             break;
 
                         case MCMD_EPISODE:
@@ -843,7 +924,7 @@ bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_EXITPIC:
                             SC_MustGetString();
-                            info->exitpic = W_CheckNumForName(sc_String);
+                            info->exitpic = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
                             break;
 
                         case MCMD_INTERBACKDROP:
@@ -853,7 +934,7 @@ bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_INTERMUSIC:
                             SC_MustGetString();
-                            info->intermusic = W_CheckNumForName(sc_String);
+                            info->intermusic = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
                             break;
 
                         case MCMD_LABEL:
@@ -964,17 +1045,17 @@ bool P_ParseMapInfo(const char *scriptname)
                             {
                                 sc_String[0] = 'H';
 
-                                if (W_CheckNumForName(sc_String) == -1)
+                                if (P_CheckNumForNameForExpansion(sc_String, currentexpansion) == -1)
                                 {
                                     sc_String[0] = 'O';
 
-                                    if (W_CheckNumForName(sc_String) == -1)
+                                    if (P_CheckNumForNameForExpansion(sc_String, currentexpansion) == -1)
                                         sc_String[0] = 'D';
                                 }
                             }
 
                             if (!info->music)
-                                info->music = W_CheckNumForName(sc_String);
+                                info->music = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
 
                             break;
 
@@ -1123,7 +1204,7 @@ bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_LEVELPIC:
                         case MCMD_TITLEPATCH:
                             SC_MustGetString();
-                            info->titlepatch = W_CheckNumForName(sc_String);
+                            info->titlepatch = P_CheckNumForNameForExpansion(sc_String, currentexpansion);
                             break;
 
                         case MCMD_ALLOWMONSTERTELEFRAGS:
