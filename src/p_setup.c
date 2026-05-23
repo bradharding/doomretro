@@ -3366,7 +3366,7 @@ void P_SetupLevel(int ep, int map)
         || (sigil2 && gamemission == doom)
         || gamemission == pack_nerve
         || gamemission == pack_masterlevels
-        || (nerve && gamemission == doom2))
+        || ((nerve || masterlevels) && gamemission == doom2))
         && !FREEDOOM
         && !(gamemission == doom && *speciallumpname && (map == 4 || map == 8)));
 

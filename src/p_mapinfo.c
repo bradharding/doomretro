@@ -164,17 +164,6 @@ typedef enum
     NUMMAPINFOEXPANSIONS
 } mapinfoexpansion_t;
 
-static void P_InitMapInfoEntry(mapinfo_t *info);
-static mapinfoexpansion_t P_GetMapInfoExpansionFromGameMission(void);
-static bool P_IsMatchingExpansionWAD(const char *path, mapinfoexpansion_t expansion);
-static int P_CheckNumForNameForExpansionFromTo(const char *name, mapinfoexpansion_t expansion, int from, int to);
-static int P_CheckNumForNameForExpansion(const char *name, mapinfoexpansion_t expansion);
-static mapinfo_t *P_GetMapInfoEntryForExpansion(mapinfoexpansion_t expansion, int ep, int map);
-static mapinfo_t *P_GetMapInfoEntry(int ep, int map);
-static void P_EnsureMapInfoCapacity(int new_max_map);
-static void P_ParseMapString(const char *string, int *map, int *ep);
-static bool P_MapInfoIsLoaded(void);
-
 static mapinfo_t    ***mapinfo;
 static int          mapinfomaxmaps;
 static int          MAPINFO = -1;
@@ -368,9 +357,9 @@ static mapinfoexpansion_t P_GetMapInfoExpansionFromGameMission(void)
     return MAPINFOEXPANSION_HELLONEARTH;
 }
 
-static bool P_IsMatchingExpansionWAD(const char *path, const mapinfoexpansion_t expansion)
+static bool P_IsMatchingExpansionWAD(char *path, const mapinfoexpansion_t mapinfoexpansion)
 {
-    switch (expansion)
+    switch (mapinfoexpansion)
     {
         case MAPINFOEXPANSION_NERVE:
             return D_IsNERVEWAD(path);
@@ -384,7 +373,7 @@ static bool P_IsMatchingExpansionWAD(const char *path, const mapinfoexpansion_t 
     }
 }
 
-static int P_CheckNumForNameForExpansionFromTo(const char *name, const mapinfoexpansion_t expansion,
+static int P_CheckNumForNameForExpansionFromTo(char *name, const mapinfoexpansion_t mapinfoexpansion,
     const int from, const int to)
 {
     int fallback = -1;
@@ -404,10 +393,10 @@ static int P_CheckNumForNameForExpansionFromTo(const char *name, const mapinfoex
                 fallback = i;
 
             if (pwadlump < 0 && lumpinfo[i]->wadfile->type == PWAD && !D_IsResourceWAD(path)
-                && P_IsMatchingExpansionWAD(path, expansion))
+                && P_IsMatchingExpansionWAD(path, mapinfoexpansion))
                 pwadlump = i;
 
-            switch (expansion)
+            switch (mapinfoexpansion)
             {
                 case MAPINFOEXPANSION_NERVE:
                     if (expansionlump < 0 && D_IsNERVEWAD(path))
@@ -438,14 +427,14 @@ static int P_CheckNumForNameForExpansionFromTo(const char *name, const mapinfoex
     return (pwadlump >= 0 ? pwadlump : (expansionlump >= 0 ? expansionlump : (baselump >= 0 ? baselump : fallback)));
 }
 
-static int P_CheckNumForNameForExpansion(const char *name, const mapinfoexpansion_t expansion)
+static int P_CheckNumForNameForExpansion(char *name, const mapinfoexpansion_t mapinfoexpansion)
 {
-    return P_CheckNumForNameForExpansionFromTo(name, expansion, 0, numlumps - 1);
+    return P_CheckNumForNameForExpansionFromTo(name, mapinfoexpansion, 0, numlumps - 1);
 }
 
-static mapinfo_t *P_GetMapInfoEntryForExpansion(const mapinfoexpansion_t expansion, const int ep, const int map)
+static mapinfo_t *P_GetMapInfoEntryForExpansion(const mapinfoexpansion_t mapinfoexpansion, const int ep, const int map)
 {
-    return &mapinfo[expansion][(gamemode == commercial ? 1 : ep)][map];
+    return &mapinfo[mapinfoexpansion][(gamemode == commercial ? 1 : ep)][map];
 }
 
 static mapinfo_t *P_GetMapInfoEntry(const int ep, const int map)
@@ -463,7 +452,7 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
         {
             if (!mapinfo[expansion][ep])
             {
-                mapinfo[expansion][ep] = (mapinfo_t *)I_Calloc(new_max_map + 1, sizeof(mapinfo_t));
+                mapinfo[expansion][ep] = (mapinfo_t *)I_Calloc((size_t)(new_max_map + 1), sizeof(mapinfo_t));
 
                 for (int i = 0; i <= new_max_map; i++)
                     P_InitMapInfoEntry(&mapinfo[expansion][ep][i]);
