@@ -337,6 +337,9 @@ static int S_GetMapNum(void)
 {
     if (!s_randommusic)
     {
+        if (gamemode == commercial)
+            return gamemap;
+
         if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
             return gamemap;
         else

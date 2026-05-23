@@ -2027,7 +2027,11 @@ static void M_VerifyNightmare(int key)
         quicksaveslot = -1;
         M_CloseMenu();
         viewplayer->cheats = 0;
-        G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
+
+        if (gamemode == commercial && !customepisodes)
+            M_UpdateGameMissionFromExpansion();
+
+        G_DeferredInitNew((skill_t)nightmare, (gamemode == commercial && !customepisodes ? expansion : epi + 1), 1);
     }
 }
 
@@ -2050,12 +2054,15 @@ static void M_ChooseSkill(int choice)
     M_CloseMenu();
     viewplayer->cheats = 0;
 
+    if (gamemode == commercial && !customepisodes)
+        M_UpdateGameMissionFromExpansion();
+
     if (KDIKDIZD)
         G_DeferredInitNew((skill_t)choice, 1, 13);
     else if (customepisodes)
         G_DeferredInitNew((skill_t)choice, episodemenuepisode[epi], episodemenumap[epi]);
     else
-        G_DeferredInitNew((skill_t)choice, epi + 1, 1);
+        G_DeferredInitNew((skill_t)choice, (gamemode == commercial ? expansion : epi + 1), 1);
 }
 
 static void M_Episode(int choice)
