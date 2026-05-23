@@ -3180,9 +3180,13 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
         C_Output("A " BOLD("-bsp") " parameter was found on the command-line. "
             "The nodes of all maps will be rebuilt.");
     }
-    else if ((subsize = W_LumpLengthWithName(lumpnum + ML_SSECTORS, "SSECTORS")) >= sizeof(mapsubsector_t))
+    else
     {
-        n = W_CacheLumpNum(lumpnum + ML_SSECTORS);
+        int ssectorlump = lumpnum + ML_SSECTORS;
+
+        if ((subsize = W_LumpLengthWithName(ssectorlump, "SSECTORS")) >= sizeof(mapsubsector_t))
+        {
+            n = W_CacheLumpNum(ssectorlump);
 
         if (!memcmp(n, "XGLN", 4))
             format = XGLN;
@@ -3196,6 +3200,7 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
             format = XGL3;
         else if (!memcmp(n, "ZGL3", 4))
             format = ZGL3;
+        }
     }
 
     if (n)
@@ -3206,9 +3211,11 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
 
     if (format == DOOMBSP)
     {
-        if ((nodesize = W_LumpLengthWithName(lumpnum + ML_NODES, "NODES")) >= sizeof(mapnode_t))
+        int nodelump = lumpnum + ML_NODES;
+
+        if ((nodesize = W_LumpLengthWithName(nodelump, "NODES")) >= sizeof(mapnode_t))
         {
-            n = W_CacheLumpNum(lumpnum + ML_NODES);
+            n = W_CacheLumpNum(nodelump);
 
             if (!memcmp(n, "xNd4\0\0\0\0", 8))
                 format = DEEPBSP;
