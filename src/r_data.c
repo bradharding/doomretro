@@ -481,7 +481,7 @@ static void R_InitBrightmaps(void)
 
                 SC_MustGetString();
 
-                if (texture >= 0 && SC_Compare(pwadfile))
+                if (texture >= 0 && wildcard(pwadfile, sc_String))
                     nobrightmap[texture] = true;
             }
 
@@ -542,14 +542,14 @@ static void R_InitSpriteLumps(void)
         {
             SC_MustGetString();
 
-            if (SC_Compare(pwadfile))
+            if (wildcard(pwadfile, sc_String))
                 fixspriteoffsets = true;
         }
         else if (SC_Compare("NOBLUEGREENBLOOD"))
         {
             SC_MustGetString();
 
-            if (SC_Compare(pwadfile))
+            if (wildcard(pwadfile, sc_String))
             {
                 mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
                 mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
@@ -560,14 +560,14 @@ static void R_InitSpriteLumps(void)
         {
             SC_MustGetString();
 
-            if (SC_Compare(pwadfile))
+            if (wildcard(pwadfile, sc_String))
                 incompatiblepalette = true;
         }
         else if (SC_Compare("ANYBOSSDEATH"))
         {
             SC_MustGetString();
 
-            if (SC_Compare(pwadfile))
+            if (wildcard(pwadfile, sc_String))
                 anybossdeath = true;
         }
 
