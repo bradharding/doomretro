@@ -13,7 +13,6 @@
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
 * Warnings in the console now wrap correctly.
-* When the `smoothtransitions` CVAR is `on`, player messages no longer just fade in and out. If an existing message is being displayed, and is different from the new one (or if the `groupmessages` CVAR is `off`), it now also slides upwards as the new one slides in from below it.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
