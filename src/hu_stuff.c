@@ -1515,27 +1515,22 @@ void HU_Drawer(void)
 
     if (*w_message.l.l)
     {
+        const int   lineheight = (smoothtransitions ? (r_althud && r_althudfont && r_screensize == r_screensize_max ?
+                        OVERLAYLINEHEIGHT : SHORT(hu_font[0]->height) + 2) : 0);
+
         if (smoothtransitions && message_scrollcounter && prev_message_on && *w_prevmessage.l.l)
         {
             const int   progress = MESSAGESCROLLTICS - message_scrollcounter + 1;
-            const int   lineheight = (r_althud && r_althudfont && r_screensize == r_screensize_max ?
-                                OVERLAYLINEHEIGHT : SHORT(hu_font[0]->height) + 2);
             const int   saved_message_counter = message_counter;
             const bool  saved_message_fadeon = message_fadeon;
 
             HU_SetMessagePosition(&w_prevmessage, prev_message_external, 0);
             HU_SetMessagePosition(&w_message, current_message_external, 0);
 
-            {
-                const int   prevdistance = MIN(lineheight, w_prevmessage.l.y);
-                const int   currentdistance = MIN(lineheight, w_message.l.y);
-                const int   prevoffset = (prevdistance * progress + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
-                const int   currentoffset = (currentdistance * (MESSAGESCROLLTICS - progress)
-                                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
-
-                w_prevmessage.l.y -= prevoffset;
-                w_message.l.y += currentoffset;
-            }
+            w_prevmessage.l.y -= (MIN(lineheight, w_prevmessage.l.y) * progress
+                + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+            w_message.l.y += (MIN(lineheight, w_message.l.y) * (MESSAGESCROLLTICS - progress)
+                + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
 
             message_counter = message_scrollcounter;
             message_fadeon = false;
@@ -1551,6 +1546,11 @@ void HU_Drawer(void)
         else
         {
             HU_SetMessagePosition(&w_message, current_message_external, 0);
+
+            if (smoothtransitions && message_fadeon && message_counter <= MESSAGESCROLLTICS)
+                w_message.l.y -= (MIN(lineheight, w_message.l.y) * (MESSAGESCROLLTICS - message_counter + 1)
+                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+
             HUlib_DrawSText(&w_message, current_message_external);
         }
     }
