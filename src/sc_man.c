@@ -58,6 +58,7 @@ static bool     sc_End;
 static bool     ScriptOpen;
 static bool     AlreadyGot;
 static bool     SkipComma;
+static bool     LineStart;
 
 static bool SC_PreviousCharIs(const char c)
 {
@@ -139,11 +140,16 @@ bool SC_GetString(void)
 
     while (!foundToken)
     {
+        LineStart = (ScriptPtr == ScriptBuffer || SC_PreviousCharIs('\n'));
+
         while (ScriptPtr < ScriptEndPtr
             && (*ScriptPtr <= 32 || *ScriptPtr == '{' || *ScriptPtr == '}' || *ScriptPtr == '='
                 || (*ScriptPtr == ',' && !SkipComma && !SC_PreviousCharIs('\''))))
             if (*ScriptPtr++ == '\n')
+            {
                 sc_Line++;
+                LineStart = true;
+            }
 
         if (ScriptPtr >= ScriptEndPtr)
         {
@@ -163,6 +169,7 @@ bool SC_GetString(void)
                 }
 
             sc_Line++;
+            LineStart = true;
         }
     }
 
@@ -212,6 +219,21 @@ bool SC_GetString(void)
         }
 
     *text = '\0';
+
+    if (LineStart && M_StringCompare(ScriptLumpName, "UMAPINFO") && M_StringStartsWith(sc_String, "kex_"))
+    {
+        while (ScriptPtr < ScriptEndPtr && *ScriptPtr != '\n')
+            ScriptPtr++;
+
+        if (ScriptPtr < ScriptEndPtr)
+        {
+            ScriptPtr++;
+            sc_Line++;
+        }
+
+        return SC_GetString();
+    }
+
     return true;
 }
 
