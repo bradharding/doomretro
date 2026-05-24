@@ -1515,9 +1515,6 @@ void HU_Drawer(void)
 
     if (*w_message.l.l)
     {
-        const int   lineheight = (smoothtransitions ? (r_althud && r_althudfont && r_screensize == r_screensize_max ?
-                        OVERLAYLINEHEIGHT : SHORT(hu_font[0]->height) + 2) : 0);
-
         if (smoothtransitions && message_scrollcounter && prev_message_on && *w_prevmessage.l.l)
         {
             const int   progress = MESSAGESCROLLTICS - message_scrollcounter + 1;
@@ -1527,9 +1524,9 @@ void HU_Drawer(void)
             HU_SetMessagePosition(&w_prevmessage, prev_message_external, 0);
             HU_SetMessagePosition(&w_message, current_message_external, 0);
 
-            w_prevmessage.l.y -= (MIN(lineheight, w_prevmessage.l.y) * progress
+            w_prevmessage.l.y -= (w_prevmessage.l.y * progress
                 + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
-            w_message.l.y += (MIN(lineheight, w_message.l.y) * (MESSAGESCROLLTICS - progress)
+            w_message.l.y += (w_message.l.y * (MESSAGESCROLLTICS - progress)
                 + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
 
             message_counter = message_scrollcounter;
@@ -1548,7 +1545,7 @@ void HU_Drawer(void)
             HU_SetMessagePosition(&w_message, current_message_external, 0);
 
             if (smoothtransitions && message_fadeon && message_counter <= MESSAGESCROLLTICS)
-                w_message.l.y -= (MIN(lineheight, w_message.l.y) * (MESSAGESCROLLTICS - message_counter + 1)
+                w_message.l.y -= (w_message.l.y * (MESSAGESCROLLTICS - message_counter + 1)
                     + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
 
             HUlib_DrawSText(&w_message, current_message_external);
@@ -1792,6 +1789,15 @@ void HU_PlayerMessage(char *message, bool group, bool external)
         HU_SetPlayerMessage(buffer, group, external);
 
     viewplayer->prevmessagetics = gametime;
+}
+
+void HU_DismissMessage(void)
+{
+    if (message_on)
+    {
+        message_fadeon = true;
+        message_counter = MIN(message_counter, MESSAGESCROLLTICS);
+    }
 }
 
 void HU_ClearMessages(void)

@@ -96,6 +96,7 @@ void HU_Erase(void);
 void HU_SetPlayerMessage(char *message, bool group, bool external);
 void HU_PlayerMessage(char *message, bool group, bool external);
 
+void HU_DismissMessage(void);
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
 

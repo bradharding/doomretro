@@ -3617,7 +3617,7 @@ bool M_Responder(event_t *ev)
         keydown2 = key;
 
         if (message_on)
-            message_counter = 4;
+            HU_DismissMessage();
         else
         {
             char    buffer[133] = "";
