@@ -1162,8 +1162,15 @@ void P_ReadSaveGameFooter(void)
         quicksaveslot = -1;
         C_ShowConsole(false);
         M_StringReplaceAll(temp, ", ", BOLDOFF ", " BOLDON, false);
-        C_Warning(0, "This savegame was created while %s were loaded.",
-            M_StringReplaceLast(temp, ",", " and"));
+
+        if (!strchr(temp, ','))
+            C_Warning(0, "This savegame was created while %s was loaded. "
+                "The currently loaded WADs appear to be different.",
+                M_StringReplaceLast(temp, ",", " and"));
+        else
+            C_Warning(0, "This savegame was created while %s were loaded. "
+                "The currently loaded WADs appear to be different.",
+                M_StringReplaceLast(temp, ",", " and"));
 
         free(temp);
     }

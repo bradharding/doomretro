@@ -1399,7 +1399,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         || stringtype == playerobituarystring)
     {
         V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, nearestblack, false, tinttab);
-        x += (text[0] == 'T' ? WARNINGWIDTH : WARNINGWIDTH + 1);
+        x += WARNINGWIDTH;
     }
 
     if (M_StringCompare(text, s_STSTR_BUDDHA))
