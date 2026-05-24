@@ -1524,10 +1524,20 @@ void HU_Drawer(void)
             HU_SetMessagePosition(&w_prevmessage, prev_message_external, 0);
             HU_SetMessagePosition(&w_message, current_message_external, 0);
 
-            w_prevmessage.l.y -= (w_prevmessage.l.y * progress
-                + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
-            w_message.l.y += (w_message.l.y * (MESSAGESCROLLTICS - progress)
-                + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+            if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+            {
+                w_prevmessage.l.y -= ((w_prevmessage.l.y / 2 * progress)
+                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+                w_message.l.y += ((w_message.l.y / 2 * (MESSAGESCROLLTICS - progress))
+                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+            }
+            else
+            {
+                w_prevmessage.l.y -= ((w_prevmessage.l.y * progress)
+                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+                w_message.l.y += ((w_message.l.y * (MESSAGESCROLLTICS - progress))
+                    + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
+            }
 
             message_counter = message_scrollcounter;
             message_fadeon = false;
@@ -1544,8 +1554,9 @@ void HU_Drawer(void)
         {
             HU_SetMessagePosition(&w_message, current_message_external, 0);
 
-            if (smoothtransitions && message_fadeon && message_counter <= MESSAGESCROLLTICS)
-                w_message.l.y -= (w_message.l.y * (MESSAGESCROLLTICS - message_counter + 1)
+            if (smoothtransitions && message_counter <= MESSAGESCROLLTICS)
+                w_message.l.y -= ((r_althud && r_althudfont && r_screensize == r_screensize_max ?
+                    w_message.l.y / 2 : w_message.l.y) * (MESSAGESCROLLTICS - message_counter + 1)
                     + MESSAGESCROLLTICS - 1) / MESSAGESCROLLTICS;
 
             HUlib_DrawSText(&w_message, current_message_external);
