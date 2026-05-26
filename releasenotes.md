@@ -9,10 +9,11 @@
 * These bugs have been fixed on older versions of *Windows* that were affecting some users:
   * An error message about `SetProcessInformation` would appear at startup.
   * The screen’s palette would be corrupted.
-* The *Master Levels* are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
+* The [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) are now supported. When loading `doom2.wad`, if `masterlevels.wad` is found in the same folder, it will be loaded automatically and “Master Levels” may then be chosen from the expansion menu.
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
 * Warnings in the console now wrap correctly.
+* Brightmaps can now be applied to sprites and flats by specifying them in a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump in a PWAD, and if the `r_brightmaps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
