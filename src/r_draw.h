@@ -91,6 +91,9 @@ void R_DrawDitheredWallColumn(void);
 void R_DrawWallColumnWithBrightmap(void);
 void R_DrawLowResDitheredColumnWithBrightmap(void);
 void R_DrawDitheredColumnWithBrightmap(void);
+void R_DrawSpanWithBrightmap(void);
+void R_DrawLowResDitheredSpanWithBrightmap(void);
+void R_DrawDitheredSpanWithBrightmap(void);
 void R_DrawLowResDitheredWallColumnWithBrightmap(void);
 void R_DrawDitheredWallColumnWithBrightmap(void);
 void R_DrawLowResDitheredSolidColorColumn(void);
@@ -146,6 +149,7 @@ extern int          ds_z;
 
 extern lighttable_t *ds_colormap[2];
 extern lighttable_t *ds_sectorcolormap;
+extern byte         *ds_brightmap;
 
 extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;

@@ -47,6 +47,8 @@
 extern fixed_t      *textureheight;
 
 extern byte         **brightmap;
+extern byte         **flatbrightmap;
+extern byte         **spritebrightmap;
 extern bool         *nobrightmap;
 
 // needed for pre rendering (fracs)

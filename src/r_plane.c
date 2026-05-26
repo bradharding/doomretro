@@ -146,13 +146,24 @@ static void R_MapPlane(const int y, const int x1)
             ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
 
             if (ds_colormap[0] == ds_colormap[1])
-                altspanfunc();
+            {
+                if (ds_brightmap)
+                    altbmapspanfunc();
+                else
+                    altspanfunc();
+            }
             else
             {
                 ds_z = ((ds_z >> 12) & 255);
-                spanfunc();
+
+                if (ds_brightmap)
+                    bmapspanfunc();
+                else
+                    spanfunc();
             }
         }
+        else if (ds_brightmap)
+            bmapspanfunc();
         else
             spanfunc();
     }
@@ -671,8 +682,11 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
+                    const int   flatnum = flattranslation[picnum] - firstflat;
+
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
-                        R_SwirlingFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
+                        R_SwirlingFlat(picnum) : lumpinfo[firstflat + flatnum]->cache);
+                    ds_brightmap = (usebrightmaps ? flatbrightmap[flatnum] : NULL);
                     ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
                         colormaps[pl->colormap] : fullcolormap);
 

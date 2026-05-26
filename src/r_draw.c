@@ -1324,6 +1324,7 @@ fixed_t         ds_ystep;
 
 // start of a 64x64 tile image
 byte            *ds_source;
+byte            *ds_brightmap;
 
 //
 // Draws the actual span.
@@ -1344,6 +1345,25 @@ void R_DrawSpan(void)
     *dest = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
+void R_DrawSpanWithBrightmap(void)
+{
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
+    const lighttable_t  *colormap[2] = { ds_colormap[0], fullcolormap };
+    byte                dot;
+
+    while (--count)
+    {
+        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+        ds_xfrac += ds_xstep;
+        ds_yfrac += ds_ystep;
+    }
+
+    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
+}
+
 void R_DrawLowResDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
@@ -1359,6 +1379,26 @@ void R_DrawLowResDitheredSpan(void)
     *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
 }
 
+void R_DrawLowResDitheredSpanWithBrightmap(void)
+{
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
+    const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
+                                            { fullcolormap,   fullcolormap   } };
+    byte                dot;
+
+    while (--count)
+    {
+        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][ditherlow(ds_x1++, ds_y, ds_z)][dot]];
+        ds_xfrac += ds_xstep;
+        ds_yfrac += ds_ystep;
+    }
+
+    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][ditherlow(ds_x1, ds_y, ds_z)][dot]];
+}
+
 void R_DrawDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
@@ -1372,6 +1412,29 @@ void R_DrawDitheredSpan(void)
     }
 
     *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+}
+
+void R_DrawDitheredSpanWithBrightmap(void)
+{
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
+    const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
+                                            { fullcolormap,   fullcolormap   } };
+
+    while (--count)
+    {
+        const byte dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+
+        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither(ds_x1++, ds_y, ds_z)][dot]];
+        ds_xfrac += ds_xstep;
+        ds_yfrac += ds_ystep;
+    }
+
+    {
+        const byte dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither(ds_x1, ds_y, ds_z)][dot]];
+    }
 }
 
 void R_DrawSolidColorSpan(void)

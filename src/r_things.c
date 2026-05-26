@@ -545,6 +545,16 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
+    if (vis->brightmap)
+    {
+        dc_brightmap = vis->brightmap;
+
+        if (colfunc == basecolfunc)
+            colfunc = bmapsegcolfunc;
+        else if (colfunc == tl50colfunc)
+            colfunc = tl50bmapsegcolfunc;
+    }
+
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     fuzz1pos = 0;
 
@@ -649,6 +659,16 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 
         if ((colfunc == bloodcolfunc || colfunc == translatedcolfunc) && mobj->bloodcolor > NOBLOOD)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
+    }
+
+    if (vis->brightmap)
+    {
+        dc_brightmap = vis->brightmap;
+
+        if (colfunc == basecolfunc)
+            colfunc = bmapsegcolfunc;
+        else if (colfunc == tl50colfunc)
+            colfunc = tl50bmapsegcolfunc;
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
@@ -781,6 +801,16 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
         if (colfunc == translatedcolfunc && mobj->bloodcolor > NOBLOOD)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
+    }
+
+    if (vis->brightmap)
+    {
+        dc_brightmap = vis->brightmap;
+
+        if (colfunc == basecolfunc)
+            colfunc = bmapsegcolfunc;
+        else if (colfunc == tl50colfunc)
+            colfunc = tl50bmapsegcolfunc;
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
@@ -974,6 +1004,16 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
+    if (vis->brightmap)
+    {
+        dc_brightmap = vis->brightmap;
+
+        if (colfunc == basecolfunc)
+            colfunc = bmapsegcolfunc;
+        else if (colfunc == tl50colfunc)
+            colfunc = tl50bmapsegcolfunc;
+    }
+
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
 
@@ -1097,6 +1137,16 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, pspritescale);
+
+    if (vis->brightmap)
+    {
+        dc_brightmap = vis->brightmap;
+
+        if (colfunc == basecolfunc)
+            colfunc = bmapsegcolfunc;
+        else if (colfunc == tl50colfunc)
+            colfunc = tl50bmapsegcolfunc;
+    }
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
@@ -1309,6 +1359,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
+    vis->brightmap = (usebrightmaps && spritebrightmap ? spritebrightmap[lump] : NULL);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
@@ -1693,6 +1744,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     }
 
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
+    vis->brightmap = (usebrightmaps ? spritebrightmap[lump] : NULL);
 
     if (freelook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->pitch * 0x0520;

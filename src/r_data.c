@@ -85,6 +85,8 @@ char        berserk[64];
 fixed_t     *textureheight;
 
 byte        **brightmap;
+byte        **flatbrightmap;
+byte        **spritebrightmap;
 bool        *nobrightmap;
 byte        (*masks)[256];
 char        (*masknames)[32];
@@ -348,19 +350,37 @@ static void R_InitBrightmaps(void)
 {
     int     nummasks = 0;
     int     numbrightmaps = 0;
+    int     numflatbrightmaps = 0;
+    int     numspritebrightmaps = 0;
     int     maxmasks = 16;
     int     *texturemasks = I_Calloc((size_t)numtextures, sizeof(*texturemasks));
+    int     *flatmasks = I_Calloc((size_t)numflats, sizeof(*flatmasks));
+    int     *spritemasks = I_Calloc((size_t)numspritelumps, sizeof(*spritemasks));
+    bool    *noflatbrightmap = I_Calloc((size_t)numflats, sizeof(*noflatbrightmap));
+    bool    *nospritebrightmap = I_Calloc((size_t)numspritelumps, sizeof(*nospritebrightmap));
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
+    flatbrightmap = Z_Calloc(numflats, 256, PU_STATIC, NULL);
+    spritebrightmap = Z_Calloc(numspritelumps, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     for (int i = 0; i < numtextures; i++)
         texturemasks[i] = -1;
 
+    for (int i = 0; i < numflats; i++)
+        flatmasks[i] = -1;
+
+    for (int i = 0; i < numspritelumps; i++)
+        spritemasks[i] = -1;
+
     if ((BTSX || chex || FREEDOOM || hacx || harmony || harmonyc || REKKR)
         && W_GetNumLumps2("BRGHTMPS") == 1)
     {
         free(texturemasks);
+        free(flatmasks);
+        free(spritemasks);
+        free(noflatbrightmap);
+        free(nospritebrightmap);
         return;
     }
 
@@ -456,7 +476,120 @@ static void R_InitBrightmaps(void)
                                 }
                     }
                 }
-                else if (SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                else if (SC_Compare("FLAT"))
+                {
+                    int     flat;
+                    char    maskname[32];
+
+                    SC_MustGetString();
+                    flat = R_CheckFlatNumForName(sc_String);
+
+                    SC_MustGetString();
+                    M_StringCopy(maskname, sc_String, sizeof(maskname));
+
+                    SC_GetString();
+
+                    if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                    {
+                        SC_UnGet();
+                        *sc_String = '\0';
+                    }
+
+                    if (flat >= 0)
+                    {
+                        if (SC_Compare("NOBRIGHTMAP"))
+                        {
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
+                                {
+                                    noflatbrightmap[flat] = true;
+                                    break;
+                                }
+                        }
+                        else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+                            || (legacyofrust && SC_Compare("ID24"))
+                            || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
+                            || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
+                                {
+                                    flatmasks[flat] = j;
+                                    break;
+                                }
+                    }
+                }
+                else if (SC_Compare("SPRITE"))
+                {
+                    char    spritename[9];
+                    char    maskname[32];
+                    int     matches = 0;
+
+                    SC_MustGetString();
+                    M_StringCopy(spritename, sc_String, sizeof(spritename));
+
+                    SC_MustGetString();
+                    M_StringCopy(maskname, sc_String, sizeof(maskname));
+
+                    SC_GetString();
+
+                    if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                    {
+                        SC_UnGet();
+                        *sc_String = '\0';
+                    }
+
+                    if (!*spritename)
+                        continue;
+
+                    for (int i = 0; i < numspritelumps; i++)
+                    {
+                        const char  *name = lumpinfo[firstspritelump + i]->name;
+
+                        if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
+                            || !strncasecmp(name, spritename, 8))
+                            matches++;
+                    }
+
+                    if (matches > 0)
+                    {
+                        if (SC_Compare("NOBRIGHTMAP"))
+                        {
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
+                                {
+                                    for (int i = 0; i < numspritelumps; i++)
+                                    {
+                                        const char  *name = lumpinfo[firstspritelump + i]->name;
+
+                                        if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
+                                            || !strncasecmp(name, spritename, 8))
+                                            nospritebrightmap[i] = true;
+                                    }
+
+                                    break;
+                                }
+                        }
+                        else if (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+                            || (legacyofrust && SC_Compare("ID24"))
+                            || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
+                            || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1")))
+                            for (int j = 0; j < nummasks; j++)
+                                if (M_StringCompare(maskname, masknames[j]))
+                                {
+                                    for (int i = 0; i < numspritelumps; i++)
+                                    {
+                                        const char  *name = lumpinfo[firstspritelump + i]->name;
+
+                                        if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
+                                            || !strncasecmp(name, spritename, 8))
+                                            spritemasks[i] = j;
+                                    }
+
+                                    break;
+                                }
+                    }
+                }
+                else if (SC_Compare("STATE"))
                 {
                     SC_MustGetString();
                     SC_MustGetString();
@@ -494,15 +627,39 @@ static void R_InitBrightmaps(void)
             numbrightmaps++;
         }
 
+    for (int i = 0; i < numflats; i++)
+        if (!noflatbrightmap[i] && flatmasks[i] >= 0)
+        {
+            flatbrightmap[i] = masks[flatmasks[i]];
+            numflatbrightmaps++;
+        }
+
+    for (int i = 0; i < numspritelumps; i++)
+        if (!nospritebrightmap[i] && spritemasks[i] >= 0)
+        {
+            spritebrightmap[i] = masks[spritemasks[i]];
+            numspritebrightmaps++;
+        }
+
     free(texturemasks);
+    free(flatmasks);
+    free(spritemasks);
+    free(noflatbrightmap);
+    free(nospritebrightmap);
 
-    if (r_brightmaps && numbrightmaps > 0)
+    if (r_brightmaps && (numbrightmaps || numflatbrightmaps || numspritebrightmaps))
     {
-        char    *temp = commify(numbrightmaps);
+        char    *textures = commify(numbrightmaps);
+        char    *flats = commify(numflatbrightmaps);
+        char    *sprites = commify(numspritebrightmaps);
 
-        C_Output("Brightmaps have been applied to %s texture%s.",
-            temp, (numbrightmaps == 1 ? "" : "s"));
-        free(temp);
+        C_Output("Brightmaps have been applied to %s texture%s, %s flat%s and %s sprite%s.",
+            textures, (numbrightmaps == 1 ? "" : "s"),
+            flats, (numflatbrightmaps == 1 ? "" : "s"),
+            sprites, (numspritebrightmaps == 1 ? "" : "s"));
+        free(textures);
+        free(flats);
+        free(sprites);
     }
 }
 
@@ -1127,8 +1284,8 @@ void R_InitData(void)
 {
     R_InitFlats();
     R_InitTextures();
-    R_InitBrightmaps();
     R_InitSpriteLumps();
+    R_InitBrightmaps();
     R_InitColormaps();
 
     // [JN] Generate doomednum hash at startup.
