@@ -13,7 +13,7 @@
 * A bug is fixed whereby the `TEKWALL1` texture would be misaligned in some instances.
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
 * Warnings in the console now wrap correctly.
-* Brightmaps can now be applied to sprites and flats by specifying them in a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump in a PWAD, and if the `r_brightmaps` CVAR is `on`.
+* Brightmaps can now be applied to sprites and flats by specifying them using a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump in a PWAD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

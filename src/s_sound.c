@@ -647,7 +647,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     char        namebuf[9];
     void        *handle;
     int         lumpnum;
-    int         mapinfomusic;
+    int         mapinfomusic = 0;
 
     // current music which should play
     musinfo.currentitem = -1;
