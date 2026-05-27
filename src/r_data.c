@@ -653,10 +653,45 @@ static void R_InitBrightmaps(void)
         char    *flats = commify(numflatbrightmaps);
         char    *sprites = commify(numspritebrightmaps);
 
-        C_Output("Brightmaps have been applied to %s texture%s, %s flat%s and %s sprite%s.",
-            textures, (numbrightmaps == 1 ? "" : "s"),
-            flats, (numflatbrightmaps == 1 ? "" : "s"),
-            sprites, (numspritebrightmaps == 1 ? "" : "s"));
+        if (numbrightmaps && numflatbrightmaps && numspritebrightmaps)
+            C_Output("Brightmaps have been applied to %s texture%s, %s flat%s and %s sprite%s.",
+                textures, (numbrightmaps == 1 ? "" : "s"),
+                flats, (numflatbrightmaps == 1 ? "" : "s"),
+                sprites, (numspritebrightmaps == 1 ? "" : "s"));
+        else if (numbrightmaps && numflatbrightmaps)
+            C_Output("Brightmaps have been applied to %s texture%s and %s flat%s.",
+                textures, (numbrightmaps == 1 ? "" : "s"),
+                flats, (numflatbrightmaps == 1 ? "" : "s"));
+        else if (numbrightmaps && numspritebrightmaps)
+            C_Output("Brightmaps have been applied to %s texture%s and %s sprite%s.",
+                textures, (numbrightmaps == 1 ? "" : "s"),
+                sprites, (numspritebrightmaps == 1 ? "" : "s"));
+        else if (numflatbrightmaps && numspritebrightmaps)
+            C_Output("Brightmaps have been applied to %s flat%s and %s sprite%s.",
+                flats, (numflatbrightmaps == 1 ? "" : "s"),
+                sprites, (numspritebrightmaps == 1 ? "" : "s"));
+        else if (numbrightmaps)
+        {
+            if (numbrightmaps == 1)
+                C_Output("A brightmap has been applied to 1 texture.");
+            else
+                C_Output("Brightmaps have been applied to %s textures.", textures);
+        }
+        else if (numflatbrightmaps)
+        {
+            if (numflatbrightmaps == 1)
+                C_Output("A brightmap has been applied to 1 flat.");
+            else
+                C_Output("Brightmaps have been applied to %s flats.", flats);
+        }
+        else
+        {
+            if (numspritebrightmaps == 1)
+                C_Output("A brightmap has been applied to 1 sprite.");
+            else
+                C_Output("Brightmaps have been applied to %s sprites.", sprites);
+        }
+
         free(textures);
         free(flats);
         free(sprites);
