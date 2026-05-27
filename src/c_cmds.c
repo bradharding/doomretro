@@ -8522,7 +8522,10 @@ static void resetfunc2(char *cmd, char *parms)
 #if defined(_WIN32)
             if (M_StringCompare(name, stringize(wadfolder)))
             {
-                wad = wad_default;
+                if (wad && wad != wad_default)
+                    free(wad);
+
+                wad = M_StringDuplicate(wad_default);
                 M_SaveCVARs();
             }
 #endif
@@ -8592,7 +8595,10 @@ static void C_VerifyResetAll(const int key)
         }
 
 #if defined(_WIN32)
-        wad = wad_default;
+        if (wad && wad != wad_default)
+            free(wad);
+
+        wad = M_StringDuplicate(wad_default);
 #endif
 
         resettingcvar = false;
