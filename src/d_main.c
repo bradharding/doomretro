@@ -663,7 +663,7 @@ static int  dehfilecount;
 
 static void D_SetString(char **dest, const char *value)
 {
-    if (*dest && *dest != wad_default)
+    if (*dest)
         free(*dest);
 
     *dest = M_StringDuplicate(value);
@@ -1533,6 +1533,9 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
         if (wad)
             D_SetString(&previouswad, wad);
+
+        if (wad == wad_default)
+            wad = M_StringDuplicate(wad);
 
         D_SetString(&wad, "");
 
