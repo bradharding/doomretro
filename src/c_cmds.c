@@ -4775,19 +4775,34 @@ static void loadfunc2(char *cmd, char *parms)
 //
 static void C_SetMapCmdMapNum(void)
 {
-    if (legacyofrust && mapcmdmap != 99)
+    if (!*mapcmdmapnum)
     {
-        if (mapcmdmap <= 7)
-            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E1M%i", mapcmdmap);
-        else if (mapcmdmap == 15)
-            M_StringCopy(mapcmdmapnum, "E1M0", sizeof(mapcmdmapnum));
-        else if (mapcmdmap == 16)
-            M_StringCopy(mapcmdmapnum, "E2M0", sizeof(mapcmdmapnum));
+        const int   episode = (BTSX ? (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)) : mapcmdepisode);
+        const char  *label = trimwhitespace(P_GetLabel(episode, mapcmdmap));
+
+        if (legacyofrust && mapcmdmap != 99)
+        {
+            if (mapcmdmap <= 7)
+                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E1M%i", mapcmdmap);
+            else if (mapcmdmap == 15)
+                M_StringCopy(mapcmdmapnum, "E1M0", sizeof(mapcmdmapnum));
+            else if (mapcmdmap == 16)
+                M_StringCopy(mapcmdmapnum, "E2M0", sizeof(mapcmdmapnum));
+            else
+                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E2M%i", mapcmdmap - 7);
+        }
+        else if (*label)
+            M_StringCopy(mapcmdmapnum, label, sizeof(mapcmdmapnum));
+        else if (BTSX && M_StringEndsWith(mapcmdlump, "C"))
+        {
+            if (M_StringEndsWith(mapcmdlump, "C"))
+                M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
+            else
+                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E%iM%i", episode, mapcmdmap);
+        }
         else
-            M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E2M%i", mapcmdmap - 7);
+            M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
     }
-    else if (!*mapcmdmapnum)
-        M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
 }
 
 static bool mapfunc1(char *cmd, char *parms)
@@ -8595,7 +8610,7 @@ static void C_VerifyResetAll(const int key)
         }
 
 #if defined(_WIN32)
-        if (wad && wad != wad_default)
+        if (wad && *wad)
             free(wad);
 
         wad = M_StringDuplicate(wad_default);
