@@ -8537,7 +8537,7 @@ static void resetfunc2(char *cmd, char *parms)
 #if defined(_WIN32)
             if (M_StringCompare(name, stringize(wadfolder)))
             {
-                if (wad && wad != wad_default)
+                if (wad && *wad)
                     free(wad);
 
                 wad = M_StringDuplicate(wad_default);

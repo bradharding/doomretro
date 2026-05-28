@@ -1534,7 +1534,7 @@ static int D_OpenWADLauncher(void)
         if (wad)
             D_SetString(&previouswad, wad);
 
-        if (wad == wad_default)
+        if (wad && !*wad)
             wad = M_StringDuplicate(wad);
 
         D_SetString(&wad, "");
@@ -2188,7 +2188,7 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
     if (collected_wads)
     {
-        if (wad && wad != wad_default)
+        if (wad && *wad)
             free(wad);
 
         wad = collected_wads;

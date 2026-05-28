@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.1
 
-* *DOOM Retro* is now built using v18.6.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.6.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL_mixer v2.8.2*](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-2.8.2).
 * Several changes have been made to further improve the overall stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.

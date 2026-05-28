@@ -72,9 +72,12 @@ static char windowsbuild[32];
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
-    PGETPRODUCTINFO pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
-    PISWOW64PROCESS pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"), "IsWow64Process");
+    PRTLGETVERSION  pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"),
+                        "RtlGetVersion");
+    PGETPRODUCTINFO pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                        "GetProductInfo");
+    PISWOW64PROCESS pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(GetModuleHandle("kernel32.dll"),
+                        "IsWow64Process");
 
     if (pRtlGetVersion && pGetProductInfo)
     {
@@ -183,21 +186,26 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 6)
             {
                 if (info.dwMinorVersion == 0)
-                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008"), sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008"),
+                        sizeof(infoname));
                 else if (info.dwMinorVersion == 1)
-                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2"), sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2"),
+                        sizeof(infoname));
                 else if (info.dwMinorVersion == 2)
-                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012"), sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012"),
+                        sizeof(infoname));
                 else if (info.dwMinorVersion == 3)
                     M_StringCopy(infoname, "8.1", sizeof(infoname));
             }
             else if (info.dwMajorVersion == 10)
             {
                 if (info.dwBuildNumber < 22000)
-                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"), sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "10" : "Server 2016"),
+                        sizeof(infoname));
                 else
                 {
-                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "11" : "Server 2022"), sizeof(infoname));
+                    M_StringCopy(infoname, (info.wProductType == VER_NT_WORKSTATION ? "11" : "Server 2022"),
+                        sizeof(infoname));
 
                     if (!*typename)
                         switch (type)
@@ -351,9 +359,11 @@ static void I_LogAddressDetails(FILE *logfile, HANDLE process, DWORD64 address, 
         M_snprintf(moduleprefix, sizeof(moduleprefix), "%s!", module.ModuleName);
 
     if (SymFromAddr(process, address, &displacement64, symbol))
-        M_snprintf(symboltext, sizeof(symboltext), "%s%s + 0x%I64X", moduleprefix, symbol->Name, displacement64);
+        M_snprintf(symboltext, sizeof(symboltext), "%s%s + 0x%I64X",
+            moduleprefix, symbol->Name, displacement64);
     else if (module.ModuleName[0])
-        M_snprintf(symboltext, sizeof(symboltext), "%s+0x%I64X", module.ModuleName, address - module.BaseOfImage);
+        M_snprintf(symboltext, sizeof(symboltext), "%s+0x%I64X",
+            module.ModuleName, address - module.BaseOfImage);
     else
         M_snprintf(symboltext, sizeof(symboltext), "0x%p", (void *)(uintptr_t)address);
 
@@ -375,7 +385,8 @@ static void I_LogAddressDetails(FILE *logfile, HANDLE process, DWORD64 address, 
 
 static void I_LogExceptionParameters(FILE *logfile, const EXCEPTION_RECORD *record)
 {
-    if (record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION || record->ExceptionCode == EXCEPTION_IN_PAGE_ERROR)
+    if (record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION
+        || record->ExceptionCode == EXCEPTION_IN_PAGE_ERROR)
     {
         const char  *operation = "accessing";
 
@@ -567,13 +578,14 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         I_LogExceptionParameters(logfile, exceptionInfo->ExceptionRecord);
 
         if (symsinitialized)
-            I_LogAddressDetails(logfile, process, (DWORD64)(uintptr_t)exceptionInfo->ExceptionRecord->ExceptionAddress,
+            I_LogAddressDetails(logfile, process,
+                (DWORD64)(uintptr_t)exceptionInfo->ExceptionRecord->ExceptionAddress,
                 "Exception Symbol:  ");
 
         if (windowsname[0] && windowsbuild[0])
             fprintf(logfile, "Operating System:  %s %s\n", windowsname, windowsbuild);
 
-        if (wadsloaded[0])
+        if (wadsloaded && wadsloaded[0])
             fprintf(logfile, "WAD%s              %s\n",
                 (strchr(wadsloaded, ',') ? "s:" : ": "), M_StringReplaceLast(wadsloaded, ",", " and"));
 
@@ -584,7 +596,8 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
 
             if (viewplayer && viewplayer->mo)
                 fprintf(logfile, "Player Position:   (%d, %d, %d)\n",
-                    viewplayer->mo->x >> FRACBITS, viewplayer->mo->y >> FRACBITS, viewplayer->mo->z >> FRACBITS);
+                    viewplayer->mo->x >> FRACBITS, viewplayer->mo->y >> FRACBITS,
+                    viewplayer->mo->z >> FRACBITS);
         }
 
         I_LogRegisters(logfile, exceptionInfo->ContextRecord);
