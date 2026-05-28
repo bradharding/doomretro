@@ -359,9 +359,9 @@ static void R_InitBrightmaps(void)
     bool    *noflatbrightmap = I_Calloc((size_t)numflats, sizeof(*noflatbrightmap));
     bool    *nospritebrightmap = I_Calloc((size_t)numspritelumps, sizeof(*nospritebrightmap));
 
-    brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
-    flatbrightmap = Z_Calloc(numflats, 256, PU_STATIC, NULL);
-    spritebrightmap = Z_Calloc(numspritelumps, 256, PU_STATIC, NULL);
+    brightmap = Z_Calloc((size_t)numtextures, sizeof(*brightmap), PU_STATIC, NULL);
+    flatbrightmap = Z_Calloc((size_t)numflats, sizeof(*flatbrightmap), PU_STATIC, NULL);
+    spritebrightmap = Z_Calloc((size_t)numspritelumps, sizeof(*spritebrightmap), PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     for (int i = 0; i < numtextures; i++)
@@ -400,9 +400,14 @@ static void R_InitBrightmaps(void)
 
                     if (nummasks >= maxmasks)
                     {
+                        const int oldmaxmasks = maxmasks;
+
                         maxmasks *= 2;
                         masks = I_Realloc(masks, (size_t)maxmasks * sizeof(*masks));
                         masknames = I_Realloc(masknames, (size_t)maxmasks * sizeof(*masknames));
+
+                        memset(masks + oldmaxmasks, 0, (size_t)(maxmasks - oldmaxmasks) * sizeof(*masks));
+                        memset(masknames + oldmaxmasks, 0, (size_t)(maxmasks - oldmaxmasks) * sizeof(*masknames));
                     }
 
                     SC_MustGetString();
