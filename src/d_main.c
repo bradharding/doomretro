@@ -219,6 +219,9 @@ static void D_UpdateFade(void)
     static uint64_t fadewait;
     const uint64_t  tics = I_GetTimeMS();
 
+    if (!tinttab)
+        tinttab = tinttab90;
+
     if (fadewait < tics)
     {
         byte *tinttabs[FADECOUNT + 1] =
@@ -250,8 +253,9 @@ void D_FadeScreenToBlack(void)
     if (!smoothtransitions)
         return;
 
-    for (brightness = 0.95f; brightness >= 0.0f; brightness -= 0.05f)
+    for (int i = 19; i >= 0; i--)
     {
+        brightness = (float)i / 20.0f;
         I_SetPalette(palette);
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * brightness));

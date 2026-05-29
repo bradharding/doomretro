@@ -364,7 +364,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     W_Read(wadfile, header.infotableofs, fileinfo, length);
 
     // Increase size of numlumps array to accommodate the new file.
-    filelumps = calloc(header.numlumps, sizeof(lumpinfo_t));
+    filelumps = (header.numlumps > 0 ? calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
 
     startlump = numlumps;
     numlumps += header.numlumps;

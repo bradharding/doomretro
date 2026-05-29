@@ -59,6 +59,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+build-tidy-local/
 
 *_i.c
 *_p.c

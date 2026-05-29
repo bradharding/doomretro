@@ -123,6 +123,7 @@ static void R_RecalcLineFlags(line_t *line)
     line->r_validcount = gametime;
 
     if (!twosided
+        || !backsector
         || backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight
         || (backsector->interpceilingheight <= backsector->interpfloorheight
@@ -373,10 +374,11 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
 //
 static void R_AddLine(seg_t *line)
 {
-    int     x1;
-    int     x2;
-    angle_t angle1;
-    angle_t angle2;
+    int         x1;
+    int         x2;
+    angle_t     angle1;
+    angle_t     angle2;
+    sector_t    *saved_backsector = backsector;
 
     curline = line;
 
@@ -444,9 +446,13 @@ static void R_AddLine(seg_t *line)
         R_RecalcLineFlags(linedef);
 
     if (linedef->r_flags & RF_IGNORE)
+    {
+        backsector = saved_backsector;
         return;
+    }
 
     R_ClipWallSegment(x1, x2, (linedef->r_flags & RF_CLOSED));
+    backsector = saved_backsector;
 }
 
 //
@@ -550,6 +556,7 @@ static void R_Subsector(int num)
     subsector_t *sub = subsectors + num;
     sector_t    tempsec;                                    // killough 03/07/98: deep water hack
     sector_t    *sector = sub->sector;
+    sector_t    *saved_frontsector = frontsector;
     sector_t    *heightsec;
     sector_t    *floorlightsec;
     sector_t    *ceilinglightsec;
@@ -620,6 +627,8 @@ static void R_Subsector(int num)
 
         line++;
     }
+
+    frontsector = saved_frontsector;
 }
 
 //

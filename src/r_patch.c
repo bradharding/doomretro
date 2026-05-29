@@ -136,7 +136,7 @@ static void CreatePatch(int patchnum)
         patch->topoffset = SHORT(oldpatch->topoffset);
 
         // count the number of posts in each column
-        if (patch->width <= 0 || !(numpostsincolumn = malloc(patch->width * sizeof(int))))
+        if (patch->width <= 0 || !(numpostsincolumn = calloc(patch->width, sizeof(int))))
         {
             W_ReleaseLumpNum(sourcepatchnum);
             memset(patch, 0, sizeof(*patch));

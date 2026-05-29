@@ -230,13 +230,23 @@ jobs:
           import subprocess
           from pathlib import Path
 
+          repo_root = Path.cwd().resolve()
+          excluded_dirs = (
+              repo_root / 'src' / 'cJSON',
+              repo_root / 'src' / 'miniz',
+          )
+
+          def is_vendored(path: Path) -> bool:
+              return any(excluded_dir in path.parents for excluded_dir in excluded_dirs)
+
           with open('build-tidy/compile_commands.json', encoding='utf-8') as f:
               commands = json.load(f)
 
           files = sorted({
-              str(Path(entry['file']).resolve())
+              str(path)
               for entry in commands
-              if entry['file'].endswith('.c')
+              for path in [Path(entry['file']).resolve()]
+              if path.suffix == '.c' and not is_vendored(path)
           })
 
           if not files:

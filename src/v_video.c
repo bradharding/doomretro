@@ -298,6 +298,9 @@ void V_FillPillarboxes(int screen, int color)
 
 void V_DrawPagePatch(int screen, patch_t *patch)
 {
+    if (!patch)
+        return;
+
     if (SCREENWIDTH != NONWIDEWIDTH)
     {
         static patch_t  *prevpatch = NULL;

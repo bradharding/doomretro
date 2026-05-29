@@ -212,16 +212,19 @@ static void R_InitSpriteDefs(void)
 
     sprites = Z_Calloc(numsprites, sizeof(*sprites), PU_STATIC, NULL);
 
+    if (!numspritelumps)
+        return;
+
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
-    if (!(hash = malloc(numspritelumps * sizeof(*hash))))
+    if (!(hash = calloc(numspritelumps, sizeof(*hash))))
     {
         I_Error("R_InitSpriteDefs: Out of memory allocating sprite tables");
         return;
     }
 
     for (int i = 0; i < numspritelumps; i++)    // initialize hash table as empty
-        hash[i].index = -1;
+        hash[i].index = hash[i].next = -1;
 
     for (int i = 0; i < numspritelumps; i++)    // Prepend each sprite to hash chain
     {
