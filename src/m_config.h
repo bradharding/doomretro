@@ -1058,6 +1058,10 @@ enum
 #define KEYSCREENSHOT2_DEFAULT              0
 #define KEYSHOTGUN_DEFAULT                  0
 #define KEYSHOTGUN2_DEFAULT                 0
+#define KEYSIZEDOWN_DEFAULT                 '-'
+#define KEYSIZEDOWN2_DEFAULT                0
+#define KEYSIZEUP_DEFAULT                   '='
+#define KEYSIZEUP2_DEFAULT                  0
 #define KEYSTRAFE_DEFAULT                   KEY_ALT
 #define KEYSTRAFE2_DEFAULT                  0
 #define KEYSTRAFELEFT_DEFAULT               ','
@@ -1122,6 +1126,8 @@ enum
 #define MOUSERUN_DEFAULT                    -1
 #define MOUSESCREENSHOT_DEFAULT             -1
 #define MOUSESHOTGUN_DEFAULT                -1
+#define MOUSESIZEDOWN_DEFAULT               -1
+#define MOUSESIZEUP_DEFAULT                 -1
 #define MOUSESTRAFE_DEFAULT                 -1
 #define MOUSESTRAFELEFT_DEFAULT             -1
 #define MOUSESTRAFERIGHT_DEFAULT            -1
@@ -1170,6 +1176,8 @@ enum
 #define CONTROLLERRUN_DEFAULT               CONTROLLER_LEFT_TRIGGER
 #define CONTROLLERSCREENSHOT_DEFAULT        0
 #define CONTROLLERSHOTGUN_DEFAULT           0
+#define CONTROLLERSIZEDOWN_DEFAULT          0
+#define CONTROLLERSIZEUP_DEFAULT            0
 #define CONTROLLERSTRAFE_DEFAULT            0
 #define CONTROLLERSTRAFELEFT_DEFAULT        0
 #define CONTROLLERSTRAFERIGHT_DEFAULT       0

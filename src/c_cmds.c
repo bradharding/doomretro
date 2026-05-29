@@ -364,6 +364,8 @@ static void rocketlauncheractionfunc(void);
 static void rotatemodeactionfunc(void);
 static void screenshotactionfunc(void);
 static void shotgunactionfunc(void);
+static void sizedownactionfunc(void);
+static void sizeupactionfunc(void);
 static void strafeleftactionfunc(void);
 static void straferightactionfunc(void);
 static void supershotgunactionfunc(void);
@@ -377,6 +379,8 @@ static void weapon6actionfunc(void);
 static void weapon7actionfunc(void);
 static void zoominactionfunc(void);
 static void zoomoutactionfunc(void);
+
+static void AdjustScreenSize(int value);
 
 action_t actions[] =
 {
@@ -412,6 +416,8 @@ action_t actions[] =
     { "+rotatemode",     "+rotatemode",     true,  true,  rotatemodeactionfunc,     &keyboardrotatemode,     &keyboardrotatemode2,     &mouserotatemode,     &controllerrotatemode,     NULL            },
     { "+run",            "+run",            true,  false, NULL,                     &keyboardrun,            &keyboardrun2,            &mouserun,            &controllerrun,            NULL            },
     { "+screenshot",     "+screenshot",     false, false, screenshotactionfunc,     &keyboardscreenshot,     &keyboardscreenshot2,     &mousescreenshot,     &controllerscreenshot,     NULL            },
+    { "+sizedown",       "+sizedown",       true,  false, sizedownactionfunc,       &keyboardsizedown,       &keyboardsizedown2,       &mousesizedown,       &controllersizedown,       NULL            },
+    { "+sizeup",         "+sizeup",         true,  false, sizeupactionfunc,         &keyboardsizeup,         &keyboardsizeup2,         &mousesizeup,         &controllersizeup,         NULL            },
     { "+shotgun",        "+shotgun",        true,  false, shotgunactionfunc,        &keyboardshotgun,        &keyboardshotgun2,        &mouseshotgun,        &controllershotgun,        NULL            },
     { "+strafe",         "+strafe",         true,  false, NULL,                     &keyboardstrafe,         &keyboardstrafe2,         &mousestrafe,         &controllerstrafe,         NULL            },
     { "+strafeleft",     "+strafeleft",     true,  false, strafeleftactionfunc,     &keyboardstrafeleft,     &keyboardstrafeleft2,     &mousestrafeleft,     &controllerstrafeleft,     NULL            },
@@ -1474,6 +1480,18 @@ static void shotgunactionfunc(void)
     }
 }
 
+static void sizedownactionfunc(void)
+{
+    if (gamestate == GS_LEVEL && r_screensize > r_screensize_min)
+        AdjustScreenSize(r_screensize - 1);
+}
+
+static void sizeupactionfunc(void)
+{
+    if (gamestate == GS_LEVEL && r_screensize < r_screensize_max)
+        AdjustScreenSize(r_screensize + 1);
+}
+
 static void strafeleftactionfunc(void)
 {
     if (gamestate == GS_LEVEL)
@@ -2024,7 +2042,7 @@ void aliasfunc2(char *cmd, char *parms)
         }
 }
 
-bool IsControlBound(const controltype_t type, const int control)
+bool IsControlBound(const controltype_t type, const int control, const bool automaponly)
 {
     if (type == keyboardcontrol && *keyactionlist[control])
         return true;
@@ -2036,29 +2054,34 @@ bool IsControlBound(const controltype_t type, const int control)
         {
             if (actions[i].keyboard1
                 && *(int *)actions[i].keyboard1
-                && control == *(int *)actions[i].keyboard1)
+                && control == *(int *)actions[i].keyboard1
+                && automaponly == actions[i].automaponly)
                 return true;
             else if (actions[i].keyboard2
                 && *(int *)actions[i].keyboard2
-                && control == *(int *)actions[i].keyboard2)
+                && control == *(int *)actions[i].keyboard2
+                && automaponly == actions[i].automaponly)
                 return true;
         }
         else if (type == mousecontrol)
         {
             if (actions[i].mouse1
                 && *(int *)actions[i].mouse1 != -1
-                && control == *(int *)actions[i].mouse1)
+                && control == *(int *)actions[i].mouse1
+                && automaponly == actions[i].automaponly)
                 return true;
         }
         else if (type == controllercontrol)
         {
             if (actions[i].controller1
                 && *(int *)actions[i].controller1
-                && control == *(int *)actions[i].controller1)
+                && control == *(int *)actions[i].controller1
+                && automaponly == actions[i].automaponly)
                 return true;
             else if (actions[i].controller2
                 && *(int *)actions[i].controller2
-                && control == *(int *)actions[i].controller2)
+                && control == *(int *)actions[i].controller2
+                && automaponly == actions[i].automaponly)
                 return true;
         }
 
@@ -2640,7 +2663,7 @@ static void bindlistfunc2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "\x96\t%s", actions[i].action);
 
     for (int i = 0; controls[i].type; i++)
-        if (!IsControlBound(controls[i].type, controls[i].value))
+        if (!IsControlBound(controls[i].type, controls[i].value, false))
         {
             const char  *control = controls[i].control;
 
@@ -4777,8 +4800,8 @@ static void C_SetMapCmdMapNum(void)
 {
     if (!*mapcmdmapnum)
     {
-        const int   episode = (BTSX ? (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)) : mapcmdepisode);
-        const char  *label = trimwhitespace(P_GetLabel(episode, mapcmdmap));
+        const int   ep = (BTSX ? (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)) : mapcmdepisode);
+        const char  *label = trimwhitespace(P_GetLabel(ep, mapcmdmap));
 
         if (legacyofrust && mapcmdmap != 99)
         {
@@ -4798,7 +4821,7 @@ static void C_SetMapCmdMapNum(void)
             if (M_StringEndsWith(mapcmdlump, "C"))
                 M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
             else
-                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E%iM%i", episode, mapcmdmap);
+                M_snprintf(mapcmdmapnum, sizeof(mapcmdmapnum), "E%iM%i", ep, mapcmdmap);
         }
         else
             M_StringCopy(mapcmdmapnum, mapcmdlump, sizeof(mapcmdmapnum));
@@ -8718,6 +8741,10 @@ static void C_VerifyResetAll(const int key)
         keyboardscreenshot2 = KEYSCREENSHOT2_DEFAULT;
         keyboardshotgun = KEYSHOTGUN_DEFAULT;
         keyboardshotgun2 = KEYSHOTGUN2_DEFAULT;
+        keyboardsizedown = KEYSIZEDOWN_DEFAULT;
+        keyboardsizedown2 = KEYSIZEDOWN2_DEFAULT;
+        keyboardsizeup = KEYSIZEUP_DEFAULT;
+        keyboardsizeup2 = KEYSIZEUP2_DEFAULT;
         keyboardstrafe = KEYSTRAFE_DEFAULT;
         keyboardstrafe2 = KEYSTRAFE2_DEFAULT;
         keyboardstrafeleft = KEYSTRAFELEFT_DEFAULT;
@@ -8779,6 +8806,8 @@ static void C_VerifyResetAll(const int key)
         mouserun = MOUSERUN_DEFAULT;
         mousescreenshot = MOUSESCREENSHOT_DEFAULT;
         mouseshotgun = MOUSESHOTGUN_DEFAULT;
+        mousesizedown = MOUSESIZEDOWN_DEFAULT;
+        mousesizeup = MOUSESIZEUP_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
         mousestrafeleft = MOUSESTRAFELEFT_DEFAULT;
         mousestraferight = MOUSESTRAFERIGHT_DEFAULT;
@@ -8826,6 +8855,8 @@ static void C_VerifyResetAll(const int key)
         controllerrun = CONTROLLERRUN_DEFAULT;
         controllerscreenshot = CONTROLLERSCREENSHOT_DEFAULT;
         controllershotgun = CONTROLLERSHOTGUN_DEFAULT;
+        controllersizedown = CONTROLLERSIZEDOWN_DEFAULT;
+        controllersizeup = CONTROLLERSIZEUP_DEFAULT;
         controllerstrafe = CONTROLLERSTRAFE_DEFAULT;
         controllerstrafeleft = CONTROLLERSTRAFELEFT_DEFAULT;
         controllerstraferight = CONTROLLERSTRAFERIGHT_DEFAULT;
@@ -11574,6 +11605,19 @@ static void playercvarsfunc2(char *cmd, char *parms)
 }
 
 //
+// r_antialiasing CVAR
+//
+static void r_antialiasingfunc2(char *cmd, char *parms)
+{
+    const bool   r_antialiasing_old = r_antialiasing;
+
+    boolfunc2(cmd, parms);
+
+    if (r_antialiasing != r_antialiasing_old)
+        GetPixelSize();
+}
+
+//
 // r_blood CVAR
 //
 static void r_bloodfunc2(char *cmd, char *parms)
@@ -12039,6 +12083,32 @@ static void r_randomstartframesfunc2(char *cmd, char *parms)
     }
 }
 
+static void AdjustScreenSize(int value)
+{
+    r_screensize = value;
+    S_StartSound(NULL, sfx_stnmov);
+    R_SetViewSize(r_screensize);
+
+    if (!togglingvanilla)
+    {
+        if (r_hud != (r_screensize == r_screensize_max))
+        {
+            r_hud = (r_screensize == r_screensize_max);
+            C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
+        }
+
+        if (vid_widescreen && r_screensize < r_screensize_max - 1)
+            I_StartPillarboxAnimation(true);
+        else if (!vid_widescreen && r_screensize == r_screensize_max)
+            I_StartPillarboxAnimation(false);
+
+        M_SaveCVARs();
+    }
+
+    if (r_playerweapon)
+        skippsprinterp = 1;
+}
+
 //
 // r_screensize CVAR
 //
@@ -12082,28 +12152,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 free(temp2);
             }
 
-            r_screensize = value;
-            S_StartSound(NULL, sfx_stnmov);
-            R_SetViewSize(r_screensize);
-
-            if (!togglingvanilla)
-            {
-                if (r_hud != (r_screensize == r_screensize_max))
-                {
-                    r_hud = (r_screensize == r_screensize_max);
-                    C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
-                }
-
-                if (vid_widescreen && r_screensize < r_screensize_max - 1)
-                    I_StartPillarboxAnimation(true);
-                else if (!vid_widescreen && r_screensize == r_screensize_max)
-                    I_StartPillarboxAnimation(false);
-
-                M_SaveCVARs();
-            }
-
-            if (r_playerweapon)
-                skippsprinterp = 1;
+            AdjustScreenSize(value);
 
             free(temp1);
         }
@@ -12163,19 +12212,6 @@ static void r_sprites_translucencyfunc2(char *cmd, char *parms)
             for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                 thing->colfunc = thing->info->colfunc;
     }
-}
-
-//
-// r_antialiasing CVAR
-//
-static void r_antialiasingfunc2(char *cmd, char *parms)
-{
-    const bool   r_antialiasing_old = r_antialiasing;
-
-    boolfunc2(cmd, parms);
-
-    if (r_antialiasing != r_antialiasing_old)
-        GetPixelSize();
 }
 
 //

@@ -1250,6 +1250,12 @@ static void M_CheckCVARs(void)
             "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
             stringize(vid_scalefilter), vid_scalefilter_default);
     }
+
+    if (!keyboardsizedown && !keyboardsizedown2 && !IsControlBound(keyboardcontrol, '-', false))
+        bindfunc2("bind", "'-' +sizedown");
+
+    if (!keyboardsizeup && !keyboardsizeup2 && !IsControlBound(keyboardcontrol, '=', false))
+        bindfunc2("bind", "'=' +sizeup");
 }
 
 //

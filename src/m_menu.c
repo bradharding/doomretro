@@ -2594,6 +2594,55 @@ static void M_ChangeDetail(int choice)
     AM_InitPixelSize();
 }
 
+static bool M_HandleScreenSizeControl(int choice)
+{
+    if (automapactive)
+        return false;
+
+    if (consoleactive || paused || splashscreen || fadecount || animatingpillarboxes)
+        return true;
+
+    if (viewactive && !menuactive)
+        M_SizeDisplay(choice);
+    else if (!choice && vid_widescreen)
+    {
+        I_StartPillarboxAnimation(true);
+        S_StartSound(NULL, sfx_stnmov);
+
+        if (r_screensize == r_screensize_max)
+        {
+            r_screensize = r_screensize_default;
+            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+
+            if (r_hud)
+            {
+                r_hud = false;
+                C_StringCVAROutput(stringize(r_hud), "off");
+            }
+
+            R_SetViewSize(r_screensize);
+        }
+
+        pagetic = PAGETICS;
+    }
+    else if (choice && !vid_widescreen && !nowidescreen)
+    {
+        I_StartPillarboxAnimation(false);
+        S_StartSound(NULL, sfx_stnmov);
+
+        if (r_screensize < r_screensize_default)
+        {
+            r_screensize = r_screensize_default;
+            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+            R_SetViewSize(r_screensize);
+        }
+
+        pagetic = PAGETICS;
+    }
+
+    return false;
+}
+
 static void M_SizeDisplay(int choice)
 {
     if (!choice)
@@ -3078,6 +3127,21 @@ bool M_Responder(event_t *ev)
                 D_FadeScreen(true);
                 return false;
             }
+
+            else if (!key && (controllerbuttons & controllersizedown) && controllerwait < I_GetTime())
+            {
+                controllerwait = I_GetTime() + 2;
+                usingcontroller = true;
+                return M_HandleScreenSizeControl(0);
+            }
+
+            else if (!key && (controllerbuttons & controllersizeup) && controllerwait < I_GetTime())
+            {
+                controllerwait = I_GetTime() + 2;
+                usingcontroller = true;
+                return M_HandleScreenSizeControl(1);
+            }
+
        }
     }
     else if (ev->type == ev_mouse)
@@ -3335,6 +3399,18 @@ bool M_Responder(event_t *ev)
             memset(screens[0], nearestwhite, SCREENAREA);
             D_FadeScreen(true);
             return false;
+        }
+        else if (key == -1 && mousesizedown != -1 && (ev->data1 & mousesizedown) && mousewait < I_GetTime())
+        {
+            mousewait = I_GetTime() + 8;
+            usingcontroller = false;
+            return M_HandleScreenSizeControl(0);
+        }
+        else if (key == -1 && mousesizeup != -1 && (ev->data1 & mousesizeup) && mousewait < I_GetTime())
+        {
+            mousewait = I_GetTime() + 8;
+            usingcontroller = false;
+            return M_HandleScreenSizeControl(1);
         }
     }
     else if (ev->type == ev_mousewheel && mousewait < I_GetTime())
@@ -3612,7 +3688,7 @@ bool M_Responder(event_t *ev)
 
     if (key == KEY_ENTER && *prevmessage && viewplayer->health > 0 && !consoleactive
         && !helpscreen && messages && (r_hud || r_screensize < r_screensize_max)
-        && !keydown2 && !IsControlBound(keyboardcontrol, KEY_ENTER))
+        && !keydown2 && !IsControlBound(keyboardcontrol, KEY_ENTER, false))
     {
         keydown2 = key;
 
@@ -3629,72 +3705,15 @@ bool M_Responder(event_t *ev)
                 message_secret = true;
         }
     }
-    else if (key == '-')
+    else if (key && (key == keyboardsizedown || key == keyboardsizedown2))
     {
-        // Screen size down
-        if (automapactive)
-            return false;
-
-        if (consoleactive || paused || splashscreen || fadecount || animatingpillarboxes)
-            return true;
-
         keydown = key;
-
-        if (viewactive && !menuactive)
-            M_SizeDisplay(0);
-        else if (vid_widescreen)
-        {
-            I_StartPillarboxAnimation(true);
-            S_StartSound(NULL, sfx_stnmov);
-
-            if (r_screensize == r_screensize_max)
-            {
-                r_screensize = r_screensize_default;
-                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-
-                if (r_hud)
-                {
-                    r_hud = false;
-                    C_StringCVAROutput(stringize(r_hud), "off");
-                }
-
-                R_SetViewSize(r_screensize);
-            }
-
-            pagetic = PAGETICS;
-        }
-
-        return false;
+        return M_HandleScreenSizeControl(0);
     }
-    else if (key == '=')
+    else if (key && (key == keyboardsizeup || key == keyboardsizeup2))
     {
-        // Screen size up
-        if (automapactive)
-            return false;
-
-        if (consoleactive || paused || splashscreen || fadecount || animatingpillarboxes)
-            return true;
-
         keydown = key;
-
-        if (viewactive && !menuactive)
-            M_SizeDisplay(1);
-        else if (!vid_widescreen && !nowidescreen)
-        {
-            I_StartPillarboxAnimation(false);
-            S_StartSound(NULL, sfx_stnmov);
-
-            if (r_screensize < r_screensize_default)
-            {
-                r_screensize = r_screensize_default;
-                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-                R_SetViewSize(r_screensize);
-            }
-
-            pagetic = PAGETICS;
-        }
-
-        return false;
+        return M_HandleScreenSizeControl(1);
     }
     else if ((!menuactive || functionkey) && !paused && !splashscreen)
     {
