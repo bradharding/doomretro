@@ -193,6 +193,58 @@ jobs:
           name: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64-AppImage
           path: doomretro-v${{ steps.version.outputs.VERSION }}-x86_64.AppImage
 
+  clang-tidy:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ccache
+          key: ${{ runner.os }}-clang-tidy-${{ hashFiles('**/CMakeLists.txt', 'src/**') }}
+          restore-keys: |
+            ${{ runner.os }}-clang-tidy-
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake clang-tidy libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev ccache
+
+      - name: Configure
+        run: |
+          cmake -S . -B build-tidy \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_C_COMPILER=clang \
+                -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Run clang-tidy
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          with open('build-tidy/compile_commands.json', encoding='utf-8') as f:
+              commands = json.load(f)
+
+          files = sorted({
+              str(Path(entry['file']).resolve())
+              for entry in commands
+              if entry['file'].endswith('.c')
+          })
+
+          if not files:
+              raise SystemExit('No C source files found in compile_commands.json')
+
+          subprocess.run(['clang-tidy', '-p', 'build-tidy', *files], check=True)
+          PY
+
   build-macos:
     runs-on: macos-latest
 
