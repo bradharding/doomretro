@@ -1170,6 +1170,7 @@ typedef struct
     int             flags;
     bool            translucent;
     bool            dehacked;
+    byte            *brightmap;
 } state_t;
 
 extern state_t      original_states[NUMSTATES];

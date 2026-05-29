@@ -137,3 +137,6 @@ TEXTURE ZELDOOR RED1 DOOM|DOOM2
 
 ; SPRITE
 ; Format: SPRITE <sprite> <brightmap> <game>
+
+; STATE
+; Format: STATE <state> <brightmap> <game>

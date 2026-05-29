@@ -44,6 +44,7 @@
 #include "p_local.h"
 #include "r_sky.h"
 #include "sc_man.h"
+#include "states.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -352,6 +353,7 @@ static void R_InitBrightmaps(void)
     int     numbrightmaps = 0;
     int     numflatbrightmaps = 0;
     int     numspritebrightmaps = 0;
+    int     numstatebrightmaps = 0;
     int     maxmasks = 16;
     int     *texturemasks = I_Calloc((size_t)numtextures, sizeof(*texturemasks));
     int     *flatmasks = I_Calloc((size_t)numflats, sizeof(*flatmasks));
@@ -363,6 +365,9 @@ static void R_InitBrightmaps(void)
     flatbrightmap = Z_Calloc((size_t)numflats, sizeof(*flatbrightmap), PU_STATIC, NULL);
     spritebrightmap = Z_Calloc((size_t)numspritelumps, sizeof(*spritebrightmap), PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
+
+    for (int i = 0; i < numstates; i++)
+        states[i].brightmap = NULL;
 
     for (int i = 0; i < numtextures; i++)
         texturemasks[i] = -1;
@@ -596,12 +601,35 @@ static void R_InitBrightmaps(void)
                 }
                 else if (SC_Compare("STATE"))
                 {
+                    int     state;
+                    char    maskname[32];
+
                     SC_MustGetString();
+                    state = (sscanf(sc_String, "%10d", &state) == 1 ? state : -1);
+
                     SC_MustGetString();
+                    M_StringCopy(maskname, sc_String, sizeof(maskname));
+
                     SC_GetString();
 
                     if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
+                    {
                         SC_UnGet();
+
+                        *sc_String = '\0';
+                    }
+
+                    if (state >= 0 && state < numstates
+                        && (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+                            || (legacyofrust && SC_Compare("ID24"))
+                            || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
+                            || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1"))))
+                        for (int j = 0; j < nummasks; j++)
+                            if (M_StringCompare(maskname, masknames[j]))
+                            {
+                                states[state].brightmap = masks[j];
+                                break;
+                            }
                 }
 
             SC_Close();
@@ -646,60 +674,69 @@ static void R_InitBrightmaps(void)
             numspritebrightmaps++;
         }
 
+    for (int i = 0; i < numstates; i++)
+        if (states[i].brightmap)
+            numstatebrightmaps++;
+
     free(texturemasks);
     free(flatmasks);
     free(spritemasks);
     free(noflatbrightmap);
     free(nospritebrightmap);
 
-    if (r_brightmaps && (numbrightmaps || numflatbrightmaps || numspritebrightmaps))
+    if (r_brightmaps && (numbrightmaps || numflatbrightmaps || numspritebrightmaps || numstatebrightmaps))
     {
-        char    *textures = commify(numbrightmaps);
-        char    *flats = commify(numflatbrightmaps);
-        char    *sprites = commify(numspritebrightmaps);
+        char    parts[4][64];
+        int     numparts = 0;
+        int     total = numbrightmaps + numflatbrightmaps + numspritebrightmaps + numstatebrightmaps;
 
-        if (numbrightmaps && numflatbrightmaps && numspritebrightmaps)
-            C_Output("Brightmaps have been applied to %s texture%s, %s flat%s and %s sprite%s.",
-                textures, (numbrightmaps == 1 ? "" : "s"),
-                flats, (numflatbrightmaps == 1 ? "" : "s"),
-                sprites, (numspritebrightmaps == 1 ? "" : "s"));
-        else if (numbrightmaps && numflatbrightmaps)
-            C_Output("Brightmaps have been applied to %s texture%s and %s flat%s.",
-                textures, (numbrightmaps == 1 ? "" : "s"),
+        if (numbrightmaps)
+        {
+            char    *textures = commify(numbrightmaps);
+
+            M_snprintf(parts[numparts++], sizeof(parts[0]), "%s texture%s",
+                textures, (numbrightmaps == 1 ? "" : "s"));
+            free(textures);
+        }
+
+        if (numflatbrightmaps)
+        {
+            char    *flats = commify(numflatbrightmaps);
+
+            M_snprintf(parts[numparts++], sizeof(parts[0]), "%s flat%s",
                 flats, (numflatbrightmaps == 1 ? "" : "s"));
-        else if (numbrightmaps && numspritebrightmaps)
-            C_Output("Brightmaps have been applied to %s texture%s and %s sprite%s.",
-                textures, (numbrightmaps == 1 ? "" : "s"),
-                sprites, (numspritebrightmaps == 1 ? "" : "s"));
-        else if (numflatbrightmaps && numspritebrightmaps)
-            C_Output("Brightmaps have been applied to %s flat%s and %s sprite%s.",
-                flats, (numflatbrightmaps == 1 ? "" : "s"),
-                sprites, (numspritebrightmaps == 1 ? "" : "s"));
-        else if (numbrightmaps)
-        {
-            if (numbrightmaps == 1)
-                C_Output("A brightmap has been applied to 1 texture.");
-            else
-                C_Output("Brightmaps have been applied to %s textures.", textures);
-        }
-        else if (numflatbrightmaps)
-        {
-            if (numflatbrightmaps == 1)
-                C_Output("A brightmap has been applied to 1 flat.");
-            else
-                C_Output("Brightmaps have been applied to %s flats.", flats);
-        }
-        else
-        {
-            if (numspritebrightmaps == 1)
-                C_Output("A brightmap has been applied to 1 sprite.");
-            else
-                C_Output("Brightmaps have been applied to %s sprites.", sprites);
+            free(flats);
         }
 
-        free(textures);
-        free(flats);
-        free(sprites);
+        if (numspritebrightmaps)
+        {
+            char    *sprites = commify(numspritebrightmaps);
+
+            M_snprintf(parts[numparts++], sizeof(parts[0]), "%s sprite%s",
+                sprites, (numspritebrightmaps == 1 ? "" : "s"));
+            free(sprites);
+        }
+
+        if (numstatebrightmaps)
+        {
+            char    *states = commify(numstatebrightmaps);
+
+            M_snprintf(parts[numparts++], sizeof(parts[0]), "%s state%s",
+                states, (numstatebrightmaps == 1 ? "" : "s"));
+            free(states);
+        }
+
+        if (total == 1)
+            C_Output("A brightmap has been applied to %s.", parts[0]);
+        else if (numparts == 1)
+            C_Output("Brightmaps have been applied to %s.", parts[0]);
+        else if (numparts == 2)
+            C_Output("Brightmaps have been applied to %s and %s.", parts[0], parts[1]);
+        else if (numparts == 3)
+            C_Output("Brightmaps have been applied to %s, %s and %s.", parts[0], parts[1], parts[2]);
+        else
+            C_Output("Brightmaps have been applied to %s, %s, %s and %s.",
+                parts[0], parts[1], parts[2], parts[3]);
     }
 }
 

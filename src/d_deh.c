@@ -2395,6 +2395,7 @@ void D_BuildBEXTables(void)
         states[i].flags = 0;
         states[i].translucent = false;
         states[i].dehacked = false;
+        states[i].brightmap = NULL;
 
         deh_codeptr[i] = states[i].action;
     }

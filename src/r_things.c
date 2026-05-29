@@ -1359,7 +1359,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
-    vis->brightmap = (usebrightmaps && spritebrightmap ? spritebrightmap[lump] : NULL);
+    vis->brightmap = (usebrightmaps ? (thing->state->brightmap ? thing->state->brightmap : spritebrightmap[lump]) : NULL);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
@@ -1744,7 +1744,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     }
 
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
-    vis->brightmap = (usebrightmaps ? spritebrightmap[lump] : NULL);
+    vis->brightmap = (usebrightmaps ? (state->brightmap ? state->brightmap : spritebrightmap[lump]) : NULL);
 
     if (freelook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->pitch * 0x0520;
