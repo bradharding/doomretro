@@ -700,9 +700,10 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
                     adjust++;
                 else if (letter == '(' && prevletter == ' ')
                 {
-                    if (prevletter2 == '.')
+                    if (prevletter2 == '.' || ((prevletter2 == '"' || prevletter2 == '\'') && prevletter3 == '.'))
                         adjust--;
-                    else if (prevletter2 == '!')
+                    else if (prevletter2 == '!' || prevletter2 == '?'
+                        || ((prevletter2 == '"' || prevletter2 == '\'') && (prevletter3 == '!' || prevletter3 == '?')))
                         adjust -= 2;
                 }
                 else if (prevletter == BOLDONCHAR
@@ -1631,9 +1632,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     x++;
                 else if (letter == '(' && prevletter == ' ')
                 {
-                    if (prevletter2 == '.')
+                    if (prevletter2 == '.' || ((prevletter2 == '"' || prevletter2 == '\'') && prevletter3 == '.'))
                         x--;
-                    else if (prevletter2 == '!')
+                    else if (prevletter2 == '!' || prevletter2 == '?'
+                        || ((prevletter2 == '"' || prevletter2 == '\'') && (prevletter3 == '!' || prevletter3 == '?')))
                         x -= 2;
                 }
                 else if (prevletter == BOLDONCHAR

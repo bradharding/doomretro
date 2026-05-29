@@ -143,6 +143,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
+    unsigned char   prevletter3 = '\0';
     int             x = HU_ALTHUDMSGX;
     int             y = HU_ALTHUDMSGY;
     int             color = (message_secret ? nearestgold : (message_warning ? nearestred :
@@ -239,9 +240,10 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
                 if (letter == '(' && prevletter == ' ')
                 {
-                    if (prevletter2 == '.')
+                    if (prevletter2 == '.' || ((prevletter2 == '"' || prevletter2 == '\'') && prevletter3 == '.'))
                         x--;
-                    else if (prevletter2 == '!')
+                    else if (prevletter2 == '!' || prevletter2 == '?'
+                        || ((prevletter2 == '"' || prevletter2 == '\'') && (prevletter3 == '!' || prevletter3 == '?')))
                         x -= 2;
                 }
             }
@@ -249,6 +251,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             althudtextfunc(x, y, screens[0], patch, italics, color, shadowcolor, SCREENWIDTH, tinttab);
             x += SHORT(patch->width);
 
+            prevletter3 = prevletter2;
             prevletter2 = prevletter;
             prevletter = letter;
         }
@@ -260,6 +263,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
+    unsigned char   prevletter3 = '\0';
     int             x = (mapwindow ? 17 : HU_ALTHUDMSGX);
     byte            *fb = (external ? mapscreen : screens[0]);
     const int       len = l->len;
@@ -316,9 +320,10 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                 x++;
             else if (letter == '(' && prevletter == ' ')
             {
-                if (prevletter2 == '.')
+                if (prevletter2 == '.' || ((prevletter2 == '"' || prevletter2 == '\'') && prevletter3 == '.'))
                     x--;
-                else if (prevletter2 == '!')
+                else if (prevletter2 == '!' || prevletter2 == '?'
+                    || ((prevletter2 == '"' || prevletter2 == '\'') && (prevletter3 == '!' || prevletter3 == '?')))
                     x -= 2;
             }
 
@@ -328,6 +333,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
             x += SHORT(patch->width);
         }
 
+        prevletter3 = prevletter2;
         prevletter2 = prevletter;
         prevletter = letter;
     }
@@ -396,6 +402,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     {
         unsigned char   prev1 = '\0';
         unsigned char   prev2 = '\0';
+        unsigned char   prev3 = '\0';
 
         for (int i = 0; i < len; i++)
         {
@@ -419,7 +426,9 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (STCFNxxx)
                 {
                     // [BH] display lump from PWAD with shadow
-                    if (prev2 == '.' && prev1 == ' ' && c == '(')
+                    if (c == '(' && prev1 == ' '
+                        && (prev2 == '.' || prev2 == '!' || prev2 == '?'
+                            || ((prev2 == '"' || prev2 == '\'') && (prev3 == '.' || prev3 == '!' || prev3 == '?'))))
                         x -= 2;
 
                     V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr, screenwidth);
@@ -437,7 +446,9 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                     }
 
                     // [BH] apply kerning to certain character pairs
-                    if (prev2 == '.' && prev1 == ' ' && c == '(')
+                    if (c == '(' && prev1 == ' '
+                        && (prev2 == '.' || prev2 == '!' || prev2 == '?'
+                            || ((prev2 == '"' || prev2 == '\'') && (prev3 == '.' || prev3 == '!' || prev3 == '?'))))
                         x -= 2;
                     else
                         for (int k = 0; kern[k].char1; k++)
@@ -454,6 +465,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 }
             }
 
+            prev3 = prev2;
             prev2 = prev1;
             prev1 = c;
         }
@@ -527,6 +539,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
     int             y = l->y;
     unsigned char   prev1 = '\0';
     unsigned char   prev2 = '\0';
+    unsigned char   prev3 = '\0';
     byte            *fb1;
     byte            *fb2;
     byte            *tinttab1 = tinttab40;
@@ -584,7 +597,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
             if (STCFNxxx)
             {
-                if (prev2 == '.' && prev1 == ' ' && c == '(')
+                if (c == '(' && prev1 == ' '
+                    && (prev2 == '.' || prev2 == '!' || prev2 == '?'
+                        || ((prev2 == '"' || prev2 == '\'') && (prev3 == '.' || prev3 == '!' || prev3 == '?'))))
                     x -= 2;
 
                 V_DrawPatchToTempScreen(x / 2, y / 2, l->f[j], (secretmap ? cr_gold : cr_none), screenwidth);
@@ -601,7 +616,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 }
 
                 // [BH] apply kerning to certain character pairs
-                if (prev2 == '.' && prev1 == ' ' && c == '(')
+                if (c == '(' && prev1 == ' '
+                    && (prev2 == '.' || prev2 == '!' || prev2 == '?'
+                        || ((prev2 == '"' || prev2 == '\'') && (prev3 == '.' || prev3 == '!' || prev3 == '?'))))
                     x -= 2;
                 else
                     for (int k = 0; kern[k].char1; k++)
@@ -620,6 +637,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             x += SHORT(l->f[c - l->sc]->width) * 2;
         }
 
+        prev3 = prev2;
         prev2 = prev1;
         prev1 = c;
     }
