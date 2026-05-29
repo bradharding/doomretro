@@ -14,6 +14,7 @@
 * Minor improvements have been made to the support of [*ID24*](https://doomwiki.org/wiki/ID24)-compatible intermissions.
 * Warnings in the console now wrap correctly.
 * Brightmaps can now be applied to sprites and flats by specifying them using a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump in a PWAD.
+* Changing the screen size using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys can now be rebound to other controls using the new `+sizeup` and `+sizedown` actions with the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
