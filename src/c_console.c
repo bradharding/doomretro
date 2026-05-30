@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <ctype.h>
+
 #if defined(_WIN32)
 #include <Windows.h>
 #endif
@@ -65,6 +67,24 @@
 #include "w_wad.h"
 
 console_t               *console = NULL;
+
+static bool IsEmptyConsoleMessage(const char *string)
+{
+    while (*string)
+    {
+        const unsigned char c = (unsigned char)*string++;
+
+        if (c == BOLDONCHAR || c == BOLDOFFCHAR
+            || c == ITALICSONCHAR || c == ITALICSOFFCHAR
+            || c == MONOSPACEDONCHAR || c == MONOSPACEDOFFCHAR)
+            continue;
+
+        if (!isspace(c))
+            return false;
+    }
+
+    return true;
+}
 
 bool                    consoleactive = false;
 int                     consoleheight = 0;
@@ -423,6 +443,10 @@ void C_PlayerMessage(const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringReplaceAll(buffer, "\n", " ", false);
+
+        if (IsEmptyConsoleMessage(buffer))
+            return;
+
         C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].stringtype = playermessagestring;
         C_CreateTimeStamp(numconsolestrings);
@@ -764,6 +788,10 @@ static bool C_IsVisibleConsoleString(const int index)
 {
     const stringtype_t  stringtype = console[index].stringtype;
 
+    if (stringtype != dividerstring && stringtype != headerstring
+        && IsEmptyConsoleMessage(console[index].string))
+        return false;
+
     return ((stringtype != warningstring || con_warninglevel >= console[index].warninglevel || devparm)
         && ((stringtype != obituarystring && stringtype != playerobituarystring) || obituaries));
 }
@@ -834,8 +862,8 @@ static int C_GetConsoleDisplayRows(const int index)
     const int   len = (int)strlen(console[index].string);
     int         wraps[CONSOLEWRAPS];
 
-    if (!len)
-        return 1;
+    if (!len || IsEmptyConsoleMessage(console[index].string))
+        return 0;
 
     C_GetWrapPositions(index, wraps);
 
