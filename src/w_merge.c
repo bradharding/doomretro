@@ -62,7 +62,7 @@ typedef struct
 {
     char                sprname[4];
     char                frame;
-    lumpinfo_t          *angle_lumps[8];
+    lumpinfo_t          *angle_lumps[16];
 } sprite_frame_t;
 
 static searchlist_t     iwad;
@@ -145,17 +145,28 @@ static void InitSpriteList(void)
     num_sprite_frames = 0;
 }
 
+static int SpriteRotationNumber(const char rot)
+{
+    if (isdigit((int)rot))
+        return rot - '0';
+
+    if (toupper((int)rot) >= 'A' && toupper((int)rot) <= 'G')
+        return toupper((int)rot) - 'A' + 10;
+
+    return -1;
+}
+
 static bool ValidSpriteLumpName(const char *name)
 {
     if (name[0] == '\0' || name[1] == '\0' || name[2] == '\0' || name[3] == '\0')
         return false;
 
     // First frame:
-    if (name[4] == '\0' || !isdigit((int)name[5]))
+    if (name[4] == '\0' || SpriteRotationNumber(name[5]) < 0)
         return false;
 
     // Second frame (optional):
-    if (name[6] != '\0' && !isdigit((int)name[7]))
+    if (name[6] != '\0' && SpriteRotationNumber(name[7]) < 0)
         return false;
 
     return true;
@@ -193,7 +204,7 @@ static sprite_frame_t *FindSpriteFrame(const char *name, char frame)
     strncpy(result->sprname, name, 4);
     result->frame = frame;
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 16; i++)
         result->angle_lumps[i] = NULL;
 
     num_sprite_frames++;
@@ -213,10 +224,10 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
     // check the first frame
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
 
-    if (!(angle_num = lump->name[5] - '0'))
+    if (!(angle_num = SpriteRotationNumber(lump->name[5])))
     {
         // must check all frames
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 16; i++)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
@@ -235,10 +246,10 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
 
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
 
-    if (!(angle_num = lump->name[7] - '0'))
+    if (!(angle_num = SpriteRotationNumber(lump->name[7])))
     {
         // must check all frames
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 16; i++)
             if (sprite->angle_lumps[i] == lump)
                 return true;
     }
@@ -347,8 +358,8 @@ static void AddSpriteLump(lumpinfo_t *lump)
     // first angle
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
 
-    if (!(angle_num = lump->name[5] - '0'))
-        for (int i = 0; i < 8; i++)
+    if (!(angle_num = SpriteRotationNumber(lump->name[5])))
+        for (int i = 0; i < 16; i++)
             sprite->angle_lumps[i] = lump;
     else
         sprite->angle_lumps[angle_num - 1] = lump;
@@ -360,8 +371,8 @@ static void AddSpriteLump(lumpinfo_t *lump)
     // second angle
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
 
-    if (!(angle_num = lump->name[7] - '0'))
-        for (int i = 0; i < 8; i++)
+    if (!(angle_num = SpriteRotationNumber(lump->name[7])))
+        for (int i = 0; i < 16; i++)
             sprite->angle_lumps[i] = lump;
     else
         sprite->angle_lumps[angle_num - 1] = lump;
