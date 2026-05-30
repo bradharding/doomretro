@@ -49,6 +49,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "i_video.h"
 #include "m_config.h"
 #include "m_font.h"
 #include "m_menu.h"
@@ -85,6 +86,14 @@ static int      messagelastmenuactive;
 static bool     messageneedsinput;
 
 static void (*messageroutine)(int);
+
+static bool     quitmessagebuttons;
+static int      quitmessagebuttonhover = -1;
+static int      quitmessagebuttonx[2];
+static int      quitmessagebuttony;
+static int      quitmessagebuttonwidth[2];
+static char     quitmessage[160];
+static char     quitmessagestring[320];
 
 // we are going to be entering a savegame string
 static bool     savestringenter;
@@ -2457,14 +2466,12 @@ void M_QuitResponse(int key)
 
 void M_QuitDOOM(int choice)
 {
-    static char endstring[320];
-    static char line1[160];
     static char line2[160];
 
     quitting = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
-        M_StringCopy(line1, s_QUITMSG, sizeof(line1));
+        M_StringCopy(quitmessage, s_QUITMSG, sizeof(quitmessage));
     else
     {
         static int  msg = -1;
@@ -2472,20 +2479,26 @@ void M_QuitDOOM(int choice)
         msg = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, msg);
 
         if (devparm)
-            M_StringCopy(line1, *devendmsg[msg], sizeof(line1));
+            M_StringCopy(quitmessage, *devendmsg[msg], sizeof(quitmessage));
         else if (gamemission == doom)
-            M_snprintf(line1, sizeof(line1), *endmsg[msg], WINDOWS);
+            M_snprintf(quitmessage, sizeof(quitmessage), *endmsg[msg], WINDOWS);
         else
-            M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
+            M_snprintf(quitmessage, sizeof(quitmessage), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
     }
 
     if (usingcontroller)
         M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
-    else
+    else if (!usingmouse)
         M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
 
-    M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
-    M_StartMessage(endstring, &M_QuitResponse, true);
+    if (usingmouse)
+        M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
+    else
+        M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
+
+    M_StartMessage(quitmessagestring, &M_QuitResponse, true);
+    quitmessagebuttons = usingmouse;
+    quitmessagebuttonhover = -1;
 }
 
 static void M_SliderSound(void)
@@ -2754,6 +2767,8 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messagestring = string;
     messageroutine = routine;
     messageneedsinput = input;
+    quitmessagebuttons = false;
+    quitmessagebuttonhover = -1;
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2815,6 +2830,117 @@ static int M_StringHeight(const char *string)
             height += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
 
     return height;
+}
+
+static int M_QuitMessageButtonHeight(void)
+{
+    return (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 8;
+}
+
+static void M_UpdateQuitMessageButtons(void)
+{
+    static const char *buttons[] = { "YES", "NO" };
+    const int         padding = 6;
+    const int         gap = 16;
+    const int         buttonheight = M_QuitMessageButtonHeight();
+    const int         totalheight = M_StringHeight(messagestring) + 12 + buttonheight;
+    int               x;
+
+    quitmessagebuttonwidth[0] = M_StringWidth(buttons[0]) + padding * 2;
+    quitmessagebuttonwidth[1] = M_StringWidth(buttons[1]) + padding * 2;
+    quitmessagebuttony = (VANILLAHEIGHT - totalheight) / 2 + M_StringHeight(messagestring) + 17;
+    x = (VANILLAWIDTH - (quitmessagebuttonwidth[0] + gap + quitmessagebuttonwidth[1])) / 2;
+    quitmessagebuttonx[0] = x;
+    quitmessagebuttonx[1] = x + quitmessagebuttonwidth[0] + gap;
+}
+
+static int M_QuitMessageButtonAt(int x, int y)
+{
+    M_UpdateQuitMessageButtons();
+
+    if (y >= quitmessagebuttony && y < quitmessagebuttony + M_QuitMessageButtonHeight())
+    {
+        for (int i = 0; i < 2; i++)
+            if (x >= quitmessagebuttonx[i] + MAXWIDESCREENDELTA
+                && x < quitmessagebuttonx[i] + MAXWIDESCREENDELTA + quitmessagebuttonwidth[i])
+                return i;
+    }
+
+    return -1;
+}
+
+static int M_DrawMessage(int y)
+{
+    char    string[255];
+    int     start = 0;
+
+    while (messagestring[start] != '\0')
+    {
+        const int   len = (int)strlen(messagestring + start);
+        bool        foundnewline = false;
+
+        for (int i = 0; i < len; i++)
+            if (messagestring[start + i] == '\n')
+            {
+                M_StringCopy(string, messagestring + start, sizeof(string));
+
+                if (i < sizeof(string))
+                    string[i] = '\0';
+
+                foundnewline = true;
+                start += i + 1;
+                break;
+            }
+
+        if (!foundnewline)
+        {
+            M_StringCopy(string, messagestring + start, sizeof(string));
+            start += (int)strlen(string);
+        }
+
+        if (*string)
+        {
+            M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, '\0');
+            y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
+        }
+        else
+            y += 3;
+    }
+
+    return y;
+}
+
+static void M_DrawQuitMessageButtons(void)
+{
+    static const char *buttons[] = { "YES", "NO" };
+    const int         padding = 6;
+    const int         texty = quitmessagebuttony + 4;
+
+    M_UpdateQuitMessageButtons();
+
+    for (int i = 0; i < 2; i++)
+    {
+        if (quitmessagebuttonhover == i)
+        {
+            const int   x = (quitmessagebuttonx[i] + WIDESCREENDELTA) * 2 + 2;
+            const int   y = quitmessagebuttony * 2 + 2;
+            const int   width = quitmessagebuttonwidth[i] * 2 - 3;
+            const int   height = M_QuitMessageButtonHeight() * 2 - 4;
+
+            V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab50, NULL);
+            V_FillTransRect(0, x, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab50, NULL);
+            V_FillTransRect(0, x + width - 2, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab50, NULL);
+        }
+
+        M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], quitmessagebuttonhover == i, true, '\0');
+    }
+}
+
+static void M_UseQuitMessageButtons(void)
+{
+    messagestring = quitmessage;
+    quitmessagebuttons = true;
+    quitmessagebuttonhover = -1;
 }
 
 //
@@ -3150,10 +3276,34 @@ bool M_Responder(event_t *ev)
         {
             if (m_pointer)
             {
+                if (ev->data1 || ev->data2 || ev->data3)
+                {
+                    usingmouse = true;
+                    usingcontroller = false;
+                }
+
+                if (messagetoprint && quitting && messageroutine == &M_QuitResponse)
+                {
+                    if (!quitmessagebuttons)
+                        M_UseQuitMessageButtons();
+
+                    quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
+                }
+
                 // activate menu item
                 if (ev->data1 & MOUSE_LEFTBUTTON)
                 {
-                    if (messagetoprint || helpscreen || !usingmouse)
+                    if (messagetoprint && quitmessagebuttons)
+                    {
+                        const int   button = M_QuitMessageButtonAt(ev->data2, ev->data3);
+
+                        if (button != -1 && mousewait < I_GetTime() && !savestringenter)
+                        {
+                            key = (button ? 'n' : 'y');
+                            mousewait = I_GetTime() + 8;
+                        }
+                    }
+                    else if (messagetoprint || helpscreen || !usingmouse)
                     {
                         if (mousewait < I_GetTime() && !savestringenter)
                         {
@@ -3669,6 +3819,8 @@ bool M_Responder(event_t *ev)
         keydown = key;
         menuactive = messagelastmenuactive;
         messagetoprint = false;
+        quitmessagebuttons = false;
+        quitmessagebuttonhover = -1;
 
         if (messageroutine)
             messageroutine(ch);
@@ -4453,45 +4605,11 @@ void M_Drawer(void)
     // Center string and print it.
     if (messagetoprint)
     {
-        char    string[255];
-        int     start = 0;
-
         M_DrawMenuBackground();
+        M_DrawMessage(94);
 
-        y = (VANILLAHEIGHT - M_StringHeight(messagestring)) / 2;
-
-        while (messagestring[start] != '\0')
-        {
-            const int   len = (int)strlen(messagestring + start);
-            bool        foundnewline = false;
-
-            for (int i = 0; i < len; i++)
-                if (messagestring[start + i] == '\n')
-                {
-                    M_StringCopy(string, messagestring + start, sizeof(string));
-
-                    if (i < sizeof(string))
-                        string[i] = '\0';
-
-                    foundnewline = true;
-                    start += i + 1;
-                    break;
-                }
-
-            if (!foundnewline)
-            {
-                M_StringCopy(string, messagestring + start, sizeof(string));
-                start += (int)strlen(string);
-            }
-
-            if (*string)
-            {
-                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, '\0');
-                y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
-            }
-            else
-                y += 3;
-        }
+        if (quitmessagebuttons)
+            M_DrawQuitMessageButtons();
 
         return;
     }
