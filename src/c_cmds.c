@@ -1647,7 +1647,7 @@ static char *C_FormatColorValue(char *string, bool replaceauto)
             if ((src == string || !isalnum((unsigned char)src[-1]))
                 && !isalnum((unsigned char)src[4]))
             {
-                strcpy(dst, "{auto}");
+                M_StringCopy(dst, "{auto}", sizeof(output) - (size_t)(dst - output));
                 dst += 6;
                 src += 4;
                 continue;
@@ -4631,7 +4631,7 @@ static void killfunc2(char *cmd, char *parms)
             }
             else
             {
-                const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
+                const int   type = P_FindDoomedNum(killcmdtype);
 
                 massacre = true;
 
@@ -9185,7 +9185,7 @@ static void resurrectfunc2(char *cmd, char *parms)
             }
             else
             {
-                const mobjtype_t    type = P_FindDoomedNum(resurrectcmdtype);
+                const int   type = P_FindDoomedNum(resurrectcmdtype);
 
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
@@ -9366,9 +9366,9 @@ static void spawnfunc2(char *cmd, char *parms)
     }
     else
     {
-        bool                spawn = true;
-        const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
-        char                buffer[128];
+        bool        spawn = true;
+        const int   type = P_FindDoomedNum(spawncmdtype);
+        char        buffer[128];
 
         if (gamemode != commercial)
         {

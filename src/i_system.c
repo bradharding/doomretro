@@ -708,15 +708,12 @@ void I_Error(const char *error, ...)
 #endif
 
     va_start(args, error);
-    vfprintf(stderr, error, args);
-    fprintf(stderr, "\n\n");
-    va_end(args);
-    fflush(stderr);
-
-    va_start(args, error);
     memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, error, args);
     va_end(args);
+
+    fprintf(stderr, "%s\n\n", buffer);
+    fflush(stderr);
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME, buffer, NULL);
 

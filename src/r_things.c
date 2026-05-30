@@ -1452,16 +1452,24 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     fixed_t         xscale;
     int             x1;
     int             x2;
+    sector_t        *sector = splat->sector;
     vissplat_t      *vis;
     const fixed_t   fx = splat->x;
     const fixed_t   fy = splat->y;
     fixed_t         width;
-    const fixed_t   tr_x = fx - viewx;
-    const fixed_t   tr_y = fy - viewy;
-    const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    fixed_t         tr_x;
+    fixed_t         tr_y;
+    fixed_t         tz;
 
     if (r_bloodsplats_visible >= r_bloodsplats_max)
         return;
+
+    if (!sector)
+        return;
+
+    tr_x = fx - viewx;
+    tr_y = fy - viewy;
+    tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // splat is behind view plane or too far away?
     if (tz < MINZ || tz > MAXZ / 8)
@@ -1495,7 +1503,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gy = fy;
     vis->color = (r_textures ? splat->viscolor : nearestlightgray);
     vis->colfunc = splat->viscolfunc;
-    vis->texturemid = splat->sector->interpfloorheight + FRACUNIT - viewz;
+    vis->texturemid = sector->interpfloorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
     if (x1 < 0)
@@ -1522,7 +1530,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     {
         vis->colormap = (viewplayer->fixedcolormap == 1 ? fixedcolormap :
             spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
-        vis->sectorcolormap = R_GetSectorColormap(splat->sector);
+        vis->sectorcolormap = R_GetSectorColormap(sector);
     }
 }
 

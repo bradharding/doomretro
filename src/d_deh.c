@@ -3967,7 +3967,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
     if (includenotext)                                      // flag to skip included deh-style text
     {
         C_Output("Skipped text block because of NOTEXT directive.");
-        strcpy(inbuffer, line);
+        M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
         while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
             dehfgets(inbuffer, sizeof(inbuffer), fpin);     // skip block
@@ -4164,7 +4164,8 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
         }
 
         // concatenate the whole buffer if continuation or the value if first
-        strcat(holdstring, ptr_lstrip(*holdstring ? inbuffer : strval));
+        M_StringCopy(holdstring + strlen(holdstring), ptr_lstrip(*holdstring ? inbuffer : strval),
+            maxstrlen - strlen(holdstring));
         rstrip(holdstring);
 
         // delete any trailing blanks past the backslash
@@ -4544,33 +4545,33 @@ static char *ptr_lstrip(char *p)    // point past leading whitespace
 //
 static int deh_GetData(char *s, char *k, int *l, char **strval)
 {
-    char            *t;                         // current char
-    unsigned int    val;                        // to hold value of pair
-    char            buffer[DEH_MAXKEYLEN] = ""; // to hold key in progress
-    int             okrc = 1;                   // assume good unless we have problems
-    int             i;                          // iterator
+    char            *t;                                 // current char
+    unsigned int    val;                                // to hold value of pair
+    char            buffer[DEH_MAXKEYLEN] = "";         // to hold key in progress
+    int             okrc = 1;                           // assume good unless we have problems
+    int             i;                                  // iterator
 
-    val = 0;                                    // defaults in case not otherwise set
+    val = 0;                                            // defaults in case not otherwise set
 
     for (i = 0, t = s; *t && i < DEH_MAXKEYLEN; t++, i++)
     {
         if (*t == '=')
             break;
 
-        buffer[i] = *t;                         // copy it
+        buffer[i] = *t;                                 // copy it
     }
 
     if (i >= 1 && isspace((unsigned char)buffer[i - 1]))
         i--;
 
-    buffer[i] = '\0';                           // terminate the key before the '='
+    buffer[i] = '\0';                                   // terminate the key before the '='
 
-    if (!*t)                                    // end of string with no equal sign
+    if (!*t)                                            // end of string with no equal sign
         okrc = 0;
     else
     {
         if (!*(++t))
-            okrc = 0;                           // in case "thiskey =" with no value
+            okrc = 0;                                   // in case "thiskey =" with no value
 
         // we've incremented t
         if (!M_StrToInt(t, (int *)&val))
@@ -4581,14 +4582,14 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
     }
 
     // go put the results in the passed pointers
-    *l = val;                                   // may be a faked zero
+    *l = val;                                           // may be a faked zero
 
     // if spaces between key and equal sign, strip them
-    strcpy(k, ptr_lstrip(buffer));              // could be a zero-length string
+    M_StringCopy(k, ptr_lstrip(buffer), DEH_MAXKEYLEN); // could be a zero-length string
 
-    if (strval)                                 // pass NULL if you don't want this back
-        *strval = t;                            // pointer, has to be somewhere in s,
-                                                // even if pointing at the zero byte.
+    if (strval)                                         // pass NULL if you don't want this back
+        *strval = t;                                    // pointer, has to be somewhere in s,
+                                                        // even if pointing at the zero byte.
     return okrc;
 }
 

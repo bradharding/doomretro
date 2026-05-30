@@ -1520,9 +1520,6 @@ static void P_LoadNodes_V4(int lump)
     numnodes = ((size_t)W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
 
-    // skip header
-    data = data + 8;
-
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
@@ -1530,23 +1527,28 @@ static void P_LoadNodes_V4(int lump)
         else
             I_Error("There are no nodes in this map.");
     }
-
-    for (int i = 0; i < numnodes; i++)
+    else
     {
-        node_t              *no = nodes + i;
-        const mapnode_v4_t  *mn = (const mapnode_v4_t *)data + i;
+        // skip header
+        data += 8;
 
-        no->x = SHORT(mn->x) << FRACBITS;
-        no->y = SHORT(mn->y) << FRACBITS;
-        no->dx = SHORT(mn->dx) << FRACBITS;
-        no->dy = SHORT(mn->dy) << FRACBITS;
-
-        for (int j = 0; j < 2; j++)
+        for (int i = 0; i < numnodes; i++)
         {
-            no->children[j] = (unsigned int)(mn->children[j]);
+            node_t              *no = nodes + i;
+            const mapnode_v4_t  *mn = (const mapnode_v4_t *)data + i;
 
-            for (int k = 0; k < 4; k++)
-                no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+            no->x = SHORT(mn->x) << FRACBITS;
+            no->y = SHORT(mn->y) << FRACBITS;
+            no->dx = SHORT(mn->dx) << FRACBITS;
+            no->dy = SHORT(mn->dy) << FRACBITS;
+
+            for (int j = 0; j < 2; j++)
+            {
+                no->children[j] = (unsigned int)(mn->children[j]);
+
+                for (int k = 0; k < 4; k++)
+                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+            }
         }
     }
 

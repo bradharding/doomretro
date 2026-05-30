@@ -140,27 +140,8 @@ void Z_Free(void *ptr)
 void Z_FreeTags(unsigned char lowtag, unsigned char hightag)
 {
     for (; lowtag <= hightag; lowtag++)
-    {
-        memblock_t  *block = blockbytag[lowtag];
-        memblock_t  *endblock;
-
-        if (!block)
-            continue;
-
-        endblock = block->prev;
-
-        while (true)
-        {
-            memblock_t  *next = block->next;
-
-            Z_Free((char *)block + headersize);
-
-            if (block == endblock)
-                break;
-
-            block = next;   // Advance to next block
-        }
-    }
+        while (blockbytag[lowtag])
+            Z_Free((char *)blockbytag[lowtag] + headersize);
 }
 
 void Z_ChangeTag(void *ptr, unsigned char tag)

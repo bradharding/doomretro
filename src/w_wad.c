@@ -87,6 +87,8 @@ char                *wadsloaded;
 
 static int          numwads;
 static wadfile_t    *wadlist[MAXWADS];
+static lumpinfo_t   **lumpblocks;
+static int          numlumpblocks;
 
 static bool IsFreedoom(const char *iwadname)
 {
@@ -360,11 +362,17 @@ bool W_AddFile(char *filename, bool autoloaded)
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
-    fileinfo = malloc(length);
+    fileinfo = I_Malloc(length);
     W_Read(wadfile, header.infotableofs, fileinfo, length);
 
     // Increase size of numlumps array to accommodate the new file.
-    filelumps = (header.numlumps > 0 ? calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
+    filelumps = (header.numlumps > 0 ? I_Calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
+
+    if (filelumps)
+    {
+        lumpblocks = I_Realloc(lumpblocks, (++numlumpblocks) * sizeof(*lumpblocks));
+        lumpblocks[numlumpblocks - 1] = filelumps;
+    }
 
     startlump = numlumps;
     numlumps += header.numlumps;
@@ -1141,5 +1149,10 @@ void W_CloseFiles(void)
     for (int i = 0; i < numwads; i++)
         W_CloseFile(wadlist[i]);
 
+    for (int i = 0; i < numlumpblocks; i++)
+        free(lumpblocks[i]);
+
+    free(lumpblocks);
+    free(lumpinfo);
     free(wadsloaded);
 }

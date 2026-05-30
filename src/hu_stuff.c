@@ -653,21 +653,21 @@ static void HU_DrawHUD(void)
 
 typedef struct
 {
-    int     color;
     byte    *tinttab;
     patch_t *patch;
+    int     color;
     short   width;
     short   height;
 } altkeypic_t;
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE3,   NULL, NULL },
-    { YELLOW2, NULL, NULL },
-    { RED2,    NULL, NULL },
-    { BLUE3,   NULL, NULL },
-    { YELLOW2, NULL, NULL },
-    { RED2,    NULL, NULL }
+    { NULL, NULL, BLUE3   },
+    { NULL, NULL, YELLOW2 },
+    { NULL, NULL, RED2    },
+    { NULL, NULL, BLUE3   },
+    { NULL, NULL, YELLOW2 },
+    { NULL, NULL, RED2    }
 };
 
 static patch_t  *altnumpatch[10];

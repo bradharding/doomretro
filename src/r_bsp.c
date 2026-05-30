@@ -159,7 +159,7 @@ static void R_RecalcLineFlags(line_t *line)
     if (curline->sidedef->rowoffset)
         return;
 
-    if (twosided)
+    if (twosided && backsector)
     {
         // Does top texture need tiling?
         if ((c = frontsector->interpceilingheight - backsector->interpceilingheight) > 0
