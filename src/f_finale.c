@@ -302,7 +302,8 @@ static fixed_t TextSpeed(void)
     if (acceleratestage)
         S_StartSound(NULL, sfx_swtchn);
 
-    return (midstage ? NEWTEXTSPEED : ((midstage = acceleratestage) ? (acceleratestage = false), NEWTEXTSPEED : TEXTSPEED));
+    return (midstage ? NEWTEXTSPEED : ((midstage = acceleratestage) ?
+        (acceleratestage = false), NEWTEXTSPEED : TEXTSPEED));
 }
 
 //
@@ -322,7 +323,8 @@ void F_Ticker(void)
         F_CastTicker();
     else if (finalestage == F_STAGE_TEXT)
     {
-        if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
+        if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed())
+            + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
         {
             if (legacyofrust)
@@ -593,7 +595,8 @@ static void F_CastTicker(void)
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;    // Oh, gross hack!
 
-        st = (caststate->action == &A_RandomJump && (M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
+        st = (caststate->action == &A_RandomJump && (M_BigRandom() & 255) < caststate->misc2 ?
+            caststate->misc1 : caststate->nextstate);
         caststate = &states[st];
         castframes++;
 

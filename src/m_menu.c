@@ -3391,12 +3391,6 @@ bool M_Responder(event_t *ev)
                     }
                 }
 
-                if (messagetoprint && messagebuttonsactive)
-                {
-                    if (key != -1)
-                        return false;
-                }
-
                 // activate menu item
                 if (ev->data1 & MOUSE_LEFTBUTTON)
                 {
@@ -3612,14 +3606,8 @@ bool M_Responder(event_t *ev)
             }
             else
             {
-                if (messagetoprint && messagebuttonsactive)
-                {
-                    if (key != -1)
-                        return false;
-                }
-
                 // activate menu item
-                else if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
                 {
                     key = KEY_ENTER;
                     mousewait = I_GetTime() + 8;

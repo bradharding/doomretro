@@ -68,24 +68,6 @@
 
 console_t               *console = NULL;
 
-static bool IsEmptyConsoleMessage(const char *string)
-{
-    while (*string)
-    {
-        const unsigned char c = (unsigned char)*string++;
-
-        if (c == BOLDONCHAR || c == BOLDOFFCHAR
-            || c == ITALICSONCHAR || c == ITALICSOFFCHAR
-            || c == MONOSPACEDONCHAR || c == MONOSPACEDOFFCHAR)
-            continue;
-
-        if (!isspace(c))
-            return false;
-    }
-
-    return true;
-}
-
 bool                    consoleactive = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
@@ -201,6 +183,24 @@ void C_CreateTimeStamp(const int index)
     struct tm       *currenttime = localtime(&now);
 
     console[index].timestamp = *currenttime;
+}
+
+static bool IsEmptyConsoleMessage(const char *string)
+{
+    while (*string)
+    {
+        const unsigned char c = (unsigned char)*string++;
+
+        if (c == BOLDONCHAR || c == BOLDOFFCHAR
+            || c == ITALICSONCHAR || c == ITALICSOFFCHAR
+            || c == MONOSPACEDONCHAR || c == MONOSPACEDOFFCHAR)
+            continue;
+
+        if (!isspace(c))
+            return false;
+    }
+
+    return true;
 }
 
 static void C_ScrollToBottom(void)
