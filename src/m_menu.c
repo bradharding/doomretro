@@ -2834,7 +2834,7 @@ static int M_StringHeight(const char *string)
 
 static int M_QuitMessageButtonHeight(void)
 {
-    return (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 8;
+    return (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 6;
 }
 
 static void M_UpdateQuitMessageButtons(void)
@@ -2848,7 +2848,7 @@ static void M_UpdateQuitMessageButtons(void)
 
     quitmessagebuttonwidth[0] = M_StringWidth(buttons[0]) + padding * 2;
     quitmessagebuttonwidth[1] = M_StringWidth(buttons[1]) + padding * 2;
-    quitmessagebuttony = (VANILLAHEIGHT - totalheight) / 2 + M_StringHeight(messagestring) + 17;
+    quitmessagebuttony = (VANILLAHEIGHT - totalheight) / 2 + M_StringHeight(messagestring) + 8;
     x = (VANILLAWIDTH - (quitmessagebuttonwidth[0] + gap + quitmessagebuttonwidth[1])) / 2;
     quitmessagebuttonx[0] = x;
     quitmessagebuttonx[1] = x + quitmessagebuttonwidth[0] + gap;
@@ -2923,16 +2923,18 @@ static void M_DrawQuitMessageButtons(void)
         if (quitmessagebuttonhover == i)
         {
             const int   x = (quitmessagebuttonx[i] + WIDESCREENDELTA) * 2 + 2;
-            const int   y = quitmessagebuttony * 2 + 2;
+            const int   y = quitmessagebuttony * 2 + 3;
             const int   width = quitmessagebuttonwidth[i] * 2 - 3;
             const int   height = M_QuitMessageButtonHeight() * 2 - 4;
 
-            V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab50, NULL);
-            V_FillTransRect(0, x, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab50, NULL);
-            V_FillTransRect(0, x + width - 2, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab50, NULL);
-        }
+            V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab60, NULL);
+            V_FillTransRect(0, x, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab60, NULL);
+            V_FillTransRect(0, x + width - 2, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab60, NULL);
 
-        M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], quitmessagebuttonhover == i, true, '\0');
+            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, false, '\0');
+        }
+        else
+            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, true, '\0');
     }
 }
 
@@ -4654,7 +4656,7 @@ void M_Drawer(void)
     if (messagetoprint)
     {
         M_DrawMenuBackground();
-        M_DrawMessage(94);
+        M_DrawMessage(86);
 
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
