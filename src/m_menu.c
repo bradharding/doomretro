@@ -3193,6 +3193,20 @@ bool M_Responder(event_t *ev)
                 return false;
             }
 
+            if (controllerbuttons & controllersizedown)
+            {
+                controllerwait = I_GetTime() + 2;
+                usingcontroller = true;
+                return M_HandleScreenSizeControl(0);
+            }
+
+            if (controllerbuttons & controllersizeup)
+            {
+                controllerwait = I_GetTime() + 2;
+                usingcontroller = true;
+                return M_HandleScreenSizeControl(1);
+            }
+
             // activate menu item
             if ((controllerbuttons & CONTROLLER_A)
                 || (controllerbuttons & CONTROLLER_RIGHT_TRIGGER))
@@ -3325,6 +3339,23 @@ bool M_Responder(event_t *ev)
                 {
                     usingmouse = true;
                     usingcontroller = false;
+                }
+
+                if (messagetoprint && mousewait < I_GetTime())
+                {
+                    if (mousesizedown != -1 && (ev->data1 & mousesizedown))
+                    {
+                        mousewait = I_GetTime() + 8;
+                        usingcontroller = false;
+                        return M_HandleScreenSizeControl(0);
+                    }
+
+                    if (mousesizeup != -1 && (ev->data1 & mousesizeup))
+                    {
+                        mousewait = I_GetTime() + 8;
+                        usingcontroller = false;
+                        return M_HandleScreenSizeControl(1);
+                    }
                 }
 
                 if (messagetoprint && quitting && messageroutine == &M_QuitResponse)
@@ -3855,6 +3886,18 @@ bool M_Responder(event_t *ev)
         {
             G_ScreenShot();
             return false;
+        }
+
+        if (key == keyboardsizedown || key == keyboardsizedown2)
+        {
+            keydown = key;
+            return M_HandleScreenSizeControl(0);
+        }
+
+        if (key == keyboardsizeup || key == keyboardsizeup2)
+        {
+            keydown = key;
+            return M_HandleScreenSizeControl(1);
         }
 
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
