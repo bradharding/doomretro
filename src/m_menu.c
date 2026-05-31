@@ -92,6 +92,7 @@ static int      quitmessagebuttonhover = -1;
 static int      quitmessagebuttonx[2];
 static int      quitmessagebuttony;
 static int      quitmessagebuttonwidth[2];
+static bool     messagebuttonsusedosprompt;
 static char     quitmessage[160];
 static char     quitmessagestring[320];
 
@@ -120,6 +121,7 @@ static short    whichskull;                         // which skull to draw
 static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
+static int      quitmessagebuttonbordercolor;
 
 static int      blurtic = -1;
 static int      functionkey;
@@ -180,6 +182,7 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
 static bool M_IsPlayingGame(void);
 static void M_UpdateGameMissionFromExpansion(void);
 static void M_SetupNextMenu(menu_t *menudef);
+static void M_BuildMessageButtonPrompt(void);
 static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string,
@@ -2048,12 +2051,17 @@ static void M_ChooseSkill(int choice)
 {
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
-        static char line2[160];
-        static char nightmarestring[320];
+        M_StringCopy(quitmessage, s_NIGHTMARE, sizeof(quitmessage));
+        messagebuttonsusedosprompt = false;
 
-        M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-        M_snprintf(nightmarestring, sizeof(nightmarestring), "%s\n\n%s", s_NIGHTMARE, line2);
-        M_StartMessage(nightmarestring, &M_VerifyNightmare, true);
+        if (usingmouse)
+            M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
+        else
+            M_BuildMessageButtonPrompt();
+
+        M_StartMessage(quitmessagestring, &M_VerifyNightmare, true);
+        quitmessagebuttons = usingmouse;
+        quitmessagebuttonhover = -1;
         return;
     }
 
@@ -2371,20 +2379,34 @@ static void M_EndGameResponse(int key)
 
 void M_EndGame(int choice)
 {
+    int len;
+
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
         return;
 
-    if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
-        M_StartMessage(s_ENDGAME, &M_EndGameResponse, true);
-    else
+    M_StringCopy(quitmessage, s_ENDGAME, sizeof(quitmessage));
+    messagebuttonsusedosprompt = false;
+
+    if (M_StringEndsWith(quitmessage, s_PRESSYN))
     {
-        static char line2[160];
-        static char endgamestring[320];
+        len = (int)(strlen(quitmessage) - strlen(s_PRESSYN));
+        quitmessage[len] = '\0';
 
-        M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-        M_snprintf(endgamestring, sizeof(endgamestring), "%s\n\n%s", s_ENDGAME, line2);
-        M_StartMessage(endgamestring, &M_EndGameResponse, true);
+        while (len > 0 && (quitmessage[len - 1] == ' ' || quitmessage[len - 1] == '\n'))
+            quitmessage[--len] = '\0';
+    }
 
+    if (usingmouse)
+        M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
+    else
+        M_BuildMessageButtonPrompt();
+
+    M_StartMessage(quitmessagestring, &M_EndGameResponse, true);
+    quitmessagebuttons = usingmouse;
+    quitmessagebuttonhover = -1;
+
+    if (!M_StringEndsWith(s_ENDGAME, s_PRESSYN))
+    {
         SDL_StopTextInput();
         S_StartSound(NULL, sfx_swtchn);
     }
@@ -2467,6 +2489,7 @@ void M_QuitResponse(int key)
 void M_QuitDOOM(int choice)
 {
     quitting = true;
+    messagebuttonsusedosprompt = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(quitmessage, s_QUITMSG, sizeof(quitmessage));
@@ -2487,16 +2510,7 @@ void M_QuitDOOM(int choice)
     if (usingmouse)
         M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
     else
-    {
-        static char line2[160];
-
-        if (usingcontroller)
-            M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
-        else
-            M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
-
-        M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
-    }
+        M_BuildMessageButtonPrompt();
 
     M_StartMessage(quitmessagestring, &M_QuitResponse, true);
     quitmessagebuttons = usingmouse;
@@ -2836,7 +2850,24 @@ static int M_StringHeight(const char *string)
 
 static int M_QuitMessageButtonHeight(void)
 {
-    return (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 6;
+    return (SHORT(hu_font[0]->height) + 7);
+}
+
+static void M_BuildMessageButtonPrompt(void)
+{
+    static char line2[160];
+
+    if (messagebuttonsusedosprompt)
+    {
+        if (usingcontroller)
+            M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
+        else
+            M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
+    }
+    else
+        M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
+
+    M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
 }
 
 static void M_UpdateQuitMessageButtons(void)
@@ -2903,7 +2934,7 @@ static int M_DrawMessage(int y)
         if (*string)
         {
             M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, '\0');
-            y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
+            y += SHORT(hu_font[0]->height) + 2;
         }
         else
             y += 3;
@@ -2927,12 +2958,22 @@ static void M_DrawQuitMessageButtons(void)
             const int   y = quitmessagebuttony * 2 + 4;
             const int   width = quitmessagebuttonwidth[i] * 2 - 3;
             const int   height = M_QuitMessageButtonHeight() * 2 - 6;
+            const int   shadowx = x + 2;
+            const int   shadowy = y + 2;
 
+            V_FillTransRect(0, shadowx + 2, shadowy, width - 4, height, nearestblack, 0, false, false, tinttab40, NULL);
+            V_FillTransRect(0, shadowx, shadowy + 2, 2, height - 4, nearestblack, 0, false, false, tinttab40, NULL);
+            V_FillTransRect(0, shadowx + width - 2, shadowy + 2, 2, height - 4, nearestblack, 0,
+                false, false, tinttab40, NULL);
             V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab60, NULL);
-            V_FillTransRect(0, x, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab60, NULL);
-            V_FillTransRect(0, x + width - 2, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab60, NULL);
+            V_FillRect(0, x, y + 2, 2, height - 4, quitmessagebuttonbordercolor, 0, false, false, NULL, NULL);
+            V_FillRect(0, x + width - 2, y + 2, 2, height - 4, quitmessagebuttonbordercolor, 0,
+                false, false, NULL, NULL);
+            V_FillRect(0, x + 2, y, width - 4, 2, quitmessagebuttonbordercolor, 0, false, false, NULL, NULL);
+            V_FillRect(0, x + 2, y + height - 2, width - 4, 2, quitmessagebuttonbordercolor, 0,
+                false, false, NULL, NULL);
 
-            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, false, '\0');
+            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], true, false, '\0');
         }
         else
             M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, true, '\0');
@@ -3329,7 +3370,10 @@ bool M_Responder(event_t *ev)
                     }
                 }
 
-                if (messagetoprint && quitting && messageroutine == &M_QuitResponse)
+                if (messagetoprint
+                    && (messageroutine == &M_QuitResponse
+                        || messageroutine == &M_EndGameResponse
+                        || messageroutine == &M_VerifyNightmare))
                 {
                     if (!quitmessagebuttons)
                     {
@@ -3640,13 +3684,7 @@ bool M_Responder(event_t *ev)
         if (messagetoprint && quitmessagebuttons)
         {
             usingmouse = false;
-
-            {
-                static char line2[160];
-
-                M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
-                M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
-            }
+            M_BuildMessageButtonPrompt();
 
             messagestring = quitmessagestring;
             quitmessagebuttons = false;
@@ -5132,6 +5170,7 @@ void M_Init(void)
     titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
     caretcolor = tinttab15[FindBrightDominantColor(W_CacheLumpName("STCFN065"))];
+    quitmessagebuttonbordercolor = FindDarkDominantColor(W_CacheLumpName("STCFN065"));
 
     if (autostart)
     {

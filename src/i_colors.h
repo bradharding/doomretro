@@ -130,6 +130,7 @@ byte I_GetContrastingColor(byte backgroundcolor);
 void I_InitColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);
+int FindDarkDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch);
 
 byte I_GoldTranslation(byte *playpal, byte color);
