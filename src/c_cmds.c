@@ -8888,14 +8888,12 @@ static void C_VerifyResetAll(const int key)
 
 static void resetallfunc2(char *cmd, char *parms)
 {
-    static char line2[160];
     static char resetallstring[320];
 
-    M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-    M_snprintf(resetallstring, sizeof(resetallstring),
-        "Are you sure you want to reset all CVARs\nand controls to their defaults?\n\n%s", line2);
+    M_StringCopy(resetallstring, "Are you sure you want to reset all CVARs\nand controls to their defaults?",
+        sizeof(resetallstring));
     C_HideConsole();
-    M_StartMessage(resetallstring, &C_VerifyResetAll, true);
+    M_StartButtonMessage(resetallstring, &C_VerifyResetAll, false);
 
     SDL_StopTextInput();
     S_StartSound(NULL, sfx_swtchn);

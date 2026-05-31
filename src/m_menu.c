@@ -92,6 +92,7 @@ static int      quitmessagebuttonhover = -1;
 static int      quitmessagebuttonx[2];
 static int      quitmessagebuttony;
 static int      quitmessagebuttonwidth[2];
+bool            messagebuttonsactive;
 static bool     messagebuttonsusedosprompt;
 static char     quitmessage[160];
 static char     quitmessagestring[320];
@@ -2051,17 +2052,7 @@ static void M_ChooseSkill(int choice)
 {
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
-        M_StringCopy(quitmessage, s_NIGHTMARE, sizeof(quitmessage));
-        messagebuttonsusedosprompt = false;
-
-        if (usingmouse)
-            M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
-        else
-            M_BuildMessageButtonPrompt();
-
-        M_StartMessage(quitmessagestring, &M_VerifyNightmare, true);
-        quitmessagebuttons = usingmouse;
-        quitmessagebuttonhover = -1;
+        M_StartButtonMessage(s_NIGHTMARE, &M_VerifyNightmare, false);
         return;
     }
 
@@ -2385,7 +2376,6 @@ void M_EndGame(int choice)
         return;
 
     M_StringCopy(quitmessage, s_ENDGAME, sizeof(quitmessage));
-    messagebuttonsusedosprompt = false;
 
     if (M_StringEndsWith(quitmessage, s_PRESSYN))
     {
@@ -2396,14 +2386,7 @@ void M_EndGame(int choice)
             quitmessage[--len] = '\0';
     }
 
-    if (usingmouse)
-        M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
-    else
-        M_BuildMessageButtonPrompt();
-
-    M_StartMessage(quitmessagestring, &M_EndGameResponse, true);
-    quitmessagebuttons = usingmouse;
-    quitmessagebuttonhover = -1;
+    M_StartButtonMessage(quitmessage, &M_EndGameResponse, false);
 
     if (!M_StringEndsWith(s_ENDGAME, s_PRESSYN))
     {
@@ -2489,7 +2472,6 @@ void M_QuitResponse(int key)
 void M_QuitDOOM(int choice)
 {
     quitting = true;
-    messagebuttonsusedosprompt = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(quitmessage, s_QUITMSG, sizeof(quitmessage));
@@ -2507,14 +2489,7 @@ void M_QuitDOOM(int choice)
             M_snprintf(quitmessage, sizeof(quitmessage), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
     }
 
-    if (usingmouse)
-        M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
-    else
-        M_BuildMessageButtonPrompt();
-
-    M_StartMessage(quitmessagestring, &M_QuitResponse, true);
-    quitmessagebuttons = usingmouse;
-    quitmessagebuttonhover = -1;
+    M_StartButtonMessage(quitmessage, &M_QuitResponse, true);
 }
 
 static void M_SliderSound(void)
@@ -2783,6 +2758,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messagestring = string;
     messageroutine = routine;
     messageneedsinput = input;
+    messagebuttonsactive = false;
     quitmessagebuttons = false;
     quitmessagebuttonhover = -1;
 
@@ -2790,6 +2766,22 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     I_UpdateBlitFunc(false);
 
     D_FadeScreen(false);
+}
+
+void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt)
+{
+    M_StringCopy(quitmessage, string, sizeof(quitmessage));
+    messagebuttonsusedosprompt = usedosprompt;
+
+    if (usingmouse)
+        M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
+    else
+        M_BuildMessageButtonPrompt();
+
+    M_StartMessage(quitmessagestring, routine, true);
+    messagebuttonsactive = true;
+    quitmessagebuttons = usingmouse;
+    quitmessagebuttonhover = -1;
 }
 
 //
@@ -3343,6 +3335,35 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
+        if (messagetoprint && messagebuttonsactive && m_pointer)
+        {
+            if (ev->data1 || ev->data2 || ev->data3)
+            {
+                usingmouse = true;
+                usingcontroller = false;
+            }
+
+            if (!quitmessagebuttons)
+            {
+                messagestring = quitmessage;
+                quitmessagebuttons = true;
+                quitmessagebuttonhover = -1;
+            }
+
+            quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
+
+            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+            {
+                const int   button = M_QuitMessageButtonAt(ev->data2, ev->data3);
+
+                if (button != -1 && !savestringenter)
+                {
+                    key = (button ? 'n' : 'y');
+                    mousewait = I_GetTime() + 8;
+                }
+            }
+        }
+
         if (menuactive)
         {
             if (m_pointer)
@@ -3370,19 +3391,10 @@ bool M_Responder(event_t *ev)
                     }
                 }
 
-                if (messagetoprint
-                    && (messageroutine == &M_QuitResponse
-                        || messageroutine == &M_EndGameResponse
-                        || messageroutine == &M_VerifyNightmare))
+                if (messagetoprint && messagebuttonsactive)
                 {
-                    if (!quitmessagebuttons)
-                    {
-                        messagestring = quitmessage;
-                        quitmessagebuttons = true;
-                        quitmessagebuttonhover = -1;
-                    }
-
-                    quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
+                    if (key != -1)
+                        return false;
                 }
 
                 // activate menu item
@@ -3600,8 +3612,14 @@ bool M_Responder(event_t *ev)
             }
             else
             {
+                if (messagetoprint && messagebuttonsactive)
+                {
+                    if (key != -1)
+                        return false;
+                }
+
                 // activate menu item
-                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                else if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
                 {
                     key = KEY_ENTER;
                     mousewait = I_GetTime() + 8;

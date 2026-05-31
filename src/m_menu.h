@@ -103,6 +103,7 @@ void M_UpdateSaveGameName(int i);
 int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void (*routine)(int), bool input);
+void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt);
 
 void M_ShowPalette(void);
 
@@ -112,6 +113,7 @@ void M_QuitDOOM(int choice);
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string);
 
 extern bool     messagetoprint;
+extern bool     messagebuttonsactive;
 extern bool     nomusic;
 extern bool     nosound;
 extern bool     nosfx;
