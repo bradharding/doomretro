@@ -3133,6 +3133,22 @@ uint64_t    controllerwait = 0;
 uint64_t    mousewait = 0;
 bool        controllerpress = false;
 
+static void M_TakeScreenshot(bool flash)
+{
+    G_ScreenShot();
+
+    if (flash)
+    {
+        S_StartSound(NULL, sfx_scrsht);
+
+        if (!splashscreen)
+        {
+            memset(screens[0], nearestwhite, SCREENAREA);
+            D_FadeScreen(true);
+        }
+    }
+}
+
 bool M_Responder(event_t *ev)
 {
     int             key = -1;
@@ -3145,6 +3161,14 @@ bool M_Responder(event_t *ev)
     {
         if (menuactive && controllerwait < I_GetTime())
         {
+            if (controllerbuttons & controllerscreenshot)
+            {
+                controllerwait = I_GetTime() + 2;
+                usingcontroller = true;
+                M_TakeScreenshot(true);
+                return false;
+            }
+
             // activate menu item
             if ((controllerbuttons & CONTROLLER_A)
                 || (controllerbuttons & CONTROLLER_RIGHT_TRIGGER))
@@ -3247,10 +3271,7 @@ bool M_Responder(event_t *ev)
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;
-                G_ScreenShot();
-                S_StartSound(NULL, sfx_scrsht);
-                memset(screens[0], nearestwhite, SCREENAREA);
-                D_FadeScreen(true);
+                M_TakeScreenshot(true);
                 return false;
             }
 
@@ -3544,10 +3565,7 @@ bool M_Responder(event_t *ev)
         {
             mousewait = I_GetTime() + 5;
             usingcontroller = false;
-            G_ScreenShot();
-            S_StartSound(NULL, sfx_scrsht);
-            memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen(true);
+            M_TakeScreenshot(true);
             return false;
         }
         else if (key == -1 && mousesizedown != -1 && (ev->data1 & mousesizedown) && mousewait < I_GetTime())
@@ -3807,6 +3825,13 @@ bool M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messagetoprint && !keydown)
     {
+        if ((key == keyboardscreenshot || key == keyboardscreenshot2)
+            && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
+        {
+            G_ScreenShot();
+            return false;
+        }
+
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
         if (messageneedsinput && key != keyboardmenu && key != keyboardmenu2 && ch != 'y' && ch != 'n'
