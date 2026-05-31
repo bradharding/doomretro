@@ -122,7 +122,6 @@ static short    whichskull;                         // which skull to draw
 static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
-static int      quitmessagebuttonbordercolor;
 
 static int      blurtic = -1;
 static int      functionkey;
@@ -2845,6 +2844,17 @@ static int M_QuitMessageButtonHeight(void)
     return (SHORT(hu_font[0]->height) + 7);
 }
 
+static int M_MessageButtonTextY(int y)
+{
+    const int   len = (int)strlen(quitmessage);
+
+    for (int i = 1; i < len; i++)
+        if (quitmessage[i] == '\n')
+            y += (quitmessage[i - 1] == '\n' ? 3 : SHORT(hu_font[0]->height) + 2);
+
+    return (y + SHORT(hu_font[0]->height) + 5);
+}
+
 static void M_BuildMessageButtonPrompt(void)
 {
     static char line2[160];
@@ -2866,14 +2876,12 @@ static void M_UpdateQuitMessageButtons(void)
 {
     static const char *buttons[] = { "YES", "NO" };
     const int         padding = 6;
-    const int         gap = 16;
-    const int         buttonheight = M_QuitMessageButtonHeight();
-    const int         totalheight = M_StringHeight(messagestring) + 12 + buttonheight;
+    const int         gap = 12;
     int               x;
 
     quitmessagebuttonwidth[0] = M_StringWidth(buttons[0]) + padding * 2;
     quitmessagebuttonwidth[1] = M_StringWidth(buttons[1]) + padding * 2;
-    quitmessagebuttony = (VANILLAHEIGHT - totalheight) / 2 + M_StringHeight(messagestring) + 8;
+    quitmessagebuttony = M_MessageButtonTextY(86) - 4;
     x = (VANILLAWIDTH - (quitmessagebuttonwidth[0] + gap + quitmessagebuttonwidth[1])) / 2;
     quitmessagebuttonx[0] = x;
     quitmessagebuttonx[1] = x + quitmessagebuttonwidth[0] + gap;
@@ -2938,37 +2946,12 @@ static int M_DrawMessage(int y)
 static void M_DrawQuitMessageButtons(void)
 {
     static const char *buttons[] = { "YES", "NO" };
-    const int         padding = 6;
     const int         texty = quitmessagebuttony + 4;
 
     M_UpdateQuitMessageButtons();
 
     for (int i = 0; i < 2; i++)
-        if (quitmessagebuttonhover == i)
-        {
-            const int   x = (quitmessagebuttonx[i] + WIDESCREENDELTA) * 2 + 2;
-            const int   y = quitmessagebuttony * 2 + 4;
-            const int   width = quitmessagebuttonwidth[i] * 2 - 3;
-            const int   height = M_QuitMessageButtonHeight() * 2 - 6;
-            const int   shadowx = x + 2;
-            const int   shadowy = y + 2;
-
-            V_FillTransRect(0, shadowx + 2, shadowy, width - 4, height, nearestblack, 0, false, false, tinttab40, NULL);
-            V_FillTransRect(0, shadowx, shadowy + 2, 2, height - 4, nearestblack, 0, false, false, tinttab40, NULL);
-            V_FillTransRect(0, shadowx + width - 2, shadowy + 2, 2, height - 4, nearestblack, 0,
-                false, false, tinttab40, NULL);
-            V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab60, NULL);
-            V_FillRect(0, x, y + 2, 2, height - 4, quitmessagebuttonbordercolor, 0, false, false, NULL, NULL);
-            V_FillRect(0, x + width - 2, y + 2, 2, height - 4, quitmessagebuttonbordercolor, 0,
-                false, false, NULL, NULL);
-            V_FillRect(0, x + 2, y, width - 4, 2, quitmessagebuttonbordercolor, 0, false, false, NULL, NULL);
-            V_FillRect(0, x + 2, y + height - 2, width - 4, 2, quitmessagebuttonbordercolor, 0,
-                false, false, NULL, NULL);
-
-            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], true, false, '\0');
-        }
-        else
-            M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, true, '\0');
+        M_WriteText(quitmessagebuttonx[i] + 6, texty, buttons[i], (quitmessagebuttonhover == i), true, '\0');
 }
 
 //
@@ -5176,7 +5159,6 @@ void M_Init(void)
     titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
     caretcolor = tinttab15[FindBrightDominantColor(W_CacheLumpName("STCFN065"))];
-    quitmessagebuttonbordercolor = FindDarkDominantColor(W_CacheLumpName("STCFN065"));
 
     if (autostart)
     {
