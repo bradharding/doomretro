@@ -2466,8 +2466,6 @@ void M_QuitResponse(int key)
 
 void M_QuitDOOM(int choice)
 {
-    static char line2[160];
-
     quitting = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
@@ -2486,15 +2484,19 @@ void M_QuitDOOM(int choice)
             M_snprintf(quitmessage, sizeof(quitmessage), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
     }
 
-    if (usingcontroller)
-        M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
-    else if (!usingmouse)
-        M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
-
     if (usingmouse)
         M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
     else
+    {
+        static char line2[160];
+
+        if (usingcontroller)
+            M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
+        else
+            M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
+
         M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
+    }
 
     M_StartMessage(quitmessagestring, &M_QuitResponse, true);
     quitmessagebuttons = usingmouse;
@@ -2919,13 +2921,12 @@ static void M_DrawQuitMessageButtons(void)
     M_UpdateQuitMessageButtons();
 
     for (int i = 0; i < 2; i++)
-    {
         if (quitmessagebuttonhover == i)
         {
             const int   x = (quitmessagebuttonx[i] + WIDESCREENDELTA) * 2 + 2;
-            const int   y = quitmessagebuttony * 2 + 3;
+            const int   y = quitmessagebuttony * 2 + 4;
             const int   width = quitmessagebuttonwidth[i] * 2 - 3;
-            const int   height = M_QuitMessageButtonHeight() * 2 - 4;
+            const int   height = M_QuitMessageButtonHeight() * 2 - 6;
 
             V_FillTransRect(0, x + 2, y, width - 4, height, caretcolor, 0, false, false, tinttab60, NULL);
             V_FillTransRect(0, x, y + 2, 2, height - 4, caretcolor, 0, false, false, tinttab60, NULL);
@@ -2935,36 +2936,6 @@ static void M_DrawQuitMessageButtons(void)
         }
         else
             M_WriteText(quitmessagebuttonx[i] + padding, texty, buttons[i], false, true, '\0');
-    }
-}
-
-static void M_UseQuitMessageButtons(void)
-{
-    messagestring = quitmessage;
-    quitmessagebuttons = true;
-    quitmessagebuttonhover = -1;
-}
-
-static void M_CancelMessage(void)
-{
-    if (!messagetoprint)
-        return;
-
-    messagetoprint = false;
-    quitmessagebuttons = false;
-    quitmessagebuttonhover = -1;
-    functionkey = 0;
-
-    if (quitting)
-    {
-        quitting = false;
-
-        if (waspaused)
-        {
-            waspaused = false;
-            paused = true;
-        }
-    }
 }
 
 //
@@ -3361,7 +3332,11 @@ bool M_Responder(event_t *ev)
                 if (messagetoprint && quitting && messageroutine == &M_QuitResponse)
                 {
                     if (!quitmessagebuttons)
-                        M_UseQuitMessageButtons();
+                    {
+                        messagestring = quitmessage;
+                        quitmessagebuttons = true;
+                        quitmessagebuttonhover = -1;
+                    }
 
                     quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
                 }
@@ -3661,6 +3636,22 @@ bool M_Responder(event_t *ev)
     {
         key = ev->data1;
         usingcontroller = false;
+
+        if (messagetoprint && quitmessagebuttons)
+        {
+            usingmouse = false;
+
+            {
+                static char line2[160];
+
+                M_snprintf(line2, sizeof(line2), s_DOSY, DESKTOP);
+                M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
+            }
+
+            messagestring = quitmessagestring;
+            quitmessagebuttons = false;
+            quitmessagebuttonhover = -1;
+        }
     }
     else if (ev->type == ev_keyup)
     {
@@ -3685,7 +3676,24 @@ bool M_Responder(event_t *ev)
     {
         keydown = key;
 
-        M_CancelMessage();
+        if (messagetoprint)
+        {
+            messagetoprint = false;
+            quitmessagebuttons = false;
+            quitmessagebuttonhover = -1;
+            functionkey = 0;
+
+            if (quitting)
+            {
+                quitting = false;
+
+                if (waspaused)
+                {
+                    waspaused = false;
+                    paused = true;
+                }
+            }
+        }
 
         if (menuactive)
         {
@@ -4362,6 +4370,9 @@ bool M_Responder(event_t *ev)
         {
             // Activate menu item
             keydown = key;
+
+            if (ev->type == ev_keydown && currentmenu == &MainDef && itemon == quit_doom)
+                usingmouse = false;
 
             if (helpscreen)
             {
