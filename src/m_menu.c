@@ -3626,7 +3626,7 @@ bool M_Responder(event_t *ev)
 
     // Console
     if (key && (key == keyboardconsole || key == keyboardconsole2)
-        && !paused && !splashscreen && !keydown && !messagetoprint && !savestringenter)
+        && !paused && !splashscreen && !keydown && !savestringenter)
     {
         keydown = key;
 
