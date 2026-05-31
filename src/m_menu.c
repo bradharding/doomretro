@@ -2943,6 +2943,28 @@ static void M_UseQuitMessageButtons(void)
     quitmessagebuttonhover = -1;
 }
 
+static void M_CancelMessage(void)
+{
+    if (!messagetoprint)
+        return;
+
+    messagetoprint = false;
+    quitmessagebuttons = false;
+    quitmessagebuttonhover = -1;
+    functionkey = 0;
+
+    if (quitting)
+    {
+        quitting = false;
+
+        if (waspaused)
+        {
+            waspaused = false;
+            paused = true;
+        }
+    }
+}
+
 //
 // Write a char
 //
@@ -3630,9 +3652,10 @@ bool M_Responder(event_t *ev)
     {
         keydown = key;
 
+        M_CancelMessage();
+
         if (menuactive)
         {
-            functionkey = 0;
             SDL_StopTextInput();
             M_CloseMenu();
             D_FadeScreen(false);
