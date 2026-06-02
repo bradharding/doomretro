@@ -1772,7 +1772,7 @@ static void M_DrawMainMenu(void)
 {
     M_DrawMenuBackground();
 
-    if (chex || hacx || harmony || REKKRSA || autosigil)
+    if (FREEDOOM || chex || hacx || harmony || REKKRSA || autosigil)
     {
         M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"), false);
         MainDef.x = 97;
