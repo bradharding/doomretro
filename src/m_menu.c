@@ -2906,11 +2906,13 @@ static void M_BuildMessageButtonPrompt(void)
     else
         M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
 
-    M_StringReplaceAll(line2, "'A'", BOLDON "A" BOLDOFF, true);
-    M_StringReplaceAll(line2, "'N'", BOLDON "N" BOLDOFF, true);
-    M_StringReplaceAll(line2, "'Y'", BOLDON "Y" BOLDOFF, true);
-
     M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
+
+    M_StringReplaceAll(quitmessagestring, "'A'", BOLDON "A" BOLDOFF, false);
+    M_StringReplaceAll(quitmessagestring, "'N'", BOLDON "N" BOLDOFF, false);
+    M_StringReplaceAll(quitmessagestring, "'Y'", BOLDON "Y" BOLDOFF, false);
+    M_StringReplaceAll(quitmessagestring, "PRESS N", "PRESS " BOLDON "N" BOLDOFF, false);
+    M_StringReplaceAll(quitmessagestring, "PRESS Y", "PRESS " BOLDON "Y" BOLDOFF, false);
 }
 
 static void M_UpdateQuitMessageButtons(void)
