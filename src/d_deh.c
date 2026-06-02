@@ -34,6 +34,7 @@
 */
 
 #include <ctype.h>
+#include <limits.h>
 
 #include "c_cmds.h"
 #include "c_console.h"
@@ -128,6 +129,41 @@ static int dehfseek(DEHFILE *fp, long offset)
         return mem_fseek(fp->lump, offset, MEM_SEEK_SET);
 
     return 0;
+}
+
+static bool dehfskiptext(DEHFILE *fp, int count)
+{
+    int skipped = 0;
+    int c;
+
+    while (skipped < count && (c = dehfgetc(fp)) != EOF)
+        if (c != '\r')
+            skipped++;
+
+    return (skipped == count);
+}
+
+static bool dehfreadtext(char *buffer, size_t size, int count, DEHFILE *fp)
+{
+    int     c;
+    int     read = 0;
+    size_t  pos = 0;
+
+    if (!size)
+        return false;
+
+    while (read < count && (c = dehfgetc(fp)) != EOF)
+        if (c != '\r')
+        {
+            if (pos + 1 < size)
+                buffer[pos++] = (char)c;
+
+            read++;
+        }
+
+    buffer[pos] = '\0';
+
+    return (read == count);
 }
 
 // #include "d_deh.h" -- we don't do that here but we declare the
@@ -2710,6 +2746,12 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         C_Output("count = %i, Thing %i", ix, indexnum);
     }
 
+    if (indexnum <= 0)
+    {
+        C_Warning(1, "Bad thing number %i.", indexnum);
+        return;
+    }
+
     // Note that the mobjinfo[] array is base zero, but object numbers
     // in the dehacked file start with one. Grumble.
     dsdh_EnsureMobjInfoCapacity(--indexnum);
@@ -3960,6 +4002,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
     char    inbuffer[DEH_BUFFERMAX * 2];                    // can't use line -- double size buffer too.
     int     i;                                              // loop variable
     int     fromlen, tolen;                                 // as specified on the text block line
+    int     textlen;
     bool    found = false;                                  // to allow early exit once found
     char    *line2 = NULL;                                  // duplicate line for rerouting
 
@@ -3982,16 +4025,26 @@ static void deh_procText(DEHFILE *fpin, const char *line)
     if (devparm)
         C_Output("Processing Text (key = %s, from = %i, to = %i)", key, fromlen, tolen);
 
-    // killough 10/98: fix incorrect usage of feof
+    if (fromlen < 0 || tolen < 0 || fromlen > INT_MAX - tolen)
     {
-        int c;
-        int totlen = 0;
+        C_Warning(1, "Invalid text block lengths %i and %i.", fromlen, tolen);
+        return;
+    }
 
-        while (totlen < fromlen + tolen && (c = dehfgetc(fpin)) != EOF)
-            if (c != '\r')
-                inbuffer[totlen++] = (char)c;
+    textlen = fromlen + tolen;
 
-        inbuffer[totlen] = '\0';
+    if (textlen >= (int)sizeof(inbuffer))
+    {
+        C_Warning(1, "Text block is too large (%i bytes).", textlen);
+        dehfskiptext(fpin, textlen);
+        return;
+    }
+
+    // killough 10/98: fix incorrect usage of feof
+    if (!dehfreadtext(inbuffer, sizeof(inbuffer), textlen, fpin))
+    {
+        C_Warning(1, "Text block ended unexpectedly.");
+        return;
     }
 
     // if the from and to are 4, this may be a sprite rename. Check it
@@ -4076,7 +4129,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
             inbuffer[fromlen] = '\0';
         }
 
-        deh_procStringSub(NULL, inbuffer, trimwhitespace(line2));
+        deh_procStringSub(NULL, inbuffer, (line2 ? trimwhitespace(line2) : ""));
     }
 
     free(line2);                                            // may be NULL, ignored by free()
