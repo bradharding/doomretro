@@ -2853,15 +2853,43 @@ static int M_QuitMessageButtonHeight(void)
     return (SHORT(hu_font[0]->height) + 7);
 }
 
-static int M_MessageButtonTextY(int y)
+static int M_MessageTextHeight(const char *string)
 {
-    const int   len = (int)strlen(quitmessage);
+    const int   len = (int)strlen(string);
+    int         height = 0;
+    int         start = 0;
 
-    for (int i = 1; i < len; i++)
-        if (quitmessage[i] == '\n')
-            y += (quitmessage[i - 1] == '\n' ? 3 : SHORT(hu_font[0]->height) + 2);
+    while (string[start] != '\0')
+    {
+        bool    foundnewline = false;
 
-    return (y + SHORT(hu_font[0]->height) + 5);
+        for (int i = 0; i < len - start; i++)
+            if (string[start + i] == '\n')
+            {
+                height += (i ? SHORT(hu_font[0]->height) + 2 : 3);
+                start += i + 1;
+                foundnewline = true;
+                break;
+            }
+
+        if (!foundnewline)
+        {
+            height += ((int)strlen(string + start) ? SHORT(hu_font[0]->height) + 2 : 3);
+            break;
+        }
+    }
+
+    return MAX(height - 2, 0);
+}
+
+static int M_MessageTopY(void)
+{
+    int height = M_MessageTextHeight(messagestring);
+
+    if (quitmessagebuttons)
+        height += SHORT(hu_font[0]->height) + 5;
+
+    return ((VANILLAHEIGHT - height) / 2);
 }
 
 static void M_BuildMessageButtonPrompt(void)
@@ -2894,7 +2922,7 @@ static void M_UpdateQuitMessageButtons(void)
 
     quitmessagebuttonwidth[0] = M_StringWidth(buttons[0]) + padding * 2;
     quitmessagebuttonwidth[1] = M_StringWidth(buttons[1]) + padding * 2;
-    quitmessagebuttony = M_MessageButtonTextY(86) - 4;
+    quitmessagebuttony = M_MessageTopY() + M_MessageTextHeight(quitmessage) + 1;
     x = (VANILLAWIDTH - (quitmessagebuttonwidth[0] + gap + quitmessagebuttonwidth[1])) / 2;
     quitmessagebuttonx[0] = x;
     quitmessagebuttonx[1] = x + quitmessagebuttonwidth[0] + gap;
@@ -4764,7 +4792,7 @@ void M_Drawer(void)
     if (messagetoprint)
     {
         M_DrawMenuBackground();
-        M_DrawMessage(86);
+        M_DrawMessage(M_MessageTopY());
 
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
