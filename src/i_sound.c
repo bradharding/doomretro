@@ -111,15 +111,13 @@ static bool FindAndFreeSound(void)
 
     while (snd)
     {
-        allocated_sound_t   *prev = snd->prev;
-
         if (snd->use_count <= 0)
         {
             FreeAllocatedSound(snd);
             return true;
         }
 
-        snd = prev;
+        snd = snd->prev;
     }
 
     // No available sounds to free...

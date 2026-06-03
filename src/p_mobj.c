@@ -1247,7 +1247,7 @@ int prevthingbob;
 
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
 {
-    mobjtype_t  i;
+    int         i;
     mobj_t      *mobj;
     fixed_t     x, y;
     short       type = mthing->type;

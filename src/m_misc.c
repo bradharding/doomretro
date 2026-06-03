@@ -440,11 +440,9 @@ char *M_StringJoin(const char *s, ...)
     char        *result;
     const char  *v;
     va_list     args;
-    va_list     args_copy;
     size_t      result_len = strlen(s) + 1;
 
     va_start(args, s);
-    va_copy(args_copy, args);
 
     while (true)
     {
@@ -460,15 +458,17 @@ char *M_StringJoin(const char *s, ...)
 
     M_StringCopy(result, s, result_len);
 
+    va_start(args, s);
+
     while (true)
     {
-        if (!(v = va_arg(args_copy, const char *)))
+        if (!(v = va_arg(args, const char *)))
             break;
 
         M_StringCopy(result + strlen(result), v, result_len - strlen(result));
     }
 
-    va_end(args_copy);
+    va_end(args);
     return result;
 }
 
@@ -679,17 +679,10 @@ void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {
     if (buf_len >= 1)
     {
-        va_list args_copy;
-        int     result;
-
-        va_copy(args_copy, args);
-
         // Windows (and other OSes?) have a vsnprintf() that doesn't always
         // append a trailing \0. So we must do it, and write into a buffer
         // that is one byte shorter; otherwise this function is unsafe.
-        result = vsnprintf(buf, buf_len, s, args_copy);
-
-        va_end(args_copy);
+        int result = vsnprintf(buf, buf_len, s, args);
 
         // If truncated, change the final char in the buffer to a \0.
         // A negative result indicates a truncated buffer on Windows.

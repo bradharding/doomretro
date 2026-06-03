@@ -368,6 +368,9 @@ bool W_AddFile(char *filename, bool autoloaded)
     // Increase size of numlumps array to accommodate the new file.
     filelumps = (header.numlumps > 0 ? I_Calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
 
+    if (header.numlumps > 0 && !filelumps)
+        I_Error("W_AddFile: Failure trying to allocate lump directory for %s", filename);
+
     if (filelumps)
     {
         lumpblocks = I_Realloc(lumpblocks, (++numlumpblocks) * sizeof(*lumpblocks));

@@ -115,24 +115,32 @@ void *Z_Calloc(size_t size1, size_t size2, unsigned char tag, void **user)
 
 void Z_Free(void *ptr)
 {
-    memblock_t  *block;
+    memblock_t      *block;
+    memblock_t      *next;
+    memblock_t      *prev;
+    void            **user;
+    unsigned char   tag;
 
     if (!ptr)
         return;
 
     block = (memblock_t *)((char *)ptr - headersize);
+    next = block->next;
+    prev = block->prev;
+    user = block->user;
+    tag = block->tag;
 
     // Nullify user if one exists
-    if (block->user)
-        *block->user = NULL;
+    if (user)
+        *user = NULL;
 
-    if (block == block->next)
-        blockbytag[block->tag] = NULL;
-    else if (blockbytag[block->tag] == block)
-        blockbytag[block->tag] = block->next;
+    if (block == next)
+        blockbytag[tag] = NULL;
+    else if (blockbytag[tag] == block)
+        blockbytag[tag] = next;
 
-    block->prev->next = block->next;
-    block->next->prev = block->prev;
+    prev->next = next;
+    next->prev = prev;
 
     free(block);
 }
