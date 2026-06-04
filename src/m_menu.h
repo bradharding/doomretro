@@ -126,6 +126,7 @@ extern bool     reopenautomap;
 extern menu_t   *currentmenu;
 extern int      menuspindirection;
 extern int      menuspinspeed;
+extern int      menublurtic;
 extern int      quicksaveslot;
 extern char     savegamestrings[savegame_max][SAVESTRINGSIZE];
 extern menu_t   EpiDef;

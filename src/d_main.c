@@ -249,6 +249,17 @@ static void D_UpdateFade(void)
 void D_FadeScreenToBlack(void)
 {
     byte    *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
+    uint64_t quitwait = I_GetTimeMS() + 3000;
+
+    while (I_AnySoundStillPlaying() && I_GetTimeMS() < quitwait)
+    {
+        brightness = 1.0f;
+        menublurtic = -1;
+        I_SetPalette(palette);
+        I_SetExternalAutomapPalette();
+        D_Display();
+        I_CapFPS(60);
+    }
 
     if (!smoothtransitions)
         return;
@@ -256,11 +267,11 @@ void D_FadeScreenToBlack(void)
     for (int i = 19; i >= 0; i--)
     {
         brightness = (float)i / 20.0f;
+        menublurtic = -1;
         I_SetPalette(palette);
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * brightness));
-        blitfunc();
-        I_RenderPresent();
+        D_Display();
         I_CapFPS(60);
     }
 

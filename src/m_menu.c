@@ -123,7 +123,7 @@ static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
 
-static int      blurtic = -1;
+int             menublurtic = -1;
 static int      functionkey;
 
 // current menudef
@@ -574,7 +574,7 @@ void M_DrawMenuBackground(void)
         return;
     }
 
-    if (gametime != blurtic || animatingpillarboxes || keepwidescreenduringanim)
+    if (gametime != menublurtic || animatingpillarboxes || keepwidescreenduringanim)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
@@ -598,7 +598,7 @@ void M_DrawMenuBackground(void)
         }
 
         if (!animatingpillarboxes && !keepwidescreenduringanim)
-            blurtic = gametime;
+            menublurtic = gametime;
     }
 
     memcpy(screens[0], blurscreen, SCREENAREA);
@@ -2431,10 +2431,9 @@ static const int quitsounds2[8] =
 
 void M_QuitResponse(int key)
 {
-    messagetoprint = false;
-
     if (key != 'y')
     {
+        messagetoprint = false;
         quitting = false;
 
         if (waspaused)
@@ -2453,17 +2452,17 @@ void M_QuitResponse(int key)
 
     if (!nosfx && sfxvolume > 0)
     {
-        int i = 30;
-
         if (gamemode == commercial)
             S_StartSound(NULL, quitsounds2[M_Random() & 7]);
         else
             S_StartSound(NULL, quitsounds[M_Random() & 7]);
-
-        // wait until all sounds stopped or 3 seconds has passed
-        while (i-- > 0 && I_AnySoundStillPlaying())
-            I_Sleep(100);
     }
+
+    messagetoprint = true;
+    messagestring = quitmessagestring;
+    messagebuttonsactive = false;
+    quitmessagebuttons = false;
+    quitmessagebuttonhover = -1;
 
     I_Quit(true);
 }
@@ -2718,7 +2717,7 @@ static void M_SizeDisplay(int choice)
 
     M_SaveCVARs();
 
-    blurtic = -1;
+    menublurtic = -1;
 
     if (r_playerweapon)
         skippsprinterp = 1;
@@ -5121,7 +5120,7 @@ void M_CloseMenu(void)
         return;
 
     menuactive = false;
-    blurtic = -1;
+    menublurtic = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
