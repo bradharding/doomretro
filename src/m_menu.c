@@ -2787,9 +2787,6 @@ void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt)
 //
 int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
 {
-    if (ch == BOLDONCHAR || ch == BOLDOFFCHAR)
-        return 0;
-
     const int   c = toupper(ch) - HU_FONTSTART;
 
     if (c < 0 || c >= HU_FONTSIZE)
@@ -2803,30 +2800,24 @@ int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
 //
 int M_StringWidth(const char *string)
 {
-    const int       len = (int)strlen(string);
-    int             width = 0;
-    unsigned char   prevvisibleletter = '\0';
+    const int   len = (int)strlen(string);
+    int         width;
 
     if (!len)
         return 0;
 
-    for (int i = 0; i < len; i++)
+    width = M_CharacterWidth(string[0], '\0');
+
+    for (int i = 1; i < len; i++)
     {
-        const unsigned char letter = (unsigned char)string[i];
-
-        if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
-            continue;
-
-        width += M_CharacterWidth(letter, prevvisibleletter);
+        width += M_CharacterWidth(string[i], string[i - 1]);
 
         for (int k = 0; kern[k].char1; k++)
-            if (prevvisibleletter == kern[k].char1 && letter == kern[k].char2)
+            if (string[i - 1] == kern[k].char1 && string[i] == kern[k].char2)
             {
                 width += kern[k].adjust;
                 break;
             }
-
-        prevvisibleletter = letter;
     }
 
     return width;
@@ -3013,12 +3004,10 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 //
 static void M_WriteText(int x, int y, const char *string, bool highlight, bool shadow, unsigned char prevletter)
 {
-    int             width;
-    char            letter;
-    int             cx = x;
-    int             cy = y;
-    const bool      basehighlight = highlight;
-    bool            inlinehighlight = false;
+    int     width;
+    char    letter;
+    int     cx = x;
+    int     cy = y;
 
     while (true)
     {
@@ -3032,18 +3021,6 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             cx = x;
             cy += 12;
             prevletter = '\0';
-            continue;
-        }
-
-        if (c == BOLDONCHAR)
-        {
-            inlinehighlight = true;
-            continue;
-        }
-
-        if (c == BOLDOFFCHAR)
-        {
-            inlinehighlight = false;
             continue;
         }
 
@@ -3065,7 +3042,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
                 break;
 
             if (shadow)
-                M_DrawPatchWithShadow(cx, cy, hu_font[c], (basehighlight || inlinehighlight));
+                M_DrawPatchWithShadow(cx, cy, hu_font[c], highlight);
             else
                 V_DrawPatch(cx, cy, 0, hu_font[c]);
         }
@@ -3091,7 +3068,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
             if (cx + width > VANILLAWIDTH)
                 break;
 
-            M_DrawSmallChar(cx, cy - 1, c, (basehighlight || inlinehighlight), shadow);
+            M_DrawSmallChar(cx, cy - 1, c, highlight, shadow);
         }
 
         prevletter = letter;

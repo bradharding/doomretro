@@ -15,12 +15,11 @@
 * Warnings in the console now wrap correctly.
 * Brightmaps can now be applied to sprites and flats by specifying them using a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump in a PWAD.
 * Changing the screen size using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys can now be rebound to other controls using the new `+sizeup` and `+sizedown` actions with the `bind` CCMD.
-* These changes have been made to while a confirmation message is displayed:
+* These changes have been made while a confirmation message is displayed:
   * Screenshots can now be taken using the <kbd><b>PRINTSCREEN</b></kbd> key.
   * The console can now be opened using the <kbd><b>~</b></kbd> key.
-  * The `‘A’`, `‘N’` and `‘Y’` denoting buttons and keys to be pressed are now highlighted.
-  * When ending or quitting a game, or selecting the *Nightmare!* skill level, if the `m_pointer` CVAR is `on`, and the mouse has been moved to show the pointer, `YES` and `NO` buttons are now displayed instead of the usual text.
-* The ellipsis has been removed from “CONSOLE&hellip;” in the options menu has been removed.
+  * When ending or quitting a game, or selecting the *Nightmare!* skill level, if the `m_pointer` CVAR is `on`, and the mouse has been moved to show the pointer, `YES` and `NO` buttons that can be selected are now displayed instead of the usual text.
+* The ellipsis has been removed from “CONSOLE&hellip;” in the options menu.
 * The correct title graphic is now displayed in the main menu when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The menu’s background now continues to animate as the screen fades to black while quitting.
 
