@@ -3092,7 +3092,6 @@ bool C_Responder(event_t *ev)
                         if (quitcmd)
                         {
                             D_Display();
-                            C_HideConsoleFast();
                             M_QuitResponse('y');
                         }
                     }

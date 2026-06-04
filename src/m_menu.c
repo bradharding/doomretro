@@ -2458,11 +2458,14 @@ void M_QuitResponse(int key)
             S_StartSound(NULL, quitsounds[M_Random() & 7]);
     }
 
-    messagetoprint = true;
-    messagestring = quitmessagestring;
-    messagebuttonsactive = false;
-    quitmessagebuttons = false;
-    quitmessagebuttonhover = -1;
+    if (quitting)
+    {
+        messagetoprint = true;
+        messagestring = quitmessagestring;
+        messagebuttonsactive = false;
+        quitmessagebuttons = false;
+        quitmessagebuttonhover = -1;
+    }
 
     I_Quit(true);
 }
