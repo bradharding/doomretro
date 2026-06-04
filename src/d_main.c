@@ -256,12 +256,13 @@ static void D_UpdateQuitMenuSpin(void)
 //
 void D_FadeScreenToBlack(void)
 {
-    byte    *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
-    uint64_t quitwait = I_GetTimeMS() + 3000;
+    byte        *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
+    const float startbrightness = brightness;
+    uint64_t    quitwait = I_GetTimeMS() + 3000;
 
     while (I_AnySoundStillPlaying() && I_GetTimeMS() < quitwait)
     {
-        brightness = 1.0f;
+        brightness = startbrightness;
         menublurtic = -1;
         D_UpdateQuitMenuSpin();
         I_SetPalette(palette);
@@ -275,7 +276,7 @@ void D_FadeScreenToBlack(void)
 
     for (int i = 19; i >= 0; i--)
     {
-        brightness = (float)i / 20.0f;
+        brightness = startbrightness * (float)i / 20.0f;
         menublurtic = -1;
         D_UpdateQuitMenuSpin();
         I_SetPalette(palette);
