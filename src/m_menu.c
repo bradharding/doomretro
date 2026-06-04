@@ -2461,10 +2461,9 @@ void M_QuitResponse(int key)
     if (quitting)
     {
         messagetoprint = true;
-        messagestring = quitmessagestring;
-        messagebuttonsactive = false;
-        quitmessagebuttons = false;
-        quitmessagebuttonhover = -1;
+        messagestring = (usingmouse ? quitmessage : quitmessagestring);
+        messagebuttonsactive = usingmouse;
+        quitmessagebuttons = usingmouse;
     }
 
     I_Quit(true);
