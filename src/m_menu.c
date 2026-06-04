@@ -2899,12 +2899,6 @@ static void M_BuildMessageButtonPrompt(void)
         M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
 
     M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, line2);
-
-    M_StringReplaceAll(quitmessagestring, "'A'", BOLDON "A" BOLDOFF, false);
-    M_StringReplaceAll(quitmessagestring, "'N'", BOLDON "N" BOLDOFF, false);
-    M_StringReplaceAll(quitmessagestring, "'Y'", BOLDON "Y" BOLDOFF, false);
-    M_StringReplaceAll(quitmessagestring, "PRESS N", "PRESS " BOLDON "N" BOLDOFF, false);
-    M_StringReplaceAll(quitmessagestring, "PRESS Y", "PRESS " BOLDON "Y" BOLDOFF, false);
 }
 
 static void M_UpdateQuitMessageButtons(void)
