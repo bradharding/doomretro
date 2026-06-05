@@ -89,11 +89,16 @@ static void (*messageroutine)(int);
 
 static bool     quitmessagebuttons;
 static int      quitmessagebuttonhover = -1;
+static int      quitmessagebuttoncount;
 static int      quitmessagebuttonx[2];
 static int      quitmessagebuttony;
 static int      quitmessagebuttonwidth[2];
+static char     *quitmessagebuttontext[2];
+static int      quitmessagebuttonkey[2];
 bool            messagebuttonsactive;
 static bool     messagebuttonsusedosprompt;
+static bool     messagebuttonswaitforrelease;
+static bool     menuitemactivatedwithmouse;
 static char     quitmessage[160];
 static char     quitmessagestring[320];
 
@@ -164,6 +169,7 @@ static void M_Sound(int choice);
 static void M_LoadSelect(int choice);
 static void M_SaveSelect(int choice);
 static void M_ReadSaveStrings(void);
+static void M_StartOKButtonMessage(char *string, bool mousebuttons);
 static void M_QuickSave(void);
 static void M_QuickLoad(void);
 
@@ -2078,16 +2084,8 @@ static void M_Episode(int choice)
     {
         if (gamemode == shareware && choice)
         {
-            if (M_StringEndsWith(s_SWSTRING, s_PRESSYN))
-                M_StartMessage(s_SWSTRING, NULL, false);
-            else
-            {
-                static char buffer[160];
-
-                M_snprintf(buffer, sizeof(buffer), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, buffer);
-                M_StartMessage(buffer, NULL, false);
-            }
+            M_StartOKButtonMessage(s_SWSTRING, menuitemactivatedwithmouse);
+            menuitemactivatedwithmouse = false;
 
             M_SetupNextMenu(&EpiDef);
             return;
@@ -2762,6 +2760,8 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messagebuttonsactive = false;
     quitmessagebuttons = false;
     quitmessagebuttonhover = -1;
+    quitmessagebuttoncount = 0;
+    messagebuttonswaitforrelease = false;
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2774,15 +2774,58 @@ void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt)
     M_StringCopy(quitmessage, string, sizeof(quitmessage));
     messagebuttonsusedosprompt = usedosprompt;
 
+    quitmessagebuttoncount = 2;
+
     if (usingmouse)
         M_StringCopy(quitmessagestring, quitmessage, sizeof(quitmessagestring));
     else
         M_BuildMessageButtonPrompt();
 
     M_StartMessage(quitmessagestring, routine, true);
+    messagestring = (usingmouse ? quitmessage : quitmessagestring);
+    quitmessagebuttoncount = 2;
+    quitmessagebuttontext[0] = "YES";
+    quitmessagebuttontext[1] = "NO";
+    quitmessagebuttonkey[0] = 'y';
+    quitmessagebuttonkey[1] = 'n';
     messagebuttonsactive = true;
     quitmessagebuttons = usingmouse;
     quitmessagebuttonhover = -1;
+}
+
+static void M_StartOKButtonMessage(char *string, bool mousebuttons)
+{
+    int len;
+
+    M_StringCopy(quitmessage, string, sizeof(quitmessage));
+    messagebuttonsusedosprompt = false;
+    quitmessagebuttoncount = 1;
+
+    if (M_StringEndsWith(quitmessage, s_PRESSKEY))
+    {
+        len = (int)(strlen(quitmessage) - strlen(s_PRESSKEY));
+        quitmessage[len] = '\0';
+
+        while (len > 0 && (quitmessage[len - 1] == ' ' || quitmessage[len - 1] == '\n'))
+            quitmessage[--len] = '\0';
+    }
+
+    M_snprintf(quitmessagestring, sizeof(quitmessagestring), "%s\n\n%s", quitmessage, s_PRESSKEY);
+
+    M_StartMessage(quitmessagestring, NULL, true);
+    quitmessagebuttoncount = 1;
+    quitmessagebuttontext[0] = "OK";
+    quitmessagebuttonkey[0] = KEY_ENTER;
+    messagebuttonsactive = true;
+    quitmessagebuttons = mousebuttons;
+    messagebuttonswaitforrelease = mousebuttons;
+    quitmessagebuttonhover = -1;
+
+    if (mousebuttons)
+    {
+        messagestring = quitmessage;
+        keydown = 0;
+    }
 }
 
 //
@@ -2889,7 +2932,9 @@ static void M_BuildMessageButtonPrompt(void)
 {
     static char line2[160];
 
-    if (messagebuttonsusedosprompt)
+    if (quitmessagebuttoncount == 1)
+        M_StringCopy(line2, s_PRESSKEY, sizeof(line2));
+    else if (messagebuttonsusedosprompt)
     {
         if (usingcontroller)
             M_snprintf(line2, sizeof(line2), s_DOSA, selectbutton, DESKTOP);
@@ -2904,17 +2949,28 @@ static void M_BuildMessageButtonPrompt(void)
 
 static void M_UpdateQuitMessageButtons(void)
 {
-    static const char *buttons[] = { "YES", "NO" };
     const int         padding = 6;
     const int         gap = 12;
+    int               totalwidth = 0;
     int               x;
 
-    quitmessagebuttonwidth[0] = M_StringWidth(buttons[0]) + padding * 2;
-    quitmessagebuttonwidth[1] = M_StringWidth(buttons[1]) + padding * 2;
+    for (int i = 0; i < quitmessagebuttoncount; i++)
+    {
+        quitmessagebuttonwidth[i] = M_StringWidth(quitmessagebuttontext[i]) + padding * 2;
+        totalwidth += quitmessagebuttonwidth[i];
+    }
+
+    if (quitmessagebuttoncount > 1)
+        totalwidth += gap * (quitmessagebuttoncount - 1);
+
     quitmessagebuttony = M_MessageTopY() + M_MessageTextHeight(quitmessage) + 1;
-    x = (VANILLAWIDTH - (quitmessagebuttonwidth[0] + gap + quitmessagebuttonwidth[1])) / 2;
-    quitmessagebuttonx[0] = x;
-    quitmessagebuttonx[1] = x + quitmessagebuttonwidth[0] + gap;
+    x = (VANILLAWIDTH - totalwidth) / 2;
+
+    for (int i = 0; i < quitmessagebuttoncount; i++)
+    {
+        quitmessagebuttonx[i] = x;
+        x += quitmessagebuttonwidth[i] + gap;
+    }
 }
 
 static int M_QuitMessageButtonAt(int x, int y)
@@ -2923,7 +2979,7 @@ static int M_QuitMessageButtonAt(int x, int y)
 
     if (y >= quitmessagebuttony && y < quitmessagebuttony + M_QuitMessageButtonHeight())
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < quitmessagebuttoncount; i++)
             if (x >= quitmessagebuttonx[i] + MAXWIDESCREENDELTA
                 && x < quitmessagebuttonx[i] + MAXWIDESCREENDELTA + quitmessagebuttonwidth[i])
                 return i;
@@ -2975,13 +3031,13 @@ static int M_DrawMessage(int y)
 
 static void M_DrawQuitMessageButtons(void)
 {
-    static const char *buttons[] = { "YES", "NO" };
     const int         texty = quitmessagebuttony + 4;
 
     M_UpdateQuitMessageButtons();
 
-    for (int i = 0; i < 2; i++)
-        M_WriteText(quitmessagebuttonx[i] + 6, texty, buttons[i], (quitmessagebuttonhover == i), true, '\0');
+    for (int i = 0; i < quitmessagebuttoncount; i++)
+        M_WriteText(quitmessagebuttonx[i] + 6, texty, quitmessagebuttontext[i],
+            (quitmessagebuttonhover == i), true, '\0');
 }
 
 //
@@ -3198,6 +3254,9 @@ bool M_Responder(event_t *ev)
     if (idclevtics)
         return false;
 
+    if (ev->type != ev_mouse)
+        menuitemactivatedwithmouse = false;
+
     if (ev->type == ev_controller)
     {
         if (menuactive && controllerwait < I_GetTime())
@@ -3348,6 +3407,9 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
+        if (messagebuttonswaitforrelease && !(ev->data1 & MOUSE_LEFTBUTTON))
+            messagebuttonswaitforrelease = false;
+
         if (messagetoprint && messagebuttonsactive && m_pointer)
         {
             if (ev->data1 || ev->data2 || ev->data3)
@@ -3365,13 +3427,13 @@ bool M_Responder(event_t *ev)
 
             quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
 
-            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime() && !messagebuttonswaitforrelease)
             {
                 const int   button = M_QuitMessageButtonAt(ev->data2, ev->data3);
 
                 if (button != -1 && !savestringenter)
                 {
-                    key = (button ? 'n' : 'y');
+                    key = quitmessagebuttonkey[button];
                     mousewait = I_GetTime() + 8;
                 }
             }
@@ -3411,9 +3473,10 @@ bool M_Responder(event_t *ev)
                     {
                         const int   button = M_QuitMessageButtonAt(ev->data2, ev->data3);
 
-                        if (button != -1 && mousewait < I_GetTime() && !savestringenter)
+                        if (button != -1 && mousewait < I_GetTime()
+                            && !savestringenter && !messagebuttonswaitforrelease)
                         {
-                            key = (button ? 'n' : 'y');
+                            key = quitmessagebuttonkey[button];
                             mousewait = I_GetTime() + 8;
                         }
                     }
@@ -3444,6 +3507,7 @@ bool M_Responder(event_t *ev)
                                         (ev->data2 > OptionsMenu[itemon].sliderx + 4 ? KEY_RIGHTARROW : -1));
                                 else if (mousewait < I_GetTime())
                                 {
+                                    menuitemactivatedwithmouse = true;
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
                                 }
@@ -3457,6 +3521,7 @@ bool M_Responder(event_t *ev)
                                         (ev->data2 > SoundMenu[itemon].sliderx + 6 ? KEY_RIGHTARROW : -1));
                                 else if (mousewait < I_GetTime())
                                 {
+                                    menuitemactivatedwithmouse = true;
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
                                 }
@@ -3480,6 +3545,7 @@ bool M_Responder(event_t *ev)
                                     if (currentmenu == &SaveDef)
                                         savepointerx = ev->data2;
 
+                                    menuitemactivatedwithmouse = true;
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
                                 }
@@ -3622,7 +3688,17 @@ bool M_Responder(event_t *ev)
                 // activate menu item
                 if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
                 {
-                    key = KEY_ENTER;
+                    if (messagetoprint && quitmessagebuttons)
+                    {
+                        if (!messagebuttonswaitforrelease)
+                            key = (quitmessagebuttoncount == 1 ? quitmessagebuttonkey[0] : -1);
+                    }
+                    else
+                    {
+                        menuitemactivatedwithmouse = true;
+                        key = KEY_ENTER;
+                    }
+
                     mousewait = I_GetTime() + 8;
                     usingcontroller = false;
                 }

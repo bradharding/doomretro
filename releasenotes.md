@@ -21,7 +21,7 @@
   * When ending or quitting a game, or selecting the *Nightmare!* skill level, if the `m_pointer` CVAR is `on`, and the mouse has been moved to show the pointer, `YES` and `NO` buttons that can be selected are now displayed instead of the usual text.
 * The ellipsis has been removed from “CONSOLE&hellip;” in the options menu.
 * The correct title graphic is now displayed in the main menu when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
-* The menu’s background now continues to animate as the screen fades to black while quitting.
+* The menu’s background now continues to animate as the screen fades to black when quitting.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
