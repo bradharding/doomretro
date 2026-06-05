@@ -485,7 +485,7 @@ bool M_StrToInt(const char *str, int *result)
     while (*end && isspace((unsigned char)*end))
         end++;
 
-    if (*end || value < INT_MIN || value > INT_MAX)
+    if (*end)
         return false;
 
     *result = (int)value;
@@ -1173,10 +1173,10 @@ static size_t M_PathRootLength(const char *path)
 
 void M_NormalizeSlashes(char *str)
 {
-    char            *p = str;
-    char            *q = str;
-    size_t          rootlength;
-    bool            wasslash = false;
+    char    *p;
+    char    *q = str;
+    size_t  rootlength;
+    bool    wasslash = false;
 
     // Convert all slashes/backslashes to DIR_SEPARATOR
     for (p = str; *p; p++)

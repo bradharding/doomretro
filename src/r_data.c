@@ -551,9 +551,9 @@ static void R_InitBrightmaps(void)
                     if (!*spritename)
                         continue;
 
-                    for (int i = 0; i < numspritelumps; i++)
+                    for (int j = 0; j < numspritelumps; j++)
                     {
-                        const char  *name = lumpinfo[firstspritelump + i]->name;
+                        const char  *name = lumpinfo[firstspritelump + j]->name;
 
                         if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
                             || !strncasecmp(name, spritename, 8))
@@ -567,13 +567,13 @@ static void R_InitBrightmaps(void)
                             for (int j = 0; j < nummasks; j++)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
-                                    for (int i = 0; i < numspritelumps; i++)
+                                    for (int k = 0; k < numspritelumps; k++)
                                     {
-                                        const char  *name = lumpinfo[firstspritelump + i]->name;
+                                        const char  *name = lumpinfo[firstspritelump + k]->name;
 
                                         if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
                                             || !strncasecmp(name, spritename, 8))
-                                            nospritebrightmap[i] = true;
+                                            nospritebrightmap[k] = true;
                                     }
 
                                     break;
@@ -586,13 +586,13 @@ static void R_InitBrightmaps(void)
                             for (int j = 0; j < nummasks; j++)
                                 if (M_StringCompare(maskname, masknames[j]))
                                 {
-                                    for (int i = 0; i < numspritelumps; i++)
+                                    for (int k = 0; k < numspritelumps; k++)
                                     {
-                                        const char  *name = lumpinfo[firstspritelump + i]->name;
+                                        const char  *name = lumpinfo[firstspritelump + k]->name;
 
                                         if ((strlen(spritename) <= 4 && !strncasecmp(name, spritename, 4))
                                             || !strncasecmp(name, spritename, 8))
-                                            spritemasks[i] = j;
+                                            spritemasks[k] = j;
                                     }
 
                                     break;
@@ -635,23 +635,23 @@ static void R_InitBrightmaps(void)
             SC_Close();
         }
 
-        SC_Open(W_CheckNumForName("DRCOMPAT"));
+    SC_Open(W_CheckNumForName("DRCOMPAT"));
 
-        while (SC_GetString())
-            if (SC_Compare("NOBRIGHTMAP"))
-            {
-                int texture;
+    while (SC_GetString())
+        if (SC_Compare("NOBRIGHTMAP"))
+        {
+            int texture;
 
-                SC_MustGetString();
-                texture = R_TextureNumForName(sc_String);
+            SC_MustGetString();
+            texture = R_TextureNumForName(sc_String);
 
-                SC_MustGetString();
+            SC_MustGetString();
 
-                if (texture >= 0 && wildcard(pwadfile, sc_String))
-                    nobrightmap[texture] = true;
-            }
+            if (texture >= 0 && wildcard(pwadfile, sc_String))
+                nobrightmap[texture] = true;
+        }
 
-        SC_Close();
+    SC_Close();
 
     for (int i = 0; i < numtextures; i++)
         if (!nobrightmap[i] && texturemasks[i] >= 0)
@@ -692,38 +692,38 @@ static void R_InitBrightmaps(void)
 
         if (numbrightmaps)
         {
-            char    *textures = commify(numbrightmaps);
+            char    *temp = commify(numbrightmaps);
 
             M_snprintf(parts[numparts++], sizeof(parts[0]), "%s texture%s",
-                textures, (numbrightmaps == 1 ? "" : "s"));
-            free(textures);
+                temp, (numbrightmaps == 1 ? "" : "s"));
+            free(temp);
         }
 
         if (numflatbrightmaps)
         {
-            char    *flats = commify(numflatbrightmaps);
+            char    *temp = commify(numflatbrightmaps);
 
             M_snprintf(parts[numparts++], sizeof(parts[0]), "%s flat%s",
-                flats, (numflatbrightmaps == 1 ? "" : "s"));
-            free(flats);
+                temp, (numflatbrightmaps == 1 ? "" : "s"));
+            free(temp);
         }
 
         if (numspritebrightmaps)
         {
-            char    *sprites = commify(numspritebrightmaps);
+            char    *temp = commify(numspritebrightmaps);
 
             M_snprintf(parts[numparts++], sizeof(parts[0]), "%s sprite%s",
-                sprites, (numspritebrightmaps == 1 ? "" : "s"));
-            free(sprites);
+                temp, (numspritebrightmaps == 1 ? "" : "s"));
+            free(temp);
         }
 
         if (numstatebrightmaps)
         {
-            char    *states = commify(numstatebrightmaps);
+            char    *temp = commify(numstatebrightmaps);
 
             M_snprintf(parts[numparts++], sizeof(parts[0]), "%s state%s",
-                states, (numstatebrightmaps == 1 ? "" : "s"));
-            free(states);
+                temp, (numstatebrightmaps == 1 ? "" : "s"));
+            free(temp);
         }
 
         if (total == 1)

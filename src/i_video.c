@@ -458,7 +458,11 @@ static void I_GetEvent(void)
             {
                 char    *text = (char *)SDL_iconv_utf8_ucs4(Event->text.text);
 
-                ev.data1 = (text[0] ? text[0] : Event->text.text[strlen(Event->text.text) - 1]);
+                if (text && text[0])
+                    ev.data1 = text[0];
+                else if (Event->text.text[0])
+                    ev.data1 = Event->text.text[strlen(Event->text.text) - 1];
+
                 ev.type = ev_textinput;
                 D_PostEvent(&ev);
 

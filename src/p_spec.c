@@ -3782,7 +3782,6 @@ mobj_t *P_GetPushThing(int s)
 static void P_SpawnPushers(void)
 {
     line_t  *line = lines;
-    mobj_t  *thing;
 
     for (int i = 0; i < numlines; i++, line++)
         switch (line->special)
@@ -3801,8 +3800,12 @@ static void P_SpawnPushers(void)
 
             case WindCurrentByPushPullThingInSector:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                    if ((thing = P_GetPushThing(s)))    // No MT_P* means no effect
+                {
+                    mobj_t  *thing = P_GetPushThing(s);
+
+                    if (thing)  // No MT_P* means no effect
                         Add_Pusher(p_push, line->dx, line->dy, thing, s);
+                }
 
                 break;
         }

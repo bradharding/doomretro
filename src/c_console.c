@@ -3578,10 +3578,6 @@ bool C_Responder(event_t *ev)
         static bool     selectingwithmouse;
         static bool     leftbuttondown;
         static bool     doubleclickselection;
-        static uint64_t lastinputclicktime;
-        static int      lastinputclickx;
-        static int      lastinputclicky;
-        static int      inputclickcount;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3669,6 +3665,7 @@ bool C_Responder(event_t *ev)
             else if (len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
                 const uint64_t  clicktime = I_GetTimeMS();
+                static int      inputclickcount;
 
                 for (i = 0; i < len; i++)
                 {
@@ -3689,6 +3686,10 @@ bool C_Responder(event_t *ev)
 
                 if (newleftbuttonpress)
                 {
+                    static uint64_t lastinputclicktime;
+                    static int      lastinputclickx;
+                    static int      lastinputclicky;
+
                     if (lastinputclicktime
                         && clicktime - lastinputclicktime <= CONSOLEINPUTDOUBLECLICKTIME
                         && x >= lastinputclickx - CONSOLEINPUTDOUBLECLICKDISTANCE

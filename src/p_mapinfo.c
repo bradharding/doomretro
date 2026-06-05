@@ -447,24 +447,23 @@ static void P_EnsureMapInfoCapacity(int new_max_map)
     if (new_max_map <= mapinfomaxmaps)
         return;
 
-    for (int expansion = 0; expansion < NUMMAPINFOEXPANSIONS; expansion++)
+    for (int exp = 0; exp < NUMMAPINFOEXPANSIONS; exp++)
         for (int ep = 0; ep < MAXEPISODES; ep++)
         {
-            if (!mapinfo[expansion][ep])
+            if (!mapinfo[exp][ep])
             {
-                mapinfo[expansion][ep] = (mapinfo_t *)I_Calloc((size_t)(new_max_map + 1), sizeof(mapinfo_t));
+                mapinfo[exp][ep] = (mapinfo_t *)I_Calloc((size_t)(new_max_map + 1), sizeof(mapinfo_t));
 
                 for (int i = 0; i <= new_max_map; i++)
-                    P_InitMapInfoEntry(&mapinfo[expansion][ep][i]);
+                    P_InitMapInfoEntry(&mapinfo[exp][ep][i]);
 
                 continue;
             }
 
-            mapinfo[expansion][ep] = (mapinfo_t *)I_Realloc(mapinfo[expansion][ep],
-                (size_t)(new_max_map + 1) * sizeof(mapinfo_t));
+            mapinfo[exp][ep] = (mapinfo_t *)I_Realloc(mapinfo[exp][ep], (size_t)(new_max_map + 1) * sizeof(mapinfo_t));
 
             for (int i = mapinfomaxmaps + 1; i <= new_max_map; i++)
-                P_InitMapInfoEntry(&mapinfo[expansion][ep][i]);
+                P_InitMapInfoEntry(&mapinfo[exp][ep][i]);
         }
 
     mapinfomaxmaps = new_max_map;
@@ -490,8 +489,8 @@ void P_InitMapInfo(void)
     mapinfolump = "";
     mapinfo = (mapinfo_t ***)I_Calloc((size_t)NUMMAPINFOEXPANSIONS, sizeof(mapinfo_t **));
 
-    for (int expansion = 0; expansion < NUMMAPINFOEXPANSIONS; expansion++)
-        mapinfo[expansion] = (mapinfo_t **)I_Calloc((size_t)MAXEPISODES, sizeof(mapinfo_t *));
+    for (int exp = 0; exp < NUMMAPINFOEXPANSIONS; exp++)
+        mapinfo[exp] = (mapinfo_t **)I_Calloc((size_t)MAXEPISODES, sizeof(mapinfo_t *));
 
     P_EnsureMapInfoCapacity(100);
 }

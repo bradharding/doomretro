@@ -388,10 +388,10 @@ static void I_LogExceptionParameters(FILE *logfile, const EXCEPTION_RECORD *reco
     if (record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION
         || record->ExceptionCode == EXCEPTION_IN_PAGE_ERROR)
     {
-        const char  *operation = "accessing";
-
         if (record->NumberParameters >= 2)
         {
+            const char  *operation = "accessing";
+
             if (record->ExceptionInformation[0] == 0)
                 operation = "reading";
             else if (record->ExceptionInformation[0] == 1)
@@ -510,7 +510,6 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
     time_t      now = time(NULL);
     struct tm   *tm_info = localtime(&now);
     char        timestamp[64];
-    char        readabletimestamp[64];
     FILE        *logfile;
 
     // Create timestamp
@@ -549,6 +548,7 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         DWORD       exceptioncode = exceptionInfo->ExceptionRecord->ExceptionCode;
         const char  *exceptionname = I_GetExceptionName(exceptioncode);
         BOOL        symsinitialized;
+        char        readabletimestamp[64];
 
         GetModuleFileName(NULL, exepath, sizeof(exepath));
         SymSetOptions(SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES | SYMOPT_UNDNAME);

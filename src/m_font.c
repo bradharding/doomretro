@@ -68,7 +68,7 @@ static fon2_char_t  *chars;
 static int          numchars;
 static int          height;
 static int          firstc;
-static bool         upper;
+static bool         doupper;
 static int          kerning;
 
 bool M_LoadFON2(byte *gfx_data, int size)
@@ -100,7 +100,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
     firstc = header->firstc;
 
     if (header->lastc < 'z')
-        upper = true;
+        doupper = true;
 
     numchars = header->lastc - header->firstc + 1;
     chars = I_Malloc(numchars * sizeof(*chars));
@@ -186,7 +186,7 @@ bool M_DrawFON2String(int x, int y, const char *str, bool highlight)
     {
         int c = *str++;
 
-        c = (upper ? toupper(c) : c) - firstc;
+        c = (doupper ? toupper(c) : c) - firstc;
 
         if (c < 0 || c >= numchars || !chars[c].width)
             cx += FON2_SPACE;
@@ -211,7 +211,7 @@ int M_GetFON2PixelWidth(const char *str)
     {
         int c = *str++;
 
-        c = (upper ? toupper(c) : c) - firstc;
+        c = (doupper ? toupper(c) : c) - firstc;
 
         if (c < 0 || c >= numchars || !chars[c].width)
             width += FON2_SPACE;

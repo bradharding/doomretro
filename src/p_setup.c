@@ -3446,24 +3446,24 @@ void P_SetupLevel(int ep, int map)
     else
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    if (nodeformat >= NANOBSP)
-        BSP_BuildNodes();
-    else if (nodeformat == XNOD || nodeformat == ZNOD)
-        P_LoadZNodes(lumpnum + ML_NODES, nodeformat);
-    else if (nodeformat >= XGLN && nodeformat <= ZGL3)
-        P_LoadZNodes(lumpnum + ML_SSECTORS, nodeformat);
+    if (nodeformat == DOOMBSP)
+    {
+        P_LoadSubsectors(lumpnum + ML_SSECTORS);
+        P_LoadNodes(lumpnum + ML_NODES);
+        P_LoadSegs(lumpnum + ML_SEGS);
+    }
     else if (nodeformat == DEEPBSP)
     {
         P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
         P_LoadNodes_V4(lumpnum + ML_NODES);
         P_LoadSegs_V4(lumpnum + ML_SEGS);
     }
-    else
-    {
-        P_LoadSubsectors(lumpnum + ML_SSECTORS);
-        P_LoadNodes(lumpnum + ML_NODES);
-        P_LoadSegs(lumpnum + ML_SEGS);
-    }
+    else if (nodeformat == XNOD || nodeformat == ZNOD)
+        P_LoadZNodes(lumpnum + ML_NODES, nodeformat);
+    else if (nodeformat >= XGLN && nodeformat <= ZGL3)
+        P_LoadZNodes(lumpnum + ML_SSECTORS, nodeformat);
+    else if (nodeformat >= NANOBSP)
+        BSP_BuildNodes();
 
     P_GroupLines();
     P_LoadReject(lumpnum);

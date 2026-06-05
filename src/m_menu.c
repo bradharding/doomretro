@@ -2367,8 +2367,6 @@ static void M_EndGameResponse(int key)
 
 void M_EndGame(int choice)
 {
-    int len;
-
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
         return;
 
@@ -2376,7 +2374,8 @@ void M_EndGame(int choice)
 
     if (M_StringEndsWith(quitmessage, s_PRESSYN))
     {
-        len = (int)(strlen(quitmessage) - strlen(s_PRESSYN));
+        int len = (int)(strlen(quitmessage) - strlen(s_PRESSYN));
+
         quitmessage[len] = '\0';
 
         while (len > 0 && (quitmessage[len - 1] == ' ' || quitmessage[len - 1] == '\n'))
@@ -2793,17 +2792,16 @@ void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt)
     quitmessagebuttonhover = -1;
 }
 
-static void M_StartOKButtonMessage(char *string, bool mousebuttons)
+static void M_StartOKButtonMessage(char *string, bool usemousebuttons)
 {
-    int len;
-
     M_StringCopy(quitmessage, string, sizeof(quitmessage));
     messagebuttonsusedosprompt = false;
     quitmessagebuttoncount = 1;
 
     if (M_StringEndsWith(quitmessage, s_PRESSKEY))
     {
-        len = (int)(strlen(quitmessage) - strlen(s_PRESSKEY));
+        int len = (int)(strlen(quitmessage) - strlen(s_PRESSKEY));
+
         quitmessage[len] = '\0';
 
         while (len > 0 && (quitmessage[len - 1] == ' ' || quitmessage[len - 1] == '\n'))
@@ -2817,11 +2815,11 @@ static void M_StartOKButtonMessage(char *string, bool mousebuttons)
     quitmessagebuttontext[0] = "OK";
     quitmessagebuttonkey[0] = KEY_ENTER;
     messagebuttonsactive = true;
-    quitmessagebuttons = mousebuttons;
-    messagebuttonswaitforrelease = mousebuttons;
+    quitmessagebuttons = usemousebuttons;
+    messagebuttonswaitforrelease = usemousebuttons;
     quitmessagebuttonhover = -1;
 
-    if (mousebuttons)
+    if (usemousebuttons)
     {
         messagestring = quitmessage;
         keydown = 0;
@@ -2869,27 +2867,12 @@ int M_StringWidth(const char *string)
     return width;
 }
 
-//
-// Find string height
-//
-static int M_StringHeight(const char *string)
-{
-    const int   len = (int)strlen(string);
-    int         height = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
-
-    for (int i = 1; i < len; i++)
-        if (string[i] == '\n')
-            height += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
-
-    return height;
-}
-
 static int M_QuitMessageButtonHeight(void)
 {
     return (SHORT(hu_font[0]->height) + 7);
 }
 
-static int M_MessageTextHeight(const char *string)
+static int M_StringHeight(const char *string)
 {
     const int   len = (int)strlen(string);
     int         height = 0;
@@ -2920,7 +2903,7 @@ static int M_MessageTextHeight(const char *string)
 
 static int M_MessageTopY(void)
 {
-    int height = M_MessageTextHeight(messagestring);
+    int height = M_StringHeight(messagestring);
 
     if (quitmessagebuttons)
         height += SHORT(hu_font[0]->height) + 5;
@@ -2963,7 +2946,7 @@ static void M_UpdateQuitMessageButtons(void)
     if (quitmessagebuttoncount > 1)
         totalwidth += gap * (quitmessagebuttoncount - 1);
 
-    quitmessagebuttony = M_MessageTopY() + M_MessageTextHeight(quitmessage) + 1;
+    quitmessagebuttony = M_MessageTopY() + M_StringHeight(quitmessage) + 1;
     x = (VANILLAWIDTH - totalwidth) / 2;
 
     for (int i = 0; i < quitmessagebuttoncount; i++)

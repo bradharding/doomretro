@@ -130,14 +130,6 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-typedef struct
-{
-    int         x1, y1;
-    int         x2, y2;
-    int         ymin, ymax;
-    int         dx, dy;
-} edge_t;
-
 bool                automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
@@ -900,7 +892,7 @@ bool AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if (!result && ((ev->type == ev_keydown
+            if ((ev->type == ev_keydown
                 && (ev->data1 == keyboardautomap
                     || ev->data1 == keyboardautomap2)
                 && keydown != keyboardautomap
@@ -911,7 +903,7 @@ bool AM_Responder(const event_t *ev)
                     && (ev->data1 & mouseautomap))
                 || (ev->type == ev_controller
                     && (controllerbuttons & controllerautomap)
-                    && !backbuttondown)))
+                    && !backbuttondown))
             {
                 keydown = ev->data1;
                 backbuttondown = true;
