@@ -878,6 +878,9 @@ static int C_GetConsoleDisplayRows(const int index)
 
 static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int offset)
 {
+    if (offset < 0)
+        return -1;
+
     int visiblecount = 0;
 
     for (int i = 0; i < numconsolestrings; i++)
@@ -901,7 +904,20 @@ static void C_GetHistoryPositionForVisibleRow(int row, int *arrayindex, int *off
 {
     int visiblecount = 0;
 
-    row = BETWEEN(0, row, MAX(0, numvisibleconsolerows - 1));
+    if ((row = MAX(-1, MIN(row, MAX(0, numvisibleconsolerows - 1)))) < 0)
+    {
+        for (int i = 0; i < numconsolestrings; i++)
+            if (C_IsVisibleConsoleString(i))
+            {
+                *arrayindex = i;
+                *offset = -1;
+                return;
+            }
+
+        *arrayindex = 0;
+        *offset = 0;
+        return;
+    }
 
     for (int i = 0, rows; i < numconsolestrings; i++)
     {
@@ -934,18 +950,18 @@ static int C_GetTopRowForDisplay(void)
 
 static int C_GetCurrentTopRow(void)
 {
-    return MAX(0, (outputhistory == -1 ? C_GetTopRowForDisplay() :
-        C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset)));
+    return (outputhistory == -1 ? C_GetTopRowForDisplay() :
+        C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset));
 }
 
 static bool C_CanScrollOutput(void)
 {
-    return (C_GetTopRowForDisplay() > 0);
+    return (numvisibleconsolerows >= CONSOLELINES - 1);
 }
 
 static void C_ScrollToTop(void)
 {
-    C_GetHistoryPositionForVisibleRow(0, &outputhistory, &outputhistoryoffset);
+    C_GetHistoryPositionForVisibleRow(-1, &outputhistory, &outputhistoryoffset);
 }
 
 static void C_SetTopRow(int row)
@@ -954,7 +970,7 @@ static void C_SetTopRow(int row)
 
     if (toprow > C_GetTopRowForDisplay())
         C_ScrollToBottom();
-    else if (toprow < 0)
+    else if (toprow < -1)
         C_ScrollToTop();
     else
         C_GetHistoryPositionForVisibleRow(toprow, &outputhistory, &outputhistoryoffset);
@@ -986,12 +1002,12 @@ static void C_ScrollOutputDown(void)
 
 static void C_DrawScrollbar(void)
 {
-    const int   totalrows = MAX(1, numvisibleconsolerows);
+    const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
     const int   visiblerows = MIN(CONSOLELINES, totalrows);
     const int   scrollrange = MAX(0, totalrows - visiblerows);
     const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
     const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
-    const int   currentrow = C_GetCurrentTopRow();
+    const int   currentrow = MAX(0, C_GetCurrentTopRow() + (numvisibleconsolerows > 0));
 
     scrollbarfacestart = (dragconsolescrollbaractive ? dragconsolescrollbarfacestart :
         (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0));
@@ -2542,7 +2558,7 @@ void C_Drawer(void)
     {
         const int   currenttoprow = C_GetCurrentTopRow();
 
-        if (currenttoprow < 0)
+        if (currenttoprow < -1)
             C_ScrollToTop();
         else if (currenttoprow > C_GetTopRowForDisplay())
             C_ScrollToBottom();
@@ -2633,7 +2649,7 @@ void C_Drawer(void)
     // draw the scrollbar
     C_DrawScrollbar();
 
-    topofconsole = (!toprow);
+    topofconsole = (toprow < 0);
 
     // draw console text
     for (i = 0, len = 0; i < numconsolestrings; i++)
@@ -3591,7 +3607,7 @@ bool C_Responder(event_t *ev)
             // dragging console scrollbar thumb
             if (dragconsolescrollbaractive && scrollbardrawn)
             {
-                const int   totalrows = MAX(1, numvisibleconsolerows);
+                const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
                 const int   visiblerows = MIN(CONSOLELINES, totalrows);
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
                 const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
@@ -3608,10 +3624,10 @@ bool C_Responder(event_t *ev)
 
                     if (position <= 0)
                         C_ScrollToTop();
-                    else if (position >= C_GetTopRowForDisplay())
+                    else if (position > C_GetTopRowForDisplay())
                         C_ScrollToBottom();
                     else
-                        C_GetHistoryPositionForVisibleRow(position, &outputhistory, &outputhistoryoffset);
+                        C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
                 }
 
                 return true;

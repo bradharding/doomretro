@@ -4,6 +4,7 @@
 
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.
+* The top line of the console now displays fully when scrolling to the very top.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
