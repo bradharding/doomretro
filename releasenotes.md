@@ -2,6 +2,9 @@
 
 ### DOOM Retro v6.1.1
 
+* Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, June 5, 2026
