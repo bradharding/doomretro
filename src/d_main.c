@@ -695,6 +695,11 @@ static void D_SetString(char **dest, const char *value)
     *dest = M_StringDuplicate(value);
 }
 
+static bool D_IsUnsupportedGraphicLump(const int lump)
+{
+    return (lump >= 0 && (W_IsPNGLump(lump) || W_IsJPGLump(lump)));
+}
+
 static bool DehFileProcessed(const char *path)
 {
     for (int i = 0; i < dehfilecount; i++)
@@ -1560,9 +1565,6 @@ static int D_OpenWADLauncher(void)
         if (wad)
             D_SetString(&previouswad, wad);
 
-        if (wad && !*wad)
-            wad = M_StringDuplicate(wad);
-
         D_SetString(&wad, "");
 
         if ((onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
@@ -2214,10 +2216,8 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
     if (collected_wads)
     {
-        if (wad && *wad)
-            free(wad);
-
-        wad = collected_wads;
+        D_SetString(&wad, collected_wads);
+        free(collected_wads);
         collected_wads = NULL;
     }
 #endif
@@ -2811,6 +2811,7 @@ static void D_DoomMainSetup(void)
     }
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
+        && !D_IsUnsupportedGraphicLump(W_GetLastNumForName("TITLEPIC"))
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
         && D_IsDOOMIWAD(lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->path));
 
@@ -3053,13 +3054,21 @@ static void D_DoomMainSetup(void)
         const int   titlepics = W_GetNumLumps("TITLEPIC");
         const int   credits = W_GetNumLumps("CREDIT");
         bool        unsupportedtitlepic = false;
+        bool        unsupportedcredit = false;
 
         if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
             || titlepics > 1) && !nerve)
         {
             const int titlepic = W_GetNumForName("TITLEPIC");
 
-            unsupportedtitlepic = (W_IsPNGLump(titlepic) || W_IsJPGLump(titlepic));
+            unsupportedtitlepic = D_IsUnsupportedGraphicLump(titlepic);
+        }
+
+        if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
+        {
+            const int credit = W_GetNumForName("CREDIT");
+
+            unsupportedcredit = D_IsUnsupportedGraphicLump(credit);
         }
 
         if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)
@@ -3090,7 +3099,8 @@ static void D_DoomMainSetup(void)
                     break;
             }
 
-        if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
+        if (((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD)
+            || credits > 1) && !unsupportedcredit)
             creditlump = W_CacheLumpName("CREDIT");
         else
             creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
