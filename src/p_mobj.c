@@ -1216,7 +1216,8 @@ static void P_SpawnFriend(const mapthing_t *mthing)
 
     if (numfriends >= playerstart - 1)
     {
-        mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, friendtype[playerstart - 2]);
+        mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ,
+                    friendtype[playerstart - 2]);
 
         mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
         mobj->flags |= MF_FRIEND;

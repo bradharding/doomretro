@@ -878,10 +878,10 @@ static int C_GetConsoleDisplayRows(const int index)
 
 static int C_GetVisibleRowForHistoryPosition(const int arrayindex, const int offset)
 {
+    int visiblecount = 0;
+
     if (offset < 0)
         return -1;
-
-    int visiblecount = 0;
 
     for (int i = 0; i < numconsolestrings; i++)
     {

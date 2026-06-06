@@ -3372,14 +3372,16 @@ bool M_Responder(event_t *ev)
                 return false;
             }
 
-            else if (!key && (controllerbuttons & controllersizedown) && controllerwait < I_GetTime())
+            // screen size down
+            else if ((controllerbuttons & controllersizedown) && controllerwait < I_GetTime())
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;
                 return M_HandleScreenSizeControl(0);
             }
 
-            else if (!key && (controllerbuttons & controllersizeup) && controllerwait < I_GetTime())
+            // screen size up
+            else if ((controllerbuttons & controllersizeup) && controllerwait < I_GetTime())
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;

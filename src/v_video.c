@@ -456,13 +456,14 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
         {
             byte        *source = (byte *)column + 3;
             const int   length = column->length;
-            int         count = length;
             int         posttop = (td <= topdelta ? topdelta + td : td);
 
             topdelta = posttop;
 
             if (posttop < height && y + posttop < SCREENHEIGHT)
             {
+                int count = length;
+
                 if (posttop < 0)
                 {
                     const int   skip = -posttop;

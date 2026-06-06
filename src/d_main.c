@@ -1936,8 +1936,7 @@ static int D_OpenWADLauncher(void)
                         isDOOM2 = D_IsDOOM2IWAD(iwadpass1);
 
 #if defined(_WIN32)
-                        if (!guess)
-                            AddToWadList(leafname(fullpath));
+                        AddToWadList(leafname(fullpath));
 #endif
 
                         wadfolder = M_ExtractFolder(fullpath);
@@ -1982,8 +1981,7 @@ static int D_OpenWADLauncher(void)
                             isDOOM2 = D_IsDOOM2IWAD(iwadpass2);
 
 #if defined(_WIN32)
-                            if (!guess)
-                                AddToWadList(leafname(fullpath));
+                            AddToWadList(leafname(fullpath));
 #endif
 
                             wadfolder = M_ExtractFolder(fullpath);
@@ -2124,8 +2122,7 @@ static int D_OpenWADLauncher(void)
                             if (W_MergeFile(fullpath, false))
                             {
 #if defined(_WIN32)
-                                if (!guess)
-                                    AddToWadList(leafname(fullpath));
+                                AddToWadList(leafname(fullpath));
 #endif
 
                                 modifiedgame = true;
