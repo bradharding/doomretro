@@ -4,7 +4,8 @@
 
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.
-* The top line of the console now displays fully when scrolling to the very top.
+* The very top line of the console now displays correctly.
+* The correct sprite for the strength symbiote power-up is now displayed when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
