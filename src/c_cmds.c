@@ -4756,10 +4756,10 @@ static void licensefunc2(char *cmd, char *parms)
 #if defined(_WIN32)
     D_OpenURLInBrowser(DOOMRETRO_LICENSEURL, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    if (!system("xdg-open " DOOMRETRO_LICENSEURL))
+    if (!M_system("xdg-open " DOOMRETRO_LICENSEURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
 #elif defined(__APPLE__)
-    if (!system("open " DOOMRETRO_LICENSEURL))
+    if (!M_system("open " DOOMRETRO_LICENSEURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open!");
 #endif
 }
@@ -8310,8 +8310,8 @@ static void readmefunc2(char *cmd, char *parms)
         C_Warning(0, "A PWAD hasn't been loaded.");
     else
     {
-        char    *temp = removeext(GetCorrectCase(pwadfile));
-        char    *readme = M_StringJoin(temp, ".txt", NULL);
+        char    *temp1 = removeext(GetCorrectCase(pwadfile));
+        char    *readme = M_StringJoin(temp1, ".txt", NULL);
 
         if (BTSXE1)
             readme = M_StringDuplicate("btsx_e1.txt");
@@ -8328,15 +8328,25 @@ static void readmefunc2(char *cmd, char *parms)
         {
 #if defined(_WIN32)
             if (!ShellExecute(NULL, "open", readme, NULL, NULL, SW_SHOWNORMAL))
+                C_Warning(0, BOLD("%s") " wouldn't open!", leafname(readme));
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-            if (!system(M_StringJoin("xdg-open ", readme, NULL)))
+            char    *temp2 = M_StringJoin("xdg-open ", readme, NULL);
+
+            if (!M_system(temp2))
+                C_Warning(0, BOLD("%s") " wouldn't open!", leafname(readme));
+
+            free(temp2);
 #elif defined(__APPLE__)
-            if (!system(M_StringJoin("open ", readme, NULL)))
+            char    *temp2 = M_StringJoin("open ", readme, NULL);
+
+            if (!M_system(temp2))
+                C_Warning(0, BOLD("%s") " wouldn't open!", leafname(readme));
+
+            free(temp2);
 #endif
-                C_Warning(0, BOLD("%s") " wouldn't open.", leafname(readme));
         }
 
-        free(temp);
+        free(temp1);
         free(readme);
     }
 }
@@ -8385,10 +8395,10 @@ static void releasenotesfunc2(char *cmd, char *parms)
 #if defined(_WIN32)
     D_OpenURLInBrowser(DOOMRETRO_RELEASENOTESURL, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    if (!system("xdg-open " DOOMRETRO_RELEASENOTESURL))
+    if (!M_system("xdg-open " DOOMRETRO_RELEASENOTESURL))
         C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #elif defined(__APPLE__)
-    if (!system("open " DOOMRETRO_RELEASENOTESURL))
+    if (!M_system("open " DOOMRETRO_RELEASENOTESURL))
         C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #endif
 }
@@ -10308,10 +10318,10 @@ static void wikifunc2(char *cmd, char *parms)
 #if defined(_WIN32)
     D_OpenURLInBrowser(DOOMRETRO_WIKIURL, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    if (!system("xdg-open " DOOMRETRO_WIKIURL))
+    if (!M_system("xdg-open " DOOMRETRO_WIKIURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
 #elif defined(__APPLE__)
-    if (!system("open " DOOMRETRO_WIKIURL))
+    if (!M_system("open " DOOMRETRO_WIKIURL))
         C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open!");
 #endif
 }

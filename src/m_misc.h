@@ -75,6 +75,9 @@ char *M_GetResourceFolder(void);
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__) || defined(__APPLE__)
+bool M_system(const char *command);
+#endif
 bool M_StrToInt(const char *str, int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);

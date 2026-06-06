@@ -46,6 +46,7 @@
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <pwd.h>
 #endif
 
@@ -97,7 +98,16 @@ const char *monthnames[12] =
 };
 
 #if !defined(S_ISDIR)
-#define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)
+#define S_ISDIR(mode)   (((mode) & S_IFDIR) == S_IFDIR)
+#endif
+
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__) || defined(__APPLE__)
+bool M_system(const char *command)
+{
+    const int   result = system(command);
+
+    return (result != -1 && WIFEXITED(result) && !WEXITSTATUS(result));
+}
 #endif
 
 // Create a directory
