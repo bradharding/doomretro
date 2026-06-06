@@ -3,9 +3,11 @@
 ### DOOM Retro v6.1.1
 
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.
 * The very top line of the console now displays correctly.
 * The correct sprite for the strength symbiote power-up is now displayed when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* Music is now heard again when playing *DOOM’s* forth episode, *Thy Flesh Consumed*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

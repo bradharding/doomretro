@@ -697,6 +697,25 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     else
         lumpnum = W_CheckNumForName(namebuf);
 
+    if (lumpnum == -1 && musicnum >= mus_e4m1 && musicnum <= mus_e4m9)
+    {
+        const musicinfo_t   *fallbackmusic = &s_music[spmus[musicnum - mus_e4m1]];
+
+        name = fallbackmusic->name2;
+
+        if (*fallbackmusic->IDKFA && !legacyofrust)
+        {
+            M_StringCopy(namebuf, fallbackmusic->IDKFA, sizeof(namebuf));
+
+            if (W_CheckNumForName(namebuf) == -1)
+                M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
+        }
+        else
+            M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
+
+        lumpnum = W_CheckNumForName(namebuf);
+    }
+
     if (nomusic || (mus_playing == music && mus_playing->lumpnum == lumpnum && !allowrestart))
         return;
 
