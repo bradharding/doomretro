@@ -1716,6 +1716,11 @@ static bool cheatfunc1(char *cmd, char *parms)
     {
         bool    result;
 
+        if (gamemode == commercial
+            && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION && gamestate != GS_FINALE)
+            gamemission = (expansion == 2 && nerve ? pack_nerve : (expansion == (nerve ? 3 : 2)
+                && masterlevels ? pack_masterlevels : doom2));
+
         if (legacyofrust)
         {
             mapcmdepisode = parms[0] - '0';
