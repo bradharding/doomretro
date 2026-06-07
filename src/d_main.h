@@ -95,5 +95,6 @@ bool D_IsSIGILREGWAD(char *filename);
 bool D_IsSIGILSHREDSWAD(char *filename);
 bool D_IsSIGIL2WAD(char *filename);
 bool D_IsFinalDOOMIWAD(char *filename);
+gamemission_t D_GetGameMissionForExpansion(void);
 bool D_IsResourceWAD(char *filename);
 void D_CheckSupportedPWAD(char *filename);

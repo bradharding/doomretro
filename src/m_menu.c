@@ -40,6 +40,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -2115,8 +2116,7 @@ static bool M_IsPlayingGame(void)
 
 static void M_UpdateGameMissionFromExpansion(void)
 {
-    gamemission = (expansion == 2 && nerve ? pack_nerve :
-        (expansion == (nerve ? 3 : 2) && masterlevels ? pack_masterlevels : doom2));
+    gamemission = D_GetGameMissionForExpansion();
 }
 
 //

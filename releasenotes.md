@@ -8,6 +8,7 @@
 * The very top line of the console now displays correctly.
 * The correct sprite for the strength symbiote power-up is now displayed when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) or [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Music is now heard again when playing *DOOM’s* fourth episode, *Thy Flesh Consumed*.
+* The correct map names are now used when playing *Final DOOM: The Plutonia Experiment* and *TNT - Evilution*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

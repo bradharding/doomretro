@@ -371,7 +371,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     filelumps = (header.numlumps > 0 ? I_Calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
 
     if (header.numlumps > 0 && !filelumps)
-        I_Error("W_AddFile: Failure trying to allocate lump directory for %s", filename);
+        I_Error("W_AddFile: Failure trying to allocate lump directory for %s.", filename);
 
     if (filelumps)
     {
@@ -761,6 +761,10 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 {
     FILE            *fp = fopen(pwadname, "rb");
     gamemission_t   result = none;
+    const char      *leaf = leafname(pwadname);
+
+    if (D_IsFinalDOOMIWAD(pwadname))
+        return (M_StringCompare(leaf, "TNT.WAD") ? pack_tnt : pack_plut);
 
     if (!fp)
         I_Error("Can't open PWAD: %s", pwadname);
@@ -798,8 +802,6 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 
             if (result == doom2)
             {
-                const char  *leaf = leafname(pwadname);
-
                 if (M_StringCompare(leaf, "pl2.wad")
                     || M_StringCompare(leaf, "plut3.wad")
                     || M_StringCompare(leaf, "prcp2.wad"))

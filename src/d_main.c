@@ -914,6 +914,7 @@ bool D_IsDOOMIWAD(char *filename)
 
     return (D_IsDOOM1IWAD(filename)
         || D_IsDOOM2IWAD(filename)
+        || D_IsFinalDOOMIWAD(filename)
         || M_StringCompare(file, "chex.wad")
         || M_StringCompare(file, "rekkrsa.wad"));
 }
@@ -924,6 +925,21 @@ bool D_IsFinalDOOMIWAD(char *filename)
 
     return (M_StringCompare(file, "PLUTONIA.WAD")
         || M_StringCompare(file, "TNT.WAD"));
+}
+
+gamemission_t D_GetGameMissionForExpansion(void)
+{
+    if (expansion == 2 && nerve)
+        return pack_nerve;
+
+    if (expansion == (nerve ? 3 : 2) && masterlevels)
+        return pack_masterlevels;
+
+    if (gamemode == commercial && numlumps > 0
+        && D_IsFinalDOOMIWAD(lumpinfo[0]->wadfile->path))
+        return (M_StringCompare(leafname(lumpinfo[0]->wadfile->path), "TNT.WAD") ? pack_tnt : pack_plut);
+
+    return doom2;
 }
 
 bool D_IsResourceWAD(char *filename)
@@ -2614,6 +2630,9 @@ static void D_DoomMainSetup(void)
 
     W_Init();
     D_IdentifyVersion();
+
+    if (gamemode == commercial)
+        gamemission = D_GetGameMissionForExpansion();
 
     if (gamemode != shareware)
     {
