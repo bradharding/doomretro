@@ -5349,6 +5349,7 @@ static void mapfunc2(char *cmd, char *parms)
 #define AM      "American McGee"
 #define BK      "Brian Kidby"
 #define CB      "Christopher Buteau"
+#define CK      "Christen Klie"
 #define DB      "David Blanshine"
 #define DC      "Dario Casali"
 #define DC2     "David Calvin"
@@ -5356,6 +5357,7 @@ static void mapfunc2(char *cmd, char *parms)
 #define DO      "Drake O'Brien"
 #define JA      "John Anderson"
 #define JD      "Jim Dethlefsen"
+#define JF      "Jim Flynn"
 #define JL      "Jim Lowell"
 #define JM      "Jim Mentzer"
 #define JM2     "John Minadeo"
@@ -5369,6 +5371,7 @@ static void mapfunc2(char *cmd, char *parms)
 #define RM      "Russell Meakim"
 #define RP      "Robin Patenall"
 #define SG      "Shawn Green"
+#define SK      "Sverre Kvernmo"
 #define SP      "Sandy Petersen"
 #define TH      "Tom Hall"
 #define TH2     "Ty Halderman"
@@ -5386,79 +5389,79 @@ static void mapfunc2(char *cmd, char *parms)
 #define RPJM2   RP ", " JM2
 #define SPTH    SP ", " TH
 
-char *authors[][6] =
+char *authors[][7] =
 {
-    /* xy      doom   doom2 tnt    plut  nerve */
-    /* 00 */ { "",    "",   "",    DCMC, "" },
-    /* 01 */ { "",    SP,   TM,    DCMC, RM },
-    /* 02 */ { "",    AM,   JW,    DCMC, AI },
-    /* 03 */ { "",    AM,   RPJM2, DCMC, RM },
-    /* 04 */ { "",    AM,   TH2,   DCMC, RM },
-    /* 05 */ { "",    AM,   JD,    DCMC, AI },
-    /* 06 */ { "",    AM,   JSTH2, DCMC, AI },
-    /* 07 */ { "",    AMSP, AD,    DCMC, AI },
-    /* 08 */ { "",    SP,   JM2,   DCMC, AI },
-    /* 09 */ { "",    SP,   JSTH2, DCMC, RM },
-    /* 10 */ { "",    SPTH, TM,    DCMC, "" },
-    /* 11 */ { JR,    JR,   DJ,    DCMC, "" },
-    /* 12 */ { JR,    SP,   JL,    DCMC, "" },
-    /* 13 */ { JR,    SP,   BKTH2, DCMC, "" },
-    /* 14 */ { JRTH,  AM,   RP,    DCMC, "" },
-    /* 15 */ { JR,    JR,   WW,    DCMC, "" },
-    /* 16 */ { JR,    SP,   AA,    DCMC, "" },
-    /* 17 */ { JR,    JR,   TM,    DCMC, "" },
-    /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "" },
-    /* 19 */ { JR,    SP,   TH2,   DCMC, "" },
-    /* 20 */ { DC2DB, JR,   DO,    DCMC, "" },
-    /* 21 */ { SPTH,  SP,   DO,    DCMC, "" },
-    /* 22 */ { SPTH,  AM,   CB,    DCMC, "" },
-    /* 23 */ { SPTH,  SP,   PT,    DCMC, "" },
-    /* 24 */ { SPTH,  SP,   DJ,    DCMC, "" },
-    /* 25 */ { SP,    SG,   JM,    DCMC, "" },
-    /* 26 */ { SP,    JR,   MSJL,  DCMC, "" },
-    /* 27 */ { SPTH,  SP,   DO,    DCMC, "" },
-    /* 28 */ { SP,    SP,   MC,    DCMC, "" },
-    /* 29 */ { SP,    JR,   JS,    DCMC, "" },
-    /* 30 */ { "",    SP,   JS,    DCMC, "" },
-    /* 31 */ { SP,    SP,   DC,    DCMC, "" },
-    /* 32 */ { SP,    SP,   DC,    DCMC, "" },
-    /* 33 */ { SPTH,  MB,   "",    "",   "" },
-    /* 34 */ { SP,    "",   "",    "",   "" },
-    /* 35 */ { SP,    "",   "",    "",   "" },
-    /* 36 */ { SP,    "",   "",    "",   "" },
-    /* 37 */ { SPTH,  "",   "",    "",   "" },
-    /* 38 */ { SP,    "",   "",    "",   "" },
-    /* 39 */ { SP,    "",   "",    "",   "" },
-    /* 40 */ { "",    "",   "",    "",   "" },
-    /* 41 */ { AM,    "",   "",    "",   "" },
-    /* 42 */ { JR,    "",   "",    "",   "" },
-    /* 43 */ { SG,    "",   "",    "",   "" },
-    /* 44 */ { AM,    "",   "",    "",   "" },
-    /* 45 */ { TW,    "",   "",    "",   "" },
-    /* 46 */ { JR,    "",   "",    "",   "" },
-    /* 47 */ { JA,    "",   "",    "",   "" },
-    /* 48 */ { SG,    "",   "",    "",   "" },
-    /* 49 */ { TW,    "",   "",    "",   "" },
-    /* 50 */ { "",    "",   "",    "",   "" },
-    /* 51 */ { JR,    "",   "",    "",   "" },
-    /* 52 */ { JR,    "",   "",    "",   "" },
-    /* 53 */ { JR,    "",   "",    "",   "" },
-    /* 54 */ { JR,    "",   "",    "",   "" },
-    /* 55 */ { JR,    "",   "",    "",   "" },
-    /* 56 */ { JR,    "",   "",    "",   "" },
-    /* 57 */ { JR,    "",   "",    "",   "" },
-    /* 58 */ { JR,    "",   "",    "",   "" },
-    /* 59 */ { JR,    "",   "",    "",   "" },
-    /* 60 */ { "",    "",   "",    "",   "" },
-    /* 61 */ { JR,    "",   "",    "",   "" },
-    /* 62 */ { JR,    "",   "",    "",   "" },
-    /* 63 */ { JR,    "",   "",    "",   "" },
-    /* 64 */ { JR,    "",   "",    "",   "" },
-    /* 65 */ { JR,    "",   "",    "",   "" },
-    /* 66 */ { JR,    "",   "",    "",   "" },
-    /* 67 */ { JR,    "",   "",    "",   "" },
-    /* 68 */ { JR,    "",   "",    "",   "" },
-    /* 69 */ { JR,    "",   "",    "",   "" }
+    /* xy      doom   doom2 tnt    plut  nerve masterlevels */
+    /* 00 */ { "",    "",   "",    DCMC, "",   "" },
+    /* 01 */ { "",    SP,   TM,    DCMC, RM,   TW },
+    /* 02 */ { "",    AM,   JW,    DCMC, AI,   TW },
+    /* 03 */ { "",    AM,   RPJM2, DCMC, RM,   CK },
+    /* 04 */ { "",    AM,   TH2,   DCMC, RM,   CK },
+    /* 05 */ { "",    AM,   JD,    DCMC, AI,   CK },
+    /* 06 */ { "",    AM,   JSTH2, DCMC, AI,   CK },
+    /* 07 */ { "",    AMSP, AD,    DCMC, AI,   TM },
+    /* 08 */ { "",    SP,   JM2,   DCMC, AI,   CK },
+    /* 09 */ { "",    SP,   JSTH2, DCMC, RM,   CK },
+    /* 10 */ { "",    SPTH, TM,    DCMC, "",   SK },
+    /* 11 */ { JR,    JR,   DJ,    DCMC, "",   JA },
+    /* 12 */ { JR,    SP,   JL,    DCMC, "",   JA },
+    /* 13 */ { JR,    SP,   BKTH2, DCMC, "",   JA },
+    /* 14 */ { JRTH,  AM,   RP,    DCMC, "",   JA },
+    /* 15 */ { JR,    JR,   WW,    DCMC, "",   JA },
+    /* 16 */ { JR,    SP,   AA,    DCMC, "",   JF },
+    /* 17 */ { JR,    JR,   TM,    DCMC, "",   JF },
+    /* 18 */ { SPTH,  SP,   DCTH2, DCMC, "",   SK },
+    /* 19 */ { JR,    SP,   TH2,   DCMC, "",   SK },
+    /* 20 */ { DC2DB, JR,   DO,    DCMC, "",   SK },
+    /* 21 */ { SPTH,  SP,   DO,    DCMC, "",   SK },
+    /* 22 */ { SPTH,  AM,   CB,    DCMC, "",   "" },
+    /* 23 */ { SPTH,  SP,   PT,    DCMC, "",   "" },
+    /* 24 */ { SPTH,  SP,   DJ,    DCMC, "",   "" },
+    /* 25 */ { SP,    SG,   JM,    DCMC, "",   "" },
+    /* 26 */ { SP,    JR,   MSJL,  DCMC, "",   "" },
+    /* 27 */ { SPTH,  SP,   DO,    DCMC, "",   "" },
+    /* 28 */ { SP,    SP,   MC,    DCMC, "",   "" },
+    /* 29 */ { SP,    JR,   JS,    DCMC, "",   "" },
+    /* 30 */ { "",    SP,   JS,    DCMC, "",   "" },
+    /* 31 */ { SP,    SP,   DC,    DCMC, "",   "" },
+    /* 32 */ { SP,    SP,   DC,    DCMC, "",   "" },
+    /* 33 */ { SPTH,  MB,   "",    "",   "",   "" },
+    /* 34 */ { SP,    "",   "",    "",   "",   "" },
+    /* 35 */ { SP,    "",   "",    "",   "",   "" },
+    /* 36 */ { SP,    "",   "",    "",   "",   "" },
+    /* 37 */ { SPTH,  "",   "",    "",   "",   "" },
+    /* 38 */ { SP,    "",   "",    "",   "",   "" },
+    /* 39 */ { SP,    "",   "",    "",   "",   "" },
+    /* 40 */ { "",    "",   "",    "",   "",   "" },
+    /* 41 */ { AM,    "",   "",    "",   "",   "" },
+    /* 42 */ { JR,    "",   "",    "",   "",   "" },
+    /* 43 */ { SG,    "",   "",    "",   "",   "" },
+    /* 44 */ { AM,    "",   "",    "",   "",   "" },
+    /* 45 */ { TW,    "",   "",    "",   "",   "" },
+    /* 46 */ { JR,    "",   "",    "",   "",   "" },
+    /* 47 */ { JA,    "",   "",    "",   "",   "" },
+    /* 48 */ { SG,    "",   "",    "",   "",   "" },
+    /* 49 */ { TW,    "",   "",    "",   "",   "" },
+    /* 50 */ { "",    "",   "",    "",   "",   "" },
+    /* 51 */ { JR,    "",   "",    "",   "",   "" },
+    /* 52 */ { JR,    "",   "",    "",   "",   "" },
+    /* 53 */ { JR,    "",   "",    "",   "",   "" },
+    /* 54 */ { JR,    "",   "",    "",   "",   "" },
+    /* 55 */ { JR,    "",   "",    "",   "",   "" },
+    /* 56 */ { JR,    "",   "",    "",   "",   "" },
+    /* 57 */ { JR,    "",   "",    "",   "",   "" },
+    /* 58 */ { JR,    "",   "",    "",   "",   "" },
+    /* 59 */ { JR,    "",   "",    "",   "",   "" },
+    /* 60 */ { "",    "",   "",    "",   "",   "" },
+    /* 61 */ { JR,    "",   "",    "",   "",   "" },
+    /* 62 */ { JR,    "",   "",    "",   "",   "" },
+    /* 63 */ { JR,    "",   "",    "",   "",   "" },
+    /* 64 */ { JR,    "",   "",    "",   "",   "" },
+    /* 65 */ { JR,    "",   "",    "",   "",   "" },
+    /* 66 */ { JR,    "",   "",    "",   "",   "" },
+    /* 67 */ { JR,    "",   "",    "",   "",   "" },
+    /* 68 */ { JR,    "",   "",    "",   "",   "" },
+    /* 69 */ { JR,    "",   "",    "",   "",   "" }
 };
 
 //
@@ -5667,7 +5670,7 @@ static void maplistfunc2(char *cmd, char *parms)
             case pack_masterlevels:
                 if (D_IsMasterLevelsWAD(wadname))
                 {
-                    temp1 = titlecase(mapinfoname);
+                    temp1 = titlecase(*mapinfoname ? mapinfoname : *mapnamesm[map - 1]);
                     RemoveMapNum(temp1);
                     TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp1);
                     TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
