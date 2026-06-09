@@ -392,6 +392,21 @@ bool W_AddFile(char *filename, bool autoloaded)
         lump_p->position = LONG(filerover->filepos);
         lump_p->size = LONG(filerover->size);
         lump_p->cache = NULL;
+
+        // Validate lump offset and size against actual file size to prevent
+        // out-of-bounds reads from maliciously crafted WAD files.
+        {
+            const size_t    wadfilesize = W_FileLength(wadfile->fstream);
+
+            if (lump_p->position < 0 || lump_p->size < 0
+                || (size_t)lump_p->position > wadfilesize
+                || (lump_p->size > 0 && (size_t)(lump_p->position + lump_p->size) > wadfilesize))
+            {
+                lump_p->position = 0;
+                lump_p->size = 0;
+            }
+        }
+
         M_CopyLumpName(lump_p->name, filerover->name);
         lumpinfo[i] = lump_p;
         filerover++;
