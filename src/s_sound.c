@@ -112,7 +112,7 @@ bool                nomusic;
 
 musinfo_t           musinfo;
 
-const int spmus[] =
+static const int spmus[] =
 {
     // Song - Who? - Where?
     mus_e3m4,   // American     E4M1
@@ -126,7 +126,7 @@ const int spmus[] =
     mus_e1m9    // Tim          E4M9
 };
 
-const int nmus[] =
+static const int nmus[] =
 {
     mus_messag,
     mus_ddtblu,
@@ -137,6 +137,31 @@ const int nmus[] =
     mus_in_cit,
     mus_shawn,
     mus_ddtblu
+};
+
+static const int mmus[] =
+{
+    mus_dm2int,
+    mus_e2m2,
+    mus_the_da,
+    mus_e1m6,
+    mus_dead,
+    mus_stalks,
+    mus_in_cit,
+    mus_ddtblu,
+    mus_e3m3,
+    mus_victor,
+    mus_e1m5,
+    mus_e2m6,
+    mus_romero,
+    mus_e2m7,
+    mus_e1m8,
+    mus_messag,
+    mus_e1m7,
+    mus_e3m1,
+    mus_tense,
+    mus_read_m,
+    mus_openin
 };
 
 // Initialize sound effects.
@@ -347,7 +372,14 @@ static int S_GetMapNum(void)
     }
 
     if (gamemode == commercial)
-        return M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 9 : 32), gamemap);
+    {
+        if (gamemission == pack_nerve)
+            return M_RandomIntNoRepeat(1, 9, gamemap);
+        else if (gamemission == pack_masterlevels)
+            return M_RandomIntNoRepeat(1, 21, gamemap);
+        else
+            return M_RandomIntNoRepeat(1, 32, gamemap);
+    }
     else if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
             return M_RandomIntNoRepeat(1, 9, gamemap);
     else
@@ -358,8 +390,21 @@ static int S_GetMusicNum(void)
 {
     const int   map = S_GetMapNum() - 1;
 
-    return (gamemode == commercial ? (gamemission == pack_nerve ? nmus[map] : mus_runnin + map) :
-        (gameepisode == 5 && sigil ? mus_e5m1 : (gameepisode == 6 && sigil2 ? mus_e6m1 : mus_e1m1)) + map);
+    if (gamemode == commercial)
+    {
+        if (gamemission == pack_nerve)
+            return nmus[map];
+        else if (gamemission == pack_masterlevels)
+            return mmus[map];
+        else
+            return (mus_runnin + map);
+    }
+    else if (gameepisode == 5 && sigil)
+        return (mus_e5m1 + map);
+    else if (gameepisode == 6 && sigil2)
+        return (mus_e6m1 + map);
+    else
+        return (mus_e1m1 + map);
 }
 
 static int S_GetPreferredMusicLump(const int lumpnum)

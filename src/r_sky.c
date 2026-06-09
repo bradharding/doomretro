@@ -226,6 +226,17 @@ void R_InitSkyMap(void)
                 else
                     skytexture = R_TextureNumForName("SKY3");
             }
+            else if (gamemission == pack_masterlevels)
+            {
+                if (gamemap < 10)
+                    skytexture = R_TextureNumForName("SKYM1");
+                else if (gamemap == 10)
+                    skytexture = R_TextureNumForName("SKY3");
+                else if (gamemap < 16)
+                    skytexture = R_TextureNumForName("SKYM2");
+                else
+                    skytexture = R_TextureNumForName("SKYM3");
+            }
             else
             {
                 if (gamemap < 12)
