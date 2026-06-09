@@ -117,4 +117,4 @@ extern patch_t      *brdr_br;
 
 extern bool         st_drawbrdr;
 
-extern const int    mus[IDMUS_MAX][6];
+extern const int    mus[IDMUS_MAX][7];

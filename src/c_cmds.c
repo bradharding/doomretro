@@ -1777,6 +1777,8 @@ static bool cheatfunc1(char *cmd, char *parms)
             {
                 if (gamemission == pack_nerve)
                     musnum = mus[musnum][5];
+                else if (gamemission == pack_masterlevels)
+                    musnum = mus[musnum][6];
                 else if (bfgedition && gamemission == doom2)
                     musnum = mus[musnum][4];
                 else
