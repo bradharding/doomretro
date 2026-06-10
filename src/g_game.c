@@ -1622,12 +1622,12 @@ int G_GetParTime(void)
     else if (gamemode == commercial)
     {
         // [BH] get correct par time for No Rest For The Living and Legacy Of Rust,
-        //  and have no par time for TNT and Plutonia
+        //  and have no par time for TNT, Plutonia and Master Levels
         if (gamemission == pack_nerve && gamemap <= 9)
             return npars[gamemap - 1];
         else if (legacyofrust && gamemap <= 16)
             return lpars[gamemap - 1];
-        else if (gamemission == pack_tnt || gamemission == pack_plut)
+        else if (gamemission == pack_tnt || gamemission == pack_plut || gamemission == pack_masterlevels)
             return 0;
         else
             return cpars[gamemap - 1];
