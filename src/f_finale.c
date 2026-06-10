@@ -234,9 +234,18 @@ void F_StartFinale(void)
                         break;
 
                     case 20:
-                        finaleflat = bgflat20;
-                        finaletext = (gamemission == pack_tnt ? s_T3TEXT :
-                            (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                        if (gamemission == pack_masterlevels)
+                        {
+                            finaleflat = "CEIL4_2";
+                            finaletext = s_M1TEXT;
+                        }
+                        else
+                        {
+                            finaleflat = bgflat20;
+                            finaletext = (gamemission == pack_tnt ? s_T3TEXT :
+                                (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                        }
+
                         break;
 
                     case 30:

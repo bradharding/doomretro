@@ -397,6 +397,7 @@ T4TEXT = Suddenly, all is silent, from one horizon\nto the other. The agonizing 
 T5TEXT = What now? Looks totally different. Kind\nof like King Tut's condo. Well,\nwhatever's here can't be any worse\nthan usual. Can it? Or maybe it's best\nto let sleeping Gods lie...
 T6TEXT = Time for a vacation. You've burst the\nbowels of Hell and by golly you're ready\nfor a break. You mutter to yourself,\n"Maybe someone else can kick Hell's ass\nnext time around." Ahead lies a quiet town,\nwith peaceful flowing water, quaint\nbuildings, and presumably no Hellspawn.\n\nAs you step off the transport, you hear\nthe stomp of a Cyberdemon's iron shoe.
 N1TEXT = Trouble was brewing again in your favorite\nvacation spot... Hell. Some Cyberdemon\npunk thought he could turn Hell into a\npersonal amusement park, and make Earth\nthe ticket booth.\n\nWell, that half-robot freak show didn't\nknow who was coming to the fair. There's\nnothing like a shooting gallery full of\nhellspawn to get the blood pumping...\n\nNow the walls of the demon's labyrinth\necho with the sound of his metallic limbs\nhitting the floor. His death moan gurgles\nout through the mess you left of his face.\n\nThis ride is closed.
+M1TEXT = You have assaulted and triumphed over the\nmost vicious realms that the demented minds\nof our designers could devise.\n\nThe havoc you left behind you as you\nsmashed your way through the Master\nLevels is mute tribute to your prowess.\n\nYou have earned the title of\nMaster of Destruction.
 M_NEWGAME = New Game
 M_OPTIONS = Options
 M_LOADGAME = Load Game

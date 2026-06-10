@@ -610,6 +610,7 @@ char    *s_T4TEXT = T4TEXT;
 char    *s_T5TEXT = T5TEXT;
 char    *s_T6TEXT = T6TEXT;
 char    *s_N1TEXT = "";
+char    *s_M1TEXT = "";
 
 char    *s_CC_ZOMBIE = CC_ZOMBIE;
 char    *s_CC_SHOTGUN = CC_SHOTGUN;
@@ -1275,6 +1276,7 @@ deh_strs deh_strlookup[] =
     { &s_T5TEXT,                  "T5TEXT"                  },
     { &s_T6TEXT,                  "T6TEXT"                  },
     { &s_N1TEXT,                  "N1TEXT"                  },
+    { &s_M1TEXT,                  "M1TEXT"                  },
 
     { &s_CC_ZOMBIE,               "CC_ZOMBIE"               },
     { &s_CC_SHOTGUN,              "CC_SHOTGUN"              },

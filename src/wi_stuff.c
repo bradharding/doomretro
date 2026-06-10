@@ -1063,6 +1063,9 @@ static void WI_DrawShowNextLoc(void)
     if (gamemission == pack_nerve && wbs->last == 7)
         return;
 
+    if (gamemission == pack_masterlevels && wbs->last == 19)
+        return;
+
     // draws which level you are entering...
     if (gamemode != commercial || wbs->next != 30)
         WI_DrawEL();

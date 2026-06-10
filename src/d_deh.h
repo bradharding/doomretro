@@ -408,6 +408,7 @@ extern char         *s_T4TEXT;
 extern char         *s_T5TEXT;
 extern char         *s_T6TEXT;
 extern char         *s_N1TEXT;
+extern char         *s_M1TEXT;
 
 extern char         *s_CC_ZOMBIE;
 extern char         *s_CC_SHOTGUN;

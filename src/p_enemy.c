@@ -2039,11 +2039,19 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         if (gamemode == commercial)
         {
-            if (gamemap != 7)
-                return;
+            if (gamemission == pack_masterlevels && (gamemap == 19 || gamemap == 20))
+            {
+                if (actor->type != MT_FATSO && !(gamemap == 20 && actor->type == MT_BABY))
+                    return;
+            }
+            else
+            {
+                if (gamemap != 7)
+                    return;
 
-            if (!(actor->mbf21flags & (MF_MBF21_MAP07BOSS1 | MF_MBF21_MAP07BOSS2)))
-                return;
+                if (!(actor->mbf21flags & (MF_MBF21_MAP07BOSS1 | MF_MBF21_MAP07BOSS2)))
+                    return;
+            }
         }
         else
         {
@@ -2130,6 +2138,32 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
             {
                 junk.tag = 667;
                 EV_DoFloor(&junk, RaiseToTexture);
+                return;
+            }
+        }
+        else if (gamemission == pack_masterlevels && (gamemap == 19 || gamemap == 20))
+        {
+            junk = *lines;
+
+            if (actor->type == MT_FATSO)
+            {
+                junk.special = 82;
+                junk.tag = 666;
+
+                if (!P_UseSpecialLine(actor, &junk, 0, true))
+                    P_CrossSpecialLine(&junk, 0, actor, true);
+
+                return;
+            }
+
+            if (gamemap == 20 && actor->type == MT_BABY)
+            {
+                junk.special = 96;
+                junk.tag = 667;
+
+                if (!P_UseSpecialLine(actor, &junk, 0, true))
+                    P_CrossSpecialLine(&junk, 0, actor, true);
+
                 return;
             }
         }
