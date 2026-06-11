@@ -9139,7 +9139,6 @@ static void resurrectfunc2(char *cmd, char *parms)
             C_PlayerWarning("%s", buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_warning = true;
-            C_HideConsole();
             cheated = true;
         }
         else
