@@ -914,7 +914,8 @@ void G_DoLoadLevel(void)
     prevmessage[0] = '\0';
     viewplayer->cheats &= ~CF_FREEZE;
 
-    ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
+    ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 :
+        (gamemission == pack_masterlevels && nerve ? 3 : 2)) : gameepisode);
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
     if ((resetplayer = (resetinventory || pistolstart || P_GetMapPistolStart(ep, gamemap))))
@@ -1707,7 +1708,7 @@ static void G_DoCompleted(void)
                     break;
 
                 case 4:
-                    // [BH] exit to secret level in No Rest For The Living
+                    // [BH] exit to secret level in MAP04 of No Rest For The Living
                     if (gamemission == pack_nerve)
                         wminfo.next = 8;
 
@@ -1715,6 +1716,13 @@ static void G_DoCompleted(void)
 
                 case 15:
                     wminfo.next = 30;
+                    break;
+
+                case 18:
+                    // [BH] exit to secret level in MAP18 of Master Levels
+                    if (gamemission == pack_masterlevels)
+                        wminfo.next = 20;
+
                     break;
 
                 case 31:
@@ -1729,6 +1737,11 @@ static void G_DoCompleted(void)
                 case 9:
                     // [BH] return to MAP05 after secret level in No Rest For The Living
                     wminfo.next = (gamemission == pack_nerve ? 4 : gamemap);
+                    break;
+
+                case 21:
+                    // [BH] return to MAP19 after secret level in Master Levels
+                    wminfo.next = (gamemission == pack_masterlevels ? 18 : gamemap);
                     break;
 
                 case 31:
@@ -1834,6 +1847,11 @@ void G_WorldDone(void)
         if (gamemission == pack_nerve)
         {
             if (gamemap == 8)
+                F_StartFinale();
+        }
+        else if (gamemission == pack_masterlevels)
+        {
+            if (gamemap == 20)
                 F_StartFinale();
         }
         else
