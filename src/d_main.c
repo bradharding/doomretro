@@ -2716,11 +2716,13 @@ static void D_DoomMainSetup(void)
 
                 if (gamemission == doom2)
                 {
-                    if (W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1)
+                    if ((W_GetNumLumps("M_DOOM") > 2 || W_GetNumLumps("MAP01") > 1) && !nerve && !masterlevels)
                         noexpansions = true;
                     else
                     {
-                        autoloading = W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
+                        autoloading = W_AutoloadFile("NERVE.WAD", autoloadfolder, false);
+                        autoloading |= W_AutoloadFile("masterlevels.wad", autoloadfolder, false);
+                        autoloading |= W_AutoloadFile("NERVE.WAD", autoloadiwadsubfolder, false);
                         autoloading |= W_AutoloadFile("masterlevels.wad", autoloadiwadsubfolder, false);
                     }
                 }
