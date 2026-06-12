@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v18.7.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.
 * The very top line of the console now displays correctly.
@@ -12,7 +13,7 @@
 * Several improvements have been made to the support of the [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II).
 * The correct map names are now used when playing *Final DOOM: The Plutonia Experiment* and *TNT &ndash; Evilution*.
 * The value of the `alwaysrun` CVAR is now retained when entering `resurrect player` in the console.
-* Pressing the <kbd><b>END</b></kbd> key in the console now moves the text caret to the end of the input before scrolling to the bottom of the console.
+* Pressing the <kbd><b>END</b></kbd> key in the console now moves the text caret to the end of the input first, before scrolling to the bottom of the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
