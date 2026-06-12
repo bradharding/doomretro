@@ -46,16 +46,12 @@ jobs:
 
     strategy:
       matrix:
-        platform: [32-bit, 64-bit]
+        platform: [64-bit]
         configuration: [Release]
         include:
-          - platform: 32-bit
-            project-platform: Win32
-            output-dir: Release
-            artifact-suffix: win32
           - platform: 64-bit
             project-platform: x64
-            output-dir: x64/Release
+            output-dir: Release
             artifact-suffix: win64
 
     env:
