@@ -3181,7 +3181,7 @@ bool C_Responder(event_t *ev)
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && (outputhistory || outputhistoryoffset)
                     && C_CanScrollOutput())
-                    C_ScrollToTop();                  // scroll to top
+                    C_ScrollToTop();        // scroll to top
                 else if (caretpos > 0)
                 {
                     // move caret to start
@@ -3194,9 +3194,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_END:
-                if (outputhistory != -1 && C_CanScrollOutput())
-                    C_ScrollToBottom();                // scroll to bottom
-                else if (caretpos < len)
+                if (caretpos < len)
                 {
                     // move caret to end
                     selectstart = ((modstate & KMOD_SHIFT) ? caretpos : len);
@@ -3204,6 +3202,8 @@ bool C_Responder(event_t *ev)
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
+                else if (outputhistory != -1 && C_CanScrollOutput())
+                    C_ScrollToBottom();     // scroll to bottom
 
                 break;
 

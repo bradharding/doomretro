@@ -12,6 +12,7 @@
 * Several improvements have been made to the support of the [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II).
 * The correct map names are now used when playing *Final DOOM: The Plutonia Experiment* and *TNT &ndash; Evilution*.
 * The value of the `alwaysrun` CVAR is now retained when entering `resurrect player` in the console.
+* Pressing the <kbd><b>END</b></kbd> key in the console now moves the text caret to the end of the input before scrolling to the bottom of the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
