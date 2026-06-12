@@ -6,18 +6,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doomretro", "doomretro.vcxp
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|32-bit = Debug|32-bit
 		Debug|64-bit = Debug|64-bit
-		Release|32-bit = Release|32-bit
 		Release|64-bit = Release|64-bit
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|32-bit.ActiveCfg = Debug|Win32
-		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|32-bit.Build.0 = Debug|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|64-bit.ActiveCfg = Debug|x64
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|64-bit.Build.0 = Debug|x64
-		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|32-bit.ActiveCfg = Release|Win32
-		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|32-bit.Build.0 = Release|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|64-bit.ActiveCfg = Release|x64
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|64-bit.Build.0 = Release|x64
 	EndGlobalSection
