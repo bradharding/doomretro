@@ -2700,6 +2700,7 @@ static void D_DoomMainSetup(void)
                 {
                     autoloadsigilsubfolder = M_StringJoin(autoloadfolder, autoloadsigilsubfolder,
                         DIR_SEPARATOR_S, NULL);
+                    M_MakeDirectory(autoloadsigilsubfolder);
                     autoloading |= W_AutoloadFiles(autoloadsigilsubfolder, false);
                 }
 
@@ -2707,6 +2708,7 @@ static void D_DoomMainSetup(void)
                 {
                     autoloadsigil2subfolder = M_StringJoin(autoloadfolder, autoloadsigil2subfolder,
                         DIR_SEPARATOR_S, NULL);
+                    M_MakeDirectory(autoloadsigil2subfolder);
                     autoloading |= W_AutoloadFiles(autoloadsigil2subfolder, false);
                 }
             }
@@ -2734,6 +2736,7 @@ static void D_DoomMainSetup(void)
                 {
                     autoloadnervesubfolder = M_StringJoin(autoloadfolder, autoloadnervesubfolder,
                         DIR_SEPARATOR_S, NULL);
+                    M_MakeDirectory(autoloadnervesubfolder);
                     autoloading |= W_AutoloadFiles(autoloadnervesubfolder, false);
                 }
 
@@ -2741,6 +2744,7 @@ static void D_DoomMainSetup(void)
                 {
                     autoloadmasterlevelssubfolder = M_StringJoin(autoloadfolder, autoloadmasterlevelssubfolder,
                         DIR_SEPARATOR_S, NULL);
+                    M_MakeDirectory(autoloadmasterlevelssubfolder);
                     autoloading |= W_AutoloadFiles(autoloadmasterlevelssubfolder, false);
                 }
             }
