@@ -3,7 +3,7 @@
 ### DOOM Retro v6.1.1
 
 * *DOOM Retro* is now built using v18.7.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* Minor changes have been made to further improve the overall stability of *DOOM Retro*.
+* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby the player’s view would spin as the screen faded to black when quitting using the `quit` CCMD in the console.

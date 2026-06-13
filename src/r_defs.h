@@ -1200,4 +1200,13 @@ typedef struct visplane_s
     int                 colormap;
     angle_t             angle;
 } visplane_t;
+
+typedef struct
+{
+    seg_t               *seg;
+    line_t              *linedef;
+    fixed_t             x1, y1;
+    fixed_t             x2, y2;
+    fixed_t             bbox[4];
+} ssline_t;
 #endif

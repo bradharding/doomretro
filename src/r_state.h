@@ -105,6 +105,9 @@ extern line_t       *lines;
 extern int          numsides;
 extern side_t       *sides;
 
+extern int          *sslineindexes;
+extern ssline_t     *sslines;
+
 extern int          numtextures;
 
 extern int          numspawnedthings;

@@ -96,6 +96,9 @@ line_t              *lines;
 int                 numsides;
 side_t              *sides;
 
+int                 *sslineindexes;
+ssline_t            *sslines;
+
 int                 numspawnedthings;
 int                 thingid;
 int                 numdecorations;
@@ -1252,6 +1255,87 @@ static void P_LoadSubsectors_V4(int lump)
 
         W_ReleaseLumpNum(lump);
     }
+}
+
+//
+// P_InitSubsectorLines
+//
+void P_InitSubsectorLines(void)
+{
+    int count = 0;
+
+    if (sslineindexes)
+    {
+        free(sslineindexes);
+        sslineindexes = NULL;
+    }
+
+    if (sslines)
+    {
+        free(sslines);
+        sslines = NULL;
+    }
+
+    sslineindexes = I_Malloc((numsubsectors + 1) * sizeof(sslineindexes[0]));
+
+    for (int i = 0; i < numsubsectors; i++)
+    {
+        const seg_t *lastseg = segs + subsectors[i].firstline + subsectors[i].numlines;
+
+        sslineindexes[i] = count;
+
+        for (seg_t *seg = segs + subsectors[i].firstline; seg < lastseg; seg++)
+            if (seg->linedef)
+                seg->linedef->validcount = 0;
+
+        for (seg_t *seg = segs + subsectors[i].firstline; seg < lastseg; seg++)
+            if (seg->linedef && seg->linedef->validcount != 1)
+            {
+                seg->linedef->validcount = 1;
+                count++;
+            }
+    }
+
+    sslineindexes[numsubsectors] = count;
+
+    sslines = I_Malloc(count * sizeof(sslines[0]));
+    count = 0;
+
+    for (int i = 0; i < numsubsectors; i++)
+    {
+        const seg_t *lastseg = segs + subsectors[i].firstline + subsectors[i].numlines;
+
+        for (seg_t *seg = segs + subsectors[i].firstline; seg < lastseg; seg++)
+            if (seg->linedef)
+                seg->linedef->validcount = 0;
+
+        for (seg_t *seg = segs + subsectors[i].firstline; seg < lastseg; seg++)
+        {
+            ssline_t    *ssline = &sslines[count];
+
+            if (seg->linedef && seg->linedef->validcount != 1)
+            {
+                seg->linedef->validcount = 1;
+
+                ssline->seg = seg;
+                ssline->linedef = seg->linedef;
+
+                ssline->x1 = seg->linedef->v1->x;
+                ssline->y1 = seg->linedef->v1->y;
+                ssline->x2 = seg->linedef->v2->x;
+                ssline->y2 = seg->linedef->v2->y;
+                ssline->bbox[0] = seg->linedef->bbox[0];
+                ssline->bbox[1] = seg->linedef->bbox[1];
+                ssline->bbox[2] = seg->linedef->bbox[2];
+                ssline->bbox[3] = seg->linedef->bbox[3];
+
+                count++;
+            }
+        }
+    }
+
+    for (int i = 0; i < numlines; i++)
+        lines[i].validcount = 0;
 }
 
 //
@@ -3467,6 +3551,8 @@ void P_SetupLevel(int ep, int map)
 
     P_GroupLines();
     P_LoadReject(lumpnum);
+
+    P_InitSubsectorLines();
 
     if (nodeformat != NANOBSP)
         P_RemoveSlimeTrails();

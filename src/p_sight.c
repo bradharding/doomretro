@@ -56,22 +56,23 @@ typedef struct
 
 static los_t    los;            // cph - made static
 
-//
-// P_DivlineSide
-// Returns side 0 (front), 1 (back), or 2 (on).
-//
-static int P_DivlineSide(const fixed_t x, const fixed_t y, const divline_t *node)
+static int P_DivlineCrossed(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, divline_t *node)
 {
     if (!node->dx)
-        return (x == node->x ? 2 : (x <= node->x ? (node->dy > 0) : (node->dy < 0)));
+        return (x1 == node->x ? (x2 == node->x) : (x1 < node->x ? (x2 < node->x) : (x2 > node->x)));
+
     else if (!node->dy)
-        return (y == node->y ? 2 : (y <= node->y ? (node->dx < 0) : (node->dx > 0)));
+        return (y1 == node->y ? (y2 == node->y) : (y1 < node->y ? (y2 < node->y) : (y2 > node->y)));
     else
     {
-        const fixed_t   left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
-        const fixed_t   right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
+        const fixed_t   node_dx = (node->dx >> FRACBITS);
+        const fixed_t   node_dy = (node->dy >> FRACBITS);
+        const fixed_t   left1 = node_dy * ((x1 - node->x) >> FRACBITS);
+        const fixed_t   right1 = ((y1 - node->y) >> FRACBITS) * node_dx;
+        const fixed_t   left2 = node_dy * ((x2 - node->x) >> FRACBITS);
+        const fixed_t   right2 = ((y2 - node->y) >> FRACBITS) * node_dx;
 
-        return (left == right ? 2 : (left < right));
+        return (left1 == right1 ? (left2 == right2) : (left1 < right1 ? (left2 < right2) : (left2 > right2)));
     }
 }
 
@@ -81,50 +82,42 @@ static int P_DivlineSide(const fixed_t x, const fixed_t y, const divline_t *node
 //
 static bool P_CrossSubsector(const int num)
 {
-    const subsector_t   *sub = subsectors + num;
-    const seg_t         *seg = segs + sub->firstline;
+    const ssline_t  *lastssline = &sslines[sslineindexes[num + 1]];
+    const fixed_t   *losbbox = los.bbox;
 
-    for (int count = sub->numlines; count; seg++, count--)
+    for (ssline_t *ssline = &sslines[sslineindexes[num]]; ssline < lastssline; ssline++)
     {
-        line_t      *line = seg->linedef;
+        line_t      *line = ssline->linedef;
+        fixed_t     *bbox = line->bbox;
+        seg_t       *seg;
         fixed_t     frac;
         sector_t    *front;
         sector_t    *back;
         fixed_t     top;
         fixed_t     bottom;
         divline_t   divl = { 0 };
-        vertex_t    *v1;
-        vertex_t    *v2;
 
-        if (!line)  // figgi -- skip minisegs
-            continue;
-
-        if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT]
-            || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
-            || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP]
-            || line->bbox[BOXTOP] < los.bbox[BOXBOTTOM])
+        if (bbox[BOXLEFT] > losbbox[BOXRIGHT]
+            || bbox[BOXRIGHT] < losbbox[BOXLEFT]
+            || bbox[BOXBOTTOM] > losbbox[BOXTOP]
+            || bbox[BOXTOP] < losbbox[BOXBOTTOM])
         {
             line->validcount = validcount;
             continue;
         }
 
-        v1 = line->v1;
-        v2 = line->v2;
-
         // line isn't crossed?
-        if (P_DivlineSide(v1->x, v1->y, &los.strace) == P_DivlineSide(v2->x, v2->y, &los.strace))
+        if (P_DivlineCrossed(ssline->x1, ssline->y1, ssline->x2, ssline->y2, &los.strace))
         {
             line->validcount = validcount;
             continue;
         }
 
-        divl.x = v1->x;
-        divl.y = v1->y;
-        divl.dx = line->dx;
-        divl.dy = line->dy;
+        divl.dx = ssline->x2 - (divl.x = ssline->x1);
+        divl.dy = ssline->y2 - (divl.y = ssline->y1);
 
         // line isn't crossed?
-        if (P_DivlineSide(los.strace.x, los.strace.y, &divl) == P_DivlineSide(los.t2x, los.t2y, &divl))
+        if (P_DivlineCrossed(los.strace.x, los.strace.y, los.t2x, los.t2y, &divl))
         {
             line->validcount = validcount;
             continue;
@@ -141,6 +134,7 @@ static bool P_CrossSubsector(const int num)
             return false;
 
         // crosses a two sided line
+        seg = ssline->seg;
         front = seg->frontsector;
         back = seg->backsector;
 
