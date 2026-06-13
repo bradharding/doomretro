@@ -1885,7 +1885,7 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
+        else if (M_StringCompare(rendererinfo.name, "direct3d11"))
         {
 #if defined(_WIN64)
             if (output)
