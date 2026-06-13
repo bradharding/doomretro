@@ -1681,7 +1681,7 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     char        buffer[133] = "";
     const int   len = (int)strlen(message);
 
-    if (!len || (len == 1 && !isalnum(message[0])))
+    if (!len)
         return;
 
     M_StringReplaceAll(message, " _", " " ITALICSON, false);
