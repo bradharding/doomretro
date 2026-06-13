@@ -1735,6 +1735,10 @@ static void SetVideoMode(const bool createwindow, const bool output)
         int     outputupscaledheight = upscaledheight;
         bool    outputnearestlinear = nearestlinear;
         bool    outputlinearfilter = M_StringCompare(vid_scalefilter, vid_scalefilter_linear);
+        char    *temp1;
+        char    *temp2;
+        char    *temp3;
+        char    *temp4;
 
         if (splashscreen)
         {
@@ -1804,10 +1808,10 @@ static void SetVideoMode(const bool createwindow, const bool output)
             }
         }
 
-        char    *temp1 = commify(outputscreenwidth);
-        char    *temp2 = commify(outputscreenheight);
-        char    *temp3 = commify(width);
-        char    *temp4 = commify(height);
+        temp1 = commify(outputscreenwidth);
+        temp2 = commify(outputscreenheight);
+        temp3 = commify(width);
+        temp4 = commify(height);
 
         C_Output("A software renderer is used to render every frame.");
 

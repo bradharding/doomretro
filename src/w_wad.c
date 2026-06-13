@@ -759,14 +759,14 @@ bool HasDehackedLump(const char *pwadname)
 
 gamemission_t IWADRequiredByPWAD(char *pwadname)
 {
-    FILE            *fp = fopen(pwadname, "rb");
+    FILE            *fp;
     gamemission_t   result = none;
     const char      *leaf = leafname(pwadname);
 
     if (D_IsFinalDOOMIWAD(pwadname))
         return (M_StringCompare(leaf, "TNT.WAD") ? pack_tnt : pack_plut);
 
-    if (!fp)
+    if (!(fp = fopen(pwadname, "rb")))
         I_Error("Can't open PWAD: %s", pwadname);
     else
     {

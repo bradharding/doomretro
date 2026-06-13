@@ -1907,6 +1907,7 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
     const fixed_t   scale = splat->scale;
     const fixed_t   gx = splat->gx;
     const fixed_t   gy = splat->gy;
+    size_t          clipcount;
 
     if (x2 < 0 || x1 >= viewwidth)
         return;
@@ -1914,9 +1915,8 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
     if ((x1 = MAX(0, x1)) > (x2 = MIN(viewwidth - 1, x2)))
         return;
 
-    const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
-
     // initialize the clipping arrays
+    clipcount = (size_t)((int64_t)x2 - x1 + 1);
     memcpy(cliptop + x1, zeroarray + x1, clipcount * sizeof(cliptop[0]));
     memcpy(clipbot + x1, viewheightarray + x1, clipcount * sizeof(clipbot[0]));
 
@@ -1930,6 +1930,8 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
         {
             drawseg_t   *ds;
             int         silhouette;
+            int         r1;
+            int         r2;
 
             if (curr->x1 > x2 || curr->x2 < x1)
                 continue;
@@ -1943,8 +1945,8 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
             if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
                 continue;
 
-            const int r1 = MAX(x1, ds->x1);
-            const int r2 = MIN(ds->x2, x2);
+            r1 = MAX(x1, ds->x1);
+            r2 = MIN(ds->x2, x2);
 
             if (silhouette & SIL_TOP)
                 for (int i = r1; i <= r2; i++)

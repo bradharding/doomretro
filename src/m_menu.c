@@ -4008,6 +4008,8 @@ bool M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messagetoprint && !keydown)
     {
+        int ch;
+
         if ((key == keyboardscreenshot || key == keyboardscreenshot2)
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
         {
@@ -4027,7 +4029,7 @@ bool M_Responder(event_t *ev)
             return M_HandleScreenSizeControl(1);
         }
 
-        const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
+        ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
         if (messageneedsinput && key != keyboardmenu && key != keyboardmenu2 && ch != 'y' && ch != 'n'
             && key != KEY_BACKSPACE && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)

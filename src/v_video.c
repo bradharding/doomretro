@@ -2263,6 +2263,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
     byte        *output;
     byte        *rover;
     byte        *col_offsets;
+    int         numcolumns;
 
     // Go through columns
     for (int c = 0; c < width; c++)
@@ -2342,7 +2343,7 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
         array_push(columns, col);
     }
 
-    const int   numcolumns = array_size(columns);
+    numcolumns = array_size(columns);
 
     // Calculate needed memory size to allocate patch buffer
     size += 4 * sizeof(int16_t);                                // 4 header shorts

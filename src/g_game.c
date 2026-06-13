@@ -381,9 +381,7 @@ static bool G_CheckAutoFire(void)
         }
 
         // Try slight left and right variations for more forgiving autofire
-        const angle_t spread = ANG5 / 2;
-
-        P_AimLineAttack(viewplayer->mo, angle + spread, distance, MF_FRIEND);
+        P_AimLineAttack(viewplayer->mo, angle + ANG5 / 2, distance, MF_FRIEND);
 
         if (linetarget
             && (linetarget->flags & MF_SHOOTABLE)
@@ -397,7 +395,7 @@ static bool G_CheckAutoFire(void)
                 return true;
         }
 
-        P_AimLineAttack(viewplayer->mo, angle - spread, distance, MF_FRIEND);
+        P_AimLineAttack(viewplayer->mo, angle - ANG5 / 2, distance, MF_FRIEND);
 
         if (linetarget
             && (linetarget->flags & MF_SHOOTABLE)

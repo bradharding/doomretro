@@ -1022,6 +1022,7 @@ static void C_DrawScrollbar(void)
                         - offset;
         const int   gripend = gripstart + 6 * SCREENWIDTH;
         const int   trackend = MAX(0, CONSOLESCROLLBARHEIGHT * SCREENWIDTH - offset);
+        const int   faceend = scrollbarfaceend * SCREENWIDTH - offset;
 
         // draw scrollbar track
         for (int y = 0; y < trackend; y += SCREENWIDTH)
@@ -1039,9 +1040,7 @@ static void C_DrawScrollbar(void)
                     tempscreen[y + x] = screens[0][y + x];
 
         // draw scrollbar face
-        const int   end = scrollbarfaceend * SCREENWIDTH - offset;
-
-        for (int y = scrollbarfacestart * SCREENWIDTH - offset; y < end; y += SCREENWIDTH)
+        for (int y = scrollbarfacestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
             if (y >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y + x] = consolescrollbarfacecolor;
