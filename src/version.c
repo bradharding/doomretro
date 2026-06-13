@@ -310,8 +310,7 @@ void D_CheckForNewVersion(void)
         {
             if (!M_CheckParm("-noupdate"))
             {
-                char    buffer[128] = "A newer version of " DOOMRETRO_NAME " was found!\n"
-                            "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n";
+                char    buffer[128];
                 int     buttonid;
 
                 const SDL_MessageBoxButtonData buttons[] =
@@ -330,6 +329,10 @@ void D_CheckForNewVersion(void)
                     buttons,
                     NULL
                 };
+
+                M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " %s has been released!\n"
+                    "Would you like to go to " DOOMRETRO_BLOGURL " and download it now?\n",
+                    latestversion);
 
                 if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0 && buttonid == 2)
                 {
