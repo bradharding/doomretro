@@ -633,10 +633,21 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
 
     while ((dir = readdir(d)))
     {
-        char        *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+        char        *temp1 = M_StringJoin(folder, dir->d_name, NULL);
         struct stat status;
 
-        if (filename && !M_StringCompare(filename, dir->d_name))
+        if (*filename && !M_StringCompare(filename, dir->d_name))
+        {
+            free(temp1);
+            continue;
+        }
+
+        if (noexpansions
+            && (D_IsSIGILWAD(dir->d_name)
+                || D_IsSIGIL2WAD(dir->d_name)
+                || D_IsSIGILSHREDSWAD(dir->d_name)
+                || D_IsNERVEWAD(dir->d_name)
+                || D_IsMasterLevelsWAD(dir->d_name)))
         {
             free(temp1);
             continue;
@@ -646,7 +657,10 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
         {
             if (M_StringEndsWith(dir->d_name, ".wad")
                 || M_StringEndsWith(dir->d_name, ".pwad"))
-                result = W_MergeFile(temp1, true);
+            {
+                if ((result = W_MergeFile(temp1, true)))
+                    D_CheckSupportedPWAD(temp1);
+            }
             else if (M_StringEndsWith(dir->d_name, ".deh")
                 || M_StringEndsWith(dir->d_name, ".bex"))
             {
