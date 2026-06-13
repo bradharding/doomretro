@@ -14,6 +14,7 @@
 * The correct map names are now used when playing *Final DOOM: The Plutonia Experiment* and *TNT &ndash; Evilution*.
 * The value of the `alwaysrun` CVAR is now retained when entering `resurrect player` in the console.
 * Pressing the <kbd><b>END</b></kbd> key in the console now moves the text caret to the end of the input first, before scrolling to the bottom of the console.
+* Dithered lighting when the `r_ditheredlighting` CVAR is `on` now appears correctly when the `r_detail` CVAR is `low` and the `r_lowpixelsize` CVAR is not its default of `2×2`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

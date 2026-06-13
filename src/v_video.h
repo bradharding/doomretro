@@ -55,6 +55,7 @@ extern byte *screens[NUMSCREENS];
 
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
+extern int  lowpixelrows;
 
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 

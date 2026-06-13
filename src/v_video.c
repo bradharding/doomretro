@@ -57,6 +57,7 @@
 byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
 int     lowpixelheight;
+int     lowpixelrows;
 
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
@@ -2018,19 +2019,23 @@ void GetPixelSize(void)
     if (sscanf(r_lowpixelsize, "%2dx%2d", &width, &height) == 2
         && ((width >= 2 && height >= 1) || (width >= 1 && height >= 2)))
     {
+        lowpixelwidth = width;
+        lowpixelrows = height;
+        lowpixelheight = height * SCREENWIDTH;
+
         if (width == 2 && height == 2)
             postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_2x2_Antialiased : &V_LowGraphicDetail_2x2);
         else
-        {
-            lowpixelwidth = width;
-            lowpixelheight = height * SCREENWIDTH;
             postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_Antialiased : &V_LowGraphicDetail);
-        }
     }
     else
     {
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
+
+        lowpixelwidth = 2;
+        lowpixelrows = 2;
+        lowpixelheight = 2 * SCREENWIDTH;
 
         postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_2x2_Antialiased : &V_LowGraphicDetail_2x2);
     }

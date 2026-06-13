@@ -89,22 +89,6 @@ byte            *dc_translation;
 
 #define DITHERSIZE      4
 #define DITHERMASK      (DITHERSIZE - 1)
-#define DITHERLOWMASK   (DITHERSIZE * 2 - 1)
-
-static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
-{
-    {   0,   0, 224, 224,  48,  48, 208, 208 },
-    {   0,   0, 224, 224,  48,  48, 208, 208 },
-    { 176, 176,  80,  80, 128, 128,  96,  96 },
-    { 176, 176,  80,  80, 128, 128,  96,  96 },
-    { 192, 192,  32,  32, 240, 240,  16,  16 },
-    { 192, 192,  32,  32, 240, 240,  16,  16 },
-    { 112, 112, 144, 144,  64,  64, 160, 160 },
-    { 112, 112, 144, 144,  64,  64, 160, 160 }
-};
-
-#define ditherlow(x, y, z)  (ditherlowmatrix[(y) & DITHERLOWMASK]\
-                                [((x) + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERLOWMASK] < (z))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -114,8 +98,11 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, y, z)     (dithermatrix[(y) & DITHERMASK]\
+#define dither(x, y, z)     (dithermatrix[(y) & DITHERMASK] \
                                 [((x) + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK] < (z))
+
+#define ditherlow(x, y, z)  (dithermatrix[((y) / lowpixelrows) & DITHERMASK] \
+                                [(((x) + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK] < (z))
 
 //
 // A column is a vertical slice/span from a wall texture that,
