@@ -477,15 +477,19 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
     int         cnum = 0;
     channel_t   *c;
 
-    // Find an open channel
     if (origin)
-        for (; cnum < s_channels && channels[cnum].sfxinfo; cnum++)
-            if (channels[cnum].origin == origin
+        for (; cnum < s_channels; cnum++)
+            if (channels[cnum].sfxinfo
+                && channels[cnum].origin == origin
                 && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
             {
                 S_StopChannel(cnum);
                 break;
             }
+
+    // Find an open channel
+    if (cnum == s_channels)
+        for (cnum = 0; cnum < s_channels && channels[cnum].sfxinfo; cnum++);
 
     // None available
     if (cnum == s_channels)
