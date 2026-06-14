@@ -1533,12 +1533,17 @@ static int D_OpenWADLauncher(void)
 
 #if defined(_WIN32)
     OPENFILENAME    ofn;
-    char            szFile[4096];
+    char            szFile[4096] = "";
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = HWND_DESKTOP;
-    M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
+
+    if (invalidwad)
+        M_StringCopy(szFile, invalidwad, sizeof(szFile));
+    else if (wad)
+        M_StringCopy(szFile, wad, sizeof(szFile));
+
     ofn.lpstrFile = szFile;
 
     if (collected_wads)

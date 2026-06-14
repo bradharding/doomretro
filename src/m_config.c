@@ -253,7 +253,7 @@ bool        vid_widescreen = vid_widescreen_default;
 char        *vid_windowpos = vid_windowpos_default;
 char        *vid_windowsize = vid_windowsize_default;
 #if defined(_WIN32)
-char        *wad = wad_default;
+char        *wad = NULL;
 #endif
 char        *wadfolder = wadfolder_default;
 int         weaponbob = weaponbob_default;
