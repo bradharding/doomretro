@@ -1652,11 +1652,14 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 
 void WI_Start(wbstartstruct_t *wbstartstruct)
 {
-    char    *enteranim = P_GetMapEnterAnim(gameepisode, gamemap);
-    char    *exitanim = P_GetMapExitAnim(gameepisode, gamemap);
+    char    *enteranim;
+    char    *exitanim;
 
     WI_ResetAnimation();
     WI_InitVariables(wbstartstruct);
+
+    enteranim = P_GetMapEnterAnim(wbs->epsd + 1, wbs->next + 1);
+    exitanim = P_GetMapExitAnim(wbs->epsd + 1, wbs->last + 1);
 
     if (enteranim[0])
     {
