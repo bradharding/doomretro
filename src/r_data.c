@@ -272,7 +272,7 @@ static void R_InitTextures(void)
                 char    *temp = uppercase(texture->name);
 
                 C_Warning(1, "The " BOLD("%.8s") " texture is missing patch %i.",
-                    uppercase(temp), SHORT(mpatch->patch));
+                    temp, SHORT(mpatch->patch));
                 patch->patch = W_CheckNumForName("TNT1A0");
                 free(temp);
             }
