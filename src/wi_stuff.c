@@ -1067,7 +1067,7 @@ static void WI_DrawShowNextLoc(void)
         return;
 
     // draws which level you are entering...
-    if (gamemode != commercial || wbs->next != 30)
+    if (gamemode != commercial || wbs->next != 30 || (animation && animation->interlevelentering))
         WI_DrawEL();
 }
 
