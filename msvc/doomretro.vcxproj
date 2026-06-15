@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -97,7 +97,7 @@
     </ResourceCompile>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
       <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
@@ -161,7 +161,7 @@
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
-      <EnableDPIAwareness>true</EnableDPIAwareness>
+      <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
