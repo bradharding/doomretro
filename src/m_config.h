@@ -169,6 +169,7 @@ extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
+extern int      r_invulnerabilityeffect;
 extern bool     r_linearskies;
 extern bool     r_liquid_bob;
 extern bool     r_liquid_bobsprites;
@@ -343,6 +344,12 @@ enum
 {
     r_detail_low,
     r_detail_high
+};
+
+enum
+{
+    r_invulnerabilityeffect_inverted,
+    r_invulnerabilityeffect_gray
 };
 
 enum
@@ -767,6 +774,10 @@ enum
 #define r_hud_default                       false
 
 #define r_hud_translucency_default          true
+
+#define r_invulnerabilityeffect_min         r_invulnerabilityeffect_inverted
+#define r_invulnerabilityeffect_default     r_invulnerabilityeffect_inverted
+#define r_invulnerabilityeffect_max         r_invulnerabilityeffect_gray
 
 #define r_linearskies_default               false
 
@@ -1218,6 +1229,7 @@ typedef enum
     ENGLISHVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
+    INVULNVALUEALIAS,
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
     SECRETCOLORVALUEALIAS,

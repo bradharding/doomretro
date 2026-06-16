@@ -1420,7 +1420,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+    if (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap))
     {
         // fixed map
         vis->colormap = fixedcolormap;
@@ -1521,7 +1521,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->patch = splat->patch;
 
     // get light level
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+    if (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap))
     {
         vis->colormap = fixedcolormap;
         vis->sectorcolormap = fullcolormap;
@@ -1823,7 +1823,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         if (fixedcolormap)
         {
             vis->colormap = fixedcolormap;       // fixed color
-            vis->sectorcolormap = (viewplayer->fixedcolormap != INVERSECOLORMAP ?
+            vis->sectorcolormap = (!ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
                 R_GetSectorColormap(sec) : fullcolormap);
         }
         else
@@ -2160,7 +2160,7 @@ void R_DrawMasked(void)
     }
 
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
-    invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
+    invulnerable = (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) && r_sprites_translucency);
 
     if (drawbloodsplats && bloodsplat_blocklinks && !menuactive)
         R_AddBloodSplats();

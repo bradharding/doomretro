@@ -268,6 +268,10 @@ enum
 
 // Index of the special effects (INVUL inverse) map.
 #define INVERSECOLORMAP         32
+#define GRAYCOLORMAP            33
+
+#define ISINVULNERABILITYCOLORMAP(colormap) \
+    ((colormap) == INVERSECOLORMAP || (colormap) == GRAYCOLORMAP)
 
 // phares 03/20/98:
 //

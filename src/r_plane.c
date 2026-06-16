@@ -687,7 +687,7 @@ void R_DrawPlanes(void)
                     ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_SwirlingFlat(picnum) : lumpinfo[firstflat + flatnum]->cache);
                     ds_brightmap = (usebrightmaps ? flatbrightmap[flatnum] : NULL);
-                    ds_sectorcolormap = (pl->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
+                    ds_sectorcolormap = (pl->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
                         colormaps[pl->colormap] : fullcolormap);
 
                     R_MakeSpans(pl);

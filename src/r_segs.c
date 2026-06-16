@@ -273,7 +273,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     {
         dc_colormap[0] = fixedcolormap;
         dc_nextcolormap[0] = fixedcolormap;
-        dc_sectorcolormap = (frontsector->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
+        dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
             colormaps[frontsector->colormap] : fullcolormap);
         colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     }
@@ -446,7 +446,7 @@ static void R_RenderSegLoop(void)
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
             if (fixedcolormap)
-                dc_sectorcolormap = (frontsector->colormap && viewplayer->fixedcolormap != INVERSECOLORMAP ?
+                dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
                     colormaps[frontsector->colormap] : fullcolormap);
             else
             {

@@ -1017,6 +1017,8 @@ consolecmd_t consolecmds[] =
         "Toggles a heads-up display when widescreen."),
     BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
         "Toggles the translucency of the heads-up display when widescreen."),
+    INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, intfunc2, 0, INVULNVALUEALIAS,
+        "The effect when you have an invulnerability power-up (" BOLD("inverted") " or " BOLD("gray") ")."),
     BOOLCVAR(r_linearskies, "", "", boolfunc1, boolfunc2, 0,
         "Toggles horizontally linear skies."),
     BOOLCVAR(r_liquid_bob, "", "", boolfunc1, boolfunc2, 0,

@@ -780,10 +780,8 @@ void P_PlayerThink(void)
     // Handling colormaps.
     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING
         || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
-    {
-        if (r_textures)
-            viewplayer->fixedcolormap = INVERSECOLORMAP;
-    }
+        viewplayer->fixedcolormap = (r_invulnerabilityeffect == r_invulnerabilityeffect_gray ?
+            GRAYCOLORMAP : INVERSECOLORMAP);
     else
         viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING
             || (viewplayer->powers[pw_infrared] & FLASHONTIC));

@@ -1188,7 +1188,9 @@ static void R_SetupFrame(void)
 
         usebrightmaps = false;
 
-        if (r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
+        if (viewplayer->fixedcolormap == GRAYCOLORMAP)
+            fixedcolormap = grays;
+        else if (r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
             fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
 
         for (int i = 0; i < MAXLIGHTSCALE; i++)
