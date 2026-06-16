@@ -2,6 +2,8 @@
 
 ### DOOM Retro v6.1.2
 
+* The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `inverted` (the default) or `gray`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, June 14, 2026
