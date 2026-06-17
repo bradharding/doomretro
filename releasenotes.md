@@ -2,7 +2,10 @@
 
 ### DOOM Retro v6.1.2
 
+* *DOOM Retro* is now built using v18.7.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `inverted` (the default) or `gray`.
+* `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
+* A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
