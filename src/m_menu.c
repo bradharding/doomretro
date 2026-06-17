@@ -1606,8 +1606,12 @@ static void M_DrawHelp(void)
         }
         else if (autosigil || W_GetNumLumps(lumpname) <= 2)
         {
-            viewplayer->fixedcolormap = 0;
-            viewplayer->mo->angle = playerangle;
+            if (gamestate == GS_LEVEL)
+            {
+                viewplayer->fixedcolormap = 0;
+                viewplayer->mo->angle = playerangle;
+            }
+
             M_DrawHelpBackground();
             V_DrawHelpPatch(W_CacheXLumpName(lumpname, 2));
         }

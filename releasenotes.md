@@ -6,6 +6,7 @@
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `inverted` (the default) or `gray`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
+* A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
