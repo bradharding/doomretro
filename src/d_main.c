@@ -3070,7 +3070,7 @@ static void D_DoomMainSetup(void)
     fineprintwidth = SHORT(fineprintlump->width);
     fineprintheight = SHORT(fineprintlump->height);
     fineprintx = (SCREENWIDTH - fineprintwidth) / 2 + 1;
-    fineprinty = SCREENHEIGHT - fineprintheight - 15;
+    fineprinty = SCREENHEIGHT - fineprintheight - 14;
 
     if (autosigil)
     {
