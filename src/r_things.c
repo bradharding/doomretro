@@ -83,6 +83,7 @@ static unsigned int             drawsegs_xrange_size;
 static int                      drawsegs_xrange_count;
 
 static mobj_t                   **nearby_sprites;
+static fixed_t                  *spritebottomoffset;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
@@ -133,6 +134,33 @@ static lighttable_t *R_GetSectorColormap(sector_t *sector)
         return colormaps[sector->colormap];
     else
         return fullcolormap;
+}
+
+void R_InitSpriteBottomOffsets(void)
+{
+    spritebottomoffset = I_Malloc(numspritelumps * sizeof(*spritebottomoffset));
+
+    for (int i = 0; i < numspritelumps; i++)
+    {
+        const rpatch_t  *patch = R_CachePatchNum(i + firstspritelump);
+        const int       width = patch->width;
+        int             bottompixel = 0;
+
+        for (int i = 0; i < width; i++)
+        {
+            const rcolumn_t *column = &patch->columns[i];
+            const int       numposts = column->numposts;
+
+            for (int j = 0; j < numposts; j++)
+            {
+                const rpost_t   *post = &column->posts[j];
+
+                bottompixel = MAX(bottompixel, post->topdelta + post->length);
+            }
+        }
+
+        spritebottomoffset[i] = bottompixel << FRACBITS;
+    }
 }
 
 //
@@ -1367,7 +1395,9 @@ static void R_ProjectSprite(mobj_t *thing)
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
     {
-        if (topoffset - height <= 4 * FRACUNIT)
+        const fixed_t   bottomoffset = spritebottomoffset[lump];
+
+        if (topoffset - bottomoffset <= 4 * FRACUNIT)
         {
             fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
 
@@ -1376,7 +1406,7 @@ static void R_ProjectSprite(mobj_t *thing)
             if (r_liquid_bobsprites)
                 clipfeet += animatedliquiddiff;
 
-            vis->footclip = FixedMul(height - clipfeet, xscale);
+            vis->footclip = FixedMul(MAX(bottomoffset - clipfeet, 0), xscale);
             vis->drawfunc = (vis->shadowz == -1 ? &R_DrawVisSpriteClipped : &R_DrawVisSpriteClippedWithShadow);
         }
         else

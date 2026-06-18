@@ -1052,6 +1052,7 @@ void R_Init(void)
     R_InitLightTables();
     R_InitTranslationTables();
     R_InitPatches();
+    R_InitSpriteBottomOffsets();
     R_InitSwirlingFlats();
     R_InitColumnFunctions();
 }
