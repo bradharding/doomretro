@@ -223,6 +223,7 @@ int         savegame = savegame_default;
 bool        secretmessages = secretmessages_default;
 int         skilllevel = skilllevel_default;
 bool        smoothtransitions = smoothtransitions_default;
+bool        snapcrosshair = snapcrosshair_default;
 int         stillbob = stillbob_default;
 int         sucktime = sucktime_default;
 bool        tossdrop = tossdrop_default;
@@ -488,6 +489,7 @@ static default_t cvars[] =
     CVAR_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                        BOOLVALUEALIAS        ),
     CVAR_INT          (skilllevel,                       skilllevel,                            skilllevel,                            0                     ),
     CVAR_BOOL         (smoothtransitions,                fade,                                  smoothtransitions,                     BOOLVALUEALIAS        ),
+    CVAR_BOOL         (snapcrosshair,                    snapcrosshair,                         snapcrosshair,                         0                     ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              0                     ),
     CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKSVALUEALIAS       ),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS        ),

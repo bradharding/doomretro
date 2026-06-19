@@ -39,17 +39,21 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_lib.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_timer.h"
+#include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_setup.h"
+#include "r_main.h"
+#include "r_state.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -444,15 +448,34 @@ static int HUDNumberWidth(int val)
 
 static void HU_DrawCrosshair(void)
 {
+    const int   width = crosshairwidth[crosshair - 1];
+    const int   height = crosshairheight[crosshair - 1];
+    int         x = (SCREENWIDTH - width) / 2;
+    int         y = (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - height) / 2;
+
+    if (snapcrosshair && autoaim)
+    {
+        mobj_t      *oldlinetarget = linetarget;
+        angle_t     angle;
+        fixed_t     slope;
+        const fixed_t viewslope = (usefreelook ? PLAYERSLOPE(viewplayer) : 0);
+
+        P_AimPlayerWeapon(viewplayer->mo, &angle, &slope);
+        linetarget = oldlinetarget;
+
+        if (joy_autoaim_horizontal && usingcontroller)
+            x -= FixedMul(projection, AngleToSlope((int)(angle - viewangle))) >> FRACBITS;
+
+        y -= FixedMul(projection, slope - viewslope) >> FRACBITS;
+        x = BETWEEN(viewwindowx, x, viewwindowx + viewwidth - width);
+        y = BETWEEN(viewwindowy, y, viewwindowy + viewheight - height);
+    }
+
     if (r_hud_translucency)
-        althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
-            (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
-            crosshairpatch[crosshair - 1], WHITE, nearestcolors[crosshaircolor],
+        althudfunc(x, y, crosshairpatch[crosshair - 1], WHITE, nearestcolors[crosshaircolor],
             (viewplayer->attackdown ? tinttab60 : tinttab50), -1);
     else
-        althudfunc((SCREENWIDTH - crosshairwidth[crosshair - 1]) / 2,
-            (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - crosshairheight[crosshair - 1]) / 2,
-            crosshairpatch[crosshair - 1], WHITE, (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
+        althudfunc(x, y, crosshairpatch[crosshair - 1], WHITE, (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
             black25[nearestcolors[crosshaircolor]]), NULL, -1);
 }
 

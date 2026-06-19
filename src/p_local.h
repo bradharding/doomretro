@@ -172,6 +172,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color, const 
     const bool checklineside, const fixed_t maxheight, mobj_t *target);
 bool P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, const mobj_t *dest, mobjtype_t type);
+void P_AimPlayerWeapon(mobj_t *source, angle_t *angle, fixed_t *slope);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t turnmax, const bool seekcenter);

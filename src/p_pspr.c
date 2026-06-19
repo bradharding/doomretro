@@ -628,14 +628,15 @@ void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 static fixed_t  bulletslope;
 static angle_t  bulletangle;
 
-static void P_BulletSlope(mobj_t *actor)
+void P_AimPlayerWeapon(mobj_t *source, angle_t *angle, fixed_t *slope)
 {
-    angle_t an = actor->angle;
+    angle_t an = source->angle;
+    fixed_t aimslope;
 
     if (usefreelook && !autoaim)
     {
-        bulletslope = PLAYERSLOPE(viewplayer);
-        bulletangle = an;
+        aimslope = PLAYERSLOPE(source->player);
+        an = source->angle;
     }
     else
     {
@@ -645,28 +646,39 @@ static void P_BulletSlope(mobj_t *actor)
         do
         {
             // see which target is to be aimed at
-            an = actor->angle;
-            bulletslope = P_AimLineAttack(actor, an, 16 * 64 * FRACUNIT, mask);
+            an = source->angle;
+            aimslope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT, mask);
 
             if (!linetarget)
             {
-                bulletslope = P_AimLineAttack(actor, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
+                aimslope = P_AimLineAttack(source, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
 
                 if (!linetarget)
                 {
-                    bulletslope = P_AimLineAttack(actor, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
+                    aimslope = P_AimLineAttack(source, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
-                    if (!linetarget && usefreelook)
+                    if (!linetarget)
                     {
-                        an = actor->angle;
-                        bulletslope = PLAYERSLOPE(viewplayer);
+                        an = source->angle;
+
+                        if (usefreelook)
+                            aimslope = PLAYERSLOPE(source->player);
                     }
                 }
             }
-
-            bulletangle = an;
         } while (mask && (mask = 0, !linetarget));  // killough 08/02/98
     }
+
+    if (angle)
+        *angle = an;
+
+    if (slope)
+        *slope = aimslope;
+}
+
+static void P_BulletSlope(mobj_t *actor)
+{
+    P_AimPlayerWeapon(actor, &bulletangle, &bulletslope);
 }
 
 //

@@ -1791,40 +1791,12 @@ mobj_t *P_SpawnMissile(mobj_t *source, const mobj_t *dest, mobjtype_t type)
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
-    angle_t an = source->angle;
+    angle_t an;
     fixed_t x, y, z;
     fixed_t slope;
     int     speed;
 
-    if (usefreelook && !autoaim)
-        slope = PLAYERSLOPE(source->player);
-    else
-    {
-        // killough 08/02/98: prefer autoaiming at enemies
-        int mask = MF_FRIEND;
-
-        do
-        {
-            // see which target is to be aimed at
-            slope = P_AimLineAttack(source, an, 16 * 64 * FRACUNIT, mask);
-
-            if (!linetarget)
-            {
-                slope = P_AimLineAttack(source, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
-
-                if (!linetarget)
-                {
-                    slope = P_AimLineAttack(source, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
-
-                    if (!linetarget)
-                    {
-                        an = source->angle;
-                        slope = (usefreelook ? PLAYERSLOPE(source->player) : 0);
-                    }
-                }
-            }
-        } while (mask && (mask = 0, !linetarget));  // killough 08/02/98
-    }
+    P_AimPlayerWeapon(source, &an, &slope);
 
     x = source->x;
     y = source->y;

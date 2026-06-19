@@ -94,6 +94,7 @@ extern bool     con_timestamps;
 extern int      con_warninglevel;
 extern int      crosshair;
 extern int      crosshaircolor;
+extern bool     snapcrosshair;
 extern int      english;
 extern int      episode;
 extern int      expansion;
@@ -870,6 +871,8 @@ enum
 #define skilllevel_max                      5
 
 #define smoothtransitions_default           true
+
+#define snapcrosshair_default               false
 
 #define stillbob_min                        0
 #define stillbob_default                    0

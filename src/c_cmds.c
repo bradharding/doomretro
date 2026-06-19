@@ -1125,6 +1125,8 @@ consolecmd_t consolecmds[] =
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
     BOOLCVAR(smoothtransitions, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the effects when transitioning between some screens."),
+    BOOLCVAR(snapcrosshair, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles snapping the crosshair to where you'll fire your weapon when autoaiming."),
     CCMD(spawn, "", summon, spawnfunc1, spawnfunc2, true, SPAWNFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
     PERCENTCVAR(stillbob, "", "", intfunc1, intfunc2,
