@@ -292,7 +292,7 @@ int FindDominantEdgeColor(patch_t *patch)
 
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
-    byte    *result = I_Malloc((size_t)256 * 256);
+    byte    *result = I_Malloc(256 * 256 * sizeof(*result));
 
     for (int foreground = 0; foreground < 256; foreground++)
         if ((filter[foreground] & colors) || colors == ALL)
@@ -315,7 +315,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
 static byte *GenerateAdditiveTintTable(byte *palette, int colors)
 {
-    byte    *result = I_Malloc((size_t)256 * 256);
+    byte    *result = I_Malloc(256 * 256 * sizeof(*result));
 
     for (int foreground = 0; foreground < 256; foreground++)
         if ((filter[foreground] & colors) || colors == ALL)

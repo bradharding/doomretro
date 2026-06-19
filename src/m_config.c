@@ -489,7 +489,7 @@ static default_t cvars[] =
     CVAR_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                        BOOLVALUEALIAS        ),
     CVAR_INT          (skilllevel,                       skilllevel,                            skilllevel,                            0                     ),
     CVAR_BOOL         (smoothtransitions,                fade,                                  smoothtransitions,                     BOOLVALUEALIAS        ),
-    CVAR_BOOL         (snapcrosshair,                    snapcrosshair,                         snapcrosshair,                         0                     ),
+    CVAR_BOOL         (snapcrosshair,                    snapcrosshair,                         snapcrosshair,                         BOOLVALUEALIAS        ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              0                     ),
     CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKSVALUEALIAS       ),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS        ),
