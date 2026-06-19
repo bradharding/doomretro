@@ -945,7 +945,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", "", nullfunc1, playerstatsfunc2, false, "",
         "Shows stats about you."),
     CCMD(print, "", "", ingameccmdfunc1, printfunc2, true, PRINTFORMAT,
-        "Prints a player \"" BOLDITALICS("message") "\"."),
+        "Prints a player " BOLDITALICS("\"message\"") "."),
     CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),
     BOOLCVAR(r_althud, "", "", boolfunc1, boolfunc2, 0,
@@ -1104,7 +1104,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(s_lowermenumusic, "", "", boolfunc1, boolfunc2, 0,
         "Toggles lowering the music's volume in the menu and console."),
     BOOLCVAR(s_musicinbackground, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME) "'s window loses focus."),
+        "Toggles continuing to play music in the background when " ITALICS(DOOMRETRO_NAME "'s") " window loses focus."),
     PERCENTCVAR(s_musicvolume, "", "", s_volumecvarsfunc1, s_volumecvarsfunc2,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
     BOOLCVAR(s_randommusic, "", "", boolfunc1, s_randommusicfunc2, 0,
@@ -1218,8 +1218,8 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(vid_widescreen, "", "", boolfunc1, vid_widescreenfunc2, 0,
         "Toggles widescreen."),
     OTHERCVAR(vid_windowpos, "", vid_windowposition, nullfunc1, vid_windowposfunc2,
-        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(")
-        BOLDITALICS("x") BOLD(",") BOLDITALICS("y") BOLD(")") ")."),
+        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("("
+        ITALICS("x") BOLD(",") ITALICS("y") ")") ")."),
     OTHERCVAR(vid_windowsize, "", "", nullfunc1, vid_windowsizefunc2,
         "The size of the window on the desktop (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
 #if defined(_WIN32)
