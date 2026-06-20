@@ -281,7 +281,7 @@ void C_HideConsoleFast(void);
 void C_BeginOpenConsoleDrag(void);
 void C_UpdateOpenConsoleDrag(int y);
 void C_EndOpenConsoleDrag(void);
-void C_DrawOpenConsoleHint(void);
+void C_DrawOpenConsoleHint(int y);
 void C_Drawer(void);
 bool C_ExecuteInputString(const char *input);
 bool C_ValidateInput(char *input);

@@ -73,6 +73,7 @@
 #define SKULLANIMCOUNT     10
 #define CONSOLEDRAGZONE     3
 #define CONSOLEDRAGDELTA    4
+#define CONSOLEHINTHEIGHT   7
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -134,6 +135,7 @@ int             caretcolor;
 int             menublurtic = -1;
 static int      functionkey;
 static int      openconsolehintwait = -1;
+static int      openconsolehinty = -CONSOLEHINTHEIGHT;
 
 // current menudef
 menu_t          *currentmenu;
@@ -4929,6 +4931,12 @@ static void M_DrawNightmare(bool highlight)
 void M_Drawer(void)
 {
     static short    x, y;
+    const bool      showopenconsolehint = M_CanDrawOpenConsoleHint();
+    bool            drawopenconsolehint;
+
+    openconsolehinty = (showopenconsolehint ? MIN(openconsolehinty + 1, 0) :
+        MAX(openconsolehinty - 1, -CONSOLEHINTHEIGHT));
+    drawopenconsolehint = (openconsolehinty > -CONSOLEHINTHEIGHT);
 
     if (consoleheight && !consoledirection)
         return;
@@ -4942,16 +4950,16 @@ void M_Drawer(void)
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
 
-        if (M_CanDrawOpenConsoleHint())
-            C_DrawOpenConsoleHint();
+        if (drawopenconsolehint)
+            C_DrawOpenConsoleHint(openconsolehinty);
 
         return;
     }
 
     if (!menuactive)
     {
-        if (M_CanDrawOpenConsoleHint())
-            C_DrawOpenConsoleHint();
+        if (drawopenconsolehint)
+            C_DrawOpenConsoleHint(openconsolehinty);
 
         helpscreen = false;
         palettescreen = false;
@@ -5259,8 +5267,8 @@ void M_Drawer(void)
                 currentmenu->menuitems[i].width = widest;
         }
 
-        if (M_CanDrawOpenConsoleHint())
-            C_DrawOpenConsoleHint();
+        if (drawopenconsolehint)
+            C_DrawOpenConsoleHint(openconsolehinty);
     }
 }
 
