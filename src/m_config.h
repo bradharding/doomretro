@@ -349,8 +349,8 @@ enum
 
 enum
 {
-    r_invulnerabilityeffect_inverted,
-    r_invulnerabilityeffect_gray
+    r_invulnerabilityeffect_invertedgrayscale,
+    r_invulnerabilityeffect_grayscale
 };
 
 enum
@@ -776,9 +776,9 @@ enum
 
 #define r_hud_translucency_default          true
 
-#define r_invulnerabilityeffect_min         r_invulnerabilityeffect_inverted
-#define r_invulnerabilityeffect_default     r_invulnerabilityeffect_inverted
-#define r_invulnerabilityeffect_max         r_invulnerabilityeffect_gray
+#define r_invulnerabilityeffect_min         r_invulnerabilityeffect_invertedgrayscale
+#define r_invulnerabilityeffect_default     r_invulnerabilityeffect_invertedgrayscale
+#define r_invulnerabilityeffect_max         r_invulnerabilityeffect_grayscale
 
 #define r_linearskies_default               false
 

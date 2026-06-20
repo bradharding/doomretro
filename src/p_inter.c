@@ -717,7 +717,7 @@ bool P_GivePower(const int power, const bool stat)
     switch (power)
     {
         case pw_invulnerability:
-            viewplayer->fixedcolormap = (r_invulnerabilityeffect == r_invulnerabilityeffect_gray ?
+            viewplayer->fixedcolormap = (r_invulnerabilityeffect == r_invulnerabilityeffect_grayscale ?
                 GRAYCOLORMAP : INVERSECOLORMAP);
 
             break;

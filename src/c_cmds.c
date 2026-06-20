@@ -951,7 +951,8 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_althud, "", "", boolfunc1, boolfunc2, 0,
         "Toggles an alternate heads-up display when widescreen."),
     BOOLCVAR(r_althud_ammobars, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate HUD."),
+        "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate "
+        "HUD."),
     BOOLCVAR(r_althudfont, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying messages in an alternate font when the alternate HUD is displayed."),
     BOOLCVAR(r_antialiasing, "", "", boolfunc1, r_antialiasingfunc2, 0,
@@ -1019,7 +1020,8 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
         "Toggles the translucency of the heads-up display when widescreen."),
     INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, r_invulnerabilityeffectfunc2, 0, INVULNVALUEALIAS,
-        "The effect when you have an invulnerability power-up (" BOLD("inverted") " or " BOLD("gray") ")."),
+        "The effect when you have an invulnerability power-up (" BOLD("invertedgrayscale") " or "
+        BOLD("grayscale") ")."),
     BOOLCVAR(r_linearskies, "", "", boolfunc1, boolfunc2, 0,
         "Toggles horizontally linear skies."),
     BOOLCVAR(r_liquid_bob, "", "", boolfunc1, boolfunc2, 0,
@@ -1126,7 +1128,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(smoothtransitions, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the effects when transitioning between some screens."),
     BOOLCVAR(snapcrosshair, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles snapping the crosshair to where you'll fire your weapon when autoaiming."),
+        "Toggles snapping the crosshair to where your weapon will fire when autoaiming."),
     CCMD(spawn, "", summon, spawnfunc1, spawnfunc2, true, SPAWNFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
     PERCENTCVAR(stillbob, "", "", intfunc1, intfunc2,
@@ -1227,7 +1229,7 @@ consolecmd_t consolecmds[] =
         "The last WAD(s) to be opened by the WAD launcher."),
 #endif
     STRCVAR(wadfolder, "", "", nullfunc1, strfunc2, 0, MAX_PATH,
-        "The folder the currently loaded WAD is in."),
+        "The folder of the currently loaded WAD(s)."),
     INTCVAR(weapon, "", "", weaponfunc1, weaponfunc2, 0, WEAPONVALUEALIAS,
         "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", "
         BOLD("shotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", "
@@ -11993,7 +11995,7 @@ static void r_invulnerabilityeffectfunc2(char *cmd, char *parms)
         && gamestate == GS_LEVEL
         && (viewplayer->powers[pw_invulnerability] > STARTFLASHING
         || (viewplayer->powers[pw_invulnerability] & FLASHONTIC)))
-        viewplayer->fixedcolormap = (r_invulnerabilityeffect == r_invulnerabilityeffect_gray ?
+        viewplayer->fixedcolormap = (r_invulnerabilityeffect == r_invulnerabilityeffect_grayscale ?
             GRAYCOLORMAP : INVERSECOLORMAP);
 }
 

@@ -3,10 +3,11 @@
 ### DOOM Retro v6.1.2
 
 * *DOOM Retro* is now built using v18.7.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `inverted` (the default) or `gray`.
+* The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
+* The crosshair may now snap to where your weapon will fire when autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
