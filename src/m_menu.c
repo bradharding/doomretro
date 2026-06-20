@@ -3444,12 +3444,13 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        static bool draggingconsole;
-        static bool leftbuttondown;
-        static int  consoleopendragstart;
-        static int  consoleopendragpagetic;
-        const bool  leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
-        const bool  newleftbuttonpress = (leftbutton && !leftbuttondown);
+        static bool     draggingconsole;
+        static bool     leftbuttondown;
+        static int      consoleopendragstart;
+        static int      consoleopendragpagetic;
+        static uint64_t consoleopendragtime;
+        const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
+        const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
 
         if (M_CanOpenConsoleWithMouseDrag())
             openconsolehintwait = ev->data3;
@@ -3464,7 +3465,8 @@ bool M_Responder(event_t *ev)
             {
                 draggingconsole = false;
 
-                if (consoleheight >= consoleopendragstart * 2 + CONSOLEDRAGDELTA * 2 - 4)
+                if (consoleheight >= consoleopendragstart * 2 + CONSOLEDRAGDELTA * 2 - 4
+                    || I_GetTimeMS() - consoleopendragtime <= 200)
                     M_OpenConsole();
                 else
                     C_EndOpenConsoleDrag();
@@ -3482,6 +3484,7 @@ bool M_Responder(event_t *ev)
             draggingconsole = true;
             consoleopendragstart = ev->data3;
             consoleopendragpagetic = pagetic;
+            consoleopendragtime = I_GetTimeMS();
             consoleoverlaymenu = menuactive;
             C_BeginOpenConsoleDrag();
             C_UpdateOpenConsoleDrag(ev->data3 * 2);
