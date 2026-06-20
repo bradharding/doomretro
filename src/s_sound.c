@@ -419,7 +419,7 @@ static int S_GetPreferredMusicLump(const int lumpnum)
         {
             int preferredlumpnum;
 
-            namebuf[0] = 'H';
+            namebuf[0] = (s_remix ? 'H' : 'O');
             preferredlumpnum = W_CheckNumForName(namebuf);
 
             if (preferredlumpnum >= 0)
@@ -704,9 +704,12 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
     if (M_StringStartsWith(name, "d_"))
         M_StringCopy(namebuf, name, sizeof(namebuf));
-    else if (*music->IDKFA && !legacyofrust)
+    else if (extras && *music->IDKFA && !legacyofrust)
     {
         M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
+
+        if (namebuf[0] == 'H' && namebuf[1] == '_')
+            namebuf[0] = (s_remix ? 'H' : 'O');
 
         if (W_CheckNumForName(namebuf) == -1)
             M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);
@@ -752,9 +755,12 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
         name = fallbackmusic->name2;
 
-        if (*fallbackmusic->IDKFA && !legacyofrust)
+        if (extras && *fallbackmusic->IDKFA && !legacyofrust)
         {
             M_StringCopy(namebuf, fallbackmusic->IDKFA, sizeof(namebuf));
+
+            if (namebuf[0] == 'H' && namebuf[1] == '_')
+                namebuf[0] = (s_remix ? 'H' : 'O');
 
             if (W_CheckNumForName(namebuf) == -1)
                 M_snprintf(namebuf, sizeof(namebuf), "d_%s", name);

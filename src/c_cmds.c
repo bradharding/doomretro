@@ -558,6 +558,7 @@ static void r_sprites_translucencyfunc2(char *cmd, char *parms);
 static void r_texturesfunc2(char *cmd, char *parms);
 static void r_textures_translucencyfunc2(char *cmd, char *parms);
 static void s_randommusicfunc2(char *cmd, char *parms);
+static void s_remixfunc2(char *cmd, char *parms);
 static bool s_volumecvarsfunc1(char *cmd, char *parms);
 static void s_volumecvarsfunc2(char *cmd, char *parms);
 static void savegamefunc2(char *cmd, char *parms);
@@ -1113,6 +1114,8 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the music for each map."),
     BOOLCVAR(s_randompitch, "", "", boolfunc1, boolfunc2, 0,
         "Toggles randomizing the pitch of sound effects made by monsters."),
+    BOOLCVAR(s_remix, "", "", boolfunc1, s_remixfunc2, 0,
+        "Toggles playing Andrew Hulshult's " ITALICS("IDKFA") " soundtrack from " BOLD("extras.wad") " (if present)."),
     PERCENTCVAR(s_sfxvolume, "", "", s_volumecvarsfunc1, s_volumecvarsfunc2,
         "The volume level of sound effects (" BOLD("0%") " to " BOLD("100%") ")."),
     BOOLCVAR(s_stereo, "", "", boolfunc1, boolfunc2, 0,
@@ -6367,13 +6370,35 @@ static void mapstatsfunc2(char *cmd, char *parms)
         {
             char    lumpname[9];
 
-            if ((*s_music[i].IDKFA && M_StringCompare(namebuf, s_music[i].IDKFA)))
+            if (*s_music[i].IDKFA)
+            {
+                M_StringCopy(lumpname, s_music[i].IDKFA, sizeof(lumpname));
+
+                if (M_StringCompare(namebuf, lumpname))
+                {
+                    musicinfo = &s_music[i];
+                    break;
+                }
+
+                if (lumpname[0] == 'H' && lumpname[1] == '_')
+                    lumpname[0] = 'O';
+
+                if (M_StringCompare(namebuf, lumpname))
+                {
+                    musicinfo = &s_music[i];
+                    break;
+                }
+            }
+
+            M_snprintf(lumpname, sizeof(lumpname), "H_%s", s_music[i].name2);
+
+            if (M_StringCompare(namebuf, lumpname))
             {
                 musicinfo = &s_music[i];
                 break;
             }
 
-            M_snprintf(lumpname, sizeof(lumpname), "H_%s", s_music[i].name2);
+            M_snprintf(lumpname, sizeof(lumpname), "O_%s", s_music[i].name2);
 
             if (M_StringCompare(namebuf, lumpname))
             {
@@ -12322,6 +12347,19 @@ static void s_randommusicfunc2(char *cmd, char *parms)
     boolfunc2(cmd, parms);
 
     if (s_randommusic != s_randommusic_old && gamestate == GS_LEVEL)
+        S_Start();
+}
+
+//
+// s_remix CVAR
+//
+static void s_remixfunc2(char *cmd, char *parms)
+{
+    const bool  s_remix_old = s_remix;
+
+    boolfunc2(cmd, parms);
+
+    if (s_remix != s_remix_old && gamestate == GS_LEVEL)
         S_Start();
 }
 

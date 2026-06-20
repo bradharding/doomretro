@@ -111,7 +111,7 @@ bool I_InitMusic(void)
         C_Warning(1, "Music couldn't be completely %s. Volume adjustment could be affected.",
             (english == english_american ? "initialized" : "initialised"));
 
-    if (extras && W_CheckNumForName("H_INTRO") >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
+    if (extras && W_CheckNumForName((s_remix ? "H_INTRO" : "O_INTRO")) >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
         return true;
 #endif
 

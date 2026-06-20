@@ -205,6 +205,7 @@ extern bool     s_musicinbackground;
 extern int      s_musicvolume;
 extern bool     s_randommusic;
 extern bool     s_randompitch;
+extern bool     s_remix;
 extern int      s_sfxvolume;
 extern bool     s_stereo;
 extern int      savegame;
@@ -853,6 +854,8 @@ enum
 #define s_randommusic_default               false
 
 #define s_randompitch_default               false
+
+#define s_remix_default                     true
 
 #define s_sfxvolume_min                     0
 #define s_sfxvolume_default                 100

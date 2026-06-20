@@ -522,7 +522,9 @@ bool W_AddFile(char *filename, bool autoloaded)
         else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
             extraswadadded = true;
-            C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");
+
+            if (s_remix)
+                C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");
         }
     }
 

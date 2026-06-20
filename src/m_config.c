@@ -217,6 +217,7 @@ bool        s_musicinbackground = s_musicinbackground_default;
 int         s_musicvolume = s_musicvolume_default;
 bool        s_randommusic = s_randommusic_default;
 bool        s_randompitch = s_randompitch_default;
+bool        s_remix = s_remix_default;
 int         s_sfxvolume = s_sfxvolume_default;
 bool        s_stereo = s_stereo_default;
 int         savegame = savegame_default;
@@ -483,6 +484,7 @@ static default_t cvars[] =
     CVAR_INT_PERCENT  (s_musicvolume,                    s_musicvolume,                         s_musicvolume,                         0                     ),
     CVAR_BOOL         (s_randommusic,                    s_randommusic,                         s_randommusic,                         BOOLVALUEALIAS        ),
     CVAR_BOOL         (s_randompitch,                    s_randompitch,                         s_randompitch,                         BOOLVALUEALIAS        ),
+    CVAR_BOOL         (s_remix,                          s_remix,                               s_remix,                               BOOLVALUEALIAS        ),
     CVAR_INT_PERCENT  (s_sfxvolume,                      s_sfxvolume,                           s_sfxvolume,                           0                     ),
     CVAR_BOOL         (s_stereo,                         s_stereo,                              s_stereo,                              BOOLVALUEALIAS        ),
     CVAR_INT          (savegame,                         savegame,                              savegame,                              0                     ),
