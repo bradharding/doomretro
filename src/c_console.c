@@ -1317,7 +1317,7 @@ void C_EndOpenConsoleDrag(void)
     consoleoverlaymenu = false;
 }
 
-void C_DrawOpenConsoleHint(int y)
+void C_DrawConsoleEdge(int y)
 {
     const int   color = (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor] << 8);
 
@@ -3872,7 +3872,6 @@ bool C_Responder(event_t *ev)
                 }
             }
         }
-
         else
         {
             // left button released: stop mouse selection

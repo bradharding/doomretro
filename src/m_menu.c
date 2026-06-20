@@ -71,9 +71,6 @@
 #define MENUPITCH         128
 #define OFFSET             17
 #define SKULLANIMCOUNT     10
-#define CONSOLEDRAGZONE     3
-#define CONSOLEDRAGDELTA    4
-#define CONSOLEHINTHEIGHT   7
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -134,8 +131,8 @@ int             caretcolor;
 
 int             menublurtic = -1;
 static int      functionkey;
-static int      openconsolehintwait = -1;
-static int      openconsolehinty = -CONSOLEHINTHEIGHT;
+static int      openconsoleedgewait = -1;
+static int      openconsoleedgey = -CONSOLEEDGEHEIGHT;
 
 // current menudef
 menu_t          *currentmenu;
@@ -3244,7 +3241,7 @@ static bool M_CanDrawOpenConsoleHint(void)
 {
     return (m_pointer && usingmouse && !usingcontroller && !consoleheight
         && (gamestate == GS_TITLESCREEN || (menuactive && !helpscreen))
-        && openconsolehintwait >= 0 && openconsolehintwait <= 20);
+        && openconsoleedgewait >= 0 && openconsoleedgewait <= CONSOLEEDGEHOTSPOTHEIGHT);
 }
 
 static bool M_CanOpenConsoleWithMouseDrag(void)
@@ -3452,10 +3449,7 @@ bool M_Responder(event_t *ev)
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
 
-        if (M_CanOpenConsoleWithMouseDrag())
-            openconsolehintwait = ev->data3;
-        else
-            openconsolehintwait = -1;
+        openconsoleedgewait = (M_CanOpenConsoleWithMouseDrag() ? ev->data3 : -1);
 
         if (draggingconsole)
         {
@@ -4925,9 +4919,9 @@ void M_Drawer(void)
     const bool      showopenconsolehint = M_CanDrawOpenConsoleHint();
     bool            drawopenconsolehint;
 
-    openconsolehinty = (showopenconsolehint ? MIN(openconsolehinty + 1, 0) :
-        MAX(openconsolehinty - 1, -CONSOLEHINTHEIGHT));
-    drawopenconsolehint = (openconsolehinty > -CONSOLEHINTHEIGHT);
+    openconsoleedgey = (showopenconsolehint ? MIN(openconsoleedgey + 1, 0) :
+        MAX(openconsoleedgey - 1, -CONSOLEEDGEHEIGHT));
+    drawopenconsolehint = (openconsoleedgey > -CONSOLEEDGEHEIGHT);
 
     if (consoleheight && !consoledirection && !(consoleoverlaymenu && menuactive))
         return;
@@ -4942,7 +4936,7 @@ void M_Drawer(void)
             M_DrawQuitMessageButtons();
 
         if (drawopenconsolehint)
-            C_DrawOpenConsoleHint(openconsolehinty);
+            C_DrawConsoleEdge(openconsoleedgey);
 
         return;
     }
@@ -4950,7 +4944,7 @@ void M_Drawer(void)
     if (!menuactive)
     {
         if (drawopenconsolehint)
-            C_DrawOpenConsoleHint(openconsolehinty);
+            C_DrawConsoleEdge(openconsoleedgey);
 
         helpscreen = false;
         palettescreen = false;
@@ -5259,7 +5253,7 @@ void M_Drawer(void)
         }
 
         if (drawopenconsolehint)
-            C_DrawOpenConsoleHint(openconsolehinty);
+            C_DrawConsoleEdge(openconsoleedgey);
     }
 }
 

@@ -636,9 +636,6 @@ static void I_ReadMouse(void)
             || (messagetoprint && messagebuttonsactive) || gamestate == GS_TITLESCREEN)
             && !splashscreen && m_pointer)
         {
-            ev.data4 = x;
-            ev.data5 = y;
-
             if (x || y)
             {
                 usingmouse = true;

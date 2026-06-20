@@ -75,6 +75,11 @@
 #define CONSOLEDOWNSIZE                     28
 #define CONSOLEUPSIZE                       12
 
+#define CONSOLEDRAGZONE                     3
+#define CONSOLEDRAGDELTA                    4
+#define CONSOLEEDGEHEIGHT                   7
+#define CONSOLEEDGEHOTSPOTHEIGHT            10
+
 #define CONSOLEFULLSCREEN                   (gamestate == GS_TITLESCREEN && !consoleoverlaymenu)
 
 #define CONSOLEHEIGHT                       ((CONSOLEFULLSCREEN ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5)
@@ -284,7 +289,7 @@ void C_HideConsoleFast(void);
 void C_BeginOpenConsoleDrag(void);
 void C_UpdateOpenConsoleDrag(int y);
 void C_EndOpenConsoleDrag(void);
-void C_DrawOpenConsoleHint(int y);
+void C_DrawConsoleEdge(int y);
 void C_Drawer(void);
 bool C_ExecuteInputString(const char *input);
 bool C_ValidateInput(char *input);
