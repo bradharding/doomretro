@@ -71,6 +71,8 @@
 #define MENUPITCH         128
 #define OFFSET             17
 #define SKULLANIMCOUNT     10
+#define CONSOLEDRAGZONE     3
+#define CONSOLEDRAGDELTA    4
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -131,6 +133,7 @@ int             caretcolor;
 
 int             menublurtic = -1;
 static int      functionkey;
+static int      openconsolehintwait = -1;
 
 // current menudef
 menu_t          *currentmenu;
@@ -3234,6 +3237,56 @@ static void M_TakeScreenshot(bool flash)
     }
 }
 
+static bool M_CanDrawOpenConsoleHint(void)
+{
+    return (m_pointer && usingmouse && !usingcontroller && !consoleheight
+        && (gamestate == GS_TITLESCREEN || (menuactive && !helpscreen))
+        && openconsolehintwait >= 0 && openconsolehintwait <= 20);
+}
+
+static bool M_CanOpenConsoleWithMouseDrag(void)
+{
+    return (m_pointer && usingmouse && !usingcontroller && !consoleheight
+        && (gamestate == GS_TITLESCREEN || (menuactive && !helpscreen)));
+}
+
+static void M_OpenConsole(void)
+{
+    const bool  usemouse = usingmouse;
+
+    if (messagetoprint)
+    {
+        messagetoprint = false;
+        quitmessagebuttons = false;
+        quitmessagebuttonhover = -1;
+        functionkey = 0;
+
+        if (quitting)
+        {
+            quitting = false;
+
+            if (waspaused)
+            {
+                waspaused = false;
+                paused = true;
+            }
+        }
+    }
+
+    if (menuactive)
+    {
+        SDL_StopTextInput();
+        M_CloseMenu();
+        usingmouse = usemouse;
+        D_FadeScreen(false);
+
+        if (helpscreen)
+            R_SetViewSize(r_screensize);
+    }
+
+    C_ShowConsole(false);
+}
+
 bool M_Responder(event_t *ev)
 {
     int             key = -1;
@@ -3397,6 +3450,52 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
+        static bool draggingconsole;
+        static bool leftbuttondown;
+        static int  consoleopendragstart;
+        static int  consoleopendragpagetic;
+        const bool  leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
+        const bool  newleftbuttonpress = (leftbutton && !leftbuttondown);
+
+        if (M_CanOpenConsoleWithMouseDrag())
+            openconsolehintwait = ev->data3;
+        else
+            openconsolehintwait = -1;
+
+        if (draggingconsole)
+        {
+            pagetic = consoleopendragpagetic;
+
+            if (!leftbutton)
+            {
+                draggingconsole = false;
+
+                if (consoleheight >= consoleopendragstart * 2 + CONSOLEDRAGDELTA * 2 - 4)
+                    M_OpenConsole();
+                else
+                    C_EndOpenConsoleDrag();
+            }
+            else
+                C_UpdateOpenConsoleDrag(ev->data3 * 2);
+
+            leftbuttondown = leftbutton;
+            return true;
+        }
+
+        if (newleftbuttonpress && M_CanOpenConsoleWithMouseDrag() && ev->data3 <= CONSOLEDRAGZONE
+            && !splashscreen && !keydown && !savestringenter)
+        {
+            draggingconsole = true;
+            consoleopendragstart = ev->data3;
+            consoleopendragpagetic = pagetic;
+            C_BeginOpenConsoleDrag();
+            C_UpdateOpenConsoleDrag(ev->data3 * 2);
+            leftbuttondown = true;
+            return true;
+        }
+
+        leftbuttondown = leftbutton;
+
         if (messagebuttonswaitforrelease && !(ev->data1 & MOUSE_LEFTBUTTON))
             messagebuttonswaitforrelease = false;
 
@@ -4831,6 +4930,9 @@ void M_Drawer(void)
 {
     static short    x, y;
 
+    if (consoleheight && !consoledirection)
+        return;
+
     // Center string and print it.
     if (messagetoprint)
     {
@@ -4840,11 +4942,17 @@ void M_Drawer(void)
         if (quitmessagebuttons)
             M_DrawQuitMessageButtons();
 
+        if (M_CanDrawOpenConsoleHint())
+            C_DrawOpenConsoleHint();
+
         return;
     }
 
     if (!menuactive)
     {
+        if (M_CanDrawOpenConsoleHint())
+            C_DrawOpenConsoleHint();
+
         helpscreen = false;
         palettescreen = false;
         return;
@@ -5150,6 +5258,9 @@ void M_Drawer(void)
             for (int i = 0; i < max; i++)
                 currentmenu->menuitems[i].width = widest;
         }
+
+        if (M_CanDrawOpenConsoleHint())
+            C_DrawOpenConsoleHint();
     }
 }
 

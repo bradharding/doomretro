@@ -1295,6 +1295,38 @@ void C_HideConsoleFast(void)
     S_RestoreMusicVolume();
 }
 
+void C_BeginOpenConsoleDrag(void)
+{
+    consoleheight = 0;
+    consoledirection = 0;
+    consoleactive = false;
+}
+
+void C_UpdateOpenConsoleDrag(int y)
+{
+    consoleheight = MAX(0, MIN(y - 4, CONSOLEHEIGHT));
+}
+
+void C_EndOpenConsoleDrag(void)
+{
+    consoleheight = 0;
+    consoledirection = -1;
+    consoleactive = false;
+}
+
+void C_DrawOpenConsoleHint(void)
+{
+    const int   color = (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor] << 8);
+
+    for (int y = 0; y < 3; y++)
+    {
+        byte    *dest = &screens[0][y * SCREENWIDTH];
+
+        for (int x = 0; x < SCREENWIDTH; x++)
+            dest[x] = tinttab60[color + dest[x]];
+    }
+}
+
 static void C_DrawBackground(void)
 {
     const bool  inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
@@ -2598,7 +2630,7 @@ void C_Drawer(void)
             else
                 consoleactive = true;
         }
-        else
+        else if (consoledirection == -1)
         {
             if (consoleheight)
             {
