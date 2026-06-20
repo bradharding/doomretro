@@ -69,6 +69,7 @@
 console_t               *console = NULL;
 
 bool                    consoleactive = false;
+bool                    consoleoverlaymenu = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
@@ -1289,6 +1290,7 @@ void C_HideConsoleFast(void)
     consoleanim = 0;
     consoleheight = 0;
     consoleactive = false;
+    consoleoverlaymenu = false;
 
     I_SaveMousePointerPosition();
 
@@ -1312,6 +1314,7 @@ void C_EndOpenConsoleDrag(void)
     consoleheight = 0;
     consoledirection = -1;
     consoleactive = false;
+    consoleoverlaymenu = false;
 }
 
 void C_DrawOpenConsoleHint(int y)
@@ -2618,7 +2621,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = CONSOLEINPUTY - (gamestate == GS_TITLESCREEN ? 20 : 16)
+    outputyoffset = CONSOLEINPUTY - (CONSOLEFULLSCREEN ? 20 : 16)
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1);
 
     cheatsequence = false;
@@ -2626,7 +2629,7 @@ void C_Drawer(void)
     // adjust console height
     if (consolewait < tics)
     {
-        consolewait = tics + (gamestate == GS_TITLESCREEN ? 4 : 8);
+        consolewait = tics + (CONSOLEFULLSCREEN ? 4 : 8);
 
         if (consoledirection == 1)
         {
@@ -2638,7 +2641,7 @@ void C_Drawer(void)
                     169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
-                const int   height = (gamestate == GS_TITLESCREEN ? consoledown[consoleanim] * 2 + 5 :
+                const int   height = (CONSOLEFULLSCREEN ? consoledown[consoleanim] * 2 + 5 :
                                 consoledown[consoleanim]);
 
                 if (consoleheight > height)
@@ -2660,7 +2663,7 @@ void C_Drawer(void)
                     183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
                 };
 
-                const int   height = consoleup[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1);
+                const int   height = consoleup[consoleanim] * (CONSOLEFULLSCREEN ? 2 : 1);
 
                 if (consoleheight < height)
                     consolewait = 0;
@@ -2670,7 +2673,10 @@ void C_Drawer(void)
                 consoleactive = (consoleanim++ < CONSOLEUPSIZE / 2);
             }
             else
+            {
                 consoleactive = false;
+                consoleoverlaymenu = false;
+            }
         }
     }
 
@@ -3043,6 +3049,12 @@ bool C_Responder(event_t *ev)
         static char         currentinput[255];
         const int           key = ev->data1;
         const SDL_Keymod    modstate = SDL_GetModState();
+
+        if (key == keyboardconsole || key == keyboardconsole2)
+        {
+            C_HideConsole();
+            return true;
+        }
 
         switch (key)
         {

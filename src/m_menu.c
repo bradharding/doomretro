@@ -577,6 +577,7 @@ static void M_DrawMenuBorder(void)
 void M_DrawMenuBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
+    const bool  freeze = (consoleoverlaymenu && consoleheight);
 
     if (automapactive && !messagetoprint)
     {
@@ -586,7 +587,7 @@ void M_DrawMenuBackground(void)
         return;
     }
 
-    if (gametime != menublurtic || animatingpillarboxes || keepwidescreenduringanim)
+    if (!freeze && (gametime != menublurtic || animatingpillarboxes || keepwidescreenduringanim))
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
@@ -615,7 +616,7 @@ void M_DrawMenuBackground(void)
 
     memcpy(screens[0], blurscreen, SCREENAREA);
 
-    if (!consoleactive && (vid_fullscreen || !vid_widescreen))
+    if ((!consoleactive || consoleoverlaymenu) && (vid_fullscreen || !vid_widescreen))
         M_DrawMenuBorder();
 
     if (mapwindow)
@@ -3254,8 +3255,6 @@ static bool M_CanOpenConsoleWithMouseDrag(void)
 
 static void M_OpenConsole(void)
 {
-    const bool  usemouse = usingmouse;
-
     if (messagetoprint)
     {
         messagetoprint = false;
@@ -3275,17 +3274,7 @@ static void M_OpenConsole(void)
         }
     }
 
-    if (menuactive)
-    {
-        SDL_StopTextInput();
-        M_CloseMenu();
-        usingmouse = usemouse;
-        D_FadeScreen(false);
-
-        if (helpscreen)
-            R_SetViewSize(r_screensize);
-    }
-
+    consoleoverlaymenu = menuactive;
     C_ShowConsole(false);
 }
 
@@ -3295,6 +3284,9 @@ bool M_Responder(event_t *ev)
     static uint64_t keywait;
 
     if (idclevtics)
+        return false;
+
+    if (consoleoverlaymenu && consoleheight && consoledirection)
         return false;
 
     if (ev->type != ev_mouse)
@@ -3490,6 +3482,7 @@ bool M_Responder(event_t *ev)
             draggingconsole = true;
             consoleopendragstart = ev->data3;
             consoleopendragpagetic = pagetic;
+            consoleoverlaymenu = menuactive;
             C_BeginOpenConsoleDrag();
             C_UpdateOpenConsoleDrag(ev->data3 * 2);
             leftbuttondown = true;
@@ -3919,18 +3912,13 @@ bool M_Responder(event_t *ev)
             }
         }
 
-        if (menuactive)
-        {
-            SDL_StopTextInput();
-            M_CloseMenu();
-            D_FadeScreen(false);
-
-            if (helpscreen)
-                R_SetViewSize(r_screensize);
-        }
-
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
-            C_ShowConsole(false);
+        {
+            if (menuactive)
+                M_OpenConsole();
+            else
+                C_ShowConsole(false);
+        }
         else
             C_HideConsole();
 
@@ -4938,7 +4926,7 @@ void M_Drawer(void)
         MAX(openconsolehinty - 1, -CONSOLEHINTHEIGHT));
     drawopenconsolehint = (openconsolehinty > -CONSOLEHINTHEIGHT);
 
-    if (consoleheight && !consoledirection)
+    if (consoleheight && !consoledirection && !(consoleoverlaymenu && menuactive))
         return;
 
     // Center string and print it.
@@ -5347,7 +5335,7 @@ void M_Ticker(void)
                 showcaret = !showcaret;
             }
         }
-        else if (--skullanimcounter <= 0)
+        else if (!(consoleoverlaymenu && consoleheight) && --skullanimcounter <= 0)
         {
             whichskull ^= 1;
             skullanimcounter = SKULLANIMCOUNT;

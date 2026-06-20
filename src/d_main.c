@@ -451,11 +451,19 @@ void D_Display(void)
             }
         }
 
-        if (consoleheight)
+        if (consoleheight && consoleoverlaymenu && menuactive)
+        {
+            M_Drawer();
             C_Drawer();
+        }
+        else
+        {
+            if (consoleheight)
+                C_Drawer();
 
-        // menus go directly to the screen
-        M_Drawer();
+            // menus go directly to the screen
+            M_Drawer();
+        }
 
         if (drawdisk)
             HU_DrawDisk();

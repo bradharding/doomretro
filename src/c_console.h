@@ -75,16 +75,18 @@
 #define CONSOLEDOWNSIZE                     28
 #define CONSOLEUPSIZE                       12
 
-#define CONSOLEHEIGHT                       ((gamestate == GS_TITLESCREEN ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5)
+#define CONSOLEFULLSCREEN                   (gamestate == GS_TITLESCREEN && !consoleoverlaymenu)
 
-#define CONSOLELINES                        (gamestate == GS_TITLESCREEN ? 27 : 13)
+#define CONSOLEHEIGHT                       ((CONSOLEFULLSCREEN ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5)
+
+#define CONSOLELINES                        (CONSOLEFULLSCREEN ? 27 : 13)
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
 #define CONSOLETEXTMAXLENGTH                1024
 #define CONSOLELINEHEIGHT                   14
 #define CONSOLEWRAPS                        32
 
 #define CONSOLESCROLLBARWIDTH               5
-#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (gamestate == GS_TITLESCREEN ? 26 : 22))
+#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (CONSOLEFULLSCREEN ? 26 : 22))
 #define CONSOLESCROLLBARMINHEIGHT           11
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
@@ -227,6 +229,7 @@ extern patch_t          *thinglist;
 extern console_t        *console;
 
 extern bool             consoleactive;
+extern bool             consoleoverlaymenu;
 extern int              consoleheight;
 extern int              consoledirection;
 
