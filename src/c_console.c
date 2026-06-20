@@ -1317,6 +1317,7 @@ void C_EndOpenConsoleDrag(void)
 void C_DrawOpenConsoleHint(void)
 {
     const int   color = (con_edgecolor == con_edgecolor_auto ? consoleedgecolor1 : nearestcolors[con_edgecolor] << 8);
+    const int   height = 3 * SCREENWIDTH;
 
     for (int y = 0; y < 3; y++)
     {
@@ -1325,6 +1326,19 @@ void C_DrawOpenConsoleHint(void)
         for (int x = 0; x < SCREENWIDTH; x++)
             dest[x] = tinttab60[color + dest[x]];
     }
+
+    for (int i = 0; i < height; i += SCREENWIDTH)
+    {
+        screens[0][i] = consolebevelcolor1[screens[0][i + 1]];
+        screens[0][i + SCREENWIDTH - 1] = consolebevelcolor1[screens[0][i + SCREENWIDTH - 2]];
+    }
+
+    for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
+        screens[0][i] = consolebevelcolor1[screens[0][i]];
+
+    for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
+        for (int j = height; j < height + i && j < SCREENAREA; j++)
+            screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
 }
 
 static void C_DrawBackground(void)
