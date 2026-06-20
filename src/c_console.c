@@ -3738,7 +3738,7 @@ bool C_Responder(event_t *ev)
             }
 
             // hide console
-            if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
+            if (y >= SCREENHEIGHT / 2 && (gamestate == GS_LEVEL || consoleoverlaymenu))
                 C_HideConsole();
 
             // move caret
