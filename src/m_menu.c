@@ -3283,7 +3283,7 @@ bool M_Responder(event_t *ev)
     if (idclevtics)
         return false;
 
-    if (consoleoverlaymenu && consoleheight && consoledirection)
+    if (consoleoverlaymenu && consoleheight && (consoledirection || consoleactive))
         return false;
 
     if (ev->type != ev_mouse)
