@@ -3657,7 +3657,9 @@ bool C_Responder(event_t *ev)
     {
         static bool     selectingwithmouse;
         static bool     leftbuttondown;
+        static bool     draggingconsoleedge;
         static bool     doubleclickselection;
+        static int      consoleedgedragstart;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3667,6 +3669,12 @@ bool C_Responder(event_t *ev)
             static int  mouseselectanchor;
 
             leftbuttondown = true;
+
+            if (draggingconsoleedge)
+            {
+                C_UpdateOpenConsoleDrag(y);
+                return true;
+            }
 
             // dragging console scrollbar thumb
             if (dragconsolescrollbaractive && scrollbardrawn)
@@ -3699,6 +3707,16 @@ bool C_Responder(event_t *ev)
 
             if (doubleclickselection)
                 return true;
+
+            if (newleftbuttonpress && y >= consoleheight - 6 && y <= consoleheight + 4)
+            {
+                draggingconsoleedge = true;
+                consoleedgedragstart = consoleheight;
+                consoledirection = 0;
+                consoleanim = 0;
+                C_UpdateOpenConsoleDrag(y);
+                return true;
+            }
 
             if (selectingwithmouse && len && y >= CONSOLEINPUTY - 2 && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
@@ -3877,6 +3895,16 @@ bool C_Responder(event_t *ev)
             // left button released: stop mouse selection
             if (!(ev->data1 & MOUSE_LEFTBUTTON))
             {
+                if (draggingconsoleedge)
+                {
+                    draggingconsoleedge = false;
+
+                    if (consoleheight <= consoleedgedragstart - 4)
+                        C_HideConsole();
+                    else
+                        C_ShowConsole(false);
+                }
+
                 leftbuttondown = false;
                 selectingwithmouse = false;
                 dragconsolescrollbaractive = false;

@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v18.7.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
 * While on the title screen or in a menu, and if the `m_pointer` CVAR is `on`, moving the mouse pointer towards the top of the screen now displays the bottom edge of the console. You may then click on it (or click and drag downwards) to open the console.
+* You may now also click and drag the console’s edge upwards to close it.
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
