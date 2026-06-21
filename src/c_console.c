@@ -1353,9 +1353,10 @@ void C_DrawConsoleEdge(int y)
 
 static void C_DrawBackground(void)
 {
-    const bool  inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
-    const int   height = (consoleheight + 5) * SCREENWIDTH;
-    static byte blurscreen[MAXSCREENAREA];
+    const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
+    const int           height = (consoleheight + 5) * SCREENWIDTH;
+    static byte         blurscreen[MAXSCREENAREA];
+    const unsigned int  prevbigseed = bigseed;
 
     // apply random noise to background
     M_BigSeed(666);
@@ -1363,7 +1364,7 @@ static void C_DrawBackground(void)
     for (int i = height; i >= 0; i--)
         screens[0][i] = colormaps[0][M_BigRandomInt(0, 7) * 256 + screens[0][i]];
 
-    M_BigSeed((unsigned int)time(NULL));
+    M_BigSeed(prevbigseed);
 
     // blur background
     memcpy(blurscreen, screens[0], height);

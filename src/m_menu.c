@@ -130,6 +130,7 @@ static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
 
 int             menublurtic = -1;
+static uint64_t menublurtime;
 static int      functionkey;
 static int      openconsoleedgewait = -1;
 static int      openconsoleedgey = -CONSOLEEDGEHEIGHT;
@@ -574,8 +575,8 @@ static void M_DrawMenuBorder(void)
 //
 void M_DrawMenuBackground(void)
 {
-    static byte blurscreen[MAXSCREENAREA];
-    const bool  freeze = (consoleoverlaymenu && consoleheight);
+    static byte     blurscreen[MAXSCREENAREA];
+    const uint64_t  time = I_GetTimeMS();
 
     if (automapactive && !messagetoprint)
     {
@@ -585,7 +586,10 @@ void M_DrawMenuBackground(void)
         return;
     }
 
-    if (!freeze && (gametime != menublurtic || animatingpillarboxes || keepwidescreenduringanim))
+    if (menublurtic == -1)
+        menublurtime = 0;
+
+    if (time != menublurtime || animatingpillarboxes || keepwidescreenduringanim)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
@@ -609,7 +613,10 @@ void M_DrawMenuBackground(void)
         }
 
         if (!animatingpillarboxes && !keepwidescreenduringanim)
-            menublurtic = gametime;
+        {
+            menublurtic = 0;
+            menublurtime = time;
+        }
     }
 
     memcpy(screens[0], blurscreen, SCREENAREA);
