@@ -79,6 +79,7 @@
 #define CONSOLEDRAGDELTA                    4
 #define CONSOLEEDGEHEIGHT                   7
 #define CONSOLEEDGEHOTSPOTHEIGHT            10
+#define CONSOLEEDGEANIMTICS                 1
 
 #define CONSOLEFULLSCREEN                   (gamestate == GS_TITLESCREEN && !consoleoverlaymenu)
 

@@ -133,6 +133,7 @@ int             menublurtic = -1;
 static int      functionkey;
 static int      openconsoleedgewait = -1;
 static int      openconsoleedgey = -CONSOLEEDGEHEIGHT;
+static uint64_t openconsoleedgeanimtic;
 
 // current menudef
 menu_t          *currentmenu;
@@ -4918,9 +4919,29 @@ void M_Drawer(void)
     static short    x, y;
     const bool      showopenconsolehint = M_CanDrawOpenConsoleHint();
     bool            drawopenconsolehint;
+    const int       targetopenconsoleedgey = (showopenconsolehint ? 0 : -CONSOLEEDGEHEIGHT);
+    const uint64_t  tics = I_GetTime();
 
-    openconsoleedgey = (showopenconsolehint ? MIN(openconsoleedgey + 1, 0) :
-        MAX(openconsoleedgey - 1, -CONSOLEEDGEHEIGHT));
+    if (openconsoleedgey != targetopenconsoleedgey)
+    {
+        if (!openconsoleedgeanimtic)
+            openconsoleedgeanimtic = tics;
+
+        if (tics > openconsoleedgeanimtic)
+        {
+            const int   dist = ABS(targetopenconsoleedgey - openconsoleedgey);
+            const int   step = MIN(dist, (int)((tics - openconsoleedgeanimtic) / CONSOLEEDGEANIMTICS));
+
+            if (step > 0)
+            {
+                openconsoleedgey += (targetopenconsoleedgey > openconsoleedgey ? step : -step);
+                openconsoleedgeanimtic += (uint64_t)step * CONSOLEEDGEANIMTICS;
+            }
+        }
+    }
+    else
+        openconsoleedgeanimtic = tics;
+
     drawopenconsolehint = (openconsoleedgey > -CONSOLEEDGEHEIGHT);
 
     if (consoleheight && !consoledirection && !(consoleoverlaymenu && menuactive))
