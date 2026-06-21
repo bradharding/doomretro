@@ -11,6 +11,7 @@
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 * The crosshair may now snap to where your weapon will fire when autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
+* If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
