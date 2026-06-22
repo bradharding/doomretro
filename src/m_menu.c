@@ -3245,17 +3245,16 @@ static void M_TakeScreenshot(bool flash)
     }
 }
 
-static bool M_CanDrawOpenConsoleHint(void)
-{
-    return (m_pointer && usingmouse && !usingcontroller && !consoleheight
-        && (gamestate == GS_TITLESCREEN || (menuactive && !helpscreen))
-        && openconsoleedgewait >= 0 && openconsoleedgewait <= CONSOLEEDGEHOTSPOTHEIGHT);
-}
-
 static bool M_CanOpenConsoleWithMouseDrag(void)
 {
     return (m_pointer && usingmouse && !usingcontroller && !consoleheight
-        && (gamestate == GS_TITLESCREEN || (menuactive && !helpscreen)));
+        && (gamestate != GS_LEVEL || (menuactive && !helpscreen)));
+}
+
+static bool M_CanDrawOpenConsoleEdge(void)
+{
+    return (M_CanOpenConsoleWithMouseDrag() && openconsoleedgewait >= 0
+        && openconsoleedgewait <= CONSOLEEDGEHOTSPOTHEIGHT);
 }
 
 static void M_OpenConsole(void)
@@ -4924,9 +4923,8 @@ static void M_DrawNightmare(bool highlight)
 void M_Drawer(void)
 {
     static short    x, y;
-    const bool      showopenconsolehint = M_CanDrawOpenConsoleHint();
     bool            drawopenconsolehint;
-    const int       targetopenconsoleedgey = (showopenconsolehint ? 0 : -CONSOLEEDGEHEIGHT);
+    const int       targetopenconsoleedgey = (M_CanDrawOpenConsoleEdge() ? 0 : -CONSOLEEDGEHEIGHT);
     const uint64_t  tics = I_GetTime();
 
     if (openconsoleedgey != targetopenconsoleedgey)
