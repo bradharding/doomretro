@@ -2,7 +2,8 @@
 
 ### DOOM Retro v6.2
 
-* *DOOM Retro* is now built using v18.7.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
 * While on the title screen or in a menu, and if the `m_pointer` CVAR is `on`, moving the mouse pointer towards the top of the screen now displays the bottom edge of the console. You may then click on it (or click and drag downwards) to open the console.
 * You may now also click and drag the console’s edge upwards to close it.

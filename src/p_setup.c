@@ -3528,7 +3528,10 @@ void P_SetupLevel(int ep, int map)
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
+    {
         memset(blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*blocklinks));
+        memset(bloodsplat_blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*bloodsplat_blocklinks));
+    }
 
     if (nodeformat == DOOMBSP)
     {

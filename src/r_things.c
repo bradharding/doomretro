@@ -33,6 +33,9 @@
 ==============================================================================
 */
 
+#include <stdint.h>
+#include <stdlib.h>
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -111,6 +114,22 @@ static int                      maxframe;
 static bool                     drawshadows;
 static bool                     interpolatesprites;
 static bool                     invulnerable;
+static sector_t                 *viewheightsec;
+static int                      viewfixedcolormap;
+static bool                     viewinvulnerabilitycolormap;
+
+static int R_GetDrawSegXRangeIndex(const int x1, const int x2)
+{
+    return (x2 < centerx ? 1 : (x1 >= centerx ? 2 : 0));
+}
+
+static int R_CompareNearbySprites(const void *a, const void *b)
+{
+    const uintptr_t lhs = (uintptr_t)(*(const mobj_t *const *)a);
+    const uintptr_t rhs = (uintptr_t)(*(const mobj_t *const *)b);
+
+    return ((lhs > rhs) - (lhs < rhs));
+}
 
 static const fixed_t floatbobdiffs[64] =
 {
@@ -425,6 +444,9 @@ void R_ClearSprites(void)
 {
     num_vissprite = 0;
     r_bloodsplats_visible = 0;
+    viewfixedcolormap = viewplayer->fixedcolormap;
+    viewinvulnerabilitycolormap = ISINVULNERABILITYCOLORMAP(viewfixedcolormap);
+    viewheightsec = viewplayer->mo->subsector->sector->heightsec;
 }
 
 //
@@ -1237,6 +1259,7 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         width;
     bool            flip;
     vissprite_t     *vis;
+    sector_t        *sector;
     sector_t        *heightsec;
     int             flags2;
     int             frame;
@@ -1248,6 +1271,7 @@ static void R_ProjectSprite(mobj_t *thing)
     fixed_t         offset;
     fixed_t         topoffset;
     fixed_t         height;
+    bool            fullbright;
 
     if (thing->player && thing->player->mo == thing)
         return;
@@ -1343,19 +1367,20 @@ static void R_ProjectSprite(mobj_t *thing)
     if (x1 >= x2)
         return;
 
+    sector = thing->subsector->sector;
+
     // killough 03/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 04/11/98: improve sprite clipping for underwater/fake ceilings
-    if ((heightsec = thing->subsector->sector->heightsec))
+    if ((heightsec = sector->heightsec))
     {
-        const sector_t  *phs = viewplayer->mo->subsector->sector->heightsec;
-
-        if (phs)
+        if (viewheightsec)
         {
-            if (viewz < phs->interpfloorheight ? fz >= heightsec->interpfloorheight : gzt < heightsec->interpfloorheight)
+            if (viewz < viewheightsec->interpfloorheight ?
+                fz >= heightsec->interpfloorheight : gzt < heightsec->interpfloorheight)
                 return;
 
-            if (viewz > phs->interpceilingheight ?
+            if (viewz > viewheightsec->interpceilingheight ?
                 gzt < heightsec->interpceilingheight && viewz >= heightsec->interpceilingheight :
                 fz >= heightsec->interpceilingheight)
                 return;
@@ -1372,11 +1397,11 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->gz = thing->subsector->sector->interpfloorheight;
+    vis->gz = sector->interpfloorheight;
     vis->gzt = gzt;
 
     vis->flipped = flip;
-    vis->fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright);
+    vis->fullbright = (fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright));
 
     if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
     {
@@ -1450,33 +1475,38 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    if (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap))
+    if (viewinvulnerabilitycolormap)
     {
         // fixed map
         vis->colormap = fixedcolormap;
         vis->nextcolormap = fixedcolormap;
         vis->sectorcolormap = fullcolormap;
     }
-    else if (((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12))
-        || thing->info->fullbright || viewplayer->fixedcolormap == 1)
-    {
-        // full bright
-        vis->colormap = fullcolormap;
-        vis->nextcolormap = fullcolormap;
-        vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
-    }
     else
     {
-        // diminished light
-        const int   i = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+        lighttable_t    *sectorcolormap = R_GetSectorColormap(sector);
 
-        vis->colormap = spritelights[i];
-        vis->nextcolormap = nextspritelights[i];
-        vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
+        if (((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12)) || fullbright || viewfixedcolormap == 1)
+        {
+            // full bright
+            vis->colormap = fullcolormap;
+            vis->nextcolormap = fullcolormap;
+            vis->sectorcolormap = sectorcolormap;
+        }
+        else
+        {
+            // diminished light
+            const int   i = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+            vis->colormap = spritelights[i];
+            vis->nextcolormap = nextspritelights[i];
+            vis->sectorcolormap = sectorcolormap;
+        }
     }
 }
 
-static void R_ProjectBloodSplat(const bloodsplat_t *splat)
+static void R_ProjectBloodSplat(const bloodsplat_t *splat, const fixed_t interpfloorheight,
+    lighttable_t *sectorcolormap)
 {
     fixed_t         tx;
     fixed_t         xscale;
@@ -1533,7 +1563,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gy = fy;
     vis->color = (r_textures ? splat->viscolor : nearestlightgray);
     vis->colfunc = splat->viscolfunc;
-    vis->texturemid = sector->interpfloorheight + FRACUNIT - viewz;
+    vis->texturemid = interpfloorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
     if (x1 < 0)
@@ -1551,7 +1581,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->patch = splat->patch;
 
     // get light level
-    if (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap))
+    if (viewinvulnerabilitycolormap)
     {
         vis->colormap = fixedcolormap;
         vis->sectorcolormap = fullcolormap;
@@ -1560,7 +1590,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     {
         vis->colormap = (viewplayer->fixedcolormap == 1 ? fixedcolormap :
             spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
-        vis->sectorcolormap = R_GetSectorColormap(sector);
+        vis->sectorcolormap = sectorcolormap;
     }
 }
 
@@ -1612,7 +1642,20 @@ void R_AddNearbySprites(sector_t *sec)
 
 void R_DrawNearbySprites(void)
 {
-    const int   size = array_size(nearby_sprites);
+    int size = array_size(nearby_sprites);
+
+    if (size > 1)
+    {
+        int unique = 1;
+
+        qsort(nearby_sprites, size, sizeof(*nearby_sprites), R_CompareNearbySprites);
+
+        for (int i = 1; i < size; i++)
+            if (nearby_sprites[i] != nearby_sprites[unique - 1])
+                nearby_sprites[unique++] = nearby_sprites[i];
+
+        size = unique;
+    }
 
     for (int i = 0; i < size; i++)
     {
@@ -1648,12 +1691,20 @@ static void R_AddBloodSplats(void)
     lighttable_t    **cachedspritelights[256] = { NULL };
     bool            cached[256] = { false };
 
+    if (!r_bloodsplats_total)
+        return;
+
     for (int y = miny; y <= maxy; y++)
+    {
+        const int   row = y * bmapwidth;
+
         for (int x = minx; x <= maxx; x++)
         {
-            sector_t    *prevsector = NULL;
+            sector_t        *prevsector = NULL;
+            fixed_t         interpfloorheight = 0;
+            lighttable_t    *sectorcolormap = fullcolormap;
 
-            for (bloodsplat_t *splat = bloodsplat_blocklinks[y * bmapwidth + x]; splat; splat = splat->bnext)
+            for (bloodsplat_t *splat = bloodsplat_blocklinks[row + x]; splat; splat = splat->bnext)
             {
                 const fixed_t   dist = (ABS(splat->x - viewx) + ABS(splat->y - viewy)) >> 1;
                 sector_t        *sector;
@@ -1695,11 +1746,14 @@ static void R_AddBloodSplats(void)
                     }
 
                     prevsector = sector;
+                    interpfloorheight = sector->interpfloorheight;
+                    sectorcolormap = R_GetSectorColormap(sector);
                 }
 
-                R_ProjectBloodSplat(splat);
+                R_ProjectBloodSplat(splat, interpfloorheight, sectorcolormap);
             }
         }
+    }
 }
 
 //
@@ -2074,7 +2128,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
-    if (drawsegs_xrange_size)
+    if (drawsegs_xrange_count > 0)
     {
         const drawseg_xrange_item_t *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
         drawseg_xrange_item_t       *curr = &drawsegs_xrange[-1];
@@ -2130,13 +2184,12 @@ static void R_DrawSprite(const vissprite_t *spr)
     // killough 11/98: fix disappearing sprites
     if (spr->heightsec) // only things in specially marked sectors
     {
-        fixed_t         h;
-        fixed_t         mh = spr->heightsec->interpfloorheight;
-        const sector_t  *phs = viewplayer->mo->subsector->sector->heightsec;
+        fixed_t h;
+        fixed_t mh = spr->heightsec->interpfloorheight;
 
         if (mh > spr->gz && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
-            if (mh <= 0 || (phs && viewz > phs->interpfloorheight))
+            if (mh <= 0 || (viewheightsec && viewz > viewheightsec->interpfloorheight))
             {
                 // clip bottom
                 for (int i = x1; i <= x2; i++)
@@ -2145,7 +2198,7 @@ static void R_DrawSprite(const vissprite_t *spr)
             }
             else
                 // clip top
-                if (phs && viewz <= phs->interpfloorheight)
+                if (viewheightsec && viewz <= viewheightsec->interpfloorheight)
                     for (int i = x1; i <= x2; i++)
                         if (h > cliptop[i])
                             cliptop[i] = h;
@@ -2154,7 +2207,7 @@ static void R_DrawSprite(const vissprite_t *spr)
         if ((mh = spr->heightsec->interpceilingheight) < spr->gzt
             && (h = centeryfrac - FixedMul(mh - viewz, scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
-            if (phs && viewz >= phs->interpceilingheight)
+            if (viewheightsec && viewz >= viewheightsec->interpceilingheight)
             {
                 // clip bottom
                 for (int i = x1; i <= x2; i++)
@@ -2190,7 +2243,7 @@ void R_DrawMasked(void)
     }
 
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
-    invulnerable = (ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) && r_sprites_translucency);
+    invulnerable = (viewinvulnerabilitycolormap && r_sprites_translucency);
 
     if (drawbloodsplats && bloodsplat_blocklinks && !menuactive)
         R_AddBloodSplats();
@@ -2247,23 +2300,11 @@ void R_DrawMasked(void)
     // draw all blood splats
     for (int i = r_bloodsplats_visible - 1; i >= 0; i--)
     {
-        const vissplat_t    *splat = &vissplats[i];
+        const vissplat_t        *splat = &vissplats[i];
+        const drawsegs_xrange_t *range = &drawsegs_xranges[R_GetDrawSegXRangeIndex(splat->x1, splat->x2)];
 
-        if (splat->x2 < centerx)
-        {
-            drawsegs_xrange = drawsegs_xranges[1].items;
-            drawsegs_xrange_count = drawsegs_xranges[1].count;
-        }
-        else if (splat->x1 >= centerx)
-        {
-            drawsegs_xrange = drawsegs_xranges[2].items;
-            drawsegs_xrange_count = drawsegs_xranges[2].count;
-        }
-        else
-        {
-            drawsegs_xrange = drawsegs_xranges[0].items;
-            drawsegs_xrange_count = drawsegs_xranges[0].count;
-        }
+        drawsegs_xrange = range->items;
+        drawsegs_xrange_count = range->count;
 
         R_DrawBloodSplatSprite(splat);
     }
@@ -2275,23 +2316,11 @@ void R_DrawMasked(void)
         // draw all other vissprites back to front
         for (int i = num_vissprite - 1; i >= 0; i--)
         {
-            const vissprite_t   *spr = vissprite_ptrs[i];
+            const vissprite_t       *spr = vissprite_ptrs[i];
+            const drawsegs_xrange_t *range = &drawsegs_xranges[R_GetDrawSegXRangeIndex(spr->x1, spr->x2)];
 
-            if (spr->x2 < centerx)
-            {
-                drawsegs_xrange = drawsegs_xranges[1].items;
-                drawsegs_xrange_count = drawsegs_xranges[1].count;
-            }
-            else if (spr->x1 >= centerx)
-            {
-                drawsegs_xrange = drawsegs_xranges[2].items;
-                drawsegs_xrange_count = drawsegs_xranges[2].count;
-            }
-            else
-            {
-                drawsegs_xrange = drawsegs_xranges[0].items;
-                drawsegs_xrange_count = drawsegs_xranges[0].count;
-            }
+            drawsegs_xrange = range->items;
+            drawsegs_xrange_count = range->count;
 
             R_DrawSprite(spr);
         }
