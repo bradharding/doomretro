@@ -165,14 +165,14 @@ void R_InitSpriteBottomOffsets(void)
         const int       width = patch->width;
         int             bottompixel = 0;
 
-        for (int i = 0; i < width; i++)
+        for (int j = 0; j < width; j++)
         {
-            const rcolumn_t *column = &patch->columns[i];
+            const rcolumn_t *column = &patch->columns[j];
             const int       numposts = column->numposts;
 
-            for (int j = 0; j < numposts; j++)
+            for (int k = 0; k < numposts; k++)
             {
-                const rpost_t   *post = &column->posts[j];
+                const rpost_t   *post = &column->posts[k];
 
                 bottompixel = MAX(bottompixel, post->topdelta + post->length);
             }
