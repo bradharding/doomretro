@@ -1203,6 +1203,9 @@ void C_Init(void)
 
 void C_ShowConsole(bool reset)
 {
+    if (!menuactive && !messagetoprint)
+        consoleoverlaymenu = false;
+
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
     consoleanim = 0;
