@@ -3248,7 +3248,7 @@ static void M_TakeScreenshot(bool flash)
 static bool M_CanOpenConsoleWithMouseDrag(void)
 {
     return (m_pointer && usingmouse && !usingcontroller && !consoleheight
-        && (gamestate != GS_LEVEL || (menuactive && !helpscreen)));
+        && (gamestate != GS_LEVEL || menuactive));
 }
 
 static bool M_CanDrawOpenConsoleEdge(void)
@@ -5278,9 +5278,10 @@ void M_Drawer(void)
                 currentmenu->menuitems[i].width = widest;
         }
 
-        if (drawopenconsolehint)
-            C_DrawConsoleEdge(openconsoleedgey);
     }
+
+    if (drawopenconsolehint)
+        C_DrawConsoleEdge(openconsoleedgey);
 }
 
 //

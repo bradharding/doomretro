@@ -632,7 +632,7 @@ static void I_ReadMouse(void)
     {
         event_t ev = { ev_mouse, mousebuttonstate, 0, 0 };
 
-        if (((menuactive && !helpscreen) || consoleactive
+        if ((menuactive || consoleactive
             || (messagetoprint && messagebuttonsactive) || gamestate == GS_TITLESCREEN)
             && !splashscreen && m_pointer)
         {
