@@ -104,6 +104,7 @@ int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void (*routine)(int), bool input);
 void M_StartButtonMessage(char *string, void (*routine)(int), bool usedosprompt);
+bool M_IsConsoleEdgeShown(void);
 
 void M_ShowPalette(void);
 

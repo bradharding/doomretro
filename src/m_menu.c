@@ -3257,6 +3257,11 @@ static bool M_CanDrawOpenConsoleEdge(void)
         && openconsoleedgewait <= CONSOLEEDGEHOTSPOTHEIGHT);
 }
 
+bool M_IsConsoleEdgeShown(void)
+{
+    return (M_CanDrawOpenConsoleEdge() || openconsoleedgey > -CONSOLEEDGEHEIGHT);
+}
+
 static void M_OpenConsole(void)
 {
     if (messagetoprint)

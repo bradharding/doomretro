@@ -566,7 +566,7 @@ void D_PageTicker(void)
     static uint64_t pagewait;
     uint64_t        pagetime;
 
-    if (menuactive || consoleactive || !windowfocused)
+    if (menuactive || consoleactive || !windowfocused || (gamestate == GS_TITLESCREEN && M_IsConsoleEdgeShown()))
         return;
 
     if (pagewait < (pagetime = I_GetTime()))

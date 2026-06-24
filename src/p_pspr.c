@@ -630,7 +630,7 @@ static angle_t  bulletangle;
 
 void P_AimPlayerWeapon(mobj_t *source, angle_t *angle, fixed_t *slope)
 {
-    angle_t an = source->angle;
+    angle_t an;
     fixed_t aimslope;
 
     if (usefreelook && !autoaim)
