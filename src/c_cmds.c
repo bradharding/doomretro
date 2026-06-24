@@ -11088,9 +11088,8 @@ static void episodefunc2(char *cmd, char *parms)
 
     intfunc2(cmd, parms);
 
-    if (episode != episode_old && gamemode != commercial)
-        EpiDef.laston = MIN(episode, (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) :
-            (gamemode == shareware || chex ? 1 : 3))) - 1;
+    if (episode != episode_old)
+        M_UpdateSelectedEpisode();
 }
 
 //
@@ -11103,12 +11102,7 @@ static void expansionfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (expansion != expansion_old && gamemode == commercial)
-    {
-        ExpDef.laston = ((expansion >= 1 && expansion <= ExpDef.numitems) ? expansion - 1 : 0);
-
-        if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION && gamestate != GS_FINALE)
-            gamemission = D_GetGameMissionForExpansion();
-    }
+        M_UpdateSelectedExpansion();
 }
 
 //
@@ -12542,7 +12536,7 @@ static void skilllevelfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (skilllevel != skilllevel_old)
-        NewDef.laston = skilllevel - 1;
+        M_UpdateSelectedSkillLevel();
 }
 
 //

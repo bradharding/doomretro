@@ -1916,6 +1916,18 @@ void M_AddEpisode(int map, const int ep, const char *lumpname, const char *strin
     NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : (nerve || masterlevels ? &ExpDef : &MainDef));
 }
 
+void M_UpdateSelectedEpisode(void)
+{
+    if (gamemode == commercial)
+        EpiDef.laston = episode - 1;
+    else
+        EpiDef.laston = MIN(episode, (gamemode == retail ? (sigil ? (sigil2 ? 6 : 5) : 4) :
+            (gamemode == shareware || chex ? 1 : 3))) - 1;
+
+    if (menuactive && currentmenu == &EpiDef)
+        itemon = EpiDef.laston;
+}
+
 static void M_DrawEpisode(void)
 {
     M_DrawMenuBackground();
@@ -2014,6 +2026,17 @@ void M_SetWindowCaption(void)
         M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
 
     SDL_SetWindowTitle(window, caption);
+}
+
+void M_UpdateSelectedExpansion(void)
+{
+    ExpDef.laston = ((expansion >= 1 && expansion <= ExpDef.numitems) ? expansion - 1 : 0);
+
+    if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION && gamestate != GS_FINALE)
+        gamemission = D_GetGameMissionForExpansion();
+
+    if (menuactive && currentmenu == &ExpDef)
+        itemon = ExpDef.laston;
 }
 
 static void M_DrawExpansion(void)
@@ -2138,6 +2161,14 @@ static void M_UpdateGameMissionFromExpansion(void)
 //
 // M_NewGame
 //
+void M_UpdateSelectedSkillLevel(void)
+{
+    NewDef.laston = skilllevel - 1;
+
+    if (menuactive && currentmenu == &NewDef)
+        itemon = NewDef.laston;
+}
+
 static void M_DrawNewGame(void)
 {
     M_DrawMenuBackground();

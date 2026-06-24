@@ -113,6 +113,10 @@ void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, const int ep, const char *lumpname, const char *string);
 
+void M_UpdateSelectedEpisode(void);
+void M_UpdateSelectedExpansion(void);
+void M_UpdateSelectedSkillLevel(void);
+
 extern bool     messagetoprint;
 extern bool     messagebuttonsactive;
 extern bool     nomusic;
