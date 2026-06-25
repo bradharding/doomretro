@@ -57,6 +57,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_saveg.h"
 #include "p_setup.h"
 #include "s_sound.h"
 #include "st_lib.h"
@@ -907,7 +908,7 @@ static void M_ReadSaveStrings(void)
 
     for (int i = 0; i < load_end; i++)
     {
-        FILE    *handle = fopen(P_SaveGameFile(i), "rb");
+        FILE    *handle = P_OpenSaveGame(P_SaveGameFile(i));
 
         if (!handle)
         {
@@ -956,7 +957,7 @@ static byte saveg_read8(FILE *file)
 //
 static bool M_CheckSaveGame(int *ep, int *map, int slot)
 {
-    FILE    *file = fopen(P_SaveGameFile(slot), "rb");
+    FILE    *file = P_OpenSaveGame(P_SaveGameFile(slot));
     int     mission;
 
     if (!file)

@@ -43,6 +43,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "miniz/miniz.h"
 #include "p_fix.h"
 #include "p_inter.h"
 #include "p_local.h"
@@ -52,10 +53,12 @@
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "version.h"
+#include "w_file.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
 #define SAVEGAME_EOF    0x1D
+#define SAVEGAME_MAGIC  "DRSG"
 #define TARGETLIMIT     4192
 
 FILE        *save_stream;
@@ -95,6 +98,89 @@ char *P_SaveGameFile(int slot)
 
     M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVEGAME, savegamefolder, slot);
     return filename;
+}
+
+FILE *P_OpenSaveGame(const char *filename)
+{
+    byte    header[8];
+    FILE    *stream = fopen(filename, "rb");
+
+    if (!stream)
+        return NULL;
+
+    if (fread(header, 1, sizeof(header), stream) != sizeof(header)
+        || memcmp(header, SAVEGAME_MAGIC, 4))
+    {
+        rewind(stream);
+        return stream;
+    }
+    else
+    {
+        const unsigned int  uncompressedlen = ((unsigned int)header[4]
+                                | ((unsigned int)header[5] << 8)
+                                | ((unsigned int)header[6] << 16)
+                                | ((unsigned int)header[7] << 24));
+        const size_t        compressedlen = W_FileLength(stream) - sizeof(header);
+        byte                *compressed = malloc(MAX(1, (int)compressedlen));
+        byte                *uncompressed = malloc(MAX(1, (int)uncompressedlen));
+        mz_ulong            destlen = uncompressedlen;
+        FILE                *tempstream = NULL;
+
+        if (compressed
+            && uncompressed
+            && fread(compressed, 1, compressedlen, stream) == compressedlen
+            && mz_uncompress(uncompressed, &destlen, compressed, (mz_ulong)compressedlen) == MZ_OK
+            && destlen == uncompressedlen
+            && (tempstream = tmpfile())
+            && fwrite(uncompressed, 1, uncompressedlen, tempstream) == uncompressedlen)
+            rewind(tempstream);
+        else if (tempstream)
+        {
+            fclose(tempstream);
+            tempstream = NULL;
+        }
+
+        free(uncompressed);
+        free(compressed);
+        fclose(stream);
+
+        return tempstream;
+    }
+}
+
+bool P_CompressSaveGameFile(const char *filename)
+{
+    FILE    *stream = fopen(filename, "rb");
+    bool    result = false;
+
+    if (stream)
+    {
+        const size_t    inputlen = W_FileLength(stream);
+        byte            *input = malloc(MAX(1, (int)inputlen));
+        mz_ulong        outputlen = mz_compressBound((mz_ulong)inputlen);
+        byte            *output = malloc(sizeof(SAVEGAME_MAGIC) - 1 + sizeof(unsigned int) + outputlen);
+
+        if (input
+            && output
+            && fread(input, 1, inputlen, stream) == inputlen
+            && mz_compress2(output + 8, &outputlen, input, (mz_ulong)inputlen, MZ_BEST_COMPRESSION) == MZ_OK)
+        {
+            memcpy(output, SAVEGAME_MAGIC, 4);
+
+            output[4] = inputlen & 0xFF;
+            output[5] = (inputlen >> 8) & 0xFF;
+            output[6] = (inputlen >> 16) & 0xFF;
+            output[7] = (inputlen >> 24) & 0xFF;
+
+            result = W_WriteFile(filename, output, outputlen + 8);
+        }
+
+        free(output);
+        free(input);
+        fclose(stream);
+    }
+
+    return result;
 }
 
 // Endian-safe integer read/write functions

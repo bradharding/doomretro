@@ -71,6 +71,9 @@ char *P_TempSaveGameFile(void);
 // filename to use for a savegame slot
 char *P_SaveGameFile(int slot);
 
+FILE *P_OpenSaveGame(const char *filename);
+bool P_CompressSaveGameFile(const char *filename);
+
 // Savegame file header read/write functions
 bool P_ReadSaveGameHeader(char *description);
 void P_WriteSaveGameHeader(const char *description);

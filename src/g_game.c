@@ -1903,7 +1903,7 @@ void G_DoLoadGame(void)
     if (numconsolestrings == 1 || !M_StringStartsWith(console[numconsolestrings - 1].string, "load "))
         C_Input("load %s", savename);
 
-    if (!(save_stream = fopen(savename, "rb")))
+    if (!(save_stream = P_OpenSaveGame(savename)))
     {
         menuactive = false;
         C_ShowConsole(false);
@@ -2124,47 +2124,58 @@ static void G_DoSaveGame(void)
         // Finish up, close the savegame file.
         fclose(save_stream);
 
-        // Now rename the temporary savegame file to the actual savegame
-        // file, backing up the old savegame if there was one there.
-        remove(backup_savegame_file);
-        rename(savegame_file, backup_savegame_file);
-        rename(temp_savegame_file, savegame_file);
-
-        free(backup_savegame_file);
-
-        if (savegameslot >= 0)
-            savegames = true;
-
-        if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
-            C_Input("save %s", savegame_file);
-
-        if (!*savedescription)
-            M_StringCopy(savedescription, maptitle, sizeof(savedescription));
-
-        if (consoleactive)
-            C_Output(BOLD("%s") " was saved.", savename);
+        if (!P_CompressSaveGameFile(temp_savegame_file))
+        {
+            free(backup_savegame_file);
+            remove(temp_savegame_file);
+            menuactive = false;
+            C_ShowConsole(false);
+            C_Warning(0, BOLD("%s") " couldn't be saved.", savegame_file);
+        }
         else
         {
-            static char buffer[1024];
-            char        *temp = titlecase(savedescription);
+            // Now rename the temporary savegame file to the actual savegame
+            // file, backing up the old savegame if there was one there.
+            remove(backup_savegame_file);
+            rename(savegame_file, backup_savegame_file);
+            rename(temp_savegame_file, savegame_file);
 
-            M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), temp);
-            C_Output(buffer);
-            HU_SetPlayerMessage(buffer, false, false);
-            message_dontfuckwithme = true;
-            free(temp);
+            free(backup_savegame_file);
 
-            if (gameaction != ga_autosavegame)
-                S_StartSound(NULL, sfx_swtchx);
+            if (savegameslot >= 0)
+                savegames = true;
+
+            if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
+                C_Input("save %s", savegame_file);
+
+            if (!*savedescription)
+                M_StringCopy(savedescription, maptitle, sizeof(savedescription));
+
+            if (consoleactive)
+                C_Output(BOLD("%s") " was saved.", savename);
+            else
+            {
+                static char buffer[1024];
+                char        *temp = titlecase(savedescription);
+
+                M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), temp);
+                C_Output(buffer);
+                HU_SetPlayerMessage(buffer, false, false);
+                message_dontfuckwithme = true;
+                free(temp);
+
+                if (gameaction != ga_autosavegame)
+                    S_StartSound(NULL, sfx_swtchx);
+            }
+
+            viewplayer->gamessaved++;
+            stat_gamessaved = SafeAdd(stat_gamessaved, 1);
+            M_SaveCVARs();
+
+            // draw the pattern into the back screen
+            if (viewwidth != SCREENWIDTH)
+                R_FillBackScreen();
         }
-
-        viewplayer->gamessaved++;
-        stat_gamessaved = SafeAdd(stat_gamessaved, 1);
-        M_SaveCVARs();
-
-        // draw the pattern into the back screen
-        if (viewwidth != SCREENWIDTH)
-            R_FillBackScreen();
     }
 
     gameaction = ga_nothing;
