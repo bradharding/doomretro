@@ -88,6 +88,7 @@ extern bool     autoswitch;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
+extern bool     compresssavegames;
 extern int      con_edgecolor;
 extern int      con_timestampformat;
 extern bool     con_timestamps;
@@ -549,6 +550,8 @@ enum
 #define autouse_default                     false
 
 #define centerweapon_default                true
+
+#define compresssavegames_default           true
 
 #define con_edgecolor_auto                  -1
 #define con_edgecolor_min                   con_edgecolor_auto

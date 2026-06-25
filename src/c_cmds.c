@@ -767,6 +767,8 @@ consolecmd_t consolecmds[] =
         "Lists all controls bound to an " BOLDITALICS("+action") " or a string of commands."),
     BOOLCVAR(centerweapon, centreweapon, "", boolfunc1, boolfunc2, 0,
         "Toggles centering your weapon when fired."),
+    BOOLCVAR(compresssavegames, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles compressing savegames when they are saved."),
     CCMD(clear, "", "", nullfunc1, clearfunc2, false, "",
         "Clears the console."),
     CCMD(cmdlist, "", ccmdlist, nullfunc1, cmdlistfunc2, true, CMDLISTFORMAT,

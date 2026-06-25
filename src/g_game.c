@@ -2124,7 +2124,7 @@ static void G_DoSaveGame(void)
         // Finish up, close the savegame file.
         fclose(save_stream);
 
-        if (!P_CompressSaveGameFile(temp_savegame_file))
+        if (compresssavegames && !P_CompressSaveGameFile(temp_savegame_file))
         {
             free(backup_savegame_file);
             remove(temp_savegame_file);
