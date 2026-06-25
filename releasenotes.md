@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
-* While on the title screen or in a menu, and if the `m_pointer` CVAR is `on`, moving the mouse pointer towards the top of the screen now displays the bottom edge of the console. You may then click on it (or click and drag downwards) to open the console.
+* When not in a game and if the `m_pointer` CVAR is `on`, moving the mouse pointer towards the top of the screen now displays the bottom edge of the console. You may then click on it (or click and drag downwards) to open the console.
 * You may now also click and drag the console’s edge upwards to close it.
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
@@ -13,6 +13,7 @@
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 * The crosshair may now snap to where your weapon will fire when autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
