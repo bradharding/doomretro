@@ -139,6 +139,7 @@ int                     outputhistory = -1;
 static int              outputhistoryoffset;
 static bool             topofconsole;
 static bool             cheatsequence;
+bool                    dontrestoremousepointeronshow;
 
 static int              suckswidth;
 static int              timerwidth;
@@ -1226,8 +1227,10 @@ void C_ShowConsole(bool reset)
     for (int i = 0; i < MAXMOUSEBUTTONS + 4; i++)
         mousebuttons[i] = false;
 
-    if (gamestate == GS_LEVEL && (!automapactive || am_followmode))
+    if (gamestate == GS_LEVEL && (!automapactive || am_followmode) && !dontrestoremousepointeronshow)
         I_RestoreMousePointerPosition();
+
+    dontrestoremousepointeronshow = false;
 
     if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && GetCapsLockState())
 #if defined(_WIN32)

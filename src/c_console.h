@@ -254,6 +254,8 @@ extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 extern int              outputhistory;
 
+extern bool             dontrestoremousepointeronshow;
+
 extern int              consoleedgecolor1;
 extern int              consoleedgecolor2;
 

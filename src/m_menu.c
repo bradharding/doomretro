@@ -3294,9 +3294,13 @@ bool M_IsConsoleEdgeShown(void)
     return (M_CanDrawOpenConsoleEdge() || openconsoleedgey > -CONSOLEEDGEHEIGHT);
 }
 
-static void M_OpenConsole(void)
+static void M_OpenConsole(bool nomouserestore)
 {
     consoleoverlaymenu = (menuactive || messagetoprint);
+
+    if (nomouserestore)
+        dontrestoremousepointeronshow = true;
+
     C_ShowConsole(false);
 }
 
@@ -3486,7 +3490,7 @@ bool M_Responder(event_t *ev)
 
                 if (consoleheight >= consoleopendragstart * 2 + CONSOLEDRAGDELTA * 2 - 4
                     || I_GetTimeMS() - consoleopendragtime <= 200)
-                    M_OpenConsole();
+                    M_OpenConsole(true);
                 else
                     C_EndOpenConsoleDrag();
             }
@@ -3918,7 +3922,7 @@ bool M_Responder(event_t *ev)
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
         {
             if (menuactive || messagetoprint)
-                M_OpenConsole();
+                M_OpenConsole(false);
             else
                 C_ShowConsole(false);
         }
