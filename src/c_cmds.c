@@ -1487,7 +1487,9 @@ static void shotgunactionfunc(void)
     if (gamestate == GS_LEVEL)
     {
         P_ChangeWeapon(wp_shotgun, false);
-        viewplayer->preferredshotgun = wp_shotgun;
+
+        if (viewplayer->weaponowned[wp_shotgun])
+            viewplayer->preferredshotgun = wp_shotgun;
     }
 }
 
@@ -1520,7 +1522,9 @@ static void supershotgunactionfunc(void)
     if (gamestate == GS_LEVEL)
     {
         P_ChangeWeapon(wp_supershotgun, false);
-        viewplayer->preferredshotgun = wp_supershotgun;
+
+        if (viewplayer->weaponowned[wp_supershotgun])
+            viewplayer->preferredshotgun = wp_supershotgun;
     }
 }
 
