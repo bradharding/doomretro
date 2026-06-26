@@ -3830,30 +3830,49 @@ bool C_Responder(event_t *ev)
                     if (wordstart == len && wordstart > 0)
                         wordstart = --wordend;
 
-                    if (!isalnum((unsigned char)consoleinput[wordstart])
-                        && consoleinput[wordstart] != '_'
-                        && wordstart > 0
-                        && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                    if (isspace((unsigned char)consoleinput[wordstart]))
                     {
-                        wordstart--;
-                        wordend = wordstart;
-                    }
-
-                    if (isalnum((unsigned char)consoleinput[wordstart]) || consoleinput[wordstart] == '_')
-                    {
-                        while (wordstart > 0
-                            && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                        while (wordstart > 0 && isspace((unsigned char)consoleinput[wordstart - 1]))
                             wordstart--;
 
-                        while (wordend < len
-                            && (isalnum((unsigned char)consoleinput[wordend]) || consoleinput[wordend] == '_'))
+                        while (wordend < len && isspace((unsigned char)consoleinput[wordend]))
                             wordend++;
 
-                        selectstart = wordstart;
-                        caretpos = selectend = wordend;
+                        if (wordend - wordstart >= 2)
+                        {
+                            selectstart = wordstart;
+                            caretpos = selectend = wordend;
+                        }
+                        else
+                            selectstart = caretpos = selectend = i;
                     }
                     else
-                        selectstart = caretpos = selectend = i;
+                    {
+                        if (!isalnum((unsigned char)consoleinput[wordstart])
+                            && consoleinput[wordstart] != '_'
+                            && wordstart > 0
+                            && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                        {
+                            wordstart--;
+                            wordend = wordstart;
+                        }
+
+                        if (isalnum((unsigned char)consoleinput[wordstart]) || consoleinput[wordstart] == '_')
+                        {
+                            while (wordstart > 0
+                                && (isalnum((unsigned char)consoleinput[wordstart - 1]) || consoleinput[wordstart - 1] == '_'))
+                                wordstart--;
+
+                            while (wordend < len
+                                && (isalnum((unsigned char)consoleinput[wordend]) || consoleinput[wordend] == '_'))
+                                wordend++;
+
+                            selectstart = wordstart;
+                            caretpos = selectend = wordend;
+                        }
+                        else
+                            selectstart = caretpos = selectend = i;
+                    }
 
                     caretwait = clicktime + CARETBLINKTIME;
                     showcaret = true;
