@@ -370,8 +370,14 @@ bool I_Windows_InitMusic(void)
         return false;
     }
 
-    if (midiOutGetDevCaps(MidiDevice, &caps, sizeof(caps)) == MMSYSERR_NOERROR && s_musicvolume)
-        C_Output("Music is playing at %i%% volume using the " ITALICS("%s") ".", s_musicvolume, caps.szPname);
+    if (midiOutGetDevCaps(MidiDevice, &caps, sizeof(caps)) == MMSYSERR_NOERROR)
+    {
+        if (s_musicvolume)
+            C_Output("Music is playing at %i%% volume using the " ITALICS("%s") ".", s_musicvolume, caps.szPname);
+        else
+            C_Warning(1, "Music has been muted. Increase the volume to hear it play using the " ITALICS("%s") ".",
+                caps.szPname);
+    }
 
     hdr->lpData = (LPSTR)buffer.events;
     hdr->dwBytesRecorded = 0;

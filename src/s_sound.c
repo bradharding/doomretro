@@ -171,10 +171,17 @@ static void InitSfxModule(void)
     {
         const char  *audiodriver = SDL_GetCurrentAudioDriver();
 
-        C_Output("Sound effects are playing at %i%% volume and a sample rate of %.1fkHz over %i channels%s",
-            s_sfxvolume, SAMPLERATE / 1000.0f, s_channels,
-            (M_StringCompare(audiodriver, "wasapi") ? " using the " ITALICS("WASAPI.") :
-            (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
+        if (s_sfxvolume)
+            C_Output("Sound effects are playing at %i%% volume and a sample rate of %.1fkHz over %i channels%s",
+                s_sfxvolume, SAMPLERATE / 1000.0f, s_channels,
+                (M_StringCompare(audiodriver, "wasapi") ? " using the " ITALICS("WASAPI.") :
+                (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
+        else
+            C_Warning(1, "Sound effects have been muted. "
+                "Increase the volume to hear them play at a sample rate of %.1fkHz over %i channels%s",
+                SAMPLERATE / 1000.0f, s_channels,
+                (M_StringCompare(audiodriver, "wasapi") ? " using the " ITALICS("WASAPI.") :
+                (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
     }
     else
     {
