@@ -247,7 +247,7 @@ static void D_UpdateQuitMenuSpin(void)
 {
     if (gamestate == GS_LEVEL && menuspin && viewplayer && viewplayer->mo
         && !(helpscreen || palettescreen)
-        && !consoleheight
+        && (!consoleheight || consoleoverlaymenu)
         && (menuactive && (((messagetoprint && !consoleactive) || !messagetoprint))))
         viewplayer->mo->angle += ANG1 / (menuspinspeed = MIN(menuspinspeed + 1, 512)) * 8 * menuspindirection;
 }
