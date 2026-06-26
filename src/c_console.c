@@ -1248,15 +1248,6 @@ void C_ShowConsole(bool reset)
     S_StartSound(viewplayer->mo, sfx_consol);
 }
 
-static void C_RestoreConsoleAfterDrag(void)
-{
-    consoleheight = MAX(1, consoleheight);
-    consoledirection = 1;
-    consoleanim = 0;
-    showcaret = true;
-    caretwait = 0;
-}
-
 void C_HideConsole(void)
 {
     if (!consoleactive)
@@ -3939,7 +3930,13 @@ bool C_Responder(event_t *ev)
                     if (consoleheight <= consoleedgedragstart - CONSOLEDRAGDELTA)
                         C_HideConsole();
                     else
-                        C_RestoreConsoleAfterDrag();
+                    {
+                        consoleheight = MAX(1, consoleheight);
+                        consoledirection = 1;
+                        consoleanim = 0;
+                        showcaret = true;
+                        caretwait = 0;
+                    }
                 }
 
                 leftbuttondown = false;
