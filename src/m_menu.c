@@ -3296,26 +3296,7 @@ bool M_IsConsoleEdgeShown(void)
 
 static void M_OpenConsole(void)
 {
-    if (messagetoprint)
-    {
-        messagetoprint = false;
-        quitmessagebuttons = false;
-        quitmessagebuttonhover = -1;
-        functionkey = 0;
-
-        if (quitting)
-        {
-            quitting = false;
-
-            if (waspaused)
-            {
-                waspaused = false;
-                paused = true;
-            }
-        }
-    }
-
-    consoleoverlaymenu = menuactive;
+    consoleoverlaymenu = (menuactive || messagetoprint);
     C_ShowConsole(false);
 }
 
@@ -3523,7 +3504,7 @@ bool M_Responder(event_t *ev)
             consoleopendragstart = ev->data3;
             consoleopendragpagetic = pagetic;
             consoleopendragtime = I_GetTimeMS();
-            consoleoverlaymenu = menuactive;
+            consoleoverlaymenu = (menuactive || messagetoprint);
             C_BeginOpenConsoleDrag();
             C_UpdateOpenConsoleDrag(ev->data3 * 2);
             leftbuttondown = true;
@@ -3934,28 +3915,9 @@ bool M_Responder(event_t *ev)
     {
         keydown = key;
 
-        if (messagetoprint)
-        {
-            messagetoprint = false;
-            quitmessagebuttons = false;
-            quitmessagebuttonhover = -1;
-            functionkey = 0;
-
-            if (quitting)
-            {
-                quitting = false;
-
-                if (waspaused)
-                {
-                    waspaused = false;
-                    paused = true;
-                }
-            }
-        }
-
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
         {
-            if (menuactive)
+            if (menuactive || messagetoprint)
                 M_OpenConsole();
             else
                 C_ShowConsole(false);

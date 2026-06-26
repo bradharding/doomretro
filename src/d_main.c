@@ -452,7 +452,7 @@ void D_Display(void)
             }
         }
 
-        if (consoleheight && consoleoverlaymenu && menuactive)
+        if (consoleheight && consoleoverlaymenu && (menuactive || messagetoprint))
         {
             M_Drawer();
             C_Drawer();

@@ -2828,7 +2828,7 @@ void C_Drawer(void)
     }
 
     // draw caret
-    if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
+    if (consoleheight == CONSOLEHEIGHT && windowfocused && (!messagetoprint || consoleoverlaymenu))
     {
         if (caretwait < tics)
         {
@@ -3043,7 +3043,8 @@ bool C_Responder(event_t *ev)
     int         i;
     int         len;
 
-    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messagetoprint)
+    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1)
+        || (messagetoprint && !consoleoverlaymenu))
         return false;
 
     len = (int)strlen(consoleinput);
