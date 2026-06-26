@@ -3518,7 +3518,7 @@ bool C_Responder(event_t *ev)
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
 
-            if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
+                    if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {
                         C_AddToUndoHistory();
                         M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
@@ -3620,12 +3620,12 @@ bool C_Responder(event_t *ev)
             free(temp2);
         }
         else if (ch >= CONSOLEFONTSTART
-            && ch != keyboardconsole
-            && ch != keyboardconsole2
+                && ch != keyboardconsole
+                && ch != keyboardconsole2
                 && C_TextWidth(consoleinput, NULL, false, true)
-                + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
-                - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
-                (size_t)selectend - selectstart)), NULL, false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
+                    + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
+                    - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
+                    (size_t)selectend - selectstart)), NULL, false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
             C_AddToUndoHistory();
 
@@ -3663,12 +3663,12 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        static bool     selectingwithmouse;
-        static bool     leftbuttondown;
-        static bool     draggingconsoleedge;
-        static bool     doubleclickselection;
-        static int      consoleedgedragstart;
-        static int      consoleedgedragoffset;
+        static bool selectingwithmouse;
+        static bool leftbuttondown;
+        static bool draggingconsoleedge;
+        static bool doubleclickselection;
+        static int  consoleedgedragstart;
+        static int  consoleedgedragoffset;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3692,7 +3692,7 @@ bool C_Responder(event_t *ev)
                 const int   visiblerows = MIN(CONSOLELINES, totalrows);
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
                 const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
-                                        CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
+                                CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
                 const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
 
                 dragconsolescrollbarfacestart = MAX(0, MIN(y - dragconsolescrollbaroffset, facetravel));
