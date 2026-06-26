@@ -3668,6 +3668,7 @@ bool C_Responder(event_t *ev)
         static bool     draggingconsoleedge;
         static bool     doubleclickselection;
         static int      consoleedgedragstart;
+        static int      consoleedgedragoffset;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3680,7 +3681,7 @@ bool C_Responder(event_t *ev)
 
             if (draggingconsoleedge)
             {
-                C_UpdateOpenConsoleDrag(y);
+                C_UpdateOpenConsoleDrag(y - consoleedgedragoffset + CONSOLEDRAGDELTA);
                 return true;
             }
 
@@ -3720,9 +3721,9 @@ bool C_Responder(event_t *ev)
             {
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
+                consoleedgedragoffset = y - consoleheight;
                 consoledirection = 0;
                 consoleanim = 0;
-                C_UpdateOpenConsoleDrag(y);
                 return true;
             }
 
@@ -3926,7 +3927,7 @@ bool C_Responder(event_t *ev)
                 {
                     draggingconsoleedge = false;
 
-                    if (consoleheight <= consoleedgedragstart - 4)
+                    if (consoleheight <= consoleedgedragstart - CONSOLEDRAGDELTA)
                         C_HideConsole();
                     else
                         C_ShowConsole(false);
