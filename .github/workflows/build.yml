@@ -271,7 +271,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake sdl2 sdl2_mixer sdl2_image ccache
+          brew install cmake sdl2 sdl2_mixer ccache
 
       - name: Extract version
         id: version

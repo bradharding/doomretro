@@ -89,8 +89,6 @@
 		AB5A82CA1A8DB9EB00AF539F /* z_zone.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82771A8DB9EB00AF539F /* z_zone.c */; };
 		F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */ = {isa = PBXBuildFile; fileRef = F3142B151F97B1A100CCB7FD /* doomretro.iconset */; };
 		F31526711D16F69100824B66 /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = F31526701D16F69100824B66 /* doomretro.wad */; };
-		F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; };
-		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED661CF508B500C3E94F /* m_config.c */; };
 		F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED681CF508B500C3E94F /* r_patch.c */; };
 		F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };
@@ -104,7 +102,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */,
 				9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */,
 				9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */,
 			);
@@ -273,7 +270,6 @@
 		AB5A82781A8DB9EB00AF539F /* z_zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = z_zone.h; path = ../src/z_zone.h; sourceTree = SOURCE_ROOT; };
 		F3142B151F97B1A100CCB7FD /* doomretro.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = doomretro.iconset; path = ../res/doomretro.iconset; sourceTree = "<group>"; };
 		F31526701D16F69100824B66 /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = ../res/doomretro.wad; sourceTree = "<group>"; };
-		F3C1ED631CF5028600C3E94F /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
 		F3C1ED661CF508B500C3E94F /* m_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = m_config.c; path = ../../src/m_config.c; sourceTree = "<group>"; };
 		F3C1ED671CF508B500C3E94F /* m_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_config.h; path = ../../src/m_config.h; sourceTree = "<group>"; };
 		F3C1ED681CF508B500C3E94F /* r_patch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = r_patch.c; path = ../../src/r_patch.c; sourceTree = "<group>"; };
@@ -286,7 +282,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */,
 				AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */,
 				9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */,
 				9F385F2B1C28ADBC00BD4F2B /* SDL2_mixer.framework in Frameworks */,
@@ -299,7 +294,6 @@
 		9F385F2F1C29BFA400BD4F2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F3C1ED631CF5028600C3E94F /* SDL2_image.framework */,
 				9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */,
 				9F385F281C28ADAF00BD4F2B /* SDL2.framework */,
 				AB5A81D21A8DAEB600AF539F /* Cocoa.framework */,
@@ -582,7 +576,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF2AAB820E76665005C4E4C /* info.c in Sources */,
-				8AF2AABA20E76671005C4E4C /* p_user.c in Sources */,
 				8AF2AAB920E76667005C4E4C /* sprites.c in Sources */,
 				F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */,
 				F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */,
@@ -787,7 +780,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/SDL2_mixer.framework/Headers",
-					"$(PROJECT_DIR)/SDL2_image.framework/Headers",
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -814,7 +806,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/SDL2_mixer.framework/Headers",
-					"$(PROJECT_DIR)/SDL2_image.framework/Headers",
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

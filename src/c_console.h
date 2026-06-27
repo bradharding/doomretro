@@ -145,15 +145,12 @@
 #if defined(_WIN32)
 #define SDL_FILENAME                        "SDL2.dll"
 #define SDL_MIXER_FILENAME                  "SDL2_mixer.dll"
-#define SDL_IMAGE_FILENAME                  "SDL2_image.dll"
 #elif defined(__APPLE__)
 #define SDL_FILENAME                        "SDL2"
 #define SDL_MIXER_FILENAME                  "SDL2_mixer"
-#define SDL_IMAGE_FILENAME                  "SDL2_image"
 #else
 #define SDL_FILENAME                        "SDL2.so"
 #define SDL_MIXER_FILENAME                  "SDL2_mixer.so"
-#define SDL_IMAGE_FILENAME                  "SDL2_image.so"
 #endif
 
 #define MAXTABS                             10

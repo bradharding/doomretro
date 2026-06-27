@@ -16,6 +16,7 @@
 * The crosshair can now snap to where your weapon will fire while autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* *DOOM Retro* no longer requires [*SDL_image*](https://github.com/libsdl-org/SDL_image) to take screenshots.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
