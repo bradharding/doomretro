@@ -37,7 +37,8 @@
 
 #include "doomtype.h"
 
-#include "SDL_gamecontroller.h"
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_gamepad.h>
 
 #define CONTROLLER_A                    0x00000001
 #define CONTROLLER_B                    0x00000002

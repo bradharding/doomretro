@@ -39,7 +39,9 @@
 #include <Windows.h>
 #endif
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_iostream.h>
+#include <SDL3/SDL_properties.h>
 
 #include "doomtype.h"
 

@@ -132,7 +132,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y cmake libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev ccache wget file
+          sudo apt install -y cmake libsdl3-dev libsdl3-mixer-dev libsdl3-image-dev ccache wget file
 
       - name: Extract version
         id: version
@@ -209,7 +209,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y cmake clang-tidy libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev ccache
+          sudo apt install -y cmake clang-tidy libsdl3-dev libsdl3-mixer-dev libsdl3-image-dev ccache
 
       - name: Configure
         run: |
@@ -271,7 +271,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install cmake sdl2 sdl2_mixer sdl2_image ccache
+          brew install cmake sdl3 sdl3_mixer sdl3_image ccache
 
       - name: Extract version
         id: version

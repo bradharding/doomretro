@@ -35,9 +35,9 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <SDL3/SDL_main.h>
 
-#include "SDL_main.h"
-#include "SDL_syswm.h"
+#include <SDL3/SDL.h>
 #endif
 
 #include "i_system.h"
@@ -153,13 +153,11 @@ static void I_AccessibilityShortcutKeys(bool bAllowKeys)
 void I_InitWindows(void)
 {
     HINSTANCE       handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo   info = { 0 };
-    HWND            hwnd;
+    HWND            hwnd = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(window),
+                        SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
 
-    SDL_VERSION(&info.version);
-
-    SDL_GetWindowWMInfo(window, &info);
-    hwnd = info.info.win.window;
+    if (!hwnd)
+        return;
 
     icon = LoadIcon(handle, "IDI_ICON1");
     SetClassLongPtr(hwnd, GCLP_HICON, (LONG_PTR)icon);
@@ -178,12 +176,11 @@ void I_ShutdownWindows(void)
 {
     if (window && oldProc)
     {
-        SDL_SysWMinfo   info = { 0 };
+        HWND    hwnd = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(window),
+                        SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
 
-        SDL_VERSION(&info.version);
-
-        if (SDL_GetWindowWMInfo(window, &info))
-            SetWindowLongPtr(info.info.win.window, GWLP_WNDPROC, (LONG_PTR)oldProc);
+        if (hwnd)
+            SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)oldProc);
 
         oldProc = NULL;
     }

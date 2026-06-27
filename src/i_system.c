@@ -54,6 +54,7 @@
 #include "m_misc.h"
 #include "p_setup.h"
 #include "s_sound.h"
+#include <SDL3/SDL.h>
 #include "version.h"
 #include "w_wad.h"
 
@@ -635,7 +636,7 @@ void I_InitCrashHandler(void)
 
 void I_PrintSystemInfo(void)
 {
-    const int   cores = SDL_GetCPUCount();
+    const int   cores = SDL_GetNumLogicalCPUCores();
     char        *RAM = commify(SDL_GetSystemRAM() / 1000);
 
     C_Output("There %s %i core%s and %sGB of RAM on this " DEVICE ".",
@@ -656,7 +657,7 @@ void I_Quit(bool shutdown)
 
         M_SaveCVARs();
 
-        SDL_StopTextInput();
+        SDL_StopTextInput(window);
 
 #if defined(_WIN32)
         I_ShutdownWindows();
@@ -686,7 +687,7 @@ void I_Error(const char *error, ...)
 
     already_quitting = true;
 
-    SDL_StopTextInput();
+    SDL_StopTextInput(window);
 
     // Shutdown. Here might be other errors.
     S_Shutdown();

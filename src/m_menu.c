@@ -56,6 +56,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include <SDL3/SDL.h>
 #include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
@@ -1418,7 +1419,7 @@ void M_UpdateSaveGameName(int i)
 static void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
-    SDL_StartTextInput();
+    SDL_StartTextInput(window);
     savestringenter = true;
     itemon = choice;
     M_StringCopy(saveoldstring, savegamestrings[itemon], sizeof(saveoldstring));
@@ -1737,7 +1738,7 @@ static void M_SfxVol(int choice)
     {
         if (sfxvolume > 0)
         {
-            S_SetSfxVolume(--sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+            S_SetSfxVolume(--sfxvolume * 127 / 31);
             S_StartSound(NULL, sfx_stnmov);
             s_sfxvolume = sfxvolume * 100 / 31;
             C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -1748,7 +1749,7 @@ static void M_SfxVol(int choice)
     {
         if (sfxvolume < 31)
         {
-            S_SetSfxVolume(++sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+            S_SetSfxVolume(++sfxvolume * 127 / 31);
             S_StartSound(NULL, sfx_stnmov);
             s_sfxvolume = sfxvolume * 100 / 31;
             C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
@@ -2377,7 +2378,7 @@ static void M_EndGameResponse(int key)
     messagetoprint = false;
 
     if (consoleactive)
-        SDL_StartTextInput();
+        SDL_StartTextInput(window);
 
     if (key != 'y')
     {
@@ -2434,7 +2435,7 @@ void M_EndGame(int choice)
 
     if (!M_StringEndsWith(s_ENDGAME, s_PRESSYN))
     {
-        SDL_StopTextInput();
+        SDL_StopTextInput(window);
         S_StartSound(NULL, sfx_swtchn);
     }
 }
@@ -3663,7 +3664,7 @@ bool M_Responder(event_t *ev)
                         }
                         else if (savestringenter)
                         {
-                            SDL_StopTextInput();
+                            SDL_StopTextInput(window);
                             savestringenter = false;
                             caretwait = 0;
                             showcaret = true;
@@ -4009,7 +4010,7 @@ bool M_Responder(event_t *ev)
                 if (!keydown)
                 {
                     keydown = key;
-                    SDL_StopTextInput();
+                    SDL_StopTextInput(window);
                     savestringenter = false;
                     caretwait = 0;
                     showcaret = true;
@@ -4034,7 +4035,7 @@ bool M_Responder(event_t *ev)
 
                     if (savegamestrings[itemon][0] && !allspaces)
                     {
-                        SDL_StopTextInput();
+                        SDL_StopTextInput(window);
                         M_UpdateSaveGameName(itemon);
                         savestringenter = false;
                         caretwait = SKULLANIMCOUNT;
@@ -4132,7 +4133,7 @@ bool M_Responder(event_t *ev)
         ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
         if (messageneedsinput && key != keyboardmenu && key != keyboardmenu2 && ch != 'y' && ch != 'n'
-            && key != KEY_BACKSPACE && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
+            && key != KEY_BACKSPACE && !(SDL_GetModState() & (SDL_KMOD_ALT | SDL_KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
             return false;
@@ -4366,7 +4367,7 @@ bool M_Responder(event_t *ev)
     // gamma toggle
     if (key == KEY_F11)
     {
-        M_ChangeGamma(SDL_GetModState() & KMOD_SHIFT);
+        M_ChangeGamma(SDL_GetModState() & SDL_KMOD_SHIFT);
         return false;
     }
 
@@ -4725,7 +4726,7 @@ bool M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-        else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && !helpscreen)
+        else if (key && !(SDL_GetModState() & (SDL_KMOD_ALT | SDL_KMOD_CTRL)) && !helpscreen)
         {
             for (int i = itemon + 1; i < currentmenu->numitems; i++)
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef)

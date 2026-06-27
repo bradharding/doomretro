@@ -39,8 +39,9 @@
 #include <Windows.h>
 #endif
 
-#include "SDL_image.h"
-#include "SDL_mixer.h"
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "am_map.h"
 #include "c_cmds.h"
@@ -1244,7 +1245,7 @@ void C_ShowConsole(bool reset)
 
     S_StopSounds();
     S_LowerMusicVolume();
-    SDL_StartTextInput();
+    SDL_StartTextInput(window);
     S_StartSound(viewplayer->mo, sfx_consol);
 }
 
@@ -1263,7 +1264,7 @@ void C_HideConsole(void)
         SetCapsLockState(true);
 #endif
 
-    SDL_StopTextInput();
+    SDL_StopTextInput(window);
 
     consoledirection = -1;
     consoleanim = 0;
@@ -1290,7 +1291,7 @@ void C_HideConsoleFast(void)
         SetCapsLockState(true);
 #endif
 
-    SDL_StopTextInput();
+    SDL_StopTextInput(window);
 
     consoledirection = -1;
     consoleanim = 0;
@@ -3193,7 +3194,7 @@ bool C_Responder(event_t *ev)
                 // move caret left
                 if (caretpos > 0)
                 {
-                    if (modstate & KMOD_SHIFT)
+                    if (modstate & SDL_KMOD_SHIFT)
                     {
                         caretpos--;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -3215,7 +3216,7 @@ bool C_Responder(event_t *ev)
                         showcaret = true;
                     }
                 }
-                else if (!(modstate & KMOD_SHIFT))
+                else if (!(modstate & SDL_KMOD_SHIFT))
                     caretpos = selectend = selectstart = 0;
 
                 break;
@@ -3224,7 +3225,7 @@ bool C_Responder(event_t *ev)
                 // move caret right
                 if (caretpos < len)
                 {
-                    if (modstate & KMOD_SHIFT)
+                    if (modstate & SDL_KMOD_SHIFT)
                     {
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
@@ -3245,7 +3246,7 @@ bool C_Responder(event_t *ev)
                         showcaret = true;
                     }
                 }
-                else if (!(modstate & KMOD_SHIFT))
+                else if (!(modstate & SDL_KMOD_SHIFT))
                     caretpos = selectend = selectstart = len;
 
                 break;
@@ -3257,7 +3258,7 @@ bool C_Responder(event_t *ev)
                 else if (caretpos > 0)
                 {
                     // move caret to start
-                    selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
+                    selectend = ((modstate & SDL_KMOD_SHIFT) ? caretpos : 0);
                     caretpos = selectstart = 0;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -3269,7 +3270,7 @@ bool C_Responder(event_t *ev)
                 if (caretpos < len)
                 {
                     // move caret to end
-                    selectstart = ((modstate & KMOD_SHIFT) ? caretpos : len);
+                    selectstart = ((modstate & SDL_KMOD_SHIFT) ? caretpos : len);
                     caretpos = selectend = len;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -3283,7 +3284,7 @@ bool C_Responder(event_t *ev)
                 // autocomplete
                 if (consoleinput[0] != '\0' && caretpos == len)
                 {
-                    const int   scrolldirection = ((modstate & KMOD_SHIFT) ? -1 : 1);
+                    const int   scrolldirection = ((modstate & SDL_KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
                     const bool  singlecommand = (M_StringStartsWith(consoleinput, "bind ")
                                     || M_StringStartsWith(consoleinput, "unbind ")
@@ -3386,7 +3387,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_UPARROW:
-                if ((modstate & KMOD_CTRL) && !topofconsole && C_CanScrollOutput() && scrollbardrawn)
+                if ((modstate & SDL_KMOD_CTRL) && !topofconsole && C_CanScrollOutput() && scrollbardrawn)
                 {
                     // scroll output up
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
@@ -3417,7 +3418,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_DOWNARROW:
-                if ((modstate & KMOD_CTRL) && outputhistory != -1 && scrollbardrawn)
+                if ((modstate & SDL_KMOD_CTRL) && outputhistory != -1 && scrollbardrawn)
                 {
                     // scroll output down
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
@@ -3485,7 +3486,7 @@ bool C_Responder(event_t *ev)
 
             case 'a':
                 // select all text
-                if (modstate & KMOD_CTRL)
+                if (modstate & SDL_KMOD_CTRL)
                 {
                     selectstart = 0;
                     selectend = caretpos = len;
@@ -3495,7 +3496,7 @@ bool C_Responder(event_t *ev)
 
             case 'c':
                 // copy selected text to clipboard
-                if ((modstate & KMOD_CTRL) && selectstart < selectend)
+                if ((modstate & SDL_KMOD_CTRL) && selectstart < selectend)
                 {
                     char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
 
@@ -3507,7 +3508,7 @@ bool C_Responder(event_t *ev)
 
             case 'v':
                 // paste text from clipboard
-                if (modstate & KMOD_CTRL)
+                if (modstate & SDL_KMOD_CTRL)
                 {
                     char    buffer[255];
                     char    *temp1 = M_SubString(consoleinput, 0, selectstart);
@@ -3535,7 +3536,7 @@ bool C_Responder(event_t *ev)
 
             case 'x':
                 // cut selected text to clipboard
-                if ((modstate & KMOD_CTRL) && selectstart < selectend)
+                if ((modstate & SDL_KMOD_CTRL) && selectstart < selectend)
                 {
                     char    *temp = M_SubString(consoleinput, selectstart, (size_t)selectend - selectstart);
 
@@ -3556,7 +3557,7 @@ bool C_Responder(event_t *ev)
 
             case 'y':
                 // redo
-                if ((modstate & KMOD_CTRL) && undolevels < maxundolevels)
+                if ((modstate & SDL_KMOD_CTRL) && undolevels < maxundolevels)
                 {
                     M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
                     caretpos = undohistory[undolevels].caretpos;
@@ -3568,7 +3569,7 @@ bool C_Responder(event_t *ev)
 
             case 'z':
                 // undo
-                if ((modstate & KMOD_CTRL) && undolevels)
+                if ((modstate & SDL_KMOD_CTRL) && undolevels)
                 {
                     M_StringCopy(consoleinput, undohistory[--undolevels].input, sizeof(consoleinput));
                     caretpos = undohistory[undolevels].caretpos;
@@ -4042,10 +4043,10 @@ void C_PrintCompileDate(void)
 void C_PrintSDLVersions(void)
 {
     C_Output(ITALICS("%s") " is using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
-        DOOMRETRO_NAME, SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+        DOOMRETRO_NAME, SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_MICRO_VERSION);
 
     C_Output("It is also using v%i.%i.%i of the " ITALICS("SDL_mixer")
         " library and v%i.%i.%i of the " ITALICS("SDL_image") " library.",
-        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
-        SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_MICRO_VERSION,
+        SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_MICRO_VERSION);
 }

@@ -35,8 +35,8 @@
 
 # [sneakernets] For macOS 64-bit
 OPTIMIZE = -O2 -m64
-CFLAGS = $(OPTIMIZE) $(INCLUDES) -ObjC -I/usr/local/include/SDL2
-LDFLAGS = -lSDL2 -lSDL2_mixer -lSDL2_image -lm -framework Foundation -framework Cocoa
+CFLAGS = $(OPTIMIZE) $(INCLUDES) -ObjC -I/usr/local/include/SDL3
+LDFLAGS = -lSDL3 -lSDL3_mixer -lSDL3_image -lm -framework Foundation -framework Cocoa
 
 SRCS := $(shell find . -name '*.c')
 

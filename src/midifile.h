@@ -37,6 +37,8 @@
 
 #pragma once
 
+#include <SDL3/SDL_iostream.h>
+
 #include "doomdef.h"
 #include "doomtype.h"
 
@@ -182,7 +184,7 @@ typedef struct
 } midi_file_t;
 
 // Load a MIDI file.
-midi_file_t *MIDI_LoadFile(SDL_RWops *stream);
+midi_file_t *MIDI_LoadFile(SDL_IOStream *stream);
 
 // Free a MIDI file.
 void MIDI_FreeFile(midi_file_t *file);

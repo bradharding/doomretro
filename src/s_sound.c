@@ -240,7 +240,7 @@ void S_Init(void)
 
         InitSfxModule();
         sfxvolume = (s_sfxvolume * 31 + 50) / 100;
-        S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+        S_SetSfxVolume(sfxvolume * 127 / 31);
 
         // Allocating the internal channels for mixing (the maximum number of sounds played simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
@@ -676,13 +676,13 @@ void S_UpdateSounds(void)
 
 void S_LowerMusicVolume(void)
 {
-    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0f
+    I_SetMusicVolume((int)(musicvolume * 127 / 31.0f
         / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_RestoreMusicVolume(void)
 {
-    I_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
+    I_SetMusicVolume(musicvolume * 127 / 31);
 }
 
 void S_SetSfxVolume(const int volume)
@@ -803,27 +803,14 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
-#if defined(_WIN32)
-        if (!midimusictype || !windowsmidi)
-#endif
-        {
-            char    *filename = M_TempFile(DOOMRETRO ".mp3");
+    {
+        char    *temp = uppercase(namebuf);
 
-            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
-                handle = Mix_LoadMUS(filename);
+        C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
+        free(temp);
 
-            free(filename);
-
-            if (!handle)
-            {
-                char    *temp = uppercase(namebuf);
-
-                C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
-                free(temp);
-
-                return;
-            }
-        }
+        return;
+    }
 
     music->handle = handle;
 
@@ -888,24 +875,11 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
-#if defined(_WIN32)
-        if (!midimusictype || !windowsmidi)
-#endif
-        {
-            char    *filename = M_TempFile(DOOMRETRO ".mp3");
-
-            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
-                handle = Mix_LoadMUS(filename);
-
-            free(filename);
-
-            if (!handle)
-            {
-                music->handle = NULL;
-                music->data = NULL;
-                return;
-            }
-        }
+    {
+        music->handle = NULL;
+        music->data = NULL;
+        return;
+    }
 
     music->handle = handle;
 

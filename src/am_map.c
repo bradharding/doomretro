@@ -33,7 +33,10 @@
 ==============================================================================
 */
 
+#define _USE_MATH_DEFINES
+
 #include <math.h>
+#include <SDL3/SDL.h>
 
 #include "am_map.h"
 #include "c_cmds.h"
@@ -897,7 +900,7 @@ bool AM_Responder(const event_t *ev)
                     || ev->data1 == keyboardautomap2)
                 && keydown != keyboardautomap
                 && (!keyboardautomap2 || keydown != keyboardautomap2)
-                && !(modstate & KMOD_ALT))
+                && !(modstate & SDL_KMOD_ALT))
                 || (ev->type == ev_mouse
                     && mouseautomap >= 0
                     && (ev->data1 & mouseautomap))
@@ -1030,7 +1033,7 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // leave automap
-                else if ((key == keyboardautomap || key == keyboardautomap2) && !(modstate & KMOD_ALT)
+                else if ((key == keyboardautomap || key == keyboardautomap2) && !(modstate & SDL_KMOD_ALT)
                     && keydown != keyboardautomap && (!keyboardautomap2 || keydown != keyboardautomap2) && !mapwindow)
                 {
                     keydown = key;

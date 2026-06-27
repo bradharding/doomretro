@@ -33,29 +33,31 @@
 ==============================================================================
 */
 
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "c_console.h"
 #include "doomstat.h"
-#include "i_winmusic.h"
 #include "m_config.h"
 #include "memio.h"
 #include "mus2mid.h"
 #include "s_sound.h"
 #include "w_wad.h"
-#include "z_zone.h"
+
+typedef struct
+{
+    byte    *data;
+    int     size;
+} registered_song_t;
 
 bool        midimusictype;
 bool        musmusictype;
 
 #if defined(_WIN32)
 bool        windowsmidi = false;
-static bool windowsmidisong;
-#else
-static int  paused_midi_volume;
 #endif
 
 static bool music_initialized;
+static MIX_Track *music_track;
 
 int         current_music_volume = 0;
 
@@ -71,218 +73,158 @@ void I_ShutdownMusic(void)
         I_UnregisterSong(mus_playing->handle);
     }
 
-    music_initialized = false;
-
-#if defined(_WIN32)
-    windowsmidisong = false;
-
-    if (windowsmidi)
+    if (music_track)
     {
-        I_Windows_ShutdownMusic();
-        windowsmidi = false;
+        MIX_DestroyTrack(music_track);
+        music_track = NULL;
     }
-#endif
+
+    music_initialized = false;
+    I_ReleaseMixer();
 }
 
 // Initialize music subsystem
 bool I_InitMusic(void)
 {
-    int         freq = MIX_DEFAULT_FREQUENCY;
-    int         channels;
-    uint16_t    format;
-
 #if defined(_WIN32)
-    // Never let SDL Mixer use native MIDI on Windows. Avoids SDL Mixer bug
-    // where music volume affects global application volume.
-    SDL_setenv("SDL_MIXER_DISABLE_NATIVEMIDI", "1", true);
+    windowsmidi = false;
 #endif
 
-    // If SDL_mixer is not initialized, we have to initialize it and have the
-    // responsibility to shut it down later on.
-    if (!Mix_QuerySpec(&freq, &format, &channels))
-        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
-            CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_ANY_CHANGE) < 0)
-            return false;
+    if (!I_AcquireMixer())
+        return false;
+
+    if (!(music_track = MIX_CreateTrack(I_GetMixer())))
+    {
+        I_ReleaseMixer();
+        return false;
+    }
 
     music_initialized = true;
+    I_SetMusicVolume(current_music_volume);
 
-#if defined(_WIN32)
-    if (!(windowsmidi = I_Windows_InitMusic()))
-        C_Warning(1, "Music couldn't be completely %s. Volume adjustment could be affected.",
-            (english == english_american ? "initialized" : "initialised"));
-
-    if (extras && W_CheckNumForName((s_remix ? "H_INTRO" : "O_INTRO")) >= 0 && (!sigil || buckethead) && (!sigil2 || thorr) && !legacyofrust)
-        return true;
-#endif
-
-    return music_initialized;
+    return true;
 }
 
 // Set music volume (0 - 127)
 void I_SetMusicVolume(const int volume)
 {
-    // Internal state variable.
     current_music_volume = volume;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-        I_Windows_SetMusicVolume(current_music_volume);
-    else
-        Mix_VolumeMusic(current_music_volume);
-#else
-    Mix_VolumeMusic(current_music_volume);
-#endif
+    if (music_track)
+        MIX_SetTrackGain(music_track, (float)current_music_volume / 127.0f);
 }
 
 // Start playing a mid
 void I_PlaySong(void *handle, const bool looping)
 {
-    if (!music_initialized)
+    registered_song_t    *song = handle;
+    SDL_IOStream         *io;
+
+    if (!music_initialized || !music_track || !song)
         return;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-        I_Windows_PlaySong(looping);
-    else if (handle)
-        Mix_PlayMusic(handle, (looping ? -1 : 1));
-#else
-    Mix_PlayMusic(handle, (looping ? -1 : 1));
-#endif
+    if (!(io = SDL_IOFromMem(song->data, song->size)))
+        return;
+
+    if (!MIX_SetTrackIOStream(music_track, io, true))
+    {
+        SDL_CloseIO(io);
+        return;
+    }
+
+    MIX_SetTrackLoops(music_track, (looping ? -1 : 0));
+    MIX_SetTrackGain(music_track, (float)current_music_volume / 127.0f);
+    MIX_PlayTrack(music_track, 0);
 }
 
 void I_PauseSong(void)
 {
-    if (!music_initialized)
+    if (!music_initialized || !music_track)
         return;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-        I_Windows_PauseSong();
-    else
-        Mix_PauseMusic();
-#else
-    if (midimusictype)
-    {
-        paused_midi_volume = current_music_volume;
-        Mix_VolumeMusic(0);
-    }
-    else
-        Mix_PauseMusic();
-#endif
+    MIX_PauseTrack(music_track);
 }
 
 void I_ResumeSong(void)
 {
-    if (!music_initialized)
+    if (!music_initialized || !music_track)
         return;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-        I_Windows_ResumeSong();
-    else
-        Mix_ResumeMusic();
-#else
-    if (midimusictype)
-        Mix_VolumeMusic(paused_midi_volume);
-    else
-        Mix_ResumeMusic();
-#endif
+    MIX_ResumeTrack(music_track);
 }
 
 void I_StopSong(void)
 {
-    if (!music_initialized)
+    if (!music_initialized || !music_track)
         return;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-        I_Windows_StopSong();
-#endif
-
-    Mix_HaltMusic();
+    MIX_StopTrack(music_track, 0);
 }
 
 void I_UnregisterSong(void *handle)
 {
-    if (!music_initialized)
+    registered_song_t    *song = handle;
+
+    if (!song)
         return;
 
-#if defined(_WIN32)
-    if (windowsmidisong)
-    {
-        I_Windows_UnregisterSong();
-        windowsmidisong = false;
-    }
-    else if (handle)
-        Mix_FreeMusic(handle);
-#else
-    if (handle)
-        Mix_FreeMusic(handle);
-#endif
+    free(song->data);
+    free(song);
 }
 
 void *I_RegisterSong(void *data, int size)
 {
+    registered_song_t    *song;
+    const byte           *src = data;
+    size_t               outsize = (size_t)size;
+
     if (!music_initialized)
         return NULL;
-    else
+
+    midimusictype = false;
+    musmusictype = false;
+
+    if (size >= 14)
     {
-        SDL_RWops   *rwops = NULL;
-
-        midimusictype = false;
-        musmusictype = false;
-
-        // Check for MIDI or MUS format first:
-        if (size >= 14)
+        if (!memcmp(data, "MThd", 4))
+            midimusictype = true;
+        else if (!memcmp(data, "MUS\x1A", 4))
         {
-            if (!memcmp(data, "MThd", 4))           // is it a MIDI?
-                midimusictype = true;
-            else if (!memcmp(data, "MUS\x1A", 4))   // is it a MUS?
+            MEMFILE *instream = mem_fopen_read(data, size);
+            MEMFILE *outstream = mem_fopen_write();
+            void    *outbuf = NULL;
+            size_t  midlen = 0;
+
+            musmusictype = true;
+
+            if (!mus2mid(instream, outstream))
             {
-                MEMFILE *instream = mem_fopen_read(data, size);
-                MEMFILE *outstream = mem_fopen_write();
-
-                musmusictype = true;
-
-                if (mus2mid(instream, outstream))
-                {
-                    void    *outbuf;
-                    byte    *mid;
-                    size_t  midlen;
-
-                    mem_get_buf(outstream, &outbuf, &midlen);
-
-                    if ((mid = Z_Malloc(midlen, PU_LEVEL, NULL)))
-                    {
-                        memcpy(mid, outbuf, midlen);
-                        data = mid;
-                        size = (int)midlen;
-                    }
-                }
-
                 mem_fclose(instream);
                 mem_fclose(outstream);
-
-                midimusictype = true;               // now it's a MIDI
-            }
-        }
-
-#if defined(_WIN32)
-        windowsmidisong = false;
-
-        if (midimusictype && windowsmidi)
-        {
-            if (I_Windows_RegisterSong(data, size))
-            {
-                windowsmidisong = true;
                 return NULL;
             }
+
+            mem_get_buf(outstream, &outbuf, &midlen);
+            src = outbuf;
+            outsize = midlen;
+            midimusictype = true;
+
+            mem_fclose(instream);
+            mem_fclose(outstream);
         }
-#endif
-
-        if (!(rwops = SDL_RWFromMem(data, size)))
-            return NULL;
-
-        return Mix_LoadMUS_RW(rwops, 1);
     }
+
+    if (!(song = malloc(sizeof(*song))))
+        return NULL;
+
+    if (!(song->data = malloc(outsize)))
+    {
+        free(song);
+        return NULL;
+    }
+
+    memcpy(song->data, src, outsize);
+    song->size = (int)outsize;
+
+    return song;
 }

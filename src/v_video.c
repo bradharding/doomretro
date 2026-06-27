@@ -33,7 +33,7 @@
 ==============================================================================
 */
 
-#include "SDL_image.h"
+#include <SDL3_image/SDL_image.h>
 
 #include "c_cmds.h"
 #include "c_console.h"
@@ -53,6 +53,7 @@
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include <SDL3/SDL.h>
 
 byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
@@ -2061,15 +2062,7 @@ void V_InvertScreen(void)
 //
 void V_Init(void)
 {
-    byte                *base = Z_Malloc(MAXSCREENAREA * NUMSCREENS, PU_STATIC, NULL);
-    const SDL_version   *linked = IMG_Linked_Version();
-
-    if (linked->major != SDL_IMAGE_MAJOR_VERSION
-        || linked->minor != SDL_IMAGE_MINOR_VERSION
-        || linked->patch != SDL_IMAGE_PATCHLEVEL)
-        C_Warning(0, "The wrong version of " SDL_IMAGE_FILENAME " was found. "
-            DOOMRETRO_NAME " requires v%i.%i.%i.",
-            SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+    byte    *base = Z_Malloc(MAXSCREENAREA * NUMSCREENS, PU_STATIC, NULL);
 
     for (int i = 0; i < NUMSCREENS; i++)
         screens[i] = &base[i * MAXSCREENAREA];
@@ -2083,24 +2076,16 @@ char        lbmpath2[MAX_PATH] = "";
 static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 {
     bool    result = false;
-    int     width = 0;
-    int     height = 0;
-
-    SDL_GetWindowSize(sdlwindow, &width, &height);
 
     blitfunc();
 
-    if (width > 0 && height > 0)
     {
-        SDL_Surface *screenshot = SDL_CreateRGBSurface(0, (vid_widescreen ? width : height * 4 / 3),
-                        height, 32, 0, 0, 0, 0);
+        SDL_Surface *screenshot = SDL_RenderReadPixels(SDL_GetRenderer(sdlwindow), NULL);
 
         if (screenshot)
         {
-            if (!SDL_RenderReadPixels(SDL_GetRenderer(sdlwindow), NULL, 0, screenshot->pixels, screenshot->pitch))
-                result = !IMG_SavePNG(screenshot, path);
-
-            SDL_FreeSurface(screenshot);
+            result = IMG_SavePNG(screenshot, path);
+            SDL_DestroySurface(screenshot);
         }
     }
 

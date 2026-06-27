@@ -33,13 +33,9 @@
 ==============================================================================
 */
 
-#include "SDL_timer.h"
+#include <SDL3/SDL_timer.h>
 
 #include "doomdef.h"
-
-#if SDL_VERSION_ATLEAST(2, 18, 0)
-#define SDL_GetTicks  SDL_GetTicks64
-#endif
 
 //
 // I_GetTime

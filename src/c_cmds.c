@@ -33,7 +33,11 @@
 ==============================================================================
 */
 
+#define _USE_MATH_DEFINES
+
 #include <float.h>
+#include <math.h>
+#include <SDL3/SDL.h>
 
 #if defined(_WIN32)
 #include <Windows.h>
@@ -6367,7 +6371,21 @@ static void mapstatsfunc2(char *cmd, char *parms)
         const musicinfo_t   *music = mus_playing;
         const char          *musicartist = P_GetMapMusicComposer(gameepisode, gamemap);
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
-        const Mix_MusicType musictype = Mix_GetMusicType(NULL);
+        const byte          *musicdata = music->data;
+        const int           musicdatalen = (music->lumpnum >= 0 ? W_LumpLength(music->lumpnum) : 0);
+        const bool          iswav = (musicdata && musicdatalen >= 12
+                                && !memcmp(musicdata, "RIFF", 4) && !memcmp(musicdata + 8, "WAVE", 4));
+        const bool          ismid = (musicdata && musicdatalen >= 4 && !memcmp(musicdata, "MThd", 4));
+        const bool          isogg = (musicdata && musicdatalen >= 4 && !memcmp(musicdata, "OggS", 4));
+        const bool          isflac = (musicdata && musicdatalen >= 4 && !memcmp(musicdata, "fLaC", 4));
+        const bool          ismp3 = (musicdata && musicdatalen >= 3 && !memcmp(musicdata, "ID3", 3));
+        const bool          ismod = (musicdata && musicdatalen >= 4
+                                && (!memcmp(musicdata, "IMPM", 4) || (musicdatalen >= 17 && !memcmp(musicdata, "Extended Module: ", 17))
+                                    || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "M.K.", 4)) || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "M!K!", 4))
+                                    || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "FLT4", 4)) || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "4CHN", 4))
+                                    || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "6CHN", 4)) || (musicdatalen >= 1084 && !memcmp(musicdata + 1080, "8CHN", 4))
+                                    || !memcmp(musicdata, "SCRM", 4)));
+        bool                isopus = false;
 
         M_StringCopy(namebuf, lumpinfo[mus_playing->lumpnum]->name, sizeof(namebuf));
 
@@ -6464,22 +6482,30 @@ static void mapstatsfunc2(char *cmd, char *parms)
             || gamemission == pack_nerve)
             C_TabbedOutput(tabs, INDENT "Artist\tBobby Prince");
 
+        if (isogg && musicdatalen >= 8)
+            for (int i = 0; i <= musicdatalen - 8; i++)
+                if (!memcmp(musicdata + i, "OpusHead", 8))
+                {
+                    isopus = true;
+                    break;
+                }
+
         if (musmusictype)
             C_TabbedOutput(tabs, INDENT "Format\tMUS");
-        else if (musictype == MUS_WAV)
+        else if (iswav)
             C_TabbedOutput(tabs, INDENT "Format\tWAV");
-        else if (musictype == MUS_MOD)
+        else if (ismod)
             C_TabbedOutput(tabs, INDENT "Format\tMOD");
-        else if (midimusictype || musictype == MUS_MID)
+        else if (midimusictype || ismid)
             C_TabbedOutput(tabs, INDENT "Format\tMIDI");
-        else if (musictype == MUS_OGG)
-            C_TabbedOutput(tabs, INDENT "Format\tOgg Vorbis");
-        else if (musictype == MUS_MP3)
-            C_TabbedOutput(tabs, INDENT "Format\tMP3");
-        else if (musictype == MUS_FLAC)
-            C_TabbedOutput(tabs, INDENT "Format\tFLAC");
-        else if (musictype == MUS_OPUS)
+        else if (isopus)
             C_TabbedOutput(tabs, INDENT "Format\tOpus");
+        else if (isogg)
+            C_TabbedOutput(tabs, INDENT "Format\tOgg Vorbis");
+        else if (ismp3)
+            C_TabbedOutput(tabs, INDENT "Format\tMP3");
+        else if (isflac)
+            C_TabbedOutput(tabs, INDENT "Format\tFLAC");
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
         {
@@ -8951,7 +8977,7 @@ static void resetallfunc2(char *cmd, char *parms)
     C_HideConsole();
     M_StartButtonMessage(resetallstring, &C_VerifyResetAll, false);
 
-    SDL_StopTextInput();
+    SDL_StopTextInput(window);
     S_StartSound(NULL, sfx_swtchn);
 }
 
@@ -12467,7 +12493,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
 
             s_sfxvolume = value;
             sfxvolume = (s_sfxvolume * 31 + 50) / 100;
-            S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+            S_SetSfxVolume(sfxvolume * 127 / 31);
             M_SaveCVARs();
             free(temp1);
         }

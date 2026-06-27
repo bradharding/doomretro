@@ -415,7 +415,7 @@ bool I_Windows_InitMusic(void)
 
 void I_Windows_SetMusicVolume(int volume)
 {
-    volume_factor = sqrtf((float)volume / (MIX_MAX_VOLUME - 1));
+    volume_factor = sqrtf((float)volume / 127.0f);
     volume_needs_update = true;
 }
 
@@ -500,7 +500,7 @@ void I_Windows_ResumeSong(void)
 
 bool I_Windows_RegisterSong(void *data, int size)
 {
-    SDL_RWops       *rwops = SDL_RWFromMem(data, size);
+    SDL_IOStream    *rwops = SDL_IOFromMem(data, size);
     midi_file_t     *file = MIDI_LoadFile(rwops);
     MIDIPROPTIMEDIV timediv = { 0 };
     MIDIPROPTEMPO   tempo = { 0 };

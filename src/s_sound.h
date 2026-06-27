@@ -35,7 +35,7 @@
 
 #pragma once
 
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "sounds.h"
 
@@ -54,6 +54,10 @@
 // Triggers a segfault if no name is provided even though the default device is empty
 #define DEFAULT_DEVICE              ""
 #endif
+
+bool I_AcquireMixer(void);
+void I_ReleaseMixer(void);
+MIX_Mixer *I_GetMixer(void);
 
 bool I_InitSound(void);
 void I_ShutdownSound(void);
