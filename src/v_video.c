@@ -44,6 +44,7 @@
 #include "hu_lib.h"
 #include "i_colors.h"
 #include "i_swap.h"
+#include "i_video.h"
 #include "m_array.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -2074,6 +2075,26 @@ char        lbmpath1[MAX_PATH];
 static char lbmname2[MAX_PATH];
 char        lbmpath2[MAX_PATH] = "";
 
+static bool V_WritePNGChunk(FILE *file, const char *type, const byte *data, mz_uint32 length)
+{
+    byte        header[8];
+    byte        crcbytes[4];
+    mz_uint32   bigendian = SDL_SwapBE32(length);
+    mz_uint32   crc = (mz_uint32)mz_crc32(MZ_CRC32_INIT, (const unsigned char *)type, 4);
+
+    if (length)
+        crc = (mz_uint32)mz_crc32(crc, data, length);
+
+    memcpy(header, &bigendian, sizeof(bigendian));
+    memcpy(header + 4, type, 4);
+    bigendian = SDL_SwapBE32(crc);
+    memcpy(crcbytes, &bigendian, sizeof(bigendian));
+
+    return (fwrite(header, 1, sizeof(header), file) == sizeof(header)
+        && (!length || fwrite(data, 1, length, file) == length)
+        && fwrite(crcbytes, 1, sizeof(crcbytes), file) == sizeof(crcbytes));
+}
+
 static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 {
     bool            result = false;
@@ -2087,30 +2108,74 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 
     if (renderer && width > 0 && height > 0)
     {
-        const int   pngwidth = (vid_widescreen ? width : height * 4 / 3);
-        const int   pitch = pngwidth * 3;
-        byte        *pixels = malloc((size_t)pitch * height);
+        static const byte   pngsignature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
+        const int           pngwidth = (vid_widescreen ? width : height * 4 / 3);
+        const int           pitch = pngwidth * 3;
+        const size_t        rawsize = (size_t)(pngwidth + 1) * height;
+        byte                ihdr[13];
+        byte                palettebytes[256 * 3];
+        byte                *pixels = malloc((size_t)pitch * height);
 
         if (pixels)
         {
             if (!SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, pixels, pitch))
             {
-                size_t  pngsize = 0;
-                void    *png = tdefl_write_image_to_png_file_in_memory(pixels, pngwidth, height, 3, &pngsize);
+                byte    *raw = malloc(rawsize);
 
-                if (png)
+                if (raw)
                 {
-                    FILE    *file = fopen(path, "wb");
+                    mz_ulong    compressedsize = mz_compressBound((mz_ulong)rawsize);
+                    byte        *compressed = malloc(compressedsize);
 
-                    if (file)
+                    for (int i = 0; i < 256; i++)
                     {
-                        result = (fwrite(png, 1, pngsize, file) == pngsize);
-
-                        if (fclose(file))
-                            result = false;
+                        palettebytes[i * 3] = colors[i].r;
+                        palettebytes[i * 3 + 1] = colors[i].g;
+                        palettebytes[i * 3 + 2] = colors[i].b;
                     }
 
-                    mz_free(png);
+                    for (int y = 0; y < height; y++)
+                    {
+                        byte        *dst = raw + (size_t)y * (pngwidth + 1);
+                        const byte  *src = pixels + (size_t)y * pitch;
+
+                        *dst++ = 0;
+
+                        for (int x = 0; x < pngwidth; x++, src += 3)
+                            *dst++ = (byte)I_GetNearestColor(palettebytes, src[0], src[1], src[2]);
+                    }
+
+                    if (compressed
+                        && mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize, MZ_BEST_COMPRESSION) == MZ_OK)
+                    {
+                        FILE        *file = fopen(path, "wb");
+                        mz_uint32   bigendian = SDL_SwapBE32((mz_uint32)pngwidth);
+
+                        memcpy(ihdr, &bigendian, sizeof(bigendian));
+                        bigendian = SDL_SwapBE32((mz_uint32)height);
+                        memcpy(ihdr + 4, &bigendian, sizeof(bigendian));
+
+                        ihdr[8] = 8;
+                        ihdr[9] = 3;
+                        ihdr[10] = 0;
+                        ihdr[11] = 0;
+                        ihdr[12] = 0;
+
+                        if (file)
+                        {
+                            result = (fwrite(pngsignature, 1, sizeof(pngsignature), file) == sizeof(pngsignature)
+                                && V_WritePNGChunk(file, "IHDR", ihdr, sizeof(ihdr))
+                                && V_WritePNGChunk(file, "PLTE", palettebytes, sizeof(palettebytes))
+                                && V_WritePNGChunk(file, "IDAT", compressed, (mz_uint32)compressedsize)
+                                && V_WritePNGChunk(file, "IEND", NULL, 0));
+
+                            if (fclose(file))
+                                result = false;
+                        }
+                    }
+
+                    free(compressed);
+                    free(raw);
                 }
             }
 

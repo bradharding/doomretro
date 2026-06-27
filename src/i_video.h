@@ -175,6 +175,7 @@ extern SDL_Window   *window;
 
 extern SDL_Window   *mapwindow;
 extern byte         *mapscreen;
+extern SDL_Color    colors[256];
 
 extern bool         animatingpillarboxes;
 extern bool         keepwidescreenduringanim;

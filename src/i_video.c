@@ -97,7 +97,7 @@ static SDL_Surface  *buffer;
 static byte         *pixels;
 static int          pitch;
 static SDL_Palette  *palette;
-static SDL_Color    colors[256];
+SDL_Color           colors[256];
 byte                *PLAYPAL;
 
 byte                *mapscreen;
