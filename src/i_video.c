@@ -213,35 +213,6 @@ static void SetTextureScaleModeByName(SDL_Texture *targettexture, const char *sc
         SDL_SetTextureScaleMode(targettexture, SDL_SCALEMODE_NEAREST);
 }
 
-static bool RenderCopyCompat(SDL_Renderer *targetrenderer, SDL_Texture *targettexture,
-    const SDL_Rect *srcrect, const SDL_Rect *dstrect)
-{
-    SDL_FRect srcf;
-    SDL_FRect dstf;
-    const SDL_FRect *src = NULL;
-    const SDL_FRect *dst = NULL;
-
-    if (srcrect)
-    {
-        srcf.x = (float)srcrect->x;
-        srcf.y = (float)srcrect->y;
-        srcf.w = (float)srcrect->w;
-        srcf.h = (float)srcrect->h;
-        src = &srcf;
-    }
-
-    if (dstrect)
-    {
-        dstf.x = (float)dstrect->x;
-        dstf.y = (float)dstrect->y;
-        dstf.w = (float)dstrect->w;
-        dstf.h = (float)dstrect->h;
-        dst = &dstf;
-    }
-
-    return SDL_RenderTexture(targetrenderer, targettexture, src, dst);
-}
-
 static bool RenderSetLogicalSizeCompat(SDL_Renderer *targetrenderer, int width, int height)
 {
     return SDL_SetRenderLogicalPresentation(targetrenderer, width, height,
@@ -276,8 +247,8 @@ static int          numdisplays;
 static SDL_Rect     displays[vid_display_max];
 static SDL_DisplayID displayids[vid_display_max];
 
-static int          mousepointerx;
-static int          mousepointery;
+static float        mousepointerx;
+static float        mousepointery;
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -591,13 +562,13 @@ static void I_GetEvent(void)
 
                 if (Event->wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
                 {
-                    ev.data1 = -Event->wheel.x;
-                    ev.data2 = -Event->wheel.y;
+                    ev.data1 = -(int)Event->wheel.x;
+                    ev.data2 = -(int)Event->wheel.y;
                 }
                 else
                 {
-                    ev.data1 = Event->wheel.x;
-                    ev.data2 = Event->wheel.y;
+                    ev.data1 = (int)Event->wheel.x;
+                    ev.data2 = (int)Event->wheel.y;
                 }
 
                 if (menuactive || consoleactive)
@@ -747,12 +718,12 @@ static void I_GetEvent(void)
 
 void I_SaveMousePointerPosition(void)
 {
-    float x = 0.0f;
-    float y = 0.0f;
+    float   x = 0.0f;
+    float   y = 0.0f;
 
     SDL_GetMouseState(&x, &y);
-    mousepointerx = (int)x;
-    mousepointery = (int)y;
+    mousepointerx = x;
+    mousepointery = y;
 }
 
 void I_RestoreMousePointerPosition(void)
@@ -1014,12 +985,12 @@ void I_WindowResizeBlit(void)
     if (nearestlinear)
     {
         SDL_SetRenderTarget(renderer, texture_upscaled);
-        RenderCopyCompat(renderer, texture, NULL, NULL);
+        SDL_RenderTexture(renderer, texture, NULL, NULL);
         SDL_SetRenderTarget(renderer, NULL);
-        RenderCopyCompat(renderer, texture_upscaled, NULL, NULL);
+        SDL_RenderTexture(renderer, texture_upscaled, NULL, NULL);
     }
     else
-        RenderCopyCompat(renderer, texture, NULL, NULL);
+        SDL_RenderTexture(renderer, texture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
 }
@@ -1033,7 +1004,8 @@ static void I_Blit(void)
     SDL_BlitSurface(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
-    RenderCopyCompat(renderer, texture, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 }
 
 static void I_Blit_NearestLinear(void)
@@ -1045,9 +1017,10 @@ static void I_Blit_NearestLinear(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    RenderCopyCompat(renderer, texture, NULL, NULL);
+    SDL_RenderTexture(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
-    RenderCopyCompat(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture_upscaled, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 }
 
 static void I_Blit_ShowFPS(void)
@@ -1059,7 +1032,8 @@ static void I_Blit_ShowFPS(void)
     SDL_BlitSurface(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
-    RenderCopyCompat(renderer, texture, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 }
 
 static void I_Blit_NearestLinear_ShowFPS(void)
@@ -1072,9 +1046,10 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    RenderCopyCompat(renderer, texture, NULL, NULL);
+    SDL_RenderTexture(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
-    RenderCopyCompat(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture_upscaled, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 }
 
 static void I_Blit_Shake(void)
@@ -1092,7 +1067,8 @@ static void I_Blit_Shake(void)
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
 
-    RenderCopyCompat(renderer, texture, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 
     dest_rect.x = x;
     dest_rect.y = y;
@@ -1110,13 +1086,14 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    RenderCopyCompat(renderer, texture, NULL, NULL);
+    SDL_RenderTexture(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
 
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
 
-    RenderCopyCompat(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture_upscaled, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 
     dest_rect.x = x;
     dest_rect.y = y;
@@ -1138,7 +1115,8 @@ static void I_Blit_ShowFPS_Shake(void)
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
 
-    RenderCopyCompat(renderer, texture, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 
     dest_rect.x = x;
     dest_rect.y = y;
@@ -1157,13 +1135,14 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, NULL, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    RenderCopyCompat(renderer, texture, NULL, NULL);
+    SDL_RenderTexture(renderer, texture, NULL, NULL);
     SDL_SetRenderTarget(renderer, NULL);
 
     dest_rect.x += M_BigRandomInt(-2, 2);
     dest_rect.y += M_BigRandomInt(-2, 2);
 
-    RenderCopyCompat(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderTexture(renderer, texture_upscaled, NULL, &(SDL_FRect){ (float)dest_rect.x, (float)dest_rect.y,
+        (float)dest_rect.w, (float)dest_rect.h });
 
     dest_rect.x = x;
     dest_rect.y = y;
@@ -1174,7 +1153,7 @@ static void I_Blit_Automap(void)
     SDL_BlitSurface(mapsurface, &map_rect, mapbuffer, &map_rect);
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
-    RenderCopyCompat(maprenderer, maptexture, NULL, NULL);
+    SDL_RenderTexture(maprenderer, maptexture, NULL, NULL);
     SDL_RenderPresent(maprenderer);
 }
 
@@ -1184,9 +1163,9 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_UpdateTexture(maptexture, &map_rect, mappixels, mappitch);
     SDL_RenderClear(maprenderer);
     SDL_SetRenderTarget(maprenderer, maptexture_upscaled);
-    RenderCopyCompat(maprenderer, maptexture, NULL, NULL);
+    SDL_RenderTexture(maprenderer, maptexture, NULL, NULL);
     SDL_SetRenderTarget(maprenderer, NULL);
-    RenderCopyCompat(maprenderer, maptexture_upscaled, NULL, NULL);
+    SDL_RenderTexture(maprenderer, maptexture_upscaled, NULL, NULL);
     SDL_RenderPresent(maprenderer);
 }
 
@@ -1486,7 +1465,6 @@ bool I_CreateExternalAutomap(void)
 
     SDL_FillSurfaceRect(mapbuffer, NULL, BLACK);
 
-    if (nearestlinear)
     if (!(maptexture = SDL_CreateTexture(maprenderer, pixelformat, SDL_TEXTUREACCESS_STREAMING,
         MAPWIDTH, MAPHEIGHT)))
         I_SDLError("SDL_CreateTexture", -2);
@@ -2124,13 +2102,13 @@ static void SetVideoMode(const bool createwindow, const bool output)
 
         if (rendererinfo.flags & SDL3_RENDERER_PRESENTVSYNC)
         {
-            SDL_DisplayMode       displaymode;
-            const SDL_DisplayMode *fullscreenmode;
+            SDL_DisplayMode         displaymode;
+            const SDL_DisplayMode   *fullscreenmode;
 
             if ((fullscreenmode = SDL_GetWindowFullscreenMode(window)))
             {
                 displaymode = *fullscreenmode;
-                refreshrate = displaymode.refresh_rate;
+                refreshrate = (int)displaymode.refresh_rate;
 
 #if !defined (__APPLE__)
                 if (vid_vsync == vid_vsync_adaptive && M_StringStartsWith(vid_scaleapi, "opengl"))
@@ -2236,11 +2214,15 @@ static void SetVideoMode(const bool createwindow, const bool output)
     if (!(texture = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_STREAMING, SCREENWIDTH, SCREENHEIGHT)))
         I_SDLError("SDL_CreateTexture", -1);
 
+    SetTextureScaleModeByName(texture, (nearestlinear ? vid_scalefilter_nearest : vid_scalefilter));
+
     if (nearestlinear)
     {
         if (!(texture_upscaled = SDL_CreateTexture(renderer, pixelformat, SDL_TEXTUREACCESS_TARGET,
             upscaledwidth * SCREENWIDTH, upscaledheight * SCREENHEIGHT)))
             I_SDLError("SDL_CreateTexture", -2);
+
+        SetTextureScaleModeByName(texture_upscaled, vid_scalefilter_linear);
     }
 
     if (!(palette = SDL_CreatePalette(256)))
