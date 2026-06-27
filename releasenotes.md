@@ -11,6 +11,7 @@
 * You may now also click and drag the console’s edge upwards to close it.
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
+* `Retro bits = FLOATBOB` used in `DEHACKED` lumps is now allowed for shootable things.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 * The crosshair can now snap to where your weapon will fire while autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.

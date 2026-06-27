@@ -3007,8 +3007,10 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
     }
 
-    // [BH] Disable bobbing and translucency if thing no longer a pickup
-    if ((mobjinfo[indexnum].flags2 & MF2_FLOATBOB) && !(mobjinfo[indexnum].flags & MF_SPECIAL))
+    // [BH] Disable bobbing and translucency if thing no longer a pickup, or shootable
+    if ((mobjinfo[indexnum].flags2 & MF2_FLOATBOB)
+        && !(mobjinfo[indexnum].flags & MF_SPECIAL)
+        && !(mobjinfo[indexnum].flags & MF_SHOOTABLE))
         mobjinfo[indexnum].flags2 &= ~(MF2_FLOATBOB | MF2_TRANSLUCENT_33 | MF2_TRANSLUCENT_BLUE_25);
 
     // [BH] No extra barrel frame
