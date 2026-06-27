@@ -3283,6 +3283,12 @@ static bool M_CanOpenConsoleWithMouseDrag(void)
         && (gamestate != GS_LEVEL || menuactive));
 }
 
+void M_UpdateOpenConsoleEdge(int y)
+{
+    openconsoleedgewait = (m_pointer && usingmouse && !usingcontroller
+        && (gamestate != GS_LEVEL || menuactive) ? y : -1);
+}
+
 static bool M_CanDrawOpenConsoleEdge(void)
 {
     return (M_CanOpenConsoleWithMouseDrag() && openconsoleedgewait >= 0
@@ -3478,7 +3484,7 @@ bool M_Responder(event_t *ev)
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
 
-        openconsoleedgewait = (M_CanOpenConsoleWithMouseDrag() ? ev->data3 : -1);
+        M_UpdateOpenConsoleEdge(ev->data3);
 
         if (draggingconsole)
         {
