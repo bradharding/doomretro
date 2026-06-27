@@ -33,7 +33,10 @@
 ==============================================================================
 */
 
+#define _USE_MATH_DEFINES
+
 #include <float.h>
+#include <math.h>
 
 #if defined(_WIN32)
 #include <Windows.h>

@@ -33,12 +33,14 @@
 ==============================================================================
 */
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+
 #if defined(X11)
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
 #endif
-
-#include <math.h>
 
 #include "am_map.h"
 #include "c_cmds.h"
