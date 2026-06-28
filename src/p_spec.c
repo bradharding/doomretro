@@ -320,7 +320,7 @@ void P_InitPicAnims(void)
         if (lastanim->numpics < 2)
             I_Error("P_InitPicAnims: bad cycle from %s to %s", animdefs[i].startname, animdefs[i].endname);
 
-        lastanim->speed = LONG(animdefs[i].speed);
+        lastanim->speed = LITTLELONG(animdefs[i].speed);
 
         if (!lastanim->speed)
             lastanim->speed = 1;

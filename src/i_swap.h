@@ -42,5 +42,7 @@
 
 // These are deliberately cast to signed values; this is the behavior
 // of the macros in the original source and some code relies on it.
-#define SHORT(x)    ((signed short)SDL_SwapLE16(x))
-#define LONG(x)     ((signed int)SDL_SwapLE32(x))
+#define LITTLESHORT(x)  ((signed short)SDL_SwapLE16(x))
+#define BIGSHORT(x)     ((signed short)SDL_SwapBE16(x))
+#define LITTLELONG(x)   ((signed int)SDL_SwapLE32(x))
+#define BIGLONG(x)      ((signed int)SDL_SwapBE32(x))

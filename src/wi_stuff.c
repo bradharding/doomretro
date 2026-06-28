@@ -459,7 +459,7 @@ static bool DrawAnimation(void)
     {
         patch_t *patch = W_CacheLumpName(animstate->frames[animstate->frameindex].imagelump);
 
-        if (!animstate->xpos && !animstate->ypos && SHORT(patch->width) >= VANILLAWIDTH)
+        if (!animstate->xpos && !animstate->ypos && LITTLESHORT(patch->width) >= VANILLAWIDTH)
             V_DrawPagePatch(0, patch);
         else
             V_DrawMenuPatch(animstate->xpos, animstate->ypos, patch, false, SCREENWIDTH);
@@ -634,10 +634,10 @@ static void WI_DrawLF(void)
     if (finishedtitlepatch > 0)
     {
         patch_t     *patch = W_CacheLumpNum(finishedtitlepatch);
-        const short height = SHORT(patch->height);
+        const short height = LITTLESHORT(patch->height);
 
         if (height < VANILLAHEIGHT)
-            V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
+            V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
         else
             V_DrawPagePatch(0, patch);
 
@@ -655,10 +655,10 @@ static void WI_DrawLF(void)
         if (W_GetNumLumps(name) > 1 && !nerve)
         {
             patch_t     *patch = lnames[wbs->last];
-            const short height = SHORT(patch->height);
+            const short height = LITTLESHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
-                V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
+                V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
             else
                 V_DrawPagePatch(0, patch);
 
@@ -675,8 +675,8 @@ static void WI_DrawLF(void)
         y = WI_TITLEY + 24;
 
     // draw "Finished!"
-    if (SHORT(wif->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(wif->width)) / 2 + 1, y + 1, wif, false, SCREENWIDTH);
+    if (LITTLESHORT(wif->height) < VANILLAHEIGHT)
+        V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(wif->width)) / 2 + 1, y + 1, wif, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, wif);
 }
@@ -687,20 +687,20 @@ static void WI_DrawEL(void)
     int         y = WI_TITLEY;
 
     // draw "Entering"
-    if (SHORT(wienter->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(wienter->width)) / 2 + 1, y + 1, wienter, false, SCREENWIDTH);
+    if (LITTLESHORT(wienter->height) < VANILLAHEIGHT)
+        V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(wienter->width)) / 2 + 1, y + 1, wienter, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, wienter);
 
     // draw "<LevelName>"
-    y += SHORT(wienter->height) + 4;
+    y += LITTLESHORT(wienter->height) + 4;
 
     if (enteringtitlepatch > 0)
     {
         patch_t *patch = W_CacheLumpNum(enteringtitlepatch);
 
-        if (SHORT(patch->height) < VANILLAHEIGHT)
-            V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
+        if (LITTLESHORT(patch->height) < VANILLAHEIGHT)
+            V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
         else
             V_DrawPagePatch(0, patch);
     }
@@ -716,10 +716,10 @@ static void WI_DrawEL(void)
         if (W_GetNumLumps(name) > 1 && !nerve)
         {
             patch_t     *patch = lnames[wbs->next];
-            const short height = SHORT(patch->height);
+            const short height = LITTLESHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
-                V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
+                V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 + 1, y + 1, patch, false, SCREENWIDTH);
             else
                 V_DrawPagePatch(0, patch);
         }
@@ -735,10 +735,10 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
 
     do
     {
-        const int   left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
-        const int   top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
-        const int   right = left + SHORT(c[i]->width);
-        const int   bottom = top + SHORT(c[i]->height);
+        const int   left = lnodes[wbs->epsd][n].x - LITTLESHORT(c[i]->leftoffset);
+        const int   top = lnodes[wbs->epsd][n].y - LITTLESHORT(c[i]->topoffset);
+        const int   right = left + LITTLESHORT(c[i]->width);
+        const int   bottom = top + LITTLESHORT(c[i]->height);
 
         if (left >= 0 && right < VANILLAWIDTH && top >= 0 && bottom < VANILLAHEIGHT)
             fits = true;
@@ -874,7 +874,7 @@ static void WI_DrawAnimatedBack(void)
 //
 static int WI_DrawNum(int x, int y, int n, int digits)
 {
-    const int   fontwidth = SHORT(num[0]->width);
+    const int   fontwidth = LITTLESHORT(num[0]->width);
 
     if (digits < 0)
     {
@@ -928,12 +928,12 @@ static void WI_DrawTime(int x, int y, int tics, bool showms, bool end, bool suck
         return;
 
     if (sucks && sucktime && tics >= sucktime * 61 * 59 * TICRATE)
-        V_DrawMenuPatch(SP_TIMEX + SHORT(witime->width) + 8, y + 1, wisucks, false, SCREENWIDTH);
+        V_DrawMenuPatch(SP_TIMEX + LITTLESHORT(witime->width) + 8, y + 1, wisucks, false, SCREENWIDTH);
     else
     {
         int div = 1;
 
-        x += (SHORT(num[0]->width) - 11) * 4;
+        x += (LITTLESHORT(num[0]->width) - 11) * 4;
 
         if (showms)
         {
@@ -942,7 +942,7 @@ static void WI_DrawTime(int x, int y, int tics, bool showms, bool end, bool suck
             if (!end)
                 millisseconds += M_BigRandomInt(0, 99);
 
-            x = WI_DrawNum(x, y, millisseconds / 10, 2) - SHORT(wiperiod->width);
+            x = WI_DrawNum(x, y, millisseconds / 10, 2) - LITTLESHORT(wiperiod->width);
             V_DrawMenuPatch(x + 1, y + 1, wiperiod, false, SCREENWIDTH);
         }
 
@@ -950,7 +950,7 @@ static void WI_DrawTime(int x, int y, int tics, bool showms, bool end, bool suck
 
         do
         {
-            x = WI_DrawNum(x, y, (tics / div) % 60, 2) - SHORT(wicolon->width);
+            x = WI_DrawNum(x, y, (tics / div) % 60, 2) - LITTLESHORT(wicolon->width);
 
             if ((div *= 60) == 60 || tics / div)
                 V_DrawMenuPatch(x + 1, y + 1, wicolon, false, SCREENWIDTH);
@@ -1309,7 +1309,7 @@ static void WI_DrawStats(void)
     const bool  ms = (wbs->stime < 60 * 50 * TICRATE && (!WICOLON || WIPERIOD));
 
     // line height
-    const int   lh = 3 * SHORT(num[0]->height) / 2;
+    const int   lh = 3 * LITTLESHORT(num[0]->height) / 2;
 
     WI_SlamBackground();
 

@@ -540,8 +540,8 @@ static void P_LoadVertexes(int lump)
         // internal representation as fixed.
         for (int i = 0; i < numvertexes; i++)
         {
-            vertexes[i].x = SHORT(data[i].x) << FRACBITS;
-            vertexes[i].y = SHORT(data[i].y) << FRACBITS;
+            vertexes[i].x = LITTLESHORT(data[i].x) << FRACBITS;
+            vertexes[i].y = LITTLESHORT(data[i].y) << FRACBITS;
 
             // Apply any map-specific fixes.
             if (canmodify && r_fixmaperrors && gamemode != shareware)
@@ -674,9 +674,9 @@ static void P_LoadSegs(int lump)
     {
         seg_t                   *li = segs + i;
         const mapseg_t          *ml = data + i;
-        const unsigned short    v1 = (unsigned short)SHORT(ml->v1);
-        const unsigned short    v2 = (unsigned short)SHORT(ml->v2);
-        const int               linedefnum = (unsigned short)SHORT(ml->linedef);
+        const unsigned short    v1 = (unsigned short)LITTLESHORT(ml->v1);
+        const unsigned short    v2 = (unsigned short)LITTLESHORT(ml->v2);
+        const int               linedefnum = (unsigned short)LITTLESHORT(ml->linedef);
         int                     side;
         line_t                  *ldef;
 
@@ -686,7 +686,7 @@ static void P_LoadSegs(int lump)
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
-        side = SHORT(ml->side);
+        side = LITTLESHORT(ml->side);
 
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
@@ -771,7 +771,7 @@ static void P_LoadSegs(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        li->angle = (SHORT(ml->angle)) << FRACBITS;
+        li->angle = (LITTLESHORT(ml->angle)) << FRACBITS;
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         // [BH] Apply any map-specific fixes.
@@ -992,7 +992,7 @@ static void P_LoadSegs_V4(int lump)
         const mapseg_v4_t   *ml = data + i;
         const int           v1 = ml->v1;
         const int           v2 = ml->v2;
-        const int           linedefnum = (unsigned short)SHORT(ml->linedef);
+        const int           linedefnum = (unsigned short)LITTLESHORT(ml->linedef);
         int                 side;
         line_t              *ldef;
 
@@ -1002,7 +1002,7 @@ static void P_LoadSegs_V4(int lump)
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
-        side = SHORT(ml->side);
+        side = LITTLESHORT(ml->side);
 
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
@@ -1087,7 +1087,7 @@ static void P_LoadSegs_V4(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        li->angle = (SHORT(ml->angle)) << FRACBITS;
+        li->angle = (LITTLESHORT(ml->angle)) << FRACBITS;
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
@@ -1124,8 +1124,8 @@ static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
 
             if (format == XGLN || format == ZGLN)
             {
-                v1 = LONG(mln->vertex);
-                line = (unsigned short)SHORT(mln->linedef);
+                v1 = LITTLELONG(mln->vertex);
+                line = (unsigned short)LITTLESHORT(mln->linedef);
                 side = mln->side;
 
                 if (line == 0xFFFF)
@@ -1135,8 +1135,8 @@ static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
             }
             else
             {
-                v1 = LONG(ml2->vertex);
-                line = (unsigned int)LONG(ml2->linedef);
+                v1 = LITTLELONG(ml2->vertex);
+                line = (unsigned int)LITTLELONG(ml2->linedef);
                 side = ml2->side;
                 ml2++;
             }
@@ -1228,8 +1228,8 @@ static void P_LoadSubsectors(int lump)
     {
         for (int i = 0; i < numsubsectors; i++)
         {
-            subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
-            subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
+            subsectors[i].numlines = (unsigned short)LITTLESHORT(data[i].numsegs);
+            subsectors[i].firstline = (unsigned short)LITTLESHORT(data[i].firstseg);
         }
 
         W_ReleaseLumpNum(lump);
@@ -1355,13 +1355,13 @@ static void P_LoadSectors(int lump)
         mapsector_t *ms = data + i;
 
         ss->id = i;
-        ss->floorheight = SHORT(ms->floorheight) << FRACBITS;
-        ss->ceilingheight = SHORT(ms->ceilingheight) << FRACBITS;
+        ss->floorheight = LITTLESHORT(ms->floorheight) << FRACBITS;
+        ss->ceilingheight = LITTLESHORT(ms->ceilingheight) << FRACBITS;
         ss->floorpic = R_FlatNumForName(ms->floorpic);
         ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
-        ss->lightlevel = ss->oldlightlevel = MAX(0, SHORT(ms->lightlevel));
-        ss->special = SHORT(ms->special);
-        ss->tag = SHORT(ms->tag);
+        ss->lightlevel = ss->oldlightlevel = MAX(0, LITTLESHORT(ms->lightlevel));
+        ss->special = LITTLESHORT(ms->special);
+        ss->tag = LITTLESHORT(ms->tag);
 
         if (ss->tag == -1)
             ss->tag = 0;
@@ -1557,14 +1557,14 @@ static void P_LoadNodes(int lump)
             node_t          *no = nodes + i;
             const mapnode_t *mn = (const mapnode_t *)data + i;
 
-            no->x = SHORT(mn->x) << FRACBITS;
-            no->y = SHORT(mn->y) << FRACBITS;
-            no->dx = SHORT(mn->dx) << FRACBITS;
-            no->dy = SHORT(mn->dy) << FRACBITS;
+            no->x = LITTLESHORT(mn->x) << FRACBITS;
+            no->y = LITTLESHORT(mn->y) << FRACBITS;
+            no->dx = LITTLESHORT(mn->dx) << FRACBITS;
+            no->dy = LITTLESHORT(mn->dy) << FRACBITS;
 
             for (int j = 0; j < 2; j++)
             {
-                no->children[j] = (unsigned short)SHORT(mn->children[j]);
+                no->children[j] = (unsigned short)LITTLESHORT(mn->children[j]);
 
                 if (no->children[j] == 0xFFFF)
                     no->children[j] = -1;
@@ -1589,7 +1589,7 @@ static void P_LoadNodes(int lump)
                 }
 
                 for (int k = 0; k < 4; k++)
-                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+                    no->bbox[j][k] = LITTLESHORT(mn->bbox[j][k]) << FRACBITS;
             }
         }
 
@@ -1621,17 +1621,17 @@ static void P_LoadNodes_V4(int lump)
             node_t              *no = nodes + i;
             const mapnode_v4_t  *mn = (const mapnode_v4_t *)data + i;
 
-            no->x = SHORT(mn->x) << FRACBITS;
-            no->y = SHORT(mn->y) << FRACBITS;
-            no->dx = SHORT(mn->dx) << FRACBITS;
-            no->dy = SHORT(mn->dy) << FRACBITS;
+            no->x = LITTLESHORT(mn->x) << FRACBITS;
+            no->y = LITTLESHORT(mn->y) << FRACBITS;
+            no->dx = LITTLESHORT(mn->dx) << FRACBITS;
+            no->dy = LITTLESHORT(mn->dy) << FRACBITS;
 
             for (int j = 0; j < 2; j++)
             {
                 no->children[j] = (unsigned int)(mn->children[j]);
 
                 for (int k = 0; k < 4; k++)
-                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+                    no->bbox[j][k] = LITTLESHORT(mn->bbox[j][k]) << FRACBITS;
             }
         }
     }
@@ -1651,7 +1651,7 @@ static void P_LoadZSegs(const byte *data)
         seg_t               *li = segs + i;
         const mapseg_znod_t *ml = (const mapseg_znod_t *)data + i;
 
-        linedefnum = (unsigned short)SHORT(ml->linedef);
+        linedefnum = (unsigned short)LITTLESHORT(ml->linedef);
 
         // e6y: check for wrong indexes
         if (linedefnum >= (unsigned int)numlines)
@@ -1660,8 +1660,8 @@ static void P_LoadZSegs(const byte *data)
 
         ldef = lines + linedefnum;
         li->linedef = ldef;
-        li->v1 = &vertexes[LONG(ml->v1)];
-        li->v2 = &vertexes[LONG(ml->v2)];
+        li->v1 = &vertexes[LITTLELONG(ml->v1)];
+        li->v2 = &vertexes[LITTLELONG(ml->v2)];
 
         if (ABS(ldef->dx) > ABS(ldef->dy))
             side = ((ldef->dx < 0) == (li->v2->x - li->v1->x < 0) ? 0 : 1);
@@ -1791,10 +1791,10 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     }
 
     // Read extra vertexes added during node building
-    orgVerts = LONG(*((const unsigned int *)data));
+    orgVerts = LITTLELONG(*((const unsigned int *)data));
     data += sizeof(orgVerts);
 
-    newVerts = LONG(*((const unsigned int *)data));
+    newVerts = LITTLELONG(*((const unsigned int *)data));
     data += sizeof(newVerts);
 
     if (!samelevel)
@@ -1809,10 +1809,10 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
 
         for (unsigned int i = 0; i < newVerts; i++)
         {
-            newvertarray[i + orgVerts].x = LONG(*((const unsigned int *)data));
+            newvertarray[i + orgVerts].x = LITTLELONG(*((const unsigned int *)data));
             data += sizeof(newvertarray[0].x);
 
-            newvertarray[i + orgVerts].y = LONG(*((const unsigned int *)data));
+            newvertarray[i + orgVerts].y = LITTLELONG(*((const unsigned int *)data));
             data += sizeof(newvertarray[0].y);
         }
 
@@ -1838,7 +1838,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     }
 
     // Read the subsectors
-    numSubs = LONG(*((const unsigned int *)data));
+    numSubs = LITTLELONG(*((const unsigned int *)data));
     data += sizeof(numSubs);
     numsubsectors = numSubs;
 
@@ -1852,8 +1852,8 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
         const mapsubsector_znod_t   *mseg = (const mapsubsector_znod_t *)data + i;
 
         subsectors[i].firstline = currSeg;
-        subsectors[i].numlines = LONG(mseg->numsegs);
-        currSeg += LONG(mseg->numsegs);
+        subsectors[i].numlines = LITTLELONG(mseg->numsegs);
+        currSeg += LITTLELONG(mseg->numsegs);
     }
 
     data += numSubs * sizeof(mapsubsector_znod_t);
@@ -1887,7 +1887,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
     }
 
     // Read nodes
-    numNodes = LONG(*((const unsigned int *)data));
+    numNodes = LITTLELONG(*((const unsigned int *)data));
     data += sizeof(numNodes);
 
     numnodes = numNodes;
@@ -1901,34 +1901,34 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
         {
             const mapnode_xgl3_t    *mn3 = (const mapnode_xgl3_t *)data + i;
 
-            no->x = LONG(mn3->x);
-            no->y = LONG(mn3->y);
-            no->dx = LONG(mn3->dx);
-            no->dy = LONG(mn3->dy);
+            no->x = LITTLELONG(mn3->x);
+            no->y = LITTLELONG(mn3->y);
+            no->dx = LITTLELONG(mn3->dx);
+            no->dy = LITTLELONG(mn3->dy);
 
             for (int j = 0; j < 2; j++)
             {
-                no->children[j] = LONG(mn3->children[j]);
+                no->children[j] = LITTLELONG(mn3->children[j]);
 
                 for (int k = 0; k < 4; k++)
-                    no->bbox[j][k] = SHORT(mn3->bbox[j][k]) << FRACBITS;
+                    no->bbox[j][k] = LITTLESHORT(mn3->bbox[j][k]) << FRACBITS;
             }
         }
         else
         {
             const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
 
-            no->x = SHORT(mn->x) << FRACBITS;
-            no->y = SHORT(mn->y) << FRACBITS;
-            no->dx = SHORT(mn->dx) << FRACBITS;
-            no->dy = SHORT(mn->dy) << FRACBITS;
+            no->x = LITTLESHORT(mn->x) << FRACBITS;
+            no->y = LITTLESHORT(mn->y) << FRACBITS;
+            no->dx = LITTLESHORT(mn->dx) << FRACBITS;
+            no->dy = LITTLESHORT(mn->dy) << FRACBITS;
 
             for (int j = 0; j < 2; j++)
             {
-                no->children[j] = LONG(mn->children[j]);
+                no->children[j] = LITTLELONG(mn->children[j]);
 
                 for (int k = 0; k < 4; k++)
-                    no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+                    no->bbox[j][k] = LITTLESHORT(mn->bbox[j][k]) << FRACBITS;
             }
         }
     }
@@ -1968,11 +1968,11 @@ static void P_LoadThings(int map, int lump)
         bool        spawn = true;
 
         // Do spawn all other stuff.
-        mt.x = SHORT(mt.x);
-        mt.y = SHORT(mt.y);
-        mt.angle = SHORT(mt.angle);
-        mt.type = SHORT(mt.type);
-        mt.options = SHORT(mt.options);
+        mt.x = LITTLESHORT(mt.x);
+        mt.y = LITTLESHORT(mt.y);
+        mt.angle = LITTLESHORT(mt.angle);
+        mt.type = LITTLESHORT(mt.type);
+        mt.options = LITTLESHORT(mt.options);
 
         // [BH] Apply any level-specific fixes.
         if (canmodify && r_fixmaperrors && gamemode != shareware)
@@ -2063,16 +2063,16 @@ static void P_LoadLineDefs(int lump)
         vertex_t            *v2;
 
         ld->id = i;
-        ld->flags = (unsigned short)SHORT(mld->flags);
+        ld->flags = (unsigned short)LITTLESHORT(mld->flags);
 
         // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
         if (E2M7)
             ld->flags = ((unsigned int)ld->flags & 0x03FF);
 
-        ld->special = SHORT(mld->special);
-        ld->tag = SHORT(mld->tag);
-        v1 = ld->v1 = &vertexes[(unsigned short)SHORT(mld->v1)];
-        v2 = ld->v2 = &vertexes[(unsigned short)SHORT(mld->v2)];
+        ld->special = LITTLESHORT(mld->special);
+        ld->tag = LITTLESHORT(mld->tag);
+        v1 = ld->v1 = &vertexes[(unsigned short)LITTLESHORT(mld->v1)];
+        v2 = ld->v2 = &vertexes[(unsigned short)LITTLESHORT(mld->v2)];
         ld->dx = v2->x - v1->x;
         ld->dy = v2->y - v1->y;
 
@@ -2109,8 +2109,8 @@ static void P_LoadLineDefs(int lump)
         ld->soundorg.x = ld->bbox[BOXLEFT] / 2 + ld->bbox[BOXRIGHT] / 2;
         ld->soundorg.y = ld->bbox[BOXTOP] / 2 + ld->bbox[BOXBOTTOM] / 2;
 
-        ld->sidenum[0] = SHORT(mld->sidenum[0]);
-        ld->sidenum[1] = SHORT(mld->sidenum[1]);
+        ld->sidenum[0] = LITTLESHORT(mld->sidenum[0]);
+        ld->sidenum[1] = LITTLESHORT(mld->sidenum[1]);
 
         // killough 04/04/98: support special sidedef interpretation below
         if (ld->sidenum[0] != NO_INDEX && ld->special)
@@ -2209,10 +2209,10 @@ static void P_LoadSideDefs2(int lump)
         mapsidedef_t    *msd = data + i;
         side_t          *sd = sides + i;
         sector_t        *sec;
-        unsigned short  sector_num = SHORT(msd->sector);
+        unsigned short  sector_num = LITTLESHORT(msd->sector);
 
-        sd->textureoffset = sd->basetextureoffset = sd->oldtextureoffset = SHORT(msd->textureoffset) << FRACBITS;
-        sd->rowoffset = sd->baserowoffset = SHORT(msd->rowoffset) << FRACBITS;
+        sd->textureoffset = sd->basetextureoffset = sd->oldtextureoffset = LITTLESHORT(msd->textureoffset) << FRACBITS;
+        sd->rowoffset = sd->baserowoffset = LITTLESHORT(msd->rowoffset) << FRACBITS;
 
         // cph 09/30/06: catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
@@ -2641,15 +2641,15 @@ static void P_LoadBlockMap(int lump)
         // by treating all offsets except -1 as unsigned and zero-extending
         // them. This potentially doubles the size of blockmaps allowed,
         // because DOOM originally considered the offsets as always signed.
-        blockmaplump[0] = SHORT(wadblockmaplump[0]);
-        blockmaplump[1] = SHORT(wadblockmaplump[1]);
-        blockmaplump[2] = ((unsigned int)(SHORT(wadblockmaplump[2])) & 0xFFFF);
-        blockmaplump[3] = ((unsigned int)(SHORT(wadblockmaplump[3])) & 0xFFFF);
+        blockmaplump[0] = LITTLESHORT(wadblockmaplump[0]);
+        blockmaplump[1] = LITTLESHORT(wadblockmaplump[1]);
+        blockmaplump[2] = ((unsigned int)(LITTLESHORT(wadblockmaplump[2])) & 0xFFFF);
+        blockmaplump[3] = ((unsigned int)(LITTLESHORT(wadblockmaplump[3])) & 0xFFFF);
 
         // Swap all short integers to native byte ordering.
         for (int i = 4; i < count; i++)
         {
-            const short t = SHORT(wadblockmaplump[i]);
+            const short t = LITTLESHORT(wadblockmaplump[i]);
 
             blockmaplump[i] = (t == -1 ? -1L : ((unsigned int)t & 0xFFFF));
         }

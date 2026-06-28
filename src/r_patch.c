@@ -72,8 +72,8 @@ bool R_CheckIfPatch(const int lump)
 
         if (magic[0] != 0x89 || magic[1] != 'P' || magic[2] != 'N' || magic[3] != 'G')
         {
-            const short width = SHORT(patch->width);
-            const short height = SHORT(patch->height);
+            const short width = LITTLESHORT(patch->width);
+            const short height = LITTLESHORT(patch->height);
 
             if ((result = (width > 0 && width <= 16384 && width < size / 4 && height > 0 && height <= 16384)))
                 // The dimensions seem like they might be valid for a patch, so
@@ -82,7 +82,7 @@ bool R_CheckIfPatch(const int lump)
                 // point past the end of the patch.
                 for (int x = 0; x < width; x++)
                 {
-                    const unsigned int  offset = LONG(patch->columnoffset[x]);
+                    const unsigned int  offset = LITTLELONG(patch->columnoffset[x]);
 
                     // Need one byte for an empty column (but there's patches that don't know that!)
                     if (offset < (unsigned int)width * 4 + 8 || offset >= (unsigned int)size)
@@ -129,11 +129,11 @@ static void CreatePatch(int patchnum)
         int             numpoststotal = 0;
         bool            badpatch = false;
 
-        patch->width = SHORT(oldpatch->width);
+        patch->width = LITTLESHORT(oldpatch->width);
         patch->widthmask = 0;
-        patch->height = SHORT(oldpatch->height);
-        patch->leftoffset = SHORT(oldpatch->leftoffset);
-        patch->topoffset = SHORT(oldpatch->topoffset);
+        patch->height = LITTLESHORT(oldpatch->height);
+        patch->leftoffset = LITTLESHORT(oldpatch->leftoffset);
+        patch->topoffset = LITTLESHORT(oldpatch->topoffset);
 
         // count the number of posts in each column
         if (patch->width <= 0 || !(numpostsincolumn = calloc(patch->width, sizeof(int))))
@@ -150,7 +150,7 @@ static void CreatePatch(int patchnum)
 
         for (int x = 0; x < patch->width && !badpatch; x++)
         {
-            const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
+            const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
             if (columnoffset >= oldpatchsize)
             {
@@ -235,7 +235,7 @@ static void CreatePatch(int patchnum)
         for (int x = 0, numpostsusedsofar = 0; x < patch->width && !badpatch; x++)
         {
             int                 top = -1;
-            const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
+            const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
             if (columnoffset >= oldpatchsize)
             {
@@ -422,10 +422,10 @@ static void CreateTextureCompositePatch(const int id)
             oldpatchsize = (size_t)W_LumpLength(patchnum);
             oldpatchend = oldpatchdata + oldpatchsize;
 
-            for (int x = 0; x < SHORT(oldpatch->width); x++)
+            for (int x = 0; x < LITTLESHORT(oldpatch->width); x++)
             {
                 const int           tx = texpatch->originx + x;
-                const unsigned int  columnoffset = LONG(oldpatch->columnoffset[x]);
+                const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
                 if (tx < 0)
                     continue;
@@ -498,10 +498,10 @@ static void CreateTextureCompositePatch(const int id)
                 prevpatchdata = (const byte *)prevpatch;
                 prevpatchend = prevpatchdata + prevpatchsize;
 
-                for (int x = 0; x < SHORT(prevpatch->width); x++)
+                for (int x = 0; x < LITTLESHORT(prevpatch->width); x++)
                 {
                     const int           tx = prevtexpatch->originx + x;
-                    const unsigned int  columnoffset = LONG(prevpatch->columnoffset[x]);
+                    const unsigned int  columnoffset = LITTLELONG(prevpatch->columnoffset[x]);
 
                     if (tx < 0)
                         continue;
@@ -578,14 +578,14 @@ static void CreateTextureCompositePatch(const int id)
 
         oldpatch = (const patch_t *)W_CacheLumpNum(patchnum);
 
-        for (int x = 0; x < SHORT(oldpatch->width); x++)
+        for (int x = 0; x < LITTLESHORT(oldpatch->width); x++)
         {
             int         top = -1;
             const int   tx = texpatch->originx + x;
             const byte  *oldpatchdata = (const byte *)oldpatch;
             const size_t oldpatchsize = (size_t)W_LumpLength(patchnum);
             const byte  *oldpatchend = oldpatchdata + oldpatchsize;
-            const unsigned int columnoffset = LONG(oldpatch->columnoffset[x]);
+            const unsigned int columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
             if (tx < 0)
                 continue;

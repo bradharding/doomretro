@@ -86,14 +86,14 @@ bool M_LoadFON2(byte *gfx_data, int size)
     if (memcmp(header->magic, "FON2", 4))
         return false;
 
-    if (!(height = SHORT(header->charheight)))
+    if (!(height = LITTLESHORT(header->charheight)))
         return false;
 
     p = gfx_data + sizeof(fon2_header_t);
 
     if (header->kerning)
     {
-        kerning = SHORT(*(int16_t *)p);
+        kerning = LITTLESHORT(*(int16_t *)p);
         p += 2;
     }
 
@@ -107,7 +107,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
     for (int i = 0; i < numchars; i++)
     {
-        chars[i].width = SHORT(*(uint16_t *)p);
+        chars[i].width = LITTLESHORT(*(uint16_t *)p);
 
         // The width information is enumerated for each character only if they
         // are not constant width. Regardless, move the read pointer away after

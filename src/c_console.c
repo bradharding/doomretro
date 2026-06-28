@@ -622,7 +622,7 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
             && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
-            width += SHORT(trademark->width);
+            width += LITTLESHORT(trademark->width);
             i += 3;
         }
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 'a'
@@ -639,19 +639,19 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
         }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
         {
-            width += SHORT(copyright->width);
+            width += LITTLESHORT(copyright->width);
             i += 2;
         }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
         {
-            width += SHORT(regomark->width);
+            width += LITTLESHORT(regomark->width);
             i += 2;
         }
         else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
-            width += SHORT(multiply->width);
+            width += LITTLESHORT(multiply->width);
         else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDONCHAR && prevletter2 == ' '))
             && !isdigit(nextletter))
-            width += SHORT(endash->width);
+            width += LITTLESHORT(endash->width);
         else if (letter == '\n')
             break;
         else if (letter != BOLDONCHAR && letter != BOLDOFFCHAR)
@@ -753,7 +753,7 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
             }
 
             width += adjust;
-            width += (monospaced && SHORT(patch->width) < zerowidth ? zerowidth : SHORT(patch->width))
+            width += (monospaced && LITTLESHORT(patch->width) < zerowidth ? zerowidth : LITTLESHORT(patch->width))
                 - (monospaced && letter == '4');
         }
 
@@ -777,9 +777,9 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
         if (letter == ' ')
             width += spacewidth;
         else if (isdigit(letter))
-            width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
+            width += (monospaced ? zerowidth : LITTLESHORT(consolefont[letter - CONSOLEFONTSTART]->width));
         else if (letter >= CONSOLEFONTSTART)
-            width += (SHORT(consolefont[letter - CONSOLEFONTSTART]->width) - (letter == ','));
+            width += (LITTLESHORT(consolefont[letter - CONSOLEFONTSTART]->width) - (letter == ','));
     }
 
     return width;
@@ -1186,14 +1186,14 @@ void C_Init(void)
     playerstats = W_CacheLastLumpName("DRPLYRST");
     thinglist = W_CacheLastLumpName("DRTHNLST");
 
-    brandwidth = SHORT(brand->width);
-    brandheight = SHORT(brand->height);
-    spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
-    altbuddhawidth = SHORT(altbuddha->width);
-    fpswidth = SHORT(fps->width);
-    ampmwidth = SHORT(ampm[0]->width);
-    colorbackwidth = SHORT(colorback->width);
+    brandwidth = LITTLESHORT(brand->width);
+    brandheight = LITTLESHORT(brand->height);
+    spacewidth = LITTLESHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
+    zerowidth = LITTLESHORT(consolefont['0' - CONSOLEFONTSTART]->width);
+    altbuddhawidth = LITTLESHORT(altbuddha->width);
+    fpswidth = LITTLESHORT(fps->width);
+    ampmwidth = LITTLESHORT(ampm[0]->width);
+    colorbackwidth = LITTLESHORT(colorback->width);
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00.00", true);
@@ -1597,7 +1597,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                             if ((patch = consolefont[letter - CONSOLEFONTSTART]))
                             {
-                                const int   width = SHORT(patch->width);
+                                const int   width = LITTLESHORT(patch->width);
 
                                 consoletextfunc((x -= (letter == '4')), y, patch, width,
                                     I_GetContrastingColor(palindex),
@@ -1766,7 +1766,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
             if (patch)
             {
-                int width = SHORT(patch->width);
+                int width = LITTLESHORT(patch->width);
 
                 consoletextfunc(x + (monospaced && width <= zerowidth ? (zerowidth - width) / 2 : 0), y,
                     patch, width, (bold && italics ? (color1 == consolewarningcolor ? color1 :
@@ -1780,7 +1780,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     for (int j = 1; j <= 3; j++)
                     {
                         patch = consolefont['.' - CONSOLEFONTSTART];
-                        width = SHORT(patch->width);
+                        width = LITTLESHORT(patch->width);
                         consoletextfunc(x, y, patch, width, (bold && italics ? (color1 == consolewarningcolor ?
                             color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, false,
                             (bolder ? NULL : tinttab));
@@ -1814,7 +1814,7 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth,
         else
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
-            const int   width = SHORT(patch->width);
+            const int   width = LITTLESHORT(patch->width);
 
             if (isdigit(letter) && monospaced)
             {
@@ -1855,7 +1855,7 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
     {
         const char  ch = buffer[i];
         patch_t     *patch = consolefont[ch - CONSOLEFONTSTART];
-        const int   width = SHORT(patch->width);
+        const int   width = LITTLESHORT(patch->width);
 
         x -= (ch == ':' ? width : zerowidth);
 
@@ -3622,7 +3622,7 @@ bool C_Responder(event_t *ev)
                 && ch != keyboardconsole
                 && ch != keyboardconsole2
                 && C_TextWidth(consoleinput, NULL, false, true)
-                    + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
+                    + (ch == ' ' ? spacewidth : LITTLESHORT(consolefont[ch - CONSOLEFONTSTART]->width))
                     - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
                     (size_t)selectend - selectstart)), NULL, false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {

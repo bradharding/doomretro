@@ -417,8 +417,8 @@ void D_Display(void)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
-            V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2,
-                (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false, SCREENWIDTH);
+            V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2,
+                (VANILLAHEIGHT - LITTLESHORT(patch->height)) / 2, patch, false, SCREENWIDTH);
         }
         else
             M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);
@@ -2850,7 +2850,7 @@ static void D_DoomMainSetup(void)
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && !D_IsUnsupportedGraphicLump(W_GetLastNumForName("TITLEPIC"))
-        && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
+        && LITTLESHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
         && D_IsDOOMIWAD(lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->path));
 
     kex = (unity && W_CheckNumForName("GAMECONF") >= 0
@@ -3070,14 +3070,14 @@ static void D_DoomMainSetup(void)
         logolump[i] = W_CacheLastLumpName(buffer);
     }
 
-    logowidth = SHORT(logolump[0]->width);
-    logoheight = SHORT(logolump[0]->height);
+    logowidth = LITTLESHORT(logolump[0]->width);
+    logoheight = LITTLESHORT(logolump[0]->height);
     logox = (SCREENWIDTH - logowidth) / 2 + 1;
     logoy = (SCREENHEIGHT - logoheight) / 2 + 1;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
-    fineprintwidth = SHORT(fineprintlump->width);
-    fineprintheight = SHORT(fineprintlump->height);
+    fineprintwidth = LITTLESHORT(fineprintlump->width);
+    fineprintheight = LITTLESHORT(fineprintlump->height);
     fineprintx = (SCREENWIDTH - fineprintwidth) / 2 + 1;
     fineprinty = SCREENHEIGHT - fineprintheight - 14;
 

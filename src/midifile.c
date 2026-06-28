@@ -35,6 +35,7 @@
 
 #if defined(_WIN32)
 #include "doomtype.h"
+#include "i_swap.h"
 #include "i_system.h"
 #include "midifile.h"
 
@@ -266,7 +267,7 @@ static bool ReadTrackHeader(midi_track_t *track, SDL_RWops *stream)
     if (!CheckChunkHeader(&chunk_header, TRACK_CHUNK_ID))
         return false;
 
-    track->data_len = SDL_SwapBE32(chunk_header.chunk_size);
+    track->data_len = BIGLONG(chunk_header.chunk_size);
 
     return true;
 }
@@ -343,11 +344,11 @@ static bool ReadFileHeader(midi_file_t *file, SDL_RWops *stream)
         return false;
 
     if (!CheckChunkHeader(&file->header.chunk_header, HEADER_CHUNK_ID)
-        || SDL_SwapBE32(file->header.chunk_header.chunk_size) != 6)
+        || BIGLONG(file->header.chunk_header.chunk_size) != 6)
         return false;
 
-    if ((file->num_tracks = SDL_SwapBE16(file->header.num_tracks)) < 1
-        || SDL_SwapBE16(file->header.format_type) > 1)
+    if ((file->num_tracks = BIGSHORT(file->header.num_tracks)) < 1
+        || BIGSHORT(file->header.format_type) > 1)
         return false;
 
     return true;

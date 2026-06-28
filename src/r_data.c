@@ -166,7 +166,7 @@ static void R_InitTextures(void)
             }
 
             pnameslumps[numpnameslumps].names = W_CacheLumpNum(i);
-            pnameslumps[numpnameslumps].nummappatches = LONG(*((int *)pnameslumps[numpnameslumps].names));
+            pnameslumps[numpnameslumps].nummappatches = LITTLELONG(*((int *)pnameslumps[numpnameslumps].names));
 
             // [crispy] accumulated number of patches in the lookup tables excluding the current one
             pnameslumps[numpnameslumps].name_p = (char *)pnameslumps[numpnameslumps].names + 4;
@@ -201,7 +201,7 @@ static void R_InitTextures(void)
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
     maptex_lump[0] = W_GetNumForName("TEXTURE1");
     maptex1 = W_CacheLumpNum(maptex_lump[0]);
-    numtextures1 = LONG(*maptex1);
+    numtextures1 = LITTLELONG(*maptex1);
     maxoff = W_LumpLength(maptex_lump[0]);
     directory = maptex1 + 1;
 
@@ -209,7 +209,7 @@ static void R_InitTextures(void)
     {
         maptex_lump[1] = W_GetNumForName("TEXTURE2");
         maptex2 = W_CacheLumpNum(maptex_lump[1]);
-        numtextures2 = LONG(*maptex2);
+        numtextures2 = LITTLELONG(*maptex2);
         maxoff2 = W_LumpLength(maptex_lump[1]);
     }
 
@@ -243,7 +243,7 @@ static void R_InitTextures(void)
             directory = maptex1 + 1;
         }
 
-        offset = LONG(*directory);
+        offset = LITTLELONG(*directory);
 
         if (offset > maxoff)
             I_Error("R_InitTextures: Bad texture directory");
@@ -251,11 +251,11 @@ static void R_InitTextures(void)
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
         texture = textures[i] = Z_Malloc(sizeof(texture_t)
-            + ((size_t)SHORT(mtexture->patchcount) - 1) * sizeof(texpatch_t), PU_STATIC, 0);
+            + ((size_t)LITTLESHORT(mtexture->patchcount) - 1) * sizeof(texpatch_t), PU_STATIC, 0);
 
-        texture->width = SHORT(mtexture->width);
-        texture->height = SHORT(mtexture->height);
-        texture->patchcount = SHORT(mtexture->patchcount);
+        texture->width = LITTLESHORT(mtexture->width);
+        texture->height = LITTLESHORT(mtexture->height);
+        texture->patchcount = LITTLESHORT(mtexture->patchcount);
 
         M_CopyLumpName(texture->name, mtexture->name);
 
@@ -264,15 +264,15 @@ static void R_InitTextures(void)
 
         for (int j = 0; j < texture->patchcount; j++, mpatch++, patch++)
         {
-            patch->originx = SHORT(mpatch->originx);
-            patch->originy = SHORT(mpatch->originy);
+            patch->originx = LITTLESHORT(mpatch->originx);
+            patch->originy = LITTLESHORT(mpatch->originy);
 
-            if ((patch->patch = patchlookup[SHORT(mpatch->patch)]) == -1)
+            if ((patch->patch = patchlookup[LITTLESHORT(mpatch->patch)]) == -1)
             {
                 char    *temp = uppercase(texture->name);
 
                 C_Warning(1, "The " BOLD("%.8s") " texture is missing patch %i.",
-                    temp, SHORT(mpatch->patch));
+                    temp, LITTLESHORT(mpatch->patch));
                 patch->patch = W_CheckNumForName("TNT1A0");
                 free(temp);
             }
@@ -301,8 +301,8 @@ static void R_InitTextures(void)
 
             M_CopyLumpName(texture->name, lumpinfo[txlump]->name);
 
-            texture->width = SHORT(txpatch->width);
-            texture->height = SHORT(txpatch->height);
+            texture->width = LITTLESHORT(txpatch->width);
+            texture->height = LITTLESHORT(txpatch->height);
             texture->patchcount = 1;
 
             texture->patches->patch = patchlookup[nummappatches + j];
@@ -825,23 +825,23 @@ static void R_InitSpriteLumps(void)
 
         if (patch)
         {
-            spritewidth[i] = SHORT(patch->width) << FRACBITS;
-            spriteheight[i] = SHORT(patch->height) << FRACBITS;
-            spriteoffset[i] = newspriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
-            spritetopoffset[i] = newspritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
+            spritewidth[i] = LITTLESHORT(patch->width) << FRACBITS;
+            spriteheight[i] = LITTLESHORT(patch->height) << FRACBITS;
+            spriteoffset[i] = newspriteoffset[i] = LITTLESHORT(patch->leftoffset) << FRACBITS;
+            spritetopoffset[i] = newspritetopoffset[i] = LITTLESHORT(patch->topoffset) << FRACBITS;
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (!FREEDOOM && !chex && !hacx)
                 for (int j = 0; *sproffsets[j].name; j++)
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump
-                        && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
-                        && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
+                        && spritewidth[i] == (LITTLESHORT(sproffsets[j].width) << FRACBITS)
+                        && spriteheight[i] == (LITTLESHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
                         && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type == IWAD
                             || D_IsResourceWAD(lumpinfo[firstspritelump + i]->wadfile->path)))
                     {
-                        newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
-                        newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+                        newspriteoffset[i] = LITTLESHORT(sproffsets[j].x) << FRACBITS;
+                        newspritetopoffset[i] = LITTLESHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
         }

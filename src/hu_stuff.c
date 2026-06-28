@@ -193,10 +193,10 @@ void HU_Init(void)
         && (W_GetNumLumps("STTMINUS") > 1 || W_GetNumLumps("STTNUM0") == 1))
     {
         minuspatch = W_CacheLumpNum(lump);
-        minuspatchwidth = SHORT(minuspatch->width);
+        minuspatchwidth = LITTLESHORT(minuspatch->width);
 
-        if (SHORT(minuspatch->height) < SHORT(((patch_t *)W_CacheLumpName("STTNUM0"))->height)
-            && !SHORT(minuspatch->topoffset))
+        if (LITTLESHORT(minuspatch->height) < LITTLESHORT(((patch_t *)W_CacheLumpName("STTNUM0"))->height)
+            && !LITTLESHORT(minuspatch->topoffset))
         {
             minuspatchtopoffset1 = -5;
             minuspatchtopoffset2 = -5;
@@ -204,7 +204,7 @@ void HU_Init(void)
         else
         {
             minuspatchtopoffset1 = 0;
-            minuspatchtopoffset2 = SHORT(minuspatch->topoffset);
+            minuspatchtopoffset2 = LITTLESHORT(minuspatch->topoffset);
         }
     }
 
@@ -220,8 +220,8 @@ void HU_Init(void)
 
         M_snprintf(buffer, sizeof(buffer), "DRXHAIR%i", i + 1);
         crosshairpatch[i] = W_CacheLumpName(buffer);
-        crosshairwidth[i] = SHORT(crosshairpatch[i]->width);
-        crosshairheight[i] = SHORT(crosshairpatch[i]->height);
+        crosshairwidth[i] = LITTLESHORT(crosshairpatch[i]->width);
+        crosshairheight[i] = LITTLESHORT(crosshairpatch[i]->height);
     }
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -267,7 +267,7 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName(M_CheckParm("-cdrom") ? "STCDROM" : "STDISK")) >= 0)
     {
         stdisk = W_CacheLumpNum(lump);
-        stdiskwidth = SHORT(stdisk->width);
+        stdiskwidth = LITTLESHORT(stdisk->width);
     }
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
@@ -353,7 +353,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
 
         if ((i = (val %= 100) / 10) == 1)
         {
@@ -364,7 +364,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
 
         if ((i = val % 10) == 1)
         {
@@ -375,7 +375,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
     }
     else if (val >= 10)
     {
@@ -388,7 +388,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
 
         if ((i = val % 10) == 1)
         {
@@ -399,7 +399,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
     }
     else
     {
@@ -412,7 +412,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         else
             drawhudnumfunc(*x, y, tallnum[i], tinttab);
 
-        *x += SHORT(tallnum[i]->width);
+        *x += LITTLESHORT(tallnum[i]->width);
     }
 }
 
@@ -507,7 +507,7 @@ static void HU_DrawHUD(void)
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (patch)
-        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab80);
+        hudfunc(HUD_HEALTH_X - LITTLESHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - LITTLESHORT(patch->height) - 2, patch, tinttab80);
 
     if (r_hud_translucency || !healthanim)
     {
@@ -569,7 +569,7 @@ static void HU_DrawHUD(void)
         armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
         if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
-            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab80);
+            hudfunc(HUD_ARMOR_X - LITTLESHORT(patch->width) / 2, HUD_ARMOR_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
 
         if (armorhighlight > currenttime)
         {
@@ -591,8 +591,8 @@ static void HU_DrawHUD(void)
         for (int j = 0; j < NUMCARDS; j++)
             if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
             {
-                keypic_x -= SHORT(patch->width);
-                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
+                keypic_x -= LITTLESHORT(patch->width);
+                hudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
                 keypic_x -= 5;
             }
 
@@ -613,8 +613,8 @@ static void HU_DrawHUD(void)
                 for (int i = 0; i < NUMCARDS; i++)
                     if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
                     {
-                        keypic_x -= SHORT(patch->width);
-                        hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
+                        keypic_x -= LITTLESHORT(patch->width);
+                        hudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
                         keypic_x -= 5;
                     }
         }
@@ -628,7 +628,7 @@ static void HU_DrawHUD(void)
             }
 
             if (flashkeys && (showkey || gamepaused))
-                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
+                hudfunc(keypic_x - LITTLESHORT(patch->width), HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
         }
     }
     else
@@ -647,7 +647,7 @@ static void HU_DrawHUD(void)
         tinttab = (!ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
 
         if ((patch = weaponinfo[weapon].ammopatch))
-            hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
+            hudfunc(HUD_AMMO_X - LITTLESHORT(patch->width) / 2 - 1, HUD_AMMO_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
 
         if (r_hud_translucency || !ammoanim)
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
@@ -756,11 +756,11 @@ static bool HU_DefaultPistolSprites(void)
         {
             patch_t *patch = W_CacheLumpNum(firstspritelump + frame[i & FF_FRAMEMASK].lump[0]);
 
-            if (SHORT(patch->width) != pistol1[i].width
-                || SHORT(patch->height) != pistol1[i].height
-                || SHORT(patch->leftoffset) != pistol1[i].leftoffset
-                || (SHORT(patch->topoffset) != pistol1[i].topoffset1
-                    && SHORT(patch->topoffset) != pistol1[i].topoffset2))
+            if (LITTLESHORT(patch->width) != pistol1[i].width
+                || LITTLESHORT(patch->height) != pistol1[i].height
+                || LITTLESHORT(patch->leftoffset) != pistol1[i].leftoffset
+                || (LITTLESHORT(patch->topoffset) != pistol1[i].topoffset1
+                    && LITTLESHORT(patch->topoffset) != pistol1[i].topoffset2))
             {
                 result1 = false;
                 break;
@@ -777,11 +777,11 @@ static bool HU_DefaultPistolSprites(void)
             {
                 patch_t *patch = W_CacheLumpNum(firstspritelump + frame[i & FF_FRAMEMASK].lump[0]);
 
-                if (SHORT(patch->width) != pistol2[i].width
-                    || SHORT(patch->height) != pistol2[i].height
-                    || SHORT(patch->leftoffset) != pistol2[i].leftoffset
-                    || (SHORT(patch->topoffset) != pistol2[i].topoffset1
-                        && SHORT(patch->topoffset) != pistol2[i].topoffset2))
+                if (LITTLESHORT(patch->width) != pistol2[i].width
+                    || LITTLESHORT(patch->height) != pistol2[i].height
+                    || LITTLESHORT(patch->leftoffset) != pistol2[i].leftoffset
+                    || (LITTLESHORT(patch->topoffset) != pistol2[i].topoffset1
+                        && LITTLESHORT(patch->topoffset) != pistol2[i].topoffset2))
                 {
                     result2 = false;
                     break;
@@ -807,7 +807,7 @@ static void HU_AltInit(void)
     }
 
     altminuspatch = W_CacheLumpName("DRHUDNEG");
-    altminuspatchwidth = SHORT(altminuspatch->width);
+    altminuspatchwidth = LITTLESHORT(altminuspatch->width);
 
     altleftpatch1 = W_CacheLumpName("DRHUDL1");
     altleftpatch2 = W_CacheLumpName("DRHUDL2");
@@ -844,8 +844,8 @@ static void HU_AltInit(void)
 
     for (int i = 0; i < NUMCARDS; i++)
     {
-        altkeypics[i].width = SHORT(altkeypics[i].patch->width);
-        altkeypics[i].height = SHORT(altkeypics[i].patch->height);
+        altkeypics[i].width = LITTLESHORT(altkeypics[i].patch->width);
+        altkeypics[i].height = LITTLESHORT(altkeypics[i].patch->height);
     }
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -907,16 +907,16 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tintt
         patch_t *patch = altnumpatch[val / 100];
 
         althudfunc(x, y, patch, WHITE, color, tinttab, shadow);
-        x += SHORT(patch->width) + 2;
+        x += LITTLESHORT(patch->width) + 2;
         althudfunc(x, y, (patch = altnumpatch[(val %= 100) / 10]), WHITE, color, tinttab, shadow);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
+        althudfunc(x + LITTLESHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
     }
     else if (val >= 10)
     {
         patch_t *patch = altnumpatch[val / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab, shadow);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
+        althudfunc(x + LITTLESHORT(patch->width) + 2, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
     }
     else
         althudfunc(x, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
@@ -928,13 +928,13 @@ static int AltHUDNumberWidth(int val)
 
     if (val >= 100)
     {
-        width = SHORT(altnumpatch[val / 100]->width) + 2;
-        width += SHORT(altnumpatch[(val %= 100) / 10]->width) + 2;
+        width = LITTLESHORT(altnumpatch[val / 100]->width) + 2;
+        width += LITTLESHORT(altnumpatch[(val %= 100) / 10]->width) + 2;
     }
     else if (val >= 10)
-        width = SHORT(altnumpatch[val / 10]->width) + 2;
+        width = LITTLESHORT(altnumpatch[val / 10]->width) + 2;
 
-    return (width + SHORT(altnumpatch[val % 10]->width));
+    return (width + LITTLESHORT(altnumpatch[val % 10]->width));
 }
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab, int shadow)
@@ -947,19 +947,19 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
         patch_t *patch = altnumpatch2[val / 100];
 
         althudfunc(x, y, patch, WHITE, color, tinttab, shadow);
-        x += SHORT(patch->width) + 2;
+        x += LITTLESHORT(patch->width) + 2;
 
         patch = altnumpatch2[(val %= 100) / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab, shadow);
-        x += SHORT(patch->width) + 2;
+        x += LITTLESHORT(patch->width) + 2;
     }
     else if (val >= 10)
     {
         patch_t *patch = altnumpatch2[val / 10];
 
         althudfunc(x, y, patch, WHITE, color, tinttab, shadow);
-        x += SHORT(patch->width) + 2;
+        x += LITTLESHORT(patch->width) + 2;
     }
 
     althudfunc(x, y, altnumpatch2[val % 10], WHITE, color, tinttab, shadow);
@@ -971,13 +971,13 @@ static int AltHUDNumber2Width(int val)
 
     if (val >= 100)
     {
-        width = SHORT(altnumpatch2[val / 100]->width) + 2;
-        width += SHORT(altnumpatch2[(val %= 100) / 10]->width) + 2;
+        width = LITTLESHORT(altnumpatch2[val / 100]->width) + 2;
+        width += LITTLESHORT(altnumpatch2[(val %= 100) / 10]->width) + 2;
     }
     else if (val >= 10)
-        width = SHORT(altnumpatch2[val / 10]->width) + 2;
+        width = LITTLESHORT(altnumpatch2[val / 10]->width) + 2;
 
-    return (width + SHORT(altnumpatch2[val % 10]->width));
+    return (width + LITTLESHORT(altnumpatch2[val % 10]->width));
 }
 
 static void HU_DrawAltHUD(void)
@@ -1334,7 +1334,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
-            althudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 11 - SHORT(patch->height) / 2,
+            althudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 11 - LITTLESHORT(patch->height) / 2,
                 patch, color, shadowcolor, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
@@ -1545,18 +1545,18 @@ void HU_Drawer(void)
                 if (vid_widescreen)
                 {
                     w_author.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                    w_author.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
 
                     w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 22 : 38);
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 22 : 38);
                 }
                 else
                 {
                     w_author.x = 0;
-                    w_author.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
+                    w_author.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - 6;
 
                     w_title.x = 0;
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 22;
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - 22;
                 }
 
                 HUlib_DrawAutomapTextLine(&w_author, false);
@@ -1566,12 +1566,12 @@ void HU_Drawer(void)
                 if (vid_widescreen)
                 {
                     w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
                 }
                 else
                 {
                     w_title.x = 0;
-                    w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 6;
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - 6;
                 }
             }
 
@@ -1608,7 +1608,7 @@ void HU_Drawer(void)
             else
             {
                 w_title.x = 25;
-                w_title.y = MAPHEIGHT - SHORT(hu_font[0]->height) * 2 - 16;
+                w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - 16;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }

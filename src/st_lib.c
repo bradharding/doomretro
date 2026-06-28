@@ -127,7 +127,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         int         num = *n->num + (animatedstats ? ammodiff[weaponinfo[viewplayer->readyweapon].ammotype] : 0);
         int         x = n->x + (num == 1);
         const int   y = n->y;
-        const int   width = SHORT(n->p[0]->width);
+        const int   width = LITTLESHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
         if (!num)
@@ -149,7 +149,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
     int         num = *n->num + (animatedstats ? armordiff : 0);
     int         x = n->x + (num == 1);
     const int   y = n->y;
-    const int   width = SHORT(n->p[0]->width);
+    const int   width = LITTLESHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
     if (!num)
@@ -170,7 +170,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     int         num;
     int         x = n->x;
     const int   y = n->y;
-    const int   width = SHORT(n->p[0]->width);
+    const int   width = LITTLESHORT(n->p[0]->width);
 
     if (negativehealth && minuspatch && viewplayer->negativehealth < 0)
     {

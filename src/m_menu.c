@@ -672,7 +672,7 @@ static void M_DrawHelpBackground(void)
     {
         V_DrawPagePatch(0, titlelump);
 
-        if (SCREENWIDTH != NONWIDEWIDTH && SHORT(titlelump->width) <= VANILLAWIDTH)
+        if (SCREENWIDTH != NONWIDEWIDTH && LITTLESHORT(titlelump->width) <= VANILLAWIDTH)
         {
             bluepillarboxes = true;
             pillarwidth = (SCREENWIDTH - NONWIDEWIDTH) / 2;
@@ -876,7 +876,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
     if (!patch)
         return;
 
-    if (SHORT(patch->height) < VANILLAHEIGHT)
+    if (LITTLESHORT(patch->height) < VANILLAHEIGHT)
         V_DrawMenuPatch(x, y, patch, highlight, SCREENWIDTH);
     else
         V_DrawPagePatch(0, patch);
@@ -891,8 +891,8 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
     if (!patch)
         return;
 
-    if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
+    if (LITTLESHORT(patch->height) < VANILLAHEIGHT)
+        V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 + LITTLESHORT(patch->leftoffset),
             y, patch, false, SCREENWIDTH);
     else
         V_DrawPagePatch(0, patch);
@@ -1122,7 +1122,7 @@ static void M_DrawLoad(void)
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
         currentmenu->menuitems[i].width = 209;
-        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
+        currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
@@ -1235,7 +1235,7 @@ static void M_DrawSave(void)
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
         currentmenu->menuitems[i].width = 209;
-        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
+        currentmenu->menuitems[i].height = LITTLESHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
@@ -1278,7 +1278,7 @@ static void M_DrawSave(void)
             if (showcaret || !windowfocused)
             {
                 byte        *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
-                const int   height = (SHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
+                const int   height = (LITTLESHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
 
                 for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)
                     *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3) = caretcolor;
@@ -1646,8 +1646,8 @@ static void M_DrawHelp(void)
 static void M_DrawPalette(void)
 {
     patch_t     *DRCOLOR2 = W_CacheLastLumpName("DRCOLOR2");
-    const short width = SHORT(DRCOLOR2->width);
-    const short height = SHORT(DRCOLOR2->height);
+    const short width = LITTLESHORT(DRCOLOR2->width);
+    const short height = LITTLESHORT(DRCOLOR2->height);
     const int   x = (SCREENWIDTH - width * 16 - 2 * 15) / 2 + 1;
     const int   y = (SCREENHEIGHT - height * 16 - 15) / 2 + 4;
 
@@ -1667,15 +1667,15 @@ static void M_DrawPalette(void)
             M_snprintf(digits, sizeof(digits), "%i", color);
 
             for (char *p = digits; *p; p++)
-                totalwidth += SHORT(consolefont[*p - CONSOLEFONTSTART]->width) - (*p == '4');
+                totalwidth += LITTLESHORT(consolefont[*p - CONSOLEFONTSTART]->width) - (*p == '4');
 
             numx += (width - totalwidth - 2) / 2 + 1;
-            numy += (height - SHORT(consolefont[0]->height) - 2) / 2 + 1;
+            numy += (height - LITTLESHORT(consolefont[0]->height) - 2) / 2 + 1;
 
             for (char *p = digits; *p; p++)
             {
                 patch_t     *num = consolefont[*p - CONSOLEFONTSTART];
-                const short numwidth = SHORT(num->width);
+                const short numwidth = LITTLESHORT(num->width);
 
                 V_DrawConsoleTextPatch((numx -= (*p == '4')), numy, num, numwidth,
                     I_GetContrastingColor(color), -1, false, tinttab60);
@@ -1817,7 +1817,7 @@ static void M_DrawMainMenu(void)
     {
         patch_t *patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
 
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, SCREENWIDTH);
+        V_DrawMenuPatch((VANILLAWIDTH - LITTLESHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, SCREENWIDTH);
     }
 }
 
@@ -2236,7 +2236,7 @@ static void M_DrawOptions(void)
     {
         if (M_MSGON)
         {
-            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
+            short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
             patch_t *patch = W_CacheLumpName("M_MSGON");
 
             patch->leftoffset = 0;
@@ -2253,7 +2253,7 @@ static void M_DrawOptions(void)
     {
         if (M_MSGOFF)
         {
-            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
+            short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
             patch_t *patch = W_CacheLumpName("M_MSGOFF");
 
             patch->leftoffset = 0;
@@ -2271,7 +2271,7 @@ static void M_DrawOptions(void)
     {
         if (M_GDLOW)
         {
-            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
+            short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
             patch_t *patch = W_CacheLumpName("M_GDLOW");
 
             patch->leftoffset = 0;
@@ -2288,7 +2288,7 @@ static void M_DrawOptions(void)
     {
         if (M_GDHIGH)
         {
-            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
+            short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
             patch_t *patch = W_CacheLumpName("M_GDHIGH");
 
             patch->leftoffset = 0;
@@ -2884,7 +2884,7 @@ int M_CharacterWidth(unsigned char ch, unsigned char prevletter)
     if (c < 0 || c >= HU_FONTSIZE)
         return (prevletter == '.' || prevletter == '!' || prevletter == '?' ? 5 : 3);
     else
-        return (STCFNxxx ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
+        return (STCFNxxx ? LITTLESHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
 
 //
@@ -2917,7 +2917,7 @@ int M_StringWidth(const char *string)
 
 static int M_QuitMessageButtonHeight(void)
 {
-    return (SHORT(hu_font[0]->height) + 7);
+    return (LITTLESHORT(hu_font[0]->height) + 7);
 }
 
 static int M_StringHeight(const char *string)
@@ -2933,7 +2933,7 @@ static int M_StringHeight(const char *string)
         for (int i = 0; i < len - start; i++)
             if (string[start + i] == '\n')
             {
-                height += (i ? SHORT(hu_font[0]->height) + 2 : 3);
+                height += (i ? LITTLESHORT(hu_font[0]->height) + 2 : 3);
                 start += i + 1;
                 foundnewline = true;
                 break;
@@ -2941,7 +2941,7 @@ static int M_StringHeight(const char *string)
 
         if (!foundnewline)
         {
-            height += ((int)strlen(string + start) ? SHORT(hu_font[0]->height) + 2 : 3);
+            height += ((int)strlen(string + start) ? LITTLESHORT(hu_font[0]->height) + 2 : 3);
             break;
         }
     }
@@ -2954,7 +2954,7 @@ static int M_MessageTopY(void)
     int height = M_StringHeight(messagestring);
 
     if (quitmessagebuttons)
-        height += SHORT(hu_font[0]->height) + 5;
+        height += LITTLESHORT(hu_font[0]->height) + 5;
 
     return ((VANILLAHEIGHT - height) / 2);
 }
@@ -3051,7 +3051,7 @@ static int M_DrawMessage(int y)
         if (*string)
         {
             M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true, '\0');
-            y += SHORT(hu_font[0]->height) + 2;
+            y += LITTLESHORT(hu_font[0]->height) + 2;
         }
         else
             y += 3;
@@ -3120,7 +3120,7 @@ static void M_WriteText(int x, int y, const char *string, bool highlight, bool s
 
         if (STCFNxxx)
         {
-            width = SHORT(hu_font[c]->width);
+            width = LITTLESHORT(hu_font[c]->width);
 
             if (cx + width > VANILLAWIDTH)
                 break;
@@ -5083,10 +5083,10 @@ void M_Drawer(void)
                             patch_t *patch = W_CacheLumpName(name);
 
                             M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                            currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                            currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-                            widest = MAX(widest, SHORT(patch->width));
-                            currentmenu->menuitems[i].height = SHORT(patch->height);
+                            currentmenu->menuitems[i].x = x - LITTLESHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                            currentmenu->menuitems[i].y = y - LITTLESHORT(patch->topoffset) + OFFSET;
+                            widest = MAX(widest, LITTLESHORT(patch->width));
+                            currentmenu->menuitems[i].height = LITTLESHORT(patch->height);
                         }
                         else
                         {
@@ -5108,10 +5108,10 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLastLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                        currentmenu->menuitems[i].x = x - LITTLESHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - LITTLESHORT(patch->topoffset) + OFFSET;
+                        widest = MAX(widest, LITTLESHORT(patch->width));
+                        currentmenu->menuitems[i].height = LITTLESHORT(patch->height);
                     }
                     else if ((W_CheckNumForName(name) < 0 && **text) || (M_StringCompare(name, "M_EPI5") && sigil2))
                     {
@@ -5132,7 +5132,7 @@ void M_Drawer(void)
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
                                     const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
-                                    width += SHORT(MAX(on->width, off->width));
+                                    width += LITTLESHORT(MAX(on->width, off->width));
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
@@ -5146,7 +5146,7 @@ void M_Drawer(void)
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
                                     const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
-                                    width += SHORT(MAX(high->width, low->width));
+                                    width += LITTLESHORT(MAX(high->width, low->width));
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
@@ -5161,7 +5161,7 @@ void M_Drawer(void)
                     else if (W_GetNumLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
                         patch_t *patch = W_CacheLumpName(name);
-                        int     width = SHORT(patch->width);
+                        int     width = LITTLESHORT(patch->width);
 
                         patch->leftoffset = 0;
                         patch->topoffset = 0;
@@ -5181,7 +5181,7 @@ void M_Drawer(void)
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
                                     const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
-                                    width += SHORT(MAX(on->width, off->width));
+                                    width += LITTLESHORT(MAX(on->width, off->width));
 
                                     if (REKKR)
                                         width -= 26;
@@ -5198,7 +5198,7 @@ void M_Drawer(void)
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
                                     const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
-                                    width += SHORT(MAX(high->width, low->width));
+                                    width += LITTLESHORT(MAX(high->width, low->width));
 
                                     if (REKKR)
                                         width -= 26;
@@ -5211,7 +5211,7 @@ void M_Drawer(void)
                         }
 
                         widest = MAX(widest, width);
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                        currentmenu->menuitems[i].height = LITTLESHORT(patch->height);
                     }
                     else if (**text)
                     {
@@ -5237,7 +5237,7 @@ void M_Drawer(void)
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
                                     const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
-                                    width += SHORT(MAX(on->width, off->width));
+                                    width += LITTLESHORT(MAX(on->width, off->width));
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
@@ -5251,7 +5251,7 @@ void M_Drawer(void)
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
                                     const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
-                                    width += SHORT(MAX(high->width, low->width));
+                                    width += LITTLESHORT(MAX(high->width, low->width));
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
@@ -5394,7 +5394,7 @@ void M_Init(void)
     quicksaveslot = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
     menuborder = W_CacheLastLumpName("DRBORDER");
-    titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
+    titleheight = LITTLESHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
     caretcolor = tinttab15[FindBrightDominantColor(W_CacheLumpName("STCFN065"))];
 

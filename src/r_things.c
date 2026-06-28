@@ -617,7 +617,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         fixed_t         offset;
         fixed_t         pcl_gx, pcl_gy;
         fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
@@ -735,7 +735,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         fixed_t         offset;
         fixed_t         pcl_gx, pcl_gy;
         fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
@@ -877,7 +877,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         fixed_t         offset;
         fixed_t         pcl_gx, pcl_gy;
         fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
@@ -959,9 +959,9 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
 
                 if (vis->flipped)
-                    coloffset = (SHORT(patch->leftoffset) << FRACBITS) - frac;
+                    coloffset = (LITTLESHORT(patch->leftoffset) << FRACBITS) - frac;
                 else
-                    coloffset = frac - (SHORT(patch->leftoffset) << FRACBITS);
+                    coloffset = frac - (LITTLESHORT(patch->leftoffset) << FRACBITS);
 
                 colgx = vis->gx + FixedMul(coloffset, finecosine[angle]);
                 colgy = vis->gy + FixedMul(coloffset, finesine[angle]);
@@ -1084,7 +1084,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         fixed_t         offset;
         fixed_t         pcl_gx, pcl_gy;
         fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = SHORT(patch->leftoffset) << FRACBITS;
+        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
         const fixed_t   pcl_cosine = finecosine[angle];
         const fixed_t   pcl_sine = finesine[angle];
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);

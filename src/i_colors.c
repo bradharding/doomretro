@@ -213,11 +213,11 @@ int FindBrightDominantColor(patch_t *patch)
 {
     int         color = 0;
     int         colors[256] = { 0 };
-    const int   width = SHORT(patch->width);
+    const int   width = LITTLESHORT(patch->width);
 
     for (int x = 0; x < width; x++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[x]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -253,7 +253,7 @@ int FindBrightDominantColor(patch_t *patch)
 int FindDominantEdgeColor(patch_t *patch)
 {
     int         color = 0;
-    const int   width = SHORT(patch->width);
+    const int   width = LITTLESHORT(patch->width);
 
     if (width >= 16)
     {
@@ -261,7 +261,7 @@ int FindDominantEdgeColor(patch_t *patch)
 
         for (int x = 0; x < 16; x++)
         {
-            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
             const byte  length = column->length;
 
@@ -271,7 +271,7 @@ int FindDominantEdgeColor(patch_t *patch)
 
         for (int x = width - 16; x < width; x++)
         {
-            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
             const byte  length = column->length;
 

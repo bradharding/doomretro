@@ -249,7 +249,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             }
 
             althudtextfunc(x, y, screens[0], patch, italics, color, shadowcolor, SCREENWIDTH, tinttab);
-            x += SHORT(patch->width);
+            x += LITTLESHORT(patch->width);
 
             prevletter3 = prevletter2;
             prevletter2 = prevletter;
@@ -330,7 +330,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
             althudtextfunc(x, l->y, fb, patch, (italics && letter != '_'
                 && letter != '-' && letter != '+' && letter != ',' && letter != '/'), color,
                 nearestdarkgray, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
-            x += SHORT(patch->width);
+            x += LITTLESHORT(patch->width);
         }
 
         prevletter3 = prevletter2;
@@ -377,7 +377,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         screenwidth = SCREENWIDTH;
     }
 
-    screenarea = screenwidth * (y + SHORT(hu_font[0]->height) * 4 + 14);
+    screenarea = screenwidth * (y + LITTLESHORT(hu_font[0]->height) * 4 + 14);
 
     for (int i = 0; i < screenarea; i++)
         tempscreen[i] = PINK1;
@@ -411,7 +411,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             if (c == '\n' || i == wrap)
             {
                 x = l->x;
-                y += SHORT(hu_font[0]->height) + 2;
+                y += LITTLESHORT(hu_font[0]->height) + 2;
 
                 if (c == ' ')
                     continue;
@@ -432,7 +432,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         x -= 2;
 
                     V_DrawPatchToTempScreen(x, MAX(0, y - 1), l->f[j], cr, screenwidth);
-                    x += SHORT(l->f[j]->width);
+                    x += LITTLESHORT(l->f[j]->width);
                 }
                 else
                 {
@@ -634,7 +634,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     HU_DrawChar(x / 2, y / 2, j, fb1, screenwidth, (secretmap && !vanilla ? cr_gold : cr_none));
             }
 
-            x += SHORT(l->f[c - l->sc]->width) * 2;
+            x += LITTLESHORT(l->f[c - l->sc]->width) * 2;
         }
 
         prev3 = prev2;
@@ -677,7 +677,7 @@ void HUlib_EraseTextLine(hu_textline_t *l)
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        const int   lh = (SHORT(l->f[0]->height) + 4) * 2;
+        const int   lh = (LITTLESHORT(l->f[0]->height) + 4) * 2;
 
         for (int y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
             if (y < viewwindowy || y >= viewwindowy + viewheight)

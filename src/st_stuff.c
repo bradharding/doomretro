@@ -1584,8 +1584,8 @@ void ST_InitStatBar(void)
         sbar2 = W_CacheLumpName("STBAR4");
     }
 
-    sbarwidth = SHORT(sbar->width);
-    sbar2width = SHORT(sbar2->width);
+    sbarwidth = LITTLESHORT(sbar->width);
+    sbar2width = LITTLESHORT(sbar2->width);
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;
@@ -1597,7 +1597,7 @@ void ST_InitStatBar(void)
         ammobg = W_CacheLumpName("STAMMO");
         ammobg2 = W_CacheLumpName("STAMMO2");
 
-        ammobg2width = SHORT(ammobg2->width);
+        ammobg2width = LITTLESHORT(ammobg2->width);
     }
 }
 
@@ -1616,13 +1616,13 @@ static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
         callback(namebuf, &shortnum[i]);
     }
 
-    tallnum0width = SHORT(tallnum[0]->width);
-    tallnum1width = SHORT(tallnum[1]->width);
+    tallnum0width = LITTLESHORT(tallnum[0]->width);
+    tallnum1width = LITTLESHORT(tallnum[1]->width);
 
     callback("STTPRCNT", &tallpercent);
 
     emptytallpercent = V_IsEmptyPatch(tallpercent);
-    tallpercentwidth = (emptytallpercent ? 0 : SHORT(tallpercent->width));
+    tallpercentwidth = (emptytallpercent ? 0 : LITTLESHORT(tallpercent->width));
 
     // key cards
     for (int i = 0; i < NUMCARDS + 3; i++)

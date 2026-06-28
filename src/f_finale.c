@@ -439,11 +439,11 @@ static void F_TextWrite(void)
 
         if (STCFNxxx)
         {
-            if (cy + SHORT(hu_font[c]->height) > VANILLAHEIGHT)
+            if (cy + LITTLESHORT(hu_font[c]->height) > VANILLAHEIGHT)
                 break;
 
             V_DrawMenuPatch(cx + 1, cy + 1, hu_font[c], false, SCREENWIDTH);
-            cx += SHORT(hu_font[c]->width);
+            cx += LITTLESHORT(hu_font[c]->width);
         }
         else
         {
@@ -847,7 +847,7 @@ static void F_CastPrint(const char *text)
             continue;
         }
 
-        width += SHORT(hu_font[c]->width);
+        width += LITTLESHORT(hu_font[c]->width);
     }
 
     // draw it
@@ -868,7 +868,7 @@ static void F_CastPrint(const char *text)
         }
 
         V_DrawMenuPatch(cx + 1, 181, hu_font[c], false, SCREENWIDTH);
-        cx += SHORT(hu_font[c]->width);
+        cx += LITTLESHORT(hu_font[c]->width);
     }
 }
 
@@ -976,7 +976,7 @@ static void F_CastDrawer(void)
 //
 static void F_DrawPatchColumn(int x, patch_t *patch, int col)
 {
-    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+    column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col]));
     byte        *desttop = &screens[0][x];
 
     // step through the posts in a column
@@ -1008,9 +1008,9 @@ static void F_BunnyScroll(void)
                     W_CacheLumpName(REKKR && W_CheckNumForName("PFUB2W") >= 0 ? "PFUB2W" : "PFUB2"));
     patch_t     *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") :
                     W_CacheLumpName(REKKR && W_CheckNumForName("PFUB1W") ? "PFUB1W" : "PFUB1"));
-    const int   p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
-    const int   p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
-    const int   pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
+    const int   p1offset = (VANILLAWIDTH - LITTLESHORT(p1->width)) / 2;
+    const int   p2offset = VANILLAWIDTH + (LITTLESHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
+    const int   pillarwidth = MAX(0, (SCREENWIDTH - (LITTLESHORT(p1->width) << FRACBITS) / DXI) / 2);
 
     if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
     {

@@ -105,9 +105,9 @@ static bool IsFreedoom(const char *iwadname)
         filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
-        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+        fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
 
-        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+        for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (!strncmp(n, "FREEDOOM", 8))
             {
                 result = true;
@@ -135,9 +135,9 @@ static bool IsBFGEdition(const char *iwadname)
         filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
-        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+        fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
 
-        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+        for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (!strncmp(n, "DMENUPIC", 8))
             {
                 result1 = true;
@@ -173,9 +173,9 @@ bool IsUltimateDOOM(const char *iwadname)
         filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
-        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+        fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
 
-        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+        for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (!strncmp(n, "E4M1", 4))
             {
                 result = true;
@@ -361,8 +361,8 @@ bool W_AddFile(char *filename, bool autoloaded)
     else
         wadfile->type = PWAD;
 
-    header.numlumps = LONG(header.numlumps);
-    header.infotableofs = LONG(header.infotableofs);
+    header.numlumps = LITTLELONG(header.numlumps);
+    header.infotableofs = LITTLELONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
     fileinfo = I_Malloc(length);
     W_Read(wadfile, header.infotableofs, fileinfo, length);
@@ -389,8 +389,8 @@ bool W_AddFile(char *filename, bool autoloaded)
         lumpinfo_t  *lump_p = &filelumps[i - startlump];
 
         lump_p->wadfile = wadfile;
-        lump_p->position = LONG(filerover->filepos);
-        lump_p->size = LONG(filerover->size);
+        lump_p->position = LITTLELONG(filerover->filepos);
+        lump_p->size = LITTLELONG(filerover->size);
         lump_p->cache = NULL;
         M_CopyLumpName(lump_p->name, filerover->name);
         lumpinfo[i] = lump_p;
@@ -759,9 +759,9 @@ bool HasDehackedLump(const char *pwadname)
     {
         const char  *n = lump.name;
 
-        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+        fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
 
-        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+        for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (!strncmp(n, "DEHACKED", 8))
             {
                 result = true;
@@ -799,9 +799,9 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
             filelump_t  lump = { 0 };
             const char  *n = lump.name;
 
-            fseek(fp, LONG(header.infotableofs), SEEK_SET);
+            fseek(fp, LITTLELONG(header.infotableofs), SEEK_SET);
 
-            for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
+            for (int i = LITTLELONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
                 if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
                 {
                     result = doom;
