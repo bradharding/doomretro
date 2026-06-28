@@ -1209,29 +1209,25 @@ static void R_SetupFrame(void)
 }
 
 #define VIEWSWIRLSPEED      24
-#define VIEWSWIRLFACTOR     (FINEANGLES / 64)
-#define VIEWSWIRLFACTOR2    (FINEANGLES / 32)
+#define VIEWSWIRLFACTOR     (FINEANGLES / 256)
+#define VIEWSWIRLFACTOR2    (FINEANGLES / 128)
 
 static void R_SwirlView(void)
 {
     byte        *source = screens[1];
     byte        *dest = screens[0];
-    int         xoffset1[64];
-    int         xoffset2[64];
-    int         yoffset1[64];
-    int         yoffset2[64];
+    int         xoffset1[256];
+    int         xoffset2[256];
+    int         yoffset1[256];
+    int         yoffset2[256];
     const int   phase = (animatedtic & 1023) * VIEWSWIRLSPEED;
 
-    for (int x = 0; x < 64; x++)
+    for (int i = 0; i < 256; i++)
     {
-        xoffset1[x] = (finesine[(x * VIEWSWIRLFACTOR + phase * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
-        xoffset2[x] = (finesine[(x * VIEWSWIRLFACTOR2 + phase * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
-    }
-
-    for (int y = 0; y < 64; y++)
-    {
-        yoffset1[y] = (finesine[(y * VIEWSWIRLFACTOR + phase * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
-        yoffset2[y] = (finesine[(y * VIEWSWIRLFACTOR2 + phase * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
+        xoffset1[i] = (finesine[(i * VIEWSWIRLFACTOR + phase * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
+        xoffset2[i] = (finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
+        yoffset1[i] = (finesine[(i * VIEWSWIRLFACTOR + phase * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
+        yoffset2[i] = (finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
     }
 
     for (int y = 0; y < viewheight; y++)
@@ -1244,18 +1240,17 @@ static void R_SwirlView(void)
     for (int y = 0; y < viewheight; y++)
     {
         byte        *destrow = dest + (((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx);
-        const int   ymod = (y & 63);
+        const int   ymod = (y & 255);
         const int   yoffset1row = yoffset1[ymod];
         const int   yoffset2row = yoffset2[ymod];
-        int         xmod = 0;
 
-        for (int x = 0; x < viewwidth; x++)
+        for (int x = 0, xmod = 0; x < viewwidth; x++)
         {
             const int   srcx = BETWEEN(0, x + yoffset1row + xoffset2[xmod], viewwidth - 1);
             const int   srcy = BETWEEN(0, y + xoffset1[xmod] + yoffset2row, viewheight - 1);
 
             destrow[x] = source[(viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
-            xmod = ((xmod + 1) & 63);
+            xmod = ((xmod + 1) & 255);
         }
     }
 }

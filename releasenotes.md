@@ -19,6 +19,7 @@
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * *DOOM Retro* no longer uses [*SDL_image*](https://github.com/libsdl-org/SDL_image) to take screenshots.
 * Screenshots are now saved as 8-bit rather than 32-bit PNG images.
+* The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` has improved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
