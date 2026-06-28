@@ -125,6 +125,8 @@ static fixed_t      fovscale;
 // of 'tx' value, used by R_ProjectSprite for sprite projection.
 fixed_t             fovtx;
 
+static void R_InitViewSwirl(void);
+
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -1057,6 +1059,7 @@ void R_Init(void)
     R_InitSpriteBottomOffsets();
     R_InitSwirlingFlats();
     R_InitColumnFunctions();
+    R_InitViewSwirl();
 }
 
 //
@@ -1209,26 +1212,47 @@ static void R_SetupFrame(void)
 }
 
 #define VIEWSWIRLSPEED      24
+#define VIEWSWIRLPHASES     1024
 #define VIEWSWIRLFACTOR     (FINEANGLES / 256)
 #define VIEWSWIRLFACTOR2    (FINEANGLES / 128)
+#define VIEWSWIRLOFFSETSHIFT 16
+
+static byte      viewswirloffsets[VIEWSWIRLPHASES * 256 * 256];
+
+static void R_InitViewSwirl(void)
+{
+    for (int phase = 0; phase < VIEWSWIRLPHASES * VIEWSWIRLSPEED; phase += VIEWSWIRLSPEED)
+    {
+        int     xoffset1[256];
+        int     xoffset2[256];
+        int     yoffset1[256];
+        int     yoffset2[256];
+        byte    *offset = &viewswirloffsets[(phase / VIEWSWIRLSPEED) << VIEWSWIRLOFFSETSHIFT];
+
+        for (int i = 0; i < 256; i++)
+        {
+            xoffset1[i] = ((finesine[(i * VIEWSWIRLFACTOR + phase * 3 + 700)
+                & FINEMASK] * 2) >> FRACBITS);
+            xoffset2[i] = ((finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 300)
+                & FINEMASK] * 2) >> FRACBITS);
+            yoffset1[i] = ((finesine[(i * VIEWSWIRLFACTOR + phase * 5 + 900)
+                & FINEMASK] * 2) >> FRACBITS);
+            yoffset2[i] = ((finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 1200)
+                & FINEMASK] * 2) >> FRACBITS);
+        }
+
+        for (int y = 0; y < 256; y++)
+            for (int x = 0; x < 256; x++)
+                offset[(y << 8) + x] = (byte)(((xoffset1[x] + yoffset2[y] + 8) << 4)
+                    + (yoffset1[y] + xoffset2[x] + 8));
+    }
+}
 
 static void R_SwirlView(void)
 {
     byte        *source = screens[1];
     byte        *dest = screens[0];
-    int         xoffset1[256];
-    int         xoffset2[256];
-    int         yoffset1[256];
-    int         yoffset2[256];
-    const int   phase = (animatedtic & 1023) * VIEWSWIRLSPEED;
-
-    for (int i = 0; i < 256; i++)
-    {
-        xoffset1[i] = (finesine[(i * VIEWSWIRLFACTOR + phase * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
-        xoffset2[i] = (finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
-        yoffset1[i] = (finesine[(i * VIEWSWIRLFACTOR + phase * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
-        yoffset2[i] = (finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
-    }
+    const byte  *offset = &viewswirloffsets[(animatedtic & (VIEWSWIRLPHASES - 1)) << VIEWSWIRLOFFSETSHIFT];
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1240,14 +1264,13 @@ static void R_SwirlView(void)
     for (int y = 0; y < viewheight; y++)
     {
         byte        *destrow = dest + (((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx);
-        const int   ymod = (y & 255);
-        const int   yoffset1row = yoffset1[ymod];
-        const int   yoffset2row = yoffset2[ymod];
+        const byte  *offsetrow = offset + ((y & 255) << 8);
 
         for (int x = 0, xmod = 0; x < viewwidth; x++)
         {
-            const int   srcx = BETWEEN(0, x + yoffset1row + xoffset2[xmod], viewwidth - 1);
-            const int   srcy = BETWEEN(0, y + xoffset1[xmod] + yoffset2row, viewheight - 1);
+            const byte  srcoffset = offsetrow[xmod];
+            const int   srcx = BETWEEN(0, x + (srcoffset & 15) - 8, viewwidth - 1);
+            const int   srcy = BETWEEN(0, y + (srcoffset >> 4) - 8, viewheight - 1);
 
             destrow[x] = source[(viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
             xmod = ((xmod + 1) & 255);
