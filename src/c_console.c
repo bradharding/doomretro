@@ -3716,7 +3716,7 @@ bool C_Responder(event_t *ev)
             if (doubleclickselection)
                 return true;
 
-            if (newleftbuttonpress && y >= consoleheight - 6 && y <= consoleheight + 4)
+            if (newleftbuttonpress && y >= consoleheight && y <= consoleheight + 4)
             {
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
