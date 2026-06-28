@@ -438,12 +438,12 @@ void R_InitSwirlingFlats(void)
         int         yoffset2[64];
         uint16_t    *offset = &offsets[(i / SPEED) << 12];
 
-        for (int i = 0; i < 64; i++)
+        for (int j = 0; j < 64; j++)
         {
-            xoffset1[i] = (finesine[(i * SWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
-            xoffset2[i] = (finesine[(i * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
-            yoffset1[i] = (finesine[(i * SWIRLFACTOR + i * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
-            yoffset2[i] = (finesine[(i * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
+            xoffset1[j] = (finesine[(j * SWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
+            xoffset2[j] = (finesine[(j * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
+            yoffset1[j] = (finesine[(j * SWIRLFACTOR + i * 5 + 900) & FINEMASK] * 2) >> FRACBITS;
+            yoffset2[j] = (finesine[(j * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
         }
 
         for (int y = 0; y < 64; y++)

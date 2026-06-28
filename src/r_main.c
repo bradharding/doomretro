@@ -1217,28 +1217,24 @@ static void R_SetupFrame(void)
 #define VIEWSWIRLFACTOR2    (FINEANGLES / 128)
 #define VIEWSWIRLOFFSETSHIFT 16
 
-static byte      viewswirloffsets[VIEWSWIRLPHASES * 256 * 256];
+static byte viewswirloffsets[VIEWSWIRLPHASES * 256 * 256];
 
 static void R_InitViewSwirl(void)
 {
-    for (int phase = 0; phase < VIEWSWIRLPHASES * VIEWSWIRLSPEED; phase += VIEWSWIRLSPEED)
+    for (int i = 0; i < VIEWSWIRLPHASES * VIEWSWIRLSPEED; i += VIEWSWIRLSPEED)
     {
         int     xoffset1[256];
         int     xoffset2[256];
         int     yoffset1[256];
         int     yoffset2[256];
-        byte    *offset = &viewswirloffsets[(phase / VIEWSWIRLSPEED) << VIEWSWIRLOFFSETSHIFT];
+        byte    *offset = &viewswirloffsets[(i / VIEWSWIRLSPEED) << VIEWSWIRLOFFSETSHIFT];
 
-        for (int i = 0; i < 256; i++)
+        for (int j = 0; j < 256; j++)
         {
-            xoffset1[i] = ((finesine[(i * VIEWSWIRLFACTOR + phase * 3 + 700)
-                & FINEMASK] * 2) >> FRACBITS);
-            xoffset2[i] = ((finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 300)
-                & FINEMASK] * 2) >> FRACBITS);
-            yoffset1[i] = ((finesine[(i * VIEWSWIRLFACTOR + phase * 5 + 900)
-                & FINEMASK] * 2) >> FRACBITS);
-            yoffset2[i] = ((finesine[(i * VIEWSWIRLFACTOR2 + phase * 4 + 1200)
-                & FINEMASK] * 2) >> FRACBITS);
+            xoffset1[j] = ((finesine[(j * VIEWSWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2) >> FRACBITS);
+            xoffset2[j] = ((finesine[(j * VIEWSWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2) >> FRACBITS);
+            yoffset1[j] = ((finesine[(j * VIEWSWIRLFACTOR + i * 5 + 900) & FINEMASK] * 2) >> FRACBITS);
+            yoffset2[j] = ((finesine[(j * VIEWSWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2) >> FRACBITS);
         }
 
         for (int y = 0; y < 256; y++)
@@ -1252,7 +1248,7 @@ static void R_SwirlView(void)
 {
     byte        *source = screens[1];
     byte        *dest = screens[0];
-    const byte  *offset = &viewswirloffsets[(animatedtic & (VIEWSWIRLPHASES - 1)) << VIEWSWIRLOFFSETSHIFT];
+    const byte  *offset = &viewswirloffsets[((size_t)(animatedtic & (VIEWSWIRLPHASES - 1))) << VIEWSWIRLOFFSETSHIFT];
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1264,7 +1260,7 @@ static void R_SwirlView(void)
     for (int y = 0; y < viewheight; y++)
     {
         byte        *destrow = dest + (((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx);
-        const byte  *offsetrow = offset + ((y & 255) << 8);
+        const byte  *offsetrow = offset + (((size_t)(y & 255)) << 8);
 
         for (int x = 0, xmod = 0; x < viewwidth; x++)
         {
@@ -1272,7 +1268,7 @@ static void R_SwirlView(void)
             const int   srcx = BETWEEN(0, x + (srcoffset & 15) - 8, viewwidth - 1);
             const int   srcy = BETWEEN(0, y + (srcoffset >> 4) - 8, viewheight - 1);
 
-            destrow[x] = source[(viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
+            destrow[x] = source[((size_t)viewwindowy + srcy) * SCREENWIDTH + viewwindowx + srcx];
             xmod = ((xmod + 1) & 255);
         }
     }
