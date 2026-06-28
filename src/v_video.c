@@ -2127,54 +2127,57 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
                     mz_ulong    compressedsize = mz_compressBound((mz_ulong)rawsize);
                     byte        *compressed = malloc(compressedsize);
 
-                    for (int i = 0; i < 256; i++)
+                    if (compressed)
                     {
-                        palettebytes[i * 3] = colors[i].r;
-                        palettebytes[i * 3 + 1] = colors[i].g;
-                        palettebytes[i * 3 + 2] = colors[i].b;
-                    }
-
-                    for (int y = 0; y < height; y++)
-                    {
-                        byte        *dst = raw + (size_t)y * (pngwidth + 1);
-                        const byte  *src = pixels + (size_t)y * pitch;
-
-                        *dst++ = 0;
-
-                        for (int x = 0; x < pngwidth; x++, src += 3)
-                            *dst++ = (byte)I_GetNearestColor(palettebytes, src[0], src[1], src[2]);
-                    }
-
-                    if (compressed
-                        && mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize, MZ_BEST_COMPRESSION) == MZ_OK)
-                    {
-                        FILE        *file = fopen(path, "wb");
-                        mz_uint32   bigendian = SDL_SwapBE32((mz_uint32)pngwidth);
-
-                        memcpy(ihdr, &bigendian, sizeof(bigendian));
-                        bigendian = SDL_SwapBE32((mz_uint32)height);
-                        memcpy(ihdr + 4, &bigendian, sizeof(bigendian));
-
-                        ihdr[8] = 8;
-                        ihdr[9] = 3;
-                        ihdr[10] = 0;
-                        ihdr[11] = 0;
-                        ihdr[12] = 0;
-
-                        if (file)
+                        for (int i = 0; i < 256; i++)
                         {
-                            result = (fwrite(pngsignature, 1, sizeof(pngsignature), file) == sizeof(pngsignature)
-                                && V_WritePNGChunk(file, "IHDR", ihdr, sizeof(ihdr))
-                                && V_WritePNGChunk(file, "PLTE", palettebytes, sizeof(palettebytes))
-                                && V_WritePNGChunk(file, "IDAT", compressed, (mz_uint32)compressedsize)
-                                && V_WritePNGChunk(file, "IEND", NULL, 0));
-
-                            if (fclose(file))
-                                result = false;
+                            palettebytes[i * 3] = colors[i].r;
+                            palettebytes[i * 3 + 1] = colors[i].g;
+                            palettebytes[i * 3 + 2] = colors[i].b;
                         }
+
+                        for (int y = 0; y < height; y++)
+                        {
+                            const byte  *src = pixels + (size_t)y * pitch;
+                            byte        *dest = raw + (size_t)y * (pngwidth + 1);
+
+                            *dest++ = 0;
+
+                            for (int x = 0; x < pngwidth; x++, src += 3)
+                                *dest++ = (byte)I_GetNearestColor(palettebytes, src[0], src[1], src[2]);
+                        }
+
+                        if (mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize, MZ_BEST_COMPRESSION) == MZ_OK)
+                        {
+                            FILE        *file = fopen(path, "wb");
+                            mz_uint32   bigendian = SDL_SwapBE32((mz_uint32)pngwidth);
+
+                            memcpy(ihdr, &bigendian, sizeof(bigendian));
+                            bigendian = SDL_SwapBE32((mz_uint32)height);
+                            memcpy(ihdr + 4, &bigendian, sizeof(bigendian));
+
+                            ihdr[8] = 8;
+                            ihdr[9] = 3;
+                            ihdr[10] = 0;
+                            ihdr[11] = 0;
+                            ihdr[12] = 0;
+
+                            if (file)
+                            {
+                                result = (fwrite(pngsignature, 1, sizeof(pngsignature), file) == sizeof(pngsignature)
+                                    && V_WritePNGChunk(file, "IHDR", ihdr, sizeof(ihdr))
+                                    && V_WritePNGChunk(file, "PLTE", palettebytes, sizeof(palettebytes))
+                                    && V_WritePNGChunk(file, "IDAT", compressed, (mz_uint32)compressedsize)
+                                    && V_WritePNGChunk(file, "IEND", NULL, 0));
+
+                                if (fclose(file))
+                                    result = false;
+                            }
+                        }
+
+                        free(compressed);
                     }
 
-                    free(compressed);
                     free(raw);
                 }
             }
