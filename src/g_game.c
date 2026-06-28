@@ -2283,6 +2283,9 @@ void G_InitNew(skill_t skill, int ep, int map)
         S_ResumeMusic();
     }
 
+    if (menuactive)
+        M_CloseMenu();
+
     if (skill > sk_nightmare)
         skill = sk_nightmare;
 
