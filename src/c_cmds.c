@@ -1318,7 +1318,7 @@ static void clearmarkactionfunc(void)
 static void consoleactionfunc(void)
 {
     if (consoleactive)
-        C_HideConsole();
+        C_HideConsoleAndMenu();
     else
         C_ShowConsole(false);
 }
@@ -3418,7 +3418,7 @@ static void freezefunc2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_FOFF, false, false);
     }
 
-    C_HideConsole();
+    C_HideConsoleAndMenu();
 }
 
 //
@@ -3535,7 +3535,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given everything.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3560,7 +3560,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given full health.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3586,7 +3586,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("%s has been given all %s weapons.",
                         playername, pronoun(possessive));
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3614,7 +3614,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("%s has been given full ammo for all %s weapons.",
                         playername, pronoun(possessive));
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (P_GiveBackpack(false, false) && P_GiveFullAmmo())
             {
@@ -3627,7 +3627,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
                         playername, pronoun(possessive));
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3656,7 +3656,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("%s has been given full %s.",
                         playername, (english == english_american ? "armor" : "armour"));
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3683,7 +3683,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given all keycards and skull keys.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3708,7 +3708,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given all keycards.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3733,7 +3733,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given all skull keys.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3769,7 +3769,7 @@ static void givefunc2(char *cmd, char *parms)
             else
                 C_PlayerMessage("%s has been given a pistol.", playername);
 
-            C_HideConsole();
+            C_HideConsoleAndMenu();
             free(parm);
 
             return;
@@ -3789,7 +3789,7 @@ static void givefunc2(char *cmd, char *parms)
                 else
                     C_PlayerMessage("%s has been given all the power-ups.", playername);
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -3871,7 +3871,7 @@ static void givefunc2(char *cmd, char *parms)
                                         playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                             }
 
-                            C_HideConsole();
+                            C_HideConsoleAndMenu();
                         }
                         else
                         {
@@ -4314,7 +4314,7 @@ static void killfunc2(char *cmd, char *parms)
             C_PlayerWarning("%s", buffer);
             HU_SetPlayerMessage(buffer, false, false);
             message_warning = true;
-            C_HideConsole();
+            C_HideConsoleAndMenu();
         }
         else
         {
@@ -4398,7 +4398,7 @@ static void killfunc2(char *cmd, char *parms)
                     }
 
                     C_PlayerMessage("%s", buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4434,7 +4434,7 @@ static void killfunc2(char *cmd, char *parms)
                             playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4468,7 +4468,7 @@ static void killfunc2(char *cmd, char *parms)
                             playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     free(temp);
                 }
@@ -4499,7 +4499,7 @@ static void killfunc2(char *cmd, char *parms)
                             playername, killed, temp, (kills == 1 ? "" : "s"));
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4547,7 +4547,7 @@ static void killfunc2(char *cmd, char *parms)
                         M_snprintf(buffer, sizeof(buffer), "%s %s everything.", playername, killed);
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4576,7 +4576,7 @@ static void killfunc2(char *cmd, char *parms)
                         M_snprintf(buffer, sizeof(buffer), "%s %s all corpses.", playername, killed);
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                 }
                 else
@@ -4594,7 +4594,7 @@ static void killfunc2(char *cmd, char *parms)
                         M_snprintf(buffer, sizeof(buffer), "%s %s all blood splats.", playername, killed);
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                 }
                 else
@@ -4624,7 +4624,7 @@ static void killfunc2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
 
                         C_PlayerMessage(buffer);
-                        C_HideConsole();
+                        C_HideConsoleAndMenu();
                         HU_SetPlayerMessage(buffer, false, false);
                         viewplayer->cheated++;
                         stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4645,7 +4645,7 @@ static void killfunc2(char *cmd, char *parms)
                         M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -4740,7 +4740,7 @@ static void killfunc2(char *cmd, char *parms)
                     }
 
                     C_PlayerMessage(buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     viewplayer->cheated++;
                     stat_cheatsentered = SafeAdd(stat_cheatsentered, 1);
@@ -5350,7 +5350,7 @@ static void mapfunc2(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
     {
         idclevtics = TICRATE;
-        C_HideConsole();
+        C_HideConsoleAndMenu();
     }
     else
     {
@@ -8951,7 +8951,7 @@ static void resetallfunc2(char *cmd, char *parms)
 
     M_StringCopy(resetallstring, "Are you sure you want to reset all CVARs\nand controls to their defaults?",
         sizeof(resetallstring));
-    C_HideConsole();
+    C_HideConsoleAndMenu();
     M_StartButtonMessage(resetallstring, &C_VerifyResetAll, false);
 
     SDL_StopTextInput();
@@ -9215,7 +9215,7 @@ static void resurrectfunc2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%s%s dead monster%s in this map %s been resurrected.",
                         (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
                     C_Output("%s", buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     free(temp);
                 }
@@ -9235,7 +9235,7 @@ static void resurrectfunc2(char *cmd, char *parms)
 
                 M_snprintf(buffer, sizeof(buffer), "%s was resurrected.", temp);
                 C_Output("%s", buffer);
-                C_HideConsole();
+                C_HideConsoleAndMenu();
                 HU_SetPlayerMessage(buffer, false, false);
                 free(temp);
             }
@@ -9265,7 +9265,7 @@ static void resurrectfunc2(char *cmd, char *parms)
                         (resurrected == 1 ? "The" : "All"), temp, (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                         (resurrected == 1 ? "has" : "have"));
                     C_Output("%s", buffer);
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
                     free(temp);
                 }
@@ -9576,7 +9576,7 @@ static void spawnfunc2(char *cmd, char *parms)
                             C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
                             (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
 
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
                 }
             }
             else
@@ -9727,7 +9727,7 @@ static void takefunc2(char *cmd, char *parms)
             if (result)
             {
                 C_PlayerWarning("Everything was taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have anything!");
@@ -9748,7 +9748,7 @@ static void takefunc2(char *cmd, char *parms)
                 else
                     C_PlayerWarning("%s killed %s!", playername, pronoun(reflexive));
 
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else
             {
@@ -9773,7 +9773,7 @@ static void takefunc2(char *cmd, char *parms)
             if (result)
             {
                 C_PlayerWarning("All weapons have been taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any weapons!");
@@ -9795,7 +9795,7 @@ static void takefunc2(char *cmd, char *parms)
             if (result)
             {
                 C_PlayerWarning("All ammo was taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any ammo!");
@@ -9812,7 +9812,7 @@ static void takefunc2(char *cmd, char *parms)
                 viewplayer->armortype = armortype_none;
                 C_PlayerWarning("All %s was taken from %s!",
                     (english == english_american ? "armor" : "armour"), C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any %s!",
@@ -9834,7 +9834,7 @@ static void takefunc2(char *cmd, char *parms)
             {
                 P_LookForCards();
                 C_PlayerWarning("All keycards and skull keys have been taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any keycards or skull keys!");
@@ -9850,7 +9850,7 @@ static void takefunc2(char *cmd, char *parms)
                 viewplayer->cards[it_yellowcard] = 0;
                 P_LookForCards();
                 C_PlayerWarning("All keycards have been taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any keycards!");
@@ -9866,7 +9866,7 @@ static void takefunc2(char *cmd, char *parms)
                 viewplayer->cards[it_yellowskull] = 0;
                 P_LookForCards();
                 C_PlayerWarning("All skull keys have been taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any skull keys!");
@@ -9883,7 +9883,7 @@ static void takefunc2(char *cmd, char *parms)
                 P_CheckAmmo(viewplayer->readyweapon);
 
                 C_PlayerWarning("A pistol was taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have a pistol!");
@@ -9902,7 +9902,7 @@ static void takefunc2(char *cmd, char *parms)
             if (result)
             {
                 C_PlayerWarning("All power-ups have been taken from %s!", C_GetPlayerName());
-                C_HideConsole();
+                C_HideConsoleAndMenu();
             }
             else if (isdefaultplayername())
                 C_Warning(0, "You don't have any power-ups!");
@@ -9942,7 +9942,7 @@ static void takefunc2(char *cmd, char *parms)
                             healthcvar = false;
                         }
 
-                        C_HideConsole();
+                        C_HideConsoleAndMenu();
                         result = true;
                     }
                     else if (isdefaultplayername())
@@ -10330,7 +10330,7 @@ static void vanillafunc2(char *cmd, char *parms)
     }
 
     if (gamestate == GS_LEVEL)
-        C_HideConsole();
+        C_HideConsoleAndMenu();
 
     I_RestartGraphics(false);
     AM_InitPixelSize();
@@ -11394,7 +11394,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                 P_CheckAmmo(readyweapon);
 
                 if (viewplayer->pendingweapon != wp_nochange)
-                    C_HideConsole();
+                    C_HideConsoleAndMenu();
 
                 free(temp1);
                 free(temp2);
@@ -11595,7 +11595,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             if (value <= 0)
                             {
                                 P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
-                                C_HideConsole();
+                                C_HideConsoleAndMenu();
                             }
                             else
                                 S_StartSound(NULL, sfx_plpain);
@@ -13148,7 +13148,7 @@ static void weaponfunc2(char *cmd, char *parms)
         else if (value == wp_supershotgun)
             viewplayer->preferredshotgun = wp_supershotgun;
 
-        C_HideConsole();
+        C_HideConsoleAndMenu();
     }
     else
     {

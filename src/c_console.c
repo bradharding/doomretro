@@ -1274,6 +1274,12 @@ void C_HideConsole(void)
     S_RestoreMusicVolume();
 }
 
+void C_HideConsoleAndMenu(void)
+{
+    C_HideConsole();
+    M_CloseMenu();
+}
+
 void C_HideConsoleFast(void)
 {
     if (!consoleactive)
@@ -2967,7 +2973,10 @@ bool C_ValidateInput(char *input)
                         && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
                         if (gamestate == GS_LEVEL)
+                        {
                             M_StringCopy(consolecheat, cmd, sizeof(consolecheat));
+                            C_HideConsoleAndMenu();
+                        }
 
                         return true;
                     }
@@ -2977,6 +2986,7 @@ bool C_ValidateInput(char *input)
                 && consolecmds[i].func1(consolecmds[i].name, ""))
             {
                 M_StringCopy(consolecheat, input, sizeof(consolecheat));
+                C_HideConsoleAndMenu();
                 return true;
             }
         }

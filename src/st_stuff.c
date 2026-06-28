@@ -480,7 +480,7 @@ bool ST_Responder(const event_t *ev)
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
     {
-        if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
+        if ((!menuactive && !paused) || *consolecheat)
         {
             bool    cheatfailed = false;
 
