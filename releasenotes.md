@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and is now not required to take screenshots.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
@@ -12,13 +13,12 @@
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * `Retro bits = FLOATBOB` used in `DEHACKED` lumps is now allowed for shootable things.
-* A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if already playing one.
+* A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if it’s already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 * The crosshair can now snap to where your weapon will fire while autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* *DOOM Retro* no longer uses [*SDL_image*](https://github.com/libsdl-org/SDL_image) to take screenshots.
-* Screenshots are now saved as 8-bit rather than 32-bit PNG images.
+* Screenshots are now saved as smaller 8-bit PNG images rather than 32-bit.
 * The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` has improved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
