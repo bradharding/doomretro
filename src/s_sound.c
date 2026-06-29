@@ -635,6 +635,14 @@ void S_ResumeMusic(void)
     }
 }
 
+double S_GetMusicDuration(void)
+{
+    if (!mus_playing || mus_playing->lumpnum < 0)
+        return 0.0;
+
+    return I_GetMusicDuration(mus_playing->handle, mus_playing->data, W_LumpLength(mus_playing->lumpnum));
+}
+
 //
 // Updates sounds
 //

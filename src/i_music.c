@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <stdlib.h>
+
 #include "SDL_mixer.h"
 
 #include "c_console.h"
@@ -40,6 +42,9 @@
 #include "i_winmusic.h"
 #include "m_config.h"
 #include "memio.h"
+#if defined(_WIN32)
+#include "midifile.h"
+#endif
 #include "mus2mid.h"
 #include "s_sound.h"
 #include "w_wad.h"
@@ -58,6 +63,116 @@ static int  paused_midi_volume;
 static bool music_initialized;
 
 int         current_music_volume = 0;
+
+#if defined(_WIN32)
+typedef struct
+{
+    unsigned int    tick;
+    unsigned int    tempo;
+} tempochange_t;
+
+static int TempoChangeCompare(const void *p1, const void *p2)
+{
+    const tempochange_t  *tempo1 = (const tempochange_t *)p1;
+    const tempochange_t  *tempo2 = (const tempochange_t *)p2;
+
+    if (tempo1->tick < tempo2->tick)
+        return -1;
+    else if (tempo1->tick > tempo2->tick)
+        return 1;
+    else
+        return 0;
+}
+
+static double GetMIDIDuration(void *data, const int size)
+{
+    midi_file_t      *file = MIDI_LoadFile(SDL_RWFromMem(data, size));
+    tempochange_t    *tempochanges = NULL;
+    unsigned int     numtempochanges = 0;
+    unsigned int     maxtick = 0;
+    unsigned int     timedivision;
+    double           duration = 0.0;
+
+    if (!file)
+        return 0.0;
+
+    if (!(timedivision = MIDI_GetFileTimeDivision(file)))
+    {
+        MIDI_FreeFile(file);
+        return 0.0;
+    }
+
+    for (unsigned int i = 0; i < MIDI_NumTracks(file); i++)
+    {
+        midi_track_iter_t   *iter = MIDI_IterateTrack(file, i);
+        midi_event_t        *event;
+        unsigned int        tick = 0;
+
+        if (!iter)
+            continue;
+
+        while (MIDI_GetNextEvent(iter, &event))
+        {
+            tick += event->delta_time;
+
+            if (event->event_type == MIDI_EVENT_META
+                && event->data.meta.type == MIDI_META_SET_TEMPO
+                && event->data.meta.length == 3)
+            {
+                tempochange_t   *newtempochanges = realloc(tempochanges,
+                                    (numtempochanges + 1) * sizeof(*tempochanges));
+
+                if (newtempochanges)
+                {
+                    tempochanges = newtempochanges;
+                    tempochanges[numtempochanges].tick = tick;
+                    tempochanges[numtempochanges].tempo = (event->data.meta.data[0] << 16)
+                        | (event->data.meta.data[1] << 8) | event->data.meta.data[2];
+                    numtempochanges++;
+                }
+            }
+        }
+
+        if (tick > maxtick)
+            maxtick = tick;
+
+        free(iter);
+    }
+
+    if (tempochanges)
+    {
+        unsigned int    currenttick = 0;
+        unsigned int    currenttempo = 500000;
+
+        qsort(tempochanges, numtempochanges, sizeof(*tempochanges), TempoChangeCompare);
+
+        for (unsigned int i = 0; i < numtempochanges; i++)
+        {
+            if (tempochanges[i].tick > maxtick)
+                break;
+
+            if (tempochanges[i].tick > currenttick)
+            {
+                duration += (tempochanges[i].tick - currenttick) * currenttempo / (double)timedivision / 1000000.0;
+                currenttick = tempochanges[i].tick;
+            }
+
+            currenttempo = tempochanges[i].tempo;
+        }
+
+        if (maxtick > currenttick)
+            duration += (maxtick - currenttick) * currenttempo / (double)timedivision / 1000000.0;
+
+        free(tempochanges);
+    }
+    else
+        duration = maxtick * 500000.0 / (double)timedivision / 1000000.0;
+
+    MIDI_FreeFile(file);
+
+    return duration;
+}
+#endif
 
 // Shutdown music
 void I_ShutdownMusic(void)
@@ -200,6 +315,44 @@ void I_StopSong(void)
 #endif
 
     Mix_HaltMusic();
+}
+
+double I_GetMusicDuration(void *handle, void *data, int size)
+{
+    double  duration = 0.0;
+
+    if (handle)
+        duration = Mix_MusicDuration(handle);
+
+    if (duration > 0.0 || size < 14)
+        return duration;
+
+#if defined(_WIN32)
+    if (!memcmp(data, "MThd", 4))
+        return GetMIDIDuration(data, size);
+    else if (!memcmp(data, "MUS\x1A", 4))
+    {
+        MEMFILE *instream = mem_fopen_read(data, size);
+        MEMFILE *outstream = mem_fopen_write();
+        double  musduration = 0.0;
+
+        if (mus2mid(instream, outstream))
+        {
+            void    *middata;
+            size_t  midsize;
+
+            mem_get_buf(outstream, &middata, &midsize);
+            musduration = GetMIDIDuration(middata, (int)midsize);
+        }
+
+        mem_fclose(instream);
+        mem_fclose(outstream);
+
+        return musduration;
+    }
+#endif
+
+    return duration;
 }
 
 void I_UnregisterSong(void *handle)

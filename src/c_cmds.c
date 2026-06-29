@@ -6371,6 +6371,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
         const char          *musicartist = P_GetMapMusicComposer(gameepisode, gamemap);
         const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
+        const double        musicduration = S_GetMusicDuration();
 
         M_StringCopy(namebuf, lumpinfo[mus_playing->lumpnum]->name, sizeof(namebuf));
 
@@ -6483,6 +6484,19 @@ static void mapstatsfunc2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Format\tFLAC");
         else if (musictype == MUS_OPUS)
             C_TabbedOutput(tabs, INDENT "Format\tOpus");
+
+        if (musicduration > 0.0)
+        {
+            const int   length = (int)(musicduration + 0.5);
+            const int   hours = length / 3600;
+
+            if (hours)
+                C_TabbedOutput(tabs, INDENT "Length\t" MONOSPACED("%02i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                    hours, (length % 3600) / 60, length % 60);
+            else
+                C_TabbedOutput(tabs, INDENT "Length\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                    length / 60, length % 60);
+        }
 
         if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
         {

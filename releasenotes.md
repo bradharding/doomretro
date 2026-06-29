@@ -20,6 +20,7 @@
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Screenshots are now saved as smaller 8-bit PNG images rather than 32-bit.
 * The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` has improved.
+* The `mapstats` CCMD now displays the length of the current map’s music lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

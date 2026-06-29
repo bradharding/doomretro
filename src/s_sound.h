@@ -73,6 +73,7 @@ void *I_RegisterSong(void *data, int size);
 void I_UnregisterSong(void *handle);
 void I_PlaySong(void *handle, const bool looping);
 void I_StopSong(void);
+double I_GetMusicDuration(void *handle, void *data, int size);
 bool I_AnySoundStillPlaying(void);
 
 //
@@ -118,6 +119,7 @@ void S_StopMusic(void);
 // Stop and resume music, during game PAUSE.
 void S_PauseMusic(void);
 void S_ResumeMusic(void);
+double S_GetMusicDuration(void);
 
 //
 // Updates music and sounds
