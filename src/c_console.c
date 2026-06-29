@@ -178,6 +178,35 @@ static int              dragconsolescrollbaroffset;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
+static const int consoledown[CONSOLEDOWNSIZE] =
+{
+     12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
+    169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
+};
+
+static const int consoleup[CONSOLEUPSIZE] =
+{
+    183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
+};
+
+static int C_GetShowConsoleAnimationFrame(const int height)
+{
+    for (int i = 0; i < CONSOLEDOWNSIZE; i++)
+        if ((CONSOLEFULLSCREEN ? consoledown[i] * 2 + 5 : consoledown[i]) >= height)
+            return i;
+
+    return (CONSOLEDOWNSIZE - 1);
+}
+
+static int C_GetHideConsoleAnimationFrame(const int height)
+{
+    for (int i = 0; i < CONSOLEUPSIZE; i++)
+        if (consoleup[i] * (CONSOLEFULLSCREEN ? 2 : 1) <= height)
+            return i;
+
+    return (CONSOLEUPSIZE - 1);
+}
+
 void C_CreateTimeStamp(const int index)
 {
     const time_t    now = time(NULL);
@@ -1216,7 +1245,7 @@ void C_ShowConsole(bool reset)
 
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
-    consoleanim = 0;
+    consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
     showcaret = true;
     caretwait = 0;
 
@@ -1273,7 +1302,7 @@ void C_HideConsole(void)
     SDL_StopTextInput();
 
     consoledirection = -1;
-    consoleanim = 0;
+    consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
 
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
@@ -1330,10 +1359,9 @@ void C_UpdateOpenConsoleDrag(int y)
 
 void C_EndOpenConsoleDrag(void)
 {
-    consoleheight = 0;
     consoledirection = -1;
+    consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
     consoleactive = false;
-    consoleoverlaymenu = false;
 }
 
 void C_DrawConsoleEdge(int y)
@@ -2655,12 +2683,6 @@ void C_Drawer(void)
         {
             if (consoleheight < CONSOLEHEIGHT)
             {
-                const int consoledown[CONSOLEDOWNSIZE] =
-                {
-                     12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
-                    169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
-                };
-
                 const int   height = (CONSOLEFULLSCREEN ? consoledown[consoleanim] * 2 + 5 :
                                 consoledown[consoleanim]);
 
@@ -2678,11 +2700,6 @@ void C_Drawer(void)
         {
             if (consoleheight)
             {
-                const int consoleup[CONSOLEUPSIZE] =
-                {
-                    183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
-                };
-
                 const int   height = consoleup[consoleanim] * (CONSOLEFULLSCREEN ? 2 : 1);
 
                 if (consoleheight < height)
@@ -3685,6 +3702,7 @@ bool C_Responder(event_t *ev)
         static bool draggingconsoleedge;
         static bool doubleclickselection;
         static int  consoleedgedragstart;
+        static int  consoleedgedragdirection;
         static int  consoleedgedragoffset;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
@@ -3698,7 +3716,15 @@ bool C_Responder(event_t *ev)
 
             if (draggingconsoleedge)
             {
+                const int   oldconsoleheight = consoleheight;
+
                 C_UpdateOpenConsoleDrag(y - consoleedgedragoffset + CONSOLEDRAGDELTA);
+
+                if (consoleheight > oldconsoleheight)
+                    consoleedgedragdirection = 1;
+                else if (consoleheight < oldconsoleheight)
+                    consoleedgedragdirection = -1;
+
                 return true;
             }
 
@@ -3739,6 +3765,7 @@ bool C_Responder(event_t *ev)
             {
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
+                consoleedgedragdirection = 0;
                 consoleedgedragoffset = y - consoleheight;
                 consoledirection = 0;
                 consoleanim = 0;
@@ -3948,13 +3975,23 @@ bool C_Responder(event_t *ev)
                 {
                     draggingconsoleedge = false;
 
-                    if (consoleheight <= consoleedgedragstart - CONSOLEDRAGDELTA)
+                    if (consoleedgedragdirection < 0)
+                        C_HideConsole();
+                    else if (consoleedgedragdirection > 0)
+                    {
+                        consoleheight = MAX(1, consoleheight);
+                        consoledirection = 1;
+                        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+                        showcaret = true;
+                        caretwait = 0;
+                    }
+                    else if (consoleheight <= consoleedgedragstart - CONSOLEDRAGDELTA)
                         C_HideConsole();
                     else
                     {
                         consoleheight = MAX(1, consoleheight);
                         consoledirection = 1;
-                        consoleanim = 0;
+                        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
                         showcaret = true;
                         caretwait = 0;
                     }
