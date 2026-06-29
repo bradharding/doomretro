@@ -204,6 +204,14 @@ static bool IsEmptyConsoleMessage(const char *string)
     return true;
 }
 
+static bool C_PointOnConsoleBranding(const int x, const int y)
+{
+    const int   brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
+    const int   brandy = consoleheight - brandheight + 2;
+
+    return (x >= brandx && x < brandx + brandwidth && y >= brandy && y < brandy + brandheight);
+}
+
 static void C_ScrollToBottom(void)
 {
     outputhistory = -1;
@@ -3726,7 +3734,8 @@ bool C_Responder(event_t *ev)
             if (doubleclickselection)
                 return true;
 
-            if (newleftbuttonpress && y >= consoleheight && y <= consoleheight + 4)
+            if (newleftbuttonpress
+                && ((y >= consoleheight && y <= consoleheight + 4) || C_PointOnConsoleBranding(x, y)))
             {
                 draggingconsoleedge = true;
                 consoleedgedragstart = consoleheight;
