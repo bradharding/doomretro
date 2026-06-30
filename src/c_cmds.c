@@ -1135,7 +1135,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(smoothtransitions, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the effects when transitioning between some screens."),
     BOOLCVAR(snapcrosshair, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles snapping the crosshair to where your weapon will fire when autoaiming."),
+        "Toggles snapping the crosshair to your current target."),
     CCMD(spawn, "", summon, spawnfunc1, spawnfunc2, true, SPAWNFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
     PERCENTCVAR(stillbob, "", "", intfunc1, intfunc2,

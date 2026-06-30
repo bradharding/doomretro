@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
-* [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and is now not required to take screenshots.
+* [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and now isn’t required for taking screenshots.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
@@ -15,7 +15,7 @@
 * `Retro bits = FLOATBOB` used in `DEHACKED` lumps is now allowed for shootable things.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if it’s already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
-* The crosshair can now snap to where your weapon will fire while autoaiming by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
+* The crosshair can now snap to your current target by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Screenshots are now saved as smaller 8-bit PNG images rather than 32-bit.
