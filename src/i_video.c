@@ -270,6 +270,95 @@ bool GetCapsLockState(void)
 #endif
 }
 
+#if defined(_WIN32)
+static HWND startupfadeoverlay;
+static ATOM startupfadeclass;
+
+static LRESULT CALLBACK I_StartupFadeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    if (msg == WM_PAINT)
+    {
+        PAINTSTRUCT ps;
+        HDC         dc = BeginPaint(hwnd, &ps);
+
+        FillRect(dc, &ps.rcPaint, (HBRUSH)GetStockObject(BLACK_BRUSH));
+        EndPaint(hwnd, &ps);
+        return 0;
+    }
+    else if (msg == WM_ERASEBKGND)
+        return true;
+
+    return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+static void I_PumpStartupFadeMessages(void)
+{
+    MSG msg;
+
+    while (startupfadeoverlay && PeekMessage(&msg, startupfadeoverlay, 0, 0, PM_REMOVE))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+static void I_BeginStartupFade(void)
+{
+    static const int    duration = 500;
+    static const int    interval = 16;
+    const int           steps = MAX(1, duration / interval);
+    const int           x = GetSystemMetrics(SM_XVIRTUALSCREEN);
+    const int           y = GetSystemMetrics(SM_YVIRTUALSCREEN);
+    const int           width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+    const int           height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+    const HINSTANCE     instance = GetModuleHandle(NULL);
+
+    if (!width || !height)
+        return;
+
+    if (!startupfadeclass)
+    {
+        WNDCLASS    wc = { 0 };
+
+        wc.hInstance = instance;
+        wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        wc.lpfnWndProc = I_StartupFadeWndProc;
+        wc.lpszClassName = DOOMRETRO_NAME "StartupFade";
+
+        if (!(startupfadeclass = RegisterClass(&wc)))
+            return;
+    }
+
+    startupfadeoverlay = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
+        DOOMRETRO_NAME "StartupFade", NULL, WS_POPUP, x, y, width, height, NULL, NULL, instance, NULL);
+
+    if (!startupfadeoverlay)
+        return;
+
+    SetLayeredWindowAttributes(startupfadeoverlay, 0, 0, LWA_ALPHA);
+    ShowWindow(startupfadeoverlay, SW_SHOWNOACTIVATE);
+    RedrawWindow(startupfadeoverlay, NULL, NULL, (RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW));
+
+    for (int i = 0; i <= steps; i++)
+    {
+        SetLayeredWindowAttributes(startupfadeoverlay, 0, (BYTE)(255 * i / steps), LWA_ALPHA);
+        I_PumpStartupFadeMessages();
+
+        if (i < steps)
+            Sleep(interval);
+    }
+}
+
+static void I_EndStartupFade(void)
+{
+    if (startupfadeoverlay)
+    {
+        DestroyWindow(startupfadeoverlay);
+        startupfadeoverlay = NULL;
+    }
+}
+#endif
+
 void I_ShutdownKeyboard(void)
 {
 #if defined(_WIN32)
@@ -2388,6 +2477,10 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "0", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
 
+#if defined(_WIN32)
+    I_BeginStartupFade();
+#endif
+
     SetVideoMode(true, true);
 
     I_CreateExternalAutomap();
@@ -2408,6 +2501,10 @@ void I_InitGraphics(void)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
+
+#if defined(_WIN32)
+    I_EndStartupFade();
+#endif
 
     if (mapwindow)
     {
