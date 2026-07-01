@@ -2117,8 +2117,6 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
         const int           pngwidth = (vid_widescreen ? width : height * 4 / 3);
         const int           pitch = pngwidth * 3;
         const size_t        rawsize = (size_t)(pngwidth + 1) * height;
-        byte                ihdr[13];
-        byte                palettebytes[256 * 3];
         byte                *pixels = malloc((size_t)pitch * height);
 
         if (pixels)
@@ -2134,11 +2132,13 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
 
                     if (compressed)
                     {
+                        byte    palettebytes[256 * 3];
+
                         for (int i = 0; i < 256; i++)
                         {
-                            palettebytes[i * 3] = colors[i].r;
-                            palettebytes[i * 3 + 1] = colors[i].g;
-                            palettebytes[i * 3 + 2] = colors[i].b;
+                            palettebytes[i * 3] = palettecolors[i].r;
+                            palettebytes[i * 3 + 1] = palettecolors[i].g;
+                            palettebytes[i * 3 + 2] = palettecolors[i].b;
                         }
 
                         for (int y = 0; y < height; y++)
@@ -2155,6 +2155,7 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
                         if (mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize, MZ_BEST_COMPRESSION) == MZ_OK)
                         {
                             FILE        *file = fopen(path, "wb");
+                            byte        ihdr[13];
                             mz_uint32   bigendian = BIGLONG((mz_uint32)pngwidth);
 
                             memcpy(ihdr, &bigendian, sizeof(bigendian));

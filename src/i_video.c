@@ -99,7 +99,7 @@ static SDL_Surface  *buffer;
 static byte         *pixels;
 static int          pitch;
 static SDL_Palette  *palette;
-SDL_Color           colors[256];
+SDL_Color           palettecolors[256];
 byte                *PLAYPAL;
 
 byte                *mapscreen;
@@ -544,7 +544,7 @@ static void I_GetEvent(void)
                             break;
 
                         case SDL_WINDOWEVENT_EXPOSED:
-                            SDL_SetPaletteColors(palette, colors, 0, 256);
+                            SDL_SetPaletteColors(palette, palettecolors, 0, 256);
                             break;
 
                         case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -1198,25 +1198,25 @@ void I_SetPalette(const byte *playpal)
         // contrast and brightness
         // Zero out the bottom two bits of each channel - the PC VGA
         // controller only supports 6 bits of accuracy.
-        colors[i].r = (BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255) & ~3);
-        colors[i].g = (BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3);
-        colors[i].b = (BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3);
-        colors[i].a = 0xFF;
+        palettecolors[i].r = (BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255) & ~3);
+        palettecolors[i].g = (BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3);
+        palettecolors[i].b = (BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3);
+        palettecolors[i].a = 0xFF;
 
         playpal += 3;
     }
 
-    SDL_SetPaletteColors(palette, colors, 0, 256);
+    SDL_SetPaletteColors(palette, palettecolors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, colors[BLACK].r, colors[BLACK].g, colors[BLACK].b, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, palettecolors[BLACK].r, palettecolors[BLACK].g, palettecolors[BLACK].b, SDL_ALPHA_OPAQUE);
 }
 
 void I_SetExternalAutomapPalette(void)
 {
     if (mapwindow)
     {
-        SDL_SetPaletteColors(mappalette, colors, 0, 256);
+        SDL_SetPaletteColors(mappalette, palettecolors, 0, 256);
         mapblitfunc();
     }
 }
@@ -1337,7 +1337,7 @@ bool I_CreateExternalAutomap(void)
     if (SDL_SetSurfacePalette(mapsurface, mappalette) < 0)
         I_SDLError("SDL_SetSurfacePalette", -1);
 
-    if (SDL_SetPaletteColors(mappalette, colors, 0, 256) < 0)
+    if (SDL_SetPaletteColors(mappalette, palettecolors, 0, 256) < 0)
         I_SDLError("SDL_SetPaletteColors", -1);
 
     mapscreen = mapsurface->pixels;

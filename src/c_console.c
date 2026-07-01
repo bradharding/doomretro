@@ -3707,7 +3707,6 @@ bool C_Responder(event_t *ev)
         static bool doubleclickselection;
         static int  consoleedgedragstart;
         static int  consoleedgedragdirection;
-        static int  consoleedgedragoffset;
 
         if ((ev->data1 & MOUSE_LEFTBUTTON) && usingmouse)
         {
@@ -3715,6 +3714,7 @@ bool C_Responder(event_t *ev)
             const int   y = ev->data3 * 2;
             const bool  newleftbuttonpress = !leftbuttondown;
             static int  mouseselectanchor;
+            static int  consoleedgedragoffset;
 
             leftbuttondown = true;
 

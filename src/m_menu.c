@@ -4961,13 +4961,13 @@ void M_Drawer(void)
 
         if (tics > openconsoleedgeanimtic)
         {
-            const int   dist = ABS(targetopenconsoleedgey - openconsoleedgey);
-            const int   step = MIN(dist, (int)((tics - openconsoleedgeanimtic) / CONSOLEEDGEANIMTICS));
+            const int   step = MIN(ABS(targetopenconsoleedgey - openconsoleedgey),
+                            (int)(tics - openconsoleedgeanimtic));
 
             if (step > 0)
             {
                 openconsoleedgey += (targetopenconsoleedgey > openconsoleedgey ? step : -step);
-                openconsoleedgeanimtic += (uint64_t)step * CONSOLEEDGEANIMTICS;
+                openconsoleedgeanimtic += step;
             }
         }
     }

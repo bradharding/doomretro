@@ -528,8 +528,8 @@ static char *stristr(char *ch1, const char *ch2)
 }
 #endif
 
-static char *stringreplacebuffer;
-static size_t stringreplacebuffersize;
+static char     *stringreplacebuffer;
+static size_t   stringreplacebuffersize;
 
 static char *M_StringReplaceAt(const char *haystack, const char *needle, const char *replacement,
     const char *match)
