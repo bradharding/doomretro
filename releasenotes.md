@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and now isn’t required for taking screenshots.
+* The desktop now fades to black when starting *DOOM Retro* if the `vid_fullscreen`, `vid_borderlesswindow`, and `smoothtransitions` CVARs are `on`.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
