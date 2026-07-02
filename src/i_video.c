@@ -313,6 +313,9 @@ static void I_BeginStartupFade(void)
     const int           height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
     const HINSTANCE     instance = GetModuleHandle(NULL);
 
+    if (!vid_fullscreen || !vid_borderlesswindow || !smoothtransitions)
+        return;
+
     if (!width || !height)
         return;
 
@@ -2478,8 +2481,7 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
 
 #if defined(_WIN32)
-    if (vid_fullscreen)
-        I_BeginStartupFade();
+    I_BeginStartupFade();
 #endif
 
     SetVideoMode(true, true);
@@ -2504,8 +2506,7 @@ void I_InitGraphics(void)
     SDL_RenderPresent(renderer);
 
 #if defined(_WIN32)
-    if (vid_fullscreen)
-        I_EndStartupFade();
+    I_EndStartupFade();
 #endif
 
     if (mapwindow)
