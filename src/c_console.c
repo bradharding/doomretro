@@ -1243,6 +1243,8 @@ void C_ShowConsole(bool reset)
     if (!menuactive && !messagetoprint)
         consoleoverlaymenu = false;
 
+    pagetic = PAGETICS;
+
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
     consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
