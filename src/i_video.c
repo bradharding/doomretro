@@ -304,7 +304,7 @@ static void I_PumpStartupFadeMessages(void)
 
 static void I_BeginStartupFade(void)
 {
-    static const int    duration = 500;
+    static const int    duration = 350;
     static const int    interval = 16;
     const int           steps = MAX(1, duration / interval);
     const int           x = GetSystemMetrics(SM_XVIRTUALSCREEN);
@@ -2478,7 +2478,8 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_SCALING, "0", SDL_HINT_OVERRIDE);
 
 #if defined(_WIN32)
-    I_BeginStartupFade();
+    if (vid_fullscreen)
+        I_BeginStartupFade();
 #endif
 
     SetVideoMode(true, true);
@@ -2503,7 +2504,8 @@ void I_InitGraphics(void)
     SDL_RenderPresent(renderer);
 
 #if defined(_WIN32)
-    I_EndStartupFade();
+    if (vid_fullscreen)
+        I_EndStartupFade();
 #endif
 
     if (mapwindow)
@@ -2514,6 +2516,4 @@ void I_InitGraphics(void)
     }
 
     SDL_StopTextInput();
-
-    I_Sleep(1000);
 }
