@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.2
 
-* *DOOM Retro* is now built using v18.7.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.7.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and now isn’t required for taking screenshots.
 * The desktop now fades to black when starting *DOOM Retro* if the `vid_fullscreen`, `vid_borderlesswindow`, and `smoothtransitions` CVARs are `on`.
@@ -11,12 +11,13 @@
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
 * While not playing a game and if the `m_pointer` CVAR is `on`, moving the mouse pointer towards the top of the screen now displays the bottom edge of the console. You may then click on it (or click and drag downwards) to open the console.
 * You may now also click and drag the console’s edge upwards to close it.
+* A bug is fixed whereby obituaries weren’t being displayed in the console when the `obituaries` CVAR was `on`.
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * `Retro bits = FLOATBOB` used in `DEHACKED` lumps is now allowed for shootable things.
 * A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if it’s already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
-* The crosshair can now snap to your current target by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
+* The crosshair displayed using the `crosshair` CVAR can now snap to your current target by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Savegames are now compressed to save disk space. This can be disabled using the new `compresssavegames` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Screenshots are now saved as smaller 8-bit PNG images rather than 32-bit.
