@@ -826,6 +826,9 @@ static bool C_IsVisibleConsoleString(const int index)
 {
     const stringtype_t  stringtype = console[index].stringtype;
 
+    if ((stringtype == obituarystring || stringtype == playerobituarystring) && obituaries)
+        C_BuildObituaryString(index);
+
     if (stringtype != dividerstring && stringtype != headerstring
         && IsEmptyConsoleMessage(console[index].string))
         return false;
