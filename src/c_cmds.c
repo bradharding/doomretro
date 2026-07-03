@@ -9587,7 +9587,7 @@ static void spawnfunc2(char *cmd, char *parms)
                         C_PlayerMessage("%s spawned %s.", C_GetPlayerName(), mobjinfo[type].name1);
                     else
                         C_PlayerMessage("%s spawned %s %s%s.",
-                            C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                            C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) && !spawncmdfriendly ? "an" : "a"),
                             (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
 
                     C_HideConsoleAndMenu();
@@ -9600,7 +9600,7 @@ static void spawnfunc2(char *cmd, char *parms)
                         C_GetPlayerName(), mobjinfo[type].name1);
                 else
                     C_Warning(0, "There isn't enough room around %s to spawn %s %s%s!",
-                        C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                        C_GetPlayerName(), (isvowel(mobjinfo[type].name1[0]) && !spawncmdfriendly ? "an" : "a"),
                         (spawncmdfriendly ? "friendly " : ""), mobjinfo[type].name1);
             }
         }
