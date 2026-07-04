@@ -1093,6 +1093,7 @@ typedef struct vissprite_s
     lighttable_t        *nextcolormap;
     lighttable_t        *sectorcolormap;
     byte                *brightmap;
+    byte                *tranmap;
 
     mobj_t              *mobj;
 

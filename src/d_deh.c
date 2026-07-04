@@ -2034,7 +2034,8 @@ static const char *deh_state[] =
     "Args6",            // .args[5]
     "Args7",            // .args[6]
     "Args8",            // .args[7]
-    "MBF21 bits"        // .flags
+    "MBF21 bits",       // .flags
+    "Tranmap"           // .tranmap
 };
 
 static const struct deh_flag_s deh_stateflags_mbf21[] =
@@ -2434,6 +2435,7 @@ void D_BuildBEXTables(void)
         states[i].translucent = false;
         states[i].dehacked = false;
         states[i].brightmap = NULL;
+        states[i].tranmap = NULL;
 
         deh_codeptr[i] = states[i].action;
     }
@@ -3197,6 +3199,26 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
 
             states[indexnum].flags = value;
             mbf21compatible = true;
+        }
+        else if (M_StringCompare(key, deh_state[16]))           // Tranmap
+        {
+            char        lumpname[9] = "";
+            char        *name = trimwhitespace(strval);
+            const int   lump = (name ? W_CheckNumForName(name) : -1);
+
+            if (!name || !*name || strlen(name) > 8)
+                C_Warning(1, "Invalid tranmap lump \"%s\".", (name ? name : ""));
+            else if (lump < 0)
+                C_Warning(1, "Couldn't find tranmap lump \"%s\".", name);
+            else
+            {
+                M_CopyLumpName(lumpname, name);
+                states[indexnum].tranmap = W_CacheLumpNum(lump);
+                states[indexnum].dehacked = dehacked = !BTSX;
+
+                if (devparm)
+                    C_Output(" - tranmap = %s", lumpname);
+            }
         }
         else if (M_StringCompare(key, "translucent"))           // Translucent
         {

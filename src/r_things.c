@@ -469,6 +469,25 @@ int     *mceilingclip;
 fixed_t spryscale;
 int64_t sprtopscreen;
 
+static inline byte *R_ApplyVisSpriteTranmap(const vissprite_t *vis)
+{
+    byte    *oldtranmap = tranmap;
+
+    if (vis->tranmap)
+    {
+        tranmap = vis->tranmap;
+
+        if (colfunc == bmapsegcolfunc || colfunc == tl50bmapsegcolfunc)
+            colfunc = tl50bmapsegcolfunc;
+        else if (colfunc == &R_DrawSolidColorColumn || colfunc == &R_DrawTranslucent50SolidColorColumn)
+            colfunc = &R_DrawTranslucent50SolidColorColumn;
+        else if (colfunc != translatedcolfunc && colfunc != bloodcolfunc)
+            colfunc = tl50colfunc;
+    }
+
+    return oldtranmap;
+}
+
 //
 // R_BlastSpriteColumn
 //
@@ -575,6 +594,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     const int       patchwidth = patch->width;
+    byte            *oldtranmap;
 
     spryscale = vis->scale;
 
@@ -607,6 +627,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         else if (colfunc == tl50colfunc)
             colfunc = tl50bmapsegcolfunc;
     }
+
+    oldtranmap = R_ApplyVisSpriteTranmap(vis);
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     fuzz1pos = 0;
@@ -660,6 +682,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             }
         }
 
+        tranmap = oldtranmap;
         return;
     }
 
@@ -691,6 +714,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
     const int       translation = (flags & MF_TRANSLATION);
     int             baseclip;
     const int       patchwidth = patch->width;
+    byte            *oldtranmap;
 
     spryscale = vis->scale;
 
@@ -723,6 +747,8 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         else if (colfunc == tl50colfunc)
             colfunc = tl50bmapsegcolfunc;
     }
+
+    oldtranmap = R_ApplyVisSpriteTranmap(vis);
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (int)(sprtopscreen + vis->footclip) >> FRACBITS;
@@ -778,6 +804,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
             }
         }
 
+        tranmap = oldtranmap;
         return;
     }
 
@@ -793,6 +820,8 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
             R_BlastSpriteColumn(column);
         }
     }
+
+    tranmap = oldtranmap;
 }
 
 //
@@ -812,6 +841,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
     const int       patchwidth = patch->width;
     const fixed_t   gz = vis->gz;
+    byte            *oldtranmap;
 
     spryscale = vis->scale;
 
@@ -865,6 +895,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         else if (colfunc == tl50colfunc)
             colfunc = tl50bmapsegcolfunc;
     }
+
+    oldtranmap = R_ApplyVisSpriteTranmap(vis);
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowspryscale = (int64_t)spryscale / 10;
@@ -940,6 +972,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 R_BlastSpriteColumn(column);
             }
         }
+
+        tranmap = oldtranmap;
     }
     else
     {
@@ -990,6 +1024,8 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
             }
         }
     }
+
+    tranmap = oldtranmap;
 }
 
 //
@@ -1013,6 +1049,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     int             shadowbaseclip;
     void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
     const int       patchwidth = patch->width;
+    byte            *oldtranmap;
 
     spryscale = vis->scale;
 
@@ -1066,6 +1103,8 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         else if (colfunc == tl50colfunc)
             colfunc = tl50bmapsegcolfunc;
     }
+
+    oldtranmap = R_ApplyVisSpriteTranmap(vis);
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
@@ -1141,6 +1180,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
             }
         }
 
+        tranmap = oldtranmap;
         return;
     }
 
@@ -1171,6 +1211,8 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
             R_BlastSpriteColumn(column);
         }
     }
+
+    tranmap = oldtranmap;
 }
 
 //
@@ -1182,6 +1224,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     const fixed_t   x2 = vis->x2;
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const int       patchwidth = patch->width;
+    byte            *oldtranmap;
 
     colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
@@ -1201,6 +1244,8 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
             colfunc = tl50bmapsegcolfunc;
     }
 
+    oldtranmap = R_ApplyVisSpriteTranmap(vis);
+
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
         const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
@@ -1208,6 +1253,8 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
         if ((dc_numposts = column->numposts))
             R_BlastPlayerSpriteColumn(column);
     }
+
+    tranmap = oldtranmap;
 }
 
 //
@@ -1416,6 +1463,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     vis->brightmap = (usebrightmaps ? (thing->state->brightmap ? thing->state->brightmap : spritebrightmap[lump]) : NULL);
+    vis->tranmap = (thing->state ? thing->state->tranmap : NULL);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
@@ -1840,6 +1888,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
     vis->brightmap = (usebrightmaps ? (state->brightmap ? state->brightmap : spritebrightmap[lump]) : NULL);
+    vis->tranmap = (state ? state->tranmap : NULL);
 
     if (freelook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->pitch * 0x0520;
