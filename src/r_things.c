@@ -605,7 +605,12 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (vis->translation)
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = vis->translation;
+    }
+    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
         dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
@@ -725,7 +730,12 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (vis->translation)
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = vis->translation;
+    }
+    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
         dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
@@ -873,7 +883,12 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (vis->translation)
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = vis->translation;
+    }
+    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
         dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
@@ -1081,7 +1096,12 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (vis->translation)
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = vis->translation;
+    }
+    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
         dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
@@ -1233,6 +1253,12 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, pspritescale);
+
+    if (vis->translation)
+    {
+        colfunc = translatedcolfunc;
+        dc_translation = vis->translation;
+    }
 
     if (vis->brightmap)
     {
@@ -1464,6 +1490,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     vis->brightmap = (usebrightmaps ? (thing->state->brightmap ? thing->state->brightmap : spritebrightmap[lump]) : NULL);
     vis->tranmap = (thing->state ? thing->state->tranmap : NULL);
+    vis->translation = thing->info->translation;
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
@@ -1889,6 +1916,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     vis->texturemid += FixedMul(((centery - viewheight / 2) << FRACBITS), pspriteiscale);
     vis->brightmap = (usebrightmaps ? (state->brightmap ? state->brightmap : spritebrightmap[lump]) : NULL);
     vis->tranmap = (state ? state->tranmap : NULL);
+    vis->translation = NULL;
 
     if (freelook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->pitch * 0x0520;

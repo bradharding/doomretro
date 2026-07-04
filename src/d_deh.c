@@ -38,6 +38,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "cJSON/cJSON.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -75,6 +76,50 @@ bool        dehacked = false;
 bool        nobloodsplats = false;
 
 int         MT_TRAIL2;
+
+static byte *deh_GetTranslationTable(const int lump, const char *name)
+{
+    const int   lumplength = W_LumpLength(lump);
+
+    if (lumplength == 256)
+        return W_CacheLumpNum(lump);
+    else
+    {
+        byte    *translation = Z_Malloc(256, PU_STATIC, NULL);
+        cJSON   *json = cJSON_ParseWithLength(W_CacheLumpNum(lump), lumplength);
+        cJSON   *data;
+        cJSON   *table;
+
+        if (!cJSON_IsObject(json)
+            || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
+            || !cJSON_IsArray((table = cJSON_GetObjectItemCaseSensitive(data, "table")))
+            || cJSON_GetArraySize(table) != 256)
+        {
+            cJSON_Delete(json);
+            Z_Free(translation);
+            C_Warning(1, "Couldn't parse translation lump \"%s\".", name);
+            return NULL;
+        }
+
+        for (int i = 0; i < 256; i++)
+        {
+            cJSON   *entry = cJSON_GetArrayItem(table, i);
+
+            if (!cJSON_IsNumber(entry) || entry->valuedouble < 0 || entry->valuedouble > 255)
+            {
+                cJSON_Delete(json);
+                Z_Free(translation);
+                C_Warning(1, "Invalid entry in translation lump \"%s\".", name);
+                return NULL;
+            }
+
+            translation[i] = (byte)entry->valueint;
+        }
+
+        cJSON_Delete(json);
+        return translation;
+    }
+}
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -2828,6 +2873,31 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         {
             if (devparm)
                 C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
+
+            continue;
+        }
+
+        if (M_StringCompare(key, "Translation"))
+        {
+            char        lumpname[9] = "";
+            char        *name = trimwhitespace(strval);
+            const int   lump = (name ? W_CheckNumForName(name) : -1);
+
+            if (!name || !*name || strlen(name) > 8)
+                C_Warning(1, "Invalid translation lump \"%s\".", (name ? name : ""));
+            else if (lump < 0)
+                C_Warning(1, "Couldn't find translation lump \"%s\".", name);
+            else
+            {
+                M_CopyLumpName(lumpname, name);
+                if ((mobjinfo[indexnum].translation = deh_GetTranslationTable(lump, lumpname)))
+                {
+                    mobjinfo[indexnum].dehacked = dehacked = !BTSX;
+
+                    if (devparm)
+                        C_Output(" - translation = %s", lumpname);
+                }
+            }
 
             continue;
         }

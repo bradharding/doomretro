@@ -315,6 +315,7 @@ typedef struct
     void        (*altcolfunc)(void);
     byte        automapcolor;
     bool        dehacked;
+    byte        *translation;
 } mobjinfo_t;
 
 extern mobjinfo_t   original_mobjinfo[];
