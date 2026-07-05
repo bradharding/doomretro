@@ -1939,7 +1939,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Pickup item type",         // .pickupitemtype
     "Pickup bonus count",       // .pickupbonuscount
     "Pickup sound",             // .pickupsound
-    "Pickup string mnemonic"    // .pickupstringmnemonic
+    "Pickup message"            // .pickupstringmnemonic
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -2892,16 +2892,16 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         if (M_StringCompare(key, "Translation"))
         {
             char        lumpname[9] = "";
-            char        *name = trimwhitespace(strval);
-            const int   lump = (name ? W_CheckNumForName(name) : -1);
+            char        *temp = trimwhitespace(strval);
+            const int   lump = (temp ? W_CheckNumForName(temp) : -1);
 
-            if (!name || !*name || strlen(name) > 8)
-                C_Warning(1, "Invalid translation lump \"%s\".", (name ? name : ""));
+            if (!temp || !*temp || strlen(temp) > 8)
+                C_Warning(1, "Invalid translation lump \"%s\".", (temp ? temp : ""));
             else if (lump < 0)
-                C_Warning(1, "Couldn't find translation lump \"%s\".", name);
+                C_Warning(1, "Couldn't find translation lump \"%s\".", temp);
             else
             {
-                M_CopyLumpName(lumpname, name);
+                M_CopyLumpName(lumpname, temp);
                 if ((mobjinfo[indexnum].translation = deh_GetTranslationTable(lump, lumpname)))
                 {
                     mobjinfo[indexnum].dehacked = dehacked = !BTSX;
@@ -3051,7 +3051,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 else if (value == MT_FUZZYBLOOD)
                     mobjinfo[indexnum].bloodcolor = FUZZYBLOOD;
             }
-            else if (M_StringCompare(key, "Dropped item") || M_StringCompare(key, "Drop thing"))
+            else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))
                 mobjinfo[indexnum].infightinggroup = value + IG_END;

@@ -803,8 +803,11 @@ void P_MobjThinker(mobj_t *mobj)
     else
     {
         // check for nightmare respawn
-        if ((flags & MF_COUNTKILL) && (gameskill == sk_nightmare || respawnmonsters)
-            && ++mobj->movecount >= 12 * TICRATE && !(maptime & 31) && M_Random() <= 4)
+        if ((flags & MF_COUNTKILL)
+            && (gameskill == sk_nightmare || respawnmonsters)
+            && ++mobj->movecount >= mobj->info->minrespawntics
+            && !(maptime & 31)
+            && M_Random() <= (!mobj->info->respawndice ? 4 : mobj->info->respawndice))
             P_NightmareRespawn(mobj);
     }
 }
