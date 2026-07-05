@@ -305,7 +305,16 @@ typedef struct
     int         meleerange;
 
     // ID24
-    byte        *translation;
+    int         id24flags;
+    int         minrespawntics;
+    int         respawndice;
+    int         pickupammotype;
+    int         pickupammocategory;
+    int         pickupweapontype;
+    int         pickupitemtype;
+    int         pickupbonuscount;
+    int         pickupsound;
+    char        *pickupstringmnemonic;
 
     char        name1[64];
     char        plural1[64];
@@ -318,6 +327,9 @@ typedef struct
     void        (*altcolfunc)(void);
     byte        automapcolor;
     bool        dehacked;
+
+    // ID24
+    byte        *translation;
 } mobjinfo_t;
 
 extern mobjinfo_t   original_mobjinfo[];

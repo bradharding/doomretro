@@ -1847,7 +1847,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 40                              // number of mobjinfo configuration keys
+#define DEH_MOBJINFOMAX 50                              // number of mobjinfo configuration keys
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1927,7 +1927,19 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Splash group",             // .splashgroup
     "Rip sound",                // .ripsound
     "Fast speed",               // .altspeed
-    "Melee range"               // .meleerange
+    "Melee range",              // .meleerange
+
+    // ID24
+    "ID24 bits",                // .id24flags
+    "Min respawn tics",         // .minrespawntics
+    "Respawn dice",             // .respawndice
+    "Pickup ammo type",         // .pickupammotype
+    "Pickup ammo category",     // .pickupammocategory
+    "Pickup weapon type",       // .pickupweapontype
+    "Pickup item type",         // .pickupitemtype
+    "Pickup bonus count",       // .pickupbonuscount
+    "Pickup sound",             // .pickupsound
+    "Pickup string mnemonic"    // .pickupstringmnemonic
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -3039,7 +3051,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 else if (value == MT_FUZZYBLOOD)
                     mobjinfo[indexnum].bloodcolor = FUZZYBLOOD;
             }
-            else if (M_StringCompare(key, "Dropped item"))
+            else if (M_StringCompare(key, "Dropped item") || M_StringCompare(key, "Drop thing"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))
                 mobjinfo[indexnum].infightinggroup = value + IG_END;
