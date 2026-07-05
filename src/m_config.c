@@ -999,9 +999,14 @@ void M_SaveCVARs(void)
 
             case DEFAULT_STRING:
             {
+                const char  *value = *(char **)cvars[i].location;
+
+                if (!value)
+                    value = "";
+
 #if defined(_WIN32)
-                char        *temp = M_ConvertAnsiToUtf8(*(char **)cvars[i].location);
-                const bool  raw = (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
+                char        *temp = M_ConvertAnsiToUtf8(value);
+                const bool  raw = (M_StringCompare(value, EMPTYVALUE)
                                 || M_StringCompare(cvars[i].name, stringize(version)));
 
                 if (raw)
@@ -1011,11 +1016,11 @@ void M_SaveCVARs(void)
 
                 free(temp);
 #else
-                if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
+                if (M_StringCompare(value, EMPTYVALUE)
                     || M_StringCompare(cvars[i].name, stringize(version)))
-                    fputs(*(char **)cvars[i].location, file);
+                    fputs(value, file);
                 else
-                    fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+                    fprintf(file, "\"%s\"", value);
 #endif
 
                 break;

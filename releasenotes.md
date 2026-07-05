@@ -2,6 +2,7 @@
 
 ### DOOM Retro v6.2.1
 
+* Minor changes have been made to further improve the overall stability of *DOOM Retro*.
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Color translations can now be applied to sprites by using `Translation` in `DEHACKED` lumps.
   * Translucency can now be applied to individual states by using `Tranmap` in `DEHACKED` lumps.
