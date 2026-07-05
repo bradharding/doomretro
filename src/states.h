@@ -1171,7 +1171,7 @@ typedef struct
     bool            translucent;
     bool            dehacked;
     byte            *brightmap;
-    byte            *tranmap;
+    byte            *tranmap;           // ID24
 } state_t;
 
 extern state_t      original_states[NUMSTATES];

@@ -304,6 +304,9 @@ typedef struct
     int         altspeed;
     int         meleerange;
 
+    // ID24
+    byte        *translation;
+
     char        name1[64];
     char        plural1[64];
     char        name2[64];
@@ -315,7 +318,6 @@ typedef struct
     void        (*altcolfunc)(void);
     byte        automapcolor;
     bool        dehacked;
-    byte        *translation;
 } mobjinfo_t;
 
 extern mobjinfo_t   original_mobjinfo[];
