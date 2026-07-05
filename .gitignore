@@ -52,6 +52,7 @@ doomretro.cfg
 doomretro.exp
 doomretro.lib
 doomretro.wad
+doomretro*.zip
 
 # Build results
 [Dd]ebugPublic/
@@ -149,4 +150,3 @@ DerivedData/
 src/doomretro
 *.db
 *.layout
-msvc/.github/copilot-instructions.md

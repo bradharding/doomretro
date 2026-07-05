@@ -100,7 +100,7 @@
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(MSBuildProjectDirectory)\package-win64.ps1" -ProjectDir "$(MSBuildProjectDirectory)" -OutDir "$(TargetDir)." -ProjectName "$(ProjectName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +167,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(MSBuildProjectDirectory)\package-win64.ps1" -ProjectDir "$(MSBuildProjectDirectory)" -OutDir "$(TargetDir)." -ProjectName "$(ProjectName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -376,6 +376,7 @@
     <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
     <None Include="..\xcode\doomretroapp\Info.plist" />
+    <None Include="package-win64.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
