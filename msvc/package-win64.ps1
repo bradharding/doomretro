@@ -68,7 +68,7 @@ $dllPatterns = @(
     (Join-Path $projectRoot 'SDL2_mixer-2.8.2\lib\x64\optional\libogg-0.dll'),
     (Join-Path $projectRoot 'SDL2_mixer-2.8.2\lib\x64\optional\libopus-0.dll'),
     (Join-Path $projectRoot 'SDL2_mixer-2.8.2\lib\x64\optional\libopusfile-0.dll'),
-    (Join-Path $projectRoot 'SDL2_mixer-2.8.2\lib\x64\optional\libxmp-0.dll')
+    (Join-Path $projectRoot 'SDL2_mixer-2.8.2\lib\x64\optional\libxmp.dll')
 )
 
 if (!(Test-Path $exeSource))
