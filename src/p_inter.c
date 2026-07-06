@@ -776,6 +776,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
     duplicate = (special->type == prevtouchtype && special->x == prevx && special->y == prevy);
 
+    if (special->info->pickupsound != sfx_none)
+        sound = special->info->pickupsound;
+
     // Identify by sprite.
     switch (special->sprite)
     {
@@ -846,7 +849,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSUPER, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // mega health
@@ -858,7 +863,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMSPHERE, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // blue keycard
@@ -956,7 +963,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // berserk power-up
@@ -975,7 +984,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 viewplayer->fistorchainsaw = wp_fist;
             }
 
-            if (!strength)
+            if (!strength && sound == sfx_itemup)
                 sound = sfx_getpow;
 
             break;
@@ -988,7 +997,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVIS, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // radiation shielding suit power-up
@@ -998,7 +1009,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSUIT, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // computer area map power-up
@@ -1008,7 +1021,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMAP, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // light amplification visor power-up
@@ -1018,7 +1033,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTVISOR, true, false);
 
-            sound = sfx_getpow;
+            if (sound == sfx_itemup)
+                sound = sfx_getpow;
+
             break;
 
         // clip
@@ -1146,7 +1163,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBFG9000, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
 
         // chaingun
@@ -1157,7 +1176,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCHAINGUN, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
 
         // chainsaw
@@ -1170,7 +1191,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCHAINSAW, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
 
         // rocket launcher
@@ -1181,7 +1204,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTLAUNCHER, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
 
         // plasma rifle
@@ -1192,7 +1217,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTPLASMA, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
 
         // shotgun
@@ -1209,7 +1236,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSHOTGUN, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
         }
 
@@ -1227,7 +1256,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSHOTGUN2, true, false);
 
-            sound = sfx_wpnup;
+            if (sound == sfx_itemup)
+                sound = sfx_wpnup;
+
             break;
         }
 
