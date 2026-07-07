@@ -67,11 +67,12 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define SPACEWIDTH          7
-#define LINEHEIGHT         17
-#define MENUPITCH         128
-#define OFFSET             17
-#define SKULLANIMCOUNT     10
+#define SPACEWIDTH              7
+#define LINEHEIGHT             17
+#define MENUPITCH             128
+#define OFFSET                 17
+#define SKULLANIMCOUNT         10
+#define MENUHIGHLIGHTFADESTEP  10
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -91,6 +92,9 @@ static void (*messageroutine)(int);
 
 static bool     quitmessagebuttons;
 static int      quitmessagebuttonhover = -1;
+static int      previousquitmessagebuttonhover = -1;
+static bool     quitmessagebuttonhighlightfading;
+static int      quitmessagebuttonhighlightfade = 100;
 static int      quitmessagebuttoncount;
 static int      quitmessagebuttonx[2];
 static int      quitmessagebuttony;
@@ -125,6 +129,9 @@ char            savegamestrings[savegame_max][SAVESTRINGSIZE];
 static short    itemon;                             // menu item skull is on
 static short    skullanimcounter = SKULLANIMCOUNT;  // skull animation counter
 static short    whichskull;                         // which skull to draw
+static short    previousitem = -1;
+static menu_t   *previousmenu;
+static int      menuhighlightfade = 100;
 
 static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
@@ -199,6 +206,13 @@ static void M_DrawSlider(int x, int y, int width, int shadowwidth,
     float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, const char *string,
     bool highlight, bool shadow, unsigned char prevletter);
+static void M_ResetHighlightFade(void);
+static void M_StartHighlightFade(int olditem);
+static bool M_IsHighlightedMenuItem(const menu_t *menu, int index, int selecteditem);
+static int M_GetMenuItemHighlightFade(const menu_t *menu, int index);
+static void M_ResetMessageButtonHighlightFade(void);
+static void M_StartMessageButtonHighlightFade(int oldhover);
+static int M_GetMessageButtonHighlightFade(int index);
 
 //
 // DOOM MENU
@@ -546,6 +560,118 @@ static void M_BlurMenuBackground(const byte *src, byte *dest)
     for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             dest[x] = tinttab50[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
+}
+
+static void M_ResetHighlightFade(void)
+{
+    previousitem = -1;
+    previousmenu = NULL;
+    menuhighlightfade = 100;
+    V_SetMenuHighlightFade(100);
+}
+
+static void M_ResetMessageButtonHighlightFade(void)
+{
+    previousquitmessagebuttonhover = -1;
+    quitmessagebuttonhighlightfading = false;
+    quitmessagebuttonhighlightfade = 100;
+}
+
+static void M_StartHighlightFade(int olditem)
+{
+    if (!smoothtransitions)
+    {
+        M_ResetHighlightFade();
+        return;
+    }
+
+    if (olditem == itemon)
+        return;
+
+    if (M_IsHighlightedMenuItem(currentmenu, olditem, itemon)
+        && M_IsHighlightedMenuItem(currentmenu, itemon, olditem))
+        return;
+
+    previousitem = olditem;
+    previousmenu = currentmenu;
+    menuhighlightfade = 0;
+}
+
+static void M_StartMessageButtonHighlightFade(int oldhover)
+{
+    if (!smoothtransitions)
+    {
+        M_ResetMessageButtonHighlightFade();
+        return;
+    }
+
+    if (oldhover == quitmessagebuttonhover)
+        return;
+
+    previousquitmessagebuttonhover = oldhover;
+    quitmessagebuttonhighlightfading = true;
+    quitmessagebuttonhighlightfade = 0;
+}
+
+static bool M_IsHighlightedMenuItem(const menu_t *menu, int index, int selecteditem)
+{
+    if (selecteditem < 0)
+        return false;
+
+    if (menu == &OptionsDef)
+    {
+        if ((selecteditem == scrnsize || selecteditem == option_empty1)
+            && (index == scrnsize || index == option_empty1))
+            return true;
+
+        if ((selecteditem == mousesens || selecteditem == option_empty2)
+            && (index == mousesens || index == option_empty2))
+            return true;
+    }
+    else if (menu == &SoundDef)
+    {
+        if ((selecteditem == sfx_vol || selecteditem == sound_empty1)
+            && (index == sfx_vol || index == sound_empty1))
+            return true;
+
+        if ((selecteditem == music_vol || selecteditem == sound_empty2)
+            && (index == music_vol || index == sound_empty2))
+            return true;
+    }
+
+    return (selecteditem == index);
+}
+
+static int M_GetMenuItemHighlightFade(const menu_t *menu, int index)
+{
+    if (!smoothtransitions)
+        return (M_IsHighlightedMenuItem(menu, index, itemon) ? 100 : 0);
+
+    int fade = 0;
+
+    if (M_IsHighlightedMenuItem(menu, index, itemon))
+        fade = (previousmenu == menu && previousitem != -1 ? menuhighlightfade : 100);
+
+    if (previousmenu == menu && previousitem != -1 && M_IsHighlightedMenuItem(menu, index, previousitem))
+        fade = MAX(fade, 100 - menuhighlightfade);
+
+    return fade;
+}
+
+static int M_GetMessageButtonHighlightFade(int index)
+{
+    int fade = 0;
+
+    if (!smoothtransitions)
+        return (quitmessagebuttonhover == index ? 100 : 0);
+
+    if (quitmessagebuttonhover == index)
+        fade = (quitmessagebuttonhighlightfading ? quitmessagebuttonhighlightfade : 100);
+
+    if (previousquitmessagebuttonhover == index)
+        fade = MAX(fade, 100 - quitmessagebuttonhighlightfade);
+
+    return fade;
 }
 
 static void M_DrawMenuBorder(void)
@@ -1099,6 +1225,7 @@ static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
 static void M_DrawLoad(void)
 {
     M_DrawMenuBackground();
+    V_SetMenuHighlightFade(100);
 
     if (M_LGTTL)
         M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_LGTTL"));
@@ -1116,8 +1243,10 @@ static void M_DrawLoad(void)
     {
         int         len = (int)strlen(savegamestrings[i]);
         const int   y = LoadDef.y + LINEHEIGHT * i + OFFSET;
+        const int   fade = M_GetMenuItemHighlightFade(&LoadDef, i);
 
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (itemon == i));
+        V_SetMenuHighlightFade(fade);
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (fade > 0));
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
@@ -1146,7 +1275,8 @@ static void M_DrawLoad(void)
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-            savegamestrings[i], (itemon == i), false, '\0');
+            savegamestrings[i], (fade > 0), false, '\0');
+        V_SetMenuHighlightFade(100);
     }
 }
 
@@ -1210,6 +1340,7 @@ static void M_SetCaretPos(int pointerx)
 static void M_DrawSave(void)
 {
     M_DrawMenuBackground();
+    V_SetMenuHighlightFade(100);
 
     // draw menu subtitle
     if (M_SGTTL)
@@ -1229,8 +1360,10 @@ static void M_DrawSave(void)
     {
         int len = (int)strlen(savegamestrings[i]);
         int y = LoadDef.y + i * LINEHEIGHT + OFFSET;
+        const int fade = M_GetMenuItemHighlightFade(&SaveDef, i);
 
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (itemon == i));
+        V_SetMenuHighlightFade(fade);
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (fade > 0));
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
@@ -1295,7 +1428,9 @@ static void M_DrawSave(void)
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y,
-                savegamestrings[i], (itemon == i), false, '\0');
+                savegamestrings[i], (fade > 0), false, '\0');
+
+        V_SetMenuHighlightFade(100);
     }
 }
 
@@ -1695,6 +1830,7 @@ static void M_DrawSound(void)
     float   dot;
 
     M_DrawMenuBackground();
+    V_SetMenuHighlightFade(100);
 
     if (M_SVOL)
     {
@@ -1713,14 +1849,18 @@ static void M_DrawSound(void)
     dot = (float)(sfxvolume * !nosfx);
     SoundMenu[sound_empty1].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty1].width = 16 * 8 + 12;
+    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&SoundDef, sfx_vol));
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, (itemon == sfx_vol || itemon == sound_empty1));
+        16, 15, dot, 4.0f, 6, M_IsHighlightedMenuItem(&SoundDef, sfx_vol, itemon));
 
     dot = (float)(musicvolume * !nomusic);
     SoundMenu[sound_empty2].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty2].width = 16 * 8 + 12;
+    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&SoundDef, music_vol));
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, (itemon == music_vol || itemon == sound_empty2));
+        16, 15, dot, 4.0f, 6, M_IsHighlightedMenuItem(&SoundDef, music_vol, itemon));
+
+    V_SetMenuHighlightFade(100);
 }
 
 static void M_Sound(int choice)
@@ -2234,6 +2374,10 @@ static void M_DrawOptions(void)
 
     if (messages)
     {
+        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
+
+        V_SetMenuHighlightFade(fade);
+
         if (M_MSGON)
         {
             short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
@@ -2244,14 +2388,18 @@ static void M_DrawOptions(void)
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (itemon == msgs));
+                patch, (fade > 0));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
+                OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (fade > 0), true);
     }
     else
     {
+        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
+
+        V_SetMenuHighlightFade(fade);
+
         if (M_MSGOFF)
         {
             short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
@@ -2262,15 +2410,19 @@ static void M_DrawOptions(void)
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (itemon == msgs));
+                patch, (fade > 0));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
+                OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (fade > 0), true);
     }
 
     if (r_detail == r_detail_low)
     {
+        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
+
+        V_SetMenuHighlightFade(fade);
+
         if (M_GDLOW)
         {
             short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
@@ -2281,14 +2433,18 @@ static void M_DrawOptions(void)
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (itemon == detail));
+                patch, (fade > 0));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
+                OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (fade > 0), true);
     }
     else
     {
+        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
+
+        V_SetMenuHighlightFade(fade);
+
         if (M_GDHIGH)
         {
             short   width = LITTLESHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
@@ -2299,11 +2455,11 @@ static void M_DrawOptions(void)
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                patch, (itemon == detail));
+                patch, (fade > 0));
         }
         else
             M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
+                OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (fade > 0), true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
@@ -2311,8 +2467,9 @@ static void M_DrawOptions(void)
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
         + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
+    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, scrnsize));
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
-        9, 15, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
+        9, 15, dot, 6.54f, 8, M_IsHighlightedMenuItem(&OptionsDef, scrnsize, itemon));
 
     if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
@@ -2320,8 +2477,9 @@ static void M_DrawOptions(void)
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
             + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
+        V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, mousesens));
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
+            9, 15, dot, 8.0f, 8, M_IsHighlightedMenuItem(&OptionsDef, mousesens, itemon));
     }
     else
     {
@@ -2329,9 +2487,12 @@ static void M_DrawOptions(void)
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
             + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
+        V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, mousesens));
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
+            9, 15, dot, 8.0f, 8, M_IsHighlightedMenuItem(&OptionsDef, mousesens, itemon));
     }
+
+    V_SetMenuHighlightFade(100);
 }
 
 static void M_Options(int choice)
@@ -2811,6 +2972,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messagebuttonsactive = false;
     quitmessagebuttons = false;
     quitmessagebuttonhover = -1;
+    M_ResetMessageButtonHighlightFade();
     quitmessagebuttoncount = 0;
     messagebuttonswaitforrelease = false;
 
@@ -3071,8 +3233,15 @@ static void M_DrawQuitMessageButtons(void)
     M_UpdateQuitMessageButtons();
 
     for (int i = 0; i < quitmessagebuttoncount; i++)
+    {
+        const int fade = M_GetMessageButtonHighlightFade(i);
+
+        V_SetMenuHighlightFade(fade);
         M_WriteText(quitmessagebuttonx[i] + 6, texty, quitmessagebuttontext[i],
-            (quitmessagebuttonhover == i), true, '\0');
+            (fade > 0), true, '\0');
+    }
+
+    V_SetMenuHighlightFade(100);
 }
 
 //
@@ -3557,9 +3726,13 @@ bool M_Responder(event_t *ev)
                 messagestring = quitmessage;
                 quitmessagebuttons = true;
                 quitmessagebuttonhover = -1;
+                M_ResetMessageButtonHighlightFade();
             }
 
+            const int   oldhover = quitmessagebuttonhover;
+
             quitmessagebuttonhover = M_QuitMessageButtonAt(ev->data2, ev->data3);
+            M_StartMessageButtonHighlightFade(oldhover);
 
             if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime() && !messagebuttonswaitforrelease)
             {
@@ -3742,6 +3915,8 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &OptionsDef)
                             {
+                                const int   old = itemon;
+
                                 if (i == endgame && gamestate != GS_LEVEL)
                                 {
                                     usingcontroller = false;
@@ -3761,6 +3936,7 @@ bool M_Responder(event_t *ev)
                                     S_StartSound(NULL, sfx_pstop);
 
                                 itemon = i;
+                                M_StartHighlightFade(old);
                                 usingcontroller = false;
                                 break;
                             }
@@ -3779,7 +3955,10 @@ bool M_Responder(event_t *ev)
                                 else if (itemon != i)
                                     S_StartSound(NULL, sfx_pstop);
 
+                                const int   old = itemon;
+
                                 itemon = i;
+                                M_StartHighlightFade(old);
                                 usingcontroller = false;
                                 break;
                             }
@@ -3787,7 +3966,10 @@ bool M_Responder(event_t *ev)
                             if (itemon != i)
                                 S_StartSound(NULL, sfx_pstop);
 
+                            const int   old = itemon;
+
                             itemon = i;
+                            M_StartHighlightFade(old);
                             usingcontroller = false;
 
                             if (currentmenu == &EpiDef)
@@ -3918,6 +4100,7 @@ bool M_Responder(event_t *ev)
             messagestring = quitmessagestring;
             quitmessagebuttons = false;
             quitmessagebuttonhover = -1;
+            M_ResetMessageButtonHighlightFade();
         }
     }
     else if (ev->type == ev_keyup)
@@ -4430,11 +4613,11 @@ bool M_Responder(event_t *ev)
     {
         if (key == KEY_DOWNARROW && keywait < I_GetTime() && !helpscreen)
         {
+            const int   old = itemon;
+
             // Move down to next item
             if (currentmenu == &LoadDef)
             {
-                const int   old = itemon;
-
                 do
                 {
                     if (++itemon > currentmenu->numitems - 1)
@@ -4497,6 +4680,8 @@ bool M_Responder(event_t *ev)
 
             currentmenu->change = true;
 
+            M_StartHighlightFade(old);
+
             if (currentmenu == &ExpDef)
             {
                 if (!M_IsPlayingGame())
@@ -4510,11 +4695,11 @@ bool M_Responder(event_t *ev)
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !helpscreen)
         {
+            const int   old = itemon;
+
             // Move back up to previous item
             if (currentmenu == &LoadDef)
             {
-                const int   old = itemon;
-
                 do
                 {
                     if (!itemon--)
@@ -4576,6 +4761,8 @@ bool M_Responder(event_t *ev)
             }
 
             currentmenu->change = true;
+
+            M_StartHighlightFade(old);
 
             if (currentmenu == &ExpDef)
             {
@@ -4925,6 +5112,7 @@ void M_OpenMainMenu(void)
 
     S_LowerMusicVolume();
     D_FadeScreen(false);
+    M_ResetHighlightFade();
 }
 
 //
@@ -5076,18 +5264,10 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                bool    highlight;
+                const int fade = M_GetMenuItemHighlightFade(currentmenu, i);
+                const bool highlight = (fade > 0);
 
-                if (currentmenu == &OptionsDef
-                    && ((i == scrnsize && itemon == option_empty1)
-                        || (i == mousesens && itemon == option_empty2)))
-                    highlight = true;
-                else if (currentmenu == &SoundDef
-                    && ((i == sfx_vol && itemon == sound_empty1)
-                        || (i == music_vol && itemon == sound_empty2)))
-                    highlight = true;
-                else
-                    highlight = (itemon == i);
+                V_SetMenuHighlightFade(fade);
 
                 if (currentmenu->menuitems[i].routine)
                 {
@@ -5290,6 +5470,7 @@ void M_Drawer(void)
                 }
 
                 y += LINEHEIGHT - 1;
+                V_SetMenuHighlightFade(100);
             }
 
             if (DBIGFONT)
@@ -5367,6 +5548,7 @@ static void M_SetupNextMenu(menu_t *menudef)
     currentmenu = menudef;
     itemon = currentmenu->laston;
     whichskull = 0;
+    M_ResetHighlightFade();
 }
 
 //
@@ -5376,6 +5558,25 @@ void M_Ticker(void)
 {
     if (windowfocused)
     {
+        if (quitmessagebuttonhighlightfading)
+        {
+            quitmessagebuttonhighlightfade = MIN(quitmessagebuttonhighlightfade + MENUHIGHLIGHTFADESTEP, 100);
+
+            if (quitmessagebuttonhighlightfade >= 100)
+            {
+                previousquitmessagebuttonhover = -1;
+                quitmessagebuttonhighlightfading = false;
+            }
+        }
+
+        if (previousitem != -1)
+        {
+            menuhighlightfade = MIN(menuhighlightfade + MENUHIGHLIGHTFADESTEP, 100);
+
+            if (menuhighlightfade >= 100)
+                previousitem = -1;
+        }
+
         if (savestringenter)
         {
             whichskull = 0;
@@ -5404,6 +5605,7 @@ void M_Init(void)
     currentmenu = &MainDef;
     menuactive = false;
     itemon = currentmenu->laston;
+    previousmenu = NULL;
     skullanimcounter = SKULLANIMCOUNT;
     caretwait = SKULLANIMCOUNT;
     messagetoprint = false;

@@ -57,10 +57,13 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-byte    *screens[NUMSCREENS];
-int     lowpixelwidth;
-int     lowpixelheight;
-int     lowpixelrows;
+byte        *screens[NUMSCREENS];
+int         lowpixelwidth;
+int         lowpixelheight;
+int         lowpixelrows;
+static int  menuhighlightfade = 100;
+
+static byte V_GetMenuHighlightColor(byte color, bool highlight);
 
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
@@ -997,7 +1000,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                 {
                     const byte  dot = source[srccol >> FRACBITS];
 
-                    *dest = (menuhighlight ? (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]) : dot);
+                    *dest = V_GetMenuHighlightColor(dot, highlight);
                 }
 
                 dest += SCREENWIDTH;
@@ -1054,7 +1057,7 @@ void V_DrawBigFontPatch(int x, int y, patch_t *patch, bool highlight, int shadow
                 {
                     const byte  dot = source[srccol >> FRACBITS];
 
-                    *dest = (menuhighlight ? (highlight ? gold4[dot] : colormaps[0][6 * 256 + dot]) : dot);
+                    *dest = V_GetMenuHighlightColor(dot, highlight);
                 }
 
                 dest += SCREENWIDTH;
@@ -1887,14 +1890,70 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         byte    *dot = *screens + (((size_t)y * SCREENWIDTH + x + WIDESCREENDELTA) * 2);
 
-        if (menuhighlight)
-            color = (highlight ? gold4[color] : colormaps[0][6 * 256 + color]);
+        color = V_GetMenuHighlightColor(color, highlight);
 
         *(dot++) = color;
         *dot = color;
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
     }
+}
+
+static byte V_GetMenuHighlightColor(byte color, bool highlight)
+{
+    struct
+    {
+        int         threshold;
+        const byte  *tinttab;
+    } menuhighlighttinttabs[] = {
+        { 90, tinttab90 },
+        { 80, tinttab80 },
+        { 75, tinttab75 },
+        { 70, tinttab70 },
+        { 66, tinttab66 },
+        { 60, tinttab60 },
+        { 50, tinttab50 },
+        { 45, tinttab45 },
+        { 40, tinttab40 },
+        { 33, tinttab33 },
+        { 30, tinttab30 },
+        { 25, tinttab25 },
+        { 20, tinttab20 },
+        { 15, tinttab15 },
+        { 10, tinttab10 },
+        {  5, tinttab5  },
+        {  0, tinttab4  }
+    };
+
+    const byte  base = colormaps[0][6 * 256 + color];
+    const byte  target = gold4[color];
+    const byte  *tinttab = tinttab4;
+
+    if (!menuhighlight)
+        return color;
+
+    if (!highlight)
+        return colormaps[0][6 * 256 + color];
+
+    if (menuhighlightfade >= 100)
+        return gold4[color];
+
+    if (menuhighlightfade <= 0)
+        return colormaps[0][6 * 256 + color];
+
+    for (int i = 0; i < arrlen(menuhighlighttinttabs); i++)
+        if (menuhighlightfade >= menuhighlighttinttabs[i].threshold)
+        {
+            tinttab = menuhighlighttinttabs[i].tinttab;
+            break;
+        }
+
+    return tinttab[(target << 8) + base];
+}
+
+void V_SetMenuHighlightFade(int fade)
+{
+    menuhighlightfade = (fade < 0 ? 0 : (fade > 100 ? 100 : fade));
 }
 
 static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
