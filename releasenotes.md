@@ -2,6 +2,7 @@
 
 ### DOOM Retro v6.2.1
 
+* The highlight effect when selecting items in the menu now fades in and out when the `smoothtransitions` CVAR is `on`.
 * A crash no longer occurs when loading *DOOM Retro* from the command-line in some instances.
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Color translations can now be applied to sprites by using `Translation` in `DEHACKED` lumps.
