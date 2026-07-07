@@ -205,6 +205,16 @@ static void P_AutoSwitchWeapon(weapontype_t weapon)
         viewplayer->pendingweapon = weapon;
 }
 
+static void P_ShowPickupMessage(const mobj_t *special, const char *message)
+{
+    const char  *pickupmessage = DEH_ResolveStringMnemonic(special->info->pickupstringmnemonic);
+
+    if (pickupmessage)
+        HU_PlayerMessage(pickupmessage, true, false);
+    else if (message && *message)
+        HU_PlayerMessage(message, true, false);
+}
+
 //
 // GET STUFF
 //
@@ -755,6 +765,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 {
     fixed_t     delta;
     int         sound = sfx_itemup;
+    const char  *pickupmessage = NULL;
     static int  prevsound;
     static int  prevtic;
     static int  prevx, prevy;
@@ -787,9 +798,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveArmor(green_armor_class, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTARMOR, true, false);
-
+            pickupmessage = s_GOTARMOR;
             break;
 
         // blue armor
@@ -797,9 +806,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveArmor(blue_armor_class, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTMEGA, true, false);
-
+            pickupmessage = s_GOTMEGA;
             break;
 
         // bonus health
@@ -811,9 +818,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTHTHBONUS, true, false);
-
+            pickupmessage = s_GOTHTHBONUS;
             break;
 
         // bonus armor
@@ -828,9 +833,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                     viewplayer->armortype = green_armor_class;
             }
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTARMBONUS, true, false);
-
+            pickupmessage = s_GOTARMBONUS;
             break;
 
         // soulsphere
@@ -846,8 +849,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 I_UpdateControllerLEDByHealth(viewplayer->health);
             }
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSUPER, true, false);
+            pickupmessage = s_GOTSUPER;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -860,8 +862,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             P_GiveArmor(blue_armor_class, stat);
             viewplayer->armortype = blue_armor_class;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTMSPHERE, true, false);
+            pickupmessage = s_GOTMSPHERE;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -872,35 +873,28 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_BKEY:
             P_GiveCard(it_bluecard);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTBLUECARD, true, false);
-
+            pickupmessage = s_GOTBLUECARD;
             break;
 
         // yellow keycard
         case SPR_YKEY:
             P_GiveCard(it_yellowcard);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTYELWCARD, true, false);
-
+            pickupmessage = s_GOTYELWCARD;
             break;
 
         // red keycard
         case SPR_RKEY:
             P_GiveCard(it_redcard);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTREDCARD, true, false);
-
+            pickupmessage = s_GOTREDCARD;
             break;
 
         // blue skull key
         case SPR_BSKU:
             P_GiveCard(it_blueskull);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTBLUESKUL, true, false);
+            pickupmessage = s_GOTBLUESKUL;
 
             break;
 
@@ -908,18 +902,14 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_YSKU:
             P_GiveCard(it_yellowskull);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTYELWSKUL, true, false);
-
+            pickupmessage = s_GOTYELWSKUL;
             break;
 
         // red skull key
         case SPR_RSKU:
             P_GiveCard(it_redskull);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTREDSKULL, true, false);
-
+            pickupmessage = s_GOTREDSKULL;
             break;
 
         // stimpack
@@ -927,9 +917,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSTIM, true, false);
-
+            pickupmessage = s_GOTSTIM;
             break;
 
         // medikit
@@ -937,22 +925,19 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
                 return false;
 
-            if (message && !duplicate)
+            if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
             {
-                if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
-                {
-                    static char buffer[1024];
+                static char buffer[1024];
 
-                    if (isdefaultplayername())
-                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
-                    else
-                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
-
-                    HU_PlayerMessage(buffer, true, false);
-                }
+                if (isdefaultplayername())
+                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
                 else
-                    HU_PlayerMessage(s_GOTMEDIKIT, true, false);
+                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
+
+                pickupmessage = buffer;
             }
+            else
+                pickupmessage = s_GOTMEDIKIT;
 
             break;
 
@@ -960,8 +945,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_PINV:
             P_GivePower(pw_invulnerability, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTINVUL, true, false);
+            pickupmessage = s_GOTINVUL;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -975,8 +959,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
             P_GivePower(pw_strength, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTBERSERK, true, false);
+            pickupmessage = s_GOTBERSERK;
 
             if (viewplayer->readyweapon != wp_fist)
             {
@@ -994,8 +977,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_PINS:
             P_GivePower(pw_invisibility, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTINVIS, true, false);
+            pickupmessage = s_GOTINVIS;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -1006,8 +988,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_SUIT:
             P_GivePower(pw_ironfeet, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSUIT, true, false);
+            pickupmessage = s_GOTSUIT;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -1018,8 +999,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_PMAP:
             P_GivePower(pw_allmap, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTMAP, true, false);
+            pickupmessage = s_GOTMAP;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -1030,8 +1010,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         case SPR_PVIS:
             P_GivePower(pw_infrared, stat);
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTVISOR, true, false);
+            pickupmessage = s_GOTVISOR;
 
             if (sound == sfx_itemup)
                 sound = sfx_getpow;
@@ -1043,9 +1022,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTCLIP, true, false);
-
+            pickupmessage = s_GOTCLIP;
             break;
 
         // box of bullets
@@ -1053,9 +1030,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveAmmo(am_clip, 5, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTCLIPBOX, true, false);
-
+            pickupmessage = s_GOTCLIPBOX;
             break;
 
         // rocket
@@ -1066,13 +1041,10 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!ammogiven)
                 return false;
 
-            if (message && !duplicate)
-            {
-                if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTROCKET, true, false);
-                else
-                    HU_PlayerMessage(s_GOTROCKETX2, true, false);
-            }
+            if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                pickupmessage = s_GOTROCKET;
+            else
+                pickupmessage = s_GOTROCKETX2;
 
             break;
         }
@@ -1082,9 +1054,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveAmmo(am_misl, 5, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTROCKBOX, true, false);
-
+            pickupmessage = s_GOTROCKBOX;
             break;
 
         // cell
@@ -1095,13 +1065,10 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!ammogiven)
                 return false;
 
-            if (message && !duplicate)
-            {
-                if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTCELL, true, false);
-                else
-                    HU_PlayerMessage(s_GOTCELLX2, true, false);
-            }
+            if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                pickupmessage = s_GOTCELL;
+            else
+                pickupmessage = s_GOTCELLX2;
 
             break;
         }
@@ -1111,9 +1078,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveAmmo(am_cell, 5, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTCELLBOX, true, false);
-
+            pickupmessage = s_GOTCELLBOX;
             break;
 
         // shells
@@ -1124,13 +1089,10 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!ammogiven)
                 return false;
 
-            if (message && !duplicate)
-            {
-                if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTSHELLS, true, false);
-                else
-                    HU_PlayerMessage(s_GOTSHELLSX2, true, false);
-            }
+            if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                pickupmessage = s_GOTSHELLS;
+            else
+                pickupmessage = s_GOTSHELLSX2;
 
             break;
         }
@@ -1140,9 +1102,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveAmmo(am_shell, 5, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSHELLBOX, true, false);
-
+            pickupmessage = s_GOTSHELLBOX;
             break;
 
         // backpack
@@ -1150,9 +1110,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveBackpack(true, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTBACKPACK, true, false);
-
+            pickupmessage = s_GOTBACKPACK;
             break;
 
         // BFG-9000
@@ -1160,8 +1118,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveWeapon(wp_bfg, false, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTBFG9000, true, false);
+            pickupmessage = s_GOTBFG9000;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1173,8 +1130,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTCHAINGUN, true, false);
+            pickupmessage = s_GOTCHAINGUN;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1188,8 +1144,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
             viewplayer->fistorchainsaw = wp_chainsaw;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTCHAINSAW, true, false);
+            pickupmessage = s_GOTCHAINSAW;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1201,8 +1156,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveWeapon(wp_missile, false, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTLAUNCHER, true, false);
+            pickupmessage = s_GOTLAUNCHER;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1214,8 +1168,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!P_GiveWeapon(wp_plasma, false, stat))
                 return false;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTPLASMA, true, false);
+            pickupmessage = s_GOTPLASMA;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1233,8 +1186,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!owned)
                 viewplayer->preferredshotgun = wp_shotgun;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSHOTGUN, true, false);
+            pickupmessage = s_GOTSHOTGUN;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1253,8 +1205,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
             if (!owned)
                 viewplayer->preferredshotgun = wp_supershotgun;
 
-            if (message && !duplicate)
-                HU_PlayerMessage(s_GOTSHOTGUN2, true, false);
+            pickupmessage = s_GOTSHOTGUN2;
 
             if (sound == sfx_itemup)
                 sound = sfx_wpnup;
@@ -1265,6 +1216,10 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         default:
             break;
     }
+
+    if (message && !duplicate
+        && ((special->info->pickupstringmnemonic && *special->info->pickupstringmnemonic) || pickupmessage))
+        P_ShowPickupMessage(special, pickupmessage);
 
     if ((special->flags & MF_COUNTITEM) && stat)
     {

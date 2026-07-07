@@ -56,6 +56,8 @@ typedef struct
 extern bool         dehacked;
 extern deh_strs     deh_strlookup[];
 
+const char          *DEH_ResolveStringMnemonic(const char *mnemonic);
+
 extern char         *s_VERSION;
 
 extern char         *s_D_DEVSTR;

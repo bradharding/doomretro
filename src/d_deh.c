@@ -1548,6 +1548,74 @@ deh_strs deh_strlookup[] =
 
 static const int    deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
+static char *deh_DuplicateProcessedString(const char *string)
+{
+    char    *copy = M_StringDuplicate(string);
+    char    *t = copy;
+
+    for (char *s = copy; *s; s++, t++)
+        if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))
+        {
+            s++;
+            *t = '\n';
+        }
+        else
+            *t = *s;
+
+    *t = '\0';
+
+    return copy;
+}
+
+typedef struct
+{
+    char    *lookup;
+    char    *value;
+} deh_userstring_t;
+
+static deh_userstring_t *deh_userstrings;
+static int              deh_numuserstrings;
+
+static bool deh_AssignUserString(const char *key, const char *newstring)
+{
+    for (int i = 0; i < deh_numuserstrings; i++)
+        if (M_StringCompare(deh_userstrings[i].lookup, key))
+        {
+            deh_userstrings[i].value = deh_DuplicateProcessedString(newstring);
+
+            if (devparm)
+                C_Output("Assigned key %s to \"%s\"", key, newstring);
+
+            return true;
+        }
+
+    deh_userstrings = I_Realloc(deh_userstrings, (deh_numuserstrings + 1) * sizeof(*deh_userstrings));
+    deh_userstrings[deh_numuserstrings].lookup = M_StringDuplicate(key);
+    deh_userstrings[deh_numuserstrings].value = deh_DuplicateProcessedString(newstring);
+
+    if (devparm)
+        C_Output("Assigned key %s to \"%s\"", key, newstring);
+
+    deh_numuserstrings++;
+    return true;
+}
+
+const char *DEH_ResolveStringMnemonic(const char *mnemonic)
+{
+    if (!mnemonic || !*mnemonic)
+        return NULL;
+
+    for (int i = 0; i < deh_numstrlookup; i++)
+        if (M_StringCompare(deh_strlookup[i].lookup, mnemonic))
+            return *deh_strlookup[i].ppstr;
+
+    for (int i = 0; i < deh_numuserstrings; i++)
+        if (M_StringCompare(deh_userstrings[i].lookup, mnemonic))
+            return deh_userstrings[i].value;
+
+    return NULL;
+}
+
 // DOOM shareware/registered/retail (Ultimate) names.
 char **mapnames[] =
 {
@@ -3059,6 +3127,17 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 mobjinfo[indexnum].projectilegroup = (value < 0 ? PG_GROUPLESS : value + PG_END);
             else if (M_StringCompare(key, "Splash group"))
                 mobjinfo[indexnum].splashgroup = value + SG_END;
+            else if (M_StringCompare(key, "Pickup message"))
+            {
+                mobjinfo[indexnum].pickupstringmnemonic = M_StringDuplicate(trimwhitespace(strval));
+
+                if (devparm)
+                    C_Output("Assigned %s to %s (%i) at index %i.", mobjinfo[indexnum].pickupstringmnemonic,
+                        key, indexnum, ix);
+
+                mobjinfo[indexnum].dehacked = true;
+                break;
+            }
             else
             {
                 int *pix = (int *)&mobjinfo[indexnum];
@@ -4365,24 +4444,10 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
     for (int i = 0; i < deh_numstrlookup; i++)
         if ((found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key))))
         {
-            char    *t;
-
             if (deh_strlookup[i].assigned)
                 break;
 
-            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring); // orphan originalstring
-
-            // Handle embedded \n's in the incoming string, convert to 0x0A's
-            for (char *s = *deh_strlookup[i].ppstr; *s; s++, t++)
-                if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))         // found one
-                {
-                    s++;
-                    *t = '\n';                                          // skip one extra for second character
-                }
-                else
-                    *t = *s;
-
-            *t = '\0';                                                  // cap off the target string
+            *deh_strlookup[i].ppstr = deh_DuplicateProcessedString(newstring); // orphan originalstring
 
             if (devparm)
             {
@@ -4413,6 +4478,9 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 
             break;
         }
+
+    if (!found && key && M_StringStartsWith(key, "USER_"))
+        return deh_AssignUserString(key, newstring);
 
     if (!found && !hacx && lookfor)
     {
