@@ -3527,7 +3527,7 @@ static void givefunc2(char *cmd, char *parms)
 
             if (result)
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3552,7 +3552,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveMegaHealth(false))
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3577,7 +3577,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveAllWeapons())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3605,7 +3605,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveFullAmmo())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3618,7 +3618,7 @@ static void givefunc2(char *cmd, char *parms)
             }
             else if (P_GiveBackpack(false, false) && P_GiveFullAmmo())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3646,7 +3646,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveArmor(blue_armor_class, false))
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3675,7 +3675,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveAllCards())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3700,7 +3700,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveAllKeyCards())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -3725,7 +3725,7 @@ static void givefunc2(char *cmd, char *parms)
         {
             if (P_GiveAllSkullKeys())
             {
-                P_AddBonus();
+                P_AddBonus(NULL);
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
@@ -11370,7 +11370,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                 if ((value = MIN(value, viewplayer->maxammo[ammotype])) > viewplayer->ammo[ammotype])
                 {
                     P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
-                    P_AddBonus();
+                    P_AddBonus(NULL);
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
                 else
@@ -11448,7 +11448,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                 if ((value = MIN(value, max_armor)) > viewplayer->armor)
                 {
                     P_UpdateArmorStat(value - viewplayer->armor);
-                    P_AddBonus();
+                    P_AddBonus(NULL);
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
                 else
@@ -11568,7 +11568,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             char    buffer[1024];
 
                             P_ResurrectPlayer(value);
-                            P_AddBonus();
+                            P_AddBonus(NULL);
 
                             if (isdefaultplayername())
                                 M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
@@ -11635,7 +11635,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                             viewplayer->mo->health = value;
 
                             I_UpdateControllerLEDByHealth(viewplayer->health);
-                            P_AddBonus();
+                            P_AddBonus(NULL);
                             S_StartSound(viewplayer->mo, sfx_itemup);
                         }
                     }

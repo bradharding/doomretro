@@ -338,9 +338,9 @@ bool P_GiveFullAmmo(void)
 //
 // P_AddBonus
 //
-void P_AddBonus(void)
+void P_AddBonus(mobj_t *special)
 {
-    viewplayer->bonuscount = MIN(viewplayer->bonuscount + BONUSADD, TICRATE);
+    viewplayer->bonuscount = MIN(viewplayer->bonuscount + (special ? special->info->pickupbonuscount : BONUSADD), TICRATE);
 }
 
 //
@@ -765,7 +765,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 {
     fixed_t     delta;
     int         sound = sfx_itemup;
-    const char  *pickupmessage = NULL;
+    char        *pickupmessage = NULL;
     static int  prevsound;
     static int  prevtic;
     static int  prevx, prevy;
@@ -1236,7 +1236,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
     P_RemoveMobj(special);
 
     if (!duplicate && special->type != MT_MISC13 && special->type != MT_MISC14)
-        P_AddBonus();
+        P_AddBonus(special);
 
     prevtouchtype = special->type;
     prevx = special->x;

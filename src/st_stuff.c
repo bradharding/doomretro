@@ -510,7 +510,7 @@ bool ST_Responder(const event_t *ev)
                     P_GiveHealth(god_health, god_health, false);
 
                     if (oldhealth < initial_health)
-                        P_AddBonus();
+                        P_AddBonus(NULL);
 
                     ST_PlayerCheated(cheat_god.sequence, "", NULL, true);
                     C_Output(s_STSTR_DQDON);
@@ -562,7 +562,7 @@ bool ST_Responder(const event_t *ev)
                     S_StartSound(NULL, sfx_getpow);
 
                     // [BH] flash screen
-                    P_AddBonus();
+                    P_AddBonus(NULL);
 
                     ST_PlayerCheated(cheat_ammonokey.sequence, "", NULL, true);
                     C_Output(s_STSTR_FAADDED);
@@ -605,7 +605,7 @@ bool ST_Responder(const event_t *ev)
                     S_StartSound(NULL, sfx_getpow);
 
                     // [BH] flash screen
-                    P_AddBonus();
+                    P_AddBonus(NULL);
 
                     ST_PlayerCheated(cheat_ammo.sequence, "", NULL, true);
                     C_Output(s_STSTR_KFAADDED);
@@ -728,7 +728,7 @@ bool ST_Responder(const event_t *ev)
                             viewplayer->powers[i] = -1;
 
                             // [BH] flash screen
-                            P_AddBonus();
+                            P_AddBonus(NULL);
                         }
                         else
                         {
@@ -882,7 +882,7 @@ bool ST_Responder(const event_t *ev)
                 if (!(viewplayer->cheats & CF_CHOPPERS))
                 {
                     // [BH] flash screen
-                    P_AddBonus();
+                    P_AddBonus(NULL);
 
                     // [BH] note if has chainsaw and/or invulnerability already
                     viewplayer->invulnbeforechoppers = viewplayer->powers[pw_invulnerability];
