@@ -431,6 +431,9 @@ void *I_RegisterSong(void *data, int size)
                 return NULL;
             }
         }
+#else
+        if (!midimusictype)
+            return NULL;
 #endif
 
         if (!(rwops = SDL_RWFromMem(data, size)))
