@@ -1548,74 +1548,6 @@ deh_strs deh_strlookup[] =
 
 static const int    deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
-static char *deh_DuplicateProcessedString(const char *string)
-{
-    char    *copy = M_StringDuplicate(string);
-    char    *t = copy;
-
-    for (char *s = copy; *s; s++, t++)
-        if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))
-        {
-            s++;
-            *t = '\n';
-        }
-        else
-            *t = *s;
-
-    *t = '\0';
-
-    return copy;
-}
-
-typedef struct
-{
-    char    *lookup;
-    char    *value;
-} deh_userstring_t;
-
-static deh_userstring_t *deh_userstrings;
-static int              deh_numuserstrings;
-
-static bool deh_AssignUserString(const char *key, const char *newstring)
-{
-    for (int i = 0; i < deh_numuserstrings; i++)
-        if (M_StringCompare(deh_userstrings[i].lookup, key))
-        {
-            deh_userstrings[i].value = deh_DuplicateProcessedString(newstring);
-
-            if (devparm)
-                C_Output("Assigned key %s to \"%s\"", key, newstring);
-
-            return true;
-        }
-
-    deh_userstrings = I_Realloc(deh_userstrings, (deh_numuserstrings + 1) * sizeof(*deh_userstrings));
-    deh_userstrings[deh_numuserstrings].lookup = M_StringDuplicate(key);
-    deh_userstrings[deh_numuserstrings].value = deh_DuplicateProcessedString(newstring);
-
-    if (devparm)
-        C_Output("Assigned key %s to \"%s\"", key, newstring);
-
-    deh_numuserstrings++;
-    return true;
-}
-
-const char *DEH_ResolveStringMnemonic(const char *mnemonic)
-{
-    if (!mnemonic || !*mnemonic)
-        return NULL;
-
-    for (int i = 0; i < deh_numstrlookup; i++)
-        if (M_StringCompare(deh_strlookup[i].lookup, mnemonic))
-            return *deh_strlookup[i].ppstr;
-
-    for (int i = 0; i < deh_numuserstrings; i++)
-        if (M_StringCompare(deh_userstrings[i].lookup, mnemonic))
-            return deh_userstrings[i].value;
-
-    return NULL;
-}
-
 // DOOM shareware/registered/retail (Ultimate) names.
 char **mapnames[] =
 {
@@ -4427,6 +4359,74 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
             havepair = false;
         }
     }
+}
+
+static char *deh_DuplicateProcessedString(const char *string)
+{
+    char    *copy = M_StringDuplicate(string);
+    char    *t = copy;
+
+    for (char *s = copy; *s; s++, t++)
+        if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))
+        {
+            s++;
+            *t = '\n';
+        }
+        else
+            *t = *s;
+
+    *t = '\0';
+
+    return copy;
+}
+
+typedef struct
+{
+    char    *lookup;
+    char    *value;
+} deh_userstring_t;
+
+static deh_userstring_t *deh_userstrings;
+static int              deh_numuserstrings;
+
+static bool deh_AssignUserString(const char *key, const char *newstring)
+{
+    for (int i = 0; i < deh_numuserstrings; i++)
+        if (M_StringCompare(deh_userstrings[i].lookup, key))
+        {
+            deh_userstrings[i].value = deh_DuplicateProcessedString(newstring);
+
+            if (devparm)
+                C_Output("Assigned key %s to \"%s\"", key, newstring);
+
+            return true;
+        }
+
+    deh_userstrings = I_Realloc(deh_userstrings, (deh_numuserstrings + 1) * sizeof(*deh_userstrings));
+    deh_userstrings[deh_numuserstrings].lookup = M_StringDuplicate(key);
+    deh_userstrings[deh_numuserstrings].value = deh_DuplicateProcessedString(newstring);
+
+    if (devparm)
+        C_Output("Assigned key %s to \"%s\"", key, newstring);
+
+    deh_numuserstrings++;
+    return true;
+}
+
+const char *DEH_ResolveStringMnemonic(const char *mnemonic)
+{
+    if (!mnemonic || !*mnemonic)
+        return NULL;
+
+    for (int i = 0; i < deh_numstrlookup; i++)
+        if (M_StringCompare(deh_strlookup[i].lookup, mnemonic))
+            return *deh_strlookup[i].ppstr;
+
+    for (int i = 0; i < deh_numuserstrings; i++)
+        if (M_StringCompare(deh_userstrings[i].lookup, mnemonic))
+            return deh_userstrings[i].value;
+
+    return NULL;
 }
 
 // ====================================================================

@@ -205,9 +205,9 @@ static void P_AutoSwitchWeapon(weapontype_t weapon)
         viewplayer->pendingweapon = weapon;
 }
 
-static void P_ShowPickupMessage(const mobj_t *special, const char *message)
+static void P_ShowPickupMessage(const mobj_t *special, char *message)
 {
-    const char  *pickupmessage = DEH_ResolveStringMnemonic(special->info->pickupstringmnemonic);
+    char    *pickupmessage = DEH_ResolveStringMnemonic(special->info->pickupstringmnemonic);
 
     if (pickupmessage)
         HU_PlayerMessage(pickupmessage, true, false);

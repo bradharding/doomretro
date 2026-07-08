@@ -1925,21 +1925,14 @@ static byte V_GetMenuHighlightColor(byte color, bool highlight)
         {  0, tinttab4  }
     };
 
-    const byte  base = colormaps[0][6 * 256 + color];
-    const byte  target = gold4[color];
     const byte  *tinttab = tinttab4;
 
     if (!menuhighlight)
         return color;
-
-    if (!highlight)
+    else if (!highlight || menuhighlightfade <= 0)
         return colormaps[0][6 * 256 + color];
-
-    if (menuhighlightfade >= 100)
+    else if (menuhighlightfade >= 100)
         return gold4[color];
-
-    if (menuhighlightfade <= 0)
-        return colormaps[0][6 * 256 + color];
 
     for (int i = 0; i < arrlen(menuhighlighttinttabs); i++)
         if (menuhighlightfade >= menuhighlighttinttabs[i].threshold)
@@ -1948,12 +1941,12 @@ static byte V_GetMenuHighlightColor(byte color, bool highlight)
             break;
         }
 
-    return tinttab[(target << 8) + base];
+    return tinttab[colormaps[0][6 * 256 + color] + (gold4[color] << 8)];
 }
 
 void V_SetMenuHighlightFade(int fade)
 {
-    menuhighlightfade = (fade < 0 ? 0 : (fade > 100 ? 100 : fade));
+    menuhighlightfade = BETWEEN(0, fade, 100);
 }
 
 static void V_LowGraphicDetail(byte *screen, int screenwidth, int left,
