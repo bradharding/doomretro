@@ -98,12 +98,6 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, y, z)     (dithermatrix[(y) & DITHERMASK] \
-                                [((x) + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK] < (z))
-
-#define ditherlow(x, y, z)  (dithermatrix[((y) / lowpixelrows) & DITHERMASK] \
-                                [(((x) + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK] < (z))
-
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -154,15 +148,31 @@ void R_DrawLowResDitheredColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredColumn(void)
@@ -171,15 +181,24 @@ void R_DrawDitheredColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
+    dc_yl = y;
 }
 
 void R_DrawLowResDitheredColumnWithBrightmap(void)
@@ -190,17 +209,33 @@ void R_DrawLowResDitheredColumnWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredColumnWithBrightmap(void)
@@ -211,17 +246,26 @@ void R_DrawDitheredColumnWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+    *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
+    dc_yl = y;
 }
 
 void R_DrawCorrectedColumn(void)
@@ -247,15 +291,31 @@ void R_DrawCorrectedLowResDitheredColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 void R_DrawCorrectedDitheredColumn(void)
@@ -264,15 +324,24 @@ void R_DrawCorrectedDitheredColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][nearestcolors[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][nearestcolors[dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 void R_DrawSolidColorColumn(void)
@@ -295,14 +364,30 @@ void R_DrawLowResDitheredSolidColorColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][NOTEXTURECOLOR]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredSolidColorColumn(void)
@@ -310,14 +395,23 @@ void R_DrawDitheredSolidColorColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][NOTEXTURECOLOR]];
         dest += SCREENWIDTH;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][NOTEXTURECOLOR]];
+    dc_yl = y;
 }
 
 void R_DrawShadowColumn(void)
@@ -466,6 +560,13 @@ void R_DrawLowResDitheredWallColumn(void)
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     fixed_t             heightmask = dc_texheight - 1;
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     if (dc_texheight & heightmask)
     {
@@ -479,26 +580,44 @@ void R_DrawLowResDitheredWallColumn(void)
 
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+            *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
+
+            if (++lowy == lowpixelrows)
+            {
+                lowy = 0;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            y++;
         }
 
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
+
+            if (++lowy == lowpixelrows)
+            {
+                lowy = 0;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            y++;
         }
 
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
+
+    dc_yl = y;
 }
 
 void R_DrawDitheredWallColumn(void)
@@ -508,6 +627,12 @@ void R_DrawDitheredWallColumn(void)
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
     fixed_t             heightmask = dc_texheight - 1;
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     if (dc_texheight & heightmask)
     {
@@ -521,26 +646,33 @@ void R_DrawDitheredWallColumn(void)
 
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]];
+            *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
+
+            yphase = (yphase + 1) & DITHERMASK;
+            y++;
         }
 
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]];
     }
     else
     {
         while (--count)
         {
-            *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+            *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[(frac >> FRACBITS) & heightmask]]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
+            yphase = (yphase + 1) & DITHERMASK;
+            y++;
         }
 
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_source[(frac >> FRACBITS) & heightmask]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_source[(frac >> FRACBITS) & heightmask]]];
     }
+
+    dc_yl = y;
 }
 
 void R_DrawWallColumnWithBrightmap(void)
@@ -598,6 +730,13 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
                                             { fullcolormap,   fullcolormap       } };
     fixed_t             heightmask = dc_texheight - 1;
     byte                dot;
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     if (dc_texheight & heightmask)
     {
@@ -612,29 +751,47 @@ void R_DrawLowResDitheredWallColumnWithBrightmap(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
+
+            if (++lowy == lowpixelrows)
+            {
+                lowy = 0;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            y++;
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
+
+            if (++lowy == lowpixelrows)
+            {
+                lowy = 0;
+                yphase = (yphase + 1) & DITHERMASK;
+            }
+
+            y++;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
     }
+
+    dc_yl = y;
 }
 
 void R_DrawDitheredWallColumnWithBrightmap(void)
@@ -646,6 +803,12 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
                                             { fullcolormap,   fullcolormap       } };
     fixed_t             heightmask = dc_texheight - 1;
     byte                dot;
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     if (dc_texheight & heightmask)
     {
@@ -660,29 +823,36 @@ void R_DrawDitheredWallColumnWithBrightmap(void)
         while (--count)
         {
             dot = dc_source[frac >> FRACBITS];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
             dest += SCREENWIDTH;
 
             if ((frac += dc_iscale) >= heightmask)
                 frac -= heightmask;
+
+            yphase = (yphase + 1) & DITHERMASK;
+            y++;
         }
 
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
     }
     else
     {
         while (--count)
         {
             dot = dc_source[(frac >> FRACBITS) & heightmask];
-            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]];
+            *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
+            yphase = (yphase + 1) & DITHERMASK;
+            y++;
         }
 
         dot = dc_source[(frac >> FRACBITS) & heightmask];
-        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]];
+        *dest = dc_sectorcolormap[colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]];
     }
+
+    dc_yl = y;
 }
 
 void R_DrawPlayerSpriteColumn(void)
@@ -845,17 +1015,26 @@ void R_DrawDitheredTranslucent50ColumnWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][dither(dc_x, dc_yl, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]]];
+    dc_yl = y;
 }
 
 void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
@@ -866,17 +1045,33 @@ void R_DrawLowResDitheredTranslucent50ColumnWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { dc_colormap[0], dc_nextcolormap[0] },
                                             { fullcolormap,   fullcolormap       } };
     byte                dot;
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
         dot = dc_source[frac >> FRACBITS];
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl++, dc_z)][dot]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
     dot = dc_source[frac >> FRACBITS];
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][ditherlow(dc_x, dc_yl, dc_z)][dot]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dc_brightmap[dot]][thresholds[yphase] < z][dot]]];
+    dc_yl = y;
 }
 
 void R_DrawLowResDitheredTranslucent50Column(void)
@@ -885,15 +1080,31 @@ void R_DrawLowResDitheredTranslucent50Column(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredTranslucent50Column(void)
@@ -902,15 +1113,24 @@ void R_DrawDitheredTranslucent50Column(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 void R_DrawCorrectedTranslucent50Column(void)
@@ -950,14 +1170,30 @@ void R_DrawLowResDitheredTranslucent50SolidColorColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[ditherlow(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][NOTEXTURECOLOR]]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredTranslucent50SolidColorColumn(void)
@@ -965,14 +1201,23 @@ void R_DrawDitheredTranslucent50SolidColorColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl++, dc_z)][NOTEXTURECOLOR]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][NOTEXTURECOLOR]]];
         dest += SCREENWIDTH;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither(dc_x, dc_yl, dc_z)][NOTEXTURECOLOR]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < z][NOTEXTURECOLOR]]];
+    dc_yl = y;
 }
 
 void R_DrawTranslucent33Column(void)
@@ -1229,15 +1474,31 @@ void R_DrawLowResDitheredTranslatedColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = ((dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = (y / lowpixelrows) & DITHERMASK;
+    int                 lowy = y % lowpixelrows;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[ditherlow(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_translation[dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 void R_DrawDitheredTranslatedColumn(void)
@@ -1246,15 +1507,24 @@ void R_DrawDitheredTranslatedColumn(void)
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturefrac;
     const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           z = dc_z;
+    const int           x = (dc_x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
+    const byte          thresholds[DITHERSIZE] = { dithermatrix[0][x], dithermatrix[1][x],
+                                                   dithermatrix[2][x], dithermatrix[3][x] };
+    int                 y = dc_yl;
+    int                 yphase = y & DITHERMASK;
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl++, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_translation[dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+        y++;
     }
 
-    *dest = dc_sectorcolormap[colormap[dither(dc_x, dc_yl, dc_z)][dc_translation[dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[colormap[thresholds[yphase] < z][dc_translation[dc_source[frac >> FRACBITS]]]];
+    dc_yl = y;
 }
 
 //
@@ -1355,15 +1625,29 @@ void R_DrawLowResDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
+    const int   z = ds_z;
+    const byte  *thresholds = dithermatrix[(ds_y / lowpixelrows) & DITHERMASK];
+    int         x = ds_x1;
+    int         lowx = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) % lowpixelwidth;
+    int         xphase = ((x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
 
     while (--count)
     {
-        *dest++ = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        *dest++ = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
+
+        if (++lowx == lowpixelwidth)
+        {
+            lowx = 0;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        x++;
     }
 
-    *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    ds_x1 = x;
 }
 
 void R_DrawLowResDitheredSpanWithBrightmap(void)
@@ -1373,32 +1657,53 @@ void R_DrawLowResDitheredSpanWithBrightmap(void)
     const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
                                             { fullcolormap,   fullcolormap   } };
     byte                dot;
+    const int           z = ds_z;
+    const byte          *thresholds = dithermatrix[(ds_y / lowpixelrows) & DITHERMASK];
+    int                 x = ds_x1;
+    int                 lowx = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) % lowpixelwidth;
+    int                 xphase = ((x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
 
     while (--count)
     {
         dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][ditherlow(ds_x1++, ds_y, ds_z)][dot]];
+        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][thresholds[xphase] < z][dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
+
+        if (++lowx == lowpixelwidth)
+        {
+            lowx = 0;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        x++;
     }
 
     dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
-    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][ditherlow(ds_x1, ds_y, ds_z)][dot]];
+    *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][thresholds[xphase] < z][dot]];
+    ds_x1 = x;
 }
 
 void R_DrawDitheredSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
+    const int   z = ds_z;
+    const byte  *thresholds = dithermatrix[ds_y & DITHERMASK];
+    int         x = ds_x1;
+    int         xphase = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
 
     while (--count)
     {
-        *dest++ = ds_sectorcolormap[ds_colormap[dither(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        *dest++ = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
+        xphase = (xphase + 1) & DITHERMASK;
+        x++;
     }
 
-    *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    ds_x1 = x;
 }
 
 void R_DrawDitheredSpanWithBrightmap(void)
@@ -1407,21 +1712,29 @@ void R_DrawDitheredSpanWithBrightmap(void)
     byte                *dest = ylookup0[ds_y] + ds_x1;
     const lighttable_t  *colormap[2][2] = { { ds_colormap[0], ds_colormap[1] },
                                             { fullcolormap,   fullcolormap   } };
+    const int           z = ds_z;
+    const byte          *thresholds = dithermatrix[ds_y & DITHERMASK];
+    int                 x = ds_x1;
+    int                 xphase = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
 
     while (--count)
     {
         const byte dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
 
-        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither(ds_x1++, ds_y, ds_z)][dot]];
+        *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][thresholds[xphase] < z][dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
+        xphase = (xphase + 1) & DITHERMASK;
+        x++;
     }
 
     {
         const byte dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
 
-        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither(ds_x1, ds_y, ds_z)][dot]];
+        *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][thresholds[xphase] < z][dot]];
     }
+
+    ds_x1 = x;
 }
 
 void R_DrawSolidColorSpan(void)
@@ -1440,22 +1753,47 @@ void R_DrawLowResDitheredSolidColorSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
+    const int   z = ds_z;
+    const byte  *thresholds = dithermatrix[(ds_y / lowpixelrows) & DITHERMASK];
+    int         x = ds_x1;
+    int         lowx = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) % lowpixelwidth;
+    int         xphase = ((x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) / lowpixelwidth) & DITHERMASK;
 
     while (--count)
-        *dest++ = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR]];
+    {
+        *dest++ = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][NOTEXTURECOLOR]];
 
-    *dest = ds_sectorcolormap[ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR]];
+        if (++lowx == lowpixelwidth)
+        {
+            lowx = 0;
+            xphase = (xphase + 1) & DITHERMASK;
+        }
+
+        x++;
+    }
+
+    *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][NOTEXTURECOLOR]];
+    ds_x1 = x;
 }
 
 void R_DrawDitheredSolidColorSpan(void)
 {
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
+    const int   z = ds_z;
+    const byte  *thresholds = dithermatrix[ds_y & DITHERMASK];
+    int         x = ds_x1;
+    int         xphase = (x + viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA) & DITHERMASK;
 
     while (--count)
-        *dest++ = ds_sectorcolormap[ds_colormap[dither(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR]];
+    {
+        *dest++ = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][NOTEXTURECOLOR]];
+        xphase = (xphase + 1) & DITHERMASK;
+        x++;
+    }
 
-    *dest = ds_sectorcolormap[ds_colormap[dither(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR]];
+    *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < z][NOTEXTURECOLOR]];
+    ds_x1 = x;
 }
 
 //
