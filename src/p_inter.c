@@ -790,431 +790,822 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
     if (special->info->pickupsound != sfx_none)
         sound = special->info->pickupsound;
 
-    // Identify by sprite.
-    switch (special->sprite)
+    if (special->info->pickupitemtype != PI_NOITEM
+        || special->info->pickupweapontype
+        || special->info->pickupammotype)
     {
-        // green armor
-        case SPR_ARM1:
-            if (!P_GiveArmor(green_armor_class, stat))
-                return false;
+        switch (special->info->pickupitemtype)
+        {
+            case PI_MESSAGE:
+                break;
 
-            pickupmessage = s_GOTARMOR;
-            break;
+            case PI_BLUEKEY:
+                P_GiveCard(it_bluecard);
+                pickupmessage = s_GOTBLUESKUL;
+                break;
 
-        // blue armor
-        case SPR_ARM2:
-            if (!P_GiveArmor(blue_armor_class, stat))
-                return false;
+            case PI_YELLOWKEY:
+                P_GiveCard(it_yellowcard);
+                pickupmessage = s_GOTYELWCARD;
+                break;
 
-            pickupmessage = s_GOTMEGA;
-            break;
+            case PI_REDKEY:
+                P_GiveCard(it_redcard);
+                pickupmessage = s_GOTREDCARD;
+                break;
 
-        // bonus health
-        case SPR_BON1:
-            if (viewplayer->health < maxhealth && !(viewplayer->cheats & CF_GODMODE))
-            {
-                viewplayer->mo->health = ++viewplayer->health;
-                P_UpdateHealthStat(1);
-                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-            }
+            case PI_BLUESKULL:
+                P_GiveCard(it_blueskull);
+                pickupmessage = s_GOTBLUESKUL;
+                break;
 
-            pickupmessage = s_GOTHTHBONUS;
-            break;
+            case PI_YELLOWSKULL:
+                P_GiveCard(it_yellowskull);
+                pickupmessage = s_GOTYELWSKUL;
+                break;
 
-        // bonus armor
-        case SPR_BON2:
-            if (viewplayer->armor < max_armor)
-            {
-                viewplayer->armor++;
-                P_UpdateArmorStat(1);
-                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+            case PI_REDSKULL:
+                P_GiveCard(it_redskull);
+                pickupmessage = s_GOTREDSKULL;
+                break;
 
-                if (!viewplayer->armortype)
-                    viewplayer->armortype = green_armor_class;
-            }
+            case PI_BACKPACK:
+                if (!P_GiveBackpack(true, stat))
+                    return false;
 
-            pickupmessage = s_GOTARMBONUS;
-            break;
+                pickupmessage = s_GOTBACKPACK;
+                break;
 
-        // soulsphere
-        case SPR_SOUL:
-            if (!(viewplayer->cheats & CF_GODMODE))
-            {
-                viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
-                viewplayer->mo->health = viewplayer->health;
-                P_AnimateHealth(viewplayer->mo->health - viewplayer->health);
-                P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
-                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+            case PI_HEALTHBONUS:
+                if (viewplayer->health < maxhealth && !(viewplayer->cheats & CF_GODMODE))
+                {
+                    viewplayer->mo->health = ++viewplayer->health;
+                    P_UpdateHealthStat(1);
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                }
 
-                I_UpdateControllerLEDByHealth(viewplayer->health);
-            }
+                pickupmessage = s_GOTHTHBONUS;
+                break;
 
-            pickupmessage = s_GOTSUPER;
+            case PI_ARMORBONUS:
+                if (viewplayer->armor < max_armor)
+                {
+                    viewplayer->armor++;
+                    P_UpdateArmorStat(1);
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
+                    if (!viewplayer->armortype)
+                        viewplayer->armortype = green_armor_class;
+                }
 
-            break;
+                pickupmessage = s_GOTARMBONUS;
+                break;
 
-        // mega health
-        case SPR_MEGA:
-            P_GiveMegaHealth(stat);
-            P_GiveArmor(blue_armor_class, stat);
-            viewplayer->armortype = blue_armor_class;
+            case PI_STIMPACK:
+                if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
+                    return false;
 
-            pickupmessage = s_GOTMSPHERE;
+                pickupmessage = s_GOTSTIM;
+                break;
 
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
+            case PI_MEDIKIT:
+                if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
+                    return false;
 
-            break;
+                if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
+                {
+                    static char buffer[1024];
 
-        // blue keycard
-        case SPR_BKEY:
-            P_GiveCard(it_bluecard);
+                    if (isdefaultplayername())
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
 
-            pickupmessage = s_GOTBLUECARD;
-            break;
-
-        // yellow keycard
-        case SPR_YKEY:
-            P_GiveCard(it_yellowcard);
-
-            pickupmessage = s_GOTYELWCARD;
-            break;
-
-        // red keycard
-        case SPR_RKEY:
-            P_GiveCard(it_redcard);
-
-            pickupmessage = s_GOTREDCARD;
-            break;
-
-        // blue skull key
-        case SPR_BSKU:
-            P_GiveCard(it_blueskull);
-
-            pickupmessage = s_GOTBLUESKUL;
-
-            break;
-
-        // yellow skull key
-        case SPR_YSKU:
-            P_GiveCard(it_yellowskull);
-
-            pickupmessage = s_GOTYELWSKUL;
-            break;
-
-        // red skull key
-        case SPR_RSKU:
-            P_GiveCard(it_redskull);
-
-            pickupmessage = s_GOTREDSKULL;
-            break;
-
-        // stimpack
-        case SPR_STIM:
-            if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
-                return false;
-
-            pickupmessage = s_GOTSTIM;
-            break;
-
-        // medikit
-        case SPR_MEDI:
-            if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
-                return false;
-
-            if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
-            {
-                static char buffer[1024];
-
-                if (isdefaultplayername())
-                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
+                    pickupmessage = buffer;
+                }
                 else
-                    M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
+                    pickupmessage = s_GOTMEDIKIT;
 
-                pickupmessage = buffer;
-            }
-            else
-                pickupmessage = s_GOTMEDIKIT;
+                break;
 
-            break;
+            case PI_SOULSPHERE:
+                if (!(viewplayer->cheats & CF_GODMODE))
+                {
+                    viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
+                    viewplayer->mo->health = viewplayer->health;
+                    P_AnimateHealth(viewplayer->mo->health - viewplayer->health);
+                    P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
-        // invulnerability power-up
-        case SPR_PINV:
-            P_GivePower(pw_invulnerability, stat);
+                    I_UpdateControllerLEDByHealth(viewplayer->health);
+                }
 
-            pickupmessage = s_GOTINVUL;
+                pickupmessage = s_GOTSUPER;
 
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
 
-            break;
+                break;
 
-        // berserk power-up
-        case SPR_PSTR:
-        {
-            const int   strength = viewplayer->powers[pw_strength];
+            case PI_MEGASPHERE:
+                P_GiveMegaHealth(stat);
+                P_GiveArmor(blue_armor_class, stat);
+                viewplayer->armortype = blue_armor_class;
 
-            P_GivePower(pw_strength, stat);
+                pickupmessage = s_GOTMSPHERE;
 
-            pickupmessage = s_GOTBERSERK;
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
 
-            if (viewplayer->readyweapon != wp_fist)
+                break;
+
+            case PI_GREENARMOR:
+                if (!P_GiveArmor(green_armor_class, stat))
+                    return false;
+
+                pickupmessage = s_GOTARMOR;
+                break;
+
+            case PI_BLUEARMOR:
+                if (!P_GiveArmor(blue_armor_class, stat))
+                    return false;
+
+                pickupmessage = s_GOTMEGA;
+                break;
+
+            case PI_AREAMAP:
+                P_GivePower(pw_allmap, stat);
+                pickupmessage = s_GOTMAP;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            case PI_LITEAMP:
+                P_GivePower(pw_infrared, stat);
+                pickupmessage = s_GOTVISOR;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            case PI_BERSERK:
             {
-                viewplayer->pendingweapon = wp_fist;
-                viewplayer->fistorchainsaw = wp_fist;
+                const int   strength = viewplayer->powers[pw_strength];
+
+                P_GivePower(pw_strength, stat);
+
+                pickupmessage = s_GOTBERSERK;
+
+                if (viewplayer->readyweapon != wp_fist)
+                {
+                    viewplayer->pendingweapon = wp_fist;
+                    viewplayer->fistorchainsaw = wp_fist;
+                }
+
+                if (!strength && sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
             }
 
-            if (!strength && sound == sfx_itemup)
-                sound = sfx_getpow;
+            case PI_BLURSPHERE:
+                P_GivePower(pw_invisibility, stat);
+                pickupmessage = s_GOTINVIS;
 
-            break;
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            case PI_RADSUIT:
+                P_GivePower(pw_ironfeet, stat);
+                pickupmessage = s_GOTSUIT;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            case PI_INVULNSPHERE:
+                P_GivePower(pw_invulnerability, stat);
+                pickupmessage = s_GOTINVUL;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            case PI_NOITEM:
+                if (special->info->pickupweapontype)
+                {
+                    switch (special->info->pickupweapontype)
+                    {
+                        case (wp_bfg):
+                            if (!P_GiveWeapon(wp_bfg, false, stat))
+                                return false;
+
+                            pickupmessage = s_GOTBFG9000;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+
+                        case (wp_chaingun):
+                            if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
+                                return false;
+
+                            pickupmessage = s_GOTCHAINGUN;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+
+                        case (wp_chainsaw):
+                            if (!P_GiveWeapon(wp_chainsaw, false, stat))
+                                return false;
+
+                            viewplayer->fistorchainsaw = wp_chainsaw;
+
+                            pickupmessage = s_GOTCHAINSAW;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+
+                        case (wp_missile):
+                            if (!P_GiveWeapon(wp_missile, false, stat))
+                                return false;
+
+                            pickupmessage = s_GOTLAUNCHER;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+
+                        case (wp_plasma):
+                            if (!P_GiveWeapon(wp_plasma, false, stat))
+                                return false;
+
+                            pickupmessage = s_GOTPLASMA;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+
+                        case (wp_shotgun):
+                        {
+                            bool    owned = viewplayer->weaponowned[wp_shotgun];
+
+                            if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
+                                return false;
+
+                            if (!owned)
+                                viewplayer->preferredshotgun = wp_shotgun;
+
+                            pickupmessage = s_GOTSHOTGUN;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+                        }
+
+                        case (wp_supershotgun):
+                        {
+                            bool    owned = viewplayer->weaponowned[wp_supershotgun];
+
+                            if (!P_GiveWeapon(wp_supershotgun, false, stat))
+                                return false;
+
+                            if (!owned)
+                                viewplayer->preferredshotgun = wp_supershotgun;
+
+                            pickupmessage = s_GOTSHOTGUN2;
+
+                            if (sound == sfx_itemup)
+                                sound = sfx_wpnup;
+
+                            break;
+                        }
+                    }
+                }
+                else if (special->info->pickupammotype)
+                {
+                    switch (special->info->pickupammotype)
+                    {
+                    case (am_clip):
+                        if (special->info->pickupammocategory == PI_CLIPAMMO)
+                        {
+                            if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
+                                return false;
+
+                            pickupmessage = s_GOTCLIP;
+                        }
+                        else if (special->info->pickupammocategory == PI_BOXAMMO)
+                        {
+                            if (!P_GiveAmmo(am_clip, 5, stat))
+                                return false;
+
+                            pickupmessage = s_GOTCLIPBOX;
+                        }
+
+                        break;
+
+                    case (am_shell):
+                        if (special->info->pickupammocategory == PI_CLIPAMMO)
+                        {
+                            const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
+
+                            if (!ammogiven)
+                                return false;
+
+                            if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                                pickupmessage = s_GOTSHELLS;
+                            else
+                                pickupmessage = s_GOTSHELLSX2;
+                        }
+                        else if (special->info->pickupammocategory == PI_BOXAMMO)
+                        {
+                            if (!P_GiveAmmo(am_shell, 5, stat))
+                                return false;
+
+                            pickupmessage = s_GOTSHELLBOX;
+                        }
+
+                        break;
+
+                    case (am_cell):
+                        if (special->info->pickupammocategory == PI_CLIPAMMO)
+                        {
+                            const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
+
+                            if (!ammogiven)
+                                return false;
+
+                            if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                                pickupmessage = s_GOTCELL;
+                            else
+                                pickupmessage = s_GOTCELLX2;
+                        }
+                        else if (special->info->pickupammocategory == PI_BOXAMMO)
+                        {
+                            if (!P_GiveAmmo(am_cell, 5, stat))
+                                return false;
+
+                            pickupmessage = s_GOTCELLBOX;
+                        }
+
+                        break;
+
+                    case (am_misl):
+                        if (special->info->pickupammocategory == PI_CLIPAMMO)
+                        {
+                            const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
+
+                            if (!ammogiven)
+                                return false;
+
+                            if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                                pickupmessage = s_GOTROCKET;
+                            else
+                                pickupmessage = s_GOTROCKETX2;
+                        }
+                        else if (special->info->pickupammocategory == PI_BOXAMMO)
+                        {
+                            if (!P_GiveAmmo(am_misl, 5, stat))
+                                return false;
+
+                            pickupmessage = s_GOTROCKBOX;
+                        }
+
+                        break;
+                    }
+                }
         }
-
-        // partial invisibility power-up
-        case SPR_PINS:
-            P_GivePower(pw_invisibility, stat);
-
-            pickupmessage = s_GOTINVIS;
-
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
-
-            break;
-
-        // radiation shielding suit power-up
-        case SPR_SUIT:
-            P_GivePower(pw_ironfeet, stat);
-
-            pickupmessage = s_GOTSUIT;
-
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
-
-            break;
-
-        // computer area map power-up
-        case SPR_PMAP:
-            P_GivePower(pw_allmap, stat);
-
-            pickupmessage = s_GOTMAP;
-
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
-
-            break;
-
-        // light amplification visor power-up
-        case SPR_PVIS:
-            P_GivePower(pw_infrared, stat);
-
-            pickupmessage = s_GOTVISOR;
-
-            if (sound == sfx_itemup)
-                sound = sfx_getpow;
-
-            break;
-
-        // clip
-        case SPR_CLIP:
-            if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
-                return false;
-
-            pickupmessage = s_GOTCLIP;
-            break;
-
-        // box of bullets
-        case SPR_AMMO:
-            if (!P_GiveAmmo(am_clip, 5, stat))
-                return false;
-
-            pickupmessage = s_GOTCLIPBOX;
-            break;
-
-        // rocket
-        case SPR_ROCK:
+    }
+    else
+    {
+        // Identify by sprite.
+        switch (special->sprite)
         {
-            const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
+            // green armor
+            case SPR_ARM1:
+                if (!P_GiveArmor(green_armor_class, stat))
+                    return false;
 
-            if (!ammogiven)
-                return false;
+                pickupmessage = s_GOTARMOR;
+                break;
 
-            if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
-                pickupmessage = s_GOTROCKET;
-            else
-                pickupmessage = s_GOTROCKETX2;
+            // blue armor
+            case SPR_ARM2:
+                if (!P_GiveArmor(blue_armor_class, stat))
+                    return false;
 
-            break;
+                pickupmessage = s_GOTMEGA;
+                break;
+
+            // bonus health
+            case SPR_BON1:
+                if (viewplayer->health < maxhealth && !(viewplayer->cheats & CF_GODMODE))
+                {
+                    viewplayer->mo->health = ++viewplayer->health;
+                    P_UpdateHealthStat(1);
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                }
+
+                pickupmessage = s_GOTHTHBONUS;
+                break;
+
+            // bonus armor
+            case SPR_BON2:
+                if (viewplayer->armor < max_armor)
+                {
+                    viewplayer->armor++;
+                    P_UpdateArmorStat(1);
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
+                    if (!viewplayer->armortype)
+                        viewplayer->armortype = green_armor_class;
+                }
+
+                pickupmessage = s_GOTARMBONUS;
+                break;
+
+            // soulsphere
+            case SPR_SOUL:
+                if (!(viewplayer->cheats & CF_GODMODE))
+                {
+                    viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
+                    viewplayer->mo->health = viewplayer->health;
+                    P_AnimateHealth(viewplayer->mo->health - viewplayer->health);
+                    P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
+                    I_UpdateControllerLEDByHealth(viewplayer->health);
+                }
+
+                pickupmessage = s_GOTSUPER;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            // mega health
+            case SPR_MEGA:
+                P_GiveMegaHealth(stat);
+                P_GiveArmor(blue_armor_class, stat);
+                viewplayer->armortype = blue_armor_class;
+
+                pickupmessage = s_GOTMSPHERE;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+            // blue keycard
+            case SPR_BKEY:
+                P_GiveCard(it_bluecard);
+                pickupmessage = s_GOTBLUECARD;
+                break;
+
+            // yellow keycard
+            case SPR_YKEY:
+                P_GiveCard(it_yellowcard);
+                pickupmessage = s_GOTYELWCARD;
+                break;
+
+            // red keycard
+            case SPR_RKEY:
+                P_GiveCard(it_redcard);
+                pickupmessage = s_GOTREDCARD;
+                break;
+
+                // blue skull key
+            case SPR_BSKU:
+                P_GiveCard(it_blueskull);
+                pickupmessage = s_GOTBLUESKUL;
+                break;
+
+                // yellow skull key
+            case SPR_YSKU:
+                P_GiveCard(it_yellowskull);
+                pickupmessage = s_GOTYELWSKUL;
+                break;
+
+                // red skull key
+            case SPR_RSKU:
+                P_GiveCard(it_redskull);
+                pickupmessage = s_GOTREDSKULL;
+                break;
+
+                // stimpack
+            case SPR_STIM:
+                if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
+                    return false;
+
+                pickupmessage = s_GOTSTIM;
+                break;
+
+                // medikit
+            case SPR_MEDI:
+                if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
+                    return false;
+
+                if (viewplayer->health < MEDIKITHEALTH * 2 && !(viewplayer->cheats & CF_BUDDHA))
+                {
+                    static char buffer[1024];
+
+                    if (isdefaultplayername())
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, "You", "you");
+                    else
+                        M_snprintf(buffer, sizeof(buffer), s_GOTMEDINEED, playername, pronoun(personal));
+
+                    pickupmessage = buffer;
+                }
+                else
+                    pickupmessage = s_GOTMEDIKIT;
+
+                break;
+
+                // invulnerability power-up
+            case SPR_PINV:
+                P_GivePower(pw_invulnerability, stat);
+                pickupmessage = s_GOTINVUL;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+                // berserk power-up
+            case SPR_PSTR:
+            {
+                const int   strength = viewplayer->powers[pw_strength];
+
+                P_GivePower(pw_strength, stat);
+                pickupmessage = s_GOTBERSERK;
+
+                if (viewplayer->readyweapon != wp_fist)
+                {
+                    viewplayer->pendingweapon = wp_fist;
+                    viewplayer->fistorchainsaw = wp_fist;
+                }
+
+                if (!strength && sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+            }
+
+            // partial invisibility power-up
+            case SPR_PINS:
+                P_GivePower(pw_invisibility, stat);
+                pickupmessage = s_GOTINVIS;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+                // radiation shielding suit power-up
+            case SPR_SUIT:
+                P_GivePower(pw_ironfeet, stat);
+                pickupmessage = s_GOTSUIT;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+                // computer area map power-up
+            case SPR_PMAP:
+                P_GivePower(pw_allmap, stat);
+                pickupmessage = s_GOTMAP;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+                // light amplification visor power-up
+            case SPR_PVIS:
+                P_GivePower(pw_infrared, stat);
+                pickupmessage = s_GOTVISOR;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_getpow;
+
+                break;
+
+                // clip
+            case SPR_CLIP:
+                if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
+                    return false;
+
+                pickupmessage = s_GOTCLIP;
+                break;
+
+                // box of bullets
+            case SPR_AMMO:
+                if (!P_GiveAmmo(am_clip, 5, stat))
+                    return false;
+
+                pickupmessage = s_GOTCLIPBOX;
+                break;
+
+                // rocket
+            case SPR_ROCK:
+            {
+                const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
+
+                if (!ammogiven)
+                    return false;
+
+                if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                    pickupmessage = s_GOTROCKET;
+                else
+                    pickupmessage = s_GOTROCKETX2;
+
+                break;
+            }
+
+            // box of rockets
+            case SPR_BROK:
+                if (!P_GiveAmmo(am_misl, 5, stat))
+                    return false;
+
+                pickupmessage = s_GOTROCKBOX;
+                break;
+
+                // cell
+            case SPR_CELL:
+            {
+                const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
+
+                if (!ammogiven)
+                    return false;
+
+                if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                    pickupmessage = s_GOTCELL;
+                else
+                    pickupmessage = s_GOTCELLX2;
+
+                break;
+            }
+
+            // cell pack
+            case SPR_CELP:
+                if (!P_GiveAmmo(am_cell, 5, stat))
+                    return false;
+
+                pickupmessage = s_GOTCELLBOX;
+                break;
+
+                // shells
+            case SPR_SHEL:
+            {
+                const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
+
+                if (!ammogiven)
+                    return false;
+
+                if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                    pickupmessage = s_GOTSHELLS;
+                else
+                    pickupmessage = s_GOTSHELLSX2;
+
+                break;
+            }
+
+            // box of shells
+            case SPR_SBOX:
+                if (!P_GiveAmmo(am_shell, 5, stat))
+                    return false;
+
+                pickupmessage = s_GOTSHELLBOX;
+                break;
+
+                // backpack
+            case SPR_BPAK:
+                if (!P_GiveBackpack(true, stat))
+                    return false;
+
+                pickupmessage = s_GOTBACKPACK;
+                break;
+
+                // BFG-9000
+            case SPR_BFUG:
+                if (!P_GiveWeapon(wp_bfg, false, stat))
+                    return false;
+
+                pickupmessage = s_GOTBFG9000;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+
+                // chaingun
+            case SPR_MGUN:
+                if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
+                    return false;
+
+                pickupmessage = s_GOTCHAINGUN;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+
+                // chainsaw
+            case SPR_CSAW:
+                if (!P_GiveWeapon(wp_chainsaw, false, stat))
+                    return false;
+
+                viewplayer->fistorchainsaw = wp_chainsaw;
+
+                pickupmessage = s_GOTCHAINSAW;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+
+                // rocket launcher
+            case SPR_LAUN:
+                if (!P_GiveWeapon(wp_missile, false, stat))
+                    return false;
+
+                pickupmessage = s_GOTLAUNCHER;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+
+                // plasma rifle
+            case SPR_PLAS:
+                if (!P_GiveWeapon(wp_plasma, false, stat))
+                    return false;
+
+                pickupmessage = s_GOTPLASMA;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+
+                // shotgun
+            case SPR_SHOT:
+            {
+                bool    owned = viewplayer->weaponowned[wp_shotgun];
+
+                if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
+                    return false;
+
+                if (!owned)
+                    viewplayer->preferredshotgun = wp_shotgun;
+
+                pickupmessage = s_GOTSHOTGUN;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+            }
+
+            // super shotgun
+            case SPR_SGN2:
+            {
+                bool    owned = viewplayer->weaponowned[wp_supershotgun];
+
+                if (!P_GiveWeapon(wp_supershotgun, false, stat))
+                    return false;
+
+                if (!owned)
+                    viewplayer->preferredshotgun = wp_supershotgun;
+
+                pickupmessage = s_GOTSHOTGUN2;
+
+                if (sound == sfx_itemup)
+                    sound = sfx_wpnup;
+
+                break;
+            }
+
+            default:
+                break;
         }
-
-        // box of rockets
-        case SPR_BROK:
-            if (!P_GiveAmmo(am_misl, 5, stat))
-                return false;
-
-            pickupmessage = s_GOTROCKBOX;
-            break;
-
-        // cell
-        case SPR_CELL:
-        {
-            const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
-
-            if (!ammogiven)
-                return false;
-
-            if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
-                pickupmessage = s_GOTCELL;
-            else
-                pickupmessage = s_GOTCELLX2;
-
-            break;
-        }
-
-        // cell pack
-        case SPR_CELP:
-            if (!P_GiveAmmo(am_cell, 5, stat))
-                return false;
-
-            pickupmessage = s_GOTCELLBOX;
-            break;
-
-        // shells
-        case SPR_SHEL:
-        {
-            const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
-
-            if (!ammogiven)
-                return false;
-
-            if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
-                pickupmessage = s_GOTSHELLS;
-            else
-                pickupmessage = s_GOTSHELLSX2;
-
-            break;
-        }
-
-        // box of shells
-        case SPR_SBOX:
-            if (!P_GiveAmmo(am_shell, 5, stat))
-                return false;
-
-            pickupmessage = s_GOTSHELLBOX;
-            break;
-
-        // backpack
-        case SPR_BPAK:
-            if (!P_GiveBackpack(true, stat))
-                return false;
-
-            pickupmessage = s_GOTBACKPACK;
-            break;
-
-        // BFG-9000
-        case SPR_BFUG:
-            if (!P_GiveWeapon(wp_bfg, false, stat))
-                return false;
-
-            pickupmessage = s_GOTBFG9000;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-
-        // chaingun
-        case SPR_MGUN:
-            if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
-                return false;
-
-            pickupmessage = s_GOTCHAINGUN;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-
-        // chainsaw
-        case SPR_CSAW:
-            if (!P_GiveWeapon(wp_chainsaw, false, stat))
-                return false;
-
-            viewplayer->fistorchainsaw = wp_chainsaw;
-
-            pickupmessage = s_GOTCHAINSAW;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-
-        // rocket launcher
-        case SPR_LAUN:
-            if (!P_GiveWeapon(wp_missile, false, stat))
-                return false;
-
-            pickupmessage = s_GOTLAUNCHER;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-
-        // plasma rifle
-        case SPR_PLAS:
-            if (!P_GiveWeapon(wp_plasma, false, stat))
-                return false;
-
-            pickupmessage = s_GOTPLASMA;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-
-        // shotgun
-        case SPR_SHOT:
-        {
-            bool    owned = viewplayer->weaponowned[wp_shotgun];
-
-            if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
-                return false;
-
-            if (!owned)
-                viewplayer->preferredshotgun = wp_shotgun;
-
-            pickupmessage = s_GOTSHOTGUN;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-        }
-
-        // super shotgun
-        case SPR_SGN2:
-        {
-            bool    owned = viewplayer->weaponowned[wp_supershotgun];
-
-            if (!P_GiveWeapon(wp_supershotgun, false, stat))
-                return false;
-
-            if (!owned)
-                viewplayer->preferredshotgun = wp_supershotgun;
-
-            pickupmessage = s_GOTSHOTGUN2;
-
-            if (sound == sfx_itemup)
-                sound = sfx_wpnup;
-
-            break;
-        }
-
-        default:
-            break;
     }
 
     if (message && !duplicate
