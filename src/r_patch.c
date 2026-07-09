@@ -580,12 +580,12 @@ static void CreateTextureCompositePatch(const int id)
 
         for (int x = 0; x < LITTLESHORT(oldpatch->width); x++)
         {
-            int         top = -1;
-            const int   tx = texpatch->originx + x;
-            const byte  *oldpatchdata = (const byte *)oldpatch;
-            const size_t oldpatchsize = (size_t)W_LumpLength(patchnum);
-            const byte  *oldpatchend = oldpatchdata + oldpatchsize;
-            const unsigned int columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
+            int                 top = -1;
+            const int           tx = texpatch->originx + x;
+            const byte          *oldpatchdata = (const byte *)oldpatch;
+            const size_t        oldpatchsize = (size_t)W_LumpLength(patchnum);
+            const byte          *oldpatchend = oldpatchdata + oldpatchsize;
+            const unsigned int  columnoffset = LITTLELONG(oldpatch->columnoffset[x]);
 
             if (tx < 0)
                 continue;
@@ -600,10 +600,10 @@ static void CreateTextureCompositePatch(const int id)
 
             while ((const byte *)oldcolumn < oldpatchend && oldcolumn->topdelta != 0xFF)
             {
-                int     oy = texpatch->originy;
-                const byte  *oldcolumnbytes = (const byte *)oldcolumn;
-                const size_t oldcolumnsize = (size_t)oldcolumn->length + 4;
-                rpost_t *post;
+                int             oy = texpatch->originy;
+                const byte      *oldcolumnbytes = (const byte *)oldcolumn;
+                const size_t    oldcolumnsize = (size_t)oldcolumn->length + 4;
+                rpost_t         *post;
 
                 if ((size_t)(oldpatchend - oldcolumnbytes) < oldcolumnsize
                     || countsincolumn[tx].postsused >= countsincolumn[tx].posts)
