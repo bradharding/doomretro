@@ -59,6 +59,41 @@
 // Whether an object is "sentient" or not. Used for environmental influences.
 #define sentient(mobj)          (mobj->health > 0 && mobj->info->seestate != S_NULL)
 
+// ID24
+enum
+{
+    PI_NOITEM = -1,
+    PI_MESSAGE,
+    PI_BLUEKEY,
+    PI_YELLOWKEY,
+    PI_REDKEY,
+    PI_BLUESKULL,
+    PI_YELLOWSKULL,
+    PI_REDSKULL,
+    PI_BACKPACK,
+    PI_HEALTHBONUS,
+    PI_STIMPACK,
+    PI_MEDIKIT,
+    PI_SOULSPHERE,
+    PI_MEGASPHERE,
+    PI_ARMORBONUS,
+    PI_GREENARMOR,
+    PI_BLUEARMOR,
+    PI_AREAMAP,
+    PI_LITEAMP,
+    PI_BERSERK,
+    PI_BLURSPHERE,
+    PI_RADSUIT,
+    PI_INVULNSPHERE
+};
+
+enum
+{
+    PI_CLIPAMMO = 1,
+    PI_BOXAMMO,
+    PI_WEAPONAMMO
+};
+
 enum
 {
     FUZZYBLOOD = -1,
