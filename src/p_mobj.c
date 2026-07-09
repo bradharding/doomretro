@@ -1545,6 +1545,8 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
     {
         const int   minz = target->z;
         const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
+        const int   blood = (damage >> 2) + 1;
+        const int   count = MIN(blood, MAXHITBLOOD);
         mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
         const bool  fuzz = ((target->flags & MF_FUZZ) && r_blood == r_blood_all);
         int         color = REDBLOOD;
@@ -1556,8 +1558,9 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
 
         angle += ANG180;
 
-        for (int i = (damage >> 2) + 1; i > 0; i--)
+        for (int i = 0; i < count; i++)
         {
+            const int   momentum = (count == 1 ? blood : blood - (i * (blood - 1)) / (count - 1));
             mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
             sector_t    *sector;
 
@@ -1600,9 +1603,9 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->thinker.function = &P_MobjThinker;
             P_AddThinker(&th->thinker);
 
-            th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
-            th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
-            th->momz = (2 + i / 6) * FRACUNIT;
+            th->momx = FixedMul(momentum * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
+            th->momy = FixedMul(momentum * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
+            th->momz = (2 + momentum / 6) * FRACUNIT;
 
             th->angle = angle;
             angle += M_BigSubRandom() * ANGLEMULTIPLIER;

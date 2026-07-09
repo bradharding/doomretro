@@ -46,6 +46,7 @@
 #define GREENBLOODSPLATCOLOR  122
 
 #define CORPSEBLOODSPLATS     512
+#define MAXHITBLOOD           128
 
 // killough 11/98:
 // For torque simulation:
