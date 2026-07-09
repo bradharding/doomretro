@@ -7,6 +7,7 @@
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Color translations can now be applied to sprites by using `Translation` in `DEHACKED` lumps.
   * Translucency can now be applied to individual states by using `Tranmap` in `DEHACKED` lumps.
+* A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

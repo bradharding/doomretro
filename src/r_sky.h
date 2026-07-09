@@ -52,6 +52,7 @@ extern int      skytexture;
 extern int      skytexturemid;
 extern int      skycolumnoffset;
 extern int      skyscrolldelta;
+extern int      skystretchheight;
 extern fixed_t  skyiscale;
 extern bool     canfreelook;
 extern sky_t    *sky;

@@ -38,6 +38,7 @@
 #include "m_array.h"
 #include "m_config.h"
 #include "p_setup.h"
+#include "r_data.h"
 #include "r_sky.h"
 
 //
@@ -48,6 +49,7 @@ int         skytexture;
 int         skytexturemid;
 int         skycolumnoffset;
 int         skyscrolldelta;
+int         skystretchheight;
 
 fixed_t     skyiscale;
 
@@ -282,17 +284,30 @@ void R_InitSkyMap(void)
     InitSkyDefs();
 
     skyheight = textureheight[skytexture] >> FRACBITS;
+    skystretchheight = SKYSTRETCH_HEIGHT;
 
     if (skyheight > 128 && skyheight < VANILLAHEIGHT)
-        skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
+        skytexturemid = -54 * FRACUNIT * skyheight / skystretchheight;
     else if (skyheight > VANILLAHEIGHT)
-        skytexturemid = (VANILLAHEIGHT - skyheight) * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;
+        skytexturemid = (VANILLAHEIGHT - skyheight) * FRACUNIT * skyheight / skystretchheight;
     else
+    {
         skytexturemid = VANILLAHEIGHT / 2 * FRACUNIT;
+
+        if (canfreelook && skyheight <= 128)
+        {
+            const int   maxcentery = viewheight / 2 + PITCHMAX * 2 * (menuactive ? 11 : (r_screensize + 3)) / 10;
+            const int   minstretchheight = (int)(((uint64_t)maxcentery * SCREENWIDTH * skyheight * 2
+                            + viewwidth * SCREENHEIGHT - 1) / ((uint64_t)viewwidth * SCREENHEIGHT));
+
+            if (skystretchheight < minstretchheight)
+                skystretchheight = minstretchheight;
+        }
+    }
 
     if (canfreelook)
         skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT))
-            * skyheight / SKYSTRETCH_HEIGHT;
+            * skyheight / skystretchheight;
     else
         skyiscale = (fixed_t)(((uint64_t)SCREENWIDTH * VANILLAHEIGHT * FRACUNIT) / ((uint64_t)viewwidth * SCREENHEIGHT));
 
