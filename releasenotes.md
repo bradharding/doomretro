@@ -3,13 +3,14 @@
 ### DOOM Retro v6.2.1
 
 * The highlight effect when selecting items in the menu now fades in and out when the `smoothtransitions` CVAR is `on`.
-* Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * Color translations can now be applied to sprites by using `Translation` in `DEHACKED` lumps.
   * Translucency can now be applied to individual states by using `Tranmap` in `DEHACKED` lumps.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
 * The `BIGDOOR1` texture is now vertically aligned correctly in [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* Weapons that cause a high amount of damage now have a limit on how many blood splats can be spawned per tic.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

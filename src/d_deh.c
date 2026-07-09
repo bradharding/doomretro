@@ -4413,7 +4413,7 @@ static bool deh_AssignUserString(const char *key, const char *newstring)
     return true;
 }
 
-const char *DEH_ResolveStringMnemonic(const char *mnemonic)
+char *DEH_ResolveStringMnemonic(char *mnemonic)
 {
     if (!mnemonic || !*mnemonic)
         return NULL;
