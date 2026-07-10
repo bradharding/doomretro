@@ -1951,8 +1951,12 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 // killough 10/98:
 //
 // Convert array to struct to allow multiple values, make array size variable
-#define DEH_MOBJFLAGMAX     arrlen(deh_mobjflags)
-#define DEH_MOBJFLAG2MAX    arrlen(deh_mobjflags2)
+#define DEH_MOBJFLAGMAX         arrlen(deh_mobjflags)
+#define DEH_MOBJFLAG2MAX        arrlen(deh_mobjflags2)
+#define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
+#define DEH_MOBJFLAGMAX_ID24    arrlen(deh_mobjflags_id24)
+
+#define DEH_WEAPONFLAGMAX_MBF21 arrlen(deh_weaponflags_mbf21)
 
 struct deh_flag_s
 {
@@ -2029,8 +2033,6 @@ static const struct deh_flag_s deh_mobjflags2[] =
     { "DECORATION",            MF2_DECORATION               }
 };
 
-#define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
-
 static const struct deh_flag_s deh_mobjflags_mbf21[] =
 {
     { "LOGRAV",         MF_MBF21_LOGRAV         },  // low gravity
@@ -2054,7 +2056,13 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] =
     { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  }   // full volume see/death sound
 };
 
-#define DEH_WEAPONFLAGMAX_MBF21 arrlen(deh_weaponflags_mbf21)
+static const struct deh_flag_s deh_mobjflags_id24[] =
+{
+    { "NORESPAWN",          MF_ID24_NORESPAWN          },
+    { "SPECIALSTAYSSINGLE", MF_ID24_SPECIALSTAYSSINGLE },
+    { "SPECIALSTAYSCOOP",   MF_ID24_SPECIALSTAYSCOOP   },
+    { "SPECIALSTAYSDM",     MF_ID24_SPECIALSTAYSDM     }
+};
 
 static const struct deh_flag_s deh_weaponflags_mbf21[] =
 {
@@ -3033,6 +3041,42 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 }
 
                 mbf21compatible = true;
+            }
+            else if (M_StringCompare(key, "ID24 bits"))
+            {
+                // bit set
+                if (bGetData == 1)
+                    mobjinfo[indexnum].id24flags = value;
+                else
+                {
+                    for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                    {
+                        int iy;
+
+                        for (iy = 0; iy < DEH_MOBJFLAGMAX_ID24; iy++)
+                        {
+                            if (!M_StringCompare(strval, deh_mobjflags_id24[iy].name))
+                                continue;
+
+                            if (devparm)
+                                C_Output("ORed value 0x%08x %s.", deh_mobjflags_id24[iy].value, strval);
+
+                            value |= deh_mobjflags_id24[iy].value;
+                            break;
+                        }
+
+                        if (iy >= DEH_MOBJFLAGMAX_ID24)
+                            C_Warning(1, "Could not find ID24 bit mnemonic \"%s\".", strval);
+                    }
+
+                    // Don't worry about conversion -- simply print values
+                    if (devparm)
+                        C_Output("Bits = 0x%08x = %i.", value, value);
+
+                    mobjinfo[indexnum].id24flags = value;
+                }
+
+                id24compatible = true;
             }
             else if (M_StringCompare(key, "Blood color"))
             {

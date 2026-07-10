@@ -807,7 +807,8 @@ void P_MobjThinker(mobj_t *mobj)
             && (gameskill == sk_nightmare || respawnmonsters)
             && ++mobj->movecount >= mobj->info->minrespawntics
             && !(maptime & 31)
-            && M_Random() <= (!mobj->info->respawndice ? 4 : mobj->info->respawndice))
+            && M_Random() <= (!mobj->info->respawndice ? 4 : mobj->info->respawndice)
+            && !(mobj->info->id24flags & MF_ID24_NORESPAWN))
             P_NightmareRespawn(mobj);
     }
 }

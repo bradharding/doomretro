@@ -412,6 +412,14 @@ enum
     MF_MBF21_FULLVOLSOUNDS  = 0x00040000    // full volume see / death sound
 };
 
+enum
+{
+    MF_ID24_NORESPAWN          = 0x00000001,
+    MF_ID24_SPECIALSTAYSSINGLE = 0x00000002,
+    MF_ID24_SPECIALSTAYSCOOP   = 0x00000004,
+    MF_ID24_SPECIALSTAYSDM     = 0x00000008
+};
+
 typedef enum
 {
     DI_EAST,
