@@ -92,7 +92,8 @@ enum
 {
     PI_CLIPAMMO = 1,
     PI_BOXAMMO,
-    PI_WEAPONAMMO
+    PI_WEAPONAMMO,
+    PI_BACKPACKAMMO
 };
 
 enum
