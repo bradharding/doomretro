@@ -770,6 +770,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
     static int  prevtic;
     static int  prevx, prevy;
     bool        duplicate;
+    mobjinfo_t  *info = special->info;
 
     if (viewplayer->cheats & CF_FREEZE)
         return false;
@@ -787,14 +788,13 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
     duplicate = (special->type == prevtouchtype && special->x == prevx && special->y == prevy);
 
-    if (special->info->pickupsound != sfx_none)
-        sound = special->info->pickupsound;
+    if (info->pickupsound != sfx_none)
+        sound = info->pickupsound;
 
-    if (special->info->pickupitemtype != PI_NOITEM
-        || special->info->pickupweapontype
-        || special->info->pickupammotype)
+    if (!spritebasedpickups
+        && (info->pickupitemtype != PI_NOITEM || info->pickupweapontype || info->pickupammotype))
     {
-        switch (special->info->pickupitemtype)
+        switch (info->pickupitemtype)
         {
             case PI_MESSAGE:
                 break;
@@ -999,9 +999,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 break;
 
             case PI_NOITEM:
-                if (special->info->pickupweapontype)
+                if (info->pickupweapontype)
                 {
-                    switch (special->info->pickupweapontype)
+                    switch (info->pickupweapontype)
                     {
                         case (wp_bfg):
                             if (!P_GiveWeapon(wp_bfg, false, stat))
@@ -1097,96 +1097,96 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                         }
                     }
                 }
-                else if (special->info->pickupammotype)
+                else if (info->pickupammotype)
                 {
-                    switch (special->info->pickupammotype)
+                    switch (info->pickupammotype)
                     {
-                    case (am_clip):
-                        if (special->info->pickupammocategory == PI_CLIPAMMO)
-                        {
-                            if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
-                                return false;
+                        case (am_clip):
+                            if (info->pickupammocategory == PI_CLIPAMMO)
+                            {
+                                if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
+                                    return false;
 
-                            pickupmessage = s_GOTCLIP;
-                        }
-                        else if (special->info->pickupammocategory == PI_BOXAMMO)
-                        {
-                            if (!P_GiveAmmo(am_clip, 5, stat))
-                                return false;
+                                pickupmessage = s_GOTCLIP;
+                            }
+                            else if (info->pickupammocategory == PI_BOXAMMO)
+                            {
+                                if (!P_GiveAmmo(am_clip, 5, stat))
+                                    return false;
 
-                            pickupmessage = s_GOTCLIPBOX;
-                        }
+                                pickupmessage = s_GOTCLIPBOX;
+                            }
 
-                        break;
+                            break;
 
-                    case (am_shell):
-                        if (special->info->pickupammocategory == PI_CLIPAMMO)
-                        {
-                            const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
+                        case (am_shell):
+                            if (info->pickupammocategory == PI_CLIPAMMO)
+                            {
+                                const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
 
-                            if (!ammogiven)
-                                return false;
+                                if (!ammogiven)
+                                    return false;
 
-                            if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
-                                pickupmessage = s_GOTSHELLS;
-                            else
-                                pickupmessage = s_GOTSHELLSX2;
-                        }
-                        else if (special->info->pickupammocategory == PI_BOXAMMO)
-                        {
-                            if (!P_GiveAmmo(am_shell, 5, stat))
-                                return false;
+                                if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                                    pickupmessage = s_GOTSHELLS;
+                                else
+                                    pickupmessage = s_GOTSHELLSX2;
+                            }
+                            else if (info->pickupammocategory == PI_BOXAMMO)
+                            {
+                                if (!P_GiveAmmo(am_shell, 5, stat))
+                                    return false;
 
-                            pickupmessage = s_GOTSHELLBOX;
-                        }
+                                pickupmessage = s_GOTSHELLBOX;
+                            }
 
-                        break;
+                            break;
 
-                    case (am_cell):
-                        if (special->info->pickupammocategory == PI_CLIPAMMO)
-                        {
-                            const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
+                        case (am_cell):
+                            if (info->pickupammocategory == PI_CLIPAMMO)
+                            {
+                                const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
 
-                            if (!ammogiven)
-                                return false;
+                                if (!ammogiven)
+                                    return false;
 
-                            if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
-                                pickupmessage = s_GOTCELL;
-                            else
-                                pickupmessage = s_GOTCELLX2;
-                        }
-                        else if (special->info->pickupammocategory == PI_BOXAMMO)
-                        {
-                            if (!P_GiveAmmo(am_cell, 5, stat))
-                                return false;
+                                if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                                    pickupmessage = s_GOTCELL;
+                                else
+                                    pickupmessage = s_GOTCELLX2;
+                            }
+                            else if (info->pickupammocategory == PI_BOXAMMO)
+                            {
+                                if (!P_GiveAmmo(am_cell, 5, stat))
+                                    return false;
 
-                            pickupmessage = s_GOTCELLBOX;
-                        }
+                                pickupmessage = s_GOTCELLBOX;
+                            }
 
-                        break;
+                            break;
 
-                    case (am_misl):
-                        if (special->info->pickupammocategory == PI_CLIPAMMO)
-                        {
-                            const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
+                        case (am_misl):
+                            if (info->pickupammocategory == PI_CLIPAMMO)
+                            {
+                                const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
 
-                            if (!ammogiven)
-                                return false;
+                                if (!ammogiven)
+                                    return false;
 
-                            if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
-                                pickupmessage = s_GOTROCKET;
-                            else
-                                pickupmessage = s_GOTROCKETX2;
-                        }
-                        else if (special->info->pickupammocategory == PI_BOXAMMO)
-                        {
-                            if (!P_GiveAmmo(am_misl, 5, stat))
-                                return false;
+                                if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                                    pickupmessage = s_GOTROCKET;
+                                else
+                                    pickupmessage = s_GOTROCKETX2;
+                            }
+                            else if (info->pickupammocategory == PI_BOXAMMO)
+                            {
+                                if (!P_GiveAmmo(am_misl, 5, stat))
+                                    return false;
 
-                            pickupmessage = s_GOTROCKBOX;
-                        }
+                                pickupmessage = s_GOTROCKBOX;
+                            }
 
-                        break;
+                            break;
                     }
                 }
         }
@@ -1609,7 +1609,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
     }
 
     if (message && !duplicate
-        && ((special->info->pickupstringmnemonic && *special->info->pickupstringmnemonic) || pickupmessage))
+        && ((info->pickupstringmnemonic && *info->pickupstringmnemonic) || pickupmessage))
         P_ShowPickupMessage(special, pickupmessage);
 
     if ((special->flags & MF_COUNTITEM) && stat)

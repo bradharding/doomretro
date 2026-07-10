@@ -74,6 +74,7 @@ int         dehcount = 0;
 int         dehmaptitlecount = 0;
 bool        dehacked = false;
 bool        nobloodsplats = false;
+bool        spritebasedpickups = true;
 
 int         MT_TRAIL2;
 
@@ -3068,6 +3069,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                         key, indexnum, ix);
 
                 mobjinfo[indexnum].dehacked = true;
+                id24compatible = true;
                 break;
             }
             else
@@ -3080,6 +3082,10 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                     mobjinfo[indexnum].projectilepassheight = 0;
                 else if (M_StringCompare(key, "Gib health"))
                     gibhealth = true;
+                else if (M_StringCompare(key, "Pickup ammo type")
+                    || M_StringCompare(key, "Pickup weapon type")
+                    || M_StringCompare(key, "Pickup item type"))
+                    spritebasedpickups = false;
             }
 
             if (devparm)

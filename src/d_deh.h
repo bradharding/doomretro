@@ -566,6 +566,7 @@ extern const int    nummapnamesm;
 extern int          dehcount;
 extern int          dehmaptitlecount;
 extern bool         nobloodsplats;
+extern bool         spritebasedpickups;
 
 extern int          MT_TRAIL2;
 
