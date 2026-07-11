@@ -3099,11 +3099,20 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))
+            {
                 mobjinfo[indexnum].infightinggroup = value + IG_END;
+                mbf21compatible = true;
+            }
             else if (M_StringCompare(key, "Projectile group"))
+            {
                 mobjinfo[indexnum].projectilegroup = (value < 0 ? PG_GROUPLESS : value + PG_END);
+                mbf21compatible = true;
+                }
             else if (M_StringCompare(key, "Splash group"))
+            {
                 mobjinfo[indexnum].splashgroup = value + SG_END;
+                mbf21compatible = true;
+            }
             else if (M_StringCompare(key, "Pickup message"))
             {
                 mobjinfo[indexnum].pickupstringmnemonic = M_StringDuplicate(trimwhitespace(strval));
@@ -3129,7 +3138,16 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 else if (M_StringCompare(key, "Pickup ammo type")
                     || M_StringCompare(key, "Pickup weapon type")
                     || M_StringCompare(key, "Pickup item type"))
+                {
                     spritebasedpickups = false;
+                    id24compatible = true;
+                }
+                else if (M_StringCompare(key, "Min respawn tics")
+                    || M_StringCompare(key, "Respawn dice")
+                    || M_StringCompare(key, "Pickup ammo category")
+                    || M_StringCompare(key, "Pickup bonus count")
+                    || M_StringCompare(key, "Pickup sound"))
+                    id24compatible = true;
             }
 
             if (devparm)
