@@ -34,7 +34,6 @@
 */
 
 #include <ctype.h>
-#include <string.h>
 
 #include "c_console.h"
 #include "doomstat.h"
@@ -438,34 +437,6 @@ static int S_GetPreferredMusicLump(const int lumpnum)
     return lumpnum;
 }
 
-static const char *S_GetMusicFileExtension(const void *data, const int size)
-{
-    const byte  *bytes = data;
-
-    if (size >= 12 && !memcmp(bytes, "RIFF", 4) && !memcmp(bytes + 8, "WAVE", 4))
-        return ".wav";
-    else if (size >= 4 && !memcmp(bytes, "fLaC", 4))
-        return ".flac";
-    else if (size >= 4 && !memcmp(bytes, "OggS", 4))
-        return ".ogg";
-    else if (size >= 4 && !memcmp(bytes, "MThd", 4))
-        return ".mid";
-    else if (size >= 4 && !memcmp(bytes, "MUS\x1A", 4))
-        return ".mus";
-    else
-        return ".mp3";
-}
-
-static char *S_GetMusicTempFile(const int lumpnum, const void *data, const int size)
-{
-    char    basename[32];
-
-    M_snprintf(basename, sizeof(basename), DOOMRETRO "-%.8s%s", lumpinfo[lumpnum]->name,
-        S_GetMusicFileExtension(data, size));
-
-    return M_TempFile(basename);
-}
-
 //
 // Per level startup code.
 // Kills playing sounds at start of level,
@@ -844,7 +815,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         if (!midimusictype || !windowsmidi)
 #endif
         {
-            char    *filename = S_GetMusicTempFile(music->lumpnum, music->data, W_LumpLength(music->lumpnum));
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
             if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
                 handle = Mix_LoadMUS(filename);
@@ -929,7 +900,7 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
         if (!midimusictype || !windowsmidi)
 #endif
         {
-            char    *filename = S_GetMusicTempFile(music->lumpnum, music->data, W_LumpLength(music->lumpnum));
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
             if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
                 handle = Mix_LoadMUS(filename);
