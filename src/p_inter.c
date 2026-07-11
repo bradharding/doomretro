@@ -1624,8 +1624,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
         S_StartSound(viewplayer->mo, sound);
     }
 
-    if (!(info->id24flags & MF_ID24_SPECIALSTAYSSINGLE)
-        || (solonet && !(info->id24flags & MF_ID24_SPECIALSTAYSCOOP)))
+    if (!(info->id24flags & (solonet ? MF_ID24_SPECIALSTAYSCOOP : MF_ID24_SPECIALSTAYSSINGLE)))
         P_RemoveMobj(special);
 
     if (!duplicate && special->type != MT_MISC13 && special->type != MT_MISC14)
