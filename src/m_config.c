@@ -108,7 +108,7 @@ bool        con_timestamps = con_timestamps_default;
 int         con_warninglevel = con_warninglevel_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
-bool        discordrpc = discordrpc_default;
+bool        discordpresence = discordpresence_default;
 int         english = english_default;
 int         episode = episode_default;
 int         expansion = expansion_default;
@@ -379,7 +379,7 @@ static default_t cvars[] =
     CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      0                     ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS   ),
     CVAR_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        0                     ),
-    CVAR_BOOL         (discordrpc,                       discordrpc,                            discordrpc,                            BOOLVALUEALIAS        ),
+    CVAR_BOOL         (discordpresence,                  discordpresence,                       discordpresence,                       BOOLVALUEALIAS        ),
     CVAR_BOOL         (english,                          english,                               english,                               ENGLISHVALUEALIAS     ),
     CVAR_INT          (episode,                          episode,                               episode,                               0                     ),
     CVAR_INT          (expansion,                        expansion,                             expansion,                             0                     ),

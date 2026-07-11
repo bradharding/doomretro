@@ -58,14 +58,14 @@
 #define DISCORD_RPC_MAX_IPC_PIPES  10
 
 #if defined(_WIN32)
-static HANDLE       discordpipe = INVALID_HANDLE_VALUE;
-static time_t       activitystart;
-static uint64_t     nextconnectattempt;
-static uint64_t     nextupdate;
-static uint64_t     nonce;
-static char         cachedappid[33];
-static char         lastdetails[128];
-static char         laststate[128];
+static HANDLE   discordpipe = INVALID_HANDLE_VALUE;
+static time_t   activitystart;
+static uint64_t nextconnectattempt;
+static uint64_t nextupdate;
+static uint64_t nonce;
+static char     cachedappid[33];
+static char     lastdetails[128];
+static char     laststate[128];
 
 static void I_ResetDiscordRPCState(void)
 {
@@ -84,8 +84,10 @@ static bool I_DiscordSendFrame(const uint32_t opcode, const char *payload)
     memcpy(header, &opcode, sizeof(opcode));
     memcpy(header + sizeof(opcode), &length, sizeof(length));
 
-    return (WriteFile(discordpipe, header, sizeof(header), &written, NULL) && written == sizeof(header)
-        && (!length || (WriteFile(discordpipe, payload, length, &written, NULL) && written == length)));
+    return (WriteFile(discordpipe, header, sizeof(header), &written, NULL)
+        && written == sizeof(header)
+        && (!length
+            || (WriteFile(discordpipe, payload, length, &written, NULL) && written == length)));
 }
 
 static void I_DiscordDrainPipe(void)
@@ -112,9 +114,12 @@ static void I_DiscordDrainPipe(void)
     }
 }
 
-static void I_BuildDiscordActivity(char *details, const size_t detailssize, char *state, const size_t statesize)
+static void I_BuildDiscordActivity(char *details, const size_t detailssize,
+    char *state, const size_t statesize)
 {
     const char  *game = DOOMRETRO_NAME;
+    const char  *maptitle = (*mapnumandtitle ? mapnumandtitle : mapnum);
+    char        *temp = removenonprintable(maptitle);
 
     details[0] = '\0';
     state[0] = '\0';
@@ -147,22 +152,23 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize, char
         if (paused)
             M_StringCopy(details, "Paused", detailssize);
         else if (menuactive || consoleactive)
-            M_StringCopy(details, "In menus", detailssize);
+            M_StringCopy(details, "In menu", detailssize);
         else if (!windowfocused)
             M_StringCopy(details, "In background", detailssize);
         else
         {
-            M_snprintf(details, detailssize, "Playing %s", game);
-            M_StringCopy(state, (*mapnumandtitle ? mapnumandtitle : mapnum), statesize);
+            M_snprintf(details, (int)detailssize, "Playing %s", game);
+            M_StringCopy(state, temp, statesize);
+            free(temp);
             return;
         }
 
-        M_StringCopy(state, (*mapnumandtitle ? mapnumandtitle : mapnum), statesize);
+        M_StringCopy(state, temp, statesize);
     }
     else if (gamestate == GS_INTERMISSION)
     {
         M_StringCopy(details, "In intermission", detailssize);
-        M_StringCopy(state, (*mapnumandtitle ? mapnumandtitle : game), statesize);
+        M_StringCopy(state, temp, statesize);
     }
     else if (gamestate == GS_FINALE)
     {
@@ -174,6 +180,8 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize, char
         M_StringCopy(details, (splashscreen ? "Starting up" : "On title screen"), detailssize);
         M_StringCopy(state, game, statesize);
     }
+
+    free(temp);
 }
 
 static bool I_SetDiscordActivity(const char *details, const char *state)
@@ -318,17 +326,19 @@ void I_ShutdownDiscordRPC(void)
 void I_UpdateDiscordRPC(void)
 {
 #if defined(_WIN32)
-    char            details[128];
-    char            state[128];
-    const uint64_t  now = I_GetTimeMS();
+    char        details[128];
+    char        state[128];
+    uint64_t    now;
 
-    if (!discordrpc)
+    if (!discordpresence)
     {
         I_ShutdownDiscordRPC();
         cachedappid[0] = '\0';
         I_ResetDiscordRPCState();
         return;
     }
+
+    now = I_GetTimeMS();
 
     if (discordpipe == INVALID_HANDLE_VALUE)
     {
@@ -348,7 +358,8 @@ void I_UpdateDiscordRPC(void)
     if (!activitystart || !M_StringCompare(details, lastdetails) || !M_StringCompare(state, laststate))
         activitystart = time(NULL);
 
-    if (!nextupdate || now >= nextupdate || !M_StringCompare(details, lastdetails) || !M_StringCompare(state, laststate))
+    if (!nextupdate || now >= nextupdate
+        || !M_StringCompare(details, lastdetails) || !M_StringCompare(state, laststate))
     {
         if (!I_SetDiscordActivity(details, state))
         {

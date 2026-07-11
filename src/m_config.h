@@ -95,7 +95,7 @@ extern bool     con_timestamps;
 extern int      con_warninglevel;
 extern int      crosshair;
 extern int      crosshaircolor;
-extern bool     discordrpc;
+extern bool     discordpresence;
 extern bool     snapcrosshair;
 extern int      english;
 extern int      episode;
@@ -577,7 +577,7 @@ enum
 #define crosshaircolor_default              112
 #define crosshaircolor_max                  255
 
-#define discordrpc_default                  true
+#define discordpresence_default             true
 
 #define english_min                         english_american
 #define english_default                     english_american
