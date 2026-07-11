@@ -3118,8 +3118,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 mobjinfo[indexnum].pickupstringmnemonic = M_StringDuplicate(trimwhitespace(strval));
 
                 if (devparm)
-                    C_Output("Assigned %s to %s (%i) at index %i.", mobjinfo[indexnum].pickupstringmnemonic,
-                        key, indexnum, ix);
+                    C_Output("Assigned %s to %s (%i) at index %i.",
+                        mobjinfo[indexnum].pickupstringmnemonic, key, indexnum, ix);
 
                 mobjinfo[indexnum].dehacked = true;
                 id24compatible = true;

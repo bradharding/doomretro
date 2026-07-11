@@ -1290,25 +1290,25 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTREDCARD;
                 break;
 
-                // blue skull key
+            // blue skull key
             case SPR_BSKU:
                 P_GiveCard(it_blueskull);
                 pickupmessage = s_GOTBLUESKUL;
                 break;
 
-                // yellow skull key
+           // yellow skull key
             case SPR_YSKU:
                 P_GiveCard(it_yellowskull);
                 pickupmessage = s_GOTYELWSKUL;
                 break;
 
-                // red skull key
+            // red skull key
             case SPR_RSKU:
                 P_GiveCard(it_redskull);
                 pickupmessage = s_GOTREDSKULL;
                 break;
 
-                // stimpack
+            // stimpack
             case SPR_STIM:
                 if (!P_GiveHealth(STIMPACKHEALTH, MAXHEALTH, stat))
                     return false;
@@ -1316,7 +1316,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTSTIM;
                 break;
 
-                // medikit
+            // medikit
             case SPR_MEDI:
                 if (!P_GiveHealth(MEDIKITHEALTH, MAXHEALTH, stat))
                     return false;
@@ -1337,7 +1337,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // invulnerability power-up
+            // invulnerability power-up
             case SPR_PINV:
                 P_GivePower(pw_invulnerability, stat);
                 pickupmessage = s_GOTINVUL;
@@ -1347,7 +1347,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // berserk power-up
+            // berserk power-up
             case SPR_PSTR:
             {
                 const int   strength = viewplayer->powers[pw_strength];
@@ -1377,7 +1377,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // radiation shielding suit power-up
+            // radiation shielding suit power-up
             case SPR_SUIT:
                 P_GivePower(pw_ironfeet, stat);
                 pickupmessage = s_GOTSUIT;
@@ -1387,7 +1387,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // computer area map power-up
+            // computer area map power-up
             case SPR_PMAP:
                 P_GivePower(pw_allmap, stat);
                 pickupmessage = s_GOTMAP;
@@ -1397,7 +1397,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // light amplification visor power-up
+            // light amplification visor power-up
             case SPR_PVIS:
                 P_GivePower(pw_infrared, stat);
                 pickupmessage = s_GOTVISOR;
@@ -1407,7 +1407,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // clip
+            // clip
             case SPR_CLIP:
                 if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
                     return false;
@@ -1415,7 +1415,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTCLIP;
                 break;
 
-                // box of bullets
+            // box of bullets
             case SPR_AMMO:
                 if (!P_GiveAmmo(am_clip, 5, stat))
                     return false;
@@ -1423,7 +1423,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTCLIPBOX;
                 break;
 
-                // rocket
+            // rocket
             case SPR_ROCK:
             {
                 const int   ammogiven = P_GiveAmmo(am_misl, 1, stat);
@@ -1447,7 +1447,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTROCKBOX;
                 break;
 
-                // cell
+            // cell
             case SPR_CELL:
             {
                 const int   ammogiven = P_GiveAmmo(am_cell, 1, stat);
@@ -1471,7 +1471,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTCELLBOX;
                 break;
 
-                // shells
+            // shells
             case SPR_SHEL:
             {
                 const int   ammogiven = P_GiveAmmo(am_shell, 1, stat);
@@ -1495,7 +1495,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTSHELLBOX;
                 break;
 
-                // backpack
+            // backpack
             case SPR_BPAK:
                 if (!P_GiveBackpack(true, stat))
                     return false;
@@ -1503,7 +1503,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTBACKPACK;
                 break;
 
-                // BFG-9000
+            // BFG-9000
             case SPR_BFUG:
                 if (!P_GiveWeapon(wp_bfg, false, stat))
                     return false;
@@ -1515,7 +1515,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // chaingun
+            // chaingun
             case SPR_MGUN:
                 if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
                     return false;
@@ -1527,7 +1527,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // chainsaw
+            // chainsaw
             case SPR_CSAW:
                 if (!P_GiveWeapon(wp_chainsaw, false, stat))
                     return false;
@@ -1541,7 +1541,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // rocket launcher
+            // rocket launcher
             case SPR_LAUN:
                 if (!P_GiveWeapon(wp_missile, false, stat))
                     return false;
@@ -1553,7 +1553,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // plasma rifle
+            // plasma rifle
             case SPR_PLAS:
                 if (!P_GiveWeapon(wp_plasma, false, stat))
                     return false;
@@ -1565,7 +1565,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
 
                 break;
 
-                // shotgun
+            // shotgun
             case SPR_SHOT:
             {
                 bool    owned = viewplayer->weaponowned[wp_shotgun];
