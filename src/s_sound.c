@@ -416,7 +416,7 @@ static int S_GetMusicNum(void)
 
 static int S_GetPreferredMusicLump(const int lumpnum)
 {
-    if (extras && lumpnum > 0 && lumpnum < numlumps)
+    if (lumpnum > 0 && lumpnum < numlumps)
     {
         char    namebuf[9];
 
@@ -719,7 +719,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
     if (M_StringStartsWith(name, "d_"))
         M_StringCopy(namebuf, name, sizeof(namebuf));
-    else if (extras && *music->IDKFA && !legacyofrust)
+    else if (*music->IDKFA && !legacyofrust)
     {
         M_StringCopy(namebuf, music->IDKFA, sizeof(namebuf));
 
@@ -770,7 +770,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
 
         name = fallbackmusic->name2;
 
-        if (extras && *fallbackmusic->IDKFA && !legacyofrust)
+        if (*fallbackmusic->IDKFA && !legacyofrust)
         {
             M_StringCopy(namebuf, fallbackmusic->IDKFA, sizeof(namebuf));
 
