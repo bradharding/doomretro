@@ -298,7 +298,7 @@ void R_InitSkyMap(void)
         {
             const int   maxcentery = viewheight / 2 + PITCHMAX * 2 * (menuactive ? 11 : (r_screensize + 3)) / 10;
             const int   minstretchheight = (int)(((uint64_t)maxcentery * SCREENWIDTH * skyheight * 2
-                            + viewwidth * SCREENHEIGHT - 1) / ((uint64_t)viewwidth * (uint64_t)SCREENHEIGHT));
+                            + (uint64_t)viewwidth * SCREENHEIGHT - 1) / ((uint64_t)viewwidth * SCREENHEIGHT));
 
             if (skystretchheight < minstretchheight)
                 skystretchheight = minstretchheight;
