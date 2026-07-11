@@ -794,6 +794,8 @@ consolecmd_t consolecmds[] =
         "The color of your crosshair (" BOLD("0") " to " BOLD("255") ")."),
     CCMD(cvarlist, "", "", nullfunc1, cvarlistfunc2, true, CVARLISTFORMAT,
         "Lists all console variables."),
+    BOOLCVAR(discordrpc, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles " ITALICS("Discord Rich Presence") " support."),
     CCMD(endgame, "", "", nullfunc1, endgamefunc2, false, "",
         "Ends the game."),
     INTCVAR(english, "", "", intfunc1, englishfunc2, 0, ENGLISHVALUEALIAS,

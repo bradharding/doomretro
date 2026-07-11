@@ -57,6 +57,7 @@
 #define DOOMRETRO_CRASHFOLDER           "crash"
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
+#define DOOMRETRO_DISCORDAPPID          "1516687078623285328"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_HOMEOFCREATOR         "Western Sydney, Australia"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"

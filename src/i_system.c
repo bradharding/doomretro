@@ -49,6 +49,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_controller.h"
+#include "i_discord.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -658,6 +659,8 @@ void I_Quit(bool shutdown)
 
         SDL_StopTextInput();
 
+        I_ShutdownDiscordRPC();
+
 #if defined(_WIN32)
         I_ShutdownWindows();
 #endif
@@ -690,6 +693,8 @@ void I_Error(const char *error, ...)
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
+
+    I_ShutdownDiscordRPC();
 
 #if defined(_WIN32)
     if (previouswad && gamestate <= GS_TITLESCREEN)

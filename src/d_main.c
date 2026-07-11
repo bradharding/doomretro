@@ -54,6 +54,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_controller.h"
+#include "i_discord.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -307,6 +308,8 @@ void D_Display(void)
     uint64_t            nowtime;
     uint64_t            wipestart;
     bool                done;
+
+    I_UpdateDiscordRPC();
 
     if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
         saved_gametime = gametime;
@@ -2334,6 +2337,8 @@ static void D_DoomMainSetup(void)
     M_LoadCVARs(configfile);
 
     SDL_Init(SDL_INIT_EVERYTHING);
+
+    I_InitDiscordRPC();
 
     iwadfile = D_FindIWAD();
 
