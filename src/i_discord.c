@@ -186,12 +186,12 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
 
 static bool I_SetDiscordActivity(const char *details, const char *state)
 {
-    cJSON       *activity = cJSON_CreateObject();
-    cJSON       *args = cJSON_CreateObject();
-    cJSON       *root = cJSON_CreateObject();
-    cJSON       *timestamps;
-    char        buffer[32];
-    char        *payload;
+    cJSON   *activity = cJSON_CreateObject();
+    cJSON   *args = cJSON_CreateObject();
+    cJSON   *root = cJSON_CreateObject();
+    cJSON   *timestamps;
+    char    buffer[32];
+    char    *payload;
 
     if (!activity || !args || !root)
     {
@@ -209,9 +209,7 @@ static bool I_SetDiscordActivity(const char *details, const char *state)
 
     if (activitystart)
     {
-        timestamps = cJSON_AddObjectToObject(activity, "timestamps");
-
-        if (!timestamps)
+        if (!(timestamps = cJSON_AddObjectToObject(activity, "timestamps")))
         {
             cJSON_Delete(root);
             cJSON_Delete(args);
@@ -231,9 +229,7 @@ static bool I_SetDiscordActivity(const char *details, const char *state)
     M_snprintf(buffer, sizeof(buffer), "%llu", ++nonce);
     cJSON_AddStringToObject(root, "nonce", buffer);
 
-    payload = cJSON_PrintUnformatted(root);
-
-    if (!payload)
+    if (!(payload = cJSON_PrintUnformatted(root)))
     {
         cJSON_Delete(root);
         return false;
@@ -257,12 +253,12 @@ static bool I_OpenDiscordRPC(void)
 
     for (int i = 0; i < DISCORD_RPC_MAX_IPC_PIPES; i++)
     {
-        DWORD   mode = PIPE_READMODE_BYTE | PIPE_NOWAIT;
+        DWORD   mode = (PIPE_READMODE_BYTE | PIPE_NOWAIT);
         cJSON   *json = cJSON_CreateObject();
         char    *payload;
 
         M_snprintf(pipename, sizeof(pipename), "\\\\.\\pipe\\discord-ipc-%i", i);
-        discordpipe = CreateFileA(pipename, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+        discordpipe = CreateFileA(pipename, (GENERIC_READ | GENERIC_WRITE), 0, NULL, OPEN_EXISTING, 0, NULL);
 
         if (discordpipe == INVALID_HANDLE_VALUE)
             continue;
