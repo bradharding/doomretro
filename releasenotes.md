@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-### DOOM Retro v6.2.1
+### DOOM Retro v6.3
 
 * The highlight effect when selecting items in the menu now slightly fades in and out when the `smoothtransitions` CVAR is `on`.
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
