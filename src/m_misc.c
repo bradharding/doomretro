@@ -502,6 +502,24 @@ bool M_StrToInt(const char *str, int *result)
     return true;
 }
 
+bool M_StringToDigest(const char *string, byte *digest, int size)
+{
+    if ((int)strlen(string) < 2 * size)
+        return false;
+
+    for (int i = 0; i < size; i++)
+    {
+        unsigned int    value;
+
+        if (sscanf(string + i * 2, "%02x", &value) != 1)
+            return false;
+
+        digest[i] = (byte)value;
+    }
+
+    return true;
+}
+
 // Case-insensitive version of strstr()
 const char *M_StrCaseStr(const char *haystack, const char *needle)
 {

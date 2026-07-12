@@ -34,6 +34,8 @@
 */
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "c_console.h"
 #include "doomstat.h"
@@ -43,6 +45,7 @@
 #include "m_random.h"
 #include "p_setup.h"
 #include "s_sound.h"
+#include "s_trakinfo.h"
 #include "sc_man.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -103,6 +106,7 @@ static int          snd_sfxvolume;
 
 // Whether songs are mus_paused
 static bool         mus_paused;
+static float        currentmusicvolume = 1.0f;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
@@ -289,6 +293,8 @@ void S_Init(void)
         musinfo.currentitem = -1;
         musinfo.fromsavegame = false;
         musinfo.mapthing = NULL;
+        currentmusicvolume = 1.0f;
+        S_ParseTrakInfo();
 
         for (int i = mus_e4m1, j = 0; i <= mus_e4m9; i++, j++)
         {
@@ -308,6 +314,7 @@ void S_Init(void)
 
 void S_Shutdown(void)
 {
+    S_ClearTrakInfo();
     I_ShutdownSound();
     I_ShutdownMusic();
 }
@@ -414,11 +421,17 @@ static int S_GetMusicNum(void)
         return (mus_e1m1 + map);
 }
 
-static int S_GetPreferredMusicLump(const int lumpnum)
+static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
 {
+    *volume = 1.0f;
+
     if (lumpnum > 0 && lumpnum < numlumps)
     {
-        char    namebuf[9];
+        const int   preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
+        char        namebuf[9];
+
+        if (preferredlumpnum != lumpnum)
+            return preferredlumpnum;
 
         M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
 
@@ -427,10 +440,9 @@ static int S_GetPreferredMusicLump(const int lumpnum)
             int preferredlumpnum;
 
             namebuf[0] = (s_remix ? 'H' : 'O');
-            preferredlumpnum = W_CheckNumForName(namebuf);
 
-            if (preferredlumpnum >= 0)
-                return preferredlumpnum;
+            if ((preferredlumpnum = W_CheckNumForName(namebuf)) >= 0)
+                return S_ResolveTrakInfoMusic(preferredlumpnum, volume);
         }
     }
 
@@ -684,13 +696,14 @@ void S_UpdateSounds(void)
 
 void S_LowerMusicVolume(void)
 {
-    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0f
-        / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
+    I_SetMusicVolume(MIN(MIX_MAX_VOLUME - 1, (int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0f
+        * currentmusicvolume / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f))));
 }
 
 void S_RestoreMusicVolume(void)
 {
-    I_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
+    I_SetMusicVolume(MIN(MIX_MAX_VOLUME - 1, (int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0f
+        * currentmusicvolume)));
 }
 
 void S_SetSfxVolume(const int volume)
@@ -712,6 +725,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     void        *handle;
     int         lumpnum;
     int         mapinfomusic = 0;
+    float       preferredvolume = 1.0f;
 
     // current music which should play
     musinfo.currentitem = -1;
@@ -758,7 +772,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     }
     else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, S_GetMapNum())) > 0)
     {
-        lumpnum = S_GetPreferredMusicLump(mapinfomusic);
+        lumpnum = mapinfomusic;
         M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
     }
     else
@@ -786,11 +800,15 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         lumpnum = W_CheckNumForName(namebuf);
     }
 
+    lumpnum = S_GetPreferredMusicLump(lumpnum, &preferredvolume);
+
     if (nomusic || (mus_playing == music && mus_playing->lumpnum == lumpnum && !allowrestart))
         return;
 
     // shutdown old music
     S_StopMusic();
+
+    currentmusicvolume = preferredvolume;
 
     music->lumpnum = lumpnum;
 
@@ -870,11 +888,13 @@ void S_StopMusic(void)
     music->data = NULL;
     mus_paused = false;
     mus_playing = NULL;
+    currentmusicvolume = 1.0f;
 }
 
 void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
 {
-    const int   preferredlumpnum = S_GetPreferredMusicLump(lumpnum);
+    float       preferredvolume = 1.0f;
+    const int   preferredlumpnum = S_GetPreferredMusicLump(lumpnum, &preferredvolume);
     musicinfo_t *music;
     void        *handle;
 
@@ -888,6 +908,8 @@ void S_ChangeMusInfoMusic(const int lumpnum, const bool looping)
 
     // shutdown old music
     S_StopMusic();
+
+    currentmusicvolume = preferredvolume;
 
     // save lumpnum
     music->lumpnum = preferredlumpnum;

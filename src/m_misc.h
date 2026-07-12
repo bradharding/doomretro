@@ -79,6 +79,7 @@ char *M_GetExecutableFolder(void);
 bool M_system(const char *command);
 #endif
 bool M_StrToInt(const char *str, int *result);
+bool M_StringToDigest(const char *string, byte *digest, int size);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);
 void M_CopyLumpName(char *dest, const char *src);

@@ -247,7 +247,9 @@
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
     <ClInclude Include="..\src\s_sound.h" />
+    <ClInclude Include="..\src\s_trakinfo.h" />
     <ClInclude Include="..\src\sc_man.h" />
+    <ClInclude Include="..\src\sha1.h" />
     <ClInclude Include="..\src\sounds.h" />
     <ClInclude Include="..\src\sprites.h" />
     <ClInclude Include="..\src\st_lib.h" />
@@ -342,7 +344,9 @@
     <ClCompile Include="..\src\r_skydefs.c" />
     <ClCompile Include="..\src\r_things.c" />
     <ClCompile Include="..\src\s_sound.c" />
+    <ClCompile Include="..\src\s_trakinfo.c" />
     <ClCompile Include="..\src\sc_man.c" />
+    <ClCompile Include="..\src\sha1.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\sprites.c" />
     <ClCompile Include="..\src\st_lib.c" />
