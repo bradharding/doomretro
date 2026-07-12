@@ -2,16 +2,16 @@
 
 ### DOOM Retro v6.3
 
-* The highlight effect when selecting items in the menu now slightly fades in and out when the `smoothtransitions` CVAR is `on`.
+* The highlight effect when selecting items in the menu and the `menuhighlight` CVAR is `on` now slightly fades in and out when the `smoothtransitions` CVAR is also `on`.
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* These changes have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility in `DEHACKED` lumps:
-  * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions.
-  * `Tranmap` is now supported in state definitions.
-* Support has been added for [*ID24*](https://doomwiki.org/wiki/ID24)-compatible [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
+* These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
+  * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.
+  * `Tranmap` is now supported in state definitions in `DEHACKED` lumps.
+  * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
-* The `BIGDOOR1` texture is now vertically aligned correctly in [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* The `BIGDOOR1` texture now vertically aligns as intended in [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Weapons that cause a high amount of damage now have a limit on how many blood splats can be spawned per tic.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
