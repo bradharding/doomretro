@@ -38,7 +38,6 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
-#include "cJSON/cJSON.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -55,6 +54,7 @@
 #include "states.h"
 #include "version.h"
 #include "w_wad.h"
+#include "yyjson/yyjson.h"
 #include "z_zone.h"
 
 // killough 10/98: new functions, to allow processing DEH files in-memory
@@ -86,38 +86,39 @@ static byte *deh_GetTranslationTable(const int lump, const char *name)
         return W_CacheLumpNum(lump);
     else
     {
-        byte    *translation = Z_Malloc(256, PU_STATIC, NULL);
-        cJSON   *json = cJSON_ParseWithLength(W_CacheLumpNum(lump), lumplength);
-        cJSON   *data;
-        cJSON   *table;
+        byte        *translation = Z_Malloc(256, PU_STATIC, NULL);
+        yyjson_doc  *jsondoc = yyjson_read(W_CacheLumpNum(lump), (size_t)lumplength, 0);
+        yyjson_val  *json = yyjson_doc_get_root(jsondoc);
+        yyjson_val  *data;
+        yyjson_val  *table;
 
-        if (!cJSON_IsObject(json)
-            || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
-            || !cJSON_IsArray((table = cJSON_GetObjectItemCaseSensitive(data, "table")))
-            || cJSON_GetArraySize(table) != 256)
+        if (!yyjson_is_obj(json)
+            || !yyjson_is_obj((data = yyjson_obj_get(json, "data")))
+            || !yyjson_is_arr((table = yyjson_obj_get(data, "table")))
+            || yyjson_arr_size(table) != 256)
         {
-            cJSON_Delete(json);
+            yyjson_doc_free(jsondoc);
             Z_Free(translation);
             C_Warning(1, "Couldn't parse translation lump \"%s\".", name);
             return NULL;
         }
 
-        for (int i = 0; i < 256; i++)
+        for (size_t i = 0; i < 256; i++)
         {
-            cJSON   *entry = cJSON_GetArrayItem(table, i);
+            yyjson_val  *entry = yyjson_arr_get(table, i);
 
-            if (!cJSON_IsNumber(entry) || entry->valuedouble < 0 || entry->valuedouble > 255)
+            if (!yyjson_is_num(entry) || yyjson_get_num(entry) < 0 || yyjson_get_num(entry) > 255)
             {
-                cJSON_Delete(json);
+                yyjson_doc_free(jsondoc);
                 Z_Free(translation);
                 C_Warning(1, "Invalid entry in translation lump \"%s\".", name);
                 return NULL;
             }
 
-            translation[i] = (byte)entry->valueint;
+            translation[i] = (byte)yyjson_get_int(entry);
         }
 
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         return translation;
     }
 }

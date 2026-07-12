@@ -36,14 +36,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cJSON/cJSON.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "sha1.h"
 #include "s_trakinfo.h"
 #include "w_wad.h"
-#include "z_zone.h"
+#include "yyjson/yyjson.h"
 
 typedef struct
 {
@@ -69,56 +68,6 @@ void S_ClearTrakInfo(void)
 
     trakinfo = NULL;
     numtrakinfo = 0;
-}
-
-static char *S_StripTrakInfoComments(const char *data, const int length)
-{
-    char    *result = Z_Malloc((size_t)length + 1, PU_STATIC, NULL);
-    int     j = 0;
-    bool    instring = false;
-    bool    escaped = false;
-
-    for (int i = 0; i < length; i++)
-    {
-        const char  c = data[i];
-
-        if (instring)
-        {
-            result[j++] = c;
-
-            if (escaped)
-                escaped = false;
-            else if (c == '\\')
-                escaped = true;
-            else if (c == '"')
-                instring = false;
-
-            continue;
-        }
-
-        if (c == '"')
-        {
-            instring = true;
-            result[j++] = c;
-            continue;
-        }
-
-        if (c == '/' && i + 1 < length && data[i + 1] == '/')
-        {
-            while (i < length && data[i] != '\n')
-                i++;
-
-            if (i < length)
-                result[j++] = data[i];
-
-            continue;
-        }
-
-        result[j++] = c;
-    }
-
-    result[j] = '\0';
-    return result;
 }
 
 static trakinfo_t *S_FindTrakInfo(const byte digest[SHA1_DIGEST_SIZE])
@@ -150,64 +99,72 @@ static void S_ParseTrakInfoLump(const int lumpnum)
 {
     const int   lumplength = W_LumpLength(lumpnum);
     const char  *data = W_CacheLumpNum(lumpnum);
-    char        *buffer = S_StripTrakInfoComments(data, lumplength);
-    cJSON       *json;
-    cJSON       *item;
+    yyjson_doc  *jsondoc;
+    yyjson_val  *json;
 
     W_ReleaseLumpNum(lumpnum);
 
-    json = cJSON_ParseWithLength(buffer, strlen(buffer));
+    jsondoc = yyjson_read(data, (size_t)lumplength, YYJSON_READ_ALLOW_COMMENTS);
+    json = yyjson_doc_get_root(jsondoc);
 
-    if (cJSON_IsObject(json))
-        cJSON_ArrayForEach(item, json)
-            if (cJSON_IsObject(item) && item->string)
+    if (yyjson_is_obj(json))
+    {
+        size_t      idx;
+        size_t      max;
+        yyjson_val  *key;
+        yyjson_val  *item;
+
+        yyjson_obj_foreach(json, idx, max, key, item)
+            if (yyjson_is_obj(item) && yyjson_is_str(key))
             {
                 byte        digest[SHA1_DIGEST_SIZE];
                 trakinfo_t  *entry;
-                cJSON       *midi;
-                cJSON       *remixed;
-                cJSON       *volume;
+                yyjson_val  *midi;
+                yyjson_val  *remixed;
+                yyjson_val  *volume;
+                const char  *digeststr = yyjson_get_str(key);
 
-                if (!M_StringToDigest(item->string, digest, sizeof(digest)))
+                if (!M_StringToDigest(digeststr, digest, sizeof(digest)))
                     continue;
 
                 entry = S_GetOrCreateTrakInfo(digest);
-                midi = cJSON_GetObjectItemCaseSensitive(item, "MIDI");
-                remixed = cJSON_GetObjectItemCaseSensitive(item, "Remixed");
-                volume = cJSON_GetObjectItemCaseSensitive(item, "volume");
+                midi = yyjson_obj_get(item, "MIDI");
+                remixed = yyjson_obj_get(item, "Remixed");
+                volume = yyjson_obj_get(item, "volume");
 
-                if (cJSON_IsString(midi) && *midi->valuestring)
+                if (yyjson_is_str(midi) && *yyjson_get_str(midi))
                 {
                     free(entry->midi);
-                    entry->midi = M_StringDuplicate(midi->valuestring);
+                    entry->midi = M_StringDuplicate(yyjson_get_str(midi));
                 }
 
-                if (cJSON_IsString(remixed) && *remixed->valuestring)
+                if (yyjson_is_str(remixed) && *yyjson_get_str(remixed))
                 {
                     free(entry->remixed);
-                    entry->remixed = M_StringDuplicate(remixed->valuestring);
+                    entry->remixed = M_StringDuplicate(yyjson_get_str(remixed));
                 }
 
-                if (cJSON_IsNumber(volume))
+                if (yyjson_is_num(volume))
                 {
-                    entry->volume = (float)volume->valuedouble;
+                    entry->volume = (float)yyjson_get_num(volume);
                     entry->hasvolume = true;
                 }
-                else if (cJSON_IsString(volume) && *volume->valuestring)
+                else if (yyjson_is_str(volume) && *yyjson_get_str(volume))
                 {
-                    char    *endptr;
-                    float   value = strtof(volume->valuestring, &endptr);
+                    char        *endptr;
+                    const char  *volumestr = yyjson_get_str(volume);
+                    float       value = strtof(volumestr, &endptr);
 
-                    if (endptr != volume->valuestring)
+                    if (endptr != volumestr)
                     {
                         entry->volume = value;
                         entry->hasvolume = true;
                     }
                 }
             }
+    }
 
-    cJSON_Delete(json);
-    Z_Free(buffer);
+    yyjson_doc_free(jsondoc);
 }
 
 void S_ParseTrakInfo(void)

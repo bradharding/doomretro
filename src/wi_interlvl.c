@@ -34,130 +34,154 @@
 */
 
 #include "c_console.h"
-#include "cJSON/cJSON.h"
 #include "doomtype.h"
 #include "m_array.h"
 #include "w_wad.h"
 #include "wi_interlvl.h"
+#include "yyjson/yyjson.h"
 
-static bool ParseCondition(cJSON *json, interlevelcond_t *out)
+static bool ParseCondition(yyjson_val *json, interlevelcond_t *out)
 {
-    cJSON   *condition;
-    cJSON   *param;
+    yyjson_val  *condition;
+    yyjson_val  *param;
 
-    if (!cJSON_IsNumber((condition = cJSON_GetObjectItemCaseSensitive(json, "condition"))))
+    if (!yyjson_is_num((condition = yyjson_obj_get(json, "condition"))))
         return false;
 
-    out->condition = condition->valueint;
+    out->condition = yyjson_get_int(condition);
 
-    if (!cJSON_IsNumber((param = cJSON_GetObjectItemCaseSensitive(json, "param"))))
+    if (!yyjson_is_num((param = yyjson_obj_get(json, "param"))))
         return false;
 
-    out->param = param->valueint;
+    out->param = yyjson_get_int(param);
     return true;
 }
 
-static bool ParseFrame(cJSON *json, interlevelframe_t *out)
+static bool ParseFrame(yyjson_val *json, interlevelframe_t *out)
 {
-    cJSON   *imagelump;
-    cJSON   *type;
-    cJSON   *duration;
-    cJSON   *maxduration;
+    yyjson_val  *imagelump;
+    yyjson_val  *type;
+    yyjson_val  *duration;
+    yyjson_val  *maxduration;
 
-    if (!cJSON_IsString((imagelump = cJSON_GetObjectItemCaseSensitive(json, "image"))))
+    if (!yyjson_is_str((imagelump = yyjson_obj_get(json, "image"))))
         return false;
 
-    out->imagelump = M_StringDuplicate(imagelump->valuestring);
+    out->imagelump = M_StringDuplicate(yyjson_get_str(imagelump));
 
-    if (!cJSON_IsNumber((type = cJSON_GetObjectItemCaseSensitive(json, "type"))))
+    if (!yyjson_is_num((type = yyjson_obj_get(json, "type"))))
         return false;
 
-    out->type = type->valueint;
+    out->type = yyjson_get_int(type);
 
-    if (!cJSON_IsNumber((duration = cJSON_GetObjectItemCaseSensitive(json, "duration"))))
+    if (!yyjson_is_num((duration = yyjson_obj_get(json, "duration"))))
         return false;
 
-    out->duration = (int)(duration->valuedouble * TICRATE);
+    out->duration = (int)(yyjson_get_num(duration) * TICRATE);
 
-    if (!cJSON_IsNumber((maxduration = cJSON_GetObjectItemCaseSensitive(json, "maxduration"))))
+    if (!yyjson_is_num((maxduration = yyjson_obj_get(json, "maxduration"))))
         return false;
 
-    out->maxduration = (int)(maxduration->valuedouble * TICRATE);
+    out->maxduration = (int)(yyjson_get_num(maxduration) * TICRATE);
     return true;
 }
 
-static bool ParseAnim(cJSON *json, interlevelanim_t *out)
+static bool ParseAnim(yyjson_val *json, interlevelanim_t *out)
 {
-    cJSON               *js_frames;
-    cJSON               *js_frame = NULL;
-    cJSON               *xpos;
-    cJSON               *ypos;
-    cJSON               *js_conditions;
-    cJSON               *js_condition = NULL;
+    yyjson_val          *js_frames;
+    yyjson_val          *js_frame;
+    yyjson_val          *xpos;
+    yyjson_val          *ypos;
+    yyjson_val          *js_conditions;
+    yyjson_val          *js_condition;
     interlevelframe_t   *frames = NULL;
     interlevelcond_t    *conditions = NULL;
 
-    js_frames = cJSON_GetObjectItemCaseSensitive(json, "frames");
+    js_frames = yyjson_obj_get(json, "frames");
 
-    cJSON_ArrayForEach(js_frame, js_frames)
+    if (yyjson_is_arr(js_frames))
     {
-        interlevelframe_t   frame = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseFrame(js_frame, &frame))
-            array_push(frames, frame);
+        yyjson_arr_foreach(js_frames, idx, max, js_frame)
+        {
+            interlevelframe_t   frame = { 0 };
+
+            if (ParseFrame(js_frame, &frame))
+                array_push(frames, frame);
+        }
     }
 
     out->frames = frames;
 
-    if (!cJSON_IsNumber((xpos = cJSON_GetObjectItemCaseSensitive(json, "x")))
-        || !cJSON_IsNumber((ypos = cJSON_GetObjectItemCaseSensitive(json, "y"))))
+    if (!yyjson_is_num((xpos = yyjson_obj_get(json, "x")))
+        || !yyjson_is_num((ypos = yyjson_obj_get(json, "y"))))
         return false;
 
-    out->xpos = xpos->valueint;
-    out->ypos = ypos->valueint;
+    out->xpos = yyjson_get_int(xpos);
+    out->ypos = yyjson_get_int(ypos);
 
-    js_conditions = cJSON_GetObjectItemCaseSensitive(json, "conditions");
+    js_conditions = yyjson_obj_get(json, "conditions");
 
-    cJSON_ArrayForEach(js_condition, js_conditions)
+    if (yyjson_is_arr(js_conditions))
     {
-        interlevelcond_t    condition = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseCondition(js_condition, &condition))
-            array_push(conditions, condition);
+        yyjson_arr_foreach(js_conditions, idx, max, js_condition)
+        {
+            interlevelcond_t    condition = { 0 };
+
+            if (ParseCondition(js_condition, &condition))
+                array_push(conditions, condition);
+        }
     }
 
     out->conditions = conditions;
     return true;
 }
 
-static void ParseLevelLayer(cJSON *json, interlevellayer_t *out)
+static void ParseLevelLayer(yyjson_val *json, interlevellayer_t *out)
 {
-    cJSON               *js_anims;
-    cJSON               *js_anim = NULL;
-    cJSON               *js_conditions;
-    cJSON               *js_condition = NULL;
+    yyjson_val          *js_anims;
+    yyjson_val          *js_anim;
+    yyjson_val          *js_conditions;
+    yyjson_val          *js_condition;
     interlevelanim_t    *anims = NULL;
     interlevelcond_t    *conditions = NULL;
 
-    js_anims = cJSON_GetObjectItemCaseSensitive(json, "anims");
+    js_anims = yyjson_obj_get(json, "anims");
 
-    cJSON_ArrayForEach(js_anim, js_anims)
+    if (yyjson_is_arr(js_anims))
     {
-        interlevelanim_t    anim = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseAnim(js_anim, &anim))
-            array_push(anims, anim);
+        yyjson_arr_foreach(js_anims, idx, max, js_anim)
+        {
+            interlevelanim_t    anim = { 0 };
+
+            if (ParseAnim(js_anim, &anim))
+                array_push(anims, anim);
+        }
     }
 
     out->anims = anims;
-    js_conditions = cJSON_GetObjectItemCaseSensitive(json, "conditions");
+    js_conditions = yyjson_obj_get(json, "conditions");
 
-    cJSON_ArrayForEach(js_condition, js_conditions)
+    if (yyjson_is_arr(js_conditions))
     {
-        interlevelcond_t    condition = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseCondition(js_condition, &condition))
-            array_push(conditions, condition);
+        yyjson_arr_foreach(js_conditions, idx, max, js_condition)
+        {
+            interlevelcond_t    condition = { 0 };
+
+            if (ParseCondition(js_condition, &condition))
+                array_push(conditions, condition);
+        }
     }
 
     out->conditions = conditions;
@@ -167,20 +191,22 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
 {
     int                 lumpnum = W_CheckNumForName(lumpname);
     interlevel_t        *out;
-    cJSON               *json;
-    cJSON               *data;
-    cJSON               *music;
-    cJSON               *backgroundimage;
-    cJSON               *js_layers;
-    cJSON               *js_layer = NULL;
+    yyjson_doc          *jsondoc;
+    yyjson_val          *json;
+    yyjson_val          *data;
+    yyjson_val          *music;
+    yyjson_val          *backgroundimage;
+    yyjson_val          *js_layers;
+    yyjson_val          *js_layer;
     interlevellayer_t   *layers = NULL;
 
-    if (!(json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))
-        || !cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data")))
-        || !cJSON_IsString((music = cJSON_GetObjectItemCaseSensitive(data, "music")))
-        || !cJSON_IsString((backgroundimage = cJSON_GetObjectItemCaseSensitive(data, "backgroundimage"))))
+    if (!(jsondoc = yyjson_read(W_CacheLumpNum(lumpnum), (size_t)W_LumpLength(lumpnum), 0))
+        || !yyjson_is_obj((json = yyjson_doc_get_root(jsondoc)))
+        || !yyjson_is_obj((data = yyjson_obj_get(json, "data")))
+        || !yyjson_is_str((music = yyjson_obj_get(data, "music")))
+        || !yyjson_is_str((backgroundimage = yyjson_obj_get(data, "backgroundimage"))))
     {
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         C_Warning(1, "The " BOLD("%s") " lump in " BOLD("%s") " couldn't be parsed.",
             lumpname, leafname(lumpinfo[lumpnum]->wadfile->path));
         return NULL;
@@ -188,26 +214,32 @@ interlevel_t *WI_ParseInterlevel(const char *lumpname)
 
     if (!(out = calloc(1, sizeof(*out))))
     {
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         return NULL;
     }
 
-    out->musiclump = M_StringDuplicate(music->valuestring);
-    out->backgroundlump = M_StringDuplicate(backgroundimage->valuestring);
+    out->musiclump = M_StringDuplicate(yyjson_get_str(music));
+    out->backgroundlump = M_StringDuplicate(yyjson_get_str(backgroundimage));
 
-    js_layers = cJSON_GetObjectItemCaseSensitive(data, "layers");
+    js_layers = yyjson_obj_get(data, "layers");
 
-    cJSON_ArrayForEach(js_layer, js_layers)
+    if (yyjson_is_arr(js_layers))
     {
-        interlevellayer_t   layer = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        ParseLevelLayer(js_layer, &layer);
-        array_push(layers, layer);
+        yyjson_arr_foreach(js_layers, idx, max, js_layer)
+        {
+            interlevellayer_t   layer = { 0 };
+
+            ParseLevelLayer(js_layer, &layer);
+            array_push(layers, layer);
+        }
     }
 
     out->layers = layers;
 
-    cJSON_Delete(json);
+    yyjson_doc_free(jsondoc);
     return out;
 }
 

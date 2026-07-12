@@ -42,7 +42,6 @@
 #include <Windows.h>
 #endif
 
-#include "cJSON/cJSON.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -53,6 +52,7 @@
 #include "m_misc.h"
 #include "p_setup.h"
 #include "version.h"
+#include "yyjson/yyjson.h"
 
 #define DISCORD_RPC_UPDATE_WAIT    15000
 #define DISCORD_RPC_MAX_IPC_PIPES  10
@@ -186,63 +186,78 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
 
 static bool I_SetDiscordActivity(const char *details, const char *state)
 {
-    cJSON   *activity = cJSON_CreateObject();
-    cJSON   *args = cJSON_CreateObject();
-    cJSON   *root = cJSON_CreateObject();
-    cJSON   *timestamps;
-    char    buffer[32];
-    char    *payload;
+    yyjson_mut_doc  *doc = yyjson_mut_doc_new(NULL);
+    yyjson_mut_val  *root;
+    yyjson_mut_val  *args;
+    yyjson_mut_val  *activity;
+    yyjson_mut_val  *timestamps;
+    char            buffer[32];
+    char            *payload;
 
-    if (!activity || !args || !root)
+    if (!doc)
+        return false;
+
+    if (!(root = yyjson_mut_obj(doc))
+        || !(args = yyjson_mut_obj_add_obj(doc, root, "args"))
+        || !(activity = yyjson_mut_obj_add_obj(doc, args, "activity")))
     {
-        cJSON_Delete(root);
-        cJSON_Delete(args);
-        cJSON_Delete(activity);
+        yyjson_mut_doc_free(doc);
         return false;
     }
 
-    if (*details)
-        cJSON_AddStringToObject(activity, "details", details);
+    yyjson_mut_doc_set_root(doc, root);
 
-    if (*state)
-        cJSON_AddStringToObject(activity, "state", state);
+    if (*details && !yyjson_mut_obj_add_strcpy(doc, activity, "details", details))
+    {
+        yyjson_mut_doc_free(doc);
+        return false;
+    }
+
+    if (*state && !yyjson_mut_obj_add_strcpy(doc, activity, "state", state))
+    {
+        yyjson_mut_doc_free(doc);
+        return false;
+    }
 
     if (activitystart)
     {
-        if (!(timestamps = cJSON_AddObjectToObject(activity, "timestamps")))
+        if (!(timestamps = yyjson_mut_obj_add_obj(doc, activity, "timestamps"))
+            || !yyjson_mut_obj_add_sint(doc, timestamps, "start", (int64_t)activitystart))
         {
-            cJSON_Delete(root);
-            cJSON_Delete(args);
-            cJSON_Delete(activity);
+            yyjson_mut_doc_free(doc);
             return false;
         }
-
-        cJSON_AddNumberToObject(timestamps, "start", (double)activitystart);
     }
 
-    cJSON_AddNumberToObject(args, "pid", (double)GetCurrentProcessId());
-    cJSON_AddItemToObject(args, "activity", activity);
-
-    cJSON_AddStringToObject(root, "cmd", "SET_ACTIVITY");
-    cJSON_AddItemToObject(root, "args", args);
+    if (!yyjson_mut_obj_add_uint(doc, args, "pid", (uint64_t)GetCurrentProcessId())
+        || !yyjson_mut_obj_add_str(doc, root, "cmd", "SET_ACTIVITY"))
+    {
+        yyjson_mut_doc_free(doc);
+        return false;
+    }
 
     M_snprintf(buffer, sizeof(buffer), "%llu", ++nonce);
-    cJSON_AddStringToObject(root, "nonce", buffer);
 
-    if (!(payload = cJSON_PrintUnformatted(root)))
+    if (!yyjson_mut_obj_add_strcpy(doc, root, "nonce", buffer))
     {
-        cJSON_Delete(root);
+        yyjson_mut_doc_free(doc);
+        return false;
+    }
+
+    if (!(payload = yyjson_mut_write(doc, 0, NULL)))
+    {
+        yyjson_mut_doc_free(doc);
         return false;
     }
 
     if (!I_DiscordSendFrame(1, payload))
     {
-        cJSON_Delete(root);
+        yyjson_mut_doc_free(doc);
         free(payload);
         return false;
     }
 
-    cJSON_Delete(root);
+    yyjson_mut_doc_free(doc);
     free(payload);
     return true;
 }
@@ -253,9 +268,10 @@ static bool I_OpenDiscordRPC(void)
 
     for (int i = 0; i < DISCORD_RPC_MAX_IPC_PIPES; i++)
     {
-        DWORD   mode = (PIPE_READMODE_BYTE | PIPE_NOWAIT);
-        cJSON   *json = cJSON_CreateObject();
-        char    *payload;
+        DWORD           mode = (PIPE_READMODE_BYTE | PIPE_NOWAIT);
+        yyjson_mut_doc  *doc = yyjson_mut_doc_new(NULL);
+        yyjson_mut_val  *json;
+        char            *payload;
 
         M_snprintf(pipename, sizeof(pipename), "\\\\.\\pipe\\discord-ipc-%i", i);
         discordpipe = CreateFileA(pipename, (GENERIC_READ | GENERIC_WRITE), 0, NULL, OPEN_EXISTING, 0, NULL);
@@ -265,13 +281,23 @@ static bool I_OpenDiscordRPC(void)
 
         SetNamedPipeHandleState(discordpipe, &mode, NULL, NULL);
 
-        if (!json)
+        if (!doc || !(json = yyjson_mut_obj(doc)))
+        {
+            yyjson_mut_doc_free(doc);
             break;
+        }
 
-        cJSON_AddNumberToObject(json, "v", 1);
-        cJSON_AddStringToObject(json, "client_id", DOOMRETRO_DISCORDAPPID);
-        payload = cJSON_PrintUnformatted(json);
-        cJSON_Delete(json);
+        yyjson_mut_doc_set_root(doc, json);
+
+        if (!yyjson_mut_obj_add_int(doc, json, "v", 1)
+            || !yyjson_mut_obj_add_str(doc, json, "client_id", DOOMRETRO_DISCORDAPPID))
+        {
+            yyjson_mut_doc_free(doc);
+            break;
+        }
+
+        payload = yyjson_mut_write(doc, 0, NULL);
+        yyjson_mut_doc_free(doc);
 
         if (!payload)
             break;

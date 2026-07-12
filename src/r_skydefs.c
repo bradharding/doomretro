@@ -34,161 +34,175 @@
 */
 
 #include "c_console.h"
-#include "cJSON/cJSON.h"
 #include "m_array.h"
 #include "r_skydefs.h"
 #include "w_wad.h"
+#include "yyjson/yyjson.h"
 
-static bool ParseFire(cJSON *json, fire_t *out)
+static bool ParseFire(yyjson_val *json, fire_t *out)
 {
-    cJSON   *updatetime;
-    cJSON   *palette;
+    yyjson_val  *updatetime;
+    yyjson_val  *palette;
 
-    if (!cJSON_IsNumber((updatetime = cJSON_GetObjectItemCaseSensitive(json, "updatetime"))))
+    if (!yyjson_is_num((updatetime = yyjson_obj_get(json, "updatetime"))))
         return false;
 
-    out->updatetime = (int)(updatetime->valuedouble * TICRATE);
+    out->updatetime = (int)(yyjson_get_num(updatetime) * TICRATE);
 
-    if (!cJSON_IsArray((palette = cJSON_GetObjectItemCaseSensitive(json, "palette"))))
+    if (!yyjson_is_arr((palette = yyjson_obj_get(json, "palette"))))
         return false;
 
-    for (int i = 0, size = cJSON_GetArraySize(palette); i < size; i++)
-        array_push(out->palette, cJSON_GetArrayItem(palette, i)->valueint);
+    for (size_t i = 0, size = yyjson_arr_size(palette); i < size; i++)
+        array_push(out->palette, yyjson_get_int(yyjson_arr_get(palette, i)));
 
     return true;
 }
 
-static bool ParseSkyTex(cJSON *json, skytex_t *out)
+static bool ParseSkyTex(yyjson_val *json, skytex_t *out)
 {
-    cJSON   *name;
-    cJSON   *mid;
-    cJSON   *scrollx;
-    cJSON   *scrolly;
-    cJSON   *scalex;
-    cJSON   *scaley;
+    yyjson_val  *name;
+    yyjson_val  *mid;
+    yyjson_val  *scrollx;
+    yyjson_val  *scrolly;
+    yyjson_val  *scalex;
+    yyjson_val  *scaley;
 
-    if (!cJSON_IsString((name = cJSON_GetObjectItemCaseSensitive(json, "name"))))
+    if (!yyjson_is_str((name = yyjson_obj_get(json, "name"))))
         return false;
 
-    out->name = M_StringDuplicate(name->valuestring);
+    out->name = M_StringDuplicate(yyjson_get_str(name));
 
-    if (!cJSON_IsNumber((mid = cJSON_GetObjectItemCaseSensitive(json, "mid")))
-        || !cJSON_IsNumber((scrollx = cJSON_GetObjectItemCaseSensitive(json, "scrollx")))
-        || !cJSON_IsNumber((scrolly = cJSON_GetObjectItemCaseSensitive(json, "scrolly")))
-        || !cJSON_IsNumber((scalex = cJSON_GetObjectItemCaseSensitive(json, "scalex")))
-        || !cJSON_IsNumber((scaley = cJSON_GetObjectItemCaseSensitive(json, "scaley"))))
+    if (!yyjson_is_num((mid = yyjson_obj_get(json, "mid")))
+        || !yyjson_is_num((scrollx = yyjson_obj_get(json, "scrollx")))
+        || !yyjson_is_num((scrolly = yyjson_obj_get(json, "scrolly")))
+        || !yyjson_is_num((scalex = yyjson_obj_get(json, "scalex")))
+        || !yyjson_is_num((scaley = yyjson_obj_get(json, "scaley"))))
         return false;
 
-    out->mid = mid->valuedouble;
-    out->scrollx = (fixed_t)(scrollx->valuedouble * (1.0 / TICRATE) * (double)FRACUNIT);
-    out->scrolly = (fixed_t)(scrolly->valuedouble * (1.0 / TICRATE) * (double)FRACUNIT);
-    out->scalex = (scalex->valuedouble ? (fixed_t)(1.0 / scalex->valuedouble * (double)FRACUNIT) : FRACUNIT);
-    out->scaley = (scaley->valuedouble ? (fixed_t)(1.0 / scaley->valuedouble * (double)FRACUNIT) : FRACUNIT);
+    out->mid = yyjson_get_num(mid);
+    out->scrollx = (fixed_t)(yyjson_get_num(scrollx) * (1.0 / TICRATE) * (double)FRACUNIT);
+    out->scrolly = (fixed_t)(yyjson_get_num(scrolly) * (1.0 / TICRATE) * (double)FRACUNIT);
+    out->scalex = (yyjson_get_num(scalex) ? (fixed_t)(1.0 / yyjson_get_num(scalex) * (double)FRACUNIT) : FRACUNIT);
+    out->scaley = (yyjson_get_num(scaley) ? (fixed_t)(1.0 / yyjson_get_num(scaley) * (double)FRACUNIT) : FRACUNIT);
     return true;
 }
 
-static bool ParseSky(cJSON *json, sky_t *out)
+static bool ParseSky(yyjson_val *json, sky_t *out)
 {
-    cJSON       *type;
-    cJSON       *js_fire;
-    cJSON       *js_foreground;
+    yyjson_val  *type;
+    yyjson_val  *js_fire;
+    yyjson_val  *js_foreground;
     skytex_t    background = { 0 };
     fire_t      fire = { 0 };
     skytex_t    foreground = { 0 };
 
-    if (!cJSON_IsNumber((type = cJSON_GetObjectItemCaseSensitive(json, "type"))))
+    if (!yyjson_is_num((type = yyjson_obj_get(json, "type"))))
         return false;
 
-    out->type = type->valueint;
+    out->type = yyjson_get_int(type);
 
     if (!ParseSkyTex(json, &background))
         return false;
 
     out->skytex = background;
 
-    if (!cJSON_IsNull((js_fire = cJSON_GetObjectItemCaseSensitive(json, "fire"))))
+    if ((js_fire = yyjson_obj_get(json, "fire")) && !yyjson_is_null(js_fire))
         ParseFire(js_fire, &fire);
 
     out->fire = fire;
 
-    if (!cJSON_IsNull((js_foreground = cJSON_GetObjectItemCaseSensitive(json, "foregroundtex"))))
+    if ((js_foreground = yyjson_obj_get(json, "foregroundtex")) && !yyjson_is_null(js_foreground))
         ParseSkyTex(js_foreground, &foreground);
 
     out->foreground = foreground;
     return true;
 }
 
-static bool ParseFlatMap(cJSON *json, flatmap_t *out)
+static bool ParseFlatMap(yyjson_val *json, flatmap_t *out)
 {
-    cJSON   *flat;
-    cJSON   *sky;
+    yyjson_val  *flat;
+    yyjson_val  *sky;
 
-    if (!cJSON_IsString((flat = cJSON_GetObjectItemCaseSensitive(json, "flat"))))
+    if (!yyjson_is_str((flat = yyjson_obj_get(json, "flat"))))
         return false;
 
-    out->flat = M_StringDuplicate(flat->valuestring);
+    out->flat = M_StringDuplicate(yyjson_get_str(flat));
 
-    if (!cJSON_IsString((sky = cJSON_GetObjectItemCaseSensitive(json, "sky"))))
+    if (!yyjson_is_str((sky = yyjson_obj_get(json, "sky"))))
         return false;
 
-    out->sky = M_StringDuplicate(sky->valuestring);
+    out->sky = M_StringDuplicate(yyjson_get_str(sky));
     return true;
 }
 
 skydefs_t *R_ParseSkyDefs(void)
 {
     int         lumpnum = W_CheckNumForName("SKYDEFS");
-    cJSON       *json;
-    cJSON       *data;
-    cJSON       *js_skies;
-    cJSON       *js_sky = NULL;
-    cJSON       *js_flatmapping;
-    cJSON       *js_flatmap = NULL;
+    yyjson_doc  *jsondoc;
+    yyjson_val  *json;
+    yyjson_val  *data;
+    yyjson_val  *js_skies;
+    yyjson_val  *js_sky;
+    yyjson_val  *js_flatmapping;
+    yyjson_val  *js_flatmap;
     skydefs_t   *out;
 
     if (lumpnum == -1)
         return NULL;
 
-    if (!((json = cJSON_ParseWithLength(W_CacheLumpNum(lumpnum), W_LumpLength(lumpnum)))))
+    if (!((jsondoc = yyjson_read(W_CacheLumpNum(lumpnum), (size_t)W_LumpLength(lumpnum), 0)))
+        || !yyjson_is_obj((json = yyjson_doc_get_root(jsondoc))))
     {
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         C_Warning(1, "The " BOLD("SKYDEFS") " lump in " BOLD("%s") " couldn't be parsed.",
             leafname(lumpinfo[lumpnum]->wadfile->path));
         return NULL;
     }
 
-    if (!cJSON_IsObject((data = cJSON_GetObjectItemCaseSensitive(json, "data"))))
+    if (!yyjson_is_obj((data = yyjson_obj_get(json, "data"))))
     {
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         return NULL;
     }
 
     if (!(out = calloc(1, sizeof(*out))))
     {
-        cJSON_Delete(json);
+        yyjson_doc_free(jsondoc);
         return NULL;
     }
 
-    js_skies = cJSON_GetObjectItemCaseSensitive(data, "skies");
+    js_skies = yyjson_obj_get(data, "skies");
 
-    cJSON_ArrayForEach(js_sky, js_skies)
+    if (yyjson_is_arr(js_skies))
     {
-        sky_t   sky = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseSky(js_sky, &sky))
-            array_push(out->skies, sky);
+        yyjson_arr_foreach(js_skies, idx, max, js_sky)
+        {
+            sky_t   sky = { 0 };
+
+            if (ParseSky(js_sky, &sky))
+                array_push(out->skies, sky);
+        }
     }
 
-    js_flatmapping = cJSON_GetObjectItemCaseSensitive(data, "flatmapping");
+    js_flatmapping = yyjson_obj_get(data, "flatmapping");
 
-    cJSON_ArrayForEach(js_flatmap, js_flatmapping)
+    if (yyjson_is_arr(js_flatmapping))
     {
-        flatmap_t   flatmap = { 0 };
+        size_t  idx;
+        size_t  max;
 
-        if (ParseFlatMap(js_flatmap, &flatmap))
-            array_push(out->flatmapping, flatmap);
+        yyjson_arr_foreach(js_flatmapping, idx, max, js_flatmap)
+        {
+            flatmap_t   flatmap = { 0 };
+
+            if (ParseFlatMap(js_flatmap, &flatmap))
+                array_push(out->flatmapping, flatmap);
+        }
     }
 
-    cJSON_Delete(json);
+    yyjson_doc_free(jsondoc);
     return out;
 }
