@@ -33,7 +33,7 @@
 * The effect when the player has an invulnerability power-up can now be changed using the new `r_invulnerabilityeffect` CVAR, which can be set to `invertedgrayscale` (the default) or `grayscale`.
 * `ENTERANIM` is now parsed correctly in `MAPINFO` lumps.
 * `Retro bits = FLOATBOB` used in `DEHACKED` lumps is now allowed for shootable things.
-* A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if it’s already playing one.
+* A bug is fixed whereby a monster sometimes wouldn’t play a sound effect if it was already playing one.
 * A crash no longer occurs when pressing the <kbd><b>F1</b></kbd> key to open the help screen from the title screen.
 * The crosshair displayed using the `crosshair` CVAR can now snap to your current target by enabling the new `snapcrosshair` CVAR, which is `off` by default and when vanilla mode is enabled.
 * If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack can be disabled using the new `s_remix` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
