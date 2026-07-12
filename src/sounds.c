@@ -573,6 +573,10 @@ int dsdh_GetOriginalSFXIndex(const char *key)
             return -1;
 
     limit = strtol(key, NULL, 10);
+
+    if (limit <= 0 || limit > 32767)
+        return -1;
+
     dsdh_EnsureSFXCapacity(limit);
 
     return limit;
