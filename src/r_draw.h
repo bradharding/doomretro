@@ -162,6 +162,8 @@ extern byte         *ds_source;
 extern byte         translationtables[256 * 3];
 extern byte         *dc_translation;
 
+extern int          ditherxoffset;
+
 // Span blitting for rows, floor/ceiling.
 // No Spectre effect needed.
 void R_DrawSpan(void);

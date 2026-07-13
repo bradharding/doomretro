@@ -405,6 +405,7 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
+    ditherxoffset = viewwindowx - WIDESCREENDELTA + !WIDESCREENDELTA;
 
     // Apply teleport zoom effect
     fov = (menuactive && !helpscreen && menuspin ? r_fov_max : r_fov);
