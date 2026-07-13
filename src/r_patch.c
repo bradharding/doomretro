@@ -621,9 +621,10 @@ static void CreateTextureCompositePatch(const int id)
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if (id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || (id == STEP2 && modifiedgame))
+                if ((id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || id == STEP2)
+                    && W_GetNumTextures(texture->name) == 1)
                     oy = 0;
-                else if (id == BIGDOOR1 && gamemission == doom && !modifiedgame && !FREEDOOM)
+                else if (id == BIGDOOR1 && W_GetNumTextures(texture->name) == 1)
                     oy += 32;
                 else if (countsincolumn[tx].patches > 1)
                 {

@@ -1424,6 +1424,23 @@ int R_CheckTextureNumForName(const char *name)
     return i;
 }
 
+int W_GetNumTextures(const char *name)
+{
+    int count = 0;
+
+    if (*name == '-' || !numtextures)
+        return 0;
+
+    if (FREEDOOM || chex || hacx || harmony || REKKRSA)
+        return 3;
+
+    for (int i = numtextures - 1; i >= 0; i--)
+        if (!strncasecmp(textures[i]->name, name, 8))
+            count++;
+
+    return count;
+}
+
 //
 // R_TextureNumForName
 // Calls R_CheckTextureNumForName,
