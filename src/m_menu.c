@@ -5361,8 +5361,11 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLumpName(name);
                         int     width = LITTLESHORT(patch->width);
 
-                        patch->leftoffset = 0;
-                        patch->topoffset = 0;
+                        if (eviternity)
+                            patch->leftoffset = 0;
+
+                        if (FREEDOOM)
+                            patch->topoffset = 0;
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
