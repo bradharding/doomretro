@@ -987,8 +987,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 R_BlastSpriteColumn(column);
             }
         }
-
-        tranmap = oldtranmap;
     }
     else
     {

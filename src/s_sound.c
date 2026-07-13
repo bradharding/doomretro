@@ -212,7 +212,8 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. No sound effects or music will be played.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. "
+            "No sound effects or music will be played.");
         nomusic = true;
         nosfx = true;
     }
@@ -220,13 +221,15 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. No music will be played.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. "
+                "No music will be played.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. No sound effects will be played.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. "
+                "No sound effects will be played.");
             nosfx = true;
         }
     }
@@ -237,16 +240,16 @@ void S_Init(void)
         char    *audiodriver = getenv("SDL_AUDIODRIVER");
 
         if (audiodriver)
-        {
-            C_Warning(1, "The " BOLD("SDL_AUDIODRIVER") " environment variable has been set to " BOLD("\"%s\"") ".", audiodriver);
-        }
+            C_Warning(1, "The " BOLD("SDL_AUDIODRIVER") " environment variable has been set to " BOLD("\"%s\"") ".",
+                audiodriver);
 #endif
 
         InitSfxModule();
         sfxvolume = (s_sfxvolume * 31 + 50) / 100;
         S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
 
-        // Allocating the internal channels for mixing (the maximum number of sounds played simultaneously) within zone memory.
+        // Allocating the internal channels for mixing (the maximum number
+        // of sounds played simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
         sobjs = Z_Calloc(s_channels_max, sizeof(sobj_t), PU_STATIC, NULL);
 
@@ -427,8 +430,8 @@ static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
 
     if (lumpnum > 0 && lumpnum < numlumps)
     {
-        const int   preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
-        char        namebuf[9];
+        int     preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
+        char    namebuf[9];
 
         if (preferredlumpnum != lumpnum)
             return preferredlumpnum;
@@ -437,8 +440,6 @@ static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
 
         if (namebuf[0] == 'D' && namebuf[1] == '_')
         {
-            int preferredlumpnum;
-
             namebuf[0] = (s_remix ? 'H' : 'O');
 
             if ((preferredlumpnum = W_CheckNumForName(namebuf)) >= 0)

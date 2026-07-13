@@ -118,8 +118,7 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
     char *state, const size_t statesize)
 {
     const char  *game = DOOMRETRO_NAME;
-    const char  *maptitle = (*mapnumandtitle ? mapnumandtitle : mapnum);
-    char        *temp = removenonprintable(maptitle);
+    char        *temp = removenonprintable(*mapnumandtitle ? mapnumandtitle : mapnum);
 
     details[0] = '\0';
     state[0] = '\0';

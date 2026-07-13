@@ -1042,7 +1042,8 @@ void R_DrawLowResDitheredTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z]
+            [dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
 
@@ -1055,7 +1056,8 @@ void R_DrawLowResDitheredTranslucent50Column(void)
         dc_yl++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z]
+        [dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawDitheredTranslucent50Column(void)
@@ -1071,14 +1073,16 @@ void R_DrawDitheredTranslucent50Column(void)
 
     while (--count)
     {
-        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z][dc_source[frac >> FRACBITS]]]];
+        *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z]
+            [dc_source[frac >> FRACBITS]]]];
         dest += SCREENWIDTH;
         frac += dc_iscale;
         yphase = (yphase + 1) & DITHERMASK;
         dc_yl++;
     }
 
-    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z][dc_source[frac >> FRACBITS]]]];
+    *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[thresholds[yphase] < dc_z]
+        [dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedTranslucent50Column(void)

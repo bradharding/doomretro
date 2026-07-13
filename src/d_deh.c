@@ -3364,7 +3364,6 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
         }
         else if (M_StringCompare(key, deh_state[16]))           // Tranmap
         {
-            char        lumpname[9] = "";
             char        *name = trimwhitespace(strval);
             const int   lump = (name ? W_CheckNumForName(name) : -1);
 
@@ -3374,6 +3373,8 @@ static void deh_procFrame(DEHFILE *fpin, const char *line)
                 C_Warning(1, "Couldn't find tranmap lump \"%s\".", name);
             else
             {
+                char    lumpname[9] = "";
+
                 M_CopyLumpName(lumpname, name);
                 states[indexnum].tranmap = W_CacheLumpNum(lump);
                 states[indexnum].dehacked = dehacked = !BTSX;
