@@ -1516,8 +1516,6 @@ void R_DrawLowResDitheredSpan(void)
             lowx = 0;
             xphase = (xphase + 1) & DITHERMASK;
         }
-
-        ds_x1++;
     }
 
     *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < ds_z]
@@ -1548,8 +1546,6 @@ void R_DrawLowResDitheredSpanWithBrightmap(void)
             lowx = 0;
             xphase = (xphase + 1) & DITHERMASK;
         }
-
-        ds_x1++;
     }
 
     dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
@@ -1570,7 +1566,6 @@ void R_DrawDitheredSpan(void)
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
         xphase = (xphase + 1) & DITHERMASK;
-        ds_x1++;
     }
 
     *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < ds_z]
@@ -1594,7 +1589,6 @@ void R_DrawDitheredSpanWithBrightmap(void)
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
         xphase = (xphase + 1) & DITHERMASK;
-        ds_x1++;
     }
 
     dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
@@ -1631,8 +1625,6 @@ void R_DrawLowResDitheredSolidColorSpan(void)
             lowx = 0;
             xphase = (xphase + 1) & DITHERMASK;
         }
-
-        ds_x1++;
     }
 
     *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < ds_z][NOTEXTURECOLOR]];
@@ -1649,7 +1641,6 @@ void R_DrawDitheredSolidColorSpan(void)
     {
         *dest++ = ds_sectorcolormap[ds_colormap[thresholds[xphase] < ds_z][NOTEXTURECOLOR]];
         xphase = (xphase + 1) & DITHERMASK;
-        ds_x1++;
     }
 
     *dest = ds_sectorcolormap[ds_colormap[thresholds[xphase] < ds_z][NOTEXTURECOLOR]];
