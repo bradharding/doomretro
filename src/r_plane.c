@@ -411,9 +411,11 @@ static void R_MakeSpans(visplane_t *pl)
 #define SWIRLFACTOR2    (FINEANGLES / 32)
 
 // Cache multiple flats
-#define MAXCACHEDFLATS  8
+#define MAXCACHEDFLATS  16
 
-static uint16_t offsets[1024 * 4096];
+static uint16_t         offsets[1024 * 4096];
+static const uint16_t   *swirloffset;
+static int              swirloffsettic = -1;
 
 typedef struct
 {
@@ -457,6 +459,8 @@ void R_InitSwirlingFlats(void)
         swirlcache[i].flatnum = -1;
         swirlcache[i].lasttic = -1;
     }
+
+    swirloffset = offsets;
 }
 
 //
@@ -492,18 +496,29 @@ byte *R_SwirlingFlat(const int flatnum)
 
     if ((updateswirl || cache->lasttic == -1) && cache->lasttic != animatedtic)
     {
-        const uint16_t  *offset = &offsets[(animatedtic & 1023) << 12];
-        byte            *normalflat = lumpinfo[firstflat + flatnum]->cache;
+        const uint16_t  *offset;
+        const byte      *normalflat = lumpinfo[firstflat + flatnum]->cache;
         byte            *dest = cache->distortedflat;
 
+        if (swirloffsettic != animatedtic)
+        {
+            swirloffsettic = animatedtic;
+            swirloffset = &offsets[(animatedtic & 1023) << 12];
+        }
+
+        offset = swirloffset;
         cache->lasttic = animatedtic;
 
-        for (int i = 0; i < 64 * 64; i += 4)
+        for (int i = 0; i < 64 * 64; i += 8)
         {
             dest[i] = normalflat[offset[i]];
             dest[i + 1] = normalflat[offset[i + 1]];
             dest[i + 2] = normalflat[offset[i + 2]];
             dest[i + 3] = normalflat[offset[i + 3]];
+            dest[i + 4] = normalflat[offset[i + 4]];
+            dest[i + 5] = normalflat[offset[i + 5]];
+            dest[i + 6] = normalflat[offset[i + 6]];
+            dest[i + 7] = normalflat[offset[i + 7]];
         }
     }
 
