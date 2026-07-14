@@ -3136,6 +3136,17 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                     mobjinfo[indexnum].projectilepassheight = 0;
                 else if (M_StringCompare(key, "Gib health"))
                     gibhealth = true;
+                else if (M_StringCompare(key, "Pickup sound"))
+                {
+                    if (value != sfx_none)
+                    {
+                        dsdh_EnsureSFXCapacity(value);
+                        s_sfx[value].singularity = s_sfx[sfx_itemup].singularity;
+                        s_sfx[value].priority = s_sfx[sfx_itemup].priority;
+                    }
+
+                    id24compatible = true;
+                }
                 else if (M_StringCompare(key, "Pickup ammo type")
                     || M_StringCompare(key, "Pickup weapon type")
                     || M_StringCompare(key, "Pickup item type"))
@@ -3146,8 +3157,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
                 else if (M_StringCompare(key, "Min respawn tics")
                     || M_StringCompare(key, "Respawn dice")
                     || M_StringCompare(key, "Pickup ammo category")
-                    || M_StringCompare(key, "Pickup bonus count")
-                    || M_StringCompare(key, "Pickup sound"))
+                    || M_StringCompare(key, "Pickup bonus count"))
                     id24compatible = true;
             }
 
