@@ -879,6 +879,19 @@ char    *s_OB_FRIENDLY4 = "";
 char    *s_OB_VOODOO = "";
 char    *s_OB_MPDEFAULT = "";
 
+char    *s_ID24_GOTINCINERATOR = ID24_GOTINCINERATOR;
+char    *s_ID24_GOTCALAMITYBLADE = ID24_GOTCALAMITYBLADE;
+char    *s_ID24_GOTFUELCAN = ID24_GOTFUELCAN;
+char    *s_ID24_GOTFUELTANK = ID24_GOTFUELTANK;
+char    *s_ID24_COLOR_GREEN = ID24_COLOR_GREEN;
+char    *s_ID24_COLOR_INDIGO = ID24_COLOR_INDIGO;
+char    *s_ID24_COLOR_BROWN = ID24_COLOR_BROWN;
+char    *s_ID24_COLOR_RED = ID24_COLOR_RED;
+char    *s_ID24_COLOR_YELLOW = ID24_COLOR_YELLOW;
+char    *s_ID24_COLOR_BLUE = ID24_COLOR_BLUE;
+char    *s_ID24_COLOR_NAVY = ID24_COLOR_NAVY;
+char    *s_ID24_COLOR_MAGENTA = ID24_COLOR_MAGENTA;
+
 // end d_deh.h variable declarations
 // ====================================================================
 
@@ -1545,7 +1558,20 @@ deh_strs deh_strlookup[] =
     { &s_OB_FRIENDLY3,            "OB_FRIENDLY3"            },
     { &s_OB_FRIENDLY4,            "OB_FRIENDLY4"            },
     { &s_OB_VOODOO,               "OB_VOODOO"               },
-    { &s_OB_MPDEFAULT,            "OB_MPDEFAULT"            }
+    { &s_OB_MPDEFAULT,            "OB_MPDEFAULT"            },
+
+    { &s_ID24_GOTINCINERATOR,     "ID24_GOTINCINERATOR"     },
+    { &s_ID24_GOTCALAMITYBLADE,   "ID24_GOTCALAMITYBLADE"   },
+    { &s_ID24_GOTFUELCAN,         "ID24_GOTFUELCAN"         },
+    { &s_ID24_GOTFUELTANK,        "ID24_GOTFUELTANK"        },
+    { &s_ID24_COLOR_GREEN,        "ID24_COLOR_GREEN"        },
+    { &s_ID24_COLOR_INDIGO,       "ID24_COLOR_INDIGO"       },
+    { &s_ID24_COLOR_BROWN,        "ID24_COLOR_BROWN"        },
+    { &s_ID24_COLOR_RED,          "ID24_COLOR_RED"          },
+    { &s_ID24_COLOR_YELLOW,       "ID24_COLOR_YELLOW"       },
+    { &s_ID24_COLOR_BLUE,         "ID24_COLOR_BLUE"         },
+    { &s_ID24_COLOR_NAVY,         "ID24_COLOR_NAVY"         },
+    { &s_ID24_COLOR_MAGENTA,      "ID24_COLOR_MAGENTA"      }
 };
 
 static const int    deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);

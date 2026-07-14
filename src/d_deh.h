@@ -527,6 +527,19 @@ extern char         *s_CAPTION_TTP;
 
 extern char         *s_AUTHOR_ROMERO;
 
+extern char         *s_ID24_GOTINCINERATOR;
+extern char         *s_ID24_GOTCALAMITYBLADE;
+extern char         *s_ID24_GOTFUELCAN;
+extern char         *s_ID24_GOTFUELTANK;
+extern char         *s_ID24_COLOR_GREEN;
+extern char         *s_ID24_COLOR_INDIGO;
+extern char         *s_ID24_COLOR_BROWN;
+extern char         *s_ID24_COLOR_RED;
+extern char         *s_ID24_COLOR_YELLOW;
+extern char         *s_ID24_COLOR_BLUE;
+extern char         *s_ID24_COLOR_NAVY;
+extern char         *s_ID24_COLOR_MAGENTA;
+
 extern char         *bgflatE1;
 extern char         *bgflatE2;
 extern char         *bgflatE3;

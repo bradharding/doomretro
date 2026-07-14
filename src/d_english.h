@@ -667,6 +667,19 @@
 #define CC_CYBER                "THE CYBERDEMON"
 #define CC_HERO                 "OUR HERO"
 
+#define ID24_GOTINCINERATOR     "You got the incinerator!"
+#define ID24_GOTCALAMITYBLADE   "You got the calamity blade! Hot damn!"
+#define ID24_GOTFUELCAN         "Picked up a fuel can."
+#define ID24_GOTFUELTANK        "Picked up a fuel tank"
+#define ID24_COLOR_GREEN        "Green"
+#define ID24_COLOR_INDIGO       "Indigo"
+#define ID24_COLOR_BROWN        "Brown"
+#define ID24_COLOR_RED          "Red"
+#define ID24_COLOR_YELLOW       "Yellow"
+#define ID24_COLOR_BLUE         "Blue"
+#define ID24_COLOR_NAVY         "Navy"
+#define ID24_COLOR_MAGENTA      "Magenta"
+
 // [BH] Banner strings. Here to avoid errors in DeHackEd parsing. Otherwise ignored.
 #define BANNER1                 "                         " \
                                 "DOOM 2: Hell on Earth v%i.%i" \
