@@ -11,8 +11,11 @@
   * `Tranmap` is now supported in state definitions in `DEHACKED` lumps.
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
-* The `BIGDOOR1` texture now vertically aligns as intended in [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* The `BIGDOOR1` texture is now always vertically aligned as intended.
 * Weapons that cause a high amount of damage now have a limit on how many blood splats can be spawned per tic.
+* The incorrect intermission screen no longer appears once completing *E2M7: Brink* at the end of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
+* Per-column lighting is now also applied to pickups when the `r_percolumnlighting` CVAR is `on`.
+* A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -23,7 +26,7 @@
 * *DOOM Retro* is now built using v18.7.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * [`sdl2_image.dll`](https://github.com/libsdl-org/SDL_image) is no longer included with *DOOM Retro*. It was causing false positives in some antivirus software, and now isn’t required for taking screenshots.
-* The desktop now fades to black when starting *DOOM Retro* if the `vid_fullscreen`, `vid_borderlesswindow`, and `smoothtransitions` CVARs are `on`.
+* The desktop now fades to black when starting *DOOM Retro* if the `vid_fullscreen`, `vid_borderlesswindow` and `smoothtransitions` CVARs are `on`.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * The console now appears over the menu if opened while the menu is open, rather than the menu closing first.
