@@ -517,6 +517,14 @@ static bool NextLocAnimation(void)
     return (animation && animation->enteringstates);
 }
 
+static bool PostIntermissionFinale(void)
+{
+    return (P_GetMapEndGame(gameepisode, gamemap)
+        || P_GetMapEndCast(gameepisode, gamemap)
+        || *P_GetInterText(gameepisode, gamemap)
+        || (*P_GetInterSecretText(gameepisode, gamemap) && secretexit));
+}
+
 static bool UpdateMusic(bool enteringcondition)
 {
     int musicnum = -1;
@@ -1018,9 +1026,7 @@ static void WI_UpdateShowNextLoc(void)
 
 static void WI_DrawShowNextLoc(void)
 {
-    if (P_GetMapEndGame(gameepisode, gamemap)
-        || P_GetMapEndCast(gameepisode, gamemap)
-        || (legacyofrust && gamemap == 7))
+    if (PostIntermissionFinale())
         return;
 
     WI_SlamBackground();
@@ -1286,7 +1292,7 @@ static void WI_UpdateStats(void)
         {
             S_StartSound(NULL, sfx_sgcock);
 
-            if (NextLocAnimation() || gamemode != commercial)
+            if (!PostIntermissionFinale() && (NextLocAnimation() || gamemode != commercial))
                 WI_InitShowNextLoc();
             else
                 WI_InitNoState();
