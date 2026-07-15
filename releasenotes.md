@@ -16,6 +16,7 @@
 * The incorrect intermission screen no longer appears once completing *E2M7: Brink* at the end of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * Per-column lighting is now also applied to pickups when the `r_percolumnlighting` CVAR is `on`.
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
+* The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

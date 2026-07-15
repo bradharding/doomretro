@@ -1218,6 +1218,7 @@ static void R_SetupFrame(void)
 #define VIEWSWIRLFACTOR2    (FINEANGLES / 128)
 #define VIEWSWIRLOFFSETSHIFT 16
 
+static int  viewswirltic = -1;
 static byte viewswirloffsets[VIEWSWIRLPHASES * 256 * 256];
 
 static void R_InitViewSwirl(void)
@@ -1245,11 +1246,11 @@ static void R_InitViewSwirl(void)
     }
 }
 
-static void R_SwirlView(void)
+static void R_SwirlView(const int swirltic)
 {
     byte        *source = screens[1];
     byte        *dest = screens[0];
-    const byte  *offset = &viewswirloffsets[((size_t)(animatedtic & (VIEWSWIRLPHASES - 1))) << VIEWSWIRLOFFSETSHIFT];
+    const byte  *offset = &viewswirloffsets[((size_t)(swirltic & (VIEWSWIRLPHASES - 1))) << VIEWSWIRLOFFSETSHIFT];
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1309,6 +1310,9 @@ void R_RenderPlayerView(void)
 
     R_DrawMasked();
 
+    if (!(viewplayer->cheats & CF_FREEZE) || viewswirltic == -1)
+        viewswirltic = animatedtic;
+
     if (r_liquid_swirl)
     {
         sector_t    *sector = viewplayer->mo->subsector->sector;
@@ -1317,7 +1321,7 @@ void R_RenderPlayerView(void)
         if (heightsec
             && viewz <= heightsec->interpfloorheight
             && (sector->terraintype >= LIQUID || heightsec->terraintype >= LIQUID))
-            R_SwirlView();
+            R_SwirlView(viewswirltic);
     }
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
