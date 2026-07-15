@@ -638,7 +638,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
     {
         const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t         offset;
@@ -765,7 +765,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
     {
         const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t         offset;
@@ -918,7 +918,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
     {
         const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t         offset;
@@ -1135,7 +1135,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
 
     fuzz1pos = 0;
 
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE)))
+    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
     {
         const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         fixed_t         offset;
