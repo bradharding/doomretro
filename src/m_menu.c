@@ -2384,7 +2384,9 @@ static void M_DrawOptions(void)
             patch_t *patch = W_CacheLumpName("M_MSGON");
 
             patch->leftoffset = 0;
-            patch->topoffset = 0;
+
+            if (FREEDOOM)
+                patch->topoffset = 0;
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
@@ -2406,7 +2408,9 @@ static void M_DrawOptions(void)
             patch_t *patch = W_CacheLumpName("M_MSGOFF");
 
             patch->leftoffset = 0;
-            patch->topoffset = 0;
+
+            if (FREEDOOM)
+                patch->topoffset = 0;
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
@@ -2429,7 +2433,9 @@ static void M_DrawOptions(void)
             patch_t *patch = W_CacheLumpName("M_GDLOW");
 
             patch->leftoffset = 0;
-            patch->topoffset = 0;
+
+            if (FREEDOOM)
+                patch->topoffset = 0;
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
@@ -2451,7 +2457,9 @@ static void M_DrawOptions(void)
             patch_t *patch = W_CacheLumpName("M_GDHIGH");
 
             patch->leftoffset = 0;
-            patch->topoffset = 0;
+
+            if (FREEDOOM)
+                patch->topoffset = 0;
 
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
