@@ -1380,7 +1380,7 @@ static void WI_UpdateStats(void)
 
 static void WI_DrawStats(void)
 {
-    const bool  ms = (wbs->stime < 60 * 50 * TICRATE && (!WICOLON || WIPERIOD) && !FREEDOOM);
+    const bool  ms = (wbs->stime < 60 * 50 * TICRATE && (!WICOLON || WIPERIOD));
 
     // line height
     const int   lh = 3 * LITTLESHORT(num[0]->height) / 2;
@@ -1409,17 +1409,16 @@ static void WI_DrawStats(void)
     }
 
     V_DrawMenuPatch(SP_TIMEX + 1, SP_TIMEY + 1, witime, false, SCREENWIDTH);
-    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + 18 - (FREEDOOM ? 10 : 0), SP_TIMEY, cnt_time,
-        (ms && (!sucktime || wbs->stime <= sucktime * 60 * 60 * TICRATE)),
-        (cnt_time == wbs->stime), (wbs->stime > wbs->partime));
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + 18 - (ms ? 0 : 10), SP_TIMEY, cnt_time,
+        (ms && (!sucktime || wbs->stime <= sucktime * 60 * 60 * TICRATE)), (cnt_time == wbs->stime),
+        (wbs->stime > wbs->partime));
 
     if (wbs->partime)
     {
-        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX
-            + (!BTSX ? (SP_TIMEX - (FREEDOOM ? 10 : 0) + 3) : 0) - 18,
-            SP_TIMEY + 1, wipar, false, SCREENWIDTH);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par,
-            ms, (cnt_par == wbs->partime), false);
+        V_DrawMenuPatch(VANILLAWIDTH / 2 + SP_TIMEX * 2 - (ms ? 0 : 10) - 15, SP_TIMEY + 1, wipar,
+            false, SCREENWIDTH);
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (ms ? 0 : 17), SP_TIMEY, cnt_par, ms,
+            (cnt_par == wbs->partime), false);
     }
 }
 

@@ -2812,7 +2812,7 @@ static void D_DoomMainSetup(void)
     M_SVOL = (W_GetNumLumps("M_SVOL") > 1);
     STYSNUM0 = (W_GetNumLumps("STYSNUM0") > 1);
     WICOLON = (W_GetNumLumps("WICOLON") > 1);
-    WIPERIOD = (W_GetNumLumps("WIPERIOD") > 1);
+    WIPERIOD = (W_GetNumLumps2("WIPERIOD") > 1);
     WISCRT2 = (W_GetNumLumps("WISCRT2") > 1);
 
     I_InitGraphics();
