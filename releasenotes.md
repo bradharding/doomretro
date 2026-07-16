@@ -2,6 +2,7 @@
 
 ### DOOM Retro v6.3
 
+* *DOOM Retro* is now built using v18.8.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * The highlight effect when selecting items in the menu and the `menuhighlight` CVAR is `on` now slightly fades in and out when the `smoothtransitions` CVAR is also `on`.
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
@@ -17,6 +18,7 @@
 * Per-column lighting is now also applied to pickups when the `r_percolumnlighting` CVAR is `on`.
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
 * The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled.
+* The time and par time are now displayed correctly in the intermission screen when playing [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
