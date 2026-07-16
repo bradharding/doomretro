@@ -580,6 +580,7 @@ static void WI_DrawWILVchar(int x, int y, int i)
 
 static char mapname[128];
 static char nextmapname[128];
+static int  backgroundscreenwidth;
 
 static const int chartoi[130] =
 {
@@ -970,6 +971,73 @@ static void WI_DrawTime(int x, int y, int tics, bool showms, bool end, bool suck
 }
 
 static void WI_UnloadData(void);
+
+static void WI_DrawBackground(void)
+{
+    patch_t *lump;
+
+    if (enterpic > 0 && state != StatCount)
+        lump = W_CacheLumpNum(enterpic);
+    else if (exitpic > 0)
+        lump = W_CacheLumpNum(exitpic);
+    else if (FREEDOOM || hacx)
+        lump = W_CacheLastLumpName("INTERPIC");
+    else if (gamemode == commercial)
+    {
+        if (gamemission == pack_plut)
+        {
+            if (W_GetNumLumps("INTERPIC") > 2)
+                lump = W_CacheLumpName("INTERPIC");
+            else
+                lump = W_CacheLumpName("INTERPI2");
+        }
+        else if (gamemission == pack_tnt)
+        {
+            if (W_GetNumLumps("INTERPIC") > 2)
+                lump = W_CacheLumpName("INTERPIC");
+            else
+                lump = W_CacheLumpName("INTERPI3");
+        }
+        else if (nerve)
+            lump = W_CacheLumpNameFromResourceWAD("INTERPIC");
+        else
+            lump = W_CacheLumpName("INTERPIC");
+    }
+    else if (gamemode == retail && wbs->epsd == 3)
+    {
+        if (REKKRSL)
+            lump = W_CacheLumpName("INTERPIW");
+        else if (W_GetNumLumps("INTERPIC") > 2)
+            lump = W_CacheLumpName("INTERPIC");
+        else
+            lump = W_CacheLumpName("INTERPI1");
+    }
+    else if (sigil && wbs->epsd == 4)
+        lump = W_CacheLumpNameFromResourceWAD("SIGILINT");
+    else if (sigil2 && wbs->epsd == 5)
+        lump = W_CacheLumpNameFromResourceWAD("SIGILIN2");
+    else if (wbs->epsd <= 2)
+    {
+        char    temp[9];
+
+        if (REKKR)
+        {
+            M_snprintf(temp, sizeof(temp), "WIMAP%iW", wbs->epsd);
+
+            if (W_CheckNumForName(temp) < 0)
+                M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
+        }
+        else
+            M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
+
+        lump = (chex ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
+    }
+    else
+        lump = W_CacheLumpName("INTERPIC");
+
+    V_DrawPagePatch(1, lump);
+    backgroundscreenwidth = SCREENWIDTH;
+}
 
 void WI_End(void)
 {
@@ -1516,8 +1584,6 @@ static void WI_LoadCallback(const char *name, patch_t **variable)
 
 static void WI_LoadData(void)
 {
-    patch_t *lump;
-
     if (gamemode == commercial)
     {
         numcmaps = 32 + (W_CheckNumForName("CWILV32") >= 0);
@@ -1528,67 +1594,7 @@ static void WI_LoadData(void)
 
     WI_LoadUnloadData(&WI_LoadCallback);
 
-    // Background image
-    if (enterpic > 0 && state != StatCount)
-        lump = W_CacheLumpNum(enterpic);
-    else if (exitpic > 0)
-        lump = W_CacheLumpNum(exitpic);
-    else if (FREEDOOM || hacx)
-        lump = W_CacheLastLumpName("INTERPIC");
-    else if (gamemode == commercial)
-    {
-        if (gamemission == pack_plut)
-        {
-            if (W_GetNumLumps("INTERPIC") > 2)
-                lump = W_CacheLumpName("INTERPIC");
-            else
-                lump = W_CacheLumpName("INTERPI2");
-        }
-        else if (gamemission == pack_tnt)
-        {
-            if (W_GetNumLumps("INTERPIC") > 2)
-                lump = W_CacheLumpName("INTERPIC");
-            else
-                lump = W_CacheLumpName("INTERPI3");
-        }
-        else if (nerve)
-            lump = W_CacheLumpNameFromResourceWAD("INTERPIC");
-        else
-            lump = W_CacheLumpName("INTERPIC");
-    }
-    else if (gamemode == retail && wbs->epsd == 3)
-    {
-        if (REKKRSL)
-            lump = W_CacheLumpName("INTERPIW");
-        else if (W_GetNumLumps("INTERPIC") > 2)
-            lump = W_CacheLumpName("INTERPIC");
-        else
-            lump = W_CacheLumpName("INTERPI1");
-    }
-    else if (sigil && wbs->epsd == 4)
-        lump = W_CacheLumpNameFromResourceWAD("SIGILINT");
-    else if (sigil2 && wbs->epsd == 5)
-        lump = W_CacheLumpNameFromResourceWAD("SIGILIN2");
-    else if (wbs->epsd <= 2)
-    {
-        char    temp[9];
-
-        if (REKKR)
-        {
-            M_snprintf(temp, sizeof(temp), "WIMAP%iW", wbs->epsd);
-
-            if (W_CheckNumForName(temp) < 0)
-                M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
-        }
-        else
-            M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
-
-        lump = (chex ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
-    }
-    else
-        lump = W_CacheLumpName("INTERPIC");
-
-    V_DrawPagePatch(1, lump);
+    WI_DrawBackground();
 }
 
 static void WI_UnloadCallback(const char *name, patch_t **variable)
@@ -1605,6 +1611,9 @@ static void WI_UnloadData(void)
 
 void WI_Drawer(void)
 {
+    if (backgroundscreenwidth != SCREENWIDTH)
+        WI_DrawBackground();
+
     switch (state)
     {
         case StatCount:
@@ -1633,6 +1642,7 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     acceleratestage = false;
     cnt = 0;
     bcnt = 0;
+    backgroundscreenwidth = 0;
 
     if (!wbs->maxkills)
         wbs->maxkills = 1;
