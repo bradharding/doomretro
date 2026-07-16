@@ -13,12 +13,13 @@
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
-* Weapons that cause a high amount of damage now have a limit on how many blood splats can be spawned per tic.
+* Weapons that cause a high amount of damage now have a limit on how many blood splats they can spawn per tic.
 * The incorrect intermission screen no longer appears once completing *E2M7: Brink* at the end of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
 * Per-column lighting is now also applied to pickups when the `r_percolumnlighting` CVAR is `on`.
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
-* The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled.
+* The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled using the `freeze` CCMD.
 * The time and par time are now always positioned correctly on the intermission screen.
+* There is no longer any glitch when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
