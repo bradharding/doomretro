@@ -3383,6 +3383,7 @@ void P_SetupLevel(int ep, int map)
             int iwadlump = -1;
             int nervelump = -1;
             int masterlevelslump = -1;
+            int pwadlump = -1;
 
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
 
@@ -3398,12 +3399,16 @@ void P_SetupLevel(int ep, int map)
                         nervelump = i;
                     else if (D_IsMasterLevelsWAD(lumpinfo[i]->wadfile->path))
                         masterlevelslump = i;
+                    else if (lumpinfo[i]->wadfile->type == PWAD && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
+                        pwadlump = i;
                 }
 
             if (gamemission == pack_nerve && nervelump >= 0)
                 lumpnum = nervelump;
             else if (gamemission == pack_masterlevels && masterlevelslump >= 0)
                 lumpnum = masterlevelslump;
+            else if (gamemission == doom2 && pwadlump >= 0)
+                lumpnum = pwadlump;
             else if (gamemission == doom2 && iwadlump >= 0 && (nerve || masterlevels))
                 lumpnum = iwadlump;
             else
