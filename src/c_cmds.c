@@ -5506,21 +5506,38 @@ static void RemoveMapNum(char *title)
     }
 }
 
-static const char *GetAuthor(int ep, int map, bool replaced)
+static gamemission_t GetMaplistMission(char *wadname)
 {
-    const char  *author = P_GetMapAuthor(ep, map);
+    if (D_IsNERVEWAD(wadname))
+        return pack_nerve;
+
+    if (D_IsMasterLevelsWAD(wadname))
+        return pack_masterlevels;
+
+    return doom2;
+}
+
+static int GetCommercialMaplistMissionIndex(gamemission_t mission)
+{
+    return (mission == doom2 ? 0 : (mission == pack_nerve ? 1 :
+        (mission == pack_masterlevels ? 2 : -1)));
+}
+
+static const char *GetAuthor(int ep, int map, bool replaced, gamemission_t mission, bool usemapinfo)
+{
+    const char  *author = (usemapinfo ? P_GetMapAuthor(ep, map) : "");
 
     if (*author)
         return author;
-    else if (gamemission == doom)
+    else if (mission == doom)
     {
-        if (!replaced && ep * 10 + map < arrlen(authors) && authors[ep * 10 + map][gamemission])
-            return authors[ep * 10 + map][gamemission];
+        if (!replaced && ep * 10 + map < arrlen(authors) && authors[ep * 10 + map][mission])
+            return authors[ep * 10 + map][mission];
         else if (REKKR)
             return "Matthew Little";
     }
-    else if (!replaced && map < arrlen(authors) && authors[map][gamemission])
-        return authors[map][gamemission];
+    else if (!replaced && map < arrlen(authors) && authors[map][mission])
+        return authors[map][mission];
 
     return "\x96";
 }
@@ -5546,6 +5563,8 @@ static void maplistfunc2(char *cmd, char *parms)
     const int   tabs[MAXTABS] = { 40, 93, 296, 496 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
+    const bool  showallcommercial = (gamemode == commercial && gamestate == GS_TITLESCREEN);
+    bool        seencommercialmaps[3][100] = { { false } };
 
     C_Header(tabs, maplist, MAPLISTHEADER);
 
@@ -5563,6 +5582,8 @@ static void maplistfunc2(char *cmd, char *parms)
         char    truncatedtitle[128];
         char    truncatedauthor[128];
         char    *temp1 = uppercase(lumpinfo[i]->name);
+        gamemission_t listmission = gamemission;
+        bool    usemapinfo = true;
 
         M_StringCopy(lump, temp1, sizeof(lump));
         free(temp1);
@@ -5584,16 +5605,42 @@ static void maplistfunc2(char *cmd, char *parms)
         }
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
+
+        if (gamemode == commercial && (gamemission == doom2 || gamemission == pack_nerve || gamemission == pack_masterlevels))
+        {
+            const int missionindex = GetCommercialMaplistMissionIndex(listmission = GetMaplistMission(wadname));
+
+            listmission = GetMaplistMission(wadname);
+
+            if (!showallcommercial && listmission != gamemission)
+                continue;
+
+            usemapinfo = (listmission == gamemission);
+
+            if (missionindex >= 0 && map < arrlen(seencommercialmaps[missionindex]))
+            {
+                if (seencommercialmaps[missionindex][map])
+                    continue;
+
+                seencommercialmaps[missionindex][map] = true;
+            }
+        }
+
         replaced = (W_GetNumLumps(lump) > 1 && !chex && !FREEDOOM && !nerve);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
-        M_StringCopy(author, GetAuthor(ep, map, replaced), sizeof(author));
+
+        if (usemapinfo)
+            M_StringCopy(mapinfoname, P_GetMapName(ep, map), sizeof(mapinfoname));
+        else
+            mapinfoname[0] = '\0';
+
+        M_StringCopy(author, GetAuthor(ep, map, replaced, listmission, usemapinfo), sizeof(author));
         TruncateMaplistText(truncatedauthor, sizeof(truncatedauthor), author);
 
         if (!*author)
             M_StringCopy(author, "\x96", sizeof(author));
 
-        switch (gamemission)
+        switch (listmission)
         {
             case doom:
                 if (!replaced || pwad)
