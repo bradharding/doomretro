@@ -5679,9 +5679,11 @@ static void maplistfunc2(char *cmd, char *parms)
                     {
                         if (!D_IsDOOM2IWAD(wadname))
                         {
+                            char    maplabel[16];
                             char    *temp2;
 
-                            temp1 = M_SubString(*mapnames2[map - 1], 0, 5);
+                            M_snprintf(maplabel, sizeof(maplabel), "E%iM%02i", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), map);
+                            temp1 = M_StringDuplicate(maplabel);
                             temp2 = titlecase(*mapnames2[map - 1]);
                             RemoveMapNum(temp2);
                             TruncateMaplistText(truncatedtitle, sizeof(truncatedtitle), temp2);
