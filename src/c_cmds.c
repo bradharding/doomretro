@@ -771,7 +771,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(centerweapon, centreweapon, "", boolfunc1, boolfunc2, 0,
         "Toggles centering your weapon when fired."),
     BOOLCVAR(cleanscreenshots, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles hiding the HUD, crosshair, overlay text and player messages when taking screenshots."),
+        "Toggles hiding everything overlaying the screen when taking screenshots."),
     CCMD(clear, "", "", nullfunc1, clearfunc2, false, "",
         "Clears the console."),
     CCMD(cmdlist, "", ccmdlist, nullfunc1, cmdlistfunc2, true, CMDLISTFORMAT,
