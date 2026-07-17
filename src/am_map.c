@@ -203,6 +203,7 @@ static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
 static void AM_CorrectAspectRatio(mpoint_t *point);
 static void AM_ChangeWindowScale(void);
+static void AM_DoFollowPlayer(void);
 static void (*putbigwalldot)(int, int, const byte *);
 static void (*putbigdot)(int, int, const byte *);
 static void (*putbigdot2)(int, int, const byte *);
@@ -410,6 +411,16 @@ void AM_Init(void)
 
 void AM_SetAutomapSize(const int screensize)
 {
+    fixed_t     x = 0;
+    fixed_t     y = 0;
+    const bool  active = (automapactive || mapwindow);
+
+    if (active)
+    {
+        x = m_x + m_w / 2;
+        y = m_y + m_h / 2;
+    }
+
     if (!mapwindow)
     {
         MAPWIDTH = SCREENWIDTH;
@@ -421,6 +432,17 @@ void AM_SetAutomapSize(const int screensize)
 
     m_w = FTOM(MAPWIDTH);
     m_h = FTOM(MAPHEIGHT);
+
+    if (active)
+    {
+        if (am_followmode && viewplayer && viewplayer->mo)
+            AM_DoFollowPlayer();
+        else
+        {
+            m_x = x - m_w / 2;
+            m_y = y - m_h / 2;
+        }
+    }
 }
 
 static void AM_InitVariables(const bool mainwindow)
