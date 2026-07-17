@@ -2649,7 +2649,7 @@ void AM_Drawer(void)
             AM_StatusBarShadow();
     }
 
-    if (!am_followmode)
+    if (!am_followmode && !takingcleancreenshot)
         AM_DrawCrosshair();
 }
 

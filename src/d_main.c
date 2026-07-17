@@ -434,10 +434,10 @@ void D_Display(void)
     {
         if (!paused && !menuactive)
         {
-            if (vid_showfps && !dowipe && !splashscreen && framespersecond)
+            if (!takingcleancreenshot && vid_showfps && !dowipe && !splashscreen && framespersecond)
                 C_UpdateFPSOverlay();
 
-            if (gamestate == GS_LEVEL)
+            if (!takingcleancreenshot && gamestate == GS_LEVEL)
             {
                 gotoverlaytextcolors = false;
 

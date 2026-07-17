@@ -1494,6 +1494,9 @@ void HU_Drawer(void)
     if (menuactive)
         return;
 
+    if (takingcleancreenshot)
+        return;
+
     if (*w_message.l.l)
     {
         if (vanilla && !vid_widescreen)

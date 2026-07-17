@@ -56,6 +56,7 @@ extern byte *screens[NUMSCREENS];
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
 extern int  lowpixelrows;
+extern bool takingcleancreenshot;
 
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 

@@ -61,6 +61,7 @@ byte        *screens[NUMSCREENS];
 int         lowpixelwidth;
 int         lowpixelheight;
 int         lowpixelrows;
+bool        takingcleancreenshot;
 static int  menuhighlightfade = 100;
 
 static byte V_GetMenuHighlightColor(byte color, bool highlight);
@@ -2328,6 +2329,12 @@ bool V_ScreenShot(void)
 
     free(temp1);
 
+    if (cleanscreenshots)
+    {
+        takingcleancreenshot = true;
+        D_Display();
+    }
+
     if ((result = V_SavePNG(window, lbmpath1)) && mapwindow && gamestate == GS_LEVEL)
     {
         count = 0;
@@ -2348,6 +2355,12 @@ bool V_ScreenShot(void)
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(mapwindow, lbmpath2);
+    }
+
+    if (cleanscreenshots)
+    {
+        takingcleancreenshot = false;
+        D_Display();
     }
 
     return result;

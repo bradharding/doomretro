@@ -101,6 +101,7 @@ bool        autoswitch = autoswitch_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
+bool        cleanscreenshots = cleanscreenshots_default;
 bool        compresssavegames = compresssavegames_default;
 int         con_edgecolor = con_edgecolor_default;
 int         con_timestampformat = con_timestampformat_default;
@@ -372,6 +373,7 @@ static default_t cvars[] =
     CVAR_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS        ),
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS        ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS        ),
+    CVAR_BOOL         (cleanscreenshots,                 cleanscreenshots,                      cleanscreenshots,                      BOOLVALUEALIAS        ),
     CVAR_BOOL         (compresssavegames,                compresssavegames,                     compresssavegames,                     BOOLVALUEALIAS        ),
     CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS   ),
     CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS   ),
