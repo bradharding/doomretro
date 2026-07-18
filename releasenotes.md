@@ -21,6 +21,7 @@
 * The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled using the `freeze` CCMD.
 * The time and par time are now always positioned correctly on the intermission screen.
 * There is no longer any glitch when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
+* God and buddha modes are no longer turned off if the player uses the `IDBEHOLDV` or `IDCHOPPERS` cheats.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

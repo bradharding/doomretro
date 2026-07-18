@@ -712,14 +712,6 @@ bool ST_Responder(const event_t *ev)
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
                     {
-                        if (i == pw_invulnerability)
-                        {
-                            if (viewplayer->cheats & CF_GODMODE)
-                                viewplayer->cheats &= ~CF_GODMODE;
-                            else if (viewplayer->cheats & CF_BUDDHA)
-                                viewplayer->cheats &= ~CF_BUDDHA;
-                        }
-
                         P_GivePower(i, false);
 
                         // [BH] set to -1 so power-up won't run out, but can still be toggled off using cheat
@@ -895,11 +887,6 @@ bool ST_Responder(const event_t *ev)
                         oldweaponsowned[wp_chainsaw] = true;
                         viewplayer->pendingweapon = wp_chainsaw;
                     }
-
-                    if (viewplayer->cheats & CF_GODMODE)
-                        viewplayer->cheats &= ~CF_GODMODE;
-                    else if (viewplayer->cheats & CF_BUDDHA)
-                        viewplayer->cheats &= ~CF_BUDDHA;
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
