@@ -5295,6 +5295,9 @@ static bool mapfunc1(char *cmd, char *parms)
         free(temp1);
         free(parm);
 
+        if (!result)
+            speciallumpname[0] = '\0';
+
         return result;
     }
 }
