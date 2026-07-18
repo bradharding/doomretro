@@ -199,6 +199,7 @@ bool        r_percolumnlighting = r_percolumnlighting_default;
 bool        r_pickupeffect = r_pickupeffect_default;
 bool        r_playerweapon = r_playerweapon_default;
 bool        r_playerweapon_translucency = r_playerweapon_translucency_default;
+bool        r_radiallighting = r_radiallighting_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
 bool        r_randomstartframes = r_randomstartframes_default;
 bool        r_rockettrails = r_rockettrails_default;
@@ -469,6 +470,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_playerweapon,                   r_playersprites,                       r_playerweapon,                        BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_playerweapon_translucency,      r_playerweapon_translucency,           r_playerweapon_translucency,           BOOLVALUEALIAS        ),
+    CVAR_BOOL         (r_radiallighting,                 r_radiallighting,                      r_radiallighting,                      BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                       BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                   BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),

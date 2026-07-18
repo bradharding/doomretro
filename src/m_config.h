@@ -187,6 +187,7 @@ extern bool     r_percolumnlighting;
 extern bool     r_pickupeffect;
 extern bool     r_playerweapon;
 extern bool     r_playerweapon_translucency;
+extern bool     r_radiallighting;
 extern bool     r_radsuiteffect;
 extern bool     r_randomstartframes;
 extern bool     r_rockettrails;
@@ -815,6 +816,8 @@ enum
 #define r_playerweapon_default              true
 
 #define r_playerweapon_translucency_default true
+
+#define r_radiallighting_default            false
 
 #define r_radsuiteffect_default             true
 

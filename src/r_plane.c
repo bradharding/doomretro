@@ -129,6 +129,10 @@ static void R_MapPlane(const int y, const int x1)
     dx = x1 - centerx;
     ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
     ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
+    ds_lightxfrac = anglecosdistance + dx * ds_xstep;
+    ds_lightyfrac = -anglesindistance + dx * ds_ystep;
+    ds_lightxstep = ds_xstep;
+    ds_lightystep = ds_ystep;
     ds_y = y;
     ds_x1 = x1;
 
@@ -143,6 +147,16 @@ static void R_MapPlane(const int y, const int x1)
 
         if (r_ditheredlighting)
         {
+            if (r_radiallighting)
+            {
+                if (ds_brightmap)
+                    bmapspanfunc();
+                else
+                    spanfunc();
+
+                return;
+            }
+
             ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
 
             if (ds_colormap[0] == ds_colormap[1])
@@ -376,6 +390,7 @@ static void R_MakeSpans(visplane_t *pl)
 
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+    ds_zlight = planezlight;
     pl->top[pl->left - 1] = USHRT_MAX;
     pl->top[stop] = USHRT_MAX;
 

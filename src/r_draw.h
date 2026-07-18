@@ -148,6 +148,7 @@ extern int          ds_y;
 extern int          ds_z;
 
 extern lighttable_t *ds_colormap[2];
+extern lighttable_t **ds_zlight;
 extern lighttable_t *ds_sectorcolormap;
 extern byte         *ds_brightmap;
 
@@ -155,6 +156,10 @@ extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;
 extern fixed_t      ds_xstep;
 extern fixed_t      ds_ystep;
+extern fixed_t      ds_lightxfrac;
+extern fixed_t      ds_lightyfrac;
+extern fixed_t      ds_lightxstep;
+extern fixed_t      ds_lightystep;
 
 // start of a 64x64 tile image
 extern byte         *ds_source;
@@ -167,11 +172,20 @@ extern int          ditherxoffset;
 // Span blitting for rows, floor/ceiling.
 // No Spectre effect needed.
 void R_DrawSpan(void);
+void R_DrawRadialSpan(void);
 void R_DrawLowResDitheredSpan(void);
+void R_DrawLowResDitheredRadialSpan(void);
 void R_DrawDitheredSpan(void);
+void R_DrawDitheredRadialSpan(void);
+void R_DrawRadialSpanWithBrightmap(void);
+void R_DrawLowResDitheredRadialSpanWithBrightmap(void);
+void R_DrawDitheredRadialSpanWithBrightmap(void);
 void R_DrawSolidColorSpan(void);
+void R_DrawRadialSolidColorSpan(void);
 void R_DrawLowResDitheredSolidColorSpan(void);
+void R_DrawLowResDitheredRadialSolidColorSpan(void);
 void R_DrawDitheredSolidColorSpan(void);
+void R_DrawDitheredRadialSolidColorSpan(void);
 
 void R_InitBuffer(void);
 

@@ -553,6 +553,7 @@ static void r_hud_translucencyfunc2(char *cmd, char *parms);
 static void r_invulnerabilityeffectfunc2(char *cmd, char *parms);
 static void r_lowpixelsizefunc2(char *cmd, char *parms);
 static void r_mirroredweaponsfunc2(char *cmd, char *parms);
+static void r_radiallightingfunc2(char *cmd, char *parms);
 static void r_randomstartframesfunc2(char *cmd, char *parms);
 static void r_rockettrails_translucencyfunc2(char *cmd, char *parms);
 static void r_screensizefunc2(char *cmd, char *parms);
@@ -1058,6 +1059,8 @@ consolecmd_t consolecmds[] =
         "Toggles showing your weapon."),
     BOOLCVAR(r_playerweapon_translucency, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the translucency effect when firing your weapon."),
+    BOOLCVAR(r_radiallighting, "", "", boolfunc1, r_radiallightingfunc2, 0,
+        "Toggles radial lighting."),
     BOOLCVAR(r_radsuiteffect, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the green effect while you wear a radiation shielding suit power-up."),
     BOOLCVAR(r_randomstartframes, "", "", boolfunc1, r_randomstartframesfunc2, CF_NEXTMAP,
@@ -11864,6 +11867,19 @@ static void r_ditheredlightingfunc2(char *cmd, char *parms)
         I_SetPalette(&PLAYPAL[st_palette * 768]);
         R_InitColumnFunctions();
     }
+}
+
+//
+// r_radiallighting CVAR
+//
+static void r_radiallightingfunc2(char *cmd, char *parms)
+{
+    const bool   r_radiallighting_old = r_radiallighting;
+
+    boolfunc2(cmd, parms);
+
+    if (r_radiallighting != r_radiallighting_old)
+        R_InitColumnFunctions();
 }
 
 //
