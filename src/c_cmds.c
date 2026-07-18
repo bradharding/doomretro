@@ -10479,7 +10479,7 @@ static void boolfunc2(char *cmd, char *parms)
                 {
                     char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
-                    if (!resettingcvar && !togglingvanilla)
+                    if (!resettingcvar && !togglingvanilla && !togglingcvar)
                     {
                         if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
                             C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
