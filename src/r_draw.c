@@ -33,6 +33,8 @@
 ==============================================================================
 */
 
+#include <math.h>
+
 #include "i_colors.h"
 #include "m_config.h"
 #include "p_local.h"
@@ -1457,24 +1459,32 @@ fixed_t         ds_xfrac;
 fixed_t         ds_yfrac;
 fixed_t         ds_xstep;
 fixed_t         ds_ystep;
-fixed_t         ds_lightxfrac;
-fixed_t         ds_lightyfrac;
-fixed_t         ds_lightxstep;
-fixed_t         ds_lightystep;
+float           ds_lightxfrac;
+float           ds_lightyfrac;
+float           ds_lightxstep;
+float           ds_lightystep;
+static float    ds_radiallightdistance;
+static float    ds_radiallightdistancestep;
+static float    ds_radiallightdistancestepstep;
 
 // start of a 64x64 tile image
 byte            *ds_source;
 byte            *ds_brightmap;
 
+static inline void R_InitRadialLightDistance(void)
+{
+    const float lightstep = ds_lightxstep * ds_lightxstep + ds_lightystep * ds_lightystep;
+
+    ds_radiallightdistance = ds_lightxfrac * ds_lightxfrac + ds_lightyfrac * ds_lightyfrac;
+    ds_radiallightdistancestep = 2.0f * (ds_lightxfrac * ds_lightxstep + ds_lightyfrac * ds_lightystep) + lightstep;
+    ds_radiallightdistancestepstep = 2.0f * lightstep;
+}
+#include "c_console.h"
 static inline fixed_t R_GetRadialLightDistance(void)
 {
-    const float dx = (float)ds_lightxfrac;
-    const float dy = (float)ds_lightyfrac;
-    const float squareddistance = dx * dx + dy * dy;
-
 #if defined(__SSE__) || defined(_M_X64) || (defined(_M_IX86_FP) && _M_IX86_FP >= 1)
-    const float     halfsquareddistance = 0.5f * squareddistance;
-    __m128          distance = _mm_set_ss(squareddistance);
+    const float     halfsquareddistance = 0.5f * ds_radiallightdistance;
+    __m128          distance = _mm_set_ss(ds_radiallightdistance);
     __m128          inversesqrt = _mm_rsqrt_ss(distance);
     const __m128    threehalves = _mm_set_ss(1.5f);
     const __m128    halfdistance = _mm_set_ss(halfsquareddistance);
@@ -1482,18 +1492,9 @@ static inline fixed_t R_GetRadialLightDistance(void)
     inversesqrt = _mm_mul_ss(inversesqrt, _mm_sub_ss(threehalves,
         _mm_mul_ss(halfdistance, _mm_mul_ss(inversesqrt, inversesqrt))));
 
-    return ((fixed_t)(squareddistance * _mm_cvtss_f32(inversesqrt)) - RADIALLIGHTBIAS);
+    return ((fixed_t)(ds_radiallightdistance * _mm_cvtss_f32(inversesqrt)) - RADIALLIGHTBIAS);
 #else
-    union
-    {
-        float           f;
-        unsigned int    i;
-    } distance = { squareddistance };
-
-    distance.i = 0x5F375A86 - (distance.i >> 1);
-    distance.f *= 1.5f - (0.5f * squareddistance * distance.f * distance.f);
-
-    return ((fixed_t)(squareddistance * distance.f) - RADIALLIGHTBIAS);
+    return ((fixed_t)sqrtf(ds_radiallightdistance) - RADIALLIGHTBIAS);
 #endif
 }
 
@@ -1533,14 +1534,16 @@ void R_DrawRadialSpan(void)
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialLightColormap(R_GetRadialLightDistance())
             [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
     }
 
     *dest = ds_sectorcolormap[R_GetRadialLightColormap(R_GetRadialLightDistance())
@@ -1572,14 +1575,16 @@ void R_DrawRadialSpanWithBrightmap(void)
     byte    *dest = ylookup0[ds_y] + ds_x1;
     byte    dot;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
         *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : R_GetRadialLightColormap(R_GetRadialLightDistance()))[dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
     }
 
     dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
@@ -1622,14 +1627,16 @@ void R_DrawLowResDitheredRadialSpan(void)
     int         lowx = x % lowpixelwidth;
     int         xphase = (x / lowpixelwidth) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase])
             [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
 
         if (++lowx == lowpixelwidth)
         {
@@ -1682,6 +1689,8 @@ void R_DrawLowResDitheredRadialSpanWithBrightmap(void)
     int         lowx = x % lowpixelwidth;
     int         xphase = (x / lowpixelwidth) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
@@ -1689,8 +1698,8 @@ void R_DrawLowResDitheredRadialSpanWithBrightmap(void)
             : R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase]))[dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
 
         if (++lowx == lowpixelwidth)
         {
@@ -1731,14 +1740,16 @@ void R_DrawDitheredRadialSpan(void)
     const byte  *thresholds = dithermatrix[ds_y & DITHERMASK];
     int         xphase = (ds_x1 + ditherxoffset) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase])
             [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
         xphase = (xphase + 1) & DITHERMASK;
     }
 
@@ -1777,6 +1788,8 @@ void R_DrawDitheredRadialSpanWithBrightmap(void)
     const byte  *thresholds = dithermatrix[ds_y & DITHERMASK];
     int         xphase = (ds_x1 + ditherxoffset) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
@@ -1784,8 +1797,8 @@ void R_DrawDitheredRadialSpanWithBrightmap(void)
             : R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase]))[dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
         xphase = (xphase + 1) & DITHERMASK;
     }
 
@@ -1811,11 +1824,13 @@ void R_DrawRadialSolidColorSpan(void)
     int     count = ds_x2 - ds_x1;
     byte    *dest = ylookup0[ds_y] + ds_x1;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialLightColormap(R_GetRadialLightDistance())[NOTEXTURECOLOR]];
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
     }
 
     *dest = ds_sectorcolormap[R_GetRadialLightColormap(R_GetRadialLightDistance())[NOTEXTURECOLOR]];
@@ -1853,12 +1868,14 @@ void R_DrawLowResDitheredRadialSolidColorSpan(void)
     int         lowx = x % lowpixelwidth;
     int         xphase = (x / lowpixelwidth) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase])
             [NOTEXTURECOLOR]];
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
 
         if (++lowx == lowpixelwidth)
         {
@@ -1894,12 +1911,14 @@ void R_DrawDitheredRadialSolidColorSpan(void)
     const byte  *thresholds = dithermatrix[ds_y & DITHERMASK];
     int         xphase = (ds_x1 + ditherxoffset) & DITHERMASK;
 
+    R_InitRadialLightDistance();
+
     while (--count)
     {
         *dest++ = ds_sectorcolormap[R_GetRadialDitheredLightColormap(R_GetRadialLightDistance(), thresholds[xphase])
             [NOTEXTURECOLOR]];
-        ds_lightxfrac += ds_lightxstep;
-        ds_lightyfrac += ds_lightystep;
+        ds_radiallightdistance += ds_radiallightdistancestep;
+        ds_radiallightdistancestep += ds_radiallightdistancestepstep;
         xphase = (xphase + 1) & DITHERMASK;
     }
 

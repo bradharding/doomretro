@@ -156,10 +156,10 @@ extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;
 extern fixed_t      ds_xstep;
 extern fixed_t      ds_ystep;
-extern fixed_t      ds_lightxfrac;
-extern fixed_t      ds_lightyfrac;
-extern fixed_t      ds_lightxstep;
-extern fixed_t      ds_lightystep;
+extern float        ds_lightxfrac;
+extern float        ds_lightyfrac;
+extern float        ds_lightxstep;
+extern float        ds_lightystep;
 
 // start of a 64x64 tile image
 extern byte         *ds_source;

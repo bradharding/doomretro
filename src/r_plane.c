@@ -129,10 +129,10 @@ static void R_MapPlane(const int y, const int x1)
     dx = x1 - centerx;
     ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
     ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
-    ds_lightxfrac = anglecosdistance + dx * ds_xstep;
-    ds_lightyfrac = -anglesindistance + dx * ds_ystep;
-    ds_lightxstep = ds_xstep;
-    ds_lightystep = ds_ystep;
+    ds_lightxfrac = (float)(anglecosdistance + dx * ds_xstep);
+    ds_lightyfrac = (float)(-anglesindistance + dx * ds_ystep);
+    ds_lightxstep = (float)ds_xstep;
+    ds_lightystep = (float)ds_ystep;
     ds_y = y;
     ds_x1 = x1;
 
