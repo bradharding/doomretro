@@ -22,6 +22,7 @@
 * The time and par time are now always positioned correctly on the intermission screen.
 * There is no longer any glitch when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
 * God and buddha modes are no longer turned off if the player uses the `IDBEHOLDV` or `IDCHOPPERS` cheats.
+* Radial lighting can now be enabled by using the new `r_radiallighting` CVAR, which is `off` by default and when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
