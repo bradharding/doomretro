@@ -238,7 +238,7 @@ static bool C_PointOnConsoleBranding(const int x, const int y)
     const int   brandx = SCREENWIDTH - MAXWIDESCREENDELTA - brandwidth + (vid_widescreen ? 19 : 44);
     const int   brandy = consoleheight - brandheight + 2;
 
-    return (x >= brandx && x < brandx + brandwidth && y >= brandy && y < brandy + brandheight);
+    return (x >= brandx && x < SCREENWIDTH && y >= brandy && y < brandy + brandheight);
 }
 
 static void C_ScrollToBottom(void)
