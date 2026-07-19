@@ -1468,7 +1468,20 @@ byte            *ds_brightmap;
 
 static inline fixed_t R_GetRadialLightDistance(void)
 {
-    return P_ApproxDistance(ds_lightxfrac, ds_lightyfrac) - RADIALLIGHTBIAS;
+    const float dx = (float)ds_lightxfrac;
+    const float dy = (float)ds_lightyfrac;
+    const float squareddistance = dx * dx + dy * dy;
+
+    union
+    {
+        float       f;
+        uint32_t    i;
+    } distance = { squareddistance };
+
+    distance.i = 0x5F375A86 - (distance.i >> 1);
+    distance.f *= 1.5f - (0.5f * squareddistance * distance.f * distance.f);
+
+    return ((fixed_t)(squareddistance * distance.f) - RADIALLIGHTBIAS);
 }
 
 static inline const lighttable_t *R_GetRadialLightColormap(const fixed_t distance)
