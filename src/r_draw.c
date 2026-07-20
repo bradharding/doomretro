@@ -92,9 +92,10 @@ byte            *dc_translation;
 
 int             ditherxoffset;
 
-#define DITHERSIZE      4
-#define DITHERMASK      (DITHERSIZE - 1)
-#define RADIALLIGHTBIAS (10 * FRACUNIT)
+#define DITHERSIZE              4
+#define DITHERMASK              (DITHERSIZE - 1)
+#define RADIALLIGHTBIAS         (4 * FRACUNIT)
+#define RADIALLIGHTDITHERCUTOFF 192
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -114,7 +115,6 @@ static const byte dithercolumns[DITHERSIZE][DITHERSIZE] =
 
 static float    radiallightsquared[MAXLIGHTZ + 1];
 static float    radiallightditherstep[MAXLIGHTZ];
-static bool     radiallighttablesinitialized;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -1473,24 +1473,6 @@ static float    ds_radiallightdistancestepstep;
 byte            *ds_source;
 byte            *ds_brightmap;
 
-static void R_InitRadialLightTables(void)
-{
-    if (radiallighttablesinitialized)
-        return;
-
-    for (int i = 0; i <= MAXLIGHTZ; i++)
-    {
-        const float distance = (float)(RADIALLIGHTBIAS + ((fixed_t)i << LIGHTZSHIFT));
-
-        radiallightsquared[i] = distance * distance;
-
-        if (i)
-            radiallightditherstep[i - 1] = 256.0f / (radiallightsquared[i] - radiallightsquared[i - 1]);
-    }
-
-    radiallighttablesinitialized = true;
-}
-
 static inline int R_GetInitialRadialLightIndex(void)
 {
     int low = 0;
@@ -1512,8 +1494,6 @@ static inline int R_GetInitialRadialLightIndex(void)
 static inline void R_InitRadialLightDistance(void)
 {
     const float lightstep = ds_lightxstep * ds_lightxstep + ds_lightystep * ds_lightystep;
-
-    R_InitRadialLightTables();
 
     ds_radiallightdistance = ds_lightxfrac * ds_lightxfrac + ds_lightyfrac * ds_lightyfrac;
     ds_radiallightdistancestep = 2.0f * (ds_lightxfrac * ds_lightxstep + ds_lightyfrac * ds_lightystep) + lightstep;
@@ -1543,7 +1523,7 @@ static inline void R_UpdateRadialLightColormap(const lighttable_t **colormap, in
 
 static inline int R_GetRadialLightDitherLevel(void)
 {
-    if (ds_z == MAXLIGHTZ - 1)
+    if (ds_z == MAXLIGHTZ - 1 || ds_z >= RADIALLIGHTDITHERCUTOFF)
         return 0;
 
     return BETWEEN(0, (int)((ds_radiallightdistance - radiallightsquared[ds_z]) * radiallightditherstep[ds_z]), 255);
@@ -2140,6 +2120,16 @@ void R_InitBuffer(void)
 
     for (int i = 0; i < 256; i++)
         flipindex[i] = (i < 128 ? i : 126 - (i & 127));
+
+    for (int i = 0; i <= MAXLIGHTZ; i++)
+    {
+        const float distance = (float)(RADIALLIGHTBIAS + ((fixed_t)i << LIGHTZSHIFT));
+
+        radiallightsquared[i] = distance * distance;
+    }
+
+    for (int i = 1; i <= MAXLIGHTZ; i++)
+        radiallightditherstep[i - 1] = 256.0f / (radiallightsquared[i] - radiallightsquared[i - 1]);
 }
 
 void R_FillBezel(void)
