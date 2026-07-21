@@ -553,6 +553,7 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
         {
+            // [Nugget] Sky projection
             dc_iscale = (r_skies == r_skies_cylindrical ?
                 FixedMul(base_iscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]) : base_iscale);
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
@@ -594,6 +595,7 @@ void R_DrawPlanes(void)
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                                 if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                 {
+                                    // [Nugget] Sky projection
                                     dc_iscale = (r_skies == r_skies_cylindrical ?
                                         FixedMul(skyiscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]) : skyiscale);
                                     dc_source = R_GetFireColumn((viewangle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT);
@@ -621,6 +623,7 @@ void R_DrawPlanes(void)
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                             {
+                                // [Nugget] Sky projection
                                 dc_iscale = (r_skies == r_skies_cylindrical ?
                                     FixedMul(skyiscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]) : skyiscale);
                                 dc_source = R_GetTextureColumn(patch,
@@ -642,6 +645,7 @@ void R_DrawPlanes(void)
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
+                            // [Nugget] Sky projection
                             dc_iscale = (r_skies == r_skies_cylindrical ?
                                 FixedMul(skyiscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]) : skyiscale);
                             dc_source = R_GetTextureColumn(patch,
@@ -703,6 +707,7 @@ void R_DrawPlanes(void)
                         for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                             if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                             {
+                                // [Nugget] Sky projection
                                 dc_iscale = (r_skies == r_skies_cylindrical ?
                                     FixedMul(skyiscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]) : skyiscale);
                                 dc_source = R_GetTextureColumn(patch,
