@@ -197,7 +197,7 @@ extern bool     r_shadows_translucency;
 extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
 extern bool     r_shake_damage;
-extern int      r_skies;
+extern int      r_skyprojection;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
 extern bool     r_textures;
@@ -360,9 +360,9 @@ enum
 
 enum
 {
-    r_skies_vanilla,
-    r_skies_linear,
-    r_skies_cylindrical
+    r_skyprojection_vanilla,
+    r_skyprojection_linear,
+    r_skyprojection_cylindrical
 };
 
 enum
@@ -822,7 +822,7 @@ enum
 
 #define r_playerweapon_translucency_default true
 
-#define r_radiallighting_default            false
+#define r_radiallighting_default            true
 
 #define r_radsuiteffect_default             true
 
@@ -846,9 +846,9 @@ enum
 
 #define r_shake_damage_default              true
 
-#define r_skies_min                         r_skies_vanilla
-#define r_skies_default                     r_skies_vanilla
-#define r_skies_max                         r_skies_cylindrical
+#define r_skyprojection_min                 r_skyprojection_vanilla
+#define r_skyprojection_default             r_skyprojection_cylindrical
+#define r_skyprojection_max                 r_skyprojection_cylindrical
 
 #define r_sprites_translucency_default      true
 
@@ -1260,7 +1260,7 @@ typedef enum
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
     SECRETCOLORVALUEALIAS,
-    SKIESVALUEALIAS,
+    SKYPROJECTIONVALUEALIAS,
     SUCKSVALUEALIAS,
     TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,
