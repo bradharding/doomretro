@@ -174,7 +174,6 @@ extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
 extern int      r_invulnerabilityeffect;
-extern bool     r_linearskies;
 extern bool     r_liquid_bob;
 extern bool     r_liquid_bobsprites;
 extern bool     r_liquid_clipsprites;
@@ -198,6 +197,7 @@ extern bool     r_shadows_translucency;
 extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
 extern bool     r_shake_damage;
+extern int      r_skies;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
 extern bool     r_textures;
@@ -356,6 +356,13 @@ enum
 {
     r_invulnerabilityeffect_invertedgrayscale,
     r_invulnerabilityeffect_grayscale
+};
+
+enum
+{
+    r_skies_vanilla,
+    r_skies_linear,
+    r_skies_cylindrical
 };
 
 enum
@@ -791,8 +798,6 @@ enum
 #define r_invulnerabilityeffect_default     r_invulnerabilityeffect_invertedgrayscale
 #define r_invulnerabilityeffect_max         r_invulnerabilityeffect_grayscale
 
-#define r_linearskies_default               false
-
 #define r_liquid_bob_default                true
 
 #define r_liquid_bobsprites_default         true
@@ -840,6 +845,10 @@ enum
 #define r_shake_berserk_default             true
 
 #define r_shake_damage_default              true
+
+#define r_skies_min                         r_skies_vanilla
+#define r_skies_default                     r_skies_vanilla
+#define r_skies_max                         r_skies_cylindrical
 
 #define r_sprites_translucency_default      true
 
@@ -1251,7 +1260,7 @@ typedef enum
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
     SECRETCOLORVALUEALIAS,
-    SECTORCOLORSVALUEALIAS,
+    SKIESVALUEALIAS,
     SUCKSVALUEALIAS,
     TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,

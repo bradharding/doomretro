@@ -1033,8 +1033,8 @@ consolecmd_t consolecmds[] =
     INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, r_invulnerabilityeffectfunc2, 0, INVULNVALUEALIAS,
         "The effect when you have an invulnerability power-up (" BOLD("invertedgrayscale") " or "
         BOLD("grayscale") ")."),
-    BOOLCVAR(r_linearskies, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles horizontally linear skies."),
+    INTCVAR(r_skies, "", "", intfunc1, intfunc2, 0, SKIESVALUEALIAS,
+        "The type of sky projection (" BOLD("vanilla") ", " BOLD("linear") " or " BOLD("cylindrical") ")."),
     BOOLCVAR(r_liquid_bob, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bobbing of liquid sectors."),
     BOOLCVAR(r_liquid_bobsprites, "", "", boolfunc1, boolfunc2, 0,
