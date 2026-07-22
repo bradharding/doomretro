@@ -1316,7 +1316,7 @@ void M_LoadCVARs(const char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && isconfigfile)
+    if (isconfigfile && (!togglingvanilla || !vanilla))
     {
         for (int i = 0; *actions[i].action; i++)
         {
