@@ -502,6 +502,7 @@ static bool teleportfunc1(char *cmd, char *parms);
 static void teleportfunc2(char *cmd, char *parms);
 static void thinglistfunc2(char *cmd, char *parms);
 static void timerfunc2(char *cmd, char *parms);
+static bool togglefunc1(char *cmd, char *parms);
 static void togglefunc2(char *cmd, char *parms);
 static void unbindfunc2(char *cmd, char *parms);
 static void vanillafunc2(char *cmd, char *parms);
@@ -1160,7 +1161,7 @@ consolecmd_t consolecmds[] =
         "Lists all things in the current map."),
     CCMD(timer, "", "", nullfunc1, timerfunc2, true, TIMERFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
-    CCMD(toggle, "", "", nullfunc1, togglefunc2, true, TOGGLEFORMAT,
+    CCMD(toggle, "", "", togglefunc1, togglefunc2, true, TOGGLEFORMAT,
         "Toggles a " BOLDITALICS("CVAR") " " BOLD("on") " or " BOLD("off") "."),
     BOOLCVAR(tossdrop, "", "", boolfunc1, boolfunc2, 0,
         "Toggles tossing items dropped by monsters when they die."),
@@ -10284,6 +10285,23 @@ static void timerfunc2(char *cmd, char *parms)
 //
 // toggle CCMD
 //
+static bool togglefunc1(char *cmd, char *parms)
+{
+    if (!*parms)
+        return true;
+    else
+        for (int i = 0; *consolecmds[i].name; i++)
+        {
+            const int   flags = consolecmds[i].flags;
+
+            if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
+                && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
+                return true;
+        }
+
+    return false;
+}
+
 static void togglefunc2(char *cmd, char *parms)
 {
     if (!*parms)
