@@ -1033,8 +1033,6 @@ consolecmd_t consolecmds[] =
     INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, r_invulnerabilityeffectfunc2, 0, INVULNVALUEALIAS,
         "The effect when you have an invulnerability power-up (" BOLD("invertedgrayscale") " or "
         BOLD("grayscale") ")."),
-    INTCVAR(r_skyprojection, "", "", intfunc1, intfunc2, 0, SKYPROJECTIONVALUEALIAS,
-        "The type of sky projection (" BOLD("vanilla") ", " BOLD("linear") " or " BOLD("cylindrical") ")."),
     BOOLCVAR(r_liquid_bob, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bobbing of liquid sectors."),
     BOOLCVAR(r_liquid_bobsprites, "", "", boolfunc1, boolfunc2, 0,
@@ -1081,6 +1079,8 @@ consolecmd_t consolecmds[] =
         "Toggles shaking your view when you have a berserk power-up and punch something."),
     BOOLCVAR(r_shake_damage, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking the screen when you take damage."),
+    INTCVAR(r_skyprojection, "", "", intfunc1, intfunc2, 0, SKYPROJECTIONVALUEALIAS,
+        "The type of sky projection (" BOLD("vanilla") ", " BOLD("linear") " or " BOLD("cylindrical") ")."),
     BOOLCVAR(r_sprites_translucency, "", "", boolfunc1, r_sprites_translucencyfunc2, 0,
         "Toggles the translucency of certain sprites."),
     BOOLCVAR(r_teleportzoom, "", "", boolfunc1, boolfunc2, 0,
@@ -2119,17 +2119,13 @@ bool IsControlBound(const controltype_t type, const int control, const bool auto
     return false;
 }
 
-static int GetControlWithAction(int action)
+static int GetControlByTypeAndValue(const controltype_t type, const int value)
 {
     int control = 0;
 
     while (controls[control].type)
     {
-        if ((actions[action].keyboard1 && controls[control].value == *(int *)actions[action].keyboard1)
-            || (actions[action].keyboard2 && controls[control].value == *(int *)actions[action].keyboard2)
-            || (actions[action].mouse1 && controls[control].value == *(int *)actions[action].mouse1)
-            || (actions[action].controller1 && controls[control].value == *(int *)actions[action].controller1)
-            || (actions[action].controller2 && controls[control].value == *(int *)actions[action].controller2))
+        if (controls[control].type == type && controls[control].value == value)
             return control;
 
         control++;
@@ -2150,7 +2146,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
                 {
-                    if (strlen(controls[i].control) == 1)
+                    if (strlen(controls[control].control) == 1)
                         C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " key.",
                             actions[i].action, controls[control].control);
                     else
@@ -2162,7 +2158,7 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
 
                 if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
                 {
-                    if (strlen(controls[i].control) == 1)
+                    if (strlen(controls[control].control) == 1)
                         C_Warning(0, "The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " key.",
                             actions[i].action, controls[control].control);
                     else
@@ -2237,9 +2233,9 @@ void bindfunc2(char *cmd, char *parms)
     char        parm1[128] = "";
     char        parm2[128] = "";
     const bool  freelookcontrols = (keyboardfreelook || keyboardfreelook2 || keyboardlookcenter || keyboardlookcenter2
-        || keyboardlookdown || keyboardlookdown2 || keyboardlookup || keyboardlookup2 || controllerfreelook
-        || controllerlookcenter || controllerlookdown || controllerlookup || mousefreelook != -1
-        || mouselookcenter != -1 || mouselookdown != -1 || mouselookup != -1);
+                    || keyboardlookdown || keyboardlookdown2 || keyboardlookup || keyboardlookup2 || controllerfreelook
+                    || controllerlookcenter || controllerlookdown || controllerlookup || mousefreelook != -1
+                    || mouselookcenter != -1 || mouselookdown != -1 || mouselookup != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -2533,7 +2529,7 @@ void bindfunc2(char *cmd, char *parms)
             {
                 if (actions[action].keyboard1 && *(int *)actions[action].keyboard1)
                 {
-                    int control = GetControlWithAction(action);
+                    const int   control = GetControlByTypeAndValue(keyboardcontrol, *(int *)actions[action].keyboard1);
 
                     if (strlen(controls[control].control) == 1)
                         C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
@@ -2547,7 +2543,7 @@ void bindfunc2(char *cmd, char *parms)
 
                 if (actions[action].keyboard2 && *(int *)actions[action].keyboard2)
                 {
-                    int control = GetControlWithAction(action);
+                    const int   control = GetControlByTypeAndValue(keyboardcontrol, *(int *)actions[action].keyboard2);
 
                     if (strlen(controls[control].control) == 1)
                         C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("\x91%s\x92") " control.",
@@ -2561,22 +2557,28 @@ void bindfunc2(char *cmd, char *parms)
 
                 if (actions[action].mouse1 && *(int *)actions[action].mouse1 != -1)
                 {
+                    const int   control = GetControlByTypeAndValue(mousecontrol, *(int *)actions[action].mouse1);
+
                     C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[GetControlWithAction(action)].control);
+                        actions[action].action, controls[control].control);
                     *(int *)actions[action].mouse1 = -1;
                 }
 
                 if (actions[action].controller1 && *(int *)actions[action].controller1)
                 {
+                    const int   control = GetControlByTypeAndValue(controllercontrol, *(int *)actions[action].controller1);
+
                     C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[GetControlWithAction(action)].control);
+                        actions[action].action, controls[control].control);
                     *(int *)actions[action].controller1 = 0;
                 }
 
                 if (actions[action].controller2 && *(int *)actions[action].controller2)
                 {
+                    const int   control = GetControlByTypeAndValue(controllercontrol, *(int *)actions[action].controller2);
+
                     C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[action].action, controls[GetControlWithAction(action)].control);
+                        actions[action].action, controls[control].control);
                     *(int *)actions[action].controller2 = 0;
                 }
 
