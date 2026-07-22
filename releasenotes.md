@@ -22,7 +22,10 @@
 * The time and par time are now always positioned correctly on the intermission screen.
 * There is no longer any glitch when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
 * God and buddha modes are no longer turned off if the player uses the `IDBEHOLDV` or `IDCHOPPERS` cheats.
-* Radial lighting can now be enabled by using the new `r_radiallighting` CVAR, which is `off` by default and when vanilla mode is enabled.
+* The diminished lighting on the floor and ceiling surrounding the player is now radial rather than linear. can now be disabled using the new `r_radiallighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default and `vanilla` when vanilla mode is enabled.
+* The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
+* You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
