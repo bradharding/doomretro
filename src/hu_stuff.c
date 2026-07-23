@@ -34,6 +34,7 @@
 */
 
 #include <ctype.h>
+#include <string.h>
 
 #include "c_cmds.h"
 #include "c_console.h"
@@ -1495,6 +1496,73 @@ static void HU_DrawAltHUD(void)
     }
 }
 
+static byte hudscreen[MAXSCREENAREA];
+int         hudopacity;
+
+static int HU_HUDOpacity(void)
+{
+    if (!st_statusbartarget)
+    {
+        if (st_statusbarvisible > 0)
+            return 0;
+
+        return 10;
+    }
+
+    return BETWEEN(0, ((SBARHEIGHT - st_statusbarvisible) * 10 + SBARHEIGHT / 2) / SBARHEIGHT, 10);
+}
+
+static int HU_HUDOpacityTarget(void)
+{
+    if (st_statusbartarget > 0 || st_statusbarvisible != st_statusbartarget)
+        return 0;
+
+    return (r_hud && r_screensize == r_screensize_max ? 10 : 0);
+}
+
+static void HU_DrawFadedHUD(const bool althud, const int opacity)
+{
+    byte    *screen = screens[0];
+    byte    *tinttab;
+
+    byte  *tinttabs[10] =
+    {
+        NULL,
+        tinttab10, tinttab20, tinttab30,
+        tinttab40, tinttab50, tinttab60,
+        tinttab70, tinttab80, tinttab90
+    };
+
+    if (opacity <= 0)
+        return;
+
+    if (opacity >= 10)
+    {
+        if (althud)
+            HU_DrawAltHUD();
+        else
+            HU_DrawHUD();
+
+        return;
+    }
+
+    tinttab = tinttabs[opacity];
+
+    memcpy(hudscreen, screen, SCREENAREA);
+    screens[0] = hudscreen;
+
+    if (althud)
+        HU_DrawAltHUD();
+    else
+        HU_DrawHUD();
+
+    screens[0] = screen;
+
+    for (int i = 0; i < SCREENAREA; i++)
+        if (hudscreen[i] != screen[i])
+            screen[i] = tinttab[(hudscreen[i] << 8) + screen[i]];
+}
+
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk && drawdisktics)
@@ -1614,7 +1682,12 @@ void HU_Drawer(void)
             }
         }
 
-        if (r_hud && !(st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget))
+        if (smoothtransitions)
+        {
+            if (hudopacity > 0)
+                HU_DrawFadedHUD(r_althud, hudopacity);
+        }
+        else if (r_hud && !(st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget))
         {
             if (r_althud)
                 HU_DrawAltHUD();
@@ -1648,6 +1721,14 @@ void HU_Erase(void)
 void HU_Ticker(void)
 {
     char    *message;
+    const int hudopacitytarget = HU_HUDOpacityTarget();
+
+    if (!smoothtransitions)
+        hudopacity = hudopacitytarget;
+    else if (hudopacity < hudopacitytarget)
+        hudopacity++;
+    else if (hudopacity > hudopacitytarget)
+        hudopacity--;
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)

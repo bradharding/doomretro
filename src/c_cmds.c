@@ -1506,14 +1506,35 @@ static void shotgunactionfunc(void)
 
 static void sizedownactionfunc(void)
 {
-    if (gamestate == GS_LEVEL && r_screensize > r_screensize_min)
-        AdjustScreenSize(r_screensize - 1);
+    if (gamestate == GS_LEVEL)
+    {
+        if (r_screensize == r_screensize_max && !r_hud)
+        {
+            r_hud = true;
+            C_StringCVAROutput(stringize(r_hud), "on");
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize > r_screensize_min)
+            AdjustScreenSize(r_screensize - 1);
+    }
 }
 
 static void sizeupactionfunc(void)
 {
-    if (gamestate == GS_LEVEL && r_screensize < r_screensize_max)
-        AdjustScreenSize(r_screensize + 1);
+    if (gamestate == GS_LEVEL)
+    {
+        if (r_screensize == r_screensize_max && r_hud)
+        {
+            r_hud = false;
+            C_StringCVAROutput(stringize(r_hud), "off");
+            message_counter = MIN(message_counter, 4);
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize < r_screensize_max)
+            AdjustScreenSize(r_screensize + 1);
+    }
 }
 
 static void strafeleftactionfunc(void)
