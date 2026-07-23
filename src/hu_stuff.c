@@ -52,6 +52,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_setup.h"
+#include "r_bsp.h"
 #include "r_main.h"
 #include "r_state.h"
 #include "st_stuff.h"
@@ -455,20 +456,37 @@ static void HU_DrawCrosshair(void)
 
     if (snapcrosshair && autoaim)
     {
-        mobj_t      *oldlinetarget = linetarget;
-        angle_t     angle;
-        fixed_t     slope;
-        const fixed_t viewslope = (usefreelook ? PLAYERSLOPE(viewplayer) : 0);
+        mobj_t          *oldlinetarget = linetarget;
+        mobj_t          *snaptarget;
+        angle_t         angle;
+        fixed_t         slope;
+        const fixed_t   viewslope = (usefreelook ? PLAYERSLOPE(viewplayer) : 0);
 
         P_AimPlayerWeapon(viewplayer->mo, &angle, &slope);
+        snaptarget = linetarget;
         linetarget = oldlinetarget;
 
-        if (joy_autoaim_horizontal && usingcontroller)
-            x -= FixedMul(projection, AngleToSlope((int)(angle - viewangle))) >> FRACBITS;
+        if (snaptarget && !(snaptarget->flags & MF_FUZZ))
+        {
+            sector_t    *sector = snaptarget->subsector->sector;
+            sector_t    tempsec;
+            int         floorlightlevel;
+            int         ceilinglightlevel;
 
-        y -= FixedMul(projection, slope - viewslope) >> FRACBITS;
-        x = BETWEEN(viewwindowx, x, viewwindowx + viewwidth - width);
-        y = BETWEEN(viewwindowy, y, viewwindowy + viewheight - height);
+            R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+            if (!!(snaptarget->frame & FF_FULLBRIGHT)
+                || (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel) > 0
+                || viewplayer->powers[pw_infrared])
+            {
+                if (joy_autoaim_horizontal && usingcontroller)
+                    x -= FixedMul(projection, AngleToSlope((int)(angle - viewangle))) >> FRACBITS;
+
+                x = BETWEEN(viewwindowx, x, viewwindowx + viewwidth - width);
+                y = BETWEEN(viewwindowy, y - (FixedMul(projection, slope - viewslope) >> FRACBITS),
+                    viewwindowy + viewheight - height);
+            }
+        }
     }
 
     if (r_hud_translucency)

@@ -29,6 +29,7 @@
 * The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default and `vanilla` when vanilla mode is enabled.
 * The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
+* The crosshair will no longer snap to spectres, or targets in full darkness, when the `snapcrosshair` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
