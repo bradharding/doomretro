@@ -46,6 +46,8 @@
 // Size of status bar.
 #define ST_WIDTH                SCREENWIDTH
 
+#define ST_SCROLLINC            8
+
 // Number of status faces.
 #define ST_NUMPAINFACES         5
 #define ST_NUMSTRAIGHTFACES     3

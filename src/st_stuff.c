@@ -1329,10 +1329,10 @@ void ST_Ticker(void)
             if (smoothtransitions && !st_statusbarvisible && hudopacity)
                 return;
 
-            st_statusbarvisible = MIN(st_statusbarvisible + 6, st_statusbartarget);
+            st_statusbarvisible = MIN(st_statusbarvisible + ST_SCROLLINC, st_statusbartarget);
         }
         else
-            st_statusbarvisible = MAX(st_statusbarvisible - 6, st_statusbartarget);
+            st_statusbarvisible = MAX(st_statusbarvisible - ST_SCROLLINC, st_statusbartarget);
 
         R_SetViewSize(r_screensize);
     }

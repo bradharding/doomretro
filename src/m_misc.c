@@ -889,7 +889,7 @@ char *commifystring(const char *str)
         {
             out[--j] = str[start + --i];
 
-            if (i > 0 && (intlen - i) % 3 == 0)
+            if (i > 0 && !((intlen - i) % 3))
                 out[--j] = ',';
         }
 
