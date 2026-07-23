@@ -86,6 +86,7 @@ void ST_Start(void);
 void ST_Init(void);
 
 void ST_InitStatBar(void);
+void ST_SetScreenSize(int oldscreensize, int newscreensize, bool animate);
 void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning);
 
 extern bool         idclev;
@@ -116,5 +117,7 @@ extern patch_t      *brdr_bl;
 extern patch_t      *brdr_br;
 
 extern bool         st_drawbrdr;
+extern int          st_statusbarvisible;
+extern int          st_statusbartarget;
 
 extern const int    mus[IDMUS_MAX][7];

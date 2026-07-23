@@ -58,6 +58,7 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
+#include "st_stuff.h"
 #include "p_setup.h"
 #include "s_sound.h"
 #include "st_lib.h"
@@ -2884,7 +2885,11 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize > r_screensize_min)
         {
+            const int   oldscreensize = r_screensize;
+
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), --r_screensize);
+            ST_SetScreenSize(oldscreensize, r_screensize,
+                (oldscreensize == r_screensize_max && r_screensize == r_screensize_max - 1));
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);
@@ -2918,7 +2923,11 @@ static void M_SizeDisplay(int choice)
         }
         else if (r_screensize < r_screensize_max)
         {
+            const int   oldscreensize = r_screensize;
+
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), ++r_screensize);
+            ST_SetScreenSize(oldscreensize, r_screensize,
+                (oldscreensize == r_screensize_max - 1 && r_screensize == r_screensize_max));
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);

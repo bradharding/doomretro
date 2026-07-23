@@ -50,6 +50,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
+#include "st_stuff.h"
 #include "v_video.h"
 
 // increment every time a check is made
@@ -401,6 +402,15 @@ void R_ExecuteSetViewSize(void)
         viewwindowx = (SCREENWIDTH - viewwidth) / 2;
         viewwindowy = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
         pspritescale = FixedDiv(setblocks * NONWIDEWIDTH / 10, VANILLAWIDTH);
+    }
+
+    if (st_statusbarvisible != st_statusbartarget && setblocks >= 10)
+    {
+        viewwidth = SCREENWIDTH;
+        viewheight = SCREENHEIGHT - st_statusbarvisible;
+        viewwindowx = 0;
+        viewwindowy = 0;
+        pspritescale = FixedDiv(NONWIDEWIDTH, VANILLAWIDTH);
     }
 
     centerx = viewwidth / 2;

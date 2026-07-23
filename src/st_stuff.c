@@ -162,6 +162,9 @@ static bool             st_firsttime;
 
 // whether left-side main status bar is active
 static bool             st_statusbaron;
+static byte             st_statusbarbuffer[MAXSCREENAREA];
+int                     st_statusbarvisible;
+int                     st_statusbartarget;
 
 // main bar left
 static patch_t          *sbar;
@@ -1319,7 +1322,17 @@ static void ST_UpdateWidgets(void)
 
 void ST_Ticker(void)
 {
-    if (r_screensize < r_screensize_max)
+    if (st_statusbarvisible != st_statusbartarget)
+    {
+        if (st_statusbarvisible < st_statusbartarget)
+            st_statusbarvisible = MIN(st_statusbarvisible + 6, st_statusbartarget);
+        else
+            st_statusbarvisible = MAX(st_statusbarvisible - 6, st_statusbartarget);
+
+        R_SetViewSize(r_screensize);
+    }
+
+    if (r_screensize < r_screensize_max || st_statusbarvisible != st_statusbartarget)
     {
         ST_UpdateWidgets();
         st_oldhealth = viewplayer->health;
@@ -1535,12 +1548,41 @@ static void ST_DiffDraw(void)
     ST_DrawWidgets(false);
 }
 
+void ST_SetScreenSize(int oldscreensize, int newscreensize, bool animate)
+{
+    st_statusbartarget = (newscreensize < r_screensize_max ? SBARHEIGHT : 0);
+    animate = (animate && smoothtransitions);
+
+    if (!animate || ((oldscreensize != r_screensize_max - 1 || newscreensize != r_screensize_max)
+        && (oldscreensize != r_screensize_max || newscreensize != r_screensize_max - 1)))
+        st_statusbarvisible = st_statusbartarget;
+}
+
+static void ST_DrawAnimatedStatusBar(void)
+{
+    byte        *screen = screens[0];
+    const int   y = SCREENHEIGHT - st_statusbarvisible;
+    byte        *dest = screen + (size_t)y * SCREENWIDTH;
+    byte        *source = st_statusbarbuffer + (size_t)ST_Y * SCREENWIDTH;
+
+    screens[0] = st_statusbarbuffer;
+    ST_DoRefresh();
+    screens[0] = screen;
+
+    for (int i = 0; i < st_statusbarvisible; i++)
+    {
+        memcpy(dest, source, SCREENWIDTH);
+        dest += SCREENWIDTH;
+        source += SCREENWIDTH;
+    }
+}
+
 void ST_Drawer(const bool fullscreen, const bool refresh)
 {
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (r_screensize == r_screensize_max
+    if (!st_statusbarvisible
         || (menuactive && ((messagetoprint && !consoleactive) || !messagetoprint)))
         return;
 
@@ -1548,7 +1590,9 @@ void ST_Drawer(const bool fullscreen, const bool refresh)
     st_firsttime = (st_firsttime || refresh);
 
     // If just after ST_Start(), refresh all
-    if (st_firsttime)
+    if (st_statusbarvisible != st_statusbartarget)
+        ST_DrawAnimatedStatusBar();
+    else if (st_firsttime)
         ST_DoRefresh();
     else
         // Otherwise, update as little as possible
@@ -1730,6 +1774,8 @@ static void ST_InitData(void)
     keyboxes[0] = -1;
     keyboxes[1] = -1;
     keyboxes[2] = -1;
+    st_statusbarvisible = (r_screensize < r_screensize_max ? SBARHEIGHT : 0);
+    st_statusbartarget = st_statusbarvisible;
 }
 
 static void ST_CreateWidgets(void)
