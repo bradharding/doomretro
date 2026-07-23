@@ -1596,7 +1596,7 @@ void HU_Drawer(void)
             }
         }
 
-        if (r_hud)
+        if (r_hud && !(st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget))
         {
             if (r_althud)
                 HU_DrawAltHUD();
