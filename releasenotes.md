@@ -3,10 +3,12 @@
 ### DOOM Retro v6.3
 
 * *DOOM Retro* is now built using v18.8.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* The highlight effect when selecting items in the menu and the `menuhighlight` CVAR is `on` now slightly fades in and out when the `smoothtransitions` CVAR is also `on`.
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
+* These changes have been made to when the `smoothtransitions` CVAR is `on`:
+  * The highlight effect when selecting items in the menu now slightly fades in and out when the `menuhighlight` CVAR is also `on`.
+  * The status bar now quickly slides up from and off of the bottom of the screen when toggling the widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.
