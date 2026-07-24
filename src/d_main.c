@@ -88,6 +88,7 @@
 
 #define FADECOUNT    8
 #define FADETICS     25
+#define LOGOFRAMES   24
 
 char **episodes[] =
 {
@@ -557,7 +558,7 @@ patch_t         *creditlump;
 patch_t         *titlelump;
 
 static patch_t  *fineprintlump;
-static patch_t  *logolump[18];
+static patch_t  *logolump[LOGOFRAMES];
 static byte     *splashpal;
 static short    fineprintwidth;
 static short    fineprintheight;
@@ -607,7 +608,7 @@ void D_SplashDrawer(void)
 {
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
+    V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)) * 768]);
     blitfunc();
@@ -3074,7 +3075,7 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    for (int i = 0; i < 18; i++)
+    for (int i = 0; i < LOGOFRAMES; i++)
     {
         char    buffer[9];
 

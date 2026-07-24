@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v18.8.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * These changes have been made to when the `smoothtransitions` CVAR is `on`:
   * The highlight effect when selecting items in the menu now slightly fades in and out when the `menuhighlight` CVAR is also `on`.
