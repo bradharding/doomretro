@@ -103,6 +103,11 @@ bool                    drawdisk = false;
 int                     drawdisktics;
 
 static int              coloroffset;
+static byte             hudscreen[MAXSCREENAREA];
+static int              hudopacity;
+static bool             hudtransitionactive;
+static bool             oldr_hud;
+static bool             hudtransitioninitialized;
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -132,6 +137,56 @@ static struct
 };
 
 static void HU_AltInit(void);
+static void HU_DrawHUD(void);
+static void HU_DrawAltHUD(void);
+
+static int HU_HUDOpacityTarget(void)
+{
+    return (r_hud && r_screensize == r_screensize_max ? 10 : 0);
+}
+
+static void HU_DrawFadedHUD(const bool althud, const int opacity)
+{
+    byte    *screen = screens[0];
+    byte    *tinttab;
+
+    byte  *tinttabs[10] =
+    {
+        NULL,
+        tinttab10, tinttab20, tinttab30,
+        tinttab40, tinttab50, tinttab60,
+        tinttab70, tinttab80, tinttab90
+    };
+
+    if (opacity <= 0)
+        return;
+
+    if (opacity >= 10)
+    {
+        if (althud)
+            HU_DrawAltHUD();
+        else
+            HU_DrawHUD();
+
+        return;
+    }
+
+    tinttab = tinttabs[opacity];
+
+    memcpy(hudscreen, screen, SCREENAREA);
+    screens[0] = hudscreen;
+
+    if (althud)
+        HU_DrawAltHUD();
+    else
+        HU_DrawHUD();
+
+    screens[0] = screen;
+
+    for (int i = 0; i < SCREENAREA; i++)
+        if (hudscreen[i] != screen[i])
+            screen[i] = tinttab[(hudscreen[i] << 8) + screen[i]];
+}
 
 static patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
@@ -1620,11 +1675,22 @@ void HU_Drawer(void)
 
         if (r_hud || statusbartransition)
         {
-            if (r_althud)
+            if (statusbartransition)
+            {
+                if (r_althud)
+                    HU_DrawAltHUD();
+                else
+                    HU_DrawHUD();
+            }
+            else if (hudtransitionactive)
+                HU_DrawFadedHUD(r_althud, hudopacity);
+            else if (r_althud)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
         }
+        else if (hudtransitionactive)
+            HU_DrawFadedHUD(r_althud, hudopacity);
 
         if (mapwindow)
         {
@@ -1651,7 +1717,38 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    char    *message;
+    char        *message;
+    const bool  statusbartransition = (smoothtransitions
+                    && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
+    const int   hudopacitytarget = HU_HUDOpacityTarget();
+
+    if (!hudtransitioninitialized)
+    {
+        oldr_hud = r_hud;
+        hudopacity = hudopacitytarget;
+        hudtransitioninitialized = true;
+    }
+
+    if (!smoothtransitions || statusbartransition || r_screensize != r_screensize_max)
+    {
+        hudtransitionactive = false;
+        hudopacity = hudopacitytarget;
+    }
+    else
+    {
+        if (r_hud != oldr_hud)
+            hudtransitionactive = true;
+
+        if (hudopacity < hudopacitytarget)
+            hudopacity = MIN(hudopacity + 2, hudopacitytarget);
+        else if (hudopacity > hudopacitytarget)
+            hudopacity = MAX(hudopacity - 2, hudopacitytarget);
+
+        if (hudopacity == hudopacitytarget)
+            hudtransitionactive = false;
+    }
+
+    oldr_hud = r_hud;
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)
