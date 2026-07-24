@@ -1325,12 +1325,7 @@ void ST_Ticker(void)
     if (st_statusbarvisible != st_statusbartarget)
     {
         if (st_statusbarvisible < st_statusbartarget)
-        {
-            if (smoothtransitions && !st_statusbarvisible && hudopacity)
-                return;
-
             st_statusbarvisible = MIN(st_statusbarvisible + ST_SCROLLINC, st_statusbartarget);
-        }
         else
             st_statusbarvisible = MAX(st_statusbarvisible - ST_SCROLLINC, st_statusbartarget);
 

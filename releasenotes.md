@@ -8,7 +8,7 @@
 * Minor changes have been made to text that is output to the console.
 * These changes have been made to when the `smoothtransitions` CVAR is `on`:
   * The highlight effect when selecting items in the menu now slightly fades in and out when the `menuhighlight` CVAR is also `on`.
-  * The status bar now quickly slides up from and off of the bottom of the screen, and the widescreen HUD now fades in and out, when toggling the HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+  * The status bar now quickly slides up from and off of the bottom of the screen when toggling the HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.

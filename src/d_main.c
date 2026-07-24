@@ -386,7 +386,11 @@ void D_Display(void)
 
         if (!menuactive)
         {
-            ST_Drawer((viewheight == SCREENHEIGHT), true);
+            const bool  overlaystatusbar = (smoothtransitions
+                && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
+
+            if (!overlaystatusbar)
+                ST_Drawer((viewheight == SCREENHEIGHT), true);
 
             // see if the border needs to be initially drawn
             if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
@@ -405,6 +409,9 @@ void D_Display(void)
             }
 
             HU_Drawer();
+
+            if (overlaystatusbar)
+                ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         }
     }

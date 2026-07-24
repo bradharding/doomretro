@@ -124,4 +124,3 @@ extern char     prevmessage[133];
 extern short    minuspatchtopoffset1;
 extern short    minuspatchtopoffset2;
 extern short    minuspatchwidth;
-extern int      hudopacity;
