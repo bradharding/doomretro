@@ -5601,19 +5601,19 @@ static void maplistfunc2(char *cmd, char *parms)
     // search through lumps for maps
     for (int i = numlumps - 1; i >= 0; i--)
     {
-        int     ep = 1;
-        int     map = 1;
-        char    lump[9];
-        char    wadname[MAX_PATH];
-        bool    replaced;
-        bool    pwad;
-        char    mapinfoname[128];
-        char    author[128];
-        char    truncatedtitle[128];
-        char    truncatedauthor[128];
-        char    *temp1 = uppercase(lumpinfo[i]->name);
-        gamemission_t listmission = gamemission;
-        bool    usemapinfo = true;
+        int             ep = 1;
+        int             map = 1;
+        char            lump[9];
+        char            wadname[MAX_PATH];
+        bool            replaced;
+        bool            pwad;
+        char            mapinfoname[128];
+        char            author[128];
+        char            truncatedtitle[128];
+        char            truncatedauthor[128];
+        char            *temp1 = uppercase(lumpinfo[i]->name);
+        gamemission_t   listmission = gamemission;
+        bool            usemapinfo = true;
 
         M_StringCopy(lump, temp1, sizeof(lump));
         free(temp1);
@@ -5636,11 +5636,10 @@ static void maplistfunc2(char *cmd, char *parms)
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
 
-        if (gamemode == commercial && (gamemission == doom2 || gamemission == pack_nerve || gamemission == pack_masterlevels))
+        if (gamemode == commercial
+            && (gamemission == doom2 || gamemission == pack_nerve || gamemission == pack_masterlevels))
         {
-            const int missionindex = GetCommercialMaplistMissionIndex(listmission = GetMaplistMission(wadname));
-
-            listmission = GetMaplistMission(wadname);
+            const int   missionindex = GetCommercialMaplistMissionIndex((listmission = GetMaplistMission(wadname)));
 
             if (!showallcommercial && listmission != gamemission)
                 continue;
