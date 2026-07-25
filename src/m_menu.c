@@ -2888,8 +2888,8 @@ static void M_SizeDisplay(int choice)
             const int   oldscreensize = r_screensize;
 
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), --r_screensize);
-            ST_SetScreenSize(oldscreensize, r_screensize,
-                (oldscreensize == r_screensize_max && r_screensize == r_screensize_max - 1));
+            ST_SetScreenSize(oldscreensize, r_screensize, (!(menuactive && viewactive)
+                && oldscreensize == r_screensize_max && r_screensize == r_screensize_max - 1));
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);
@@ -2926,8 +2926,8 @@ static void M_SizeDisplay(int choice)
             const int   oldscreensize = r_screensize;
 
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), ++r_screensize);
-            ST_SetScreenSize(oldscreensize, r_screensize,
-                (oldscreensize == r_screensize_max - 1 && r_screensize == r_screensize_max));
+            ST_SetScreenSize(oldscreensize, r_screensize, (!(menuactive && viewactive)
+                && oldscreensize == r_screensize_max - 1 && r_screensize == r_screensize_max));
             R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);
