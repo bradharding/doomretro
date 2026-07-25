@@ -606,9 +606,11 @@ void D_PageTicker(void)
 //
 void D_SplashDrawer(void)
 {
+    const int   i = BETWEEN(0, 94 - logotic, LOGOFRAMES - 1);
+
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
+    V_DrawBigPatch(logox, logoy - i, logowidth, logoheight, logolump[i]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetPalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)) * 768]);
     blitfunc();
@@ -3086,7 +3088,7 @@ static void D_DoomMainSetup(void)
     logowidth = LITTLESHORT(logolump[0]->width);
     logoheight = LITTLESHORT(logolump[0]->height);
     logox = (SCREENWIDTH - logowidth) / 2 + 1;
-    logoy = (SCREENHEIGHT - logoheight) / 2 + 1;
+    logoy = (SCREENHEIGHT - logoheight) / 2 + LOGOFRAMES;
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     fineprintwidth = LITTLESHORT(fineprintlump->width);
