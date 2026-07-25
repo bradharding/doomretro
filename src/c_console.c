@@ -3107,6 +3107,13 @@ bool C_Responder(event_t *ev)
             return true;
         }
 
+        if ((key == keyboardscreenshot || key == keyboardscreenshot2)
+            && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL || consoleoverlaymenu))
+        {
+            G_ScreenShot();
+            return true;
+        }
+
         switch (key)
         {
             case KEY_BACKSPACE:

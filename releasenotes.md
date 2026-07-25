@@ -17,6 +17,7 @@
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
 * A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
 * Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, anything overlaying the screen, such as player messages, the widescreen HUD, or the crosshair, will not be captured when pressing the <kbd><b>PRINTSCREEN</b></kbd> key.
+* Screenshots can now be taken when the console is open over the menu.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
 * Weapons that cause a high amount of damage now have a limit on how many blood splats they can spawn per tic.
 * The incorrect intermission screen no longer appears once completing *E2M7: Brink* at the end of [*Legacy Of Rust*](https://doomwiki.org/wiki/Legacy_of_Rust).
