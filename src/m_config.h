@@ -58,6 +58,7 @@ extern bool     am_dynamic;
 extern bool     am_external;
 extern int      am_fdwallcolor;
 extern bool     am_followmode;
+extern bool     am_forcepalette;
 extern bool     am_grid;
 extern int      am_gridcolor;
 extern char     *am_gridsize;
@@ -450,6 +451,8 @@ enum
 #define am_fdwallcolor_max                  255
 
 #define am_followmode_default               true
+
+#define am_forcepalette_default             true
 
 #define am_grid_default                     false
 

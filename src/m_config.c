@@ -71,6 +71,7 @@ bool        am_dynamic = am_dynamic_default;
 bool        am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
 bool        am_followmode = am_followmode_default;
+bool        am_forcepalette = am_forcepalette_default;
 bool        am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
 char        *am_gridsize = am_gridsize_default;
@@ -344,6 +345,7 @@ static default_t cvars[] =
     CVAR_BOOL         (am_dynamic,                       am_dynamic,                            am_dynamic,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS         ),
     CVAR_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        0                      ),
+    CVAR_BOOL         (am_forcepalette,                  am_forcepalette,                       am_forcepalette,                       BOOLVALUEALIAS         ),
     CVAR_BOOL         (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS         ),
     CVAR_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          0                      ),
     CVAR_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           0                      ),

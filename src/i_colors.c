@@ -111,6 +111,7 @@ byte        *tinttabgreen33;
 byte        *tinttabblue25;
 
 byte        nearestcolors[256];
+byte        samecolors[256];
 byte        nearestblack;
 byte        nearestdarkblue;
 byte        nearestdarkgray;
@@ -175,6 +176,7 @@ void I_InitColors(byte *palette)
         const byte  blue = *playpal++;
 
         nearestcolors[i] = I_GetNearestColor(palette, red, green, blue);
+        samecolors[i] = i;
     }
 
     playpal = W_CacheLumpName("PLAYPAL");

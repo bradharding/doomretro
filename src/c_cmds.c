@@ -522,6 +522,7 @@ static void alwaysrunfunc2(char *cmd, char *parms);
 static void am_displayfunc2(char *cmd, char *parms);
 static void am_externalfunc2(char *cmd, char *parms);
 static void am_followmodefunc2(char *cmd, char *parms);
+static void am_forcepalettefunc2(char *cmd, char *parms);
 static void am_gridsizefunc2(char *cmd, char *parms);
 static void am_pathfunc2(char *cmd, char *parms);
 static void am_rotatemodefunc2(char *cmd, char *parms);
@@ -693,6 +694,8 @@ consolecmd_t consolecmds[] =
         " to " BOLD("255") ")."),
     BOOLCVAR(am_followmode, "", "", ingamecvarfunc1, am_followmodefunc2, CF_MAPRESET,
         "Toggles following you in the automap."),
+    BOOLCVAR(am_forcepalette, "", "", boolfunc1, am_forcepalettefunc2, 0,
+        "Toggles forcing the colors in the automap to use " ITALICS("DOOM's") " default palette."),
     BOOLCVAR(am_grid, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the grid in the automap."),
     COLORCVAR(am_gridcolor, am_gridcolour,
@@ -11057,6 +11060,19 @@ static void am_followmodefunc2(char *cmd, char *parms)
 
     if (automapactive && am_followmode != am_followmode_old)
         AM_ToggleFollowMode(am_followmode);
+}
+
+//
+// am_forcepalette CVAR
+//
+static void am_forcepalettefunc2(char *cmd, char *parms)
+{
+    const bool  am_forcepalette_old = am_forcepalette;
+
+    boolfunc2(cmd, parms);
+
+    if (automapactive && am_forcepalette != am_forcepalette_old)
+        AM_SetColors();
 }
 
 //
