@@ -32,6 +32,7 @@
 * The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
 * The crosshair will no longer snap to spectres, or targets in full darkness, when the `snapcrosshair` CVAR is `on`.
+* The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
