@@ -12293,8 +12293,12 @@ static void r_randomstartframesfunc2(char *cmd, char *parms)
 
 static void AdjustScreenSize(int value)
 {
+    const int   oldscreensize = r_screensize;
+
     r_screensize = value;
     S_StartSound(NULL, sfx_stnmov);
+
+    ST_SetScreenSize(oldscreensize, r_screensize, true);
     R_SetViewSize(r_screensize);
 
     if (!togglingvanilla)
