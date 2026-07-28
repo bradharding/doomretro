@@ -1313,7 +1313,11 @@ void C_HideConsole(void)
         I_SaveMousePointerPosition();
 
     S_StartSound(viewplayer->mo, sfx_consol);
-    S_RestoreMusicVolume();
+
+    if (menuactive || messagetoprint)
+        S_LowerMusicVolume();
+    else
+        S_RestoreMusicVolume();
 }
 
 void C_HideConsoleAndMenu(void)
@@ -1347,7 +1351,10 @@ void C_HideConsoleFast(void)
 
     I_SaveMousePointerPosition();
 
-    S_RestoreMusicVolume();
+    if (menuactive || messagetoprint)
+        S_LowerMusicVolume();
+    else
+        S_RestoreMusicVolume();
 }
 
 void C_BeginOpenConsoleDrag(void)
