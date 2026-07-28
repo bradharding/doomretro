@@ -33,7 +33,7 @@
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
 * The crosshair will no longer snap to spectres, or targets in full darkness, when the `snapcrosshair` CVAR is `on`.
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* A bug is fixed whereby if the console was open over the menu and the `s_lowermusicvolume` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
+* A bug is fixed whereby if the console was open over the menu and the `s_lowermenumusic` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -1894,7 +1894,7 @@
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The widescreen status bar now appears correctly on display resolutions with an aspect ratio less than 16:9.
 * The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
-* The music’s volume is now lowered if the <kbd><b>PAUSE</b></kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
+* The music’s volume is now lowered if the <kbd><b>PAUSE</b></kbd> key is pressed and the `s_lowermenumusic` CVAR is `on`.
 * Music now always stops playing in the background when *DOOM Retro’s* window loses focus and the `s_musicinbackground` CVAR is `off`.
 * The `+back`, `+left`, `+right`, `+strafeleft` and `+straferight` actions may now be bound to a mouse button using the `bind` CCMD.
 
