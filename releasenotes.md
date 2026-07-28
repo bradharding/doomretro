@@ -33,6 +33,7 @@
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
 * The crosshair will no longer snap to spectres, or targets in full darkness, when the `snapcrosshair` CVAR is `on`.
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A bug is fixed whereby if the console was open over the menu and the `s_lowermusicvolume` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
