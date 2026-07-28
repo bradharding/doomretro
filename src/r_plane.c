@@ -96,10 +96,16 @@ static void R_MapPlane(const int y, const int x1)
     static fixed_t  cachedanglesindistance[MAXHEIGHT];
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
+    static float    cachedradiallightdistancebase[MAXHEIGHT];
+    static float    cachedradiallightdistancestepbase[MAXHEIGHT];
+    static float    cachedradiallightstep[MAXHEIGHT];
+    static float    cachedradiallightstepstep[MAXHEIGHT];
     static angle_t  cachedangle[MAXHEIGHT];
     static int      cachedcentery[MAXHEIGHT];
     fixed_t         anglecosdistance;
     fixed_t         anglesindistance;
+    float           radiallightdistancebase;
+    float           radiallightdistancestepbase;
     int             dx;
 
     if (planeheight != cachedheight[y] || rotation != cachedangle[y] || centery != cachedcentery[y])
@@ -117,6 +123,13 @@ static void R_MapPlane(const int y, const int x1)
         anglesindistance = cachedanglesindistance[y] = FixedMul(angle_sin, ds_z);
         ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)angle_sin * planeheight / dy);
         ds_ystep = cachedystep[y] = (fixed_t)((int64_t)angle_cos * planeheight / dy);
+        radiallightdistancebase = cachedradiallightdistancebase[y] = (float)anglecosdistance * (float)anglecosdistance
+            + (float)anglesindistance * (float)anglesindistance;
+        radiallightdistancestepbase = cachedradiallightdistancestepbase[y]
+            = 2.0f * ((float)anglecosdistance * (float)ds_xstep - (float)anglesindistance * (float)ds_ystep);
+        ds_radiallightstep = cachedradiallightstep[y] = (float)ds_xstep * (float)ds_xstep
+            + (float)ds_ystep * (float)ds_ystep;
+        ds_radiallightstepstep = cachedradiallightstepstep[y] = 2.0f * ds_radiallightstep;
     }
     else
     {
@@ -125,15 +138,18 @@ static void R_MapPlane(const int y, const int x1)
         anglesindistance = cachedanglesindistance[y];
         ds_xstep = cachedxstep[y];
         ds_ystep = cachedystep[y];
+        radiallightdistancebase = cachedradiallightdistancebase[y];
+        radiallightdistancestepbase = cachedradiallightdistancestepbase[y];
+        ds_radiallightstep = cachedradiallightstep[y];
+        ds_radiallightstepstep = cachedradiallightstepstep[y];
     }
 
     dx = x1 - centerx;
     ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
     ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
-    ds_lightxfrac = (float)(anglecosdistance + dx * ds_xstep);
-    ds_lightyfrac = (float)(-anglesindistance + dx * ds_ystep);
-    ds_lightxstep = (float)ds_xstep;
-    ds_lightystep = (float)ds_ystep;
+    ds_radiallightdistance = radiallightdistancebase
+        + (float)dx * (radiallightdistancestepbase + (float)dx * ds_radiallightstep);
+    ds_radiallightdistancestep = radiallightdistancestepbase + (2.0f * (float)dx + 1.0f) * ds_radiallightstep;
     ds_y = y;
     ds_x1 = x1;
 

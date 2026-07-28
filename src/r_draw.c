@@ -1463,13 +1463,10 @@ fixed_t         ds_xfrac;
 fixed_t         ds_yfrac;
 fixed_t         ds_xstep;
 fixed_t         ds_ystep;
-float           ds_lightxfrac;
-float           ds_lightyfrac;
-float           ds_lightxstep;
-float           ds_lightystep;
-static float    ds_radiallightdistance;
-static float    ds_radiallightdistancestep;
-static float    ds_radiallightdistancestepstep;
+float           ds_radiallightdistance;
+float           ds_radiallightdistancestep;
+float           ds_radiallightstep;
+float           ds_radiallightstepstep;
 
 // start of a 64x64 tile image
 byte            *ds_source;
@@ -1495,11 +1492,6 @@ static inline int R_GetInitialRadialLightIndex(void)
 
 static inline void R_InitRadialLightDistance(void)
 {
-    const float lightstep = ds_lightxstep * ds_lightxstep + ds_lightystep * ds_lightystep;
-
-    ds_radiallightdistance = ds_lightxfrac * ds_lightxfrac + ds_lightyfrac * ds_lightyfrac;
-    ds_radiallightdistancestep = 2.0f * (ds_lightxfrac * ds_lightxstep + ds_lightyfrac * ds_lightystep) + lightstep;
-    ds_radiallightdistancestepstep = 2.0f * lightstep;
     ds_z = R_GetInitialRadialLightIndex();
 }
 
@@ -1547,8 +1539,8 @@ static inline void R_UpdateRadialDitheredLightColormaps(const lighttable_t **col
 static inline void R_StepRadialLightDistance(const float count)
 {
     ds_radiallightdistance += ds_radiallightdistancestep * count
-        + ds_radiallightdistancestepstep * (count * (count - 1.0f) * 0.5f);
-    ds_radiallightdistancestep += ds_radiallightdistancestepstep * count;
+        + ds_radiallightstepstep * (count * (count - 1.0f) * 0.5f);
+    ds_radiallightdistancestep += ds_radiallightstepstep * count;
 }
 
 //
