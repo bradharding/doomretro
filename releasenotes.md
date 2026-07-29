@@ -25,13 +25,13 @@
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
 * The swirling effect applied to the player’s view in [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water when the `r_liquid_swirl` CVAR is `on` now freezes when freeze mode is enabled using the `freeze` CCMD.
 * The time and par time are now always positioned correctly on the intermission screen.
-* There is no longer any glitch when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
+* The background no longer glitches when pressing the <kbd><b>+</b></kbd> or <kbd><b>&ndash;</b></kbd> keys to toggle widescreen while on the intermission screen.
 * God and buddha modes are no longer turned off if the player uses the `IDBEHOLDV` or `IDCHOPPERS` cheats.
-* The diminished lighting on the floor and ceiling surrounding the player is now radial rather than linear. can now be disabled using the new `r_radiallighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default and `vanilla` when vanilla mode is enabled.
+* The diminished lighting on the floor and ceiling surrounding the player is now radial rather than linear. This can be disabled using the new `r_radiallighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be either `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default, and is `vanilla` when vanilla mode is enabled.
 * The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
-* The crosshair will no longer snap to spectres, or targets in full darkness, when the `snapcrosshair` CVAR is `on`.
+* The crosshair no longer snaps to spectres, or targets anything in full darkness, when the `snapcrosshair` CVAR is `on`.
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby if the console was open over the menu and the `s_lowermenumusic` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
 
