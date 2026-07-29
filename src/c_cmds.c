@@ -12110,6 +12110,36 @@ static void r_gammafunc2(char *cmd, char *parms)
     }
 }
 
+static void AdjustScreenSize(int value)
+{
+    const int   oldscreensize = r_screensize;
+
+    r_screensize = value;
+    S_StartSound(NULL, sfx_stnmov);
+
+    ST_SetScreenSize(oldscreensize, r_screensize, true);
+    R_SetViewSize(r_screensize);
+
+    if (!togglingvanilla)
+    {
+        if (r_hud != (r_screensize == r_screensize_max))
+        {
+            r_hud = (r_screensize == r_screensize_max);
+            C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
+        }
+
+        if (vid_widescreen && r_screensize < r_screensize_max - 1)
+            I_StartPillarboxAnimation(true);
+        else if (!vid_widescreen && r_screensize == r_screensize_max)
+            I_StartPillarboxAnimation(false);
+
+        M_SaveCVARs();
+    }
+
+    if (r_playerweapon)
+        skippsprinterp = 1;
+}
+
 //
 // r_hud CVAR
 //
@@ -12126,8 +12156,7 @@ static void r_hudfunc2(char *cmd, char *parms)
             if (r_screensize != r_screensize_max)
             {
                 r_screensize = r_screensize_max;
-                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-                R_SetViewSize(r_screensize);
+                AdjustScreenSize(r_screensize);
             }
 
             if (!vid_widescreen)
@@ -12291,34 +12320,17 @@ static void r_randomstartframesfunc2(char *cmd, char *parms)
     }
 }
 
-static void AdjustScreenSize(int value)
+//
+// r_rockettrails_translucency CVAR
+//
+static void r_rockettrails_translucencyfunc2(char *cmd, char *parms)
 {
-    const int   oldscreensize = r_screensize;
+    const bool  r_rockettrails_translucency_old = r_rockettrails_translucency;
 
-    r_screensize = value;
-    S_StartSound(NULL, sfx_stnmov);
+    boolfunc2(cmd, parms);
 
-    ST_SetScreenSize(oldscreensize, r_screensize, true);
-    R_SetViewSize(r_screensize);
-
-    if (!togglingvanilla)
-    {
-        if (r_hud != (r_screensize == r_screensize_max))
-        {
-            r_hud = (r_screensize == r_screensize_max);
-            C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
-        }
-
-        if (vid_widescreen && r_screensize < r_screensize_max - 1)
-            I_StartPillarboxAnimation(true);
-        else if (!vid_widescreen && r_screensize == r_screensize_max)
-            I_StartPillarboxAnimation(false);
-
-        M_SaveCVARs();
-    }
-
-    if (r_playerweapon)
-        skippsprinterp = 1;
+    if (r_rockettrails_translucency != r_rockettrails_translucency_old)
+        R_InitColumnFunctions();
 }
 
 //
@@ -12424,19 +12436,6 @@ static void r_sprites_translucencyfunc2(char *cmd, char *parms)
             for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                 thing->colfunc = thing->info->colfunc;
     }
-}
-
-//
-// r_rockettrails_translucency CVAR
-//
-static void r_rockettrails_translucencyfunc2(char *cmd, char *parms)
-{
-    const bool  r_rockettrails_translucency_old = r_rockettrails_translucency;
-
-    boolfunc2(cmd, parms);
-
-    if (r_rockettrails_translucency != r_rockettrails_translucency_old)
-        R_InitColumnFunctions();
 }
 
 //
