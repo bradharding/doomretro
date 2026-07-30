@@ -654,7 +654,9 @@ void D_DoAdvanceTitle(void)
             M_SaveCVARs();
             I_RestartGraphics(false);
             I_UpdateBlitFunc(false);
-
+            memset(screens[0], nearestblack, SCREENAREA);
+            blitfunc();
+            I_RenderPresent();
             I_Sleep(1000);
         }
 
