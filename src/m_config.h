@@ -918,7 +918,8 @@ enum
 #define stillbob_default                    0
 #define stillbob_max                        100
 
-#define sucktime_min                        0
+#define sucktime_off                        0
+#define sucktime_min                        sucktime_off
 #define sucktime_default                    1
 #define sucktime_max                        24
 
@@ -1278,7 +1279,7 @@ typedef enum
     RATIOVALUEALIAS,
     SECRETCOLORVALUEALIAS,
     SKYPROJECTIONVALUEALIAS,
-    SUCKSVALUEALIAS,
+    SUCKTIMEVALUEALIAS,
     TIMESTAMPVALUEALIAS,
     UNITSVALUEALIAS,
     VSYNCVALUEALIAS,

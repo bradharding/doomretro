@@ -830,10 +830,12 @@ void R_StoreWallRange(const int start, const int stop)
             ds_p->sprbottomclip = NULL;
             ds_p->silhouette = SIL_NONE;
 
-            if (frontsector->interpfloorheight > backsector->interpfloorheight || backsector->interpfloorheight > viewz)
+            if (frontsector->interpfloorheight > backsector->interpfloorheight
+                || backsector->interpfloorheight > viewz)
                 ds_p->silhouette = SIL_BOTTOM;
 
-            if (frontsector->interpceilingheight < backsector->interpceilingheight || backsector->interpceilingheight < viewz)
+            if (frontsector->interpceilingheight < backsector->interpceilingheight
+                || backsector->interpceilingheight < viewz)
                 ds_p->silhouette |= SIL_TOP;
         }
 
@@ -911,8 +913,8 @@ void R_StoreWallRange(const int start, const int stop)
                 height = textureheight[toptexture];
                 toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : (height >> FRACBITS));
                 topbrightmap = (usebrightmaps && !nobrightmap[toptexture] ? brightmap[toptexture] : NULL);
-                rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop : backsector->interpceilingheight + height - viewz)
-                    + FixedMod(sidedef->rowoffset, height);
+                rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
+                    backsector->interpceilingheight + height - viewz) + FixedMod(sidedef->rowoffset, height);
             }
         }
 
@@ -959,8 +961,8 @@ void R_StoreWallRange(const int start, const int stop)
             height = textureheight[midtexture];
             midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : (height >> FRACBITS));
             midbrightmap = (usebrightmaps && !nobrightmap[midtexture] ? brightmap[midtexture] : NULL);
-            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight + height - viewz : worldtop)
-                + FixedMod(sidedef->rowoffset, height);
+            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
+                + height - viewz : worldtop) + FixedMod(sidedef->rowoffset, height);
         }
 
         // a single sided line is terminal, so it must mark ends

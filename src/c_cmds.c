@@ -1154,7 +1154,7 @@ consolecmd_t consolecmds[] =
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of you."),
     PERCENTCVAR(stillbob, "", "", intfunc1, intfunc2,
         "The amount your view and weapon bob up and down when you stand still (" BOLD("0%") " to " BOLD("100%") ")."),
-    INTCVAR(sucktime, "", "", intfunc1, intfunc2, 0, SUCKSVALUEALIAS,
+    INTCVAR(sucktime, "", "", intfunc1, intfunc2, 0, SUCKTIMEVALUEALIAS,
         "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or "
         BOLD("1") " to " BOLD("24") " hours)."),
     CCMD(take, "", "", takefunc1, takefunc2, true, TAKEFORMAT,
