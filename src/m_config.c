@@ -177,6 +177,7 @@ int         r_detail = r_detail_default;
 bool        r_diskicon = r_diskicon_default;
 bool        r_ditheredlighting = r_ditheredlighting_default;
 int         r_extralighting = r_extralighting_default;
+int         r_fakecontrast = r_fakecontrast_default;
 bool        r_fixmaperrors = r_fixmaperrors_default;
 bool        r_fixspriteoffsets = r_fixspriteoffsets_default;
 bool        r_floatbob = r_floatbob_default;
@@ -449,6 +450,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_diskicon,                       r_diskicon,                            r_diskicon,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                    BOOLVALUEALIAS         ),
     CVAR_INT_PERCENT  (r_extralighting,                  r_levelbrightness,                     r_extralighting,                       0                      ),
+    CVAR_INT          (r_fakecontrast,                   r_fakecontrast,                        r_fakecontrast,                        FAKECONTRASTVALUEALIAS ),
     CVAR_BOOL         (r_fixmaperrors,                   r_fixmaperrors,                        r_fixmaperrors,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_fixspriteoffsets,               r_fixspriteoffsets,                    r_fixspriteoffsets,                    BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_floatbob,                       r_floatbob,                            r_floatbob,                            BOOLVALUEALIAS         ),
@@ -661,7 +663,10 @@ valuealias_t valuealiases[] =
     { "auto",              con_edgecolor_auto,                        EDGECOLORVALUEALIAS     },
     { "american",          english_american,                          ENGLISHVALUEALIAS       },
     { "british",           english_british,                           ENGLISHVALUEALIAS       },
-    { "off",               1,                                         GAMMAVALUEALIAS         },
+    { "none",              r_fakecontrast_none,                       FAKECONTRASTVALUEALIAS  },
+    { "vanilla",           r_fakecontrast_vanilla,                    FAKECONTRASTVALUEALIAS  },
+    { "smooth",            r_fakecontrast_smooth,                     FAKECONTRASTVALUEALIAS  },
+    { "off",               r_gamma_off,                               GAMMAVALUEALIAS         },
     { "other",             playergender_other,                        GENDERVALUEALIAS        },
     { "male",              playergender_male,                         GENDERVALUEALIAS        },
     { "female",            playergender_female,                       GENDERVALUEALIAS        },

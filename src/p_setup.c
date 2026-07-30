@@ -2941,8 +2941,6 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
 // Precalculate values for use later in long wall error fix in R_StoreWallRange()
 static void P_CalcSegsLength(void)
 {
-    const fixed_t   rightangle = finesine[ANG30 >> ANGLETOFINESHIFT];
-
     for (int i = 0; i < numsegs; i++)
     {
         seg_t           *li = segs + i;
@@ -2958,19 +2956,43 @@ static void P_CalcSegsLength(void)
 
         li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) / 2;
 
-        if (!li->dy)
-            li->fakecontrast = -LIGHTBRIGHT;
-        else if (ABS(finesine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
-            li->fakecontrast = -LIGHTBRIGHT / 2;
-        else if (!li->dx)
-            li->fakecontrast = LIGHTBRIGHT;
-        else if (ABS(finecosine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
-            li->fakecontrast = LIGHTBRIGHT / 2;
-        else
-            li->fakecontrast = 0;
-
         li->dx /= 2;
         li->dy /= 2;
+    }
+}
+
+void P_CalcFakeContrast(void)
+{
+    const fixed_t   rightangle = finesine[ANG30 >> ANGLETOFINESHIFT];
+
+    for (int i = 0; i < numsegs; i++)
+    {
+        seg_t   *li = segs + i;
+
+        if (r_fakecontrast == r_fakecontrast_none)
+            li->fakecontrast = 0;
+        else if (r_fakecontrast == r_fakecontrast_vanilla)
+        {
+            if (!li->dy)
+                li->fakecontrast = -LIGHTBRIGHT;
+            else if (!li->dx)
+                li->fakecontrast = LIGHTBRIGHT;
+            else
+                li->fakecontrast = 0;
+        }
+        else if (r_fakecontrast == r_fakecontrast_smooth)
+        {
+            if (!li->dy)
+                li->fakecontrast = -LIGHTBRIGHT;
+            else if (ABS(finesine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
+                li->fakecontrast = -LIGHTBRIGHT / 2;
+            else if (!li->dx)
+                li->fakecontrast = LIGHTBRIGHT;
+            else if (ABS(finecosine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
+                li->fakecontrast = LIGHTBRIGHT / 2;
+            else
+                li->fakecontrast = 0;
+        }
     }
 }
 
@@ -3566,6 +3588,7 @@ void P_SetupLevel(int ep, int map)
         P_RemoveSlimeTrails();
 
     P_CalcSegsLength();
+    P_CalcFakeContrast();
 
     nummarks = 0;
     maxmarks = 0;

@@ -546,6 +546,7 @@ static void r_corpses_mirroredfunc2(char *cmd, char *parms);
 static void r_detailfunc2(char *cmd, char *parms);
 static void r_diskiconfunc2(char *cmd, char *parms);
 static void r_ditheredlightingfunc2(char *cmd, char *parms);
+static void r_fakecontrastfunc2(char *cmd, char *parms);
 static void r_fixmaperrorsfunc2(char *cmd, char *parms);
 static void r_fovfunc2(char *cmd, char *parms);
 static bool r_gammafunc1(char *cmd, char *parms);
@@ -1016,6 +1017,8 @@ consolecmd_t consolecmds[] =
         "Toggles dithered lighting cast on textures and sprites."),
     PERCENTCVAR(r_extralighting, "", "", intfunc1, intfunc2,
         "The extra lighting applied to the current map (" BOLD("0%") " to " BOLD("100%") ")."),
+    INTCVAR(r_fakecontrast, "", "", intfunc1, r_fakecontrastfunc2, 0, FAKECONTRASTVALUEALIAS,
+        "The fake contrast applied to walls (" BOLD("none") ", " BOLD("smooth") " or " BOLD("vanilla") ")."),
     BOOLCVAR(r_fixmaperrors, "", "", boolfunc1, r_fixmaperrorsfunc2, CF_NEXTMAP,
         "Toggles fixing many mapping errors in the official " ITALICS("DOOM") " and " ITALICS("DOOM II") " WADs."),
     BOOLCVAR(r_fixspriteoffsets, "", "", boolfunc1, boolfunc2, 0,
@@ -11926,16 +11929,16 @@ static void r_ditheredlightingfunc2(char *cmd, char *parms)
 }
 
 //
-// r_radiallighting CVAR
+// r_fakecontrast CVAR
 //
-static void r_radiallightingfunc2(char *cmd, char *parms)
+static void r_fakecontrastfunc2(char *cmd, char *parms)
 {
-    const bool   r_radiallighting_old = r_radiallighting;
+    const int   r_fakecontrast_old = r_fakecontrast;
 
-    boolfunc2(cmd, parms);
+    intfunc2(cmd, parms);
 
-    if (r_radiallighting != r_radiallighting_old)
-        R_InitColumnFunctions();
+    if (r_fakecontrast != r_fakecontrast_old)
+        P_CalcFakeContrast();
 }
 
 //
@@ -12276,6 +12279,19 @@ static void r_mirroredweaponsfunc2(char *cmd, char *parms)
                         thing->flags2 &= ~MF2_MIRRORED;
                 }
             }
+}
+
+//
+// r_radiallighting CVAR
+//
+static void r_radiallightingfunc2(char *cmd, char *parms)
+{
+    const bool   r_radiallighting_old = r_radiallighting;
+
+    boolfunc2(cmd, parms);
+
+    if (r_radiallighting != r_radiallighting_old)
+        R_InitColumnFunctions();
 }
 
 //

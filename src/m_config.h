@@ -165,6 +165,7 @@ extern int      r_detail;
 extern bool     r_diskicon;
 extern bool     r_ditheredlighting;
 extern int      r_extralighting;
+extern int      r_fakecontrast;
 extern bool     r_fixmaperrors;
 extern bool     r_fixspriteoffsets;
 extern bool     r_floatbob;
@@ -351,6 +352,13 @@ enum
 {
     r_detail_low,
     r_detail_high
+};
+
+enum
+{
+    r_fakecontrast_none,
+    r_fakecontrast_vanilla,
+    r_fakecontrast_smooth
 };
 
 enum
@@ -775,6 +783,10 @@ enum
 #define r_extralighting_default             0
 #define r_extralighting_max                 100
 
+#define r_fakecontrast_min                  r_fakecontrast_none
+#define r_fakecontrast_default              r_fakecontrast_smooth
+#define r_fakecontrast_max                  r_fakecontrast_smooth
+
 #define r_fixmaperrors_default              true
 
 #define r_fixspriteoffsets_default          true
@@ -785,6 +797,7 @@ enum
 #define r_fov_default                       90
 #define r_fov_max                           135
 
+#define r_gamma_off                         1
 #define r_gamma_min                         gammalevels[0]
 #define r_gamma_default                     0.90f
 #define r_gamma_max                         gammalevels[GAMMALEVELS - 1]
@@ -1257,6 +1270,7 @@ typedef enum
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,
     ENGLISHVALUEALIAS,
+    FAKECONTRASTVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
     INVULNVALUEALIAS,
