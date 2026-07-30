@@ -2974,9 +2974,9 @@ void P_CalcFakeContrast(void)
         else if (r_fakecontrast == r_fakecontrast_vanilla)
         {
             if (!li->dy)
-                li->fakecontrast = -LIGHTBRIGHT;
+                li->fakecontrast = -LIGHTBRIGHT / 2;
             else if (!li->dx)
-                li->fakecontrast = LIGHTBRIGHT;
+                li->fakecontrast = LIGHTBRIGHT / 2;
             else
                 li->fakecontrast = 0;
         }

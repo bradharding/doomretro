@@ -999,7 +999,7 @@ static bool D_IsUnsupportedWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.\n",
+            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s yet.\n",
                 unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, DOOMRETRO_NAME, buffer, NULL);
 
