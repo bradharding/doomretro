@@ -54,9 +54,6 @@
 #include "version.h"
 #include "yyjson/yyjson.h"
 
-#define DISCORD_RPC_UPDATE_WAIT    15000
-#define DISCORD_RPC_MAX_IPC_PIPES  10
-
 #if defined(_WIN32)
 static HANDLE   discordpipe = INVALID_HANDLE_VALUE;
 static time_t   activitystart;
@@ -117,34 +114,10 @@ static void I_DiscordDrainPipe(void)
 static void I_BuildDiscordActivity(char *details, const size_t detailssize,
     char *state, const size_t statesize)
 {
-    const char  *game = DOOMRETRO_NAME;
-    char        *temp = removenonprintable(*mapnumandtitle ? mapnumandtitle : mapnum);
+    char    *temp = removenonprintable(*mapnumandtitle ? mapnumandtitle : mapnum);
 
     details[0] = '\0';
     state[0] = '\0';
-
-    if (chex)
-        game = "Chex Quest";
-    else if (legacyofrust)
-        game = "Legacy of Rust";
-    else if (gamemission == pack_nerve)
-        game = "No Rest for the Living";
-    else if (gamemission == pack_masterlevels)
-        game = "Master Levels";
-    else if (gamemission == pack_plut)
-        game = "Final DOOM: The Plutonia Experiment";
-    else if (gamemission == pack_tnt)
-        game = "Final DOOM: TNT - Evilution";
-    else if (gamemode == commercial)
-        game = "DOOM II: Hell on Earth";
-    else if (sigil2 && gameepisode == 6)
-        game = "SIGIL II";
-    else if (sigil && gameepisode == 5)
-        game = "SIGIL";
-    else if (gamemode == retail)
-        game = "The Ultimate DOOM";
-    else if (gamemode == shareware || gamemode == registered)
-        game = "DOOM";
 
     if (gamestate == GS_LEVEL)
     {
@@ -156,7 +129,7 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
             M_StringCopy(details, "In background", detailssize);
         else
         {
-            M_snprintf(details, (int)detailssize, "Playing %s", game);
+            M_snprintf(details, (int)detailssize, "Playing %s", gamedescription);
             M_StringCopy(state, temp, statesize);
             free(temp);
             return;
@@ -172,12 +145,12 @@ static void I_BuildDiscordActivity(char *details, const size_t detailssize,
     else if (gamestate == GS_FINALE)
     {
         M_StringCopy(details, "Watching finale", detailssize);
-        M_StringCopy(state, game, statesize);
+        M_StringCopy(state, gamedescription, statesize);
     }
     else
     {
         M_StringCopy(details, (splashscreen ? "Starting up" : "On title screen"), detailssize);
-        M_StringCopy(state, game, statesize);
+        M_StringCopy(state, gamedescription, statesize);
     }
 
     free(temp);

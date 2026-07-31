@@ -463,9 +463,9 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
     if (a->targetisplayer)
     {
         const bool  moltenrocka = ((a->floorpic >= RROCK05 && a->floorpic <= RROCK08)
-                                || (a->floorpic >= SLIME09 && a->floorpic <= SLIME12));
+                        || (a->floorpic >= SLIME09 && a->floorpic <= SLIME12));
         const bool  moltenrockb = ((b->floorpic >= RROCK05 && b->floorpic <= RROCK08)
-                                || (b->floorpic >= SLIME09 && b->floorpic <= SLIME12));
+                        || (b->floorpic >= SLIME09 && b->floorpic <= SLIME12));
         const bool  liquida = (a->terraintype >= LIQUID && a->terraintype < NUMTERRAINTYPES);
         const bool  liquidb = (b->terraintype >= LIQUID && b->terraintype < NUMTERRAINTYPES);
 

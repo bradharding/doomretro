@@ -35,6 +35,9 @@
 
 #pragma once
 
+#define DISCORD_RPC_UPDATE_WAIT    15000
+#define DISCORD_RPC_MAX_IPC_PIPES  10
+
 void I_InitDiscordRPC(void);
 void I_ShutdownDiscordRPC(void);
 void I_UpdateDiscordRPC(void);
