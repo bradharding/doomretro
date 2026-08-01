@@ -9,7 +9,7 @@
 * These changes have been made to when the `smoothtransitions` CVAR is `on`:
   * The highlight effect when selecting items in the menu now slightly fades in and out when the `menuhighlight` CVAR is also `on`.
   * The status bar now quickly slides up from and off of the bottom of the screen when toggling the widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
-  * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+  * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys, and when changing the `r_althud` CVAR in the console.
 * When the `smoothtransitions` CVAR is `off`, opening and closing the console are now instantaneous rather than sliding up and down from the top of the screen.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:

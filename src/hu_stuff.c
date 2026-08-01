@@ -107,7 +107,11 @@ static byte             hudscreen[MAXSCREENAREA];
 static int              hudopacity;
 static bool             hudtransitionactive;
 static bool             oldr_hud;
+static bool             oldr_althud;
 static bool             hudtransitioninitialized;
+static bool             hudstyletransitionactive;
+static bool             hudstyletransitionfadingout;
+static bool             hudtransitionalthud;
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -143,6 +147,11 @@ static void HU_DrawAltHUD(void);
 static int HU_HUDOpacityTarget(void)
 {
     return (r_hud && r_screensize == r_screensize_max ? 10 : 0);
+}
+
+static bool HU_TransitionAltHUD(void)
+{
+    return (hudstyletransitionactive ? hudtransitionalthud : r_althud);
 }
 
 static void HU_DrawFadedHUD(const bool althud, const int opacity)
@@ -1683,14 +1692,14 @@ void HU_Drawer(void)
                     HU_DrawHUD();
             }
             else if (hudtransitionactive)
-                HU_DrawFadedHUD(r_althud, hudopacity);
+                HU_DrawFadedHUD(HU_TransitionAltHUD(), hudopacity);
             else if (r_althud)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
         }
         else if (hudtransitionactive)
-            HU_DrawFadedHUD(r_althud, hudopacity);
+            HU_DrawFadedHUD(HU_TransitionAltHUD(), hudopacity);
 
         if (mapwindow)
         {
@@ -1720,35 +1729,63 @@ void HU_Ticker(void)
     char        *message;
     const bool  statusbartransition = (smoothtransitions
                     && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
-    const int   hudopacitytarget = HU_HUDOpacityTarget();
+    int         hudopacitytarget = HU_HUDOpacityTarget();
 
     if (!hudtransitioninitialized)
     {
         oldr_hud = r_hud;
+        oldr_althud = r_althud;
         hudopacity = hudopacitytarget;
+        hudtransitionalthud = r_althud;
         hudtransitioninitialized = true;
     }
 
     if (!smoothtransitions || statusbartransition || r_screensize != r_screensize_max)
     {
         hudtransitionactive = false;
+        hudstyletransitionactive = false;
+        hudstyletransitionfadingout = false;
+        hudtransitionalthud = r_althud;
         hudopacity = hudopacitytarget;
     }
     else
     {
-        if (r_hud != oldr_hud)
+        if (smoothtransitions && !hudstyletransitionactive && r_hud && oldr_hud && r_althud != oldr_althud)
+        {
             hudtransitionactive = true;
+            hudstyletransitionactive = true;
+            hudstyletransitionfadingout = true;
+            hudtransitionalthud = oldr_althud;
+        }
+        else if (r_hud != oldr_hud)
+        {
+            hudtransitionactive = true;
+            hudstyletransitionactive = false;
+            hudtransitionalthud = r_althud;
+        }
+
+        if (hudstyletransitionactive)
+            hudopacitytarget = (hudstyletransitionfadingout ? 0 : 10);
 
         if (hudopacity < hudopacitytarget)
             hudopacity = MIN(hudopacity + 2, hudopacitytarget);
         else if (hudopacity > hudopacitytarget)
             hudopacity = MAX(hudopacity - 2, hudopacitytarget);
 
-        if (hudopacity == hudopacitytarget)
+        if (hudstyletransitionactive && hudstyletransitionfadingout && hudopacity == 0)
+        {
+            hudstyletransitionfadingout = false;
+            hudtransitionalthud = r_althud;
+        }
+        else if (hudopacity == hudopacitytarget)
+        {
             hudtransitionactive = false;
+            hudstyletransitionactive = false;
+        }
     }
 
     oldr_hud = r_hud;
+    oldr_althud = r_althud;
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)
