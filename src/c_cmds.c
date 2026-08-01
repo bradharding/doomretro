@@ -1824,46 +1824,25 @@ static bool cheatfunc1(char *cmd, char *parms)
     {
         if (parms[0] >= '0' && parms[0] <= '9' && parms[1] >= '0' && parms[1] <= '9')
         {
-            int musnum = (parms[0] - '0') * 10 + (parms[1] - '0');
+            const int   ep = (gamemode == commercial ? gameepisode : parms[0] - '0');
+            const int   map = (gamemode == commercial ? (parms[0] - '0') * 10 + parms[1] - '0' : parms[1] - '0');
+            musicnum_t  musnum = mus_none;
 
-            if (musnum < IDMUS_MAX)
+            if (S_ChangeMapMusic(ep, map, true, true, &musnum))
             {
-                if (gamemission == pack_nerve)
-                    musnum = mus[musnum][5];
-                else if (gamemission == pack_masterlevels)
-                    musnum = mus[musnum][6];
-                else if (bfgedition && gamemission == doom2)
-                    musnum = mus[musnum][4];
-                else
-                    musnum = mus[musnum][gamemode];
+                static char msg[80];
+                char        *temp = uppercase(lumpinfo[s_music[musnum].lumpnum]->name);
 
-                if (musnum != mus_none)
-                {
-                    char    lump[9];
-                    char    *temp = uppercase(s_music[musnum].name1);
-
-                    M_snprintf(lump, sizeof(lump), "D_%s", temp);
-
-                    if (W_CheckNumForName(lump) >= 0)
-                    {
-                        static char msg[80];
-
-                        S_StartSound(NULL, sfx_getpow);
-
-                        S_ChangeMusic(musnum, 1, true, false);
-                        ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
-                        M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
-                        C_Output(msg);
-                        HU_SetPlayerMessage(msg, false, false);
-                        message_dontfuckwithme = true;
-                    }
-
-                    free(temp);
-                }
-                else
-                    idmus = false;
+                S_StartSound(NULL, sfx_getpow);
+                ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
+                M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
+                C_Output(msg);
+                HU_SetPlayerMessage(msg, false, false);
+                message_dontfuckwithme = true;
+                free(temp);
             }
-            else
+
+            if (musnum == mus_none)
                 idmus = false;
 
             return true;

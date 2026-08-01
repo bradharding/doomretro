@@ -112,6 +112,8 @@ void S_StartMusic(const musicnum_t musicnum);
 //  and set whether looping
 void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     const bool allowrestart, const bool mapstart);
+bool S_ChangeMapMusic(const int ep, const int map, const bool looping,
+    const bool allowrestart, musicnum_t *musicnum);
 
 // Stops the music for sure.
 void S_StopMusic(void);

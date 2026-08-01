@@ -375,53 +375,95 @@ void S_StopSounds(void)
         S_StopChannel(cnum);
 }
 
-static int S_GetMapNum(void)
+static int S_GetMapNum(const int ep, const int map)
 {
     if (!s_randommusic)
     {
         if (gamemode == commercial)
-            return gamemap;
+            return map;
 
-        if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
-            return gamemap;
+        if ((ep == 5 && sigil) || (ep == 6 && sigil2))
+            return map;
         else
-            return ((gameepisode - 1) * 9 + gamemap);
+            return ((ep - 1) * 9 + map);
     }
 
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-            return M_RandomIntNoRepeat(1, 9, gamemap);
+            return M_RandomIntNoRepeat(1, 9, map);
         else if (gamemission == pack_masterlevels)
-            return M_RandomIntNoRepeat(1, 21, gamemap);
+            return M_RandomIntNoRepeat(1, 21, map);
         else
-            return M_RandomIntNoRepeat(1, 32, gamemap);
+            return M_RandomIntNoRepeat(1, 32, map);
     }
-    else if ((gameepisode == 5 && sigil) || (gameepisode == 6 && sigil2))
-            return M_RandomIntNoRepeat(1, 9, gamemap);
+    else if ((ep == 5 && sigil) || (ep == 6 && sigil2))
+            return M_RandomIntNoRepeat(1, 9, map);
     else
-        return M_RandomIntNoRepeat(1, 4 * 9, (gameepisode - 1) * 9 + gamemap);
+        return M_RandomIntNoRepeat(1, 4 * 9, (ep - 1) * 9 + map);
 }
 
-static int S_GetMusicNum(void)
+static bool S_GetMusicNum(const int ep, const int map, musicnum_t *musicnum)
 {
-    const int   map = S_GetMapNum() - 1;
+    int musicmap;
+
+    if (map < 1)
+        return false;
 
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
-            return nmus[map];
+        {
+            if (map > arrlen(nmus))
+                return false;
+        }
         else if (gamemission == pack_masterlevels)
-            return mmus[map];
+        {
+            if (map > arrlen(mmus))
+                return false;
+        }
+        else if (map > 32)
+            return false;
+
+        musicmap = S_GetMapNum(ep, map) - 1;
+
+        if (gamemission == pack_nerve)
+            *musicnum = nmus[musicmap];
+        else if (gamemission == pack_masterlevels)
+            *musicnum = mmus[musicmap];
         else
-            return (mus_runnin + map);
+            *musicnum = (mus_runnin + musicmap);
+
+        return true;
     }
-    else if (gameepisode == 5 && sigil)
-        return (mus_e5m1 + map);
-    else if (gameepisode == 6 && sigil2)
-        return (mus_e6m1 + map);
+
+    if (map > 9)
+        return false;
+
+    musicmap = S_GetMapNum(ep, map) - 1;
+
+    if (ep == 5 && sigil)
+        *musicnum = (mus_e5m1 + musicmap);
+    else if (ep == 6 && sigil2)
+        *musicnum = (mus_e6m1 + musicmap);
     else
-        return (mus_e1m1 + map);
+    {
+        const int   maxepisode = (gamemode == shareware ? 1 : (gamemode == registered ? 3 : 4));
+
+        if (ep < 1 || ep > maxepisode)
+            return false;
+
+        *musicnum = (mus_e1m1 + musicmap);
+    }
+
+    return true;
+}
+
+static int S_GetMusicNumForCurrentMap(void)
+{
+    musicnum_t  musicnum = mus_none;
+
+    return (S_GetMusicNum(gameepisode, gamemap, &musicnum) ? musicnum : mus_none);
 }
 
 static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
@@ -460,7 +502,7 @@ void S_Start(void)
     // start new music for the level
     mus_paused = false;
 
-    S_ChangeMusic(S_GetMusicNum(), true, false, true);
+    S_ChangeMusic(S_GetMusicNumForCurrentMap(), true, false, true);
 }
 
 // [crispy] removed map objects may finish their sounds
@@ -717,8 +759,8 @@ void S_StartMusic(const musicnum_t musicnum)
     S_ChangeMusic(musicnum, false, false, false);
 }
 
-void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
-    const bool allowrestart, const bool mapstart)
+static bool S_ChangeMusicEx(const musicnum_t musicnum, const bool looping,
+    const bool allowrestart, const bool mapstart, const int ep, const int map)
 {
     musicinfo_t *music = &s_music[musicnum];
     const char  *name = music->name2;
@@ -771,7 +813,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         else
             lumpnum = W_CheckNumForName(namebuf);
     }
-    else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, S_GetMapNum())) > 0)
+    else if (mapstart && (mapinfomusic = P_GetMapMusic(ep, map)) > 0)
     {
         lumpnum = mapinfomusic;
         M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
@@ -804,7 +846,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
     lumpnum = S_GetPreferredMusicLump(lumpnum, &preferredvolume);
 
     if (nomusic || (mus_playing == music && mus_playing->lumpnum == lumpnum && !allowrestart))
-        return;
+        return false;
 
     // shutdown old music
     S_StopMusic();
@@ -820,7 +862,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         C_Warning(1, "The " BOLD("%s") " music lump can't be found.", temp);
         free(temp);
 
-        return;
+        return false;
     }
 
     if (mapstart && mapinfomusic > 0)
@@ -848,7 +890,7 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
                 C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
                 free(temp);
 
-                return;
+                return false;
             }
         }
 
@@ -867,6 +909,28 @@ void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
         musinfo.items[0] = music->lumpnum;
         s_music[mus_musinfo].lumpnum = -1;
     }
+
+    return true;
+}
+
+void S_ChangeMusic(const musicnum_t musicnum, const bool looping,
+    const bool allowrestart, const bool mapstart)
+{
+    S_ChangeMusicEx(musicnum, looping, allowrestart, mapstart, gameepisode, gamemap);
+}
+
+bool S_ChangeMapMusic(const int ep, const int map, const bool looping,
+    const bool allowrestart, musicnum_t *musicnum)
+{
+    musicnum_t  selectedmusic = mus_none;
+
+    if (!S_GetMusicNum(ep, map, &selectedmusic))
+        return false;
+
+    if (musicnum)
+        *musicnum = selectedmusic;
+
+    return S_ChangeMusicEx(selectedmusic, looping, allowrestart, true, ep, map);
 }
 
 void S_StopMusic(void)

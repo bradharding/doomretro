@@ -36,6 +36,7 @@
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby if the console was open over the menu and the `s_lowermenumusic` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
 * The fake contrast applied to walls can now be changed using the new `r_fakecontrast` CVAR, which can be set to `none`, `smooth` or `vanilla`. This CVAR is `smooth` by default and `vanilla` when vanilla mode is enabled.
+* The correct music is now always played when using the `IDMUS` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

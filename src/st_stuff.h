@@ -121,5 +121,3 @@ extern patch_t      *brdr_br;
 extern bool         st_drawbrdr;
 extern int          st_statusbarvisible;
 extern int          st_statusbartarget;
-
-extern const int    mus[IDMUS_MAX][7];
