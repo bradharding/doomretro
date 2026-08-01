@@ -1248,9 +1248,19 @@ void C_ShowConsole(bool reset)
 
     pagetic = PAGETICS;
 
-    consoleheight = MAX(1, consoleheight);
-    consoledirection = 1;
-    consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+    if (smoothtransitions)
+    {
+        consoleheight = MAX(1, consoleheight);
+        consoledirection = 1;
+        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+    }
+    else
+    {
+        consoleheight = CONSOLEHEIGHT;
+        consoledirection = 0;
+        consoleactive = true;
+    }
+
     showcaret = true;
     caretwait = 0;
 
@@ -1306,8 +1316,18 @@ void C_HideConsole(void)
 
     SDL_StopTextInput();
 
-    consoledirection = -1;
-    consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
+    if (smoothtransitions)
+    {
+        consoledirection = -1;
+        consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
+    }
+    else
+    {
+        consoleheight = 0;
+        consoledirection = -1;
+        consoleactive = false;
+        consoleoverlaymenu = false;
+    }
 
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
@@ -2687,7 +2707,7 @@ void C_Drawer(void)
     cheatsequence = false;
 
     // adjust console height
-    if (consolewait < tics)
+    if (smoothtransitions && consolewait < tics)
     {
         consolewait = tics + (CONSOLEFULLSCREEN ? 4 : 8);
 
