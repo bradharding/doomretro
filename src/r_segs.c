@@ -38,6 +38,10 @@
 #include "i_system.h"
 #include "m_config.h"
 
+// [AR] Only use DDA for projected walls spanning at least 1/16 of the view
+// Improves performance quite a bit, while not being visually noticeable
+#define DDA_MIN_SPAN    (viewwidth / 16)
+
 static bool         segtextured;        // True if any of the segs textures might be visible.
 
 static bool         markfloor;          // False if the back side is the same plane.
@@ -302,7 +306,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
 
     // [PN] Sub-pixel stable DDA for masked pass (transparent upper/mid).
     // Keeps masked columns aligned with solid-pass scale stepping.
-    if (masked_scalespan > 0)
+    if (masked_scalespan >= DDA_MIN_SPAN)
     {
         const int64_t   delta = (int64_t)ds->scale2 - (int64_t)ds->scale;
         const int64_t   step64 = delta / (int64_t)masked_scalespan;
@@ -782,7 +786,8 @@ void R_StoreWallRange(const int start, const int stop)
         ds_p->scale2 = (fixed_t)scale;
         rw_scalestep = (fixed_t)step64;
         ds_p->scalestep = rw_scalestep;
-        rw_scalerem = delta - step64 * (int64_t)rw_scalespan;
+
+        rw_scalerem = (rw_scalespan >= DDA_MIN_SPAN ? delta - step64 * (int64_t)rw_scalespan : 0);
 
         if (rw_scale > scale)
         {
