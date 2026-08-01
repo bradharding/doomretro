@@ -13008,7 +13008,7 @@ static void vid_showfpsfunc2(char *cmd, char *parms)
         I_UpdateBlitFunc(viewplayer->damagecount);
 
         if (vid_showfps)
-            starttime = SDL_GetPerformanceCounter();
+            I_ResetFPSCounter();
         else
         {
             framespersecond = 0;

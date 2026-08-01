@@ -658,6 +658,7 @@ void D_DoAdvanceTitle(void)
             blitfunc();
             I_RenderPresent();
             I_Sleep(1000);
+            I_ResetFPSCounter();
         }
 
         if (flag)

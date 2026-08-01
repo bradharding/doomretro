@@ -849,7 +849,14 @@ static void nullfunc(void) {}
 uint64_t    performancecounter;
 uint64_t    performancefrequency;
 uint64_t    starttime;
-int         framecount = -1;
+int         framecount;
+
+void I_ResetFPSCounter(void)
+{
+    starttime = SDL_GetPerformanceCounter();
+    framespersecond = 0;
+    framecount = -1;
+}
 
 static inline void CalculateFPS(void)
 {
@@ -2434,6 +2441,7 @@ void I_InitGraphics(void)
 
     performancecounter = SDL_GetPerformanceCounter();
     performancefrequency = SDL_GetPerformanceFrequency();
+    I_ResetFPSCounter();
 
     for (int i = 0; i < NUMKEYS; i++)
         keys[i] = true;
