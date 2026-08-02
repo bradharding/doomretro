@@ -218,15 +218,8 @@ bool MouseShouldBeGrabbed(void)
     if (splashscreen)
         return true;
 
-    // when menu is active, release the mouse
-    if ((menuactive
-        || consoleactive
-        || (automapactive && !am_followmode)
-        || gamestate != GS_LEVEL)
-        && m_pointer && usingmouse && !usingcontroller)
-        return false;
-
-    return true;
+    return ((gamestate == GS_LEVEL && !menuactive && !consoleactive && (!automapactive || am_followmode))
+        || !m_pointer || !usingmouse || usingcontroller);
 }
 
 static inline void SetShowCursor(const bool show)
@@ -817,17 +810,13 @@ void I_StartTic(void)
 static inline void UpdateGrab(void)
 {
     bool        grab = MouseShouldBeGrabbed();
-    static bool currently_grabbed;
+    static bool currentlygrabbed;
 
-    if (grab == currently_grabbed)
-        return;
-
-    if (grab && !currently_grabbed)
-        SetShowCursor(false);
-    else if (!grab && currently_grabbed)
-        SetShowCursor(true);
-
-    currently_grabbed = grab;
+    if (grab != currentlygrabbed)
+    {
+        SetShowCursor(!grab);
+        currentlygrabbed = grab;
+    }
 }
 
 static void GetUpscaledTextureSize(int width, int height)

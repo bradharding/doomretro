@@ -682,7 +682,7 @@ char *M_StringDuplicate(const char *orig)
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
 bool M_StringCompare(const char *str1, const char *str2)
 {
-    return !strcasecmp(str1, str2);
+    return (str2 && !strcasecmp(str1, str2));
 }
 
 // Returns true if string begins with the specified prefix.

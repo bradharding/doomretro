@@ -1750,7 +1750,7 @@ void HU_Ticker(void)
     }
     else
     {
-        if (smoothtransitions && !hudstyletransitionactive && r_hud && oldr_hud && r_althud != oldr_althud)
+        if (!hudstyletransitionactive && r_hud && oldr_hud && r_althud != oldr_althud)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = true;
