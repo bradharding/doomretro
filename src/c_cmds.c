@@ -1684,7 +1684,7 @@ static void C_ShowWarning(int index)
     else if ((flags & CF_NEXTMAP) && gamestate == GS_LEVEL)
         C_Warning(0, "Changing it won't be effective until the next map.");
     else if ((flags & CF_PISTOLSTART) && pistolstart)
-        C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is used.");
+        C_Warning(0, "It has no effect while the " BOLD("pistolstart") " CCMD is in use.");
 }
 
 static char *C_FormatColorValue(char *string, bool replaceauto)
@@ -2038,7 +2038,7 @@ void aliasfunc2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
         {
-            C_Warning(0, "An alias cannot be the same as an existing CVAR or CCMD.");
+            C_Warning(0, "An alias can't be the same as an existing CVAR or CCMD.");
             return;
         }
 
@@ -4149,16 +4149,20 @@ static bool killfunc1(char *cmd, char *parms)
     else if (M_StringCompare(parm, "dog") || M_StringCompare(parm, "dogs"))
         killcmdfriendly = true;
 
-    if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+    if (M_StringCompare(parm, "player")
+        || M_StringCompare(parm, "me")
+        || (*playername && M_StringCompare(parm, playername)))
         result = (viewplayer->health > 0);
-    else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
+    else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters")
+        || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
         || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
         || M_StringCompare(parm, "projectile") || M_StringCompare(parm, "projectiles")
         || M_StringCompare(parm, "item") || M_StringCompare(parm, "items")
         || M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations")
         || M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses")
-        || M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats")
+        || M_StringCompare(parm, "blood")
+        || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats")
         || M_StringCompare(parm, "everything"))
         result = true;
     else
@@ -4269,9 +4273,12 @@ static void killfunc2(char *cmd, char *parms)
     else
     {
         char    buffer[1024];
-        char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" : (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
+        char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" :
+                    (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
 
-        if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+        if (M_StringCompare(parm, "player")
+            || M_StringCompare(parm, "me")
+            || (*playername && M_StringCompare(parm, playername)))
         {
             if (viewplayer->cheats & CF_GODMODE)
             {
@@ -8525,7 +8532,8 @@ static void releasenotesfunc2(char *cmd, char *parms)
     C_Output("Opening the release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "..."));
 
 #if defined(_WIN32)
-    D_OpenURLInBrowser(DOOMRETRO_RELEASENOTESURL, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
+    D_OpenURLInBrowser(DOOMRETRO_RELEASENOTESURL, "The release notes for "
+        ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!M_system("xdg-open " DOOMRETRO_RELEASENOTESURL))
         C_Warning(0, "The release notes for " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING) " wouldn't open!");
@@ -8684,8 +8692,8 @@ static void resetfunc2(char *cmd, char *parms)
             }
             else
             {
-                char    *temp = M_StringJoin(name, " ", (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE),
-                            NULL);
+                char    *temp = M_StringJoin(name, " ", (*consolecmds[i].defaultstring ?
+                            consolecmds[i].defaultstring : EMPTYVALUE), NULL);
 
                 if (!M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
                 {
@@ -9138,7 +9146,8 @@ static bool resurrectfunc1(char *cmd, char *parms)
 
     resurrectcmdmobj = NULL;
 
-    if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+    if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
+        || (*playername && M_StringCompare(parm, playername)))
         result = (viewplayer->health <= 0);
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
@@ -9250,7 +9259,8 @@ static void resurrectfunc2(char *cmd, char *parms)
         char    buffer[1024];
         bool    cheated = false;
 
-        if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
+        if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me")
+            || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
 
@@ -9296,7 +9306,9 @@ static void resurrectfunc2(char *cmd, char *parms)
                     char    *temp = commify(resurrected);
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s dead monster%s in this map %s been resurrected.",
-                        (resurrected == 1 ? "The " : "All "), temp, (resurrected == 1 ? "" : "s"), (resurrected == 1 ? "has" : "have"));
+                        (resurrected == 1 ? "The " : "All "), temp,
+                        (resurrected == 1 ? "" : "s"),
+                        (resurrected == 1 ? "has" : "have"));
                     C_Output("%s", buffer);
                     C_HideConsoleAndMenu();
                     HU_SetPlayerMessage(buffer, false, false);
@@ -9345,7 +9357,8 @@ static void resurrectfunc2(char *cmd, char *parms)
                     char    *temp = commify(resurrected);
 
                     M_snprintf(buffer, sizeof(buffer), "%s %s %s in this map %s been resurrected.",
-                        (resurrected == 1 ? "The" : "All"), temp, (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                        (resurrected == 1 ? "The" : "All"), temp,
+                        (resurrected == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                         (resurrected == 1 ? "has" : "have"));
                     C_Output("%s", buffer);
                     C_HideConsoleAndMenu();
@@ -9362,7 +9375,8 @@ static void resurrectfunc2(char *cmd, char *parms)
                                 mobjinfo[type].plural1, gamedescription);
                             return;
                         }
-                        else if (gamemode == shareware && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
+                        else if (gamemode == shareware
+                            && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                         {
                             C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") ". "
                                 "You can buy the full version on " ITALICS("Steam") ", etc.",
@@ -9763,7 +9777,8 @@ static void takefunc2(char *cmd, char *parms)
             if (viewplayer->health > initial_health)
             {
                 healthcvar = true;
-                P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - initial_health, false, false, false);
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo,
+                    viewplayer->health - initial_health, false, false, false);
                 healthcvar = false;
                 result = true;
             }
@@ -9926,7 +9941,9 @@ static void takefunc2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
-            if (viewplayer->cards[it_bluecard] > 0 || viewplayer->cards[it_redcard] > 0 || viewplayer->cards[it_yellowcard] > 0)
+            if (viewplayer->cards[it_bluecard] > 0
+                || viewplayer->cards[it_redcard] > 0
+                || viewplayer->cards[it_yellowcard] > 0)
             {
                 viewplayer->cards[it_bluecard] = 0;
                 viewplayer->cards[it_redcard] = 0;
@@ -9942,7 +9959,9 @@ static void takefunc2(char *cmd, char *parms)
         }
         else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
-            if (viewplayer->cards[it_blueskull] > 0 || viewplayer->cards[it_redskull] > 0 || viewplayer->cards[it_yellowskull] > 0)
+            if (viewplayer->cards[it_blueskull] > 0
+                || viewplayer->cards[it_redskull] > 0
+                || viewplayer->cards[it_yellowskull] > 0)
             {
                 viewplayer->cards[it_blueskull] = 0;
                 viewplayer->cards[it_redskull] = 0;
@@ -10485,7 +10504,8 @@ static bool boolfunc1(char *cmd, char *parms)
 static void boolfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_BOOLEAN))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_BOOLEAN))
         {
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
@@ -10572,7 +10592,8 @@ static bool floatfunc1(char *cmd, char *parms)
         return true;
 
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_FLOAT))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_FLOAT))
         {
             float   value;
 
@@ -10642,12 +10663,14 @@ static void floatfunc2(char *cmd, char *parms)
                 C_ShowDescription(i);
 
                 if (*(float *)consolecmds[i].variable == (float)consolecmds[i].defaultnumber)
-                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
+                        INTEGERCVARISDEFAULT), temp1);
                 else
                 {
                     char    *temp2 = striptrailingzero(consolecmds[i].defaultnumber, 1);
 
-                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARWITHDEFAULT), temp1, temp2);
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
+                        INTEGERCVARWITHDEFAULT), temp1, temp2);
                     free(temp2);
                 }
 
@@ -10669,7 +10692,8 @@ static bool intfunc1(char *cmd, char *parms)
         return true;
 
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_INTEGER))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_INTEGER))
         {
             int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
@@ -10685,7 +10709,8 @@ static bool intfunc1(char *cmd, char *parms)
 static void intfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_INTEGER))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_INTEGER))
         {
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
@@ -10819,7 +10844,8 @@ static void intfunc2(char *cmd, char *parms)
                             C_Output(INTEGERCVARISDEFAULT, temp3);
                         else
                         {
-                            char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                            char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                                        consolecmds[i].aliases);
                             char    *temp4 = C_FormatColorValue(temp2, false);
 
                             C_Output(INTEGERCVARWITHDEFAULT, temp3, temp4);
@@ -10830,12 +10856,15 @@ static void intfunc2(char *cmd, char *parms)
                         free(temp3);
                     }
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
+                            INTEGERCVARISDEFAULT), temp1);
                     else
                     {
-                        char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                        char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
+                                    consolecmds[i].aliases);
 
-                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARWITHDEFAULT), temp1, temp2);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
+                            INTEGERCVARWITHDEFAULT), temp1, temp2);
                         free(temp2);
                     }
 
@@ -10855,7 +10884,8 @@ static void intfunc2(char *cmd, char *parms)
 static void strfunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_STRING))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_STRING))
         {
             if (M_StringCompare(parms, EMPTYVALUE) && !(consolecmds[i].flags & CF_READONLY))
             {
@@ -10940,7 +10970,8 @@ static void strfunc2(char *cmd, char *parms)
 static void timefunc2(char *cmd, char *parms)
 {
     for (int i = 0; *consolecmds[i].name; i++)
-        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_TIME))
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_TIME))
         {
             int         tics = *(int *)consolecmds[i].variable;
             int         seconds = tics / TICRATE;
@@ -11421,7 +11452,8 @@ static bool playercvarsfunc1(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10d", &value) == 1 && value > viewplayer->maxammo[weaponinfo[viewplayer->readyweapon].ammotype])
+        if (sscanf(parms, "%10d", &value) == 1
+            && value > viewplayer->maxammo[weaponinfo[viewplayer->readyweapon].ammotype])
             return false;
     }
     else if (M_StringCompare(cmd, stringize(armor)))
@@ -13264,7 +13296,8 @@ static void weaponfunc2(char *cmd, char *parms)
         }
         else if (!resettingcvar && !togglingvanilla)
         {
-            char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
+            char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon :
+                        weapon_default), WEAPONVALUEALIAS);
 
             if (viewplayer->readyweapon == weapon_default)
                 C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
@@ -13294,7 +13327,8 @@ static void weaponfunc2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
+        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon :
+                    weapon_default), WEAPONVALUEALIAS);
         char    description[255];
 
         if (gamemode == shareware)

@@ -1631,10 +1631,12 @@ void HU_Drawer(void)
                 if (vid_widescreen)
                 {
                     w_author.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_author.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                    w_author.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2
+                        - (r_screensize == r_screensize_max - 1 ? 6 : 20);
 
                     w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 22 : 38);
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2
+                        - (r_screensize == r_screensize_max - 1 ? 22 : 38);
                 }
                 else
                 {
@@ -1652,7 +1654,8 @@ void HU_Drawer(void)
                 if (vid_widescreen)
                 {
                     w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2 - (r_screensize == r_screensize_max - 1 ? 6 : 20);
+                    w_title.y = MAPHEIGHT - LITTLESHORT(hu_font[0]->height) * 2
+                        - (r_screensize == r_screensize_max - 1 ? 6 : 20);
                 }
                 else
                 {
@@ -1727,8 +1730,8 @@ void HU_Erase(void)
 void HU_Ticker(void)
 {
     char        *message;
-    const bool  statusbartransition = (smoothtransitions
-                    && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
+    const bool  statusbartransition = (smoothtransitions && st_statusbarvisible > 0
+                    && st_statusbarvisible != st_statusbartarget);
     int         hudopacitytarget = HU_HUDOpacityTarget();
 
     if (!hudtransitioninitialized)
@@ -1819,11 +1822,12 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, bool group, bool external)
 {
-    char    *temp1 = removenonprintable(message);
+    char    *temp1;
 
     if (message_secret || message_warning || !viewplayer || togglingvanilla)
         return;
 
+    temp1 = removenonprintable(message);
     M_StringReplaceAll(temp1, "%%", "%", false);
 
     if (!group)
