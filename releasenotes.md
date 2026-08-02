@@ -6,18 +6,17 @@
 * Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
-* These changes have been made to when the `smoothtransitions` CVAR is `on`:
+* These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The highlight effect when selecting items in the menu now slightly fades in and out when the `menuhighlight` CVAR is also `on`.
   * The status bar now quickly slides up from and off of the bottom of the screen when toggling the widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
-  * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys, and when changing the `r_althud` CVAR in the console.
-* When the `smoothtransitions` CVAR is `off`, opening and closing the console are now instantaneous rather than sliding up and down from the top of the screen.
+  * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys, and when changing the `r_althud` CVAR from the console.
+* When the `smoothtransitions` CVAR is `off`, the opening and closing of the console is now instantaneous rather than the console sliding down from and up to the top of the screen.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.
   * `Tranmap` is now supported in state definitions in `DEHACKED` lumps.
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
-* A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
-* Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, anything overlaying the screen, such as player messages, the widescreen HUD, or the crosshair, will not be captured when pressing the <kbd><b>PRINTSCREEN</b></kbd> key.
+* Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, any extraneous elements on the screen, such as player messages, the widescreen HUD, or the crosshair, won’t be captured when pressing the <kbd><b>PRINTSCREEN</b></kbd> key.
 * Screenshots can now be taken when the console is open over the menu.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
 * Weapons that cause a high amount of damage now have a limit on how many blood splats they can spawn per tic.
@@ -31,6 +30,7 @@
 * The diminished lighting on the floor and ceiling surrounding the player is now radial rather than linear. This can be disabled using the new `r_radiallighting` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The sky projection is now cylindrical rather than planar. This can be disabled using the new `r_skyprojection` CVAR, which can be either `vanilla`, `linear` or `cylindrical`, is `cylindrical` by default, and is `vanilla` when vanilla mode is enabled.
 * The `r_linearskies` CVAR has been deprecated. The new `r_skyprojection` CVAR can be set to `linear` instead to achieve the same effect.
+* A bug is fixed whereby the sky wouldn’t be stretched correctly when the `r_screensize` CVAR was `8` and the `freelook` CVAR was `on`.
 * You may now click anywhere to the right of *DOOM Retro*'s logo on the console’s edge and drag upwards to close the console.
 * The crosshair no longer snaps to spectres, or targets anything in full darkness, when the `snapcrosshair` CVAR is `on`.
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
