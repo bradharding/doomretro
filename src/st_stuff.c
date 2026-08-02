@@ -562,15 +562,17 @@ bool ST_Responder(const event_t *ev)
                     if (S_ChangeMapMusic(ep, map, true, true, &musnum))
                     {
                         static char msg[80];
-                        char        *temp = uppercase(lumpinfo[s_music[musnum].lumpnum]->name);
+                        char        *temp1 = uppercase(lumpinfo[s_music[musnum].lumpnum]->name);
+                        char        *temp2 = M_StringJoin(BOLDON, temp1, BOLDOFF, NULL);
 
                         S_StartSound(NULL, sfx_getpow);
                         ST_PlayerCheated(cheat_mus.sequence, "xy", NULL, false);
-                        M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
+                        M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp2);
                         C_Output(msg);
                         HU_SetPlayerMessage(msg, false, false);
                         message_dontfuckwithme = true;
-                        free(temp);
+                        free(temp1);
+                        free(temp2);
                     }
 
                     if (musnum == mus_none)
