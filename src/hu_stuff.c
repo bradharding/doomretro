@@ -1822,39 +1822,36 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, bool group, bool external)
 {
-    char    *temp1;
-
     if (message_secret || message_warning || !viewplayer || togglingvanilla)
         return;
 
-    temp1 = removenonprintable(message);
-    M_StringReplaceAll(temp1, "%%", "%", false);
+    M_StringReplaceAll(message, "%%", "%", false);
 
     if (!group)
     {
         free(viewplayer->message);
-        viewplayer->message = sentencecase(temp1);
+        viewplayer->message = sentencecase(message);
     }
     else
     {
         static int  messagecount = 1;
 
         if (gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT
-            && M_StringCompare(temp1, viewplayer->prevmessage) && groupmessages)
+            && M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
         {
             char    buffer[133];
-            char    *temp2 = commify(++messagecount);
+            char    *temp = commify(++messagecount);
 
-            M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
+            M_snprintf(buffer, sizeof(buffer), "%s (%s)", message, temp);
             free(viewplayer->message);
             viewplayer->message = sentencecase(buffer);
-            free(temp2);
+            free(temp);
         }
         else
         {
             messagecount = 1;
-            viewplayer->message = sentencecase(temp1);
-            M_StringCopy(viewplayer->prevmessage, temp1, sizeof(viewplayer->prevmessage));
+            viewplayer->message = sentencecase(message);
+            M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
         }
 
         viewplayer->prevmessagetics = gametime;
@@ -1862,7 +1859,6 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
 
     M_StringCopy(prevmessage, viewplayer->message, sizeof(prevmessage));
     message_external = (external && mapwindow);
-    free(temp1);
 }
 
 void HU_PlayerMessage(char *message, bool group, bool external)

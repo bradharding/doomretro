@@ -205,6 +205,8 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             italics = true;
         else if (letter == ITALICSOFFCHAR)
             italics = false;
+        else if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
+            continue;
         else
         {
             patch_t *patch = unknownchar;
@@ -277,6 +279,8 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
             italics = true;
         else if (letter == ITALICSOFFCHAR)
             italics = false;
+        else if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
+            continue;
         else
         {
             patch_t     *patch = unknownchar;
