@@ -264,10 +264,10 @@ bool GetCapsLockState(void)
 }
 
 #if defined(_WIN32)
-static HWND startupfadeoverlay;
-static ATOM startupfadeclass;
+static HWND transitionfadeoverlay;
+static ATOM transitionfadeclass;
 
-static LRESULT CALLBACK I_StartupFadeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK I_TransitionFadeWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_PAINT)
     {
@@ -284,74 +284,106 @@ static LRESULT CALLBACK I_StartupFadeWndProc(HWND hwnd, UINT msg, WPARAM wParam,
     return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-static void I_PumpStartupFadeMessages(void)
+static void I_PumpTransitionFadeMessages(void)
 {
     MSG msg;
 
-    while (startupfadeoverlay && PeekMessage(&msg, startupfadeoverlay, 0, 0, PM_REMOVE))
+    while (transitionfadeoverlay && PeekMessage(&msg, transitionfadeoverlay, 0, 0, PM_REMOVE))
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
 }
 
-static void I_BeginStartupFade(void)
+static bool I_CreateTransitionFadeOverlay(BYTE alpha)
 {
-    static const int    duration = 350;
-    static const int    interval = 16;
-    const int           steps = MAX(1, duration / interval);
-    const int           x = GetSystemMetrics(SM_XVIRTUALSCREEN);
-    const int           y = GetSystemMetrics(SM_YVIRTUALSCREEN);
-    const int           width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
-    const int           height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
-    const HINSTANCE     instance = GetModuleHandle(NULL);
+    const int       x = GetSystemMetrics(SM_XVIRTUALSCREEN);
+    const int       y = GetSystemMetrics(SM_YVIRTUALSCREEN);
+    const int       width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+    const int       height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+    const HINSTANCE instance = GetModuleHandle(NULL);
 
     if (!vid_fullscreen || !vid_borderlesswindow || !smoothtransitions)
-        return;
+        return false;
 
     if (!width || !height)
-        return;
+        return false;
 
-    if (!startupfadeclass)
+    if (!transitionfadeclass)
     {
         WNDCLASS    wc = { 0 };
 
         wc.hInstance = instance;
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wc.lpfnWndProc = I_StartupFadeWndProc;
-        wc.lpszClassName = DOOMRETRO_NAME "StartupFade";
+        wc.lpfnWndProc = I_TransitionFadeWndProc;
+        wc.lpszClassName = DOOMRETRO_NAME "TransitionFade";
 
-        if (!(startupfadeclass = RegisterClass(&wc)))
-            return;
+        if (!(transitionfadeclass = RegisterClass(&wc)))
+            return false;
     }
 
-    startupfadeoverlay = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
-        DOOMRETRO_NAME "StartupFade", NULL, WS_POPUP, x, y, width, height, NULL, NULL, instance, NULL);
+    if (!transitionfadeoverlay)
+        transitionfadeoverlay = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
+            DOOMRETRO_NAME "TransitionFade", NULL, WS_POPUP, x, y, width, height, NULL, NULL, instance, NULL);
 
-    if (!startupfadeoverlay)
+    if (!transitionfadeoverlay)
+        return false;
+
+    SetLayeredWindowAttributes(transitionfadeoverlay, 0, alpha, LWA_ALPHA);
+    ShowWindow(transitionfadeoverlay, SW_SHOWNOACTIVATE);
+    RedrawWindow(transitionfadeoverlay, NULL, NULL, (RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW));
+
+    return true;
+}
+
+static void I_FadeTransitionOverlay(BYTE from, BYTE to)
+{
+    static const int    duration = 350;
+    static const int    interval = 16;
+    const int           steps = MAX(1, duration / interval);
+
+    if (!I_CreateTransitionFadeOverlay(from))
         return;
-
-    SetLayeredWindowAttributes(startupfadeoverlay, 0, 0, LWA_ALPHA);
-    ShowWindow(startupfadeoverlay, SW_SHOWNOACTIVATE);
-    RedrawWindow(startupfadeoverlay, NULL, NULL, (RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW));
 
     for (int i = 0; i <= steps; i++)
     {
-        SetLayeredWindowAttributes(startupfadeoverlay, 0, (BYTE)(255 * i / steps), LWA_ALPHA);
-        I_PumpStartupFadeMessages();
+        SetLayeredWindowAttributes(transitionfadeoverlay, 0, (BYTE)(from + (to - from) * i / steps), LWA_ALPHA);
+        I_PumpTransitionFadeMessages();
 
         if (i < steps)
             Sleep(interval);
     }
 }
 
+static void I_BeginStartupFade(void)
+{
+    I_FadeTransitionOverlay(0, 255);
+}
+
+void I_BeginFadeToDesktop(void)
+{
+    if (!smoothtransitions)
+        return;
+
+    I_CreateTransitionFadeOverlay(255);
+}
+
 static void I_EndStartupFade(void)
 {
-    if (startupfadeoverlay)
+    if (transitionfadeoverlay)
     {
-        DestroyWindow(startupfadeoverlay);
-        startupfadeoverlay = NULL;
+        DestroyWindow(transitionfadeoverlay);
+        transitionfadeoverlay = NULL;
     }
+}
+
+void I_FadeToDesktop(void)
+{
+    if (!smoothtransitions)
+        return;
+
+    I_FadeTransitionOverlay(255, 0);
+    I_EndStartupFade();
 }
 #endif
 

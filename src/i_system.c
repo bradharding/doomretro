@@ -663,11 +663,16 @@ void I_Quit(bool shutdown)
 
 #if defined(_WIN32)
         I_ShutdownWindows();
+        I_BeginFadeToDesktop();
 #endif
 
         I_ShutdownKeyboard();
         I_ShutdownController();
         SDL_Quit();
+
+#if defined(_WIN32)
+        I_FadeToDesktop();
+#endif
     }
 
     W_CloseFiles();

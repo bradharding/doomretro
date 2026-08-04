@@ -80,6 +80,8 @@ bool GetCapsLockState(void);
 
 #if defined(_WIN32)
 void ToggleCapsLockState(void);
+void I_BeginFadeToDesktop(void);
+void I_FadeToDesktop(void);
 #elif defined(X11)
 void SetCapsLockState(bool enabled);
 #endif
