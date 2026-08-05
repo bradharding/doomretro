@@ -4334,6 +4334,9 @@ bool M_Responder(event_t *ev)
     {
         int ch;
 
+        if (key < 0)
+            return true;
+
         if ((key == keyboardscreenshot || key == keyboardscreenshot2)
             && (key == KEY_PRINTSCREEN || gamestate == GS_LEVEL))
         {
