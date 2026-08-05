@@ -1631,6 +1631,8 @@ static void M_QuickLoadResponse(int key)
 
 static void M_QuickLoad(void)
 {
+    static char loadstring[160];
+
     S_StartSound(NULL, sfx_swtchn);
 
     if (quicksaveslot < 0)
@@ -1643,20 +1645,20 @@ static void M_QuickLoad(void)
         return;
     }
 
-    if (M_StringEndsWith(s_QLPROMPT, s_PRESSYN))
-        M_StartMessage(s_QLPROMPT, &M_QuickLoadResponse, true);
-    else
-    {
-        static char line1[160];
-        static char line2[160];
-        static char loadstring[320];
+    M_snprintf(loadstring, sizeof(loadstring), s_QLPROMPT, savegamestrings[quicksaveslot]);
+    M_SplitString(loadstring);
 
-        M_snprintf(line1, sizeof(line1), s_QLPROMPT, savegamestrings[quicksaveslot]);
-        M_SplitString(line1);
-        M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-        M_snprintf(loadstring, sizeof(loadstring), "%s\n\n%s", line1, line2);
-        M_StartMessage(loadstring, &M_QuickLoadResponse, true);
+    if (M_StringEndsWith(loadstring, s_PRESSYN))
+    {
+        int len = (int)(strlen(loadstring) - strlen(s_PRESSYN));
+
+        loadstring[len] = '\0';
+
+        while (len > 0 && (loadstring[len - 1] == ' ' || loadstring[len - 1] == '\n'))
+            loadstring[--len] = '\0';
     }
+
+    M_StartButtonMessage(loadstring, &M_QuickLoadResponse, false);
 }
 
 static void M_DeleteSaveGameResponse(int key)
