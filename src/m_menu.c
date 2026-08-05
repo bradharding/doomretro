@@ -1714,14 +1714,10 @@ static void M_DeleteSaveGameResponse(int key)
 static void M_DeleteSaveGame(void)
 {
     static char line1[160];
-    static char line2[160];
-    static char deletestring[320];
 
     M_snprintf(line1, sizeof(line1), s_DELPROMPT, savegamestrings[itemon]);
     M_SplitString(line1);
-    M_snprintf(line2, sizeof(line2), (usingcontroller ? s_PRESSA : s_PRESSYN), selectbutton);
-    M_snprintf(deletestring, sizeof(deletestring), "%s\n\n%s", line1, line2);
-    M_StartMessage(deletestring, &M_DeleteSaveGameResponse, true);
+    M_StartButtonMessage(line1, &M_DeleteSaveGameResponse, false);
 }
 
 //
