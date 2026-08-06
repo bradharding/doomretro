@@ -11,6 +11,7 @@
   * The status bar now quickly slides up from and off of the bottom of the screen when toggling the widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys, and when changing the `r_althud` CVAR from the console.
   * The screen now fades back to the desktop when quitting *DOOM Retro* if the `vid_fullscreen` and `vid_borderlesswindow` CVARs are also `on`.
+  * Pressing the <kbd><b>F2</b></kbd>, <kbd><b>F3</b></kbd>, <kbd><b>F4</b></kbd> or <kbd><b>F6</b></kbd> keys a second time to cancel their respective actions will now fade the screen back to the game.
 * When the `smoothtransitions` CVAR is `off`, the opening and closing of the console is now instantaneous rather than the console sliding down from and up to the top of the screen.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
@@ -42,6 +43,7 @@
 * The fake contrast applied to walls can now be changed using the new `r_fakecontrast` CVAR, which can be set to `none`, `smooth` or `vanilla`. This CVAR is `smooth` by default and `vanilla` when vanilla mode is enabled.
 * When the confirmation message is displayed when deleting a savegame from the save or load game menus, or when ending a game from the options menu or pressing the <kbd>F7</kbd> key, if the `m_pointer` CVAR is `on` and the mouse has been moved to show the pointer, `YES` and `NO` buttons that can be selected with the mouse are now displayed instead of the usual text.
 * When ending a game by pressing the <kbd>F7</kbd> key, canceling the confirmation message no longer opens the options menu.
+* When toggling messages off either from the options menu or pressing the <kbd>F8</kbd> key, the message “Messages OFF” is now displayed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
