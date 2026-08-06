@@ -38,6 +38,8 @@
 * The colors used in the automap can be stopped from being forced to use the default *DOOM* palette by disabling the new `am_forcepalette` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby if the console was open over the menu and the `s_lowermenumusic` CVAR was `on`, closing the console would restore the music to full volume even though the menu was still open.
 * The fake contrast applied to walls can now be changed using the new `r_fakecontrast` CVAR, which can be set to `none`, `smooth` or `vanilla`. This CVAR is `smooth` by default and `vanilla` when vanilla mode is enabled.
+* When the confirmation message is displayed when deleting a savegame from the save or load game menus, or when ending a game from the options menu or pressing the <kbd>F7</kbd> key, if the `m_pointer` CVAR is `on` and the mouse has been moved to show the pointer, `YES` and `NO` buttons that can be selected with the mouse are now displayed instead of the usual text.
+* When ending a game by pressing the <kbd>F7</kbd> key, canceling the confirmation message no longer opens the options menu.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
