@@ -861,18 +861,35 @@ char *D_GetScreenshotFolder(void)
 {
     static char folder[MAX_PATH];
     const int   lump = GetCurrentMapLump();
+    char        *subfolder = NULL;
 
     M_StringCopy(folder, screenshotfolder, sizeof(folder));
 
-    if (lump >= 0)
+    if (M_StringCompare(speciallumpname, "E1M4B") || M_StringCompare(speciallumpname, "E1M8B"))
+        subfolder = M_StringDuplicate(SaveGameIWADName());
+    else if (lump >= 0)
     {
         char    *path = GetCorrectCase(M_StringDuplicate(lumpinfo[lump]->wadfile->path));
-        char    *subfolder = removeext(leafname(path));
 
-        M_snprintf(folder, sizeof(folder), "%s%s" DIR_SEPARATOR_S, screenshotfolder, subfolder);
-        M_MakeDirectory(folder);
+        subfolder = removeext(leafname(path));
 
         free(path);
+    }
+    else if (*pwadfile)
+    {
+        char    *path = GetCorrectCase(M_StringDuplicate(pwadfile));
+
+        subfolder = removeext(leafname(path));
+
+        free(path);
+    }
+    else
+        subfolder = M_StringDuplicate(SaveGameIWADName());
+
+    if (subfolder)
+    {
+        M_snprintf(folder, sizeof(folder), "%s%s" DIR_SEPARATOR_S, screenshotfolder, subfolder);
+        M_MakeDirectory(folder);
         free(subfolder);
     }
 
