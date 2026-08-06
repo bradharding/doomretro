@@ -4359,10 +4359,7 @@ bool M_Responder(event_t *ev)
 
         if (messageneedsinput && key != keyboardmenu && key != keyboardmenu2 && ch != 'y' && ch != 'n'
             && key != KEY_BACKSPACE && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
-        {
-            functionkey = 0;
             return false;
-        }
 
         keydown = key;
         menuactive = messagelastmenuactive;
