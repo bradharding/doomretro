@@ -17,8 +17,10 @@
   * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.
   * `Tranmap` is now supported in state definitions in `DEHACKED` lumps.
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
-* Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, any extraneous elements on the screen, such as player messages, the widescreen HUD, or the crosshair, won’t be captured when pressing the <kbd><b>PRINTSCREEN</b></kbd> key.
-* Screenshots can now be taken when the console is open over the menu.
+* These changes have been made to taking screenshots by pressing the <kbd><b>PRINTSCREEN</b></kbd> key:
+  * Screenshots are now saved in subfolders of the `screenshots` folder based on the current WAD, rather than all being saved in the same folder.
+  * Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, any extraneous elements on the screen, such as player messages, the widescreen HUD, or the crosshair, won’t be captured.
+  * Screenshots can now be taken when the console is open over the menu.
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
 * Weapons that cause a high amount of damage now have a limit on how many blood splats they can spawn per tic.

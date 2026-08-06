@@ -46,6 +46,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_setup.h"
 #include "version.h"
 #include "w_wad.h"
 
@@ -812,6 +813,72 @@ static char *SaveGameIWADName(void)
     return "unknown";
 }
 
+static int GetCurrentMapLump(void)
+{
+    if (*speciallumpname)
+        return W_CheckNumForName(speciallumpname);
+
+    if (!*mapnum)
+        return -1;
+
+    if (gamemode == commercial)
+    {
+        int     iwadlump = -1;
+        int     nervelump = -1;
+        int     masterlevelslump = -1;
+        int     pwadlump = -1;
+        char    lumpname[9];
+
+        M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", gamemap);
+
+        for (int i = 0; i < numlumps; i++)
+            if (!strncasecmp(lumpinfo[i]->name, lumpname, 8))
+            {
+                if (D_IsDOOM2IWAD(lumpinfo[i]->wadfile->path))
+                    iwadlump = i;
+                else if (D_IsNERVEWAD(lumpinfo[i]->wadfile->path))
+                    nervelump = i;
+                else if (D_IsMasterLevelsWAD(lumpinfo[i]->wadfile->path))
+                    masterlevelslump = i;
+                else if (lumpinfo[i]->wadfile->type == PWAD && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
+                    pwadlump = i;
+            }
+
+        if (gamemission == pack_nerve && nervelump >= 0)
+            return nervelump;
+        else if (gamemission == pack_masterlevels && masterlevelslump >= 0)
+            return masterlevelslump;
+        else if (gamemission == doom2 && pwadlump >= 0)
+            return pwadlump;
+        else if (gamemission == doom2 && iwadlump >= 0 && (nerve || masterlevels))
+            return iwadlump;
+    }
+
+    return W_CheckNumForName(mapnum);
+}
+
+char *D_GetScreenshotFolder(void)
+{
+    static char folder[MAX_PATH];
+    const int   lump = GetCurrentMapLump();
+
+    M_StringCopy(folder, screenshotfolder, sizeof(folder));
+
+    if (lump >= 0)
+    {
+        char    *path = GetCorrectCase(M_StringDuplicate(lumpinfo[lump]->wadfile->path));
+        char    *subfolder = removeext(leafname(path));
+
+        M_snprintf(folder, sizeof(folder), "%s%s" DIR_SEPARATOR_S, screenshotfolder, subfolder);
+        M_MakeDirectory(folder);
+
+        free(path);
+        free(subfolder);
+    }
+
+    return folder;
+}
+
 //
 // SetSaveGameFolder
 //
@@ -907,7 +974,12 @@ void D_SetScreenshotsFolder(void)
     const int   p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1);
 
     if (p)
+    {
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
+
+        if (screenshotfolder[strlen(screenshotfolder) - 1] != DIR_SEPARATOR)
+            M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S, myargv[p + 1]);
+    }
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();

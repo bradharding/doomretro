@@ -43,6 +43,7 @@ extern char screenshotfolder[MAX_PATH];
 char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);
 char *D_FindIWAD(void);
+char *D_GetScreenshotFolder(void);
 void D_SetSaveGameFolder(bool output);
 void D_SetAutoloadFolder(void);
 void D_SetScreenshotsFolder(void);

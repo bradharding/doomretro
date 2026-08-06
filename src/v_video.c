@@ -2240,6 +2240,7 @@ bool V_ScreenShot(void)
 {
     bool    result;
     char    mapname[128];
+    char    *folder;
     char    *temp1;
     char    *temp2;
     int     count = 0;
@@ -2311,6 +2312,7 @@ bool V_ScreenShot(void)
     }
 
     temp1 = makevalidfilename(mapname);
+    folder = D_GetScreenshotFolder();
 
     do
     {
@@ -2324,7 +2326,7 @@ bool V_ScreenShot(void)
         }
 
         count++;
-        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
+        M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", folder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
     free(temp1);
@@ -2351,7 +2353,7 @@ bool V_ScreenShot(void)
             }
 
             count++;
-            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", screenshotfolder, lbmname2);
+            M_snprintf(lbmpath2, sizeof(lbmpath2), "%s%s", folder, lbmname2);
         } while (M_FileExists(lbmpath2));
 
         V_SavePNG(mapwindow, lbmpath2);
