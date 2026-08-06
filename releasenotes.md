@@ -44,6 +44,7 @@
 * When the confirmation message is displayed when deleting a savegame from the save or load game menus, or when ending a game from the options menu or pressing the <kbd>F7</kbd> key, if the `m_pointer` CVAR is `on` and the mouse has been moved to show the pointer, `YES` and `NO` buttons that can be selected with the mouse are now displayed instead of the usual text.
 * When ending a game by pressing the <kbd>F7</kbd> key, canceling the confirmation message no longer opens the options menu.
 * When toggling messages off either from the options menu or pressing the <kbd>F8</kbd> key, the message “Messages OFF” is now displayed.
+* The mouse pointer no longer moves when selecting “CONSOLE” from the options menu while the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

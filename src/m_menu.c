@@ -2615,6 +2615,7 @@ void M_EndGame(int choice)
 static void M_Console(int choice)
 {
     consoleoverlaymenu = true;
+    dontrestoremousepointeronshow = true;
     C_ShowConsole(true);
     D_FadeScreen(false);
     S_StartSound(NULL, sfx_pistol);
