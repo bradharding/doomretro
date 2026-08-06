@@ -1805,7 +1805,7 @@ void HU_Ticker(void)
         || (!r_hud && r_screensize == r_screensize_max))
         return;
 
-    if (messages)
+    if (messages || (message_dontfuckwithme && M_StringCompare(message, s_MSGOFF)))
     {
         HUlib_AddMessageToSText(&w_message, message);
 
