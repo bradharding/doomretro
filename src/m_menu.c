@@ -1593,6 +1593,7 @@ static void M_QuickSave(void)
             functionkey = 0;
             M_CloseMenu();
             S_StartSound(NULL, sfx_swtchx);
+            D_FadeScreen(false);
         }
         else
         {
@@ -4428,6 +4429,7 @@ bool M_Responder(event_t *ev)
                 currentmenu->laston = itemon;
                 M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
+                D_FadeScreen(false);
             }
             else
             {
@@ -4453,6 +4455,7 @@ bool M_Responder(event_t *ev)
                 currentmenu->laston = itemon;
                 M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
+                D_FadeScreen(false);
             }
             else
             {
@@ -4478,6 +4481,7 @@ bool M_Responder(event_t *ev)
                 currentmenu->laston = itemon;
                 M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
+                D_FadeScreen(false);
             }
             else
             {
