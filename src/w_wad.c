@@ -940,8 +940,14 @@ static int  hash_size = 0;
 
 void W_HashNumForNameFromTo(int from, int to, int size)
 {
+    if (flat_hash)
+    {
+        Z_Free(flat_hash);
+        flat_hash = NULL;
+    }
+
     // Compute number of entries in the range
-    hash_size = size;
+    hash_size = (size * 2 > 16 ? size * 2 : 16);
 
     // Allocate hash table (statically sized to the range)
     flat_hash = Z_Malloc(sizeof(int) * hash_size, PU_STATIC, NULL);
@@ -955,11 +961,16 @@ void W_HashNumForNameFromTo(int from, int to, int size)
     for (int i = from; i <= to; i++)
     {
         int h = W_LumpNameHash(lumpinfo[i]->name) % hash_size;
+        int probes = 0;
 
-        while (flat_hash[h] != -1)
+        while (flat_hash[h] != -1 && probes < hash_size)
+        {
             h = (h + 1) % hash_size;
+            probes++;
+        }
 
-        flat_hash[h] = i;
+        if (probes < hash_size)
+            flat_hash[h] = i;
     }
 }
 
