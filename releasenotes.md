@@ -3,7 +3,7 @@
 ### DOOM Retro v6.3
 
 * *DOOM Retro* is now built using v18.8.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* Changes have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Minor changes have been made to text that is output to the console.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
@@ -12,14 +12,14 @@
   * The widescreen HUD now fades in and out when toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys, and when changing the `r_althud` CVAR from the console.
   * The screen now fades back to the desktop when quitting *DOOM Retro* if the `vid_fullscreen` and `vid_borderlesswindow` CVARs are also `on`.
   * Pressing the <kbd><b>F2</b></kbd>, <kbd><b>F3</b></kbd>, <kbd><b>F4</b></kbd> or <kbd><b>F6</b></kbd> keys a second time to cancel their respective actions will now fade the screen back to the game.
-* When the `smoothtransitions` CVAR is `off`, the opening and closing of the console is now instantaneous rather than the console sliding down from and up to the top of the screen.
+* When the `smoothtransitions` CVAR is `off`, the opening and closing of the console is now instantaneous rather than it sliding down from and up to the top of the screen.
 * *DOOM Retro* now supports [*Discord Rich Presence*](https://docs.discord.com/developers/platform/rich-presence). This can be disabled using the new `discordpresence` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These improvements have been made to [*ID24*](https://doomwiki.org/wiki/ID24) compatibility:
   * `ID24 bits`, `Min respawn tics`, `Respawn dice`, `Pickup ammo type`, `Pickup ammo category`, `Pickup weapon type`, `Pickup item type`, `Pickup bonus count`, `Pickup sound`, `Pickup message` and `Translation` are now supported in thing definitions in `DEHACKED` lumps.
   * `Tranmap` is now supported in state definitions in `DEHACKED` lumps.
   * Support has been added for [`TRAKINFO`](https://doomwiki.org/wiki/TRAKINFO) lumps.
 * These changes have been made to taking screenshots by pressing the <kbd><b>PRINTSCREEN</b></kbd> key:
-  * Screenshots are now saved in subfolders of the `screenshots` folder based on the current WAD, rather than all being saved in the same folder.
+  * Screenshots are now saved in subfolders of the `screenshots` folder named after the current WAD.
   * Clean screenshots can now be taken by enabling the new `cleanscreenshots` CVAR, which is `off` by default and when vanilla mode is enabled. While this CVAR is `on`, any extraneous elements on the screen, such as player messages, the widescreen HUD, or the crosshair, won’t be captured.
   * Screenshots can now be taken when the console is open over the menu.
 * A bug is fixed whereby text in the menu would be misaligned for certain PWADs.

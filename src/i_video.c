@@ -316,15 +316,15 @@ static bool I_CreateTransitionFadeOverlay(BYTE alpha)
         wc.hInstance = instance;
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wc.lpfnWndProc = I_TransitionFadeWndProc;
-        wc.lpszClassName = DOOMRETRO_NAME "TransitionFade";
+        wc.lpszClassName = DOOMRETRO_NAME;
 
         if (!(transitionfadeclass = RegisterClass(&wc)))
             return false;
     }
 
     if (!transitionfadeoverlay)
-        transitionfadeoverlay = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE,
-            DOOMRETRO_NAME "TransitionFade", NULL, WS_POPUP, x, y, width, height, NULL, NULL, instance, NULL);
+        transitionfadeoverlay = CreateWindowEx((WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE),
+            DOOMRETRO_NAME, NULL, WS_POPUP, x, y, width, height, NULL, NULL, instance, NULL);
 
     if (!transitionfadeoverlay)
         return false;
@@ -347,7 +347,8 @@ static void I_FadeTransitionOverlay(BYTE from, BYTE to)
 
     for (int i = 0; i <= steps; i++)
     {
-        SetLayeredWindowAttributes(transitionfadeoverlay, 0, (BYTE)(from + (to - from) * i / steps), LWA_ALPHA);
+        SetLayeredWindowAttributes(transitionfadeoverlay, 0, (BYTE)(from + (to - from) * i / steps),
+            LWA_ALPHA);
         I_PumpTransitionFadeMessages();
 
         if (i < steps)
@@ -1198,7 +1199,8 @@ void I_StartPillarboxAnimation(bool expanding)
         height = windowheight;
     }
 
-    targetpillarwidth = (BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH) - NONWIDEWIDTH) / 2;
+    targetpillarwidth = (BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH)
+        - NONWIDEWIDTH) / 2;
     keepwidescreenduringanim = true;
     animatingpillarboxes = true;
     pillarboxanimstart = I_GetTimeMS();
@@ -1329,7 +1331,8 @@ void I_SetPalette(const byte *playpal)
     SDL_SetPaletteColors(palette, palettecolors, 0, 256);
 
     if (vid_pillarboxes)
-        SDL_SetRenderDrawColor(renderer, palettecolors[BLACK].r, palettecolors[BLACK].g, palettecolors[BLACK].b, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(renderer, palettecolors[BLACK].r, palettecolors[BLACK].g,
+            palettecolors[BLACK].b, SDL_ALPHA_OPAQUE);
 }
 
 void I_SetExternalAutomapPalette(void)
