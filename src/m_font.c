@@ -117,9 +117,9 @@ bool M_LoadFON2(byte *gfx_data, int size)
     }
 
     // Build translation table for palette.
-    translate = I_Malloc(header->palsize + 1);
+    translate = I_Calloc(256, sizeof(*translate));
 
-    for (int i = 0; i <= header->palsize; i++)
+    for (int i = 0; i <= header->palsize && i < 256; i++)
     {
         const byte  r = *p++;
         const byte  g = *p++;
@@ -127,6 +127,9 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
         translate[i] = I_GetNearestColor(PLAYPAL, r, g, b);
     }
+
+    for (int i = 256; i <= header->palsize; i++)
+        p += 3;
 
     // 0 is transparent, last is border color
     color_key = translate[0];
@@ -150,16 +153,23 @@ bool M_LoadFON2(byte *gfx_data, int size)
                 {
                     length = code + 1;
 
+                    if (length > numpixels)
+                        length = numpixels;
+
                     for (int j = 0; j < length; j++)
                         d[j] = translate[p[j]];
 
                     d += length;
-                    p += length;
+                    p += code + 1;
                     numpixels -= length;
                 }
                 else if (code > 0x80)
                 {
                     length = 0x0101 - code;
+
+                    if (length > numpixels)
+                        length = numpixels;
+
                     code = *p++;
                     memset(d, translate[code], length);
                     d += length;

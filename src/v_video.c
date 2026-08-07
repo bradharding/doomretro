@@ -2500,7 +2500,10 @@ patch_t *V_LinearToTransPatch(const byte *data, int width, int height, int color
             const int   numposts = array_size(column->posts);
 
             if (!column->posts)
+            {
+                size++;                                             // room for 0xFF cap byte
                 continue;
+            }
 
             for (int p = 0; p < numposts; p++)
             {
