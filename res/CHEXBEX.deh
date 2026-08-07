@@ -41,6 +41,7 @@ STSTR_DQDOFF = Invincible Mode OFF.
 STSTR_KFAADDED = Super zorch added.
 STSTR_FAADDED = Zorch added.
 STSTR_CHOPPERS = Eat Chex!
+STSTR_KILLS = %s of %s teleports
 M_SKILLLEVEL1 = Easy does it
 M_SKILLLEVEL2 = Not so sticky
 M_SKILLLEVEL3 = Gobs of goo

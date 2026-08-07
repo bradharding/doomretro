@@ -45,6 +45,7 @@
 * When ending a game by pressing the <kbd>F7</kbd> key, canceling the confirmation message no longer opens the options menu.
 * When toggling messages off either from the options menu or pressing the <kbd>F8</kbd> key, the message “Messages OFF” is now displayed.
 * The mouse pointer no longer moves when selecting “CONSOLE” from the options menu while the `m_pointer` CVAR is `on`.
+* Minor improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

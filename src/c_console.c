@@ -1120,6 +1120,13 @@ void C_ClearConsole(void)
 
 static void C_InitEdgeColors(void)
 {
+    if (chex)
+    {
+        consoleedgecolor1 = nearestcolors[CONSOLEEDGECOLORCHEX1] << 8;
+        consoleedgecolor2 = nearestcolors[CONSOLEEDGECOLORCHEX2] << 8;
+        return;
+    }
+
     consoleedgecolor1 = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
     if (W_GetNumLumps("STTNUM0") >= 2
