@@ -763,7 +763,7 @@ static bool S_ChangeMusicEx(const musicnum_t musicnum, const bool looping,
     const bool allowrestart, const bool mapstart, const int ep, const int map)
 {
     musicinfo_t *music = &s_music[musicnum];
-    const char  *name = music->name2;
+    const char  *name = music->name1;
     char        namebuf[9];
     void        *handle;
     int         lumpnum;
@@ -825,7 +825,7 @@ static bool S_ChangeMusicEx(const musicnum_t musicnum, const bool looping,
     {
         const musicinfo_t   *fallbackmusic = &s_music[spmus[musicnum - mus_e4m1]];
 
-        name = fallbackmusic->name2;
+        name = fallbackmusic->name1;
 
         if (*fallbackmusic->IDKFA && !legacyofrust)
         {
