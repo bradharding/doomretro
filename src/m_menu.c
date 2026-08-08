@@ -863,23 +863,6 @@ static struct
     { 'y',  '.',  -2 }, { 'y',  'o',  -1 }, { '\0', '\0',  0 }
 };
 
-static struct
-{
-    char    char1;
-    char    char2;
-} overlap[] = {
-    { 'a',  'd'  }, { 'A',  'D'  }, { 'a',  'i'  }, { 'a',  'm'  }, { 'A',  'M'  },
-    { 'a',  'n'  }, { 'a',  'p'  }, { 'a',  'r'  }, { 'a',  's'  }, { 'c',  'h'  },
-    { 'c',  'r'  }, { 'e',  'a'  }, { 'E',  'a'  }, { 'e',  'd'  }, { 'e',  'n'  },
-    { 'E',  'n'  }, { 'e',  'p'  }, { 'E',  'p'  }, { 'e',  'r'  }, { 'e',  's'  },
-    { 'e',  't'  }, { 'E',  'x'  }, { 'G',  'a'  }, { 'G',  'A'  }, { 'g',  'h'  },
-    { 'g',  'i'  }, { 'G',  'r'  }, { 'h',  'i'  }, { 'i',  'n'  }, { 'I',  'n'  },
-    { 'i',  's'  }, { 'i',  't'  }, { 'i',  'z'  }, { 'k',  'i'  }, { 'K',  'n'  },
-    { 'L',  'i'  }, { 'l',  's'  }, { 'M',  'a'  }, { 'n',  't'  }, { 'o',  't'  },
-    { 'p',  'i'  }, { 'P',  'T'  }, { 'p',  't'  }, { 'r',  'a'  }, { 'r',  'n'  },
-    { 'r',  't'  }, { 's',  't'  }, { 'x',  'p'  }, { '\0', '\0' }
-};
-
 //
 // M_DrawString
 //  draw a string on screen
@@ -890,11 +873,12 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
     {
         char        prev = '\0';
         const int   len = (int)strlen(string);
+        static bool shadowmap[(VANILLAHEIGHT + 20) * VANILLAWIDTH];
+
+        memset(shadowmap, 0, sizeof(shadowmap));
 
         for (int i = 0, j = -1; i < len; i++)
         {
-            bool    overlapping = false;
-
             if (string[i] < 123)
                 j = chartoi[(int)string[i]];
 
@@ -902,13 +886,6 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
                 if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 {
                     x += bigkern[k].adjust;
-                    break;
-                }
-
-            for (int k = 0; overlap[k].char1; k++)
-                if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
-                {
-                    overlapping = true;
                     break;
                 }
 
@@ -923,10 +900,17 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
                     {
                         const unsigned char dot = redcharset[j][y1 * width + x1];
 
-                        if (dot == (unsigned char)'\xC8')
+                        if (dot == (unsigned char)'\xC8' || dot == PINK1)
                         {
-                            if (!overlapping)
-                                V_DrawPixel(x + x1, y + y1, PINK1, highlight, shadow);
+                            const int   px = x + x1;
+                            const int   py = y + y1;
+                            const int   key = py * VANILLAWIDTH + px;
+
+                            if (key >= 0 && key < (VANILLAHEIGHT + 20) * VANILLAWIDTH && !shadowmap[key])
+                            {
+                                shadowmap[key] = true;
+                                V_DrawPixel(px, py, PINK1, highlight, shadow);
+                            }
                         }
                         else
                             V_DrawPixel(x + x1, y + y1, (int)dot, highlight, shadow);
