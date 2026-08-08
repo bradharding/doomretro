@@ -653,6 +653,10 @@ void I_Quit(bool shutdown)
     {
         D_FadeScreenToBlack();
 
+#if defined(_WIN32)
+        I_BeginFadeToDesktop();
+#endif
+
         S_Shutdown();
 
         M_SaveCVARs();
@@ -663,7 +667,6 @@ void I_Quit(bool shutdown)
 
 #if defined(_WIN32)
         I_ShutdownWindows();
-        I_BeginFadeToDesktop();
 #endif
 
         I_ShutdownKeyboard();
