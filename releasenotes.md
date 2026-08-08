@@ -2,6 +2,8 @@
 
 ### DOOM Retro v6.3.1
 
+* A bug is fixed whereby two screenshots would be taken when pressing the <kbd><b>PRINTSCREEN</b></kbd> key while the console was open.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 8, 2026
