@@ -74,6 +74,7 @@
 #define OFFSET                 17
 #define SKULLANIMCOUNT         10
 #define MENUHIGHLIGHTFADESTEP  10
+#define MENUELEMFADECOUNT       8
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -133,6 +134,11 @@ static short    whichskull;                         // which skull to draw
 static short    previousitem = -1;
 static menu_t   *previousmenu;
 static int      menuhighlightfade = 100;
+
+static byte     menuelemsnapshot[MAXSCREENAREA];
+static byte     menubgsnapshot[MAXSCREENAREA];
+static int      menuitemfadecount = 0;
+static byte     menublurscreen[MAXSCREENAREA];
 
 static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
@@ -698,12 +704,21 @@ static void M_DrawMenuBorder(void)
         V_DrawMenuBorderPatch(0, 0, menuborder);
 }
 
+static void M_StartMenuElementFade(void)
+{
+    if (!smoothtransitions)
+        return;
+
+    memcpy(menuelemsnapshot, screens[0], SCREENAREA);
+    memcpy(menubgsnapshot, menublurscreen, SCREENAREA);
+    menuitemfadecount = MENUELEMFADECOUNT;
+}
+
 //
 // M_DrawMenuBackground
 //
 void M_DrawMenuBackground(void)
 {
-    static byte     blurscreen[MAXSCREENAREA];
     const uint64_t  time = I_GetTimeMS();
 
     if (automapactive && !messagetoprint)
@@ -731,11 +746,11 @@ void M_DrawMenuBackground(void)
             }
         }
 
-        M_BlurMenuBackground(screens[0], blurscreen);
+        M_BlurMenuBackground(screens[0], menublurscreen);
 
         for (int i = 0; i < SCREENAREA; i++)
         {
-            byte    *dot = blurscreen + i;
+            byte    *dot = menublurscreen + i;
 
             *dot = black40[*dot];
         }
@@ -747,7 +762,7 @@ void M_DrawMenuBackground(void)
         }
     }
 
-    memcpy(screens[0], blurscreen, SCREENAREA);
+    memcpy(screens[0], menublurscreen, SCREENAREA);
 
     if ((!consoleactive || consoleoverlaymenu) && (vid_fullscreen || !vid_widescreen))
         M_DrawMenuBorder();
@@ -4865,10 +4880,6 @@ bool M_Responder(event_t *ev)
                     {
                         if (currentmenu != &NewDef || itemon == nightmare)
                             S_StartSound(NULL, sfx_pistol);
-
-                        if (currentmenu != &NewDef && currentmenu != &SaveDef
-                            && (currentmenu != &OptionsDef || itemon == soundvol))
-                            D_FadeScreen(false);
                     }
 
                     currentmenu->menuitems[itemon].routine(itemon);
@@ -4889,8 +4900,10 @@ bool M_Responder(event_t *ev)
 
             if (currentmenu->prevmenu && !functionkey)
             {
+                M_StartMenuElementFade();
                 currentmenu = currentmenu->prevmenu;
                 itemon = currentmenu->laston;
+                M_ResetHighlightFade();
                 S_StartSound(NULL, sfx_swtchn);
             }
             else
@@ -5494,7 +5507,32 @@ void M_Drawer(void)
             for (int i = 0; i < max; i++)
                 currentmenu->menuitems[i].width = widest;
         }
+    }
 
+    if (menuitemfadecount > 0 && smoothtransitions)
+    {
+        byte *tinttabsout[MENUELEMFADECOUNT + 1] =
+        {
+            NULL,
+            tinttab80, tinttab70, tinttab60, tinttab50,
+            tinttab40, tinttab30, tinttab20, tinttab10
+        };
+
+        byte *tinttabsin[MENUELEMFADECOUNT + 1] =
+        {
+            NULL,
+            tinttab20, tinttab30, tinttab40, tinttab50,
+            tinttab60, tinttab70, tinttab80, tinttab90
+        };
+
+        const byte  *tinttabout = tinttabsout[menuitemfadecount];
+        const byte  *tinttabin = tinttabsin[menuitemfadecount];
+
+        for (int i = 0; i < SCREENAREA; i++)
+            if (menuelemsnapshot[i] != menubgsnapshot[i])
+                screens[0][i] = tinttabout[(screens[0][i] << 8) + menuelemsnapshot[i]];
+            else if (screens[0][i] != menublurscreen[i])
+                screens[0][i] = tinttabin[(menublurscreen[i] << 8) + screens[0][i]];
     }
 
     if (drawopenconsolehint)
@@ -5511,6 +5549,7 @@ void M_CloseMenu(void)
 
     menuactive = false;
     menublurtic = -1;
+    menuitemfadecount = 0;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
@@ -5554,6 +5593,7 @@ void M_CloseMenu(void)
 //
 static void M_SetupNextMenu(menu_t *menudef)
 {
+    M_StartMenuElementFade();
     currentmenu = menudef;
     itemon = currentmenu->laston;
     whichskull = 0;
@@ -5585,6 +5625,9 @@ void M_Ticker(void)
             if (menuhighlightfade >= 100)
                 previousitem = -1;
         }
+
+        if (menuitemfadecount > 0)
+            menuitemfadecount--;
 
         if (savestringenter)
         {
