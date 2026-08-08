@@ -1885,7 +1885,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
             int         interpx1 = basex1 + FixedMul(x1 - basex1, fractionaltic);
 
             vis->x1 = MAX(0, interpx1);
-            vis->x2 = MIN(interpx1 + x2 - basex1, viewwidth - 1);
+            vis->x2 = MIN(interpx1 + x2 - x1, viewwidth - 1);
             vis->startfrac = (vis->x1 > interpx1 ? pspriteiscale * (vis->x1 - interpx1) : 0);
             vis->texturemid = psp_inter.texturemid + FixedMul(vis->texturemid - psp_inter.texturemid,
                 fractionaltic);
