@@ -4557,7 +4557,7 @@ bool M_Responder(event_t *ev)
 
     // Help key
     if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown && !splashscreen
-        && !(menuactive && currentmenu == &PaletteDef))
+        && !(menuactive && currentmenu == &PaletteDef) && !consoleactive)
     {
         keydown = key;
 
