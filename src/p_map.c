@@ -1696,6 +1696,7 @@ static bool PTR_AimTraverse(intercept_t *in)
 }
 
 bool    hitwall;
+bool    chainsawattack;
 
 //
 // PTR_ShootTraverse
@@ -1822,7 +1823,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
     // Spawn bullet puff or blood, depending on target type
     if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z - M_RandomInt(0, 16) * FRACUNIT, shootangle);
-    else if (r_blood != r_blood_none)
+    else if (r_blood != r_blood_none && !chainsawattack)
     {
         if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {

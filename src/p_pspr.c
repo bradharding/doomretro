@@ -465,7 +465,10 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!linetarget)
         slope = P_AimLineAttack(actor, angle, range, 0);
 
+    chainsawattack = true;
     P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
+    chainsawattack = false;
+
     A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
 
@@ -483,6 +486,12 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     stat_shotssuccessful[wp_chainsaw] = SafeAdd(stat_shotssuccessful[wp_chainsaw], 1);
 
     S_StartSound(actor, sfx_sawhit);
+
+    if (!(linetarget->flags & MF_NOBLOOD) && r_blood != r_blood_none)
+        P_SpawnBlood(linetarget->x, linetarget->y,
+            linetarget->z + M_RandomInt(12, 24) * FRACUNIT,
+            R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y),
+            100, linetarget);
 
     // turn to face target
     angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
