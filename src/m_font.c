@@ -151,10 +151,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
 
                 if (code < 0x80)
                 {
-                    length = code + 1;
-
-                    if (length > numpixels)
-                        length = numpixels;
+                    length = MIN(code + 1, numpixels);
 
                     for (int j = 0; j < length; j++)
                         d[j] = translate[p[j]];
@@ -165,11 +162,7 @@ bool M_LoadFON2(byte *gfx_data, int size)
                 }
                 else if (code > 0x80)
                 {
-                    length = 0x0101 - code;
-
-                    if (length > numpixels)
-                        length = numpixels;
-
+                    length = MIN(0x0101 - code, numpixels);
                     code = *p++;
                     memset(d, translate[code], length);
                     d += length;

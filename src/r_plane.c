@@ -123,12 +123,12 @@ static void R_MapPlane(const int y, const int x1)
         anglesindistance = cachedanglesindistance[y] = FixedMul(angle_sin, ds_z);
         ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)angle_sin * planeheight / dy);
         ds_ystep = cachedystep[y] = (fixed_t)((int64_t)angle_cos * planeheight / dy);
-        radiallightdistancebase = cachedradiallightdistancebase[y] = (float)anglecosdistance * (float)anglecosdistance
-            + (float)anglesindistance * (float)anglesindistance;
+        radiallightdistancebase = cachedradiallightdistancebase[y] = (float)anglecosdistance * anglecosdistance
+            + (float)anglesindistance * anglesindistance;
         radiallightdistancestepbase = cachedradiallightdistancestepbase[y]
-            = 2.0f * ((float)anglecosdistance * (float)ds_xstep - (float)anglesindistance * (float)ds_ystep);
-        ds_radiallightstep = cachedradiallightstep[y] = (float)ds_xstep * (float)ds_xstep
-            + (float)ds_ystep * (float)ds_ystep;
+            = 2.0f * ((float)anglecosdistance * ds_xstep - (float)anglesindistance * ds_ystep);
+        ds_radiallightstep = cachedradiallightstep[y] = (float)ds_xstep * ds_xstep
+            + (float)ds_ystep * ds_ystep;
         ds_radiallightstepstep = cachedradiallightstepstep[y] = 2.0f * ds_radiallightstep;
     }
     else
