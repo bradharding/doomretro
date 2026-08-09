@@ -1136,7 +1136,8 @@ bool AM_Responder(const event_t *ev)
                 if (key == keyboardclearmark || key == keyboardclearmark2)
                     markpress = 0;
 
-                if ((key == keyboardzoomout || key == keyboardzoomout2 || key == keyboardzoomin || key == keyboardzoomin2) && !movement)
+                if ((key == keyboardzoomout || key == keyboardzoomout2
+                    || key == keyboardzoomin || key == keyboardzoomin2) && !movement)
                 {
                     mtof_zoommul = FRACUNIT;
                     ftom_zoommul = FRACUNIT;
@@ -1953,7 +1954,8 @@ static void AM_DrawWalls_AllMap(void)
                             AM_DrawFline(a.x, a.y, b.x, b.y,
                                 ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor), putbigdot);
                         else if (back->ceilingheight != front->ceilingheight)
-                            AM_DrawFline(a.x, a.y, b.x, b.y, ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), putbigdot);
+                            AM_DrawFline(a.x, a.y, b.x, b.y,
+                                ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), putbigdot);
                     }
                 }
             }
@@ -2049,8 +2051,9 @@ static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines, c
     }
 }
 
-static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
-    const angle_t angle, const fixed_t x, const fixed_t y, const byte color, void (*putdot)(int, int, const byte *))
+static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
+    const fixed_t scale, const angle_t angle, const fixed_t x, const fixed_t y,
+    const byte color, void (*putdot)(int, int, const byte *))
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -2129,9 +2132,11 @@ static void AM_DrawPlayer(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
-            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y,
+                &PUTTRANSLUCENTDOT);
         else
-            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y, putbigdot2);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y,
+                putbigdot2);
     }
     else if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)))
         AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y, &PUTTRANSLUCENTDOT);
@@ -2154,7 +2159,8 @@ static void AM_DrawThings(void)
 
     for (int i = 0; i < numsectors; i++)
         for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-            if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP) && thing->interpolate)
+            if ((!thing->player || thing->player->mo != thing)
+                && !(thing->flags2 & MF2_DONTMAP) && thing->interpolate)
             {
                 angle_t     angle;
                 mpoint_t    point = { 0, 0 };
@@ -2193,8 +2199,9 @@ static void AM_DrawThings(void)
 
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                     && (fy = CYMTOF(point.y)) >= -width && fy <= MAPHEIGHT + width)
-                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
-                        point.x, point.y, ((flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor),
+                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
+                        (angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y,
+                        ((flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor),
                         ((flags & MF_FUZZ) ? PUTTRANSLUCENTDOT : putbigdot2));
             }
 }
@@ -2218,7 +2225,8 @@ static void AM_DrawBloodSplats(void)
             if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
                 && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= MAPHEIGHT + BLOODSPLATWIDTH)
                 AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
-                    (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor, putbigdot2);
+                    (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y,
+                    bloodsplatcolor, putbigdot2);
         }
 }
 

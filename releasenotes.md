@@ -2,12 +2,13 @@
 
 ### DOOM Retro v6.3.1
 
-* Navigating different screens in the menu when the `smoothtransitions` CVAR is `on` is now more responsive and no longer affects the menu’s background.
+* The fade effect while navigating different screens in the menu when the `smoothtransitions` CVAR is `on` is now more responsive and no longer affects the menu’s background.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
+* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
