@@ -2,7 +2,10 @@
 
 ### DOOM Retro v6.3.1
 
-* A bug is fixed whereby two screenshots would be taken when pressing the <kbd><b>PRINTSCREEN</b></kbd> key while the console was open.
+* Navigating different screens in the menu when the `smoothtransitions` CVAR is `on` is now more responsive and no longer affects the menu’s background.
+* A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
+* A bug is fixed whereby music wouldn’t play in some rare instances.
+* Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
