@@ -2,7 +2,9 @@
 
 ### DOOM Retro v6.3.1
 
-* The fade effect while navigating different screens in the menu when the `smoothtransitions` CVAR is `on` is now more responsive and no longer affects the menu’s background.
+* These changes have been made when the `smoothtransitions` CVAR is `on`:
+  * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
+  * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
