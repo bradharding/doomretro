@@ -203,6 +203,12 @@ void R_UpdateSky(void)
     }
 }
 
+char *masterlevelskies[] =
+{
+    "SKY1", "SKY4", "SKY1", "SKY4", "SKY4", "SKY1", "SKY4", "SKY4", "SKY4", "SKY1", "SKY4",
+    "SKY1", "SKY4", "SKY3", "SKY1", "SKY3", "SKY3", "SKY2", "SKY4", "SKY3", "SKY3"
+};
+
 void R_InitSkyMap(void)
 {
     int skyheight;
@@ -230,14 +236,19 @@ void R_InitSkyMap(void)
             }
             else if (gamemission == pack_masterlevels)
             {
-                if (gamemap < 10)
-                    skytexture = R_TextureNumForName("SKYM1");
-                else if (gamemap == 10)
-                    skytexture = R_TextureNumForName("SKY3");
-                else if (gamemap < 16)
-                    skytexture = R_TextureNumForName("SKYM2");
+                if (R_CheckTextureNumForName("SKYM1") != -1)
+                {
+                    if (gamemap < 10)
+                        skytexture = R_TextureNumForName("SKYM1");
+                    else if (gamemap == 10)
+                        skytexture = R_TextureNumForName("SKY3");
+                    else if (gamemap < 16)
+                        skytexture = R_TextureNumForName("SKYM2");
+                    else
+                        skytexture = R_TextureNumForName("SKYM3");
+                }
                 else
-                    skytexture = R_TextureNumForName("SKYM3");
+                    skytexture = R_TextureNumForName(masterlevelskies[gamemap - 1]);
             }
             else
             {
