@@ -57,6 +57,13 @@ bool        canfreelook = false;
 
 sky_t       *sky = NULL;
 
+char *masterlevelskies[] =
+{
+    "SKY1", "SKY4", "SKY1", "SKY4", "SKY4", "SKY1", "SKY4",
+    "SKY4", "SKY4", "SKY1", "SKY4", "SKY1", "SKY4", "SKY3",
+    "SKY1", "SKY3", "SKY3", "SKY2", "SKY4", "SKY3", "SKY3"
+};
+
 // PSX fire sky <https://fabiensanglard.net/doom_fire_psx/>
 static byte fireindices[FIREWIDTH * FIREHEIGHT];
 static byte firepixels[FIREWIDTH * FIREHEIGHT];
@@ -202,12 +209,6 @@ void R_UpdateSky(void)
         foreground->curry += foreground->scrolly;
     }
 }
-
-char *masterlevelskies[] =
-{
-    "SKY1", "SKY4", "SKY1", "SKY4", "SKY4", "SKY1", "SKY4", "SKY4", "SKY4", "SKY1", "SKY4",
-    "SKY1", "SKY4", "SKY3", "SKY1", "SKY3", "SKY3", "SKY2", "SKY4", "SKY3", "SKY3"
-};
 
 void R_InitSkyMap(void)
 {
