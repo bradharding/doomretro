@@ -659,6 +659,13 @@ void R_DrawPlanes(void)
                                 DrawSkyTex(pl, &sky->foreground, &R_DrawSkyColumn);
                         }
                     }
+                    else if (!skytexture)
+                    {
+                        // Sky texture not found, draw white
+                        for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
+                            if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                R_DrawSolidColorColumn();
+                    }
                     else
                     {
                         // Normal DOOM sky, only one allowed per level
