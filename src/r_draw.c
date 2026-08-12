@@ -1477,16 +1477,21 @@ int             ds_flatheight;
 
 static inline int R_FlatIndex(const fixed_t xfrac, const fixed_t yfrac)
 {
-    int x = (xfrac >> FRACBITS) % ds_flatwidth;
-    int y = (yfrac >> FRACBITS) % ds_flatheight;
+    if (ds_flatwidth == 64 && ds_flatheight == 64)
+        return (((yfrac >> FRACBITS) & 63) << 6) | ((xfrac >> FRACBITS) & 63);
+    else
+    {
+        int x = (xfrac >> FRACBITS) % ds_flatwidth;
+        int y = (yfrac >> FRACBITS) % ds_flatheight;
 
-    if (x < 0)
-        x += ds_flatwidth;
+        if (x < 0)
+            x += ds_flatwidth;
 
-    if (y < 0)
-        y += ds_flatheight;
+        if (y < 0)
+            y += ds_flatheight;
 
-    return (y * ds_flatwidth + x);
+        return (y * ds_flatwidth + x);
+    }
 }
 
 static inline int R_GetInitialRadialLightIndex(void)
