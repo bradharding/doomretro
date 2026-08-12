@@ -39,6 +39,9 @@
 #define PL_SKYFLAT      0x40000000
 #define PL_FLATMAPPING  0xC0000000
 
+// wall texture used as a tiled floor/ceiling flat
+#define PL_TEXFLAT      0x20000000
+
 // Visplane related.
 extern int      *lastopening;
 extern int      floorclip[MAXWIDTH];

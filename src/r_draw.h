@@ -161,8 +161,11 @@ extern float        ds_radiallightdistancestep;
 extern float        ds_radiallightstep;
 extern float        ds_radiallightstepstep;
 
-// start of a 64x64 tile image
+// start of flat tile image
 extern byte         *ds_source;
+
+extern int          ds_flatwidth;
+extern int          ds_flatheight;
 
 extern byte         translationtables[256 * 3];
 extern byte         *dc_translation;

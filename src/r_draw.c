@@ -1468,9 +1468,26 @@ float           ds_radiallightdistancestep;
 float           ds_radiallightstep;
 float           ds_radiallightstepstep;
 
-// start of a 64x64 tile image
+// start of flat tile image
 byte            *ds_source;
 byte            *ds_brightmap;
+
+int             ds_flatwidth;
+int             ds_flatheight;
+
+static inline int R_FlatIndex(const fixed_t xfrac, const fixed_t yfrac)
+{
+    int x = (xfrac >> FRACBITS) % ds_flatwidth;
+    int y = (yfrac >> FRACBITS) % ds_flatheight;
+
+    if (x < 0)
+        x += ds_flatwidth;
+
+    if (y < 0)
+        y += ds_flatheight;
+
+    return (y * ds_flatwidth + x);
+}
 
 static inline int R_GetInitialRadialLightIndex(void)
 {
@@ -1554,12 +1571,12 @@ void R_DrawSpan(void)
 
     while (--count)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawRadialSpan(void)
@@ -1577,7 +1594,7 @@ void R_DrawRadialSpan(void)
 
     while (--count)
     {
-        *dest++ = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        *dest++ = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
 
@@ -1590,7 +1607,7 @@ void R_DrawRadialSpan(void)
         }
     }
 
-    *dest = ds_sectorcolormap[colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+    *dest = ds_sectorcolormap[colormap[ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawSpanWithBrightmap(void)
@@ -1602,13 +1619,13 @@ void R_DrawSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dot]];
 }
 
@@ -1628,7 +1645,7 @@ void R_DrawRadialSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
@@ -1642,7 +1659,7 @@ void R_DrawRadialSpanWithBrightmap(void)
         }
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap : colormap)[dot]];
 }
 
@@ -1658,7 +1675,7 @@ void R_DrawLowResDitheredSpan(void)
     while (--count)
     {
         *dest++ = ds_sectorcolormap[ds_colormap[dither[xphase]]
-            [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
 
@@ -1670,7 +1687,7 @@ void R_DrawLowResDitheredSpan(void)
     }
 
     *dest = ds_sectorcolormap[ds_colormap[dither[xphase]]
-        [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawLowResDitheredRadialSpan(void)
@@ -1698,7 +1715,7 @@ void R_DrawLowResDitheredRadialSpan(void)
     while (--count)
     {
         *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-            [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
 
@@ -1716,7 +1733,7 @@ void R_DrawLowResDitheredRadialSpan(void)
     }
 
     *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-        [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawLowResDitheredSpanWithBrightmap(void)
@@ -1733,7 +1750,7 @@ void R_DrawLowResDitheredSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
@@ -1745,7 +1762,7 @@ void R_DrawLowResDitheredSpanWithBrightmap(void)
         }
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
 }
 
@@ -1774,7 +1791,7 @@ void R_DrawLowResDitheredRadialSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
             (dither[xphase] ? nextcolormap : colormap))[dot]];
         ds_xfrac += ds_xstep;
@@ -1793,7 +1810,7 @@ void R_DrawLowResDitheredRadialSpanWithBrightmap(void)
         }
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
         (dither[xphase] ? nextcolormap : colormap))[dot]];
 }
@@ -1808,14 +1825,14 @@ void R_DrawDitheredSpan(void)
     while (--count)
     {
         *dest++ = ds_sectorcolormap[ds_colormap[dither[xphase]]
-            [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
         xphase = (xphase + 1) & DITHERMASK;
     }
 
     *dest = ds_sectorcolormap[ds_colormap[dither[xphase]]
-        [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawDitheredRadialSpan(void)
@@ -1840,7 +1857,7 @@ void R_DrawDitheredRadialSpan(void)
     while (--count)
     {
         *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-            [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+            [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
 
@@ -1857,7 +1874,7 @@ void R_DrawDitheredRadialSpan(void)
     }
 
     *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-        [ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]]];
+        [ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)]]];
 }
 
 void R_DrawDitheredSpanWithBrightmap(void)
@@ -1872,14 +1889,14 @@ void R_DrawDitheredSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
         xphase = (xphase + 1) & DITHERMASK;
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[colormap[ds_brightmap[dot]][dither[xphase]][dot]];
 }
 
@@ -1905,7 +1922,7 @@ void R_DrawDitheredRadialSpanWithBrightmap(void)
 
     while (--count)
     {
-        dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+        dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
         *dest++ = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
             (dither[xphase] ? nextcolormap : colormap))[dot]];
         ds_xfrac += ds_xstep;
@@ -1923,7 +1940,7 @@ void R_DrawDitheredRadialSpanWithBrightmap(void)
         xphase = (xphase + 1) & DITHERMASK;
     }
 
-    dot = ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)];
+    dot = ds_source[R_FlatIndex(ds_xfrac, ds_yfrac)];
     *dest = ds_sectorcolormap[(ds_brightmap[dot] ? fullcolormap :
         (dither[xphase] ? nextcolormap : colormap))[dot]];
 }

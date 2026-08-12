@@ -37,6 +37,7 @@
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "r_patch.h"
 
 // [AR] Only use DDA for projected walls spanning at least 1/16 of the view
 // Improves performance quite a bit, while not being visually noticeable
@@ -51,6 +52,11 @@ static bool         maskedtexture;
 static int          toptexture;
 static int          midtexture;
 static int          bottomtexture;
+
+// flat-as-wall-texture: flat index or -1 if unused
+static short        topflatnum;
+static short        midflatnum;
+static short        bottomflatnum;
 
 static bool         missingtoptexture;
 static bool         missingmidtexture;
@@ -267,8 +273,21 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
     curline = ds->curline;
     frontsector = curline->frontsector;
     backsector = curline->backsector;
-    texnum = texturetranslation[curline->sidedef->midtexture];
-    texheight = textureheight[texnum];
+
+    if (curline->sidedef->midflat >= 0)
+    {
+        const rpatch_t  *flat = R_CacheFlatAsPatch(curline->sidedef->midflat);
+
+        texnum = 0;
+        texheight = flat->height << FRACBITS;
+        patch = flat;
+    }
+    else
+    {
+        texnum = texturetranslation[curline->sidedef->midtexture];
+        texheight = textureheight[texnum];
+        patch = NULL;
+    }
 
     // Calculate light table.
     // Use different light tables for horizontal/vertical.
@@ -331,7 +350,8 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) - viewz
             + curline->sidedef->rowoffset;
 
-    patch = R_CacheTextureCompositePatchNum(texnum);
+    if (!patch)
+        patch = R_CacheTextureCompositePatchNum(texnum);
 
     // draw the columns
     for (dc_x = x1; dc_x <= x2; dc_x++)
@@ -480,7 +500,8 @@ static void R_RenderSegLoop(void)
                 missingcolfunc();
             else
             {
-                dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
+                dc_source = R_GetTextureColumn((midflatnum >= 0 ? R_CacheFlatAsPatch(midflatnum) :
+                    R_CacheTextureCompositePatchNum(midtexture)), texturecolumn);
                 dc_texturemid = rw_midtexturemid;
                 dc_texheight = midtexheight;
 
@@ -531,7 +552,8 @@ static void R_RenderSegLoop(void)
                         missingcolfunc();
                     else
                     {
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
+                        dc_source = R_GetTextureColumn((topflatnum >= 0 ? R_CacheFlatAsPatch(topflatnum) :
+                            R_CacheTextureCompositePatchNum(toptexture)), texturecolumn);
                         dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
                         dc_iscale -= SPARKLEFIX;
                         dc_texheight = toptexheight;
@@ -587,7 +609,8 @@ static void R_RenderSegLoop(void)
                         missingcolfunc();
                     else
                     {
-                        dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
+                        dc_source = R_GetTextureColumn(bottomflatnum >= 0 ? R_CacheFlatAsPatch(bottomflatnum) :
+                            R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
                         dc_texturemid = rw_bottomtexturemid;
                         dc_texheight = bottomtexheight;
 
@@ -719,6 +742,7 @@ void R_StoreWallRange(const int start, const int stop)
         return;
 
     sidedef = curline->sidedef;
+    topflatnum = midflatnum = bottomflatnum = -1;
 
     // killough 01/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
@@ -910,6 +934,18 @@ void R_StoreWallRange(const int start, const int stop)
             // top texture
             if ((missingtoptexture = sidedef->missingtoptexture))
                 toptexture = -1;
+            else if (sidedef->topflat >= 0)
+            {
+                const rpatch_t  *flat = R_CacheFlatAsPatch(sidedef->topflat);
+                const fixed_t   height = flat->height << FRACBITS;
+
+                toptexture = 1;
+                topflatnum = sidedef->topflat;
+                toptexheight = ((linedef->r_flags & RF_TOP_TILE) ? 0 : flat->height);
+                topbrightmap = NULL;
+                rw_toptexturemid = ((linedef->flags & ML_DONTPEGTOP) ? worldtop :
+                    backsector->interpceilingheight + height - viewz) + FixedMod(sidedef->rowoffset, height);
+            }
             else
             {
                 fixed_t height;
@@ -928,6 +964,21 @@ void R_StoreWallRange(const int start, const int stop)
             // bottom texture
             if ((missingbottomtexture = sidedef->missingbottomtexture))
                 bottomtexture = -1;
+            else if (sidedef->bottomflat >= 0)
+            {
+                const rpatch_t  *flat = R_CacheFlatAsPatch(sidedef->bottomflat);
+                const fixed_t   height = flat->height << FRACBITS;
+
+                bottomtexture = 1;
+                bottomflatnum = sidedef->bottomflat;
+                bottomtexheight = ((linedef->r_flags & RF_BOT_TILE) ? 0 : flat->height);
+                bottombrightmap = NULL;
+                rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
+                    + FixedMod(sidedef->rowoffset, height);
+
+                if (liquidoffset)
+                    rw_bottomtexturemid += 4 * FRACUNIT;
+            }
             else
             {
                 fixed_t height;
@@ -945,7 +996,7 @@ void R_StoreWallRange(const int start, const int stop)
         }
 
         // allocate space for masked texture tables
-        if (sidedef->midtexture)
+        if (sidedef->midtexture || sidedef->midflat >= 0)
         {
             // masked midtexture
             maskedtexture = true;
@@ -958,6 +1009,18 @@ void R_StoreWallRange(const int start, const int stop)
         // single sided line
         if ((missingmidtexture = sidedef->missingmidtexture))
             midtexture = -1;
+        else if (sidedef->midflat >= 0)
+        {
+            const rpatch_t  *flat = R_CacheFlatAsPatch(sidedef->midflat);
+            const fixed_t   height = flat->height << FRACBITS;
+
+            midtexture = 1;
+            midflatnum = sidedef->midflat;
+            midtexheight = ((linedef->r_flags & RF_MID_TILE) ? 0 : flat->height);
+            midbrightmap = NULL;
+            rw_midtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? frontsector->interpfloorheight
+                + height - viewz : worldtop) + FixedMod(sidedef->rowoffset, height);
+        }
         else
         {
             fixed_t height;
@@ -980,7 +1043,8 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate rw_offset (only needed for textured lines)
-    if ((segtextured = (midtexture || toptexture || bottomtexture || maskedtexture)))
+    if ((segtextured = (midtexture || toptexture || bottomtexture || maskedtexture
+        || midflatnum >= 0 || topflatnum >= 0 || bottomflatnum >= 0)))
     {
         rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset + curline->offset;
         rw_centerangle = ANG90 + viewangle - rw_normalangle;

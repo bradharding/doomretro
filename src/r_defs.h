@@ -183,6 +183,8 @@ typedef struct sector_s
 
     short               floorpic;
     short               ceilingpic;
+    int                 floortex;       // wall texture index used as floor flat, or -1
+    int                 ceilingtex;     // wall texture index used as ceiling flat, or -1
     short               lightlevel;
     short               oldlightlevel;
 
@@ -253,6 +255,11 @@ typedef struct
     bool                missingtoptexture;
     bool                missingmidtexture;
     bool                missingbottomtexture;
+
+    // flat used as wall texture (-1 if none)
+    short               topflat;
+    short               midflat;
+    short               bottomflat;
 
     fixed_t             oldtextureoffset;
     fixed_t             oldrowoffset;

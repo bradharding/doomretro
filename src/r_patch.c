@@ -38,6 +38,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
+#include "r_data.h"
 #include "r_main.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -52,6 +53,7 @@
 // Re-engineered patch support
 static rpatch_t *patches;
 static rpatch_t *texturecomposites;
+static rpatch_t *flatpatches;
 
 static short    BIGDOOR1;
 static short    BIGDOOR7;
@@ -739,6 +741,7 @@ void R_InitPatches(void)
     patches = calloc(numlumps, sizeof(rpatch_t));
 
     texturecomposites = calloc(numtextures, sizeof(rpatch_t));
+    flatpatches = calloc(numflats, sizeof(rpatch_t));
 
     BIGDOOR1 = R_CheckTextureNumForName("BIGDOOR1");
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");
@@ -751,6 +754,99 @@ void R_InitPatches(void)
 
     for (int i = 0; i < numtextures; i++)
         CreateTextureCompositePatch(i);
+}
+
+const rpatch_t *R_CacheFlatAsPatch(const int flatnum)
+{
+    rpatch_t    *patch = &flatpatches[flatnum];
+
+    if (patch->data)
+        return patch;
+    else
+    {
+        const int   lumpnum = firstflat + flatnum;
+        lumpinfo_t  *lump = lumpinfo[lumpnum];
+        const int   lumpsize = lump->size;
+        const byte  *raw;
+        int         width;
+        int         height;
+        int         pixeldatasize;
+        int         columnsdatasize;
+        int         postsdatasize;
+        int         datasize;
+        short       mask;
+
+        W_CacheLumpNum(lumpnum);
+        raw = lump->cache;
+
+        if (lumpsize > 4)
+        {
+            const int   w = (raw[0] | (raw[1] << 8));
+            const int   h = (raw[2] | (raw[3] << 8));
+
+            if (w > 0 && h > 0 && w * h + 4 == lumpsize)
+            {
+                width = w;
+                height = h;
+                raw += 4;
+            }
+            else
+            {
+                int side = 1;
+
+                while (side * side < lumpsize)
+                    side++;
+
+                width = height = side;
+            }
+        }
+        else
+        {
+            int side = 1;
+
+            while (side * side < lumpsize)
+                side++;
+
+            width = height = side;
+        }
+
+        pixeldatasize = width * height;
+        columnsdatasize = width * sizeof(rcolumn_t);
+        postsdatasize = width * sizeof(rpost_t);
+        datasize = pixeldatasize + columnsdatasize + postsdatasize;
+
+        patch->width = width;
+        patch->height = height;
+        patch->leftoffset = 0;
+        patch->topoffset = 0;
+
+        for (mask = 1; mask * 2 <= width; mask *= 2);
+
+        patch->widthmask = mask - 1;
+
+        patch->data = Z_Calloc(1, datasize, PU_STATIC, (void **)&patch->data);
+        patch->pixels = patch->data;
+        patch->columns = (rcolumn_t *)((byte *)patch->pixels + pixeldatasize);
+        patch->posts = (rpost_t *)((byte *)patch->columns + columnsdatasize);
+
+        for (int x = 0; x < width; x++)
+        {
+            byte        *col = &patch->pixels[x * height];
+            rcolumn_t   *column = &patch->columns[x];
+            rpost_t     *post = &patch->posts[x];
+
+            for (int y = 0; y < height; y++)
+                col[y] = raw[y * width + x];
+
+            column->pixels = col;
+            column->numposts = 1;
+            column->posts = post;
+            post->topdelta = 0;
+            post->length = height;
+        }
+    }
+
+    return patch;
 }
 
 const rpatch_t *R_CachePatchNum(const int id)

@@ -1353,12 +1353,38 @@ static void P_LoadSectors(int lump)
     {
         sector_t    *ss = sectors + i;
         mapsector_t *ms = data + i;
+        int         flatnum;
 
         ss->id = i;
         ss->floorheight = LITTLESHORT(ms->floorheight) << FRACBITS;
         ss->ceilingheight = LITTLESHORT(ms->ceilingheight) << FRACBITS;
-        ss->floorpic = R_FlatNumForName(ms->floorpic);
-        ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
+
+        if ((flatnum = R_CheckFlatNumForName(ms->floorpic)) >= 0)
+        {
+            ss->floorpic = flatnum;
+            ss->floortex = -1;
+        }
+        else
+        {
+            if ((ss->floortex = R_CheckTextureNumForName(ms->floorpic)) < 0)
+                ss->floorpic = R_FlatNumForName(ms->floorpic);
+            else
+                ss->floorpic = 0;
+        }
+
+        if ((flatnum = R_CheckFlatNumForName(ms->ceilingpic)) >= 0)
+        {
+            ss->ceilingpic = flatnum;
+            ss->ceilingtex = -1;
+        }
+        else
+        {
+            if ((ss->ceilingtex = R_CheckTextureNumForName(ms->ceilingpic)) < 0)
+                ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
+            else
+                ss->ceilingpic = 0;
+        }
+
         ss->lightlevel = ss->oldlightlevel = MAX(0, LITTLESHORT(ms->lightlevel));
         ss->special = LITTLESHORT(ms->special);
         ss->tag = LITTLESHORT(ms->tag);
@@ -1388,6 +1414,7 @@ static void P_LoadSectors(int lump)
                             temp, lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
+                        ss->floortex = -1;
                         free(temp);
                     }
 
@@ -1399,6 +1426,7 @@ static void P_LoadSectors(int lump)
                             temp, lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
 
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
+                        ss->ceilingtex = -1;
                         free(temp);
                     }
 
@@ -2211,6 +2239,7 @@ static void P_LoadSideDefs2(int lump)
         sector_t        *sec;
         unsigned short  sector_num = LITTLESHORT(msd->sector);
 
+        sd->topflat = sd->midflat = sd->bottomflat = -1;
         sd->textureoffset = sd->basetextureoffset = sd->oldtextureoffset = LITTLESHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = sd->baserowoffset = LITTLESHORT(msd->rowoffset) << FRACBITS;
 
@@ -2319,14 +2348,53 @@ static void P_LoadSideDefs2(int lump)
                 sd->missingmidtexture = (R_CheckTextureNumForName(msd->midtexture) == -1
                     && strncmp(msd->midtexture, "AASTINKY", 8)
                     && strncmp(msd->midtexture, "AASHITTY", 8));
+
+                if (sd->missingmidtexture && *msd->midtexture && *msd->midtexture != '-')
+                {
+                    const int   flat = R_CheckFlatNumForName(msd->midtexture);
+
+                    if (flat >= 0)
+                    {
+                        sd->midflat = (short)flat;
+                        sd->midtexture = 0;
+                        sd->missingmidtexture = false;
+                    }
+                }
+
                 sd->toptexture = R_TextureNumForName(msd->toptexture);
                 sd->missingtoptexture = (R_CheckTextureNumForName(msd->toptexture) == -1
                     && strncmp(msd->toptexture, "AASTINKY", 8)
                     && strncmp(msd->toptexture, "AASHITTY", 8));
+
+                if (sd->missingtoptexture && *msd->toptexture && *msd->toptexture != '-')
+                {
+                    const int   flat = R_CheckFlatNumForName(msd->toptexture);
+
+                    if (flat >= 0)
+                    {
+                        sd->topflat = (short)flat;
+                        sd->toptexture = 0;
+                        sd->missingtoptexture = false;
+                    }
+                }
+
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
                 sd->missingbottomtexture = (R_CheckTextureNumForName(msd->bottomtexture) == -1
                     && strncmp(msd->bottomtexture, "AASTINKY", 8)
                     && strncmp(msd->bottomtexture, "AASHITTY", 8));
+
+                if (sd->missingbottomtexture && *msd->bottomtexture && *msd->bottomtexture != '-')
+                {
+                    const int   flat = R_CheckFlatNumForName(msd->bottomtexture);
+
+                    if (flat >= 0)
+                    {
+                        sd->bottomflat = (short)flat;
+                        sd->bottomtexture = 0;
+                        sd->missingbottomtexture = false;
+                    }
+                }
+
                 break;
         }
     }

@@ -69,6 +69,7 @@ typedef struct
 
 const rpatch_t *R_CachePatchNum(const int id);
 const rpatch_t *R_CacheTextureCompositePatchNum(const int id);
+const rpatch_t *R_CacheFlatAsPatch(const int flatnum);
 const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnindex);
 void R_InitPatches(void);
 bool R_CheckIfPatch(const int lump);

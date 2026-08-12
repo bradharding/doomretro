@@ -41,6 +41,7 @@
 #include "r_sky.h"
 #include "tables.h"
 #include "w_wad.h"
+#include "z_zone.h"
 
 #define MAXVISPLANES    1024                    // must be a power of 2
 
@@ -85,6 +86,33 @@ fixed_t             yslopes[PITCHES][MAXHEIGHT];
 static fixed_t      cachedheight[MAXHEIGHT];
 
 static angle_t      *xtoskyangle;
+
+static byte         **texflatcache;
+
+static byte *R_GetTexFlat(const int texnum, const rpatch_t *patch)
+{
+    if (!texflatcache)
+        texflatcache = Z_Calloc(numtextures, sizeof(byte *), PU_LEVEL, (void **)&texflatcache);
+
+    if (!texflatcache[texnum])
+    {
+        const int   w = patch->width;
+        const int   h = patch->height;
+        byte        *buf = Z_Malloc(w * h, PU_LEVEL, NULL);
+
+        for (int x = 0; x < w; x++)
+        {
+            const byte  *col = R_GetTextureColumn(patch, x);
+
+            for (int y = 0; y < h; y++)
+                buf[y * w + x] = col[y];
+        }
+
+        texflatcache[texnum] = buf;
+    }
+
+    return texflatcache[texnum];
+}
 
 //
 // R_MapPlane
@@ -376,7 +404,8 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[MAXHEIGHT];
     const int   stop = pl->right + 1;
 
-    if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current && !pl->xoffset && !pl->yoffset)
+    if (!(pl->picnum & PL_TEXFLAT) && terraintypes[pl->picnum] >= LIQUID
+        && r_liquid_current && !pl->xoffset && !pl->yoffset)
     {
         xoffset = animatedliquidxoffs;
         yoffset = animatedliquidyoffs;
@@ -738,13 +767,67 @@ void R_DrawPlanes(void)
                             }
                     }
                 }
+                else if (picnum & PL_TEXFLAT)
+                {
+                    // wall texture drawn as a tiled floor/ceiling flat
+                    const int       texnum = picnum & ~PL_TEXFLAT;
+                    const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texnum);
+
+                    ds_source = R_GetTexFlat(texnum, patch);
+                    ds_flatwidth = patch->width;
+                    ds_flatheight = patch->height;
+                    ds_brightmap = NULL;
+                    ds_sectorcolormap = (pl->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
+                        colormaps[pl->colormap] : fullcolormap);
+
+                    R_MakeSpans(pl);
+                }
                 else
                 {
                     // regular flat
                     const int   flatnum = flattranslation[picnum] - firstflat;
+                    const bool  swirling = (terraintypes[picnum] >= LIQUID && r_liquid_swirl);
 
-                    ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
-                        R_SwirlingFlat(picnum) : lumpinfo[firstflat + flatnum]->cache);
+                    if (swirling)
+                    {
+                        ds_source = R_SwirlingFlat(picnum);
+                        ds_flatwidth = 64;
+                        ds_flatheight = 64;
+                    }
+                    else
+                    {
+                        lumpinfo_t  *lump = lumpinfo[firstflat + flatnum];
+                        byte        *data = lump->cache;
+                        const int   lumpsize = lump->size;
+                        bool        headered = false;
+
+                        if (lumpsize > 4)
+                        {
+                            const int   w = (data[0] | (data[1] << 8));
+                            const int   h = (data[2] | (data[3] << 8));
+
+                            if (w > 0 && h > 0 && w * h + 4 == lumpsize)
+                            {
+                                ds_flatwidth = w;
+                                ds_flatheight = h;
+                                ds_source = data + 4;
+                                headered = true;
+                            }
+                        }
+
+                        if (!headered)
+                        {
+                            int side = 1;
+
+                            while (side * side < lumpsize)
+                                side++;
+
+                            ds_flatwidth = side;
+                            ds_flatheight = side;
+                            ds_source = data;
+                        }
+                    }
+
                     ds_brightmap = (usebrightmaps ? flatbrightmap[flatnum] : NULL);
                     ds_sectorcolormap = (pl->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
                         colormaps[pl->colormap] : fullcolormap);

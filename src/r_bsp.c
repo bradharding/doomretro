@@ -579,8 +579,9 @@ static void R_Subsector(int num)
     floorplane = (frontsector->interpfloorheight < viewz    // killough 03/07/98
         || (heightsec && heightsec->ceilingpic == skyflatnum) ?
         R_FindPlane(frontsector->interpfloorheight,
-            (frontsector->floorpic == skyflatnum            // killough 10/98
-                && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic),
+            (frontsector->floortex >= 0 ? (PL_TEXFLAT | frontsector->floortex) :
+                (frontsector->floorpic == skyflatnum        // killough 10/98
+                    && (frontsector->floorsky & PL_SKYFLAT) ? frontsector->floorsky : frontsector->floorpic)),
             floorlightlevel,                                // killough 03/16/98
             frontsector->floorxoffset,                      // killough 03/07/98
             frontsector->flooryoffset,
@@ -592,8 +593,9 @@ static void R_Subsector(int num)
         || frontsector->ceilingpic == skyflatnum
         || (heightsec && heightsec->floorpic == skyflatnum) ?
         R_FindPlane(frontsector->interpceilingheight,       // killough 03/08/98
-            (frontsector->ceilingpic == skyflatnum          // killough 10/98
-                && (frontsector->ceilingsky & PL_SKYFLAT) ? frontsector->ceilingsky : frontsector->ceilingpic),
+            (frontsector->ceilingtex >= 0 ? (PL_TEXFLAT | frontsector->ceilingtex) :
+             (frontsector->ceilingpic == skyflatnum          // killough 10/98
+                && (frontsector->ceilingsky & PL_SKYFLAT) ? frontsector->ceilingsky : frontsector->ceilingpic)),
             ceilinglightlevel,                              // killough 04/11/98
             frontsector->ceilingxoffset,                    // killough 03/07/98
             frontsector->ceilingyoffset,

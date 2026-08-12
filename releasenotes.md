@@ -12,6 +12,7 @@
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * Further improvements have been made to the support of the [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II).
+* As supported by the [*ID24*](https://doomwiki.org/wiki/ID24) specification, flats may now be used as wall textures, and wall textures used as flats.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
