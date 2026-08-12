@@ -2033,8 +2033,7 @@ void R_DrawLowResDitheredRadialSolidColorSpan(void)
 
     while (--count)
     {
-        *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-            [NOTEXTURECOLOR]];
+        *dest++ = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)[NOTEXTURECOLOR]];
 
         if (++lowx == lowpixelwidth)
         {
@@ -2049,8 +2048,7 @@ void R_DrawLowResDitheredRadialSolidColorSpan(void)
         }
     }
 
-    *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)
-        [NOTEXTURECOLOR]];
+    *dest = ds_sectorcolormap[(dither[xphase] ? nextcolormap : colormap)[NOTEXTURECOLOR]];
 }
 
 void R_DrawDitheredSolidColorSpan(void)

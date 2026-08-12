@@ -2,6 +2,7 @@
 
 ### DOOM Retro v6.3.1
 
+* *DOOM Retro* is now built using v18.9.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.

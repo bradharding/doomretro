@@ -148,9 +148,8 @@ void SHA1Final(byte digest[SHA1_DIGEST_SIZE], SHA1Context *context)
     for (int i = 0; i < 8; i++)
         finalcount[i] = (byte)(context->count >> ((7 - i) * 8));
 
-    SHA1Update(context, padding, (((context->count >> 3) & 63) < 56
-        ? 56 - ((context->count >> 3) & 63)
-        : 120 - ((context->count >> 3) & 63)));
+    SHA1Update(context, padding, (((context->count >> 3) & 63) < 56 ?
+        56 - ((context->count >> 3) & 63) : 120 - ((context->count >> 3) & 63)));
     SHA1Update(context, finalcount, sizeof(finalcount));
 
     for (int i = 0; i < SHA1_DIGEST_SIZE; i++)
