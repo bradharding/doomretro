@@ -128,6 +128,10 @@ extern void (*bmapspanfunc)(void);
 extern void (*spanfunc)(void);
 extern void (*altbmapspanfunc)(void);
 extern void (*altspanfunc)(void);
+extern void (*bmapspanfunc64)(void);
+extern void (*spanfunc64)(void);
+extern void (*altbmapspanfunc64)(void);
+extern void (*altspanfunc64)(void);
 extern void (*bloodcolfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
 

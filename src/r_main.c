@@ -533,6 +533,10 @@ void (*bmapspanfunc)(void);
 void (*spanfunc)(void);
 void (*altbmapspanfunc)(void);
 void (*altspanfunc)(void);
+void (*bmapspanfunc64)(void);
+void (*spanfunc64)(void);
+void (*altbmapspanfunc64)(void);
+void (*altspanfunc64)(void);
 void (*bloodcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
 
@@ -648,6 +652,8 @@ void R_InitColumnFunctions(void)
                 tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawLowResDitheredTranslucent50ColumnWithBrightmap : &R_DrawLowResDitheredColumnWithBrightmap);
                 bmapspanfunc = (r_radiallighting ? &R_DrawLowResDitheredRadialSpanWithBrightmap : &R_DrawLowResDitheredSpanWithBrightmap);
                 spanfunc = (r_radiallighting ? &R_DrawLowResDitheredRadialSpan : &R_DrawLowResDitheredSpan);
+                bmapspanfunc64 = (r_radiallighting ? &R_DrawLowResDitheredRadialSpanWithBrightmap64 : &R_DrawLowResDitheredSpanWithBrightmap64);
+                spanfunc64 = (r_radiallighting ? &R_DrawLowResDitheredRadialSpan64 : &R_DrawLowResDitheredSpan64);
             }
             else
             {
@@ -662,12 +668,16 @@ void R_InitColumnFunctions(void)
                 tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawDitheredTranslucent50ColumnWithBrightmap : &R_DrawDitheredColumnWithBrightmap);
                 bmapspanfunc = (r_radiallighting ? &R_DrawDitheredRadialSpanWithBrightmap : &R_DrawDitheredSpanWithBrightmap);
                 spanfunc = (r_radiallighting ? &R_DrawDitheredRadialSpan : &R_DrawDitheredSpan);
+                bmapspanfunc64 = (r_radiallighting ? &R_DrawDitheredRadialSpanWithBrightmap64 : &R_DrawDitheredSpanWithBrightmap64);
+                spanfunc64 = (r_radiallighting ? &R_DrawDitheredRadialSpan64 : &R_DrawDitheredSpan64);
             }
 
             altwallcolfunc = &R_DrawWallColumn;
             altbmapwallcolfunc = &R_DrawWallColumnWithBrightmap;
             altbmapspanfunc = &R_DrawSpanWithBrightmap;
             altspanfunc = &R_DrawSpan;
+            altbmapspanfunc64 = &R_DrawSpanWithBrightmap64;
+            altspanfunc64 = &R_DrawSpan64;
 
             if (r_sprites_translucency)
             {
@@ -766,6 +776,10 @@ void R_InitColumnFunctions(void)
             spanfunc = (r_radiallighting ? &R_DrawRadialSpan : &R_DrawSpan);
             altbmapspanfunc = &R_DrawSpanWithBrightmap;
             altspanfunc = &R_DrawSpan;
+            bmapspanfunc64 = (r_radiallighting ? &R_DrawRadialSpanWithBrightmap64 : &R_DrawSpanWithBrightmap64);
+            spanfunc64 = (r_radiallighting ? &R_DrawRadialSpan64 : &R_DrawSpan64);
+            altbmapspanfunc64 = &R_DrawSpanWithBrightmap64;
+            altspanfunc64 = &R_DrawSpan64;
 
             if (r_sprites_translucency)
             {
@@ -838,6 +852,8 @@ void R_InitColumnFunctions(void)
                 tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawLowResDitheredTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
                 bmapspanfunc = (r_radiallighting ? &R_DrawLowResDitheredRadialSolidColorSpan : &R_DrawLowResDitheredSolidColorSpan);
                 spanfunc = (r_radiallighting ? &R_DrawLowResDitheredRadialSolidColorSpan : &R_DrawLowResDitheredSolidColorSpan);
+                bmapspanfunc64 = bmapspanfunc;
+                spanfunc64 = spanfunc;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
                 tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
@@ -864,6 +880,8 @@ void R_InitColumnFunctions(void)
                 tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawDitheredTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
                 bmapspanfunc = (r_radiallighting ? &R_DrawDitheredRadialSolidColorSpan : &R_DrawDitheredSolidColorSpan);
                 spanfunc = (r_radiallighting ? &R_DrawDitheredRadialSolidColorSpan : &R_DrawDitheredSolidColorSpan);
+                bmapspanfunc64 = bmapspanfunc;
+                spanfunc64 = spanfunc;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
                 tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
@@ -891,6 +909,8 @@ void R_InitColumnFunctions(void)
             tl50bmapsegcolfunc = (r_textures_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
             bmapspanfunc = (r_radiallighting ? &R_DrawRadialSolidColorSpan : &R_DrawSolidColorSpan);
             spanfunc = (r_radiallighting ? &R_DrawRadialSolidColorSpan : &R_DrawSolidColorSpan);
+            bmapspanfunc64 = bmapspanfunc;
+            spanfunc64 = spanfunc;
             tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
             tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
             tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
@@ -912,6 +932,8 @@ void R_InitColumnFunctions(void)
         altbmapwallcolfunc = &R_DrawSolidColorColumn;
         altbmapspanfunc = &R_DrawSolidColorSpan;
         altspanfunc = &R_DrawSolidColorSpan;
+        altbmapspanfunc64 = &R_DrawSolidColorSpan;
+        altspanfunc64 = &R_DrawSolidColorSpan;
     }
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)

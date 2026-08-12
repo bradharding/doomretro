@@ -184,7 +184,11 @@ static void R_MapPlane(const int y, const int x1)
     if (fixedcolormap)
     {
         ds_colormap[0] = ds_colormap[1] = fixedcolormap;
-        altspanfunc();
+
+        if (ds_flatwidth == 64 && ds_flatheight == 64)
+            altspanfunc64();
+        else
+            altspanfunc();
     }
     else
     {
@@ -194,10 +198,20 @@ static void R_MapPlane(const int y, const int x1)
         {
             if (r_radiallighting)
             {
-                if (ds_brightmap)
-                    bmapspanfunc();
+                if (ds_flatwidth == 64 && ds_flatheight == 64)
+                {
+                    if (ds_brightmap)
+                        bmapspanfunc64();
+                    else
+                        spanfunc64();
+                }
                 else
-                    spanfunc();
+                {
+                    if (ds_brightmap)
+                        bmapspanfunc();
+                    else
+                        spanfunc();
+                }
 
                 return;
             }
@@ -206,20 +220,47 @@ static void R_MapPlane(const int y, const int x1)
 
             if (ds_colormap[0] == ds_colormap[1])
             {
-                if (ds_brightmap)
-                    altbmapspanfunc();
+                if (ds_flatwidth == 64 && ds_flatheight == 64)
+                {
+                    if (ds_brightmap)
+                        altbmapspanfunc64();
+                    else
+                        altspanfunc64();
+                }
                 else
-                    altspanfunc();
+                {
+                    if (ds_brightmap)
+                        altbmapspanfunc();
+                    else
+                        altspanfunc();
+                }
             }
             else
             {
                 ds_z = ((ds_z >> 12) & 255);
 
-                if (ds_brightmap)
-                    bmapspanfunc();
+                if (ds_flatwidth == 64 && ds_flatheight == 64)
+                {
+                    if (ds_brightmap)
+                        bmapspanfunc64();
+                    else
+                        spanfunc64();
+                }
                 else
-                    spanfunc();
+                {
+                    if (ds_brightmap)
+                        bmapspanfunc();
+                    else
+                        spanfunc();
+                }
             }
+        }
+        else if (ds_flatwidth == 64 && ds_flatheight == 64)
+        {
+            if (ds_brightmap)
+                bmapspanfunc64();
+            else
+                spanfunc64();
         }
         else if (ds_brightmap)
             bmapspanfunc();
