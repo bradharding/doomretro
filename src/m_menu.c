@@ -1827,6 +1827,7 @@ static void M_DrawPalette(void)
 static void M_DrawSound(void)
 {
     float   dot;
+    int     fade;
 
     M_DrawMenuBackground();
     V_SetMenuHighlightFade(100);
@@ -1848,16 +1849,18 @@ static void M_DrawSound(void)
     dot = (float)(sfxvolume * !nosfx);
     SoundMenu[sound_empty1].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty1].width = 16 * 8 + 12;
-    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&SoundDef, sfx_vol));
+    fade = M_GetMenuItemHighlightFade(&SoundDef, sfx_vol);
+    V_SetMenuHighlightFade(fade);
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, M_IsHighlightedMenuItem(&SoundDef, sfx_vol, itemon));
+        16, 15, dot, 4.0f, 6, (fade > 0));
 
     dot = (float)(musicvolume * !nomusic);
     SoundMenu[sound_empty2].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty2].width = 16 * 8 + 12;
-    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&SoundDef, music_vol));
+    fade = M_GetMenuItemHighlightFade(&SoundDef, music_vol);
+    V_SetMenuHighlightFade(fade);
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx,
-        16, 15, dot, 4.0f, 6, M_IsHighlightedMenuItem(&SoundDef, music_vol, itemon));
+        16, 15, dot, 4.0f, 6, (fade > 0));
 
     V_SetMenuHighlightFade(100);
 }
@@ -2355,6 +2358,7 @@ static void M_NewGame(int choice)
 static void M_DrawOptions(void)
 {
     float   dot;
+    int     fade;
 
     M_DrawMenuBackground();
 
@@ -2373,8 +2377,7 @@ static void M_DrawOptions(void)
 
     if (messages)
     {
-        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
-
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
         V_SetMenuHighlightFade(fade);
 
         if (M_MSGON)
@@ -2392,13 +2395,12 @@ static void M_DrawOptions(void)
                 patch, (fade > 0));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (fade > 0), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text)
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (fade > 0), true);
     }
     else
     {
-        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
-
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, msgs);
         V_SetMenuHighlightFade(fade);
 
         if (M_MSGOFF)
@@ -2416,14 +2418,13 @@ static void M_DrawOptions(void)
                 patch, (fade > 0));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (fade > 0), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[msgs].text)
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (fade > 0), true);
     }
 
     if (r_detail == r_detail_low)
     {
-        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
-
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
         V_SetMenuHighlightFade(fade);
 
         if (M_GDLOW)
@@ -2441,13 +2442,12 @@ static void M_DrawOptions(void)
                 patch, (fade > 0));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (fade > 0), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text)
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (fade > 0), true);
     }
     else
     {
-        const int fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
-
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, detail);
         V_SetMenuHighlightFade(fade);
 
         if (M_GDHIGH)
@@ -2465,8 +2465,8 @@ static void M_DrawOptions(void)
                 patch, (fade > 0));
         }
         else
-            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text) + M_BigStringWidth(" "),
-                OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (fade > 0), true);
+            M_DrawString(OptionsDef.x + M_BigStringWidth(*currentmenu->menuitems[detail].text)
+                + M_BigStringWidth(" "), OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (fade > 0), true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
@@ -2474,9 +2474,10 @@ static void M_DrawOptions(void)
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
         + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
-    V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, scrnsize));
+    fade = M_GetMenuItemHighlightFade(&OptionsDef, scrnsize);
+    V_SetMenuHighlightFade(fade);
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
-        9, 15, dot, 6.54f, 8, M_IsHighlightedMenuItem(&OptionsDef, scrnsize, itemon));
+        9, 15, dot, 6.54f, 8, (fade > 0));
 
     if (usingcontroller && (!M_MSENS || DBIGFONT))
     {
@@ -2484,9 +2485,10 @@ static void M_DrawOptions(void)
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
             + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
-        V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, mousesens));
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, mousesens);
+        V_SetMenuHighlightFade(fade);
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, M_IsHighlightedMenuItem(&OptionsDef, mousesens, itemon));
+            9, 15, dot, 8.0f, 8, (fade > 0));
     }
     else
     {
@@ -2494,9 +2496,10 @@ static void M_DrawOptions(void)
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
             + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
-        V_SetMenuHighlightFade(M_GetMenuItemHighlightFade(&OptionsDef, mousesens));
+        fade = M_GetMenuItemHighlightFade(&OptionsDef, mousesens);
+        V_SetMenuHighlightFade(fade);
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
-            9, 15, dot, 8.0f, 8, M_IsHighlightedMenuItem(&OptionsDef, mousesens, itemon));
+            9, 15, dot, 8.0f, 8, (fade > 0));
     }
 
     V_SetMenuHighlightFade(100);
