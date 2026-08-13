@@ -933,11 +933,6 @@ bool D_IsEXTRASWAD(char *filename)
     return (M_StringCompare(leafname(filename), "extras.wad"));
 }
 
-bool D_IsID24ResourceWAD(char *filename)
-{
-    return (M_StringCompare(leafname(filename), "id24res.wad"));
-}
-
 bool D_IsDOOMIWAD(char *filename)
 {
     const char  *file = leafname(filename);
@@ -1170,26 +1165,12 @@ static void D_AutoloadExtrasWAD(void)
         extras = true;
 }
 
-static void D_AutoloadID24ResourceWAD(void)
-{
-    char    path[MAX_PATH];
-
-    if (M_CheckParm("-noautoload"))
-        return;
-
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "id24res.wad");
-
-    if (W_MergeFile(path, true))
-        id24resource = true;
-}
-
 static void D_AutoloadSIGILWAD(void)
 {
     bool    shreds = false;
     char    path[MAX_PATH];
 
     D_AutoloadExtrasWAD();
-    D_AutoloadID24ResourceWAD();
 
     if (sigil || sigil2 || M_CheckParm("-noautoload"))
         return;
@@ -1261,7 +1242,6 @@ static void D_AutoloadSIGIL2WAD(void)
     char    path[MAX_PATH];
 
     D_AutoloadExtrasWAD();
-    D_AutoloadID24ResourceWAD();
 
     if (!autosigil || M_CheckParm("-noautoload"))
         return;
@@ -1293,7 +1273,6 @@ static void D_AutoloadNerveWAD(void)
     char    path[MAX_PATH];
 
     D_AutoloadExtrasWAD();
-    D_AutoloadID24ResourceWAD();
 
     if (M_CheckParm("-noautoload"))
         return;
@@ -1309,7 +1288,6 @@ static void D_AutoloadMasterLevelsWAD(void)
     char    path[MAX_PATH];
 
     D_AutoloadExtrasWAD();
-    D_AutoloadID24ResourceWAD();
 
     if (M_CheckParm("-noautoload"))
         return;
@@ -1449,10 +1427,10 @@ static bool D_CheckParms(void)
                     if (legacyofrust)
                         D_AutoloadExtrasWAD();
 
-                    D_AutoloadID24ResourceWAD();
-
                     if (IWADRequiredByPWAD(myargv[1]) != none)
+                    {
                         D_SetString(&pwadfile, leafname(myargv[1]));
+                    }
 
                     LoadCfgFile(myargv[1]);
 
@@ -1497,10 +1475,10 @@ static bool D_CheckParms(void)
                         if (legacyofrust)
                             D_AutoloadExtrasWAD();
 
-                        D_AutoloadID24ResourceWAD();
-
                         if (IWADRequiredByPWAD(myargv[1]) != none)
+                        {
                             D_SetString(&pwadfile, leafname(myargv[1]));
+                        }
 
                         LoadCfgFile(myargv[1]);
 
@@ -1526,8 +1504,6 @@ static bool D_CheckParms(void)
 
                             if (legacyofrust)
                                 D_AutoloadExtrasWAD();
-
-                            D_AutoloadID24ResourceWAD();
 
                             if (IWADRequiredByPWAD(myargv[1]) != none)
                                 D_SetString(&pwadfile, leafname(myargv[1]));
@@ -1821,8 +1797,6 @@ static int D_OpenWADLauncher(void)
                         if (legacyofrust)
                             D_AutoloadExtrasWAD();
 
-                        D_AutoloadID24ResourceWAD();
-
                         if (IWADRequiredByPWAD(file) != none)
                             D_SetString(&pwadfile, leafname(file));
 
@@ -1874,8 +1848,6 @@ static int D_OpenWADLauncher(void)
                             if (legacyofrust)
                                 D_AutoloadExtrasWAD();
 
-                            D_AutoloadID24ResourceWAD();
-
                             if (IWADRequiredByPWAD(file) != none)
                                 D_SetString(&pwadfile, leafname(file));
 
@@ -1922,8 +1894,6 @@ static int D_OpenWADLauncher(void)
 
                                 if (legacyofrust)
                                     D_AutoloadExtrasWAD();
-
-                                D_AutoloadID24ResourceWAD();
 
                                 if (IWADRequiredByPWAD(file) != none)
                                     D_SetString(&pwadfile, leafname(file));
@@ -2205,8 +2175,6 @@ static int D_OpenWADLauncher(void)
 
                                 if (legacyofrust)
                                     D_AutoloadExtrasWAD();
-
-                                D_AutoloadID24ResourceWAD();
 
                                 LoadCfgFile(fullpath);
 
@@ -2585,8 +2553,6 @@ static void D_DoomMainSetup(void)
                         if (legacyofrust)
                             D_AutoloadExtrasWAD();
 
-                        D_AutoloadID24ResourceWAD();
-
                         if (IWADRequiredByPWAD(file) != none)
                             pwadfile = M_StringDuplicate(leafname(file));
                     }
@@ -2621,8 +2587,6 @@ static void D_DoomMainSetup(void)
                             if (legacyofrust)
                                 D_AutoloadExtrasWAD();
 
-                            D_AutoloadID24ResourceWAD();
-
                             if (IWADRequiredByPWAD(file) != none)
                             {
                                 if (*pwadfile)
@@ -2654,8 +2618,6 @@ static void D_DoomMainSetup(void)
                                 if (legacyofrust)
                                     D_AutoloadExtrasWAD();
 
-                                D_AutoloadID24ResourceWAD();
-
                                 if (IWADRequiredByPWAD(file) != none)
                                 {
                                     if (*pwadfile)
@@ -2682,8 +2644,6 @@ static void D_DoomMainSetup(void)
 
                                     if (legacyofrust)
                                         D_AutoloadExtrasWAD();
-
-                                    D_AutoloadID24ResourceWAD();
 
                                     if (IWADRequiredByPWAD(file) != none)
                                         D_SetString(&pwadfile, leafname(file));

@@ -300,7 +300,6 @@ bool W_AddFile(char *filename, bool autoloaded)
     static bool nervewadadded;
     static bool masterlevelswadadded;
     static bool extraswadadded;
-    static bool id24resourcewadadded;
     wadinfo_t   header;
     size_t      length;
     int         startlump;
@@ -345,8 +344,6 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (masterlevelswadadded && D_IsMasterLevelsWAD(file))
         return false;
     else if (extraswadadded && D_IsEXTRASWAD(file))
-        return false;
-    else if (id24resourcewadadded && D_IsID24ResourceWAD(file))
         return false;
 
     // WAD file
@@ -528,12 +525,6 @@ bool W_AddFile(char *filename, bool autoloaded)
 
             if (s_remix)
                 C_Output("Andrew Hulshult's " ITALICS("IDKFA") " soundtrack will be heard while you play.");
-        }
-        else if (D_IsID24ResourceWAD(file))
-        {
-            id24resource = true;
-            id24resourcewadadded = true;
-            C_Output(ITALICS("ID24") "-compatible things are available.");
         }
     }
 

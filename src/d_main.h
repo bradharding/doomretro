@@ -90,7 +90,6 @@ bool D_IsNERVEWAD(char *filename);
 bool D_IsMasterLevelsWAD(char *filename);
 bool D_IsLegacyOfRustWAD(char *filename);
 bool D_IsEXTRASWAD(char *filename);
-bool D_IsID24ResourceWAD(char *filename);
 bool D_IsSIGILWAD(char *filename);
 bool D_IsSIGILREGWAD(char *filename);
 bool D_IsSIGILSHREDSWAD(char *filename);
