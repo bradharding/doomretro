@@ -52,6 +52,7 @@ bool            bfgedition = false;
 bool            kex = false;
 bool            unity = false;
 bool            extras = false;
+bool            id24resource = false;
 
 bool            chex = false;
 bool            chex1 = false;

@@ -99,6 +99,7 @@ extern bool             bfgedition;
 extern bool             kex;
 extern bool             unity;
 extern bool             extras;
+extern bool             id24resource;
 
 extern bool             chex;
 extern bool             chex1;
