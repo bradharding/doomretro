@@ -4914,9 +4914,8 @@ bool M_Responder(event_t *ev)
                 controllerbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
+                D_FadeScreen(false);
             }
-
-            D_FadeScreen(false);
 
             if (helpscreen)
                 R_SetViewSize(r_screensize);
