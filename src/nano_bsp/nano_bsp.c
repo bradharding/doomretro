@@ -210,7 +210,7 @@ struct NodeEval
 int BSP_PointOnSide(seg_t *part, fixed_t x, fixed_t y)
 {
     fixed_t dx = part->v2->x - part->v1->x;
-    fixed_t	dy = part->v2->y - part->v1->y;
+    fixed_t dy = part->v2->y - part->v1->y;
 
     x -= part->v1->x;
     y -= part->v1->y;
@@ -489,8 +489,8 @@ void BSP_ComputeIntersection(seg_t *part, seg_t *seg, fixed_t *x, fixed_t *y)
     }
     else
     {
-        fixed_t	dx = part->v2->x - part->v1->x;
-        fixed_t	dy = part->v2->y - part->v1->y;
+        fixed_t dx = part->v2->x - part->v1->x;
+        fixed_t dy = part->v2->y - part->v1->y;
 
         // compute seg coords relative to partition start
         fixed_t x1 = seg->v1->x - part->v1->x;
