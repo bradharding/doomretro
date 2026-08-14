@@ -5513,14 +5513,14 @@ void M_Drawer(void)
 
     if (menuitemfadecount > 0 && smoothtransitions)
     {
-        byte *tinttabsout[MENUELEMFADECOUNT + 1] =
+        const byte *tinttabsout[MENUELEMFADECOUNT + 1] =
         {
             NULL,
             tinttab80, tinttab70, tinttab60, tinttab50,
             tinttab40, tinttab30, tinttab20, tinttab10
         };
 
-        byte *tinttabsin[MENUELEMFADECOUNT + 1] =
+        const byte *tinttabsin[MENUELEMFADECOUNT + 1] =
         {
             NULL,
             tinttab20, tinttab30, tinttab40, tinttab50,

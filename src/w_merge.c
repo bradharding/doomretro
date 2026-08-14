@@ -265,7 +265,7 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
 
 static void AddSpriteLump(lumpinfo_t *lump)
 {
-    static struct
+    static const struct
     {
         const char  *spr1;
         const char  *spr2;

@@ -279,7 +279,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         const rpatch_t  *flat = R_CacheFlatAsPatch(curline->sidedef->midflat);
 
         texnum = 0;
-        texheight = flat->height << FRACBITS;
+        texheight = ((fixed_t)flat->height) << FRACBITS;
         patch = flat;
     }
     else
