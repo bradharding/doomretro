@@ -37,10 +37,64 @@
 #include "p_local.h"
 #include "p_tick.h"
 #include "s_sound.h"
+#include "z_zone.h"
 
 //
 // TELEPORTATION
 //
+
+static struct
+{
+    mobj_t  *teleport;
+    bool    checked;
+} *teleports;
+
+static void P_InitTeleportFromSector(void)
+{
+    if (!teleports)
+        teleports = Z_Calloc(numsectors, sizeof(*teleports), PU_LEVEL, (void **)&teleports);
+}
+
+void P_ResetTeleportFromSector(int i)
+{
+    if (!teleports)
+        P_InitTeleportFromSector();
+
+    teleports[i].checked = false;
+}
+
+void P_ResetTeleportList(void)
+{
+    teleports = NULL;
+}
+
+static mobj_t *P_TeleportFromSector(int i)
+{
+    if (!teleports)
+        P_InitTeleportFromSector();
+
+    if (teleports[i].checked)
+        return teleports[i].teleport;
+
+    teleports[i].teleport = NULL;
+
+    for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t  *m;
+
+        if (th->function == &P_MobjThinker
+            && (m = (mobj_t *)th)->type == MT_TELEPORTMAN
+            && m->subsector->sector->id == i)
+        {
+            teleports[i].teleport = m;
+            break;
+        }
+    }
+
+    teleports[i].checked = true;
+    return teleports[i].teleport;
+}
+
 bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
 {
     // Don't teleport missiles.
@@ -55,87 +109,86 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
     // killough 01/31/98: improve performance by using
     // P_FindSectorFromLineTag() instead of simple linear search.
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
-        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t  *m = P_TeleportFromSector(i);
+
+        if (m)
         {
-            const mobj_t    *m = (mobj_t *)th;
+            const fixed_t   oldx = thing->x;
+            const fixed_t   oldy = thing->y;
+            const fixed_t   oldz = thing->z;
+            player_t        *player = thing->player;
+            mobj_t          *fog;
+            fixed_t         newx = m->x;
+            fixed_t         newy = m->y;
 
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
+            // killough 05/12/98: exclude voodoo dolls:
+            if (player && player->mo != thing)
+                player = NULL;
+
+            if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
+                return false;
+
+            // spawn teleport fog at source
+            fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+            fog->angle = thing->angle;
+            S_StartSound(fog, sfx_telept);
+
+            // spawn teleport fog at destination
+            thing->z = thing->floorz;
+
+            if (player)
             {
-                const fixed_t   oldx = thing->x;
-                const fixed_t   oldy = thing->y;
-                const fixed_t   oldz = thing->z;
-                player_t        *player = thing->player;
-                mobj_t          *fog;
-                fixed_t         newx = m->x;
-                fixed_t         newy = m->y;
+                const unsigned int  an = m->angle >> ANGLETOFINESHIFT;
 
-                // killough 05/12/98: exclude voodoo dolls:
-                if (player && player->mo != thing)
-                    player = NULL;
-
-                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
-                    return false;
-
-                // spawn teleport fog at source
-                fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
-                fog->angle = thing->angle;
-                S_StartSound(fog, sfx_telept);
-
-                // spawn teleport fog at destination
-                thing->z = thing->floorz;
-
-                if (player)
-                {
-                    const unsigned int  an = m->angle >> ANGLETOFINESHIFT;
-
-                    newx += 20 * finecosine[an];
-                    newy += 20 * finesine[an];
-                    player->viewz = thing->z + player->viewheight;
-                }
-
-                fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
-                fog->angle = m->angle;
-                S_StartSound(fog, sfx_telept);
-
-                if (player)
-                {
-                    // [BH] teleport can now be drawn on automap
-                    if (line->backsector)
-                        for (int j = 0; j < line->backsector->linecount; j++)
-                            line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
-
-                    // don't move for a bit
-                    thing->reactiontime = 18;
-
-                    player->psprites[ps_weapon].sx = 0;
-                    player->psprites[ps_weapon].sy = WEAPONTOP;
-
-                    player->momx = 0;
-                    player->momy = 0;
-
-                    player->recoil = 0;
-                    player->oldrecoil = 0;
-
-                    player->pitch = 0;
-                    player->oldpitch = 0;
-
-                    if (r_teleportzoom)
-                    {
-                        teleportzoomduration = 350;
-                        teleportzoom = I_GetTimeMS() + teleportzoomduration;
-                        setsizeneeded = true;
-                    }
-                }
-
-                thing->angle = m->angle;
-
-                thing->momx = 0;
-                thing->momy = 0;
-                thing->momz = 0;
-
-                return true;
+                newx += 20 * finecosine[an];
+                newy += 20 * finesine[an];
+                player->viewz = thing->z + player->viewheight;
             }
+
+            fog = P_SpawnMobj(newx, newy, thing->z, MT_TFOG);
+            fog->angle = m->angle;
+            S_StartSound(fog, sfx_telept);
+
+            if (player)
+            {
+                // [BH] teleport can now be drawn on automap
+                if (line->backsector)
+                    for (int j = 0; j < line->backsector->linecount; j++)
+                        line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
+
+                // don't move for a bit
+                thing->reactiontime = 18;
+
+                player->psprites[ps_weapon].sx = 0;
+                player->psprites[ps_weapon].sy = WEAPONTOP;
+
+                player->momx = 0;
+                player->momy = 0;
+
+                player->recoil = 0;
+                player->oldrecoil = 0;
+
+                player->pitch = 0;
+                player->oldpitch = 0;
+
+                if (r_teleportzoom)
+                {
+                    teleportzoomduration = 350;
+                    teleportzoom = I_GetTimeMS() + teleportzoomduration;
+                    setsizeneeded = true;
+                }
+            }
+
+            thing->angle = m->angle;
+
+            thing->momx = 0;
+            thing->momy = 0;
+            thing->momz = 0;
+
+            return true;
         }
+    }
 
     return false;
 }
@@ -153,72 +206,71 @@ bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
         return false;
 
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
-        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+    {
+        mobj_t  *m = P_TeleportFromSector(i);
+
+        if (m)
         {
-            const mobj_t    *m = (mobj_t *)th;
+            // Height of thing above ground, in case of mid-air teleports:
+            const fixed_t   z = thing->z - thing->floorz;
 
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
+            // Get the angle between the exit thing and source linedef.
+            // Rotate 90 degrees, so that walking perpendicularly across
+            // teleporter linedef causes thing to exit in the direction
+            // indicated by the exit thing.
+            const angle_t   angle = R_PointToAngle2(0, 0, line->dx, line->dy) - m->angle + ANG90;
+
+            // Sine, cosine of angle adjustment
+            const fixed_t   s = finesine[angle >> ANGLETOFINESHIFT];
+            const fixed_t   c = finecosine[angle >> ANGLETOFINESHIFT];
+
+            // Momentum of thing crossing teleporter linedef
+            const fixed_t   momx = thing->momx;
+            const fixed_t   momy = thing->momy;
+
+            // Whether this is the player, and if so, a pointer to their player_t
+            player_t *player = thing->player;
+
+            // Attempt to teleport, aborting if blocked
+            if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
+                return false;
+
+            // Adjust z position to be same height above ground as before
+            thing->z = z + thing->floorz;
+
+            // Rotate thing's momentum to come out of exit just like it entered
+            thing->momx = FixedMul(momx, c) - FixedMul(momy, s);
+            thing->momy = FixedMul(momy, c) + FixedMul(momx, s);
+
+            // Adjust player's view, in case there has been a height change
+            // Voodoo dolls are excluded by making sure player->mo == thing.
+            if (player)
             {
-                // Height of thing above ground, in case of mid-air teleports:
-                const fixed_t   z = thing->z - thing->floorz;
-
-                // Get the angle between the exit thing and source linedef.
-                // Rotate 90 degrees, so that walking perpendicularly across
-                // teleporter linedef causes thing to exit in the direction
-                // indicated by the exit thing.
-                const angle_t   angle = R_PointToAngle2(0, 0, line->dx, line->dy) - m->angle + ANG90;
-
-                // Sine, cosine of angle adjustment
-                const fixed_t   s = finesine[angle >> ANGLETOFINESHIFT];
-                const fixed_t   c = finecosine[angle >> ANGLETOFINESHIFT];
-
-                // Momentum of thing crossing teleporter linedef
-                const fixed_t   momx = thing->momx;
-                const fixed_t   momy = thing->momy;
-
-                // Whether this is the player, and if so, a pointer to their player_t
-                player_t        *player = thing->player;
-
-                // Attempt to teleport, aborting if blocked
-                if (!P_TeleportMove(thing, m->x, m->y, m->z, false))    // killough 08/09/98
-                    return false;
-
-                // Adjust z position to be same height above ground as before
-                thing->z = z + thing->floorz;
-
-                // Rotate thing's momentum to come out of exit just like it entered
-                thing->momx = FixedMul(momx, c) - FixedMul(momy, s);
-                thing->momy = FixedMul(momy, c) + FixedMul(momx, s);
-
-                // Adjust player's view, in case there has been a height change
-                // Voodoo dolls are excluded by making sure player->mo == thing.
-                if (player)
+                if (player->mo == thing)
                 {
-                    if (player->mo == thing)
-                    {
-                        // Save the current deltaviewheight, used in stepping
-                        const fixed_t   deltaviewheight = player->deltaviewheight;
+                    // Save the current deltaviewheight, used in stepping
+                    const fixed_t   deltaviewheight = player->deltaviewheight;
 
-                        // Clear deltaviewheight, since we don't want any changes
-                        player->deltaviewheight = 0;
+                    // Clear deltaviewheight, since we don't want any changes
+                    player->deltaviewheight = 0;
 
-                        // Set player's view according to the newly set parameters
-                        P_CalcHeight();
+                    // Set player's view according to the newly set parameters
+                    P_CalcHeight();
 
-                        // Reset the delta to have the same dynamics as before
-                        player->deltaviewheight = deltaviewheight;
+                    // Reset the delta to have the same dynamics as before
+                    player->deltaviewheight = deltaviewheight;
 
-                        thing->angle += angle;
-                    }
-                    else
-                        thing->angle = angle;
+                    thing->angle += angle;
                 }
                 else
-                    thing->angle += angle;
-
-                return true;
+                    thing->angle = angle;
             }
+            else
+                thing->angle += angle;
+
+            return true;
         }
+    }
 
     return false;
 }

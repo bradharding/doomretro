@@ -3456,6 +3456,8 @@ void P_SetupLevel(int ep, int map)
         rejectlump = -1;
     }
 
+    P_ResetTeleportList();
+
     P_InitThinkers();
 
     secretmap = false;

@@ -620,6 +620,8 @@ mobj_t *P_GetPushThing(int s);
 //
 // P_TELEPT.C
 //
+void P_ResetTeleportFromSector(int i);
+void P_ResetTeleportList(void);
 bool EV_Teleport(const line_t *line, const int side, mobj_t *thing);
 bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing);
 bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bool reverse);
