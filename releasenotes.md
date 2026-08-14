@@ -13,7 +13,7 @@
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
-* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
