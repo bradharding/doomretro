@@ -326,6 +326,9 @@ char    *s_GOTPLASMA = GOTPLASMA;
 char    *s_GOTSHOTGUN = GOTSHOTGUN;
 char    *s_GOTSHOTGUN2 = GOTSHOTGUN2;
 
+char    *s_BETA_BONUS3 = BETA_BONUS3;
+char    *s_BETA_BONUS4 = BETA_BONUS4;
+
 char    *s_PD_BLUEO = PD_BLUEO;
 char    *s_PD_REDO = PD_REDO;
 char    *s_PD_YELLOWO = PD_YELLOWO;
@@ -1004,6 +1007,9 @@ deh_strs deh_strlookup[] =
     { &s_GOTPLASMA,               "GOTPLASMA"               },
     { &s_GOTSHOTGUN,              "GOTSHOTGUN"              },
     { &s_GOTSHOTGUN2,             "GOTSHOTGUN2"             },
+
+    { &s_BETA_BONUS3,             "BETA_BONUS3"             },
+    { &s_BETA_BONUS4,             "BETA_BONUS4"             },
 
     { &s_PD_BLUEO,                "PD_BLUEO"                },
     { &s_PD_REDO,                 "PD_REDO"                 },

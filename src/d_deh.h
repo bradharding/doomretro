@@ -146,6 +146,9 @@ extern char         *s_GOTPLASMA;
 extern char         *s_GOTSHOTGUN;
 extern char         *s_GOTSHOTGUN2;
 
+extern char         *s_BETA_BONUS3;
+extern char         *s_BETA_BONUS4;
+
 extern char         *s_PD_BLUEO;
 extern char         *s_PD_REDO;
 extern char         *s_PD_YELLOWO;

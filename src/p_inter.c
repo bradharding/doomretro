@@ -1239,6 +1239,16 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTARMBONUS;
                 break;
 
+            // killough 7/11/98: evil sceptre from beta version
+            case SPR_BON3:
+                pickupmessage = s_BETA_BONUS3;
+                break;
+
+            // killough 7/11/98: unholy bible from beta version
+            case SPR_BON4:
+                pickupmessage = s_BETA_BONUS4;
+                break;
+
             // soulsphere
             case SPR_SOUL:
                 if (!(viewplayer->cheats & CF_GODMODE))
