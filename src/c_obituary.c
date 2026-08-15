@@ -115,9 +115,28 @@ static const char *C_GetDEHObituaryString(const obituaryinfo_t *obituary)
         return s_OB_BARREL;
 
     if (obituary->sourceisplayer || obituary->source == MT_BFG)
-        return s_OB_KILLEDSELF;
+    {
+        const mobjtype_t    inflicter = obituary->inflicter;
 
-    switch (obituary->source)
+        if ((int)inflicter > MT_NULL && (int)inflicter < nummobjtypes
+            && mobjinfo[inflicter].obituary_self && *mobjinfo[inflicter].obituary_self)
+            return mobjinfo[inflicter].obituary_self;
+
+        return s_OB_KILLEDSELF;
+    }
+
+    const mobjtype_t    source = obituary->source;
+
+    if ((int)source > MT_NULL && (int)source < nummobjtypes)
+    {
+        if (obituary->inflicter == source && mobjinfo[source].obituary_melee && *mobjinfo[source].obituary_melee)
+            return mobjinfo[source].obituary_melee;
+
+        if (mobjinfo[source].obituary && *mobjinfo[source].obituary)
+            return mobjinfo[source].obituary;
+    }
+
+    switch (source)
     {
         case MT_POSSESSED:
             return s_OB_ZOMBIE;

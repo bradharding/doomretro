@@ -1881,7 +1881,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 50                              // number of mobjinfo configuration keys
+#define DEH_MOBJINFOMAX 53                              // number of mobjinfo configuration keys
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1973,7 +1973,10 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Pickup item type",         // .pickupitemtype
     "Pickup bonus count",       // .pickupbonuscount
     "Pickup sound",             // .pickupsound
-    "Pickup message"            // .pickupstringmnemonic
+    "Pickup message",           // .pickupstringmnemonic
+    "Obituary",                // .obituary
+    "Melee Obituary",          // .obituary_melee
+    "Self Obituary"            // .obituary_self
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -3156,6 +3159,39 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
                 mobjinfo[indexnum].dehacked = true;
                 id24compatible = true;
+                break;
+            }
+            else if (M_StringCompare(key, "Obituary"))
+            {
+                mobjinfo[indexnum].obituary = M_StringDuplicate(trimwhitespace(strval));
+
+                if (devparm)
+                    C_Output("Assigned %s to %s (%i) at index %i.",
+                        mobjinfo[indexnum].obituary, key, indexnum, ix);
+
+                mobjinfo[indexnum].dehacked = true;
+                break;
+            }
+            else if (M_StringCompare(key, "Melee Obituary"))
+            {
+                mobjinfo[indexnum].obituary_melee = M_StringDuplicate(trimwhitespace(strval));
+
+                if (devparm)
+                    C_Output("Assigned %s to %s (%i) at index %i.",
+                        mobjinfo[indexnum].obituary_melee, key, indexnum, ix);
+
+                mobjinfo[indexnum].dehacked = true;
+                break;
+            }
+            else if (M_StringCompare(key, "Self Obituary"))
+            {
+                mobjinfo[indexnum].obituary_self = M_StringDuplicate(trimwhitespace(strval));
+
+                if (devparm)
+                    C_Output("Assigned %s to %s (%i) at index %i.",
+                        mobjinfo[indexnum].obituary_self, key, indexnum, ix);
+
+                mobjinfo[indexnum].dehacked = true;
                 break;
             }
             else
