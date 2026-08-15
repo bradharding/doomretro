@@ -18,10 +18,10 @@
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
-* These changes have been made to the obituaries displayed when the player dies and the `obituaries` CVAR is `on`:
-  * `OB_*` strings are now supported in `DEHACKED` lumps.
-  * `Obituary_Deh_Actor_*` and `Obituary_Deh_Actor_*_Melee` strings are now supported in `DEHACKED` lumps.
-  * `Obituary`, `Melee Obituary` and `Self Obituary` are now supported in thing definitions in `DEHACKED` lumps.
+* Custom obituaries when the player dies are now supported, overriding the default obituaries, when the `obituaries` CVAR is `on`. This can be done by using the following in a `DEHACKED` lump:
+  * `OB_*` strings,
+  * `Obituary_Deh_Actor_*` and `Obituary_Deh_Actor_*_Melee` strings,
+  * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
