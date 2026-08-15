@@ -204,12 +204,25 @@ void C_BuildObituaryString(const int index)
         if (deh && *deh)
         {
             const char  *name = (isdefaultplayername() ? "the player" : playername);
+            size_t      len;
+            char        last;
 
             M_StringCopy(buffer, deh, buffersize);
             M_StringReplaceAll(buffer, "%o", name, true);
 
             if (obituary->sourceisplayer)
                 M_StringReplaceAll(buffer, "%k", name, true);
+
+            M_StringReplaceAll(buffer, "the player was", "you were", true);
+
+            len = strlen(buffer);
+            last = (len ? buffer[len - 1] : '\0');
+
+            if (last != '.' && last != '!' && last != '?')
+            {
+                buffer[len] = '!';
+                buffer[len + 1] = '\0';
+            }
 
             goto finish;
         }
