@@ -260,6 +260,7 @@ void HU_Init(void)
     {
         minuspatch = W_CacheLumpNum(lump);
         minuspatchwidth = LITTLESHORT(minuspatch->width);
+        minuspatch->leftoffset = 0;
 
         if (LITTLESHORT(minuspatch->height) < LITTLESHORT(((patch_t *)W_CacheLumpName("STTNUM0"))->height)
             && !LITTLESHORT(minuspatch->topoffset))
