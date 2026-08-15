@@ -17,6 +17,7 @@
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
+* If present in a PWAD’s `DEHACKED` lump, obituary strings are now displayed (replacing *DOOM Retro’s* default messages) when the player dies and the `obituaries` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

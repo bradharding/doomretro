@@ -88,6 +88,93 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
     M_snprintf(dest, destsize, "%s %s%s", article, prefix, basename);
 }
 
+static const char *C_GetDEHObituaryString(const obituaryinfo_t *obituary)
+{
+    if (obituary->telefragged)
+        return s_OB_MONTELEFRAG;
+
+    if (obituary->source == MT_NULL)
+    {
+        if (obituary->crushed)
+            return s_OB_CRUSH;
+
+        if (obituary->terraintype >= LIQUID && obituary->terraintype < NUMTERRAINTYPES)
+        {
+            if (obituary->terraintype == LAVA)
+                return s_OB_LAVA;
+            else if (obituary->terraintype == WATER)
+                return s_OB_WATER;
+            else
+                return s_OB_SLIME;
+        }
+
+        return s_OB_SUICIDE;
+    }
+
+    if (obituary->inflicter == MT_BARREL && obituary->target != MT_BARREL)
+        return s_OB_BARREL;
+
+    if (obituary->sourceisplayer || obituary->source == MT_BFG)
+        return s_OB_KILLEDSELF;
+
+    switch (obituary->source)
+    {
+        case MT_POSSESSED:
+            return s_OB_ZOMBIE;
+
+        case MT_SHOTGUY:
+            return s_OB_SHOTGUY;
+
+        case MT_VILE:
+            return s_OB_VILE;
+
+        case MT_UNDEAD:
+            return (obituary->inflicter == obituary->source ? s_OB_UNDEADHIT : s_OB_UNDEAD);
+
+        case MT_FATSO:
+            return s_OB_FATSO;
+
+        case MT_CHAINGUY:
+            return s_OB_CHAINGUY;
+
+        case MT_SKULL:
+            return s_OB_SKULL;
+
+        case MT_TROOP:
+            return (obituary->inflicter == obituary->source ? s_OB_IMPHIT : s_OB_IMP);
+
+        case MT_HEAD:
+            return (obituary->inflicter == obituary->source ? s_OB_CACOHIT : s_OB_CACO);
+
+        case MT_BRUISER:
+            return (obituary->inflicter == obituary->source ? s_OB_BARONHIT : s_OB_BARON);
+
+        case MT_KNIGHT:
+            return (obituary->inflicter == obituary->source ? s_OB_KNIGHTHIT : s_OB_KNIGHT);
+
+        case MT_SPIDER:
+            return s_OB_SPIDER;
+
+        case MT_BABY:
+            return s_OB_BABY;
+
+        case MT_CYBORG:
+            return s_OB_CYBORG;
+
+        case MT_WOLFSS:
+            return s_OB_WOLFSS;
+
+        case MT_SERGEANT:
+            return s_OB_DEMONHIT;
+
+        case MT_SHADOWS:
+            return s_OB_SPECTREHIT;
+
+        default:
+            return s_OB_DEFAULT;
+    }
+}
+
 static const char *C_KillVerb(const mobjtype_t target, const bool gibbed)
 {
     if (target == MT_BARREL)
@@ -109,6 +196,24 @@ void C_BuildObituaryString(const int index)
     const mobjtype_t        source = obituary->source;
 
     memcpy(oldstring, buffer, sizeof(oldstring));
+
+    if (obituary->targetisplayer)
+    {
+        const char  *deh = C_GetDEHObituaryString(obituary);
+
+        if (deh && *deh)
+        {
+            const char  *name = (isdefaultplayername() ? "the player" : playername);
+
+            M_StringCopy(buffer, deh, buffersize);
+            M_StringReplaceAll(buffer, "%o", name, true);
+
+            if (obituary->sourceisplayer)
+                M_StringReplaceAll(buffer, "%k", name, true);
+
+            goto finish;
+        }
+    }
 
     if (obituary->telefragged)
     {
@@ -335,6 +440,7 @@ void C_BuildObituaryString(const int index)
         M_snprintf(buffer, buffersize, "%s was crushed to death.", targetname);
     }
 
+finish:
     if (buffer[0])
         buffer[0] = (char)toupper(buffer[0]);
 
