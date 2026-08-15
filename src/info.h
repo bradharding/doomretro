@@ -315,9 +315,6 @@ typedef struct
     int         pickupbonuscount;
     int         pickupsound;
     char        *pickupstringmnemonic;
-    char        *obituary;
-    char        *obituary_melee;
-    char        *obituary_self;
 
     char        name1[64];
     char        plural1[64];
@@ -325,6 +322,10 @@ typedef struct
     char        plural2[64];
     char        name3[64];
     char        plural3[64];
+
+    char        *obituary;
+    char        *obituary_melee;
+    char        *obituary_self;
 
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
