@@ -4584,7 +4584,6 @@ static bool deh_procObituarySub(char *key, char *newstring)
     int     actor = -1;
 
     if (sscanf(key, "Obituary_Deh_Actor_%d", &actor) == 1)
-    {
         if (actor >= 0 && actor < nummobjtypes)
         {
             if (M_StringEndsWith(key, "_Melee"))
@@ -4594,7 +4593,6 @@ static bool deh_procObituarySub(char *key, char *newstring)
 
             found = true;
         }
-    }
 
     return found;
 }

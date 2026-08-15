@@ -1540,8 +1540,7 @@ static inline int R_GetRadialLightDitherLevel(void)
     if (ds_z >= RADIALLIGHTDITHERCUTOFF)
         return 0;
 
-    return (int)BETWEENF(0.0f, (ds_radiallightdistance - radiallightsquared[ds_z]) * radiallightditherstep[ds_z],
-        255.0f);
+    return BETWEEN(0, (int)((ds_radiallightdistance - radiallightsquared[ds_z]) * radiallightditherstep[ds_z]), 255);
 }
 
 static inline void R_UpdateRadialDitheredLightColormaps(const lighttable_t **colormap,
