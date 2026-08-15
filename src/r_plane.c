@@ -98,7 +98,7 @@ static byte *R_GetTexFlat(const int texnum, const rpatch_t *patch)
     {
         const int   w = patch->width;
         const int   h = patch->height;
-        byte        *buf = Z_Malloc(w * h, PU_LEVEL, NULL);
+        byte        *buf = Z_Malloc((size_t)w * h, PU_LEVEL, NULL);
 
         for (int x = 0; x < w; x++)
         {
