@@ -4577,6 +4577,28 @@ char *DEH_ResolveStringMnemonic(char *mnemonic)
     return NULL;
 }
 
+// [FG] Obituaries
+static bool deh_procObituarySub(char *key, char *newstring)
+{
+    bool    found = false;
+    int     actor = -1;
+
+    if (sscanf(key, "Obituary_Deh_Actor_%d", &actor) == 1)
+    {
+        if (actor >= 0 && actor < nummobjtypes)
+        {
+            if (M_StringEndsWith(key, "_Melee"))
+                mobjinfo[actor].obituary_melee = M_StringDuplicate(newstring);
+            else
+                mobjinfo[actor].obituary = M_StringDuplicate(newstring);
+
+            found = true;
+        }
+    }
+
+    return found;
+}
+
 // ====================================================================
 // deh_procStringSub
 // Purpose: Common string parsing and handling routine for DEH and BEX
@@ -4626,6 +4648,9 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 
             break;
         }
+
+    if (!found && key)
+        return deh_procObituarySub(key, newstring);
 
     if (!found && key && M_StringStartsWith(key, "USER_"))
         return deh_AssignUserString(key, newstring);
