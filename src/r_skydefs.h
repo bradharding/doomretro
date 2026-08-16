@@ -56,32 +56,32 @@ typedef struct
 {
     const char  *name;
     double      mid;
+    fixed_t     currentx;
+    fixed_t     currenty;
     fixed_t     scrollx;
-    fixed_t     currx;
     fixed_t     scrolly;
-    fixed_t     curry;
     fixed_t     scalex;
     fixed_t     scaley;
-} skytex_t;
+} skytexture_t;
 
 typedef struct
 {
-    skytype_t   type;
-    skytex_t    skytex;
-    fire_t      fire;
-    skytex_t    foreground;
+    skytype_t       type;
+    skytexture_t    skytexture;
+    fire_t          fire;
+    skytexture_t    foreground;
 } sky_t;
 
 typedef struct
 {
-    const char  *flat;
-    const char  *sky;
+    const char      *flat;
+    const char      *sky;
 } flatmap_t;
 
 typedef struct
 {
-    sky_t       *skies;
-    flatmap_t   *flatmapping;
+    sky_t           *skies;
+    flatmap_t       *flatmapping;
 } skydefs_t;
 
 skydefs_t *R_ParseSkyDefs(void);

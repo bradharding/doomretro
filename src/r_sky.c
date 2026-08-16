@@ -164,7 +164,7 @@ static void InitSkyDefs(void)
     }
 
     array_foreach(sky, skydefs->skies)
-        if (skytexture == R_CheckTextureNumForName(sky->skytex.name))
+        if (skytexture == R_CheckTextureNumForName(sky->skytexture.name))
         {
             if (sky->type == SkyType_Fire)
                 SetupFire(&sky->fire);
@@ -177,7 +177,7 @@ static void InitSkyDefs(void)
 
 void R_UpdateSky(void)
 {
-    skytex_t    *background;
+    skytexture_t    *background;
 
     if (!sky)
         return;
@@ -197,16 +197,16 @@ void R_UpdateSky(void)
         return;
     }
 
-    background = &sky->skytex;
-    background->currx += background->scrollx;
-    background->curry += background->scrolly;
+    background = &sky->skytexture;
+    background->currentx += background->scrollx;
+    background->currenty += background->scrolly;
 
     if (sky->type == SkyType_WithForeground)
     {
-        skytex_t    *foreground = &sky->foreground;
+        skytexture_t    *foreground = &sky->foreground;
 
-        foreground->currx += foreground->scrollx;
-        foreground->curry += foreground->scrolly;
+        foreground->currentx += foreground->scrollx;
+        foreground->currenty += foreground->scrolly;
     }
 }
 

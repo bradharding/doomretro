@@ -1530,7 +1530,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
                     }
                     else
                         // HACK ALERT!
-                        a->p[i] = anims[1][4].p[i];
+                        a->p[i] = anims[1][(gamemap == 8 ? 6 : 4)].p[i];
                 }
             }
     }

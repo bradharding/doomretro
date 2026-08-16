@@ -58,7 +58,7 @@ static bool ParseFire(yyjson_val *json, fire_t *out)
     return true;
 }
 
-static bool ParseSkyTex(yyjson_val *json, skytex_t *out)
+static bool ParseSkyTexture(yyjson_val *json, skytexture_t *out)
 {
     yyjson_val  *name;
     yyjson_val  *mid;
@@ -89,22 +89,22 @@ static bool ParseSkyTex(yyjson_val *json, skytex_t *out)
 
 static bool ParseSky(yyjson_val *json, sky_t *out)
 {
-    yyjson_val  *type;
-    yyjson_val  *js_fire;
-    yyjson_val  *js_foreground;
-    skytex_t    background = { 0 };
-    fire_t      fire = { 0 };
-    skytex_t    foreground = { 0 };
+    yyjson_val      *type;
+    yyjson_val      *js_fire;
+    yyjson_val      *js_foreground;
+    skytexture_t    background = { 0 };
+    fire_t          fire = { 0 };
+    skytexture_t    foreground = { 0 };
 
     if (!yyjson_is_num((type = yyjson_obj_get(json, "type"))))
         return false;
 
     out->type = yyjson_get_int(type);
 
-    if (!ParseSkyTex(json, &background))
+    if (!ParseSkyTexture(json, &background))
         return false;
 
-    out->skytex = background;
+    out->skytexture = background;
 
     if ((js_fire = yyjson_obj_get(json, "fire")) && !yyjson_is_null(js_fire))
         ParseFire(js_fire, &fire);
@@ -112,7 +112,7 @@ static bool ParseSky(yyjson_val *json, sky_t *out)
     out->fire = fire;
 
     if ((js_foreground = yyjson_obj_get(json, "foregroundtex")) && !yyjson_is_null(js_foreground))
-        ParseSkyTex(js_foreground, &foreground);
+        ParseSkyTexture(js_foreground, &foreground);
 
     out->foreground = foreground;
     return true;

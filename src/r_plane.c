@@ -619,14 +619,14 @@ byte *R_SwirlingFlat(const int flatnum)
     return cache->distortedflat;
 }
 
-static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
+static void DrawSkyTexture(visplane_t *pl, skytexture_t *skytexture, void func(void))
 {
-    const int       texture = R_TextureNumForName(skytex->name);
-    const angle_t   angle = viewangle + (skytex->currx << (ANGLETOSKYSHIFT - FRACBITS));
+    const int       texture = R_TextureNumForName(skytexture->name);
+    const angle_t   angle = viewangle + (skytexture->currentx << (ANGLETOSKYSHIFT - FRACBITS));
 
-    dc_iscale = FixedMul(skyiscale, skytex->scaley);
+    dc_iscale = FixedMul(skyiscale, skytexture->scaley);
 
-    dc_texturemid = (fixed_t)(skytex->mid * (double)FRACUNIT) + skytex->curry;
+    dc_texturemid = (fixed_t)(skytexture->mid * (double)FRACUNIT) + skytexture->currenty;
     dc_texheight = textureheight[texture] >> FRACBITS;
 
     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
@@ -637,7 +637,7 @@ static void DrawSkyTex(visplane_t *pl, skytex_t *skytex, void func(void))
                 dc_iscale = FixedMul(dc_iscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]);
 
             dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
-                FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, skytex->scalex));
+                FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, skytexture->scalex));
 
             func();
         }
@@ -686,10 +686,10 @@ void R_DrawPlanes(void)
                         }
                         else
                         {
-                            DrawSkyTex(pl, &sky->skytex, skycolfunc);
+                            DrawSkyTexture(pl, &sky->skytexture, skycolfunc);
 
                             if (sky->type == SkyType_WithForeground)
-                                DrawSkyTex(pl, &sky->foreground, &R_DrawSkyColumn);
+                                DrawSkyTexture(pl, &sky->foreground, &R_DrawSkyColumn);
                         }
                     }
                     else if (!skytexture)
@@ -810,7 +810,7 @@ void R_DrawPlanes(void)
                 else if (picnum & PL_TEXFLAT)
                 {
                     // wall texture drawn as a tiled floor/ceiling flat
-                    const int       texnum = picnum & ~PL_TEXFLAT;
+                    const int       texnum = (picnum & ~PL_TEXFLAT);
                     const rpatch_t  *patch = R_CacheTextureCompositePatchNum(texnum);
 
                     ds_source = R_GetTexFlat(texnum, patch);
@@ -826,9 +826,8 @@ void R_DrawPlanes(void)
                 {
                     // regular flat
                     const int   flatnum = flattranslation[picnum] - firstflat;
-                    const bool  swirling = (terraintypes[picnum] >= LIQUID && r_liquid_swirl);
 
-                    if (swirling)
+                    if (terraintypes[picnum] >= LIQUID && r_liquid_swirl)
                     {
                         ds_source = R_SwirlingFlat(picnum);
                         ds_flatwidth = 64;
@@ -838,18 +837,18 @@ void R_DrawPlanes(void)
                     {
                         lumpinfo_t  *lump = lumpinfo[firstflat + flatnum];
                         byte        *data = lump->cache;
-                        const int   lumpsize = lump->size;
+                        const int   size = lump->size;
                         bool        headered = false;
 
-                        if (lumpsize > 4)
+                        if (size > 4)
                         {
-                            const int   w = (data[0] | (data[1] << 8));
-                            const int   h = (data[2] | (data[3] << 8));
+                            const int   width = (data[0] | (data[1] << 8));
+                            const int   height = (data[2] | (data[3] << 8));
 
-                            if (w > 0 && h > 0 && w * h + 4 == lumpsize)
+                            if (width > 0 && height > 0 && width * height + 4 == size)
                             {
-                                ds_flatwidth = w;
-                                ds_flatheight = h;
+                                ds_flatwidth = width;
+                                ds_flatheight = height;
                                 ds_source = data + 4;
                                 headered = true;
                             }
@@ -859,7 +858,7 @@ void R_DrawPlanes(void)
                         {
                             int side = 1;
 
-                            while (side * side < lumpsize)
+                            while (side * side < size)
                                 side++;
 
                             ds_flatwidth = side;
