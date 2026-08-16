@@ -1306,23 +1306,33 @@ void I_SetPalette(const byte *playpal)
     for (int i = 0; i < 256; i++)
     {
         // gamma correction and red/green/blue intensity
-        byte        r = BETWEEN(0, (int)(gammalevel[playpal[0]] + red), 255);
-        byte        g = BETWEEN(0, (int)(gammalevel[playpal[1]] + green), 255);
-        byte        b = BETWEEN(0, (int)(gammalevel[playpal[2]] + blue), 255);
+        byte    r = BETWEEN(0, (int)(gammalevel[playpal[0]] + red), 255);
+        byte    g = BETWEEN(0, (int)(gammalevel[playpal[1]] + green), 255);
+        byte    b = BETWEEN(0, (int)(gammalevel[playpal[2]] + blue), 255);
 
         // saturation
-        const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
+        if (vid_saturation)
+        {
+            const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 
-        r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
-        g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
-        b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
+            r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
+            g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
+            b = BETWEEN(0, (int)(p + (b - p) * saturation), 255);
+        }
 
         // contrast and brightness
+        if (brightness != 1.0f || contrast != 1.0f)
+        {
+            r = BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255);
+            g = BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255);
+            b = BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255);
+        }
+
         // Zero out the bottom two bits of each channel - the PC VGA
         // controller only supports 6 bits of accuracy.
-        palettecolors[i].r = (BETWEEN(0, (int)((128 + (r - 128) * contrast) * brightness), 255) & ~3);
-        palettecolors[i].g = (BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3);
-        palettecolors[i].b = (BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3);
+        palettecolors[i].r = (r & ~3);
+        palettecolors[i].g = (g & ~3);
+        palettecolors[i].b = (b & ~3);
         palettecolors[i].a = 0xFF;
 
         playpal += 3;
