@@ -575,6 +575,7 @@ static void vid_aspectratiofunc2(char *cmd, char *parms);
 static void vid_bluefunc2(char *cmd, char *parms);
 static void vid_borderlesswindowfunc2(char *cmd, char *parms);
 static void vid_brightnessfunc2(char *cmd, char *parms);
+static void vid_colorblindfunc2(char *cmd, char *parms);
 static void vid_contrastfunc2(char *cmd, char *parms);
 static void vid_displayfunc2(char *cmd, char *parms);
 static void vid_fullscreenfunc2(char *cmd, char *parms);
@@ -1193,6 +1194,10 @@ consolecmd_t consolecmds[] =
     INTCVAR(vid_capfps, "", "", intfunc1, intfunc2, 0, CAPVALUEALIAS,
         "The number of frames at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to "
         BOLD("1,000") "). There is no interpolation between frames when this CVAR is " BOLD("35") "."),
+    INTCVAR(vid_colorblind, vid_colourblind, "", intfunc1, vid_colorblindfunc2, 0, COLORBLINDVALUEALIAS,
+        "The type of colorblindness correction (" BOLD("none") ", " BOLD("protanopia") ", "
+        BOLD("protanomaly") ", " BOLD("deuteranopia") ", " BOLD("deuteranomaly") ", " BOLD("tritanopia") ", "
+        BOLD("tritanomaly") ", " BOLD("achromatopsia") " or " BOLD("achromatomaly") ")."),
     PERCENTCVAR(vid_contrast, "", "", intfunc1, vid_contrastfunc2,
         "The screen's contrast (" BOLD("-100%") " to " BOLD("100%") ")."),
     INTCVAR(vid_display, "", "", intfunc1, vid_displayfunc2, 0, 0,
@@ -12796,6 +12801,19 @@ static void vid_brightnessfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (vid_brightness != vid_brightness_old)
+        I_UpdateColors();
+}
+
+//
+// vid_colorblind CVAR
+//
+static void vid_colorblindfunc2(char *cmd, char *parms)
+{
+    const int   vid_colorblind_old = vid_colorblind;
+
+    intfunc2(cmd, parms);
+
+    if (vid_colorblind != vid_colorblind_old)
         I_UpdateColors();
 }
 

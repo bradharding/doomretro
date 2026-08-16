@@ -230,6 +230,7 @@ extern bool     vid_borderlesswindow;
 extern int      vid_brightness;
 extern int      vid_capfps;
 extern int      vid_contrast;
+extern int      vid_colorblind;
 extern int      vid_display;
 #if !defined(_WIN32)
 extern char     *vid_driver;
@@ -387,6 +388,19 @@ enum
     vid_aspectratio_16_10,
     vid_aspectratio_21_9,
     vid_aspectratio_32_9
+};
+
+enum
+{
+    vid_colorblind_none,
+    vid_colorblind_protanopia,
+    vid_colorblind_protanomaly,
+    vid_colorblind_deuteranopia,
+    vid_colorblind_deuteranomaly,
+    vid_colorblind_tritanopia,
+    vid_colorblind_tritanomaly,
+    vid_colorblind_achromatopsia,
+    vid_colorblind_achromatomaly
 };
 
 enum
@@ -953,6 +967,10 @@ enum
 #define vid_capfps_default                  200
 #define vid_capfps_max                      1000
 
+#define vid_colorblind_min                  vid_colorblind_none
+#define vid_colorblind_default              vid_colorblind_none
+#define vid_colorblind_max                  vid_colorblind_achromatomaly
+
 #define vid_contrast_min                    -100
 #define vid_contrast_default                0
 #define vid_contrast_max                    100
@@ -1267,6 +1285,7 @@ typedef enum
     BLOODVALUEALIAS,
     BOOLVALUEALIAS,
     CAPVALUEALIAS,
+    COLORBLINDVALUEALIAS,
     CROSSHAIRVALUEALIAS,
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,
