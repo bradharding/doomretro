@@ -186,67 +186,6 @@ const float gammalevels[GAMMALEVELS] =
     1.10f, 1.20f, 1.30f, 1.40f, 1.50f, 1.60f, 1.70f, 1.80f, 1.90f, 2.0f
 };
 
-// [JN] Color matrices to emulate colorblind modes.
-// From <http://web.archive.org/web/20081014161121/http://www.colorjack.com/labs/colormatrix/>
-float colorblindmatrix[][3][3] =
-{
-    {
-        // Protanopia
-        { 0.56667f, 0.43333f, 0.00000f },
-        { 0.55833f, 0.44167f, 0.00000f },
-        { 0.00000f, 0.24167f, 0.75833f }
-    },
-
-    {
-        // Protanomaly
-        { 0.81667f, 0.18333f, 0.00000f },
-        { 0.33333f, 0.66667f, 0.00000f },
-        { 0.00000f, 0.12500f, 0.87500f }
-    },
-
-    {
-        // Deuteranopia
-        { 0.62500f, 0.37500f, 0.00000f },
-        { 0.70000f, 0.30000f, 0.00000f },
-        { 0.00000f, 0.30000f, 0.70000f }
-    },
-
-    {
-        // Deuteranomaly
-        { 0.80000f, 0.20000f, 0.00000f },
-        { 0.25833f, 0.74167f, 0.00000f },
-        { 0.00000f, 0.14167f, 0.85833f }
-    },
-
-    {
-        // Tritanopia
-        { 0.95000f, 0.05000f, 0.00000f },
-        { 0.00000f, 0.43333f, 0.56667f },
-        { 0.00000f, 0.47500f, 0.52500f }
-    },
-
-    {
-        // Tritanomaly
-        { 0.96667f, 0.03333f, 0.00000f },
-        { 0.00000f, 0.73333f, 0.26667f },
-        { 0.00000f, 0.18333f, 0.81667f }
-    },
-
-    {
-        // Achromatopsia
-        { 0.29900f, 0.58700f, 0.11400f },
-        { 0.29900f, 0.58700f, 0.11400f },
-        { 0.29900f, 0.58700f, 0.11400f }
-    },
-
-    {
-        // Achromatomaly
-        { 0.61800f, 0.32000f, 0.06200f },
-        { 0.16300f, 0.77500f, 0.06200f },
-        { 0.16300f, 0.32000f, 0.51600f }
-    }
-};
-
 int                 gammaindex;
 
 static SDL_Rect     src_rect;
@@ -1341,7 +1280,6 @@ static float    green;
 static float    blue;
 static float    saturation;
 static float    contrast;
-static float    *colorblind;
 float           brightness;
 
 void I_UpdateColors(void)
@@ -1353,9 +1291,6 @@ void I_UpdateColors(void)
     saturation = (vid_saturation + 100.0f) / 100.0f;
     contrast = (259.0f * (vid_contrast + 255.0f)) / (255.0f * (259.0f - vid_contrast));
     brightness = (vid_brightness + 110.0f) / 110.0f;
-
-    if (vid_colorblind != vid_colorblind_none)
-        colorblind = (float *)colorblindmatrix[vid_colorblind - 1];
 
     I_SetPalette(&PLAYPAL[st_palette * 768]);
 
@@ -1389,14 +1324,6 @@ void I_SetPalette(const byte *playpal)
         palettecolors[i].g = (BETWEEN(0, (int)((128 + (g - 128) * contrast) * brightness), 255) & ~3);
         palettecolors[i].b = (BETWEEN(0, (int)((128 + (b - 128) * contrast) * brightness), 255) & ~3);
         palettecolors[i].a = 0xFF;
-
-        // colorblind correction
-        if (vid_colorblind != vid_colorblind_none)
-        {
-            palettecolors[i].r = BETWEEN(0, (int)(colorblind[0] * r + colorblind[1] * g + colorblind[2] * b), 255);
-            palettecolors[i].g = BETWEEN(0, (int)(colorblind[3] * r + colorblind[4] * g + colorblind[5] * b), 255);
-            palettecolors[i].b = BETWEEN(0, (int)(colorblind[6] * r + colorblind[7] * g + colorblind[8] * b), 255);
-        }
 
         playpal += 3;
     }

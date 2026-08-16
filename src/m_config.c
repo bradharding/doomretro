@@ -242,7 +242,6 @@ int         vid_blue = vid_blue_default;
 bool        vid_borderlesswindow = vid_borderlesswindow_default;
 int         vid_brightness = vid_brightness_default;
 int         vid_capfps = vid_capfps_default;
-int         vid_colorblind = vid_colorblind_default;
 int         vid_contrast = vid_contrast_default;
 int         vid_display = vid_display_default;
 #if !defined(_WIN32)
@@ -516,7 +515,6 @@ static default_t cvars[] =
     CVAR_BOOL         (vid_borderlesswindow,             vid_borderlesswindow,                  vid_borderlesswindow,                  BOOLVALUEALIAS         ),
     CVAR_INT_PERCENT  (vid_brightness,                   vid_brightness,                        vid_brightness,                        0                      ),
     CVAR_INT          (vid_capfps,                       vid_capfps,                            vid_capfps,                            CAPVALUEALIAS          ),
-    CVAR_INT          (vid_colorblind,                   vid_colourblind,                       vid_colorblind,                        COLORBLINDVALUEALIAS   ),
     CVAR_INT_PERCENT  (vid_contrast,                     vid_contrast,                          vid_contrast,                          0                      ),
     CVAR_INT          (vid_display,                      vid_display,                           vid_display,                           0                      ),
 #if !defined(_WIN32)
@@ -648,15 +646,6 @@ valuealias_t valuealiases[] =
     { "true",              1,                                         BOOLVALUEALIAS          },
     { "yes",               1,                                         BOOLVALUEALIAS          },
     { "off",               0,                                         CAPVALUEALIAS           },
-    { "none",              vid_colorblind_none,                       COLORBLINDVALUEALIAS    },
-    { "protanopia",        vid_colorblind_protanopia,                 COLORBLINDVALUEALIAS    },
-    { "protanomaly",       vid_colorblind_protanomaly,                COLORBLINDVALUEALIAS    },
-    { "deuteranopia",      vid_colorblind_deuteranopia,               COLORBLINDVALUEALIAS    },
-    { "deuteranomaly",     vid_colorblind_deuteranomaly,              COLORBLINDVALUEALIAS    },
-    { "tritanopia",        vid_colorblind_tritanopia,                 COLORBLINDVALUEALIAS    },
-    { "tritanomaly",       vid_colorblind_tritanomaly,                COLORBLINDVALUEALIAS    },
-    { "achromatopsia",     vid_colorblind_achromatopsia,              COLORBLINDVALUEALIAS    },
-    { "achromatomaly",     vid_colorblind_achromatomaly,              COLORBLINDVALUEALIAS    },
     { "none",              crosshair_none,                            CROSSHAIRVALUEALIAS     },
     { "off",               crosshair_none,                            CROSSHAIRVALUEALIAS     },
     { "cross",             crosshair_cross,                           CROSSHAIRVALUEALIAS     },
