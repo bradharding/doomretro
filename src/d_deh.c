@@ -1974,9 +1974,9 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Pickup bonus count",       // .pickupbonuscount
     "Pickup sound",             // .pickupsound
     "Pickup message",           // .pickupstringmnemonic
-    "Obituary",                // .obituary
-    "Melee Obituary",          // .obituary_melee
-    "Self Obituary"            // .obituary_self
+    "Obituary",                 // .obituary
+    "Melee Obituary",           // .obituary_melee
+    "Self Obituary"             // .obituary_self
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -4647,11 +4647,11 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
             break;
         }
 
-    if (!found && key)
-        return deh_procObituarySub(key, newstring);
-
     if (!found && key && M_StringStartsWith(key, "USER_"))
         return deh_AssignUserString(key, newstring);
+
+    if (!found && key)
+        return deh_procObituarySub(key, newstring);
 
     if (!found && !hacx && lookfor)
     {
