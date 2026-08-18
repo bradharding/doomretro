@@ -3247,6 +3247,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
         if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
             mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
+        else if (!(mobjinfo[indexnum].flags & MF_SPECIAL))
+            mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
     }
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup, or shootable
