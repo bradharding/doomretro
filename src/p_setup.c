@@ -69,39 +69,39 @@
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
-int                 numvertexes;
-vertex_t            *vertexes;
+int             numvertexes;
+vertex_t        *vertexes;
 
-int                 numsegs;
-seg_t               *segs;
+int             numsegs;
+seg_t           *segs;
 
-int                 numsectors;
-sector_t            *sectors;
+int             numsectors;
+sector_t        *sectors;
 
-int                 numliquid;
-int                 numdamaging;
+int             numliquid;
+int             numdamaging;
 
-int                 numsubsectors;
-subsector_t         *subsectors;
+int             numsubsectors;
+subsector_t     *subsectors;
 
-int                 numnodes;
-node_t              *nodes;
+int             numnodes;
+node_t          *nodes;
 
-int                 numlines;
-int                 numspeciallines;
-int                 numvisiblelines;
-int                 nummappedlines;
-line_t              *lines;
+int             numlines;
+int             numspeciallines;
+int             numvisiblelines;
+int             nummappedlines;
+line_t          *lines;
 
-int                 numsides;
-side_t              *sides;
+int             numsides;
+side_t          *sides;
 
-int                 *sslineindexes;
-ssline_t            *sslines;
+int             *sslineindexes;
+ssline_t        *sslines;
 
-int                 numspawnedthings;
-int                 thingid;
-int                 numdecorations;
+int             numspawnedthings;
+int             thingid;
+int             numdecorations;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -111,23 +111,23 @@ int                 numdecorations;
 // by spatial subdivision in 2D.
 //
 // Blockmap size.
-int                 bmapwidth;
-int                 bmapheight;
+int             bmapwidth;
+int             bmapheight;
 
 // for large maps, WAD is 16-bit
-int                 *blockmap;
+int             *blockmap;
 
 // offsets in blockmap are from here
-int                 *blockmaplump;
+int             *blockmaplump;
 
 // origin of blockmap
-fixed_t             bmaporgx;
-fixed_t             bmaporgy;
+fixed_t         bmaporgx;
+fixed_t         bmaporgy;
 
 // for thing chains
-mobj_t              **blocklinks;
+mobj_t          **blocklinks;
 
-bloodsplat_t        **bloodsplat_blocklinks;
+bloodsplat_t    **bloodsplat_blocklinks;
 
 // MAES: extensions to support 512x512 blockmaps.
 // They represent the maximum negative number which represents
@@ -139,10 +139,10 @@ bloodsplat_t        **bloodsplat_blocklinks;
 // A 511x511 blockmap would still have a valid negative number
 // e.g. -1..510, so they would be set to -2
 // Non-extreme maps remain unaffected.
-int                 blockmapxneg = -257;
-int                 blockmapyneg = -257;
+int             blockmapxneg = -257;
+int             blockmapyneg = -257;
 
-bool                skipblstart;            // MaxW: Skip initial blocklist short
+bool            skipblstart;            // MaxW: Skip initial blocklist short
 
 // REJECT
 // For fast sight rejection.
@@ -151,8 +151,8 @@ bool                skipblstart;            // MaxW: Skip initial blocklist shor
 // Without special effect, this could be
 //  used as a PVS lookup as well.
 //
-static int          rejectlump = -1;        // cph - store reject lump num if cached
-const byte          *rejectmatrix;          // cph - const*
+static int      rejectlump = -1;        // cph - store reject lump num if cached
+const byte      *rejectmatrix;          // cph - const*
 
 bool            compat_corpsegibs;
 bool            compat_floormove;
