@@ -155,8 +155,7 @@ void P_CalcHeight(void)
         {
             sector_t    *sector = mo->subsector->sector;
 
-            if (!sector->heightsec
-                || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight)
+            if (!sector->heightsec)
                 viewplayer->viewz -= FOOTCLIPSIZE;
         }
     }

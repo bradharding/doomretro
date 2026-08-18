@@ -1187,6 +1187,25 @@ static void R_SetupFrame(void)
         }
     }
 
+    // [BH] Don't allow view bob to move the camera across a fake floor.
+    if (mo->subsector->sector->heightsec)
+    {
+        const sector_t  *heightsec = mo->subsector->sector->heightsec;
+        const fixed_t   eyez = mo->z + viewplayer->viewheight;
+        const fixed_t   surfacez = heightsec->interpfloorheight;
+
+        if (eyez >= surfacez)
+        {
+            if (viewz <= surfacez)
+                viewz = surfacez + 1;
+        }
+        else
+        {
+            if (viewz >= surfacez - 1)
+                viewz = surfacez - 2;
+        }
+}
+
     centery = viewheight / 2;
 
     if (pitchf)
@@ -1204,9 +1223,10 @@ static void R_SetupFrame(void)
     if (mo->subsector->sector->heightsec && !viewplayer->powers[pw_invulnerability])
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
+        const fixed_t   eyez = mo->z + viewplayer->viewheight;
 
-        colormap = (viewz < s->interpfloorheight ? s->bottommap :
-            (viewz > s->interpceilingheight ? s->topmap : s->midmap));
+        colormap = (eyez < s->interpfloorheight ? s->bottommap :
+            (eyez > s->interpceilingheight ? s->topmap : s->midmap));
 
         if (colormap < 0 || colormap > numcolormaps)
             colormap = 0;
@@ -1352,7 +1372,7 @@ void R_RenderPlayerView(void)
         sector_t    *heightsec = sector->heightsec;
 
         if (heightsec
-            && viewz <= heightsec->interpfloorheight
+            && viewplayer->mo->z + viewplayer->viewheight <= heightsec->interpfloorheight
             && (sector->terraintype >= LIQUID || heightsec->terraintype >= LIQUID))
             R_SwirlView(viewswirltic);
     }
