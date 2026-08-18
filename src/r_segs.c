@@ -297,7 +297,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         dc_colormap[0] = fixedcolormap;
         dc_nextcolormap[0] = fixedcolormap;
         dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-            colormaps[frontsector->colormap] : fullcolormap);
+            colormaps[frontsector->colormap] : passthrucolormap);
         colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     }
     else
@@ -316,7 +316,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         else
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
 
-        dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : fullcolormap);
+        dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : passthrucolormap);
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -471,7 +471,7 @@ static void R_RenderSegLoop(void)
 
             if (fixedcolormap)
                 dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-                    colormaps[frontsector->colormap] : fullcolormap);
+                    colormaps[frontsector->colormap] : passthrucolormap);
             else
             {
                 const int   index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
@@ -479,7 +479,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = ((rw_scale >> 5) & 255);
-                dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : fullcolormap);
+                dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : passthrucolormap);
             }
 
             dc_x = rw_x;

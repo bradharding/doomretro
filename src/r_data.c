@@ -1348,6 +1348,11 @@ static void R_InitColormaps(void)
             colormaps[0][32 * 256 + i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
         }
     }
+
+    passthrucolormap = I_Malloc(256 * sizeof(*passthrucolormap));
+
+    for (int i = 0; i < 256; i++)
+        passthrucolormap[i] = i;
 }
 
 // killough 04/04/98: get colormap number from name

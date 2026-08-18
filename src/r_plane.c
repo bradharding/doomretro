@@ -818,7 +818,7 @@ void R_DrawPlanes(void)
                     ds_flatheight = patch->height;
                     ds_brightmap = NULL;
                     ds_sectorcolormap = (pl->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-                        colormaps[pl->colormap] : fullcolormap);
+                        colormaps[pl->colormap] : passthrucolormap);
 
                     R_MakeSpans(pl);
                 }
@@ -869,7 +869,7 @@ void R_DrawPlanes(void)
 
                     ds_brightmap = (usebrightmaps ? flatbrightmap[flatnum] : NULL);
                     ds_sectorcolormap = (pl->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-                        colormaps[pl->colormap] : fullcolormap);
+                        colormaps[pl->colormap] : passthrucolormap);
 
                     R_MakeSpans(pl);
                 }

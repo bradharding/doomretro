@@ -110,6 +110,7 @@ lighttable_t        *(*scalelight)[MAXLIGHTSCALE];
 lighttable_t        *(*psprscalelight)[OLDMAXLIGHTSCALE];
 lighttable_t        *(*zlight)[MAXLIGHTZ];
 lighttable_t        *fullcolormap;
+lighttable_t        *passthrucolormap;
 lighttable_t        **colormaps;
 
 // bumped light from gun blasts

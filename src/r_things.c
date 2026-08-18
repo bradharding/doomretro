@@ -152,7 +152,7 @@ static lighttable_t *R_GetSectorColormap(sector_t *sector)
     else if (sector->colormap)
         return colormaps[sector->colormap];
     else
-        return fullcolormap;
+        return passthrucolormap;
 }
 
 void R_InitSpriteBottomOffsets(void)
@@ -1923,7 +1923,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     {
         vis->colfunc = (r_textures ? psprcolfunc : &R_DrawTranslucent50SolidColorColumn);
         vis->colormap = NULL;
-        vis->sectorcolormap = fullcolormap;
+        vis->sectorcolormap = passthrucolormap;
     }
     else
     {
@@ -1983,7 +1983,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             vis->colormap = fixedcolormap;       // fixed color
             vis->sectorcolormap = (!ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-                R_GetSectorColormap(sec) : fullcolormap);
+                R_GetSectorColormap(sec) : passthrucolormap);
         }
         else
         {
