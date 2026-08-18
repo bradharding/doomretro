@@ -1333,7 +1333,7 @@ static void R_InitColormaps(void)
                 (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }
 
-    for (int i = 0; i < 255; i++)
+    for (int i = 0; i < 256; i++)
     {
         const byte  red = *palsrc++;
         const byte  green = *palsrc++;
