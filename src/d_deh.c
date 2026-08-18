@@ -3246,7 +3246,12 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
 
         if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
+        {
             mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
+
+            if (!(mobjinfo[indexnum].flags & MF_NOBLOOD) && (mobjinfo[indexnum].flags & MF_COUNTKILL))
+                mobjinfo[indexnum].bloodcolor = REDBLOOD;
+        }
         else if (!(mobjinfo[indexnum].flags & MF_SPECIAL))
             mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
     }
