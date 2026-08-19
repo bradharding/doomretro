@@ -182,6 +182,7 @@
     <ClInclude Include="..\src\d_iwad.h" />
     <ClInclude Include="..\src\d_loop.h" />
     <ClInclude Include="..\src\d_main.h" />
+    <ClInclude Include="..\src\d_options.h" />
     <ClInclude Include="..\src\d_player.h" />
     <ClInclude Include="..\src\d_think.h" />
     <ClInclude Include="..\src\d_ticcmd.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="..\src\d_iwad.c" />
     <ClCompile Include="..\src\d_loop.c" />
     <ClCompile Include="..\src\d_main.c" />
+    <ClCompile Include="..\src\d_options.c" />
     <ClCompile Include="..\src\doomretro.c" />
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />

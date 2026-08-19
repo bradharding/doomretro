@@ -47,6 +47,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
+#include "d_options.h"
 #include "doomstat.h"
 #include "f_finale.h"
 #include "f_wipe.h"
@@ -2829,6 +2830,7 @@ static void D_DoomMainSetup(void)
     I_InitGraphics();
     I_InitController();
 
+    D_ProcessOptionsInWad();
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
     D_PostProcessDeh();

@@ -41,6 +41,7 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_options.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
@@ -305,38 +306,41 @@ static void AM_ChangeWindowLoc(void)
         m_y = max_y - height;
 }
 
+#define AM_OPTION_COLOR(color) \
+    ((color##_options >= 0) ? color##_options : color)
+
 void AM_SetColors(void)
 {
     byte        priority[256] = { 0 };
     static byte priorities[256 * 256];
     const byte  *colors = (am_forcepalette ? nearestcolors : samecolors);
 
-    priority[colors[am_wallcolor]] = WALLPRIORITY;
-    priority[colors[am_bluedoorcolor]] = DOORPRIORITY;
-    priority[colors[am_reddoorcolor]] = DOORPRIORITY;
-    priority[colors[am_yellowdoorcolor]] = DOORPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_wallcolor)]] = WALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_bluedoorcolor)]] = DOORPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_reddoorcolor)]] = DOORPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_yellowdoorcolor)]] = DOORPRIORITY;
 
-    if (am_secretcolor != am_secretcolor_none)
-        priority[colors[am_secretcolor]] = SECRETPRIORITY;
+    if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none)
+        priority[colors[AM_OPTION_COLOR(am_secretcolor)]] = SECRETPRIORITY;
 
-    priority[colors[am_cdwallcolor]] = CDWALLPRIORITY;
-    priority[colors[am_fdwallcolor]] = FDWALLPRIORITY;
-    priority[colors[am_teleportercolor]] = TELEPORTERPRIORITY;
-    priority[colors[am_tswallcolor]] = TSWALLPRIORITY;
-    priority[colors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
-    priority[colors[am_allmapcdwallcolor]] = ALLMAPCDWALLPRIORITY;
-    priority[colors[am_allmapfdwallcolor]] = ALLMAPFDWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_cdwallcolor)]] = CDWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_fdwallcolor)]] = FDWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_teleportercolor)]] = TELEPORTERPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_tswallcolor)]] = TSWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_allmapwallcolor)]] = ALLMAPWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_allmapcdwallcolor)]] = ALLMAPCDWALLPRIORITY;
+    priority[colors[AM_OPTION_COLOR(am_allmapfdwallcolor)]] = ALLMAPFDWALLPRIORITY;
     playercolor = colors[am_playercolor];
-    thingcolor = colors[am_thingcolor];
+    thingcolor = colors[AM_OPTION_COLOR(am_thingcolor)];
     bloodsplatcolor = colors[am_bloodsplatcolor];
     corpsecolor = colors[am_corpsecolor];
-    bluekeycolor = colors[am_bluekeycolor];
-    redkeycolor = colors[am_redkeycolor];
-    yellowkeycolor = colors[am_yellowkeycolor];
+    bluekeycolor = colors[AM_OPTION_COLOR(am_bluekeycolor)];
+    redkeycolor = colors[AM_OPTION_COLOR(am_redkeycolor)];
+    yellowkeycolor = colors[AM_OPTION_COLOR(am_yellowkeycolor)];
     markcolor = colors[am_markcolor];
     backcolor = colors[am_backcolor];
     pathcolor = colors[am_pathcolor];
-    gridcolor = colors[am_gridcolor];
+    gridcolor = colors[AM_OPTION_COLOR(am_gridcolor)];
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)
         mobjinfo[i].automapcolor = thingcolor;
@@ -348,27 +352,27 @@ void AM_SetColors(void)
     mobjinfo[MT_MISC8].automapcolor = redkeycolor;
     mobjinfo[MT_MISC9].automapcolor = bluekeycolor;
 
-    am_crosshaircolor2 = &tinttab60[colors[am_crosshaircolor] << 8];
+    am_crosshaircolor2 = &tinttab60[colors[AM_OPTION_COLOR(am_crosshaircolor)] << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
             priorities[(x << 8) + y] = (byte)(priority[x] > priority[y] ? x : y);
 
-    wallcolor = &priorities[colors[am_wallcolor] << 8];
-    bluedoorcolor = &priorities[colors[am_bluedoorcolor] << 8];
-    reddoorcolor = &priorities[colors[am_reddoorcolor] << 8];
-    yellowdoorcolor = &priorities[colors[am_yellowdoorcolor] << 8];
+    wallcolor = &priorities[colors[AM_OPTION_COLOR(am_wallcolor)] << 8];
+    bluedoorcolor = &priorities[colors[AM_OPTION_COLOR(am_bluedoorcolor)] << 8];
+    reddoorcolor = &priorities[colors[AM_OPTION_COLOR(am_reddoorcolor)] << 8];
+    yellowdoorcolor = &priorities[colors[AM_OPTION_COLOR(am_yellowdoorcolor)] << 8];
 
-    if (am_secretcolor != am_secretcolor_none)
-        secretcolor = &priorities[colors[am_secretcolor] << 8];
+    if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none)
+        secretcolor = &priorities[colors[AM_OPTION_COLOR(am_secretcolor)] << 8];
 
-    allmapwallcolor = &priorities[colors[am_allmapwallcolor] << 8];
-    cdwallcolor = &priorities[colors[am_cdwallcolor] << 8];
-    allmapcdwallcolor = &priorities[colors[am_allmapcdwallcolor] << 8];
-    fdwallcolor = &priorities[colors[am_fdwallcolor] << 8];
-    allmapfdwallcolor = &priorities[colors[am_allmapfdwallcolor] << 8];
-    teleportercolor = &priorities[colors[am_teleportercolor] << 8];
-    tswallcolor = &priorities[colors[am_tswallcolor] << 8];
+    allmapwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapwallcolor)] << 8];
+    cdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_cdwallcolor)] << 8];
+    allmapcdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapcdwallcolor)] << 8];
+    fdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_fdwallcolor)] << 8];
+    allmapfdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapfdwallcolor)] << 8];
+    teleportercolor = &priorities[colors[AM_OPTION_COLOR(am_teleportercolor)] << 8];
+    tswallcolor = &priorities[colors[AM_OPTION_COLOR(am_tswallcolor)] << 8];
 }
 
 void AM_GetGridSize(void)
@@ -1965,7 +1969,8 @@ static void AM_DrawWalls_AllMap(void)
 
 static void AM_DrawWalls_Cheating(void)
 {
-    byte    *secretcolor2 = (am_secretcolor != am_secretcolor_none && iddttics % 20 < 9 ? secretcolor : NULL);
+    byte    *secretcolor2 = (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none
+                && iddttics % 20 < 9 ? secretcolor : NULL);
 
     for (int i = 0; i < numlines; i++)
     {
@@ -2479,39 +2484,39 @@ static void AM_DrawCrosshair(void)
     {
         if (r_detail == r_detail_low)
         {
-            AM_DrawScaledPixel2(CENTERX - 2, CENTERY, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX - 1, CENTERY, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX, CENTERY, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX + 1, CENTERY, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX + 2, CENTERY, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX, CENTERY - 2, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX, CENTERY - 1, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX, CENTERY + 1, am_crosshaircolor);
-            AM_DrawScaledPixel2(CENTERX, CENTERY + 2, am_crosshaircolor);
+            AM_DrawScaledPixel2(CENTERX - 2, CENTERY, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX - 1, CENTERY, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX, CENTERY, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX + 1, CENTERY, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX + 2, CENTERY, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX, CENTERY - 2, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX, CENTERY - 1, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX, CENTERY + 1, AM_OPTION_COLOR(am_crosshaircolor));
+            AM_DrawScaledPixel2(CENTERX, CENTERY + 2, AM_OPTION_COLOR(am_crosshaircolor));
         }
         else
         {
             byte    *dot = &mapscreen[(MAPHEIGHT - 3) * MAPWIDTH / 2 - MAPWIDTH];
 
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += MAPWIDTH;
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += MAPWIDTH;
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += (size_t)MAPWIDTH - 3;
-            *dot++ = am_crosshaircolor;
-            *dot++ = am_crosshaircolor;
-            *dot++ = am_crosshaircolor;
-            *dot++ = am_crosshaircolor;
-            *dot++ = am_crosshaircolor;
-            *dot++ = am_crosshaircolor;
-            *dot = am_crosshaircolor;
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot++ = AM_OPTION_COLOR(am_crosshaircolor);
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += (size_t)MAPWIDTH - 3;
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += MAPWIDTH;
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
             dot += MAPWIDTH;
-            *dot = am_crosshaircolor;
+            *dot = AM_OPTION_COLOR(am_crosshaircolor);
         }
     }
 }
