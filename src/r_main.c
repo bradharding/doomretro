@@ -110,7 +110,7 @@ lighttable_t        *(*scalelight)[MAXLIGHTSCALE];
 lighttable_t        *(*psprscalelight)[OLDMAXLIGHTSCALE];
 lighttable_t        *(*zlight)[MAXLIGHTZ];
 lighttable_t        *fullcolormap;
-lighttable_t        *passthrucolormap;
+lighttable_t        *nocolormap;
 lighttable_t        **colormaps;
 
 // bumped light from gun blasts
@@ -1191,10 +1191,9 @@ static void R_SetupFrame(void)
     if (mo->subsector->sector->heightsec)
     {
         const sector_t  *heightsec = mo->subsector->sector->heightsec;
-        const fixed_t   eyez = mo->z + viewplayer->viewheight;
         const fixed_t   surfacez = heightsec->interpfloorheight;
 
-        if (eyez >= surfacez)
+        if (mo->z + viewplayer->viewheight >= surfacez)
         {
             if (viewz <= surfacez)
                 viewz = surfacez + 1;

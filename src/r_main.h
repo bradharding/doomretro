@@ -87,7 +87,7 @@ extern lighttable_t *(*scalelight)[MAXLIGHTSCALE];
 extern lighttable_t *(*zlight)[MAXLIGHTZ];
 extern lighttable_t *(*psprscalelight)[OLDMAXLIGHTSCALE];
 extern lighttable_t *fullcolormap;
-extern lighttable_t *passthrucolormap;
+extern lighttable_t *nocolormap;
 extern int          numcolormaps;   // killough 04/04/98: dynamic number of maps
 extern lighttable_t **colormaps;
 extern int          extralight;

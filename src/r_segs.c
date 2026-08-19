@@ -297,7 +297,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         dc_colormap[0] = fixedcolormap;
         dc_nextcolormap[0] = fixedcolormap;
         dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-            colormaps[frontsector->colormap] : passthrucolormap);
+            colormaps[frontsector->colormap] : nocolormap);
         colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     }
     else
@@ -316,7 +316,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         else
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
 
-        dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : passthrucolormap);
+        dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : nocolormap);
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -471,7 +471,7 @@ static void R_RenderSegLoop(void)
 
             if (fixedcolormap)
                 dc_sectorcolormap = (frontsector->colormap && !ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
-                    colormaps[frontsector->colormap] : passthrucolormap);
+                    colormaps[frontsector->colormap] : nocolormap);
             else
             {
                 const int   index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
@@ -479,7 +479,7 @@ static void R_RenderSegLoop(void)
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
                 dc_z = ((rw_scale >> 5) & 255);
-                dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : passthrucolormap);
+                dc_sectorcolormap = (frontsector->colormap ? colormaps[frontsector->colormap] : nocolormap);
             }
 
             dc_x = rw_x;
@@ -780,9 +780,11 @@ void R_StoreWallRange(const int start, const int stop)
 
     // [BH] animate liquid sectors
     if (frontsector->terraintype >= LIQUID
-        && (!frontsector->heightsec || viewplayer->mo->z + viewplayer->viewheight > frontsector->heightsec->interpfloorheight)
+        && (!frontsector->heightsec
+            || viewplayer->mo->z + viewplayer->viewheight > frontsector->heightsec->interpfloorheight)
         && r_liquid_bob)
-        worldbottom += MIN(animatedliquiddiff, MAX(0, viewplayer->mo->z + viewplayer->viewheight - frontsector->interpfloorheight));
+        worldbottom += BETWEEN(0, viewplayer->mo->z + viewplayer->viewheight - frontsector->interpfloorheight,
+            animatedliquiddiff);
 
     if (!vanilla)
         R_FixWiggle(frontsector);
@@ -878,11 +880,13 @@ void R_StoreWallRange(const int start, const int stop)
         // [BH] animate liquid sectors
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (!backsector->heightsec || viewplayer->mo->z + viewplayer->viewheight > backsector->heightsec->interpfloorheight)
+            && (!backsector->heightsec
+                || viewplayer->mo->z + viewplayer->viewheight > backsector->heightsec->interpfloorheight)
             && !sidedef->midtexture
             && r_liquid_bob)
         {
-            liquidoffset = MIN(animatedliquiddiff, MAX(0, viewplayer->mo->z + viewplayer->viewheight - backsector->interpfloorheight));
+            liquidoffset = BETWEEN(0, viewplayer->mo->z + viewplayer->viewheight - backsector->interpfloorheight,
+                animatedliquiddiff);
             worldlow += liquidoffset;
         }
 

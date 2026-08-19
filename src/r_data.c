@@ -1349,10 +1349,10 @@ static void R_InitColormaps(void)
         }
     }
 
-    passthrucolormap = I_Malloc(256 * sizeof(*passthrucolormap));
+    nocolormap = I_Malloc(256 * sizeof(*nocolormap));
 
     for (int i = 0; i < 256; i++)
-        passthrucolormap[i] = i;
+        nocolormap[i] = i;
 }
 
 // killough 04/04/98: get colormap number from name
