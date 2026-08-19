@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.3.1
 
-* *DOOM Retro* is now built using v18.9.0 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.9.1 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Minor changes have been made to further improve the overall performance of *DOOM Retro*.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
@@ -23,7 +23,12 @@
     * `OB_*` strings,
     * `Obituary_Deh_Actor_*` and `Obituary_Deh_Actor_*_Melee` strings,
     * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
-  * All custom things that can’t be picked up by the player now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
+  * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
+  * Custom messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
+  * Custom monsters now bleed red blood.
+* These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
+  * The colormap applied to the player’s view when they are in deep water has been corrected.
+  * Moving in and out of deep water is now smoother.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
