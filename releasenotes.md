@@ -29,6 +29,7 @@
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * The colormap applied to the player’s view when they are in deep water has been corrected.
   * Moving in and out of deep water is now smoother.
+* Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, allowing the colors in the automap to be changed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
