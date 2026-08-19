@@ -308,6 +308,8 @@ static void AM_ChangeWindowLoc(void)
 
 #define AM_OPTION_COLOR(color) \
     ((color##_options >= 0) ? color##_options : color)
+#define AM_COLOR(color) \
+    ((color##_options >= 0) ? color##_options : colors[color])
 
 void AM_SetColors(void)
 {
@@ -315,32 +317,32 @@ void AM_SetColors(void)
     static byte priorities[256 * 256];
     const byte  *colors = (am_forcepalette ? nearestcolors : samecolors);
 
-    priority[colors[AM_OPTION_COLOR(am_wallcolor)]] = WALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_bluedoorcolor)]] = DOORPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_reddoorcolor)]] = DOORPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_yellowdoorcolor)]] = DOORPRIORITY;
+    priority[AM_COLOR(am_wallcolor)] = WALLPRIORITY;
+    priority[AM_COLOR(am_bluedoorcolor)] = DOORPRIORITY;
+    priority[AM_COLOR(am_reddoorcolor)] = DOORPRIORITY;
+    priority[AM_COLOR(am_yellowdoorcolor)] = DOORPRIORITY;
 
     if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none)
-        priority[colors[AM_OPTION_COLOR(am_secretcolor)]] = SECRETPRIORITY;
+        priority[AM_COLOR(am_secretcolor)] = SECRETPRIORITY;
 
-    priority[colors[AM_OPTION_COLOR(am_cdwallcolor)]] = CDWALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_fdwallcolor)]] = FDWALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_teleportercolor)]] = TELEPORTERPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_tswallcolor)]] = TSWALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_allmapwallcolor)]] = ALLMAPWALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_allmapcdwallcolor)]] = ALLMAPCDWALLPRIORITY;
-    priority[colors[AM_OPTION_COLOR(am_allmapfdwallcolor)]] = ALLMAPFDWALLPRIORITY;
+    priority[AM_COLOR(am_cdwallcolor)] = CDWALLPRIORITY;
+    priority[AM_COLOR(am_fdwallcolor)] = FDWALLPRIORITY;
+    priority[AM_COLOR(am_teleportercolor)] = TELEPORTERPRIORITY;
+    priority[AM_COLOR(am_tswallcolor)] = TSWALLPRIORITY;
+    priority[AM_COLOR(am_allmapwallcolor)] = ALLMAPWALLPRIORITY;
+    priority[AM_COLOR(am_allmapcdwallcolor)] = ALLMAPCDWALLPRIORITY;
+    priority[AM_COLOR(am_allmapfdwallcolor)] = ALLMAPFDWALLPRIORITY;
     playercolor = colors[am_playercolor];
-    thingcolor = colors[AM_OPTION_COLOR(am_thingcolor)];
+    thingcolor = AM_COLOR(am_thingcolor);
     bloodsplatcolor = colors[am_bloodsplatcolor];
     corpsecolor = colors[am_corpsecolor];
-    bluekeycolor = colors[AM_OPTION_COLOR(am_bluekeycolor)];
-    redkeycolor = colors[AM_OPTION_COLOR(am_redkeycolor)];
-    yellowkeycolor = colors[AM_OPTION_COLOR(am_yellowkeycolor)];
+    bluekeycolor = AM_COLOR(am_bluekeycolor);
+    redkeycolor = AM_COLOR(am_redkeycolor);
+    yellowkeycolor = AM_COLOR(am_yellowkeycolor);
     markcolor = colors[am_markcolor];
     backcolor = colors[am_backcolor];
     pathcolor = colors[am_pathcolor];
-    gridcolor = colors[AM_OPTION_COLOR(am_gridcolor)];
+    gridcolor = AM_COLOR(am_gridcolor);
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)
         mobjinfo[i].automapcolor = thingcolor;
@@ -352,27 +354,27 @@ void AM_SetColors(void)
     mobjinfo[MT_MISC8].automapcolor = redkeycolor;
     mobjinfo[MT_MISC9].automapcolor = bluekeycolor;
 
-    am_crosshaircolor2 = &tinttab60[colors[AM_OPTION_COLOR(am_crosshaircolor)] << 8];
+    am_crosshaircolor2 = &tinttab60[AM_COLOR(am_crosshaircolor) << 8];
 
     for (int x = 0; x < 256; x++)
         for (int y = 0; y < 256; y++)
             priorities[(x << 8) + y] = (byte)(priority[x] > priority[y] ? x : y);
 
-    wallcolor = &priorities[colors[AM_OPTION_COLOR(am_wallcolor)] << 8];
-    bluedoorcolor = &priorities[colors[AM_OPTION_COLOR(am_bluedoorcolor)] << 8];
-    reddoorcolor = &priorities[colors[AM_OPTION_COLOR(am_reddoorcolor)] << 8];
-    yellowdoorcolor = &priorities[colors[AM_OPTION_COLOR(am_yellowdoorcolor)] << 8];
+    wallcolor = &priorities[AM_COLOR(am_wallcolor) << 8];
+    bluedoorcolor = &priorities[AM_COLOR(am_bluedoorcolor) << 8];
+    reddoorcolor = &priorities[AM_COLOR(am_reddoorcolor) << 8];
+    yellowdoorcolor = &priorities[AM_COLOR(am_yellowdoorcolor) << 8];
 
     if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none)
-        secretcolor = &priorities[colors[AM_OPTION_COLOR(am_secretcolor)] << 8];
+        secretcolor = &priorities[AM_COLOR(am_secretcolor) << 8];
 
-    allmapwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapwallcolor)] << 8];
-    cdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_cdwallcolor)] << 8];
-    allmapcdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapcdwallcolor)] << 8];
-    fdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_fdwallcolor)] << 8];
-    allmapfdwallcolor = &priorities[colors[AM_OPTION_COLOR(am_allmapfdwallcolor)] << 8];
-    teleportercolor = &priorities[colors[AM_OPTION_COLOR(am_teleportercolor)] << 8];
-    tswallcolor = &priorities[colors[AM_OPTION_COLOR(am_tswallcolor)] << 8];
+    allmapwallcolor = &priorities[AM_COLOR(am_allmapwallcolor) << 8];
+    cdwallcolor = &priorities[AM_COLOR(am_cdwallcolor) << 8];
+    allmapcdwallcolor = &priorities[AM_COLOR(am_allmapcdwallcolor) << 8];
+    fdwallcolor = &priorities[AM_COLOR(am_fdwallcolor) << 8];
+    allmapfdwallcolor = &priorities[AM_COLOR(am_allmapfdwallcolor) << 8];
+    teleportercolor = &priorities[AM_COLOR(am_teleportercolor) << 8];
+    tswallcolor = &priorities[AM_COLOR(am_tswallcolor) << 8];
 }
 
 void AM_GetGridSize(void)
