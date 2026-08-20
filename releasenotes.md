@@ -27,9 +27,10 @@
   * Custom messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
   * Custom monsters now bleed red blood.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
-  * The colormap applied to the player’s view when they are in deep water has been corrected.
+  * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.
-* Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, allowing the colors in the automap to be changed.
+* Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
+* Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
