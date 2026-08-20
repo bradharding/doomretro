@@ -1650,26 +1650,40 @@ static inline void PUTBIGDOT2(int x, int y, const byte *color)
 
 static inline byte *AM_AntialiasingTable(const int coverage)
 {
-    static const int backgrounds[] =
-    {
-        4, 7, 12, 17, 22, 27, 31, 36, 42,
-        47, 55, 63, 68, 72, 77, 85, 100
-    };
-
-    byte *tables[] =
-    {
-        NULL, tinttab5, tinttab10, tinttab15, tinttab20, tinttab25, tinttab30,
-        tinttab33, tinttab40, tinttab45, tinttab50, tinttab60, tinttab66,
-        tinttab70, tinttab75, tinttab80, tinttab90
-    };
-
-    const int   background = 100 - coverage;
-
-    for (int i = 0; i < (int)(sizeof(backgrounds) / sizeof(*backgrounds)); i++)
-        if (background <= backgrounds[i])
-            return tables[i];
-
-    return tinttab90;
+    if (coverage >= 96)
+        return NULL;
+    else if (coverage >= 93)
+        return tinttab5;
+    else if (coverage >= 88)
+        return tinttab10;
+    else if (coverage >= 83)
+        return tinttab15;
+    else if (coverage >= 78)
+        return tinttab20;
+    else if (coverage >= 73)
+        return tinttab25;
+    else if (coverage >= 69)
+        return tinttab30;
+    else if (coverage >= 64)
+        return tinttab33;
+    else if (coverage >= 60)
+        return tinttab40;
+    else if (coverage >= 55)
+        return tinttab45;
+    else if (coverage >= 45)
+        return tinttab50;
+    else if (coverage >= 37)
+        return tinttab60;
+    else if (coverage >= 32)
+        return tinttab66;
+    else if (coverage >= 28)
+        return tinttab70;
+    else if (coverage >= 23)
+        return tinttab75;
+    else if (coverage >= 15)
+        return tinttab80;
+    else
+        return tinttab90;
 }
 
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
@@ -1702,16 +1716,15 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
 
 static inline int AM_WuCoverage(const double intensity)
 {
-    return BETWEEN(0, (int)round(intensity * 255.0) * 100 / 255, 100);
+    return BETWEEN(0, (int)(intensity * 255.0 + 0.5) * 100 / 255, 100);
 }
 
 static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick)
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
-        bool    steep = ABS(y1 - y0) > ABS(x1 - x0);
+        bool    steep = (ABS(y1 - y0) > ABS(x1 - x0));
         double  gradient;
-        double  xgap;
         double  yend;
         int     xpxl1;
         int     ypxl1;
@@ -1726,84 +1739,72 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (steep)
         {
-            const int   swapx = x0;
-
-            x0 = y0;
-            y0 = swapx;
-
-            const int   swapx2 = x1;
-
-            x1 = y1;
-            y1 = swapx2;
+            SWAP(x0, y0);
+            SWAP(x1, y1);
         }
 
         if (x0 > x1)
         {
-            const int   swapx = x0;
-            const int   swapy = y0;
-
-            x0 = x1;
-            y0 = y1;
-            x1 = swapx;
-            y1 = swapy;
+            SWAP(x0, x1);
+            SWAP(y0, y1);
         }
 
         gradient = (double)(y1 - y0) / (x1 - x0);
 
         xpxl1 = x0;
-        yend = y0 + gradient * (xpxl1 - x0);
-        xgap = 0.5;
+        yend = y0;
         ypxl1 = (int)floor(yend);
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color,
-                AM_WuCoverage((1.0 - (yend - ypxl1)) * xgap), thick);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color,
-                AM_WuCoverage((yend - ypxl1) * xgap), thick);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage((1.0 - (yend - ypxl1)) * 0.5), thick);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage((yend - ypxl1) * 0.5), thick);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color,
-                AM_WuCoverage((1.0 - (yend - ypxl1)) * xgap), thick);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color,
-                AM_WuCoverage((yend - ypxl1) * xgap), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage((1.0 - (yend - ypxl1)) * 0.5), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage((yend - ypxl1) * 0.5), thick);
         }
 
-        yend = y0 + gradient * (x1 - x0);
+        yend = y1;
         xpxl2 = x1;
-        xgap = 0.5;
         ypxl2 = (int)floor(yend);
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color,
-                AM_WuCoverage((1.0 - (yend - ypxl2)) * xgap), thick);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color,
-                AM_WuCoverage((yend - ypxl2) * xgap), thick);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage((1.0 - (yend - ypxl2)) * 0.5), thick);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage((yend - ypxl2) * 0.5), thick);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color,
-                AM_WuCoverage((1.0 - (yend - ypxl2)) * xgap), thick);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color,
-                AM_WuCoverage((yend - ypxl2) * xgap), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage((1.0 - (yend - ypxl2)) * 0.5), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage((yend - ypxl2) * 0.5), thick);
         }
 
-        for (int x = xpxl1 + 1; x < xpxl2; x++)
-        {
-            const int   y = (int)floor(y0 + gradient * (x - x0));
-            const double fraction = y0 + gradient * (x - x0) - y;
+        double intery = y0 + gradient;
 
-            if (steep)
+        if (steep)
+        {
+            for (int x = xpxl1 + 1; x < xpxl2; x++)
             {
+                const int       y = (int)floor(intery);
+                const double    fraction = intery - y;
+
                 AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(1.0 - fraction), thick);
                 AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fraction), thick);
+                intery += gradient;
             }
-            else
+        }
+        else
+        {
+            for (int x = xpxl1 + 1; x < xpxl2; x++)
             {
+                const int       y = (int)floor(intery);
+                const double    fraction = intery - y;
+
                 AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(1.0 - fraction), thick);
                 AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fraction), thick);
+                intery += gradient;
             }
         }
     }
