@@ -187,3 +187,45 @@ void D_ProcessOptionsInWad(void)
         if (M_StringCompare(lumpinfo[i]->name, "OPTIONS"))
             D_ProcessOptionsLump(i);
 }
+
+bool D_IsOptionsColorOverridden(const char *name)
+{
+    if (M_StringCompare(name, "am_allmapcdwallcolor"))
+        return (am_allmapcdwallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_allmapfdwallcolor"))
+        return (am_allmapfdwallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_allmapwallcolor"))
+        return (am_allmapwallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_bluedoorcolor"))
+        return (am_bluedoorcolor_options >= 0);
+    else if (M_StringCompare(name, "am_bluekeycolor"))
+        return (am_bluekeycolor_options >= 0);
+    else if (M_StringCompare(name, "am_cdwallcolor"))
+        return (am_cdwallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_crosshaircolor"))
+        return (am_crosshaircolor_options >= 0);
+    else if (M_StringCompare(name, "am_fdwallcolor"))
+        return (am_fdwallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_gridcolor"))
+        return (am_gridcolor_options >= 0);
+    else if (M_StringCompare(name, "am_reddoorcolor"))
+        return (am_reddoorcolor_options >= 0);
+    else if (M_StringCompare(name, "am_redkeycolor"))
+        return (am_redkeycolor_options >= 0);
+    else if (M_StringCompare(name, "am_secretcolor"))
+        return (am_secretcolor_options >= 0);
+    else if (M_StringCompare(name, "am_teleportercolor"))
+        return (am_teleportercolor_options >= 0);
+    else if (M_StringCompare(name, "am_thingcolor"))
+        return (am_thingcolor_options >= 0);
+    else if (M_StringCompare(name, "am_tswallcolor"))
+        return (am_tswallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_wallcolor"))
+        return (am_wallcolor_options >= 0);
+    else if (M_StringCompare(name, "am_yellowdoorcolor"))
+        return (am_yellowdoorcolor_options >= 0);
+    else if (M_StringCompare(name, "am_yellowkeycolor"))
+        return (am_yellowkeycolor_options >= 0);
+
+    return false;
+}

@@ -55,3 +55,4 @@ extern int  am_yellowdoorcolor_options;
 extern int  am_yellowkeycolor_options;
 
 void D_ProcessOptionsInWad(void);
+bool D_IsOptionsColorOverridden(const char *name);

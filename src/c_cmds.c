@@ -48,6 +48,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
+#include "d_options.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
@@ -10580,7 +10581,13 @@ static void colorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (M_StringStartsWith(cmd, "am_"))
-        AM_SetColors();
+    {
+        if (D_IsOptionsColorOverridden(cmd))
+            C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
+                BOLD("OPTIONS") " lump.", cmd);
+        else
+            AM_SetColors();
+    }
 }
 
 //
@@ -10755,6 +10762,15 @@ static void intfunc2(char *cmd, char *parms)
                     }
                     else
                     {
+                        if ((consolecmds[i].flags & CF_COLOR)
+                            && D_IsOptionsColorOverridden(consolecmds[i].name))
+                        {
+                            C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
+                                BOLD("OPTIONS") " lump.", consolecmds[i].name);
+                            free(temp1);
+                            return;
+                        }
+
                         char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                         if (!resettingcvar && !togglingvanilla)
@@ -10804,6 +10820,7 @@ static void intfunc2(char *cmd, char *parms)
                         }
 
                         *(int *)consolecmds[i].variable = value;
+
                         M_SaveCVARs();
 
                         free(temp2);
