@@ -1692,7 +1692,7 @@ static inline byte *AM_AntialiasingTable(const int coverage)
 }
 
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
-    const int coverage, const bool thick)
+    const int coverage, const bool thick, const bool priority)
 {
     if (coverage <= 0)
         return;
@@ -1700,15 +1700,14 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
     if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPHEIGHT)
     {
         byte    *dot = mapscreen + y * MAPWIDTH + x;
-        byte    *mapcolor = am_mapcolor + y * MAPWIDTH + x;
         byte    *table;
 
-        if (priorities[(*mapcolor << 8) + *color] == *color)
+        if (!priority || priorities[(am_mapcolor[y * MAPWIDTH + x] << 8) + *color] == *color)
         {
-            *mapcolor = *color;
-            table = AM_AntialiasingTable(coverage);
+            if (priority)
+                am_mapcolor[y * MAPWIDTH + x] = *color;
 
-            if (table)
+            if ((table = AM_AntialiasingTable(coverage)))
                 *dot = table[(*dot << 8) + *color];
             else
                 *dot = *color;
@@ -1718,13 +1717,13 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
     if (thick)
     {
         if (x + 1 < MAPWIDTH)
-            AM_PutAntialiasedDot(x + 1, y, color, coverage, false);
+            AM_PutAntialiasedDot(x + 1, y, color, coverage, false, priority);
         if (y + 1 < MAPHEIGHT)
         {
-            AM_PutAntialiasedDot(x, y + 1, color, coverage, false);
+            AM_PutAntialiasedDot(x, y + 1, color, coverage, false, priority);
 
             if (x + 1 < MAPWIDTH)
-                AM_PutAntialiasedDot(x + 1, y + 1, color, coverage, false);
+                AM_PutAntialiasedDot(x + 1, y + 1, color, coverage, false, priority);
         }
     }
 }
@@ -1734,7 +1733,8 @@ static inline int AM_WuCoverage(const fixed_t intensity)
     return BETWEEN(0, (int)(((int64_t)intensity * 255 + (FRACUNIT >> 1)) >> FRACBITS) * 100 / 255, 100);
 }
 
-static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick)
+static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick,
+    const bool priority)
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
@@ -1751,7 +1751,7 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (x0 == x1 && y0 == y1)
         {
-            AM_PutAntialiasedDot(x0, y0, color, 100, thick);
+            AM_PutAntialiasedDot(x0, y0, color, 100, thick, priority);
             return;
         }
 
@@ -1777,13 +1777,13 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(rfpart >> 1), thick);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(fpart >> 1), thick);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(rfpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(fpart >> 1), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(rfpart >> 1), thick);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(fpart >> 1), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(rfpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(fpart >> 1), thick, priority);
         }
 
         yend = (fixed_t)y1 << FRACBITS;
@@ -1794,13 +1794,13 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(rfpart >> 1), thick);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(fpart >> 1), thick);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(rfpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(fpart >> 1), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(rfpart >> 1), thick);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(fpart >> 1), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(rfpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(fpart >> 1), thick, priority);
         }
 
         intery = ((fixed_t)y0 << FRACBITS) + gradient;
@@ -1814,8 +1814,8 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
                 fpart = intery & FRACMASK;
                 rfpart = FRACUNIT - fpart;
 
-                AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(rfpart), thick);
-                AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fpart), thick);
+                AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(rfpart), thick, priority);
+                AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fpart), thick, priority);
                 intery += gradient;
             }
         }
@@ -1828,8 +1828,8 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
                 fpart = intery & FRACMASK;
                 rfpart = FRACUNIT - fpart;
 
-                AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(rfpart), thick);
-                AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fpart), thick);
+                AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(rfpart), thick, priority);
+                AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fpart), thick, priority);
                 intery += gradient;
             }
         }
@@ -1855,7 +1855,8 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, const byte *color,
 {
     if (am_antialiasing)
     {
-        AM_DrawWuLine(x0, y0, x1, y1, color, putdot == PUTBIGDOT || putdot == PUTBIGDOT2);
+        AM_DrawWuLine(x0, y0, x1, y1, color, (putdot == PUTBIGDOT || putdot == PUTBIGDOT2),
+            (putdot == PUTDOT || putdot == PUTBIGDOT));
         return;
     }
 
