@@ -1648,6 +1648,167 @@ static inline void PUTBIGDOT2(int x, int y, const byte *color)
     }
 }
 
+static inline byte *AM_AntialiasingTable(const int coverage)
+{
+    static const int backgrounds[] =
+    {
+        4, 7, 12, 17, 22, 27, 31, 36, 42,
+        47, 55, 63, 68, 72, 77, 85, 100
+    };
+
+    byte *tables[] =
+    {
+        NULL, tinttab5, tinttab10, tinttab15, tinttab20, tinttab25, tinttab30,
+        tinttab33, tinttab40, tinttab45, tinttab50, tinttab60, tinttab66,
+        tinttab70, tinttab75, tinttab80, tinttab90
+    };
+
+    const int   background = 100 - coverage;
+
+    for (int i = 0; i < (int)(sizeof(backgrounds) / sizeof(*backgrounds)); i++)
+        if (background <= backgrounds[i])
+            return tables[i];
+
+    return tinttab90;
+}
+
+static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
+    const int coverage, const bool thick)
+{
+    byte    *dot = mapscreen + y * MAPWIDTH + x;
+    byte    *table = AM_AntialiasingTable(coverage);
+
+    if (coverage <= 0 || x < 0 || x >= MAPWIDTH || y < 0 || y >= MAPHEIGHT)
+        return;
+
+    if (table)
+        *dot = table[(*dot << 8) + *color];
+    else
+        *dot = *color;
+
+    if (thick)
+    {
+        if (x + 1 < MAPWIDTH)
+            AM_PutAntialiasedDot(x + 1, y, color, coverage, false);
+        if (y + 1 < MAPAREA)
+        {
+            AM_PutAntialiasedDot(x, y + 1, color, coverage, false);
+
+            if (x + 1 < MAPWIDTH)
+                AM_PutAntialiasedDot(x + 1, y + 1, color, coverage, false);
+        }
+    }
+}
+
+static inline int AM_WuCoverage(const double intensity)
+{
+    return BETWEEN(0, (int)round(intensity * 255.0) * 100 / 255, 100);
+}
+
+static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick)
+{
+    if (AM_ClipMline(&x0, &y0, &x1, &y1))
+    {
+        bool    steep = ABS(y1 - y0) > ABS(x1 - x0);
+        double  gradient;
+        double  xgap;
+        double  yend;
+        int     xpxl1;
+        int     ypxl1;
+        int     xpxl2;
+        int     ypxl2;
+
+        if (x0 == x1 && y0 == y1)
+        {
+            AM_PutAntialiasedDot(x0, y0, color, 100, thick);
+            return;
+        }
+
+        if (steep)
+        {
+            const int   swapx = x0;
+
+            x0 = y0;
+            y0 = swapx;
+
+            const int   swapx2 = x1;
+
+            x1 = y1;
+            y1 = swapx2;
+        }
+
+        if (x0 > x1)
+        {
+            const int   swapx = x0;
+            const int   swapy = y0;
+
+            x0 = x1;
+            y0 = y1;
+            x1 = swapx;
+            y1 = swapy;
+        }
+
+        gradient = (double)(y1 - y0) / (x1 - x0);
+
+        xpxl1 = x0;
+        yend = y0 + gradient * (xpxl1 - x0);
+        xgap = 0.5;
+        ypxl1 = (int)floor(yend);
+
+        if (steep)
+        {
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color,
+                AM_WuCoverage((1.0 - (yend - ypxl1)) * xgap), thick);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color,
+                AM_WuCoverage((yend - ypxl1) * xgap), thick);
+        }
+        else
+        {
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color,
+                AM_WuCoverage((1.0 - (yend - ypxl1)) * xgap), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color,
+                AM_WuCoverage((yend - ypxl1) * xgap), thick);
+        }
+
+        yend = y0 + gradient * (x1 - x0);
+        xpxl2 = x1;
+        xgap = 0.5;
+        ypxl2 = (int)floor(yend);
+
+        if (steep)
+        {
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color,
+                AM_WuCoverage((1.0 - (yend - ypxl2)) * xgap), thick);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color,
+                AM_WuCoverage((yend - ypxl2) * xgap), thick);
+        }
+        else
+        {
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color,
+                AM_WuCoverage((1.0 - (yend - ypxl2)) * xgap), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color,
+                AM_WuCoverage((yend - ypxl2) * xgap), thick);
+        }
+
+        for (int x = xpxl1 + 1; x < xpxl2; x++)
+        {
+            const int   y = (int)floor(y0 + gradient * (x - x0));
+            const double fraction = y0 + gradient * (x - x0) - y;
+
+            if (steep)
+            {
+                AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(1.0 - fraction), thick);
+                AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fraction), thick);
+            }
+            else
+            {
+                AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(1.0 - fraction), thick);
+                AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fraction), thick);
+            }
+        }
+    }
+}
+
 static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
 {
     if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
@@ -1665,6 +1826,12 @@ static inline void PUTTRANSLUCENTDOT(int x, int y, const byte *color)
 static void AM_DrawFline(int x0, int y0, int x1, int y1, const byte *color,
     void (*putdot)(int, int, const byte *))
 {
+    if (am_antialiasing)
+    {
+        AM_DrawWuLine(x0, y0, x1, y1, color, putdot == PUTBIGDOT || putdot == PUTBIGDOT2);
+        return;
+    }
+
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
         int dx = x1 - x0;
@@ -2590,44 +2757,6 @@ static void AM_SetFrameVariables(void)
     }
 }
 
-static void AM_ApplyAntialiasing(void)
-{
-    static byte dest[MAXSCREENAREA];
-
-    memcpy(dest, mapscreen, MAPAREA);
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 2; x++)
-            dest[x] = tinttab33[(dest[x + 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        for (int x = y + MAPWIDTH - 2; x > y; x--)
-            dest[x] = tinttab33[(dest[x - 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
-            dest[x] = tinttab33[(dest[x + MAPWIDTH] << 8) + dest[x]];
-
-    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
-            dest[x] = tinttab33[(dest[x - MAPWIDTH] << 8) + dest[x]];
-
-    memcpy(mapscreen, dest, MAPAREA);
-
-    for (int x = 0; x < MAPWIDTH; x++)
-        mapscreen[x] = tinttab33[mapscreen[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        mapscreen[y] = tinttab33[mapscreen[y]];
-
-    for (int y = MAPWIDTH - 1; y <= MAPAREA - 1; y += MAPWIDTH)
-        mapscreen[y] = tinttab33[mapscreen[y]];
-
-    if (r_screensize == r_screensize_max)
-        for (int x = MAPAREA - MAPWIDTH; x < MAPAREA; x++)
-            mapscreen[x] = tinttab33[mapscreen[x]];
-}
-
 void AM_Drawer(void)
 {
     AM_SetFrameVariables();
@@ -2664,9 +2793,6 @@ void AM_Drawer(void)
     }
 
     AM_DrawPlayer();
-
-    if (am_antialiasing)
-        AM_ApplyAntialiasing();
 
     if (r_detail == r_detail_low)
     {
