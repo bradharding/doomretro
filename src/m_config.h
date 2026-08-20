@@ -412,7 +412,7 @@ enum
 #define am_allmapwallcolor_default          108
 #define am_allmapwallcolor_max              255
 
-#define am_antialiasing_default             false
+#define am_antialiasing_default             true
 
 #define am_author_default                   true
 
