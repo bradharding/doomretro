@@ -467,7 +467,10 @@ static void R_MakeSpans(visplane_t *pl)
         viewy_trans = -(FixedMul(viewx + xoffset, sin) + FixedMul(viewy - yoffset, cos));
     }
 
-    planeheight = ABS(pl->height - viewz);
+    if ((planeheight = ABS(pl->height - viewz)) < FRACUNIT
+        && !(pl->picnum & PL_TEXFLAT) && terraintypes[pl->picnum] >= LIQUID)
+        planeheight = FRACUNIT;
+
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
     ds_zlight = planezlight;
     pl->top[pl->left - 1] = USHRT_MAX;
