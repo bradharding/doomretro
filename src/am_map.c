@@ -1694,29 +1694,32 @@ static inline byte *AM_AntialiasingTable(const int coverage)
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
     const int coverage, const bool thick)
 {
-    if (coverage <= 0 || x < 0 || x >= MAPWIDTH || y < 0 || y >= MAPHEIGHT)
+    if (coverage <= 0)
         return;
 
-    byte    *dot = mapscreen + y * MAPWIDTH + x;
-    byte    *mapcolor = am_mapcolor + y * MAPWIDTH + x;
-    byte    *table;
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPHEIGHT)
+    {
+        byte    *dot = mapscreen + y * MAPWIDTH + x;
+        byte    *mapcolor = am_mapcolor + y * MAPWIDTH + x;
+        byte    *table;
 
-    if (priorities[(*mapcolor << 8) + *color] != *color)
-        return;
+        if (priorities[(*mapcolor << 8) + *color] == *color)
+        {
+            *mapcolor = *color;
+            table = AM_AntialiasingTable(coverage);
 
-    *mapcolor = *color;
-    table = AM_AntialiasingTable(coverage);
-
-    if (table)
-        *dot = table[(*dot << 8) + *color];
-    else
-        *dot = *color;
+            if (table)
+                *dot = table[(*dot << 8) + *color];
+            else
+                *dot = *color;
+        }
+    }
 
     if (thick)
     {
         if (x + 1 < MAPWIDTH)
             AM_PutAntialiasedDot(x + 1, y, color, coverage, false);
-        if (y + 1 < MAPAREA)
+        if (y + 1 < MAPHEIGHT)
         {
             AM_PutAntialiasedDot(x, y + 1, color, coverage, false);
 
