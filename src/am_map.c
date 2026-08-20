@@ -94,6 +94,8 @@ static byte *cdwallcolor;
 static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *am_crosshaircolor2;
+static byte am_mapcolor[MAXSCREENAREA];
+static byte priorities[256 * 256];
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
@@ -118,6 +120,7 @@ static byte *am_crosshaircolor2;
 #define ARROWPATHANCHOR         -57275
 
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
+#define FRACMASK                (FRACUNIT - 1)
 
 // translates between frame-buffer and map distances
 #define FTOM(x)                 (fixed_t)((((int64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
@@ -314,7 +317,6 @@ static void AM_ChangeWindowLoc(void)
 void AM_SetColors(void)
 {
     byte        priority[256] = { 0 };
-    static byte priorities[256 * 256];
     const byte  *colors = (am_forcepalette ? nearestcolors : samecolors);
 
     priority[AM_COLOR(am_wallcolor)] = WALLPRIORITY;
@@ -1531,6 +1533,7 @@ void AM_Ticker(void)
 void AM_ClearFB(void)
 {
     memset(mapscreen, backcolor, MAPAREA);
+    memset(am_mapcolor, 0, MAPAREA);
 }
 
 //
@@ -1596,7 +1599,9 @@ static inline void PUTDOT(int x, int y, const byte *color)
     if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPAREA)
     {
         byte    *dot = mapscreen + y + x;
+        byte    *mapcolor = am_mapcolor + y + x;
 
+        *mapcolor = *(*mapcolor + color);
         *dot = *(*dot + color);
     }
 }
@@ -1689,11 +1694,18 @@ static inline byte *AM_AntialiasingTable(const int coverage)
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
     const int coverage, const bool thick)
 {
-    byte    *dot = mapscreen + y * MAPWIDTH + x;
-    byte    *table = AM_AntialiasingTable(coverage);
-
     if (coverage <= 0 || x < 0 || x >= MAPWIDTH || y < 0 || y >= MAPHEIGHT)
         return;
+
+    byte    *dot = mapscreen + y * MAPWIDTH + x;
+    byte    *mapcolor = am_mapcolor + y * MAPWIDTH + x;
+    byte    *table;
+
+    if (priorities[(*mapcolor << 8) + *color] != *color)
+        return;
+
+    *mapcolor = *color;
+    table = AM_AntialiasingTable(coverage);
 
     if (table)
         *dot = table[(*dot << 8) + *color];
@@ -1714,9 +1726,9 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
     }
 }
 
-static inline int AM_WuCoverage(const double intensity)
+static inline int AM_WuCoverage(const fixed_t intensity)
 {
-    return BETWEEN(0, (int)(intensity * 255.0 + 0.5) * 100 / 255, 100);
+    return BETWEEN(0, (int)(((int64_t)intensity * 255 + (FRACUNIT >> 1)) >> FRACBITS) * 100 / 255, 100);
 }
 
 static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick)
@@ -1724,8 +1736,11 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
         bool    steep = (ABS(y1 - y0) > ABS(x1 - x0));
-        double  gradient;
-        double  yend;
+        fixed_t gradient;
+        fixed_t yend;
+        fixed_t fpart;
+        fixed_t rfpart;
+        fixed_t intery;
         int     xpxl1;
         int     ypxl1;
         int     xpxl2;
@@ -1749,49 +1764,55 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
             SWAP(y0, y1);
         }
 
-        gradient = (double)(y1 - y0) / (x1 - x0);
+        gradient = (fixed_t)(((int64_t)(y1 - y0) << FRACBITS) / (x1 - x0));
 
         xpxl1 = x0;
-        yend = y0;
-        ypxl1 = (int)floor(yend);
+        yend = (fixed_t)y0 << FRACBITS;
+        ypxl1 = yend >> FRACBITS;
+        fpart = yend & FRACMASK;
+        rfpart = FRACUNIT - fpart;
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage((1.0 - (yend - ypxl1)) * 0.5), thick);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage((yend - ypxl1) * 0.5), thick);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(rfpart >> 1), thick);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(fpart >> 1), thick);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage((1.0 - (yend - ypxl1)) * 0.5), thick);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage((yend - ypxl1) * 0.5), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(rfpart >> 1), thick);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(fpart >> 1), thick);
         }
 
-        yend = y1;
+        yend = (fixed_t)y1 << FRACBITS;
         xpxl2 = x1;
-        ypxl2 = (int)floor(yend);
+        ypxl2 = yend >> FRACBITS;
+        fpart = yend & FRACMASK;
+        rfpart = FRACUNIT - fpart;
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage((1.0 - (yend - ypxl2)) * 0.5), thick);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage((yend - ypxl2) * 0.5), thick);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(rfpart >> 1), thick);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(fpart >> 1), thick);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage((1.0 - (yend - ypxl2)) * 0.5), thick);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage((yend - ypxl2) * 0.5), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(rfpart >> 1), thick);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(fpart >> 1), thick);
         }
 
-        double intery = y0 + gradient;
+        intery = ((fixed_t)y0 << FRACBITS) + gradient;
 
         if (steep)
         {
             for (int x = xpxl1 + 1; x < xpxl2; x++)
             {
-                const int       y = (int)floor(intery);
-                const double    fraction = intery - y;
+                const int   y = intery >> FRACBITS;
 
-                AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(1.0 - fraction), thick);
-                AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fraction), thick);
+                fpart = intery & FRACMASK;
+                rfpart = FRACUNIT - fpart;
+
+                AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(rfpart), thick);
+                AM_PutAntialiasedDot(y + 1, x, color, AM_WuCoverage(fpart), thick);
                 intery += gradient;
             }
         }
@@ -1799,11 +1820,13 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
         {
             for (int x = xpxl1 + 1; x < xpxl2; x++)
             {
-                const int       y = (int)floor(intery);
-                const double    fraction = intery - y;
+                const int   y = intery >> FRACBITS;
 
-                AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(1.0 - fraction), thick);
-                AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fraction), thick);
+                fpart = intery & FRACMASK;
+                rfpart = FRACUNIT - fpart;
+
+                AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(rfpart), thick);
+                AM_PutAntialiasedDot(x, y + 1, color, AM_WuCoverage(fpart), thick);
                 intery += gradient;
             }
         }
