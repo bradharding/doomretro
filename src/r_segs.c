@@ -783,8 +783,8 @@ void R_StoreWallRange(const int start, const int stop)
         && (!frontsector->heightsec
             || viewplayer->mo->z + viewplayer->viewheight > frontsector->heightsec->interpfloorheight)
         && r_liquid_bob)
-        worldbottom += BETWEEN(0, viewplayer->mo->z + viewplayer->viewheight - frontsector->interpfloorheight,
-            animatedliquiddiff);
+        worldbottom += BETWEEN(0, MAX(0, viewplayer->mo->z + viewplayer->viewheight
+            - frontsector->interpfloorheight - FRACUNIT * 2), animatedliquiddiff);
 
     if (!vanilla)
         R_FixWiggle(frontsector);
@@ -885,8 +885,8 @@ void R_StoreWallRange(const int start, const int stop)
             && !sidedef->midtexture
             && r_liquid_bob)
         {
-            liquidoffset = BETWEEN(0, viewplayer->mo->z + viewplayer->viewheight - backsector->interpfloorheight,
-                animatedliquiddiff);
+            liquidoffset = BETWEEN(0, MAX(0, viewplayer->mo->z + viewplayer->viewheight
+                - backsector->interpfloorheight - FRACUNIT * 2), animatedliquiddiff);
             worldlow += liquidoffset;
         }
 
