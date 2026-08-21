@@ -1191,9 +1191,13 @@ static void ST_UpdateFaceWidget(void)
 
     if (priority < 1 && consoleactive && m_pointer && usingmouse)
     {
-        faceindex = (currentmousepointerx < windowwidth * 2 / 5 ? ST_STRAIGHTFACE + 1 :
-            (currentmousepointerx >= windowwidth * 3 / 5 ? ST_STRAIGHTFACE - 1 :
-            ST_STRAIGHTFACE));
+        if (r_screensize == r_screensize_max)
+            faceindex = (currentmousepointerx < WIDESCREENDELTA ? ST_STRAIGHTFACE + 1 :
+                (currentmousepointerx >= windowwidth / 6 ? ST_STRAIGHTFACE - 1 : ST_STRAIGHTFACE));
+        else
+            faceindex = (currentmousepointerx < windowwidth * 2 / 5 ? ST_STRAIGHTFACE + 1 :
+                (currentmousepointerx >= windowwidth * 3 / 5 ? ST_STRAIGHTFACE - 1 : ST_STRAIGHTFACE));
+
         st_facecount = 1;
     }
 
