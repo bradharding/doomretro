@@ -611,7 +611,7 @@ void D_SplashDrawer(void)
     memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, LOGOFRAMES - 1)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
-    I_SetPalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)) * 768]);
+    I_SetPalette(&splashpal[BETWEEN(0, (pagetic < 9 ? 9 - pagetic : (pagetic > 94) * (pagetic - 94)), 10) * 768]);
     blitfunc();
     I_RenderPresent();
     I_CapFPS(60);
