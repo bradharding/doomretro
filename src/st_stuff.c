@@ -47,6 +47,7 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_timer.h"
+#include "i_video.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -1186,6 +1187,14 @@ static void ST_UpdateFaceWidget(void)
         }
         else
             lastattackdown = -1;
+    }
+
+    if (priority < 1 && consoleactive && m_pointer && usingmouse)
+    {
+        faceindex = (currentmousepointerx < windowwidth * 2 / 5 ? ST_STRAIGHTFACE + 1 :
+            (currentmousepointerx >= windowwidth * 3 / 5 ? ST_STRAIGHTFACE - 1 :
+            ST_STRAIGHTFACE));
+        st_facecount = 1;
     }
 
     // look left or look right if the facecount has timed out

@@ -173,6 +173,7 @@ extern int          windowborderheight;
 extern bool         usingcontroller;
 extern bool         usingmouse;
 extern bool         windowfocused;
+extern int          currentmousepointerx;
 
 extern SDL_Window   *window;
 

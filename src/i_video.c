@@ -136,6 +136,7 @@ static SDL_Rect     displays[vid_display_max];
 
 static int          mousepointerx;
 static int          mousepointery;
+int                 currentmousepointerx;
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -763,6 +764,7 @@ static void I_ReadMouse(void)
             }
 
             SDL_GetMouseState(&x, &y);
+            currentmousepointerx = x;
 
             if (vid_widescreen)
             {
@@ -1781,6 +1783,9 @@ static void SetVideoMode(const bool createwindow, const bool output)
                 free(temp2);
             }
         }
+
+        windowwidth = width;
+        windowheight = height;
     }
     else
     {
