@@ -62,6 +62,8 @@ void I_UpdateSoundParms(const int channel, const int vol, const int sep);
 int I_StartSound(const sfxinfo_t *sfxinfo, const int channel,
     const int vol, const int sep, const int pitch);
 void I_StopSound(const int channel);
+void I_PauseSound(const int channel);
+void I_ResumeSound(const int channel);
 bool I_SoundIsPlaying(const int channel);
 
 bool I_InitMusic(void);
@@ -89,6 +91,8 @@ void S_Shutdown(void);
 void S_StopSoundEffect(const sfxnum_t sfxnum);
 void S_StopSound(const mobj_t *origin);
 void S_StopSounds(void);
+void S_PauseSounds(void);
+void S_ResumeSounds(void);
 
 //
 // Per level startup code.

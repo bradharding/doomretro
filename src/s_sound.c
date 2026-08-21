@@ -81,6 +81,9 @@ typedef struct
 
     // handle of the sound being played
     int             handle;
+
+    // whether this sound was paused for a menu or console
+    bool            paused;
 } channel_t;
 
 // [crispy] "sound objects" hold the coordinates of removed map objects
@@ -339,6 +342,7 @@ static void S_StopChannel(int cnum)
 
         c->sfxinfo = NULL;
         c->origin = NULL;
+        c->paused = false;
     }
 }
 
@@ -373,6 +377,44 @@ void S_StopSounds(void)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
         S_StopChannel(cnum);
+}
+
+void S_PauseSounds(void)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; cnum++)
+    {
+        channel_t   *c = &channels[cnum];
+
+        if (c->sfxinfo && !c->paused && I_SoundIsPlaying(c->handle))
+        {
+            I_PauseSound(c->handle);
+            c->paused = true;
+        }
+    }
+}
+
+void S_ResumeSounds(void)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; cnum++)
+    {
+        channel_t   *c = &channels[cnum];
+
+        if (c->paused)
+        {
+            if (I_SoundIsPlaying(c->handle))
+                I_ResumeSound(c->handle);
+            else
+                S_StopChannel(cnum);
+
+            c->paused = false;
+        }
+    }
 }
 
 static int S_GetMapNum(const int ep, const int map)

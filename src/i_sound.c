@@ -410,6 +410,16 @@ void I_StopSound(const int channel)
     ReleaseSoundOnChannel(channel);
 }
 
+void I_PauseSound(const int channel)
+{
+    Mix_Pause(channel);
+}
+
+void I_ResumeSound(const int channel)
+{
+    Mix_Resume(channel);
+}
+
 bool I_SoundIsPlaying(const int channel)
 {
     return Mix_Playing(channel);

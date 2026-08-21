@@ -1300,7 +1300,7 @@ void C_ShowConsole(bool reset)
         SetCapsLockState(false);
 #endif
 
-    S_StopSounds();
+    S_PauseSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
     S_StartSound(viewplayer->mo, sfx_consol);
@@ -1338,6 +1338,9 @@ void C_HideConsole(void)
 
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
+
+    if (!menuactive)
+        S_ResumeSounds();
 
     S_StartSound(viewplayer->mo, sfx_consol);
 
@@ -1377,6 +1380,9 @@ void C_HideConsoleFast(void)
     consoleoverlaymenu = false;
 
     I_SaveMousePointerPosition();
+
+    if (!menuactive)
+        S_ResumeSounds();
 
     if (menuactive || messagetoprint)
         S_LowerMusicVolume();
@@ -2758,6 +2764,9 @@ void C_Drawer(void)
 
     if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
         I_SetMotionBlur(0);
+
+    if (prevconsoleactive && !consoleactive && !menuactive)
+        S_ResumeSounds();
 
     // cancel any controller rumble
     if (!prevconsoleactive

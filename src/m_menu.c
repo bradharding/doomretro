@@ -5111,7 +5111,7 @@ void M_OpenMainMenu(void)
         if (vid_motionblur)
             I_SetMotionBlur(0);
 
-        S_StopSounds();
+        S_PauseSounds();
 
         if (menuspin)
         {
@@ -5585,6 +5585,9 @@ void M_CloseMenu(void)
     }
 
     S_RestoreMusicVolume();
+
+    if (!consoleactive)
+        S_ResumeSounds();
 
     I_SaveMousePointerPosition();
     usingmouse = false;
