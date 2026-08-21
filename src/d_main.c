@@ -87,9 +87,9 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#define FADECOUNT    8
-#define FADETICS     25
-#define LOGOFRAMES   24
+#define FADECOUNT   8
+#define FADETICS    25
+#define LOGOFRAMES  24
 
 char **episodes[] =
 {

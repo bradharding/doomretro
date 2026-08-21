@@ -31,7 +31,9 @@
   * Moving in and out of deep water is now smoother.
 * Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
 * Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
+* The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is used.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
+* Obituaries that contain “killed by a barrel that a barrel exploded” have been simplified.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
