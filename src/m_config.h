@@ -515,7 +515,7 @@ enum
 
 #define am_secretcolor_none                 -1
 #define am_secretcolor_min                  am_secretcolor_none
-#define am_secretcolor_default              am_secretcolor_none
+#define am_secretcolor_default              252
 #define am_secretcolor_max                  255
 
 #define am_teleportercolor_min              0
