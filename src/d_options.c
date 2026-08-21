@@ -104,7 +104,6 @@ static void D_ProcessOptionsLump(const int lump)
             }
             else if (M_StringCompare(name, "mapcolor_clsd"))
             {
-                am_thingcolor_options = value;
                 am_bluedoorcolor_options = value;
                 am_reddoorcolor_options = value;
                 am_yellowdoorcolor_options = value;
