@@ -498,25 +498,28 @@ static void R_MakeSpans(visplane_t *pl)
 }
 
 // Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
-#define SPEED           24
+#define SPEED               24
 
 // swirl factors determine the number of waves per flat width
-// 1 cycle per 64 units
-#define SWIRLFACTOR     (FINEANGLES / 64)
+// 1 cycle per 128 units
+#define SWIRLFACTOR         (FINEANGLES / 128)
 
-// 1 cycle per 32 units (2 in 64)
-#define SWIRLFACTOR2    (FINEANGLES / 32)
+// 1 cycle per 64 units (2 in 128)
+#define SWIRLFACTOR2        (FINEANGLES / 64)
 
 // Cache multiple flats
-#define MAXCACHEDFLATS  16
+#define MAXCACHEDFLATS      16
+#define SWIRLSIZE           128
+#define FLATSIZE            64
+#define SWIRLOFFSETSHIFT    14
 
-static uint16_t         offsets[1024 * 4096];
+static uint16_t         offsets[1024 * SWIRLSIZE * SWIRLSIZE];
 static const uint16_t   *swirloffset;
 static int              swirloffsettic = -1;
 
 typedef struct
 {
-    byte    distortedflat[64 * 64];
+    byte    distortedflat[SWIRLSIZE * SWIRLSIZE];
     int     flatnum;
     int     lasttic;
 } swirlcache_t;
@@ -531,13 +534,13 @@ void R_InitSwirlingFlats(void)
 {
     for (int i = 0; i < 1024 * SPEED; i += SPEED)
     {
-        int         xoffset1[64];
-        int         xoffset2[64];
-        int         yoffset1[64];
-        int         yoffset2[64];
-        uint16_t    *offset = &offsets[(i / SPEED) << 12];
+        int         xoffset1[SWIRLSIZE];
+        int         xoffset2[SWIRLSIZE];
+        int         yoffset1[SWIRLSIZE];
+        int         yoffset2[SWIRLSIZE];
+        uint16_t    *offset = &offsets[(i / SPEED) << SWIRLOFFSETSHIFT];
 
-        for (int j = 0; j < 64; j++)
+        for (int j = 0; j < SWIRLSIZE; j++)
         {
             xoffset1[j] = (finesine[(j * SWIRLFACTOR + i * 3 + 700) & FINEMASK] * 2) >> FRACBITS;
             xoffset2[j] = (finesine[(j * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK] * 2) >> FRACBITS;
@@ -545,10 +548,10 @@ void R_InitSwirlingFlats(void)
             yoffset2[j] = (finesine[(j * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK] * 2) >> FRACBITS;
         }
 
-        for (int y = 0; y < 64; y++)
-            for (int x = 0; x < 64; x++)
-                offset[(y << 6) + x] = (((y + 128 + xoffset1[x] + yoffset2[y]) & 63) << 6)
-                    + ((x + 128 + yoffset1[y] + xoffset2[x]) & 63);
+        for (int y = 0; y < SWIRLSIZE; y++)
+            for (int x = 0; x < SWIRLSIZE; x++)
+                offset[(y << 7) + x] = ((((y + 128 + xoffset1[x] + yoffset2[y]) & (SWIRLSIZE - 1)) % FLATSIZE) << 6)
+                    + (((x + 128 + yoffset1[y] + xoffset2[x]) & (SWIRLSIZE - 1)) % FLATSIZE);
     }
 
     for (int i = 0; i < MAXCACHEDFLATS; i++)
@@ -600,13 +603,13 @@ byte *R_SwirlingFlat(const int flatnum)
         if (swirloffsettic != animatedtic)
         {
             swirloffsettic = animatedtic;
-            swirloffset = &offsets[(animatedtic & 1023) << 12];
+            swirloffset = &offsets[(animatedtic & 1023) << SWIRLOFFSETSHIFT];
         }
 
         offset = swirloffset;
         cache->lasttic = animatedtic;
 
-        for (int i = 0; i < 64 * 64; i += 8)
+        for (int i = 0; i < SWIRLSIZE * SWIRLSIZE; i += 8)
         {
             dest[i] = normalflat[offset[i]];
             dest[i + 1] = normalflat[offset[i + 1]];
@@ -833,8 +836,8 @@ void R_DrawPlanes(void)
                     if (terraintypes[picnum] >= LIQUID && r_liquid_swirl)
                     {
                         ds_source = R_SwirlingFlat(picnum);
-                        ds_flatwidth = 64;
-                        ds_flatheight = 64;
+                        ds_flatwidth = SWIRLSIZE;
+                        ds_flatheight = SWIRLSIZE;
                     }
                     else
                     {
