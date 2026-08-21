@@ -2671,6 +2671,8 @@ void M_QuitResponse(int key)
         return;
     }
 
+    S_StopSounds();
+
     if (!nosfx && sfxvolume > 0)
     {
         if (gamemode == commercial)
