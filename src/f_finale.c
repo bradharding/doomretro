@@ -75,6 +75,7 @@ static char             *finaletext;
 static char             *finaleflat;
 
 static bool             midstage;
+static bool             textcomplete;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
@@ -116,6 +117,7 @@ void F_StartFinale(void)
     // killough 03/28/98: clear accelerative text flags
     acceleratestage = false;
     midstage = false;
+    textcomplete = false;
 
     C_AddConsoleDivider();
 
@@ -308,11 +310,7 @@ bool F_Responder(const event_t *ev)
 
 static fixed_t TextSpeed(void)
 {
-    if (acceleratestage)
-        S_StartSound(NULL, sfx_swtchn);
-
-    return (midstage ? NEWTEXTSPEED : ((midstage = acceleratestage) ?
-        (acceleratestage = false), NEWTEXTSPEED : TEXTSPEED));
+    return (midstage ? NEWTEXTSPEED : TEXTSPEED);
 }
 
 //
@@ -332,6 +330,19 @@ void F_Ticker(void)
         F_CastTicker();
     else if (finalestage == F_STAGE_TEXT)
     {
+        if (acceleratestage)
+        {
+            S_StartSound(NULL, sfx_swtchn);
+
+            if (!midstage)
+            {
+                midstage = true;
+
+                if (!textcomplete)
+                    acceleratestage = false;
+            }
+        }
+
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed())
             + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
@@ -384,6 +395,7 @@ static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
     const char  *ch = finaletext;
+    const int   textcount = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     int         cx = 12;
     int         cy = 10;
     char        prev = '\0';
@@ -408,7 +420,10 @@ static void F_TextWrite(void)
     else
         memset(screens[0], nearestblack, SCREENAREA);
 
-    for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
+    if (textcount >= (int)strlen(finaletext))
+        textcomplete = true;
+
+    for (int count = textcount; count; count--)
     {
         char    letter = *ch++;
         int     c;
