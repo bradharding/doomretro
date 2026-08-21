@@ -483,7 +483,7 @@ void C_BuildObituaryString(const int index)
                 M_snprintf(buffer, buffersize, "%s died.", C_GetPlayerName());
         }
     }
-    else if (obituary->crushed)
+    else if (obituary->crushed && target != MT_BARREL)
     {
         char    targetname[128];
 
