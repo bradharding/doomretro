@@ -2823,6 +2823,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     char    *strval;
     bool    namechange = false;
     bool    gibhealth = false;
+    bool    retrobits = false;
     char    name[64] = "";
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
@@ -3010,6 +3011,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             }
             else if (M_StringCompare(key, "Retro bits"))
             {
+                retrobits = true;
+
                 // bit set
                 if (bGetData == 1)
                     mobjinfo[indexnum].flags2 = value;
@@ -3254,6 +3257,13 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         }
         else if (!(mobjinfo[indexnum].flags & MF_SPECIAL))
             mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
+    }
+
+    if (mobjinfo[indexnum].dehacked && !retrobits
+        && ((mobjinfo[indexnum].flags & MF_SPECIAL) || (mobjinfo[indexnum].flags & MF_SHOOTABLE)))
+    {
+        mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+        mobjinfo[indexnum].flags2 &= ~MF2_NOLIQUIDBOB;
     }
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup, or shootable
