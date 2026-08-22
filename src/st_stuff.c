@@ -1416,14 +1416,22 @@ static void ST_DrawWidgets(bool refresh)
         {
             const int   neededcard = viewplayer->neededcard;
 
-            if (neededcard == it_allkeys)
+            if (neededcard == it_all6keys || neededcard == it_all3keys)
             {
                 for (int i = 0; i < NUMCARDS / 2; i++)
-                    if (viewplayer->cards[i] <= 0 || viewplayer->cards[i + 3] <= 0)
+                    if ((neededcard == it_all3keys
+                            && (viewplayer->cards[i] == CARDNOTFOUNDYET || viewplayer->cards[i + 3] == CARDNOTFOUNDYET)
+                            && viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                        || (neededcard == it_all6keys && (viewplayer->cards[i] <= 0 || viewplayer->cards[i + 3] <= 0)))
                     {
                         const st_multicon_t *keybox = &w_keyboxes[i];
+                        int                 patchnum = i + 6;
 
-                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + 6]);
+                        if (neededcard == it_all3keys)
+                            patchnum = (viewplayer->cards[i] == CARDNOTFOUNDYET
+                                ? (viewplayer->cards[i + 3] == CARDNOTFOUNDYET ? i + 6 : i) : i + 3);
+
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[patchnum]);
                     }
             }
             else

@@ -978,9 +978,9 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 && viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0
                 && viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)
             {
-                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys)
+                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_all6keys)
                 {
-                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcard = it_all6keys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
@@ -1181,9 +1181,9 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 || viewplayer->cards[it_bluecard] <= 0 || viewplayer->cards[it_blueskull] <= 0
                 || viewplayer->cards[it_yellowcard] <= 0 || viewplayer->cards[it_yellowskull] <= 0))
             {
-                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys)
+                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_all6keys)
                 {
-                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcard = it_all6keys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 
@@ -1205,9 +1205,9 @@ bool P_CanUnlockGenDoor(const line_t *line)
                 || (viewplayer->cards[it_bluecard] <= 0 && viewplayer->cards[it_blueskull] <= 0)
                 || (viewplayer->cards[it_yellowcard] <= 0 && viewplayer->cards[it_yellowskull] <= 0)))
             {
-                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_allkeys)
+                if (!viewplayer->neededcardflash || viewplayer->neededcard != it_all3keys)
                 {
-                    viewplayer->neededcard = it_allkeys;
+                    viewplayer->neededcard = it_all3keys;
                     viewplayer->neededcardflash = NEEDEDCARDFLASH;
                 }
 

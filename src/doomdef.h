@@ -199,7 +199,8 @@ typedef enum
     it_yellowskull,
     it_redskull,
     NUMCARDS,
-    it_allkeys
+    it_all3keys,
+    it_all6keys
 } card_t;
 
 #define wp_incinerator      wp_plasma

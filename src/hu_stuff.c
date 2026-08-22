@@ -684,7 +684,7 @@ static void HU_DrawHUD(void)
     {
         const card_t    neededcard = viewplayer->neededcard;
 
-        if (neededcard == it_allkeys)
+        if (neededcard == it_all6keys || neededcard == it_all3keys)
         {
             if (!gamepaused && keywait < currenttime)
             {
@@ -694,13 +694,28 @@ static void HU_DrawHUD(void)
             }
 
             if (flashkeys && (showkey || gamepaused))
-                for (int i = 0; i < NUMCARDS; i++)
-                    if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
-                    {
-                        keypic_x -= LITTLESHORT(patch->width);
-                        hudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
-                        keypic_x -= 5;
-                    }
+            {
+                if (neededcard == it_all3keys)
+                {
+                    for (int i = 0; i < NUMCARDS / 2; i++)
+                        if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                            for (int j = i; j <= i + 3; j += 3)
+                                if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
+                                {
+                                    keypic_x -= LITTLESHORT(patch->width);
+                                    hudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
+                                    keypic_x -= 5;
+                                }
+                }
+                else
+                    for (int i = 0; i < NUMCARDS; i++)
+                        if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
+                        {
+                            keypic_x -= LITTLESHORT(patch->width);
+                            hudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
+                            keypic_x -= 5;
+                        }
+            }
         }
         else if ((patch = keypics[neededcard].patch))
         {
@@ -1444,7 +1459,7 @@ static void HU_DrawAltHUD(void)
             const bool      gamepaused = (consoleactive || paused || (viewplayer->cheats & CF_FREEZE));
             const card_t    neededcard = viewplayer->neededcard;
 
-            if (neededcard == it_allkeys)
+            if (neededcard == it_all3keys || neededcard == it_all6keys)
             {
                 if (!gamepaused && keywait < currenttime)
                 {
@@ -1454,22 +1469,44 @@ static void HU_DrawAltHUD(void)
                 }
 
                 if (flashkeys && (showkey || gamepaused))
-                    for (int i = 0; i < NUMCARDS; i++)
-                        if (viewplayer->cards[i] == CARDNOTFOUNDYET)
-                        {
-                            const altkeypic_t   altkeypic = altkeypics[i];
+                    if (neededcard == it_all3keys)
+                    {
+                        for (int i = 0; i < NUMCARDS / 2; i++)
+                            if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                                for (int j = i; j <= i + 3; j += 3)
+                                    if (viewplayer->cards[j] == CARDNOTFOUNDYET)
+                                    {
+                                        const altkeypic_t   altkeypic = altkeypics[j];
 
-                            patch = altkeypic.patch;
+                                        patch = altkeypic.patch;
 
-                            if (inverted)
-                                althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
-                                    WHITE, nearestblack, tinttab60, shadowcolor);
-                            else
-                                althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
-                                    WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
+                                        if (inverted)
+                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                                WHITE, nearestblack, tinttab60, shadowcolor);
+                                        else
+                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                                WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
-                            keypic_x += altkeypic.width + 4;
-                        }
+                                        keypic_x += altkeypic.width + 4;
+                                    }
+                    }
+                    else
+                        for (int i = 0; i < NUMCARDS; i++)
+                            if (viewplayer->cards[i] == CARDNOTFOUNDYET)
+                            {
+                                const altkeypic_t   altkeypic = altkeypics[i];
+
+                                patch = altkeypic.patch;
+
+                                if (inverted)
+                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                        WHITE, nearestblack, tinttab60, shadowcolor);
+                                else
+                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                        WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
+
+                                keypic_x += altkeypic.width + 4;
+                            }
             }
             else
             {
