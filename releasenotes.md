@@ -26,6 +26,7 @@
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
   * Custom monsters now bleed red blood.
+* The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.

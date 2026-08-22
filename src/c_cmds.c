@@ -5427,16 +5427,16 @@ static void mapfunc2(char *cmd, char *parms)
 #define TM      "Tom Mustaine"
 #define TW      "Tim Willits"
 #define WW      "William D Whitaker"
-#define AMSP    AM ", " SP
-#define BKTH2   BK ", " TH2
-#define DC2DB   DC2 ", " DB
-#define DCMC    DC ", " MC
-#define DCTH2   DC ", " TH2
-#define JRTH    JR ", " TH
-#define JSTH2   JS ", " TH2
-#define MSJL    MS ", " JL
-#define RPJM2   RP ", " JM2
-#define SPTH    SP ", " TH
+#define AMSP    AM " and " SP
+#define BKTH2   BK " and " TH2
+#define DC2DB   DC2 " and " DB
+#define DCMC    DC " and " MC
+#define DCTH2   DC " and " TH2
+#define JRTH    JR " and " TH
+#define JSTH2   JS " and " TH2
+#define MSJL    MS " and " JL
+#define RPJM2   RP " and " JM2
+#define SPTH    SP " and " TH
 
 char *authors[][7] =
 {
