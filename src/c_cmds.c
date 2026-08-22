@@ -12621,6 +12621,8 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
 
             if (consoleactive)
                 S_LowerMusicVolume();
+            else
+                S_RestoreMusicVolume();
 
             M_SaveCVARs();
             free(temp1);
