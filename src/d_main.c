@@ -255,6 +255,16 @@ static void D_UpdateQuitMenuSpin(void)
         viewplayer->mo->angle += ANG1 / (menuspinspeed = MIN(menuspinspeed + 1, 512)) * 8 * menuspindirection;
 }
 
+static void D_UpdateQuitMenuSpecials(void)
+{
+    if (gamestate == GS_LEVEL && menuactive && (!consoleheight || consoleoverlaymenu)
+        && !(helpscreen && !palettescreen))
+    {
+        animatedtic++;
+        P_UpdateSpecials();
+    }
+}
+
 //
 // D_FadeScreenToBlack
 //
@@ -269,6 +279,7 @@ void D_FadeScreenToBlack(void)
         brightness = startbrightness;
         menublurtic = -1;
         D_UpdateQuitMenuSpin();
+        D_UpdateQuitMenuSpecials();
         I_SetPalette(palette);
         I_SetExternalAutomapPalette();
         D_Display();
@@ -283,6 +294,7 @@ void D_FadeScreenToBlack(void)
         brightness = startbrightness * (float)i / 20.0f;
         menublurtic = -1;
         D_UpdateQuitMenuSpin();
+        D_UpdateQuitMenuSpecials();
         I_SetPalette(palette);
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * brightness));
