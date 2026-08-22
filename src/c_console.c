@@ -3533,7 +3533,7 @@ bool C_Responder(event_t *ev)
                                 break;
                             }
 
-                        if (i == numvisibleconsolestrings)
+                        if (i == numconsolestrings)
                         {
                             inputhistory = -1;
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
