@@ -1442,13 +1442,11 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[j];
 
-                    patch = altkeypic.patch;
-
                     if (inverted)
-                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                             WHITE, nearestblack, tinttab60, shadowcolor);
                     else
-                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                        althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                             WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
                     keypic_x += altkeypic.width + 4;
@@ -1478,13 +1476,11 @@ static void HU_DrawAltHUD(void)
                                     {
                                         const altkeypic_t   altkeypic = altkeypics[j];
 
-                                        patch = altkeypic.patch;
-
                                         if (inverted)
-                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                                                 WHITE, nearestblack, tinttab60, shadowcolor);
                                         else
-                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                            althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                                                 WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
                                         keypic_x += altkeypic.width + 4;
@@ -1496,13 +1492,11 @@ static void HU_DrawAltHUD(void)
                             {
                                 const altkeypic_t   altkeypic = altkeypics[i];
 
-                                patch = altkeypic.patch;
-
                                 if (inverted)
-                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                                         WHITE, nearestblack, tinttab60, shadowcolor);
                                 else
-                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, patch,
+                                    althudfunc(keypic_x, ALTHUD_Y - altkeypic.height + 7, altkeypic.patch,
                                         WHITE, altkeypic.color, altkeypic.tinttab, shadowcolor);
 
                                 keypic_x += altkeypic.width + 4;
@@ -1901,7 +1895,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
 
 void HU_PlayerMessage(char *message, bool group, bool external)
 {
-    char        buffer[133] = "";
+    char        buffer[256] = "";
     const int   len = (int)strlen(message);
 
     if (!len)
@@ -1921,6 +1915,9 @@ void HU_PlayerMessage(char *message, bool group, bool external)
 
             buffer[j++] = message[i];
         }
+
+    if (!ispunctuation(buffer[strlen(buffer) - 1]))
+        M_snprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), ".");
 
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);

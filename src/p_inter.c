@@ -219,9 +219,8 @@ static void P_ShowPickupMessage(const mobj_t *special, char *message)
         char    *name = uppercase(C_GetPlayerName());
 
         M_snprintf(buffer, sizeof(buffer), "%s %s", name, text);
-        free(name);
-
         text = buffer;
+        free(name);
     }
     else if (!strncmp(text, "Got ", 4) || !strncmp(text, "Used ", 5))
     {

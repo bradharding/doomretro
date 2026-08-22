@@ -41,6 +41,7 @@
 * A bug is fixed whereby pressing the <kbd><b>&darr;</b></kbd> key in the console to advance through the input history might have skipped some input.
 * When the player tries to open a *BOOM*-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.
 * The mouse pointer is now displayed when moving the mouse on the intermission or finale screens and the `m_pointer` CVAR is `on`.
+* A bug is fixed whereby it sometimes took two presses of the <kbd><b>ENTER</b></kbd> or <kbd><b>SPACE</b></kbd> key to advance an intermission text screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
