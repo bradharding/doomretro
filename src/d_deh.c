@@ -3259,7 +3259,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
     }
 
-    if (mobjinfo[indexnum].dehacked && !retrobits
+    if (mobjinfo[indexnum].dehacked && !retrobits && indexnum != MT_PLAYER
         && ((mobjinfo[indexnum].flags & MF_SPECIAL) || (mobjinfo[indexnum].flags & MF_SHOOTABLE)))
     {
         mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
