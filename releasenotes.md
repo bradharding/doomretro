@@ -8,6 +8,7 @@
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
+* Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
