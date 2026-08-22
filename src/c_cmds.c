@@ -2514,7 +2514,7 @@ void bindfunc2(char *cmd, char *parms)
                             C_Output(BOLD("\"%s\"") " was bound to the " BOLD("\x91%s\x92") " key.",
                                 parm2, controls[i].control);
                         else
-                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " key.",
+                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.",
                                 parm2, controls[i].control);
                     }
                 }
@@ -3449,7 +3449,10 @@ static bool givefunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
+    {
+        free(parm);
         return true;
+    }
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
         || M_StringCompare(parm, "health") || M_StringCompare(parm, "fullhealth")
@@ -4139,7 +4142,10 @@ static bool killfunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
+    {
+        free(parm);
         return true;
+    }
 
     killcmdmobj = NULL;
 
@@ -4288,6 +4294,7 @@ static void killfunc2(char *cmd, char *parms)
                 else
                     C_Warning(0, "%s can't kill %s in god mode!", playername, pronoun(reflexive));
 
+                free(parm);
                 return;
             }
 
@@ -4306,6 +4313,7 @@ static void killfunc2(char *cmd, char *parms)
                         (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
 
+                free(parm);
                 return;
             }
 
@@ -4317,6 +4325,7 @@ static void killfunc2(char *cmd, char *parms)
                     C_Warning(0, "%s can't kill %s in buddha mode!", playername, pronoun(reflexive));
 
                 playercvarsfunc2(stringize(health), "1");
+                free(parm);
                 return;
             }
 
@@ -6957,7 +6966,10 @@ static bool playfunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm)
+    {
+        free(parm);
         return true;
+    }
 
     for (int i = 1; i < NUMSFX; i++)
     {
@@ -9143,7 +9155,10 @@ static bool resurrectfunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
+    {
+        free(parm);
         return true;
+    }
 
     resurrectcmdmobj = NULL;
 
@@ -9444,7 +9459,10 @@ static bool spawnfunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm)
+    {
+        free(parm);
         return true;
+    }
 
     if (gamestate == GS_LEVEL)
     {
@@ -9702,7 +9720,10 @@ static bool takefunc1(char *cmd, char *parms)
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
+    {
+        free(parm);
         return true;
+    }
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
         || M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth")
@@ -11334,6 +11355,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                             C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_left), temp1);
                     }
 
+                    free(temp1);
                     return;
                 }
                 else if (!resettingcvar && !togglingvanilla)
@@ -11370,6 +11392,7 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                             C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_right), temp1);
                     }
 
+                    free(temp1);
                     return;
                 }
                 else if (!resettingcvar && !togglingvanilla)
@@ -12388,7 +12411,7 @@ static void r_screensizefunc2(char *cmd, char *parms)
     {
         const int   value = parms[0] - '0';
 
-        if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max && value != r_screensize)
+        if (strlen(parms) == 1 && value >= r_screensize_min && value <= r_screensize_max)
         {
             char    *temp1 = commify(r_screensize);
 

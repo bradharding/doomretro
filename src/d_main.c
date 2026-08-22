@@ -753,7 +753,7 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
     // Or NULL if no matching .deh file can be found.
     // The pattern (not used in Windows) is the fnmatch pattern to search for.
 #if defined(_WIN32)
-    char    *dehpath = M_StringDuplicate(path);
+    char    *dehpath = NULL;
 
     if (M_StringEndsWith(path, ".wad"))
         dehpath = M_StringReplaceFirst(path, ".wad", ext);
@@ -761,8 +761,14 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
         dehpath = M_StringReplaceFirst(path, ".iwad", ext);
     else if (M_StringEndsWith(path, ".pwad"))
         dehpath = M_StringReplaceFirst(path, ".pwad", ext);
+    else
+        dehpath = M_StringDuplicate(path);
 
-    return (M_FileExists(dehpath) ? dehpath : NULL);
+    if (M_FileExists(dehpath))
+        return dehpath;
+
+    free(dehpath);
+    return NULL;
 #else
     // Used to safely call dirname and basename, which can modify their input.
     size_t          pathlen = strlen(path);
@@ -774,8 +780,14 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 
     M_StringCopy(pathcopy, path, pathlen + 1);
     dehpattern = M_StringReplaceFirst(basename(pathcopy), ".wad", pattern);
-    dehpattern = M_StringReplaceFirst(dehpattern, ".WAD", pattern);
-    M_StringCopy(pathcopy, path, pathlen);
+    {
+        char    *temp = M_StringReplaceFirst(dehpattern, ".wad", pattern);
+
+        free(dehpattern);
+        dehpattern = temp;
+    }
+
+    M_StringCopy(pathcopy, path, pathlen + 1);
     dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
 
@@ -783,6 +795,7 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
     {
         M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't loaded.", GetCorrectCase(dehdir));
         free(pathcopy);
+        free(dehpattern);
         return NULL;
     }
 
@@ -793,12 +806,14 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 
             closedir(dirp);
             free(pathcopy);
+            free(dehpattern);
 
             return dehfullpath;
         }
 
     closedir(dirp);
     free(pathcopy);
+    free(dehpattern);
 
     return NULL;
 #endif
@@ -838,11 +853,13 @@ static void LoadDEHFile(char *path, bool autoloaded)
             }
         }
     }
+
+    free(dehpath);
 }
 
 static void LoadCfgFile(char *path)
 {
-    char    *cfgpath = M_StringDuplicate(path);
+    char    *cfgpath = NULL;
 
     if (M_StringEndsWith(path, ".wad"))
         cfgpath = M_StringReplaceFirst(path, ".wad", ".cfg");
@@ -850,9 +867,13 @@ static void LoadCfgFile(char *path)
         cfgpath = M_StringReplaceFirst(path, ".iwad", ".cfg");
     else if (M_StringEndsWith(path, ".pwad"))
         cfgpath = M_StringReplaceFirst(path, ".pwad", ".cfg");
+    else
+        cfgpath = M_StringDuplicate(path);
 
     if (M_FileExists(cfgpath))
         M_LoadCVARs(cfgpath);
+
+    free(cfgpath);
 }
 
 bool D_IsDOOM1IWAD(char *filename)
@@ -2915,7 +2936,7 @@ static void D_DoomMainSetup(void)
             const char name[23][9] =
             {
                 "E2M1", "E2M2", "E2M3", "E2M4", "E2M5", "E2M6", "E2M7", "E2M8", "E2M9",
-                "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
+                "E3M1", "E3M2", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
                 "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
             };
 

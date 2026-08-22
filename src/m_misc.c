@@ -577,9 +577,9 @@ char *M_StringReplaceFirst(char *haystack, const char *needle, const char *repla
     char    *p;
 
     if (!*needle || !(p = stristr(haystack, needle)))
-        return haystack;
+        return M_StringDuplicate(haystack);
 
-    return M_StringReplaceAt(haystack, needle, replacement, p);
+    return M_StringDuplicate(M_StringReplaceAt(haystack, needle, replacement, p));
 }
 
 #if !defined(strrstr)
