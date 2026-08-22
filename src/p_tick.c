@@ -204,7 +204,7 @@ void P_Ticker(void)
 
     P_PlayerThink();
 
-    if (consoleactive || (helpscreen && !palettescreen))
+    if ((consoleactive && !menuactive) || (helpscreen && !palettescreen))
         return;
 
     if (menuactive && !(viewplayer->cheats & CF_FREEZE))
