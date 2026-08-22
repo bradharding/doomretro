@@ -24,7 +24,8 @@
     * `Obituary_Deh_Actor_*` and `Obituary_Deh_Actor_*_Melee` strings,
     * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
-  * Custom messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
+  * Custom player messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
+  * All custom player messages are now punctuated if not already.
   * Custom monsters now bleed red blood.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:

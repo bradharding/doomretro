@@ -218,24 +218,15 @@ static void P_ShowPickupMessage(const mobj_t *special, char *message)
     {
         char    *name = uppercase(C_GetPlayerName());
 
-        M_snprintf(buffer, sizeof(buffer), "%s %s%s", name, text,
-            (ispunctuation(text[strlen(text) - 1]) ? "" : "."));
+        M_snprintf(buffer, sizeof(buffer), "%s %s", name, text);
         free(name);
 
         text = buffer;
     }
     else if (!strncmp(text, "Got ", 4) || !strncmp(text, "Used ", 5))
     {
-        M_snprintf(buffer, sizeof(buffer), "%s %c%s%s",
-            C_GetPlayerName(), tolower(text[0]), text + 1,
-            (ispunctuation(text[strlen(text) - 1]) ? "" : "."));
-        buffer[0] = (char)toupper((unsigned char)buffer[0]);
-        text = buffer;
-    }
-    else
-    {
-        M_snprintf(buffer, sizeof(buffer), "%s%s",
-            text, (ispunctuation(text[strlen(text) - 1]) ? "" : "."));
+        M_snprintf(buffer, sizeof(buffer), "%s %c%s",
+            C_GetPlayerName(), tolower(text[0]), text + 1);
         buffer[0] = (char)toupper((unsigned char)buffer[0]);
         text = buffer;
     }
