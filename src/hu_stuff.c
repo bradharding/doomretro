@@ -1917,7 +1917,7 @@ void HU_PlayerMessage(char *message, bool group, bool external)
         }
 
     if (!ispunctuation(buffer[strlen(buffer) - 1]))
-        M_snprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), ".");
+        M_snprintf(buffer + strlen(buffer), (int)(sizeof(buffer) - strlen(buffer)), ".");
 
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
