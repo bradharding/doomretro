@@ -12629,7 +12629,7 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
         }
         else
         {
-            char    *temp1 = commify(s_musicvolume);
+            char    *temp1 = commify(s_sfxvolume);
 
             if (s_sfxvolume == value)
             {
