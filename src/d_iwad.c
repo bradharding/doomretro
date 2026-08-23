@@ -47,6 +47,7 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_setup.h"
+#include "sc_man.h"
 #include "version.h"
 #include "w_wad.h"
 
@@ -1058,67 +1059,32 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    if (chex1)
-        M_StringCopy(gamedescription, s_CAPTION_CHEX, sizeof(gamedescription));
-    else if (chex2)
-        M_StringCopy(gamedescription, s_CAPTION_CHEX2, sizeof(gamedescription));
-    else if (hacx)
-        M_StringCopy(gamedescription, s_CAPTION_HACX, sizeof(gamedescription));
-    else if (BTSXE1)
-        M_StringCopy(gamedescription, s_CAPTION_BTSXE1, sizeof(gamedescription));
-    else if (BTSXE2)
-        M_StringCopy(gamedescription, s_CAPTION_BTSXE2, sizeof(gamedescription));
-    else if (BTSXE3)
-        M_StringCopy(gamedescription, s_CAPTION_BTSXE3, sizeof(gamedescription));
-    else if (REKKRSL)
-        M_StringCopy(gamedescription, s_CAPTION_REKKRSL, sizeof(gamedescription));
-    else if (REKKR)
-        M_StringCopy(gamedescription, s_CAPTION_REKKR, sizeof(gamedescription));
-    else if (anomalyreport)
-        M_StringCopy(gamedescription, s_CAPTION_ANOMALYREPORT, sizeof(gamedescription));
-    else if (arrival)
-        M_StringCopy(gamedescription, s_CAPTION_ARRIVAL, sizeof(gamedescription));
-    else if (dbimpact)
-        M_StringCopy(gamedescription, s_CAPTION_DBIMPACT, sizeof(gamedescription));
-    else if (deathless)
-        M_StringCopy(gamedescription, s_CAPTION_DEATHLESS, sizeof(gamedescription));
-    else if (doomzero)
-        M_StringCopy(gamedescription, s_CAPTION_DOOMZERO, sizeof(gamedescription));
-    else if (earthless)
-        M_StringCopy(gamedescription, s_CAPTION_EARTHLESS, sizeof(gamedescription));
-    else if (ganymede)
-        M_StringCopy(gamedescription, s_CAPTION_GANYMEDE, sizeof(gamedescription));
-    else if (goingdown)
-        M_StringCopy(gamedescription, s_CAPTION_GOINGDOWN, sizeof(gamedescription));
-    else if (goingdownturbo)
-        M_StringCopy(gamedescription, s_CAPTION_GOINGDOWNTURBO, sizeof(gamedescription));
-    else if (harmony || harmonyc)
-        M_StringCopy(gamedescription, s_CAPTION_HARMONY, sizeof(gamedescription));
-    else if (legacyofrust)
-        M_StringCopy(gamedescription, s_CAPTION_ID1, sizeof(gamedescription));
-    else if (IDDM1)
-        M_StringCopy(gamedescription, s_CAPTION_IDDM1, sizeof(gamedescription));
-    else if (KDIKDIZD)
-        M_StringCopy(gamedescription, s_CAPTION_KDIKDIZD, sizeof(gamedescription));
-    else if (neis)
-        M_StringCopy(gamedescription, s_CAPTION_NEIS, sizeof(gamedescription));
-    else if (revolution)
-        M_StringCopy(gamedescription, s_CAPTION_REVOLUTION, sizeof(gamedescription));
-    else if (scientist)
-        M_StringCopy(gamedescription, s_CAPTION_SCIENTIST, sizeof(gamedescription));
-    else if (syringe)
-        M_StringCopy(gamedescription, s_CAPTION_SYRINGE, sizeof(gamedescription));
-    else if (TTNS)
-        M_StringCopy(gamedescription, s_CAPTION_TTNS, sizeof(gamedescription));
-    else if (TTP)
-        M_StringCopy(gamedescription, s_CAPTION_TTP, sizeof(gamedescription));
-    else if (gamemission == doom)
+    SC_Open(W_CheckNumForName("DRCOMPAT"));
+
+    while (SC_GetString())
+        if (SC_Compare("WINDOWCAPTION"))
+        {
+            char    title[sizeof(gamedescription)];
+
+            SC_MustGetString();
+            M_StringCopy(title, sc_String, sizeof(title));
+            SC_MustGetString();
+
+            if (wildcard(pwadfile, sc_String))
+            {
+                M_StringCopy(gamedescription, title, sizeof(gamedescription));
+                SC_Close();
+                return;
+            }
+        }
+
+    SC_Close();
+
+    if (gamemission == doom)
     {
         // DOOM 1. But which version?
         if (modifiedgame && *pwadfile)
             M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
-        else if (FREEDOOM)
-            M_StringCopy(gamedescription, s_CAPTION_FREEDOOM1, sizeof(gamedescription));
         else
             M_StringCopy(gamedescription, s_CAPTION_DOOM, sizeof(gamedescription));
     }
@@ -1135,8 +1101,6 @@ void D_SetGameDescription(void)
             else
                 M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         }
-        else if (FREEDOOM)
-            M_StringCopy(gamedescription, (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2), sizeof(gamedescription));
         else if (nerve)
             M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
         else if (gamemission == doom2)

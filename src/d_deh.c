@@ -746,36 +746,6 @@ char    *s_CAPTION_EXPANSION2 = "";
 char    *s_CAPTION_EXPANSION3 = "";
 char    *s_CAPTION_PLUTONIA = "";
 char    *s_CAPTION_TNT = "";
-char    *s_CAPTION_CHEX = "";
-char    *s_CAPTION_CHEX2 = "";
-char    *s_CAPTION_HACX = "";
-char    *s_CAPTION_FREEDOOM1 = "";
-char    *s_CAPTION_FREEDOOM2 = "";
-char    *s_CAPTION_FREEDM = "";
-char    *s_CAPTION_BTSXE1 = "";
-char    *s_CAPTION_BTSXE2 = "";
-char    *s_CAPTION_BTSXE3 = "";
-char    *s_CAPTION_REKKR = "";
-char    *s_CAPTION_REKKRSL = "";
-char    *s_CAPTION_ANOMALYREPORT = "";
-char    *s_CAPTION_ARRIVAL = "";
-char    *s_CAPTION_DBIMPACT = "";
-char    *s_CAPTION_DEATHLESS = "";
-char    *s_CAPTION_DOOMZERO = "";
-char    *s_CAPTION_EARTHLESS = "";
-char    *s_CAPTION_GANYMEDE = "";
-char    *s_CAPTION_GOINGDOWN = "";
-char    *s_CAPTION_GOINGDOWNTURBO = "";
-char    *s_CAPTION_HARMONY = "";
-char    *s_CAPTION_ID1 = "";
-char    *s_CAPTION_IDDM1 = "";
-char    *s_CAPTION_KDIKDIZD = "";
-char    *s_CAPTION_NEIS = "";
-char    *s_CAPTION_REVOLUTION = "";
-char    *s_CAPTION_SCIENTIST = "";
-char    *s_CAPTION_SYRINGE = "";
-char    *s_CAPTION_TTNS = "";
-char    *s_CAPTION_TTP = "";
 
 char    *s_AUTHOR_ROMERO = "";
 
@@ -1428,36 +1398,6 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_EXPANSION3,      "CAPTION_EXPANSION3"      },
     { &s_CAPTION_PLUTONIA,        "CAPTION_PLUTONIA"        },
     { &s_CAPTION_TNT,             "CAPTION_TNT"             },
-    { &s_CAPTION_CHEX,            "CAPTION_CHEX"            },
-    { &s_CAPTION_CHEX2,           "CAPTION_CHEX2"           },
-    { &s_CAPTION_HACX,            "CAPTION_HACX"            },
-    { &s_CAPTION_FREEDOOM1,       "CAPTION_FREEDOOM1"       },
-    { &s_CAPTION_FREEDOOM2,       "CAPTION_FREEDOOM2"       },
-    { &s_CAPTION_FREEDM,          "CAPTION_FREEDM"          },
-    { &s_CAPTION_BTSXE1,          "CAPTION_BTSXE1"          },
-    { &s_CAPTION_BTSXE2,          "CAPTION_BTSXE2"          },
-    { &s_CAPTION_BTSXE3,          "CAPTION_BTSXE3"          },
-    { &s_CAPTION_REKKR,           "CAPTION_REKKR"           },
-    { &s_CAPTION_REKKRSL,         "CAPTION_REKKRSL"         },
-    { &s_CAPTION_ANOMALYREPORT,   "CAPTION_ANOMALYREPORT"   },
-    { &s_CAPTION_ARRIVAL,         "CAPTION_ARRIVAL"         },
-    { &s_CAPTION_DBIMPACT,        "CAPTION_DBIMPACT"        },
-    { &s_CAPTION_DEATHLESS,       "CAPTION_DEATHLESS"       },
-    { &s_CAPTION_DOOMZERO,        "CAPTION_DOOMZERO"        },
-    { &s_CAPTION_EARTHLESS,       "CAPTION_EARTHLESS"       },
-    { &s_CAPTION_GANYMEDE,        "CAPTION_GANYMEDE"        },
-    { &s_CAPTION_GOINGDOWN,       "CAPTION_GOINGDOWN"       },
-    { &s_CAPTION_GOINGDOWNTURBO,  "CAPTION_GOINGDOWNTURBO"  },
-    { &s_CAPTION_HARMONY,         "CAPTION_HARMONY"         },
-    { &s_CAPTION_ID1,             "CAPTION_ID1"             },
-    { &s_CAPTION_IDDM1,           "CAPTION_IDDM1"           },
-    { &s_CAPTION_KDIKDIZD,        "CAPTION_KDIKDIZD"        },
-    { &s_CAPTION_NEIS,            "CAPTION_NEIS"            },
-    { &s_CAPTION_REVOLUTION,      "CAPTION_REVOLUTION"      },
-    { &s_CAPTION_SCIENTIST,       "CAPTION_SCIENTIST"       },
-    { &s_CAPTION_SYRINGE,         "CAPTION_SYRINGE"         },
-    { &s_CAPTION_TTNS,            "CAPTION_TTNS"            },
-    { &s_CAPTION_TTP,             "CAPTION_TTP"             },
 
     { &s_AUTHOR_ROMERO,           "AUTHOR_ROMERO"           },
 
