@@ -107,7 +107,8 @@ static byte *deh_GetTranslationTable(const int lump, const char *name)
         {
             yyjson_val  *entry = yyjson_arr_get(table, i);
 
-            if (!yyjson_is_num(entry) || yyjson_get_num(entry) < 0 || yyjson_get_num(entry) > 255)
+            if (!yyjson_is_num(entry) || yyjson_get_num(entry) < 0 || yyjson_get_num(entry) > 255
+                || yyjson_get_num(entry) != (double)yyjson_get_int(entry))
             {
                 yyjson_doc_free(jsondoc);
                 Z_Free(translation);
@@ -2490,7 +2491,10 @@ void D_BuildBEXTables(void)
     }
 
     for (i = 1; i < NUMMUSIC; i++)
+    {
+        free(deh_musicnames[i]);
         deh_musicnames[i] = M_StringDuplicate(s_music[i].name1);
+    }
 
     deh_musicnames[0] = NULL;
     deh_musicnames[NUMMUSIC] = NULL;
@@ -2681,7 +2685,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, const char *line)
     boomcompatible = true;
 
     // Ty 05/16/98 - initialize it to something, dummy!
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
@@ -3199,18 +3203,16 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
     }
 
-    if (mobjinfo[indexnum].dehacked && !retrobits && indexnum != MT_PLAYER)
+    if (!retrobits && indexnum != MT_PLAYER)
     {
-        if (mobjinfo[indexnum].flags & MF_SPECIAL)
-        {
-            mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+        mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+
+        if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
+            mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
+        else if (mobjinfo[indexnum].flags & MF_SPECIAL)
             mobjinfo[indexnum].flags2 &= ~MF2_NOLIQUIDBOB;
-        }
-        else if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
-        {
-            mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+        else
             mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
-        }
     }
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup, or shootable
@@ -3545,6 +3547,9 @@ static void deh_procSounds(DEHFILE *fpin, const char *line)
     if (indexnum < 0)
         C_Warning(1, "Bad sound number %i.", indexnum);
 
+    if (indexnum < 0)
+        return;
+
     dsdh_EnsureSFXCapacity(indexnum);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
@@ -3613,7 +3618,10 @@ static void deh_procAmmo(DEHFILE *fpin, const char *line)
         C_Output("Processing Ammo at index %i: %s", indexnum, key);
 
     if (indexnum < 0 || indexnum >= NUMAMMO)
+    {
         C_Warning(1, "Bad ammo number %i of %i.", indexnum, NUMAMMO);
+        return;
+    }
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -3906,7 +3914,7 @@ static void deh_procCheat(DEHFILE *fpin, const char *line)
     int     iy;             // array index
     char    *p;             // utility pointer
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -4151,7 +4159,7 @@ static void deh_procMisc(DEHFILE *fpin, const char *line)
     char    inbuffer[DEH_BUFFERMAX];
     int     value;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -4282,28 +4290,31 @@ static void deh_procText(DEHFILE *fpin, const char *line)
     // against the array and process it as such if it matches. Remember
     // that the original names are (and should remain) uppercase.
     // Future: this will be from a separate [SPRITES] block.
-    if (fromlen == 4 && tolen == 4)
+    if (fromlen == 4 && tolen == 4 && (i = dsdh_GetDehSpriteIndex(inbuffer)) >= 0)
     {
-        i = dsdh_GetDehSpriteIndex(inbuffer);
+        char    *sprite;
 
-        if (i >= 0)
+        if (devparm)
+            C_Output("Changing name of sprite at index %i from %s to %*s",
+                i, sprnames[i], tolen, &inbuffer[fromlen]);
+
+        // killough 10/98: but it's an array of pointers, so we must
+        // use strdup unless we redeclare sprnames and change all else
+        sprite = M_StringDuplicate(sprnames[i]);
+
+        if (sprnames[i] != original_sprnames[i])
+            free(sprnames[i]);
+
+        sprnames[i] = sprite;
+
+        memcpy(sprnames[i], &inbuffer[fromlen], tolen);
+        sprnames[i][tolen] = '\0';
+        found = true;
+
+        if (i == SPR_BAR1 || i == SPR_BEXP)
         {
-            if (devparm)
-                C_Output("Changing name of sprite at index %i from %s to %*s",
-                    i, sprnames[i], tolen, &inbuffer[fromlen]);
-
-            // killough 10/98: but it's an array of pointers, so we must
-            // use strdup unless we redeclare sprnames and change all else
-            sprnames[i] = M_StringDuplicate(sprnames[i]);
-
-            strncpy(sprnames[i], &inbuffer[fromlen], tolen);
-            found = true;
-
-            if (i == SPR_BAR1 || i == SPR_BEXP)
-            {
-                states[S_BAR1].nextstate = S_BAR2;
-                mobjinfo[MT_BARREL].frames = 2;
-            }
+            states[S_BAR1].nextstate = S_BAR2;
+            mobjinfo[MT_BARREL].frames = 2;
         }
     }
 
@@ -4322,7 +4333,8 @@ static void deh_procText(DEHFILE *fpin, const char *line)
                 C_Output("Changing name of sfx from %s to %*s",
                     s_sfx[i].name1, usedlen, &inbuffer[fromlen]);
 
-            strncpy(s_sfx[i].name1, &inbuffer[fromlen], 9);
+            memcpy(s_sfx[i].name1, &inbuffer[fromlen], usedlen);
+            s_sfx[i].name1[usedlen] = '\0';
             found = true;
         }
 
@@ -4340,7 +4352,8 @@ static void deh_procText(DEHFILE *fpin, const char *line)
                     if (devparm)
                         C_Output("Changing name of music from %s to %*s", s_music[i].name1, usedlen, &inbuffer[fromlen]);
 
-                    strncpy(s_music[i].name1, &inbuffer[fromlen], 9);
+                    memcpy(s_music[i].name1, &inbuffer[fromlen], usedlen);
+                    s_music[i].name1[usedlen] = '\0';
                     found = true;
                     break;                                  // only one matches, quit early
                 }
@@ -4370,7 +4383,7 @@ static void deh_procError(DEHFILE *fpin, const char *line)
 {
     char    inbuffer[DEH_BUFFERMAX];
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     if (devparm)
         C_Warning(1, "Ignoring \"%s\".", inbuffer);
@@ -4404,7 +4417,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
         holdstring = I_Malloc(maxstrlen * sizeof(*holdstring));
 
     *holdstring = '\0';                 // empty string to start with
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     // Ty 04/24/98 - have to allow inbuffer to start with a blank for
     // the continuations of C1TEXT etc.
@@ -4506,7 +4519,10 @@ static bool deh_AssignUserString(const char *key, const char *newstring)
     for (int i = 0; i < deh_numuserstrings; i++)
         if (M_StringCompare(deh_userstrings[i].lookup, key))
         {
-            deh_userstrings[i].value = deh_DuplicateProcessedString(newstring);
+            char *value = deh_DuplicateProcessedString(newstring);
+
+            free(deh_userstrings[i].value);
+            deh_userstrings[i].value = value;
 
             if (devparm)
                 C_Output("Assigned key %s to \"%s\"", key, newstring);
@@ -4645,7 +4661,7 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
     if (devparm)
         C_Output("Processing sprite name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -4668,7 +4684,7 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
 
         // do it
         memset(candidate, 0, sizeof(candidate));
-        strncpy(candidate, ptr_lstrip(strval), 4);
+        M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
         candidate[4] = '\0';
 
         if (strlen(candidate) != 4)
@@ -4687,6 +4703,9 @@ void deh_procBexSprites(DEHFILE *fpin, const char *line)
                 states[S_BAR1].nextstate = S_BAR2;
                 mobjinfo[MT_BARREL].frames = 2;
             }
+
+            if (sprnames[match] != original_sprnames[match])
+                free(sprnames[match]);
 
             sprnames[match] = M_StringDuplicate(candidate);
         }
@@ -4707,7 +4726,7 @@ void deh_procBexSounds(DEHFILE *fpin, const char *line)
     if (devparm)
         C_Output("Processing sound name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -4730,7 +4749,7 @@ void deh_procBexSounds(DEHFILE *fpin, const char *line)
 
         // do it
         memset(candidate, 0, sizeof(candidate));
-        strncpy(candidate, ptr_lstrip(strval), 6);
+        M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
         candidate[6] = '\0';
         len = strlen(candidate);
 
@@ -4764,7 +4783,7 @@ static void deh_procBexMusic(DEHFILE *fpin, const char *line)
     if (devparm)
         C_Output("Processing music name substitution");
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, sizeof(inbuffer));
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
@@ -4917,11 +4936,8 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
 
     val = 0;                                            // defaults in case not otherwise set
 
-    for (i = 0, t = s; *t && i < DEH_MAXKEYLEN; t++, i++)
+    for (i = 0, t = s; *t && *t != '=' && i < DEH_MAXKEYLEN - 1; t++, i++)
     {
-        if (*t == '=')
-            break;
-
         buffer[i] = *t;                                 // copy it
     }
 
@@ -4930,7 +4946,7 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
 
     buffer[i] = '\0';                                   // terminate the key before the '='
 
-    if (!*t)                                            // end of string with no equal sign
+    if (*t != '=')                                      // end of string or key too long
         okrc = 0;
     else
     {
