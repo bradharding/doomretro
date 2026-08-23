@@ -790,6 +790,54 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
         }
+        else if (SC_Compare("GREENBLOOD"))
+        {
+            char    name[64];
+
+            SC_MustGetString();
+            M_StringCopy(name, sc_String, sizeof(name));
+
+            SC_MustGetString();
+
+            if (wildcard(pwadfile, sc_String))
+                for (int i = 0; i < nummobjtypes; i++)
+                {
+                    char    *temp = removenonalpha(mobjinfo[i].name1);
+
+                    if (M_StringCompare(temp, name))
+                    {
+                        mobjinfo[i].bloodcolor = GREENBLOOD;
+                        free(temp);
+                        break;
+                    }
+
+                    free(temp);
+                }
+        }
+        else if (SC_Compare("BLUEBLOOD"))
+        {
+            char    name[64];
+
+            SC_MustGetString();
+            M_StringCopy(name, sc_String, sizeof(name));
+
+            SC_MustGetString();
+
+            if (wildcard(pwadfile, sc_String))
+                for (int i = 0; i < nummobjtypes; i++)
+                {
+                    char    *temp = removenonalpha(mobjinfo[i].name1);
+
+                    if (M_StringCompare(temp, name))
+                    {
+                        mobjinfo[i].bloodcolor = BLUEBLOOD;
+                        free(temp);
+                        break;
+                    }
+
+                    free(temp);
+                }
+        }
         else if (SC_Compare("INCOMPATIBLEPALETTE"))
         {
             SC_MustGetString();
