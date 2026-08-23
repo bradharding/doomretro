@@ -95,7 +95,15 @@ static colortranslation_t colortranslations[] =
 void V_InitColorTranslation(void)
 {
     for (colortranslation_t *p = colortranslations; *p->name; p++)
-        *p->lump = W_CacheLumpName(p->name);
+    {
+        const byte  *translation = W_CacheLumpNameFromResourceWAD(p->name);
+        byte        *remapped = Z_Malloc(256, PU_STATIC, NULL);
+
+        for (int i = 0; i < 256; i++)
+            remapped[i] = nearestcolors[translation[i]];
+
+        *p->lump = remapped;
+    }
 
     for (int i = 0; i < 256; i++)
     {
