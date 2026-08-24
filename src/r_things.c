@@ -1381,6 +1381,8 @@ static void R_ProjectSprite(mobj_t *thing)
     if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
         fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
 
+    flip = (flags2 & MF2_MIRRORED);
+
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
@@ -1391,14 +1393,17 @@ static void R_ProjectSprite(mobj_t *thing)
         else
             rot = (ang - (angle_t)(ANG180 / 16)) >> 28;
 
+        if (flip)
+            rot = (16 - rot) & 15;
+
         lump = sprframe->lump[rot];
-        flip = ((sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
+        flip ^= (bool)(sprframe->flip & (1 << rot));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = ((sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
+        flip ^= (bool)(sprframe->flip & 1);
     }
 
     height = spriteheight[lump];
