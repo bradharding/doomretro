@@ -241,6 +241,15 @@ void P_Ticker(void)
         return;
     }
 
+    for (thinker_t *thinker = thinkers[th_mobj].cnext; thinker != &thinkers[th_mobj]; thinker = thinker->cnext)
+    {
+        mobj_t  *mo = (mobj_t *)thinker;
+
+        mo->oldx = mo->x;
+        mo->oldy = mo->y;
+        mo->oldz = mo->z;
+    }
+
     for (currentthinker = thinkers[th_all].next; currentthinker != &thinkers[th_all]; currentthinker = currentthinker->next)
         if (currentthinker->function)
             currentthinker->function((mobj_t *)currentthinker);

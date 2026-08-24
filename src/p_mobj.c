@@ -702,9 +702,6 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->interpolate = 1;
 
         // Store starting position for mobj interpolation.
-        mobj->oldx = mobj->x;
-        mobj->oldy = mobj->y;
-        mobj->oldz = mobj->z;
         mobj->oldangle = mobj->angle;
     }
 
