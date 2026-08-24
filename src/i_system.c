@@ -46,6 +46,7 @@
 #endif
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_controller.h"
@@ -589,6 +590,8 @@ static LONG WINAPI I_ExceptionHandler(EXCEPTION_POINTERS *exceptionInfo)
         if (wadsloaded && wadsloaded[0])
             fprintf(logfile, "WAD%s              %s\n",
                 (strchr(wadsloaded, ',') ? "s:" : ": "), M_StringReplaceLast(wadsloaded, ",", " and"));
+
+        fprintf(logfile, "DEHACKED lumps:    %i\n", dehcount - 1);
 
         if (gamestate == GS_LEVEL)
         {
