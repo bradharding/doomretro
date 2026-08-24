@@ -252,6 +252,39 @@ int FindBrightDominantColor(patch_t *patch)
     return (color ? color : nearestwhite);
 }
 
+int FindDarkDominantColor(patch_t *patch)
+{
+    int         color = nearestblack;
+    int         colors[256] = { 0 };
+    const int   width = LITTLESHORT(patch->width);
+
+    for (int x = 0; x < width; x++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[x]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            const int   length = column->length;
+
+            for (int y = 0; y < length; y++)
+                colors[*source++]++;
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+
+    for (int i = 0, dominant = 0; i < 256; i++)
+        if (luminance[i] < 128 && colors[i] > dominant)
+        {
+            color = i;
+            dominant = colors[i];
+        }
+
+    return color;
+}
+
 int FindDominantEdgeColor(patch_t *patch)
 {
     int         color = 0;

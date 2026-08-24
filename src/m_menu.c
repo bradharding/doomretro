@@ -143,6 +143,7 @@ static byte     menublurscreen[MAXSCREENAREA];
 static bool     showcaret;
 static short    caretwait = SKULLANIMCOUNT;
 int             caretcolor;
+static int      caretbordercolor;
 
 int             menublurtic = -1;
 static uint64_t menublurtime;
@@ -1405,16 +1406,28 @@ static void M_DrawSave(void)
 
             left[savecharindex] = '\0';
             M_WriteText(x, y, left, true, false, '\0');
-            x += M_StringWidth(left);
+            x += M_StringWidth(left) - 1;
 
             // draw text caret
             if (showcaret || !windowfocused)
             {
                 byte        *dot = *screens + ((y - 1) * SCREENWIDTH + x + WIDESCREENDELTA) * 2;
-                const int   height = (LITTLESHORT(hu_font[0]->height) * 2 + 3) * SCREENWIDTH;
+                const int   height = (LITTLESHORT(hu_font[0]->height) * 2 + 4) * SCREENWIDTH;
+                const byte  bordercolor = V_GetMenuHighlightColor(caretbordercolor, true);
+                const byte  centercolor = V_GetMenuHighlightColor(caretcolor, true);
 
-                for (int j = SCREENWIDTH; j < height; j += SCREENWIDTH)
-                    *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3) = caretcolor;
+                for (int j = 0; j < height; j += SCREENWIDTH)
+                {
+                    if (j < SCREENWIDTH * 2 || j >= height - SCREENWIDTH * 2)
+                        *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3)
+                            = *(dot + j + 4) = *(dot + j + 5) = bordercolor;
+                    else
+                    {
+                        *(dot + j) = *(dot + j + 1) = bordercolor;
+                        *(dot + j + 2) = *(dot + j + 3) = centercolor;
+                        *(dot + j + 4) = *(dot + j + 5) = bordercolor;
+                    }
+                }
             }
 
             // draw text to right of text caret
@@ -5659,6 +5672,8 @@ void M_Ticker(void)
 //
 void M_Init(void)
 {
+    patch_t *fontpatch;
+
     M_BigSeed((unsigned int)time(NULL));
 
     currentmenu = &MainDef;
@@ -5675,7 +5690,9 @@ void M_Init(void)
     menuborder = W_CacheLastLumpName("DRBORDER");
     titleheight = LITTLESHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
-    caretcolor = tinttab15[FindBrightDominantColor(W_CacheLumpName("STCFN065"))];
+    fontpatch = W_CacheLumpName("STCFN065");
+    caretcolor = tinttab15[FindBrightDominantColor(fontpatch)];
+    caretbordercolor = tinttab15[FindDarkDominantColor(fontpatch)];
 
     if (autostart)
     {

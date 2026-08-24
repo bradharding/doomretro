@@ -64,7 +64,7 @@ int         lowpixelrows;
 bool        takingcleancreenshot;
 static int  menuhighlightfade = 100;
 
-static byte V_GetMenuHighlightColor(byte color, bool highlight);
+byte V_GetMenuHighlightColor(byte color, bool highlight);
 
 void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
@@ -1908,7 +1908,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
 }
 
-static byte V_GetMenuHighlightColor(byte color, bool highlight)
+byte V_GetMenuHighlightColor(byte color, bool highlight)
 {
     struct
     {
