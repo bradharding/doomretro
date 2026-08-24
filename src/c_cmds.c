@@ -9281,9 +9281,9 @@ static void resurrectfunc2(char *cmd, char *parms)
             P_ResurrectPlayer(initial_health);
 
             if (isdefaultplayername())
-                M_StringCopy(buffer, "You resurrected yourself!", sizeof(buffer));
+                M_StringCopy(buffer, "You have been resurrected!", sizeof(buffer));
             else
-                M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!", playername, pronoun(reflexive));
+                M_snprintf(buffer, sizeof(buffer), "%s has been resurrected!", playername);
 
             C_PlayerWarning("%s", buffer);
             HU_SetPlayerMessage(buffer, false, false);

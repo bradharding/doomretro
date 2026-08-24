@@ -248,6 +248,7 @@ void P_Ticker(void)
         mo->oldx = mo->x;
         mo->oldy = mo->y;
         mo->oldz = mo->z;
+        mo->oldangle = mo->angle;
     }
 
     for (currentthinker = thinkers[th_all].next; currentthinker != &thinkers[th_all]; currentthinker = currentthinker->next)

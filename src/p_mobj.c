@@ -697,13 +697,8 @@ void P_MobjThinker(mobj_t *mobj)
     if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
         mobj->interpolate = 0;
     else if (!(player && mobj == player->mo))
-    {
         // Assume we can interpolate at the beginning of the tic.
         mobj->interpolate = 1;
-
-        // Store starting position for mobj interpolation.
-        mobj->oldangle = mobj->angle;
-    }
 
     if (mobj->nudge > 0)
         mobj->nudge--;

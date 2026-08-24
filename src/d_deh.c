@@ -2562,7 +2562,8 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         if (devparm)
             C_Output("Line = \"%s\"", inbuffer);
 
-        if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
+        if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' '
+            || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
             continue;   // Blank line or comment line
 
         // -- If DEH_BLOCKMAX is set right, the processing is independently
@@ -2731,7 +2732,8 @@ static void deh_procBexCodePointers(DEHFILE *fpin, const char *line)
                 states[indexnum].action = deh_bexptrs[i].cptr;
 
                 if (devparm)
-                    C_Output(" - applied %s from codeptr[%i] to states[%i]", deh_bexptrs[i].lookup, i, indexnum);
+                    C_Output(" - applied %s from codeptr[%i] to states[%i]",
+                        deh_bexptrs[i].lookup, i, indexnum);
 
                 if (deh_bexptrs[i].mbf == MBF)
                     mbfcompatible = true;
@@ -2839,42 +2841,58 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
         {
             if (!*mobjinfo[indexnum].name3)
             {
-                M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1, sizeof(mobjinfo[0].name3));
-                M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss", mobjinfo[indexnum].name1);
+                M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1,
+                    sizeof(mobjinfo[0].name3));
+                M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss",
+                    mobjinfo[indexnum].name1);
             }
 
-            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name1));
-            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].name1));
+            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss",
+                mobjinfo[indexnum].name1);
             namechange = true;
         }
-        else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
-            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural1));
+        else if ((string = M_StringCompare(key, "Plural"))
+            || (string = M_StringCompare(key, "Plural1")))
+            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
         {
-            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name2));
-            M_snprintf(mobjinfo[indexnum].plural2, sizeof(mobjinfo[0].plural2), "%ss", mobjinfo[indexnum].name2);
+            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].name2));
+            M_snprintf(mobjinfo[indexnum].plural2, sizeof(mobjinfo[0].plural2), "%ss",
+                mobjinfo[indexnum].name2);
         }
         else if ((string = M_StringCompare(key, "Plural2")))
-            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural2));
+            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].plural2));
         else if ((string = M_StringCompare(key, "Name3")))
         {
-            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name3));
-            M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss", mobjinfo[indexnum].name3);
+            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].name3));
+            M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss",
+                mobjinfo[indexnum].name3);
         }
         else if ((string = M_StringCompare(key, "Plural3")))
-            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural3));
+            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)),
+                sizeof(mobjinfo[0].plural3));
         else if (*name && !namechange)
         {
-            M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1, sizeof(mobjinfo[0].name3));
-            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(name)), sizeof(mobjinfo[0].name1));
-            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
+            M_StringCopy(mobjinfo[indexnum].name3, mobjinfo[indexnum].name1,
+                sizeof(mobjinfo[0].name3));
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(name)),
+                sizeof(mobjinfo[0].name1));
+            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss",
+                mobjinfo[indexnum].name1);
             namechange = true;
         }
 
         if (string)
         {
             if (devparm)
-                C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
+                C_Output("Assigned %s to %s (%i) at index %i.",
+                    lowercase(trimwhitespace(strval)), key, indexnum, ix);
 
             continue;
         }
@@ -2935,7 +2953,8 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
                             if (M_StringCompare(key, "TRANSLUCENT"))
                                 boomcompatible = true;
-                            else if (M_StringCompare(key, "TOUCHY") || M_StringCompare(key, "BOUNCES") || M_StringCompare(key, "FRIEND"))
+                            else if (M_StringCompare(key, "TOUCHY") || M_StringCompare(key, "BOUNCES")
+                                || M_StringCompare(key, "FRIEND"))
                                 mbfcompatible = true;
 
                             value |= deh_mobjflags[iy].value;
@@ -3502,7 +3521,8 @@ static void deh_procPointer(DEHFILE *fpin, const char *line)
             states[indexnum].action = deh_codeptr[value];
 
             if (devparm)
-                C_Output(" - applied %p from codeptr[%i] to states[%i]", (void *)deh_codeptr[value], value, indexnum);
+                C_Output(" - applied %p from codeptr[%i] to states[%i]",
+                    (void *)deh_codeptr[value], value, indexnum);
 
             // Write BEX-oriented line to match:
             for (int i = 0; i < arrlen(deh_bexptrs); i++)
@@ -3515,7 +3535,8 @@ static void deh_procPointer(DEHFILE *fpin, const char *line)
                 }
         }
         else
-            C_Warning(1, "Invalid frame pointer index for \"%s\" at %i, xref %p.", key, value, (void *)deh_codeptr[value]);
+            C_Warning(1, "Invalid frame pointer index for \"%s\" at %i, xref %p.",
+                key, value, (void *)deh_codeptr[value]);
     }
 }
 
@@ -3649,9 +3670,11 @@ static void deh_procAmmo(DEHFILE *fpin, const char *line)
                 if (indexnum == weaponinfo[i].ammotype)
                 {
                     if (M_StringCompare(key, "Name"))
-                        M_StringCopy(weaponinfo[i].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[0].ammoname));
+                        M_StringCopy(weaponinfo[i].ammoname, lowercase(trimwhitespace(strval)),
+                            sizeof(weaponinfo[0].ammoname));
                     else if (M_StringCompare(key, "Plural"))
-                        M_StringCopy(weaponinfo[i].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[0].ammoplural));
+                        M_StringCopy(weaponinfo[i].ammoplural, lowercase(trimwhitespace(strval)),
+                            sizeof(weaponinfo[0].ammoplural));
                 }
         }
         else
@@ -3864,7 +3887,8 @@ static void deh_procPars(DEHFILE *fpin, const char *line)
                 else
                 {
                     if (devparm)
-                        C_Output("Changed par time for MAP%02i from %i to %i seconds.", level, cpars[level - 1], partime);
+                        C_Output("Changed par time for MAP%02i from %i to %i seconds.",
+                            level, cpars[level - 1], partime);
 
                     cpars[level - 1] = partime;
                     newpars = true;
@@ -3878,7 +3902,8 @@ static void deh_procPars(DEHFILE *fpin, const char *line)
             else
             {
                 if (devparm)
-                    C_Output("Changed par time for E%iM%i from %i to %i seconds.", ep, level, pars[ep][level], partime);
+                    C_Output("Changed par time for E%iM%i from %i to %i seconds.",
+                        ep, level, pars[ep][level], partime);
 
                 pars[ep][level] = partime;
                 newpars = true;
@@ -4350,7 +4375,8 @@ static void deh_procText(DEHFILE *fpin, const char *line)
                 if (!strncasecmp(s_music[i].name1, inbuffer, fromlen))
                 {
                     if (devparm)
-                        C_Output("Changing name of music from %s to %*s", s_music[i].name1, usedlen, &inbuffer[fromlen]);
+                        C_Output("Changing name of music from %s to %*s",
+                            s_music[i].name1, usedlen, &inbuffer[fromlen]);
 
                     memcpy(s_music[i].name1, &inbuffer[fromlen], usedlen);
                     s_music[i].name1[usedlen] = '\0';
@@ -4361,7 +4387,7 @@ static void deh_procText(DEHFILE *fpin, const char *line)
         }
     }
 
-    if (!found)                                             // Nothing we want to handle here -- see if strings can deal with it.
+    if (!found) // Nothing we want to handle here -- see if strings can deal with it.
     {
         if (devparm)
             C_Output("Checking text area through strings for \"%.12s%s\" from = %i to = %i",
@@ -4480,7 +4506,7 @@ static void deh_procStrings(DEHFILE *fpin, const char *line)
         {
             // go process the current string
             deh_procStringSub(key, NULL, trimwhitespace(holdstring));
-            *holdstring = '\0';  // empty string for the next one
+            *holdstring = '\0'; // empty string for the next one
             havepair = false;
         }
     }
@@ -4519,7 +4545,7 @@ static bool deh_AssignUserString(const char *key, const char *newstring)
     for (int i = 0; i < deh_numuserstrings; i++)
         if (M_StringCompare(deh_userstrings[i].lookup, key))
         {
-            char *value = deh_DuplicateProcessedString(newstring);
+            char    *value = deh_DuplicateProcessedString(newstring);
 
             free(deh_userstrings[i].value);
             deh_userstrings[i].value = value;
@@ -4590,7 +4616,8 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
     bool    found = false;  // loop exit flag
 
     for (int i = 0; i < deh_numstrlookup; i++)
-        if ((found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key))))
+        if ((found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) :
+            M_StringCompare(deh_strlookup[i].lookup, key))))
         {
             if (deh_strlookup[i].assigned)
                 break;
@@ -4603,7 +4630,8 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else if (lookfor)
                 {
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""),
+                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s",
+                        lookfor, (strlen(lookfor) > 12 ? "..." : ""),
                         newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
@@ -4617,7 +4645,8 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                 addtodehmaptitlecount = true;
 
             // [BH] allow either GOTREDSKUL or GOTREDSKULL
-            if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL") && !deh_strlookup[p_GOTREDSKULL].assigned)
+            if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL")
+                && !deh_strlookup[p_GOTREDSKULL].assigned)
             {
                 s_GOTREDSKULL = s_GOTREDSKUL;
                 deh_strlookup[p_GOTREDSKULL].assigned++;
@@ -4822,7 +4851,8 @@ static void deh_procBexMusic(DEHFILE *fpin, const char *line)
             if (!strncasecmp(deh_musicnames[rover], key, 6))
             {
                 if (devparm)
-                    C_Output("Substituting \"%s\" for music \"%s\"", candidate, deh_musicnames[rover]);
+                    C_Output("Substituting \"%s\" for music \"%s\"",
+                        candidate, deh_musicnames[rover]);
 
                 M_StringCopy(s_music[rover].name1, candidate, sizeof(s_music[0].name1));
                 break;
@@ -5000,10 +5030,34 @@ static void InitRocketTrails(void)
 
     dsdh_EnsureStatesCapacity(oldnumstates + 4);
 
-    states[oldnumstates] = (state_t){ .sprite = oldnumsprites, .frame = 0, .tics = 4, .nextstate = oldnumstates + 1 };
-    states[oldnumstates + 1] = (state_t){ .sprite = oldnumsprites, .frame = 1, .tics = 4, .nextstate = oldnumstates + 2 };
-    states[oldnumstates + 2] = (state_t){ .sprite = oldnumsprites, .frame = 2, .tics = 10, .nextstate = oldnumstates + 3 };
-    states[oldnumstates + 3] = (state_t){ .sprite = oldnumsprites, .frame = 3, .tics = 14, .nextstate = S_NULL };
+    states[oldnumstates] = (state_t){
+        .sprite = oldnumsprites,
+        .frame = 0,
+        .tics = 4,
+        .nextstate = oldnumstates + 1
+    };
+
+    states[oldnumstates + 1] = (state_t){
+        .sprite = oldnumsprites,
+        .frame = 1,
+        .tics = 4,
+        .nextstate = oldnumstates + 2
+    };
+
+    states[oldnumstates + 2] = (state_t){
+        .sprite = oldnumsprites,
+        .frame = 2,
+        .tics = 10,
+        .nextstate = oldnumstates + 3
+    };
+
+    states[oldnumstates + 3] = (state_t){
+        .sprite = oldnumsprites,
+        .frame = 3,
+        .tics = 14,
+        .nextstate = S_NULL
+    };
+
     numstates = oldnumstates + 4;
 
     dsdh_EnsureMobjInfoCapacity(oldnummobjtypes + 1);
@@ -5037,8 +5091,8 @@ void D_PostProcessDeh(void)
         // action pointer expects, for future-proofing's sake
         for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
             if (states[i].args[j])
-                I_Error("Action %s on state %i expects no more than %i non-zero args (%i found).\nCheck your DEHACKED lump.",
-                    bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
+                I_Error("Action %s on state %i expects no more than %i non-zero args (%i found).\n"
+                    "Check your DEHACKED lump.", bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
 
         // replace unset fields with default values
         for (; j >= 0; j--)
