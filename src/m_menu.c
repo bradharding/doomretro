@@ -1394,9 +1394,10 @@ static void M_DrawSave(void)
         // draw save game description
         if (savestringenter && i == itemon)
         {
-            char    left[256] = "";
-            char    right[256] = "";
-            int     x = LoadDef.x - 2;
+            char        left[256] = "";
+            char        right[256] = "";
+            int         x = LoadDef.x - 2;
+            const bool  narrow = (caretcolor == caretbordercolor);
 
             savecharindex = MIN(savecharindex, (int)strlen(savegamestrings[i]));
 
@@ -1416,18 +1417,35 @@ static void M_DrawSave(void)
                 const byte  bordercolor = V_GetMenuHighlightColor(caretbordercolor, true);
                 const byte  centercolor = V_GetMenuHighlightColor(caretcolor, true);
 
+                if (narrow)
+                    dot += 2;
+
                 for (int j = 0; j < height; j += SCREENWIDTH)
-                {
-                    if (j < SCREENWIDTH * 2 || j >= height - SCREENWIDTH * 2)
-                        *(dot + j) = *(dot + j + 1) = *(dot + j + 2) = *(dot + j + 3)
-                            = *(dot + j + 4) = *(dot + j + 5) = bordercolor;
+                    if (narrow)
+                    {
+                        *(dot + j) = centercolor;
+                        *(dot + j + 1) = centercolor;
+                        *(dot + j + 2) = centercolor;
+                        *(dot + j + 3) = centercolor;
+                    }
+                    else if (j < SCREENWIDTH * 2 || j >= height - SCREENWIDTH * 2)
+                    {
+                        *(dot + j) = bordercolor;
+                        *(dot + j + 1) = bordercolor;
+                        *(dot + j + 2) = bordercolor;
+                        *(dot + j + 3) = bordercolor;
+                        *(dot + j + 4) = bordercolor;
+                        *(dot + j + 5) = bordercolor;
+                    }
                     else
                     {
-                        *(dot + j) = *(dot + j + 1) = bordercolor;
-                        *(dot + j + 2) = *(dot + j + 3) = centercolor;
-                        *(dot + j + 4) = *(dot + j + 5) = bordercolor;
+                        *(dot + j) = bordercolor;
+                        *(dot + j + 1) = bordercolor;
+                        *(dot + j + 2) = centercolor;
+                        *(dot + j + 3) = centercolor;
+                        *(dot + j + 4) = bordercolor;
+                        *(dot + j + 5) = bordercolor;
                     }
-                }
             }
 
             // draw text to right of text caret
@@ -1435,7 +1453,7 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
-            M_WriteText(x + 2, y, right, true, false,
+            M_WriteText(x + (narrow ? 3 : 2), y, right, true, false,
                 (savecharindex >= 1 ? left[savecharindex - 1] : '\0'));
         }
         else
