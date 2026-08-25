@@ -1072,6 +1072,21 @@ int W_GetNumForName(const char *name)
     return i;
 }
 
+int W_GetLastNumForNameFromNonResourceWAD(const char *name)
+{
+    int i;
+
+    for (i = numlumps - 1; i >= 0; i--)
+        if (!strncasecmp(lumpinfo[i]->name, name, 8)
+            && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
+            break;
+
+    if (i < 0)
+        I_Error("W_GetLastNumForNameFromNonResourceWAD: %s not found!", name);
+
+    return i;
+}
+
 // Go forwards rather than backwards so we get lump from IWAD and not PWAD
 int W_GetLastNumForName(const char *name)
 {

@@ -1532,12 +1532,14 @@ void ST_InitStatBar(void)
     if (english == english_american)
     {
         sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
-            W_CacheLastLumpName("STBAR") : (legacyofrust ? W_CacheLumpNameFromResourceWAD("STBAR") : W_CacheLumpName("STBAR")));
+            W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("STBAR")) :
+            (legacyofrust ? W_CacheLumpNameFromResourceWAD("STBAR") : W_CacheLumpName("STBAR")));
         sbar2 = W_CacheLumpName("STBAR2");
     }
     else
     {
-        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ? W_CacheLastLumpName("STBAR") :
+        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
+            W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("STBAR")) :
             (W_GetNumLumps("STBAR") > 2 ? W_CacheLumpName("STBAR") : W_CacheLumpName("STBAR3")));
         sbar2 = W_CacheLumpName("STBAR4");
     }

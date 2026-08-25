@@ -3139,8 +3139,10 @@ static void D_DoomMainSetup(void)
     }
     else if (REKKR)
     {
-        titlelump = W_CacheLastLumpName(W_CheckNumForName("TITLEPIW") >= 0 ? "TITLEPIW" : "TITLEPIC");
-        creditlump = W_CacheLastLumpName(W_CheckNumForName("CREDITW") >= 0 ? "CREDITW" : "CREDIT");
+        titlelump = W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD(W_CheckNumForName("TITLEPIW") >= 0 ?
+            "TITLEPIW" : "TITLEPIC"));
+        creditlump = W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD(W_CheckNumForName("CREDITW") >= 0 ?
+            "CREDITW" : "CREDIT"));
     }
     else
     {

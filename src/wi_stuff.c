@@ -981,7 +981,7 @@ static void WI_DrawBackground(void)
     else if (exitpic > 0)
         lump = W_CacheLumpNum(exitpic);
     else if (FREEDOOM || hacx)
-        lump = W_CacheLastLumpName("INTERPIC");
+        lump = W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("INTERPIC"));
     else if (gamemode == commercial)
     {
         if (gamemission == pack_plut)

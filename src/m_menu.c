@@ -1767,7 +1767,7 @@ static void M_DrawHelp(void)
 
     if (REKKR && W_CheckNumForName("HELP1W") >= 0)
     {
-        V_DrawPagePatch(0, W_CacheLastLumpName("HELP1W"));
+        V_DrawPagePatch(0, W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("HELP1W")));
 
         if (mapwindow)
             memset(mapscreen, nearestblack, MAPAREA);
@@ -1776,7 +1776,8 @@ static void M_DrawHelp(void)
     {
         if (chex || FREEDOOM || hacx || harmony || REKKRSA)
         {
-            V_DrawPagePatch(0, W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1"));
+            V_DrawPagePatch(0, W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD(gamemode == commercial ?
+                "HELP" : "HELP1")));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
