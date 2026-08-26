@@ -57,6 +57,7 @@
 #include "p_local.h"
 #include "p_setup.h"
 #include "s_sound.h"
+#include "st_carousel.h"
 #include "st_lib.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -1241,6 +1242,8 @@ static void ST_UpdateWidgets(void)
 
 void ST_Ticker(void)
 {
+    ST_UpdateCarousel();
+
     if (st_statusbarvisible != st_statusbartarget)
     {
         if (st_statusbarvisible < st_statusbartarget)
@@ -1524,6 +1527,8 @@ void ST_Drawer(const bool fullscreen, const bool refresh)
     else
         // Otherwise, update as little as possible
         ST_DiffDraw();
+
+    ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
 }
 
 void ST_InitStatBar(void)
@@ -1773,6 +1778,7 @@ static void ST_CreateWidgets(void)
 
 void ST_Start(void)
 {
+    ST_ResetCarousel();
     ST_InitData();
     ST_CreateWidgets();
 }

@@ -1260,6 +1260,8 @@ consolecmd_t consolecmds[] =
         "The amount your weapon bobs up and down as you move (" BOLD("0%") " to " BOLD("100%") ")."),
     BOOLCVAR(weaponbounce, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the bounce of your weapon when you land after a fall."),
+    BOOLCVAR(weaponcarousel, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles displaying the weapon carousel when you change weapons."),
     BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
     CCMD(wiki, help, "", nullfunc1, wikifunc2, false, "",

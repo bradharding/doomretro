@@ -56,6 +56,7 @@
 #include "r_bsp.h"
 #include "r_main.h"
 #include "r_state.h"
+#include "st_carousel.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -1747,6 +1748,9 @@ void HU_Drawer(void)
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
+
+        if (r_hud || r_althud)
+            ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
     }
 }
 

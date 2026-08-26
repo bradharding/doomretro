@@ -77,6 +77,8 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
     bool left, bool right, const byte *tinttab1, const byte *tinttab2);
 
 void V_DrawPatch(int x, int y, int screen, patch_t *patch);
+void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab);
+void V_DrawTranslucentPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab);
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch);
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch);
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch);

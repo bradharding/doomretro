@@ -80,6 +80,7 @@ typedef struct
     sfxnum_t        sound;
     int             flags;  // MBF21
     char            key;
+    char            *carouselicon;
     bool            altered;
     patch_t         *weaponpatch;
     patch_t         *ammopatch;

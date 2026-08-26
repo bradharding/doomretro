@@ -254,6 +254,7 @@ extern char     *wad;
 extern char     *wadfolder;
 extern int      weaponbob;
 extern bool     weaponbounce;
+extern bool     weaponcarousel;
 extern bool     weaponrecoil;
 
 extern uint64_t stat_automapopened;
@@ -1042,6 +1043,8 @@ enum
 #define weaponbob_max                       100
 
 #define weaponbounce_default                true
+
+#define weaponcarousel_default              true
 
 #define weaponrecoil_default                false
 

@@ -112,6 +112,72 @@ void V_InitColorTranslation(void)
     }
 }
 
+void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    byte        *desttop;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
+    y -= LITTLESHORT(patch->topoffset);
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH
+        + ((x * DX) >> FRACBITS) + 2 + SCREENWIDTH * 2];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+
+            while (count-- > 0)
+            {
+                *dest = tinttab[*dest];
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    byte        *desttop;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
+    y -= LITTLESHORT(patch->topoffset);
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                *dest = tinttab[(source[srccol >> FRACBITS] << 8) + *dest];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 //
 // V_FillRect
 //

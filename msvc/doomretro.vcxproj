@@ -246,6 +246,7 @@
     <ClInclude Include="..\src\r_skydefs.h" />
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
+    <ClInclude Include="..\src\st_carousel.h" />
     <ClInclude Include="..\src\s_sound.h" />
     <ClInclude Include="..\src\s_trakinfo.h" />
     <ClInclude Include="..\src\sc_man.h" />
@@ -344,6 +345,7 @@
     <ClCompile Include="..\src\r_sky.c" />
     <ClCompile Include="..\src\r_skydefs.c" />
     <ClCompile Include="..\src\r_things.c" />
+    <ClCompile Include="..\src\st_carousel.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\s_trakinfo.c" />
     <ClCompile Include="..\src\sc_man.c" />

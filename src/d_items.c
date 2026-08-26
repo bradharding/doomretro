@@ -62,7 +62,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_chainsaw,
         /* sound        */ sfx_none,
         /* flags        */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO),
-        /* key          */ '1'
+        /* key          */ '1',
+        /* carouselicon */ "SMFIST"
     },
 
     // pistol
@@ -87,7 +88,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_shotgun,
         /* sound        */ sfx_pistol,
         /* flags        */ WPF_AUTOSWITCHFROM,
-        /* key          */ '2'
+        /* key          */ '2',
+        /* carouselicon */ "SMPISG"
     },
 
     // shotgun
@@ -112,7 +114,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_supershotgun,
         /* sound        */ sfx_shotgn,
         /* flags        */ WPF_NOFLAG,
-        /* key          */ '3'
+        /* key          */ '3',
+        /* carouselicon */ "SMSHOT"
     },
 
     // chaingun
@@ -137,7 +140,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_missile,
         /* sound        */ sfx_pistol,
         /* flags        */ WPF_NOFLAG,
-        /* key          */ '4'
+        /* key          */ '4',
+        /* carouselicon */ "SMMGUN"
     },
 
     // rocket launcher
@@ -162,7 +166,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_plasma,
         /* sound        */ sfx_rlaunc,
         /* flags        */ WPF_NOAUTOFIRE,
-        /* key          */ '5'
+        /* key          */ '5',
+        /* carouselicon */ "SMLAUN"
     },
 
     // plasma rifle
@@ -187,7 +192,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_bfg,
         /* sound        */ sfx_plasma,
         /* flags        */ WPF_NOFLAG,
-        /* key          */ '6'
+        /* key          */ '6',
+        /* carouselicon */ "SMPLAS"
     },
 
     // BFG-9000
@@ -212,7 +218,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_fist,
         /* sound        */ sfx_bfg,
         /* flags        */ WPF_NOAUTOFIRE,
-        /* key          */ '7'
+        /* key          */ '7',
+        /* carouselicon */ "SMBFGG"
     },
 
     // chainsaw
@@ -237,7 +244,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_pistol,
         /* sound        */ sfx_none,
         /* flags        */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO),
-        /* key          */ '1'
+        /* key          */ '1',
+        /* carouselicon */ "SMCSAW"
     },
 
     // super shotgun
@@ -262,7 +270,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon   */ wp_chaingun,
         /* sound        */ sfx_dshtgn,
         /* flags        */ WPF_NOFLAG,
-        /* key          */ '3'
+        /* key          */ '3',
+        /* carouselicon */ "SMSGN2"
     }
 };
 

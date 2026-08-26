@@ -267,6 +267,7 @@ char        *wad = NULL;
 char        *wadfolder = wadfolder_default;
 int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
+bool        weaponcarousel = weaponcarousel_default;
 bool        weaponrecoil = weaponrecoil_default;
 
 uint64_t    stat_automapopened = 0;
@@ -540,6 +541,7 @@ static default_t cvars[] =
     CVAR_STRING       (wadfolder,                        iwadfolder,                            wadfolder,                             0                      ),
     CVAR_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                             0                      ),
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS         ),
+    CVAR_BOOL         (weaponcarousel,                   weaponcarousel,                        weaponcarousel,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS         ),
     BLANKLINE,
     COMMENT("; player stats"   ),
