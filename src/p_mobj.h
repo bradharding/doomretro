@@ -332,6 +332,8 @@ enum
     // Apply blood splats around object when spawned
     MF2_MOREBLOOD                   = 0x00000400,
 
+    MF2_NOINTERPOLATEZ              = 0x00000800,
+
     // Object is affected by scroller/pusher/puller
     MF2_SCROLLING                   = 0x00001000,
 

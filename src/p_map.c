@@ -1285,19 +1285,33 @@ static bool P_ThingHeightClip(mobj_t *thing)
     thing->dropoffz = tmdropoffz;   // killough 11/98: remember dropoffs
 
     if ((flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bobsprites)
+    {
+        thing->oldz = thing->z;
         thing->z = tmfloorz;
+        thing->flags2 |= MF2_NOINTERPOLATEZ;
+    }
     else if (flags2 & MF2_FLOATBOB)
     {
         if (tmfloorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
+        {
+            thing->oldz = thing->z;
             thing->z = thing->z - oldfloorz + tmfloorz;
+            thing->flags2 |= MF2_NOINTERPOLATEZ;
+        }
 
         if (thing->z + thing->height > thing->ceilingz)
+        {
+            thing->oldz = thing->z;
             thing->z = thing->ceilingz - thing->height;
+            thing->flags2 |= MF2_NOINTERPOLATEZ;
+        }
     }
     else if (onfloor)
     {
         // walking monsters rise and fall with the floor
+        thing->oldz = thing->z;
         thing->z = tmfloorz;
+        thing->flags2 |= MF2_NOINTERPOLATEZ;
 
         // [BH] immediately update player's view
         if (player)
@@ -1311,7 +1325,11 @@ static bool P_ThingHeightClip(mobj_t *thing)
     {
         // don't adjust a floating monster unless forced to
         if (thing->z + thing->height > thing->ceilingz)
+        {
+            thing->oldz = thing->z;
             thing->z = thing->ceilingz - thing->height;
+            thing->flags2 |= MF2_NOINTERPOLATEZ;
+        }
     }
 
     return (thing->ceilingz - tmfloorz >= thing->height);
