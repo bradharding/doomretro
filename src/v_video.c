@@ -112,16 +112,57 @@ void V_InitColorTranslation(void)
     }
 }
 
-void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color, const byte *tinttab)
+{
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    for (int col = 0; col < width; col += DXI)
+    {
+        const int   sourcecol = col >> FRACBITS;
+
+        if (sourcecol % 4 != 3)
+        {
+            const int   dx = ((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS;
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
+
+            while (column->topdelta != 0xFF)
+            {
+                const byte  length = column->length;
+
+                for (int row = 0; row < length; row++)
+                {
+                    const int   sourcey = column->topdelta + row;
+
+                    if (sourcey % 4 != 3)
+                    {
+                        const int   dy = ((y + sourcey - sourcey / 4) * DY) >> FRACBITS;
+                        const int   dx2 = ((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS;
+                        const int   dy2 = ((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS;
+
+                        for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
+                            for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
+                                if (yy >= 0 && xx >= 0)
+                                    screens[screen][yy * SCREENWIDTH + xx] = (tinttab ?
+                                        tinttab[(screens[screen][yy * SCREENWIDTH + xx] << 8) + color] : color);
+                    }
+                }
+
+                column = (column_t *)((byte *)column + length + 4);
+            }
+        }
+    }
+}
+
+void V_DrawColoredPatch(int x, int y, int screen, patch_t *patch, byte color, const byte *tinttab)
 {
     byte        *desttop;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
 
-    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
-    y -= LITTLESHORT(patch->topoffset);
+    x += WIDESCREENDELTA;
 
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH
-        + ((x * DX) >> FRACBITS) + 2 + SCREENWIDTH * 2];
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
     for (int col = 0; col < width; col += DXI, desttop++)
     {
@@ -135,8 +176,201 @@ void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte 
 
             while (count-- > 0)
             {
-                *dest = tinttab[*dest];
+                *dest = (tinttab ? tinttab[(*dest << 8) + color] : color);
                 dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawSmallDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    for (int col = 0; col < width; col += DXI)
+    {
+        const int   sourcecol = col >> FRACBITS;
+
+        if (sourcecol % 4 != 3)
+        {
+            const int   screenx = (((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS) + 2;
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+            while (column->topdelta != 0xFF)
+            {
+                const byte  length = column->length;
+
+                for (int row = 0; row < length; row++)
+                {
+                    const int   sourcey = column->topdelta + row;
+
+                    if (sourcey % 4 != 3)
+                    {
+                        const int   dy = (((y + sourcey - sourcey / 4) * DY) >> FRACBITS) + 2;
+                        const int   dx2 = (((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS) + 2;
+                        const int   dy2 = (((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS) + 2;
+
+                        for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
+                            for (int xx = screenx; xx < MAX(screenx + 1, dx2) && xx < SCREENWIDTH; xx++)
+                                if (yy >= 0 && xx >= 0)
+                                    screens[screen][yy * SCREENWIDTH + xx] =
+                                        tinttab[screens[screen][yy * SCREENWIDTH + xx]];
+                    }
+                }
+
+                column = (column_t *)((byte *)column + length + 4);
+            }
+        }
+    }
+}
+
+void V_DrawTintedPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    byte        *desttop;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                const byte  dot = source[srccol >> FRACBITS];
+
+                *dest = tinttab[(dot << 8) + nearestred];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawSmallTintedPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    for (int col = 0; col < width; col += DXI)
+    {
+        const int   sourcecol = col >> FRACBITS;
+
+        if (sourcecol % 4 != 3)
+        {
+            const int   dx = ((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS;
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
+
+            while (column->topdelta != 0xFF)
+            {
+                const byte  *source = (byte *)column + 3;
+                const byte  length = column->length;
+
+                for (int row = 0; row < length; row++)
+                {
+                    const int   sourcey = column->topdelta + row;
+
+                    if (sourcey % 4 != 3)
+                    {
+                        const int   dy = ((y + sourcey - sourcey / 4) * DY) >> FRACBITS;
+                        const int   dx2 = ((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS;
+                        const int   dy2 = ((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS;
+
+                        for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
+                            for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
+                                if (yy >= 0 && xx >= 0)
+                                    screens[screen][yy * SCREENWIDTH + xx] =
+                                        tinttab[(source[row] << 8) + nearestred];
+                    }
+                }
+
+                column = (column_t *)((byte *)column + length + 4);
+            }
+        }
+    }
+}
+
+void V_DrawTranslatedPatch(int x, int y, int screen, patch_t *patch, const byte *translation)
+{
+    byte        *desttop;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                *dest = translation[source[srccol >> FRACBITS]];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
+    y -= LITTLESHORT(patch->topoffset);
+
+    const int   top = ((y * DY) >> FRACBITS) + 2;
+    int         screenx = ((x * DX) >> FRACBITS) + 2;
+
+    for (int col = 0; col < width; col += DXI, screenx++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const int   posttop = top + ((column->topdelta * DY) >> FRACBITS);
+            const byte  length = column->length;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, posttop);
+            const int   clipbottom = MIN(SCREENHEIGHT, posttop + count);
+
+            if (screenx >= 0 && screenx < SCREENWIDTH && cliptop < clipbottom)
+            {
+                byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+
+                for (int y = cliptop; y < clipbottom; y++)
+                {
+                    *dest = tinttab[*dest];
+                    dest += SCREENWIDTH;
+                }
             }
 
             column = (column_t *)((byte *)column + length + 4);

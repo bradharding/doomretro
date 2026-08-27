@@ -950,6 +950,7 @@ static void HU_AltInit(void)
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
+        weaponinfo[i].weaponpatch = NULL;
         M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
         if (W_CheckNumForName(buffer) >= 0)

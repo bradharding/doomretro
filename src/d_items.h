@@ -81,6 +81,7 @@ typedef struct
     int             flags;  // MBF21
     char            key;
     char            *carouselicon;
+    int             carouselorder;
     bool            altered;
     patch_t         *weaponpatch;
     patch_t         *ammopatch;

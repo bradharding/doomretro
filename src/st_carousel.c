@@ -50,19 +50,6 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-static const weapontype_t weapon_order[] =
-{
-    wp_fist,
-    wp_chainsaw,
-    wp_pistol,
-    wp_shotgun,
-    wp_supershotgun,
-    wp_chaingun,
-    wp_missile,
-    wp_plasma,
-    wp_bfg
-};
-
 typedef enum
 {
     wpi_none = -1,
@@ -79,6 +66,7 @@ typedef struct
 
 static weapon_icon_t    *weapon_icons;
 static int              selected_index = 0;
+static int              tallest_icon_height;
 
 static int              last_index = -1;
 static uint64_t         last_time;
@@ -86,6 +74,35 @@ static int              distance;
 
 static int              duration;
 static int              fade;
+
+static const byte *CarouselFadeTint(void)
+{
+    return (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75));
+}
+
+static weapontype_t CarouselWeapon(const int order)
+{
+    for (int i = 0; i < NUMWEAPONS; i++)
+        if (weaponinfo[i].carouselorder == order)
+            return (weapontype_t)i;
+
+    return wp_nochange;
+}
+
+static patch_t *PickupPatch(const weapontype_t weapon)
+{
+    if (weapon == wp_pistol)
+    {
+        const int   lumpnum = W_CheckNumForName("DRHUDWP1");
+
+        return (lumpnum >= 0 ? W_CacheLumpNum(lumpnum) : NULL);
+    }
+
+    if (weapon == wp_fist)
+        return NULL;
+
+    return weaponinfo[weapon].weaponpatch;
+}
 
 static bool WeaponSelectable(const weapontype_t weapon)
 {
@@ -111,14 +128,30 @@ static void BuildWeaponIcons(void)
     const weapontype_t  selectedweapon = (viewplayer->pendingweapon == wp_nochange ?
                             viewplayer->readyweapon : viewplayer->pendingweapon);
 
+    if (!tallest_icon_height)
+        for (int i = 0; i < NUMWEAPONS; i++)
+        {
+            const weapontype_t  weapon = CarouselWeapon(i);
+            patch_t             *patch;
+
+            if (weapon == wp_nochange)
+                continue;
+
+            if ((patch = PickupPatch(weapon)))
+                tallest_icon_height = MAX(tallest_icon_height, LITTLESHORT(patch->height));
+        }
+
     array_clear(weapon_icons);
 
     selected_index = 0;
 
-    for (int i = 0; i < arrlen(weapon_order); i++)
+    for (int i = 0; i < NUMWEAPONS; i++)
     {
-        weapontype_t        weapon = weapon_order[i];
-        weapon_icon_state_t state = wpi_none;
+        const weapontype_t      weapon = CarouselWeapon(i);
+        weapon_icon_state_t  state = wpi_none;
+
+        if (weapon == wp_nochange)
+            continue;
 
         if (last_index == -1 && weapon == viewplayer->readyweapon)
             last_index = array_size(weapon_icons);
@@ -138,7 +171,7 @@ static void BuildWeaponIcons(void)
 
         if (state != wpi_none)
         {
-            weapon_icon_t   icon = {weapon, state};
+            weapon_icon_t   icon = { weapon, state };
 
             array_push(weapon_icons, icon);
         }
@@ -191,25 +224,78 @@ void ST_UpdateCarousel(void)
 
 static void CarouselDrawIcon(int x, int y, weapon_icon_t icon)
 {
-    char        lump[9] = { 0 };
-    int         lumpnum;
-    M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[icon.weapon].carouselicon,
-        (icon.state == wpi_selected));
+    if (icon.weapon < 0 || icon.weapon >= NUMWEAPONS)
+        return;
 
-    if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+    if (weaponinfo[icon.weapon].carouselicon)
     {
-        patch_t *patch = W_CacheLumpNum(lumpnum);
+        char    lump[9] = { 0 };
+        int     lumpnum;
 
-        V_DrawDropShadowPatch(x, y, 0, patch,
+        M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[icon.weapon].carouselicon,
+            (icon.state == wpi_selected));
+
+        if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+        {
+            patch_t *patch = W_CacheLumpNum(lumpnum);
+
+            V_DrawDropShadowPatch(x, y, 0, patch,
+                (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
+
+            if (fade == 4 && r_hud_translucency)
+                V_DrawTranslucentPatch(x, y, 0, patch, tinttab80);
+            else if (fade == 4)
+                V_DrawPatch(x, y, 0, patch);
+            else if (fade > 0)
+                V_DrawTranslucentPatch(x, y, 0, patch, CarouselFadeTint());
+
+            return;
+        }
+    }
+
+    if (icon.weapon != wp_fist)
+    {
+        patch_t *patch = PickupPatch(icon.weapon);
+
+        if (!patch)
+            return;
+
+        x += (64 - (LITTLESHORT(patch->width) - (LITTLESHORT(patch->width) - 1) / 4)) / 2 - 32;
+        y += (tallest_icon_height - LITTLESHORT(patch->height)) / 2 - 16;
+
+        V_DrawSmallDropShadowPatch(x, y, 0, patch,
             (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
 
-        if (fade == 4 && r_hud_translucency)
-            V_DrawTranslucentPatch(x, y, 0, patch, tinttab80);
-        else if (fade == 4)
-            V_DrawPatch(x, y, 0, patch);
-        else if (fade > 0)
-            V_DrawTranslucentPatch(x, y, 0, patch,
-                (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
+        if (icon.state == wpi_selected)
+        {
+            const int   fadepercent = fade * 25;
+            const byte  darkgold = I_GetNearestColor(PLAYPAL, 128 * fadepercent / 100, 96 * fadepercent / 100, 0);
+
+            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x, y - 1, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x - 1, y, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x + 1, y, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x, y + 1, 0, patch, darkgold, NULL);
+            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, darkgold, NULL);
+        }
+        else
+        {
+            const int   fadepercent = fade * 25;
+            const byte  darkred = I_GetNearestColor(PLAYPAL, 64 * fadepercent / 100, 0, 0);
+
+            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x, y - 1, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x - 1, y, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x + 1, y, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x, y + 1, 0, patch, darkred, NULL);
+            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, darkred, NULL);
+        }
+
+        V_DrawSmallTintedPatch(x, y, 0, patch, tinttabred50);
     }
 }
 
