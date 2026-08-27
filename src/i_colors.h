@@ -98,8 +98,6 @@ extern byte *tinttabredwhite2;
 extern byte *tinttabgreen;
 extern byte *tinttabblue;
 extern byte *tinttabred33;
-extern byte *tinttabred25;
-extern byte *tinttabred50;
 extern byte *tinttabredwhite50;
 extern byte *tinttabgreen33;
 extern byte *tinttabblue25;

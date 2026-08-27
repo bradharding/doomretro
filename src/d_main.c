@@ -3095,6 +3095,7 @@ static void D_DoomMainSetup(void)
     AM_Init();
     C_Init();
     V_InitColorTranslation();
+    ST_InitCarousel();
 
     if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
         && startloadgame < savegame_max)

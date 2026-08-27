@@ -36,8 +36,9 @@
 #pragma once
 
 #define ST_CAROUSEL_X   (VANILLAWIDTH / 2)
-#define ST_CAROUSEL_Y   24
+#define ST_CAROUSEL_Y   32
 
 void ST_ResetCarousel(void);
+void ST_InitCarousel(void);
 void ST_UpdateCarousel(void);
 void ST_DrawCarousel(int x, int y);

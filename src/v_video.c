@@ -112,7 +112,7 @@ void V_InitColorTranslation(void)
     }
 }
 
-void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color, const byte *tinttab)
+void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color)
 {
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
 
@@ -144,43 +144,12 @@ void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte colo
                         for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
                             for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
                                 if (yy >= 0 && xx >= 0)
-                                    screens[screen][yy * SCREENWIDTH + xx] = (tinttab ?
-                                        tinttab[(screens[screen][yy * SCREENWIDTH + xx] << 8) + color] : color);
+                                    screens[screen][yy * SCREENWIDTH + xx] = color;
                     }
                 }
 
                 column = (column_t *)((byte *)column + length + 4);
             }
-        }
-    }
-}
-
-void V_DrawColoredPatch(int x, int y, int screen, patch_t *patch, byte color, const byte *tinttab)
-{
-    byte        *desttop;
-    const int   width = LITTLESHORT(patch->width) << FRACBITS;
-
-    x += WIDESCREENDELTA;
-
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
-
-        while (column->topdelta != 0xFF)
-        {
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-
-            while (count-- > 0)
-            {
-                *dest = (tinttab ? tinttab[(*dest << 8) + color] : color);
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }
@@ -296,8 +265,7 @@ void V_DrawSmallTintedPatch(int x, int y, int screen, patch_t *patch, const byte
                         for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
                             for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
                                 if (yy >= 0 && xx >= 0)
-                                    screens[screen][yy * SCREENWIDTH + xx] =
-                                        tinttab[(source[row] << 8) + nearestred];
+                                    screens[screen][yy * SCREENWIDTH + xx] = tinttab[source[row]];
                     }
                 }
 
