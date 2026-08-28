@@ -84,6 +84,16 @@ static int          distance;
 static int          duration;
 static int          fade;
 
+static byte ContrastColor(const byte color)
+{
+    const byte  *palette = &PLAYPAL[color * 3];
+    const int   red = BETWEEN(0, 128 + ((int)palette[0] - 128) * 140 / 100, 255);
+    const int   green = BETWEEN(0, 128 + ((int)palette[1] - 128) * 140 / 100, 255);
+    const int   blue = BETWEEN(0, 128 + ((int)palette[2] - 128) * 140 / 100, 255);
+
+    return I_GetNearestColor(PLAYPAL, red, green, blue);
+}
+
 static weapontype_t CarouselWeapon(const int order)
 {
     return (order >= 0 && order < NUMWEAPONS ? carouselweapons[order] : wp_nochange);
@@ -99,7 +109,7 @@ void ST_InitCarousel(void)
     tallesticonheight = 0;
 
     for (int i = 0; i < 256; i++)
-        pickuptint[i] = tinttab50[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)];
+        pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)]);
 
     bordercolor = black25[consoleedgecolor1];
 
@@ -273,7 +283,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 
     if (weaponinfo[icon.weapon].carouselicon)
     {
-        patch_t *patch = carouselpatches[icon.weapon][icon.state == wpi_selected];
+        patch_t *patch = carouselpatches[icon.weapon][(icon.state == wpi_selected)];
 
         if (patch)
         {
@@ -281,7 +291,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                 (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
 
             if (fade == 4)
-                V_DrawTranslucentPatch(x, y, 0, patch, tinttab80);
+                V_DrawPatch(x, y, 0, patch);
             else if (fade > 0)
                 V_DrawTranslucentPatch(x, y, 0, patch,
                     (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
@@ -358,8 +368,6 @@ void ST_DrawCarousel(int x, int y)
 
             offset += lroundf(distance * fx * fx);
         }
-
-        distance = 0;
     }
 
     CarouselDrawIcon(offset, y, weaponicons[selectedindex]);
