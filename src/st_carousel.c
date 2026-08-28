@@ -74,6 +74,8 @@ static int          pickupyoffset[NUMWEAPONS];
 static byte         pickuptint[256];
 static int          selectedindex = 0;
 static int          tallesticonheight;
+static byte         bordercolor;
+
 
 static int          lastindex = -1;
 static uint64_t     lasttime;
@@ -81,11 +83,6 @@ static int          distance;
 
 static int          duration;
 static int          fade;
-
-static const byte *CarouselFadeTint(void)
-{
-    return (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75));
-}
 
 static weapontype_t CarouselWeapon(const int order)
 {
@@ -103,6 +100,8 @@ void ST_InitCarousel(void)
 
     for (int i = 0; i < 256; i++)
         pickuptint[i] = tinttab50[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)];
+
+    bordercolor = black25[consoleedgecolor1];
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -278,12 +277,11 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
             V_DrawDropShadowPatch(x, y, 0, patch,
                 (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
 
-            if (fade == 4 && r_hud_translucency)
+            if (fade == 4)
                 V_DrawTranslucentPatch(x, y, 0, patch, tinttab80);
-            else if (fade == 4)
-                V_DrawPatch(x, y, 0, patch);
             else if (fade > 0)
-                V_DrawTranslucentPatch(x, y, 0, patch, CarouselFadeTint());
+                V_DrawTranslucentPatch(x, y, 0, patch,
+                    (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
 
             return;
         }
@@ -299,15 +297,15 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
         x += pickupxoffset[icon.weapon];
         y += pickupyoffset[icon.weapon];
 
-        V_DrawSmallDropShadowPatch(x - 1, y - 1, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x, y - 1, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x + 1, y - 1, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x - 1, y, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x, y, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x + 1, y, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x - 1, y + 1, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x, y + 1, 0, patch, black10);
-        V_DrawSmallDropShadowPatch(x + 1, y + 1, 0, patch, black10);
+        V_DrawSmallDropShadowPatch(x - 1, y - 1, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x, y - 1, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x + 1, y - 1, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x - 1, y, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x, y, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x + 1, y, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x - 1, y + 1, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x, y + 1, 0, patch, black40);
+        V_DrawSmallDropShadowPatch(x + 1, y + 1, 0, patch, black40);
 
         if (icon.state == wpi_selected)
         {
@@ -325,8 +323,6 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
         }
         else
         {
-            const byte  bordercolor = black25[consoleedgecolor1];
-
             V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, bordercolor);
             V_DrawSmallColoredPatch(x, y - 1, 0, patch, bordercolor);
             V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, bordercolor);
@@ -341,37 +337,31 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
 }
 
-static int CalcOffset(void)
+void ST_DrawCarousel(int x, int y)
 {
+    int offset = x;
+    int weaponcount;
+
+    if (!weaponcarousel || !duration || fade <= 0 || !(weaponcount = array_size(weaponicons)))
+        return;
+
     if (distance)
     {
         const uint64_t  delta = I_GetTimeMS() - lasttime;
 
         if (delta < 125)
         {
-            const float x = 1.0f - delta / 125.0f;
+            const float fx = 1.0f - delta / 125.0f;
 
-            return lroundf(distance * x * x);
+            offset += lroundf(distance * fx * fx);
         }
 
         distance = 0;
     }
 
-    return 0;
-}
-
-void ST_DrawCarousel(int x, int y)
-{
-    int offset;
-
-    if (!weaponcarousel || !duration || !array_size(weaponicons) || fade <= 0)
-        return;
-
-    offset = x + CalcOffset();
-
     CarouselDrawIcon(offset, y, weaponicons[selectedindex]);
 
-    for (int i = selectedindex + 1, k = 1; i < array_size(weaponicons) && k < 3; i++, k++)
+    for (int i = selectedindex + 1, k = 1; i < weaponcount && k < 3; i++, k++)
         CarouselDrawIcon(offset + k * 64, y, weaponicons[i]);
 
     for (int i = selectedindex - 1, k = 1; i >= 0 && k < 3; i--, k++)
