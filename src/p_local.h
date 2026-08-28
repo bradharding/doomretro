@@ -159,6 +159,8 @@ void P_RemoveBloodMobj(mobj_t *mobj);
 void P_RemoveBloodSplats(void);
 bool P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
+void P_UpdateMobjInterpolations(void);
+void P_MobjInterpolation(mobj_t *mobj);
 
 void P_SpawnMoreBlood(mobj_t *mobj);
 void P_LookForFriends(void);

@@ -332,8 +332,6 @@ enum
     // Apply blood splats around object when spawned
     MF2_MOREBLOOD                   = 0x00000400,
 
-    MF2_NOINTERPOLATEZ              = 0x00000800,
-
     // Object is affected by scroller/pusher/puller
     MF2_SCROLLING                   = 0x00001000,
 
@@ -539,6 +537,7 @@ typedef struct mobj_s
 
     // [AM] If 1, interpolate this tic. If -1, interpolate next tic.
     int                 interpolate;
+    bool                interpolationcapture;
 
     // [AM] Previous position of mobj before think.
     //      Used to interpolate between positions.

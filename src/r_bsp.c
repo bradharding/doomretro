@@ -34,6 +34,7 @@
 */
 
 #include "doomstat.h"
+#include "c_console.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "r_plane.h"
@@ -185,7 +186,7 @@ static void R_InterpolateSector(sector_t *sector)
 {
     sector_t    *heightsec = sector->heightsec;
 
-    if (vid_capfps != TICRATE)
+    if (vid_capfps != TICRATE && !consoleactive && !consoleheight)
     {
         if (sector->floordata
             && sector->floorheight != sector->oldfloorheight

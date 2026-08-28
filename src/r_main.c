@@ -1134,7 +1134,7 @@ static void R_SetupFrame(void)
         // Don't interpolate if the player did something that would necessitate turning it off for a tic.
         && mo->interpolate
         // Don't interpolate during a paused state
-        && !menuactive && !consoleactive && !paused)
+        && !menuactive && !consoleactive && !consoleheight && !paused)
     {
         // Interpolate player camera from their old position to their current one.
         viewx = mo->oldx + FixedMul(mo->x - mo->oldx, fractionaltic);

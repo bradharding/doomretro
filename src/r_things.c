@@ -113,6 +113,14 @@ static int                      maxframe;
 
 static bool                     drawshadows;
 static bool                     interpolatesprites;
+
+static void R_UpdateSpriteInterpolation(void)
+{
+    const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
+
+    interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !consoleheight && !freeze);
+}
+
 static bool                     invulnerable;
 static sector_t                 *viewheightsec;
 static int                      viewfixedcolormap;
@@ -1681,6 +1689,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 {
     mobj_t  *thing = sec->thinglist;
 
+    R_UpdateSpriteInterpolation();
+
     if (!thing)
         return;
 
@@ -1721,6 +1731,8 @@ void R_AddNearbySprites(sector_t *sec)
 void R_DrawNearbySprites(void)
 {
     int size = array_size(nearby_sprites);
+
+    R_UpdateSpriteInterpolation();
 
     if (size > 1)
     {
@@ -2322,7 +2334,7 @@ void R_DrawMasked(void)
         M_Fuzz2Seed(maptime);
     }
 
-    interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
+    R_UpdateSpriteInterpolation();
     invulnerable = (viewinvulnerabilitycolormap && r_sprites_translucency);
 
     if (drawbloodsplats && bloodsplat_blocklinks && !menuactive)

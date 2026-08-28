@@ -202,6 +202,8 @@ void P_Ticker(void)
     if (paused)
         return;
 
+    P_UpdateMobjInterpolations();
+
     P_PlayerThink();
 
     if ((consoleactive && !menuactive) || (helpscreen && !palettescreen))

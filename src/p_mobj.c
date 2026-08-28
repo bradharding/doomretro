@@ -686,12 +686,33 @@ static void P_NightmareRespawn(mobj_t *mobj)
 //
 // P_MobjThinker
 //
+static bool mobj_interp_capture;
+
+void P_UpdateMobjInterpolations(void)
+{
+    mobj_interp_capture = !mobj_interp_capture;
+}
+
+void P_MobjInterpolation(mobj_t *mobj)
+{
+    if (mobj->interpolationcapture == mobj_interp_capture)
+        return;
+
+    mobj->oldx = mobj->x;
+    mobj->oldy = mobj->y;
+    mobj->oldz = mobj->z;
+    mobj->oldangle = mobj->angle;
+    mobj->interpolationcapture = mobj_interp_capture;
+}
+
 void P_MobjThinker(mobj_t *mobj)
 {
     const int       flags = mobj->flags;
     int             flags2;
     player_t        *player = mobj->player;
     const sector_t  *sector = mobj->subsector->sector;
+
+    P_MobjInterpolation(mobj);
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
@@ -700,17 +721,6 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // Assume we can interpolate at the beginning of the tic.
         mobj->interpolate = 1;
-
-        // Store starting position for mobj interpolation.
-        mobj->oldx = mobj->x;
-        mobj->oldy = mobj->y;
-
-        if (!(mobj->flags2 & MF2_NOINTERPOLATEZ))
-            mobj->oldz = mobj->z;
-        else
-            mobj->flags2 &= ~MF2_NOINTERPOLATEZ;
-
-        mobj->oldangle = mobj->angle;
     }
 
     if (mobj->nudge > 0)
@@ -846,6 +856,7 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     mobj->radius = info->radius;
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
+    mobj->interpolationcapture = mobj_interp_capture;
     mobj->mbf21flags = info->mbf21flags;
     mobj->health = (type == MT_SPIDER && sigil2 && gameepisode == 6 ? SIGIL2SPIDERHEALTH : info->spawnhealth);
     mobj->giblevel = info->giblevel;

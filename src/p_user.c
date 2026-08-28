@@ -632,11 +632,7 @@ void P_PlayerThink(void)
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;
 
-    // [AM] Store starting position for player interpolation.
-    mo->oldx = mo->x;
-    mo->oldy = mo->y;
-    mo->oldz = mo->z;
-    mo->oldangle = mo->angle;
+    P_MobjInterpolation(mo);
     viewplayer->oldviewz = viewplayer->viewz;
     viewplayer->oldpitch = viewplayer->pitch;
     viewplayer->oldrecoil = viewplayer->recoil;
