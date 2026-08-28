@@ -194,6 +194,9 @@ static void BuildWeaponIcons(void)
         if (weapon == wp_nochange)
             continue;
 
+        if (weapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
+            continue;
+
         if (lastindex == -1 && weapon == viewplayer->readyweapon)
             lastindex = array_size(weaponicons);
 
