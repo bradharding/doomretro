@@ -625,15 +625,15 @@ byte *R_SwirlingFlat(const int flatnum)
     return cache->distortedflat;
 }
 
-static void DrawSkyTexture(visplane_t *pl, skytexture_t *skytexture, void func(void))
+static void DrawSkyTexture(visplane_t *pl, skytexture_t *texture, void func(void))
 {
-    const int       texture = R_TextureNumForName(skytexture->name);
-    const angle_t   angle = viewangle + (skytexture->currentx << (ANGLETOSKYSHIFT - FRACBITS));
+    const int       texnum = R_TextureNumForName(texture->name);
+    const angle_t   angle = viewangle + (texture->currentx << (ANGLETOSKYSHIFT - FRACBITS));
 
-    dc_iscale = FixedMul(skyiscale, skytexture->scaley);
+    dc_iscale = FixedMul(skyiscale, texture->scaley);
 
-    dc_texturemid = (fixed_t)(skytexture->mid * (double)FRACUNIT) + skytexture->currenty;
-    dc_texheight = textureheight[texture] >> FRACBITS;
+    dc_texturemid = (fixed_t)(texture->mid * (double)FRACUNIT) + texture->currenty;
+    dc_texheight = textureheight[R_TextureNumForName(texture->name)] >> FRACBITS;
 
     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
@@ -642,8 +642,8 @@ static void DrawSkyTexture(visplane_t *pl, skytexture_t *skytexture, void func(v
             if (r_skyprojection == r_skyprojection_cylindrical)
                 dc_iscale = FixedMul(dc_iscale, finecosine[xtoviewangle[dc_x] >> ANGLETOFINESHIFT]);
 
-            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texture),
-                FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, skytexture->scalex));
+            dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(texnum),
+                FixedMul((angle + xtoskyangle[dc_x]) >> ANGLETOSKYSHIFT, texture->scalex));
 
             func();
         }

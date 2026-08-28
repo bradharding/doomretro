@@ -3566,10 +3566,10 @@ static void deh_procSounds(DEHFILE *fpin, const char *line)
         C_Output("Processing Sounds at index %i: %s", indexnum, key);
 
     if (indexnum < 0)
+    {
         C_Warning(1, "Bad sound number %i.", indexnum);
-
-    if (indexnum < 0)
         return;
+    }
 
     dsdh_EnsureSFXCapacity(indexnum);
 
