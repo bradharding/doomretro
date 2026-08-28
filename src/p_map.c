@@ -1791,6 +1791,9 @@ static bool PTR_ShootTraverse(intercept_t *in)
         // spawn bullet puff
         P_SpawnPuff(dltrace.x + FixedMul(dltrace.dx, frac), dltrace.y + FixedMul(dltrace.dy, frac), z, shootangle);
 
+        if (chainsawattack)
+            linetarget = NULL;
+
         // don't go any farther
         return false;
     }
