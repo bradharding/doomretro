@@ -280,31 +280,43 @@ void V_DrawDropShadowPatch(int x, int y, int screen, patch_t *patch, const byte 
 
 void V_DrawTranslucentPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
 {
-    byte        *desttop;
+    int         col = 0;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         screenx;
 
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
 
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    if ((screenx = (x * DX) >> FRACBITS) < 0)
+    {
+        col += DXI * -screenx;
+        screenx = 0;
+    }
 
-    for (int col = 0; col < width; col += DXI, desttop++)
+    for (; col < width && screenx < SCREENWIDTH; col += DXI, screenx++)
     {
         column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
 
         while (column->topdelta != 0xFF)
         {
             const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, top);
+            const int   clipbottom = MIN(SCREENHEIGHT, top + count);
+            int         srccol = (cliptop - top) * DYI;
 
-            while (count-- > 0)
+            if (cliptop < clipbottom)
             {
-                *dest = tinttab[(source[srccol >> FRACBITS] << 8) + *dest];
-                dest += SCREENWIDTH;
-                srccol += DYI;
+                byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+
+                for (int row = cliptop; row < clipbottom; row++)
+                {
+                    *dest = tinttab[(source[srccol >> FRACBITS] << 8) + *dest];
+                    dest += SCREENWIDTH;
+                    srccol += DYI;
+                }
             }
 
             column = (column_t *)((byte *)column + length + 4);
@@ -411,15 +423,20 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
 //
 void V_DrawPatch(int x, int y, int screen, patch_t *patch)
 {
-    byte        *desttop;
+    int         col = 0;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         screenx;
 
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
     y -= LITTLESHORT(patch->topoffset);
 
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    if ((screenx = (x * DX) >> FRACBITS) < 0)
+    {
+        col += DXI * -screenx;
+        screenx = 0;
+    }
 
-    for (int col = 0; col < width; col += DXI, desttop++)
+    for (; col < width && screenx < SCREENWIDTH; col += DXI, screenx++)
     {
         column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -427,16 +444,23 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
         while (column->topdelta != 0xFF)
         {
             const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, top);
+            const int   clipbottom = MIN(SCREENHEIGHT, top + count);
+            int         srccol = (cliptop - top) * DYI;
 
-            while (count-- > 0)
+            if (cliptop < clipbottom)
             {
-                *dest = source[srccol >> FRACBITS];
-                dest += SCREENWIDTH;
-                srccol += DYI;
+                byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+
+                for (int row = cliptop; row < clipbottom; row++)
+                {
+                    *dest = source[srccol >> FRACBITS];
+                    dest += SCREENWIDTH;
+                    srccol += DYI;
+                }
             }
 
             column = (column_t *)((byte *)column + length + 4);
