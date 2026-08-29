@@ -3,16 +3,18 @@
 ### DOOM Retro v6.4
 
 * *DOOM Retro* is now built using v18.9.2 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
-* Minor changes have been made to further improve the overall performance of *DOOM Retro*.
+* Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
+* A better text caret is now displayed when editing a savegame description in the save game menu.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
+* Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
@@ -39,12 +41,14 @@
 * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is used in the automap.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
 * Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
+* Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
 * All sound effects are now paused when the menu or console is opened, and resume when they are closed.
 * A bug is fixed whereby pressing the <kbd><b>&darr;</b></kbd> key in the console to advance through the input history might have skipped some input.
 * When the player tries to open a *BOOM*-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.
 * The mouse pointer is now displayed when moving the mouse on the intermission or finale screens and the `m_pointer` CVAR is `on`.
 * A bug is fixed whereby it sometimes took two presses of the <kbd><b>ENTER</b></kbd> or <kbd><b>SPACE</b></kbd> keys to advance an intermission text screen.
 * Improvements have been made to the interpolation of moving sectors, and the things on them, when the `vid_capfps` CVAR is a value other than `35`.
+* If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
