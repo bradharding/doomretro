@@ -351,11 +351,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 {
-    const float     pan = (float)sep / 254.0f;
-    const float     left_f = cosf(pan * (float)M_PI_2);
-    const float     right_f = sinf(pan * (float)M_PI_2);
-
-    Mix_SetPanning(channel, (uint8_t)(left_f * vol), (uint8_t)(right_f * vol));
+    Mix_SetPanning(channel, (uint8_t)(vol * (127 - sep) / 127), (uint8_t)(vol * sep / 127));
 }
 
 //
