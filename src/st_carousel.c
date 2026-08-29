@@ -76,7 +76,6 @@ static int          selectedindex = 0;
 static int          tallesticonheight;
 static byte         bordercolor;
 
-
 static int          lastindex = -1;
 static uint64_t     lasttime;
 static int          distance;
@@ -210,6 +209,10 @@ static void BuildWeaponIcons(void)
             continue;
 
         if (weapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
+            continue;
+
+        if (weaponinfo[weapon].ammotype != am_noammo && !infiniteammo
+            && !viewplayer->ammo[weaponinfo[weapon].ammotype])
             continue;
 
         if (lastindex == -1 && weapon == viewplayer->readyweapon)
@@ -399,7 +402,7 @@ void ST_DrawCarousel(int x, int y)
     displayed[weaponicons[selectedindex].weapon] = true;
     CarouselDrawIcon(offset, y, weaponicons[selectedindex]);
 
-    if (weaponcount < 4)
+    if (weaponcount < 3)
     {
         for (int i = selectedindex + 1, j = 1; i < weaponcount; i++, j++)
             CarouselDrawUniqueIcon(offset + j * 64, y, weaponicons[i], displayed);
@@ -407,24 +410,18 @@ void ST_DrawCarousel(int x, int y)
         for (int i = selectedindex - 1, j = 1; i >= 0; i--, j++)
             CarouselDrawUniqueIcon(offset - j * 64, y, weaponicons[i], displayed);
     }
-    else if (distance >= 0)
-    {
-        for (int i = 1; i < weaponcount && i < 3; i++)
-            CarouselDrawUniqueIcon(offset - i * 64, y,
-                weaponicons[CarouselIndex(selectedindex - i, weaponcount)], displayed);
-
-        for (int i = 1; i < weaponcount && i < 3; i++)
-            CarouselDrawUniqueIcon(offset + i * 64, y,
-                weaponicons[CarouselIndex(selectedindex + i, weaponcount)], displayed);
-    }
     else
     {
-        for (int i = 1; i < weaponcount && i < 3; i++)
-            CarouselDrawUniqueIcon(offset + i * 64, y,
-                weaponicons[CarouselIndex(selectedindex + i, weaponcount)], displayed);
+        const int   direction = (distance >= 0 ? -1 : 1);
+        const int   firstcount = (weaponcount == 3 ? 1 : 2);
+        const int   secondcount = (weaponcount == 4 ? 1 : firstcount);
 
-        for (int i = 1; i < weaponcount && i < 3; i++)
-            CarouselDrawUniqueIcon(offset - i * 64, y,
-                weaponicons[CarouselIndex(selectedindex - i, weaponcount)], displayed);
+        for (int i = 1; i <= firstcount; i++)
+            CarouselDrawUniqueIcon(offset + direction * i * 64, y,
+                weaponicons[CarouselIndex(selectedindex + direction * i, weaponcount)], displayed);
+
+        for (int i = 1; i <= secondcount; i++)
+            CarouselDrawUniqueIcon(offset - direction * i * 64, y,
+                weaponicons[CarouselIndex(selectedindex - direction * i, weaponcount)], displayed);
     }
 }
