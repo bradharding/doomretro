@@ -399,24 +399,32 @@ void ST_DrawCarousel(int x, int y)
     displayed[weaponicons[selectedindex].weapon] = true;
     CarouselDrawIcon(offset, y, weaponicons[selectedindex]);
 
-    if (distance >= 0)
+    if (weaponcount < 4)
     {
-        for (int k = 1; k < weaponcount && k < 3; k++)
-            CarouselDrawUniqueIcon(offset - k * 64, y,
-                weaponicons[CarouselIndex(selectedindex - k, weaponcount)], displayed);
+        for (int i = selectedindex + 1, j = 1; i < weaponcount; i++, j++)
+            CarouselDrawUniqueIcon(offset + j * 64, y, weaponicons[i], displayed);
 
-        for (int k = 1; k < weaponcount && k < 3; k++)
-            CarouselDrawUniqueIcon(offset + k * 64, y,
-                weaponicons[CarouselIndex(selectedindex + k, weaponcount)], displayed);
+        for (int i = selectedindex - 1, j = 1; i >= 0; i--, j++)
+            CarouselDrawUniqueIcon(offset - j * 64, y, weaponicons[i], displayed);
+    }
+    else if (distance >= 0)
+    {
+        for (int i = 1; i < weaponcount && i < 3; i++)
+            CarouselDrawUniqueIcon(offset - i * 64, y,
+                weaponicons[CarouselIndex(selectedindex - i, weaponcount)], displayed);
+
+        for (int i = 1; i < weaponcount && i < 3; i++)
+            CarouselDrawUniqueIcon(offset + i * 64, y,
+                weaponicons[CarouselIndex(selectedindex + i, weaponcount)], displayed);
     }
     else
     {
-        for (int k = 1; k < weaponcount && k < 3; k++)
-            CarouselDrawUniqueIcon(offset + k * 64, y,
-                weaponicons[CarouselIndex(selectedindex + k, weaponcount)], displayed);
+        for (int i = 1; i < weaponcount && i < 3; i++)
+            CarouselDrawUniqueIcon(offset + i * 64, y,
+                weaponicons[CarouselIndex(selectedindex + i, weaponcount)], displayed);
 
-        for (int k = 1; k < weaponcount && k < 3; k++)
-            CarouselDrawUniqueIcon(offset - k * 64, y,
-                weaponicons[CarouselIndex(selectedindex - k, weaponcount)], displayed);
+        for (int i = 1; i < weaponcount && i < 3; i++)
+            CarouselDrawUniqueIcon(offset - i * 64, y,
+                weaponicons[CarouselIndex(selectedindex - i, weaponcount)], displayed);
     }
 }
