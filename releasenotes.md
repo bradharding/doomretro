@@ -49,6 +49,8 @@
 * A bug is fixed whereby it sometimes took two presses of the <kbd><b>ENTER</b></kbd> or <kbd><b>SPACE</b></kbd> keys to advance an intermission text screen.
 * Improvements have been made to the interpolation of moving sectors, and the things on them, when the `vid_capfps` CVAR is a value other than `35`.
 * If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
+* When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.
+* The rise of the player’s weapon up from the bottom of the screen at the start of each map is now smoother.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
