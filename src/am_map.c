@@ -95,6 +95,7 @@ static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *am_crosshaircolor2;
 static byte am_mapcolor[MAXSCREENAREA];
+static byte pathcoverage[MAXSCREENAREA];
 static byte priorities[256 * 256];
 
 // scale on entry
@@ -202,6 +203,7 @@ static SDL_Keymod   modstate;
 am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
+static bool         drawingpath;
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
@@ -1699,18 +1701,28 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
 
     if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPHEIGHT)
     {
-        byte    *dot = mapscreen + y * MAPWIDTH + x;
-        byte    *table;
+        const int   index = y * MAPWIDTH + x;
 
-        if (!priority || priorities[(am_mapcolor[y * MAPWIDTH + x] << 8) + *color] == *color)
+        if (drawingpath)
         {
-            if (priority)
-                am_mapcolor[y * MAPWIDTH + x] = *color;
+            if (pathcoverage[index] < coverage)
+                pathcoverage[index] = coverage;
+        }
+        else
+        {
+            if (!priority || priorities[(am_mapcolor[index] << 8) + *color] == *color)
+            {
+                byte    *dot = mapscreen + index;
+                byte    *table;
 
-            if ((table = AM_AntialiasingTable(coverage)))
-                *dot = table[(*dot << 8) + *color];
-            else
-                *dot = *color;
+                if (priority)
+                    am_mapcolor[index] = *color;
+
+                if ((table = AM_AntialiasingTable(coverage)))
+                    *dot = table[(*dot << 8) + *color];
+                else
+                    *dot = *color;
+            }
         }
     }
 
@@ -1777,13 +1789,17 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(rfpart >> 1), thick, priority);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(fpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color,
+                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color,
+                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(rfpart >> 1), thick, priority);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(fpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color,
+                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color,
+                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
         }
 
         yend = (fixed_t)y1 << FRACBITS;
@@ -1794,13 +1810,17 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(rfpart >> 1), thick, priority);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(fpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color,
+                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color,
+                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(rfpart >> 1), thick, priority);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(fpart >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color,
+                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color,
+                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
         }
 
         intery = ((fixed_t)y0 << FRACBITS) + gradient;
@@ -2566,6 +2586,12 @@ static void AM_DrawPath(void)
     mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
     mpoint_t    end = player;
 
+    if (am_antialiasing)
+    {
+        memset(pathcoverage, 0, MAPAREA);
+        drawingpath = true;
+    }
+
     for (int i = MAX(1, numbreadcrumbs - lengths[am_pathlength]); i < numbreadcrumbs; i++)
     {
         mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
@@ -2599,6 +2625,21 @@ static void AM_DrawPath(void)
 
     if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
         AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
+
+    if (am_antialiasing)
+    {
+        drawingpath = false;
+
+        for (int i = 0; i < MAPAREA; i++)
+        {
+            if (pathcoverage[i])
+            {
+                byte    *table = AM_AntialiasingTable(pathcoverage[i]);
+
+                mapscreen[i] = (table ? table[(mapscreen[i] << 8) + pathcolor] : pathcolor);
+            }
+        }
+    }
 }
 
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
