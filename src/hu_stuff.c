@@ -953,7 +953,8 @@ static void HU_AltInit(void)
         weaponinfo[i].weaponpatch = NULL;
         M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
-        if (W_CheckNumForName(buffer) >= 0)
+        if (W_CheckNumForName(buffer) >= 0
+            && (i != wp_fist || W_GetNumLumps("DRHUDWP1") > 1))
             weaponinfo[i].weaponpatch = W_CacheLumpName(buffer);
         else
         {

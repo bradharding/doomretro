@@ -109,18 +109,18 @@ void ST_InitCarousel(void)
         if (order >= 0 && order < NUMWEAPONS)
             carouselweapons[order] = (weapontype_t)i;
 
-        if (i != wp_fist)
+        if (i <= wp_pistol)
         {
-            if (i == wp_pistol)
-            {
-                const int   lumpnum = W_CheckNumForName("DRHUDWP1");
+            char    lump[9];
+            int     lumpnum;
 
-                if (lumpnum >= 0)
-                    pickuppatches[i] = W_CacheLumpNum(lumpnum);
-            }
-            else
-                pickuppatches[i] = weaponinfo[i].weaponpatch;
+            M_snprintf(lump, sizeof(lump), "DRHUDWP%d", i);
+
+            if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+                pickuppatches[i] = W_CacheLumpNum(lumpnum);
         }
+        else
+            pickuppatches[i] = weaponinfo[i].weaponpatch;
 
         if (pickuppatches[i])
         {
