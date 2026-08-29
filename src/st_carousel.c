@@ -85,21 +85,6 @@ static byte ContrastColor(const byte color)
     return I_GetNearestColor(PLAYPAL, red, green, blue);
 }
 
-static weapontype_t CarouselWeapon(const int order)
-{
-    return (order >= 0 && order < NUMWEAPONS ? carouselweapons[order] : wp_nochange);
-}
-
-static int CarouselIndex(const int index, const int weaponcount)
-{
-    return ((index % weaponcount) + weaponcount) % weaponcount;
-}
-
-static patch_t *PickupPatch(const weapontype_t weapon)
-{
-    return (weapon >= 0 && weapon < NUMWEAPONS ? pickuppatches[weapon] : NULL);
-}
-
 void ST_InitCarousel(void)
 {
     tallesticonheight = 0;
@@ -185,7 +170,7 @@ static void BuildWeaponIcons(void)
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
-        const weapontype_t  weapon = CarouselWeapon(i);
+        const weapontype_t  weapon = carouselweapons[i];
 
         if (weapon == wp_nochange)
             continue;
@@ -249,11 +234,14 @@ void ST_UpdateCarousel(void)
             if (viewplayer->pendingweapon == wp_nochange)
                 duration--;
 
-            if (smoothtransitions && fade < 4)
-                fade++;
+            if (smoothtransitions)
+            {
+                if (fade < 4)
+                    fade++;
 
-            if (!duration && smoothtransitions)
-                duration = -4;
+                if (!duration)
+                    duration = -4;
+            }
         }
         else if (duration < 0)
         {
@@ -265,12 +253,11 @@ void ST_UpdateCarousel(void)
 
 static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 {
-    if (icon.weapon < 0 || icon.weapon >= NUMWEAPONS)
-        return;
+    weapontype_t  weapon = icon.weapon;
 
-    if (weaponinfo[icon.weapon].carouselicon)
+    if (weaponinfo[weapon].carouselicon)
     {
-        patch_t *patch = carouselpatches[icon.weapon][icon.selected];
+        patch_t *patch = carouselpatches[weapon][icon.selected];
 
         if (patch)
         {
@@ -284,14 +271,14 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                     (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
         }
     }
-    else if (icon.weapon != wp_fist)
+    else if (weapon != wp_fist)
     {
-        patch_t *patch = PickupPatch(icon.weapon);
+        patch_t *patch = pickuppatches[weapon];
 
         if (patch)
         {
-            x += pickupxoffset[icon.weapon];
-            y += pickupyoffset[icon.weapon];
+            x += pickupxoffset[weapon];
+            y += pickupyoffset[weapon];
 
             for (int dy = -1; dy <= 1; dy++)
                 for (int dx = -1; dx <= 1; dx++)
@@ -308,12 +295,10 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                             V_DrawSmallColoredPatch(x + dx, y + dy, 0, patch, darkgold);
             }
             else
-            {
                 for (int dy = -1; dy <= 1; dy++)
                     for (int dx = -1; dx <= 1; dx++)
                         if (dx || dy)
                             V_DrawSmallColoredPatch(x + dx, y + dy, 0, patch, bordercolor);
-            }
 
             V_DrawSmallTintedPatch(x, y, 0, patch, pickuptint);
         }
@@ -358,10 +343,10 @@ void ST_DrawCarousel(int x, int y)
 
         for (int i = 1; i <= firstcount; i++)
             CarouselDrawIcon(offset + direction * i * 64, y,
-                weaponicons[CarouselIndex(selectedindex + direction * i, weaponcount)]);
+                weaponicons[((selectedindex + direction * i) % weaponcount + weaponcount) % weaponcount]);
 
         for (int i = 1; i <= secondcount; i++)
             CarouselDrawIcon(offset - direction * i * 64, y,
-                weaponicons[CarouselIndex(selectedindex - direction * i, weaponcount)]);
+                weaponicons[((selectedindex - direction * i) % weaponcount + weaponcount) % weaponcount]);
     }
 }
