@@ -1750,8 +1750,6 @@ void HU_Drawer(void)
             }
         }
 
-        if (r_hud || r_althud)
-            ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
     }
 }
 

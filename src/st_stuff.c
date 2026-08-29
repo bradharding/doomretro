@@ -1528,7 +1528,6 @@ void ST_Drawer(const bool fullscreen, const bool refresh)
         // Otherwise, update as little as possible
         ST_DiffDraw();
 
-    ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
 }
 
 void ST_InitStatBar(void)

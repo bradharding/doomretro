@@ -428,6 +428,8 @@ void D_Display(void)
             if (overlaystatusbar)
                 ST_Drawer((viewheight == SCREENHEIGHT), true);
 
+            ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
+
         }
     }
 
