@@ -1176,6 +1176,9 @@ bool G_Responder(const event_t *ev)
         case ev_mouse:
         {
             const int   mousebutton = ev->data1;
+            bool        oldmousebuttons[MAXMOUSEBUTTONS];
+
+            memcpy(oldmousebuttons, mousebuttons, sizeof(oldmousebuttons));
 
             for (int i = 0, j = 1; i < MAXMOUSEBUTTONS; i++, j <<= 1)
                 mousebuttons[i] = !!(mousebutton & j);
@@ -1185,14 +1188,20 @@ bool G_Responder(const event_t *ev)
 
             if (!(viewplayer->cheats & CF_FREEZE))
                 for (int i = 0; i < MAXMOUSEBUTTONS; i++)
-                    if (mousebuttons[i] && mouseactionlist[i][0])
+                    if (mousebuttons[i]
+                        && mouseactionlist[i][0]
+                        && (!(M_StringCompare(mouseactionlist[i], "+nextweapon")
+                            || M_StringCompare(mouseactionlist[i], "+prevweapon"))
+                            || !oldmousebuttons[i]))
                         C_ExecuteInputString(mouseactionlist[i]);
 
             if (!automapactive && !menuactive && !paused && !(viewplayer->cheats & CF_FREEZE))
             {
-                if (mousenextweapon < MAXMOUSEBUTTONS && mousebuttons[mousenextweapon])
+                if (mousenextweapon < MAXMOUSEBUTTONS && mousebuttons[mousenextweapon]
+                    && !oldmousebuttons[mousenextweapon])
                     G_NextWeapon();
-                else if (mouseprevweapon < MAXMOUSEBUTTONS && mousebuttons[mouseprevweapon])
+                else if (mouseprevweapon < MAXMOUSEBUTTONS && mousebuttons[mouseprevweapon]
+                    && !oldmousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
 
