@@ -93,6 +93,7 @@ short                   minuspatchtopoffset2 = 0;
 short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
+static int              widestammopatchwidth;
 
 static patch_t          *crosshairpatch[NUMCROSSHAIRS];
 static short            crosshairwidth[NUMCROSSHAIRS];
@@ -335,6 +336,10 @@ void HU_Init(void)
         }
     }
 
+    for (int i = 0; i < NUMWEAPONS; i++)
+        if (weaponinfo[i].ammopatch)
+            widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
+
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
     keypics[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
@@ -528,6 +533,21 @@ static int HUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
+static int BigHUDNumberWidth(int val)
+{
+    int width = LITTLESHORT(tallnum[val % 10]->width);
+
+    if (val >= 100)
+    {
+        width += LITTLESHORT(tallnum[val / 100]->width);
+        width += LITTLESHORT(tallnum[(val % 100) / 10]->width);
+    }
+    else if (val >= 10)
+        width += LITTLESHORT(tallnum[val / 10]->width);
+
+    return width;
+}
+
 static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *))
 {
     int i;
@@ -562,7 +582,9 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
 static void HU_DrawBigHUDKey(int *x, int y, patch_t *patch)
 {
     *x -= LITTLESHORT(patch->width);
-    bighudfunc(*x + LITTLESHORT(patch->leftoffset), y - (LITTLESHORT(patch->height) - 32), patch);
+    bighudfunc(*x + LITTLESHORT(patch->leftoffset),
+        y + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
+        - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset), patch);
     *x -= 5;
 }
 
@@ -615,16 +637,16 @@ static void HU_DrawBigHUD(void)
                 - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch);
         }
 
-        x -= HUDNumberWidth(ammo) + 5;
+        x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - BigHUDNumberWidth(ammo) - 8;
         HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo,
             (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
-        x = VANILLAWIDTH + WIDESCREENDELTA - 80;
+        x = VANILLAWIDTH + WIDESCREENDELTA - 84;
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
                 if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
-                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
 
         if (viewplayer->neededcardflash)
         {
@@ -647,12 +669,12 @@ static void HU_DrawBigHUD(void)
                             if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
                                 for (int j = i; j <= i + 3; j += 3)
                                     if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
-                                        HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+                                        HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
                     }
                     else
                         for (int i = 0; i < NUMCARDS; i++)
                             if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
-                                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+                                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
                 }
             }
             else if ((patch = keypics[neededcard].patch))
@@ -665,11 +687,7 @@ static void HU_DrawBigHUD(void)
                 }
 
                 if (flashkeys && (showkey || gamepaused))
-                {
-                    x -= LITTLESHORT(patch->width);
-                    bighudfunc(x + LITTLESHORT(patch->leftoffset),
-                        VANILLAHEIGHT - 23 - (LITTLESHORT(patch->height) - 32), patch);
-                }
+                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
             }
         }
     }
