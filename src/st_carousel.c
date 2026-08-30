@@ -253,55 +253,57 @@ void ST_UpdateCarousel(void)
 
 static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 {
-    weapontype_t  weapon = icon.weapon;
+    const weapontype_t  weapon = icon.weapon;
+    const bool          selected = icon.selected;
+    patch_t             *patch = carouselpatches[weapon][selected];
 
-    if (weaponinfo[weapon].carouselicon)
+    if (patch)
     {
-        patch_t *patch = carouselpatches[weapon][icon.selected];
+        V_DrawDropShadowPatch(x, y, 0, patch,
+            (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
 
-        if (patch)
-        {
-            V_DrawDropShadowPatch(x, y, 0, patch,
-                (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
-
-            if (fade == 4)
-                V_DrawPatch(x, y, 0, patch);
-            else if (fade > 0)
-                V_DrawTranslucentPatch(x, y, 0, patch,
-                    (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
-        }
+        if (fade == 4)
+            V_DrawPatch(x, y, 0, patch);
+        else if (fade > 0)
+            V_DrawTranslucentPatch(x, y, 0, patch,
+                (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
     }
-    else
+    else if ((patch = pickuppatches[weapon]))
     {
-        patch_t *patch = pickuppatches[weapon];
+        x += pickupxoffset[weapon];
+        y += pickupyoffset[weapon];
 
-        if (patch)
+        for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+                V_DrawSmallDropShadowPatch(x + dx, y + dy, 0, patch, black40);
+
+        if (selected)
         {
-            x += pickupxoffset[weapon];
-            y += pickupyoffset[weapon];
+            const int   fadepercent = fade * 25;
+            const byte  darkgold = I_GetNearestColor(PLAYPAL, 128 * fadepercent / 100, 96 * fadepercent / 100, 0);
 
-            for (int dy = -1; dy <= 1; dy++)
-                for (int dx = -1; dx <= 1; dx++)
-                    V_DrawSmallDropShadowPatch(x + dx, y + dy, 0, patch, black40);
-
-            if (icon.selected)
-            {
-                const int   fadepercent = fade * 25;
-                const byte  darkgold = I_GetNearestColor(PLAYPAL, 128 * fadepercent / 100, 96 * fadepercent / 100, 0);
-
-                for (int dy = -1; dy <= 1; dy++)
-                    for (int dx = -1; dx <= 1; dx++)
-                        if (dx || dy)
-                            V_DrawSmallColoredPatch(x + dx, y + dy, 0, patch, darkgold);
-            }
-            else
-                for (int dy = -1; dy <= 1; dy++)
-                    for (int dx = -1; dx <= 1; dx++)
-                        if (dx || dy)
-                            V_DrawSmallColoredPatch(x + dx, y + dy, 0, patch, bordercolor);
-
-            V_DrawSmallTintedPatch(x, y, 0, patch, pickuptint);
+            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x, y - 1, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x - 1, y, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x + 1, y, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x, y + 1, 0, patch, darkgold);
+            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, darkgold);
         }
+        else
+        {
+            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x, y - 1, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x - 1, y, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x + 1, y, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x, y + 1, 0, patch, bordercolor);
+            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, bordercolor);
+        }
+
+        V_DrawSmallTintedPatch(x, y, 0, patch, pickuptint);
     }
 }
 
