@@ -956,13 +956,13 @@ void P_MovePlayerSprites(void)
     pspdef_t    *weapon = &psp[ps_weapon];
     pspdef_t    *flash = &psp[ps_flash];
 
-    if (weapon->tics != -1 && !--weapon->tics)
+    if (weapon->state && weapon->tics != -1 && !--weapon->tics)
         P_SetPlayerSprite(ps_weapon, weapon->state->nextstate);
 
-    if (flash->tics != -1 && !--flash->tics)
+    if (flash->state && flash->tics != -1 && !--flash->tics)
         P_SetPlayerSprite(ps_flash, flash->state->nextstate);
 
-    if (weapon->state->action == &A_WeaponReady)
+    if (weapon->state && weapon->state->action == &A_WeaponReady)
     {
         // bob the weapon based on movement speed
         const fixed_t   momx = viewplayer->momx;
