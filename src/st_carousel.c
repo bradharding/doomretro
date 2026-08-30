@@ -271,7 +271,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                     (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
         }
     }
-    else if (weapon != wp_fist)
+    else
     {
         patch_t *patch = pickuppatches[weapon];
 
