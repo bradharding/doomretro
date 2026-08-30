@@ -2069,7 +2069,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     if (inflicter)
         target->inflicter = inflicter->type;
 
-    if (target->player)
+    if (target->player && target->player->mo == target)
     {
         target->flags &= ~MF_SOLID;
         viewplayer->playerstate = PST_DEAD;
