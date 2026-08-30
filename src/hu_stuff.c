@@ -120,6 +120,9 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void (*hudfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
+static void (*bighudfunc)(int, int, patch_t *);
+static void (*bighudnumfunc)(int, int, patch_t *);
+static void (*bighudnumfunc2)(int, int, patch_t *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *, int);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, int, const byte *);
@@ -219,6 +222,9 @@ void HU_SetTranslucency(void)
 {
     if (r_hud_translucency)
     {
+        bighudfunc = &V_DrawTranslucentBigHUDPatch;
+        bighudnumfunc = &V_DrawTranslucentBigHUDNumberPatch;
+        bighudnumfunc2 = &V_DrawTranslucentHighlightedBigHUDNumberPatch;
         hudfunc = &V_DrawTranslucentHUDPatch;
         hudnumfunc = &V_DrawTranslucentHUDNumberPatch;
         hudnumfunc2 = &V_DrawTranslucentHighlightedHUDNumberPatch;
@@ -231,6 +237,9 @@ void HU_SetTranslucency(void)
     }
     else
     {
+        bighudfunc = &V_DrawBigHUDPatch;
+        bighudnumfunc = &V_DrawBigHUDNumberPatch;
+        bighudnumfunc2 = &V_DrawHighlightedBigHUDNumberPatch;
         hudfunc = &V_DrawHUDPatch;
         hudnumfunc = &V_DrawHUDPatch;
         hudnumfunc2 = &V_DrawHighlightedHUDNumberPatch;
@@ -519,7 +528,7 @@ static int HUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
-static void HU_DrawBigHUDNumber(int *x, int y, int val)
+static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *))
 {
     int i;
 
@@ -529,24 +538,24 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val)
     if (val >= 100)
     {
         i = val / 100;
-        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i]);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 100;
 
         i = val / 10;
-        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i]);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 10;
     }
     else if (val >= 10)
     {
         i = val / 10;
-        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i]);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 10;
     }
 
-    V_DrawPatch(*x + LITTLESHORT(tallnum[val]->leftoffset), y, 0, tallnum[val]);
+    drawfunc(*x + LITTLESHORT(tallnum[val]->leftoffset), y, tallnum[val]);
     *x += LITTLESHORT(tallnum[val]->width);
 }
 
@@ -557,27 +566,30 @@ static void HU_DrawBigHUD(void)
                             viewplayer->readyweapon : viewplayer->pendingweapon);
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
     patch_t             *patch;
+    const uint64_t      currenttime = I_GetTimeMS();
     int                 x = -36;
 
     if ((patch = faces[st_faceindex]))
-        V_DrawPatch(x + LITTLESHORT(patch->leftoffset), y + 2, 0, patch);
+        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + 2, patch);
 
     x += LITTLESHORT(faces[0]->width) + 4;
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(HUD_NUMBER_MIN,
-        viewplayer->health + healthdiff, HUD_NUMBER_MAX));
-    V_DrawPatch(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, 0, tallpercent);
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29,
+        BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX),
+        (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
+    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, tallpercent);
 
     x = 52;
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
-        V_DrawPatch(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10, 0, patch);
+        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10, patch);
         x += LITTLESHORT(patch->width) + 4;
     }
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX));
-    V_DrawPatch(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, 0, tallpercent);
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX),
+        armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc);
+    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, tallpercent);
 
     x = VANILLAWIDTH + WIDESCREENDELTA - 8;
 
@@ -588,13 +600,14 @@ static void HU_DrawBigHUD(void)
         if ((patch = weaponinfo[weapon].ammopatch))
         {
             x -= LITTLESHORT(patch->width) + 5;
-            V_DrawPatch(x + LITTLESHORT(patch->leftoffset),
+            bighudfunc(x + LITTLESHORT(patch->leftoffset),
                 VANILLAHEIGHT - 29 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
-                    - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, 0, patch);
+                    - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch);
         }
 
         x -= HUDNumberWidth(ammo) + 5;
-        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, ammo);
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, ammo,
+            (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
     }
 }
 

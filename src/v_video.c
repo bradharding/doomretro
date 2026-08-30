@@ -1373,6 +1373,89 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
     }
 }
 
+void V_DrawBigHUDPatch(int x, int y, patch_t *patch)
+{
+    V_DrawPatch(x, y, 0, patch);
+}
+
+static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool translucent,
+    const bool number, const bool highlight)
+{
+    int         col = 0;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         screenx;
+
+    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
+    y -= LITTLESHORT(patch->topoffset);
+
+    if ((screenx = (x * DX) >> FRACBITS) < 0)
+    {
+        col += DXI * -screenx;
+        screenx = 0;
+    }
+
+    for (; col < width && screenx < SCREENWIDTH; col += DXI, screenx++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            const byte  length = column->length;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, top);
+            const int   clipbottom = MIN(SCREENHEIGHT, top + count);
+            int         srccol = (cliptop - top) * DYI;
+
+            if (cliptop < clipbottom)
+            {
+                byte    *dest = &screens[0][cliptop * SCREENWIDTH + screenx];
+
+                for (int row = cliptop; row < clipbottom; row++)
+                {
+                    const byte dot = source[srccol >> FRACBITS];
+
+                    if (translucent)
+                        *dest = (number && dot == DARKGRAY3 ? tinttab33[*dest] :
+                            (highlight ? white5[dot] : tinttab75[(dot << 8) + *dest]));
+                    else
+                        *dest = (highlight && dot != DARKGRAY3 ? white5[dot] : dot);
+                    dest += SCREENWIDTH;
+                    srccol += DYI;
+                }
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentBigHUDPatch(int x, int y, patch_t *patch)
+{
+    V_DrawBigHUDPatchInternal(x, y, patch, true, false, false);
+}
+
+void V_DrawBigHUDNumberPatch(int x, int y, patch_t *patch)
+{
+    V_DrawPatch(x, y, 0, patch);
+}
+
+void V_DrawHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch)
+{
+    V_DrawBigHUDPatchInternal(x, y, patch, false, true, true);
+}
+
+void V_DrawTranslucentBigHUDNumberPatch(int x, int y, patch_t *patch)
+{
+    V_DrawBigHUDPatchInternal(x, y, patch, true, true, false);
+}
+
+void V_DrawTranslucentHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch)
+{
+    V_DrawBigHUDPatchInternal(x, y, patch, true, true, true);
+}
+
 void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
