@@ -727,7 +727,7 @@ void HUlib_DrawSText(hu_stext_t *s, bool external)
         return; // if not on, don't draw
 
     // draw everything
-    if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+    if (r_hudstyle == 2 && r_althudfont && r_screensize == r_screensize_max)
         HUlib_DrawAltHUDTextLine(&s->l);
     else
         HUlib_DrawTextLine(&s->l, external);

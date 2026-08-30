@@ -965,8 +965,6 @@ consolecmd_t consolecmds[] =
         "Prints a player " BOLDITALICS("\"message\"") "."),
     CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),
-    BOOLCVAR(r_althud, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles an alternate heads-up display when widescreen."),
     BOOLCVAR(r_althud_ammobars, "", "", boolfunc1, boolfunc2, 0,
         "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate "
         "HUD."),
@@ -1036,6 +1034,8 @@ consolecmd_t consolecmds[] =
         "Toggles a flashing \"Hall Of Mirrors\" indicator."),
     BOOLCVAR(r_hud, "", "", boolfunc1, r_hudfunc2, 0,
         "Toggles a heads-up display when widescreen."),
+    INTCVAR(r_hudstyle, "", "", intfunc1, intfunc2, 0, 0,
+        "The style of the heads-up display when widescreen (" BOLD("1") " or " BOLD("2") ")."),
     BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
         "Toggles the translucency of the heads-up display when widescreen."),
     INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, r_invulnerabilityeffectfunc2, 0, INVULNVALUEALIAS,

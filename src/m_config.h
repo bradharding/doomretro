@@ -140,7 +140,6 @@ extern bool     negativehealth;
 extern bool     obituaries;
 extern int      playergender;
 extern char     *playername;
-extern bool     r_althud;
 extern bool     r_althud_ammobars;
 extern bool     r_althudfont;
 extern bool     r_antialiasing;
@@ -174,6 +173,7 @@ extern float    r_gamma;
 extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
+extern int      r_hudstyle;
 extern bool     r_hud_translucency;
 extern int      r_invulnerabilityeffect;
 extern bool     r_liquid_bob;
@@ -720,8 +720,6 @@ enum
 
 #define playername_default                  ""
 
-#define r_althud_default                    false
-
 #define r_althud_ammobars_default           false
 
 #define r_althudfont_default                true
@@ -808,6 +806,10 @@ enum
 #define r_homindicator_default              false
 
 #define r_hud_default                       false
+
+#define r_hudstyle_min                      1
+#define r_hudstyle_default                  1
+#define r_hudstyle_max                      2
 
 #define r_hud_translucency_default          true
 

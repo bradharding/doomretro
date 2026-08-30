@@ -108,7 +108,7 @@ static byte             hudscreen[MAXSCREENAREA];
 static int              hudopacity;
 static bool             hudtransitionactive;
 static bool             oldr_hud;
-static bool             oldr_althud;
+static int              oldr_hudstyle;
 static bool             hudtransitioninitialized;
 static bool             hudstyletransitionactive;
 static bool             hudstyletransitionfadingout;
@@ -152,7 +152,7 @@ static int HU_HUDOpacityTarget(void)
 
 static bool HU_TransitionAltHUD(void)
 {
-    return (hudstyletransitionactive ? hudtransitionalthud : r_althud);
+    return (hudstyletransitionactive ? hudtransitionalthud : r_hudstyle == 2);
 }
 
 static void HU_DrawFadedHUD(const bool althud, const int opacity)
@@ -1622,7 +1622,7 @@ void HU_Drawer(void)
             w_message.l.x = 0;
             w_message.l.y = 0;
         }
-        else if ((r_screensize == r_screensize_max && !(r_althud && r_althudfont)) || message_external)
+        else if ((r_screensize == r_screensize_max && !(r_hudstyle == 2 && r_althudfont)) || message_external)
         {
             w_message.l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
             w_message.l.y = HU_MSGY + 4;
@@ -1645,7 +1645,7 @@ void HU_Drawer(void)
     {
         const char  *author = P_GetMapAuthor(gameepisode, gamemap);
 
-        if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+        if (r_hudstyle == 2 && r_althudfont && r_screensize == r_screensize_max)
         {
             if (author && *author && am_author && !masterlevels)
             {
@@ -1724,14 +1724,14 @@ void HU_Drawer(void)
         {
             if (statusbartransition)
             {
-                if (r_althud)
+                if (r_hudstyle == 2)
                     HU_DrawAltHUD();
                 else
                     HU_DrawHUD();
             }
             else if (hudtransitionactive)
                 HU_DrawFadedHUD(HU_TransitionAltHUD(), hudopacity);
-            else if (r_althud)
+            else if (r_hudstyle == 2)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
@@ -1741,7 +1741,7 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            if (r_althud && r_althudfont && r_screensize == r_screensize_max)
+            if (r_hudstyle == 2 && r_althudfont && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
@@ -1773,9 +1773,9 @@ void HU_Ticker(void)
     if (!hudtransitioninitialized)
     {
         oldr_hud = r_hud;
-        oldr_althud = r_althud;
+        oldr_hudstyle = r_hudstyle;
         hudopacity = hudopacitytarget;
-        hudtransitionalthud = r_althud;
+        hudtransitionalthud = (r_hudstyle == 2);
         hudtransitioninitialized = true;
     }
 
@@ -1784,23 +1784,23 @@ void HU_Ticker(void)
         hudtransitionactive = false;
         hudstyletransitionactive = false;
         hudstyletransitionfadingout = false;
-        hudtransitionalthud = r_althud;
+        hudtransitionalthud = (r_hudstyle == 2);
         hudopacity = hudopacitytarget;
     }
     else
     {
-        if (!hudstyletransitionactive && r_hud && oldr_hud && r_althud != oldr_althud)
+        if (!hudstyletransitionactive && r_hud && oldr_hud && r_hudstyle != oldr_hudstyle)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = true;
             hudstyletransitionfadingout = true;
-            hudtransitionalthud = oldr_althud;
+            hudtransitionalthud = (oldr_hudstyle == 2);
         }
         else if (r_hud != oldr_hud)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = false;
-            hudtransitionalthud = r_althud;
+            hudtransitionalthud = (r_hudstyle == 2);
         }
 
         if (hudstyletransitionactive)
@@ -1814,7 +1814,7 @@ void HU_Ticker(void)
         if (hudstyletransitionactive && hudstyletransitionfadingout && hudopacity == 0)
         {
             hudstyletransitionfadingout = false;
-            hudtransitionalthud = r_althud;
+            hudtransitionalthud = (r_hudstyle == 2);
         }
         else if (hudopacity == hudopacitytarget)
         {
@@ -1824,7 +1824,7 @@ void HU_Ticker(void)
     }
 
     oldr_hud = r_hud;
-    oldr_althud = r_althud;
+    oldr_hudstyle = r_hudstyle;
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)

@@ -51,6 +51,7 @@
 * If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
 * When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.
 * The rise of the player’s weapon up from the bottom of the screen at the start of each map is now smoother.
+* The `r_althud` CVAR has been replaced by the `r_hudstyle` CVAR. This new CVAR is `1` by default, and can be set to `2` for the alternate widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

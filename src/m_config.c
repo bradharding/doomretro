@@ -152,7 +152,6 @@ bool        negativehealth = negativehealth_default;
 bool        obituaries = obituaries_default;
 int         playergender = playergender_default;
 char        *playername = playername_default;
-bool        r_althud = r_althud_default;
 bool        r_althud_ammobars = r_althud_ammobars_default;
 bool        r_althudfont = r_althudfont_default;
 bool        r_antialiasing = r_antialiasing_default;
@@ -186,6 +185,7 @@ float       r_gamma = r_gamma_default;
 bool        r_graduallighting = r_graduallighting_default;
 bool        r_homindicator = r_homindicator_default;
 bool        r_hud = r_hud_default;
+int         r_hudstyle = r_hudstyle_default;
 bool        r_hud_translucency = r_hud_translucency_default;
 int         r_invulnerabilityeffect = r_invulnerabilityeffect_default;
 bool        r_liquid_bob = r_liquid_bob_default;
@@ -428,7 +428,6 @@ static default_t cvars[] =
     CVAR_BOOL         (obituaries,                       con_obituaries,                        obituaries,                            BOOLVALUEALIAS         ),
     CVAR_INT          (playergender,                     playergender,                          playergender,                          GENDERVALUEALIAS       ),
     CVAR_STRING       (playername,                       playername,                            playername,                            0                      ),
-    CVAR_BOOL         (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_althud_ammobars,                r_althud_ammobars,                     r_althud_ammobars,                     BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_althudfont,                     r_althudfont,                          r_althudfont,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_antialiasing,                   r_supersampling,                       r_antialiasing,                        BOOLVALUEALIAS         ),
@@ -460,6 +459,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_graduallighting,                r_graduallighting,                     r_graduallighting,                     BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_homindicator,                   r_homindicator,                        r_homindicator,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_hud,                            r_hud,                                 r_hud,                                 BOOLVALUEALIAS         ),
+    CVAR_INT          (r_hudstyle,                       r_hudstyle,                            r_hudstyle,                            0                      ),
     CVAR_BOOL         (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                    BOOLVALUEALIAS         ),
     CVAR_INT          (r_invulnerabilityeffect,          r_invulnerabilityeffect,               r_invulnerabilityeffect,               INVULNVALUEALIAS       ),
     CVAR_BOOL         (r_liquid_bob,                     r_liquid_bob,                          r_liquid_bob,                          BOOLVALUEALIAS         ),
