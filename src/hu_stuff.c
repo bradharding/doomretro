@@ -620,75 +620,72 @@ static void HU_DrawBigHUD(void)
     }
 
     HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX),
-        armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc);
+        (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
     bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent);
-
-    x = VANILLAWIDTH + WIDESCREENDELTA - 8;
 
     if (ammotype != am_noammo)
     {
         const int   ammo = BETWEEN(0, viewplayer->ammo[ammotype] + ammodiff[ammotype], HUD_NUMBER_MAX);
 
         if ((patch = weaponinfo[weapon].ammopatch))
-        {
-            x -= LITTLESHORT(patch->width) + 5;
-            bighudfunc(x + LITTLESHORT(patch->leftoffset),
+            bighudfunc(VANILLAWIDTH + WIDESCREENDELTA - 12 - widestammopatchwidth
+                + (widestammopatchwidth - LITTLESHORT(patch->width)) / 2 + LITTLESHORT(patch->leftoffset),
                 VANILLAHEIGHT - 26 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
                 - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch);
-        }
 
         x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - BigHUDNumberWidth(ammo) - 8;
+
         HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo,
             (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
+    }
 
-        x = VANILLAWIDTH + WIDESCREENDELTA - 84;
+    x = VANILLAWIDTH + WIDESCREENDELTA - 84;
 
-        for (int i = 1; i <= NUMCARDS; i++)
-            for (int j = 0; j < NUMCARDS; j++)
-                if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
-                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
+    for (int i = 1; i <= NUMCARDS; i++)
+        for (int j = 0; j < NUMCARDS; j++)
+            if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
+                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
 
-        if (viewplayer->neededcardflash)
+    if (viewplayer->neededcardflash)
+    {
+        const card_t    neededcard = viewplayer->neededcard;
+
+        if (neededcard == it_all6keys || neededcard == it_all3keys)
         {
-            const card_t    neededcard = viewplayer->neededcard;
-
-            if (neededcard == it_all6keys || neededcard == it_all3keys)
+            if (!gamepaused && keywait < currenttime)
             {
-                if (!gamepaused && keywait < currenttime)
-                {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
-                }
-
-                if (flashkeys && (showkey || gamepaused))
-                {
-                    if (neededcard == it_all3keys)
-                    {
-                        for (int i = 0; i < NUMCARDS / 2; i++)
-                            if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
-                                for (int j = i; j <= i + 3; j += 3)
-                                    if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
-                                        HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
-                    }
-                    else
-                        for (int i = 0; i < NUMCARDS; i++)
-                            if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
-                                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
-                }
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
             }
-            else if ((patch = keypics[neededcard].patch))
+
+            if (flashkeys && (showkey || gamepaused))
             {
-                if (!gamepaused && keywait < currenttime)
+                if (neededcard == it_all3keys)
                 {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
+                    for (int i = 0; i < NUMCARDS / 2; i++)
+                        if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                            for (int j = i; j <= i + 3; j += 3)
+                                if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
+                                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
                 }
-
-                if (flashkeys && (showkey || gamepaused))
-                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
+                else
+                    for (int i = 0; i < NUMCARDS; i++)
+                        if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
+                            HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
             }
+        }
+        else if ((patch = keypics[neededcard].patch))
+        {
+            if (!gamepaused && keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+
+            if (flashkeys && (showkey || gamepaused))
+                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 27, patch);
         }
     }
 }
