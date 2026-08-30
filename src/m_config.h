@@ -364,6 +364,13 @@ enum
 
 enum
 {
+    r_hudstyle_big,
+    r_hudstyle_small,
+    r_hudstyle_alternate
+};
+
+enum
+{
     r_invulnerabilityeffect_invertedgrayscale,
     r_invulnerabilityeffect_grayscale
 };
@@ -807,9 +814,9 @@ enum
 
 #define r_hud_default                       false
 
-#define r_hudstyle_min                      0
-#define r_hudstyle_default                  0
-#define r_hudstyle_max                      2
+#define r_hudstyle_min                      r_hudstyle_big
+#define r_hudstyle_default                  r_hudstyle_big
+#define r_hudstyle_max                      r_hudstyle_alternate
 
 #define r_hud_translucency_default          true
 
@@ -1279,6 +1286,7 @@ typedef enum
     FAKECONTRASTVALUEALIAS,
     GAMMAVALUEALIAS,
     GENDERVALUEALIAS,
+    HUDSTYLEVALUEALIAS,
     INVULNVALUEALIAS,
     PATHLENGTHVALUEALIAS,
     RATIOVALUEALIAS,
