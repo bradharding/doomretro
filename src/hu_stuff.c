@@ -559,25 +559,35 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
     *x += LITTLESHORT(tallnum[val]->width);
 }
 
+static void HU_DrawBigHUDKey(int *x, int y, patch_t *patch)
+{
+    *x -= LITTLESHORT(patch->width);
+    bighudfunc(*x + LITTLESHORT(patch->leftoffset), y - (LITTLESHORT(patch->height) - 32), patch);
+    *x -= 5;
+}
+
 static void HU_DrawBigHUD(void)
 {
-    const int           y = VANILLAHEIGHT - 40;
+    const int           y = VANILLAHEIGHT - 37;
     const weapontype_t  weapon = (viewplayer->pendingweapon == wp_nochange ?
                             viewplayer->readyweapon : viewplayer->pendingweapon);
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
     patch_t             *patch;
     const uint64_t      currenttime = I_GetTimeMS();
-    int                 x = -36;
+    const bool          gamepaused = (consoleactive || paused || (viewplayer->cheats & CF_FREEZE));
+    static uint64_t     keywait;
+    static bool         showkey;
+    int                 x = -39;
 
     if ((patch = faces[st_faceindex]))
-        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + 2, patch);
+        bighudfunc(x + LITTLESHORT(patch->leftoffset), y - 2, patch);
 
     x += LITTLESHORT(faces[0]->width) + 4;
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29,
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26,
         BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX),
         (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
-    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, tallpercent);
+    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent);
 
     x = 52;
 
@@ -587,9 +597,9 @@ static void HU_DrawBigHUD(void)
         x += LITTLESHORT(patch->width) + 4;
     }
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX),
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX),
         armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc);
-    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, tallpercent);
+    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent);
 
     x = VANILLAWIDTH + WIDESCREENDELTA - 8;
 
@@ -601,13 +611,67 @@ static void HU_DrawBigHUD(void)
         {
             x -= LITTLESHORT(patch->width) + 5;
             bighudfunc(x + LITTLESHORT(patch->leftoffset),
-                VANILLAHEIGHT - 29 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
-                    - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch);
+                VANILLAHEIGHT - 26 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
+                - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch);
         }
 
         x -= HUDNumberWidth(ammo) + 5;
-        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, ammo,
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo,
             (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
+
+        x = VANILLAWIDTH + WIDESCREENDELTA - 80;
+
+        for (int i = 1; i <= NUMCARDS; i++)
+            for (int j = 0; j < NUMCARDS; j++)
+                if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
+                    HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+
+        if (viewplayer->neededcardflash)
+        {
+            const card_t    neededcard = viewplayer->neededcard;
+
+            if (neededcard == it_all6keys || neededcard == it_all3keys)
+            {
+                if (!gamepaused && keywait < currenttime)
+                {
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
+                }
+
+                if (flashkeys && (showkey || gamepaused))
+                {
+                    if (neededcard == it_all3keys)
+                    {
+                        for (int i = 0; i < NUMCARDS / 2; i++)
+                            if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
+                                for (int j = i; j <= i + 3; j += 3)
+                                    if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
+                                        HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+                    }
+                    else
+                        for (int i = 0; i < NUMCARDS; i++)
+                            if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
+                                HU_DrawBigHUDKey(&x, VANILLAHEIGHT - 23, patch);
+                }
+            }
+            else if ((patch = keypics[neededcard].patch))
+            {
+                if (!gamepaused && keywait < currenttime)
+                {
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
+                }
+
+                if (flashkeys && (showkey || gamepaused))
+                {
+                    x -= LITTLESHORT(patch->width);
+                    bighudfunc(x + LITTLESHORT(patch->leftoffset),
+                        VANILLAHEIGHT - 23 - (LITTLESHORT(patch->height) - 32), patch);
+                }
+            }
+        }
     }
 }
 

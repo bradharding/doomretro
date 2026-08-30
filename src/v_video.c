@@ -1416,6 +1416,9 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
                 {
                     const byte dot = source[srccol >> FRACBITS];
 
+                    if (!number && row + 2 < SCREENHEIGHT && screenx + 2 < SCREENWIDTH)
+                        *(dest + 2 * SCREENWIDTH + 2) = tinttab25[*(dest + 2 * SCREENWIDTH + 2)];
+
                     if (translucent)
                         *dest = (number && dot == DARKGRAY3 ? tinttab33[*dest] :
                             (highlight ? white5[dot] : tinttab75[(dot << 8) + *dest]));
