@@ -112,7 +112,7 @@ static int              oldr_hudstyle;
 static bool             hudtransitioninitialized;
 static bool             hudstyletransitionactive;
 static bool             hudstyletransitionfadingout;
-static bool             hudtransitionalthud;
+static int              hudtransitionstyle;
 
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -142,6 +142,7 @@ static struct
 };
 
 static void HU_AltInit(void);
+static void HU_DrawBigHUD(void);
 static void HU_DrawHUD(void);
 static void HU_DrawAltHUD(void);
 
@@ -150,12 +151,12 @@ static int HU_HUDOpacityTarget(void)
     return (r_hud && r_screensize == r_screensize_max ? 10 : 0);
 }
 
-static bool HU_TransitionAltHUD(void)
+static int HU_TransitionHUDStyle(void)
 {
-    return (hudstyletransitionactive ? hudtransitionalthud : r_hudstyle == 2);
+    return (hudstyletransitionactive ? hudtransitionstyle : r_hudstyle);
 }
 
-static void HU_DrawFadedHUD(const bool althud, const int opacity)
+static void HU_DrawFadedHUD(const int hudstyle, const int opacity)
 {
     byte    *screen = screens[0];
     byte    *tinttab;
@@ -173,7 +174,9 @@ static void HU_DrawFadedHUD(const bool althud, const int opacity)
 
     if (opacity >= 10)
     {
-        if (althud)
+        if (hudstyle == 0)
+            HU_DrawBigHUD();
+        else if (hudstyle == 2)
             HU_DrawAltHUD();
         else
             HU_DrawHUD();
@@ -186,7 +189,9 @@ static void HU_DrawFadedHUD(const bool althud, const int opacity)
     memcpy(hudscreen, screen, SCREENAREA);
     screens[0] = hudscreen;
 
-    if (althud)
+    if (hudstyle == 0)
+        HU_DrawBigHUD();
+    else if (hudstyle == 2)
         HU_DrawAltHUD();
     else
         HU_DrawHUD();
@@ -512,6 +517,85 @@ static int HUDNumberWidth(int val)
         return (width + tallnum0width * 2 - 1);
 
     return (width + tallnum0width);
+}
+
+static void HU_DrawBigHUDNumber(int *x, int y, int val)
+{
+    int i;
+
+    if (val < 0)
+        val = 0;
+
+    if (val >= 100)
+    {
+        i = val / 100;
+        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        *x += LITTLESHORT(tallnum[i]->width);
+        val %= 100;
+
+        i = val / 10;
+        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        *x += LITTLESHORT(tallnum[i]->width);
+        val %= 10;
+    }
+    else if (val >= 10)
+    {
+        i = val / 10;
+        V_DrawPatch(*x + LITTLESHORT(tallnum[i]->leftoffset), y, 0, tallnum[i]);
+        *x += LITTLESHORT(tallnum[i]->width);
+        val %= 10;
+    }
+
+    V_DrawPatch(*x + LITTLESHORT(tallnum[val]->leftoffset), y, 0, tallnum[val]);
+    *x += LITTLESHORT(tallnum[val]->width);
+}
+
+static void HU_DrawBigHUD(void)
+{
+    const int           y = VANILLAHEIGHT - 40;
+    const weapontype_t  weapon = (viewplayer->pendingweapon == wp_nochange ?
+                            viewplayer->readyweapon : viewplayer->pendingweapon);
+    const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
+    patch_t             *patch;
+    int                 x = -36;
+
+    if ((patch = faces[st_faceindex]))
+        V_DrawPatch(x + LITTLESHORT(patch->leftoffset), y + 2, 0, patch);
+
+    x += LITTLESHORT(faces[0]->width) + 4;
+
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(HUD_NUMBER_MIN,
+        viewplayer->health + healthdiff, HUD_NUMBER_MAX));
+    V_DrawPatch(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, 0, tallpercent);
+
+    x = 52;
+
+    if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
+    {
+        V_DrawPatch(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10, 0, patch);
+        x += LITTLESHORT(patch->width) + 4;
+    }
+
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX));
+    V_DrawPatch(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 29, 0, tallpercent);
+
+    x = VANILLAWIDTH + WIDESCREENDELTA - 8;
+
+    if (ammotype != am_noammo)
+    {
+        const int   ammo = BETWEEN(0, viewplayer->ammo[ammotype] + ammodiff[ammotype], HUD_NUMBER_MAX);
+
+        if ((patch = weaponinfo[weapon].ammopatch))
+        {
+            x -= LITTLESHORT(patch->width) + 5;
+            V_DrawPatch(x + LITTLESHORT(patch->leftoffset),
+                VANILLAHEIGHT - 29 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
+                    - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, 0, patch);
+        }
+
+        x -= HUDNumberWidth(ammo) + 5;
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 29, ammo);
+    }
 }
 
 static void HU_DrawCrosshair(void)
@@ -1724,20 +1808,24 @@ void HU_Drawer(void)
         {
             if (statusbartransition)
             {
-                if (r_hudstyle == 2)
+                if (r_hudstyle == 0)
+                    HU_DrawBigHUD();
+                else if (r_hudstyle == 2)
                     HU_DrawAltHUD();
                 else
                     HU_DrawHUD();
             }
             else if (hudtransitionactive)
-                HU_DrawFadedHUD(HU_TransitionAltHUD(), hudopacity);
+                HU_DrawFadedHUD(HU_TransitionHUDStyle(), hudopacity);
+            else if (r_hudstyle == 0)
+                HU_DrawBigHUD();
             else if (r_hudstyle == 2)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
         }
         else if (hudtransitionactive)
-            HU_DrawFadedHUD(HU_TransitionAltHUD(), hudopacity);
+            HU_DrawFadedHUD(HU_TransitionHUDStyle(), hudopacity);
 
         if (mapwindow)
         {
@@ -1775,7 +1863,7 @@ void HU_Ticker(void)
         oldr_hud = r_hud;
         oldr_hudstyle = r_hudstyle;
         hudopacity = hudopacitytarget;
-        hudtransitionalthud = (r_hudstyle == 2);
+        hudtransitionstyle = r_hudstyle;
         hudtransitioninitialized = true;
     }
 
@@ -1784,7 +1872,7 @@ void HU_Ticker(void)
         hudtransitionactive = false;
         hudstyletransitionactive = false;
         hudstyletransitionfadingout = false;
-        hudtransitionalthud = (r_hudstyle == 2);
+        hudtransitionstyle = r_hudstyle;
         hudopacity = hudopacitytarget;
     }
     else
@@ -1794,13 +1882,13 @@ void HU_Ticker(void)
             hudtransitionactive = true;
             hudstyletransitionactive = true;
             hudstyletransitionfadingout = true;
-            hudtransitionalthud = (oldr_hudstyle == 2);
+            hudtransitionstyle = oldr_hudstyle;
         }
         else if (r_hud != oldr_hud)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = false;
-            hudtransitionalthud = (r_hudstyle == 2);
+            hudtransitionstyle = r_hudstyle;
         }
 
         if (hudstyletransitionactive)
@@ -1814,7 +1902,7 @@ void HU_Ticker(void)
         if (hudstyletransitionactive && hudstyletransitionfadingout && hudopacity == 0)
         {
             hudstyletransitionfadingout = false;
-            hudtransitionalthud = (r_hudstyle == 2);
+            hudtransitionstyle = r_hudstyle;
         }
         else if (hudopacity == hudopacitytarget)
         {

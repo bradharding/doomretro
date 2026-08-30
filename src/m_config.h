@@ -807,8 +807,8 @@ enum
 
 #define r_hud_default                       false
 
-#define r_hudstyle_min                      1
-#define r_hudstyle_default                  1
+#define r_hudstyle_min                      0
+#define r_hudstyle_default                  0
 #define r_hudstyle_max                      2
 
 #define r_hud_translucency_default          true

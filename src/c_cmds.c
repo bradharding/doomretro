@@ -1035,7 +1035,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_hud, "", "", boolfunc1, r_hudfunc2, 0,
         "Toggles a heads-up display when widescreen."),
     INTCVAR(r_hudstyle, "", "", intfunc1, intfunc2, 0, 0,
-        "The style of the heads-up display when widescreen (" BOLD("1") " or " BOLD("2") ")."),
+        "The style of the heads-up display when widescreen (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
         "Toggles the translucency of the heads-up display when widescreen."),
     INTCVAR(r_invulnerabilityeffect, "", "", intfunc1, r_invulnerabilityeffectfunc2, 0, INVULNVALUEALIAS,
