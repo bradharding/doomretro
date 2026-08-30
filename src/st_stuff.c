@@ -1259,7 +1259,7 @@ void ST_Ticker(void)
         ST_UpdateWidgets();
         st_oldhealth = viewplayer->health;
     }
-    else if (r_hud && (r_hudstyle == 0 || r_hudstyle == 1))
+    else if (r_hud && r_hud_style != r_hud_style_alternate)
     {
         ST_UpdateFaceWidget();
         st_oldhealth = viewplayer->health;

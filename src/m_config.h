@@ -140,8 +140,6 @@ extern bool     negativehealth;
 extern bool     obituaries;
 extern int      playergender;
 extern char     *playername;
-extern bool     r_althud_ammobars;
-extern bool     r_althudfont;
 extern bool     r_antialiasing;
 extern int      r_berserkeffect;
 extern int      r_blood;
@@ -173,7 +171,9 @@ extern float    r_gamma;
 extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
-extern int      r_hudstyle;
+extern bool     r_hud_altfont;
+extern bool     r_hud_ammobars;
+extern int      r_hud_style;
 extern bool     r_hud_translucency;
 extern int      r_invulnerabilityeffect;
 extern bool     r_liquid_bob;
@@ -364,9 +364,9 @@ enum
 
 enum
 {
-    r_hudstyle_big,
-    r_hudstyle_small,
-    r_hudstyle_alternate
+    r_hud_style_big,
+    r_hud_style_small,
+    r_hud_style_alternate
 };
 
 enum
@@ -727,10 +727,6 @@ enum
 
 #define playername_default                  ""
 
-#define r_althud_ammobars_default           false
-
-#define r_althudfont_default                true
-
 #define r_antialiasing_default              false
 
 #define r_berserkeffect_min                 0
@@ -814,9 +810,13 @@ enum
 
 #define r_hud_default                       false
 
-#define r_hudstyle_min                      r_hudstyle_big
-#define r_hudstyle_default                  r_hudstyle_big
-#define r_hudstyle_max                      r_hudstyle_alternate
+#define r_hud_altfont_default               true
+
+#define r_hud_ammobars_default              false
+
+#define r_hud_style_min                     r_hud_style_big
+#define r_hud_style_default                 r_hud_style_big
+#define r_hud_style_max                     r_hud_style_alternate
 
 #define r_hud_translucency_default          true
 

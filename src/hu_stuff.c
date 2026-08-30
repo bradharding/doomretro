@@ -108,7 +108,7 @@ static byte             hudscreen[MAXSCREENAREA];
 static int              hudopacity;
 static bool             hudtransitionactive;
 static bool             oldr_hud;
-static int              oldr_hudstyle;
+static int              oldr_hud_style;
 static bool             hudtransitioninitialized;
 static bool             hudstyletransitionactive;
 static bool             hudstyletransitionfadingout;
@@ -156,7 +156,7 @@ static int HU_HUDOpacityTarget(void)
 
 static int HU_TransitionHUDStyle(void)
 {
-    return (hudstyletransitionactive ? hudtransitionstyle : r_hudstyle);
+    return (hudstyletransitionactive ? hudtransitionstyle : r_hud_style);
 }
 
 static void HU_DrawFadedHUD(const int hudstyle, const int opacity)
@@ -1729,7 +1729,7 @@ static void HU_DrawAltHUD(void)
             fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar,
                 3, color, color, false, false, tinttab60, NULL);
         }
-        else if (r_althud_ammobars)
+        else if (r_hud_ammobars)
         {
             const ammotype_t    otherammoorder[] = { am_clip, am_shell, am_misl, am_cell };
             const int           color2 = (r_hud_translucency ? color : nearestdarkgray);
@@ -1783,7 +1783,8 @@ void HU_Drawer(void)
             w_message.l.x = 0;
             w_message.l.y = 0;
         }
-        else if ((r_screensize == r_screensize_max && !(r_hudstyle == 2 && r_althudfont)) || message_external)
+        else if ((r_screensize == r_screensize_max && !(r_hud_style == r_hud_style_alternate && r_hud_altfont))
+            || message_external)
         {
             w_message.l.x = MAXWIDESCREENDELTA / 2 - HU_MSGX - 3;
             w_message.l.y = HU_MSGY + 4;
@@ -1806,7 +1807,7 @@ void HU_Drawer(void)
     {
         const char  *author = P_GetMapAuthor(gameepisode, gamemap);
 
-        if (r_hudstyle == 2 && r_althudfont && r_screensize == r_screensize_max)
+        if (r_hud_style == r_hud_style_alternate && r_hud_altfont && r_screensize == r_screensize_max)
         {
             if (author && *author && am_author && !masterlevels)
             {
@@ -1885,18 +1886,18 @@ void HU_Drawer(void)
         {
             if (statusbartransition)
             {
-                if (r_hudstyle == 0)
+                if (r_hud_style == r_hud_style_big)
                     HU_DrawBigHUD();
-                else if (r_hudstyle == 2)
+                else if (r_hud_style == r_hud_style_alternate)
                     HU_DrawAltHUD();
                 else
                     HU_DrawHUD();
             }
             else if (hudtransitionactive)
                 HU_DrawFadedHUD(HU_TransitionHUDStyle(), hudopacity);
-            else if (r_hudstyle == 0)
+            else if (r_hud_style == r_hud_style_big)
                 HU_DrawBigHUD();
-            else if (r_hudstyle == 2)
+            else if (r_hud_style == r_hud_style_alternate)
                 HU_DrawAltHUD();
             else
                 HU_DrawHUD();
@@ -1906,7 +1907,7 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            if (r_hudstyle == 2 && r_althudfont && r_screensize == r_screensize_max)
+            if (r_hud_style == r_hud_style_alternate && r_hud_altfont && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
@@ -1938,9 +1939,9 @@ void HU_Ticker(void)
     if (!hudtransitioninitialized)
     {
         oldr_hud = r_hud;
-        oldr_hudstyle = r_hudstyle;
+        oldr_hud_style = r_hud_style;
         hudopacity = hudopacitytarget;
-        hudtransitionstyle = r_hudstyle;
+        hudtransitionstyle = r_hud_style;
         hudtransitioninitialized = true;
     }
 
@@ -1949,23 +1950,23 @@ void HU_Ticker(void)
         hudtransitionactive = false;
         hudstyletransitionactive = false;
         hudstyletransitionfadingout = false;
-        hudtransitionstyle = r_hudstyle;
+        hudtransitionstyle = r_hud_style;
         hudopacity = hudopacitytarget;
     }
     else
     {
-        if (!hudstyletransitionactive && r_hud && oldr_hud && r_hudstyle != oldr_hudstyle)
+        if (!hudstyletransitionactive && r_hud && oldr_hud && r_hud_style != oldr_hud_style)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = true;
             hudstyletransitionfadingout = true;
-            hudtransitionstyle = oldr_hudstyle;
+            hudtransitionstyle = oldr_hud_style;
         }
         else if (r_hud != oldr_hud)
         {
             hudtransitionactive = true;
             hudstyletransitionactive = false;
-            hudtransitionstyle = r_hudstyle;
+            hudtransitionstyle = r_hud_style;
         }
 
         if (hudstyletransitionactive)
@@ -1979,7 +1980,7 @@ void HU_Ticker(void)
         if (hudstyletransitionactive && hudstyletransitionfadingout && hudopacity == 0)
         {
             hudstyletransitionfadingout = false;
-            hudtransitionstyle = r_hudstyle;
+            hudtransitionstyle = r_hud_style;
         }
         else if (hudopacity == hudopacitytarget)
         {
@@ -1989,7 +1990,7 @@ void HU_Ticker(void)
     }
 
     oldr_hud = r_hud;
-    oldr_hudstyle = r_hudstyle;
+    oldr_hud_style = r_hud_style;
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !--message_counter)
