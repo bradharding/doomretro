@@ -1673,6 +1673,7 @@ static void HU_DrawAltHUD(void)
                                     }
                     }
                     else
+                    {
                         for (int i = 0; i < NUMCARDS; i++)
                             if (viewplayer->cards[i] == CARDNOTFOUNDYET)
                             {
@@ -1687,6 +1688,7 @@ static void HU_DrawAltHUD(void)
 
                                 keypic_x += altkeypic.width + 4;
                             }
+                    }
             }
             else
             {
