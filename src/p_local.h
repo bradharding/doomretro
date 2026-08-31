@@ -270,7 +270,6 @@ extern int          numspechit;
 
 extern bool         infight;
 extern bool         hitwall;
-extern bool         chainsawattack;
 
 void P_CheckSpechits(void);
 bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y);

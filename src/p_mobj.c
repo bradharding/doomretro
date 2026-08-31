@@ -1500,8 +1500,9 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
 
     th->type = MT_PUFF;
     th->info = info;
-    th->x = x;
-    th->y = y;
+    th->x = th->oldx = x;
+    th->y = th->oldy = y;
+    th->interpolationcapture = mobj_interp_capture;
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
@@ -1526,7 +1527,7 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
     th->floorz = sector->interpfloorheight;
     th->ceilingz = sector->interpceilingheight;
 
-    th->z = z + (M_BigSubRandom() << 10);
+    th->z = th->oldz = z + (M_BigSubRandom() << 10);
 
     th->thinker.function = &P_MobjThinker;
     P_AddThinker(&th->thinker);
@@ -1583,11 +1584,12 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
 
             th->type = MT_BLOOD;
             th->info = info;
-            th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
-            th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
+            th->x = th->oldx = x + M_BigRandomInt(-2, 2) * FRACUNIT;
+            th->y = th->oldy = y + M_BigRandomInt(-2, 2) * FRACUNIT;
             th->flags = info->flags;
             th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
             th->mbf21flags = info->mbf21flags;
+            th->interpolationcapture = mobj_interp_capture;
 
             th->state = st;
             th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
@@ -1616,6 +1618,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->ceilingz = sector->interpceilingheight;
 
             th->z = BETWEEN(minz, z + (M_BigSubRandom() << 10), maxz);
+            th->oldz = th->z;
 
             th->thinker.function = &P_MobjThinker;
             P_AddThinker(&th->thinker);

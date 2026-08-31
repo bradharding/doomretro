@@ -1697,12 +1697,11 @@ static bool PTR_AimTraverse(intercept_t *in)
     return false;   // don't go any farther
 }
 
-bool    hitwall;
-bool    chainsawattack;
-
 //
 // PTR_ShootTraverse
 //
+bool    hitwall;
+
 static bool PTR_ShootTraverse(intercept_t *in)
 {
     fixed_t x, y, z;
@@ -1791,9 +1790,6 @@ static bool PTR_ShootTraverse(intercept_t *in)
         // spawn bullet puff
         P_SpawnPuff(dltrace.x + FixedMul(dltrace.dx, frac), dltrace.y + FixedMul(dltrace.dy, frac), z, shootangle);
 
-        if (chainsawattack)
-            linetarget = NULL;
-
         // don't go any farther
         return false;
     }
@@ -1828,7 +1824,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
     // Spawn bullet puff or blood, depending on target type
     if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z - M_RandomInt(0, 16) * FRACUNIT, shootangle);
-    else if (r_blood != r_blood_none && !chainsawattack)
+    else if (r_blood != r_blood_none)
     {
         if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {

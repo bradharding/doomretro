@@ -465,10 +465,8 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!linetarget)
         slope = P_AimLineAttack(actor, angle, range, 0);
 
-    hitwall = false;
-    chainsawattack = true;
+    linetarget = NULL;
     P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
-    chainsawattack = false;
 
     A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
@@ -477,7 +475,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
     stat_shotsfired[wp_chainsaw] = SafeAdd(stat_shotsfired[wp_chainsaw], 1);
     idlechainsawrumblestrength = 0;
 
-    if (!linetarget || hitwall)
+    if (!linetarget)
     {
         S_StartSound(actor, sfx_sawful);
         return;
