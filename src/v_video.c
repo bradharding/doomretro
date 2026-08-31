@@ -1346,7 +1346,7 @@ void V_DrawHelpPatch(patch_t *patch)
     }
 }
 
-void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawSmallHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
@@ -1374,7 +1374,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
     }
 }
 
-void V_DrawBigHUDPatch(int x, int y, patch_t *patch)
+void V_DrawBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawPatch(x, y, 0, patch);
 }
@@ -1461,32 +1461,32 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
     }
 }
 
-void V_DrawTranslucentBigHUDPatch(int x, int y, patch_t *patch)
+void V_DrawTranslucentBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawBigHUDPatchInternal(x, y, patch, true, false, false);
 }
 
-void V_DrawBigHUDNumberPatch(int x, int y, patch_t *patch)
+void V_DrawBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawBigHUDPatchInternal(x, y, patch, false, true, false);
 }
 
-void V_DrawHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch)
+void V_DrawHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawBigHUDPatchInternal(x, y, patch, false, true, true);
 }
 
-void V_DrawTranslucentBigHUDNumberPatch(int x, int y, patch_t *patch)
+void V_DrawTranslucentBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawBigHUDPatchInternal(x, y, patch, true, true, false);
 }
 
-void V_DrawTranslucentHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch)
+void V_DrawTranslucentHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     V_DrawBigHUDPatchInternal(x, y, patch, true, true, true);
 }
 
-void V_DrawHUDNumberPatch(int x, int y, patch_t *patch)
+void V_DrawSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
@@ -1516,7 +1516,7 @@ void V_DrawHUDNumberPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
@@ -1549,7 +1549,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
     }
 }
 
-void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawTranslucentHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
@@ -1582,7 +1582,7 @@ void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, co
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawTranslucentSmallHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
@@ -1612,7 +1612,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab
     }
 }
 
-void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
+void V_DrawTranslucentSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = LITTLESHORT(patch->width);
