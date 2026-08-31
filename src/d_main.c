@@ -3093,8 +3093,8 @@ static void D_DoomMainSetup(void)
     R_Init();
     P_Init();
     S_Init();
-    HU_Init();
     ST_Init();
+    HU_Init();
     AM_Init();
     C_Init();
     V_InitColorTranslation();

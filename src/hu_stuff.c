@@ -94,6 +94,7 @@ short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 static int              widestammopatchwidth;
+static int              armorx;
 
 static patch_t          *crosshairpatch[NUMCROSSHAIRS];
 static short            crosshairwidth[NUMCROSSHAIRS];
@@ -242,7 +243,7 @@ void HU_SetTranslucency(void)
         bighudnumfunc = &V_DrawBigHUDNumberPatch;
         bighudnumfunc2 = &V_DrawHighlightedBigHUDNumberPatch;
         hudfunc = &V_DrawHUDPatch;
-        hudnumfunc = &V_DrawHUDPatch;
+        hudnumfunc = &V_DrawHUDNumberPatch;
         hudnumfunc2 = &V_DrawHighlightedHUDNumberPatch;
         althudfunc = &V_DrawAltHUDPatch;
         althudtextfunc = &V_DrawAltHUDText;
@@ -251,6 +252,21 @@ void HU_SetTranslucency(void)
         fillrectfunc2 = &V_FillRect;
         coloroffset = 4;
     }
+}
+
+static int BigHUDNumberWidth(int val)
+{
+    int width = LITTLESHORT(tallnum[val % 10]->width);
+
+    if (val >= 100)
+    {
+        width += LITTLESHORT(tallnum[val / 100]->width);
+        width += LITTLESHORT(tallnum[(val % 100) / 10]->width);
+    }
+    else if (val >= 10)
+        width += LITTLESHORT(tallnum[val / 10]->width);
+
+    return width;
 }
 
 void HU_Init(void)
@@ -339,6 +355,10 @@ void HU_Init(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         if (weaponinfo[i].ammopatch)
             widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
+
+    armorx = BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
+
+    V_SetHUDNumberShadow(tallnum[0]);
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
@@ -533,21 +553,6 @@ static int HUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
-static int BigHUDNumberWidth(int val)
-{
-    int width = LITTLESHORT(tallnum[val % 10]->width);
-
-    if (val >= 100)
-    {
-        width += LITTLESHORT(tallnum[val / 100]->width);
-        width += LITTLESHORT(tallnum[(val % 100) / 10]->width);
-    }
-    else if (val >= 10)
-        width += LITTLESHORT(tallnum[val / 10]->width);
-
-    return width;
-}
-
 static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *))
 {
     int i;
@@ -604,18 +609,19 @@ static void HU_DrawBigHUD(void)
     if ((patch = faces[st_faceindex]))
         bighudfunc(x + LITTLESHORT(patch->leftoffset), y - 2, patch);
 
-    x += LITTLESHORT(faces[0]->width) + 4;
+    x += 28;
 
     HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26,
         BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX),
         (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
     bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent);
 
-    x = 52;
+    x = armorx;
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
-        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10, patch);
+        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
+            - MAX(0, LITTLESHORT(patch->height) - 17), patch);
         x += LITTLESHORT(patch->width) + 4;
     }
 
