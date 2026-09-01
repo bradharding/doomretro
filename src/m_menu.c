@@ -58,7 +58,6 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
-#include "st_stuff.h"
 #include "p_setup.h"
 #include "s_sound.h"
 #include "st_lib.h"
@@ -73,6 +72,7 @@
 #define MENUPITCH             128
 #define OFFSET                 17
 #define SKULLANIMCOUNT         10
+#define CARETANIMCOUNT         15
 #define MENUHIGHLIGHTFADESTEP  10
 #define MENUELEMFADECOUNT       8
 
@@ -141,7 +141,7 @@ static int      menuitemfadecount = 0;
 static byte     menublurscreen[MAXSCREENAREA];
 
 static bool     showcaret;
-static short    caretwait = SKULLANIMCOUNT;
+static short    caretwait = CARETANIMCOUNT;
 int             caretcolor;
 static int      caretbordercolor;
 
@@ -1599,7 +1599,7 @@ static void M_SaveSelect(int choice)
         savecharindex = (int)strlen(savegamestrings[itemon]);
 
     showcaret = true;
-    caretwait = SKULLANIMCOUNT;
+    caretwait = CARETANIMCOUNT;
 }
 
 //
@@ -3896,7 +3896,7 @@ bool M_Responder(event_t *ev)
 
                                     if (savecharindex != oldsavecharindex)
                                     {
-                                        caretwait = SKULLANIMCOUNT;
+                                        caretwait = CARETANIMCOUNT;
                                         showcaret = true;
                                     }
                                 }
@@ -4210,7 +4210,7 @@ bool M_Responder(event_t *ev)
                     savegamestrings[itemon][i] = savegamestrings[itemon][i - 1];
 
                 savegamestrings[itemon][savecharindex++] = ch;
-                caretwait = SKULLANIMCOUNT;
+                caretwait = CARETANIMCOUNT;
                 showcaret = true;
 
                 return true;
@@ -4239,7 +4239,7 @@ bool M_Responder(event_t *ev)
                         savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
                     savecharindex--;
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4257,7 +4257,7 @@ bool M_Responder(event_t *ev)
                     for (int j = savecharindex; j < len; j++)
                         savegamestrings[itemon][j] = savegamestrings[itemon][j + 1];
 
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4297,7 +4297,7 @@ bool M_Responder(event_t *ev)
                         SDL_StopTextInput();
                         M_UpdateSaveGameName(itemon);
                         savestringenter = false;
-                        caretwait = SKULLANIMCOUNT;
+                        caretwait = CARETANIMCOUNT;
                         showcaret = true;
                         M_DoSave(itemon);
                         D_FadeScreen(false);
@@ -4318,7 +4318,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex > 0)
                 {
                     savecharindex--;
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4329,7 +4329,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex < (int)strlen(savegamestrings[itemon]))
                 {
                     savecharindex++;
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4340,7 +4340,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex > 0)
                 {
                     savecharindex = 0;
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -4354,7 +4354,7 @@ bool M_Responder(event_t *ev)
                 if (savecharindex < len)
                 {
                     savecharindex = len;
-                    caretwait = SKULLANIMCOUNT;
+                    caretwait = CARETANIMCOUNT;
                     showcaret = true;
                 }
 
@@ -5674,7 +5674,7 @@ void M_Ticker(void)
 
             if (--caretwait <= 0)
             {
-                caretwait = SKULLANIMCOUNT;
+                caretwait = CARETANIMCOUNT;
                 showcaret = !showcaret;
             }
         }
@@ -5700,7 +5700,7 @@ void M_Init(void)
     itemon = currentmenu->laston;
     previousmenu = NULL;
     skullanimcounter = SKULLANIMCOUNT;
-    caretwait = SKULLANIMCOUNT;
+    caretwait = CARETANIMCOUNT;
     messagetoprint = false;
     messagestring = NULL;
     messagelastmenuactive = false;
