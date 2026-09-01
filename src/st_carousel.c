@@ -259,23 +259,26 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 
     if (patch)
     {
-        V_DrawDropShadowPatch(x, y, 0, patch,
-            (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
+        if (r_hud_translucency)
+            V_DrawDropShadowPatch(x, y, 0, patch,
+                (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
 
-        if (fade == 4)
+        if (fade == 4 && !r_hud_translucency)
             V_DrawPatch(x, y, 0, patch);
         else if (fade > 0)
             V_DrawTranslucentPatch(x, y, 0, patch,
-                (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75)));
+                (r_hud_translucency ? tinttab80 :
+                    (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75))));
     }
     else if ((patch = pickuppatches[weapon]))
     {
         x += pickupxoffset[weapon];
         y += pickupyoffset[weapon];
 
-        for (int dy = -1; dy <= 1; dy++)
-            for (int dx = -1; dx <= 1; dx++)
-                V_DrawSmallDropShadowPatch(x + dx, y + dy, 0, patch, black40);
+        if (r_hud_translucency)
+            for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                    V_DrawSmallDropShadowPatch(x + dx, y + dy, 0, patch, black40);
 
         if (selected)
         {
