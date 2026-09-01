@@ -1408,7 +1408,7 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
 {
     int         col = 0;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
-    const bool  shadow = (!number || !bighudnumbershadow);
+    const bool  shadow = (!number || (r_hud_translucency && !bighudnumbershadow));
     int         screenx;
 
     x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
@@ -1504,7 +1504,7 @@ void V_DrawSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab
 
             while (count-- > 0)
             {
-                if (!bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
+                if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
                 *dest++ = *source++;
@@ -1537,7 +1537,7 @@ void V_DrawHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
             {
                 const byte  dot = *source++;
 
-                if (!bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
+                if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? dot : white5[dot]);
@@ -1570,7 +1570,7 @@ void V_DrawTranslucentHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patc
             {
                 const byte  dot = *source++;
 
-                if (!bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
+                if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : white5[dot]);
@@ -1633,7 +1633,7 @@ void V_DrawTranslucentSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
             {
                 const byte  dot = *source++;
 
-                if (!bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
+                if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
