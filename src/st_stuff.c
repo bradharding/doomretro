@@ -342,6 +342,14 @@ static void ST_RefreshBackground(void)
                     R_FillBezel();
 
                 V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+
+                for (int y = ST_Y; y < SCREENHEIGHT - 2; y++)
+                {
+                    byte    *dest = screens[0] + (size_t)y * SCREENWIDTH;
+
+                    dest[0] = dest[1] = white25[dest[0]];
+                    dest[SCREENWIDTH - 1] = dest[SCREENWIDTH - 2] = black40[dest[SCREENWIDTH - 1]];
+                }
             }
             else
                 V_DrawBigPatch(ST_X, ST_Y, sbar2width, SBARHEIGHT, sbar2);
