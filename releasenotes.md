@@ -55,6 +55,8 @@
 * The `r_althud_ammobars` CVAR has been renamed `r_hud_ammobars`.
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
+* Block comments are now parsed correctly in `MAPINFO` lumps.
+* The status bar has now been widened to accommodate screens with a 21:9 aspect ratio.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
