@@ -250,7 +250,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_blueskull] == CARDNOTFOUNDYET && player->cards[it_bluecard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_blueskull)
                     {
@@ -294,7 +294,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_redskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_redskull] == CARDNOTFOUNDYET && player->cards[it_redcard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_redskull)
                     {
@@ -338,7 +338,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET && player->cards[it_yellowcard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_yellowskull)
                     {
@@ -522,7 +522,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_blueskull] == CARDNOTFOUNDYET && player->cards[it_bluecard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_blueskull)
                     {
@@ -569,7 +569,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET && player->cards[it_yellowcard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_yellowskull)
                     {
@@ -616,7 +616,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_redskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_redskull] == CARDNOTFOUNDYET && player->cards[it_redcard] == CARDNOTINMAP)
                 {
                     if (!player->neededcardflash || player->neededcard != it_redskull)
                     {
