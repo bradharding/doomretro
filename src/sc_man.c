@@ -40,25 +40,21 @@
 #include "z_zone.h"
 
 #define MAX_STRING_SIZE 1024
-#define ASCII_COMMENT1  ';'
-#define ASCII_COMMENT2  '/'
-#define ASCII_QUOTE     '"'
-#define ASCII_ESCAPE    '\\'
 
-char            *sc_String;
-float           sc_Number;
-int             sc_Line;
+char        *sc_String;
+float       sc_Number;
+int         sc_Line;
 
-static char     *ScriptBuffer;
-static char     *ScriptPtr;
-static char     *ScriptEndPtr;
-static char     *ScriptLumpName;
-static int      ScriptLumpNum;
-static bool     sc_End;
-static bool     ScriptOpen;
-static bool     AlreadyGot;
-static bool     SkipComma;
-static bool     LineStart;
+static char *ScriptBuffer;
+static char *ScriptPtr;
+static char *ScriptEndPtr;
+static char *ScriptLumpName;
+static int  ScriptLumpNum;
+static bool sc_End;
+static bool ScriptOpen;
+static bool AlreadyGot;
+static bool SkipComma;
+static bool LineStart;
 
 static bool SC_PreviousCharIs(const char c)
 {
@@ -72,7 +68,51 @@ static bool SC_NextCharIs(const char c)
 
 static bool SC_IsComment(void)
 {
-    return (*ScriptPtr == ASCII_COMMENT1 || (*ScriptPtr == ASCII_COMMENT2 && SC_NextCharIs(ASCII_COMMENT2)));
+    return (*ScriptPtr == ';'
+        || (*ScriptPtr == '/' && SC_NextCharIs('/'))
+        || (*ScriptPtr == '/' && SC_NextCharIs('*'))
+        || (*ScriptPtr == '<' && SC_NextCharIs('!')
+            && ScriptEndPtr - ScriptPtr > 3 && ScriptPtr[2] == '-' && ScriptPtr[3] == '-'));
+}
+
+static bool SC_SkipComment(void)
+{
+    if ((*ScriptPtr == '/' && SC_NextCharIs('*'))
+        || (*ScriptPtr == '<' && SC_NextCharIs('!')
+            && ScriptEndPtr - ScriptPtr > 3 && ScriptPtr[2] == '-' && ScriptPtr[3] == '-'))
+    {
+        const char  close1 = (*ScriptPtr == '/' ? '*' : '-');
+        const char  close2 = (*ScriptPtr == '/' ? '/' : '>');
+
+        ScriptPtr += (*ScriptPtr == '/' ? 2 : 4);
+
+        while (ScriptPtr < ScriptEndPtr)
+        {
+            if (*ScriptPtr == '\n')
+                sc_Line++;
+
+            if (*ScriptPtr == close1 && SC_NextCharIs(close2))
+            {
+                ScriptPtr += 2;
+                return true;
+            }
+
+            ScriptPtr++;
+        }
+
+        return false;
+    }
+
+    while (ScriptPtr < ScriptEndPtr && *ScriptPtr != '\n')
+        ScriptPtr++;
+
+    if (ScriptPtr < ScriptEndPtr)
+    {
+        ScriptPtr++;
+        sc_Line++;
+    }
+
+    return true;
 }
 
 static void SC_ScriptError(void)
@@ -159,38 +199,32 @@ bool SC_GetString(void)
 
         if (!SC_IsComment())
             foundToken = true;
-        else
+        else if (!SC_SkipComment())
         {
-            while (*ScriptPtr++ != '\n')
-                if (ScriptPtr >= ScriptEndPtr)
-                {
-                    sc_End = true;
-                    return false;
-                }
-
-            sc_Line++;
-            LineStart = true;
+            sc_End = true;
+            return false;
         }
+        else
+            LineStart = true;
     }
 
     text = sc_String;
 
-    if (*ScriptPtr == ASCII_QUOTE)
+    if (*ScriptPtr == '"')
     {
         ScriptPtr++;
 
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr != ASCII_QUOTE || SC_PreviousCharIs(ASCII_ESCAPE)))
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr != '"' || SC_PreviousCharIs('\\')))
         {
             if (ScriptPtr == ScriptEndPtr || text == &sc_String[MAX_STRING_SIZE - 1])
                 break;
 
-            if (*ScriptPtr == ASCII_ESCAPE
-                && (SC_NextCharIs('n') || SC_NextCharIs('N')))
+            if (*ScriptPtr == '\\' && (SC_NextCharIs('n') || SC_NextCharIs('N')))
             {
                 ScriptPtr += 2;
                 *text++ = '\n';
             }
-            else if (*ScriptPtr != ASCII_ESCAPE)
+            else if (*ScriptPtr != '\\')
                 *text++ = *ScriptPtr++;
             else
                 ScriptPtr++;
@@ -200,9 +234,7 @@ bool SC_GetString(void)
             ScriptPtr++;
     }
     else
-        while (ScriptPtr < ScriptEndPtr
-            && *ScriptPtr > 32
-            && !SC_IsComment())
+        while (ScriptPtr < ScriptEndPtr && *ScriptPtr > 32 && !SC_IsComment())
         {
             *text++ = *ScriptPtr++;
 
