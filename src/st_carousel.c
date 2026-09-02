@@ -267,8 +267,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
             V_DrawPatch(x, y, 0, patch);
         else if (fade > 0)
             V_DrawTranslucentPatch(x, y, 0, patch,
-                (r_hud_translucency ? tinttab80 :
-                    (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : tinttab75))));
+                (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : (fade == 3 ? tinttab75 : tinttab80))));
     }
     else if ((patch = pickuppatches[weapon]))
     {
