@@ -443,7 +443,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawSmallHUDNumber(int *x, int y, int val, const byte *tinttab,
+static void HU_DrawSmallHUDNumber(int *x, int y, int val, const byte *tinttab,
     void (*drawsmallhudnumfunc)(int, int, patch_t *, const byte *))
 {
     int i;
@@ -537,7 +537,7 @@ static void DrawSmallHUDNumber(int *x, int y, int val, const byte *tinttab,
     }
 }
 
-static int SmallHUDNumberWidth(int val)
+static int HU_SmallHUDNumberWidth(int val)
 {
     int width = 0;
 
@@ -567,7 +567,8 @@ static int SmallHUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
-static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *, const byte *), const byte *tinttab)
+static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *, const byte *),
+    const byte *tinttab)
 {
     int i;
 
@@ -576,8 +577,7 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
         if (negativehealth && minuspatch)
         {
             val = -val;
-            drawfunc(*x + LITTLESHORT(minuspatch->leftoffset), y + minuspatchtopoffset1,
-                minuspatch, tinttab);
+            drawfunc(*x + LITTLESHORT(minuspatch->leftoffset), y + minuspatchtopoffset1, minuspatch, tinttab);
             *x += minuspatchwidth;
         }
         else
@@ -669,21 +669,18 @@ static void HU_DrawBigHUD(void)
 
     x = armorx;
 
-    if (armor)
+    if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
-        if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
-        {
-            bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
-                - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
-            x += LITTLESHORT(patch->width) + 4;
-        }
-
-        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, armor,
-            (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
-
-        if (!emptytallpercent)
-            bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
+        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
+            - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
+        x += LITTLESHORT(patch->width) + 4;
     }
+
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, armor,
+        (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
+
+    if (!emptytallpercent)
+        bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
 
     if (ammotype != am_noammo)
     {
@@ -855,7 +852,7 @@ static void HU_DrawSmallHUD(void)
 
     if (r_hud_translucency || !healthanim)
     {
-        int health_x = SmallHUDNumberWidth(health);
+        int health_x = HU_SmallHUDNumberWidth(health);
 
         health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
@@ -864,11 +861,11 @@ static void HU_DrawSmallHUD(void)
             if (emptytallpercent)
             {
                 health_x -= 4;
-                DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc2);
+                HU_DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc2);
             }
             else
             {
-                DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc2);
+                HU_DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc2);
                 smallhudnumfunc2(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
             }
         }
@@ -877,11 +874,11 @@ static void HU_DrawSmallHUD(void)
             if (emptytallpercent)
             {
                 health_x -= 4;
-                DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc);
+                HU_DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc);
             }
             else
             {
-                DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc);
+                HU_DrawSmallHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, smallhudnumfunc);
                 smallhudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
             }
         }
@@ -908,7 +905,7 @@ static void HU_DrawSmallHUD(void)
 
     if ((armor += armordiff))
     {
-        int armor_x = SmallHUDNumberWidth(armor);
+        int armor_x = HU_SmallHUDNumberWidth(armor);
 
         armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
@@ -917,14 +914,14 @@ static void HU_DrawSmallHUD(void)
 
         if (armorhighlight > currenttime)
         {
-            DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc2);
+            HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc2);
 
             if (!emptytallpercent)
                 smallhudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
         }
         else
         {
-            DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc);
+            HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc);
 
             if (!emptytallpercent)
                 smallhudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
@@ -999,7 +996,7 @@ static void HU_DrawSmallHUD(void)
     if (ammotype != am_noammo)
     {
         int         ammo = viewplayer->ammo[ammotype] + ammodiff[ammotype];
-        int         ammo_x = SmallHUDNumberWidth(ammo);
+        int         ammo_x = HU_SmallHUDNumberWidth(ammo);
         static bool ammoanim;
 
         ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
@@ -1009,7 +1006,7 @@ static void HU_DrawSmallHUD(void)
             smallhudfunc(HUD_AMMO_X - LITTLESHORT(patch->width) / 2 - 1, HUD_AMMO_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
 
         if (r_hud_translucency || !ammoanim)
-            DrawSmallHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
+            HU_DrawSmallHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
                 (ammohighlight > currenttime ? smallhudnumfunc2 : smallhudnumfunc));
 
         if (!gamepaused)
