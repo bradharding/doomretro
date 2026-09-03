@@ -633,6 +633,7 @@ static void HU_DrawBigHUD(void)
     if (ammotype != am_noammo)
     {
         const int   ammo = BETWEEN(0, viewplayer->ammo[ammotype] + ammodiff[ammotype], HUD_NUMBER_MAX);
+        static bool ammoanim;
 
         if ((patch = weaponinfo[weapon].ammopatch))
             bighudfunc(VANILLAWIDTH + WIDESCREENDELTA - 12 - widestammopatchwidth
@@ -642,8 +643,28 @@ static void HU_DrawBigHUD(void)
 
         x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - BigHUDNumberWidth(ammo) - 8;
 
-        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo,
-            (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
+        if (r_hud_translucency || !ammoanim)
+            HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo, (ammoanim ? V_DrawTranslucentBigHUDNumberPatch :
+                (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc)), (ammoanim ? tinttab25 : NULL));
+
+        if (!gamepaused)
+        {
+            static uint64_t ammowait;
+
+            if (ammo < HUD_AMMO_MIN)
+            {
+                if (ammowait < currenttime)
+                {
+                    ammoanim = !ammoanim;
+                    ammowait = currenttime + HUD_AMMO_WAIT;
+                }
+            }
+            else
+            {
+                ammoanim = false;
+                ammowait = 0;
+            }
+        }
     }
 
     x = VANILLAWIDTH + WIDESCREENDELTA - 84;

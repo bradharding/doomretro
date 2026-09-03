@@ -1404,7 +1404,7 @@ void V_SetHUDNumberShadow(patch_t *patch)
 }
 
 static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool translucent,
-    const bool number, const bool highlight)
+    const bool number, const bool highlight, const byte *tinttab)
 {
     int         col = 0;
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
@@ -1446,8 +1446,8 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
                         *(dest + 2 * SCREENWIDTH + 2) = tinttab25[*(dest + 2 * SCREENWIDTH + 2)];
 
                     if (translucent)
-                        *dest = (number && dot == DARKGRAY3 ? tinttab33[*dest] :
-                            (highlight ? white5[dot] : tinttab75[(dot << 8) + *dest]));
+                        *dest = (number && dot == DARKGRAY3 ? tinttab33[*dest] : (highlight ? white5[dot] :
+                            (tinttab ? tinttab[(dot << 8) + *dest] : tinttab75[(dot << 8) + *dest])));
                     else
                         *dest = (highlight && dot != DARKGRAY3 ? white5[dot] : dot);
 
@@ -1463,27 +1463,27 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
 
 void V_DrawTranslucentBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawBigHUDPatchInternal(x, y, patch, true, false, false);
+    V_DrawBigHUDPatchInternal(x, y, patch, true, false, false, tinttab);
 }
 
 void V_DrawBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawBigHUDPatchInternal(x, y, patch, false, true, false);
+    V_DrawBigHUDPatchInternal(x, y, patch, false, true, false, tinttab);
 }
 
 void V_DrawHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawBigHUDPatchInternal(x, y, patch, false, true, true);
+    V_DrawBigHUDPatchInternal(x, y, patch, false, true, true, tinttab);
 }
 
 void V_DrawTranslucentBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawBigHUDPatchInternal(x, y, patch, true, true, false);
+    V_DrawBigHUDPatchInternal(x, y, patch, true, true, false, tinttab);
 }
 
 void V_DrawTranslucentHighlightedBigHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawBigHUDPatchInternal(x, y, patch, true, true, true);
+    V_DrawBigHUDPatchInternal(x, y, patch, true, true, true, tinttab);
 }
 
 void V_DrawSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
