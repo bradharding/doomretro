@@ -257,7 +257,20 @@ void HU_SetTranslucency(void)
 
 static int BigHUDNumberWidth(int val)
 {
-    int width = LITTLESHORT(tallnum[val % 10]->width);
+    int width = 0;
+
+    if (val < 0)
+    {
+        if (negativehealth && minuspatch)
+        {
+            val = -val;
+            width = minuspatchwidth;
+        }
+        else
+            val = 0;
+    }
+
+    width += LITTLESHORT(tallnum[val % 10]->width);
 
     if (val >= 100)
     {
@@ -559,7 +572,17 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
     int i;
 
     if (val < 0)
-        val = 0;
+    {
+        if (negativehealth && minuspatch)
+        {
+            val = -val;
+            drawfunc(*x + LITTLESHORT(minuspatch->leftoffset), y + minuspatchtopoffset1,
+                minuspatch, tinttab);
+            *x += minuspatchwidth;
+        }
+        else
+            val = 0;
+    }
 
     if (val >= 100)
     {
@@ -597,12 +620,18 @@ static void HU_DrawBigHUDKey(int *x, int y, patch_t *patch, const byte *tinttab)
 static void HU_DrawBigHUD(void)
 {
     const int           y = VANILLAHEIGHT - 37;
+    const int           health = BETWEEN(HUD_NUMBER_MIN, (negativehealth && minuspatch && !viewplayer->health ?
+                            viewplayer->negativehealth : viewplayer->health) + healthdiff, HUD_NUMBER_MAX);
+    const int           armor = BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX);
     const weapontype_t  weapon = (viewplayer->pendingweapon == wp_nochange ?
                             viewplayer->readyweapon : viewplayer->pendingweapon);
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
     patch_t             *patch;
     const uint64_t      currenttime = I_GetTimeMS();
     const bool          gamepaused = (consoleactive || paused || (viewplayer->cheats & CF_FREEZE));
+    static bool         healthanim;
+    byte                *tinttab = (health >= HUD_HEALTH_MIN || healthanim || health <= 0
+                            || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
     static uint64_t     keywait;
     static bool         showkey;
     int                 x = -39;
@@ -612,23 +641,49 @@ static void HU_DrawBigHUD(void)
 
     x += 28;
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26,
-        BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX),
-        (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
-    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
+    if (r_hud_translucency || !healthanim)
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, health,
+            (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), tinttab);
+
+    if ((r_hud_translucency || !healthanim) && !emptytallpercent)
+        bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, tinttab);
+
+    if (!gamepaused)
+    {
+        static uint64_t healthwait;
+
+        if (health > 0 && health < HUD_HEALTH_MIN)
+        {
+            if (healthwait < currenttime)
+            {
+                healthanim = !healthanim;
+                healthwait = currenttime + HUD_HEALTH_WAIT;
+            }
+        }
+        else
+        {
+            healthanim = false;
+            healthwait = 0;
+        }
+    }
 
     x = armorx;
 
-    if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
+    if (armor)
     {
-        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
-            - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
-        x += LITTLESHORT(patch->width) + 4;
-    }
+        if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
+        {
+            bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
+                - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
+            x += LITTLESHORT(patch->width) + 4;
+        }
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX),
-        (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
-    bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, armor,
+            (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
+
+        if (!emptytallpercent)
+            bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
+    }
 
     if (ammotype != am_noammo)
     {
