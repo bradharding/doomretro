@@ -52,11 +52,14 @@
 * When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.
 * The rise of the player’s weapon up from the bottom of the screen at the start of each map is now smoother.
 * The `r_althud` CVAR has been replaced by the `r_hud_style` CVAR. This new CVAR can be `small` for the existing widescreen HUD, `alternate` for the alternate widescreen HUD, or `big` for a new and big widescreen HUD (the new default).
+* These changes have been made to the small widescreen HUD:
+  * The armor count is now displayed when 0%.
+  * Drop shadows are now always applied to all elements.
 * The `r_althud_ammobars` CVAR has been renamed `r_hud_ammobars`.
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * Block comments are now parsed correctly in `MAPINFO` lumps.
-* The status bar has now been widened to accommodate screens with a 21:9 aspect ratio.
+* The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
