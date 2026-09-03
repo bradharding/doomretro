@@ -816,8 +816,8 @@ static void HU_DrawCrosshair(void)
         althudfunc(x, y, crosshairpatch[crosshair - 1], WHITE, nearestcolors[crosshaircolor],
             (viewplayer->attackdown ? tinttab60 : tinttab50), -1);
     else
-        althudfunc(x, y, crosshairpatch[crosshair - 1], WHITE, (viewplayer->attackdown ? nearestcolors[crosshaircolor] :
-            black25[nearestcolors[crosshaircolor]]), NULL, -1);
+        althudfunc(x, y, crosshairpatch[crosshair - 1], WHITE, (viewplayer->attackdown ?
+            nearestcolors[crosshaircolor] : black25[nearestcolors[crosshaircolor]]), NULL, -1);
 }
 
 uint64_t    ammohighlight = 0;
@@ -834,6 +834,7 @@ static void HU_DrawSmallHUD(void)
     const int           health = BETWEEN(HUD_NUMBER_MIN, (negativehealth && minuspatch && !viewplayer->health ?
                             viewplayer->negativehealth : viewplayer->health) + healthdiff, HUD_NUMBER_MAX);
     int                 armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
+    int                 armor_x;
     static bool         healthanim;
     const bool          gamepaused = (consoleactive || paused || (viewplayer->cheats & CF_FREEZE));
     byte                *tinttab = (health >= HUD_HEALTH_MIN || healthanim || health <= 0
@@ -848,7 +849,8 @@ static void HU_DrawSmallHUD(void)
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (patch)
-        smallhudfunc(HUD_HEALTH_X - LITTLESHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - LITTLESHORT(patch->height) - 2, patch, tinttab80);
+        smallhudfunc(HUD_HEALTH_X - LITTLESHORT(patch->width) / 2 - 1,
+            HUD_HEALTH_Y - LITTLESHORT(patch->height) - 2, patch, tinttab80);
 
     if (r_hud_translucency || !healthanim)
     {
@@ -903,29 +905,28 @@ static void HU_DrawSmallHUD(void)
         }
     }
 
-    if ((armor += armordiff))
+    armor += armordiff;
+
+    armor_x = HU_SmallHUDNumberWidth(armor);
+    armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
+
+    if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
+        smallhudfunc(HUD_ARMOR_X - LITTLESHORT(patch->width) / 2,
+            HUD_ARMOR_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
+
+    if (armorhighlight > currenttime)
     {
-        int armor_x = HU_SmallHUDNumberWidth(armor);
+        HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc2);
 
-        armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
+        if (!emptytallpercent)
+            smallhudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
+    }
+    else
+    {
+        HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc);
 
-        if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
-            smallhudfunc(HUD_ARMOR_X - LITTLESHORT(patch->width) / 2, HUD_ARMOR_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
-
-        if (armorhighlight > currenttime)
-        {
-            HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc2);
-
-            if (!emptytallpercent)
-                smallhudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
-        }
-        else
-        {
-            HU_DrawSmallHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, smallhudnumfunc);
-
-            if (!emptytallpercent)
-                smallhudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
-        }
+        if (!emptytallpercent)
+            smallhudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
     }
 
     for (int i = 1; i <= NUMCARDS; i++)
@@ -960,7 +961,8 @@ static void HU_DrawSmallHUD(void)
                                 if ((patch = keypics[j].patch) && viewplayer->cards[j] == CARDNOTFOUNDYET)
                                 {
                                     keypic_x -= LITTLESHORT(patch->width);
-                                    smallhudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
+                                    smallhudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16),
+                                        patch, tinttab80);
                                     keypic_x -= 5;
                                 }
                 }
@@ -969,7 +971,8 @@ static void HU_DrawSmallHUD(void)
                         if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
                         {
                             keypic_x -= LITTLESHORT(patch->width);
-                            smallhudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
+                            smallhudfunc(keypic_x, HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16),
+                                patch, tinttab80);
                             keypic_x -= 5;
                         }
             }
@@ -984,7 +987,8 @@ static void HU_DrawSmallHUD(void)
             }
 
             if (flashkeys && (showkey || gamepaused))
-                smallhudfunc(keypic_x - LITTLESHORT(patch->width), HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
+                smallhudfunc(keypic_x - LITTLESHORT(patch->width),
+                    HUD_KEYS_Y - (LITTLESHORT(patch->height) - 16), patch, tinttab80);
         }
     }
     else
@@ -1003,7 +1007,8 @@ static void HU_DrawSmallHUD(void)
         tinttab = (!ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
 
         if ((patch = weaponinfo[weapon].ammopatch))
-            smallhudfunc(HUD_AMMO_X - LITTLESHORT(patch->width) / 2 - 1, HUD_AMMO_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
+            smallhudfunc(HUD_AMMO_X - LITTLESHORT(patch->width) / 2 - 1,
+                HUD_AMMO_Y - LITTLESHORT(patch->height) - 3, patch, tinttab80);
 
         if (r_hud_translucency || !ammoanim)
             HU_DrawSmallHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
@@ -1388,7 +1393,8 @@ static void HU_DrawAltHUD(void)
             color, (healthhighlight > currenttime ? tinttab80 : tinttab60), shadowcolor);
     else
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
-            (healthhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL, shadowcolor);
+            (healthhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color),
+            NULL, shadowcolor);
 
     if (health == 100)
     {
@@ -1799,25 +1805,29 @@ static void HU_DrawAltHUD(void)
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        if ((powerup = viewplayer->powers[pw_invisibility])
+            && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
             powertics = INVISTICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        if ((powerup = viewplayer->powers[pw_ironfeet])
+            && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
             powertics = IRONTICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        if ((powerup = viewplayer->powers[pw_infrared])
+            && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
             powertics = INFRATICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if (powertics && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
+        if (powertics && (powerupbar = (powerupbar == INT_MAX ? 101 :
+            (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
             const int   color2 = (r_hud_translucency ? color : nearestdarkgray);
 
@@ -1839,11 +1849,12 @@ static void HU_DrawAltHUD(void)
                 {
                     const int   x = ALTHUD_RIGHT_X + bar++ * barstep;
                     const int   max = viewplayer->maxammo[otherammoorder[i]];
-                    const int   ammo = BETWEEN(0, viewplayer->ammo[otherammoorder[i]] + ammodiff[otherammoorder[i]],
-                                    HUD_NUMBER_MAX);
+                    const int   ammo = BETWEEN(0, viewplayer->ammo[otherammoorder[i]]
+                                    + ammodiff[otherammoorder[i]], HUD_NUMBER_MAX);
                     const int   remaining = (max ? MIN((ammo * barwidth + max - 1) / max, barwidth) : 0);
 
-                    fillrectfunc2(0, x, ALTHUD_Y + 27, barwidth, 3, color2, color2, false, false, tinttab20, NULL);
+                    fillrectfunc2(0, x, ALTHUD_Y + 27, barwidth, 3, color2,
+                        color2, false, false, tinttab20, NULL);
 
                     if (remaining)
                         fillrectfunc2(0, x + barwidth - remaining, ALTHUD_Y + 27, remaining,
