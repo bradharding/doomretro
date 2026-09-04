@@ -135,9 +135,9 @@ static short    previousitem = -1;
 static menu_t   *previousmenu;
 static int      menuhighlightfade = 100;
 
+int             menuitemfadecount = 0;
 static byte     menuelemsnapshot[MAXSCREENAREA];
 static byte     menubgsnapshot[MAXSCREENAREA];
-static int      menuitemfadecount = 0;
 static byte     menublurscreen[MAXSCREENAREA];
 
 static bool     showcaret;
@@ -707,7 +707,7 @@ static void M_DrawMenuBorder(void)
 
 static void M_StartMenuElementFade(void)
 {
-    if (!smoothtransitions)
+    if (!smoothtransitions || fadecount > 0)
         return;
 
     memcpy(menuelemsnapshot, screens[0], SCREENAREA);

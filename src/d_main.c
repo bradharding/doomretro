@@ -206,6 +206,7 @@ void D_PostEvent(event_t *ev)
 void D_FadeScreen(bool screenshot)
 {
     fadecount = 0;
+    menuitemfadecount = 0;
 
     if ((!smoothtransitions && !screenshot) || togglingvanilla)
         return;
