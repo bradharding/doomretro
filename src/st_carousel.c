@@ -67,6 +67,7 @@ static byte         pickuptint[256];
 static int          selectedindex = 0;
 static int          tallesticonheight;
 static byte         bordercolor;
+static byte         goldbordercolor;
 
 static int          lastindex = -1;
 static uint64_t     lasttime;
@@ -93,6 +94,7 @@ void ST_InitCarousel(void)
         pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)]);
 
     bordercolor = black25[consoleedgecolor1];
+    goldbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -271,6 +273,9 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
+        const byte  *fadetint = (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 :
+                        (fade == 3 ? tinttab75 : tinttab80)));
+
         x += pickupxoffset[weapon];
         y += pickupyoffset[weapon];
 
@@ -281,31 +286,28 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 
         if (selected)
         {
-            const int   fadepercent = fade * 25;
-            const byte  darkgold = I_GetNearestColor(PLAYPAL, 128 * fadepercent / 100, 96 * fadepercent / 100, 0);
-
-            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x, y - 1, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x - 1, y, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x + 1, y, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x, y + 1, 0, patch, darkgold);
-            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, darkgold);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
         }
         else
         {
-            V_DrawSmallColoredPatch(x - 1, y - 1, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x, y - 1, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x + 1, y - 1, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x - 1, y, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x + 1, y, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x - 1, y + 1, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x, y + 1, 0, patch, bordercolor);
-            V_DrawSmallColoredPatch(x + 1, y + 1, 0, patch, bordercolor);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y - 1, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x, y - 1, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y - 1, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x - 1, y + 1, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x, y + 1, 0, patch, NULL, bordercolor, fadetint);
+            V_DrawSmallTranslucentTintedPatch(x + 1, y + 1, 0, patch, NULL, bordercolor, fadetint);
         }
 
-        V_DrawSmallTintedPatch(x, y, 0, patch, pickuptint);
+        V_DrawSmallTranslucentTintedPatch(x, y, 0, patch, pickuptint, 0, fadetint);
     }
 }
 

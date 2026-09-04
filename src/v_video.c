@@ -114,6 +114,52 @@ void V_InitColorTranslation(void)
     }
 }
 
+void V_DrawSmallTranslucentTintedPatch(int x, int y, int screen, patch_t *patch,
+    const byte *translation, const byte color, const byte *tinttab)
+{
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+
+    x += WIDESCREENDELTA;
+
+    for (int col = 0; col < width; col += DXI)
+    {
+        const int   sourcecol = col >> FRACBITS;
+
+        if (sourcecol % 4 != 3)
+        {
+            const int   dx = ((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS;
+            column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
+
+            while (column->topdelta != 0xFF)
+            {
+                const byte  *source = (byte *)column + 3;
+                const byte  length = column->length;
+
+                for (int row = 0; row < length; row++)
+                {
+                    const int   sourcey = column->topdelta + row;
+
+                    if (sourcey % 4 != 3)
+                    {
+                        const int   dy = ((y + sourcey - sourcey / 4) * DY) >> FRACBITS;
+                        const int   dx2 = ((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS;
+                        const int   dy2 = ((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS;
+                        const byte  sourcecolor = (translation ? translation[source[row]] : color);
+
+                        for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
+                            for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
+                                if (yy >= 0 && xx >= 0)
+                                    screens[screen][yy * SCREENWIDTH + xx] =
+                                        tinttab[(sourcecolor << 8) + screens[screen][yy * SCREENWIDTH + xx]];
+                    }
+                }
+
+                column = (column_t *)((byte *)column + length + 4);
+            }
+        }
+    }
+}
+
 void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color)
 {
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
