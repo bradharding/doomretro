@@ -61,6 +61,7 @@
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * Block comments are now parsed correctly in `MAPINFO` lumps.
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
+* The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
