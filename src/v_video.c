@@ -64,6 +64,7 @@ int         lowpixelrows;
 bool        takingcleancreenshot;
 static int  menuhighlightfade = 100;
 static bool bighudnumbershadow;
+static bool bighudnumbergray;
 
 byte V_GetMenuHighlightColor(byte color, bool highlight);
 
@@ -1379,9 +1380,11 @@ void V_DrawBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
     V_DrawPatch(x, y, 0, patch);
 }
 
-void V_SetHUDNumberShadow(patch_t *patch)
+void V_SetHUDNumberShadow(patch_t *patch, const bool replaced)
 {
     const int   width = LITTLESHORT(patch->width);
+
+    bighudnumbergray = replaced;
 
     for (int col = 0; col < width; col++)
     {
@@ -1446,7 +1449,7 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
                         *(dest + 2 * SCREENWIDTH + 2) = tinttab25[*(dest + 2 * SCREENWIDTH + 2)];
 
                     if (translucent)
-                        *dest = (number && dot == DARKGRAY3 ? tinttab33[*dest] : (highlight ? white5[dot] :
+                        *dest = (number && dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : (highlight ? white5[dot] :
                             (tinttab ? tinttab[(dot << 8) + *dest] : tinttab75[(dot << 8) + *dest])));
                     else
                         *dest = (highlight && dot != DARKGRAY3 ? white5[dot] : dot);
@@ -1573,7 +1576,7 @@ void V_DrawTranslucentHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patc
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
-                *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : white5[dot]);
+                *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : white5[dot]);
                 dest += SCREENWIDTH;
             }
 
@@ -1636,7 +1639,7 @@ void V_DrawTranslucentSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
                     *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
 
-                *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
+                *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : tinttab[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
             }
 

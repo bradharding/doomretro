@@ -372,7 +372,7 @@ void HU_Init(void)
 
     armorx = BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
 
-    V_SetHUDNumberShadow(tallnum[0]);
+    V_SetHUDNumberShadow(tallnum[0], (lumpinfo[W_CheckNumForName("STTNUM0")]->wadfile->type == PWAD));
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
     keypics[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
