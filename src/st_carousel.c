@@ -99,9 +99,9 @@ void ST_InitCarousel(void)
     for (int i = 0; i < NUMWEAPONS; i++)
     {
         carouselweapons[i] = wp_nochange;
-        pickuppatches[i] = NULL;
         carouselpatches[i][0] = NULL;
         carouselpatches[i][1] = NULL;
+        pickuppatches[i] = NULL;
     }
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -110,6 +110,18 @@ void ST_InitCarousel(void)
 
         if (order >= 0 && order < NUMWEAPONS)
             carouselweapons[order] = (weapontype_t)i;
+
+        if (weaponinfo[i].carouselicon)
+            for (int selected = 0; selected < 2; selected++)
+            {
+                char    lump[9];
+                int     lumpnum;
+
+                M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[i].carouselicon, selected);
+
+                if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+                    carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
+            }
 
         if (i <= wp_pistol)
         {
@@ -132,18 +144,6 @@ void ST_InitCarousel(void)
             tallesticonheight = MAX(tallesticonheight, height);
             pickupxoffset[i] = (64 - (width - (width - 1) / 4)) / 2 - 32;
         }
-
-        if (weaponinfo[i].carouselicon)
-            for (int selected = 0; selected < 2; selected++)
-            {
-                char    lump[9];
-                int     lumpnum;
-
-                M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[i].carouselicon, selected);
-
-                if ((lumpnum = W_CheckNumForName(lump)) >= 0)
-                    carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
-            }
     }
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -281,10 +281,10 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
         x += pickupxoffset[weapon];
         y += pickupyoffset[weapon];
 
-        left = MAX(0, (((x - 1) + WIDESCREENDELTA) * DX) >> FRACBITS);
-        top = MAX(0, ((y - 1) * DY) >> FRACBITS);
-        right = MIN(SCREENWIDTH, ((((x + LITTLESHORT(patch->width) + 2) + WIDESCREENDELTA) * DX) >> FRACBITS) + 4);
-        bottom = MIN(SCREENHEIGHT, (((y + LITTLESHORT(patch->height) + 2) * DY) >> FRACBITS) + 4);
+        left = (((x - 1) + WIDESCREENDELTA) * DX) >> FRACBITS;
+        top = ((y - 1) * DY) >> FRACBITS;
+        right = (((x + LITTLESHORT(patch->width) + 2 + WIDESCREENDELTA) * DX) >> FRACBITS) + 4;
+        bottom = (((y + LITTLESHORT(patch->height) + 2) * DY) >> FRACBITS) + 4;
 
         for (int yy = top; yy < bottom; yy++)
             memcpy(&screens[3][yy * SCREENWIDTH + left], &screens[0][yy * SCREENWIDTH + left], right - left);
