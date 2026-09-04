@@ -275,39 +275,44 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     {
         const byte  *fadetint = (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 :
                         (fade == 3 ? tinttab75 : tinttab80)));
+        const byte  border = (selected ? goldbordercolor : bordercolor);
+        int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];
         y += pickupyoffset[weapon];
 
+        left = MAX(0, (((x - 1) + WIDESCREENDELTA) * DX) >> FRACBITS);
+        top = MAX(0, ((y - 1) * DY) >> FRACBITS);
+        right = MIN(SCREENWIDTH, ((((x + LITTLESHORT(patch->width) + 2) + WIDESCREENDELTA) * DX) >> FRACBITS) + 4);
+        bottom = MIN(SCREENHEIGHT, (((y + LITTLESHORT(patch->height) + 2) * DY) >> FRACBITS) + 4);
+
+        for (int yy = top; yy < bottom; yy++)
+            memcpy(&screens[3][yy * SCREENWIDTH + left], &screens[0][yy * SCREENWIDTH + left], right - left);
+
         if (r_hud_translucency)
             for (int dy = -1; dy <= 1; dy++)
                 for (int dx = -1; dx <= 1; dx++)
-                    V_DrawSmallDropShadowPatch(x + dx, y + dy, 0, patch, black40);
+                    V_DrawSmallDropShadowPatch(x + dx, y + dy, 3, patch, black40);
 
-        if (selected)
-        {
-            V_DrawSmallTranslucentTintedPatch(x - 1, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y - 1, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x - 1, y, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x - 1, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y + 1, 0, patch, NULL, goldbordercolor, fadetint);
-        }
-        else
-        {
-            V_DrawSmallTranslucentTintedPatch(x - 1, y - 1, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x, y - 1, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y - 1, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x - 1, y, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x - 1, y + 1, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x, y + 1, 0, patch, NULL, bordercolor, fadetint);
-            V_DrawSmallTranslucentTintedPatch(x + 1, y + 1, 0, patch, NULL, bordercolor, fadetint);
-        }
+        V_DrawSmallColoredPatch(x - 1, y - 1, 3, patch, border);
+        V_DrawSmallColoredPatch(x, y - 1, 3, patch, border);
+        V_DrawSmallColoredPatch(x + 1, y - 1, 3, patch, border);
+        V_DrawSmallColoredPatch(x - 1, y, 3, patch, border);
+        V_DrawSmallColoredPatch(x + 1, y, 3, patch, border);
+        V_DrawSmallColoredPatch(x - 1, y + 1, 3, patch, border);
+        V_DrawSmallColoredPatch(x, y + 1, 3, patch, border);
+        V_DrawSmallColoredPatch(x + 1, y + 1, 3, patch, border);
 
-        V_DrawSmallTranslucentTintedPatch(x, y, 0, patch, pickuptint, 0, fadetint);
+        V_DrawSmallTintedPatch(x, y, 3, patch, pickuptint);
+
+        for (int yy = top; yy < bottom; yy++)
+            for (int xx = left; xx < right; xx++)
+            {
+                const int   i = yy * SCREENWIDTH + xx;
+                const byte  srccolor = screens[3][i];
+
+                screens[0][i] = (fade == 4 ? srccolor : fadetint[(srccolor << 8) + screens[0][i]]);
+            }
     }
 }
 
