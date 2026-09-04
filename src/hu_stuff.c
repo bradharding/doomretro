@@ -802,6 +802,12 @@ static void HU_DrawCrosshair(void)
                 || (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel) > 0
                 || viewplayer->powers[pw_infrared])
             {
+                const fixed_t   dist = MAX(FRACUNIT, P_ApproxDistance(snaptarget->x - viewplayer->mo->x,
+                                    snaptarget->y - viewplayer->mo->y));
+                const fixed_t   shootz = viewplayer->mo->z + (viewplayer->mo->height >> 1) + 8 * FRACUNIT;
+
+                slope -= FixedDiv(viewplayer->viewz - shootz, dist);
+
                 if (joy_autoaim_horizontal && usingcontroller)
                     x -= FixedMul(projection, AngleToSlope((int)(angle - viewangle))) >> FRACBITS;
 
