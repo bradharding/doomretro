@@ -114,6 +114,7 @@ void I_SetExternalAutomapPalette(void);
 void I_UpdateBlitFunc(const bool shaking);
 void I_StartPillarboxAnimation(bool expanding);
 void I_CompletePillarboxTransition(void);
+int I_GetOverlayTextX(void);
 bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 

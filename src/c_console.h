@@ -108,7 +108,7 @@
 #define CONSOLEINPUTDOUBLECLICKTIME         500
 #define CONSOLEINPUTDOUBLECLICKDISTANCE     8
 
-#define OVERLAYTEXTX                        (vid_widescreen ? MAXWIDESCREENDELTA - 18 : 14)
+#define OVERLAYTEXTX                        I_GetOverlayTextX()
 #define OVERLAYTEXTY                        17
 #define OVERLAYLINEHEIGHT                   14
 #define OVERLAYSPACING                      7

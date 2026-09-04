@@ -1235,6 +1235,24 @@ void I_StartPillarboxAnimation(bool expanding)
     }
 }
 
+int I_GetOverlayTextX(void)
+{
+    const int   nonwide = 14;
+    const int   wide = MAXWIDESCREENDELTA - 18;
+
+    if (animatingpillarboxes)
+    {
+        const uint64_t  elapsed = I_GetTimeMS() - pillarboxanimstart;
+        const int       currentwidth = (elapsed < PILLARBOXANIMTIME ? pillarboxanimfrom
+                            + (int)((pillarboxanimto - pillarboxanimfrom) * ((float)elapsed / PILLARBOXANIMTIME)) :
+                            pillarboxanimto);
+
+        return MAX(currentwidth + nonwide, wide);
+    }
+
+    return (vid_widescreen ? wide : nonwide);
+}
+
 void I_CompletePillarboxTransition(void)
 {
     if (needsmoderestart)
