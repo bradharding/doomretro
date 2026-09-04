@@ -229,9 +229,6 @@ void C_BuildObituaryString(const int index)
             M_StringCopy(buffer, deh, buffersize);
             M_StringReplaceAll(buffer, "%o", name, true);
 
-            if (obituary->sourceisplayer)
-                M_StringReplaceAll(buffer, "%k", name, true);
-
             M_StringReplaceAll(buffer, "the player was", "you were", true);
 
             len = strlen(buffer);

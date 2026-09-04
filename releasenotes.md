@@ -20,7 +20,7 @@
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
-* A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps.
+* A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * These changes have been made to the support of `DEHACKED` lumps:
   * Custom obituaries when the player dies are now supported, overriding the default obituaries, when the `obituaries` CVAR is `on`. This can be done by specifying the following:
