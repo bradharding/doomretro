@@ -324,7 +324,7 @@ void ST_DrawCarousel(int x, int y)
     if (!weaponcarousel || !duration || fade <= 0 || !(weaponcount = array_size(weaponicons)))
         return;
 
-    if (distance)
+    if (smoothtransitions && distance)
     {
         const uint64_t  delta = I_GetTimeMS() - lasttime;
 
