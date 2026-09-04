@@ -775,7 +775,7 @@ static void HU_DrawCrosshair(void)
     const int   width = crosshairwidth[crosshair - 1];
     const int   height = crosshairheight[crosshair - 1];
     int         x = (SCREENWIDTH - width) / 2;
-    int         y = (SCREENHEIGHT - SBARHEIGHT * (r_screensize < r_screensize_max) - height) / 2;
+    int         y = (SCREENHEIGHT - st_statusbarvisible - height) / 2;
 
     if (snapcrosshair && autoaim)
     {
