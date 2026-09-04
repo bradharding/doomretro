@@ -197,6 +197,8 @@ int                 framespersecond = 0;
 int                 refreshrate;
 
 static bool         capslock;
+static bool         startupcapslock;
+static bool         startupcapslockset;
 
 int                 windowborderwidth = 0;
 int                 windowborderheight = 0;
@@ -392,11 +394,11 @@ void I_FadeToDesktop(void)
 void I_ShutdownKeyboard(void)
 {
 #if defined(_WIN32)
-    if (keyboardalwaysrun == KEY_CAPSLOCK && !capslock && GetCapsLockState())
+    if (keyboardalwaysrun == KEY_CAPSLOCK && startupcapslockset && GetCapsLockState() != startupcapslock)
         ToggleCapsLockState();
 #elif defined(X11)
-    if (keyboardalwaysrun == KEY_CAPSLOCK)
-        SetCapsLockState(false);
+    if (keyboardalwaysrun == KEY_CAPSLOCK && startupcapslockset)
+        SetCapsLockState(startupcapslock);
 #endif
 }
 
@@ -2453,6 +2455,12 @@ void I_InitKeyboard(void)
     if (keyboardalwaysrun == KEY_CAPSLOCK)
     {
         capslock = GetCapsLockState();
+
+        if (!startupcapslockset)
+        {
+            startupcapslock = capslock;
+            startupcapslockset = true;
+        }
 
 #if defined(_WIN32)
         if (alwaysrun != capslock)
