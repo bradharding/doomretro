@@ -1732,6 +1732,7 @@ static void HU_DrawAltHUD(void)
                 }
 
                 if (flashkeys && (showkey || gamepaused))
+                {
                     if (neededcard == it_all3keys)
                     {
                         for (int i = 0; i < NUMCARDS / 2; i++)
@@ -1770,6 +1771,7 @@ static void HU_DrawAltHUD(void)
                                 keypic_x += altkeypic.width + 4;
                             }
                     }
+                }
             }
             else
             {

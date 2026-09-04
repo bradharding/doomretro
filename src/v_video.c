@@ -307,11 +307,11 @@ void V_DrawTranslucentPatch(int x, int y, int screen, patch_t *patch, const byte
             const int   count = (length * DY) >> FRACBITS;
             const int   cliptop = MAX(0, top);
             const int   clipbottom = MIN(SCREENHEIGHT, top + count);
-            int         srccol = (cliptop - top) * DYI;
 
             if (cliptop < clipbottom)
             {
                 byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+                int     srccol = (cliptop - top) * DYI;
 
                 for (int row = cliptop; row < clipbottom; row++)
                 {
@@ -451,11 +451,11 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
             const int   count = (length * DY) >> FRACBITS;
             const int   cliptop = MAX(0, top);
             const int   clipbottom = MIN(SCREENHEIGHT, top + count);
-            int         srccol = (cliptop - top) * DYI;
 
             if (cliptop < clipbottom)
             {
                 byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+                int     srccol = (cliptop - top) * DYI;
 
                 for (int row = cliptop; row < clipbottom; row++)
                 {
@@ -1435,11 +1435,11 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
             const int   count = (length * DY) >> FRACBITS;
             const int   cliptop = MAX(0, top);
             const int   clipbottom = MIN(SCREENHEIGHT, top + count);
-            int         srccol = (cliptop - top) * DYI;
 
             if (cliptop < clipbottom)
             {
                 byte    *dest = &screens[0][cliptop * SCREENWIDTH + screenx];
+                int     srccol = (cliptop - top) * DYI;
 
                 for (int row = cliptop; row < clipbottom; row++)
                 {
@@ -1449,8 +1449,9 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
                         *(dest + 2 * SCREENWIDTH + 2) = tinttab25[*(dest + 2 * SCREENWIDTH + 2)];
 
                     if (translucent)
-                        *dest = (number && dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : (highlight ? white5[dot] :
-                            (tinttab ? tinttab[(dot << 8) + *dest] : tinttab75[(dot << 8) + *dest])));
+                        *dest = (number && dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) :
+                            (highlight ? white5[dot] : (tinttab ? tinttab[(dot << 8) + *dest] :
+                            tinttab75[(dot << 8) + *dest])));
                     else
                         *dest = (highlight && dot != DARKGRAY3 ? white5[dot] : dot);
 
