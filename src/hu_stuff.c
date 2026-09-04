@@ -667,7 +667,7 @@ static void HU_DrawBigHUD(void)
         }
     }
 
-    x = armorx;
+    x = armorx - (emptytallpercent ? 10 : 0);
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
