@@ -1264,6 +1264,8 @@ consolecmd_t consolecmds[] =
         "Toggles displaying the weapon carousel when you change weapons."),
     BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
+    BOOLCVAR(weapontilt, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the vertical tilt of your weapon when freelook is enabled."),
     CCMD(wiki, help, "", nullfunc1, wikifunc2, false, "",
         "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
 

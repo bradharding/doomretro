@@ -67,6 +67,7 @@
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
+* The vertical tilt applied to the player’s weapon when the `freelook` CVAR is `on` is now more responsive. It can also be disabled using the new `weapontilt` CVAR, which is `on` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

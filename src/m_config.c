@@ -269,6 +269,7 @@ int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponcarousel = weaponcarousel_default;
 bool        weaponrecoil = weaponrecoil_default;
+bool        weapontilt = weapontilt_default;
 
 uint64_t    stat_automapopened = 0;
 uint64_t    stat_barrelsexploded = 0;
@@ -543,6 +544,7 @@ static default_t cvars[] =
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (weaponcarousel,                   weaponcarousel,                        weaponcarousel,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS         ),
+    CVAR_BOOL         (weapontilt,                       weapontilt,                            weapontilt,                            BOOLVALUEALIAS         ),
     BLANKLINE,
     COMMENT("; player stats"   ),
     STAT_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    0                      ),

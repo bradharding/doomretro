@@ -48,13 +48,15 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXSPRITEFRAMES 29
-#define MINZ            (4 * FRACUNIT)
-#define MAXZ            (8192 * FRACUNIT)
-#define BASEYCENTER     (VANILLAHEIGHT / 2)
+#define MAXSPRITEFRAMES     29
+#define MINZ                (4 * FRACUNIT)
+#define MAXZ                (8192 * FRACUNIT)
+#define BASEYCENTER         (VANILLAHEIGHT / 2)
 
-#define MAXVISSPRITES   256
-#define DS_RANGES_COUNT 3
+#define MAXVISSPRITES       256
+#define DS_RANGES_COUNT     3
+
+#define WEAPONPITCHSCALE    0x0E00
 
 //
 // Sprite rotation 0 is facing the viewer, rotation 1 is one angle turn CLOCKWISE around the axis.
@@ -1933,8 +1935,9 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     vis->tranmap = (state ? state->tranmap : NULL);
     vis->translation = NULL;
 
-    if (freelook && r_screensize < r_screensize_max)
-        vis->texturemid -= viewplayer->pitch * 0x0520;
+    if (freelook && weapontilt)
+        vis->texturemid = MIN(vis->texturemid - viewplayer->pitch * WEAPONPITCHSCALE, spriteheight[lump]
+            - FixedDiv((viewheight << FRACBITS) - centeryfrac, pspritescale));
 
     if (invisibility)
     {

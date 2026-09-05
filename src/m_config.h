@@ -256,6 +256,7 @@ extern int      weaponbob;
 extern bool     weaponbounce;
 extern bool     weaponcarousel;
 extern bool     weaponrecoil;
+extern bool     weapontilt;
 
 extern uint64_t stat_automapopened;
 extern uint64_t stat_barrelsexploded;
@@ -1056,6 +1057,8 @@ enum
 #define weaponcarousel_default              true
 
 #define weaponrecoil_default                false
+
+#define weapontilt_default                  true
 
 #define KEYALWAYSRUN_DEFAULT                KEY_CAPSLOCK
 #define KEYALWAYSRUN2_DEFAULT               0
