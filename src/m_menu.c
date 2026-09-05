@@ -5668,7 +5668,10 @@ void M_Ticker(void)
 
         if (savestringenter)
         {
-            whichskull = 0;
+            if (skullanimcounter > 0)
+                skullanimcounter--;
+            else
+                whichskull = 0;
 
             if (--caretwait <= 0)
             {
@@ -5676,7 +5679,14 @@ void M_Ticker(void)
                 showcaret = !showcaret;
             }
         }
-        else if (!(consoleoverlaymenu && consoleheight) && --skullanimcounter <= 0)
+        else if (consoleoverlaymenu && consoleheight)
+        {
+            if (skullanimcounter > 0)
+                skullanimcounter--;
+            else
+                whichskull = 0;
+        }
+        else if (--skullanimcounter <= 0)
         {
             whichskull ^= 1;
             skullanimcounter = SKULLANIMCOUNT;
