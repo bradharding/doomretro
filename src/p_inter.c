@@ -214,7 +214,7 @@ static void P_ShowPickupMessage(const mobj_t *special, char *message)
     if (!text || !*text)
         return;
 
-    if (!strncmp(text, "GOT ", 4) || !strncmp(text, "USED ", 5))
+    if (!strncmp(text, "GOT ", 4) || !strncmp(text, "USED ", 5) || !strncmp(text, "PICKED UP ", 10))
     {
         char    *name = uppercase(C_GetPlayerName());
 
@@ -222,7 +222,7 @@ static void P_ShowPickupMessage(const mobj_t *special, char *message)
         text = buffer;
         free(name);
     }
-    else if (!strncmp(text, "Got ", 4) || !strncmp(text, "Used ", 5))
+    else if (!strncmp(text, "Got ", 4) || !strncmp(text, "Used ", 5) || !strncmp(text, "Picked up ", 10))
     {
         M_snprintf(buffer, sizeof(buffer), "%s %c%s",
             C_GetPlayerName(), tolower(text[0]), text + 1);

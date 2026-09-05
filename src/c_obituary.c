@@ -452,12 +452,12 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s while %s.",
-                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessivedeterminer),
-                            weaponinfo[weapon].name, berserk);
+                            playername, C_KillVerb(target, obituary->gibbed), targetname,
+                            pronoun(possessivedeterminer), weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s.",
-                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessivedeterminer),
-                            weaponinfo[weapon].name);
+                            playername, C_KillVerb(target, obituary->gibbed), targetname,
+                            pronoun(possessivedeterminer), weaponinfo[weapon].name);
                 }
             }
         }
@@ -506,7 +506,8 @@ void C_BuildObituaryString(const int index)
         {
             const short floorpic = obituary->floorpic;
 
-            if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
+            if ((floorpic >= RROCK05 && floorpic <= RROCK08)
+                || (floorpic >= SLIME09 && floorpic <= SLIME12))
                 M_snprintf(buffer, buffersize, "%s died on molten rock.", C_GetPlayerName());
             else
                 M_snprintf(buffer, buffersize, "%s died.", C_GetPlayerName());

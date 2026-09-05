@@ -562,8 +562,8 @@ static int HU_SmallHUDNumberWidth(int val)
     return (width + tallnum0width);
 }
 
-static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, int, patch_t *, const byte *),
-    const byte *tinttab)
+static void HU_DrawBigHUDNumber(int *x, int y, int val, const byte *tinttab,
+    void (*drawfunc)(int, int, patch_t *, const byte *))
 {
     int i;
 
@@ -635,8 +635,8 @@ static void HU_DrawBigHUD(void)
     x += 28;
 
     if (r_hud_translucency || !healthanim)
-        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, health,
-            (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), tinttab);
+        HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, health, tinttab,
+            (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
     if ((r_hud_translucency || !healthanim) && !emptytallpercent)
         bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, tinttab);
@@ -666,13 +666,13 @@ static void HU_DrawBigHUD(void)
     {
         const int   patchheight = LITTLESHORT(patch->height);
 
-        bighudfunc(x, (patchheight > tallnumbaseoffset ? VANILLAHEIGHT - 26 + (tallnumbaseoffset - patchheight) / 2 :
-            y + 10 - MAX(0, patchheight - 17)), patch, NULL);
+        bighudfunc(x, (patchheight > tallnumbaseoffset ? VANILLAHEIGHT - 27 + (tallnumbaseoffset
+            - patchheight) / 2 : y + 10 - MAX(0, patchheight - 17)), patch, NULL);
         x += LITTLESHORT(patch->width) + 4;
     }
 
-    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, armor,
-        (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
+    HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, armor, NULL,
+        (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
     if (!emptytallpercent)
         bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, NULL);
@@ -690,8 +690,9 @@ static void HU_DrawBigHUD(void)
         x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) - 8;
 
         if (r_hud_translucency || !ammoanim)
-            HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo, (ammoanim ? V_DrawTranslucentBigHUDNumberPatch :
-                (ammohighlight > currenttime ? bighudnumfunc2 : bighudnumfunc)), (ammoanim ? tinttab25 : NULL));
+            HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo, (ammoanim ? tinttab25 : NULL),
+                (ammoanim ? V_DrawTranslucentBigHUDNumberPatch : (ammohighlight > currenttime ?
+                bighudnumfunc2 : bighudnumfunc)));
 
         if (!gamepaused)
         {
