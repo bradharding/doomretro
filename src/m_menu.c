@@ -1590,14 +1590,12 @@ static void M_SaveSelect(int choice)
     M_StringCopy(saveoldstring, savegamestrings[itemon], sizeof(saveoldstring));
     M_UpdateSaveGameName(itemon);
 
-    if (savepointerx >= 0)
-    {
+    if (savepointerx >= 0 && M_StringCompare(saveoldstring, savegamestrings[itemon]))
         M_SetCaretPos(savepointerx);
-        savepointerx = -1;
-    }
     else
         savecharindex = (int)strlen(savegamestrings[itemon]);
 
+    savepointerx = -1;
     showcaret = true;
     caretwait = CARETANIMCOUNT;
 }
