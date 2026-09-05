@@ -49,6 +49,13 @@
 #define IWAD    1
 #define PWAD    2
 
+#define W_CacheLumpName(name)                   W_CacheLumpNum(W_GetNumForName(name))
+#define W_CacheLastLumpName(name)               W_CacheLumpNum(W_GetLastNumForName(name))
+#define W_CacheXLumpName(name, x)               W_CacheLumpNum(W_GetXNumForName(name, x))
+#define W_CacheLumpNameFromResourceWAD(name)    W_CacheLumpNum(W_GetNumForNameFromResourceWAD(name))
+
+#define W_ReleaseLumpName(name)                 W_ReleaseLumpNum(W_GetNumForName(name))
+
 typedef struct
 {
     char        name[9];
@@ -101,11 +108,6 @@ int W_LumpLengthWithName(int lump, char *name);
 
 void *W_CacheLumpNum(int lumpnum);
 
-#define W_CacheLumpName(name)                   W_CacheLumpNum(W_GetNumForName(name))
-#define W_CacheLastLumpName(name)               W_CacheLumpNum(W_GetLastNumForName(name))
-#define W_CacheXLumpName(name, x)               W_CacheLumpNum(W_GetXNumForName(name, x))
-#define W_CacheLumpNameFromResourceWAD(name)    W_CacheLumpNum(W_GetNumForNameFromResourceWAD(name))
-
 void W_Init(void);
 bool W_IsPNGLump(const int lump);
 void W_CheckForPNGLumps(void);
@@ -116,9 +118,9 @@ unsigned int W_LumpNameHash(const char *s);
 
 void W_ReleaseLumpNum(int lumpnum);
 
-#define W_ReleaseLumpName(name)     W_ReleaseLumpNum(W_GetNumForName(name))
-
 void W_CloseFiles(void);
+
+bool W_NoPWADsLoaded(void);
 
 gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);

@@ -40,6 +40,8 @@
 #include <sys/stat.h>
 #endif
 
+#include <ctype.h>
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -1180,6 +1182,27 @@ void *W_CacheLumpNum(int lumpnum)
 void W_ReleaseLumpNum(int lumpnum)
 {
     Z_ChangeTag(lumpinfo[lumpnum]->cache, PU_CACHE);
+}
+
+bool W_NoPWADsLoaded(void)
+{
+    for (int i = 0; i < numwads; i++)
+    {
+        char    *file = leafname(wadlist[i]->path);
+
+        if (wadlist[i]->type == PWAD && !D_IsSIGILWAD(file) && !D_IsSIGIL2WAD(file))
+            for (int j = 0; j < numlumps; j++)
+            {
+                const char  *name = lumpinfo[j]->name;
+
+                if (lumpinfo[j]->wadfile == wadlist[i]
+                    && ((name[0] == 'E' && isdigit((int)name[1]) && name[2] == 'M' && isdigit((int)name[3]) && !name[4])
+                        || (!strncasecmp(name, "MAP", 3) && isdigit((int)name[3]) && isdigit((int)name[4]) && !name[5])))
+                    return false;
+            }
+    }
+
+    return true;
 }
 
 void W_CloseFiles(void)

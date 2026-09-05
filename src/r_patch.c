@@ -55,6 +55,8 @@ static rpatch_t *patches;
 static rpatch_t *texturecomposites;
 static rpatch_t *flatpatches;
 
+static bool     nopwadsloaded;
+
 static short    BIGDOOR1;
 static short    BIGDOOR7;
 static short    FIREBLU1;
@@ -623,10 +625,9 @@ static void CreateTextureCompositePatch(const int id)
                 count = oldcolumn->length;
 
                 // [BH] use incorrect y-origin for certain textures
-                if ((id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || id == STEP2)
-                    && W_GetNumTextures(texture->name) == 1)
+                if ((id == BIGDOOR7 || id == FIREBLU1 || id == SKY1 || id == STEP2) && nopwadsloaded)
                     oy = 0;
-                else if (id == BIGDOOR1 && gamemission == doom && W_GetNumTextures(texture->name) == 1)
+                else if (id == BIGDOOR1 && gamemission == doom && nopwadsloaded)
                     oy += 32;
                 else if (countsincolumn[tx].patches > 1)
                 {
@@ -742,6 +743,8 @@ void R_InitPatches(void)
 
     texturecomposites = calloc(numtextures, sizeof(rpatch_t));
     flatpatches = calloc(numflats, sizeof(rpatch_t));
+
+    nopwadsloaded = W_NoPWADsLoaded();
 
     BIGDOOR1 = R_CheckTextureNumForName("BIGDOOR1");
     BIGDOOR7 = R_CheckTextureNumForName("BIGDOOR7");

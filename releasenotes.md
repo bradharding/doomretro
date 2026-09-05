@@ -66,6 +66,7 @@
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
+* The `BIGDOOR1` texture is now always vertically aligned as intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
