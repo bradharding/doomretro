@@ -340,7 +340,6 @@ void HU_Init(void)
         else
         {
             weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump + sprite);
-            weaponinfo[i].ammowidth = LITTLESHORT(weaponinfo[i].ammopatch->width);
 
             for (int j = numstates - 1; j >= 0; j--)
             {
@@ -356,6 +355,8 @@ void HU_Init(void)
                     break;
                 }
             }
+
+            weaponinfo[i].ammowidth = LITTLESHORT(weaponinfo[i].ammopatch->width);
         }
     }
 

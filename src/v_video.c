@@ -1377,7 +1377,48 @@ void V_DrawSmallHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 
 void V_DrawBigHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
-    V_DrawPatch(x, y, 0, patch);
+    int         col = 0;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         screenx;
+
+    x += WIDESCREENDELTA;
+
+    if ((screenx = (x * DX) >> FRACBITS) < 0)
+    {
+        col += DXI * -screenx;
+        screenx = 0;
+    }
+
+    for (; col < width && screenx < SCREENWIDTH; col += DXI, screenx++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            const byte  length = column->length;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, top);
+            const int   clipbottom = MIN(SCREENHEIGHT, top + count);
+
+            if (cliptop < clipbottom)
+            {
+                byte    *dest = &screens[0][cliptop * SCREENWIDTH + screenx];
+                int     srccol = (cliptop - top) * DYI;
+
+                for (int row = cliptop; row < clipbottom; row++)
+                {
+                    *dest = source[srccol >> FRACBITS];
+                    dest += SCREENWIDTH;
+                    srccol += DYI;
+                }
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
 }
 
 void V_SetHUDNumberShadow(patch_t *patch, const bool replaced)
