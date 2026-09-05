@@ -85,6 +85,7 @@ typedef struct
     bool            altered;
     patch_t         *weaponpatch;
     patch_t         *ammopatch;
+    short           ammowidth;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];

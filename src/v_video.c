@@ -1414,8 +1414,7 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
     const bool  shadow = (!number || (r_hud_translucency && !bighudnumbershadow));
     int         screenx;
 
-    x += WIDESCREENDELTA - LITTLESHORT(patch->leftoffset);
-    y -= LITTLESHORT(patch->topoffset);
+    x += WIDESCREENDELTA;
 
     if ((screenx = (x * DX) >> FRACBITS) < 0)
     {

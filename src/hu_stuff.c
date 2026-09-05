@@ -104,6 +104,7 @@ static patch_t          *stdisk;
 static short            stdiskwidth;
 bool                    drawdisk = false;
 int                     drawdisktics;
+static short            tallnumbaseoffset;
 
 static int              coloroffset;
 static byte             hudscreen[MAXSCREENAREA];
@@ -339,6 +340,7 @@ void HU_Init(void)
         else
         {
             weaponinfo[i].ammopatch = W_CacheLumpNum(firstspritelump + sprite);
+            weaponinfo[i].ammowidth = LITTLESHORT(weaponinfo[i].ammopatch->width);
 
             for (int j = numstates - 1; j >= 0; j--)
             {
@@ -362,6 +364,7 @@ void HU_Init(void)
             widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
 
     armorx = HU_BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
+    tallnumbaseoffset = LITTLESHORT(tallnum[0]->height);
 
     V_SetHUDNumberShadow(tallnum[0], (lumpinfo[W_CheckNumForName("STTNUM0")]->wadfile->type == PWAD));
 
@@ -568,7 +571,7 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
         if (negativehealth && minuspatch)
         {
             val = -val;
-            drawfunc(*x + LITTLESHORT(minuspatch->leftoffset), y + minuspatchtopoffset1, minuspatch, tinttab);
+            drawfunc(*x, y + minuspatchtopoffset1, minuspatch, tinttab);
             *x += minuspatchwidth;
         }
         else
@@ -578,33 +581,31 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, void (*drawfunc)(int, in
     if (val >= 100)
     {
         i = val / 100;
-        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i], tinttab);
+        drawfunc(*x, y, tallnum[i], tinttab);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 100;
 
         i = val / 10;
-        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i], tinttab);
+        drawfunc(*x, y, tallnum[i], tinttab);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 10;
     }
     else if (val >= 10)
     {
         i = val / 10;
-        drawfunc(*x + LITTLESHORT(tallnum[i]->leftoffset), y, tallnum[i], tinttab);
+        drawfunc(*x, y, tallnum[i], tinttab);
         *x += LITTLESHORT(tallnum[i]->width);
         val %= 10;
     }
 
-    drawfunc(*x + LITTLESHORT(tallnum[val]->leftoffset), y, tallnum[val], tinttab);
+    drawfunc(*x, y, tallnum[val], tinttab);
     *x += LITTLESHORT(tallnum[val]->width);
 }
 
 static void HU_DrawBigHUDKey(int *x, int y, patch_t *patch, const byte *tinttab)
 {
     *x -= LITTLESHORT(patch->width);
-    bighudfunc(*x + LITTLESHORT(patch->leftoffset),
-        y + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
-        - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset), patch, tinttab);
+    bighudfunc(*x, y + tallnumbaseoffset - LITTLESHORT(patch->height), patch, tinttab);
     *x -= 5;
 }
 
@@ -628,7 +629,7 @@ static void HU_DrawBigHUD(void)
     int                 x = -39;
 
     if ((patch = faces[st_faceindex]))
-        bighudfunc(x + LITTLESHORT(patch->leftoffset), y - 2, patch, NULL);
+        bighudfunc(x, y - 2, patch, NULL);
 
     x += 28;
 
@@ -637,7 +638,7 @@ static void HU_DrawBigHUD(void)
             (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), tinttab);
 
     if ((r_hud_translucency || !healthanim) && !emptytallpercent)
-        bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, tinttab);
+        bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, tinttab);
 
     if (!gamepaused)
     {
@@ -662,8 +663,7 @@ static void HU_DrawBigHUD(void)
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
-        bighudfunc(x + LITTLESHORT(patch->leftoffset), y + LITTLESHORT(patch->topoffset) + 10
-            - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
+        bighudfunc(x, y + 10 - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
         x += LITTLESHORT(patch->width) + 4;
     }
 
@@ -671,7 +671,7 @@ static void HU_DrawBigHUD(void)
         (armorhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc), NULL);
 
     if (!emptytallpercent)
-        bighudnumfunc(x + LITTLESHORT(tallpercent->leftoffset), VANILLAHEIGHT - 26, tallpercent, NULL);
+        bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, NULL);
 
     if (ammotype != am_noammo)
     {
@@ -680,9 +680,8 @@ static void HU_DrawBigHUD(void)
 
         if ((patch = weaponinfo[weapon].ammopatch))
             bighudfunc(VANILLAWIDTH + WIDESCREENDELTA - 12 - widestammopatchwidth
-                + (widestammopatchwidth - LITTLESHORT(patch->width)) / 2 + LITTLESHORT(patch->leftoffset),
-                VANILLAHEIGHT - 26 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
-                - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch, NULL);
+                + (widestammopatchwidth - weaponinfo[weapon].ammowidth) / 2,
+                VANILLAHEIGHT - 26 + tallnumbaseoffset - LITTLESHORT(patch->height) - 1, patch, NULL);
 
         x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) - 8;
 
