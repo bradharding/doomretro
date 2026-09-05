@@ -152,22 +152,13 @@ static void HU_DrawBigHUD(void);
 static void HU_DrawSmallHUD(void);
 static void HU_DrawAltHUD(void);
 
-static int HU_HUDOpacityTarget(void)
+static void HU_DrawFadedHUD(const int opacity)
 {
-    return (r_hud && r_screensize == r_screensize_max ? 10 : 0);
-}
+    const int   hudstyle = (hudstyletransitionactive ? hudtransitionstyle : r_hud_style);
+    byte        *screen = screens[0];
+    byte        *tinttab;
 
-static int HU_TransitionHUDStyle(void)
-{
-    return (hudstyletransitionactive ? hudtransitionstyle : r_hud_style);
-}
-
-static void HU_DrawFadedHUD(const int hudstyle, const int opacity)
-{
-    byte    *screen = screens[0];
-    byte    *tinttab;
-
-    byte  *tinttabs[10] =
+    byte *tinttabs[10] =
     {
         NULL,
         tinttab10, tinttab20, tinttab30,
@@ -180,12 +171,12 @@ static void HU_DrawFadedHUD(const int hudstyle, const int opacity)
 
     if (opacity >= 10)
     {
-        if (hudstyle == 0)
+        if (hudstyle == r_hud_style_big)
             HU_DrawBigHUD();
-        else if (hudstyle == 2)
-            HU_DrawAltHUD();
-        else
+        else if (hudstyle == r_hud_style_small)
             HU_DrawSmallHUD();
+        else
+            HU_DrawAltHUD();
 
         return;
     }
@@ -195,12 +186,12 @@ static void HU_DrawFadedHUD(const int hudstyle, const int opacity)
     memcpy(hudscreen, screen, SCREENAREA);
     screens[0] = hudscreen;
 
-    if (hudstyle == 0)
+    if (hudstyle == r_hud_style_big)
         HU_DrawBigHUD();
-    else if (hudstyle == 2)
-        HU_DrawAltHUD();
-    else
+    else if (hudstyle == r_hud_style_small)
         HU_DrawSmallHUD();
+    else
+        HU_DrawAltHUD();
 
     screens[0] = screen;
 
@@ -255,7 +246,7 @@ void HU_SetTranslucency(void)
     }
 }
 
-static int BigHUDNumberWidth(int val)
+static int HU_BigHUDNumberWidth(int val)
 {
     int width = 0;
 
@@ -370,7 +361,7 @@ void HU_Init(void)
         if (weaponinfo[i].ammopatch)
             widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
 
-    armorx = BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
+    armorx = HU_BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
 
     V_SetHUDNumberShadow(tallnum[0], (lumpinfo[W_CheckNumForName("STTNUM0")]->wadfile->type == PWAD));
 
@@ -693,7 +684,7 @@ static void HU_DrawBigHUD(void)
                 VANILLAHEIGHT - 26 + LITTLESHORT(tallnum[0]->height) - LITTLESHORT(tallnum[0]->topoffset)
                 - LITTLESHORT(patch->height) + LITTLESHORT(patch->topoffset) - 1, patch, NULL);
 
-        x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - BigHUDNumberWidth(ammo) - 8;
+        x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) - 8;
 
         if (r_hud_translucency || !ammoanim)
             HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo, (ammoanim ? V_DrawTranslucentBigHUDNumberPatch :
@@ -1253,7 +1244,7 @@ static void HU_AltInit(void)
     darkgray = nearestcolors[DARKGRAY1];
 }
 
-static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tinttab, int shadow)
+static void HU_DrawAltHUDNumber(int x, int y, int val, int color, const byte *tinttab, int shadow)
 {
     if (val < 0)
     {
@@ -1291,7 +1282,7 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tintt
         althudfunc(x, y, altnumpatch[val % 10], WHITE, color, tinttab, shadow);
 }
 
-static int AltHUDNumberWidth(int val)
+static int HU_AltHUDNumberWidth(int val)
 {
     int width = 0;
 
@@ -1306,7 +1297,7 @@ static int AltHUDNumberWidth(int val)
     return (width + LITTLESHORT(altnumpatch[val % 10]->width));
 }
 
-static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab, int shadow)
+static void HU_DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab, int shadow)
 {
     if (val == 1 || val % 10 == 1)
         x++;
@@ -1334,7 +1325,7 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
     althudfunc(x, y, altnumpatch2[val % 10], WHITE, color, tinttab, shadow);
 }
 
-static int AltHUDNumber2Width(int val)
+static int HU_AltHUDNumber2Width(int val)
 {
     int width = 0;
 
@@ -1395,10 +1386,10 @@ static void HU_DrawAltHUD(void)
     }
 
     if (r_hud_translucency)
-        DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
+        HU_DrawAltHUDNumber(ALTHUD_LEFT_X - HU_AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
             color, (healthhighlight > currenttime ? tinttab80 : tinttab60), shadowcolor);
     else
-        DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
+        HU_DrawAltHUDNumber(ALTHUD_LEFT_X - HU_AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
             (healthhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color),
             NULL, shadowcolor);
 
@@ -1408,26 +1399,31 @@ static void HU_DrawAltHUD(void)
         {
             const int   color2 = tinttab10[green1];
 
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + 1,
-                8, green2, green2, true, true, tinttab60, tinttab25);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60, shadowcolor);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + 1, 8, green2,
+                green2, true, true, tinttab60, tinttab25);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 125, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
         }
         else
         {
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + 1, 8,
-                green2, green2, true, true, NULL, NULL);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL, shadowcolor);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + 1, 8, green2,
+                green2, true, true, NULL, NULL);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, green1, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, green1, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 125, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
         }
     }
     else if (health < 100)
     {
-        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) && healthdiff != -initial_health ? red2 : color);
+        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA)
+                        && healthdiff != -initial_health ? red2 : color);
 
         health = MAX(1, health);
 
@@ -1435,23 +1431,29 @@ static void HU_DrawAltHUD(void)
         {
             const int   color2 = tinttab10[barcolor];
 
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health,
-                8, barcolor, barcolor, true, true, tinttab60, tinttab25);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60, shadowcolor);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8, barcolor, barcolor, true,
+                true, tinttab60, tinttab25);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 1, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 22, altmarkpatch, WHITE, color2,
+                NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 1, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                NULL, -1);
         }
         else
         {
             const int   color2 = (inverted ? nearestblack : nearestwhite);
 
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
-                barcolor, barcolor, true, true, NULL, NULL);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL, shadowcolor);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8, barcolor, barcolor, true,
+                true, NULL, NULL);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 1, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 22, altmarkpatch, WHITE, color2,
+                NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 1, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                NULL, -1);
         }
     }
     else
@@ -1462,44 +1464,55 @@ static void HU_DrawAltHUD(void)
         {
             const int   color2 = tinttab10[green1];
 
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green2, green2, true, true, tinttab60, tinttab25);
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
-                8, green2, green2, true, (health == 200), tinttab60, tinttab40);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60, shadowcolor);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green2, green2, true, true,
+                tinttab60, tinttab25);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99), 8, green2,
+                green2, true, (health == 200), tinttab60, tinttab40);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, tinttab60,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 125, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 9, altmark2patch, WHITE, green1, NULL, shadowcolor);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 100, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 9, altmark2patch, WHITE,
+                green1, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 100, ALTHUD_Y + 13, altendpatch, WHITE,
+                green1, NULL, -1);
         }
         else
         {
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green3, green3, true, true, NULL, NULL);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green3, green3, true, true,
+                NULL, NULL);
 
             if (inverted)
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
-                    8, nearestdarkgray, nearestdarkgray, true, (health == 200), NULL, NULL);
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99), 8,
+                    nearestdarkgray, nearestdarkgray, true, (health == 200), NULL, NULL);
             else
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
-                    8, green2, green2, true, (health == 200), NULL, NULL);
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99), 8,
+                    green2, green2, true, (health == 200), NULL, NULL);
 
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, green1, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 22, altmarkpatch, WHITE, green1, NULL,
+                shadowcolor);
             althudfunc(ALTHUD_LEFT_X + 125, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 9, altmark2patch, WHITE, green1, NULL, shadowcolor);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 100, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL, -1);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 9, altmark2patch, WHITE,
+                green1, NULL, shadowcolor);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 100, ALTHUD_Y + 13, altendpatch, WHITE,
+                green1, NULL, -1);
         }
     }
 
     if (armor)
     {
         if (r_hud_translucency)
-            DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
+            HU_DrawAltHUDNumber2(ALTHUD_LEFT_X - HU_AltHUDNumber2Width(armor), ALTHUD_Y, armor,
                 color, (armorhighlight > currenttime ? tinttab80 : tinttab60), shadowcolor);
         else
-            DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
-                (armorhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL, shadowcolor);
+            HU_DrawAltHUDNumber2(ALTHUD_LEFT_X - HU_AltHUDNumber2Width(armor), ALTHUD_Y, armor,
+                (armorhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color),
+                NULL, shadowcolor);
 
         althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE, color, tinttab60, shadowcolor);
 
@@ -1596,11 +1609,12 @@ static void HU_DrawAltHUD(void)
             int ammo = viewplayer->ammo[ammotype] + ammodiff[ammotype];
 
             if (r_hud_translucency)
-                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
+                HU_DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - HU_AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
                     color, (ammohighlight > currenttime ? tinttab80 : tinttab60), shadowcolor);
             else
-                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
-                    (ammohighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL, shadowcolor);
+                HU_DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - HU_AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
+                    (ammohighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color),
+                    NULL, shadowcolor);
 
             if (ammo)
             {
@@ -1614,41 +1628,61 @@ static void HU_DrawAltHUD(void)
                     {
                         const int   color2 = tinttab10[color];
 
-                        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, tinttab60, tinttab25);
-                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, color, color, false, true, tinttab60, tinttab25);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-                        althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9, altmark2patch, WHITE, color, NULL, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, color, NULL, -1);
+                        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true,
+                            true, tinttab60, tinttab25);
+                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8,
+                            color, color, false, true, tinttab60, tinttab25);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                            tinttab60, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                            NULL, -1);
+                        althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, color2,
+                            NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                            NULL, -1);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9, altmark2patch,
+                            WHITE, color, NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch,
+                            WHITE, color, NULL, -1);
                     }
                     else
                     {
-                        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
+                        fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true,
+                            true, NULL, NULL);
 
                         if (inverted)
                         {
                             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                                 8, nearestdarkgray, nearestdarkgray, false, true, NULL, NULL);
-                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, nearestblack, NULL, -1);
-                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, nearestblack, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, nearestblack, NULL, -1);
-                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9, altmark2patch, WHITE, nearestblack, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, nearestblack, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                                NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE,
+                                nearestblack, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE,
+                                nearestblack, NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE,
+                                nearestblack, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9,
+                                altmark2patch, WHITE, nearestblack, NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch,
+                                WHITE, nearestblack, NULL, -1);
                         }
                         else
                         {
                             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                                 8, nearestwhite, nearestwhite, false, true, NULL, NULL);
-                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, nearestwhite, NULL, -1);
-                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, nearestwhite, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE, nearestwhite, NULL, -1);
-                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9, altmark2patch, WHITE, nearestwhite, NULL, shadowcolor);
-                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, nearestwhite, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                                NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE,
+                                nearestwhite, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 22, altmarkpatch, WHITE,
+                                nearestwhite, NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altendpatch, WHITE,
+                                nearestwhite, NULL, -1);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 9,
+                                altmark2patch, WHITE, nearestwhite, NULL, shadowcolor);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch,
+                                WHITE, nearestwhite, NULL, -1);
                         }
                     }
                 }
@@ -1656,20 +1690,25 @@ static void HU_DrawAltHUD(void)
                 {
                     if (r_hud_translucency)
                     {
-                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, yellow3, yellow3, true, true, tinttab60, tinttab25);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
+                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8,
+                            yellow3, yellow3, true, true, tinttab60, tinttab25);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                            tinttab60, shadowcolor);
                     }
                     else
                     {
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                             8, yellow3, yellow3, true, true, NULL, NULL);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                            NULL, shadowcolor);
                     }
 
-                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow2, NULL, -1);
-                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, yellow2, NULL, shadowcolor);
-                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, yellow2, NULL, -1);
+                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow2,
+                        NULL, -1);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE,
+                        yellow2, NULL, shadowcolor);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE,
+                        yellow2, NULL, -1);
                 }
                 else
                 {
@@ -1677,31 +1716,41 @@ static void HU_DrawAltHUD(void)
                     {
                         const int   color2 = tinttab10[color];
 
-                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, color, color, true, true, tinttab60, tinttab25);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
+                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8,
+                            color, color, true, true, tinttab60, tinttab25);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                            tinttab60, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                            NULL, -1);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch,
+                            WHITE, color2, NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch,
+                            WHITE, color2, NULL, -1);
                     }
                     else
                     {
                         const int   color2 = (inverted ? nearestblack : nearestwhite);
 
-                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, color, color, true, true, NULL, NULL);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch, WHITE, color2, NULL, shadowcolor);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL, -1);
+                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8,
+                            color, color, true, true, NULL, NULL);
+                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color,
+                            NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2,
+                            NULL, -1);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 22, altmarkpatch,
+                            WHITE, color2, NULL, shadowcolor);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, altendpatch,
+                            WHITE, color2, NULL, -1);
                     }
                 }
             }
             else
-                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60,
+                shadowcolor);
         }
         else
-            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60, shadowcolor);
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60,
+            shadowcolor);
 
         if ((patch = weaponinfo[weapon].weaponpatch))
             althudweaponfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y + 11 - LITTLESHORT(patch->height) / 2,
@@ -1985,7 +2034,7 @@ void HU_Drawer(void)
     else
     {
         const bool  statusbartransition = (smoothtransitions
-            && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
+                        && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
 
         if (crosshair != crosshair_none)
         {
@@ -2012,7 +2061,7 @@ void HU_Drawer(void)
                     HU_DrawSmallHUD();
             }
             else if (hudtransitionactive)
-                HU_DrawFadedHUD(HU_TransitionHUDStyle(), hudopacity);
+                HU_DrawFadedHUD(hudopacity);
             else if (r_hud_style == r_hud_style_big)
                 HU_DrawBigHUD();
             else if (r_hud_style == r_hud_style_alternate)
@@ -2021,7 +2070,7 @@ void HU_Drawer(void)
                 HU_DrawSmallHUD();
         }
         else if (hudtransitionactive)
-            HU_DrawFadedHUD(HU_TransitionHUDStyle(), hudopacity);
+            HU_DrawFadedHUD(hudopacity);
 
         if (mapwindow)
         {
@@ -2052,7 +2101,7 @@ void HU_Ticker(void)
     char        *message;
     const bool  statusbartransition = (smoothtransitions && st_statusbarvisible > 0
                     && st_statusbarvisible != st_statusbartarget);
-    int         hudopacitytarget = HU_HUDOpacityTarget();
+    int         hudopacitytarget = (r_hud && r_screensize == r_screensize_max ? 10 : 0);
 
     if (!hudtransitioninitialized)
     {
@@ -2095,7 +2144,7 @@ void HU_Ticker(void)
         else if (hudopacity > hudopacitytarget)
             hudopacity = MAX(hudopacity - 2, hudopacitytarget);
 
-        if (hudstyletransitionactive && hudstyletransitionfadingout && hudopacity == 0)
+        if (hudstyletransitionactive && hudstyletransitionfadingout && !hudopacity)
         {
             hudstyletransitionfadingout = false;
             hudtransitionstyle = r_hud_style;
