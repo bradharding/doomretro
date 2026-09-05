@@ -1486,7 +1486,7 @@ static void V_DrawBigHUDPatchInternal(int x, int y, patch_t *patch, const bool t
                     const byte  dot = source[srccol >> FRACBITS];
 
                     if (shadow && row + 2 < SCREENHEIGHT && screenx + 2 < SCREENWIDTH)
-                        *(dest + 2 * SCREENWIDTH + 2) = tinttab25[*(dest + 2 * SCREENWIDTH + 2)];
+                        *(dest + 2 * SCREENWIDTH + 2) = tinttab33[*(dest + 2 * SCREENWIDTH + 2)];
 
                     if (translucent)
                         *dest = (number && dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) :
@@ -1549,7 +1549,7 @@ void V_DrawSmallHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab
             while (count-- > 0)
             {
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
-                    *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
+                    *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
                 *dest++ = *source++;
                 dest += SCREENWIDTH - 1;
@@ -1582,7 +1582,7 @@ void V_DrawHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
                 const byte  dot = *source++;
 
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
-                    *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
+                    *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? dot : white5[dot]);
                 dest += SCREENWIDTH;
@@ -1615,7 +1615,7 @@ void V_DrawTranslucentHighlightedSmallHUDNumberPatch(int x, int y, patch_t *patc
                 const byte  dot = *source++;
 
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
-                    *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
+                    *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : white5[dot]);
                 dest += SCREENWIDTH;
@@ -1649,7 +1649,7 @@ void V_DrawTranslucentSmallHUDPatch(int x, int y, patch_t *patch, const byte *ti
                 dest += SCREENWIDTH;
             }
 
-            *dest = tinttab25[*dest];
+            *dest = tinttab33[*dest];
 
             column = (column_t *)((byte *)column + length + 4);
         }
@@ -1678,7 +1678,7 @@ void V_DrawTranslucentSmallHUDNumberPatch(int x, int y, patch_t *patch, const by
                 const byte  dot = *source++;
 
                 if (r_hud_translucency && !bighudnumbershadow && dest - screens[0] + SCREENWIDTH + 1 < SCREENAREA)
-                    *(dest + SCREENWIDTH + 1) = tinttab25[*(dest + SCREENWIDTH + 1)];
+                    *(dest + SCREENWIDTH + 1) = tinttab33[*(dest + SCREENWIDTH + 1)];
 
                 *dest = (dot == DARKGRAY3 ? (bighudnumbergray ? dot : tinttab33[*dest]) : tinttab[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
