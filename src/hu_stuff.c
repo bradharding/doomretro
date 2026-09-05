@@ -664,7 +664,10 @@ static void HU_DrawBigHUD(void)
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
-        bighudfunc(x, y + 10 - MAX(0, LITTLESHORT(patch->height) - 17), patch, NULL);
+        const int   patchheight = LITTLESHORT(patch->height);
+
+        bighudfunc(x, (patchheight > tallnumbaseoffset ? VANILLAHEIGHT - 26 + (tallnumbaseoffset - patchheight) / 2 :
+            y + 10 - MAX(0, patchheight - 17)), patch, NULL);
         x += LITTLESHORT(patch->width) + 4;
     }
 
