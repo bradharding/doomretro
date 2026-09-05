@@ -3608,7 +3608,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given all your weapons.");
                 else
                     C_PlayerMessage("%s has been given all %s weapons.",
-                        playername, pronoun(possessive));
+                        playername, pronoun(possessivedeterminer));
 
                 C_HideConsoleAndMenu();
             }
@@ -3618,7 +3618,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_Warning(0, "You already have all your weapons.");
                 else
                     C_Warning(0, "%s already has all %s weapons.",
-                        playername, pronoun(possessive));
+                        playername, pronoun(possessivedeterminer));
 
                 free(parm);
                 return;
@@ -3636,7 +3636,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given full ammo for all %s weapons.",
-                        playername, pronoun(possessive));
+                        playername, pronoun(possessivedeterminer));
 
                 C_HideConsoleAndMenu();
             }
@@ -3649,7 +3649,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_PlayerMessage("You have been given a backpack and full ammo for all your weapons.");
                 else
                     C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
-                        playername, pronoun(possessive));
+                        playername, pronoun(possessivedeterminer));
 
                 C_HideConsoleAndMenu();
             }
@@ -3659,7 +3659,7 @@ static void givefunc2(char *cmd, char *parms)
                     C_Warning(0, "You already have full ammo for all your weapons.");
                 else
                     C_Warning(0, "%s already has full ammo for all %s weapons.",
-                        playername, pronoun(possessive));
+                        playername, pronoun(possessivedeterminer));
 
                 free(parm);
                 return;

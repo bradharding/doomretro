@@ -88,7 +88,7 @@ static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t ty
     M_snprintf(dest, destsize, "%s %s%s", article, prefix, basename);
 }
 
-static const char *C_GetDEHObituaryString(const obituaryinfo_t *obituary)
+static const char *C_GetDEHObituaryRawString(const obituaryinfo_t *obituary)
 {
     if (obituary->telefragged)
         return s_OB_MONTELEFRAG;
@@ -192,6 +192,38 @@ static const char *C_GetDEHObituaryString(const obituaryinfo_t *obituary)
         default:
             return s_OB_DEFAULT;
     }
+}
+
+static const char *C_GetDEHObituaryString(const obituaryinfo_t *obituary)
+{
+    static char buffer[512];
+    const char  *raw = C_GetDEHObituaryRawString(obituary);
+
+    if (!raw || !*raw)
+        return raw;
+
+    M_StringCopy(buffer, raw, sizeof(buffer));
+
+    if (strstr(buffer, "%k"))
+    {
+        char    killername[128] = "";
+
+        if (obituary->sourceisplayer)
+            M_StringCopy(killername, (isdefaultplayername() ? "you" : playername), sizeof(killername));
+        else
+            C_BuildThingName(killername, sizeof(killername), obituary->source,
+                obituary->sourcefriendly, false, obituary->sourcename, "");
+
+        M_StringReplaceAll(buffer, "%k", killername, true);
+    }
+
+    M_StringReplaceAll(buffer, "%g", pronoun(personal), true);
+    M_StringReplaceAll(buffer, "%h", pronoun(objective), true);
+    M_StringReplaceAll(buffer, "%p", pronoun(possessivedeterminer), true);
+    M_StringReplaceAll(buffer, "%s", pronoun(possessivepronoun), true);
+    M_StringReplaceAll(buffer, "%r", pronoun(contraction), true);
+
+    return buffer;
 }
 
 static const char *C_KillVerb(const mobjtype_t target, const bool gibbed)
@@ -409,7 +441,7 @@ void C_BuildObituaryString(const int index)
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s own %s!",
                             playername, (obituary->gibbed ? s_GIBBED : s_KILLED), pronoun(reflexive),
-                            pronoun(possessive), weaponinfo[weapon].name);
+                            pronoun(possessivedeterminer), weaponinfo[weapon].name);
                 }
                 else
                 {
@@ -420,11 +452,11 @@ void C_BuildObituaryString(const int index)
 
                     if (weapon == wp_fist && viewplayer->powers[pw_strength])
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s while %s.",
-                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessive),
+                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessivedeterminer),
                             weaponinfo[weapon].name, berserk);
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s %s.",
-                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessive),
+                            playername, C_KillVerb(target, obituary->gibbed), targetname, pronoun(possessivedeterminer),
                             weaponinfo[weapon].name);
                 }
             }

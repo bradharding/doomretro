@@ -50,8 +50,11 @@ extern const char   *monthnames[12];
 typedef enum
 {
     personal,
-    possessive,
-    reflexive
+    objective,
+    possessivedeterminer,
+    possessivepronoun,
+    reflexive,
+    contraction
 } pronoun_t;
 
 void M_MakeDirectory(const char *path);

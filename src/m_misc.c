@@ -1248,15 +1248,32 @@ void M_NormalizeSlashes(char *str)
 
 const char *pronoun(const pronoun_t type)
 {
-    if (type == personal)
-        return (playergender == playergender_male ? "he" :
-            (playergender == playergender_female ? "she" : "they"));
-    else if (type == possessive)
-        return (playergender == playergender_male ? "his" :
-            (playergender == playergender_female ? "her" : "their"));
-    else
-        return (playergender == playergender_male ? "himself" :
-            (playergender == playergender_female ? "herself" : "themselves"));
+    switch (type)
+    {
+        case personal:
+            return (playergender == playergender_male ? "he" :
+                (playergender == playergender_female ? "she" : "they"));
+
+        case objective:
+            return (playergender == playergender_male ? "him" :
+                (playergender == playergender_female ? "her" : "them"));
+
+        case possessivedeterminer:
+            return (playergender == playergender_male ? "his" :
+                (playergender == playergender_female ? "her" : "their"));
+
+        case possessivepronoun:
+            return (playergender == playergender_male ? "his" :
+                (playergender == playergender_female ? "hers" : "theirs"));
+
+        case contraction:
+            return (playergender == playergender_male ? "he's" :
+                (playergender == playergender_female ? "she's" : "they're"));
+
+        default:
+            return (playergender == playergender_male ? "himself" :
+                (playergender == playergender_female ? "herself" : "themselves"));
+    }
 }
 
 bool isdefaultplayername(void)
