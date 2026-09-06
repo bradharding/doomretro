@@ -33,8 +33,8 @@
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom player messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
   * All custom player messages are now punctuated if not already.
-  * Custom monsters now bleed red blood.
-* The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved.
+  * Custom monsters now always bleed red blood unless `Blood color` is specified.
+* The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.
@@ -48,14 +48,15 @@
 * All sound effects are now paused when the menu or console is opened, and resume when they are closed.
 * The menu’s skull cursor now stops animating when the console is open over the menu.
 * A bug is fixed whereby pressing the <kbd><b>&darr;</b></kbd> key in the console to advance through the input history might have skipped some input.
-* When the player tries to open a *BOOM*-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.
+* When the player tries to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.
 * The mouse pointer is now displayed when moving the mouse on the intermission or finale screens and the `m_pointer` CVAR is `on`.
 * A bug is fixed whereby it sometimes took two presses of the <kbd><b>ENTER</b></kbd> or <kbd><b>SPACE</b></kbd> keys to advance an intermission text screen.
 * Improvements have been made to the interpolation of moving sectors, and the things on them, when the `vid_capfps` CVAR is a value other than `35`.
 * If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
 * When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.
 * The rise of the player’s weapon up from the bottom of the screen at the start of each map is now smoother.
-* The `r_althud` CVAR has been replaced by the `r_hud_style` CVAR. This new CVAR can be `small` for the existing widescreen HUD, `alternate` for the alternate widescreen HUD, or `big` for a new and big widescreen HUD (the new default).
+* The vertical tilt applied to the player’s weapon when the `freelook` CVAR is `on` is now more responsive, and now works when the `r_screensize` CVAR is `8`. It can also be disabled using the new `weapontilt` CVAR, which is `on` by default.
+* The `r_althud` CVAR has been replaced by the `r_hud_style` CVAR. This new CVAR can be `small` for the existing widescreen HUD, `alternate` for the alternate widescreen HUD, or `big` for a new, big widescreen HUD (the new default).
 * These changes have been made to the small widescreen HUD:
   * The armor count is now displayed when 0%.
   * Drop shadows are now always applied to all elements.
@@ -67,7 +68,6 @@
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
-* The vertical tilt applied to the player’s weapon when the `freelook` CVAR is `on` is now more responsive. It can also be disabled using the new `weapontilt` CVAR, which is `on` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
