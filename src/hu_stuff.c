@@ -94,7 +94,6 @@ short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 static int              widestammopatchwidth;
-static int              armorx;
 
 static patch_t          *crosshairpatch[NUMCROSSHAIRS];
 static short            crosshairwidth[NUMCROSSHAIRS];
@@ -364,7 +363,6 @@ void HU_Init(void)
         if (weaponinfo[i].ammopatch)
             widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
 
-    armorx = HU_BigHUDNumberWidth(999) + LITTLESHORT(tallpercent->width) - 4;
     tallnumbaseoffset = LITTLESHORT(tallnum[0]->height);
 
     V_SetHUDNumberShadow(tallnum[0], (lumpinfo[W_CheckNumForName("STTNUM0")]->wadfile->type == PWAD));
@@ -627,7 +625,7 @@ static void HU_DrawBigHUD(void)
                             || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
     static uint64_t     keywait;
     static bool         showkey;
-    int                 x = -39;
+    int                 x = MAXWIDESCREENDELTA / 2 + 1 - WIDESCREENDELTA - 10;
 
     if ((patch = faces[st_faceindex]))
         bighudfunc(x, y - 2, patch, NULL);
@@ -635,11 +633,13 @@ static void HU_DrawBigHUD(void)
     x += 28;
 
     if (r_hud_translucency || !healthanim)
+    {
         HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, health, tinttab,
             (healthhighlight > currenttime ? bighudnumfunc2 : bighudnumfunc));
 
-    if ((r_hud_translucency || !healthanim) && !emptytallpercent)
-        bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, tinttab);
+        if (!emptytallpercent)
+            bighudnumfunc(x, VANILLAHEIGHT - 26, tallpercent, tinttab);
+    }
 
     if (!gamepaused)
     {
@@ -660,7 +660,7 @@ static void HU_DrawBigHUD(void)
         }
     }
 
-    x = armorx - (emptytallpercent ? 10 : 0);
+    x = MAXWIDESCREENDELTA / 2 + 1 - WIDESCREENDELTA + 80 - (emptytallpercent ? 10 : 0);
 
     if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
     {
@@ -683,11 +683,12 @@ static void HU_DrawBigHUD(void)
         static bool ammoanim;
 
         if ((patch = weaponinfo[weapon].ammopatch))
-            bighudfunc(VANILLAWIDTH + WIDESCREENDELTA - 12 - widestammopatchwidth
-                + (widestammopatchwidth - weaponinfo[weapon].ammowidth) / 2,
+            bighudfunc(VANILLAWIDTH + WIDESCREENDELTA - (MAXWIDESCREENDELTA / 2 - 1) - widestammopatchwidth
+                + (widestammopatchwidth - weaponinfo[weapon].ammowidth) / 2 + 8,
                 VANILLAHEIGHT - 26 + tallnumbaseoffset - LITTLESHORT(patch->height) - 1, patch, NULL);
 
-        x = VANILLAWIDTH + WIDESCREENDELTA - 8 - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) - 8;
+        x = VANILLAWIDTH + WIDESCREENDELTA - (MAXWIDESCREENDELTA / 2 - 1)
+            - widestammopatchwidth - HU_BigHUDNumberWidth(ammo) + 4;
 
         if (r_hud_translucency || !ammoanim)
             HU_DrawBigHUDNumber(&x, VANILLAHEIGHT - 26, ammo, (ammoanim ? tinttab25 : NULL),
@@ -714,7 +715,7 @@ static void HU_DrawBigHUD(void)
         }
     }
 
-    x = VANILLAWIDTH + WIDESCREENDELTA - 84;
+    x = VANILLAWIDTH + WIDESCREENDELTA - MAXWIDESCREENDELTA / 2 - 64;
 
     for (int i = 1; i <= NUMCARDS; i++)
         for (int j = 0; j < NUMCARDS; j++)
