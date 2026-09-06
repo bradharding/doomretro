@@ -1089,6 +1089,8 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when you take damage."),
     INTCVAR(r_skyprojection, "", "", intfunc1, intfunc2, 0, SKYPROJECTIONVALUEALIAS,
         "The type of sky projection (" BOLD("vanilla") ", " BOLD("linear") " or " BOLD("cylindrical") ")."),
+    BOOLCVAR(r_sprites_tilt, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles rotating sprites slightly to face the center of your view."),
     BOOLCVAR(r_sprites_translucency, "", "", boolfunc1, r_sprites_translucencyfunc2, 0,
         "Toggles the translucency of certain sprites."),
     BOOLCVAR(r_teleportzoom, "", "", boolfunc1, boolfunc2, 0,

@@ -212,6 +212,7 @@ bool        r_shake_barrels = r_shake_barrels_default;
 bool        r_shake_berserk = r_shake_berserk_default;
 bool        r_shake_damage = r_shake_damage_default;
 int         r_skyprojection = r_skyprojection_default;
+bool        r_sprites_tilt = r_sprites_tilt_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_teleportzoom = r_teleportzoom_default;
 bool        r_textures = r_textures_default;
@@ -487,6 +488,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                       BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                        BOOLVALUEALIAS         ),
     CVAR_INT          (r_skyprojection,                  r_skyprojection,                       r_skyprojection,                       SKYPROJECTIONVALUEALIAS),
+    CVAR_BOOL         (r_sprites_tilt,                   r_sprites_tilt,                        r_sprites_tilt,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,                BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_teleportzoom,                   r_teleportzoom,                        r_teleportzoom,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS         ),
