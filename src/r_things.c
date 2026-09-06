@@ -1417,7 +1417,6 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     }
     else
     {
-        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         const fixed_t   basescale = spryscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;

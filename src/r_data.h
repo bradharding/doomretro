@@ -134,7 +134,6 @@ int R_CheckFlatNumForName(const char *name);
 // returns the texture number for the texture name.
 int R_TextureNumForName(const char *name);
 int R_CheckTextureNumForName(const char *name);
-int W_GetNumTextures(const char *name);
 
 int R_ColormapNumForName(const char *name); // killough 04/04/98
 

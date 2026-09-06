@@ -623,8 +623,6 @@ static void HU_DrawBigHUD(void)
     static bool         healthanim;
     byte                *tinttab = (health >= HUD_HEALTH_MIN || healthanim || health <= 0
                             || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
-    static uint64_t     keywait;
-    static bool         showkey;
     int                 x = MAXWIDESCREENDELTA / 2 + 1 - WIDESCREENDELTA - 10;
 
     if ((patch = faces[st_faceindex]))
@@ -725,6 +723,8 @@ static void HU_DrawBigHUD(void)
     if (viewplayer->neededcardflash)
     {
         const card_t    neededcard = viewplayer->neededcard;
+        static uint64_t keywait;
+        static bool     showkey;
 
         if (neededcard == it_all6keys || neededcard == it_all3keys)
         {
