@@ -11,6 +11,7 @@
   * The crosshair now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
+* Individual lump files (with the extension `.lmp`) can now be loaded, either through the command-line, the `autoload` folder, or using the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
