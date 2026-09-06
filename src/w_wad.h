@@ -48,6 +48,7 @@
 
 #define IWAD    1
 #define PWAD    2
+#define LUMP    3
 
 #define W_CacheLumpName(name)                   W_CacheLumpNum(W_GetNumForName(name))
 #define W_CacheLastLumpName(name)               W_CacheLumpNum(W_GetLastNumForName(name))

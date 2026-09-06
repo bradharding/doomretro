@@ -825,7 +825,12 @@ static char *FindDehPath(char *path, const char *ext, char *pattern)
 
 static void LoadDEHFile(char *path, bool autoloaded)
 {
-    char    *dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
+    char    *dehpath;
+
+    if (M_StringEndsWith(path, ".lmp"))
+        return;
+
+    dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
 
     if (dehpath)
     {
@@ -1059,7 +1064,7 @@ static bool D_IsUnsupportedWAD(char *filename)
 static bool D_IsWADFile(const char *filename)
 {
     return (M_StringEndsWith(filename, ".wad") || M_StringEndsWith(filename, ".iwad")
-        || M_StringEndsWith(filename, ".pwad"));
+        || M_StringEndsWith(filename, ".pwad") || M_StringEndsWith(filename, ".lmp"));
 }
 
 static bool D_IsCFGFile(const char *filename)
@@ -1573,7 +1578,12 @@ static char *collected_wads = NULL;
 
 static void AddToWadList(const char *filename)
 {
-    char    *wadname = GetCorrectCase(M_StringDuplicate(filename));
+    char    *wadname;
+
+    if (M_StringEndsWith(filename, ".lmp"))
+        return;
+
+    wadname = GetCorrectCase(M_StringDuplicate(filename));
 
     if (!collected_wads)
         collected_wads = wadname;
@@ -1614,7 +1624,7 @@ static int D_OpenWADLauncher(void)
     }
 
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.deh;*.bex;*.cfg\0";
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.lmp;*.deh;*.bex;*.cfg\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
@@ -1655,6 +1665,7 @@ static int D_OpenWADLauncher(void)
             && (strstr(ofn.lpstrFile, ".wad ")
                 || strstr(ofn.lpstrFile, ".iwad ")
                 || strstr(ofn.lpstrFile, ".pwad ")
+                || strstr(ofn.lpstrFile, ".lmp ")
                 || strstr(ofn.lpstrFile, ".deh ")
                 || strstr(ofn.lpstrFile, ".bex ")
                 || strstr(ofn.lpstrFile, ".cfg ")))
@@ -2334,11 +2345,13 @@ static void D_ProcessDehInWad(void)
     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                && lumpinfo[i]->wadfile->type != LUMP
                 && !D_IsResourceWAD(lumpinfo[i]->wadfile->path))
                 D_ProcessDehFile(NULL, i, false);
 
     for (int i = numlumps - 1; i >= 0; i--)
         if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+            && lumpinfo[i]->wadfile->type != LUMP
             && D_IsResourceWAD(lumpinfo[i]->wadfile->path))
         {
             D_ProcessDehFile(NULL, i, false);

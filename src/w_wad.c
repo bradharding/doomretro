@@ -348,26 +348,45 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (extraswadadded && D_IsEXTRASWAD(file))
         return false;
 
-    // WAD file
-    W_Read(wadfile, 0, &header, sizeof(header));
-
-    // Homebrew levels?
-    if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
-        I_Error("%s doesn't have an IWAD or PWAD id.", filename);
-
-    if (!strncmp(header.id, "IWAD", 4) || D_IsDOOMIWAD(file))
+    if (M_StringEndsWith(file, ".lmp"))
     {
-        wadfile->type = IWAD;
-        bfgedition = IsBFGEdition(filename);
+        char    *noext = removeext(file);
+        char    *lumpname = uppercase(noext);
+
+        free(noext);
+        wadfile->type = LUMP;
+        header.numlumps = 1;
+        length = sizeof(filelump_t);
+        fileinfo = I_Malloc(length);
+        fileinfo->filepos = LITTLELONG(0);
+        fileinfo->size = LITTLELONG((int)W_FileLength(wadfile->fstream));
+        memset(fileinfo->name, 0, sizeof(fileinfo->name));
+        strncpy(fileinfo->name, lumpname, sizeof(fileinfo->name));
+        free(lumpname);
     }
     else
-        wadfile->type = PWAD;
+    {
+        // WAD file
+        W_Read(wadfile, 0, &header, sizeof(header));
 
-    header.numlumps = LITTLELONG(header.numlumps);
-    header.infotableofs = LITTLELONG(header.infotableofs);
-    length = header.numlumps * sizeof(filelump_t);
-    fileinfo = I_Malloc(length);
-    W_Read(wadfile, header.infotableofs, fileinfo, length);
+        // Homebrew levels?
+        if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
+            I_Error("%s doesn't have an IWAD or PWAD id.", filename);
+
+        if (!strncmp(header.id, "IWAD", 4) || D_IsDOOMIWAD(file))
+        {
+            wadfile->type = IWAD;
+            bfgedition = IsBFGEdition(filename);
+        }
+        else
+            wadfile->type = PWAD;
+
+        header.numlumps = LITTLELONG(header.numlumps);
+        header.infotableofs = LITTLELONG(header.infotableofs);
+        length = header.numlumps * sizeof(filelump_t);
+        fileinfo = I_Malloc(length);
+        W_Read(wadfile, header.infotableofs, fileinfo, length);
+    }
 
     // Increase size of numlumps array to accommodate the new file.
     filelumps = (header.numlumps > 0 ? I_Calloc(header.numlumps, sizeof(lumpinfo_t)) : NULL);
@@ -413,7 +432,10 @@ bool W_AddFile(char *filename, bool autoloaded)
             wadsloaded = M_StringDuplicate(file);
     }
 
-    if (!D_IsResourceWAD(file) || devparm)
+    if (M_StringEndsWith(file, ".lmp"))
+        C_Output("An additional lump has been added from the file " BOLD("%s") ".",
+            wadfile->path);
+    else if (!D_IsResourceWAD(file) || devparm)
     {
         const int   count = numlumps - startlump;
         static int  wadcount;
@@ -572,7 +594,8 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
             temp = M_StringJoin(folder, FindFileData.cFileName, NULL);
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
-                || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
+                || M_StringEndsWith(FindFileData.cFileName, ".pwad")
+                || M_StringEndsWith(FindFileData.cFileName, ".lmp"))
             {
                 if ((result = W_MergeFile(temp, true)))
                     D_CheckSupportedPWAD(temp);
@@ -660,7 +683,8 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
         if (!stat(temp1, &status) && S_ISREG(status.st_mode))
         {
             if (M_StringEndsWith(dir->d_name, ".wad")
-                || M_StringEndsWith(dir->d_name, ".pwad"))
+                || M_StringEndsWith(dir->d_name, ".pwad")
+                || M_StringEndsWith(dir->d_name, ".lmp"))
             {
                 if ((result = W_MergeFile(temp1, true)))
                     D_CheckSupportedPWAD(temp1);
@@ -748,12 +772,15 @@ unsigned int W_LumpNameHash(const char *s)
 
 bool HasDehackedLump(const char *pwadname)
 {
-    FILE        *fp = fopen(pwadname, "rb");
+    FILE        *fp;
     filelump_t  lump = { 0 };
     wadinfo_t   header;
     bool        result = false;
 
-    if (!fp)
+    if (M_StringEndsWith(pwadname, ".lmp"))
+        return false;
+
+    if (!(fp = fopen(pwadname, "rb")))
         return false;
 
     // read IWAD header
@@ -783,6 +810,9 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 
     if (D_IsFinalDOOMIWAD(pwadname))
         return (M_StringCompare(leaf, "TNT.WAD") ? pack_tnt : pack_plut);
+
+    if (M_StringEndsWith(leaf, ".lmp"))
+        return none;
 
     if (!(fp = fopen(pwadname, "rb")))
         I_Error("Can't open PWAD: %s", pwadname);
@@ -844,6 +874,8 @@ int W_WadType(char *filename)
 {
     if (D_IsDOOMIWAD(filename))
         return IWAD;
+    else if (M_StringEndsWith(filename, ".lmp"))
+        return PWAD;
     else
     {
         wadinfo_t   header;
