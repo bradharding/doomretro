@@ -878,7 +878,7 @@ enum
 #define r_skyprojection_default             r_skyprojection_cylindrical
 #define r_skyprojection_max                 r_skyprojection_cylindrical
 
-#define r_sprites_tilt_default              false
+#define r_sprites_tilt_default              true
 
 #define r_sprites_translucency_default      true
 
