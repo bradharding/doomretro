@@ -501,12 +501,21 @@ static inline byte *R_ApplyVisSpriteTranmap(const vissprite_t *vis)
     return oldtranmap;
 }
 
-static inline fixed_t GetSpriteTiltScale(const fixed_t basescale,
-    const fixed_t tz, const fixed_t tiltfactor, const fixed_t w)
+static inline void GetSpriteTiltScale(const fixed_t basescale, const fixed_t baseiscale,
+    const fixed_t tz, const fixed_t tiltfactor, const fixed_t w, fixed_t *scale, fixed_t *iscale)
 {
     const fixed_t   tzcol = tz + FixedMul(w, tiltfactor);
 
-    return (tzcol > (FRACUNIT >> 4) ? FixedDiv(projection, tzcol) : basescale);
+    if (tzcol > (FRACUNIT >> 4))
+    {
+        *scale = FixedDiv(projection, tzcol);
+        *iscale = FixedDiv(tzcol, projection);
+    }
+    else
+    {
+        *scale = basescale;
+        *iscale = baseiscale;
+    }
 }
 
 //
@@ -671,6 +680,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
         subsector_t     *lastsubsector = NULL;
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -709,11 +719,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             {
                 subsector_t *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                 }
 
@@ -743,6 +752,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         {
@@ -752,9 +762,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
             {
                 if (tz > 0)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                 }
 
@@ -854,6 +863,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
         subsector_t     *lastsubsector = NULL;
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -892,11 +902,10 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
             {
                 subsector_t *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                 }
 
@@ -926,6 +935,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         {
@@ -935,9 +945,8 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
             {
                 if (tz > 0)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                 }
 
@@ -1064,6 +1073,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
         subsector_t     *lastsubsector = NULL;
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -1105,11 +1115,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
                 const fixed_t   flooratcolumn = subsector->sector->interpfloorheight;
                 int64_t         colshadowspryscale = shadowspryscale;
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                     colshadowspryscale = (int64_t)spryscale / 10;
                 }
@@ -1150,6 +1159,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     {
         const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -1178,11 +1188,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
                 dc_ceilingclip = mceilingclip[dc_x] + 1;
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                     colshadowspryscale = (int64_t)spryscale / 10;
                 }
@@ -1329,6 +1338,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
         subsector_t     *lastsubsector = NULL;
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -1373,13 +1383,12 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                 int             colbaseclip = baseclip;
                 int             colshadowbaseclip = shadowbaseclip;
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
                     fixed_t colshadowfootclip;
 
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                     colbaseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
 
@@ -1418,6 +1427,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     else
     {
         const fixed_t   basescale = spryscale;
+        const fixed_t   baseiscale = dc_iscale;
         const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
         fixed_t         tz = 0;
         fixed_t         tiltfactor = 0;
@@ -1445,13 +1455,12 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
                 int             colbaseclip = baseclip;
                 int             colshadowbaseclip = shadowbaseclip;
 
-                if (r_sprites_tilt && tz > 0)
+                if (tz > 0 && tiltfactor)
                 {
                     fixed_t colshadowfootclip;
 
-                    spryscale = GetSpriteTiltScale(basescale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)));
-                    dc_iscale = FixedDiv(FRACUNIT, spryscale);
+                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
+                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
                     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
                     colbaseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
 
