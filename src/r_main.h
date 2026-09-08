@@ -53,6 +53,7 @@ extern fixed_t  centerxfrac;
 extern fixed_t  centeryfrac;
 extern fixed_t  projection;
 extern fixed_t  viewheightfrac;
+extern fixed_t  weaponpitch;
 
 extern bool     usebrightmaps;
 extern int      validcount;

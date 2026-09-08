@@ -66,6 +66,7 @@ int                 centery;
 fixed_t             centerxfrac;
 fixed_t             centeryfrac;
 fixed_t             projection;
+fixed_t             weaponpitch;
 
 fixed_t             viewx;
 fixed_t             viewy;
@@ -1148,7 +1149,10 @@ static void R_SetupFrame(void)
                             * (float)FIXED2DOUBLE(fractionaltic);
 
             pitchf = interpitch / MLOOKUNIT;
+            weaponpitch = (fixed_t)interpitch;
         }
+        else
+            weaponpitch = 0;
 
         if (weaponrecoil)
             pitchf += viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic);
@@ -1164,7 +1168,12 @@ static void R_SetupFrame(void)
         viewangle = mo->angle;
 
         if (canfreelook)
+        {
             pitchf = viewplayer->pitch / (float)MLOOKUNIT;
+            weaponpitch = viewplayer->pitch;
+        }
+        else
+            weaponpitch = 0;
 
         if (weaponrecoil)
             pitchf += viewplayer->recoil;

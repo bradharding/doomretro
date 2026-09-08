@@ -2187,8 +2187,8 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     vis->translation = NULL;
 
     if (freelook && weapontilt)
-        vis->texturemid = MIN(vis->texturemid - viewplayer->pitch * WEAPONPITCHSCALE, spriteheight[lump]
-            - FixedDiv((viewheight << FRACBITS) - centeryfrac, pspritescale));
+        vis->texturemid = MIN(vis->texturemid - weaponpitch * WEAPONPITCHSCALE, spriteheight[lump]
+            - FixedDiv((viewheight << FRACBITS) - centeryfrac, pspritescale) + FRACUNIT / 4);
 
     if (invisibility)
     {
