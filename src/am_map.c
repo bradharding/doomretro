@@ -131,6 +131,18 @@ static byte priorities[256 * 256];
 #define CXMTOF(x)               MTOF((x) - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF((y) - m_y))
 
+#define MTOFFRAC(x)             (fixed_t)(((int64_t)(x) * scale_mtof) >> FRACBITS)
+#define CXMTOFFRAC(x)           MTOFFRAC((x) - m_x)
+#define CYMTOFFRAC(y)           ((MAPHEIGHT << FRACBITS) - MTOFFRAC((y) - m_y))
+
+enum
+{
+    CLIPLEFT   = 1,
+    CLIPRIGHT  = 2,
+    CLIPTOP    = 4,
+    CLIPBOTTOM = 8
+};
+
 typedef struct
 {
     mpoint_t    a;
@@ -1545,14 +1557,6 @@ void AM_ClearFB(void)
 // slopes. If the speed is needed, use a hash algorithm to handle the common cases.
 static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 {
-    enum
-    {
-        LEFT   = 1,
-        RIGHT  = 2,
-        TOP    = 4,
-        BOTTOM = 8
-    };
-
     unsigned int    outcode1 = 0;
     unsigned int    outcode2 = 0;
 
@@ -1571,27 +1575,76 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
         return true;
 
     if (*x0 < -1)
-        outcode1 = LEFT;
+        outcode1 = CLIPLEFT;
     else if (*x0 >= MAPWIDTH)
-        outcode1 = RIGHT;
+        outcode1 = CLIPRIGHT;
 
     if (*x1 < -1)
-        outcode2 = LEFT;
+        outcode2 = CLIPLEFT;
     else if (*x1 >= MAPWIDTH)
-        outcode2 = RIGHT;
+        outcode2 = CLIPRIGHT;
 
     if (outcode1 & outcode2)
         return false;
 
     if (*y0 < -1)
-        outcode1 |= TOP;
+        outcode1 |= CLIPTOP;
     else if (*y0 >= MAPHEIGHT)
-        outcode1 |= BOTTOM;
+        outcode1 |= CLIPBOTTOM;
 
     if (*y1 < -1)
-        outcode2 |= TOP;
+        outcode2 |= CLIPTOP;
     else if (*y1 >= MAPHEIGHT)
-        outcode2 |= BOTTOM;
+        outcode2 |= CLIPBOTTOM;
+
+    return !(outcode1 & outcode2);
+}
+
+static bool AM_ClipMlineFrac(fixed_t *x0, fixed_t *y0, fixed_t *x1, fixed_t *y1)
+{
+    unsigned int    outcode1 = 0;
+    unsigned int    outcode2 = 0;
+    int             ix0, iy0;
+    int             ix1, iy1;
+
+    *x0 = CXMTOFFRAC(*x0);
+    *x1 = CXMTOFFRAC(*x1);
+    *y0 = CYMTOFFRAC(*y0);
+    *y1 = CYMTOFFRAC(*y1);
+
+    ix0 = *x0 >> FRACBITS;
+    iy0 = *y0 >> FRACBITS;
+    ix1 = *x1 >> FRACBITS;
+    iy1 = *y1 >> FRACBITS;
+
+    if ((unsigned int)ix0 < (unsigned int)MAPWIDTH
+        && (unsigned int)ix1 < (unsigned int)MAPWIDTH
+        && (unsigned int)iy0 < (unsigned int)MAPHEIGHT
+        && (unsigned int)iy1 < (unsigned int)MAPHEIGHT)
+        return true;
+
+    if (ix0 < -1)
+        outcode1 = CLIPLEFT;
+    else if (ix0 >= MAPWIDTH)
+        outcode1 = CLIPRIGHT;
+
+    if (ix1 < -1)
+        outcode2 = CLIPLEFT;
+    else if (ix1 >= MAPWIDTH)
+        outcode2 = CLIPRIGHT;
+
+    if (outcode1 & outcode2)
+        return false;
+
+    if (iy0 < -1)
+        outcode1 |= CLIPTOP;
+    else if (iy0 >= MAPHEIGHT)
+        outcode1 |= CLIPBOTTOM;
+
+    if (iy1 < -1)
+        outcode2 |= CLIPTOP;
+    else if (iy1 >= MAPHEIGHT)
+        outcode2 |= CLIPBOTTOM;
 
     return !(outcode1 & outcode2);
 }
@@ -1745,25 +1798,25 @@ static inline int AM_WuCoverage(const fixed_t intensity)
     return BETWEEN(0, (int)(((int64_t)intensity * 255 + (FRACUNIT >> 1)) >> FRACBITS) * 100 / 255, 100);
 }
 
-static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, const bool thick,
-    const bool priority)
+static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
+    const byte *color, const bool thick, const bool priority)
 {
-    if (AM_ClipMline(&x0, &y0, &x1, &y1))
+    if (AM_ClipMlineFrac(&x0, &y0, &x1, &y1))
     {
         bool    steep = (ABS(y1 - y0) > ABS(x1 - x0));
         fixed_t gradient;
-        fixed_t yend;
+        fixed_t dx, dy;
+        fixed_t xend, yend;
+        fixed_t xgap;
         fixed_t fpart;
         fixed_t rfpart;
         fixed_t intery;
-        int     xpxl1;
-        int     ypxl1;
-        int     xpxl2;
-        int     ypxl2;
+        int     xpxl1, ypxl1;
+        int     xpxl2, ypxl2;
 
         if (x0 == x1 && y0 == y1)
         {
-            AM_PutAntialiasedDot(x0, y0, color, 100, thick, priority);
+            AM_PutAntialiasedDot(x0 >> FRACBITS, y0 >> FRACBITS, color, 100, thick, priority);
             return;
         }
 
@@ -1779,10 +1832,15 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
             SWAP(y0, y1);
         }
 
-        gradient = (fixed_t)(((int64_t)(y1 - y0) << FRACBITS) / (x1 - x0));
+        dx = x1 - x0;
+        dy = y1 - y0;
+        gradient = (!dx ? FRACUNIT : (fixed_t)(((int64_t)dy << FRACBITS) / dx));
 
-        xpxl1 = x0;
-        yend = (fixed_t)y0 << FRACBITS;
+        // first endpoint
+        xend = (x0 + (FRACUNIT >> 1)) & ~FRACMASK;
+        yend = y0 + FixedMul(gradient, xend - x0);
+        xgap = FRACUNIT - ((x0 + (FRACUNIT >> 1)) & FRACMASK);
+        xpxl1 = xend >> FRACBITS;
         ypxl1 = yend >> FRACBITS;
         fpart = yend & FRACMASK;
         rfpart = FRACUNIT - fpart;
@@ -1790,20 +1848,25 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
         if (steep)
         {
             AM_PutAntialiasedDot(ypxl1, xpxl1, color,
-                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
             AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color,
-                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
         }
         else
         {
             AM_PutAntialiasedDot(xpxl1, ypxl1, color,
-                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
             AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color,
-                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
         }
 
-        yend = (fixed_t)y1 << FRACBITS;
-        xpxl2 = x1;
+        intery = yend + gradient;
+
+        // second endpoint
+        xend = (x1 + (FRACUNIT >> 1)) & ~FRACMASK;
+        yend = y1 + FixedMul(gradient, xend - x1);
+        xgap = (x1 + (FRACUNIT >> 1)) & FRACMASK;
+        xpxl2 = xend >> FRACBITS;
         ypxl2 = yend >> FRACBITS;
         fpart = yend & FRACMASK;
         rfpart = FRACUNIT - fpart;
@@ -1811,19 +1874,17 @@ static void AM_DrawWuLine(int x0, int y0, int x1, int y1, const byte *color, con
         if (steep)
         {
             AM_PutAntialiasedDot(ypxl2, xpxl2, color,
-                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
             AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color,
-                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
         }
         else
         {
             AM_PutAntialiasedDot(xpxl2, ypxl2, color,
-                AM_WuCoverage(drawingpath ? rfpart : (rfpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
             AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color,
-                AM_WuCoverage(drawingpath ? fpart : (fpart >> 1)), thick, priority);
+                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
         }
-
-        intery = ((fixed_t)y0 << FRACBITS) + gradient;
 
         if (steep)
         {
