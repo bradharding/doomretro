@@ -58,7 +58,6 @@
 #define DS_RANGES_COUNT     3
 
 #define MAXTILTFACTOR       (FRACUNIT / 8)
-#define MAXTILTDISTANCE     (512 * FRACUNIT)
 
 #define WEAPONPITCHSCALE    0x0E00
 
@@ -690,15 +689,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         if (vis->flipped)
@@ -744,29 +738,21 @@ static void R_DrawVisSprite(const vissprite_t *vis)
                 R_BlastSpriteColumn(column);
             }
         }
+
+        tranmap = oldtranmap;
+        return;
     }
-    else
+
+    if (r_sprites_tilt)
     {
+        const fixed_t   tr_x = vis->gx - viewx;
+        const fixed_t   tr_y = vis->gy - viewy;
+        const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+        const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
+        const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
         const fixed_t   baseiscale = dc_iscale;
-        fixed_t         tz = 0;
-        fixed_t         tiltfactor = 0;
-
-        if (r_sprites_tilt)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
-        }
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         {
@@ -774,7 +760,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
             if ((dc_numposts = column->numposts))
             {
-                if (tz > 0 && tiltfactor)
+                if (tz > 0)
                 {
                     GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
                         (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
@@ -886,15 +872,10 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         if (vis->flipped)
@@ -950,17 +931,11 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         const fixed_t   tr_x = vis->gx - viewx;
         const fixed_t   tr_y = vis->gy - viewy;
         const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+        const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
+        const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
         const fixed_t   baseiscale = dc_iscale;
-        fixed_t         tiltfactor = 0;
-
-        if (tz > 0 && tz < MAXTILTDISTANCE)
-        {
-            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-            tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-        }
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         {
@@ -1107,15 +1082,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         if (vis->flipped)
@@ -1198,15 +1168,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
@@ -1382,15 +1347,10 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         if (vis->flipped)
@@ -1476,15 +1436,10 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-
-            if (tz > 0 && tz < MAXTILTDISTANCE)
-            {
-                const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-                tiltfactor = BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR);
-            }
+            tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
