@@ -570,7 +570,7 @@ static void HU_DrawBigHUDNumber(int *x, int y, int val, const byte *tinttab,
         if (negativehealth && minuspatch)
         {
             val = -val;
-            drawfunc(*x, y - minuspatchtopoffset1, minuspatch, tinttab);
+            drawfunc(*x, y - minuspatchtopoffset2, minuspatch, tinttab);
             *x += minuspatchwidth;
         }
         else
