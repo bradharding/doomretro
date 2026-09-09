@@ -123,6 +123,8 @@ static byte priorities[256 * 256];
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 #define FRACMASK                (FRACUNIT - 1)
 
+#define MINBREADCRUMBDISTANCE   (FRACUNIT * 4)
+
 // translates between frame-buffer and map distances
 #define FTOM(x)                 (fixed_t)((((int64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
@@ -712,6 +714,15 @@ void AM_ClearMarks(void)
 
 void AM_DropBreadCrumb(void)
 {
+    if (numbreadcrumbs > 0)
+    {
+        const int64_t   dx = viewx - breadcrumb[numbreadcrumbs - 1].x;
+        const int64_t   dy = viewy - breadcrumb[numbreadcrumbs - 1].y;
+
+        if (dx * dx + dy * dy < (int64_t)MINBREADCRUMBDISTANCE * MINBREADCRUMBDISTANCE)
+            return;
+    }
+
     if (numbreadcrumbs >= maxbreadcrumbs)
     {
         const int   MAXBREADCRUMBS = INT_MAX / (int)sizeof(*breadcrumb);
@@ -726,9 +737,6 @@ void AM_DropBreadCrumb(void)
         breadcrumb = I_Realloc(breadcrumb, newmax * sizeof(*breadcrumb));
         maxbreadcrumbs = newmax;
     }
-
-    if (numbreadcrumbs < 0 || numbreadcrumbs >= maxbreadcrumbs)
-        return;
 
     breadcrumb[numbreadcrumbs].x = viewx;
     breadcrumb[numbreadcrumbs++].y = viewy;
@@ -2946,4 +2954,3 @@ void AM_Drawer(void)
     if (!am_followmode && !takingcleancreenshot)
         AM_DrawCrosshair();
 }
-
