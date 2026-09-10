@@ -2380,7 +2380,8 @@ static void D_DoomMainSetup(void)
     pwadfile = M_StringDuplicate("");
 
     M_MakeDirectory(appdatafolder);
-    configfile = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIGFILE, NULL));
+    configfile = (p ? M_StringDuplicate(myargv[p + 1]) :
+        M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIGFILE, NULL));
 
     C_ClearConsole();
 

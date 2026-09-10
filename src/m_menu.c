@@ -1639,7 +1639,7 @@ static void M_SaveGame(int choice)
     M_SetupNextMenu(&SaveDef);
     M_ReadSaveStrings();
 
-    if (SaveDef.laston == AUTOSAVESLOT)
+    if (SaveDef.laston <= AUTOSAVESLOT)
         SaveDef.laston = load1;
 }
 
@@ -1771,7 +1771,7 @@ static void M_DeleteSaveGameResponse(int key)
         {
             M_SetupNextMenu(&MainDef);
             MainDef.laston = itemon = new_game;
-            SaveDef.laston = 0;
+            SaveDef.laston = load1;
         }
     }
 }
@@ -5314,7 +5314,7 @@ void M_Drawer(void)
             {
                 const int   old = itemon;
 
-                while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
+                while (itemon != AUTOSAVESLOT && M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
                     itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
 
                 if (itemon != old)
@@ -5798,14 +5798,17 @@ void M_Init(void)
     NewDef.laston = skilllevel - 1;
     SaveDef.laston = LoadDef.laston = savegame;
 
-    if (SaveDef.laston < load1)
+    if (SaveDef.laston <= AUTOSAVESLOT)
         SaveDef.laston = LoadDef.laston = load1;
     else if (SaveDef.laston >= load_end)
         SaveDef.laston = LoadDef.laston = load_end - 1;
 
     if (!*savegamestrings[SaveDef.laston])
-        while (SaveDef.laston && !*savegamestrings[SaveDef.laston])
+        while (SaveDef.laston > AUTOSAVESLOT && !*savegamestrings[SaveDef.laston])
             SaveDef.laston--;
+
+    if (SaveDef.laston <= AUTOSAVESLOT)
+        SaveDef.laston = load1;
 
     OptionsDef.laston = msgs;
 

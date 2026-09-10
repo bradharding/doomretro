@@ -12753,8 +12753,8 @@ static void savegamefunc2(char *cmd, char *parms)
     if (savegame != savegame_old)
     {
         quicksaveslot = -1;
-        SaveDef.laston = savegame - 1;
-        LoadDef.laston = savegame - 1;
+        SaveDef.laston = savegame;
+        LoadDef.laston = savegame;
     }
 }
 
