@@ -49,6 +49,7 @@
 #include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "m_array.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -95,7 +96,6 @@ static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *am_crosshaircolor2;
 static byte am_mapcolor[MAXSCREENAREA];
-static byte pathcoverage[MAXSCREENAREA];
 static byte priorities[256 * 256];
 
 // scale on entry
@@ -217,7 +217,6 @@ static SDL_Keymod   modstate;
 am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
-static bool         drawingpath;
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void AM_RotatePoint(mpoint_t *point);
@@ -1764,26 +1763,18 @@ static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *co
     {
         const int   index = y * MAPWIDTH + x;
 
-        if (drawingpath)
+        if (!priority || priorities[(am_mapcolor[index] << 8) + *color] == *color)
         {
-            if (pathcoverage[index] < coverage)
-                pathcoverage[index] = coverage;
-        }
-        else
-        {
-            if (!priority || priorities[(am_mapcolor[index] << 8) + *color] == *color)
-            {
-                byte    *dot = mapscreen + index;
-                byte    *table;
+            byte    *dot = mapscreen + index;
+            byte    *table;
 
-                if (priority)
-                    am_mapcolor[index] = *color;
+            if (priority)
+                am_mapcolor[index] = *color;
 
-                if ((table = AM_AntialiasingTable(coverage)))
-                    *dot = table[(*dot << 8) + *color];
-                else
-                    *dot = *color;
-            }
+            if ((table = AM_AntialiasingTable(coverage)))
+                *dot = table[(*dot << 8) + *color];
+            else
+                *dot = *color;
         }
     }
 
@@ -1811,16 +1802,16 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
 {
     if (AM_ClipMlineFrac(&x0, &y0, &x1, &y1))
     {
-        bool    steep = (ABS(y1 - y0) > ABS(x1 - x0));
-        fixed_t gradient;
-        fixed_t dx, dy;
-        fixed_t xend, yend;
-        fixed_t xgap;
-        fixed_t fpart;
-        fixed_t rfpart;
-        fixed_t intery;
-        int     xpxl1, ypxl1;
-        int     xpxl2, ypxl2;
+        bool        steep;
+        fixed_t     gradient;
+        fixed_t     dx, dy;
+        fixed_t     xend, yend;
+        fixed_t     xgap;
+        fixed_t     fpart;
+        fixed_t     rfpart;
+        fixed_t     intery;
+        int         xpxl1, ypxl1;
+        int         xpxl2, ypxl2;
 
         if (x0 == x1 && y0 == y1)
         {
@@ -1828,7 +1819,7 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
             return;
         }
 
-        if (steep)
+        if ((steep = (ABS(y1 - y0) > ABS(x1 - x0))))
         {
             SWAP(x0, y0);
             SWAP(x1, y1);
@@ -1845,53 +1836,45 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
         gradient = (!dx ? FRACUNIT : (fixed_t)(((int64_t)dy << FRACBITS) / dx));
 
         // first endpoint
-        xend = (x0 + (FRACUNIT >> 1)) & ~FRACMASK;
+        xend = ((x0 + (FRACUNIT >> 1)) & ~FRACMASK);
         yend = y0 + FixedMul(gradient, xend - x0);
         xgap = FRACUNIT - ((x0 + (FRACUNIT >> 1)) & FRACMASK);
-        xpxl1 = xend >> FRACBITS;
-        ypxl1 = yend >> FRACBITS;
-        fpart = yend & FRACMASK;
+        xpxl1 = (xend >> FRACBITS);
+        ypxl1 = (yend >> FRACBITS);
+        fpart = (yend & FRACMASK);
         rfpart = FRACUNIT - fpart;
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color,
-                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color,
-                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color,
-                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color,
-                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
         }
 
         intery = yend + gradient;
 
         // second endpoint
-        xend = (x1 + (FRACUNIT >> 1)) & ~FRACMASK;
+        xend = ((x1 + (FRACUNIT >> 1)) & ~FRACMASK);
         yend = y1 + FixedMul(gradient, xend - x1);
-        xgap = (x1 + (FRACUNIT >> 1)) & FRACMASK;
-        xpxl2 = xend >> FRACBITS;
-        ypxl2 = yend >> FRACBITS;
-        fpart = yend & FRACMASK;
+        xgap = ((x1 + (FRACUNIT >> 1)) & FRACMASK);
+        xpxl2 = (xend >> FRACBITS);
+        ypxl2 = (yend >> FRACBITS);
+        fpart = (yend & FRACMASK);
         rfpart = FRACUNIT - fpart;
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color,
-                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color,
-                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color,
-                AM_WuCoverage(drawingpath ? FixedMul(rfpart, xgap) : (FixedMul(rfpart, xgap) >> 1)), thick, priority);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color,
-                AM_WuCoverage(drawingpath ? FixedMul(fpart, xgap) : (FixedMul(fpart, xgap) >> 1)), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
         }
 
         if (steep)
@@ -1900,7 +1883,7 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
             {
                 const int   y = intery >> FRACBITS;
 
-                fpart = intery & FRACMASK;
+                fpart = (intery & FRACMASK);
                 rfpart = FRACUNIT - fpart;
 
                 AM_PutAntialiasedDot(y, x, color, AM_WuCoverage(rfpart), thick, priority);
@@ -1914,7 +1897,7 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
             {
                 const int   y = intery >> FRACBITS;
 
-                fpart = intery & FRACMASK;
+                fpart = (intery & FRACMASK);
                 rfpart = FRACUNIT - fpart;
 
                 AM_PutAntialiasedDot(x, y, color, AM_WuCoverage(rfpart), thick, priority);
@@ -2650,20 +2633,70 @@ const int lengths[] =
     INT_MAX
 };
 
-static void AM_DrawPath(void)
+typedef struct
 {
-    mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
-    mpoint_t    end = player;
+    double  x;
+    double  y;
+} pathpoint_t;
 
-    if (am_antialiasing)
+typedef struct
+{
+    int x;
+    int y;
+    int coverage;
+} pathcoverage_t;
+
+static inline void AM_AccumulatePathCoverage(pathcoverage_t *coverage, const int x, const int y, const int amount)
+{
+    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPHEIGHT)
     {
-        memset(pathcoverage, 0, MAPAREA);
-        drawingpath = true;
-    }
+        const int   index = y * MAPWIDTH + x;
 
-    for (int i = MAX(1, numbreadcrumbs - lengths[am_pathlength]); i < numbreadcrumbs; i++)
+        if (coverage[index].coverage < amount)
+        {
+            coverage[index].x = x;
+            coverage[index].y = y;
+            coverage[index].coverage = amount;
+        }
+    }
+}
+
+static void AM_DrawPathSegment(pathcoverage_t *coverage, const pathpoint_t p0, const pathpoint_t p1)
+{
+    const double    dx = p1.x - p0.x;
+    const double    dy = p1.y - p0.y;
+    const double    length = hypot(dx, dy);
+    const int       steps = MAX(1, (int)ceil(length * 4.0));
+
+    for (int i = 0; i <= steps; i++)
+    {
+        const double    t = (double)i / steps;
+        const double    x = p0.x + dx * t;
+        const double    y = p0.y + dy * t;
+        const int       ix = (int)floor(x);
+        const int       iy = (int)floor(y);
+        const double    fx = x - ix;
+        const double    fy = y - iy;
+
+        AM_AccumulatePathCoverage(coverage, ix, iy, (int)lround((1.0 - fx) * (1.0 - fy) * 100.0));
+        AM_AccumulatePathCoverage(coverage, ix + 1, iy, (int)lround(fx * (1.0 - fy) * 100.0));
+        AM_AccumulatePathCoverage(coverage, ix, iy + 1, (int)lround((1.0 - fx) * fy * 100.0));
+        AM_AccumulatePathCoverage(coverage, ix + 1, iy + 1, (int)lround(fx * fy * 100.0));
+    }
+}
+
+static void AM_DrawPathAntialiased(void)
+{
+    const int       first = MAX(1, numbreadcrumbs - lengths[am_pathlength]);
+    pathpoint_t     *points = NULL;
+    pathcoverage_t  *coverage;
+    mpoint_t        player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+    mpoint_t        end = player;
+
+    for (int i = first; i < numbreadcrumbs; i++)
     {
         mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
+        pathpoint_t point;
 
         end.x = breadcrumb[i].x >> FRACTOMAPBITS;
         end.y = breadcrumb[i].y >> FRACTOMAPBITS;
@@ -2672,18 +2705,30 @@ static void AM_DrawPath(void)
             continue;
 
         if (am_rotatemode)
-        {
             AM_RotatePoint(&start);
-            AM_RotatePoint(&end);
-        }
 
         if (am_correctaspectratio)
-        {
             AM_CorrectAspectRatio(&start);
-            AM_CorrectAspectRatio(&end);
-        }
 
-        AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
+        point.x = CXMTOF(start.x) + 0.5;
+        point.y = CYMTOF(start.y) + 0.5;
+
+        if (!array_size(points) || points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
+            array_push(points, point);
+    }
+
+    if (am_rotatemode)
+        AM_RotatePoint(&end);
+
+    if (am_correctaspectratio)
+        AM_CorrectAspectRatio(&end);
+
+    if (array_size(points))
+    {
+        pathpoint_t point = { CXMTOF(end.x) + 0.5, CYMTOF(end.y) + 0.5 };
+
+        if (points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
+            array_push(points, point);
     }
 
     if (am_rotatemode)
@@ -2693,21 +2738,81 @@ static void AM_DrawPath(void)
         AM_CorrectAspectRatio(&player);
 
     if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
-        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
-
-    if (am_antialiasing)
     {
-        drawingpath = false;
+        pathpoint_t point = { CXMTOF(player.x) + 0.5, CYMTOF(player.y) + 0.5 };
 
-        for (int i = 0; i < MAPAREA; i++)
+        if (!array_size(points) || points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
+            array_push(points, point);
+    }
+
+    if (array_size(points) < 2)
+    {
+        array_free(points);
+        return;
+    }
+
+    coverage = calloc(MAPAREA, sizeof(*coverage));
+
+    if (!coverage)
+    {
+        array_free(points);
+        return;
+    }
+
+    for (int i = 1; i < array_size(points); i++)
+        AM_DrawPathSegment(coverage, points[i - 1], points[i]);
+
+    for (int i = 0; i < MAPAREA; i++)
+        if (coverage[i].coverage > 0)
+            AM_PutAntialiasedDot(coverage[i].x, coverage[i].y, &pathcolor, coverage[i].coverage, false, false);
+
+    free(coverage);
+    array_free(points);
+}
+
+static void AM_DrawPath(void)
+{
+    if (am_antialiasing)
+        AM_DrawPathAntialiased();
+    else
+    {
+        const int   first = MAX(1, numbreadcrumbs - lengths[am_pathlength]);
+        mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+        mpoint_t    end = player;
+
+        for (int i = first; i < numbreadcrumbs; i++)
         {
-            if (pathcoverage[i])
-            {
-                byte    *table = AM_AntialiasingTable(pathcoverage[i]);
+            mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 
-                mapscreen[i] = (table ? table[(mapscreen[i] << 8) + pathcolor] : pathcolor);
+            end.x = breadcrumb[i].x >> FRACTOMAPBITS;
+            end.y = breadcrumb[i].y >> FRACTOMAPBITS;
+
+            if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
+                continue;
+
+            if (am_rotatemode)
+            {
+                AM_RotatePoint(&start);
+                AM_RotatePoint(&end);
             }
+
+            if (am_correctaspectratio)
+            {
+                AM_CorrectAspectRatio(&start);
+                AM_CorrectAspectRatio(&end);
+            }
+
+            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
         }
+
+        if (am_rotatemode)
+            AM_RotatePoint(&player);
+
+        if (am_correctaspectratio)
+            AM_CorrectAspectRatio(&player);
+
+        if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
+            AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
     }
 }
 
