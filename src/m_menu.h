@@ -119,6 +119,8 @@ void M_UpdateSelectedEpisode(void);
 void M_UpdateSelectedExpansion(void);
 void M_UpdateSelectedSkillLevel(void);
 
+char *M_BuildAutosaveName(char *buffer, size_t size);
+
 extern bool     messagetoprint;
 extern bool     messagebuttonsactive;
 extern bool     nomusic;
@@ -136,11 +138,12 @@ extern int      menuspindirection;
 extern int      menuspinspeed;
 extern int      menublurtic;
 extern int      quicksaveslot;
-extern char     savegamestrings[savegame_max][SAVESTRINGSIZE];
+extern char     savegamestrings[SAVESLOTCOUNT][SAVESTRINGSIZE];
 extern menu_t   EpiDef;
 extern menu_t   ExpDef;
 extern menu_t   LoadDef;
 extern menu_t   MainDef;
+
 extern menu_t   NewDef;
 extern menu_t   OptionsDef;
 extern menu_t   SaveDef;

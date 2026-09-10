@@ -69,6 +69,7 @@
 #define DOOMRETRO_RELEASENOTESURL       "https://github.com/bradharding/doomretro/releases/tag/v" \
                                         DOOMRETRO_VERSIONSTRING
 #define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
+#define DOOMRETRO_AUTOSAVE              "doomretroauto.save"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"
 #define DOOMRETRO_SCREENSHOTSFOLDER     "screenshots"

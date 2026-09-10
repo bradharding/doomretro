@@ -69,12 +69,20 @@
 
 #define SPACEWIDTH              7
 #define LINEHEIGHT             17
+#define AUTOSAVEGAP             4
 #define MENUPITCH             128
 #define OFFSET                 17
 #define SKULLANIMCOUNT         10
 #define CARETANIMCOUNT         15
 #define MENUHIGHLIGHTFADESTEP  10
 #define MENUELEMFADECOUNT       8
+
+#define AUTOSAVEPREFIX          "(AUTOSAVE) "
+
+static int M_SaveMenuSlotY(int slot)
+{
+    return LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0);
+}
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -126,7 +134,7 @@ bool            quitting;
 
 bool            reopenautomap = false;
 
-char            savegamestrings[savegame_max][SAVESTRINGSIZE];
+char            savegamestrings[SAVESLOTCOUNT][SAVESTRINGSIZE];
 
 static short    itemon;                             // menu item skull is on
 static short    skullanimcounter = SKULLANIMCOUNT;  // skull animation counter
@@ -472,6 +480,7 @@ menu_t SoundDef =
 
 enum
 {
+    loadautosave = AUTOSAVESLOT,
     load1,
     load2,
     load3,
@@ -480,11 +489,12 @@ enum
     load6,
     load7,
     load8,
-    load_end
+    load_end = SAVESLOTCOUNT
 };
 
 static menuitem_t LoadGameMenu[] =
 {
+    { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
@@ -501,8 +511,8 @@ menu_t LoadDef =
     &MainDef,
     LoadGameMenu,
     &M_DrawLoad,
-    67, 33,
-    load1
+    67, 20,
+    loadautosave
 };
 
 //
@@ -511,6 +521,7 @@ menu_t LoadDef =
 
 static menuitem_t SaveGameMenu[] =
 {
+    { 0, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL },
@@ -527,7 +538,7 @@ menu_t SaveDef =
     &MainDef,
     SaveGameMenu,
     &M_DrawSave,
-    67, 33,
+    67, 20,
     load1
 };
 
@@ -652,10 +663,10 @@ static bool M_IsHighlightedMenuItem(const menu_t *menu, int index, int selectedi
 
 static int M_GetMenuItemHighlightFade(const menu_t *menu, int index)
 {
+    int fade = 0;
+
     if (!smoothtransitions)
         return (M_IsHighlightedMenuItem(menu, index, itemon) ? 100 : 0);
-
-    int fade = 0;
 
     if (M_IsHighlightedMenuItem(menu, index, itemon))
         fade = (previousmenu == menu && previousitem != -1 ? menuhighlightfade : 100);
@@ -1067,6 +1078,9 @@ static void M_ReadSaveStrings(void)
 
         fclose(handle);
     }
+
+    if (LoadGameMenu[AUTOSAVESLOT].status)
+        savegames = true;
 }
 
 static byte saveg_read8(FILE *file)
@@ -1229,21 +1243,21 @@ static void M_DrawLoad(void)
     V_SetMenuHighlightFade(100);
 
     if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_LGTTL"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_LGTTL"));
     else if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_LOADG"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_LOADG"));
     else
     {
         char    *temp = uppercase(s_M_LOADGAME);
 
-        M_DrawCenteredString(2 + OFFSET, temp);
+        M_DrawCenteredString(OFFSET - 4, temp);
         free(temp);
     }
 
     for (int i = 0; i < load_end; i++)
     {
         int         len = (int)strlen(savegamestrings[i]);
-        const int   y = LoadDef.y + LINEHEIGHT * i + OFFSET;
+        const int   y = M_SaveMenuSlotY(i);
         const int   fade = M_GetMenuItemHighlightFade(&LoadDef, i);
 
         V_SetMenuHighlightFade(fade);
@@ -1296,7 +1310,10 @@ static void M_LoadSelect(int choice)
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
         functionkey = 0;
-        quicksaveslot = choice;
+
+        if (choice != AUTOSAVESLOT)
+            quicksaveslot = choice;
+
         savegameslot = choice;
         G_LoadGame(name);
     }
@@ -1345,23 +1362,23 @@ static void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_SGTTL"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_SGTTL"));
     else if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_SAVEG"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_SAVEG"));
     else
     {
         char    *temp = uppercase(s_M_SAVEGAME);
 
-        M_DrawCenteredString(2 + OFFSET, temp);
+        M_DrawCenteredString(OFFSET - 4, temp);
         free(temp);
     }
 
     // draw each save game slot
     for (int i = 0; i < load_end; i++)
     {
-        int len = (int)strlen(savegamestrings[i]);
-        int y = LoadDef.y + i * LINEHEIGHT + OFFSET;
-        const int fade = M_GetMenuItemHighlightFade(&SaveDef, i);
+        int         len = (int)strlen(savegamestrings[i]);
+        int         y = M_SaveMenuSlotY(i);
+        const int   fade = M_GetMenuItemHighlightFade(&SaveDef, i);
 
         V_SetMenuHighlightFade(fade);
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (fade > 0));
@@ -1473,7 +1490,9 @@ static void M_DoSave(int slot)
     M_CloseMenu();
     G_SaveGame(slot, savegamestrings[slot], "");
     functionkey = 0;
-    quicksaveslot = slot;
+
+    if (slot != AUTOSAVESLOT)
+        quicksaveslot = slot;
 }
 
 //
@@ -1495,10 +1514,22 @@ static char *RemoveMapNum(const char *string)
     return newstr;
 }
 
+char *M_BuildAutosaveName(char *buffer, size_t size)
+{
+    M_snprintf(buffer, (int)size, AUTOSAVEPREFIX "%s", maptitle);
+    return buffer;
+}
+
 void M_UpdateSaveGameName(int i)
 {
     bool        match = false;
     const int   len = (int)strlen(savegamestrings[i]);
+
+    if (i == AUTOSAVESLOT)
+    {
+        M_BuildAutosaveName(savegamestrings[i], sizeof(savegamestrings[i]));
+        return;
+    }
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
@@ -1607,6 +1638,9 @@ static void M_SaveGame(int choice)
 {
     M_SetupNextMenu(&SaveDef);
     M_ReadSaveStrings();
+
+    if (SaveDef.laston == AUTOSAVESLOT)
+        SaveDef.laston = load1;
 }
 
 //
@@ -3958,7 +3992,12 @@ bool M_Responder(event_t *ev)
                                     M_UpdateGameMissionFromExpansion();
                             }
                             else if (currentmenu == &SaveDef)
+                            {
+                                if (i == AUTOSAVESLOT)
+                                    continue;
+
                                 LoadDef.laston = itemon;
+                            }
                             else if (currentmenu == &LoadDef)
                             {
                                 if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
@@ -4300,9 +4339,9 @@ bool M_Responder(event_t *ev)
                         M_DoSave(itemon);
                         D_FadeScreen(false);
 
-                        if (savegame != itemon + 1)
+                        if (itemon != AUTOSAVESLOT && savegame != itemon)
                         {
-                            savegame = itemon + 1;
+                            savegame = itemon;
                             M_SaveCVARs();
                             C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
                         }
@@ -4683,7 +4722,7 @@ bool M_Responder(event_t *ev)
                 if (itemon != old)
                     S_StartSound(NULL,  sfx_pstop);
 
-                SaveDef.laston = itemon;
+                SaveDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
             }
             else
             {
@@ -4728,6 +4767,8 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &OptionsDef && itemon == endgame
                         && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         itemon++;
+                    else if (currentmenu == &SaveDef && itemon == AUTOSAVESLOT)
+                        itemon++;
 
                     if (currentmenu->menuitems[itemon].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -4744,7 +4785,7 @@ bool M_Responder(event_t *ev)
                     M_UpdateGameMissionFromExpansion();
             }
             else if (currentmenu == &SaveDef)
-                LoadDef.laston = itemon;
+                LoadDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
 
             keywait = I_GetTime() + 2;
             return false;
@@ -4765,7 +4806,7 @@ bool M_Responder(event_t *ev)
                 if (itemon != old)
                     S_StartSound(NULL, sfx_pstop);
 
-                SaveDef.laston = itemon;
+                SaveDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
             }
             else
             {
@@ -4810,6 +4851,8 @@ bool M_Responder(event_t *ev)
                     else if (currentmenu == &OptionsDef && itemon == endgame
                         && gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
                         itemon = currentmenu->numitems - 1;
+                    else if (currentmenu == &SaveDef && itemon == AUTOSAVESLOT)
+                        itemon = currentmenu->numitems - 1;
 
                     if (currentmenu->menuitems[itemon].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -4826,7 +4869,7 @@ bool M_Responder(event_t *ev)
                     M_UpdateGameMissionFromExpansion();
             }
             else if (currentmenu == &SaveDef)
-                LoadDef.laston = itemon;
+                LoadDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
 
             keywait = I_GetTime() + 2;
             return false;
@@ -4890,9 +4933,9 @@ bool M_Responder(event_t *ev)
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
             }
-            else if (currentmenu == &LoadDef && savegame != itemon + 1)
+            else if (currentmenu == &LoadDef && itemon != AUTOSAVESLOT && savegame != itemon)
             {
-                savegame = itemon + 1;
+                savegame = itemon;
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
             }
@@ -4968,9 +5011,9 @@ bool M_Responder(event_t *ev)
                 M_DeleteSaveGame();
                 M_ReadSaveStrings();
 
-                if (savegame != itemon + 1)
+                if (itemon != AUTOSAVESLOT && savegame != itemon)
                 {
-                    savegame = itemon + 1;
+                    savegame = itemon;
                     M_SaveCVARs();
                     C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
                 }
@@ -5013,6 +5056,8 @@ bool M_Responder(event_t *ev)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
+                    else if (currentmenu == &SaveDef && i == AUTOSAVESLOT)
+                        continue;
 
                     if (itemon != i)
                         S_StartSound(NULL, sfx_pstop);
@@ -5043,9 +5088,9 @@ bool M_Responder(event_t *ev)
                         C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
-                        LoadDef.laston = itemon;
+                        LoadDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
                     else if (currentmenu == &LoadDef)
-                        SaveDef.laston = itemon;
+                        SaveDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
 
                     return false;
                 }
@@ -5072,6 +5117,8 @@ bool M_Responder(event_t *ev)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
+                    else if (currentmenu == &SaveDef && i == AUTOSAVESLOT)
+                        continue;
 
                     if (itemon != i)
                         S_StartSound(NULL, sfx_pstop);
@@ -5102,9 +5149,9 @@ bool M_Responder(event_t *ev)
                         C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
-                        LoadDef.laston = itemon;
+                        LoadDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
                     else if (currentmenu == &LoadDef)
-                        SaveDef.laston = itemon;
+                        SaveDef.laston = (itemon == AUTOSAVESLOT ? load1 : itemon);
 
                     return false;
                 }
@@ -5275,9 +5322,9 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, true);
+                M_DrawPatchWithShadow(x - 43, M_SaveMenuSlotY(itemon) - (chex ? 7 : 8), skullpatch, true);
             else
-                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, true);
+                M_DrawPatchWithShadow(x - 37, M_SaveMenuSlotY(itemon) - 7, skullpatch, true);
         }
         else
         {
@@ -5317,8 +5364,8 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                const int fade = M_GetMenuItemHighlightFade(currentmenu, i);
-                const bool highlight = (fade > 0);
+                const int   fade = M_GetMenuItemHighlightFade(currentmenu, i);
+                const bool  highlight = (fade > 0);
 
                 V_SetMenuHighlightFade(fade);
 
@@ -5749,10 +5796,10 @@ void M_Init(void)
 
     ExpDef.laston = expansion - 1;
     NewDef.laston = skilllevel - 1;
-    SaveDef.laston = LoadDef.laston = savegame - 1;
+    SaveDef.laston = LoadDef.laston = savegame;
 
-    if (SaveDef.laston < 0)
-        SaveDef.laston = LoadDef.laston = 0;
+    if (SaveDef.laston < load1)
+        SaveDef.laston = LoadDef.laston = load1;
     else if (SaveDef.laston >= load_end)
         SaveDef.laston = LoadDef.laston = load_end - 1;
 

@@ -1335,7 +1335,7 @@ void G_Ticker(void)
                 break;
 
             case ga_autoloadgame:
-                M_StringCopy(savename, P_SaveGameFile(quicksaveslot), sizeof(savename));
+                M_StringCopy(savename, P_SaveGameFile(AUTOSAVESLOT), sizeof(savename));
                 S_StopSounds();
                 G_DoLoadGame();
                 break;
@@ -1530,7 +1530,7 @@ static void G_DoReborn(void)
 {
     if (solonet)
         P_ResurrectPlayer(initial_health);
-    else if (quicksaveslot >= 0 && autoload)
+    else if (autoload)
         gameaction = ga_autoloadgame;
     else
     {
@@ -1890,7 +1890,7 @@ static void G_DoWorldDone(void)
     G_DoLoadLevel();
     viewactive = true;
 
-    if (quicksaveslot >= 0 && autosave)
+    if (autosave)
         gameaction = ga_autosavegame;
 }
 
@@ -2004,7 +2004,8 @@ void G_LoadedGameMessage(void)
     if (*savedescription)
     {
         static char buffer[1024];
-        char        *temp1 = titlecase(savedescription);
+        const char  *description = (M_StringStartsWith(savedescription, "(AUTOSAVE) ") ? savedescription + 11 : savedescription);
+        char        *temp1 = titlecase(description);
 
         if (loadaction == ga_autoloadgame)
         {
@@ -2083,7 +2084,12 @@ void G_SaveGame(const int slot, const char *description, const char *name)
 {
     M_StringCopy(savename, name, sizeof(savename));
     savegameslot = slot;
-    M_StringCopy(savedescription, description, sizeof(savedescription));
+
+    if (slot == AUTOSAVESLOT)
+        M_BuildAutosaveName(savedescription, sizeof(savedescription));
+    else
+        M_StringCopy(savedescription, description, sizeof(savedescription));
+
     sendsave = true;
 
     if (r_diskicon)
@@ -2096,7 +2102,16 @@ void G_SaveGame(const int slot, const char *description, const char *name)
 static void G_DoSaveGame(void)
 {
     char    *temp_savegame_file = P_TempSaveGameFile();
-    char    *savegame_file = (consoleactive || !*savedescription ? savename : P_SaveGameFile(savegameslot));
+    char    *savegame_file;
+
+    if (gameaction == ga_autosavegame)
+    {
+        M_UpdateSaveGameName(AUTOSAVESLOT);
+        M_StringCopy(savedescription, savegamestrings[AUTOSAVESLOT], sizeof(savedescription));
+        savegameslot = AUTOSAVESLOT;
+    }
+
+    savegame_file = (consoleactive || !*savedescription ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -2111,12 +2126,6 @@ static void G_DoSaveGame(void)
     else
     {
         char    *backup_savegame_file = M_StringJoin(savegame_file, ".bak", NULL);
-
-        if (gameaction == ga_autosavegame)
-        {
-            M_UpdateSaveGameName(quicksaveslot);
-            M_StringCopy(savedescription, savegamestrings[quicksaveslot], sizeof(savedescription));
-        }
 
         P_WriteSaveGameHeader(savedescription);
 
@@ -2152,7 +2161,12 @@ static void G_DoSaveGame(void)
             free(backup_savegame_file);
 
             if (savegameslot >= 0)
+            {
+                if (savegameslot == AUTOSAVESLOT)
+                    M_StringCopy(savegamestrings[savegameslot], savedescription, sizeof(savegamestrings[savegameslot]));
+
                 savegames = true;
+            }
 
             if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
                 C_Input("save %s", savegame_file);
@@ -2165,7 +2179,8 @@ static void G_DoSaveGame(void)
             else
             {
                 static char buffer[1024];
-                char        *temp = titlecase(savedescription);
+                const char  *description = (M_StringStartsWith(savedescription, "(AUTOSAVE) ") ? savedescription + 11 : savedescription);
+                char        *temp = titlecase(description);
 
                 M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), temp);
                 C_Output(buffer);

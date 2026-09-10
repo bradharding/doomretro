@@ -38,6 +38,9 @@
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
 
+#define AUTOSAVESLOT            0
+#define SAVESLOTCOUNT           9
+
 #define SAVESTRINGPIXELWIDTH    190
 #define VERSIONSIZE             24
 

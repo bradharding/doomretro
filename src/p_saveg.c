@@ -96,7 +96,11 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVEGAME, savegamefolder, slot);
+    if (slot == AUTOSAVESLOT)
+        M_snprintf(filename, filename_size, "%s" DOOMRETRO_AUTOSAVE, savegamefolder);
+    else
+        M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVEGAME, savegamefolder, slot - 1);
+
     return filename;
 }
 
