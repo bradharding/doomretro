@@ -202,7 +202,7 @@ static void BuildWeaponIcons(void)
 
 void ST_UpdateCarousel(void)
 {
-    if (!weaponcarousel || automapactive || menuactive || paused
+    if (!weaponcarousel || menuactive || paused
         || viewplayer->playerstate == PST_DEAD || !viewplayer->mo || viewplayer->mo->health <= 0)
         ST_ResetCarousel();
     else
