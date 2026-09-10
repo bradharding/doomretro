@@ -1331,8 +1331,18 @@ static void M_LoadSelect(int choice)
 //
 static void M_LoadGame(int choice)
 {
-    M_SetupNextMenu(&LoadDef);
     M_ReadSaveStrings();
+
+    if (!savegames)
+        return;
+
+    if (LoadDef.laston >= load_end)
+        LoadDef.laston = load_end - 1;
+
+    if (LoadDef.laston != AUTOSAVESLOT && M_StringCompare(savegamestrings[LoadDef.laston], s_EMPTYSTRING))
+        LoadDef.laston = AUTOSAVESLOT;
+
+    M_SetupNextMenu(&LoadDef);
 }
 
 static void M_SetCaretPos(int pointerx)
@@ -5318,7 +5328,7 @@ void M_Drawer(void)
                     itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
 
                 if (itemon != old)
-                    SaveDef.laston = itemon;
+                    LoadDef.laston = itemon;
             }
 
             if (M_SKULL1)
