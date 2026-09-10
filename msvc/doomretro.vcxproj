@@ -391,7 +391,7 @@
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
     <Text Include="..\res\BRGHTMPS.txt" />
-    <Text Include="..\res\CHEX.bex" />
+    <Text Include="..\res\CHEXBEX.bex" />
     <Text Include="..\res\DEHACKED.bex" />
     <Text Include="..\res\DRCOMPAT.txt" />
     <Text Include="..\res\VANILLA.cfg" />

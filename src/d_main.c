@@ -2340,7 +2340,7 @@ static void D_ProcessDehInWad(void)
         C_Warning(1, dehwarning);
 
     if (chex1)
-        D_ProcessDehFile(NULL, W_GetNumForNameFromResourceWAD("CHEX"), true);
+        D_ProcessDehFile(NULL, W_GetNumForNameFromResourceWAD("CHEXBEX"), true);
 
     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
         for (int i = 0; i < numlumps; i++)
