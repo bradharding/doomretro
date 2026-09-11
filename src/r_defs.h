@@ -221,6 +221,8 @@ typedef struct sector_s
 
     bool                islift;
     bool                isselfreferencing;
+
+    bool                secretdiscovered;
 } sector_t;
 
 //

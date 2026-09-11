@@ -2570,11 +2570,10 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case Secret:
-                if (!(viewplayer->cheats & CF_NOCLIP) && !(viewplayer->cheats & CF_FREEZE))
+                if (!sector->secretdiscovered && !(viewplayer->cheats & CF_NOCLIP) && !(viewplayer->cheats & CF_FREEZE))
                 {
                     P_SecretFound();
-                    sector->special |= SECRET_MASK;
-                    sector->special &= ~31;
+                    sector->secretdiscovered = true;
 
                     for (int i = 0; i < sector->linecount; i++)
                         sector->lines[i]->flags &= ~ML_SECRET;
@@ -2652,15 +2651,13 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
         }
 
-        if ((sector->special & SECRET_MASK) && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
+        if ((sector->special & SECRET_MASK) && !sector->secretdiscovered && !(viewplayer->cheats & (CF_NOCLIP | CF_FREEZE)))
         {
             P_SecretFound();
-            sector->special &= ~SECRET_MASK;
+            sector->secretdiscovered = true;
 
             for (int i = 0; i < sector->linecount; i++)
                 sector->lines[i]->flags &= ~ML_SECRET;
-
-            sector->special |= SECRET_MASK;
         }
     }
 }

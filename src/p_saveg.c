@@ -1150,7 +1150,8 @@ bool P_ReadSaveGameHeader(char *description)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1)
         && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_0))
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_0)
+        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_4))
     {
         menuactive = false;
         quicksaveslot = -1;
@@ -1313,6 +1314,7 @@ void P_ArchiveWorld(void)
         saveg_write32(sector->colormap);
         saveg_write32(sector->floorrotation);
         saveg_write32(sector->ceilingrotation);
+        saveg_write_bool(sector->secretdiscovered);
     }
 
     // do lines
@@ -1388,6 +1390,9 @@ void P_UnarchiveWorld(void)
             sector->floorrotation = saveg_read32();
             sector->ceilingrotation = saveg_read32();
         }
+
+        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_4))
+            sector->secretdiscovered = saveg_read_bool();
     }
 
     // do lines

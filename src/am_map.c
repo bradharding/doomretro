@@ -2131,6 +2131,8 @@ static void AM_DrawWalls(void)
                 mpoint_t                b = { line->v2->x >> FRACTOMAPBITS, line->v2->y >> FRACTOMAPBITS };
                 const unsigned short    special = line->special;
                 byte                    *doorcolor;
+                const sector_t          *front = line->frontsector;
+                const sector_t          *back = line->backsector;
 
                 if (am_rotatemode)
                 {
@@ -2144,15 +2146,9 @@ static void AM_DrawWalls(void)
                     AM_CorrectAspectRatio(&b);
                 }
 
-                const sector_t  *front = line->frontsector;
-                const sector_t  *back = line->backsector;
-
                 if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none
-                    && !(flags & ML_SECRET)
-                    && ((front->special & SECRET_MASK) || (back && (back->special & SECRET_MASK))))
-                    AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor,
-                        (!back || front->floorheight == front->ceilingheight
-                        || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
+                    && (front->secretdiscovered || (back && back->secretdiscovered)))
+                    AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor, (!back ? putbigwalldot : putbigdot));
                 else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
                 else if (!back || (flags & ML_SECRET))
@@ -2271,13 +2267,15 @@ static void AM_DrawWalls_Cheating(void)
                 AM_CorrectAspectRatio(&b);
             }
 
-            if ((front->special == Secret || (front->special & SECRET_MASK)) && secretcolor2)
+            if ((front->secretdiscovered || (back && back->secretdiscovered))
+                && AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none)
+                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor, (!back ? putbigwalldot : putbigdot));
+            else if (!front->secretdiscovered && (!back || !back->secretdiscovered)
+                && (front->special == Secret || (front->special & SECRET_MASK)
+                || (back && (back->special == Secret || (back->special & SECRET_MASK)))) && secretcolor2)
                 AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
                     (!back || (flags & ML_SECRET) || front->floorheight == front->ceilingheight ?
                     putbigwalldot : putbigdot));
-            else if (back && (back->special == Secret || (back->special & SECRET_MASK)) && secretcolor2)
-                AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor2,
-                    ((flags & ML_SECRET) || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
             else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
             else if (!back || (flags & ML_SECRET))
