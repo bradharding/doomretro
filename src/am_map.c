@@ -1846,13 +1846,13 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
-            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl1, xpxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap)), thick, priority);
+            AM_PutAntialiasedDot(ypxl1 + 1, xpxl1, color, AM_WuCoverage(FixedMul(fpart, xgap)), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
-            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1, color, AM_WuCoverage(FixedMul(rfpart, xgap)), thick, priority);
+            AM_PutAntialiasedDot(xpxl1, ypxl1 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap)), thick, priority);
         }
 
         intery = yend + gradient;
@@ -1868,13 +1868,13 @@ static void AM_DrawWuLine(fixed_t x0, fixed_t y0, fixed_t x1, fixed_t y1,
 
         if (steep)
         {
-            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
-            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(ypxl2, xpxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap)), thick, priority);
+            AM_PutAntialiasedDot(ypxl2 + 1, xpxl2, color, AM_WuCoverage(FixedMul(fpart, xgap)), thick, priority);
         }
         else
         {
-            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap) >> 1), thick, priority);
-            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap) >> 1), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2, color, AM_WuCoverage(FixedMul(rfpart, xgap)), thick, priority);
+            AM_PutAntialiasedDot(xpxl2, ypxl2 + 1, color, AM_WuCoverage(FixedMul(fpart, xgap)), thick, priority);
         }
 
         if (steep)
