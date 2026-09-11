@@ -11,7 +11,7 @@
   * The crosshair now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
-* Individual lump files (with the extension `.lmp`) can now be loaded, either through the command-line, the `autoload` folder, or using the WAD launcher.
+* Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
@@ -20,7 +20,7 @@
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
-* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
@@ -47,7 +47,7 @@
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
 * Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
-* All sound effects are now paused when the menu or console is opened, and resume when they are closed.
+* All sound effects are now paused when the menu or console are opened, and resume when they are closed.
 * The menu’s skull cursor now stops animating when the console is open over the menu.
 * A bug is fixed whereby pressing the <kbd><b>&darr;</b></kbd> key in the console to advance through the input history might have skipped some input.
 * When the player tries to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.

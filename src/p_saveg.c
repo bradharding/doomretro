@@ -76,29 +76,29 @@ FILE                        *save_stream;
 static char                 savegameversion[VERSIONSIZE];
 static savegameversion_t    savegameversionid;
 
-static bool P_SaveGameVersionIs(savegameversion_t version)
+static bool P_SaveGameVersionIs(savegameversion_t id)
 {
-    return (savegameversionid == version);
+    return (savegameversionid == id);
 }
 
-static bool P_SaveGameVersionAtLeast(savegameversion_t version)
+static bool P_SaveGameVersionAtLeast(savegameversion_t id)
 {
-    return (savegameversionid >= version);
+    return (savegameversionid >= id);
 }
 
-static savegameversion_t P_SaveGameVersionFromString(const char *version)
+static savegameversion_t P_SaveGameVersionFromString(const char *id)
 {
-    if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_3_6))
         return savegameversion_3_6;
-    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7))
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_5_7))
         return savegameversion_5_7;
-    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
         return savegameversion_5_7_1;
-    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7_2))
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_5_7_2))
         return savegameversion_5_7_2;
-    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_6_0))
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_6_0))
         return savegameversion_6_0;
-    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_6_4))
+    else if (M_StringCompare(id, DOOMRETRO_SAVEGAMEVERSION_6_4))
         return savegameversion_6_4;
     else
         return savegameversion_unknown;

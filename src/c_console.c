@@ -2376,7 +2376,7 @@ void C_UpdatePlayerStatsOverlay(void)
     if (totalsecrets)
     {
         char    secrets[32];
-        char    *temp1 = commify(viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS) ?
+        char    *temp1 = commify((viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS)) ?
                     totalsecrets : viewplayer->secretcount);
         char    *temp2 = commify(totalsecrets);
 
@@ -2470,7 +2470,7 @@ static void UpdateCheatMask(const char *input)
 
     while (start < inputlen)
     {
-        int         end = start;
+        int         end;
         int         commandlen;
         const bool  hasdelimiter = (input[start] == ';');
 

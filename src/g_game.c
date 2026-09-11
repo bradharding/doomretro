@@ -1815,7 +1815,7 @@ static void G_DoCompleted(void)
     wminfo.partime = G_GetParTime() * TICRATE;
     wminfo.skills = (totalkills ? viewplayer->killcount : 1);
     wminfo.sitems = (totalitems ? viewplayer->itemcount : 1);
-    wminfo.ssecret = (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS) ? totalsecrets : viewplayer->secretcount);
+    wminfo.ssecret = ((viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS)) ? totalsecrets : viewplayer->secretcount);
     wminfo.stime = maptime;
 
     gamestate = GS_INTERMISSION;

@@ -57,7 +57,7 @@
 #define MAXVISSPRITES       256
 #define DS_RANGES_COUNT     3
 
-#define MAXTILTFACTOR       (FRACUNIT / 8)
+#define MAXTILTFACTOR       (FRACUNIT / 7)
 
 #define WEAPONPITCHSCALE    0x0E00
 
