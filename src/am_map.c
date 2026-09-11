@@ -49,7 +49,6 @@
 #include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
-#include "m_array.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -2630,70 +2629,15 @@ const int lengths[] =
     INT_MAX
 };
 
-typedef struct
+static void AM_DrawPath(void)
 {
-    double  x;
-    double  y;
-} pathpoint_t;
-
-typedef struct
-{
-    int x;
-    int y;
-    int coverage;
-} pathcoverage_t;
-
-static inline void AM_AccumulatePathCoverage(pathcoverage_t *coverage, const int x, const int y, const int amount)
-{
-    if (x >= 0 && x < MAPWIDTH && y >= 0 && y < MAPHEIGHT)
-    {
-        const int   index = y * MAPWIDTH + x;
-
-        if (coverage[index].coverage < amount)
-        {
-            coverage[index].x = x;
-            coverage[index].y = y;
-            coverage[index].coverage = amount;
-        }
-    }
-}
-
-static void AM_DrawPathSegment(pathcoverage_t *coverage, const pathpoint_t p0, const pathpoint_t p1)
-{
-    const double    dx = p1.x - p0.x;
-    const double    dy = p1.y - p0.y;
-    const double    length = hypot(dx, dy);
-    const int       steps = MAX(1, (int)ceil(length * 4.0));
-
-    for (int i = 0; i <= steps; i++)
-    {
-        const double    t = (double)i / steps;
-        const double    x = p0.x + dx * t;
-        const double    y = p0.y + dy * t;
-        const int       ix = (int)floor(x);
-        const int       iy = (int)floor(y);
-        const double    fx = x - ix;
-        const double    fy = y - iy;
-
-        AM_AccumulatePathCoverage(coverage, ix, iy, (int)lround((1.0 - fx) * (1.0 - fy) * 100.0));
-        AM_AccumulatePathCoverage(coverage, ix + 1, iy, (int)lround(fx * (1.0 - fy) * 100.0));
-        AM_AccumulatePathCoverage(coverage, ix, iy + 1, (int)lround((1.0 - fx) * fy * 100.0));
-        AM_AccumulatePathCoverage(coverage, ix + 1, iy + 1, (int)lround(fx * fy * 100.0));
-    }
-}
-
-static void AM_DrawPathAntialiased(void)
-{
-    const int       first = MAX(1, numbreadcrumbs - lengths[am_pathlength]);
-    pathpoint_t     *points = NULL;
-    pathcoverage_t  *coverage;
-    mpoint_t        player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
-    mpoint_t        end = player;
+    const int   first = MAX(1, numbreadcrumbs - lengths[am_pathlength]);
+    mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+    mpoint_t    end = player;
 
     for (int i = first; i < numbreadcrumbs; i++)
     {
         mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
-        pathpoint_t point;
 
         end.x = breadcrumb[i].x >> FRACTOMAPBITS;
         end.y = breadcrumb[i].y >> FRACTOMAPBITS;
@@ -2702,30 +2646,18 @@ static void AM_DrawPathAntialiased(void)
             continue;
 
         if (am_rotatemode)
+        {
             AM_RotatePoint(&start);
+            AM_RotatePoint(&end);
+        }
 
         if (am_correctaspectratio)
+        {
             AM_CorrectAspectRatio(&start);
+            AM_CorrectAspectRatio(&end);
+        }
 
-        point.x = CXMTOF(start.x) + 0.5;
-        point.y = CYMTOF(start.y) + 0.5;
-
-        if (!array_size(points) || points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
-            array_push(points, point);
-    }
-
-    if (am_rotatemode)
-        AM_RotatePoint(&end);
-
-    if (am_correctaspectratio)
-        AM_CorrectAspectRatio(&end);
-
-    if (array_size(points))
-    {
-        pathpoint_t point = { CXMTOF(end.x) + 0.5, CYMTOF(end.y) + 0.5 };
-
-        if (points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
-            array_push(points, point);
+        AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
     }
 
     if (am_rotatemode)
@@ -2735,84 +2667,8 @@ static void AM_DrawPathAntialiased(void)
         AM_CorrectAspectRatio(&player);
 
     if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
-    {
-        pathpoint_t point = { CXMTOF(player.x) + 0.5, CYMTOF(player.y) + 0.5 };
-
-        if (!array_size(points) || points[array_size(points) - 1].x != point.x || points[array_size(points) - 1].y != point.y)
-            array_push(points, point);
-    }
-
-    if (array_size(points) < 2)
-    {
-        array_free(points);
-        return;
-    }
-
-    coverage = calloc(MAPAREA, sizeof(*coverage));
-
-    if (!coverage)
-    {
-        array_free(points);
-        return;
-    }
-
-    for (int i = 1; i < array_size(points); i++)
-        AM_DrawPathSegment(coverage, points[i - 1], points[i]);
-
-    for (int i = 0; i < MAPAREA; i++)
-        if (coverage[i].coverage > 0)
-            AM_PutAntialiasedDot(coverage[i].x, coverage[i].y, &pathcolor, coverage[i].coverage, false, false);
-
-    free(coverage);
-    array_free(points);
+        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
 }
-
-static void AM_DrawPath(void)
-{
-    if (am_antialiasing)
-        AM_DrawPathAntialiased();
-    else
-    {
-        const int   first = MAX(1, numbreadcrumbs - lengths[am_pathlength]);
-        mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
-        mpoint_t    end = player;
-
-        for (int i = first; i < numbreadcrumbs; i++)
-        {
-            mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
-
-            end.x = breadcrumb[i].x >> FRACTOMAPBITS;
-            end.y = breadcrumb[i].y >> FRACTOMAPBITS;
-
-            if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
-                continue;
-
-            if (am_rotatemode)
-            {
-                AM_RotatePoint(&start);
-                AM_RotatePoint(&end);
-            }
-
-            if (am_correctaspectratio)
-            {
-                AM_CorrectAspectRatio(&start);
-                AM_CorrectAspectRatio(&end);
-            }
-
-            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, putbigdot2);
-        }
-
-        if (am_rotatemode)
-            AM_RotatePoint(&player);
-
-        if (am_correctaspectratio)
-            AM_CorrectAspectRatio(&player);
-
-        if (ABS(end.x - player.x) <= 4 * FRACUNIT && ABS(end.y - player.y) <= 4 * FRACUNIT)
-            AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, putbigdot2);
-    }
-}
-
 #define CENTERX (WIDESCREENDELTA + VANILLAWIDTH / 2)
 #define CENTERY ((VANILLAHEIGHT - VANILLASBARHEIGHT * (r_screensize < r_screensize_max)) / 2)
 
