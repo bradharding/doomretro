@@ -2375,7 +2375,8 @@ void C_UpdatePlayerStatsOverlay(void)
     if (totalsecrets)
     {
         char    secrets[32];
-        char    *temp1 = commify(viewplayer->secretcount);
+        char    *temp1 = commify(viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS) ?
+                    totalsecrets : viewplayer->secretcount);
         char    *temp2 = commify(totalsecrets);
 
         M_snprintf(secrets, sizeof(secrets), s_STSTR_SECRETS, temp1, temp2);
