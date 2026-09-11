@@ -138,6 +138,7 @@ int                     outputhistory = -1;
 static int              outputhistoryoffset;
 static bool             topofconsole;
 static bool             cheatsequence;
+static bool             cheatmask[255];
 bool                    dontrestoremousepointeronshow;
 
 static int              suckswidth;
@@ -1571,8 +1572,8 @@ static void C_DrawBackground(void)
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
     const int boldcolor, const byte *tinttab, const int tabs[MAXTABS], const bool formatting,
     const bool kerning, const bool wrapped, const int index, unsigned char prevletter,
-    unsigned char prevletter2, void consoletextfunc(const int, const int, const patch_t *,
-        const int, const int, const int, const bool, const byte *))
+    unsigned char prevletter2, const int inputoffset, void consoletextfunc(const int, const int,
+    const patch_t *, const int, const int, const int, const bool, const byte *))
 {
     bool                bold = false;
     bool                bolder = false;
@@ -1606,10 +1607,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         unsigned char   letter = text[i];
         unsigned char   nextletter = text[i + 1];
 
-        if (cheatsequence)
+        if (cheatsequence && inputoffset >= 0 && cheatmask[inputoffset + i])
         {
             letter = '\x95';
-            nextletter = '\x95';
+            nextletter = (cheatmask[inputoffset + i + 1] ? '\x95' : nextletter);
         }
 
         if (letter == BOLDONCHAR)
@@ -2459,6 +2460,54 @@ static bool IsCheatSequence(char *string)
     return false;
 }
 
+static void UpdateCheatMask(const char *input)
+{
+    static char command[255];
+    int         start = 0;
+    int         inputlen = (int)strlen(input);
+
+    memset(cheatmask, false, sizeof(cheatmask));
+
+    while (start < inputlen)
+    {
+        int         end = start;
+        int         commandlen;
+        const bool  hasdelimiter = (input[start] == ';');
+
+        if (hasdelimiter)
+            start++;
+
+        while (start < inputlen && isspace((unsigned char)input[start]))
+            start++;
+
+        end = start;
+
+        while (end < inputlen && input[end] != ';')
+            end++;
+
+        if ((commandlen = end - start) > 0 && commandlen < (int)sizeof(command))
+        {
+            M_StringCopy(command, input + start, sizeof(command));
+            command[commandlen] = '\0';
+
+            if (IsCheatSequence(command))
+                for (int i = start; i < end; i++)
+                    cheatmask[i] = true;
+        }
+
+        start = end;
+    }
+
+    cheatsequence = false;
+
+    for (int i = 0; i < inputlen; i++)
+        if (cheatmask[i])
+        {
+            cheatsequence = true;
+            break;
+        }
+}
+
 static int C_CountVisibleStrings(void)
 {
     int count = 0;
@@ -2588,13 +2637,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
                             consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
                             consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
 
                     if (con_timestamps)
                         C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
@@ -2603,11 +2652,11 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                 else if (stringtype == outputstring)
                     C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleoutputcolor, NOBACKGROUNDCOLOR,
                         consoleboldcolor, tinttab66, console[index].tabs, true, true, false, index, '\0', '\0',
-                        &V_DrawConsoleTextPatch);
+                        -1, &V_DrawConsoleTextPatch);
                 else if (stringtype == inputstring || stringtype == cheatstring)
                     C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleinputcolor, NOBACKGROUNDCOLOR,
                         consoleboldcolor, tinttab75, notabs, true, true, false, index, '\0', '\0',
-                        &V_DrawConsoleTextPatch);
+                        -1, &V_DrawConsoleTextPatch);
                 else if (stringtype == warningstring)
                 {
                     const int   count = console[index].count;
@@ -2620,13 +2669,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
                             consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
                             consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
                 }
                 else if (stringtype == playerwarningstring || stringtype == playerobituarystring)
                 {
@@ -2640,13 +2689,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
                             consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
                             consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
-                            &V_DrawConsoleTextPatch);
+                            -1, &V_DrawConsoleTextPatch);
 
                     if (con_timestamps)
                         C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH - 7,
@@ -2669,7 +2718,7 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
 
                 C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y, trimwhitespace(temp),
                     consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
-                    notabs, true, true, (end >= len), 0, '\0', '\0', &V_DrawConsoleTextPatch);
+                    notabs, true, true, (end >= len), 0, '\0', '\0', -1, &V_DrawConsoleTextPatch);
                 free(temp);
             }
         }
@@ -2860,14 +2909,14 @@ void C_Drawer(void)
         for (i = 0; i < MIN(selectstart, caretpos); i++)
             partialinput[i] = consoleinput[i];
 
-        cheatsequence = IsCheatSequence(consoleinput);
+        UpdateCheatMask(consoleinput);
         partialinput[i] = '\0';
 
         if (partialinput[0] != '\0')
         {
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, false, 0, '\0', '\0',
-                &V_DrawConsoleTextPatch);
+                0, &V_DrawConsoleTextPatch);
 
             if (strlen(partialinput) > 0)
                 prevletter = partialinput[strlen(partialinput) - 1];
@@ -2896,7 +2945,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false,
-                    true, false, 0, prevletter, prevletter2, &V_DrawConsoleSelectedTextPatch);
+                    true, false, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -2965,7 +3014,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true,
-                    false, 0, prevletter, prevletter2, &V_DrawConsoleSelectedTextPatch);
+                    false, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -2990,7 +3039,7 @@ void C_Drawer(void)
             if (partialinput[0] != '\0')
                 C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor, NOBACKGROUNDCOLOR,
                     NOBOLDCOLOR, NULL, notabs, false, true, false, 0, prevletter, prevletter2,
-                    &V_DrawConsoleTextPatch);
+                    selectend, &V_DrawConsoleTextPatch);
         }
     }
 
