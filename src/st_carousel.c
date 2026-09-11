@@ -76,6 +76,7 @@ static int          distance;
 
 static int          duration;
 static int          fade;
+static bool         hadweapons[NUMWEAPONS];
 
 static byte ContrastColor(const byte color)
 {
@@ -160,12 +161,18 @@ void ST_ResetCarousel(void)
     duration = 0;
     fade = 0;
     selectedindex = 0;
+
+    for (int i = 0; i < NUMWEAPONS; i++)
+        hadweapons[i] = (viewplayer && viewplayer->weaponowned[i]);
 }
 
 static void BuildWeaponIcons(void)
 {
-    const weapontype_t  selectedweapon = (viewplayer->pendingweapon == wp_nochange ?
+    weapontype_t    selectedweapon = (viewplayer->pendingweapon == wp_nochange ?
                             viewplayer->readyweapon : viewplayer->pendingweapon);
+
+    if (selectedweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
+        selectedweapon = viewplayer->fistorchainsaw;
 
     array_clear(weaponicons);
 
@@ -208,10 +215,28 @@ void ST_UpdateCarousel(void)
         ST_ResetCarousel();
     else
     {
+        bool    weaponpickedup = false;
+
+        for (int i = 0; i < NUMWEAPONS; i++)
+        {
+            if (!hadweapons[i] && viewplayer->weaponowned[i])
+                weaponpickedup = true;
+
+            hadweapons[i] = viewplayer->weaponowned[i];
+        }
+
         BuildWeaponIcons();
 
         if (lastindex == -1)
             lastindex = selectedindex;
+
+        if (weaponpickedup)
+        {
+            lastindex = selectedindex;
+            lasttime = I_GetTimeMS();
+            duration = TICRATE / 2;
+            fade = (smoothtransitions ? 0 : 4);
+        }
         else if (lastindex != selectedindex)
         {
             distance = selectedindex - lastindex;
