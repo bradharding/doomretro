@@ -61,9 +61,48 @@
 #define SAVEGAME_MAGIC  "DRSG"
 #define TARGETLIMIT     4192
 
-FILE        *save_stream;
+typedef enum
+{
+    savegameversion_unknown = 0,
+    savegameversion_3_6,
+    savegameversion_5_7,
+    savegameversion_5_7_1,
+    savegameversion_5_7_2,
+    savegameversion_6_0,
+    savegameversion_6_4
+} savegameversion_t;
 
-static char savegameversion[VERSIONSIZE];
+FILE                        *save_stream;
+static char                 savegameversion[VERSIONSIZE];
+static savegameversion_t    savegameversionid;
+
+static bool P_SaveGameVersionIs(savegameversion_t version)
+{
+    return (savegameversionid == version);
+}
+
+static bool P_SaveGameVersionAtLeast(savegameversion_t version)
+{
+    return (savegameversionid >= version);
+}
+
+static savegameversion_t P_SaveGameVersionFromString(const char *version)
+{
+    if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        return savegameversion_3_6;
+    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7))
+        return savegameversion_5_7;
+    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7_1))
+        return savegameversion_5_7_1;
+    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_5_7_2))
+        return savegameversion_5_7_2;
+    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_6_0))
+        return savegameversion_6_0;
+    else if (M_StringCompare(version, DOOMRETRO_SAVEGAMEVERSION_6_4))
+        return savegameversion_6_4;
+    else
+        return savegameversion_unknown;
+}
 
 static int  thingindex;
 static int  targets[TARGETLIMIT];
@@ -402,7 +441,7 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     animatedtic = saveg_read32();
 
-    if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+    if (P_SaveGameVersionIs(savegameversion_3_6))
     {
         saveg_read32();
         saveg_read32();
@@ -517,9 +556,7 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->forwardmove = saveg_read8();
     str->sidemove = saveg_read8();
     str->angleturn = saveg_read16();
-    str->buttons = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
-        || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7) ?
-        saveg_read8() : saveg_read32());
+    str->buttons = (!P_SaveGameVersionAtLeast(savegameversion_5_7_1) ? saveg_read8() : saveg_read32());
     str->pitch = saveg_read32();
 }
 
@@ -645,9 +682,8 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMMOBJTYPES; i++)
         viewplayer->monsterskilled[i] = saveg_read32();
 
-    viewplayer->distancetraveled = (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2)
-        || M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_0) ?
-        saveg_readdouble() : saveg_read32() / UNITSPERFOOT);
+    viewplayer->distancetraveled = (!P_SaveGameVersionAtLeast(savegameversion_5_7_2)
+        ? saveg_read32() / UNITSPERFOOT : saveg_readdouble());
 
     viewplayer->gamessaved = saveg_read32();
     viewplayer->itemspickedup_ammo_bullets = saveg_read32();
@@ -906,7 +942,7 @@ static void saveg_read_plat_t(plat_t *str)
     str->tag = saveg_read32();
     str->type = (plattype_e)saveg_read_enum();
 
-    if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_0))
+    if (P_SaveGameVersionAtLeast(savegameversion_6_0))
         str->stopsound = saveg_read_bool();
 }
 
@@ -1146,12 +1182,9 @@ bool P_ReadSaveGameHeader(char *description)
     for (int i = 0; i < VERSIONSIZE; i++)
         savegameversion[i] = saveg_read8();
 
-    if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_1)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_5_7_2)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_0)
-        && !M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_4))
+    savegameversionid = P_SaveGameVersionFromString(savegameversion);
+
+    if (P_SaveGameVersionIs(savegameversion_unknown))
     {
         menuactive = false;
         quicksaveslot = -1;
@@ -1384,14 +1417,14 @@ void P_UnarchiveWorld(void)
         sector->baseceilingxoffset = sector->oldceilingxoffset = sector->ceilingxoffset;
         sector->baseceilingyoffset = sector->oldceilingyoffset = sector->ceilingyoffset;
 
-        if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        if (!P_SaveGameVersionIs(savegameversion_3_6))
         {
             sector->colormap = saveg_read32();
             sector->floorrotation = saveg_read32();
             sector->ceilingrotation = saveg_read32();
         }
 
-        if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_6_4))
+        if (P_SaveGameVersionAtLeast(savegameversion_6_4))
             sector->secretdiscovered = saveg_read_bool();
     }
 
@@ -1407,7 +1440,7 @@ void P_UnarchiveWorld(void)
         line->special = saveg_read16();
         line->tag = saveg_read16();
 
-        if (!M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+        if (!P_SaveGameVersionIs(savegameversion_3_6))
         {
             line->angle = saveg_read32();
             line->frontmusic = saveg_read32();
@@ -1439,7 +1472,7 @@ void P_UnarchiveWorld(void)
             side->missingbottomtexture = saveg_read_bool();
             side->missingmidtexture = saveg_read_bool();
 
-            if (M_StringCompare(savegameversion, DOOMRETRO_SAVEGAMEVERSION_3_6))
+            if (P_SaveGameVersionIs(savegameversion_3_6))
             {
                 saveg_read32();
                 saveg_read32();
