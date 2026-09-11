@@ -730,8 +730,8 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(am_rotatemode, "", "", boolfunc1, am_rotatemodefunc2, 0,
         "Toggles rotating around you in the automap."),
     INTCVAR(am_secretcolor, am_secretcolour, "", intfunc1, colorfunc2, CF_COLOR, SECRETCOLORVALUEALIAS,
-        "The color of undiscovered secrets in the automap when you cheat (" BOLD("none") ", or "
-        BOLD("0") " to " BOLD("255") ")."),
+        "The color of secrets in the automap once they are discovered or when you cheat ("
+        BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_teleportercolor, am_teleportercolour,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_thingcolor, am_thingcolour,

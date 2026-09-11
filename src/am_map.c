@@ -2144,27 +2144,26 @@ static void AM_DrawWalls(void)
                     AM_CorrectAspectRatio(&b);
                 }
 
-                if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
+                const sector_t  *front = line->frontsector;
+                const sector_t  *back = line->backsector;
+
+                if (AM_OPTION_COLOR(am_secretcolor) != am_secretcolor_none
+                    && !(flags & ML_SECRET)
+                    && ((front->special & SECRET_MASK) || (back && (back->special & SECRET_MASK))))
+                    AM_DrawFline(a.x, a.y, b.x, b.y, secretcolor,
+                        (!back || front->floorheight == front->ceilingheight
+                        || back->floorheight == back->ceilingheight ? putbigwalldot : putbigdot));
+                else if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(a.x, a.y, b.x, b.y, doorcolor, putbigdot);
-                else
-                {
-                    const sector_t  *back = line->backsector;
-
-                    if (!back || (flags & ML_SECRET))
-                        AM_DrawFline(a.x, a.y, b.x, b.y, wallcolor, putbigwalldot);
-                    else if (isteleportline[special] && back->ceilingheight != back->floorheight
-                        && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
-                        AM_DrawFline(a.x, a.y, b.x, b.y, teleportercolor, putbigdot);
-                    else
-                    {
-                        const sector_t  *front = line->frontsector;
-
-                        if (back->floorheight != front->floorheight)
-                            AM_DrawFline(a.x, a.y, b.x, b.y, fdwallcolor, putbigdot);
-                        else if (back->ceilingheight != front->ceilingheight)
-                            AM_DrawFline(a.x, a.y, b.x, b.y, cdwallcolor, putbigdot);
-                    }
-                }
+                else if (!back || (flags & ML_SECRET))
+                    AM_DrawFline(a.x, a.y, b.x, b.y, wallcolor, putbigwalldot);
+                else if (isteleportline[special] && back->ceilingheight != back->floorheight
+                    && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
+                    AM_DrawFline(a.x, a.y, b.x, b.y, teleportercolor, putbigdot);
+                else if (back->floorheight != front->floorheight)
+                    AM_DrawFline(a.x, a.y, b.x, b.y, fdwallcolor, putbigdot);
+                else if (back->ceilingheight != front->ceilingheight)
+                    AM_DrawFline(a.x, a.y, b.x, b.y, cdwallcolor, putbigdot);
             }
         }
     }

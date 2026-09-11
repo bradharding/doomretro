@@ -2573,7 +2573,8 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 if (!(viewplayer->cheats & CF_NOCLIP) && !(viewplayer->cheats & CF_FREEZE))
                 {
                     P_SecretFound();
-                    sector->special = 0;
+                    sector->special |= SECRET_MASK;
+                    sector->special &= ~31;
 
                     for (int i = 0; i < sector->linecount; i++)
                         sector->lines[i]->flags &= ~ML_SECRET;
@@ -2659,8 +2660,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
             for (int i = 0; i < sector->linecount; i++)
                 sector->lines[i]->flags &= ~ML_SECRET;
 
-            if (sector->special < 32)   // if all extended bits clear,
-                sector->special = 0;    // sector is not special anymore
+            sector->special |= SECRET_MASK;
         }
     }
 }
