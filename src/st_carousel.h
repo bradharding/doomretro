@@ -38,6 +38,7 @@
 #define ST_CAROUSEL_X   (VANILLAWIDTH / 2)
 #define ST_CAROUSEL_Y   32
 
+void ST_SyncCarouselWeapons(void);
 void ST_ResetCarousel(void);
 void ST_InitCarousel(void);
 void ST_UpdateCarousel(void);

@@ -63,6 +63,7 @@
 #include "p_tick.h"
 #include "r_sky.h"
 #include "s_sound.h"
+#include "st_carousel.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "wi_stuff.h"
@@ -1998,6 +1999,8 @@ void G_DoLoadGame(void)
     ammodiff[am_cell] = 0;
     armordiff = 0;
     healthdiff = 0;
+
+    ST_SyncCarouselWeapons();
 
     if (r_screensize == r_screensize_max && animatedstats)
         P_AnimateAllStatsFromStart();

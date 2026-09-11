@@ -153,6 +153,12 @@ void ST_InitCarousel(void)
             pickupyoffset[i] = (tallesticonheight - LITTLESHORT(pickuppatches[i]->height)) / 2 - 16;
 }
 
+void ST_SyncCarouselWeapons(void)
+{
+    for (int i = 0; i < NUMWEAPONS; i++)
+        hadweapons[i] = (viewplayer && viewplayer->weaponowned[i]);
+}
+
 void ST_ResetCarousel(void)
 {
     lastindex = -1;
@@ -162,8 +168,7 @@ void ST_ResetCarousel(void)
     fade = 0;
     selectedindex = 0;
 
-    for (int i = 0; i < NUMWEAPONS; i++)
-        hadweapons[i] = (viewplayer && viewplayer->weaponowned[i]);
+    ST_SyncCarouselWeapons();
 }
 
 static void BuildWeaponIcons(void)
