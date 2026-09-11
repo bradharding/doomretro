@@ -55,6 +55,7 @@ typedef struct
 {
     weapontype_t    weapon;
     bool            selected;
+    bool            available;
 } weaponicon_t;
 
 static weaponicon_t *weaponicons;
@@ -177,20 +178,20 @@ static void BuildWeaponIcons(void)
         if (weapon == wp_nochange)
             continue;
 
-        if (weapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
-            continue;
-
-        if (weaponinfo[weapon].ammotype != am_noammo && !infiniteammo
-            && !viewplayer->ammo[weaponinfo[weapon].ammotype])
-            continue;
-
-        if (lastindex == -1 && weapon == viewplayer->readyweapon)
-            lastindex = array_size(weaponicons);
-
         if (viewplayer->weaponowned[weapon])
         {
             const bool      selected = (selectedweapon == weapon);
-            weaponicon_t    icon = { weapon, selected };
+            weaponicon_t    icon = { weapon, selected, true };
+
+            if (weapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
+                icon.available = false;
+
+            if (weaponinfo[weapon].ammotype != am_noammo && !infiniteammo
+                && !viewplayer->ammo[weaponinfo[weapon].ammotype])
+                icon.available = false;
+
+            if (lastindex == -1 && weapon == viewplayer->readyweapon)
+                lastindex = array_size(weaponicons);
 
             if (selected)
                 selectedindex = array_size(weaponicons);
@@ -257,24 +258,25 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
 {
     const weapontype_t  weapon = icon.weapon;
     const bool          selected = icon.selected;
+    const bool          available = icon.available;
+    const byte          *fadetint = (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 :
+                            (fade == 3 ? tinttab75 : tinttab80)));
+    const byte          *unavailabletint = (fade == 1 ? tinttab10 : (fade == 2 ? tinttab15 : tinttab20));
     patch_t             *patch = carouselpatches[weapon][selected];
 
     if (patch)
     {
         if (r_hud_translucency)
             V_DrawDropShadowPatch(x, y, 0, patch,
-                (fade == 1 ? black10 : (fade == 2 ? black25 : black40)));
+                (available ? (fade == 1 ? black10 : (fade == 2 ? black25 : black40)) : black10));
 
-        if (fade == 4 && !r_hud_translucency)
+        if (available && fade == 4 && !r_hud_translucency)
             V_DrawPatch(x, y, 0, patch);
         else if (fade > 0)
-            V_DrawTranslucentPatch(x, y, 0, patch,
-                (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 : (fade == 3 ? tinttab75 : tinttab80))));
+            V_DrawTranslucentPatch(x, y, 0, patch, (available ? fadetint : unavailabletint));
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  *fadetint = (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 :
-                        (fade == 3 ? tinttab75 : tinttab80)));
         const byte  border = (selected ? goldbordercolor : bordercolor);
         int         left, top, right, bottom;
 
@@ -311,7 +313,8 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  srccolor = screens[3][i];
 
-                screens[0][i] = (fade == 4 ? srccolor : fadetint[(srccolor << 8) + screens[0][i]]);
+                screens[0][i] = ((available && fade == 4) ? srccolor
+                    : (available ? fadetint : unavailabletint)[(srccolor << 8) + screens[0][i]]);
             }
     }
 }
