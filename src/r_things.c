@@ -2216,7 +2216,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
         {
             if (!r_textures)
             {
-                vis->colfunc = (psp == &viewplayer->psprites[1] ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
+                vis->colfunc = (psp == &viewplayer->psprites[ps_weapon] ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
                 vis->colormap = NULL;
             }
             else if (spr == SPR_SHT2)

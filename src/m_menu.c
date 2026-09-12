@@ -1243,14 +1243,14 @@ static void M_DrawLoad(void)
     V_SetMenuHighlightFade(100);
 
     if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_LGTTL"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 5, W_CacheLumpName("M_LGTTL"));
     else if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_LOADG"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 5, W_CacheLumpName("M_LOADG"));
     else
     {
         char    *temp = uppercase(s_M_LOADGAME);
 
-        M_DrawCenteredString(OFFSET - 4, temp);
+        M_DrawCenteredString(OFFSET - 5, temp);
         free(temp);
     }
 
@@ -1372,14 +1372,14 @@ static void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_SGTTL"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 5, W_CacheLumpName("M_SGTTL"));
     else if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(OFFSET - 4, W_CacheLumpName("M_SAVEG"));
+        M_DrawCenteredPatchWithShadow(OFFSET - 5, W_CacheLumpName("M_SAVEG"));
     else
     {
         char    *temp = uppercase(s_M_SAVEGAME);
 
-        M_DrawCenteredString(OFFSET - 4, temp);
+        M_DrawCenteredString(OFFSET - 5, temp);
         free(temp);
     }
 

@@ -14,6 +14,7 @@
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated.
+* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. This autosave slot can’t be selected to be overwritten by a manual save.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
@@ -33,7 +34,6 @@
     * `Obituary_Deh_Actor_*` and `Obituary_Deh_Actor_*_Melee` strings,
     * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
-  * Custom player messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
@@ -72,7 +72,6 @@
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
-* Autosaving the game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that have been made. This autosave slot can’t be selected for manual saves.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
