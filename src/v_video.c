@@ -470,6 +470,52 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
     }
 }
 
+void V_DrawTintedPatch(int x, int y, int screen, patch_t *patch, const byte *tinttab)
+{
+    int         col = 0;
+    const int   width = LITTLESHORT(patch->width) << FRACBITS;
+    int         screenx;
+
+    x += WIDESCREENDELTA;
+
+    if ((screenx = (x * DX) >> FRACBITS) < 0)
+    {
+        col += DXI * -screenx;
+        screenx = 0;
+    }
+
+    for (; col < width && screenx < SCREENWIDTH; col += DXI, screenx++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            const byte  length = column->length;
+            const int   top = ((y + column->topdelta) * DY) >> FRACBITS;
+            const int   count = (length * DY) >> FRACBITS;
+            const int   cliptop = MAX(0, top);
+            const int   clipbottom = MIN(SCREENHEIGHT, top + count);
+
+            if (cliptop < clipbottom)
+            {
+                byte    *dest = &screens[screen][cliptop * SCREENWIDTH + screenx];
+                int     srccol = (cliptop - top) * DYI;
+
+                for (int row = cliptop; row < clipbottom; row++)
+                {
+                    *dest = tinttab[source[srccol >> FRACBITS]];
+                    dest += SCREENWIDTH;
+                    srccol += DYI;
+                }
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 {
     byte        *desttop;

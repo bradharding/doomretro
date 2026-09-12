@@ -131,7 +131,7 @@ void ST_InitCarousel(void)
                     carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
             }
 
-        if (i <= wp_pistol)
+        if (i == wp_fist || i == wp_pistol)
         {
             char    lump[9];
             int     lumpnum;
@@ -181,9 +181,7 @@ static void BuildWeaponIcons(void)
 {
     weapontype_t    selectedweapon = (viewplayer->pendingweapon == wp_nochange ?
                         viewplayer->readyweapon : viewplayer->pendingweapon);
-
-    if (selectedweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
-        selectedweapon = viewplayer->fistorchainsaw;
+    const bool      nofist = (viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength]);
 
     array_clear(weaponicons);
 
@@ -198,7 +196,7 @@ static void BuildWeaponIcons(void)
             const bool      selected = (selectedweapon == weapon);
             weaponicon_t    icon = { weapon, selected, true };
 
-            if (weapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
+            if (weapon == wp_fist && nofist)
                 icon.available = false;
 
             if (weaponinfo[weapon].ammotype != am_noammo && !infiniteammo
@@ -303,10 +301,18 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
             V_DrawDropShadowPatch(x, y, 0, patch,
                 (available ? (fade == 1 ? black10 : (fade == 2 ? black25 : black40)) : black10));
 
-        if (available && fade == 4 && !r_hud_translucency)
-            V_DrawPatch(x, y, 0, patch);
-        else if (fade > 0)
-            V_DrawTranslucentPatch(x, y, 0, patch, (available ? fadetint : unavailabletint));
+        if (fade > 0)
+        {
+            if (!r_hud_translucency && fade == 4)
+            {
+                if (available)
+                    V_DrawPatch(x, y, 0, patch);
+                else
+                    V_DrawTintedPatch(x, y, 0, patch, black75);
+            }
+            else
+                V_DrawTranslucentPatch(x, y, 0, patch, (available ? fadetint : unavailabletint));
+        }
     }
     else if ((patch = pickuppatches[weapon]))
     {
