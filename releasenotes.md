@@ -34,7 +34,6 @@
     * `Obituary`, `Melee Obituary` and `Self Obituary` in thing definitions.
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom player messages for pickups that begin with “got ” or “used ” are now preceded by the player’s name (or “you” if the `playername` CVAR is empty).
-  * All custom player messages are now punctuated if not already.
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
@@ -43,7 +42,10 @@
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
 * Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
 * Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
-* The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is used in the automap.
+* These changes have been made to secrets in the automap:
+  * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
+  * Secrets now also appear in that color once they have been found.
+  * The number of secrets found displayed when the `am_playerstats` CVAR is `on` is now affected when the `IDDT` cheat is entered.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
 * Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
@@ -70,6 +72,7 @@
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
+* Autosaving the game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that have been made. This autosave slot can’t be selected for manual saves.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
