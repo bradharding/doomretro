@@ -65,9 +65,11 @@ static patch_t      *carouselpatches[NUMWEAPONS][2];
 static int          pickupxoffset[NUMWEAPONS];
 static int          pickupyoffset[NUMWEAPONS];
 static byte         pickuptint[256];
+static byte         pickupdarktint[256];
 static int          selectedindex = 0;
 static int          tallesticonheight;
 static byte         bordercolor;
+static byte         darkbordercolor;
 static byte         goldbordercolor;
 
 static int          lastindex = -1;
@@ -93,9 +95,13 @@ void ST_InitCarousel(void)
     tallesticonheight = 0;
 
     for (int i = 0; i < 256; i++)
+    {
         pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)]);
+        pickupdarktint[i] = black75[pickuptint[i]];
+    }
 
     bordercolor = black25[consoleedgecolor1];
+    darkbordercolor = black10[consoleedgecolor1];
     goldbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
 
     for (int i = 0; i < NUMWEAPONS; i++)
@@ -174,7 +180,7 @@ void ST_ResetCarousel(void)
 static void BuildWeaponIcons(void)
 {
     weapontype_t    selectedweapon = (viewplayer->pendingweapon == wp_nochange ?
-                            viewplayer->readyweapon : viewplayer->pendingweapon);
+                        viewplayer->readyweapon : viewplayer->pendingweapon);
 
     if (selectedweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
         selectedweapon = viewplayer->fistorchainsaw;
@@ -187,10 +193,7 @@ static void BuildWeaponIcons(void)
     {
         const weapontype_t  weapon = carouselweapons[i];
 
-        if (weapon == wp_nochange)
-            continue;
-
-        if (viewplayer->weaponowned[weapon])
+        if (weapon != wp_nochange && viewplayer->weaponowned[weapon])
         {
             const bool      selected = (selectedweapon == weapon);
             weaponicon_t    icon = { weapon, selected, true };
@@ -307,7 +310,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  border = (selected ? goldbordercolor : bordercolor);
+        const byte  border = (selected ? goldbordercolor : (available ? bordercolor : darkbordercolor));
         int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];
@@ -335,7 +338,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
         V_DrawSmallColoredPatch(x, y + 1, 3, patch, border);
         V_DrawSmallColoredPatch(x + 1, y + 1, 3, patch, border);
 
-        V_DrawSmallTintedPatch(x, y, 3, patch, pickuptint);
+        V_DrawSmallTintedPatch(x, y, 3, patch, (available || r_hud_translucency ? pickuptint : pickupdarktint));
 
         for (int yy = top; yy < bottom; yy++)
             for (int xx = left; xx < right; xx++)
@@ -343,8 +346,11 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
                 const int   i = yy * SCREENWIDTH + xx;
                 const byte  srccolor = screens[3][i];
 
-                screens[0][i] = ((available && fade == 4) ? srccolor
-                    : (available ? fadetint : unavailabletint)[(srccolor << 8) + screens[0][i]]);
+                if (r_hud_translucency)
+                    screens[0][i] = ((available && fade == 4) ? srccolor :
+                        (available ? fadetint : unavailabletint)[(srccolor << 8) + screens[0][i]]);
+                else
+                    screens[0][i] = srccolor;
             }
     }
 }
