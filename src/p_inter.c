@@ -208,29 +208,11 @@ static void P_AutoSwitchWeapon(weapontype_t weapon)
 static void P_ShowPickupMessage(const mobj_t *special, char *message)
 {
     char    *pickupmessage = DEH_ResolveStringMnemonic(special->info->pickupstringmnemonic);
-    char    *text = (pickupmessage ? pickupmessage : message);
-    char    buffer[256];
 
-    if (!text || !*text)
-        return;
-
-    if (!strncmp(text, "GOT ", 4) || !strncmp(text, "USED ", 5) || !strncmp(text, "PICKED UP ", 10))
-    {
-        char    *name = uppercase(C_GetPlayerName());
-
-        M_snprintf(buffer, sizeof(buffer), "%s %s", name, text);
-        text = buffer;
-        free(name);
-    }
-    else if (!strncmp(text, "Got ", 4) || !strncmp(text, "Used ", 5) || !strncmp(text, "Picked up ", 10))
-    {
-        M_snprintf(buffer, sizeof(buffer), "%s %c%s",
-            C_GetPlayerName(), tolower(text[0]), text + 1);
-        buffer[0] = (char)toupper((unsigned char)buffer[0]);
-        text = buffer;
-    }
-
-    HU_PlayerMessage(text, true, false);
+    if (pickupmessage)
+        HU_PlayerMessage(pickupmessage, true, false);
+    else if (message && *message)
+        HU_PlayerMessage(message, true, false);
 }
 
 //
