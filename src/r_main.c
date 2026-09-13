@@ -1348,6 +1348,8 @@ static void R_RockView(void)
     const fixed_t   tiltfactor = BETWEEN(-MAXVIEWROCKFACTOR,
                         VIEWROCKFACTOR(animatedliquiddiffs[liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1)]), MAXVIEWROCKFACTOR);
     const int       rockpixels = tiltfactor * MAXVIEWROCKPIXELS / MAXVIEWROCKFACTOR;
+    const int       centery = viewheight / 2;
+    const int       zoomedheight = MAX(1, viewheight - 2 * MAXVIEWROCKPIXELS);
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1362,7 +1364,7 @@ static void R_RockView(void)
 
         for (int y = 0; y < viewheight; y++)
         {
-            const int   srcy = BETWEEN(0, y + yoffset, viewheight - 1);
+            const int   srcy = BETWEEN(0, centery + (y - centery) * zoomedheight / viewheight + yoffset, viewheight - 1);
 
             dest[((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx + x] =
                 source[((size_t)viewwindowy + srcy) * SCREENWIDTH + viewwindowx + x];
