@@ -121,11 +121,16 @@ static int                      maxframe;
 static bool                     drawshadows;
 static bool                     interpolatesprites;
 
+int                             liquidrocktic = -1;
+
 static void R_UpdateSpriteInterpolation(void)
 {
     const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
 
     interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !consoleheight && !freeze);
+
+    if (!freeze || liquidrocktic == -1)
+        liquidrocktic = animatedtic;
 }
 
 static bool                     invulnerable;
@@ -1808,7 +1813,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
     vis->liquidrockfactor = ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && !heightsec
         && r_liquid_bobsprites && r_liquid_rocksprites ?
-        LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + animatedtic) & (ANIMATEDLIQUIDDIFFS - 1))]) : 0);
+        LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))]) : 0);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)

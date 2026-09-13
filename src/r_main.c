@@ -1346,7 +1346,7 @@ static void R_RockView(void)
     byte            *source = screens[1];
     byte            *dest = screens[0];
     const fixed_t   tiltfactor = BETWEEN(-MAXVIEWROCKFACTOR,
-                        VIEWROCKFACTOR(animatedliquiddiffs[animatedtic & (ANIMATEDLIQUIDDIFFS - 1)]), MAXVIEWROCKFACTOR);
+                        VIEWROCKFACTOR(animatedliquiddiffs[liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1)]), MAXVIEWROCKFACTOR);
     const int       rockpixels = tiltfactor * MAXVIEWROCKPIXELS / MAXVIEWROCKFACTOR;
 
     for (int y = 0; y < viewheight; y++)

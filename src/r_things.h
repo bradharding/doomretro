@@ -54,6 +54,8 @@ extern int      numbloodsplatlumps;
 
 extern bool     allowwolfensteinss;
 
+extern int      liquidrocktic;
+
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSpriteBottomOffsets(void);
 void R_InitSprites(void);
