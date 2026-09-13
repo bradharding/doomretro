@@ -193,6 +193,7 @@ bool        r_liquid_bobsprites = r_liquid_bobsprites_default;
 bool        r_liquid_clipsprites = r_liquid_clipsprites_default;
 bool        r_liquid_current = r_liquid_current_default;
 bool        r_liquid_lowerview = r_liquid_lowerview_default;
+bool        r_liquid_rocksprites = r_liquid_rocksprites_default;
 bool        r_liquid_swirl = r_liquid_swirl_default;
 char        *r_lowpixelsize = r_lowpixelsize_default;
 bool        r_mirroredweapons = r_mirroredweapons_default;
@@ -469,6 +470,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_liquid_clipsprites,             r_liquid_clipsprites,                  r_liquid_clipsprites,                  BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_liquid_current,                 r_liquid_current,                      r_liquid_current,                      BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_liquid_lowerview,               r_liquid_lowerview,                    r_liquid_lowerview,                    BOOLVALUEALIAS         ),
+    CVAR_BOOL         (r_liquid_rocksprites,             r_liquid_rocksprites,                  r_liquid_rocksprites,                  BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_liquid_swirl,                   r_liquid_swirl,                        r_liquid_swirl,                        BOOLVALUEALIAS         ),
     CVAR_OTHER        (r_lowpixelsize,                   r_lowpixelsize,                        r_lowpixelsize,                        0                      ),
     CVAR_BOOL         (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS         ),

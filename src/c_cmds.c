@@ -1047,6 +1047,8 @@ consolecmd_t consolecmds[] =
         "Toggles the bobbing of sprites in liquid sectors."),
     BOOLCVAR(r_liquid_clipsprites, "", "", boolfunc1, boolfunc2, 0,
         "Toggles clipping the bottom of sprites in liquid sectors."),
+    BOOLCVAR(r_liquid_rocksprites, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the rocking of sprites from side to side when bobbing in liquid sectors."),
     BOOLCVAR(r_liquid_current, "", "", boolfunc1, boolfunc2, 0,
         "Toggles a slight current being applied to liquid sectors."),
     BOOLCVAR(r_liquid_lowerview, "", "", boolfunc1, boolfunc2, 0,

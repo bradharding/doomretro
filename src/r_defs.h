@@ -1113,6 +1113,9 @@ typedef struct vissprite_s
     // foot clipping
     fixed_t             footclip;
 
+    // rocking while bobbing in liquid
+    fixed_t             liquidrockfactor;
+
     // killough 03/27/98: height sector for underwater/fake ceiling support
     sector_t            *heightsec;
 

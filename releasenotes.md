@@ -36,6 +36,7 @@
   * All custom things that aren’t pickups now no longer bob in liquid sectors when the `r_liquid_bobsprites` CVAR is `on`.
   * Custom monsters now always bleed red blood unless `Blood color` is specified.
 * The swirling effect applied to liquid sectors when the `r_liquid_swirl` CVAR is `on` has improved slightly.
+* Things now also rock slightly from side to side, as they bob up and down in liquid sectors, when the new `r_liquid_rocksprites` CVAR is `on`, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible deep water:
   * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.

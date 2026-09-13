@@ -181,6 +181,7 @@ extern bool     r_liquid_bobsprites;
 extern bool     r_liquid_clipsprites;
 extern bool     r_liquid_current;
 extern bool     r_liquid_lowerview;
+extern bool     r_liquid_rocksprites;
 extern bool     r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern bool     r_mirroredweapons;
@@ -835,6 +836,8 @@ enum
 #define r_liquid_current_default            true
 
 #define r_liquid_lowerview_default          true
+
+#define r_liquid_rocksprites_default        true
 
 #define r_liquid_swirl_default              true
 
