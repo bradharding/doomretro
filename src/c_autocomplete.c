@@ -11635,7 +11635,7 @@ autocomplete_t autocompletelist[] =
     { "spawn revenant",                                     DOOM2ONLY        },
     { "spawn rocketlauncher",                               DOOM1AND2        },
     { "spawn rockets",                                      DOOM1AND2        },
-    { "spawn shell",                                        DOOM1AND2        },
+    { "spawn shells",                                       DOOM1AND2        },
     { "spawn shocktrooper",                                 LEGACYOFRUSTONLY },
     { "spawn shortbluefirestick",                           DOOM1AND2        },
     { "spawn shortgreencolumn",                             DOOM1AND2        },
