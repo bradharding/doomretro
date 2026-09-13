@@ -73,6 +73,7 @@
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
 * The `BIGDOOR1` texture is now always vertically aligned as intended.
+* The `freeze` CCMD can now be entered while the player is dead.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

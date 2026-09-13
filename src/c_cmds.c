@@ -827,7 +827,7 @@ consolecmd_t consolecmds[] =
         "Toggles flashing the keycard or skull key that is needed when you try to open a locked door."),
     BOOLCVAR(freelook, mouselook, "", boolfunc1, freelookfunc2, 0,
         "Toggles freely looking up and down using the mouse or a controller."),
-    CCMD(freeze, "", "", alivefunc1, freezefunc2, true, FREEZEFORMAT,
+    CCMD(freeze, "", "", ingameccmdfunc1, freezefunc2, true, FREEZEFORMAT,
         "Toggles freeze mode."),
     TIMECVAR(gametime, "", "", nullfunc1, timefunc2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
