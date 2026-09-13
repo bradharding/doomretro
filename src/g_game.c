@@ -230,6 +230,10 @@ int             savegameslot;
 char            savename[MAX_PATH];
 static char     savedescription[SAVESTRINGSIZE];
 
+static bool     autosaved;
+static int      autosavedgameepisode;
+static int      autosavedgamemap;
+
 gameaction_t    loadaction = ga_nothing;
 
 void G_RemoveChoppers(void)
@@ -1535,7 +1539,7 @@ static void G_DoReborn(void)
 {
     if (solonet)
         P_ResurrectPlayer(initial_health);
-    else if (autoload)
+    else if (autoload && autosaved && autosavedgameepisode == gameepisode && autosavedgamemap == gamemap)
         gameaction = ga_autoloadgame;
     else
     {
@@ -1979,6 +1983,13 @@ void G_DoLoadGame(void)
     skilllevel = gameskill + 1;
     NewDef.laston = gameskill;
 
+    if (savegameslot == AUTOSAVESLOT)
+    {
+        autosaved = true;
+        autosavedgameepisode = gameepisode;
+        autosavedgamemap = gamemap;
+    }
+
     viewplayer->gamesloaded++;
     stat_gamesloaded = SafeAdd(stat_gamesloaded, 1);
     M_SaveCVARs();
@@ -2170,7 +2181,12 @@ static void G_DoSaveGame(void)
             if (savegameslot >= 0)
             {
                 if (savegameslot == AUTOSAVESLOT)
+                {
                     M_StringCopy(savegamestrings[savegameslot], savedescription, sizeof(savegamestrings[savegameslot]));
+                    autosaved = true;
+                    autosavedgameepisode = gameepisode;
+                    autosavedgamemap = gamemap;
+                }
 
                 savegames = true;
             }
@@ -2265,6 +2281,8 @@ static void G_DoNewGame(void)
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
     infight = false;
+
+    autosaved = false;
 }
 
 // killough 04/10/98: New function to fix bug which caused DOOM
