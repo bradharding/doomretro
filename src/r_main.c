@@ -1337,6 +1337,39 @@ static void R_SwirlView(const int swirltic)
     }
 }
 
+#define VIEWROCKFACTOR(diff)    ((diff) * 3 / 2)
+#define MAXVIEWROCKFACTOR       (FRACUNIT / 9)
+#define MAXVIEWROCKPIXELS       8
+
+static void R_RockView(void)
+{
+    byte            *source = screens[1];
+    byte            *dest = screens[0];
+    const fixed_t   tiltfactor = BETWEEN(-MAXVIEWROCKFACTOR,
+                        VIEWROCKFACTOR(animatedliquiddiffs[animatedtic & (ANIMATEDLIQUIDDIFFS - 1)]), MAXVIEWROCKFACTOR);
+    const int       rockpixels = tiltfactor * MAXVIEWROCKPIXELS / MAXVIEWROCKFACTOR;
+
+    for (int y = 0; y < viewheight; y++)
+    {
+        const size_t    row = ((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx;
+
+        memcpy(source + row, dest + row, (size_t)viewwidth);
+    }
+
+    for (int x = 0; x < viewwidth; x++)
+    {
+        const int   yoffset = rockpixels * (x - centerx) / MAX(1, viewwidth / 2);
+
+        for (int y = 0; y < viewheight; y++)
+        {
+            const int   srcy = BETWEEN(0, y + yoffset, viewheight - 1);
+
+            dest[((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx + x] =
+                source[((size_t)viewwindowy + srcy) * SCREENWIDTH + viewwindowx + x];
+        }
+    }
+}
+
 //
 // R_RenderPlayerView
 //
@@ -1384,6 +1417,10 @@ void R_RenderPlayerView(void)
             && (sector->terraintype >= LIQUID || heightsec->terraintype >= LIQUID))
             R_SwirlView(viewswirltic);
     }
+
+    if ((viewplayer->mo->flags2 & MF2_FEETARECLIPPED) && viewplayer->playerstate == PST_DEAD
+        && r_liquid_bobsprites && r_liquid_rocksprites)
+        R_RockView();
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
         V_InvertScreen();
