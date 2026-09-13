@@ -626,6 +626,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
     const int       patchwidth = patch->width;
+    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
     byte            *oldtranmap;
 
     spryscale = vis->scale;
@@ -687,7 +688,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
@@ -759,7 +760,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
         const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
         const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR)
-            + (r_sprites_tilt ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0) : 0);
+                            + (spritetilt ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
         const fixed_t   baseiscale = dc_iscale;
@@ -815,6 +816,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
     const int       translation = (flags & MF_TRANSLATION);
     int             baseclip;
     const int       patchwidth = patch->width;
+    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
     byte            *oldtranmap;
 
     spryscale = vis->scale;
@@ -878,7 +880,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
@@ -950,7 +952,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
         const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
         const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
         const fixed_t   tiltfactor = (tz > 0 ? BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR)
-            + (r_sprites_tilt ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0) : 0);
+                            + (spritetilt ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0) : 0);
         const fixed_t   halfwidth = patchwidth << (FRACBITS - 1);
         const fixed_t   basescale = spryscale;
         const fixed_t   baseiscale = dc_iscale;
@@ -1007,6 +1009,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
     const int       translation = (flags & MF_TRANSLATION);
+    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
     int             black;
     int64_t         shadowspryscale;
     void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
@@ -1096,7 +1099,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
@@ -1189,7 +1192,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
@@ -1285,6 +1288,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
     int             shadowbaseclip;
     void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
     const int       patchwidth = patch->width;
+    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
     byte            *oldtranmap;
 
     spryscale = vis->scale;
@@ -1375,7 +1379,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
@@ -1471,7 +1475,7 @@ static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
         fixed_t         tz = 0;
         fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
 
-        if (r_sprites_tilt)
+        if (spritetilt)
         {
             const fixed_t   tr_x = vis->gx - viewx;
             const fixed_t   tr_y = vis->gy - viewy;
