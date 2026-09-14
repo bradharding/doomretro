@@ -130,6 +130,8 @@ bool keystate(const int key);
 void I_WindowResizeBlit(void);
 #endif
 
+void I_Blit_NearestLinear_Splash(void);
+
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 void I_RenderPresent(void);

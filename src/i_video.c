@@ -1037,6 +1037,18 @@ static void I_Blit_NearestLinear_ShowFPS(void)
     SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
 }
 
+void I_Blit_NearestLinear_Splash(void)
+{
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, NULL, pixels, pitch);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture_upscaled);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_SetRenderTarget(renderer, NULL);
+    SDL_RenderCopy(renderer, texture_upscaled, NULL, &dest_rect);
+    SDL_RenderPresent(renderer);
+}
+
 static void I_Blit_Shake(void)
 {
     const int   x = dest_rect.x;
