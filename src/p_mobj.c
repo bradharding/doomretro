@@ -1106,7 +1106,7 @@ void P_SetPlayerViewHeight(void)
     viewplayer->viewheight = VIEWHEIGHT;
     viewplayer->viewz = viewplayer->oldviewz = mo->z + viewplayer->viewheight;
 
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview && !mo->subsector->sector->heightsec)
         viewplayer->viewz -= FOOTCLIPSIZE;
 }
 

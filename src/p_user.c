@@ -146,18 +146,15 @@ void P_CalcHeight(void)
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
     {
+        sector_t    *sector = mo->subsector->sector;
+
         if (viewplayer->playerstate == PST_DEAD)
         {
-            if (r_liquid_bobsprites)
+            if (r_liquid_bobsprites && !sector->heightsec)
                 viewplayer->viewz += animatedliquiddiff;
         }
-        else if (r_liquid_lowerview)
-        {
-            sector_t    *sector = mo->subsector->sector;
-
-            if (!sector->heightsec)
-                viewplayer->viewz -= FOOTCLIPSIZE;
-        }
+        else if (r_liquid_lowerview && !sector->heightsec)
+            viewplayer->viewz -= FOOTCLIPSIZE;
     }
 
     viewplayer->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, viewplayer->viewz, mo->ceilingz - 4 * FRACUNIT);

@@ -1421,7 +1421,7 @@ void R_RenderPlayerView(void)
     }
 
     if ((viewplayer->mo->flags2 & MF2_FEETARECLIPPED) && viewplayer->playerstate == PST_DEAD
-        && r_liquid_bobsprites && r_liquid_rocksprites)
+        && r_liquid_bobsprites && r_liquid_rocksprites && !viewplayer->mo->subsector->sector->heightsec)
         R_RockView();
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)

@@ -41,6 +41,7 @@
   * Any colormap applied to the player’s view when they are in deep water now renders correctly.
   * Moving in and out of deep water is now smoother.
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
+  * The player’s view no longer bobs up and down when they are dead in deep water.
 * Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
 * Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
 * These changes have been made to secrets in the automap:
