@@ -92,12 +92,23 @@ static byte ContrastColor(const byte color)
 
 void ST_InitCarousel(void)
 {
-    tallesticonheight = 0;
+    const int   tintcolor = (consoleedgecolor1 >> 8);
 
-    for (int i = 0; i < 256; i++)
+    if (tintcolor == CONSOLEEDGECOLOR1)
     {
-        pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + (consoleedgecolor1 >> 8)]);
-        pickupdarktint[i] = black75[pickuptint[i]];
+        for (int i = 0; i < 256; i++)
+        {
+            pickuptint[i] = ContrastColor(tinttab10[(black25[grays[i]] << 8) + tintcolor]);
+            pickupdarktint[i] = black75[pickuptint[i]];
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            pickuptint[i] = ContrastColor(tinttab33[(grays[i] << 8) + tintcolor]);
+            pickupdarktint[i] = black40[pickuptint[i]];
+        }
     }
 
     bordercolor = black25[consoleedgecolor1];
@@ -111,6 +122,8 @@ void ST_InitCarousel(void)
         carouselpatches[i][1] = NULL;
         pickuppatches[i] = NULL;
     }
+
+    tallesticonheight = 0;
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
