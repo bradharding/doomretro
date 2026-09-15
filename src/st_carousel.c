@@ -98,7 +98,7 @@ void ST_InitCarousel(void)
     {
         for (int i = 0; i < 256; i++)
         {
-            pickuptint[i] = ContrastColor(tinttab10[(black25[grays[i]] << 8) + tintcolor]);
+            pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + tintcolor]);
             pickupdarktint[i] = black75[pickuptint[i]];
         }
     }
@@ -253,7 +253,7 @@ void ST_UpdateCarousel(void)
         {
             lastindex = selectedindex;
             lasttime = I_GetTimeMS();
-            duration = TICRATE / 2;
+            duration = TICRATE;
             fade = (smoothtransitions ? 0 : 4);
         }
         else if (lastindex != selectedindex)
