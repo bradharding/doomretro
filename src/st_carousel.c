@@ -344,9 +344,8 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
             memcpy(&screens[3][yy * SCREENWIDTH + left], &screens[0][yy * SCREENWIDTH + left], right - left);
 
         if (r_hud_translucency)
-            for (int dy = -1; dy <= 1; dy++)
-                for (int dx = -1; dx <= 1; dx++)
-                    V_DrawSmallDropShadowPatch(x + dx, y + dy, 3, patch, black40);
+            V_DrawSmallDropShadowPatch(x, y, 3, patch,
+                (available ? (fade == 1 ? black10 : (fade == 2 ? black25 : black40)) : black10));
 
         V_DrawSmallColoredPatch(x - 1, y - 1, 3, patch, border);
         V_DrawSmallColoredPatch(x, y - 1, 3, patch, border);
