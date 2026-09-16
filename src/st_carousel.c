@@ -273,7 +273,7 @@ void ST_UpdateCarousel(void)
             distance = 64 * MAX(-2, MIN(distance, 2));
             lastindex = selectedindex;
             lasttime = I_GetTimeMS();
-            duration = TICRATE / 2;
+            duration = TICRATE;
             fade = (smoothtransitions ? 0 : 4);
         }
         else if (duration > 0)
