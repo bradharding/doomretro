@@ -378,6 +378,9 @@ void ST_DrawCarousel(int x, int y)
     int offset = x;
     int weaponcount;
 
+    if (takingcleancreenshot)
+        return;
+
     if (!weaponcarousel || !duration || fade <= 0 || !(weaponcount = array_size(weaponicons)))
         return;
 
