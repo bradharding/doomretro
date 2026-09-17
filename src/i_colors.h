@@ -128,6 +128,7 @@ extern byte *white75;
 void I_InitTintTables(byte *palette);
 int I_GetNearestColor(byte *palette, const byte red, const byte green, const byte blue);
 byte I_GetContrastingColor(byte backgroundcolor);
+byte I_GetCarouselHighlightColor(byte sourcecolor);
 void I_InitColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);

@@ -69,8 +69,8 @@ static byte         pickupdarktint[256];
 static int          selectedindex = 0;
 static int          tallesticonheight;
 static byte         bordercolor;
-static byte         darkbordercolor;
-static byte         goldbordercolor;
+static byte         unavailablebordercolor;
+static byte         selectedbordercolor;
 
 static int          lastindex = -1;
 static uint64_t     lasttime;
@@ -101,6 +101,8 @@ void ST_InitCarousel(void)
             pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + tintcolor]);
             pickupdarktint[i] = black75[pickuptint[i]];
         }
+
+        selectedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
     }
     else
     {
@@ -109,11 +111,12 @@ void ST_InitCarousel(void)
             pickuptint[i] = ContrastColor(tinttab33[(grays[i] << 8) + tintcolor]);
             pickupdarktint[i] = black40[pickuptint[i]];
         }
+
+        selectedbordercolor = I_GetCarouselHighlightColor(tintcolor);
     }
 
     bordercolor = black25[consoleedgecolor1];
-    darkbordercolor = black10[consoleedgecolor1];
-    goldbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
+    unavailablebordercolor = black10[consoleedgecolor1];
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -329,7 +332,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  border = (selected ? goldbordercolor : (available ? bordercolor : darkbordercolor));
+        const byte  border = (selected ? selectedbordercolor : (available ? bordercolor : unavailablebordercolor));
         int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];

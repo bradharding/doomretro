@@ -531,3 +531,44 @@ byte I_GoldTranslation(byte *playpal, byte color)
 
     return I_GetNearestColor(playpal, (int)rgb.x, (int)rgb.y, (int)rgb.z);
 }
+
+byte I_GetCarouselHighlightColor(byte color)
+{
+    vector_t    rgb;
+    vector_t    hsv;
+
+    rgb.x = PLAYPAL[color * 3] / 255.0f;
+    rgb.y = PLAYPAL[color * 3 + 1] / 255.0f;
+    rgb.z = PLAYPAL[color * 3 + 2] / 255.0f;
+
+    RGBtoHSV(&rgb, &hsv);
+
+    if (hsv.y < 0.15f)
+    {
+        const float v = (hsv.z < 0.5f ? 0.85f : 0.25f);
+
+        return I_GetNearestColor(PLAYPAL, (int)(v * 255.0f), (int)(v * 255.0f), (int)(v * 255.0f));
+    }
+
+    if (hsv.x < 30.0f / 360.0f)         // red
+        hsv.x = 55.0f / 360.0f;         // yellow
+    else if (hsv.x < 60.0f / 360.0f)    // orange
+        hsv.x = 215.0f / 360.0f;        // blue
+    else if (hsv.x < 120.0f / 360.0f)   // yellow/green
+        hsv.x = 240.0f / 360.0f;        // blue
+    else if (hsv.x < 180.0f / 360.0f)   // green/cyan
+        hsv.x = 345.0f / 360.0f;        // red
+    else if (hsv.x < 240.0f / 360.0f)   // cyan/blue
+        hsv.x = 25.0f / 360.0f;         // orange
+    else if (hsv.x < 300.0f / 360.0f)   // blue/purple
+        hsv.x = 35.0f / 360.0f;         // orange/yellow
+    else                                // purple/red
+        hsv.x = 90.0f / 360.0f;         // yellow/green
+
+    hsv.y = (hsv.y > 0.75f ? hsv.y : 0.75f);
+    hsv.z = 0.85f;
+
+    HSVtoRGB(&hsv, &rgb);
+
+    return I_GetNearestColor(PLAYPAL, (int)(rgb.x * 255.0f), (int)(rgb.y * 255.0f), (int)(rgb.z * 255.0f));
+}
