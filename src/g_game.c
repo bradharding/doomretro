@@ -1344,7 +1344,7 @@ void G_Ticker(void)
                 break;
 
             case ga_autoloadgame:
-                M_StringCopy(savename, P_SaveGameFile(AUTOSAVESLOT), sizeof(savename));
+                M_StringCopy(savename, P_SaveGameFile(savegameslot), sizeof(savename));
                 S_StopSounds();
                 G_DoLoadGame();
                 break;
@@ -1539,8 +1539,11 @@ static void G_DoReborn(void)
 {
     if (solonet)
         P_ResurrectPlayer(initial_health);
-    else if (autoload && autosaved && autosavedgameepisode == gameepisode && autosavedgamemap == gamemap)
+    else if (autoload && quicksaveslot >= 0 && *savegamestrings[quicksaveslot])
+    {
+        savegameslot = quicksaveslot;
         gameaction = ga_autoloadgame;
+    }
     else
     {
         gameaction = ga_loadlevel;
