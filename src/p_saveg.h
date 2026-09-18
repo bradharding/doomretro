@@ -41,6 +41,8 @@
 #define AUTOSAVESLOT            0
 #define SAVESLOTCOUNT           9
 
+#define AUTOSAVEPREFIX          "(AUTOSAVE) "
+
 #define SAVESTRINGPIXELWIDTH    190
 #define VERSIONSIZE             24
 

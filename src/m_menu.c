@@ -77,8 +77,6 @@
 #define MENUHIGHLIGHTFADESTEP  10
 #define MENUELEMFADECOUNT       8
 
-#define AUTOSAVEPREFIX          "(AUTOSAVE) "
-
 static int M_SaveMenuSlotY(int slot)
 {
     return LoadDef.y + slot * LINEHEIGHT + OFFSET + (slot > AUTOSAVESLOT ? AUTOSAVEGAP : 0);
@@ -1739,27 +1737,28 @@ static void M_DeleteSaveGameResponse(int key)
     if (key == 'y')
     {
         static char buffer[1024];
-        char        *temp;
+        char        *description;
 
         M_StringCopy(buffer, P_SaveGameFile(itemon), sizeof(buffer));
-        temp = titlecase(savegamestrings[itemon]);
+        description = titlecase(savegamestrings[itemon]);
+        description = (M_StringStartsWith(description, AUTOSAVEPREFIX) ? description + 11 : description);
 
         if (remove(buffer))
         {
-            C_Warning(0, "\"%s\" couldn't be deleted.", temp);
+            C_Warning(0, "\"%s\" couldn't be deleted.", description);
             M_CloseMenu();
             C_ShowConsole(false);
             D_FadeScreen(false);
-            free(temp);
+            free(description);
             return;
         }
 
-        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
+        M_snprintf(buffer, sizeof(buffer), s_GGDELETED, description);
         C_Output("%s", buffer);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
         M_ReadSaveStrings();
-        free(temp);
+        free(description);
 
         if (itemon == quicksaveslot)
             quicksaveslot = -1;
@@ -1789,8 +1788,10 @@ static void M_DeleteSaveGameResponse(int key)
 static void M_DeleteSaveGame(void)
 {
     static char line1[160];
+    const char  *description = (M_StringStartsWith(savegamestrings[itemon], AUTOSAVEPREFIX) ?
+                    savegamestrings[itemon] + 11 : savegamestrings[itemon]);
 
-    M_snprintf(line1, sizeof(line1), s_DELPROMPT, savegamestrings[itemon]);
+    M_snprintf(line1, sizeof(line1), s_DELPROMPT, description);
     M_SplitString(line1);
     M_StartButtonMessage(line1, &M_DeleteSaveGameResponse, false);
 }

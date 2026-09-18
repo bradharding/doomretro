@@ -2051,7 +2051,8 @@ void G_LoadedGameMessage(void)
     if (*savedescription)
     {
         static char buffer[1024];
-        const char  *description = (M_StringStartsWith(savedescription, "(AUTOSAVE) ") ? savedescription + 11 : savedescription);
+        const char  *description = (M_StringStartsWith(savedescription, AUTOSAVEPREFIX) ?
+                        savedescription + 11 : savedescription);
         char        *temp1 = titlecase(description);
 
         if (loadaction == ga_autoloadgame)
@@ -2231,7 +2232,8 @@ static void G_DoSaveGame(void)
             else
             {
                 static char buffer[1024];
-                const char  *description = (M_StringStartsWith(savedescription, "(AUTOSAVE) ") ? savedescription + 11 : savedescription);
+                const char  *description = (M_StringStartsWith(savedescription, AUTOSAVEPREFIX) ?
+                                savedescription + 11 : savedescription);
                 char        *temp = titlecase(description);
 
                 M_snprintf(buffer, sizeof(buffer), (gameaction == ga_autosavegame ? s_GGAUTOSAVED : s_GGSAVED), temp);
