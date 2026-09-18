@@ -68,6 +68,7 @@
   * Drop shadows are now always applied to all elements.
 * The `r_althud_ammobars` CVAR has been renamed `r_hud_ammobars`.
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
+* The ammo count no longer lights up in the widescreen HUD when the player fires their weapon if the `infiniteammo` CCMD is in use.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * Block comments are now parsed correctly in `MAPINFO` lumps.
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
