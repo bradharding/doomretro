@@ -491,7 +491,12 @@ static void P_DoNewChaseDir(mobj_t *actor, const fixed_t deltax, const fixed_t d
 
     // try other directions
     if (M_Random() > 200 || ABS(deltay) > ABS(deltax))
-        SWAP((int)xdir, (int)ydir);
+    {
+        const dirtype_t temp = xdir;
+
+        xdir = ydir;
+        ydir = temp;
+    }
 
     if (xdir == turnaround)
         xdir = DI_NODIR;
