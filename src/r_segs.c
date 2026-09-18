@@ -554,8 +554,7 @@ static void R_RenderSegLoop(void)
                     {
                         dc_source = R_GetTextureColumn((topflatnum >= 0 ? R_CacheFlatAsPatch(topflatnum) :
                             R_CacheTextureCompositePatchNum(toptexture)), texturecolumn);
-                        dc_texturemid = rw_toptexturemid + (dc_yl - centery + 1) * SPARKLEFIX;
-                        dc_iscale -= SPARKLEFIX;
+                        dc_texturemid = rw_toptexturemid;
                         dc_texheight = toptexheight;
 
                         if (topbrightmap)
