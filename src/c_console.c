@@ -72,6 +72,8 @@ bool                    consoleoverlaymenu = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
+static int              scrolloffset;
+static int              scrollspeed = TICRATE;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *unknownchar;
@@ -246,6 +248,7 @@ static void C_ScrollToBottom(void)
 {
     outputhistory = -1;
     outputhistoryoffset = 0;
+    scrolloffset = 0;
 }
 
 static void C_StoreConsoleString(char *dest, const char *src, const size_t dest_size)
@@ -1004,6 +1007,7 @@ static bool C_CanScrollOutput(void)
 static void C_ScrollToTop(void)
 {
     C_GetHistoryPositionForVisibleRow(-1, &outputhistory, &outputhistoryoffset);
+    scrolloffset = 0;
 }
 
 static void C_SetTopRow(int row)
@@ -1028,10 +1032,12 @@ static void C_ScrollOutputUp(void)
     if (outputhistory == -1)
     {
         C_ScrollUpFromBottom();
+        scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
         return;
     }
 
     C_SetTopRow(C_GetCurrentTopRow() - 1);
+    scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
 }
 
 static void C_ScrollOutputDown(void)
@@ -1040,6 +1046,7 @@ static void C_ScrollOutputDown(void)
         return;
 
     C_SetTopRow(C_GetCurrentTopRow() + 1);
+    scrolloffset = MIN(scrolloffset + CONSOLELINEHEIGHT, CONSOLELINEHEIGHT);
 }
 
 static void C_DrawScrollbar(void)
@@ -2761,10 +2768,19 @@ void C_Drawer(void)
             C_ScrollToBottom();
     }
 
+    if (!smoothtransitions)
+        scrolloffset = 0;
+
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
     outputyoffset = CONSOLEINPUTY - (CONSOLEFULLSCREEN ? 20 : 16)
-        - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1);
+        - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
+        + scrolloffset;
+
+    if (scrolloffset > 0)
+        scrolloffset = MAX(0, scrolloffset - MAX(2, scrolloffset / 4));
+    else if (scrolloffset < 0)
+        scrolloffset = MIN(0, scrolloffset - MIN(-2, scrolloffset / 4));
 
     cheatsequence = false;
 
@@ -3177,7 +3193,6 @@ bool C_ValidateInput(char *input)
 bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
-    static int  scrollspeed = TICRATE;
     int         i;
     int         len;
 
