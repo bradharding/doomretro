@@ -54,8 +54,6 @@
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
 
-#define SWAP(a, b)      (a) ^= (b), (b) ^= (a), (a) ^= (b)
-
 typedef int32_t fixed_t;
 
 CONSTATTR static inline int ABS(int a)
@@ -87,6 +85,16 @@ CONSTATTR static inline int SIGN(int a)
 {
     return (a < 0 ? -1 : 1);
 }
+
+static inline void SwapInt(int *a, int *b)
+{
+    const int   temp = *a;
+
+    *a = *b;
+    *b = temp;
+}
+
+#define SWAP(a, b)  SwapInt(&(a), &(b))
 
 CONSTATTR static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 {

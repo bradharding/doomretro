@@ -124,7 +124,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         return;
     else
     {
-        int         num = *n->num + (animatedstats ? ammodiff[weaponinfo[viewplayer->readyweapon].ammotype] : 0);
+        int         num = *n->num + ammodiff[weaponinfo[viewplayer->readyweapon].ammotype];
         int         x = n->x + (num == 1);
         const int   y = n->y;
         const int   width = LITTLESHORT(n->p[0]->width);
@@ -146,7 +146,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
 
 void STlib_UpdateBigArmorNum(st_number_t *n)
 {
-    int         num = *n->num + (animatedstats ? armordiff : 0);
+    int         num = *n->num + armordiff;
     int         x = n->x + (num == 1);
     const int   y = n->y;
     const int   width = LITTLESHORT(n->p[0]->width);
@@ -176,7 +176,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     {
         int offset = 0;
 
-        num = viewplayer->negativehealth + (animatedstats ? healthdiff : 0);
+        num = viewplayer->negativehealth + healthdiff;
 
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             offset++;
@@ -195,7 +195,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         return;
     }
 
-    if (!(num = MAX(0, *n->num + (animatedstats ? healthdiff : 0))))
+    if (!(num = MAX(0, *n->num + healthdiff)))
         V_DrawPatch(x - width, y, 0, n->p[0]);
     else
     {
