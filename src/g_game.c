@@ -1541,7 +1541,19 @@ static void G_DoReborn(void)
         P_ResurrectPlayer(initial_health);
     else if (autoload && quicksaveslot >= 0 && *savegamestrings[quicksaveslot])
     {
-        savegameslot = quicksaveslot;
+        if (*savegamestrings[AUTOSAVESLOT])
+        {
+            struct stat autosavestatus;
+            struct stat quicksavestatus;
+
+            if (!stat(P_SaveGameFile(AUTOSAVESLOT), &autosavestatus)
+                && !stat(P_SaveGameFile(quicksaveslot), &quicksavestatus)
+                && autosavestatus.st_ctime > quicksavestatus.st_ctime)
+                savegameslot = AUTOSAVESLOT;
+        }
+        else
+            savegameslot = quicksaveslot;
+
         gameaction = ga_autoloadgame;
     }
     else
