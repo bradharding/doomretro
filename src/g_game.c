@@ -1968,6 +1968,9 @@ void G_DoLoadGame(void)
 
     P_RestoreTargets();
 
+    if (viewplayer->mo)
+        viewplayer->mo->oldangle = viewplayer->mo->angle;
+
     P_MapEnd();
 
     if (musinfo.currentitem != -1)

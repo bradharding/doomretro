@@ -1124,7 +1124,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+    mobj->angle = mobj->oldangle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
 
