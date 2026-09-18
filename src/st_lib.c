@@ -195,7 +195,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         return;
     }
 
-    if (!(num = *n->num + (animatedstats ? healthdiff : 0)))
+    if (!(num = MAX(0, *n->num + (animatedstats ? healthdiff : 0))))
         V_DrawPatch(x - width, y, 0, n->p[0]);
     else
     {
