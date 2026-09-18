@@ -1094,6 +1094,14 @@ char *trimwhitespace(char *input)
     return input;
 }
 
+char *trimleadingwhitespace(char *input)
+{
+    while (isspace((unsigned char)*input))
+        input++;
+
+    return input;
+}
+
 char *makevalidfilename(const char *input)
 {
     char        *newstr = M_StringDuplicate(input);

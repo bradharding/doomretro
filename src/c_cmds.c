@@ -2012,7 +2012,7 @@ bool C_ExecuteAlias(const char *alias)
 
                 while (strings[j])
                 {
-                    if (!C_ValidateInput(trimwhitespace(strings[j])))
+                    if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
                         break;
 
                     strings[++j] = strtok(NULL, ";");
@@ -4090,7 +4090,7 @@ static void iffunc2(char *cmd, char *parms)
 
                 while (strings[j])
                 {
-                    if (!C_ValidateInput(trimwhitespace(strings[j])))
+                    if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
                         break;
 
                     strings[++j] = strtok(NULL, ";");

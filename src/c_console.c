@@ -3058,7 +3058,7 @@ bool C_ExecuteInputString(const char *input)
 
     while (strings[j])
     {
-        if (!C_ValidateInput(trimwhitespace(strings[j])))
+        if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
             break;
 
         if (M_StringStartsWith(strings[j], "toggle"))
@@ -3297,7 +3297,9 @@ bool C_Responder(event_t *ev)
 
                         while (strings[i])
                         {
-                            if (C_ValidateInput(trimwhitespace(strings[i])))
+                            char    *temp = trimleadingwhitespace(strings[i]);
+
+                            if (C_ValidateInput(temp))
                                 result = true;
 
                             strings[++i] = strtok(NULL, ";");

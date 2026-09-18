@@ -117,6 +117,7 @@ char *removenonalpha(const char *input);
 char *trimnonalpha(const char *input);
 char *removenonprintable(const char *input);
 char *trimwhitespace(char *input);
+char *trimleadingwhitespace(char *input);
 char *makevalidfilename(const char *input);
 char *leafname(char *path);
 char *removeext(const char *file);
