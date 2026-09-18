@@ -189,9 +189,9 @@ static void P_SubtractAmmo(void)
             P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
             viewplayer->ammo[ammotype] = value;
         }
-    }
 
-    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
 }
 
 //
@@ -1062,7 +1062,8 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     // baddie the player is actually aiming at. ;)
     mo->tracer = linetarget;
 
-    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    if (!infiniteammo)
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
@@ -1097,7 +1098,8 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
             bulletslope + P_RandomHitscanSlope(state->args[1]),
             (M_Random() % state->args[4] + 1) * state->args[3]);
 
-    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    if (!infiniteammo)
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     A_Recoil(readyweapon);
     P_RumbleWeapon(readyweapon);
