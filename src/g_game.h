@@ -73,6 +73,7 @@ void G_LoadGame(const char *name);
 
 void G_DoLoadGame(void);
 void G_DoLoadLevel(void);
+void G_RestartMapIfReborn(void);
 
 // Called by M_Responder.
 void G_SaveGame(const int slot, const char *description, const char *name);

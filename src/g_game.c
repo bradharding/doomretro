@@ -1532,6 +1532,15 @@ void G_PlayerReborn(void)
     shake = 0;
 }
 
+static void G_RestartMap(void)
+{
+    gameaction = ga_loadlevel;
+    C_Input("restartmap");
+
+    if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
+        M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
+}
+
 //
 // G_DoReborn
 //
@@ -1539,9 +1548,11 @@ static void G_DoReborn(void)
 {
     if (solonet)
         P_ResurrectPlayer(initial_health);
-    else if (autoload && quicksaveslot >= 0 && *savegamestrings[quicksaveslot])
+    else if (autoload && quicksaveslot >= 0 && !M_StringCompare(savegamestrings[quicksaveslot], s_EMPTYSTRING))
     {
-        if (*savegamestrings[AUTOSAVESLOT])
+        savegameslot = quicksaveslot;
+
+        if (!M_StringCompare(savegamestrings[AUTOSAVESLOT], s_EMPTYSTRING))
         {
             struct stat autosavestatus;
             struct stat quicksavestatus;
@@ -1551,19 +1562,11 @@ static void G_DoReborn(void)
                 && autosavestatus.st_ctime > quicksavestatus.st_ctime)
                 savegameslot = AUTOSAVESLOT;
         }
-        else
-            savegameslot = quicksaveslot;
 
         gameaction = ga_autoloadgame;
     }
     else
-    {
-        gameaction = ga_loadlevel;
-        C_Input("restartmap");
-
-        if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
-            M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
-    }
+        G_RestartMap();
 }
 
 void G_ScreenShot(void)
@@ -1942,6 +1945,10 @@ void G_DoLoadGame(void)
         C_ShowConsole(false);
         C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
+
+        if (viewplayer->playerstate == PST_REBORN)
+            G_RestartMap();
+
         return;
     }
 
@@ -1949,6 +1956,10 @@ void G_DoLoadGame(void)
     {
         fclose(save_stream);
         loadaction = ga_nothing;
+
+        if (viewplayer->playerstate == PST_REBORN)
+            G_RestartMap();
+
         return;
     }
 
