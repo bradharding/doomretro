@@ -2472,9 +2472,8 @@ static void UpdateCheatMask(const char *input)
     {
         int         end;
         int         commandlen;
-        const bool  hasdelimiter = (input[start] == ';');
 
-        if (hasdelimiter)
+        if (input[start] == ';')
             start++;
 
         while (start < inputlen && isspace((unsigned char)input[start]))
