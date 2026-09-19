@@ -928,6 +928,13 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     *dot = tinttab50[*dot];
                 else if (y + i == 1)
                     *dot = tinttab25[*dot];
+
+                if (y + i == consoleoutputclipy - 1)
+                    *dot = tinttab75[*dot];
+                else if (y + i == consoleoutputclipy - 2)
+                    *dot = tinttab50[*dot];
+                else if (y + i == consoleoutputclipy - 3)
+                    *dot = tinttab25[*dot];
             }
 
             source++;
@@ -954,6 +961,13 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
                     *dest = color1;
                 else if (*dest != color1 && color2 != NOBACKGROUNDCOLOR)
                     *dest = color2;
+
+                if (y + i == consoleoutputclipy - 1)
+                    *dest = tinttab75[*dest];
+                else if (y + i == consoleoutputclipy - 2)
+                    *dest = tinttab50[*dest];
+                else if (y + i == consoleoutputclipy - 3)
+                    *dest = tinttab25[*dest];
             }
 
             source++;
@@ -1030,6 +1044,13 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
                 else if (height == 2)
                     *dest = tinttab30[*dest];
 
+                if (height == consoleoutputclipy)
+                    *dest = tinttab75[*dest];
+                else if (height == consoleoutputclipy - 1)
+                    *dest = tinttab50[*dest];
+                else if (height == consoleoutputclipy - 2)
+                    *dest = tinttab25[*dest];
+
                 if (col == width - 1)
                     for (int xx = 1; xx <= maxwidth - width; xx++)
                     {
@@ -1041,6 +1062,13 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
                             *dot = tinttab60[*dot];
                         else if (height == 2)
                             *dot = tinttab30[*dot];
+
+                        if (height == consoleoutputclipy)
+                            *dot = tinttab75[*dot];
+                        else if (height == consoleoutputclipy - 1)
+                            *dot = tinttab50[*dot];
+                        else if (height == consoleoutputclipy - 2)
+                            *dot = tinttab25[*dot];
                     }
             }
 
