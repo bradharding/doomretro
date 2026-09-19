@@ -3895,9 +3895,15 @@ bool C_Responder(event_t *ev)
                                     + facetravel / 2) / facetravel) : 0);
 
                     if (position <= 0)
-                        C_ScrollToTop();
+                    {
+                        if (oldtoprow != -1)
+                            C_ScrollToTop();
+                    }
                     else if (position > C_GetTopRowForDisplay())
-                        C_ScrollToBottom();
+                    {
+                        if (oldtoprow != C_GetTopRowForDisplay())
+                            C_ScrollToBottom();
+                    }
                     else
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
 
