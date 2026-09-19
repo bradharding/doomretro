@@ -4245,13 +4245,20 @@ void C_PrintCompileDate(void)
             dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
     }
 
-#if defined(__clang__)
-    C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."),
-        __clang_major__, __clang_minor__, __clang_patchlevel__);
+#if defined(__INTEL_LLVM_COMPILER)
+    C_Output("It was compiled using v%i.%i.%i of the " ITALICS("Intel C++ Compiler."),
+        __INTEL_LLVM_COMPILER / 10000, (__INTEL_LLVM_COMPILER / 100) % 100, __INTEL_LLVM_COMPILER % 100);
 #elif defined(__INTEL_COMPILER)
     C_Output("It was compiled using the " ITALICS("Intel C++ Compiler Classic."));
-#elif defined(__INTEL_LLVM_COMPILER)
-    C_Output("It was compiled using the " ITALICS("Intel C++ Compiler."));
+#elif defined(__clang__) && defined(__apple_build_version__)
+    C_Output("It was compiled using Apple Clang v%i.%i.%i (build %i).",
+        __clang_major__, __clang_minor__, __clang_patchlevel__, __apple_build_version__);
+#elif defined(__clang__)
+    C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."),
+        __clang_major__, __clang_minor__, __clang_patchlevel__);
+#elif defined(__GNUC__)
+    C_Output("It was compiled using " ITALICS("GCC v%i.%i.%i."),
+        __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #elif defined(_MSC_FULL_VER) && defined(_MSC_BUILD)
     if (_MSC_BUILD)
         C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
