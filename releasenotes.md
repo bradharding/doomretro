@@ -24,6 +24,7 @@
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
+* The correct credits screen now appears when playing [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II).
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
