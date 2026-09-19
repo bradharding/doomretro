@@ -8,6 +8,7 @@
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
+  * Scrolling up and down in the console using the <kbd><b>PGUP</b></kbd> and <kbd><b>PGDN</b></kbd> keys, or the mouse wheel, is now smooth.
   * The crosshair now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
