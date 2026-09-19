@@ -1029,24 +1029,29 @@ static void C_ScrollUpFromBottom(void)
 
 static void C_ScrollOutputUp(void)
 {
-    if (outputhistory == -1)
-    {
-        C_ScrollUpFromBottom();
-        scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
-        return;
-    }
+    const int   oldtoprow = C_GetCurrentTopRow();
 
-    C_SetTopRow(C_GetCurrentTopRow() - 1);
-    scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
+    if (outputhistory == -1)
+        C_ScrollUpFromBottom();
+    else
+        C_SetTopRow(oldtoprow - 1);
+
+    if (C_GetCurrentTopRow() != oldtoprow)
+        scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
 }
 
 static void C_ScrollOutputDown(void)
 {
+    int oldtoprow;
+
     if (outputhistory == -1)
         return;
 
-    C_SetTopRow(C_GetCurrentTopRow() + 1);
-    scrolloffset = MIN(scrolloffset + CONSOLELINEHEIGHT, CONSOLELINEHEIGHT);
+    oldtoprow = C_GetCurrentTopRow();
+    C_SetTopRow(oldtoprow + 1);
+
+    if (C_GetCurrentTopRow() != oldtoprow)
+        scrolloffset = MIN(scrolloffset + CONSOLELINEHEIGHT, CONSOLELINEHEIGHT);
 }
 
 static void C_DrawScrollbar(void)
