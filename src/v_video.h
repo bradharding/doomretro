@@ -58,6 +58,8 @@ extern int  lowpixelheight;
 extern int  lowpixelrows;
 extern bool takingcleancreenshot;
 
+extern int  consoleoutputclipy;
+
 extern void (*postprocessfunc)(byte *, int, int, int, int, int, int, int);
 
 extern byte *colortranslation[10];

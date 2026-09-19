@@ -34,6 +34,7 @@
 */
 
 #include <ctype.h>
+#include <limits.h>
 
 #if defined(_WIN32)
 #include <Windows.h>
@@ -2745,6 +2746,7 @@ void C_Drawer(void)
     int             len;
     int             toprow;
     int             bottomrow;
+    int             drawbottomrow;
     int             outputyoffset;
     bool            showscrollbar = scrollbardrawn;
     const bool      prevconsoleactive = consoleactive;
@@ -2863,6 +2865,8 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
+    consoleoutputclipy = CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 2;
+    drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text
     for (i = 0, len = 0; i < numconsolestrings; i++)
@@ -2878,7 +2882,7 @@ void C_Drawer(void)
 
         rows = C_GetConsoleDisplayRows(i);
 
-        if (len > bottomrow)
+        if (len > drawbottomrow)
             break;
 
         if (len + rows - 1 < toprow)
@@ -2913,13 +2917,18 @@ void C_Drawer(void)
             }
         }
         else if (strlen(console[i].string))
-            C_DrawConsoleStringParts(i, len, toprow, bottomrow, outputyoffset, notabs);
+            C_DrawConsoleStringParts(i, len, toprow, drawbottomrow, outputyoffset, notabs);
 
         len += rows;
     }
 
     if (quitcmd)
+    {
+        consoleoutputclipy = INT_MAX;
         return;
+    }
+
+    consoleoutputclipy = INT_MAX;
 
     if (consoleinput[0] != '\0')
     {

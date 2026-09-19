@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -62,6 +63,7 @@ int         lowpixelwidth;
 int         lowpixelheight;
 int         lowpixelrows;
 bool        takingcleancreenshot;
+int         consoleoutputclipy = INT_MAX;
 static int  menuhighlightfade = 100;
 static bool bighudnumbershadow;
 static bool bighudnumbergray;
@@ -912,7 +914,7 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            if (y + i >= 0 && *source)
+            if (y + i >= 0 && y + i < consoleoutputclipy && *source)
             {
                 byte        *dot = dest;
                 const int   color = (*source == WHITE || color2 == NOBACKGROUNDCOLOR ? color1 : color2);
@@ -946,7 +948,7 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            if (y + i >= 0)
+            if (y + i >= 0 && y + i < consoleoutputclipy)
             {
                 if (*source == WHITE)
                     *dest = color1;
@@ -1018,7 +1020,7 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
 
         while (count-- > 0)
         {
-            if (height > 0)
+            if (height > 0 && height <= consoleoutputclipy)
             {
                 *dest = (*source == WHITE ? (color2 == nearestblack ?
                     tinttab20[color1 + nearestblack] : color2) : tinttab60[color1 + *dest]);
