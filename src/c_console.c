@@ -1028,6 +1028,16 @@ static void C_ScrollUpFromBottom(void)
     C_SetTopRow(C_GetTopRowForDisplay() - 1);
 }
 
+static void C_UpdateScrollOffset(const int oldtoprow)
+{
+    const int   newtoprow = C_GetCurrentTopRow();
+
+    if (newtoprow < oldtoprow)
+        scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
+    else if (newtoprow > oldtoprow)
+        scrolloffset = MIN(scrolloffset + CONSOLELINEHEIGHT, CONSOLELINEHEIGHT);
+}
+
 static void C_ScrollOutputUp(void)
 {
     const int   oldtoprow = C_GetCurrentTopRow();
@@ -1037,8 +1047,7 @@ static void C_ScrollOutputUp(void)
     else
         C_SetTopRow(oldtoprow - 1);
 
-    if (C_GetCurrentTopRow() != oldtoprow)
-        scrolloffset = MAX(scrolloffset - CONSOLELINEHEIGHT, -CONSOLELINEHEIGHT);
+    C_UpdateScrollOffset(oldtoprow);
 }
 
 static void C_ScrollOutputDown(void)
@@ -1051,8 +1060,7 @@ static void C_ScrollOutputDown(void)
     oldtoprow = C_GetCurrentTopRow();
     C_SetTopRow(oldtoprow + 1);
 
-    if (C_GetCurrentTopRow() != oldtoprow)
-        scrolloffset = MIN(scrolloffset + CONSOLELINEHEIGHT, CONSOLELINEHEIGHT);
+    C_UpdateScrollOffset(oldtoprow);
 }
 
 static void C_DrawScrollbar(void)
@@ -3881,6 +3889,7 @@ bool C_Responder(event_t *ev)
 
                 if (C_CanScrollOutput())
                 {
+                    const int   oldtoprow = C_GetCurrentTopRow();
                     const int   position = (facetravel > 0 ?
                                     (int)(((int64_t)dragconsolescrollbarfacestart * scrollrange
                                     + facetravel / 2) / facetravel) : 0);
@@ -3891,6 +3900,8 @@ bool C_Responder(event_t *ev)
                         C_ScrollToBottom();
                     else
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
+
+                    C_UpdateScrollOffset(oldtoprow);
                 }
 
                 return true;
