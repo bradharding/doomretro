@@ -61,7 +61,17 @@ CONSTATTR static inline int ABS(int a)
     return (a < 0 ? -a : a);
 }
 
+CONSTATTR static inline int64_t ABS64(int64_t a)
+{
+    return (a < 0 ? -a : a);
+}
+
 CONSTATTR static inline int MAX(int a, int b)
+{
+    return (a > b ? a : b);
+}
+
+CONSTATTR static inline int64_t MAX64(int64_t a, int64_t b)
 {
     return (a > b ? a : b);
 }
@@ -71,7 +81,17 @@ CONSTATTR static inline int MIN(int a, int b)
     return (a < b ? a : b);
 }
 
+CONSTATTR static inline int64_t MIN64(int64_t a, int64_t b)
+{
+    return (a < b ? a : b);
+}
+
 CONSTATTR static inline int BETWEEN(int a, int b, int c)
+{
+    return (b < a ? a : (b > c ? c : b));
+}
+
+CONSTATTR static inline int64_t BETWEEN64(int64_t a, int64_t b, int64_t c)
 {
     return (b < a ? a : (b > c ? c : b));
 }

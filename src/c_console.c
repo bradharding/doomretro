@@ -183,6 +183,9 @@ static bool             dragconsolescrollbaractive;
 static int              dragconsolescrollbarfacestart;
 static int              dragconsolescrollbaroffset;
 static int              dragconsolescrollbardirection;
+static int              dragconsolescrollbarposition;
+static int              dragconsolescrollbartarget;
+static int64_t          dragconsolescrollposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
@@ -1076,8 +1079,12 @@ static void C_DrawScrollbar(void)
     const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
     const int   currentrow = MAX(0, C_GetCurrentTopRow() + (numvisibleconsolerows > 0));
 
-    scrollbarfacestart = (dragconsolescrollbaractive ? dragconsolescrollbarfacestart :
-        (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0));
+    if (dragconsolescrollbaractive && scrollrange > 0)
+        scrollbarfacestart = (int)((int64_t)facetravel * dragconsolescrollposition
+            / ((int64_t)scrollrange * CONSOLELINEHEIGHT));
+    else
+        scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
+
     scrollbarfaceend = scrollbarfacestart + faceheight;
 
     if (!scrollbarfacestart && scrollbarfaceend == CONSOLESCROLLBARHEIGHT)
@@ -3908,19 +3915,30 @@ bool C_Responder(event_t *ev)
 
                 if (C_CanScrollOutput())
                 {
-                    const int64_t   numerator = (facetravel > 0 ?
-                                        (int64_t)dragconsolescrollbarfacestart * scrollrange : 0);
-                    const int       position = (facetravel > 0 ? (int)(numerator / facetravel) : 0);
+                    const int64_t   targetposition = (facetravel > 0 ? (int64_t)dragconsolescrollbarfacestart
+                                        * scrollrange * CONSOLELINEHEIGHT / facetravel : 0);
+                    const int64_t   difference = targetposition - dragconsolescrollposition;
+                    const int64_t   maxposition = (int64_t)scrollrange * CONSOLELINEHEIGHT;
+                    int             position;
 
-                    if (position > C_GetTopRowForDisplay())
+                    if (difference)
+                    {
+                        const int64_t   step = MAX64(1, ABS64(difference) / 4);
+
+                        if (difference > 0)
+                            dragconsolescrollposition += MIN64(step, difference);
+                        else
+                            dragconsolescrollposition -= MIN64(step, -difference);
+                    }
+
+                    dragconsolescrollposition = BETWEEN64(0, dragconsolescrollposition, maxposition);
+
+                    if ((position = (int)(dragconsolescrollposition / CONSOLELINEHEIGHT)) >= scrollrange)
                         C_ScrollToBottom();
                     else
                     {
-                        const int   positionfrac = (facetravel > 0 ?
-                                        (int)((numerator % facetravel) * CONSOLELINEHEIGHT / facetravel) : 0);
-
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
-                        scrolloffset = -positionfrac;
+                        scrolloffset = -(int)(dragconsolescrollposition % CONSOLELINEHEIGHT);
                     }
                 }
 
@@ -4121,6 +4139,7 @@ bool C_Responder(event_t *ev)
                     dragconsolescrollbarfacestart = scrollbarfacestart;
                     dragconsolescrollbaroffset = y - scrollbarfacestart;
                     dragconsolescrollbardirection = 0;
+                    dragconsolescrollposition = (int64_t)C_GetCurrentTopRow() * CONSOLELINEHEIGHT - scrolloffset;
                     return true;
                 }
                 else
@@ -4168,15 +4187,10 @@ bool C_Responder(event_t *ev)
                     }
                 }
 
-                if (dragconsolescrollbaractive && scrolloffset < 0 && dragconsolescrollbardirection > 0)
-                {
-                    C_SetTopRow(C_GetCurrentTopRow() + 1);
-                    scrolloffset += CONSOLELINEHEIGHT;
-                }
-
                 leftbuttondown = false;
                 selectingwithmouse = false;
                 dragconsolescrollbaractive = false;
+                dragconsolescrollposition = 0;
                 doubleclickselection = false;
             }
 
