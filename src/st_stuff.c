@@ -1252,19 +1252,24 @@ void ST_Ticker(void)
 {
     ST_UpdateCarousel();
 
-    if (smoothtransitions
-        && viewplayer->powers[pw_strength]
+    if (viewplayer->powers[pw_strength]
         && (viewplayer->pendingweapon == wp_fist
             || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0)
     {
-        const fixed_t   step = MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1);
-        const bool      fadeout = ((consoleheight && !consoleoverlaymenu) || menuactive);
+        const bool  fadeout = ((consoleheight && !consoleoverlaymenu) || menuactive);
 
-        if (fadeout)
-            consoleberzerkeffectfade = MAX(0, consoleberzerkeffectfade - step);
+        if (smoothtransitions)
+        {
+            const fixed_t   step = MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1);
+
+            if (fadeout)
+                consoleberzerkeffectfade = MAX(0, consoleberzerkeffectfade - step);
+            else
+                consoleberzerkeffectfade = MIN(FRACUNIT, consoleberzerkeffectfade + step);
+        }
         else
-            consoleberzerkeffectfade = MIN(FRACUNIT, consoleberzerkeffectfade + step);
+            consoleberzerkeffectfade = (fadeout ? 0 : FRACUNIT);
     }
     else
         consoleberzerkeffectfade = FRACUNIT;
