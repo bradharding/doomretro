@@ -1252,6 +1252,23 @@ void ST_Ticker(void)
 {
     ST_UpdateCarousel();
 
+    if (smoothtransitions
+        && viewplayer->powers[pw_strength]
+        && (viewplayer->pendingweapon == wp_fist
+            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
+        && viewplayer->health > 0)
+    {
+        const fixed_t   step = MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1);
+        const bool      fadeout = ((consoleheight && !consoleoverlaymenu) || menuactive);
+
+        if (fadeout)
+            consoleberzerkeffectfade = MAX(0, consoleberzerkeffectfade - step);
+        else
+            consoleberzerkeffectfade = MIN(FRACUNIT, consoleberzerkeffectfade + step);
+    }
+    else
+        consoleberzerkeffectfade = FRACUNIT;
+
     if (st_statusbarvisible != st_statusbartarget)
     {
         if (st_statusbarvisible < st_statusbartarget)
@@ -1308,10 +1325,16 @@ static void ST_DoPaletteStuff(void)
 
             if (ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC) && r_radsuiteffect)
                 palette = RADIATIONPAL;
-            else if (viewplayer->cheats & CF_GODMODE)
-                palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
             else
-                palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 1 : 2), NUMREDPALS);
+            {
+                const int   berserkeffect = FixedMul(r_berserkeffect * (PLAYPALs > 2 ? 1 : 2) * FRACUNIT,
+                                        consoleberzerkeffectfade) / FRACUNIT;
+
+                if (viewplayer->cheats & CF_GODMODE)
+                    palette = berserkeffect;
+                else
+                    palette = MIN((viewplayer->damagecount >> 3) + berserkeffect, NUMREDPALS);
+            }
         }
     }
     else

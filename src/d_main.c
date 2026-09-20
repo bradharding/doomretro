@@ -400,37 +400,39 @@ void D_Display(void)
         if (mapwindow || automapactive)
             AM_Drawer();
 
-        if (!menuactive)
         {
+            const bool  drawstatusbar = !menuactive;
             const bool  overlaystatusbar = (smoothtransitions
                 && st_statusbarvisible > 0 && st_statusbarvisible != st_statusbartarget);
 
-            if (!overlaystatusbar)
+            if (!overlaystatusbar || !drawstatusbar)
                 ST_Drawer((viewheight == SCREENHEIGHT), true);
 
-            // see if the border needs to be initially drawn
-            if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
-                R_FillBackScreen();
-
-            // see if the border needs to be updated to the screen
-            if (!automapactive)
+            if (drawstatusbar)
             {
-                if (r_screensize < 7)
-                    R_DrawViewBorder();
+                // see if the border needs to be initially drawn
+                if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
+                    R_FillBackScreen();
 
-                if (r_detail == r_detail_low)
-                    postprocessfunc(screens[0], SCREENWIDTH, viewwindowx, viewwindowy * SCREENWIDTH,
-                        viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH,
-                        lowpixelwidth, lowpixelheight);
+                // see if the border needs to be updated to the screen
+                if (!automapactive)
+                {
+                    if (r_screensize < 7)
+                        R_DrawViewBorder();
+
+                    if (r_detail == r_detail_low)
+                        postprocessfunc(screens[0], SCREENWIDTH, viewwindowx, viewwindowy * SCREENWIDTH,
+                            viewwindowx + viewwidth, (viewwindowy + viewheight) * SCREENWIDTH,
+                            lowpixelwidth, lowpixelheight);
+                }
+
+                HU_Drawer();
+
+                if (overlaystatusbar)
+                    ST_Drawer((viewheight == SCREENHEIGHT), true);
+
+                ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
             }
-
-            HU_Drawer();
-
-            if (overlaystatusbar)
-                ST_Drawer((viewheight == SCREENHEIGHT), true);
-
-            ST_DrawCarousel(ST_CAROUSEL_X, ST_CAROUSEL_Y);
-
         }
     }
 
@@ -1765,7 +1767,8 @@ static int D_OpenWADLauncher(void)
 
                     if (!M_StringEndsWith(temp, leafname(file)))
                         C_Warning(0, BOLD("%s%s") " wasn't found so " BOLD("%s") " was loaded instead.",
-                            (char *)ofn.lpstrFile, (M_StringEndsWith((char *)ofn.lpstrFile, ".wad") ? "" : ".wad"), temp);
+                            (char *)ofn.lpstrFile, (M_StringEndsWith((char *)ofn.lpstrFile, ".wad") ? "" : ".wad"),
+                            temp);
 
                     file = M_StringDuplicate(temp);
                     AddToWadList(leafname(temp));
@@ -2130,7 +2133,8 @@ static int D_OpenWADLauncher(void)
                             char    fullpath2[MAX_PATH];
 
                             // try the current folder first
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", szFile, iwadsrequired[iwadrequired]);
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s",
+                                szFile, iwadsrequired[iwadrequired]);
                             D_IdentifyIWADByName(fullpath2);
 
                             if (W_AddFile(fullpath2, true))
@@ -2507,7 +2511,8 @@ static void D_DoomMainSetup(void)
             const int   month = (stat_firstrun % 10000) / 100;
             const int   year = (int)stat_firstrun / 10000;
 
-            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE " since it was installed on %s, %s %i, %i.",
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE
+                " since it was installed on %s, %s %i, %i.",
                 temp, dayofweek(day, month, year), monthnames[month - 1], day, year);
         }
         else
@@ -3216,7 +3221,8 @@ static void D_DoomMainSetup(void)
             || credits > 1) && !masterlevels && !unsupportedcredit)
             creditlump = W_CacheLumpName("CREDIT");
         else
-            creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
+            creditlump = W_CacheLumpName(gamemission == doom ?
+                (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }
 
     if (gameaction != ga_loadgame)

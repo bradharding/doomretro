@@ -260,6 +260,8 @@ extern int              consoleedgecolor2;
 extern bool             gotoverlaytextcolors;
 
 extern bool             scrollbardrawn;
+extern fixed_t          consoleberzerkeffectfade;
+extern bool             consolefadeberserkeffectout;
 
 extern const kern_t     kern[];
 extern const kern_t     altkern[];

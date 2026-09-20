@@ -5196,7 +5196,6 @@ void M_OpenMainMenu(void)
     if (gamestate == GS_LEVEL)
     {
         viewplayer->fixedcolormap = 0;
-        I_SetPalette(PLAYPAL);
         I_UpdateBlitFunc(false);
 
         if (vid_motionblur)
@@ -5653,8 +5652,6 @@ void M_CloseMenu(void)
 
     if (gamestate == GS_LEVEL)
     {
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
-
         if (menuspin)
         {
             viewplayer->mo->angle = playerangle;
