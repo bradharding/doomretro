@@ -16,7 +16,7 @@
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated.
-* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. This autosave slot can’t be selected to be overwritten by a manual save.
+* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be written over by a manual save.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
@@ -25,7 +25,7 @@
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
-* The correct credits screen now appears when playing [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II).
+* The correct credits screen now appears when [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) has been loaded.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
