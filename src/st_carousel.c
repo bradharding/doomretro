@@ -64,10 +64,11 @@ static patch_t      *pickuppatches[NUMWEAPONS];
 static patch_t      *carouselpatches[NUMWEAPONS][2];
 static int          pickupxoffset[NUMWEAPONS];
 static int          pickupyoffset[NUMWEAPONS];
+static int          pickupcompressedheight[NUMWEAPONS];
 static byte         pickuptint[256];
 static byte         pickupdarktint[256];
 static int          selectedindex = 0;
-static int          tallesticonheight;
+static int          tallestcompressedheight;
 static byte         bordercolor;
 static byte         unavailablebordercolor;
 static byte         selectedbordercolor;
@@ -126,7 +127,7 @@ void ST_InitCarousel(void)
         pickuppatches[i] = NULL;
     }
 
-    tallesticonheight = 0;
+    tallestcompressedheight = 0;
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -164,15 +165,17 @@ void ST_InitCarousel(void)
         {
             const int   width = LITTLESHORT(pickuppatches[i]->width);
             const int   height = LITTLESHORT(pickuppatches[i]->height);
+            const int   compressedheight = height - (height - 1) / 4;
 
-            tallesticonheight = MAX(tallesticonheight, height);
+            pickupcompressedheight[i] = compressedheight;
+            tallestcompressedheight = MAX(tallestcompressedheight, compressedheight);
             pickupxoffset[i] = (64 - (width - (width - 1) / 4)) / 2 - 32;
         }
     }
 
     for (int i = 0; i < NUMWEAPONS; i++)
         if (pickuppatches[i])
-            pickupyoffset[i] = (tallesticonheight - LITTLESHORT(pickuppatches[i]->height)) / 2 - 16;
+            pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 16;
 }
 
 void ST_SyncCarouselWeapons(void)
