@@ -247,6 +247,9 @@ static int              st_oldhealth = -1;
 bool                    oldweaponsowned[NUMWEAPONS];
 
 int                     st_palette = 0;
+static fixed_t          st_berserkeffectfade = FRACUNIT;
+static bool             st_berserkeffectactive;
+static bool             st_berserkeffecttargetactive;
 
 // count until face changes
 int                     st_facecount;
@@ -1248,31 +1251,73 @@ static void ST_UpdateWidgets(void)
     ST_UpdateFaceWidget();
 }
 
-void ST_Ticker(void)
+bool ST_BerserkEffectActive(void)
 {
-    ST_UpdateCarousel();
-
-    if (viewplayer->powers[pw_strength]
+    return (viewplayer->powers[pw_strength]
         && (viewplayer->pendingweapon == wp_fist
             || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
-        && viewplayer->health > 0)
+        && viewplayer->health > 0);
+}
+
+void ST_SetBerserkEffectActive(bool active, bool instant)
+{
+    st_berserkeffecttargetactive = active;
+
+    if (!smoothtransitions)
+        instant = true;
+
+    if (instant)
     {
         const bool  fadeout = ((consoleheight && !consoleoverlaymenu) || menuactive);
 
-        if (smoothtransitions)
-        {
-            const fixed_t   step = MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1);
+        st_berserkeffectactive = active;
+        st_berserkeffectfade = (active && !fadeout ? 0 : FRACUNIT);
+    }
+}
 
-            if (fadeout)
-                consoleberzerkeffectfade = MAX(0, consoleberzerkeffectfade - step);
-            else
-                consoleberzerkeffectfade = MIN(FRACUNIT, consoleberzerkeffectfade + step);
-        }
-        else
-            consoleberzerkeffectfade = (fadeout ? 0 : FRACUNIT);
+void ST_UpdateBerserkEffect(bool instant)
+{
+    const bool  active = st_berserkeffecttargetactive;
+    const bool  fadeout = ((consoleheight && !consoleoverlaymenu) || menuactive);
+
+    if (!smoothtransitions)
+        instant = true;
+
+    if (instant)
+    {
+        st_berserkeffectactive = active;
+        st_berserkeffectfade = (active && !fadeout ? 0 : FRACUNIT);
+        return;
+    }
+
+    if (active)
+    {
+        const fixed_t   step = MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1);
+        const fixed_t   target = (fadeout ? FRACUNIT : 0);
+
+        st_berserkeffectactive = true;
+
+        if (st_berserkeffectfade < target)
+            st_berserkeffectfade = MIN(st_berserkeffectfade + step, target);
+        else if (st_berserkeffectfade > target)
+            st_berserkeffectfade = MAX(st_berserkeffectfade - step, target);
+    }
+    else if (st_berserkeffectfade < FRACUNIT)
+    {
+        st_berserkeffectfade = MIN(st_berserkeffectfade + MAX(FRACUNIT / (CONSOLEDOWNSIZE / 2), 1), FRACUNIT);
+
+        if (st_berserkeffectfade >= FRACUNIT)
+            st_berserkeffectactive = false;
     }
     else
-        consoleberzerkeffectfade = FRACUNIT;
+        st_berserkeffectactive = false;
+}
+
+void ST_Ticker(void)
+{
+    ST_UpdateCarousel();
+    ST_SetBerserkEffectActive(ST_BerserkEffectActive(), false);
+    ST_UpdateBerserkEffect(false);
 
     if (st_statusbarvisible != st_statusbartarget)
     {
@@ -1315,10 +1360,7 @@ static void ST_DoPaletteStuff(void)
 {
     int palette = 0;
 
-    if (viewplayer->powers[pw_strength]
-        && (viewplayer->pendingweapon == wp_fist
-            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
-        && viewplayer->health > 0)
+    if (st_berserkeffectactive)
     {
         const int   bonuscount = viewplayer->bonuscount;
 
@@ -1333,7 +1375,7 @@ static void ST_DoPaletteStuff(void)
             else
             {
                 const int   berserkeffect = FixedMul(r_berserkeffect * (PLAYPALs > 2 ? 1 : 2) * FRACUNIT,
-                                        consoleberzerkeffectfade) / FRACUNIT;
+                                FRACUNIT - st_berserkeffectfade) / FRACUNIT;
 
                 if (viewplayer->cheats & CF_GODMODE)
                     palette = berserkeffect;

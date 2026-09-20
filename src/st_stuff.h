@@ -90,6 +90,9 @@ void ST_Init(void);
 void ST_InitStatBar(void);
 void ST_SetScreenSize(int oldscreensize, int newscreensize, bool animate);
 void ST_PlayerCheated(const char *cheat, const char *parm, const char *output, const bool warning);
+bool ST_BerserkEffectActive(void);
+void ST_UpdateBerserkEffect(bool instant);
+void ST_SetBerserkEffectActive(bool active, bool instant);
 
 extern bool         idclev;
 extern int          idclevtics;

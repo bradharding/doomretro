@@ -965,6 +965,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                     viewplayer->fistorchainsaw = wp_fist;
                 }
 
+                if (!strength)
+                    ST_SetBerserkEffectActive(true, false);
+
                 if (!strength && sound == sfx_itemup)
                     sound = sfx_getpow;
 
@@ -1370,6 +1373,9 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                     viewplayer->pendingweapon = wp_fist;
                     viewplayer->fistorchainsaw = wp_fist;
                 }
+
+                if (!strength)
+                    ST_SetBerserkEffectActive(true, false);
 
                 if (!strength && sound == sfx_itemup)
                     sound = sfx_getpow;
@@ -1852,6 +1858,8 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                 viewplayer->pendingweapon = wp_chainsaw;
+
+            ST_SetBerserkEffectActive(false, false);
 
             return true;
 

@@ -495,10 +495,15 @@ void P_ChangeWeapon(weapontype_t newweapon, bool best)
 
     if (newweapon != wp_nochange && newweapon != readyweapon && viewplayer->weaponowned[newweapon])
     {
+        const bool  oldberserkeffectactive = ST_BerserkEffectActive();
+
         viewplayer->pendingweapon = newweapon;
 
         if (newweapon == wp_fist && viewplayer->powers[pw_strength])
             S_StartSound(NULL, sfx_getpow);
+
+        if (ST_BerserkEffectActive() != oldberserkeffectactive)
+            ST_SetBerserkEffectActive(ST_BerserkEffectActive(), false);
 
         if ((viewplayer->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
             G_RemoveChoppers();

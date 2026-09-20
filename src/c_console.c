@@ -1278,12 +1278,6 @@ void C_ShowConsole(bool reset)
     if (!menuactive && !messagetoprint)
         consoleoverlaymenu = false;
 
-    if (viewplayer->powers[pw_strength]
-        && (viewplayer->pendingweapon == wp_fist
-            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
-        && viewplayer->health > 0)
-        consolefadeberserkeffectout = true;
-
     pagetic = PAGETICS;
 
     if (smoothtransitions)
@@ -1298,6 +1292,8 @@ void C_ShowConsole(bool reset)
         consoledirection = 0;
         consoleactive = true;
     }
+
+    ST_UpdateBerserkEffect(!smoothtransitions);
 
     showcaret = true;
     caretwait = 0;
@@ -1342,8 +1338,6 @@ void C_HideConsole(void)
     if (!consoleactive)
         return;
 
-    consolefadeberserkeffectout = false;
-
     if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState())
 #if defined(_WIN32)
     {
@@ -1368,6 +1362,8 @@ void C_HideConsole(void)
         consoleactive = false;
         consoleoverlaymenu = false;
     }
+
+    ST_UpdateBerserkEffect(!smoothtransitions);
 
     if (!automapactive || am_followmode)
         I_SaveMousePointerPosition();
@@ -1394,8 +1390,6 @@ void C_HideConsoleFast(void)
     if (!consoleactive)
         return;
 
-    consolefadeberserkeffectout = false;
-
     if (keyboardalwaysrun == KEY_CAPSLOCK && alwaysrun && !GetCapsLockState())
 #if defined(_WIN32)
     {
@@ -1414,6 +1408,8 @@ void C_HideConsoleFast(void)
     consoleactive = false;
     consoleoverlaymenu = false;
 
+    ST_UpdateBerserkEffect(true);
+
     I_SaveMousePointerPosition();
 
     if (!menuactive)
@@ -1427,15 +1423,10 @@ void C_HideConsoleFast(void)
 
 void C_BeginOpenConsoleDrag(void)
 {
-    if (viewplayer->powers[pw_strength]
-        && (viewplayer->pendingweapon == wp_fist
-            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
-        && viewplayer->health > 0)
-        consolefadeberserkeffectout = true;
-
     consoleheight = 0;
     consoledirection = 0;
     consoleactive = false;
+    ST_UpdateBerserkEffect(!smoothtransitions);
 }
 
 void C_UpdateOpenConsoleDrag(int y)
@@ -1445,10 +1436,10 @@ void C_UpdateOpenConsoleDrag(int y)
 
 void C_EndOpenConsoleDrag(void)
 {
-    consolefadeberserkeffectout = false;
     consoledirection = -1;
     consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
     consoleactive = false;
+    ST_UpdateBerserkEffect(!smoothtransitions);
 }
 
 void C_DrawConsoleEdge(int y)
