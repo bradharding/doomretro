@@ -69,6 +69,7 @@ static byte         pickuptint[256];
 static byte         pickupdarktint[256];
 static int          selectedindex = 0;
 static int          tallestcompressedheight;
+static bool         usingcarouselicons;
 static byte         bordercolor;
 static byte         unavailablebordercolor;
 static byte         selectedbordercolor;
@@ -127,7 +128,7 @@ void ST_InitCarousel(void)
         pickuppatches[i] = NULL;
     }
 
-    tallestcompressedheight = 0;
+    usingcarouselicons = false;
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -145,9 +146,20 @@ void ST_InitCarousel(void)
                 M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[i].carouselicon, selected);
 
                 if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+                {
                     carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
+                    usingcarouselicons = true;
+                }
             }
+    }
 
+    if (usingcarouselicons)
+        return;
+
+    tallestcompressedheight = 0;
+
+    for (int i = 0; i < NUMWEAPONS; i++)
+    {
         if (i == wp_fist || i == wp_pistol)
         {
             char    lump[9];
