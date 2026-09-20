@@ -45,6 +45,7 @@
 #include "p_local.h"
 #include "r_sky.h"
 #include "s_sound.h"
+#include "st_stuff.h"
 
 bool        autousing = false;
 int         deadpitch = -1;
