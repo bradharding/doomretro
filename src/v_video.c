@@ -923,11 +923,11 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     dot += italicize[i];
 
                 if (y + i == consoleoutputclipy - 1)
-                    *dot = tinttab25[(color << 8) + *dot];
+                    *dot = tinttab25[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else if (y + i == consoleoutputclipy - 2)
-                    *dot = tinttab50[(color << 8) + *dot];
+                    *dot = tinttab50[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else if (y + i == consoleoutputclipy - 3)
-                    *dot = tinttab75[(color << 8) + *dot];
+                    *dot = tinttab75[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else
                 {
                     *dot = (!tinttab ? color : tinttab[(color << 8) + *dot]);
