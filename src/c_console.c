@@ -2922,13 +2922,12 @@ void C_Drawer(void)
         if (stringtype == dividerstring)
         {
             const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset;
-            int         yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
+            const int   clipy = consoleoutputclipy - 6;
+            int         yy = (y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
-            if (yy >= 0)
+            if (y < clipy && yy >= 0)
             {
-                const byte  *tinttab = (y + 5 == consoleoutputclipy - 1 ? tinttab75 :
-                                (y + 5 == consoleoutputclipy - 2 ? tinttab50 :
-                                (y + 5 == consoleoutputclipy - 3 ? tinttab25 : tinttab50)));
+                const byte  *tinttab = (y == clipy - 1 ? tinttab25 : tinttab50);
 
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
@@ -2938,12 +2937,9 @@ void C_Drawer(void)
                 }
             }
 
-            if ((yy += SCREENWIDTH) >= 0)
+            if ((yy += SCREENWIDTH) >= 0 && y + 1 < clipy)
             {
-                const byte  *tinttab = (!yy ? tinttab40 :
-                                (y + 6 == consoleoutputclipy - 1 ? tinttab75 :
-                                (y + 6 == consoleoutputclipy - 2 ? tinttab50 :
-                                (y + 6 == consoleoutputclipy - 3 ? tinttab25 : tinttab50))));
+                const byte  *tinttab = (y + 1 == clipy - 1 ? tinttab25 : tinttab50);
 
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
