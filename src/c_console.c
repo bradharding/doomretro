@@ -183,8 +183,6 @@ static bool             dragconsolescrollbaractive;
 static int              dragconsolescrollbarfacestart;
 static int              dragconsolescrollbaroffset;
 static int              dragconsolescrollbardirection;
-static int              dragconsolescrollbarposition;
-static int              dragconsolescrollbartarget;
 static int64_t          dragconsolescrollposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
@@ -4135,11 +4133,20 @@ bool C_Responder(event_t *ev)
                 // click inside scrollbar: start dragging if on face
                 if (y >= scrollbarfacestart && y <= scrollbarfaceend)
                 {
+                    const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
+                    const int   visiblerows = MIN(CONSOLELINES, totalrows);
+                    const int   scrollrange = MAX(0, totalrows - visiblerows);
+                    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
+                                    CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
+                    const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
+
                     dragconsolescrollbaractive = true;
                     dragconsolescrollbarfacestart = scrollbarfacestart;
                     dragconsolescrollbaroffset = y - scrollbarfacestart;
                     dragconsolescrollbardirection = 0;
-                    dragconsolescrollposition = (int64_t)C_GetCurrentTopRow() * CONSOLELINEHEIGHT - scrolloffset;
+                    dragconsolescrollposition = (facetravel > 0 ?
+                        (int64_t)scrollbarfacestart * scrollrange * CONSOLELINEHEIGHT / facetravel : 0);
+
                     return true;
                 }
                 else
@@ -4189,6 +4196,29 @@ bool C_Responder(event_t *ev)
 
                 leftbuttondown = false;
                 selectingwithmouse = false;
+
+                if (dragconsolescrollbaractive && C_CanScrollOutput())
+                {
+                    const int       totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
+                    const int       visiblerows = MIN(CONSOLELINES, totalrows);
+                    const int       scrollrange = MAX(0, totalrows - visiblerows);
+                    const int64_t   remainder = dragconsolescrollposition % CONSOLELINEHEIGHT;
+                    int             position = (int)(dragconsolescrollposition / CONSOLELINEHEIGHT);
+
+                    if (dragconsolescrollbardirection > 0 && remainder)
+                        position++;
+
+                    position = MIN(position, scrollrange);
+
+                    if (position >= scrollrange)
+                        C_ScrollToBottom();
+                    else
+                    {
+                        C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
+                        scrolloffset = 0;
+                    }
+                }
+
                 dragconsolescrollbaractive = false;
                 dragconsolescrollposition = 0;
                 doubleclickselection = false;
