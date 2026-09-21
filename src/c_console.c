@@ -2893,7 +2893,7 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1;
+    consoleoutputclipy = (scrolloffset ? CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text
