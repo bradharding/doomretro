@@ -2925,16 +2925,25 @@ void C_Drawer(void)
             int         yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
             if (yy >= 0)
+            {
+                const byte  *tinttab = (y + 5 == consoleoutputclipy - 1 ? tinttab75 :
+                                (y + 5 == consoleoutputclipy - 2 ? tinttab50 :
+                                (y + 5 == consoleoutputclipy - 3 ? tinttab25 : tinttab50)));
+
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
                     byte    *dest = &screens[0][xx];
 
-                    *dest = tinttab50[consoledividercolor + *dest];
+                    *dest = tinttab[consoledividercolor + *dest];
                 }
+            }
 
             if ((yy += SCREENWIDTH) >= 0)
             {
-                const byte  *tinttab = (!yy ? tinttab40 : tinttab50);
+                const byte  *tinttab = (!yy ? tinttab40 :
+                                (y + 6 == consoleoutputclipy - 1 ? tinttab75 :
+                                (y + 6 == consoleoutputclipy - 2 ? tinttab50 :
+                                (y + 6 == consoleoutputclipy - 3 ? tinttab25 : tinttab50))));
 
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; xx++)
                 {
