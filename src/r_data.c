@@ -106,6 +106,8 @@ fixed_t     *newspriteoffset;
 fixed_t     *newspritetopoffset;
 
 byte        grays[256];
+byte        darkgrays25[256];
+byte        darkgrays40[256];
 
 //
 // R_GetTextureColumn
@@ -1386,13 +1388,20 @@ static void R_InitColormaps(void)
         const byte  red = *palsrc++;
         const byte  green = *palsrc++;
         const byte  blue = *palsrc++;
-        byte        gray = (byte)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
+        const byte  luminance = (byte)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
+        byte        gray = luminance;
 
         grays[i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
 
+        gray = (byte)(luminance * 75 / 100);
+        darkgrays25[i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
+
+        gray = (byte)(luminance * 60 / 100);
+        darkgrays40[i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
+
         if (!COLORMAP)
         {
-            gray = 255 - gray;
+            gray = 255 - luminance;
             colormaps[0][32 * 256 + i] = I_GetNearestColor(PLAYPAL, gray, gray, gray);
         }
     }

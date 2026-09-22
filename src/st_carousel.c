@@ -82,36 +82,30 @@ static int          duration;
 static int          fade;
 static bool         hadweapons[NUMWEAPONS];
 
-static byte ContrastColor(const byte color)
-{
-    const byte  *palette = &PLAYPAL[color * 3];
-    const int   red = BETWEEN(0, 128 + ((int)palette[0] - 128) * 140 / 100, 255);
-    const int   green = BETWEEN(0, 128 + ((int)palette[1] - 128) * 140 / 100, 255);
-    const int   blue = BETWEEN(0, 128 + ((int)palette[2] - 128) * 140 / 100, 255);
-
-    return I_GetNearestColor(PLAYPAL, red, green, blue);
-}
-
 void ST_InitCarousel(void)
 {
     const int   tintcolor = (consoleedgecolor1 >> 8);
 
     if (tintcolor == CONSOLEEDGECOLOR1)
     {
+        const byte  darktintcolor = black75[tintcolor];
+
         for (int i = 0; i < 256; i++)
         {
-            pickuptint[i] = ContrastColor(tinttab60[(black25[grays[i]] << 8) + tintcolor]);
-            pickupdarktint[i] = black75[pickuptint[i]];
+            pickuptint[i] = tinttab60[(darkgrays25[i] << 8) + tintcolor];
+            pickupdarktint[i] = tinttab60[(black75[darkgrays25[i]] << 8) + darktintcolor];
         }
 
         selectedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
     }
     else
     {
+        const byte  darktintcolor = black40[tintcolor];
+
         for (int i = 0; i < 256; i++)
         {
-            pickuptint[i] = ContrastColor(tinttab33[(grays[i] << 8) + tintcolor]);
-            pickupdarktint[i] = black40[pickuptint[i]];
+            pickuptint[i] = tinttab33[(grays[i] << 8) + tintcolor];
+            pickupdarktint[i] = tinttab33[(darkgrays40[i] << 8) + darktintcolor];
         }
 
         selectedbordercolor = I_GetCarouselHighlightColor(tintcolor);
