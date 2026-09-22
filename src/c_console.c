@@ -2921,7 +2921,7 @@ void C_Drawer(void)
 
         if (stringtype == dividerstring)
         {
-            const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 1 + outputyoffset;
+            const int   y = CONSOLELINEHEIGHT * (len - toprow) - CONSOLELINEHEIGHT / 2 + 5 + outputyoffset;
             const int   clipy = consoleoutputclipy - 6;
             int         yy = (y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
