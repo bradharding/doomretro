@@ -2875,6 +2875,9 @@ bool V_ScreenShot(void)
 
     free(temp1);
 
+    fadecount = 0;
+    menuitemfadecount = 0;
+
     if (cleanscreenshots)
     {
         takingcleancreenshot = true;
@@ -2908,6 +2911,9 @@ bool V_ScreenShot(void)
         takingcleancreenshot = false;
         D_Display();
     }
+
+    fadecount = 0;
+    menuitemfadecount = 0;
 
     return result;
 }
