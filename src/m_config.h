@@ -257,6 +257,7 @@ extern char     *wadfolder;
 extern int      weaponbob;
 extern bool     weaponbounce;
 extern bool     weaponcarousel;
+extern int      weaponcarouselcolor;
 extern bool     weaponrecoil;
 extern bool     weapontilt;
 
@@ -1062,6 +1063,11 @@ enum
 
 #define weaponcarousel_default              true
 
+#define weaponcarouselcolor_auto            -1
+#define weaponcarouselcolor_min             weaponcarouselcolor_auto
+#define weaponcarouselcolor_default         weaponcarouselcolor_auto
+#define weaponcarouselcolor_max             255
+
 #define weaponrecoil_default                false
 
 #define weapontilt_default                  true
@@ -1288,6 +1294,7 @@ typedef enum
     BLOODVALUEALIAS,
     BOOLVALUEALIAS,
     CAPVALUEALIAS,
+    CAROUSELCOLORVALUEALIAS,
     CROSSHAIRVALUEALIAS,
     DETAILVALUEALIAS,
     EDGECOLORVALUEALIAS,

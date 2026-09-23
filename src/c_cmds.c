@@ -69,6 +69,7 @@
 #include "r_sky.h"
 #include "s_sound.h"
 #include "sc_man.h"
+#include "st_carousel.h"
 #include "st_lib.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -596,6 +597,7 @@ static void vid_windowposfunc2(char *cmd, char *parms);
 static void vid_windowsizefunc2(char *cmd, char *parms);
 static bool weaponfunc1(char *cmd, char *parms);
 static void weaponfunc2(char *cmd, char *parms);
+static void weaponcarouselcolorfunc2(char *cmd, char *parms);
 static void weaponrecoilfunc2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealiastype_t valuealiastype)
@@ -1266,6 +1268,8 @@ consolecmd_t consolecmds[] =
         "Toggles the bounce of your weapon when you land after a fall."),
     BOOLCVAR(weaponcarousel, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying the weapon carousel when you change weapons."),
+    INTCVAR(weaponcarouselcolor, weaponcarouselcolour, "", intfunc1, weaponcarouselcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
+        "The color the weapon carousel is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
     BOOLCVAR(weapontilt, "", "", boolfunc1, boolfunc2, 0,
@@ -13406,6 +13410,19 @@ static void weaponfunc2(char *cmd, char *parms)
 
         free(temp);
     }
+}
+
+//
+// weaponcarouselcolor CVAR
+//
+static void weaponcarouselcolorfunc2(char *cmd, char *parms)
+{
+    const int   weaponcarouselcolor_old = weaponcarouselcolor;
+
+    intfunc2(cmd, parms);
+
+    if (weaponcarouselcolor != weaponcarouselcolor_old)
+        ST_InitCarousel();
 }
 
 //

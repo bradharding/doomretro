@@ -84,7 +84,8 @@ static bool         hadweapons[NUMWEAPONS];
 
 void ST_InitCarousel(void)
 {
-    const int   tintcolor = (consoleedgecolor1 >> 8);
+    const int   tintcolor = (weaponcarouselcolor == weaponcarouselcolor_auto ?
+                    (consoleedgecolor1 >> 8) : weaponcarouselcolor);
 
     if (tintcolor == CONSOLEEDGECOLOR1)
     {
@@ -111,8 +112,8 @@ void ST_InitCarousel(void)
         selectedbordercolor = I_GetCarouselHighlightColor(tintcolor);
     }
 
-    bordercolor = black25[consoleedgecolor1];
-    unavailablebordercolor = black10[consoleedgecolor1];
+    bordercolor = black25[tintcolor << 8];
+    unavailablebordercolor = black10[tintcolor << 8];
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {

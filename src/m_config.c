@@ -270,6 +270,7 @@ char        *wadfolder = wadfolder_default;
 int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponcarousel = weaponcarousel_default;
+int         weaponcarouselcolor = weaponcarouselcolor_default;
 bool        weaponrecoil = weaponrecoil_default;
 bool        weapontilt = weapontilt_default;
 
@@ -547,6 +548,7 @@ static default_t cvars[] =
     CVAR_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                             0                      ),
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (weaponcarousel,                   weaponcarousel,                        weaponcarousel,                        BOOLVALUEALIAS         ),
+    CVAR_INT          (weaponcarouselcolor,              weaponcarouselcolour,                  weaponcarouselcolor,                   CAROUSELCOLORVALUEALIAS),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (weapontilt,                       weapontilt,                            weapontilt,                            BOOLVALUEALIAS         ),
     BLANKLINE,
@@ -654,6 +656,7 @@ valuealias_t valuealiases[] =
     { "true",              1,                                         BOOLVALUEALIAS          },
     { "yes",               1,                                         BOOLVALUEALIAS          },
     { "off",               0,                                         CAPVALUEALIAS           },
+    { "auto",              weaponcarouselcolor_auto,                  CAROUSELCOLORVALUEALIAS },
     { "none",              crosshair_none,                            CROSSHAIRVALUEALIAS     },
     { "off",               crosshair_none,                            CROSSHAIRVALUEALIAS     },
     { "cross",             crosshair_cross,                           CROSSHAIRVALUEALIAS     },
@@ -678,9 +681,9 @@ valuealias_t valuealiases[] =
     { "other",             playergender_other,                        GENDERVALUEALIAS        },
     { "male",              playergender_male,                         GENDERVALUEALIAS        },
     { "female",            playergender_female,                       GENDERVALUEALIAS        },
-    { "big",               r_hud_style_big,                            HUDSTYLEVALUEALIAS      },
-    { "small",             r_hud_style_small,                          HUDSTYLEVALUEALIAS      },
-    { "alternate",         r_hud_style_alternate,                      HUDSTYLEVALUEALIAS      },
+    { "big",               r_hud_style_big,                           HUDSTYLEVALUEALIAS      },
+    { "small",             r_hud_style_small,                         HUDSTYLEVALUEALIAS      },
+    { "alternate",         r_hud_style_alternate,                     HUDSTYLEVALUEALIAS      },
     { "invertedgrayscale", r_invulnerabilityeffect_invertedgrayscale, INVULNVALUEALIAS        },
     { "grayscale",         r_invulnerabilityeffect_grayscale,         INVULNVALUEALIAS        },
     { "greyscale",         r_invulnerabilityeffect_grayscale,         INVULNVALUEALIAS        },
