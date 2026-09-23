@@ -2523,7 +2523,7 @@ static void P_SecretFound(void)
     M_snprintf(buffer, sizeof(buffer), s_HUSTR_SECRETFOUND, C_GetPlayerName());
     C_PlayerMessage(buffer);
 
-    if (messages && secretmessages)
+    if (secretmessages)
     {
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
