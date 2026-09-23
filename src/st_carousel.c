@@ -51,6 +51,8 @@
 #include "v_video.h"
 #include "w_wad.h"
 
+#define ST_CAROUSEL_COLOR   176
+
 typedef struct
 {
     weapontype_t    weapon;
@@ -84,9 +86,17 @@ static bool         hadweapons[NUMWEAPONS];
 
 void ST_InitCarousel(void)
 {
-    const int   tintcolor = (consoleedgecolor1 >> 8);
+    int tintcolor;
 
-    if (tintcolor == CONSOLEEDGECOLOR1)
+    if (weaponcarouselcolor == weaponcarouselcolor_auto)
+    {
+        if ((tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"))) == nearestwhite)
+            tintcolor = nearestcolors[ST_CAROUSEL_COLOR];
+    }
+    else
+        tintcolor = weaponcarouselcolor;
+
+    if (tintcolor == ST_CAROUSEL_COLOR)
     {
         const byte  darktintcolor = black75[tintcolor];
 
@@ -111,8 +121,8 @@ void ST_InitCarousel(void)
         selectedbordercolor = white5[tintcolor];
     }
 
-    bordercolor = black10[consoleedgecolor1];
-    unavailablebordercolor = black10[consoleedgecolor1];
+    bordercolor = black10[tintcolor << 8];
+    unavailablebordercolor = black10[tintcolor << 8];
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
