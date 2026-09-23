@@ -2596,6 +2596,9 @@ static void M_ChangeMessages(int choice)
     messages = !messages;
     C_StringCVAROutput(stringize(messages), (messages ? "on" : "off"));
 
+    secretmessages = messages;
+    C_StringCVAROutput(stringize(secretmessages), (secretmessages ? "on" : "off"));
+
     if (!menuactive)
     {
         if (messages)
