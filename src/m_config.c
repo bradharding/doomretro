@@ -270,7 +270,9 @@ char        *wadfolder = wadfolder_default;
 int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponcarousel = weaponcarousel_default;
+int         weaponcarouselbordercolor = weaponcarouselbordercolor_default;
 int         weaponcarouselcolor = weaponcarouselcolor_default;
+int         weaponcarouselhighlightcolor = weaponcarouselhighlightcolor_default;
 bool        weaponrecoil = weaponrecoil_default;
 bool        weapontilt = weapontilt_default;
 
@@ -548,11 +550,13 @@ static default_t cvars[] =
     CVAR_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                             0                      ),
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (weaponcarousel,                   weaponcarousel,                        weaponcarousel,                        BOOLVALUEALIAS         ),
+    CVAR_INT          (weaponcarouselbordercolor,        weaponcarouselbordercolour,            weaponcarouselbordercolor,             CAROUSELCOLORVALUEALIAS),
     CVAR_INT          (weaponcarouselcolor,              weaponcarouselcolour,                  weaponcarouselcolor,                   CAROUSELCOLORVALUEALIAS),
+    CVAR_INT          (weaponcarouselhighlightcolor,     weaponcarouselhighlightcolour,         weaponcarouselhighlightcolor,          CAROUSELCOLORVALUEALIAS),
     CVAR_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (weapontilt,                       weapontilt,                            weapontilt,                            BOOLVALUEALIAS         ),
     BLANKLINE,
-    COMMENT("; player stats"   ),
+    COMMENT("; player stats" ),
     STAT_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    0                      ),
     STAT_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  0                      ),
     STAT_INT_UNSIGNED (cheatsentered,                    stat_cheats,                           stat_cheatsentered,                    0                      ),

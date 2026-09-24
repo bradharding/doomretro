@@ -74,7 +74,7 @@ static int          tallestcompressedheight;
 static bool         usingcarouselicons;
 static byte         bordercolor;
 static byte         unavailablebordercolor;
-static byte         selectedbordercolor;
+static byte         highlightedbordercolor;
 
 static int          lastindex = -1;
 static uint64_t     lasttime;
@@ -111,7 +111,9 @@ void ST_InitCarousel(void)
             pickupdarktint[i] = tinttab60[(black75[darkgrays25[i]] << 8) + darktintcolor];
         }
 
-        selectedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
+        highlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
+        bordercolor = black25[tintcolor << 8];
+        unavailablebordercolor = black10[tintcolor << 8];
     }
     else
     {
@@ -123,11 +125,20 @@ void ST_InitCarousel(void)
             pickupdarktint[i] = tinttab33[(darkgrays40[i] << 8) + darktintcolor];
         }
 
-        selectedbordercolor = white5[tintcolor];
-    }
+        highlightedbordercolor = (weaponcarouselhighlightcolor == weaponcarouselhighlightcolor_auto ?
+            white5[tintcolor] : weaponcarouselhighlightcolor);
 
-    bordercolor = black25[tintcolor << 8];
-    unavailablebordercolor = black10[tintcolor << 8];
+        if (weaponcarouselbordercolor == weaponcarouselbordercolor_auto)
+        {
+            bordercolor = black25[tintcolor << 8];
+            unavailablebordercolor = black10[tintcolor << 8];
+        }
+        else
+        {
+            bordercolor = weaponcarouselbordercolor;
+            unavailablebordercolor = black10[weaponcarouselbordercolor << 8];
+        }
+    }
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
@@ -356,7 +367,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  border = (selected ? selectedbordercolor : (available ? bordercolor : unavailablebordercolor));
+        const byte  border = (selected ? highlightedbordercolor : (available ? bordercolor : unavailablebordercolor));
         int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];

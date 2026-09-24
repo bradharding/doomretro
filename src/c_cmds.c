@@ -597,7 +597,9 @@ static void vid_windowposfunc2(char *cmd, char *parms);
 static void vid_windowsizefunc2(char *cmd, char *parms);
 static bool weaponfunc1(char *cmd, char *parms);
 static void weaponfunc2(char *cmd, char *parms);
+static void weaponcarouselbordercolorfunc2(char *cmd, char *parms);
 static void weaponcarouselcolorfunc2(char *cmd, char *parms);
+static void weaponcarouselhighlightcolorfunc2(char *cmd, char *parms);
 static void weaponrecoilfunc2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealiastype_t valuealiastype)
@@ -1268,8 +1270,15 @@ consolecmd_t consolecmds[] =
         "Toggles the bounce of your weapon when you land after a fall."),
     BOOLCVAR(weaponcarousel, "", "", boolfunc1, boolfunc2, 0,
         "Toggles displaying the weapon carousel when you change weapons."),
-    INTCVAR(weaponcarouselcolor, weaponcarouselcolour, "", intfunc1, weaponcarouselcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
+    INTCVAR(weaponcarouselbordercolor, weaponcarouselbordercolour, "",
+        intfunc1, weaponcarouselbordercolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
+        "The color the weapon carousel border is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
+    INTCVAR(weaponcarouselcolor, weaponcarouselcolour, "",
+        intfunc1, weaponcarouselcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
         "The color the weapon carousel is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
+    INTCVAR(weaponcarouselhighlightcolor, weaponcarouselhighlightcolour, "",
+    intfunc1, weaponcarouselhighlightcolorfunc2, CF_COLOR, CAROUSELCOLORVALUEALIAS,
+        "The color the weapon carousel highlight is tinted (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(weaponrecoil, "", "", boolfunc1, weaponrecoilfunc2, 0,
         "Toggles the recoil of your weapon when you fire it."),
     BOOLCVAR(weapontilt, "", "", boolfunc1, boolfunc2, 0,
@@ -13410,6 +13419,19 @@ static void weaponfunc2(char *cmd, char *parms)
 }
 
 //
+// weaponcarouselbordercolor CVAR
+//
+static void weaponcarouselbordercolorfunc2(char *cmd, char *parms)
+{
+    const int   weaponcarouselbordercolor_old = weaponcarouselbordercolor;
+
+    intfunc2(cmd, parms);
+
+    if (weaponcarouselbordercolor != weaponcarouselbordercolor_old)
+        ST_InitCarousel();
+}
+
+//
 // weaponcarouselcolor CVAR
 //
 static void weaponcarouselcolorfunc2(char *cmd, char *parms)
@@ -13419,6 +13441,19 @@ static void weaponcarouselcolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselcolor != weaponcarouselcolor_old)
+        ST_InitCarousel();
+}
+
+//
+// weaponcarouselhighlightcolor CVAR
+//
+static void weaponcarouselhighlightcolorfunc2(char *cmd, char *parms)
+{
+    const int   weaponcarouselhighlightcolor_old = weaponcarouselhighlightcolor;
+
+    intfunc2(cmd, parms);
+
+    if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_old)
         ST_InitCarousel();
 }
 
