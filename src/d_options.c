@@ -34,6 +34,7 @@
 */
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_options.h"
 #include "i_system.h"
 #include "m_config.h"
@@ -175,17 +176,17 @@ static void D_ProcessOptionsLump(const int lump)
                 am_secretcolor_options = value;
                 AM_SetColors();
             }
-            else if (M_StringCompare(name, "weaponcarouselbordercolor"))
+            else if (M_StringCompare(name, stringize(weaponcarouselbordercolor)))
             {
                 weaponcarouselbordercolor_options = value;
                 ST_SetCarouselColors();
             }
-            else if (M_StringCompare(name, "weaponcarouselcolor"))
+            else if (M_StringCompare(name, stringize(weaponcarouselcolor)))
             {
                 weaponcarouselcolor_options = value;
                 ST_SetCarouselColors();
             }
-            else if (M_StringCompare(name, "weaponcarouselhighlightcolor"))
+            else if (M_StringCompare(name, stringize(weaponcarouselhighlightcolor)))
             {
                 weaponcarouselhighlightcolor_options = value;
                 ST_SetCarouselColors();
