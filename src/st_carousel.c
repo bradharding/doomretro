@@ -121,7 +121,7 @@ void ST_InitCarousel(void)
         selectedbordercolor = white5[tintcolor];
     }
 
-    bordercolor = black10[tintcolor << 8];
+    bordercolor = black25[tintcolor << 8];
     unavailablebordercolor = black10[tintcolor << 8];
 
     for (int i = 0; i < NUMWEAPONS; i++)
