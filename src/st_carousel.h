@@ -40,6 +40,7 @@
 
 void ST_SyncCarouselWeapons(void);
 void ST_ResetCarousel(void);
+void ST_SetCarouselColors(void);
 void ST_InitCarousel(void);
 void ST_UpdateCarousel(void);
 void ST_DrawCarousel(int x, int y);

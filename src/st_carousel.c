@@ -84,7 +84,7 @@ static int          duration;
 static int          fade;
 static bool         hadweapons[NUMWEAPONS];
 
-void ST_InitCarousel(void)
+void ST_SetCarouselColors(void)
 {
     int tintcolor;
 
@@ -139,7 +139,10 @@ void ST_InitCarousel(void)
             unavailablebordercolor = black10[weaponcarouselbordercolor << 8];
         }
     }
+}
 
+void ST_InitCarousel(void)
+{
     for (int i = 0; i < NUMWEAPONS; i++)
     {
         carouselweapons[i] = wp_nochange;
@@ -208,6 +211,8 @@ void ST_InitCarousel(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         if (pickuppatches[i])
             pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 16;
+
+    ST_SetCarouselColors();
 }
 
 void ST_SyncCarouselWeapons(void)

@@ -13428,7 +13428,7 @@ static void weaponcarouselbordercolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselbordercolor != weaponcarouselbordercolor_old)
-        ST_InitCarousel();
+        ST_SetCarouselColors();
 }
 
 //
@@ -13441,7 +13441,7 @@ static void weaponcarouselcolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselcolor != weaponcarouselcolor_old)
-        ST_InitCarousel();
+        ST_SetCarouselColors();
 }
 
 //
@@ -13454,7 +13454,7 @@ static void weaponcarouselhighlightcolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_old)
-        ST_InitCarousel();
+        ST_SetCarouselColors();
 }
 
 //

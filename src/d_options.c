@@ -38,6 +38,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "st_carousel.h"
 #include "w_wad.h"
 
 int am_allmapcdwallcolor_options = -1;
@@ -58,6 +59,9 @@ int am_tswallcolor_options = -1;
 int am_wallcolor_options = -1;
 int am_yellowdoorcolor_options = -1;
 int am_yellowkeycolor_options = -1;
+int weaponcarouselbordercolor_options = -1;
+int weaponcarouselcolor_options = -1;
+int weaponcarouselhighlightcolor_options = -1;
 
 static void D_ProcessOptionsLump(const int lump)
 {
@@ -171,6 +175,21 @@ static void D_ProcessOptionsLump(const int lump)
                 am_secretcolor_options = value;
                 AM_SetColors();
             }
+            else if (M_StringCompare(name, "weaponcarouselbordercolor"))
+            {
+                weaponcarouselbordercolor_options = value;
+                ST_SetCarouselColors();
+            }
+            else if (M_StringCompare(name, "weaponcarouselcolor"))
+            {
+                weaponcarouselcolor_options = value;
+                ST_SetCarouselColors();
+            }
+            else if (M_StringCompare(name, "weaponcarouselhighlightcolor"))
+            {
+                weaponcarouselhighlightcolor_options = value;
+                ST_SetCarouselColors();
+            }
         }
 
         line = (newline ? end + 1 : end);
@@ -225,6 +244,12 @@ bool D_IsOptionsColorOverridden(const char *name)
         return (am_yellowdoorcolor_options >= 0);
     else if (M_StringCompare(name, "am_yellowkeycolor"))
         return (am_yellowkeycolor_options >= 0);
+    else if (M_StringCompare(name, "weaponcarouselbordercolor"))
+        return (weaponcarouselbordercolor_options >= 0);
+    else if (M_StringCompare(name, "weaponcarouselcolor"))
+        return (weaponcarouselcolor_options >= 0);
+    else if (M_StringCompare(name, "weaponcarouselhighlightcolor"))
+        return (weaponcarouselhighlightcolor_options >= 0);
 
     return false;
 }

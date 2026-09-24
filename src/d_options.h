@@ -53,6 +53,9 @@ extern int  am_tswallcolor_options;
 extern int  am_wallcolor_options;
 extern int  am_yellowdoorcolor_options;
 extern int  am_yellowkeycolor_options;
+extern int  weaponcarouselbordercolor_options;
+extern int  weaponcarouselcolor_options;
+extern int  weaponcarouselhighlightcolor_options;
 
 void D_ProcessOptionsInWad(void);
 bool D_IsOptionsColorOverridden(const char *name);
