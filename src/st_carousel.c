@@ -90,14 +90,18 @@ void ST_InitCarousel(void)
 
     if (weaponcarouselcolor == weaponcarouselcolor_auto)
     {
-        if ((tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"))) == nearestwhite
-            && W_GetNumLumps("STTNUM0") == 1)
-            tintcolor = nearestcolors[ST_CAROUSEL_COLOR];
+        tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
+
+        if (W_GetNumLumps("STTNUM0") == 1
+            || (tintcolor >= nearestcolors[LIGHTGRAY1] && tintcolor <= nearestcolors[DARKGRAY4])
+            || tintcolor == nearestcolors[WHITE])
+            tintcolor = (W_GetNumLumps("STCFN065") == 1 ? nearestcolors[ST_CAROUSEL_COLOR] :
+                FindBrightDominantColor(W_CacheLumpName("STCFN065")));
     }
     else
         tintcolor = weaponcarouselcolor;
 
-    if (tintcolor == ST_CAROUSEL_COLOR)
+    if (tintcolor == nearestcolors[ST_CAROUSEL_COLOR])
     {
         const byte  darktintcolor = black75[tintcolor];
 
