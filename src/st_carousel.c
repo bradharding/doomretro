@@ -90,7 +90,8 @@ void ST_InitCarousel(void)
 
     if (weaponcarouselcolor == weaponcarouselcolor_auto)
     {
-        if ((tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"))) == nearestwhite)
+        if ((tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"))) == nearestwhite
+            && W_GetNumLumps("STTNUM0") == 1)
             tintcolor = nearestcolors[ST_CAROUSEL_COLOR];
     }
     else
