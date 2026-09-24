@@ -8627,8 +8627,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("%s") ".",
-                        name, temp1);
+                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8647,6 +8646,8 @@ static void resetfunc2(char *cmd, char *parms)
 
                     free(temp3);
                 }
+                else if (M_StringCompare(temp1, "auto"))
+                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
                 else
                     C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of %s.",
                         name, temp1);
@@ -8670,8 +8671,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("%s%%") ".",
-                        name, temp1);
+                    C_Warning(0, PERCENTCVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8691,8 +8691,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("%s") ".",
-                        name, temp1);
+                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8710,8 +8709,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp2);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("%s") ".",
-                        name, temp1);
+                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8728,8 +8726,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of " BOLD("\"%s\"") ".",
-                        name, consolecmds[i].defaultstring);
+                    C_Warning(0, STRINGCVARSAMEDEFAULTWARNING, name, consolecmds[i].defaultstring);
             }
 
 #if defined(_WIN32)
