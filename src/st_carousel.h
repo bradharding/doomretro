@@ -36,7 +36,7 @@
 #pragma once
 
 #define ST_CAROUSEL_X   (VANILLAWIDTH / 2)
-#define ST_CAROUSEL_Y   32
+#define ST_CAROUSEL_Y   36
 
 void ST_SyncCarouselWeapons(void);
 void ST_ResetCarousel(void);
