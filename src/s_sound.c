@@ -52,24 +52,26 @@
 
 // when to clip out sounds
 // Does not fit the large outdoor areas.
-#define S_CLIPPING_DIST 1200
+#define S_CLIPPING_DIST             1200
 
 // Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
 // In the source code release: (160 * FRACUNIT). Changed back to the
 // Vanilla value of 200 (why was this changed?)
-#define S_CLOSE_DIST    200
+#define S_CLOSE_DIST                200
 
 // The range over which sound attenuates
-#define S_ATTENUATOR    (S_CLIPPING_DIST - S_CLOSE_DIST)
+#define S_ATTENUATOR                (S_CLIPPING_DIST - S_CLOSE_DIST)
 
 // Stereo separation
-#define S_STEREO_SWING  96
+#define S_STEREO_SWING              96
 
-#define NORM_SEP        127
+#define NORM_SEP                    127
 
-#define TIDNUM(x)       (int)(x->musicid & 0xFFFF)  // thing identifier
+#define IDKFA_MUSIC_VOLUME_FACTOR   0.5f
+
+#define TIDNUM(x)                   (int)(x->musicid & 0xFFFF)  // thing identifier
 
 typedef struct
 {
@@ -510,28 +512,37 @@ static int S_GetMusicNumForCurrentMap(void)
 
 static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
 {
+    int preferredlumpnum = lumpnum;
+
     *volume = 1.0f;
 
     if (lumpnum > 0 && lumpnum < numlumps)
     {
-        int     preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
         char    namebuf[9];
 
-        if (preferredlumpnum != lumpnum)
-            return preferredlumpnum;
+        preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
 
-        M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
-
-        if (namebuf[0] == 'D' && namebuf[1] == '_')
+        if (preferredlumpnum == lumpnum)
         {
-            namebuf[0] = (s_remix ? 'H' : 'O');
+            M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
 
-            if ((preferredlumpnum = W_CheckNumForName(namebuf)) >= 0)
-                return S_ResolveTrakInfoMusic(preferredlumpnum, volume);
+            if (namebuf[0] == 'D' && namebuf[1] == '_')
+            {
+                namebuf[0] = (s_remix ? 'H' : 'O');
+
+                if ((preferredlumpnum = W_CheckNumForName(namebuf)) >= 0)
+                    preferredlumpnum = S_ResolveTrakInfoMusic(preferredlumpnum, volume);
+                else
+                    preferredlumpnum = lumpnum;
+            }
         }
+
+        if (preferredlumpnum > 0 && preferredlumpnum < numlumps
+            && lumpinfo[preferredlumpnum]->name[0] == 'H' && lumpinfo[preferredlumpnum]->name[1] == '_')
+            *volume *= IDKFA_MUSIC_VOLUME_FACTOR;
     }
 
-    return lumpnum;
+    return preferredlumpnum;
 }
 
 //
