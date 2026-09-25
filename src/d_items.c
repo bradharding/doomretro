@@ -65,7 +65,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* key                */ '1',
         /* carouselicon       */ "SMFIST",
         /* carouselpickupicon */ "DRHUDWP0",
-        /* carouselyoffset    */ -4,
+        /* carouselyoffset    */ -3,
         /* carouselorder      */ 0
     },
 
@@ -94,7 +94,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* key                */ '2',
         /* carouselicon       */ "SMPISG",
         /* carouselpickupicon */ "DRHUDWP1",
-        /* carouselyoffset    */ 1,
+        /* carouselyoffset    */ 0,
         /* carouselorder      */ 2
     },
 
@@ -181,7 +181,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* key                */ '5',
         /* carouselicon       */ "SMLAUN",
         /* carouselpickupicon */ "LAUNA0",
-        /* carouselyoffset    */ -1,
+        /* carouselyoffset    */ 0,
         /* carouselorder      */ 6
     },
 
@@ -268,7 +268,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* key                */ '1',
         /* carouselicon       */ "SMCSAW",
         /* carouselpickupicon */ "CSAWA0",
-        /* carouselyoffset    */ -5,
+        /* carouselyoffset    */ -3,
         /* carouselorder      */ 1
     },
 
@@ -297,7 +297,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* key                */ '3',
         /* carouselicon       */ "SMSGN2",
         /* carouselpickupicon */ "SGN2A0",
-        /* carouselyoffset    */ 1,
+        /* carouselyoffset    */ 0,
         /* carouselorder      */ 4
     }
 };
