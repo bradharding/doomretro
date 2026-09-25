@@ -173,6 +173,8 @@ void ST_InitCarousel(void)
                     carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
                     usingcarouselicons = true;
                 }
+                else if ((lumpnum = W_CheckNumForName("SMUNKN")) >= 0)
+                    carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
             }
     }
 
