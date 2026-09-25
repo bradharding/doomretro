@@ -20,6 +20,7 @@
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
+* If `extras.wad` is autoloaded, [Andrew Hulshult’s](https://www.hulshult.com/) *IDKFA* soundtrack now isn’t so loud.
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
@@ -35,7 +36,7 @@
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
-* If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (the default), or `0` to `255`. Each of these CVARs can also be specified in an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
+* If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`. Each of these CVARs can also be specified in an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * Sprites now tilt slightly to face the center of the player’s view. This can be disabled using the new `r_sprites_tilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the support of `DEHACKED` lumps:
