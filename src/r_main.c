@@ -41,6 +41,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
+#include "d_loop.h"
 #include "i_colors.h"
 #include "i_timer.h"
 #include "m_config.h"
@@ -50,6 +51,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
+#include "r_things.h"
 #include "st_stuff.h"
 #include "v_video.h"
 
@@ -1341,16 +1343,34 @@ static void R_SwirlView(const int swirltic)
 #define MAXVIEWROCKFACTOR       (FRACUNIT / 9)
 #define MAXVIEWROCKPIXELS       8
 
+static fixed_t R_GetViewRockFactor(void)
+{
+    const int   currtic = liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1);
+    fixed_t     tiltfactor = VIEWROCKFACTOR(animatedliquiddiffs[currtic]);
+
+    if (vid_capfps != TICRATE && liquidrocktic != -1 && !paused && !menuactive && !consoleactive && !consoleheight)
+    {
+        const int       nexttic = (currtic + 1) & (ANIMATEDLIQUIDDIFFS - 1);
+        const fixed_t   nexttiltfactor = VIEWROCKFACTOR(animatedliquiddiffs[nexttic]);
+
+        tiltfactor += FixedMul(nexttiltfactor - tiltfactor, fractionaltic);
+    }
+
+    return BETWEEN(-MAXVIEWROCKFACTOR, tiltfactor, MAXVIEWROCKFACTOR);
+}
+
 static void R_RockView(void)
 {
     byte            *source = screens[1];
     byte            *dest = screens[0];
-    const fixed_t   tiltfactor = BETWEEN(-MAXVIEWROCKFACTOR,
-                        VIEWROCKFACTOR(animatedliquiddiffs[liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1)]),
-                        MAXVIEWROCKFACTOR);
-    const int       rockpixels = tiltfactor * MAXVIEWROCKPIXELS / MAXVIEWROCKFACTOR;
+    const fixed_t   tiltfactor = R_GetViewRockFactor();
+    const fixed_t   rockpixels = FixedDiv(tiltfactor * MAXVIEWROCKPIXELS, MAXVIEWROCKFACTOR);
     const int       cy = viewheight / 2;
     const int       zoomedheight = MAX(1, viewheight - 2 * MAXVIEWROCKPIXELS);
+    const fixed_t   centerxfrac = centerx * FRACUNIT;
+    const fixed_t   halfwidth = MAX(1, viewwidth / 2) * FRACUNIT;
+    const fixed_t   cyfrac = cy * FRACUNIT;
+    const fixed_t   zoomedheightfrac = zoomedheight * FRACUNIT;
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1361,14 +1381,16 @@ static void R_RockView(void)
 
     for (int x = 0; x < viewwidth; x++)
     {
-        const int   yoffset = rockpixels * (x - centerx) / MAX(1, viewwidth / 2);
+        const fixed_t   yoffset = FixedMul(rockpixels, FixedDiv(x * FRACUNIT - centerxfrac, halfwidth));
 
         for (int y = 0; y < viewheight; y++)
         {
-            const int   srcy = BETWEEN(0, cy + (y - cy) * zoomedheight / viewheight + yoffset, viewheight - 1);
+            const fixed_t   srcy = cyfrac + FixedMul((y - cy) * FRACUNIT,
+                                FixedDiv(zoomedheightfrac, viewheight * FRACUNIT)) + yoffset;
 
             dest[((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx + x] =
-                source[((size_t)viewwindowy + srcy) * SCREENWIDTH + viewwindowx + x];
+                source[((size_t)viewwindowy + BETWEEN(0, srcy >> FRACBITS, viewheight - 1)) * SCREENWIDTH
+                + viewwindowx + x];
         }
     }
 }
