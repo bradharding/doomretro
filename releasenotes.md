@@ -23,6 +23,11 @@
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
+* Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
+* These changes have been made to secrets in the automap:
+  * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
+  * Secrets now also appear in that color once they have been found.
+  * The number of secrets found displayed when the `am_playerstats` CVAR is `on` is now affected when the `IDDT` cheat is entered.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
@@ -30,7 +35,7 @@
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
 * A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
-* If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (the default) or `0` to `255`.
+* If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (the default), or `0` to `255`. Each of these CVARs can also be specified in an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * Sprites now tilt slightly to face the center of the player’s view. This can be disabled using the new `r_sprites_tilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the support of `DEHACKED` lumps:
@@ -48,11 +53,6 @@
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
   * The player’s view no longer bobs up and down when they are dead in deep water.
 * Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
-* Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
-* These changes have been made to secrets in the automap:
-  * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
-  * Secrets now also appear in that color once they have been found.
-  * The number of secrets found displayed when the `am_playerstats` CVAR is `on` is now affected when the `IDDT` cheat is entered.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
 * Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
