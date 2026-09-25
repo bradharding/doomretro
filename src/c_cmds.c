@@ -143,9 +143,9 @@
 #define NIGHTMAREWARNING1               "You can't change this CVAR right now because you're playing a game in " ITALICS("%s") "%s"
 #define NIGHTMAREWARNING2               "%s can't change this CVAR right now because %s %s playing a game in " ITALICS("%s") "%s"
 
-#define INTEGERCVARWITHDEFAULT          "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
-#define INTEGERCVARWITHNODEFAULT        "It is currently " BOLD("%s") "."
-#define INTEGERCVARISDEFAULT            "It is currently its default of " BOLD("%s") "."
+#define CVARWITHDEFAULT                 "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
+#define CVARWITHNODEFAULT               "It is currently " BOLD("%s") "."
+#define CVARISDEFAULT                   "It is currently its default of " BOLD("%s") "."
 #define DEGREESCVARWITHDEFAULT          "It is currently " BOLD("%i\xB0") " and is " BOLD("%i\xB0") " by default."
 #define DEGREESCVARISDEFAULT            "It is currently its default of " BOLD("%i\xB0") "."
 #define PERCENTCVARWITHDEFAULT          "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
@@ -157,9 +157,9 @@
 #define TIMECVARWITHNODEFAULT1          "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
 #define TIMECVARWITHNODEFAULT2          "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "." MONOSPACED("%02i")) "."
 
-#define INTEGERCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to " BOLD("%s") "."
-#define INTEGERCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s") " to " BOLD("%s") "."
-#define INTEGERCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " back to its default of " BOLD("%s") "."
+#define CVARCHANGED                     "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " to " BOLD("%s") "."
+#define CVARCHANGEDFROMDEFAULT          "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%s") " to " BOLD("%s") "."
+#define CVARCHANGEDTODEFAULT            "%s changed the " BOLD("%s") " CVAR from " BOLD("%s") " back to its default of " BOLD("%s") "."
 #define DEGREESCVARCHANGED              "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
 #define DEGREESCVARCHANGEDFROMDEFAULT   "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("%i\xB0") " to " BOLD("%i\xB0") "."
 #define DEGREESCVARCHANGEDTODEFAULT     "%s changed the " BOLD("%s") " CVAR from " BOLD("%i\xB0") " back to its default of " BOLD("%i\xB0") "."
@@ -170,8 +170,8 @@
 #define STRINGCVARCHANGEDFROMDEFAULT    "%s changed the " BOLD("%s") " CVAR from its default of " BOLD("\"%s\"") " to " BOLD("\"%s\"") "."
 #define STRINGCVARCHANGEDTODEFAULT      "%s changed the " BOLD("%s") " CVAR from " BOLD("\"%s\"") " back to its default of " BOLD("\"%s\"") "."
 
-#define INTEGERCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s") "!"
-#define INTEGERCVARSAMEDEFAULTWARNING   "The " BOLD("%s") " CVAR is already its default of " BOLD("%s") "!"
+#define CVARSAMEWARNING                 "The " BOLD("%s") " CVAR is already " BOLD("%s") "!"
+#define CVARSAMEDEFAULTWARNING          "The " BOLD("%s") " CVAR is already its default of " BOLD("%s") "!"
 #define DEGREESCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%i\xB0") "!"
 #define DEGREESCVARSAMEDEFAULTWARNING   "The " BOLD("%s") " CVAR is already its default of " BOLD("%i\xB0") "!"
 #define PERCENTCVARSAMEWARNING          "The " BOLD("%s") " CVAR is already " BOLD("%s%%") "!"
@@ -1991,11 +1991,11 @@ static bool nightmarefunc1(char *cmd, char *parms)
 
     if (isdefaultplayername())
         C_Warning(0, NIGHTMAREWARNING1,
-            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "."));
+            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "!"));
     else
         C_Warning(0, NIGHTMAREWARNING2,
             playername, pronoun(personal), (playergender == playergender_other ? "are" : "is"),
-            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "."));
+            nightmare, (ispunctuation(nightmare[strlen(nightmare) - 1]) ? "" : "!"));
 
     consoleinput[0] = '\0';
 
@@ -3583,9 +3583,9 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have everything.");
+                    C_Warning(0, "You already have everything!");
                 else
-                    C_Warning(0, "%s already has everything.", playername);
+                    C_Warning(0, "%s already has everything!", playername);
 
                 free(parm);
                 return;
@@ -3608,9 +3608,9 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have full health.");
+                    C_Warning(0, "You already have full health!");
                 else
-                    C_Warning(0, "%s already has full health.", playername);
+                    C_Warning(0, "%s already has full health!", playername);
 
                 free(parm);
                 return;
@@ -3634,9 +3634,9 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have all your weapons.");
+                    C_Warning(0, "You already have all your weapons!");
                 else
-                    C_Warning(0, "%s already has all %s weapons.",
+                    C_Warning(0, "%s already has all %s weapons!",
                         playername, pronoun(possessivedeterminer));
 
                 free(parm);
@@ -3675,9 +3675,9 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have full ammo for all your weapons.");
+                    C_Warning(0, "You already have full ammo for all your weapons!");
                 else
-                    C_Warning(0, "%s already has full ammo for all %s weapons.",
+                    C_Warning(0, "%s already has full ammo for all %s weapons!",
                         playername, pronoun(possessivedeterminer));
 
                 free(parm);
@@ -3704,10 +3704,10 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have full %s.",
+                    C_Warning(0, "You already have full %s!",
                         (english == english_american ? "armor" : "armour"));
                 else
-                    C_Warning(0, "%s already has full %s.",
+                    C_Warning(0, "%s already has full %s!",
                         playername, (english == english_american ? "armor" : "armour"));
 
                 free(parm);
@@ -3722,18 +3722,18 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all keycards and skull keys.");
+                    C_PlayerMessage("You have been given all the keycards and skull keys.");
                 else
-                    C_PlayerMessage("%s has been given all keycards and skull keys.", playername);
+                    C_PlayerMessage("%s has been given all the keycards and skull keys.", playername);
 
                 C_HideConsoleAndMenu();
             }
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have all keycards and skull keys.");
+                    C_Warning(0, "You already have all the keycards and skull keys!");
                 else
-                    C_Warning(0, "%s already has all keycards and skull keys.", playername);
+                    C_Warning(0, "%s already has all the keycards and skull keys!", playername);
 
                 free(parm);
                 return;
@@ -3747,18 +3747,18 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all keycards.");
+                    C_PlayerMessage("You have been given all the keycards.");
                 else
-                    C_PlayerMessage("%s has been given all keycards.", playername);
+                    C_PlayerMessage("%s has been given all the keycards.", playername);
 
                 C_HideConsoleAndMenu();
             }
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have all keycards.");
+                    C_Warning(0, "You already have all the keycards!");
                 else
-                    C_Warning(0, "%s already has all keycards.", playername);
+                    C_Warning(0, "%s already has all the keycards!", playername);
 
                 free(parm);
                 return;
@@ -3772,18 +3772,18 @@ static void givefunc2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (isdefaultplayername())
-                    C_PlayerMessage("You have been given all skull keys.");
+                    C_PlayerMessage("You have been given all the skull keys.");
                 else
-                    C_PlayerMessage("%s has been given all skull keys.", playername);
+                    C_PlayerMessage("%s has been given all the skull keys.", playername);
 
                 C_HideConsoleAndMenu();
             }
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have all skull keys.");
+                    C_Warning(0, "You already have all the skull keys!");
                 else
-                    C_Warning(0, "%s already has all skull keys.", playername);
+                    C_Warning(0, "%s already has all the skull keys!", playername);
 
                 free(parm);
                 return;
@@ -3794,9 +3794,9 @@ static void givefunc2(char *cmd, char *parms)
             if (viewplayer->weaponowned[wp_pistol])
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have a pistol.");
+                    C_Warning(0, "You already have a pistol!");
                 else
-                    C_Warning(0, "%s already has a pistol.", playername);
+                    C_Warning(0, "%s already has a pistol!", playername);
 
                 free(parm);
                 return;
@@ -3837,9 +3837,9 @@ static void givefunc2(char *cmd, char *parms)
             else
             {
                 if (isdefaultplayername())
-                    C_Warning(0, "You already have all the power-ups.");
+                    C_Warning(0, "You already have all the power-ups!");
                 else
-                    C_Warning(0, "%s already has all the power-ups.", playername);
+                    C_Warning(0, "%s already has all the power-ups!", playername);
             }
 
             free(parm);
@@ -4462,7 +4462,7 @@ static void killfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no %smonsters to %s.", (friends ? "friendly " : ""), cmd);
+                    C_Warning(0, "There are no %smonsters to %s!", (friends ? "friendly " : ""), cmd);
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
                 || M_StringCompare(parm, "projectile") || M_StringCompare(parm, "projectiles"))
@@ -4498,7 +4498,7 @@ static void killfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no missiles to %s.", cmd);
+                    C_Warning(0, "There are no missiles to %s!", cmd);
             }
             else if (M_StringCompare(parm, "item") || M_StringCompare(parm, "items"))
             {
@@ -4529,7 +4529,7 @@ static void killfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no items to %s.", cmd);
+                    C_Warning(0, "There are no items to %s!", cmd);
             }
             else if (M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations"))
             {
@@ -4563,7 +4563,7 @@ static void killfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no decorations to %s.", cmd);
+                    C_Warning(0, "There are no decorations to %s!", cmd);
             }
             else if (M_StringCompare(parm, "everything"))
             {
@@ -4610,7 +4610,7 @@ static void killfunc2(char *cmd, char *parms)
                     M_SaveCVARs();
                 }
                 else
-                    C_Warning(0, "There is nothing to %s.", cmd);
+                    C_Warning(0, "There is nothing to %s!", cmd);
             }
             else if (M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses"))
             {
@@ -4636,7 +4636,7 @@ static void killfunc2(char *cmd, char *parms)
                     HU_SetPlayerMessage(buffer, false, false);
                 }
                 else
-                    C_Warning(0, "There are no corpses to %s.", cmd);
+                    C_Warning(0, "There are no corpses to %s!", cmd);
             }
             else if (M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats"))
             {
@@ -4654,7 +4654,7 @@ static void killfunc2(char *cmd, char *parms)
                     HU_SetPlayerMessage(buffer, false, false);
                 }
                 else
-                    C_Warning(0, "There are no blood splats to %s.", cmd);
+                    C_Warning(0, "There are no blood splats to %s!", cmd);
             }
             else if (killcmdmobj)
             {
@@ -4808,16 +4808,16 @@ static void killfunc2(char *cmd, char *parms)
                     if (gamemode != commercial)
                     {
                         if (killcmdtype >= ArchVile && killcmdtype <= MonsterSpawner)
-                            C_Warning(0, "There are no %s in " ITALICS("%s") ".",
+                            C_Warning(0, "There are no %s in " ITALICS("%s") "!",
                                 mobjinfo[type].plural1, gamedescription);
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
-                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") ". "
+                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") "! "
                                 "You can buy the full version on " ITALICS("Steam") ", etc.", mobjinfo[type].plural1);
                         else
-                            C_Warning(0, "There are no %s to %s.", mobjinfo[type].plural1, cmd);
+                            C_Warning(0, "There are no %s to %s!", mobjinfo[type].plural1, cmd);
                     }
                     else
-                        C_Warning(0, "There are no %s to %s.", mobjinfo[type].plural1, cmd);
+                        C_Warning(0, "There are no %s to %s!", mobjinfo[type].plural1, cmd);
                 }
             }
         }
@@ -6774,7 +6774,7 @@ static void namefunc2(char *cmd, char *parms)
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }
         else
-            C_Warning(0, "%s %s%s couldn't be found nearby.",
+            C_Warning(0, "%s %s%s couldn't be found nearby!",
                 (isvowel(namecmdold[0]) ? "An" : "A"), (namecmdfriendly ? "friendly " : ""), namecmdold);
     }
 }
@@ -8480,7 +8480,7 @@ static void quitfunc2(char *cmd, char *parms)
 static void readmefunc2(char *cmd, char *parms)
 {
     if (!*pwadfile)
-        C_Warning(0, "A PWAD hasn't been loaded.");
+        C_Warning(0, "A PWAD hasn't been loaded!");
     else
     {
         char    *temp1 = removeext(GetCorrectCase(pwadfile));
@@ -8496,7 +8496,7 @@ static void readmefunc2(char *cmd, char *parms)
             readme = M_StringDuplicate("kdikdizd.txt");
 
         if (!M_FileExists(readme))
-            C_Warning(0, BOLD("%s") " wasn't found.", leafname(readme));
+            C_Warning(0, BOLD("%s") " wasn't found!", leafname(readme));
         else
         {
 #if defined(_WIN32)
@@ -8636,7 +8636,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8656,9 +8656,9 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else if (M_StringCompare(temp1, "auto"))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, name, temp1);
                 else
-                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of %s.",
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default of %s!",
                         name, temp1);
 
                 free(temp2);
@@ -8700,7 +8700,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp3);
                 }
                 else
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -8718,7 +8718,7 @@ static void resetfunc2(char *cmd, char *parms)
                     free(temp2);
                 }
                 else
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, name, temp1);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, name, temp1);
 
                 free(temp1);
             }
@@ -9349,7 +9349,7 @@ static void resurrectfunc2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no dead monsters in this map to resurrect.");
+                    C_Warning(0, "There are no dead monsters in this map to resurrect!");
             }
             else if (resurrectcmdmobj)
             {
@@ -9405,21 +9405,21 @@ static void resurrectfunc2(char *cmd, char *parms)
                     {
                         if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonsterSpawner)
                         {
-                            C_Warning(0, "There are no %s in " ITALICS("%s") ".",
+                            C_Warning(0, "There are no %s in " ITALICS("%s") "!",
                                 mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                         else if (gamemode == shareware
                             && (resurrectcmdtype == Cyberdemon || resurrectcmdtype == SpiderMastermind))
                         {
-                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") ". "
+                            C_Warning(0, "There are no %s in the shareware version of " ITALICS("DOOM") "! "
                                 "You can buy the full version on " ITALICS("Steam") ", etc.",
                                 mobjinfo[type].plural1, gamedescription);
                             return;
                         }
                     }
 
-                    C_Warning(0, "There are no dead %s to resurrect.", mobjinfo[type].plural1);
+                    C_Warning(0, "There are no dead %s to resurrect!", mobjinfo[type].plural1);
                 }
             }
         }
@@ -9570,7 +9570,7 @@ static void spawnfunc2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in " ITALICS("%s") ".", buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s") "!", buffer, gamedescription);
                 spawn = false;
             }
 
@@ -9590,7 +9590,7 @@ static void spawnfunc2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM") ". "
+                C_Warning(0, "%s can't be spawned in the shareware version of " ITALICS("DOOM") "! "
                     "You can buy the full version on " ITALICS("Steam") ", etc.", buffer);
                 spawn = false;
             }
@@ -9601,11 +9601,9 @@ static void spawnfunc2(char *cmd, char *parms)
             buffer[0] = toupper(buffer[0]);
 
             if (bfgedition)
-                C_Warning(0, "%s can't be spawned in " ITALICS("%s (BFG Edition)") ".",
-                    buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s (BFG Edition)") "!", buffer, gamedescription);
             else
-                C_Warning(0, "%s can't be spawned in " ITALICS("%s") ".",
-                    buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s") "!", buffer, gamedescription);
 
             spawn = false;
         }
@@ -10321,7 +10319,7 @@ static void timerfunc2(char *cmd, char *parms)
                 if (timer)
                     C_Output("The timer has been cleared.");
                 else
-                    C_Warning(0, "No timer has been set.");
+                    C_Warning(0, "No timer has been set!");
             }
             else
             {
@@ -10503,9 +10501,9 @@ static void vanillafunc2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
 
         if (isdefaultplayername())
-            C_Warning(0, "Changes to any CVARs won't be saved while you are in vanilla mode.");
+            C_Warning(0, "Changes to any CVARs won't be saved while you are in vanilla mode!");
         else
-            C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode.",
+            C_Warning(0, "Changes to any CVARs won't be saved while %s is in vanilla mode!",
                 playername);
     }
     else
@@ -10557,9 +10555,9 @@ static void boolfunc2(char *cmd, char *parms)
                     if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == (bool)consolecmds[i].defaultnumber)
-                            C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
+                            C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
                         else
-                            C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
+                            C_Warning(0, CVARSAMEWARNING, consolecmds[i].name, temp1);
                     }
                 }
                 else if (value == 0 || value == 1)
@@ -10569,13 +10567,13 @@ static void boolfunc2(char *cmd, char *parms)
                     if (!resettingcvar && !togglingvanilla && !togglingcvar)
                     {
                         if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
-                            C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                            C_Output(CVARCHANGEDFROMDEFAULT,
                                 C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                         else if (value == (bool)consolecmds[i].defaultnumber)
-                            C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                            C_Output(CVARCHANGEDTODEFAULT,
                                 C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                         else
-                            C_Output(INTEGERCVARCHANGED,
+                            C_Output(CVARCHANGED,
                                 C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                     }
 
@@ -10594,12 +10592,12 @@ static void boolfunc2(char *cmd, char *parms)
                 C_ShowDescription(i);
 
                 if (*(bool *)consolecmds[i].variable == (bool)consolecmds[i].defaultnumber)
-                    C_Output(INTEGERCVARISDEFAULT, temp1);
+                    C_Output(CVARISDEFAULT, temp1);
                 else
                 {
                     char    *temp2 = C_LookupAliasFromValue((bool)consolecmds[i].defaultnumber, BOOLVALUEALIAS);
 
-                    C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+                    C_Output(CVARWITHDEFAULT, temp1, temp2);
                     free(temp2);
                 }
 
@@ -10623,7 +10621,7 @@ static void colorfunc2(char *cmd, char *parms)
     {
         if (D_IsOptionsColorOverridden(cmd))
             C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
-                BOLD("OPTIONS") " lump.", cmd);
+                BOLD("OPTIONS") " lump!", cmd);
         else
             AM_SetColors();
     }
@@ -10671,9 +10669,9 @@ static void floatfunc2(char *cmd, char *parms)
                         if (!resettingcvar && !togglingvanilla)
                         {
                             if (value == consolecmds[i].defaultnumber)
-                                C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
+                                C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
                             else
-                                C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
+                                C_Warning(0, CVARSAMEWARNING, consolecmds[i].name, temp1);
                         }
                     }
                     else
@@ -10683,13 +10681,13 @@ static void floatfunc2(char *cmd, char *parms)
                         if (!resettingcvar && !togglingvanilla)
                         {
                             if (*(float *)consolecmds[i].variable == consolecmds[i].defaultnumber)
-                                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                C_Output(CVARCHANGEDFROMDEFAULT,
                                     C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                             else if (value == consolecmds[i].defaultnumber)
-                                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                C_Output(CVARCHANGEDTODEFAULT,
                                     C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                             else
-                                C_Output(INTEGERCVARCHANGED,
+                                C_Output(CVARCHANGED,
                                     C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                         }
 
@@ -10709,14 +10707,14 @@ static void floatfunc2(char *cmd, char *parms)
                 C_ShowDescription(i);
 
                 if (*(float *)consolecmds[i].variable == (float)consolecmds[i].defaultnumber)
-                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
-                        INTEGERCVARISDEFAULT), temp1);
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? CVARWITHNODEFAULT :
+                        CVARISDEFAULT), temp1);
                 else
                 {
                     char    *temp2 = striptrailingzero(consolecmds[i].defaultnumber, 1);
 
-                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
-                        INTEGERCVARWITHDEFAULT), temp1, temp2);
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? CVARWITHNODEFAULT :
+                        CVARWITHDEFAULT), temp1, temp2);
                     free(temp2);
                 }
 
@@ -10784,18 +10782,18 @@ static void intfunc2(char *cmd, char *parms)
                                 char    *temp2 = C_FormatColorValue(temp1, false);
 
                                 if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
+                                    C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp2);
                                 else
-                                    C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp2);
+                                    C_Warning(0, CVARSAMEWARNING, consolecmds[i].name, temp2);
 
                                 free(temp2);
                             }
                             else
                             {
                                 if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
+                                    C_Warning(0, CVARSAMEDEFAULTWARNING, consolecmds[i].name, temp1);
                                 else
-                                    C_Warning(0, INTEGERCVARSAMEWARNING, consolecmds[i].name, temp1);
+                                    C_Warning(0, CVARSAMEWARNING, consolecmds[i].name, temp1);
                             }
                         }
                     }
@@ -10805,7 +10803,7 @@ static void intfunc2(char *cmd, char *parms)
                             && D_IsOptionsColorOverridden(consolecmds[i].name))
                         {
                             C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
-                                BOLD("OPTIONS") " lump.", consolecmds[i].name);
+                                BOLD("OPTIONS") " lump!", consolecmds[i].name);
                             free(temp1);
                             return;
                         }
@@ -10832,13 +10830,13 @@ static void intfunc2(char *cmd, char *parms)
                                 char    *temp4 = C_FormatColorValue(temp2, false);
 
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_Output(CVARCHANGEDFROMDEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
                                 else if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_Output(CVARCHANGEDTODEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
                                 else
-                                    C_Output(INTEGERCVARCHANGED,
+                                    C_Output(CVARCHANGED,
                                         C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
 
                                 free(temp3);
@@ -10847,13 +10845,13 @@ static void intfunc2(char *cmd, char *parms)
                             else
                             {
                                 if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                                    C_Output(CVARCHANGEDFROMDEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                                 else if (value == (int)consolecmds[i].defaultnumber)
-                                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                                    C_Output(CVARCHANGEDTODEFAULT,
                                         C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                                 else
-                                    C_Output(INTEGERCVARCHANGED,
+                                    C_Output(CVARCHANGED,
                                         C_GetPlayerName(), consolecmds[i].name, temp1, temp2);
                             }
                         }
@@ -10897,14 +10895,14 @@ static void intfunc2(char *cmd, char *parms)
                         char    *temp3 = C_FormatColorValue(temp1, false);
 
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                            C_Output(INTEGERCVARISDEFAULT, temp3);
+                            C_Output(CVARISDEFAULT, temp3);
                         else
                         {
                             char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
                                         consolecmds[i].aliases);
                             char    *temp4 = C_FormatColorValue(temp2, false);
 
-                            C_Output(INTEGERCVARWITHDEFAULT, temp3, temp4);
+                            C_Output(CVARWITHDEFAULT, temp3, temp4);
                             free(temp2);
                             free(temp4);
                         }
@@ -10912,15 +10910,15 @@ static void intfunc2(char *cmd, char *parms)
                         free(temp3);
                     }
                     else if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
-                            INTEGERCVARISDEFAULT), temp1);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? CVARWITHNODEFAULT :
+                            CVARISDEFAULT), temp1);
                     else
                     {
                         char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber,
                                     consolecmds[i].aliases);
 
-                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT :
-                            INTEGERCVARWITHDEFAULT), temp1, temp2);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? CVARWITHNODEFAULT :
+                            CVARWITHDEFAULT), temp1, temp2);
                         free(temp2);
                     }
 
@@ -11158,9 +11156,9 @@ static void am_gridsizefunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, am_gridsize_default))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(am_gridsize), parms);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(am_gridsize), parms);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(am_gridsize), parms);
+                    C_Warning(0, CVARSAMEWARNING, stringize(am_gridsize), parms);
             }
 
             return;
@@ -11168,13 +11166,13 @@ static void am_gridsizefunc2(char *cmd, char *parms)
         else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(am_gridsize, am_gridsize_default))
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
             else if (M_StringCompare(parms, am_gridsize_default))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(am_gridsize), am_gridsize, parms);
         }
 
@@ -11190,9 +11188,9 @@ static void am_gridsizefunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (M_StringCompare(am_gridsize, am_gridsize_default))
-            C_Output(INTEGERCVARISDEFAULT, am_gridsize);
+            C_Output(CVARISDEFAULT, am_gridsize);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, am_gridsize, am_gridsize_default);
+            C_Output(CVARWITHDEFAULT, am_gridsize, am_gridsize_default);
 
         C_ShowWarning(i);
     }
@@ -11368,9 +11366,9 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == joy_deadzone_left_default)
-                            C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(joy_deadzone_left), temp1);
+                            C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(joy_deadzone_left), temp1);
                         else
-                            C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_left), temp1);
+                            C_Warning(0, CVARSAMEWARNING, stringize(joy_deadzone_left), temp1);
                     }
 
                     free(temp1);
@@ -11381,11 +11379,11 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     char    *temp2 = striptrailingzero(value, 1);
 
                     if (joy_deadzone_left == joy_deadzone_left_default)
-                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else if (value == joy_deadzone_left_default)
-                        C_Output(INTEGERCVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else
-                        C_Output(INTEGERCVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
 
                     free(temp2);
                 }
@@ -11405,9 +11403,9 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     if (!resettingcvar && !togglingvanilla)
                     {
                         if (value == joy_deadzone_right_default)
-                            C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(joy_deadzone_right), temp1);
+                            C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(joy_deadzone_right), temp1);
                         else
-                            C_Warning(0, INTEGERCVARSAMEWARNING, stringize(joy_deadzone_right), temp1);
+                            C_Warning(0, CVARSAMEWARNING, stringize(joy_deadzone_right), temp1);
                     }
 
                     free(temp1);
@@ -11418,11 +11416,11 @@ static void joy_deadzonecvarsfunc2(char *cmd, char *parms)
                     char    *temp2 = striptrailingzero(value, 1);
 
                     if (joy_deadzone_right == joy_deadzone_right_default)
-                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGEDFROMDEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else if (value == joy_deadzone_right_default)
-                        C_Output(INTEGERCVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGEDTODEFAULT, C_GetPlayerName(), cmd, temp1, temp2);
                     else
-                        C_Output(INTEGERCVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
+                        C_Output(CVARCHANGED, C_GetPlayerName(), cmd, temp1, temp2);
 
                     free(temp2);
                 }
@@ -11570,9 +11568,9 @@ static void playercvarsfunc2(char *cmd, char *parms)
                     if (!resettingcvar)
                     {
                         if (value == ammo_default)
-                            C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(ammo), temp1);
+                            C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(ammo), temp1);
                         else
-                            C_Warning(0, INTEGERCVARSAMEWARNING, stringize(ammo), temp1);
+                            C_Warning(0, CVARSAMEWARNING, stringize(ammo), temp1);
                     }
 
                     free(temp1);
@@ -11582,13 +11580,13 @@ static void playercvarsfunc2(char *cmd, char *parms)
                 else if (!resettingcvar)
                 {
                     if (viewplayer->ammo[ammotype] == ammo_default)
-                        C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                        C_Output(CVARCHANGEDFROMDEFAULT,
                             C_GetPlayerName(), stringize(ammo), temp1, temp2);
                     else if (value == ammo_default)
-                        C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                        C_Output(CVARCHANGEDTODEFAULT,
                             C_GetPlayerName(), stringize(ammo), temp1, temp2);
                     else
-                        C_Output(INTEGERCVARCHANGED,
+                        C_Output(CVARCHANGED,
                             C_GetPlayerName(), stringize(ammo), temp1, temp2);
                 }
 
@@ -11609,7 +11607,7 @@ static void playercvarsfunc2(char *cmd, char *parms)
                         0 : viewplayer->ammo[ammotype]) : ammo_default);
 
             C_ShowDescription(C_GetIndex(cmd));
-            C_Output(INTEGERCVARWITHNODEFAULT, temp);
+            C_Output(CVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
             {
@@ -12112,10 +12110,10 @@ static void r_gammafunc2(char *cmd, char *parms)
                 if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == r_gamma_default)
-                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING,
+                        C_Warning(0, CVARSAMEDEFAULTWARNING,
                             stringize(r_gamma), (r_gamma == 1.0f ? "off" : temp1));
                     else
-                        C_Warning(0, INTEGERCVARSAMEWARNING,
+                        C_Warning(0, CVARSAMEWARNING,
                             stringize(r_gamma), (r_gamma == 1.0f ? "off" : temp1));
                 }
 
@@ -12127,15 +12125,15 @@ static void r_gammafunc2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(value, 1);
 
                 if (r_gamma == r_gamma_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_Output(CVARCHANGEDFROMDEFAULT,
                         C_GetPlayerName(), stringize(r_gamma),
                         (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
                 else if (value == r_gamma_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_Output(CVARCHANGEDTODEFAULT,
                         C_GetPlayerName(), stringize(r_gamma),
                         (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
                 else
-                    C_Output(INTEGERCVARCHANGED,
+                    C_Output(CVARCHANGED,
                         C_GetPlayerName(), stringize(r_gamma),
                         (r_gamma == 1.0f ? "off" : temp1), (value == 1.0f ? "off" : temp2));
 
@@ -12165,7 +12163,7 @@ static void r_gammafunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (r_gamma == r_gamma_default)
-            C_Output(INTEGERCVARISDEFAULT, (r_gamma == 1.0f ? "off" : buffer1));
+            C_Output(CVARISDEFAULT, (r_gamma == 1.0f ? "off" : buffer1));
         else
         {
             char    buffer2[128];
@@ -12176,7 +12174,7 @@ static void r_gammafunc2(char *cmd, char *parms)
             if (len >= 2 && buffer2[len - 1] == '0' && buffer2[len - 2] == '0')
                 buffer2[len - 1] = '\0';
 
-            C_Output(INTEGERCVARWITHDEFAULT, (r_gamma == 1.0f ? "off" : buffer1),
+            C_Output(CVARWITHDEFAULT, (r_gamma == 1.0f ? "off" : buffer1),
                 (r_gamma_default == 1.0f ? "off" : buffer2));
         }
 
@@ -12283,9 +12281,9 @@ static void r_lowpixelsizefunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, r_lowpixelsize_default))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(r_lowpixelsize), parms);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(r_lowpixelsize), parms);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_lowpixelsize), parms);
+                    C_Warning(0, CVARSAMEWARNING, stringize(r_lowpixelsize), parms);
             }
 
             return;
@@ -12293,13 +12291,13 @@ static void r_lowpixelsizefunc2(char *cmd, char *parms)
         else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
             else if (M_StringCompare(parms, r_lowpixelsize_default))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(r_lowpixelsize), r_lowpixelsize, parms);
         }
 
@@ -12315,9 +12313,9 @@ static void r_lowpixelsizefunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (M_StringCompare(r_lowpixelsize, r_lowpixelsize_default))
-            C_Output(INTEGERCVARISDEFAULT, r_lowpixelsize);
+            C_Output(CVARISDEFAULT, r_lowpixelsize);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, r_lowpixelsize, r_lowpixelsize_default);
+            C_Output(CVARWITHDEFAULT, r_lowpixelsize, r_lowpixelsize_default);
 
         C_ShowWarning(i);
     }
@@ -12438,9 +12436,9 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == r_screensize_default)
-                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(r_screensize), temp1);
+                        C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(r_screensize), temp1);
                     else
-                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(r_screensize), temp1);
+                        C_Warning(0, CVARSAMEWARNING, stringize(r_screensize), temp1);
                 }
 
                 free(temp1);
@@ -12451,13 +12449,13 @@ static void r_screensizefunc2(char *cmd, char *parms)
                 char    *temp2 = commify(value);
 
                 if (r_screensize == r_screensize_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_Output(CVARCHANGEDFROMDEFAULT,
                         C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
                 else if (value == r_screensize_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_Output(CVARCHANGEDTODEFAULT,
                         C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
                 else
-                    C_Output(INTEGERCVARCHANGED,
+                    C_Output(CVARCHANGED,
                         C_GetPlayerName(), stringize(r_screensize), temp1, temp2);
 
                 free(temp2);
@@ -12476,12 +12474,12 @@ static void r_screensizefunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (r_screensize == r_screensize_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
+            C_Output(CVARISDEFAULT, temp1);
         else
         {
             char    *temp2 = commify(r_screensize_default);
 
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            C_Output(CVARWITHDEFAULT, temp1, temp2);
             free(temp2);
         }
 
@@ -12632,9 +12630,9 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == s_musicvolume_default)
-                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(s_musicvolume), temp1);
+                        C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(s_musicvolume), temp1);
                     else
-                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(s_musicvolume), temp1);
+                        C_Warning(0, CVARSAMEWARNING, stringize(s_musicvolume), temp1);
                 }
 
                 free(temp1);
@@ -12645,13 +12643,13 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 char    *temp2 = commify(value);
 
                 if (s_musicvolume == s_musicvolume_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_Output(CVARCHANGEDFROMDEFAULT,
                         C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
                 else if (value == s_musicvolume_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_Output(CVARCHANGEDTODEFAULT,
                         C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
                 else
-                    C_Output(INTEGERCVARCHANGED,
+                    C_Output(CVARCHANGED,
                         C_GetPlayerName(), stringize(s_musicvolume), temp1, temp2);
 
                 free(temp2);
@@ -12677,9 +12675,9 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 if (!resettingcvar && !togglingvanilla)
                 {
                     if (value == s_sfxvolume_default)
-                        C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(s_sfxvolume), temp1);
+                        C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(s_sfxvolume), temp1);
                     else
-                        C_Warning(0, INTEGERCVARSAMEWARNING, stringize(s_sfxvolume), temp1);
+                        C_Warning(0, CVARSAMEWARNING, stringize(s_sfxvolume), temp1);
                 }
 
                 free(temp1);
@@ -12690,13 +12688,13 @@ static void s_volumecvarsfunc2(char *cmd, char *parms)
                 char    *temp2 = commify(value);
 
                 if (s_sfxvolume == s_sfxvolume_default)
-                    C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                    C_Output(CVARCHANGEDFROMDEFAULT,
                         C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
                 else if (value == s_sfxvolume_default)
-                    C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                    C_Output(CVARCHANGEDTODEFAULT,
                         C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
                 else
-                    C_Output(INTEGERCVARCHANGED,
+                    C_Output(CVARCHANGED,
                         C_GetPlayerName(), stringize(s_sfxvolume), temp1, temp2);
 
                 free(temp2);
@@ -13025,9 +13023,9 @@ static void vid_screenresolutionfunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_screenresolution_default))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_screenresolution), parms);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(vid_screenresolution), parms);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_screenresolution), parms);
+                    C_Warning(0, CVARSAMEWARNING, stringize(vid_screenresolution), parms);
             }
 
             return;
@@ -13035,13 +13033,13 @@ static void vid_screenresolutionfunc2(char *cmd, char *parms)
         else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
             else if (M_StringCompare(parms, vid_screenresolution_default))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(vid_screenresolution), vid_screenresolution, parms);
         }
 
@@ -13059,9 +13057,9 @@ static void vid_screenresolutionfunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (M_StringCompare(vid_screenresolution, vid_screenresolution_default))
-            C_Output(INTEGERCVARISDEFAULT, vid_screenresolution);
+            C_Output(CVARISDEFAULT, vid_screenresolution);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, vid_screenresolution, vid_screenresolution_default);
+            C_Output(CVARWITHDEFAULT, vid_screenresolution, vid_screenresolution_default);
 
         C_ShowWarning(i);
     }
@@ -13147,9 +13145,9 @@ static void vid_windowposfunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_windowpos_default))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_windowpos), parm);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(vid_windowpos), parm);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_windowpos), parm);
+                    C_Warning(0, CVARSAMEWARNING, stringize(vid_windowpos), parm);
             }
 
             return;
@@ -13157,13 +13155,13 @@ static void vid_windowposfunc2(char *cmd, char *parms)
         else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_windowpos, vid_windowpos_default))
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
             else if (M_StringCompare(parm, vid_windowpos_default))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(vid_windowpos), vid_windowpos, parm);
         }
 
@@ -13195,9 +13193,9 @@ static void vid_windowposfunc2(char *cmd, char *parms)
             M_AmericanToBritishEnglish(temp);
 
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
-            C_Output(INTEGERCVARISDEFAULT, temp);
+            C_Output(CVARISDEFAULT, temp);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, temp, vid_windowpos_default);
+            C_Output(CVARWITHDEFAULT, temp, vid_windowpos_default);
 
         C_ShowWarning(i);
     }
@@ -13215,9 +13213,9 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, vid_windowsize_default))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(vid_windowsize), parms);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(vid_windowsize), parms);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(vid_windowsize), parms);
+                    C_Warning(0, CVARSAMEWARNING, stringize(vid_windowsize), parms);
             }
 
             return;
@@ -13225,13 +13223,13 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
         else if (!resettingcvar && !togglingvanilla)
         {
             if (M_StringCompare(vid_windowsize, vid_windowsize_default))
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
             else if (M_StringCompare(parms, vid_windowsize_default))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(vid_windowsize), vid_windowsize, parms);
         }
 
@@ -13249,9 +13247,9 @@ static void vid_windowsizefunc2(char *cmd, char *parms)
         C_ShowDescription(i);
 
         if (M_StringCompare(vid_windowsize, vid_windowsize_default))
-            C_Output(INTEGERCVARISDEFAULT, vid_windowsize);
+            C_Output(CVARISDEFAULT, vid_windowsize);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, vid_windowsize, vid_windowsize_default);
+            C_Output(CVARWITHDEFAULT, vid_windowsize, vid_windowsize_default);
 
         C_ShowWarning(i);
     }
@@ -13347,9 +13345,9 @@ static void weaponfunc2(char *cmd, char *parms)
             if (!resettingcvar && !togglingvanilla)
             {
                 if (M_StringCompare(parms, C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS)))
-                    C_Warning(0, INTEGERCVARSAMEDEFAULTWARNING, stringize(weapon), parms);
+                    C_Warning(0, CVARSAMEDEFAULTWARNING, stringize(weapon), parms);
                 else
-                    C_Warning(0, INTEGERCVARSAMEWARNING, stringize(weapon), parms);
+                    C_Warning(0, CVARSAMEWARNING, stringize(weapon), parms);
             }
 
             return;
@@ -13360,13 +13358,13 @@ static void weaponfunc2(char *cmd, char *parms)
                         weapon_default), WEAPONVALUEALIAS);
 
             if (viewplayer->readyweapon == weapon_default)
-                C_Output(INTEGERCVARCHANGEDFROMDEFAULT,
+                C_Output(CVARCHANGEDFROMDEFAULT,
                     C_GetPlayerName(), stringize(weapon), temp, parms);
             else if (M_StringCompare(parms, C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS)))
-                C_Output(INTEGERCVARCHANGEDTODEFAULT,
+                C_Output(CVARCHANGEDTODEFAULT,
                     C_GetPlayerName(), stringize(weapon), temp, parms);
             else
-                C_Output(INTEGERCVARCHANGED,
+                C_Output(CVARCHANGED,
                     C_GetPlayerName(), stringize(weapon), temp, parms);
 
             free(temp);
@@ -13403,7 +13401,7 @@ static void weaponfunc2(char *cmd, char *parms)
         description[0] = tolower(description[0]);
 
         C_Output("This CVAR changes %s", description);
-        C_Output(INTEGERCVARWITHNODEFAULT, temp);
+        C_Output(CVARWITHNODEFAULT, temp);
 
         if (gamestate != GS_LEVEL)
         {
