@@ -923,11 +923,23 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     dot += italicize[i];
 
                 if (y + i == consoleoutputclipy - 1)
-                    *dot = tinttab25[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                    *dot = tinttab10[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else if (y + i == consoleoutputclipy - 2)
-                    *dot = tinttab50[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                    *dot = tinttab20[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else if (y + i == consoleoutputclipy - 3)
-                    *dot = tinttab75[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                    *dot = tinttab30[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 4)
+                    *dot = tinttab40[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 5)
+                    *dot = tinttab50[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 6)
+                    *dot = tinttab60[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 7)
+                    *dot = tinttab70[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 8)
+                    *dot = tinttab80[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
+                else if (y + i == consoleoutputclipy - 9)
+                    *dot = tinttab90[((!tinttab ? color : tinttab[(color << 8) + *dot]) << 8) + *dot];
                 else
                 {
                     *dot = (!tinttab ? color : tinttab[(color << 8) + *dot]);
@@ -965,11 +977,23 @@ void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *pat
                     *dest = color2;
 
                 if (y + i == consoleoutputclipy - 1)
-                    *dest = tinttab75[*dest];
+                    *dest = tinttab90[*dest];
                 else if (y + i == consoleoutputclipy - 2)
-                    *dest = tinttab50[*dest];
+                    *dest = tinttab80[*dest];
                 else if (y + i == consoleoutputclipy - 3)
-                    *dest = tinttab25[*dest];
+                    *dest = tinttab70[*dest];
+                else if (y + i == consoleoutputclipy - 4)
+                    *dest = tinttab60[*dest];
+                else if (y + i == consoleoutputclipy - 5)
+                    *dest = tinttab50[*dest];
+                else if (y + i == consoleoutputclipy - 6)
+                    *dest = tinttab40[*dest];
+                else if (y + i == consoleoutputclipy - 7)
+                    *dest = tinttab30[*dest];
+                else if (y + i == consoleoutputclipy - 8)
+                    *dest = tinttab20[*dest];
+                else if (y + i == consoleoutputclipy - 9)
+                    *dest = tinttab10[*dest];
             }
 
             source++;
