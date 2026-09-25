@@ -194,7 +194,7 @@ void ST_InitCarousel(void)
                 pickuppatches[i] = W_CacheLumpNum(lumpnum);
         }
         else
-            pickuppatches[i] = weaponinfo[i].weaponpatch;
+            pickuppatches[i] = W_CacheLumpName(weaponinfo[i].carouselpickupicon);
 
         if (pickuppatches[i])
         {
@@ -210,7 +210,12 @@ void ST_InitCarousel(void)
 
     for (int i = 0; i < NUMWEAPONS; i++)
         if (pickuppatches[i])
-            pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 16;
+        {
+            pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 8;
+
+            if (W_GetNumLumps(weaponinfo[i].carouselpickupicon) == 1)
+                pickupyoffset[i] += weaponinfo[i].carouselyoffset;
+        }
 
     ST_SetCarouselColors();
 }
