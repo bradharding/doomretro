@@ -114,9 +114,28 @@ void ST_SetCarouselColors(void)
             pickupdarktint[i] = tinttab60[(black75[darkgrays25[i]] << 8) + darktintcolor];
         }
 
-        highlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
-        bordercolor = black25[tintcolor << 8];
-        unavailablebordercolor = black10[tintcolor << 8];
+        if (weaponcarouselhighlightcolor_options >= 0)
+            highlightedbordercolor = weaponcarouselhighlightcolor_options;
+        else if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_auto)
+            highlightedbordercolor = weaponcarouselhighlightcolor;
+        else
+            highlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
+
+        if (weaponcarouselbordercolor_options >= 0)
+        {
+            bordercolor = weaponcarouselbordercolor_options;
+            unavailablebordercolor = black10[bordercolor << 8];
+        }
+        else if (weaponcarouselbordercolor != weaponcarouselbordercolor_auto)
+        {
+            bordercolor = weaponcarouselbordercolor;
+            unavailablebordercolor = black10[bordercolor << 8];
+        }
+        else
+        {
+            bordercolor = black25[tintcolor << 8];
+            unavailablebordercolor = black10[tintcolor << 8];
+        }
     }
     else
     {
@@ -391,7 +410,8 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     }
     else if ((patch = pickuppatches[weapon]))
     {
-        const byte  border = (selected ? highlightedbordercolor : (available ? bordercolor : unavailablebordercolor));
+        const byte  border = (selected ? highlightedbordercolor :
+                        (available ? bordercolor : unavailablebordercolor));
         int         left, top, right, bottom;
 
         x += pickupxoffset[weapon];
@@ -418,7 +438,8 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
         V_DrawSmallColoredPatch(x, y + 1, 3, patch, border);
         V_DrawSmallColoredPatch(x + 1, y + 1, 3, patch, border);
 
-        V_DrawSmallTintedPatch(x, y, 3, patch, (available || r_hud_translucency ? pickuptint : pickupdarktint));
+        V_DrawSmallTintedPatch(x, y, 3, patch,
+            (available || r_hud_translucency ? pickuptint : pickupdarktint));
 
         for (int yy = top; yy < bottom; yy++)
             for (int xx = left; xx < right; xx++)
