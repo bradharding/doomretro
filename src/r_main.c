@@ -1345,12 +1345,12 @@ static void R_SwirlView(const int swirltic)
 
 static fixed_t R_GetViewRockFactor(void)
 {
-    const int   currtic = liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1);
+    const int   currtic = (liquidrocktic & (ANIMATEDLIQUIDDIFFS - 1));
     fixed_t     tiltfactor = VIEWROCKFACTOR(animatedliquiddiffs[currtic]);
 
-    if (vid_capfps != TICRATE && liquidrocktic != -1 && !paused && !menuactive && !consoleactive && !consoleheight)
+    if (vid_capfps != TICRATE && liquidrocktic != -1 && !paused && !menuactive && !consoleheight)
     {
-        const int       nexttic = (currtic + 1) & (ANIMATEDLIQUIDDIFFS - 1);
+        const int       nexttic = ((currtic + 1) & (ANIMATEDLIQUIDDIFFS - 1));
         const fixed_t   nexttiltfactor = VIEWROCKFACTOR(animatedliquiddiffs[nexttic]);
 
         tiltfactor += FixedMul(nexttiltfactor - tiltfactor, fractionaltic);
@@ -1366,11 +1366,9 @@ static void R_RockView(void)
     const fixed_t   tiltfactor = R_GetViewRockFactor();
     const fixed_t   rockpixels = FixedDiv(tiltfactor * MAXVIEWROCKPIXELS, MAXVIEWROCKFACTOR);
     const int       cy = viewheight / 2;
-    const int       zoomedheight = MAX(1, viewheight - 2 * MAXVIEWROCKPIXELS);
-    const fixed_t   centerxfrac = centerx * FRACUNIT;
     const fixed_t   halfwidth = MAX(1, viewwidth / 2) * FRACUNIT;
-    const fixed_t   cyfrac = cy * FRACUNIT;
-    const fixed_t   zoomedheightfrac = zoomedheight * FRACUNIT;
+    const fixed_t   zoomedheightfrac = FixedDiv(MAX(1, viewheight - 2 * MAXVIEWROCKPIXELS) * FRACUNIT,
+                        viewheight * FRACUNIT);
 
     for (int y = 0; y < viewheight; y++)
     {
@@ -1385,11 +1383,10 @@ static void R_RockView(void)
 
         for (int y = 0; y < viewheight; y++)
         {
-            const fixed_t   srcy = cyfrac + FixedMul((y - cy) * FRACUNIT,
-                                FixedDiv(zoomedheightfrac, viewheight * FRACUNIT)) + yoffset;
+            const fixed_t   srcy = centeryfrac + FixedMul((y - cy) * FRACUNIT, zoomedheightfrac) + yoffset;
 
             dest[((size_t)viewwindowy + y) * SCREENWIDTH + viewwindowx + x] =
-                source[((size_t)viewwindowy + BETWEEN(0, srcy >> FRACBITS, viewheight - 1)) * SCREENWIDTH
+                source[((size_t)viewwindowy + BETWEEN(0, (srcy >> FRACBITS), viewheight - 1)) * SCREENWIDTH
                 + viewwindowx + x];
         }
     }

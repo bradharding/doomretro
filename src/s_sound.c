@@ -518,12 +518,10 @@ static int S_GetPreferredMusicLump(const int lumpnum, float *volume)
 
     if (lumpnum > 0 && lumpnum < numlumps)
     {
-        char    namebuf[9];
-
-        preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume);
-
-        if (preferredlumpnum == lumpnum)
+        if ((preferredlumpnum = S_ResolveTrakInfoMusic(lumpnum, volume)) == lumpnum)
         {
+            char    namebuf[9];
+
             M_StringCopy(namebuf, lumpinfo[lumpnum]->name, sizeof(namebuf));
 
             if (namebuf[0] == 'D' && namebuf[1] == '_')

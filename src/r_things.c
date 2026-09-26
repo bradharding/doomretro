@@ -123,20 +123,20 @@ static bool                     interpolatesprites;
 
 int                             liquidrocktic = -1;
 
-static void R_UpdateSpriteInterpolation(void)
-{
-    const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
-
-    interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !consoleheight && !freeze);
-
-    if (!freeze || liquidrocktic == -1)
-        liquidrocktic = animatedtic;
-}
-
 static bool                     invulnerable;
 static sector_t                 *viewheightsec;
 static int                      viewfixedcolormap;
 static bool                     viewinvulnerabilitycolormap;
+
+static void R_UpdateSpriteInterpolation(void)
+{
+    const bool  freeze = !!(viewplayer->cheats & CF_FREEZE);
+
+    interpolatesprites = (vid_capfps != TICRATE && !consoleheight && !freeze);
+
+    if (!freeze || liquidrocktic == -1)
+        liquidrocktic = animatedtic;
+}
 
 static int R_GetDrawSegXRangeIndex(const int x1, const int x2)
 {
