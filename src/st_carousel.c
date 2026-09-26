@@ -177,17 +177,16 @@ void ST_InitCarousel(void)
             for (int selected = 0; selected < 2; selected++)
             {
                 char    lump[9];
-                int     lumpnum;
 
                 M_snprintf(lump, sizeof(lump), "%s%d", weaponinfo[i].carouselicon, selected);
 
-                if ((lumpnum = W_CheckNumForName(lump)) >= 0)
+                if (W_CheckNumForName(lump) >= 0)
                 {
-                    carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
+                    carouselpatches[i][selected] = W_CacheLumpName(lump);
                     usingcarouselicons = true;
                 }
-                else if ((lumpnum = W_CheckNumForName("SMUNKN")) >= 0)
-                    carouselpatches[i][selected] = W_CacheLumpNum(lumpnum);
+                else if (W_CheckNumForName("SMUNKN") >= 0)
+                    carouselpatches[i][selected] = W_CacheLumpName("SMUNKN");
             }
     }
 
@@ -201,12 +200,11 @@ void ST_InitCarousel(void)
         if (i == wp_fist || i == wp_pistol)
         {
             char    lump[9];
-            int     lumpnum;
 
             M_snprintf(lump, sizeof(lump), "DRHUDWP%d", i);
 
-            if ((lumpnum = W_CheckNumForName(lump)) >= 0)
-                pickuppatches[i] = W_CacheLumpNum(lumpnum);
+            if (W_CheckNumForName(lump) >= 0)
+                pickuppatches[i] = W_CacheLumpName(lump);
         }
         else if (W_CheckNumForName(weaponinfo[i].carouselpickupicon) >= 0)
             pickuppatches[i] = W_CacheLumpName(weaponinfo[i].carouselpickupicon);
