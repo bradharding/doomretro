@@ -270,7 +270,8 @@ void P_InitPicAnims(void)
                 }
                 else if (M_StrCaseStr(animdefs[i].startname, "WAT")
                     || M_StrCaseStr(animdefs[i].startname, "WTR")
-                    || M_StrCaseStr(animdefs[i].startname, "WAV"))
+                    || M_StrCaseStr(animdefs[i].startname, "WAV")
+                    || M_StrCaseStr(animdefs[i].startname, "SEA"))
                 {
                     SetTerrainType(lastanim, WATER);
                     isliquid = true;
