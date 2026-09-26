@@ -116,6 +116,34 @@ void V_InitColorTranslation(void)
     }
 }
 
+static bool V_ShouldSkipSmallPatchSample(int index, int count)
+{
+    int skipcount;
+    int start;
+
+    if (count <= 0 || count <= 4 || index < 0 || index >= count)
+        return false;
+
+    skipcount = count / 4;
+    start = (count - skipcount * 4) / 2;
+
+    if (index < start)
+        return false;
+
+    return (((index - start) % 4) == 3 && (index - start) / 4 < skipcount);
+}
+
+static int V_GetSmallPatchOffset(int index, int count)
+{
+    int offset = 0;
+
+    for (int i = 0; i < index; i++)
+        if (V_ShouldSkipSmallPatchSample(i, count))
+            offset++;
+
+    return (index - offset);
+}
+
 void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte color)
 {
     const int   width = LITTLESHORT(patch->width) << FRACBITS;
@@ -126,9 +154,10 @@ void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte colo
     {
         const int   sourcecol = col >> FRACBITS;
 
-        if (sourcecol % 4 != 3)
+        if (!V_ShouldSkipSmallPatchSample(sourcecol, LITTLESHORT(patch->width)))
         {
-            const int   dx = ((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS;
+            const int   smallx = V_GetSmallPatchOffset(sourcecol, LITTLESHORT(patch->width));
+            const int   dx = ((x + smallx) * DX) >> FRACBITS;
             column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
 
             while (column->topdelta != 0xFF)
@@ -139,11 +168,12 @@ void V_DrawSmallColoredPatch(int x, int y, int screen, patch_t *patch, byte colo
                 {
                     const int   sourcey = column->topdelta + row;
 
-                    if (sourcey % 4 != 3)
+                    if (!V_ShouldSkipSmallPatchSample(sourcey, LITTLESHORT(patch->height)))
                     {
-                        const int   dy = ((y + sourcey - sourcey / 4) * DY) >> FRACBITS;
-                        const int   dx2 = ((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS;
-                        const int   dy2 = ((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS;
+                        const int   smally = V_GetSmallPatchOffset(sourcey, LITTLESHORT(patch->height));
+                        const int   dy = ((y + smally) * DY) >> FRACBITS;
+                        const int   dx2 = ((x + smallx + 1) * DX) >> FRACBITS;
+                        const int   dy2 = ((y + smally + 1) * DY) >> FRACBITS;
 
                         for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
                             for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
@@ -175,10 +205,11 @@ void V_DrawSmallDropShadowPatch(int x, int y, int screen, patch_t *patch, const 
             {
                 const int   sourcecol = col >> FRACBITS;
 
-                if (sourcecol % 4 != 3)
+                if (!V_ShouldSkipSmallPatchSample(sourcecol, LITTLESHORT(patch->width)))
                 {
-                    const int   screenx = (((x + xoffset + sourcecol - sourcecol / 4) * DX) >> FRACBITS) + 2;
-                    const int   screenx2 = (((x + xoffset + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS) + 2;
+                    const int   smallx = V_GetSmallPatchOffset(sourcecol, LITTLESHORT(patch->width));
+                    const int   screenx = (((x + xoffset + smallx) * DX) >> FRACBITS) + 2;
+                    const int   screenx2 = (((x + xoffset + smallx + 1) * DX) >> FRACBITS) + 2;
                     column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
 
                     while (column->topdelta != 0xFF)
@@ -189,10 +220,11 @@ void V_DrawSmallDropShadowPatch(int x, int y, int screen, patch_t *patch, const 
                         {
                             const int   sourcey = column->topdelta + row;
 
-                            if (sourcey % 4 != 3)
+                            if (!V_ShouldSkipSmallPatchSample(sourcey, LITTLESHORT(patch->height)))
                             {
-                                const int   screeny = (((y + yoffset + sourcey - sourcey / 4) * DY) >> FRACBITS) + 2;
-                                const int   screeny2 = (((y + yoffset + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS) + 2;
+                                const int   smally = V_GetSmallPatchOffset(sourcey, LITTLESHORT(patch->height));
+                                const int   screeny = (((y + yoffset + smally) * DY) >> FRACBITS) + 2;
+                                const int   screeny2 = (((y + yoffset + smally + 1) * DY) >> FRACBITS) + 2;
                                 const int   xx1 = MAX(0, screenx);
                                 const int   xx2 = MIN(SCREENWIDTH, MAX(screenx + 1, screenx2));
                                 const int   yy1 = MAX(0, screeny);
@@ -242,9 +274,10 @@ void V_DrawSmallTintedPatch(int x, int y, int screen, patch_t *patch, const byte
     {
         const int   sourcecol = col >> FRACBITS;
 
-        if (sourcecol % 4 != 3)
+        if (!V_ShouldSkipSmallPatchSample(sourcecol, LITTLESHORT(patch->width)))
         {
-            const int   dx = ((x + sourcecol - sourcecol / 4) * DX) >> FRACBITS;
+            const int   smallx = V_GetSmallPatchOffset(sourcecol, LITTLESHORT(patch->width));
+            const int   dx = ((x + smallx) * DX) >> FRACBITS;
             column_t    *column = (column_t *)((byte *)patch + LITTLELONG(patch->columnoffset[sourcecol]));
 
             while (column->topdelta != 0xFF)
@@ -256,11 +289,12 @@ void V_DrawSmallTintedPatch(int x, int y, int screen, patch_t *patch, const byte
                 {
                     const int   sourcey = column->topdelta + row;
 
-                    if (sourcey % 4 != 3)
+                    if (!V_ShouldSkipSmallPatchSample(sourcey, LITTLESHORT(patch->height)))
                     {
-                        const int   dy = ((y + sourcey - sourcey / 4) * DY) >> FRACBITS;
-                        const int   dx2 = ((x + sourcecol - sourcecol / 4 + 1) * DX) >> FRACBITS;
-                        const int   dy2 = ((y + sourcey - sourcey / 4 + 1) * DY) >> FRACBITS;
+                        const int   smally = V_GetSmallPatchOffset(sourcey, LITTLESHORT(patch->height));
+                        const int   dy = ((y + smally) * DY) >> FRACBITS;
+                        const int   dx2 = ((x + smallx + 1) * DX) >> FRACBITS;
+                        const int   dy2 = ((y + smally + 1) * DY) >> FRACBITS;
 
                         for (int yy = dy; yy < MAX(dy + 1, dy2) && yy < SCREENHEIGHT; yy++)
                             for (int xx = dx; xx < MAX(dx + 1, dx2) && xx < SCREENWIDTH; xx++)
