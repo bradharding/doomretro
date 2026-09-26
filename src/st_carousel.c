@@ -52,7 +52,7 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-#define ST_CAROUSEL_COLOR   176
+#define ST_CAROUSEL_COLOR   nearestcolors[RED1]
 
 typedef struct
 {
@@ -87,7 +87,7 @@ static bool         hadweapons[NUMWEAPONS];
 
 static void ST_SetCarouselTintColors(int tintcolor)
 {
-    const bool  special = (tintcolor == nearestcolors[ST_CAROUSEL_COLOR]);
+    const bool  special = (tintcolor == ST_CAROUSEL_COLOR);
     const byte  darktintcolor = (special ? black75[tintcolor] : black40[tintcolor]);
 
     for (int i = 0; i < 256; i++)
@@ -109,7 +109,7 @@ static void ST_SetCarouselBorderColors(int tintcolor)
         highlightedbordercolor = weaponcarouselhighlightcolor_options;
     else if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_auto)
         highlightedbordercolor = weaponcarouselhighlightcolor;
-    else if (tintcolor == nearestcolors[ST_CAROUSEL_COLOR])
+    else if (tintcolor == ST_CAROUSEL_COLOR)
         highlightedbordercolor = I_GetNearestColor(PLAYPAL, 128, 96, 0);
     else
         highlightedbordercolor = white5[tintcolor];
@@ -146,7 +146,7 @@ void ST_SetCarouselColors(void)
         if (W_GetNumLumps("STTNUM0") == 1
             || (tintcolor >= nearestcolors[LIGHTGRAY1] && tintcolor <= nearestcolors[DARKGRAY4])
             || tintcolor == nearestcolors[WHITE])
-            tintcolor = (W_GetNumLumps("STCFN065") == 1 ? nearestcolors[ST_CAROUSEL_COLOR] :
+            tintcolor = (W_GetNumLumps("STCFN065") == 1 ? ST_CAROUSEL_COLOR :
                 FindBrightDominantColor(W_CacheLumpName("STCFN065")));
     }
 
@@ -174,7 +174,7 @@ void ST_InitCarousel(void)
             carouselweapons[order] = (weapontype_t)i;
 
         if (weaponinfo[i].carouselicon)
-            for (int selected = 0; selected < 2; selected++)
+            for (int selected = 0; selected <= 1; selected++)
             {
                 char    lump[9];
 
@@ -185,8 +185,13 @@ void ST_InitCarousel(void)
                     carouselpatches[i][selected] = W_CacheLumpName(lump);
                     usingcarouselicons = true;
                 }
-                else if (W_CheckNumForName("SMUNKN") >= 0)
-                    carouselpatches[i][selected] = W_CacheLumpName("SMUNKN");
+                else
+                {
+                    M_snprintf(lump, sizeof(lump), "SMUNKN%d", selected);
+
+                    if (W_CheckNumForName(lump) >= 0)
+                        carouselpatches[i][selected] = W_CacheLumpName(lump);
+                }
             }
     }
 
