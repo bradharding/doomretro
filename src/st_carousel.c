@@ -208,7 +208,7 @@ void ST_InitCarousel(void)
             if ((lumpnum = W_CheckNumForName(lump)) >= 0)
                 pickuppatches[i] = W_CacheLumpNum(lumpnum);
         }
-        else
+        else if (W_CheckNumForName(weaponinfo[i].carouselpickupicon) >= 0)
             pickuppatches[i] = W_CacheLumpName(weaponinfo[i].carouselpickupicon);
 
         if (pickuppatches[i])
