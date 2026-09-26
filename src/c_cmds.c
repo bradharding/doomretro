@@ -10892,7 +10892,7 @@ static void intfunc2(char *cmd, char *parms)
                             free(temp4);
                         }
 
-                        if (optionscolor)
+                        if (optionscolor && *optionscolor != -1)
                             C_Warning(0, "It is being overridden by the value {%i} in an " BOLD("OPTIONS") " lump.",
                                 *optionscolor);
 
