@@ -207,50 +207,165 @@ void D_ProcessOptionsInWad(void)
             D_ProcessOptionsLump(i);
 }
 
-bool D_IsOptionsColorOverridden(const char *name)
+void D_ResetOptionsColor(const char *name)
 {
-    if (M_StringCompare(name, "am_allmapcdwallcolor"))
-        return (am_allmapcdwallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_allmapfdwallcolor"))
-        return (am_allmapfdwallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_allmapwallcolor"))
-        return (am_allmapwallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_bluedoorcolor"))
-        return (am_bluedoorcolor_options >= 0);
-    else if (M_StringCompare(name, "am_bluekeycolor"))
-        return (am_bluekeycolor_options >= 0);
-    else if (M_StringCompare(name, "am_cdwallcolor"))
-        return (am_cdwallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_crosshaircolor"))
-        return (am_crosshaircolor_options >= 0);
-    else if (M_StringCompare(name, "am_fdwallcolor"))
-        return (am_fdwallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_gridcolor"))
-        return (am_gridcolor_options >= 0);
-    else if (M_StringCompare(name, "am_reddoorcolor"))
-        return (am_reddoorcolor_options >= 0);
-    else if (M_StringCompare(name, "am_redkeycolor"))
-        return (am_redkeycolor_options >= 0);
-    else if (M_StringCompare(name, "am_secretcolor"))
-        return (am_secretcolor_options >= 0);
-    else if (M_StringCompare(name, "am_teleportercolor"))
-        return (am_teleportercolor_options >= 0);
-    else if (M_StringCompare(name, "am_thingcolor"))
-        return (am_thingcolor_options >= 0);
-    else if (M_StringCompare(name, "am_tswallcolor"))
-        return (am_tswallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_wallcolor"))
-        return (am_wallcolor_options >= 0);
-    else if (M_StringCompare(name, "am_yellowdoorcolor"))
-        return (am_yellowdoorcolor_options >= 0);
-    else if (M_StringCompare(name, "am_yellowkeycolor"))
-        return (am_yellowkeycolor_options >= 0);
-    else if (M_StringCompare(name, "weaponcarouselbordercolor"))
-        return (weaponcarouselbordercolor_options >= 0);
-    else if (M_StringCompare(name, "weaponcarouselcolor"))
-        return (weaponcarouselcolor_options >= 0);
-    else if (M_StringCompare(name, "weaponcarouselhighlightcolor"))
-        return (weaponcarouselhighlightcolor_options >= 0);
+    int value = -1;
 
-    return false;
+    if (M_StringCompare(name, stringize(am_allmapcdwallcolor)))
+    {
+        value = am_allmapcdwallcolor_options;
+        am_allmapcdwallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_allmapfdwallcolor)))
+    {
+        value = am_allmapfdwallcolor_options;
+        am_allmapfdwallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_allmapwallcolor)))
+    {
+        value = am_allmapwallcolor_options;
+        am_allmapwallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_bluedoorcolor)))
+    {
+        value = am_bluedoorcolor_options;
+        am_bluedoorcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_bluekeycolor)))
+    {
+        value = am_bluekeycolor_options;
+        am_bluekeycolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_cdwallcolor)))
+    {
+        value = am_cdwallcolor_options;
+        am_cdwallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_crosshaircolor)))
+    {
+        value = am_crosshaircolor_options;
+        am_crosshaircolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_fdwallcolor)))
+    {
+        value = am_fdwallcolor_options;
+        am_fdwallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_gridcolor)))
+    {
+        value = am_gridcolor_options;
+        am_gridcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_reddoorcolor)))
+    {
+        value = am_reddoorcolor_options;
+        am_reddoorcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_redkeycolor)))
+    {
+        value = am_redkeycolor_options;
+        am_redkeycolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_secretcolor)))
+    {
+        value = am_secretcolor_options;
+        am_secretcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_teleportercolor)))
+    {
+        value = am_teleportercolor_options;
+        am_teleportercolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_thingcolor)))
+    {
+        value = am_thingcolor_options;
+        am_thingcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_tswallcolor)))
+    {
+        value = am_tswallcolor_options;
+        am_tswallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_wallcolor)))
+    {
+        value = am_wallcolor_options;
+        am_wallcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_yellowdoorcolor)))
+    {
+        value = am_yellowdoorcolor_options;
+        am_yellowdoorcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(am_yellowkeycolor)))
+    {
+        value = am_yellowkeycolor_options;
+        am_yellowkeycolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(weaponcarouselbordercolor)))
+    {
+        value = weaponcarouselbordercolor_options;
+        weaponcarouselbordercolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(weaponcarouselcolor)))
+    {
+        value = weaponcarouselcolor_options;
+        weaponcarouselcolor_options = -1;
+    }
+    else if (M_StringCompare(name, stringize(weaponcarouselhighlightcolor)))
+    {
+        value = weaponcarouselhighlightcolor_options;
+        weaponcarouselhighlightcolor_options = -1;
+    }
+
+    if (value != -1)
+        C_Warning(0, "It is no longer being overridden by {%i} from an " BOLD("OPTIONS") " lump.",
+            value);
+}
+
+int *D_GetOptionsColor(const char *name)
+{
+    if (M_StringCompare(name, stringize(am_allmapcdwallcolor)))
+        return &am_allmapcdwallcolor_options;
+    else if (M_StringCompare(name, stringize(am_allmapfdwallcolor)))
+        return &am_allmapfdwallcolor_options;
+    else if (M_StringCompare(name, stringize(am_allmapwallcolor)))
+        return &am_allmapwallcolor_options;
+    else if (M_StringCompare(name, stringize(am_bluedoorcolor)))
+        return &am_bluedoorcolor_options;
+    else if (M_StringCompare(name, stringize(am_bluekeycolor)))
+        return &am_bluekeycolor_options;
+    else if (M_StringCompare(name, stringize(am_cdwallcolor)))
+        return &am_cdwallcolor_options;
+    else if (M_StringCompare(name, stringize(am_crosshaircolor)))
+        return &am_crosshaircolor_options;
+    else if (M_StringCompare(name, stringize(am_fdwallcolor)))
+        return &am_fdwallcolor_options;
+    else if (M_StringCompare(name, stringize(am_gridcolor)))
+        return &am_gridcolor_options;
+    else if (M_StringCompare(name, stringize(am_reddoorcolor)))
+        return &am_reddoorcolor_options;
+    else if (M_StringCompare(name, stringize(am_redkeycolor)))
+        return &am_redkeycolor_options;
+    else if (M_StringCompare(name, stringize(am_secretcolor)))
+        return &am_secretcolor_options;
+    else if (M_StringCompare(name, stringize(am_teleportercolor)))
+        return &am_teleportercolor_options;
+    else if (M_StringCompare(name, stringize(am_thingcolor)))
+        return &am_thingcolor_options;
+    else if (M_StringCompare(name, stringize(am_tswallcolor)))
+        return &am_tswallcolor_options;
+    else if (M_StringCompare(name, stringize(am_wallcolor)))
+        return &am_wallcolor_options;
+    else if (M_StringCompare(name, stringize(am_yellowdoorcolor)))
+        return &am_yellowdoorcolor_options;
+    else if (M_StringCompare(name, stringize(am_yellowkeycolor)))
+        return &am_yellowkeycolor_options;
+    else if (M_StringCompare(name, stringize(weaponcarouselbordercolor)))
+        return &weaponcarouselbordercolor_options;
+    else if (M_StringCompare(name, stringize(weaponcarouselcolor)))
+        return &weaponcarouselcolor_options;
+    else if (M_StringCompare(name, stringize(weaponcarouselhighlightcolor)))
+        return &weaponcarouselhighlightcolor_options;
+
+    return NULL;
 }

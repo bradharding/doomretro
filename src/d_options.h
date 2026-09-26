@@ -58,4 +58,5 @@ extern int  weaponcarouselcolor_options;
 extern int  weaponcarouselhighlightcolor_options;
 
 void D_ProcessOptionsInWad(void);
-bool D_IsOptionsColorOverridden(const char *name);
+void D_ResetOptionsColor(const char *name);
+int *D_GetOptionsColor(const char *name);

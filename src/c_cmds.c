@@ -10618,13 +10618,7 @@ static void colorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (M_StringStartsWith(cmd, "am_"))
-    {
-        if (D_IsOptionsColorOverridden(cmd))
-            C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
-                BOLD("OPTIONS") " lump!", cmd);
-        else
-            AM_SetColors();
-    }
+        AM_SetColors();
 }
 
 //
@@ -10799,15 +10793,6 @@ static void intfunc2(char *cmd, char *parms)
                     }
                     else
                     {
-                        if ((consolecmds[i].flags & CF_COLOR)
-                            && D_IsOptionsColorOverridden(consolecmds[i].name))
-                        {
-                            C_Warning(0, "The " BOLD("%s") " CVAR can't be changed because it is overridden by an "
-                                BOLD("OPTIONS") " lump!", consolecmds[i].name);
-                            free(temp1);
-                            return;
-                        }
-
                         char    *temp2 = C_LookupAliasFromValue(value, consolecmds[i].aliases);
 
                         if (!resettingcvar && !togglingvanilla)
@@ -10839,6 +10824,7 @@ static void intfunc2(char *cmd, char *parms)
                                     C_Output(CVARCHANGED,
                                         C_GetPlayerName(), consolecmds[i].name, temp3, temp4);
 
+                                D_ResetOptionsColor(consolecmds[i].name);
                                 free(temp3);
                                 free(temp4);
                             }
@@ -10857,9 +10843,7 @@ static void intfunc2(char *cmd, char *parms)
                         }
 
                         *(int *)consolecmds[i].variable = value;
-
                         M_SaveCVARs();
-
                         free(temp2);
                     }
 
@@ -10893,6 +10877,7 @@ static void intfunc2(char *cmd, char *parms)
                     if (consolecmds[i].flags & CF_COLOR)
                     {
                         char    *temp3 = C_FormatColorValue(temp1, false);
+                        int     *optionscolor = D_GetOptionsColor(cmd);
 
                         if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
                             C_Output(CVARISDEFAULT, temp3);
@@ -10906,6 +10891,10 @@ static void intfunc2(char *cmd, char *parms)
                             free(temp2);
                             free(temp4);
                         }
+
+                        if (optionscolor)
+                            C_Warning(0, "It is being overridden by the value {%i} in an " BOLD("OPTIONS") " lump.",
+                                *optionscolor);
 
                         free(temp3);
                     }
@@ -13426,7 +13415,10 @@ static void weaponcarouselbordercolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselbordercolor != weaponcarouselbordercolor_old)
+    {
+        weaponcarouselbordercolor_options = -1;
         ST_SetCarouselColors();
+    }
 }
 
 //
@@ -13439,7 +13431,10 @@ static void weaponcarouselcolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselcolor != weaponcarouselcolor_old)
+    {
+        weaponcarouselcolor_options = -1;
         ST_SetCarouselColors();
+    }
 }
 
 //
@@ -13452,7 +13447,10 @@ static void weaponcarouselhighlightcolorfunc2(char *cmd, char *parms)
     intfunc2(cmd, parms);
 
     if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_old)
+    {
+        weaponcarouselhighlightcolor_options = -1;
         ST_SetCarouselColors();
+    }
 }
 
 //
