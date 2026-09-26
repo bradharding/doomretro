@@ -37,6 +37,7 @@
 
 #include "c_console.h"
 #include "d_items.h"
+#include "d_options.h"
 #include "d_player.h"
 #include "doomdef.h"
 #include "doomtype.h"
@@ -88,7 +89,11 @@ void ST_SetCarouselColors(void)
 {
     int tintcolor;
 
-    if (weaponcarouselcolor == weaponcarouselcolor_auto)
+    if (weaponcarouselcolor_options >= 0)
+        tintcolor = weaponcarouselcolor_options;
+    else if (weaponcarouselcolor != weaponcarouselcolor_auto)
+        tintcolor = weaponcarouselcolor;
+    else
     {
         tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
@@ -98,8 +103,6 @@ void ST_SetCarouselColors(void)
             tintcolor = (W_GetNumLumps("STCFN065") == 1 ? nearestcolors[ST_CAROUSEL_COLOR] :
                 FindBrightDominantColor(W_CacheLumpName("STCFN065")));
     }
-    else
-        tintcolor = weaponcarouselcolor;
 
     if (tintcolor == nearestcolors[ST_CAROUSEL_COLOR])
     {
@@ -125,18 +128,27 @@ void ST_SetCarouselColors(void)
             pickupdarktint[i] = tinttab33[(darkgrays40[i] << 8) + darktintcolor];
         }
 
-        highlightedbordercolor = (weaponcarouselhighlightcolor == weaponcarouselhighlightcolor_auto ?
-            white5[tintcolor] : weaponcarouselhighlightcolor);
+        if (weaponcarouselhighlightcolor_options >= 0)
+            highlightedbordercolor = weaponcarouselhighlightcolor_options;
+        else if (weaponcarouselhighlightcolor != weaponcarouselhighlightcolor_auto)
+            highlightedbordercolor = weaponcarouselhighlightcolor;
+        else
+            highlightedbordercolor = white5[tintcolor];
 
-        if (weaponcarouselbordercolor == weaponcarouselbordercolor_auto)
+        if (weaponcarouselbordercolor_options >= 0)
         {
-            bordercolor = black25[tintcolor << 8];
-            unavailablebordercolor = black10[tintcolor << 8];
+            bordercolor = weaponcarouselbordercolor_options;
+            unavailablebordercolor = black10[bordercolor << 8];
+        }
+        else if (weaponcarouselbordercolor != weaponcarouselbordercolor_auto)
+        {
+            bordercolor = weaponcarouselbordercolor;
+            unavailablebordercolor = black10[bordercolor << 8];
         }
         else
         {
-            bordercolor = weaponcarouselbordercolor;
-            unavailablebordercolor = black10[weaponcarouselbordercolor << 8];
+            bordercolor = black25[tintcolor << 8];
+            unavailablebordercolor = black10[tintcolor << 8];
         }
     }
 }
