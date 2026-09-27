@@ -2929,7 +2929,8 @@ static bool M_HandleScreenSizeControl(int choice)
                 C_StringCVAROutput(stringize(r_hud), "off");
             }
 
-            R_SetViewSize(r_screensize);
+            if (!menuactive && !consoleactive)
+                R_SetViewSize(r_screensize);
         }
 
         pagetic = PAGETICS;
@@ -2943,7 +2944,9 @@ static bool M_HandleScreenSizeControl(int choice)
         {
             r_screensize = r_screensize_default;
             C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-            R_SetViewSize(r_screensize);
+
+            if (!menuactive && !consoleactive)
+                R_SetViewSize(r_screensize);
         }
 
         pagetic = PAGETICS;
@@ -2974,8 +2977,12 @@ static void M_SizeDisplay(int choice)
 
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), --r_screensize);
             ST_SetScreenSize(oldscreensize, r_screensize, (!(menuactive && viewactive)
-                && oldscreensize == r_screensize_max && r_screensize == r_screensize_max - 1));
-            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
+                && oldscreensize == r_screensize_max && r_screensize == r_screensize_max - 1),
+                (menuactive && viewactive));
+
+            if (!(menuactive && viewactive))
+                R_SetViewSize(r_screensize);
+
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);
 
@@ -3012,8 +3019,12 @@ static void M_SizeDisplay(int choice)
 
             C_IntegerCVAROutputNoRepeat(stringize(r_screensize), ++r_screensize);
             ST_SetScreenSize(oldscreensize, r_screensize, (!(menuactive && viewactive)
-                && oldscreensize == r_screensize_max - 1 && r_screensize == r_screensize_max));
-            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
+                && oldscreensize == r_screensize_max - 1 && r_screensize == r_screensize_max),
+                (menuactive && viewactive));
+
+            if (!(menuactive && viewactive))
+                R_SetViewSize(r_screensize);
+
             AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
             I_RestartGraphics(false);
 
@@ -5666,7 +5677,10 @@ void M_CloseMenu(void)
         }
 
         if (!helpscreen)
+        {
+            ST_SetScreenSize(r_screensize, r_screensize, false, true);
             R_SetViewSize(r_screensize);
+        }
 
         AM_SetAutomapSize(r_screensize);
 

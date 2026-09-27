@@ -1592,10 +1592,10 @@ static void ST_DiffDraw(void)
     ST_DrawWidgets(false);
 }
 
-void ST_SetScreenSize(int oldscreensize, int newscreensize, bool animate)
+void ST_SetScreenSize(int oldscreensize, int newscreensize, bool animate, bool forcefullrefresh)
 {
     st_statusbartarget = (newscreensize < r_screensize_max ? SBARHEIGHT : 0);
-    animate = (animate && smoothtransitions);
+    animate = (animate && smoothtransitions && !forcefullrefresh);
 
     if (!animate || ((oldscreensize != r_screensize_max - 1 || newscreensize != r_screensize_max)
         && (oldscreensize != r_screensize_max || newscreensize != r_screensize_max - 1)))

@@ -12178,7 +12178,7 @@ static void AdjustScreenSize(int value)
     r_screensize = value;
     S_StartSound(NULL, sfx_stnmov);
 
-    ST_SetScreenSize(oldscreensize, r_screensize, true);
+    ST_SetScreenSize(oldscreensize, r_screensize, true, false);
     R_SetViewSize(r_screensize);
 
     if (!togglingvanilla)
@@ -13101,18 +13101,21 @@ static void vid_widescreenfunc2(char *cmd, char *parms)
 
     if (vid_widescreen != vid_widescreen_old && !togglingvanilla)
     {
-        if (r_screensize != r_screensize_max - 1)
+        if (!menuactive && !consoleactive)
         {
-            r_screensize = r_screensize_max - 1;
-            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-            M_SaveCVARs();
-        }
+            if (r_screensize != r_screensize_max - 1)
+            {
+                r_screensize = r_screensize_max - 1;
+                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                M_SaveCVARs();
+            }
 
-        if (r_hud)
-        {
-            r_hud = false;
-            C_StringCVAROutput(stringize(r_hud), "off");
-            M_SaveCVARs();
+            if (r_hud)
+            {
+                r_hud = false;
+                C_StringCVAROutput(stringize(r_hud), "off");
+                M_SaveCVARs();
+            }
         }
 
         I_StartPillarboxAnimation(!vid_widescreen);
