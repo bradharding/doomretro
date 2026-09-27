@@ -119,6 +119,7 @@ autocomplete_t autocompletelist[] =
     { "am_rotatemode off",                                  DOOM1AND2        },
     { "am_rotatemode on",                                   DOOM1AND2        },
     { "am_secretcolor ",                                    DOOM1AND2        },
+    { "am_secretcolor 252",                                 DOOM1AND2        },
     { "am_secretcolor none",                                DOOM1AND2        },
     { "am_teleportercolor ",                                DOOM1AND2        },
     { "am_teleportercolor 184",                             DOOM1AND2        },
