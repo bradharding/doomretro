@@ -24,6 +24,7 @@
 * Visual anomalies no longer appear along the right side of the player’s weapon when they move.
 * More blood is now spawned when the player hurts a monster with their chainsaw.
 * Blood is now always green when the `r_blood` CVAR is `green` and a custom palette is being used.
+* A bug is fixed whereby toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys in the menu would corrupt the player’s view in some rare instances.
 * Antialiasing in the automap when the `am_antialiasing` CVAR is `on` has improved. This CVAR is now also `on` by default.
 * These changes have been made to secrets in the automap:
   * The default value of the `am_secretcolor` CVAR has been changed from `none` to `252`, so secrets now flash purple when the `IDDT` cheat is entered.
