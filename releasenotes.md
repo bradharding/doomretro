@@ -81,7 +81,7 @@
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
-* The `BIGDOOR1` texture is now always vertically aligned as intended.
+* The `BIGDOOR1` and `BIGDOOR6` textures are now always vertically aligned as intended.
 * The `freeze` CCMD can now be entered while the player is dead.
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
