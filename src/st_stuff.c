@@ -341,34 +341,70 @@ static void ST_RefreshBackground(void)
         {
             if (vid_widescreen)
             {
+                int left = (SCREENWIDTH - sbar2width) / 2;
+                int right;
+
                 if (sbar2width < SCREENWIDTH)
                     R_FillBezel();
 
-                V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+                V_DrawBigStatusBarPatch(left, ST_Y, sbar2width, sbar2);
+
+                if (ammobg2)
+                    V_DrawBigStatusBarPatch(ST_AMMOBGX * 2, ST_Y, ammobg2width, ammobg2);
+
+                left = MAX(0, left);
+                right = MIN(left + sbar2width, SCREENWIDTH) - 1;
+
+                for (int y = ST_Y; y < SCREENHEIGHT - 2; y++)
+                {
+                    byte    *dest = screens[0] + (size_t)y * SCREENWIDTH;
+
+                    dest[left] = dest[left + 1] = white25[dest[left]];
+                    dest[right] = dest[right - 1] = black40[dest[right]];
+                }
             }
             else
-                V_DrawBigPatch(ST_X, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+            {
+                V_DrawBigStatusBarPatch(ST_X, ST_Y, sbar2width, sbar2);
 
-            if (ammobg2)
-                V_DrawBigPatch(ST_AMMOBGX * 2, ST_Y, ammobg2width, SBARHEIGHT, ammobg2);
+                if (ammobg2)
+                    V_DrawBigStatusBarPatch(ST_AMMOBGX * 2, ST_Y, ammobg2width, ammobg2);
+            }
         }
         else
         {
-            if (sbarwidth < SCREENWIDTH)
-                R_FillBezel();
+            int left = (SCREENWIDTH / 2 - sbarwidth) / 2;
 
-            V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+            if (vid_widescreen)
+            {
+                int right;
 
-            if (ammobg)
-                V_DrawWidePatch(ST_AMMOBGX, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, ammobg);
-        }
+                if (sbarwidth < SCREENWIDTH)
+                    R_FillBezel();
 
-        for (int y = ST_Y; y < SCREENHEIGHT - 2; y++)
-        {
-            byte    *dest = screens[0] + (size_t)y * SCREENWIDTH;
+                V_DrawWidePatch(left, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 
-            dest[0] = dest[1] = white25[dest[0]];
-            dest[SCREENWIDTH - 1] = dest[SCREENWIDTH - 2] = black40[dest[SCREENWIDTH - 1]];
+                if (ammobg)
+                    V_DrawWidePatch(ST_AMMOBGX, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, ammobg);
+
+                left = MAX(0, SCREENWIDTH / 2 - sbarwidth);
+                right = MIN(left + sbarwidth * 2, SCREENWIDTH) - 1;
+
+                for (int y = ST_Y; y < SCREENHEIGHT - 2; y++)
+                {
+                    byte    *dest = screens[0] + (size_t)y * SCREENWIDTH;
+
+                    dest[left] = dest[left + 1] = white25[dest[left]];
+                    dest[right] = dest[right - 1] = black40[dest[right]];
+                }
+            }
+            else
+            {
+                V_DrawWidePatch(left, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+
+                if (ammobg)
+                    V_DrawWidePatch(ST_AMMOBGX, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, ammobg);
+            }
         }
     }
     else

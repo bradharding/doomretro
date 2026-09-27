@@ -786,6 +786,34 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawBigStatusBarPatch(int x, int y, short width, patch_t *patch)
+{
+    int     startcol = 0;
+    int     endcol = width;
+    byte    *desttop;
+
+    if (endcol > SCREENWIDTH)
+    {
+        startcol = (endcol - SCREENWIDTH) / 2;
+        endcol = SCREENWIDTH + startcol;
+        x = 0;
+    }
+
+    desttop = &screens[0][(size_t)y * SCREENWIDTH + x];
+
+    for (int col = startcol; col < endcol; col++, desttop++)
+    {
+        const byte  *source = (byte *)patch + LITTLELONG(patch->columnoffset[col]) + 3;
+        byte        *dest = desttop;
+
+        for (int row = 0; row < SBARHEIGHT; row++)
+        {
+            *dest = *source++;
+            dest += SCREENWIDTH;
+        }
+    }
+}
+
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 {
     int     startcol = 0;
