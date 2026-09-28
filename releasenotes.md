@@ -86,6 +86,7 @@
 * The `freeze` CCMD can now be entered while the player is dead.
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
+* A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

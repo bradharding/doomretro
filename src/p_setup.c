@@ -3138,7 +3138,8 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_GetNumLumps(mapnum) > 1 && (!nerve || map > 9) && dehmaptitlecount == 1)
+            else if (W_GetNumLumps(mapnum) > 1 && (!nerve || map > 9)
+                && !(expansion == 1 && (nerve || masterlevels)) && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
