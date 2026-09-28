@@ -1162,7 +1162,7 @@ static void C_InitEdgeColors(void)
 
     if (W_GetNumLumps("STTNUM0") >= 2
         && !(consoleedgecolor1 >= nearestcolors[LIGHTGRAY1] && consoleedgecolor1 <= nearestcolors[DARKGRAY4])
-        && consoleedgecolor1 != nearestcolors[WHITE])
+        && consoleedgecolor1 != nearestwhite)
     {
         consoleedgecolor2 = black25[consoleedgecolor1] << 8;
         consoleedgecolor1 <<= 8;
@@ -1173,7 +1173,7 @@ static void C_InitEdgeColors(void)
 
         if (W_GetNumLumps("M_NGAME") >= 2
             && !(consoleedgecolor1 >= nearestcolors[LIGHTGRAY1] && consoleedgecolor1 <= nearestcolors[DARKGRAY4])
-            && consoleedgecolor1 != nearestcolors[WHITE])
+            && consoleedgecolor1 != nearestwhite)
         {
             consoleedgecolor2 = black25[consoleedgecolor1] << 8;
             consoleedgecolor1 <<= 8;

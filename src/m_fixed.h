@@ -136,6 +136,11 @@ CONSTATTR static inline fixed_t FixedMod(fixed_t a, fixed_t b)
     return ((b & (b - 1)) ? ((a %= b) < 0 ? a + b : a) : (a & (b - 1)));
 }
 
+CONSTATTR static inline fixed_t FixedABS(fixed_t x)
+{
+    return (x < 0 ? (fixed_t)(0u - (unsigned int)x) : x);
+}
+
 CONSTATTR static inline uint64_t SafeAdd(uint64_t a, int b)
 {
     if (b >= 0)
