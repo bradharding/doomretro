@@ -143,9 +143,7 @@ void ST_SetCarouselColors(void)
     {
         tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
 
-        if (W_GetNumLumps("STTNUM0") == 1
-            || (tintcolor >= nearestcolors[LIGHTGRAY1] && tintcolor <= nearestcolors[DARKGRAY4])
-            || tintcolor == nearestcolors[WHITE])
+        if (W_GetNumLumps("STTNUM0") == 1 || tintcolor == nearestwhite)
             tintcolor = (W_GetNumLumps("STCFN065") == 1 ? ST_CAROUSEL_COLOR :
                 FindBrightDominantColor(W_CacheLumpName("STCFN065")));
     }
