@@ -1716,40 +1716,42 @@ static inline void PUTBIGDOT2(int x, int y, const byte *color)
 
 static inline byte *AM_AntialiasingTable(const int coverage)
 {
-    if (coverage >= 96)
+    if (coverage >= 95)
         return NULL;
-    else if (coverage >= 93)
+    else if (coverage >= 90)
         return tinttab5;
-    else if (coverage >= 88)
+    else if (coverage >= 85)
         return tinttab10;
-    else if (coverage >= 83)
+    else if (coverage >= 80)
         return tinttab15;
-    else if (coverage >= 78)
+    else if (coverage >= 75)
         return tinttab20;
-    else if (coverage >= 73)
+    else if (coverage >= 70)
         return tinttab25;
-    else if (coverage >= 69)
+    else if (coverage >= 65)
         return tinttab30;
-    else if (coverage >= 64)
-        return tinttab33;
     else if (coverage >= 60)
-        return tinttab40;
+        return tinttab35;
     else if (coverage >= 55)
+        return tinttab40;
+    else if (coverage >= 50)
         return tinttab45;
     else if (coverage >= 45)
         return tinttab50;
-    else if (coverage >= 37)
+    else if (coverage >= 40)
+        return tinttab55;
+    else if (coverage >= 35)
         return tinttab60;
-    else if (coverage >= 32)
-        return tinttab66;
-    else if (coverage >= 28)
+    else if (coverage >= 30)
+        return tinttab65;
+    else if (coverage >= 25)
         return tinttab70;
-    else if (coverage >= 23)
+    else if (coverage >= 20)
         return tinttab75;
-    else if (coverage >= 15)
+    else if (coverage >= 10)
         return tinttab80;
     else
-        return tinttab90;
+        return tinttab85;
 }
 
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
