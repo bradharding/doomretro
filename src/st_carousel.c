@@ -229,8 +229,10 @@ void ST_InitCarousel(void)
         {
             pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 8;
 
-            if (W_GetNumLumps(weaponinfo[i].carouselpickupicon) == 1)
+            if (lumpinfo[W_GetNumForName(weaponinfo[i].carouselpickupicon)]->wadfile->type == IWAD)
                 pickupyoffset[i] += weaponinfo[i].carouselyoffset;
+            else
+                pickupyoffset[i] -= 4;
         }
 
     ST_SetCarouselColors();
@@ -369,7 +371,7 @@ static void CarouselDrawIcon(int x, int y, weaponicon_t icon)
     const bool          available = icon.available;
     const byte          *fadetint = (fade == 1 ? tinttab25 : (fade == 2 ? tinttab50 :
                             (fade == 3 ? tinttab75 : tinttab80)));
-    const byte          *unavailabletint = (fade == 1 ? tinttab10 : (fade == 2 ? tinttab15 : tinttab20));
+    const byte          *unavailabletint = (fade == 1 ? tinttab20 : (fade == 2 ? tinttab25 : tinttab30));
     patch_t             *patch = carouselpatches[weapon][selected];
 
     if (patch)
