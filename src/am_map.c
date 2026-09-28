@@ -1718,40 +1718,24 @@ static inline byte *AM_AntialiasingTable(const int coverage)
 {
     if (coverage >= 95)
         return NULL;
-    else if (coverage >= 90)
+    else if (coverage >= 82)
         return tinttab5;
-    else if (coverage >= 85)
-        return tinttab10;
-    else if (coverage >= 80)
-        return tinttab15;
-    else if (coverage >= 75)
-        return tinttab20;
     else if (coverage >= 70)
-        return tinttab25;
-    else if (coverage >= 65)
+        return tinttab10;
+    else if (coverage >= 58)
+        return tinttab20;
+    else if (coverage >= 46)
         return tinttab30;
-    else if (coverage >= 60)
-        return tinttab35;
-    else if (coverage >= 55)
+    else if (coverage >= 34)
         return tinttab40;
-    else if (coverage >= 50)
-        return tinttab45;
-    else if (coverage >= 45)
+    else if (coverage >= 24)
         return tinttab50;
-    else if (coverage >= 40)
-        return tinttab55;
-    else if (coverage >= 35)
+    else if (coverage >= 16)
         return tinttab60;
-    else if (coverage >= 30)
-        return tinttab65;
-    else if (coverage >= 25)
+    else if (coverage >= 8)
         return tinttab70;
-    else if (coverage >= 20)
-        return tinttab75;
-    else if (coverage >= 10)
-        return tinttab80;
     else
-        return tinttab85;
+        return tinttab80;
 }
 
 static inline void AM_PutAntialiasedDot(const int x, const int y, const byte *color,
