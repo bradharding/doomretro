@@ -976,9 +976,9 @@ static void WI_DrawBackground(void)
 {
     patch_t *lump;
 
-    if (enterpic > 0 && state != StatCount)
+    if (enterpic > 0 && state != StatCount && R_CheckIfPatch(enterpic))
         lump = W_CacheLumpNum(enterpic);
-    else if (exitpic > 0)
+    else if (exitpic > 0 && R_CheckIfPatch(exitpic))
         lump = W_CacheLumpNum(exitpic);
     else if (FREEDOOM || hacx)
         lump = W_CacheLumpNum(W_GetLastNumForNameFromNonResourceWAD("INTERPIC"));
