@@ -227,9 +227,13 @@ void ST_InitCarousel(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         if (pickuppatches[i])
         {
+            wadfile_t   *wadfile = lumpinfo[W_GetNumForName(weaponinfo[i].carouselpickupicon)]->wadfile;
+
             pickupyoffset[i] = (tallestcompressedheight - pickupcompressedheight[i]) / 2 - 8;
 
-            if (lumpinfo[W_GetNumForName(weaponinfo[i].carouselpickupicon)]->wadfile->type == IWAD)
+            if ((i == wp_fist && D_IsResourceWAD(wadfile->path))
+                || (i == wp_pistol && D_IsResourceWAD(wadfile->path))
+                || wadfile->type == IWAD)
                 pickupyoffset[i] += weaponinfo[i].carouselyoffset;
             else
                 pickupyoffset[i] -= 4;
