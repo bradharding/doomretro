@@ -449,10 +449,10 @@ static bool PIT_CheckThing(mobj_t *thing)
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
-            const int   r = M_RandomInt(-1, 1);
+            const angle_t   ang = tmthing->angle + ((angle_t)M_RandomInt(-45, 45) * ANG1);
 
-            thing->momx += r * FRACUNIT;
-            thing->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
+            thing->momx += FixedMul(FRACUNIT, finecosine[ang >> ANGLETOFINESHIFT]);
+            thing->momy += FixedMul(FRACUNIT, finesine[ang >> ANGLETOFINESHIFT]);
             thing->nudge = TICRATE;
 
             if (!(thing->flags2 & MF2_FEETARECLIPPED))
