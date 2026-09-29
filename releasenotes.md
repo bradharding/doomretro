@@ -86,7 +86,8 @@
 * The `freeze` CCMD can now be entered while the player is dead.
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
-* A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* in some instances.
+* A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* if the [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living) and/or [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) expansions were also loaded.
+* When the player or a monster walks over a corpse when the `r_corpses_nudge` CVAR is `on`, the corpse now nudges in the general direction of the player or monster’s movement, rather than in a completely random direction.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
