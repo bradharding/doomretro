@@ -151,8 +151,8 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
     if (!ndy)
         return (y <= ny ? (ndx < 0) : (ndx > 0));
 
-    x -= nx;
-    y -= ny;
+    x = (fixed_t)(((ufixed_t)x) - ((ufixed_t)nx));
+    y = (fixed_t)(((ufixed_t)y) - ((ufixed_t)ny));
 
     // Try to quickly decide by looking at sign bits.
     if ((ndy ^ ndx ^ x ^ y) < 0)

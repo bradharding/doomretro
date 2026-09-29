@@ -98,10 +98,23 @@ int P_BoxOnLineSide(const fixed_t *tmbox, const line_t *ld)
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, const divline_t *line)
 {
-    return (!line->dx ? (x <= line->x ? line->dy > 0 : line->dy < 0) :
-        (!line->dy ? (y <= line->y ? line->dx < 0 : line->dx > 0) :
-        (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
-        (int64_t)y * line->dx >= (int64_t)x * line->dy));
+    if (!line->dx)
+        return (x <= line->x ? (line->dy > 0) : (line->dy < 0));
+    else
+    {
+        if (!line->dy)
+            return (y <= line->y ? (line->dx < 0) : (line->dx > 0));
+        else
+        {
+            x = (fixed_t)(((ufixed_t)x) - ((ufixed_t)line->x));
+            y = (fixed_t)(((ufixed_t)y) - ((ufixed_t)line->y));
+
+            if ((line->dy ^ line->dx ^ x ^ y) < 0)
+                return ((line->dy ^ x) < 0);
+            else
+                return ((int64_t)y * line->dx >= (int64_t)x * line->dy);
+        }
+    }
 }
 
 //

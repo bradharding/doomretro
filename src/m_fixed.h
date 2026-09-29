@@ -54,7 +54,8 @@
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
 
-typedef int32_t fixed_t;
+typedef int32_t     fixed_t;
+typedef uint32_t    ufixed_t;
 
 CONSTATTR static inline int ABS(int a)
 {
