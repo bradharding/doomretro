@@ -449,7 +449,7 @@ static bool PIT_CheckThing(mobj_t *thing)
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
-            const angle_t   ang = tmthing->angle + ((angle_t)M_RandomInt(-45, 45) * ANG1);
+            const angle_t   ang = tmthing->angle + (angle_t)M_RandomInt(-45, 45) * ANG1;
 
             thing->momx += FixedMul(FRACUNIT, finecosine[ang >> ANGLETOFINESHIFT]);
             thing->momy += FixedMul(FRACUNIT, finesine[ang >> ANGLETOFINESHIFT]);
@@ -496,11 +496,13 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (!thing->player && !corpse && (flags & MF_SHOOTABLE) && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && tmtype != MT_BARREL)
+    if (!thing->player && !corpse && (flags & MF_SHOOTABLE) && (tmflags & MF_SHOOTABLE)
+        && type != MT_BARREL && tmtype != MT_BARREL)
     {
         if (tmx == tmthing->x && tmy == tmthing->y)
             unblocking = true;
-        else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y))
+        else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy)
+            > P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y))
             unblocking = (tmthing->z < thing->z + thing->height && tmthing->z + tmthing->height > thing->z);
     }
 
@@ -1984,7 +1986,8 @@ bool P_DoorClosed(const line_t *line)
 {
     P_LineOpening(line);
 
-    return (!usething || openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height);
+    return (!usething || openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT
+        || opentop < usething->z + usething->height);
 }
 
 //
@@ -2152,7 +2155,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, const int damage, const int di
 //
 // If anything doesn't fit anymore, true will be returned.
 // If crunch is true, they will take damage as they are being crushed.
-// If crunch is false, you should set the sector height back the way it was and call P_ChangeSector() again to undo the changes.
+// If crunch is false, you should set the sector height back the way it was and call
+// P_ChangeSector() again to undo the changes.
 //
 static bool crushchange;
 static bool nofit;

@@ -33,8 +33,6 @@
 ==============================================================================
 */
 
-#include <math.h>
-
 #include "c_console.h"
 #include "d_items.h"
 #include "d_options.h"
@@ -200,27 +198,18 @@ void ST_InitCarousel(void)
 
     for (int i = 0; i < NUMWEAPONS; i++)
     {
-        if (i == wp_fist || i == wp_pistol)
+        if (W_CheckNumForName(weaponinfo[i].carouselpickupicon) >= 0)
         {
-            char    lump[9];
+            int   width, height;
 
-            M_snprintf(lump, sizeof(lump), "DRHUDWP%d", i);
-
-            if (W_CheckNumForName(lump) >= 0)
-                pickuppatches[i] = W_CacheLumpName(lump);
-        }
-        else if (W_CheckNumForName(weaponinfo[i].carouselpickupicon) >= 0)
             pickuppatches[i] = W_CacheLumpName(weaponinfo[i].carouselpickupicon);
 
-        if (pickuppatches[i])
-        {
-            const int   width = LITTLESHORT(pickuppatches[i]->width);
-            const int   height = LITTLESHORT(pickuppatches[i]->height);
-            const int   compressedheight = height - (height - 1) / 4;
+            width = LITTLESHORT(pickuppatches[i]->width);
+            height = LITTLESHORT(pickuppatches[i]->height);
 
-            pickupcompressedheight[i] = compressedheight;
-            tallestcompressedheight = MAX(tallestcompressedheight, compressedheight);
             pickupxoffset[i] = (64 - (width - (width - 1) / 4)) / 2 - 32;
+            pickupcompressedheight[i] = height - (height - 1) / 4;
+            tallestcompressedheight = MAX(tallestcompressedheight, pickupcompressedheight[i]);
         }
     }
 

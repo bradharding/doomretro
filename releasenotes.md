@@ -9,14 +9,14 @@
   * When quitting *DOOM Retro*, the screen now always fades to the desktop smoothly.
   * Sliders in the options menu now fade out when deselected and the `menuhighlight` CVAR is also `on`.
   * The text in the console now scrolls up and down smoothly.
-  * The crosshair now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+  * The crosshair that is displayed when the `crosshair` CVAR is a value other than `none`, now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
-* When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated.
-* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be written over by a manual save.
+* When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.
+* Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be overwritten by a manual save.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
 * The white flash when taking a screenshot no longer interferes when taking multiple screenshots in quick succession.
 * A bug is fixed whereby music wouldn’t play in some rare instances.
@@ -87,7 +87,7 @@
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
 * A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* if the [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living) and/or [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) expansions were also loaded.
-* When the player or a monster walks over a corpse when the `r_corpses_nudge` CVAR is `on`, the corpse now nudges in the general direction of the player or monster’s movement, rather than in a completely random direction.
+* When the player or a monster walks over a corpse and the `r_corpses_nudge` CVAR is `on`, the corpse now nudges in the same general direction the player or monster is going, rather than in a completely random direction.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
