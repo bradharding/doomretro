@@ -1313,6 +1313,7 @@ static byte     *gammalevel;
 static float    red;
 static float    green;
 static float    blue;
+static bool     intensity;
 static float    saturation;
 static float    contrast;
 float           brightness;
@@ -1323,6 +1324,7 @@ void I_UpdateColors(void)
     red = 255.0f * vid_red / 100.0f;
     green = 255.0f * vid_green / 100.0f;
     blue = 255.0f * vid_blue / 100.0f;
+    intensity = (vid_red || vid_green || vid_blue);
     saturation = (vid_saturation + 100.0f) / 100.0f;
     contrast = (259.0f * (vid_contrast + 255.0f)) / (255.0f * (259.0f - vid_contrast));
     brightness = (vid_brightness + 110.0f) / 110.0f;
@@ -1340,10 +1342,18 @@ void I_SetPalette(const byte *playpal)
 {
     for (int i = 0; i < 256; i++)
     {
-        // gamma correction and red/green/blue intensity
-        byte    r = BETWEEN(0, (int)(gammalevel[playpal[0]] + red), 255);
-        byte    g = BETWEEN(0, (int)(gammalevel[playpal[1]] + green), 255);
-        byte    b = BETWEEN(0, (int)(gammalevel[playpal[2]] + blue), 255);
+        // gamma correction
+        byte    r = gammalevel[playpal[0]];
+        byte    g = gammalevel[playpal[1]];
+        byte    b = gammalevel[playpal[2]];
+
+        // red/green/blue intensity
+        if (intensity)
+        {
+            r = BETWEEN(0, (int)(r + red), 255);
+            g = BETWEEN(0, (int)(g + green), 255);
+            b = BETWEEN(0, (int)(b + blue), 255);
+        }
 
         // saturation
         if (vid_saturation)
