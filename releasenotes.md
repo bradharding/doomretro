@@ -12,7 +12,7 @@
   * The crosshair that is displayed when the `crosshair` CVAR is a value other than `none`, now moves smoothly up and down when switching between the status bar and widescreen HUD using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
-* Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, and as the screen fades to black when quitting.
+* Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
 * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A better text caret is now displayed when editing a savegame description in the save game menu.
@@ -65,7 +65,6 @@
 * A bug is fixed whereby pressing the <kbd><b>&darr;</b></kbd> key in the console to advance through the input history might have skipped some input.
 * When the player tries to open a [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible generalized locked door that requires 3 keys, each a different color, now only the correct keys flash in the status bar and widescreen HUD when the `flashkeys` CVAR is `on`.
 * The mouse pointer is now displayed when moving the mouse on the intermission or finale screens and the `m_pointer` CVAR is `on`.
-* A bug is fixed whereby it sometimes took two presses of the <kbd><b>ENTER</b></kbd> or <kbd><b>SPACE</b></kbd> keys to advance an intermission text screen.
 * Improvements have been made to the interpolation of moving sectors, and the things on them, when the `vid_capfps` CVAR is a value other than `35`.
 * If the `s_musicvolume` CVAR is bound to a control using the `bind` CCMD, the change in volume is now immediate when pressing that control during a game.
 * When the `+prevweapon` or `+nextweapon` actions are bound to a mouse button using the `bind` CCMD, they no longer trigger repeatedly.

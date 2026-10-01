@@ -924,6 +924,9 @@ void P_RemoveMobj(mobj_t *mobj)
 {
     const int   flags = mobj->flags;
 
+    if (mobj->thinker.function == &P_RemoveThinkerDelayed)
+        return;
+
     if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
     {
         itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
