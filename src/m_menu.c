@@ -3779,16 +3779,17 @@ bool M_Responder(event_t *ev)
 
             if (!leftbutton)
             {
+                const int   halfheight = SCREENHEIGHT / 2 - 5;
+
                 draggingconsole = false;
 
-                if (consoleopendragdirection < 0)
+                if (consoleheight <= halfheight - CONSOLEDRAGDELTA)
                     C_EndOpenConsoleDrag();
-                else if (consoleopendragdirection > 0
-                    || consoleheight >= consoleopendragstart * 2 + CONSOLEDRAGDELTA * 2 - 4
-                    || I_GetTimeMS() - consoleopendragtime <= 200)
-                    M_OpenConsole(true);
                 else
-                    C_EndOpenConsoleDrag();
+                {
+                    consolefullscreen = (consoleheight > halfheight + CONSOLEDRAGDELTA);
+                    M_OpenConsole(true);
+                }
             }
             else
             {

@@ -1441,7 +1441,10 @@ void C_BeginOpenConsoleDrag(void)
 
 void C_UpdateOpenConsoleDrag(int y)
 {
-    consoleheight = MAX(0, MIN(y - 4, CONSOLEHEIGHT));
+    const int   dragheight = MAX(0, MIN(y - 4, SCREENHEIGHT - 5));
+
+    consolefullscreen = (dragheight > SCREENHEIGHT / 2 - 5 + CONSOLEDRAGDELTA);
+    consoleheight = dragheight;
 }
 
 void C_EndOpenConsoleDrag(void)
@@ -4200,22 +4203,43 @@ bool C_Responder(event_t *ev)
             {
                 if (draggingconsoleedge)
                 {
+                    const int   halfheight = SCREENHEIGHT / 2 - 5;
+                    const int   middlebandtop = halfheight - CONSOLEDRAGDELTA;
+                    const int   middlebandbottom = halfheight + CONSOLEDRAGDELTA;
+
                     draggingconsoleedge = false;
 
-                    if (consoleedgedragdirection < 0)
-                        C_HideConsole();
-                    else if (consoleedgedragdirection > 0)
+                    if (consoleedgedragstart <= halfheight + CONSOLEDRAGDELTA)
                     {
-                        consoleheight = MAX(1, consoleheight);
-                        consoledirection = 1;
-                        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
-                        showcaret = true;
-                        caretwait = 0;
+                        if (consoleedgedragdirection < 0 || consoleheight <= middlebandtop)
+                            C_HideConsole();
+                        else
+                        {
+                            consolefullscreen = true;
+                            consoleheight = MAX(1, consoleheight);
+                            consoledirection = 1;
+                            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+                            showcaret = true;
+                            caretwait = 0;
+                        }
                     }
-                    else if (consoleheight <= consoleedgedragstart - CONSOLEDRAGDELTA)
-                        C_HideConsole();
+                    else if (consoleedgedragdirection < 0)
+                    {
+                        if (consoleheight >= middlebandtop && consoleheight <= middlebandbottom)
+                        {
+                            consolefullscreen = false;
+                            consoleheight = MAX(1, MIN(consoleheight, CONSOLEHEIGHT));
+                            consoledirection = 1;
+                            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+                            showcaret = true;
+                            caretwait = 0;
+                        }
+                        else
+                            C_HideConsole();
+                    }
                     else
                     {
+                        consolefullscreen = true;
                         consoleheight = MAX(1, consoleheight);
                         consoledirection = 1;
                         consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
