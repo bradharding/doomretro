@@ -15,7 +15,7 @@
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
 * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
-* A better text caret is now displayed when editing a savegame description in the save game menu.
+* A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.
 * Autosaving a game has changed when the `autosave` CVAR is `on`. There is now a dedicated autosave slot at the top of the save and load game menus. When the player exits a map, the game automatically saves to this slot once they start the next map, regardless of any manual saves that may have also been made. When the player dies and the `autoload` CVAR is also `on`, either this autosave, or a more recent quicksave, will automatically load. This autosave slot can’t be overwritten by a manual save.
 * A bug is fixed whereby two screenshots would be taken by pressing the <kbd><b>PRINTSCREEN</b></kbd> key when the console was open.
@@ -78,7 +78,9 @@
 * The `r_althudfont` CVAR has been renamed `r_hud_altfont`.
 * The ammo count no longer lights up in the widescreen HUD when the player fires their weapon if the `infiniteammo` CCMD is in use.
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
-* Block comments are now parsed correctly in `MAPINFO` lumps.
+* These changes have been made to the support of `MAPINFO` lumps:
+  * Block comments are now parsed correctly.
+  * If `enterpic` and `exitpic` specify unsupported PNG lumps, the default `INTERPIC` is used instead.
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
