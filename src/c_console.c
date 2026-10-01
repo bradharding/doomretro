@@ -73,6 +73,10 @@ bool                    consoleactive = false;
 bool                    consoleoverlaymenu = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
+bool                    consolefullscreen;
+bool                    consoleopenedbyconsolekey;
+bool                    ignoreconsolekey;
+uint64_t                consolekeydowntime;
 static int              consoleanim;
 static int              scrolloffset;
 static int              scrollspeed = TICRATE;
@@ -201,7 +205,7 @@ static const int consoleup[CONSOLEUPSIZE] =
 static int C_GetShowConsoleAnimationFrame(const int height)
 {
     for (int i = 0; i < CONSOLEDOWNSIZE; i++)
-        if ((CONSOLEFULLSCREEN ? consoledown[i] * 2 + 5 : consoledown[i]) >= height)
+        if ((consolefullscreen ? consoledown[i] * 2 + 5 : consoledown[i]) >= height)
             return i;
 
     return (CONSOLEDOWNSIZE - 1);
@@ -210,7 +214,7 @@ static int C_GetShowConsoleAnimationFrame(const int height)
 static int C_GetHideConsoleAnimationFrame(const int height)
 {
     for (int i = 0; i < CONSOLEUPSIZE; i++)
-        if (consoleup[i] * (CONSOLEFULLSCREEN ? 2 : 1) <= height)
+        if (consoleup[i] * (consolefullscreen ? 2 : 1) <= height)
             return i;
 
     return (CONSOLEUPSIZE - 1);
@@ -1442,6 +1446,7 @@ void C_UpdateOpenConsoleDrag(int y)
 
 void C_EndOpenConsoleDrag(void)
 {
+    consolefullscreen = false;
     consoledirection = -1;
     consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
     consoleactive = false;
@@ -2805,7 +2810,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = CONSOLEINPUTY - (CONSOLEFULLSCREEN ? 20 : 16)
+    outputyoffset = CONSOLEINPUTY - (consolefullscreen ? 20 : 16)
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
@@ -2819,16 +2824,31 @@ void C_Drawer(void)
 
     cheatsequence = false;
 
+    if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen && consoledirection >= 0
+        && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
+    {
+        consolefullscreen = true;
+
+        if (smoothtransitions)
+        {
+            consoledirection = 1;
+            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
+            consolewait = 0;
+        }
+        else
+            consoleheight = CONSOLEHEIGHT;
+    }
+
     // adjust console height
     if (smoothtransitions && consolewait < tics)
     {
-        consolewait = tics + (CONSOLEFULLSCREEN ? 4 : 8);
+        consolewait = tics + (consolefullscreen && consoleheight > SCREENHEIGHT / 2 - 5 ? 8 : 12);
 
         if (consoledirection == 1)
         {
             if (consoleheight < CONSOLEHEIGHT)
             {
-                const int   height = (CONSOLEFULLSCREEN ? consoledown[consoleanim] * 2 + 5 :
+                const int   height = (consolefullscreen ? consoledown[consoleanim] * 2 + 5 :
                                 consoledown[consoleanim]);
 
                 if (consoleheight > height)
@@ -2845,7 +2865,7 @@ void C_Drawer(void)
         {
             if (consoleheight)
             {
-                const int   height = consoleup[consoleanim] * (CONSOLEFULLSCREEN ? 2 : 1);
+                const int   height = consoleup[consoleanim] * (consolefullscreen ? 2 : 1);
 
                 if (consoleheight < height)
                     consolewait = 0;
@@ -2893,9 +2913,9 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && (dragconsolescrollbaractive || CONSOLEFULLSCREEN)) ?
+    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && (dragconsolescrollbaractive || consolefullscreen)) ?
         CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 : INT_MAX);
-    drawbottomrow = bottomrow + (scrolloffset < 0 || (outputhistory != -1 && CONSOLEFULLSCREEN));
+    drawbottomrow = bottomrow + (scrolloffset < 0 || (outputhistory != -1 && consolefullscreen));
 
     // draw console text
     for (i = 0, len = 0; i < numconsolestrings; i++)
@@ -3258,6 +3278,9 @@ bool C_Responder(event_t *ev)
 
         if (key == keyboardconsole || key == keyboardconsole2)
         {
+            if (consoleopenedbyconsolekey)
+                return true;
+
             C_HideConsole();
             return true;
         }

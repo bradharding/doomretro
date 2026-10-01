@@ -4223,6 +4223,41 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
     {
+        if (ev->data1 == keyboardconsole || ev->data1 == keyboardconsole2)
+        {
+            if (consoleopenedbyconsolekey)
+            {
+                consoleopenedbyconsolekey = false;
+                consolekeydowntime = 0;
+                return true;
+            }
+
+            if (ignoreconsolekey)
+            {
+                ignoreconsolekey = false;
+                consolekeydowntime = 0;
+                return true;
+            }
+
+            if (!paused && !splashscreen && !savestringenter)
+            {
+                if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
+                {
+                    consolefullscreen = false;
+                    consoleopenedbyconsolekey = true;
+
+                    if (menuactive || messagetoprint)
+                        M_OpenConsole(false);
+                    else
+                        C_ShowConsole(false);
+                }
+                else
+                    C_HideConsole();
+            }
+
+            return true;
+        }
+
         if ((ev->data1 == keyboardscreenshot || ev->data1 == keyboardscreenshot2)
             && (ev->data1 == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive)))
         {
@@ -4244,15 +4279,27 @@ bool M_Responder(event_t *ev)
     {
         keydown = key;
 
+        if (ignoreconsolekey)
+            return true;
+
+        consolekeydowntime = I_GetTimeMS();
+
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
         {
+            consolefullscreen = false;
+            consoleopenedbyconsolekey = true;
+
             if (menuactive || messagetoprint)
                 M_OpenConsole(false);
             else
                 C_ShowConsole(false);
         }
         else
+        {
+            consoleopenedbyconsolekey = false;
+            ignoreconsolekey = true;
             C_HideConsole();
+        }
 
         return true;
     }
