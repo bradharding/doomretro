@@ -4243,8 +4243,8 @@ bool M_Responder(event_t *ev)
             {
                 if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
                 {
-                    consolefullscreen = false;
-                    consoleopenedbyconsolekey = true;
+                    consolefullscreen = (gamestate == GS_TITLESCREEN && !consoleoverlaymenu);
+                    consoleopenedbyconsolekey = !consolefullscreen;
 
                     if (menuactive || messagetoprint)
                         M_OpenConsole(false);
@@ -4286,8 +4286,8 @@ bool M_Responder(event_t *ev)
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
         {
-            consolefullscreen = false;
-            consoleopenedbyconsolekey = true;
+            consolefullscreen = (gamestate == GS_TITLESCREEN && !consoleoverlaymenu);
+            consoleopenedbyconsolekey = !consolefullscreen;
 
             if (menuactive || messagetoprint)
                 M_OpenConsole(false);
