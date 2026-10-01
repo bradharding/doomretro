@@ -4244,7 +4244,7 @@ bool M_Responder(event_t *ev)
             {
                 if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
                 {
-                    consolefullscreen = (gamestate == GS_TITLESCREEN && !consoleoverlaymenu);
+                    consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive && !messagetoprint);
                     consoleopenedbyconsolekey = true;
                     consolekeydowntime = I_GetTimeMS();
 
@@ -4288,7 +4288,7 @@ bool M_Responder(event_t *ev)
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
         {
-            consolefullscreen = (gamestate == GS_TITLESCREEN && !consoleoverlaymenu);
+            consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive && !messagetoprint);
             consoleopenedbyconsolekey = true;
             consolekeydowntime = I_GetTimeMS();
 
