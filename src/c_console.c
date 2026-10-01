@@ -2827,8 +2827,8 @@ void C_Drawer(void)
 
     cheatsequence = false;
 
-    if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen && consoledirection >= 0
-        && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
+    if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen
+        && consoledirection >= 0 && keydown && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
     {
         consolefullscreen = true;
 
@@ -3267,6 +3267,13 @@ bool C_Responder(event_t *ev)
     int         i;
     int         len;
 
+    if (ev->type == ev_keyup && (ev->data1 == keyboardconsole || ev->data1 == keyboardconsole2))
+    {
+        consoleopenedbyconsolekey = false;
+        ignoreconsolekey = false;
+        consolekeydowntime = 0;
+    }
+
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1)
         || (messagetoprint && !consoleoverlaymenu))
         return false;
@@ -3284,6 +3291,7 @@ bool C_Responder(event_t *ev)
             if (consoleopenedbyconsolekey)
                 return true;
 
+            ignoreconsolekey = true;
             C_HideConsole();
             return true;
         }
