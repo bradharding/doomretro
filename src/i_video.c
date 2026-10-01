@@ -1358,7 +1358,7 @@ void I_SetPalette(const byte *playpal)
         // saturation
         if (vid_saturation)
         {
-            const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
+            const float p = r * 0.299f + g * 0.587f + b * 0.114f;
 
             r = BETWEEN(0, (int)(p + (r - p) * saturation), 255);
             g = BETWEEN(0, (int)(p + (g - p) * saturation), 255);
