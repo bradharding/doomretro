@@ -92,7 +92,7 @@
 #define CONSOLEWRAPS                        32
 
 #define CONSOLESCROLLBARWIDTH               5
-#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (consolefullscreen ? 26 : 22))
+#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - 22)
 #define CONSOLESCROLLBARMINHEIGHT           11
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 

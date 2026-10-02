@@ -1067,7 +1067,7 @@ static void C_DrawScrollbar(void)
     const int   scrollbarrows = C_GetScrollbarRows();
     const int   visiblerows = MIN(scrollbarrows, totalrows);
     const int   scrollrange = MAX(0, totalrows - visiblerows);
-    const int   scrollbarheight = MAX(0, consoleheight - 22 - 4 * (scrollbarrows - 13) / 14);
+    const int   scrollbarheight = MAX(0, consoleheight - 22);
     const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblerows / totalrows);
     const int   facetravel = MAX(0, scrollbarheight - faceheight);
 
@@ -2653,7 +2653,7 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
         if (currentrow > bottomrow)
             break;
 
-        if (currentrow >= toprow)
+        if (currentrow >= toprow - (scrolloffset > 0))
         {
             if (!part)
             {
@@ -2786,6 +2786,17 @@ void C_Drawer(void)
 
     numvisibleconsolestrings = C_CountVisibleStrings();
 
+    if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen
+        && consoledirection >= 0 && keydown && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
+    {
+        consolefullscreen = true;
+
+        if (smoothtransitions)
+            consoledirection = 1;
+        else
+            consoleheight = CONSOLEHEIGHT;
+    }
+
     if (consoleshrinktohalf && consoleheight <= SCREENHEIGHT / 2 - 5)
     {
         consoleshrinktohalf = false;
@@ -2814,7 +2825,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = CONSOLEINPUTY - (consolefullscreen ? 20 : 16)
+    outputyoffset = CONSOLEINPUTY - 16
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
@@ -2827,17 +2838,6 @@ void C_Drawer(void)
     }
 
     cheatsequence = false;
-
-    if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen
-        && consoledirection >= 0 && keydown && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
-    {
-        consolefullscreen = true;
-
-        if (smoothtransitions)
-            consoledirection = 1;
-        else
-            consoleheight = CONSOLEHEIGHT;
-    }
 
     if (consoledirection != 1)
         consoleshrinktohalf = false;
@@ -2855,6 +2855,9 @@ void C_Drawer(void)
     else
     {
         const int   target = (consoledirection == 1 ? (consoleshrinktohalf ? SCREENHEIGHT / 2 - 5 : CONSOLEHEIGHT) : 0);
+        float       elapsed;
+        float       progress;
+        float       eased;
 
         if (consoledirection != consoleanimdirection || target != consoleanimtarget
             || consoleheight != consoleanimlastheight)
@@ -2868,20 +2871,15 @@ void C_Drawer(void)
             consoleanimduration = (consoledirection == 1 ? 250 + distance * 4 / 5 : 140 + distance * 3 / 5);
         }
 
-        {
-            const float elapsed = (float)(tics - consoleanimstarttime) / consoleanimduration;
-            const float progress = (elapsed < 1.0f ? elapsed : 1.0f);
-            const float eased = (consoledirection == 1 ? 1.0f - (1.0f - progress) * (1.0f - progress) * (1.0f - progress) :
-                            progress * progress * progress);
+        elapsed = (float)(tics - consoleanimstarttime) / consoleanimduration;
+        progress = (elapsed < 1.0f ? elapsed : 1.0f);
+        eased = (consoledirection == 1 ? 1.0f - (1.0f - progress) * (1.0f - progress) * (1.0f - progress) :
+            progress * progress * progress);
 
-            consoleheight = consoleanimstartheight
-                + (int)((consoleanimtarget - consoleanimstartheight) * eased + (consoledirection == 1 ? 0.5f : -0.5f));
+        consoleheight = consoleanimstartheight
+            + (int)((consoleanimtarget - consoleanimstartheight) * eased + (consoledirection == 1 ? 0.5f : -0.5f));
 
-            if (progress < 1.0f)
-                consoleheight = MAX(1, consoleheight);
-            else
-                consoleheight = consoleanimtarget;
-        }
+        consoleheight = (progress < 1.0f ? MAX(1, consoleheight) : consoleanimtarget);
 
         consoleanimlastheight = consoleheight;
 
@@ -2927,9 +2925,9 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && (dragconsolescrollbaractive || consolefullscreen)) ?
+    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbaractive) ?
         CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 : INT_MAX);
-    drawbottomrow = bottomrow + (scrolloffset < 0 || (outputhistory != -1 && consolefullscreen));
+    drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text
     for (i = 0, len = 0; i < numconsolestrings; i++)
@@ -2948,7 +2946,7 @@ void C_Drawer(void)
         if (len > drawbottomrow)
             break;
 
-        if (len + rows - 1 < toprow)
+        if (len + rows - 1 < toprow - (scrolloffset > 0))
         {
             len += rows;
             continue;

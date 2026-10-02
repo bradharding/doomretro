@@ -1007,9 +1007,11 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     *dot = (!tinttab ? color : tinttab[(color << 8) + *dot]);
 
                     if (!(y + i))
-                        *dot = tinttab50[*dot];
+                        *dot = tinttab60[*dot];
                     else if (y + i == 1)
-                        *dot = tinttab25[*dot];
+                        *dot = tinttab40[*dot];
+                    else if (y + i == 2)
+                        *dot = tinttab20[*dot];
                 }
             }
 
