@@ -3999,7 +3999,7 @@ bool C_Responder(event_t *ev)
             if (doubleclickselection)
                 return true;
 
-            if (newleftbuttonpress
+            if (smoothtransitions && newleftbuttonpress
                 && ((y >= consoleheight && y <= consoleheight + 4) || C_PointOnConsoleBranding(x, y)))
             {
                 draggingconsoleedge = true;

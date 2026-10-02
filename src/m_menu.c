@@ -3565,13 +3565,13 @@ static void M_TakeScreenshot(bool flash)
 
 static bool M_CanOpenConsoleWithMouseDrag(void)
 {
-    return (m_pointer && usingmouse && !usingcontroller && !consoleheight
+    return (smoothtransitions && m_pointer && usingmouse && !usingcontroller && !consoleheight
         && (gamestate != GS_LEVEL || menuactive));
 }
 
 void M_UpdateOpenConsoleEdge(int y)
 {
-    openconsoleedgewait = (m_pointer && usingmouse && !usingcontroller
+    openconsoleedgewait = (smoothtransitions && m_pointer && usingmouse && !usingcontroller
         && (gamestate != GS_LEVEL || menuactive) ? y : -1);
 }
 
