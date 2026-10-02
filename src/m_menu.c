@@ -3779,15 +3779,17 @@ bool M_Responder(event_t *ev)
 
             if (!leftbutton)
             {
-                const int   halfheight = SCREENHEIGHT / 2 - 5;
+                const bool  inbottomhalf = (consoleheight > SCREENHEIGHT / 2);
+                const bool  movingup = (consoleopendragdirection < 0);
+                const bool  allowhalf = (gamestate != GS_TITLESCREEN || menuactive || messagetoprint);
 
                 draggingconsole = false;
 
-                if (consoleheight <= halfheight - CONSOLEDRAGDELTA)
+                if (movingup && !inbottomhalf)
                     C_EndOpenConsoleDrag();
                 else
                 {
-                    consolefullscreen = (consoleheight > halfheight + CONSOLEDRAGDELTA);
+                    consolefullscreen = (!allowhalf || (inbottomhalf && !movingup));
                     M_OpenConsole(true);
                 }
             }

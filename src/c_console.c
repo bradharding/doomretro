@@ -2886,6 +2886,12 @@ void C_Drawer(void)
 
                 consoleactive = (consoleanim++ > CONSOLEDOWNSIZE / 2);
             }
+            else if (consoleheight > CONSOLEHEIGHT)
+            {
+                consoleheight = MAX(CONSOLEHEIGHT, consoleheight - MAX(2, (consoleheight - CONSOLEHEIGHT) / 4));
+                consoleactive = true;
+                consolewait = tics + 8;
+            }
             else
                 consoleactive = true;
         }
@@ -4236,7 +4242,6 @@ bool C_Responder(event_t *ev)
                 {
                     const int   halfheight = SCREENHEIGHT / 2 - 5;
                     const int   middlebandtop = halfheight - CONSOLEDRAGDELTA;
-                    const int   middlebandbottom = halfheight + CONSOLEDRAGDELTA;
 
                     draggingconsoleedge = false;
 
@@ -4256,10 +4261,10 @@ bool C_Responder(event_t *ev)
                     }
                     else if (consoleedgedragdirection < 0)
                     {
-                        if (consoleheight >= middlebandtop && consoleheight <= middlebandbottom)
+                        if (consoleheight > SCREENHEIGHT / 2)
                         {
-                            consolefullscreen = false;
-                            consoleheight = MAX(1, MIN(consoleheight, CONSOLEHEIGHT));
+                            consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive && !messagetoprint);
+                            consoleheight = MAX(1, consoleheight);
                             consoledirection = 1;
                             consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
                             showcaret = true;
