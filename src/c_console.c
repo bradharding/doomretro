@@ -183,6 +183,8 @@ fixed_t                 consoleberzerkeffectfade = FRACUNIT;
 bool                    consolefadeberserkeffectout = false;
 int                     scrollbarfacestart;
 int                     scrollbarfaceend;
+static int              scrollbartrackheight;
+static int              scrollbarfaceheight;
 static bool             dragconsolescrollbaractive;
 static int              dragconsolescrollbarpointeroffset;
 static int              dragconsolescrollbardirection;
@@ -1009,9 +1011,25 @@ static int C_GetCurrentTopRow(void)
         C_GetVisibleRowForHistoryPosition(outputhistory, outputhistoryoffset));
 }
 
+static int C_GetScrollbarRows(void)
+{
+    static bool fromhalf;
+    const int   halfheight = SCREENHEIGHT / 2 - 5;
+
+    if (!consolefullscreen)
+        fromhalf = (consoleheight >= halfheight);
+    else if (consoleheight < halfheight)
+        fromhalf = false;
+
+    if (consolefullscreen && !fromhalf)
+        return 27;
+
+    return 13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2) / (SCREENHEIGHT / 2);
+}
+
 static bool C_CanScrollOutput(void)
 {
-    return (numvisibleconsolerows >= CONSOLELINES - 1);
+    return (numvisibleconsolerows >= C_GetScrollbarRows() - 1);
 }
 
 static void C_ScrollToTop(void)
@@ -1075,30 +1093,37 @@ static void C_ScrollOutputDown(void)
 static void C_DrawScrollbar(void)
 {
     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
-    const int   visiblerows = MIN(CONSOLELINES, totalrows);
+    const int   scrollbarrows = C_GetScrollbarRows();
+    const int   visiblerows = MIN(scrollbarrows, totalrows);
     const int   scrollrange = MAX(0, totalrows - visiblerows);
-    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
-    const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
-    const int   currentrow = MAX(0, C_GetCurrentTopRow() + (numvisibleconsolerows > 0));
+    const int   scrollbarheight = MAX(0, consoleheight - 22 - 4 * (scrollbarrows - 13) / 14);
+    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblerows / totalrows);
+    const int   facetravel = MAX(0, scrollbarheight - faceheight);
+
+    scrollbartrackheight = scrollbarheight;
+    scrollbarfaceheight = faceheight;
 
     if (dragconsolescrollbaractive && scrollrange > 0)
         scrollbarfacestart = (int)((int64_t)facetravel * dragconsolescrolltargetposition
             / ((int64_t)scrollrange * CONSOLELINEHEIGHT));
     else
+    {
+        const int   currentrow = (outputhistory == -1 ? scrollrange :
+                        MIN(MAX(0, C_GetCurrentTopRow() + (numvisibleconsolerows > 0)), scrollrange));
+
         scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
+    }
 
-    scrollbarfaceend = scrollbarfacestart + faceheight;
+    scrollbarfaceend = MIN(scrollbarfacestart + faceheight, scrollbarheight);
 
-    if (!scrollbarfacestart && scrollbarfaceend == CONSOLESCROLLBARHEIGHT)
+    if (visiblerows == totalrows)
         scrollbardrawn = false;
     else
     {
-        const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
-        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH
-                        - offset;
+        const int   gripstart = (scrollbarfacestart + (scrollbarfaceend - scrollbarfacestart) / 2 - 2) * SCREENWIDTH;
         const int   gripend = gripstart + 6 * SCREENWIDTH;
-        const int   trackend = MAX(0, CONSOLESCROLLBARHEIGHT * SCREENWIDTH - offset);
-        const int   faceend = scrollbarfaceend * SCREENWIDTH - offset;
+        const int   trackend = scrollbarheight * SCREENWIDTH;
+        const int   faceend = scrollbarfaceend * SCREENWIDTH;
 
         // draw scrollbar track
         for (int y = 0; y < trackend; y += SCREENWIDTH)
@@ -1116,7 +1141,7 @@ static void C_DrawScrollbar(void)
                     tempscreen[y + x] = screens[0][y + x];
 
         // draw scrollbar face
-        for (int y = scrollbarfacestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
+        for (int y = scrollbarfacestart * SCREENWIDTH; y < faceend; y += SCREENWIDTH)
             if (y >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y + x] = consolescrollbarfacecolor;
@@ -3939,11 +3964,10 @@ bool C_Responder(event_t *ev)
             if (dragconsolescrollbaractive && scrollbardrawn)
             {
                 const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
-                const int   visiblerows = MIN(CONSOLELINES, totalrows);
+                const int   visiblerows = MIN(C_GetScrollbarRows(), totalrows);
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
-                const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
-                                CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
-                const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
+                const int   faceheight = scrollbarfaceheight;
+                const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
                 const int   newfacestart = MAX(0, MIN(y - dragconsolescrollbarpointeroffset, facetravel));
 
                 if (C_CanScrollOutput())
@@ -4175,11 +4199,10 @@ bool C_Responder(event_t *ev)
                 if (y >= scrollbarfacestart && y <= scrollbarfaceend)
                 {
                     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
-                    const int   visiblerows = MIN(CONSOLELINES, totalrows);
+                    const int   visiblerows = MIN(C_GetScrollbarRows(), totalrows);
                     const int   scrollrange = MAX(0, totalrows - visiblerows);
-                    const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT,
-                                    CONSOLESCROLLBARHEIGHT * visiblerows / totalrows);
-                    const int   facetravel = MAX(0, CONSOLESCROLLBARHEIGHT - faceheight);
+                    const int   faceheight = scrollbarfaceheight;
+                    const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
 
                     dragconsolescrollbaractive = true;
                     dragconsolescrollbarpointeroffset = y - scrollbarfacestart;
@@ -4198,7 +4221,7 @@ bool C_Responder(event_t *ev)
                             C_ScrollOutputUp();
 
                     // scroll output down
-                    else if (y > scrollbarfaceend && y < CONSOLESCROLLBARHEIGHT - (CONSOLEHEIGHT - consoleheight))
+                    else if (y > scrollbarfaceend && y < scrollbartrackheight)
                         for (int j = 0; j < scrollspeed / TICRATE; j++)
                             C_ScrollOutputDown();
                 }
