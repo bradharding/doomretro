@@ -8590,6 +8590,8 @@ static void releasenotesfunc2(char *cmd, char *parms)
 //
 static void resetfunc2(char *cmd, char *parms)
 {
+    int count = 0;
+
     if (!*parms)
     {
         const int   i = C_GetIndex(cmd);
@@ -8627,6 +8629,8 @@ static void resetfunc2(char *cmd, char *parms)
 
             if (!wildcard(name, parms))
                 continue;
+
+            count++;
 
             if (flags & CF_BOOLEAN)
             {
@@ -8760,6 +8764,9 @@ static void resetfunc2(char *cmd, char *parms)
     }
 
     resettingcvar = false;
+
+    if (!count)
+        C_Warning(0, "There are no CVARs that match " BOLD("\"%s\"") ".", parms);
 }
 
 //
