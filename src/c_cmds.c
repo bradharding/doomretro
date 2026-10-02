@@ -2753,8 +2753,9 @@ static void cmdlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 326 };
     const int   columnwidth = tabs[0] - 15;
+    int         count = 0;
 
-    for (int i = 0, count = 0; *consolecmds[i].name; i++)
+    for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CCMD)
         {
             char    name[255];
@@ -2808,6 +2809,9 @@ static void cmdlistfunc2(char *cmd, char *parms)
 
             C_TabbedOutput(tabs, "%s\t" BOLDOFF ITALICSOFF "%s", format, description);
         }
+
+    if (!count)
+        C_Warning(0, "There are no CCMDs that match " BOLD("\"%s\"") ".", parms);
 }
 
 //
@@ -3038,8 +3042,9 @@ static void condumpfunc2(char *cmd, char *parms)
 static void cvarlistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 195, 310 };
+    int         count = 0;
 
-    for (int i = 0, count = 0; *consolecmds[i].name; i++)
+    for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
         {
             char    name[255];
@@ -3298,6 +3303,9 @@ static void cvarlistfunc2(char *cmd, char *parms)
                         name, temp, description);
             }
         }
+
+    if (!count)
+        C_Warning(0, "There are no CVARs that match " BOLD("\"%s\"") ".", parms);
 }
 
 //
