@@ -33,6 +33,7 @@
   * The number of secrets found displayed when the `am_playerstats` CVAR is `on` is now affected when the `IDDT` cheat is entered.
 * The help screen can no longer be opened by pressing the <kbd><b>F1</b></kbd> key while the console is open.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/), [*Freedoom: Phase 2*](https://freedoom.github.io/), [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Chex Quest 2*](https://doomwiki.org/wiki/Chex_Quest#Chex_Quest_2) and [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/).
+* Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
 * The finale text’s background when playing [*SIGIL*](https://romero.com/sigil) now appears correctly.
 * The correct credits screen now appears when [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) has been loaded.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
@@ -56,7 +57,6 @@
   * Moving in and out of deep water is now smoother.
   * Visual anomalies no longer appear when the player is halfway submerged and the `r_liquid_bob` CVAR is `on`.
   * The player’s view no longer bobs up and down when they are dead in deep water.
-* Partial support has been added for the [*MBF*](https://doomwiki.org/wiki/MBF)-compatible [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump, so far allowing a PWAD to specify the colors to be used in the automap.
 * The player’s eyes in the status bar and widescreen HUD now follow the mouse pointer while moving the mouse in the console.
 * Obituaries that involve barrels have been either simplified or removed when the `obituaries` CVAR is `on`.
 * Improvements have been made to randomly mirroring corpses that include rotated sprites when the `r_corpses_mirrored` CVAR is `on`.
@@ -80,7 +80,7 @@
 * The ability to create [zombie players](https://www.doomwiki.org/wiki/Voodoo_doll#Zombie_players), a bug present in the original *DOOM* and exploited in some WADs, now works.
 * These changes have been made to the support of `MAPINFO` lumps:
   * Block comments are now parsed correctly.
-  * If `enterpic` and `exitpic` specify unsupported PNG lumps, the default `INTERPIC` is used instead.
+  * If `enterpic` and `exitpic` specify unsupported PNG lumps, the default `INTERPIC` lump is used instead.
 * The left and right sides of the status bar have now been widened to accommodate screens with a 21:9 aspect ratio.
 * The state of the <kbd><b>CAPSLOCK</b></kbd> key is now correctly restored when quitting *DOOM Retro*.
 * The player’s bob no longer affects the crosshair’s lock on a target when the `snapcrosshair` CVAR is `on`.
