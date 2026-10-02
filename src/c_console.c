@@ -1080,7 +1080,7 @@ static void C_DrawScrollbar(void)
     else
     {
         const int   currentrow = (outputhistory == -1 ? scrollrange :
-                        MIN(MAX(0, C_GetCurrentTopRow() + (numvisibleconsolerows > 0)), scrollrange));
+                        MIN(MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0)), scrollrange));
 
         scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
     }
@@ -2774,6 +2774,7 @@ void C_Drawer(void)
     bool            showscrollbar = scrollbardrawn;
     const bool      prevconsoleactive = consoleactive;
     static int      consoleanimdirection;
+    static int      prevconsolelines;
     static int      consoleanimtarget;
     static int      consoleanimstartheight;
     static int      consoleanimlastheight;
@@ -2809,6 +2810,18 @@ void C_Drawer(void)
         numvisibleconsolerows = C_CountVisibleRows();
         showscrollbar = C_CanScrollOutput();
     } while (showscrollbar != scrollbardrawn);
+
+    if (prevconsolelines && prevconsolelines != CONSOLELINES && outputhistory != -1)
+    {
+        const int   newtoprow = C_GetCurrentTopRow() + prevconsolelines - CONSOLELINES;
+
+        if (newtoprow >= C_GetTopRowForDisplay())
+            C_ScrollToBottom();
+        else
+            C_SetTopRow(newtoprow);
+    }
+
+    prevconsolelines = CONSOLELINES;
 
     if (outputhistory != -1)
     {
