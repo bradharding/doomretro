@@ -187,9 +187,6 @@ void P_LineOpening(const line_t *line)
 //
 void P_UnsetThingPosition(mobj_t *thing)
 {
-    if (!thing->state)
-        return;
-
     if (!(thing->flags & MF_NOSECTOR))
     {
         // invisible things don't need to be in sector list
