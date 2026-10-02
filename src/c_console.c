@@ -74,10 +74,10 @@ bool                    consoleoverlaymenu = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 bool                    consolefullscreen;
+static bool             consoleshrinktohalf;
 bool                    consoleopenedbyconsolekey;
 bool                    ignoreconsolekey;
 uint64_t                consolekeydowntime;
-static int              consoleanim;
 static int              scrolloffset;
 static int              scrollspeed = TICRATE;
 
@@ -192,35 +192,6 @@ static int64_t          dragconsolescrollposition;
 static int64_t          dragconsolescrolltargetposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
-
-static const int consoledown[CONSOLEDOWNSIZE] =
-{
-     12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
-    169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
-};
-
-static const int consoleup[CONSOLEUPSIZE] =
-{
-    183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
-};
-
-static int C_GetShowConsoleAnimationFrame(const int height)
-{
-    for (int i = 0; i < CONSOLEDOWNSIZE; i++)
-        if ((consolefullscreen ? consoledown[i] * 2 + 5 : consoledown[i]) >= height)
-            return i;
-
-    return (CONSOLEDOWNSIZE - 1);
-}
-
-static int C_GetHideConsoleAnimationFrame(const int height)
-{
-    for (int i = 0; i < CONSOLEUPSIZE; i++)
-        if (consoleup[i] * (consolefullscreen ? 2 : 1) <= height)
-            return i;
-
-    return (CONSOLEUPSIZE - 1);
-}
 
 void C_CreateTimeStamp(const int index)
 {
@@ -1021,7 +992,7 @@ static int C_GetScrollbarRows(void)
     else if (consoleheight < halfheight)
         fromhalf = false;
 
-    if (consolefullscreen && !fromhalf)
+    if (consolefullscreen && !fromhalf && !consoleshrinktohalf)
         return 27;
 
     return 13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2) / (SCREENHEIGHT / 2);
@@ -1319,7 +1290,6 @@ void C_ShowConsole(bool reset)
     {
         consoleheight = MAX(1, consoleheight);
         consoledirection = 1;
-        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
     }
     else
     {
@@ -1386,10 +1356,7 @@ void C_HideConsole(void)
     SDL_StopTextInput();
 
     if (smoothtransitions)
-    {
         consoledirection = -1;
-        consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
-    }
     else
     {
         consoleheight = 0;
@@ -1438,7 +1405,6 @@ void C_HideConsoleFast(void)
     SDL_StopTextInput();
 
     consoledirection = -1;
-    consoleanim = 0;
     consoleheight = 0;
     consoleactive = false;
     consoleoverlaymenu = false;
@@ -1476,7 +1442,6 @@ void C_EndOpenConsoleDrag(void)
 {
     consolefullscreen = false;
     consoledirection = -1;
-    consoleanim = C_GetHideConsoleAnimationFrame(consoleheight);
     consoleactive = false;
     ST_UpdateBerserkEffect(!smoothtransitions);
 }
@@ -2808,13 +2773,24 @@ void C_Drawer(void)
     int             outputyoffset;
     bool            showscrollbar = scrollbardrawn;
     const bool      prevconsoleactive = consoleactive;
-    static uint64_t consolewait;
+    static int      consoleanimdirection;
+    static int      consoleanimtarget;
+    static int      consoleanimstartheight;
+    static int      consoleanimlastheight;
+    static int      consoleanimduration;
+    static uint64_t consoleanimstarttime;
     const uint64_t  tics = I_GetTimeMS();
     const int       notabs[MAXTABS] = { 0 };
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
 
     numvisibleconsolestrings = C_CountVisibleStrings();
+
+    if (consoleshrinktohalf && consoleheight <= SCREENHEIGHT / 2 - 5)
+    {
+        consoleshrinktohalf = false;
+        consolefullscreen = false;
+    }
 
     do
     {
@@ -2858,61 +2834,65 @@ void C_Drawer(void)
         consolefullscreen = true;
 
         if (smoothtransitions)
-        {
             consoledirection = 1;
-            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
-            consolewait = 0;
-        }
         else
             consoleheight = CONSOLEHEIGHT;
     }
 
-    // adjust console height
-    if (smoothtransitions && consolewait < tics)
+    if (consoledirection != 1)
+        consoleshrinktohalf = false;
+
+    if (consoleshrinktohalf && !smoothtransitions)
     {
-        consolewait = tics + (consolefullscreen && consoleheight > SCREENHEIGHT / 2 - 5 ? 8 : 12);
+        consoleshrinktohalf = false;
+        consolefullscreen = false;
+        consoleheight = CONSOLEHEIGHT;
+    }
+
+    // adjust console height
+    if (!smoothtransitions || !consoledirection)
+        consoleanimdirection = 0;
+    else
+    {
+        const int   target = (consoledirection == 1 ? (consoleshrinktohalf ? SCREENHEIGHT / 2 - 5 : CONSOLEHEIGHT) : 0);
+
+        if (consoledirection != consoleanimdirection || target != consoleanimtarget
+            || consoleheight != consoleanimlastheight)
+        {
+            const int   distance = ABS(target - consoleheight);
+
+            consoleanimdirection = consoledirection;
+            consoleanimtarget = target;
+            consoleanimstartheight = consoleheight;
+            consoleanimstarttime = tics;
+            consoleanimduration = (consoledirection == 1 ? 250 + distance * 4 / 5 : 140 + distance * 3 / 5);
+        }
+
+        {
+            const float elapsed = (float)(tics - consoleanimstarttime) / consoleanimduration;
+            const float progress = (elapsed < 1.0f ? elapsed : 1.0f);
+            const float eased = (consoledirection == 1 ? 1.0f - (1.0f - progress) * (1.0f - progress) * (1.0f - progress) :
+                            progress * progress * progress);
+
+            consoleheight = consoleanimstartheight
+                + (int)((consoleanimtarget - consoleanimstartheight) * eased + (consoledirection == 1 ? 0.5f : -0.5f));
+
+            if (progress < 1.0f)
+                consoleheight = MAX(1, consoleheight);
+            else
+                consoleheight = consoleanimtarget;
+        }
+
+        consoleanimlastheight = consoleheight;
 
         if (consoledirection == 1)
+            consoleactive = (consoleheight * 2 >= consoleanimtarget);
+        else
         {
-            if (consoleheight < CONSOLEHEIGHT)
-            {
-                const int   height = (consolefullscreen ? consoledown[consoleanim] * 2 + 5 :
-                                consoledown[consoleanim]);
+            consoleactive = (consoleheight * 2 > CONSOLEHEIGHT);
 
-                if (consoleheight > height)
-                    consolewait = 0;
-                else
-                    consoleheight = height;
-
-                consoleactive = (consoleanim++ > CONSOLEDOWNSIZE / 2);
-            }
-            else if (consoleheight > CONSOLEHEIGHT)
-            {
-                consoleheight = MAX(CONSOLEHEIGHT, consoleheight - MAX(2, (consoleheight - CONSOLEHEIGHT) / 4));
-                consoleactive = true;
-                consolewait = tics + 8;
-            }
-            else
-                consoleactive = true;
-        }
-        else if (consoledirection == -1)
-        {
-            if (consoleheight)
-            {
-                const int   height = consoleup[consoleanim] * (consolefullscreen ? 2 : 1);
-
-                if (consoleheight < height)
-                    consolewait = 0;
-                else
-                    consoleheight = height;
-
-                consoleactive = (consoleanim++ < CONSOLEUPSIZE / 2);
-            }
-            else
-            {
-                consoleactive = false;
+            if (!consoleheight)
                 consoleoverlaymenu = false;
-            }
         }
     }
 
@@ -3031,15 +3011,17 @@ void C_Drawer(void)
 
         if (partialinput[0] != '\0')
         {
+            len = (int)strlen(partialinput);
+
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, false, 0, '\0', '\0',
                 0, &V_DrawConsoleTextPatch);
 
-            if (strlen(partialinput) > 0)
-                prevletter = partialinput[strlen(partialinput) - 1];
+            if (len > 0)
+                prevletter = partialinput[len - 1];
 
-            if (strlen(partialinput) > 1)
-                prevletter2 = partialinput[strlen(partialinput) - 2];
+            if (len > 1)
+                prevletter2 = partialinput[len - 2];
         }
 
         // draw any selected text to left of caret
@@ -4025,7 +4007,6 @@ bool C_Responder(event_t *ev)
                 consoleedgedragdirection = 0;
                 consoleedgedragoffset = y - consoleheight;
                 consoledirection = 0;
-                consoleanim = 0;
                 return true;
             }
 
@@ -4048,9 +4029,7 @@ bool C_Responder(event_t *ev)
                     free(temp2);
                 }
 
-                caretpos = i;
-
-                if (caretpos >= mouseselectanchor)
+                if ((caretpos = i) >= mouseselectanchor)
                 {
                     selectstart = mouseselectanchor;
                     selectend = caretpos;
@@ -4254,19 +4233,18 @@ bool C_Responder(event_t *ev)
                             consolefullscreen = true;
                             consoleheight = MAX(1, consoleheight);
                             consoledirection = 1;
-                            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
                             showcaret = true;
                             caretwait = 0;
                         }
                     }
                     else if (consoleedgedragdirection < 0)
                     {
-                        if (consoleheight > SCREENHEIGHT / 2)
+                        if (consoleheight > SCREENHEIGHT / 2 && (gamestate != GS_TITLESCREEN || menuactive || messagetoprint))
                         {
-                            consolefullscreen = (gamestate == GS_TITLESCREEN && !menuactive && !messagetoprint);
+                            consolefullscreen = true;
+                            consoleshrinktohalf = true;
                             consoleheight = MAX(1, consoleheight);
                             consoledirection = 1;
-                            consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
                             showcaret = true;
                             caretwait = 0;
                         }
@@ -4278,7 +4256,6 @@ bool C_Responder(event_t *ev)
                         consolefullscreen = true;
                         consoleheight = MAX(1, consoleheight);
                         consoledirection = 1;
-                        consoleanim = C_GetShowConsoleAnimationFrame(consoleheight);
                         showcaret = true;
                         caretwait = 0;
                     }
