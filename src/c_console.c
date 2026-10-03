@@ -2834,7 +2834,7 @@ void C_Drawer(void)
         showscrollbar = C_CanScrollOutput();
     } while (showscrollbar != scrollbardrawn);
 
-    if (prevconsolelines && prevconsolelines != CONSOLELINES && outputhistory != -1)
+    if (prevconsolelines && prevconsolelines != CONSOLELINES && outputhistory != -1 && !autoscrolling)
     {
         const int   newtoprow = C_GetCurrentTopRow() + prevconsolelines - CONSOLELINES;
 
@@ -2858,6 +2858,9 @@ void C_Drawer(void)
 
     if (!smoothtransitions)
         scrolloffset = 0;
+
+    if (autoscrolling && (!smoothtransitions || !consoleactive) && !dragconsolescrollbaractive)
+        C_ScrollToBottom();
 
     if (!smoothtransitions || !consoleactive || dragconsolescrollbaractive)
         autoscrolling = false;
