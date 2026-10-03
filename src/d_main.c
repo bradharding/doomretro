@@ -741,11 +741,6 @@ static void D_SetString(char **dest, const char *value)
     *dest = M_StringDuplicate(value);
 }
 
-static bool D_IsUnsupportedGraphicLump(const int lump)
-{
-    return (lump >= 0 && (W_IsPNGLump(lump) || W_IsJPGLump(lump)));
-}
-
 static bool DehFileProcessed(const char *path)
 {
     for (int i = 0; i < dehfilecount; i++)
@@ -2925,7 +2920,7 @@ static void D_DoomMainSetup(void)
     }
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
-        && !D_IsUnsupportedGraphicLump(W_GetLastNumForName("TITLEPIC"))
+        && W_IsSupportedGraphicLump(W_GetLastNumForName("TITLEPIC"))
         && LITTLESHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH
         && D_IsDOOMIWAD(lumpinfo[W_GetLastNumForName("TITLEPIC")]->wadfile->path));
 
@@ -3182,14 +3177,14 @@ static void D_DoomMainSetup(void)
         {
             const int titlepic = W_GetNumForName("TITLEPIC");
 
-            unsupportedtitlepic = D_IsUnsupportedGraphicLump(titlepic);
+            unsupportedtitlepic = !W_IsSupportedGraphicLump(titlepic);
         }
 
         if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
         {
             const int credit = W_GetNumForName("CREDIT");
 
-            unsupportedcredit = D_IsUnsupportedGraphicLump(credit);
+            unsupportedcredit = !W_IsSupportedGraphicLump(credit);
         }
 
         if (((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD)

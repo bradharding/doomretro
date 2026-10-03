@@ -114,6 +114,7 @@ bool W_IsPNGLump(const int lump);
 void W_CheckForPNGLumps(void);
 bool W_IsJPGLump(const int lump);
 void W_CheckForJPGLumps(void);
+bool W_IsSupportedGraphicLump(const int lump);
 
 unsigned int W_LumpNameHash(const char *s);
 

@@ -1092,6 +1092,11 @@ void W_CheckForJPGLumps(void)
                 lumpinfo[i]->name);
 }
 
+bool W_IsSupportedGraphicLump(const int lump)
+{
+    return (lump >= 0 && !(W_IsPNGLump(lump) || W_IsJPGLump(lump)));
+}
+
 //
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.
