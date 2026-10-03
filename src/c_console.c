@@ -186,6 +186,7 @@ static int              scrollbarfaceend;
 static int              scrollbartrackheight;
 static int              scrollbarfaceheight;
 static bool             dragconsolescrollbaractive;
+static bool             dragconsolescrollbarmoved;
 static int              dragconsolescrollbarpointeroffset;
 static int              dragconsolescrollbardirection;
 static int64_t          dragconsolescrollposition;
@@ -1129,7 +1130,8 @@ static void C_DrawScrollbar(void)
     else
     {
         const int   currentrow = (outputhistory == -1 ? scrollrange :
-                        MIN(MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0)), scrollrange));
+                        MIN(MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0)),
+                        scrollrange));
 
         scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
     }
@@ -2986,7 +2988,7 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbaractive) ?
+    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbarmoved) ?
         CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 - CONSOLEOUTPUTGAP : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
@@ -4037,6 +4039,8 @@ bool C_Responder(event_t *ev)
                         const int64_t   dragdifference = dragconsolescrolltargetposition - dragconsolescrollposition;
                         const int64_t   step = MAX64(1, ABS64(dragdifference) / 4);
 
+                        dragconsolescrollbarmoved = true;
+
                         if (dragdifference > 0)
                             dragconsolescrollposition += MIN64(step, dragdifference);
                         else
@@ -4251,6 +4255,7 @@ bool C_Responder(event_t *ev)
                     const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
 
                     dragconsolescrollbaractive = true;
+                    dragconsolescrollbarmoved = false;
                     autoscrolling = false;
                     dragconsolescrollbarpointeroffset = y - scrollbarfacestart;
                     dragconsolescrollbardirection = 0;
@@ -4357,6 +4362,7 @@ bool C_Responder(event_t *ev)
                 }
 
                 dragconsolescrollbaractive = false;
+                dragconsolescrollbarmoved = false;
                 dragconsolescrollposition = 0;
                 dragconsolescrolltargetposition = 0;
                 doubleclickselection = false;
