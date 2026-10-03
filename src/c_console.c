@@ -4289,7 +4289,13 @@ bool C_Responder(event_t *ev)
                     else
                     {
                         C_GetHistoryPositionForVisibleRow(position - 1, &outputhistory, &outputhistoryoffset);
-                        scrolloffset = 0;
+
+                        if (dragconsolescrollbardirection > 0 && remainder)
+                            scrolloffset = (int)(CONSOLELINEHEIGHT - remainder);
+                        else if (dragconsolescrollbardirection < 0 && remainder)
+                            scrolloffset = -(int)remainder;
+                        else
+                            scrolloffset = 0;
                     }
                 }
 
