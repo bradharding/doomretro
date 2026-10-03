@@ -52,3 +52,4 @@ typedef struct
 void SHA1Init(SHA1Context *context);
 void SHA1Update(SHA1Context *context, const byte *data, size_t length);
 void SHA1Final(byte digest[SHA1_DIGEST_SIZE], SHA1Context *context);
+char *SHA1(const char *filename);

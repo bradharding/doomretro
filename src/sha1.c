@@ -33,8 +33,10 @@
 ==============================================================================
 */
 
+#include <stdio.h>
 #include <string.h>
 
+#include "m_misc.h"
 #include "sha1.h"
 
 #define SHA1ROTL(bits, word)    (((word) << (bits)) | ((word) >> (32 - (bits))))
@@ -156,4 +158,40 @@ void SHA1Final(byte digest[SHA1_DIGEST_SIZE], SHA1Context *context)
         digest[i] = (byte)(context->state[i / 4] >> ((3 - (i & 3)) * 8));
 
     memset(context, 0, sizeof(*context));
+}
+
+char *SHA1(const char *filename)
+{
+    char    checksum[SHA1_DIGEST_SIZE * 2 + 1];
+    FILE    *file = fopen(filename, "rb");
+
+    checksum[0] = '\0';
+
+    if (file)
+    {
+        SHA1Context         sha1;
+        byte                buffer[8192];
+        byte                digest[SHA1_DIGEST_SIZE];
+        size_t              len;
+        static const char   hexdigits[] = "0123456789abcdef";
+
+        SHA1Init(&sha1);
+
+        while ((len = fread(buffer, 1, sizeof(buffer), file)) > 0)
+            SHA1Update(&sha1, buffer, len);
+
+        SHA1Final(digest, &sha1);
+
+        for (int i = 0; i < SHA1_DIGEST_SIZE; i++)
+        {
+            checksum[i * 2] = hexdigits[(digest[i] >> 4) & 0x0F];
+            checksum[i * 2 + 1] = hexdigits[digest[i] & 0x0F];
+        }
+
+        checksum[SHA1_DIGEST_SIZE * 2] = '\0';
+
+        fclose(file);
+    }
+
+    return M_StringDuplicate(checksum);
 }

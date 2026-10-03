@@ -33,8 +33,11 @@
 ==============================================================================
 */
 
+#include <ctype.h>
+
 #include "c_console.h"
 #include "d_items.h"
+#include "d_main.h"
 #include "d_options.h"
 #include "d_player.h"
 #include "doomdef.h"
@@ -46,7 +49,10 @@
 #include "m_array.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "md5.h"
 #include "r_defs.h"
+#include "sc_man.h"
+#include "sha1.h"
 #include "v_video.h"
 #include "w_wad.h"
 
@@ -150,8 +156,107 @@ void ST_SetCarouselColors(void)
     ST_SetCarouselBorderColors(tintcolor);
 }
 
+static bool ST_IsHexString(const char *string, const int length)
+{
+    if ((int)strlen(string) != length)
+        return false;
+
+    for (int i = 0; i < length; i++)
+        if (!isxdigit((unsigned char)string[i]))
+            return false;
+
+    return true;
+}
+
+static bool ST_ParseCarouselColor(const char *string, int *value)
+{
+    char    *end;
+    const long  result = strtol(string, &end, 10);
+
+    if (end == string || *end || result < 0 || result > 255)
+        return false;
+
+    *value = (int)result;
+    return true;
+}
+
+static void ST_ParseCarouselLump(void)
+{
+    const wadfile_t *wadfile = NULL;
+    char            *md5 = NULL;
+    char            *sha1 = NULL;
+
+    for (int i = 0; i < numlumps; i++)
+        if (*pwadfile ? M_StringCompare(leafname(lumpinfo[i]->wadfile->path), pwadfile) :
+            lumpinfo[i]->wadfile->type == IWAD)
+        {
+            wadfile = lumpinfo[i]->wadfile;
+            break;
+        }
+
+    if (!wadfile)
+        return;
+
+    for (int i = 0; i < numlumps; i++)
+        if (M_StringCompare(lumpinfo[i]->name, "CAROUSEL"))
+        {
+            SC_Open(i);
+
+            while (SC_GetString())
+            {
+                char    pattern[MAX_PATH];
+                int     color;
+                int     border;
+                int     highlight;
+                bool    match;
+
+                M_StringCopy(pattern, sc_String, sizeof(pattern));
+
+                if (!SC_GetString() || !ST_ParseCarouselColor(sc_String, &color))
+                    continue;
+
+                if (!SC_GetString() || !ST_ParseCarouselColor(sc_String, &border))
+                    continue;
+
+                if (!SC_GetString() || !ST_ParseCarouselColor(sc_String, &highlight))
+                    continue;
+
+                if (ST_IsHexString(pattern, 32))
+                {
+                    if (!md5)
+                        md5 = MD5(wadfile->path);
+
+                    match = M_StringCompare(md5, pattern);
+                }
+                else if (ST_IsHexString(pattern, 40))
+                {
+                    if (!sha1)
+                        sha1 = SHA1(wadfile->path);
+
+                    match = M_StringCompare(sha1, pattern);
+                }
+                else
+                    match = wildcard(leafname((char *)wadfile->path), pattern);
+
+                if (match)
+                {
+                    weaponcarouselcolor_options = color;
+                    weaponcarouselbordercolor_options = border;
+                    weaponcarouselhighlightcolor_options = highlight;
+                }
+            }
+
+            SC_Close();
+        }
+
+    free(md5);
+    free(sha1);
+}
+
 void ST_InitCarousel(void)
 {
+    ST_ParseCarouselLump();
+
     for (int i = 0; i < NUMWEAPONS; i++)
     {
         carouselweapons[i] = wp_nochange;
