@@ -4230,6 +4230,7 @@ bool C_Responder(event_t *ev)
                             consoledirection = 1;
                             showcaret = true;
                             caretwait = 0;
+                            S_StartSound(viewplayer->mo, sfx_consol);
                         }
                     }
                     else if (consoleedgedragdirection < 0)
@@ -4242,6 +4243,7 @@ bool C_Responder(event_t *ev)
                             consoledirection = 1;
                             showcaret = true;
                             caretwait = 0;
+                            S_StartSound(viewplayer->mo, sfx_consol);
                         }
                         else
                             C_HideConsole();
