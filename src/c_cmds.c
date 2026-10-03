@@ -6641,8 +6641,11 @@ static int  namecmdtype = NUMMOBJTYPES;
 
 static bool namefunc1(char *cmd, char *parms)
 {
-    if (!*parms || gamestate != GS_LEVEL)
+    if (!*parms)
         return true;
+
+    if (gamestate != GS_LEVEL)
+        return false;
 
     if (M_StringStartsWith(parms, "player"))
     {
