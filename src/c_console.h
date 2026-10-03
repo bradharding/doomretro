@@ -82,8 +82,9 @@
 #define CONSOLEEDGEHEIGHT                   7
 #define CONSOLEEDGEHOTSPOTHEIGHT            10
 #define CONSOLEFULLSCREENTHRESHOLD          500
+#define CONSOLEHALFHEIGHT                   (SCREENHEIGHT / 2 - 1)
 
-#define CONSOLEHEIGHT                       ((consolefullscreen ? SCREENHEIGHT : SCREENHEIGHT / 2) - 5)
+#define CONSOLEHEIGHT                       ((consolefullscreen ? SCREENHEIGHT : SCREENHEIGHT / 2) - (consolefullscreen ? 5 : 1))
 
 #define CONSOLELINES                        (consolefullscreen ? 27 : 13)
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
@@ -92,7 +93,7 @@
 #define CONSOLEWRAPS                        32
 
 #define CONSOLESCROLLBARWIDTH               5
-#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - 22)
+#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - 25)
 #define CONSOLESCROLLBARMINHEIGHT           11
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 

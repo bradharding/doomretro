@@ -985,7 +985,7 @@ static int C_GetCurrentTopRow(void)
 static int C_GetScrollbarRows(void)
 {
     static bool fromhalf;
-    const int   halfheight = SCREENHEIGHT / 2 - 5;
+    const int   halfheight = CONSOLEHALFHEIGHT;
 
     if (!consolefullscreen)
         fromhalf = (consoleheight >= halfheight);
@@ -1067,7 +1067,7 @@ static void C_DrawScrollbar(void)
     const int   scrollbarrows = C_GetScrollbarRows();
     const int   visiblerows = MIN(scrollbarrows, totalrows);
     const int   scrollrange = MAX(0, totalrows - visiblerows);
-    const int   scrollbarheight = MAX(0, consoleheight - 22);
+    const int   scrollbarheight = MAX(0, consoleheight - 25);
     const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblerows / totalrows);
     const int   facetravel = MAX(0, scrollbarheight - faceheight);
 
@@ -2798,7 +2798,7 @@ void C_Drawer(void)
             consoleheight = CONSOLEHEIGHT;
     }
 
-    if (consoleshrinktohalf && consoleheight <= SCREENHEIGHT / 2 - 5)
+    if (consoleshrinktohalf && consoleheight <= CONSOLEHALFHEIGHT)
     {
         consoleshrinktohalf = false;
         consolefullscreen = false;
@@ -2838,7 +2838,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = CONSOLEINPUTY - 16
+    outputyoffset = CONSOLEINPUTY - 19
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
@@ -2867,7 +2867,7 @@ void C_Drawer(void)
         consoleanimdirection = 0;
     else
     {
-        const int   target = (consoledirection == 1 ? (consoleshrinktohalf ? SCREENHEIGHT / 2 - 5 : CONSOLEHEIGHT) : 0);
+        const int   target = (consoledirection == 1 ? (consoleshrinktohalf ? CONSOLEHALFHEIGHT : CONSOLEHEIGHT) : 0);
         float       elapsed;
         float       progress;
         float       eased;
@@ -2939,7 +2939,7 @@ void C_Drawer(void)
 
     topofconsole = (toprow < 0);
     consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbaractive) ?
-        CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 : INT_MAX);
+        CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 4 : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text
@@ -4230,7 +4230,7 @@ bool C_Responder(event_t *ev)
             {
                 if (draggingconsoleedge)
                 {
-                    const int   halfheight = SCREENHEIGHT / 2 - 5;
+                    const int   halfheight = CONSOLEHALFHEIGHT;
                     const int   middlebandtop = halfheight - CONSOLEDRAGDELTA;
 
                     draggingconsoleedge = false;
