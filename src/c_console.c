@@ -992,7 +992,7 @@ static int C_GetScrollbarRows(void)
     if (consolefullscreen && !fromhalf && !consoleshrinktohalf)
         return 27;
 
-    return 13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2) / (SCREENHEIGHT / 2);
+    return 13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4);
 }
 
 static bool C_CanScrollOutput(void)
