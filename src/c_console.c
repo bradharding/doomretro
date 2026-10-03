@@ -80,6 +80,9 @@ bool                    ignoreconsolekey;
 uint64_t                consolekeydowntime;
 static int              scrolloffset;
 static int              scrollspeed = TICRATE;
+static bool             autoscrolling;
+static int              autoscrollpos;
+static uint64_t         autoscrolltime;
 
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *unknownchar;
@@ -190,6 +193,8 @@ static int64_t          dragconsolescrolltargetposition;
 
 static byte             tempscreen2[MAXSCREENAREA];
 
+static int C_GetCurrentTopRow(void);
+
 void C_CreateTimeStamp(const int index)
 {
     const time_t    now = time(NULL);
@@ -229,6 +234,25 @@ static void C_ScrollToBottom(void)
     outputhistory = -1;
     outputhistoryoffset = 0;
     scrolloffset = 0;
+    autoscrolling = false;
+}
+
+static void C_ScrollToNewOutput(void)
+{
+    if (smoothtransitions && consoleactive && !dragconsolescrollbaractive)
+    {
+        const int   startpos = (autoscrolling ? autoscrollpos :
+                        MAX(0, (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset));
+
+        if (!autoscrolling)
+            autoscrolltime = I_GetTimeMS();
+
+        C_ScrollToBottom();
+        autoscrollpos = startpos;
+        autoscrolling = true;
+    }
+    else
+        C_ScrollToBottom();
 }
 
 static void C_StoreConsoleString(char *dest, const char *src, const size_t dest_size)
@@ -280,7 +304,7 @@ void C_Input(const char *string, ...)
     console[numconsolestrings++].stringtype = inputstring;
     inputhistory = -1;
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 
     consoleinput[0] = '\0';
     caretpos = 0;
@@ -308,7 +332,7 @@ void C_Cheat(const char *string)
     console[numconsolestrings++].stringtype = cheatstring;
     inputhistory = -1;
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 
     consoleinput[0] = '\0';
     caretpos = 0;
@@ -374,7 +398,7 @@ void C_Output(const char *string, ...)
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].stringtype = outputstring;
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
@@ -396,7 +420,7 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...)
     console[numconsolestrings].wrapwidth = 0;
     memset(console[numconsolestrings++].wrap, 0, sizeof(console[0].wrap));
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
@@ -411,7 +435,7 @@ void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string)
     console[numconsolestrings].wrapwidth = 0;
     C_StoreConsoleString(console[numconsolestrings++].string, string, sizeof(console[0].string));
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 void C_Warning(const int warninglevel, const char *string, ...)
@@ -440,7 +464,7 @@ void C_Warning(const int warninglevel, const char *string, ...)
         console[numconsolestrings++].warninglevel = warninglevel;
     }
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 void C_PlayerMessage(const char *string, ...)
@@ -479,7 +503,7 @@ void C_PlayerMessage(const char *string, ...)
         console[numconsolestrings++].count = 1;
     }
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 void C_PlayerWarning(const char *string, ...)
@@ -503,7 +527,7 @@ void C_PlayerWarning(const char *string, ...)
     console[numconsolestrings].wrapwidth = 0;
     console[numconsolestrings++].count = 1;
 
-    C_ScrollToBottom();
+    C_ScrollToNewOutput();
 }
 
 char *C_GetPlayerName(void)
@@ -1027,6 +1051,7 @@ static bool C_CanScrollOutput(void)
 
 static void C_ScrollToTop(void)
 {
+    autoscrolling = false;
     C_GetHistoryPositionForVisibleRow(-1, &outputhistory, &outputhistoryoffset);
     scrolloffset = 0;
 }
@@ -1034,6 +1059,8 @@ static void C_ScrollToTop(void)
 static void C_SetTopRow(int row)
 {
     const int   toprow = row;
+
+    autoscrolling = false;
 
     if (toprow > C_GetTopRowForDisplay())
         C_ScrollToBottom();
@@ -2830,13 +2857,40 @@ void C_Drawer(void)
     if (!smoothtransitions)
         scrolloffset = 0;
 
+    if (!smoothtransitions || !consoleactive || dragconsolescrollbaractive)
+        autoscrolling = false;
+
+    // animate scrolling down to newly added output
+    if (autoscrolling)
+    {
+        const int   target = (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT;
+
+        if (tics - autoscrolltime > 128)
+            autoscrolltime = tics - 128;
+
+        while (tics - autoscrolltime >= 16 && autoscrollpos < target)
+        {
+            autoscrollpos += MAX(2, (target - autoscrollpos) / 5);
+            autoscrolltime += 16;
+        }
+
+        if (autoscrollpos >= target)
+            C_ScrollToBottom();
+        else
+        {
+            C_GetHistoryPositionForVisibleRow(autoscrollpos / CONSOLELINEHEIGHT - 1,
+                &outputhistory, &outputhistoryoffset);
+            scrolloffset = -(autoscrollpos % CONSOLELINEHEIGHT);
+        }
+    }
+
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
     outputyoffset = CONSOLEINPUTY - 16 - CONSOLEOUTPUTGAP
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
-    if (!dragconsolescrollbaractive)
+    if (!dragconsolescrollbaractive && !autoscrolling)
     {
         if (scrolloffset > 0)
             scrolloffset = MAX(0, scrolloffset - MAX(2, scrolloffset / 4));
@@ -3434,7 +3488,9 @@ bool C_Responder(event_t *ev)
                         undolevels = 0;
                         autocomplete = -1;
                         inputhistory = -1;
-                        C_ScrollToBottom();
+
+                        if (!autoscrolling)
+                            C_ScrollToBottom();
 
                         if (quitcmd)
                         {
@@ -4195,6 +4251,7 @@ bool C_Responder(event_t *ev)
                     const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
 
                     dragconsolescrollbaractive = true;
+                    autoscrolling = false;
                     dragconsolescrollbarpointeroffset = y - scrollbarfacestart;
                     dragconsolescrollbardirection = 0;
                     dragconsolescrollposition = (facetravel > 0 ?
