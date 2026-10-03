@@ -869,6 +869,10 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
             if (width <= C_GetWrapWidth(index, wrap) + 10)
             {
                 wrappositions[wrap] = i + (breakchar == '-');
+
+                while (wrappositions[wrap] < len && isspace((unsigned char)console[index].string[wrappositions[wrap]]))
+                    wrappositions[wrap]++;
+
                 start = wrappositions[wrap];
                 break;
             }
