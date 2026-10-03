@@ -104,7 +104,7 @@ void V_InitColorTranslation(void)
         byte        *remapped = Z_Malloc(256, PU_STATIC, NULL);
 
         for (int i = 0; i < 256; i++)
-            remapped[i] = nearestcolors[translation[i]];
+            remapped[i] = (BTSX ? translation[i] : nearestcolors[translation[i]]);
 
         *p->lump = remapped;
     }
