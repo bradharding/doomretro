@@ -139,11 +139,11 @@ void ST_SetCarouselColors(void)
         tintcolor = weaponcarouselcolor;
     else
     {
-        tintcolor = FindBrightDominantColor(W_CacheLumpName("STTNUM0"));
+        tintcolor = FindBrightDominantColor(W_CacheLumpName("STCFN065"));
 
-        if (W_GetNumLumps("STTNUM0") == 1 || tintcolor == nearestwhite)
-            tintcolor = (W_GetNumLumps("STCFN065") == 1 ? ST_CAROUSEL_COLOR :
-                FindBrightDominantColor(W_CacheLumpName("STCFN065")));
+        if (W_GetNumLumps("STCFN065") == 1 || tintcolor == nearestwhite)
+            tintcolor = (W_GetNumLumps("STTNUM0") == 1 ? ST_CAROUSEL_COLOR :
+                FindBrightDominantColor(W_CacheLumpName("STTNUM0")));
     }
 
     ST_SetCarouselTintColors(tintcolor);
