@@ -874,6 +874,27 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
             }
         }
 
+        if (!wrappositions[wrap] && start < len)
+        {
+            for (int i = start + 1; i < len; i++)
+            {
+                const char  prev = console[index].string[i];
+                int         width;
+
+                console[index].string[i] = '\0';
+                width = C_TextWidth(&console[index].string[start], (wrap ? NULL : tabs), true, true);
+                console[index].string[i] = prev;
+
+                if (width > C_GetWrapWidth(index, wrap))
+                    break;
+
+                wrappositions[wrap] = i;
+            }
+
+            if (wrappositions[wrap])
+                start = wrappositions[wrap];
+        }
+
         if (!wrappositions[wrap])
             break;
     }
@@ -1895,21 +1916,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ','
                         && letter != '/' && patch != unknownchar), (bolder ? NULL : tinttab));
                 x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
-
-                if (x >= CONSOLETEXTPIXELWIDTH && wrapped)
-                {
-                    for (int j = 1; j <= 3; j++)
-                    {
-                        patch = consolefont['.' - CONSOLEFONTSTART];
-                        width = LITTLESHORT(patch->width);
-                        consoletextfunc(x, y, patch, width, (bold && italics ? (color1 == consolewarningcolor ?
-                            color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, false,
-                            (bolder ? NULL : tinttab));
-                        x += (monospaced ? zerowidth : width);
-                    }
-
-                    break;
-                }
             }
         }
 
