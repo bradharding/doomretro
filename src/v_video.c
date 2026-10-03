@@ -1007,11 +1007,11 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t *patch, cons
                     *dot = (!tinttab ? color : tinttab[(color << 8) + *dot]);
 
                     if (!(y + i))
-                        *dot = tinttab60[*dot];
-                    else if (y + i == 1)
                         *dot = tinttab40[*dot];
-                    else if (y + i == 2)
+                    else if (y + i == 1)
                         *dot = tinttab20[*dot];
+                    else if (y + i == 2)
+                        *dot = tinttab10[*dot];
                 }
             }
 
@@ -1140,11 +1140,11 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
                     *dest = color;
 
                     if (height == 1)
-                        *dest = tinttab60[*dest];
-                    else if (height == 2)
                         *dest = tinttab40[*dest];
-                    else if (height == 3)
+                    else if (height == 2)
                         *dest = tinttab20[*dest];
+                    else if (height == 3)
+                        *dest = tinttab10[*dest];
                 }
 
                 if (col == width - 1)
@@ -1164,11 +1164,11 @@ void V_DrawConsoleHeaderPatch(int x, int y, patch_t *patch, const int maxwidth, 
                             *dot = dotcolor;
 
                             if (height == 1)
-                                *dot = tinttab60[*dot];
-                            else if (height == 2)
                                 *dot = tinttab40[*dot];
-                            else if (height == 3)
+                            else if (height == 2)
                                 *dot = tinttab20[*dot];
+                            else if (height == 3)
+                                *dot = tinttab10[*dot];
                         }
                     }
             }
