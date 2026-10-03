@@ -75,25 +75,24 @@
 #define NOBACKGROUNDCOLOR                   -1
 
 #define CONSOLEDOWNSIZE                     28
-#define CONSOLEUPSIZE                       12
 
 #define CONSOLEDRAGZONE                     3
 #define CONSOLEDRAGDELTA                    4
 #define CONSOLEEDGEHEIGHT                   7
 #define CONSOLEEDGEHOTSPOTHEIGHT            10
 #define CONSOLEFULLSCREENTHRESHOLD          500
-#define CONSOLEHALFHEIGHT                   (SCREENHEIGHT / 2 - 1)
 
-#define CONSOLEHEIGHT                       ((consolefullscreen ? SCREENHEIGHT : SCREENHEIGHT / 2) - (consolefullscreen ? 5 : 1))
+#define CONSOLEHALFHEIGHT                   (SCREENHEIGHT / 2 - 1)
+#define CONSOLEHEIGHT                       (consolefullscreen ? SCREENHEIGHT - 5 : CONSOLEHALFHEIGHT)
 
 #define CONSOLELINES                        (consolefullscreen ? 27 : 13)
 #define CONSOLETEXTX                        (vid_widescreen ? MAX(MAXWIDESCREENDELTA - 18, 10) : 10)
 #define CONSOLETEXTMAXLENGTH                1024
 #define CONSOLELINEHEIGHT                   14
 #define CONSOLEWRAPS                        32
+#define CONSOLEOUTPUTGAP                    3
 
 #define CONSOLESCROLLBARWIDTH               5
-#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - 25)
 #define CONSOLESCROLLBARMINHEIGHT           11
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
@@ -253,17 +252,11 @@ extern bool             pathoverlay;
 
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];
-extern char             consolecmdparm[255];
 extern int              outputhistory;
 
 extern bool             dontrestoremousepointeronshow;
 
-extern int              consoleedgecolor1;
-extern int              consoleedgecolor2;
-
 extern bool             gotoverlaytextcolors;
-
-extern bool             scrollbardrawn;
 
 extern const kern_t     kern[];
 extern const kern_t     altkern[];

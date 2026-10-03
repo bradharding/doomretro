@@ -117,7 +117,6 @@ static short            colorbackwidth;
 
 char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
-int                     numvisibleconsolestrings = 0;
 static int              numvisibleconsolerows = 0;
 size_t                  consolestringsmax = 0;
 
@@ -161,8 +160,8 @@ static byte             *consolebevelcolor1;
 static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
-int                     consoleedgecolor1;
-int                     consoleedgecolor2;
+static int              consoleedgecolor1;
+static int              consoleedgecolor2;
 static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
@@ -178,11 +177,9 @@ static int              consolewarningcolor;
 static int              consolecolors[STRINGTYPES];
 static int              consoleboldcolors[STRINGTYPES];
 
-bool                    scrollbardrawn;
-fixed_t                 consoleberzerkeffectfade = FRACUNIT;
-bool                    consolefadeberserkeffectout = false;
-int                     scrollbarfacestart;
-int                     scrollbarfaceend;
+static bool             scrollbardrawn;
+static int              scrollbarfacestart;
+static int              scrollbarfaceend;
 static int              scrollbartrackheight;
 static int              scrollbarfaceheight;
 static bool             dragconsolescrollbaractive;
@@ -1067,7 +1064,7 @@ static void C_DrawScrollbar(void)
     const int   scrollbarrows = C_GetScrollbarRows();
     const int   visiblerows = MIN(scrollbarrows, totalrows);
     const int   scrollrange = MAX(0, totalrows - visiblerows);
-    const int   scrollbarheight = MAX(0, consoleheight - 25);
+    const int   scrollbarheight = MAX(0, consoleheight - 22 - CONSOLEOUTPUTGAP);
     const int   faceheight = MAX(CONSOLESCROLLBARMINHEIGHT, scrollbarheight * visiblerows / totalrows);
     const int   facetravel = MAX(0, scrollbarheight - faceheight);
 
@@ -1434,7 +1431,7 @@ void C_UpdateOpenConsoleDrag(int y)
 {
     const int   dragheight = MAX(0, MIN(y - 4, SCREENHEIGHT - 5));
 
-    consolefullscreen = (dragheight > SCREENHEIGHT / 2 - 5 + CONSOLEDRAGDELTA);
+    consolefullscreen = (dragheight > CONSOLEHALFHEIGHT + CONSOLEDRAGDELTA);
     consoleheight = dragheight;
 }
 
@@ -2543,17 +2540,6 @@ static void UpdateCheatMask(const char *input)
         }
 }
 
-static int C_CountVisibleStrings(void)
-{
-    int count = 0;
-
-    for (int i = 0; i < numconsolestrings; i++)
-        if (C_IsVisibleConsoleString(i))
-            count++;
-
-    return count;
-}
-
 static int C_CountVisibleRows(void)
 {
     int count = 0;
@@ -2785,8 +2771,6 @@ void C_Drawer(void)
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
 
-    numvisibleconsolestrings = C_CountVisibleStrings();
-
     if (consoleopenedbyconsolekey && consoleactive && !consolefullscreen
         && consoledirection >= 0 && keydown && tics - consolekeydowntime >= CONSOLEFULLSCREENTHRESHOLD)
     {
@@ -2838,7 +2822,7 @@ void C_Drawer(void)
 
     toprow = C_GetCurrentTopRow();
     bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
-    outputyoffset = CONSOLEINPUTY - 19
+    outputyoffset = CONSOLEINPUTY - 16 - CONSOLEOUTPUTGAP
         - (CONSOLELINEHEIGHT * (MAX(1, bottomrow - toprow + 1) - 1) - CONSOLELINEHEIGHT / 2 + 1)
         + scrolloffset;
 
@@ -2939,7 +2923,7 @@ void C_Drawer(void)
 
     topofconsole = (toprow < 0);
     consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbaractive) ?
-        CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 4 : INT_MAX);
+        CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 - CONSOLEOUTPUTGAP : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
     // draw console text

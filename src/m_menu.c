@@ -3764,10 +3764,8 @@ bool M_Responder(event_t *ev)
     {
         static bool     draggingconsole;
         static bool     leftbuttondown;
-        static int      consoleopendragstart;
         static int      consoleopendragdirection;
         static int      consoleopendragpagetic;
-        static uint64_t consoleopendragtime;
         const bool      leftbutton = !!(ev->data1 & MOUSE_LEFTBUTTON);
         const bool      newleftbuttonpress = (leftbutton && !leftbuttondown);
 
@@ -3813,10 +3811,8 @@ bool M_Responder(event_t *ev)
             && !splashscreen && !keydown && !savestringenter)
         {
             draggingconsole = true;
-            consoleopendragstart = ev->data3;
             consoleopendragdirection = 0;
             consoleopendragpagetic = pagetic;
-            consoleopendragtime = I_GetTimeMS();
             consoleoverlaymenu = (menuactive || messagetoprint);
             C_BeginOpenConsoleDrag();
             C_UpdateOpenConsoleDrag(ev->data3 * 2);

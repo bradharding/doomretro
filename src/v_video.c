@@ -121,7 +121,7 @@ static bool V_ShouldSkipSmallPatchSample(int index, int count)
     int skipcount;
     int start;
 
-    if (count <= 0 || count <= 4 || index < 0 || index >= count)
+    if (count <= 4 || index < 0 || index >= count)
         return false;
 
     skipcount = count / 4;
