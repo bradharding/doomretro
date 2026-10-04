@@ -13,7 +13,7 @@
   * Any text displayed in the top right corner of the screen (such as while the `vid_showfps` CVAR is `on`) now moves smoothly when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
-* When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen.
+* When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
 * Improvements have been made to wrapping long lines of text in the console.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
