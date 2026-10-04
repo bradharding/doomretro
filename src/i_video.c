@@ -773,11 +773,17 @@ static void I_ReadMouse(void)
             {
                 ev.data2 = (x - dest_rect.x) * SCREENWIDTH / dest_rect.w / 2;
                 ev.data3 = (y - dest_rect.y) * SCREENHEIGHT / dest_rect.h / 2;
+
+                if (consoleactive)
+                    ev.data5 = (y - dest_rect.y) * SCREENHEIGHT * 16 / dest_rect.h;
             }
             else
             {
                 ev.data2 = x * WIDESCREENWIDTH / displaywidth / 2;
                 ev.data3 = y * SCREENHEIGHT / displayheight / 2;
+
+                if (consoleactive)
+                    ev.data5 = y * SCREENHEIGHT * 16 / displayheight;
             }
         }
         else

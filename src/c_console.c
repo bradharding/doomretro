@@ -4008,6 +4008,7 @@ bool C_Responder(event_t *ev)
         {
             const int   x = (ev->data2 - (vid_widescreen ? 0 : MAXWIDESCREENDELTA)) * 2;
             const int   y = ev->data3 * 2;
+            const int   ysub = (ev->data5 ? ev->data5 : y * 16);
             const bool  newleftbuttonpress = !leftbuttondown;
             static int  mouseselectanchor;
             static int  consoleedgedragoffset;
@@ -4036,12 +4037,12 @@ bool C_Responder(event_t *ev)
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
                 const int   faceheight = scrollbarfaceheight;
                 const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
-                const int   newfacestart = MAX(0, MIN(y - dragconsolescrollbarpointeroffset, facetravel));
+                const int   newfacestart = MAX(0, MIN(ysub - dragconsolescrollbarpointeroffset, facetravel * 16));
 
                 if (C_CanScrollOutput())
                 {
                     const int64_t   targetposition = (facetravel > 0 ? (int64_t)newfacestart
-                                        * scrollrange * CONSOLELINEHEIGHT / facetravel : 0);
+                                        * scrollrange * CONSOLELINEHEIGHT / (facetravel * 16) : 0);
                     const int64_t   difference = targetposition - dragconsolescrolltargetposition;
                     const int64_t   maxposition = (int64_t)scrollrange * CONSOLELINEHEIGHT;
                     int             position;
@@ -4274,7 +4275,7 @@ bool C_Responder(event_t *ev)
                     dragconsolescrollbaractive = true;
                     dragconsolescrollbarmoved = false;
                     autoscrolling = false;
-                    dragconsolescrollbarpointeroffset = y - scrollbarfacestart;
+                    dragconsolescrollbarpointeroffset = ysub - scrollbarfacestart * 16;
                     dragconsolescrollbardirection = 0;
                     dragconsolescrollposition = (facetravel > 0 ?
                         (int64_t)scrollbarfacestart * scrollrange * CONSOLELINEHEIGHT / facetravel : 0);
