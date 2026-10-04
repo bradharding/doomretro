@@ -6047,6 +6047,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
     const int   tabs[MAXTABS] = { 137 };
     char        *temp;
     int         lump = -1;
+    int         displaylump = -1;
     int         wadtype = IWAD;
     const char  *author = P_GetMapAuthor(gameepisode, gamemap);
     const char  *mapinfolabel = trimwhitespace(P_GetLabel(gameepisode, gamemap));
@@ -6093,7 +6094,10 @@ static void mapstatsfunc2(char *cmd, char *parms)
 
     if (lump == -1)
     {
-        lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+        if (gamemission == pack_masterlevels)
+            lump = W_CheckNumForName(mapnum);
+        else
+            lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
 
         if (lump == -1)
             return;
@@ -6244,7 +6248,27 @@ static void mapstatsfunc2(char *cmd, char *parms)
     if (secretmap)
         C_TabbedOutput(tabs, "Secret\tYes");
 
-    M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
+    if (gamemission == pack_nerve)
+    {
+        for (int i = numlumps - 1; i >= 0; i--)
+        {
+            if (!strncasecmp(lumpinfo[i]->name, mapnum, 8)
+                && D_IsNERVEWAD(lumpinfo[i]->wadfile->path))
+            {
+                displaylump = i;
+                break;
+            }
+        }
+    }
+    else if (gamemission == pack_masterlevels)
+        displaylump = W_CheckNumForName(mapnum);
+    else
+        displaylump = lump;
+
+    if (displaylump == -1)
+        displaylump = lump;
+
+    M_StringCopy(wadname, leafname(lumpinfo[displaylump]->wadfile->path), sizeof(wadname));
 
     C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
 
@@ -6263,7 +6287,7 @@ static void mapstatsfunc2(char *cmd, char *parms)
     }
 
     C_TabbedOutput(tabs, INDENT "MD5\t" MONOSPACED("%s"),
-        MD5(lumpinfo[lump]->wadfile->path));
+        MD5(lumpinfo[displaylump]->wadfile->path));
 
     if (wadtype == PWAD)
     {
