@@ -290,7 +290,7 @@ void C_UpdateOpenConsoleDrag(int y);
 void C_EndOpenConsoleDrag(void);
 void C_DrawConsoleEdge(int y);
 void C_Drawer(void);
-bool C_ExecuteInputString(const char *input);
+void C_ExecuteInputString(const char *input);
 bool C_ValidateInput(char *input);
 bool C_Responder(event_t *ev);
 void C_PrintSDLVersions(void);

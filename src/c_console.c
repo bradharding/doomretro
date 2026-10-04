@@ -188,6 +188,7 @@ static int              scrollbarfaceheight;
 static bool             dragconsolescrollbaractive;
 static bool             dragconsolescrollbarmoved;
 static int              dragconsolescrollbarpointeroffset;
+static int64_t          dragconsolescrollstartposition;
 static int              dragconsolescrollbardirection;
 static int64_t          dragconsolescrollposition;
 static int64_t          dragconsolescrolltargetposition;
@@ -878,7 +879,6 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
         for (int i = len; i > start; i--)
         {
             const unsigned char breakchar = console[index].string[i];
-            const char          prev = console[index].string[i];
             int                 width;
 
             if (!isbreak(breakchar))
@@ -903,7 +903,7 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
 
             console[index].string[i] = '\0';
             width = C_TextWidth(&console[index].string[start], (wrap ? NULL : tabs), true, true);
-            console[index].string[i] = prev;
+            console[index].string[i] = breakchar;
 
             if (width <= C_GetWrapWidth(index, wrap) + 10)
             {
@@ -1056,7 +1056,7 @@ static int C_GetScrollbarRows(void)
     if (consolefullscreen && !fromhalf && !consoleshrinktohalf)
         return 27;
 
-    return 13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4);
+    return (13 + 14 * BETWEEN(0, consoleheight - halfheight, SCREENHEIGHT / 2 - 4) / (SCREENHEIGHT / 2 - 4));
 }
 
 static bool C_CanScrollOutput(void)
@@ -1071,18 +1071,16 @@ static void C_ScrollToTop(void)
     scrolloffset = 0;
 }
 
-static void C_SetTopRow(int row)
+static void C_SetTopRow(const int row)
 {
-    const int   toprow = row;
-
     autoscrolling = false;
 
-    if (toprow > C_GetTopRowForDisplay())
+    if (row > C_GetTopRowForDisplay())
         C_ScrollToBottom();
-    else if (toprow < -1)
+    else if (row < -1)
         C_ScrollToTop();
     else
-        C_GetHistoryPositionForVisibleRow(toprow, &outputhistory, &outputhistoryoffset);
+        C_GetHistoryPositionForVisibleRow(row, &outputhistory, &outputhistoryoffset);
 }
 
 static void C_ScrollUpFromBottom(void)
@@ -1497,7 +1495,7 @@ void C_BeginOpenConsoleDrag(void)
 
 void C_UpdateOpenConsoleDrag(int y)
 {
-    const int   dragheight = MAX(0, MIN(y - 4, SCREENHEIGHT - 5));
+    const int   dragheight = BETWEEN(0, y - 4, SCREENHEIGHT - 5);
 
     consolefullscreen = (dragheight > CONSOLEHALFHEIGHT + CONSOLEDRAGDELTA);
     consoleheight = dragheight;
@@ -1672,7 +1670,7 @@ static void C_DrawBackground(void)
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2,
     const int boldcolor, const byte *tinttab, const int tabs[MAXTABS], const bool formatting,
-    const bool kerning, const bool wrapped, const int index, unsigned char prevletter,
+    const bool kerning, const int index, unsigned char prevletter,
     unsigned char prevletter2, const int inputoffset, void consoletextfunc(const int, const int,
     const patch_t *, const int, const int, const int, const bool, const byte *))
 {
@@ -2514,34 +2512,23 @@ static bool IsCheatSequence(char *string)
         return false;
     else if (M_StringCompare(string, cheat_god.sequence))
         return (gameskill != sk_nightmare);
-    else if (M_StringCompare(string, cheat_ammonokey.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_ammo.sequence))
+    else if (M_StringCompare(string, cheat_ammonokey.sequence)
+        || M_StringCompare(string, cheat_ammo.sequence)
+        || M_StringCompare(string, cheat_choppers.sequence)
+        || M_StringCompare(string, cheat_buddha.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(string, cheat_noclip.sequence))
         return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(string, cheat_commercial_noclip.sequence))
         return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[0].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[1].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[2].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[3].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[4].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_choppers.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
-    else if (M_StringCompare(string, cheat_buddha.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(string, cheat_mypos.sequence))
         return true;
     else if (M_StringCompare(string, cheat_amap.sequence))
         return (gameskill != sk_nightmare && (automapactive || mapwindow));
+
+    for (int i = 0; i < 6; i++)
+        if (M_StringCompare(string, cheat_powerup[i].sequence))
+            return (gameskill != sk_nightmare && viewplayer->health > 0);
 
     return false;
 }
@@ -2710,13 +2697,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
 
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
-                            consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consoleplayermessagecolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleplayermessagecolor, NOBACKGROUNDCOLOR,
-                            consoleplayermessagecolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consoleplayermessagecolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
 
                     if (con_timestamps)
@@ -2725,11 +2712,11 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
                 }
                 else if (stringtype == outputstring)
                     C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleoutputcolor, NOBACKGROUNDCOLOR,
-                        consoleboldcolor, tinttab66, console[index].tabs, true, true, false, index, '\0', '\0',
+                        consoleboldcolor, tinttab66, console[index].tabs, true, true, index, '\0', '\0',
                         -1, &V_DrawConsoleTextPatch);
                 else if (stringtype == inputstring || stringtype == cheatstring)
                     C_DrawConsoleText(CONSOLETEXTX, y, temp1, consoleinputcolor, NOBACKGROUNDCOLOR,
-                        consoleboldcolor, tinttab75, notabs, true, true, false, index, '\0', '\0',
+                        consoleboldcolor, tinttab75, notabs, true, true, index, '\0', '\0',
                         -1, &V_DrawConsoleTextPatch);
                 else if (stringtype == warningstring)
                 {
@@ -2742,13 +2729,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
 
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
-                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consolewarningboldcolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
-                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consolewarningboldcolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
                 }
                 else if (stringtype == playerwarningstring || stringtype == playerobituarystring)
@@ -2762,13 +2749,13 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
 
                         M_snprintf(buffer, sizeof(buffer), "%s (%s)", temp1, temp2);
                         C_DrawConsoleText(CONSOLETEXTX, y, buffer, consolewarningcolor, NOBACKGROUNDCOLOR,
-                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consolewarningboldcolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
                         free(temp2);
                     }
                     else
                         C_DrawConsoleText(CONSOLETEXTX, y, temp1, consolewarningcolor, NOBACKGROUNDCOLOR,
-                            consolewarningboldcolor, tinttab66, notabs, true, true, false, index, '\0', '\0',
+                            consolewarningboldcolor, tinttab66, notabs, true, true, index, '\0', '\0',
                             -1, &V_DrawConsoleTextPatch);
 
                     if (con_timestamps)
@@ -2792,7 +2779,7 @@ static void C_DrawConsoleStringParts(const int index, const int row, const int t
 
                 C_DrawConsoleText(CONSOLETEXTX + console[index].indent, y, trimwhitespace(temp),
                     consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66,
-                    notabs, true, true, (end >= len), 0, '\0', '\0', -1, &V_DrawConsoleTextPatch);
+                    notabs, true, true, 0, '\0', '\0', -1, &V_DrawConsoleTextPatch);
                 free(temp);
             }
         }
@@ -3092,7 +3079,7 @@ void C_Drawer(void)
             len = (int)strlen(partialinput);
 
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
-                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, false, 0, '\0', '\0',
+                NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0, '\0', '\0',
                 0, &V_DrawConsoleTextPatch);
 
             if (len > 0)
@@ -3122,7 +3109,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false,
-                    true, false, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
+                    true, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -3191,7 +3178,7 @@ void C_Drawer(void)
 
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true,
-                    false, 0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
+                    0, prevletter, prevletter2, selectstart, &V_DrawConsoleSelectedTextPatch);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
@@ -3215,7 +3202,7 @@ void C_Drawer(void)
 
             if (partialinput[0] != '\0')
                 C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor, NOBACKGROUNDCOLOR,
-                    NOBOLDCOLOR, NULL, notabs, false, true, false, 0, prevletter, prevletter2,
+                    NOBOLDCOLOR, NULL, notabs, false, true, 0, prevletter, prevletter2,
                     selectend, &V_DrawConsoleTextPatch);
         }
     }
@@ -3223,7 +3210,7 @@ void C_Drawer(void)
     I_Sleep(1);
 }
 
-bool C_ExecuteInputString(const char *input)
+void C_ExecuteInputString(const char *input)
 {
     char    *string = M_StringDuplicate(input);
     char    *strings[255] = { "" };
@@ -3248,7 +3235,6 @@ bool C_ExecuteInputString(const char *input)
         S_StartSound(NULL, sfx_swtchn);
 
     free(string);
-    return true;
 }
 
 bool C_ValidateInput(char *input)
@@ -3850,7 +3836,6 @@ bool C_Responder(event_t *ev)
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, clipboard, temp2);
                     M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
-                    M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
 
                     if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {
@@ -3992,8 +3977,7 @@ bool C_Responder(event_t *ev)
             inputhistory = -1;
         }
 
-        if (temp)
-            free(temp);
+        free(temp);
     }
     else if (ev->type == ev_mouse)
     {
@@ -4035,16 +4019,15 @@ bool C_Responder(event_t *ev)
                 const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
                 const int   visiblerows = MIN(C_GetScrollbarRows(), totalrows);
                 const int   scrollrange = MAX(0, totalrows - visiblerows);
-                const int   faceheight = scrollbarfaceheight;
-                const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
-                const int   newfacestart = MAX(0, MIN(ysub - dragconsolescrollbarpointeroffset, facetravel * 16));
+                const int   facetravel = MAX(0, scrollbartrackheight - scrollbarfaceheight);
 
                 if (C_CanScrollOutput())
                 {
-                    const int64_t   targetposition = (facetravel > 0 ? (int64_t)newfacestart
-                                        * scrollrange * CONSOLELINEHEIGHT / (facetravel * 16) : 0);
-                    const int64_t   difference = targetposition - dragconsolescrolltargetposition;
                     const int64_t   maxposition = (int64_t)scrollrange * CONSOLELINEHEIGHT;
+                    const int64_t   targetposition = (facetravel > 0 ? dragconsolescrollstartposition
+                                        + (int64_t)(ysub - dragconsolescrollbarpointeroffset) * maxposition
+                                        / (facetravel * 16) : 0);
+                    const int64_t   difference = targetposition - dragconsolescrolltargetposition;
                     int             position;
 
                     if (difference)
@@ -4269,17 +4252,19 @@ bool C_Responder(event_t *ev)
                     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
                     const int   visiblerows = MIN(C_GetScrollbarRows(), totalrows);
                     const int   scrollrange = MAX(0, totalrows - visiblerows);
-                    const int   faceheight = scrollbarfaceheight;
-                    const int   facetravel = MAX(0, scrollbartrackheight - faceheight);
+                    const int   facetravel = MAX(0, scrollbartrackheight - scrollbarfaceheight);
+                    const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
+                    const int   startposition = BETWEEN(0, (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset,
+                                    maxposition);
 
                     dragconsolescrollbaractive = true;
                     dragconsolescrollbarmoved = false;
                     autoscrolling = false;
-                    dragconsolescrollbarpointeroffset = ysub - scrollbarfacestart * 16;
+                    dragconsolescrollbarpointeroffset = ysub;
+                    dragconsolescrollstartposition = startposition;
                     dragconsolescrollbardirection = 0;
-                    dragconsolescrollposition = (facetravel > 0 ?
-                        (int64_t)scrollbarfacestart * scrollrange * CONSOLELINEHEIGHT / facetravel : 0);
-                    dragconsolescrolltargetposition = dragconsolescrollposition;
+                    dragconsolescrollposition = startposition;
+                    dragconsolescrolltargetposition = startposition;
 
                     return true;
                 }
