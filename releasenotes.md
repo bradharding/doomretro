@@ -14,7 +14,7 @@
   * If the player has a berserk power-up, the red effect now fades in and out when switching to and from their fists, and when closing and opening the menu and console while their fists are equipped.
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
 * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen.
-* A bug is fixed whereby some lines of text in the console wouldn’t wrap to the next line.
+* Improvements have been made to wrapping long lines of text in the console.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.
@@ -39,8 +39,12 @@
 * The correct credits screen now appears when [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) has been loaded.
 * The skies in the older PSN version of [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) now appear correctly.
 * [*ID24*](https://doomwiki.org/wiki/ID24) compatibility has been improved so that flats may now be used as wall textures, and wall textures as flats.
-* A weapon carousel is now displayed when the player changes their weapon. This can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled. The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
-* If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`. Each of these CVARs can also be specified in an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
+* A weapon carousel is now displayed when the player changes their weapon:
+  * This carousel can be disabled using the new `weaponcarousel` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * The icons in the carousel are generated based on the pickup sprites of the weapons, and may be overridden by `SM*` lumps (such as those present in [`extras.wad`](https://doomwiki.org/wiki/Extras.wad)).
+  * If not overridden by `SM*` lumps, the color the weapon carousel is tinted can be changed using these new `weaponcarouselcolor`, `weaponcarouselbordercolor` and `weaponcarouselhighlightcolor` CVARs, which can each be `auto` (their default), or `0` to `255`.
+  * These colors can also be specified by an [`OPTIONS`](https://doomwiki.org/wiki/OPTIONS) lump in a PWAD.
+  * They can also be specified by a `CAROUSEL` lump in a PWAD. Each line of this new lump contains a WAD name, wildcard expression, or MD5 or SHA-1 hash, followed by the tint, border and highlight colors (each `0` to `255`), separated by spaces. If a match is found, the relevant CVARs are overridden.
 * If a sky’s texture is missing, it will now be white instead of an invalid texture.
 * Sprites now tilt slightly to face the center of the player’s view. This can be disabled using the new `r_sprites_tilt` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the support of `DEHACKED` lumps:
