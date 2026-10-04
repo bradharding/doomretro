@@ -342,13 +342,13 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
     if (isresourcewad)
     {
-        if (M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
+        if (M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || chex || hacx || FREEDOOM))
             return;
 
-        if (M_StringCompare(lump->name, "SHT2A0") && (SHT2A0 >= 2 || hacx || FREEDOOM))
+        if (M_StringCompare(lump->name, "SHT2A0") && (SHT2A0 >= 2 || chex || hacx || FREEDOOM))
             return;
 
-        if (M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
+        if (M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || chex || hacx || FREEDOOM))
             return;
 
         if ((chex || hacx || FREEDOOM)
