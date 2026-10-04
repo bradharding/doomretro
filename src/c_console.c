@@ -887,13 +887,27 @@ static void C_GetWrapPositions(const int index, int wrappositions[CONSOLEWRAPS])
             if (i > 0 && console[index].string[i - 1] == ':' && (breakchar == '/' || breakchar == '\\'))
                 continue;
 
+            if (i > 1 && console[index].string[i - 1] == '/' && console[index].string[i - 2] == ':' && breakchar == '/')
+                continue;
+
+            if (breakchar == '/' || breakchar == '\\')
+            {
+                int next = i + 1;
+
+                while (console[index].string[next] >= BOLDONCHAR && console[index].string[next] <= ITALICSOFFCHAR)
+                    next++;
+
+                if (console[index].string[next] == '.')
+                    continue;
+            }
+
             console[index].string[i] = '\0';
             width = C_TextWidth(&console[index].string[start], (wrap ? NULL : tabs), true, true);
             console[index].string[i] = prev;
 
             if (width <= C_GetWrapWidth(index, wrap) + 10)
             {
-                wrappositions[wrap] = i + (breakchar == '-');
+                wrappositions[wrap] = i + (breakchar == '-' || breakchar == '/' || breakchar == '\\');
 
                 while (wrappositions[wrap] < len && isspace((unsigned char)console[index].string[wrappositions[wrap]]))
                     wrappositions[wrap]++;
