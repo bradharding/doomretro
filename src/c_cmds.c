@@ -754,8 +754,8 @@ consolecmd_t consolecmds[] =
     INTCVAR(ammo, "", "", playercvarsfunc1, playercvarsfunc2, 0, 0,
         "The amount of ammo you have for your currently equipped weapon."),
     BOOLCVAR(animatedstats, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles animating your health, armor and ammo in the status bar and widescreen HUD when "
-        "they change."),
+        "Toggles animating your health, armor and ammo in the status bar and widescreen heads-up "
+        "display when they change."),
     PERCENTCVAR(armor, armour, "", playercvarsfunc1, playercvarsfunc2,
         "Your armor (" BOLD("0%") " to " BOLD("200%") ")."),
     INTCVAR(armortype, armourtype, "", armortypefunc1, armortypefunc2, 0, ARMORTYPEVALUEALIAS,
@@ -1034,10 +1034,10 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(r_hud, "", "", boolfunc1, r_hudfunc2, 0,
         "Toggles a heads-up display when widescreen."),
     BOOLCVAR(r_hud_altfont, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles displaying messages in an alternate font when the alternate HUD is displayed."),
+        "Toggles displaying messages in an alternate font when the alternate heads-up display is displayed."),
     BOOLCVAR(r_hud_ammobars, "", "", boolfunc1, boolfunc2, 0,
         "Toggles additional bars indicating the amount of ammo the player has for all ammo types in the alternate "
-        "HUD."),
+        "heads-up display."),
     INTCVAR(r_hud_style, "", "", intfunc1, intfunc2, 0, HUDSTYLEVALUEALIAS,
         "The style of the heads-up display when widescreen (" BOLD("big") ", " BOLD("small") " or " BOLD("alternate") ")."),
     BOOLCVAR(r_hud_translucency, "", "", boolfunc1, r_hud_translucencyfunc2, 0,
