@@ -94,6 +94,7 @@ short                   minuspatchwidth = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 static int              widestammopatchwidth;
+static int              maxammowidth;
 
 static patch_t          *crosshairpatch[NUMCROSSHAIRS];
 static short            crosshairwidth[NUMCROSSHAIRS];
@@ -362,6 +363,8 @@ void HU_Init(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         if (weaponinfo[i].ammopatch)
             widestammopatchwidth = MAX(widestammopatchwidth, LITTLESHORT(weaponinfo[i].ammopatch->width));
+
+    maxammowidth = HU_BigHUDNumberWidth(999);
 
     tallnumbaseoffset = LITTLESHORT(tallnum[0]->height);
 
@@ -713,7 +716,7 @@ static void HU_DrawBigHUD(void)
         }
     }
 
-    x = VANILLAWIDTH + WIDESCREENDELTA - MAXWIDESCREENDELTA / 2 - 64;
+    x = VANILLAWIDTH + WIDESCREENDELTA - (MAXWIDESCREENDELTA / 2 - 1) - widestammopatchwidth - maxammowidth - 5;
 
     for (int i = 1; i <= NUMCARDS; i++)
         for (int j = 0; j < NUMCARDS; j++)
