@@ -57,6 +57,7 @@ typedef struct
 
     bool            gibbed;
     bool            telefragged;
+    bool            healthcvar;
 
     weapontype_t    weapon;
 

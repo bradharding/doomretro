@@ -411,7 +411,7 @@ void C_BuildObituaryString(const int index)
             {
                 if (obituary->targetisplayer)
                 {
-                    if (healthcvar)
+                    if (obituary->healthcvar)
                         M_snprintf(buffer, buffersize, "You %s yourself!", s_KILLED);
                     else
                         M_snprintf(buffer, buffersize, "You %s yourself with your own %s!",
@@ -436,7 +436,7 @@ void C_BuildObituaryString(const int index)
             {
                 if (obituary->targetisplayer)
                 {
-                    if (healthcvar)
+                    if (obituary->healthcvar)
                         M_snprintf(buffer, buffersize, "%s %s %s!", playername, s_KILLED, pronoun(reflexive));
                     else
                         M_snprintf(buffer, buffersize, "%s %s %s with %s own %s!",
@@ -608,7 +608,10 @@ static bool C_SameObituary(const obituaryinfo_t *a, const obituaryinfo_t *b)
 
             if (a->targetisplayer)
             {
-                if (!healthcvar
+                if (a->healthcvar != b->healthcvar)
+                    return false;
+
+                if (!a->healthcvar
                     && (a->weapon != b->weapon || a->gibbed != b->gibbed))
                     return false;
             }
@@ -764,6 +767,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
 
     obituary.gibbed = gibbed;
     obituary.telefragged = telefragged;
+    obituary.healthcvar = (healthcvar && target && target->player);
 
     if (groupmessages
         && numconsolestrings > 0
