@@ -2798,6 +2798,9 @@ void C_Drawer(void)
     int             drawbottomrow;
     int             outputyoffset;
     bool            showscrollbar = scrollbardrawn;
+    bool            topanchored = false;
+    static bool     consoletopanchored;
+    static bool     consoleexpandingfromhalf;
     const bool      prevconsoleactive = consoleactive;
     static int      consoleanimdirection;
     static int      prevconsolelines;
@@ -2837,13 +2840,24 @@ void C_Drawer(void)
 
     if (prevconsolelines && prevconsolelines != CONSOLELINES && outputhistory != -1 && !autoscrolling)
     {
-        const int   newtoprow = C_GetCurrentTopRow() + prevconsolelines - CONSOLELINES;
+        const int   currenttoprow = C_GetCurrentTopRow();
+        const int   newtoprow = currenttoprow + prevconsolelines - CONSOLELINES;
 
-        if (newtoprow >= C_GetTopRowForDisplay())
-            C_ScrollToBottom();
+        if (CONSOLELINES > prevconsolelines && consoledirection >= 0 && !consoleshrinktohalf
+            && numvisibleconsolerows >= currenttoprow + CONSOLELINES)
+            consoletopanchored = true;
         else
-            C_SetTopRow(newtoprow);
+        {
+            consoletopanchored = false;
+
+            if (newtoprow >= C_GetTopRowForDisplay())
+                C_ScrollToBottom();
+            else
+                C_SetTopRow(newtoprow);
+        }
     }
+    else if (prevconsolelines != CONSOLELINES)
+        consoletopanchored = false;
 
     prevconsolelines = CONSOLELINES;
 
@@ -2964,6 +2978,27 @@ void C_Drawer(void)
     if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
         I_SetMotionBlur(0);
 
+    if (consoletopanchored && consolefullscreen && consoledirection >= 0 && !consoleshrinktohalf
+        && consoleheight < CONSOLEHEIGHT)
+    {
+        topanchored = true;
+        bottomrow = MIN(numvisibleconsolerows - 1, toprow + CONSOLELINES - 1);
+        outputyoffset = CONSOLEHALFHEIGHT - 16 - 16 - CONSOLEOUTPUTGAP
+            - (CONSOLELINEHEIGHT * (MAX(1, MIN(numvisibleconsolerows - 1, toprow + 12) - toprow + 1) - 1)
+            - CONSOLELINEHEIGHT / 2 + 1) + scrolloffset + CONSOLEHEIGHT - MAX(consoleheight, CONSOLEHALFHEIGHT);
+    }
+    else if (outputhistory != -1 && !consolefullscreen && consoleexpandingfromhalf && consoledirection >= 0
+        && consoleheight > CONSOLEHALFHEIGHT)
+    {
+        topanchored = true;
+        outputyoffset -= consoleheight - CONSOLEHALFHEIGHT;
+    }
+
+    if (consoleheight <= CONSOLEHALFHEIGHT)
+        consoleexpandingfromhalf = true;
+    else if (consoleheight >= SCREENHEIGHT - 5 || (consolefullscreen && consoleshrinktohalf))
+        consoleexpandingfromhalf = false;
+
     if (prevconsoleactive && !consoleactive && !menuactive)
         S_ResumeSounds();
 
@@ -2992,7 +3027,7 @@ void C_Drawer(void)
     C_DrawScrollbar();
 
     topofconsole = (toprow < 0);
-    consoleoutputclipy = (scrolloffset || (outputhistory != -1 && dragconsolescrollbarmoved) ?
+    consoleoutputclipy = (scrolloffset || topanchored || (outputhistory != -1 && dragconsolescrollbarmoved) ?
         CONSOLEINPUTY - (CONSOLEHEIGHT - consoleheight) - 1 - CONSOLEOUTPUTGAP : INT_MAX);
     drawbottomrow = bottomrow + (scrolloffset < 0);
 
