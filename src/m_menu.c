@@ -3764,7 +3764,7 @@ bool M_Responder(event_t *ev)
                 return M_HandleScreenSizeControl(1);
             }
 
-       }
+        }
     }
     else if (ev->type == ev_mouse)
     {

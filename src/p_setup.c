@@ -3356,18 +3356,18 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
         {
             n = W_CacheLumpNum(ssectorlump);
 
-        if (!memcmp(n, "XGLN", 4))
-            format = XGLN;
-        else if (!memcmp(n, "ZGLN", 4))
-            format = ZGLN;
-        else if (!memcmp(n, "XGL2", 4))
-            format = XGL2;
-        else if (!memcmp(n, "ZGL2", 4))
-            format = ZGL2;
-        else if (!memcmp(n, "XGL3", 4))
-            format = XGL3;
-        else if (!memcmp(n, "ZGL3", 4))
-            format = ZGL3;
+            if (!memcmp(n, "XGLN", 4))
+                format = XGLN;
+            else if (!memcmp(n, "ZGLN", 4))
+                format = ZGLN;
+            else if (!memcmp(n, "XGL2", 4))
+                format = XGL2;
+            else if (!memcmp(n, "ZGL2", 4))
+                format = ZGL2;
+            else if (!memcmp(n, "XGL3", 4))
+                format = XGL3;
+            else if (!memcmp(n, "ZGL3", 4))
+                format = ZGL3;
         }
     }
 

@@ -1309,7 +1309,7 @@ bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool mess
                 pickupmessage = s_GOTBLUESKUL;
                 break;
 
-           // yellow skull key
+            // yellow skull key
             case SPR_YSKU:
                 P_GiveCard(it_yellowskull);
                 pickupmessage = s_GOTYELWSKUL;

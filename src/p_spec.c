@@ -2470,8 +2470,8 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line, const int side)
             break;
 
         case GR_SetTheTargetSectorsColormap:
-           // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2081 (GR)
-           for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+            // [KLN] 04/13/25 support for the ID24 spec "set target" colormap 2081 (GR)
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                 sectors[s].colormap = sides[*line->sidenum].frontcolormap;
 
             P_ChangeSwitchTexture(line, true);
@@ -3018,13 +3018,13 @@ void P_SpawnSpecials(void)
 
             case RotateTargetFloorTextureByLineAngle:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                        sectors[s].floorrotation -= line->angle;
+                    sectors[s].floorrotation -= line->angle;
 
                 break;
 
             case RotateTargetCeilingTextureByLineAngle:
                 for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
-                        sectors[s].ceilingrotation -= line->angle;
+                    sectors[s].ceilingrotation -= line->angle;
 
                 break;
 

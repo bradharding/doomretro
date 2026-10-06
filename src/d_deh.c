@@ -3109,7 +3109,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
             {
                 mobjinfo[indexnum].projectilegroup = (value < 0 ? PG_GROUPLESS : value + PG_END);
                 mbf21compatible = true;
-                }
+            }
             else if (M_StringCompare(key, "Splash group"))
             {
                 mobjinfo[indexnum].splashgroup = value + SG_END;

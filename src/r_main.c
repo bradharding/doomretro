@@ -1214,7 +1214,7 @@ static void R_SetupFrame(void)
             if (viewz >= surfacez - 1)
                 viewz = surfacez - 2;
         }
-}
+    }
 
     centery = viewheight / 2;
 
