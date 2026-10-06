@@ -81,6 +81,7 @@ uint64_t                consolekeydowntime;
 static int              scrolloffset;
 static int              scrollspeed = TICRATE;
 static bool             autoscrolling;
+static bool             autoscrolltotop;
 static int              autoscrollpos;
 static uint64_t         autoscrolltime;
 
@@ -241,6 +242,8 @@ static void C_ScrollToBottom(void)
 
 static void C_ScrollToNewOutput(void)
 {
+    autoscrolltotop = false;
+
     if (smoothtransitions && consoleactive && !dragconsolescrollbaractive)
     {
         const int   startpos = (autoscrolling ? autoscrollpos :
@@ -2875,27 +2878,41 @@ void C_Drawer(void)
         scrolloffset = 0;
 
     if (autoscrolling && (!smoothtransitions || !consoleactive) && !dragconsolescrollbaractive)
-        C_ScrollToBottom();
+    {
+        if (autoscrolltotop)
+            C_ScrollToTop();
+        else
+            C_ScrollToBottom();
+    }
 
     if (!smoothtransitions || !consoleactive || dragconsolescrollbaractive)
         autoscrolling = false;
 
-    // animate scrolling down to newly added output
+    // animate scrolling down to newly added output, or up to the top of the console
     if (autoscrolling)
     {
-        const int   target = (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT;
+        const int   target = (autoscrolltotop ? 0 : (C_GetTopRowForDisplay() + 1) * CONSOLELINEHEIGHT);
 
         if (tics - autoscrolltime > 128)
             autoscrolltime = tics - 128;
 
-        while (tics - autoscrolltime >= 16 && autoscrollpos < target)
+        while (tics - autoscrolltime >= 16 && autoscrollpos != target)
         {
-            autoscrollpos += MAX(2, (target - autoscrollpos) / 5);
+            if (autoscrolltotop)
+                autoscrollpos = MAX(target, autoscrollpos - MAX(2, (autoscrollpos - target) / 5));
+            else
+                autoscrollpos = MIN(target, autoscrollpos + MAX(2, (target - autoscrollpos) / 5));
+
             autoscrolltime += 16;
         }
 
-        if (autoscrollpos >= target)
-            C_ScrollToBottom();
+        if (autoscrollpos == target)
+        {
+            if (autoscrolltotop)
+                C_ScrollToTop();
+            else
+                C_ScrollToBottom();
+        }
         else
         {
             C_GetHistoryPositionForVisibleRow(autoscrollpos / CONSOLELINEHEIGHT - 1,
@@ -3608,7 +3625,22 @@ bool C_Responder(event_t *ev)
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && (outputhistory || outputhistoryoffset)
                     && C_CanScrollOutput())
-                    C_ScrollToTop();        // scroll to top
+                {
+                    if (smoothtransitions)
+                    {
+                        const int   startpos = (autoscrolling ? autoscrollpos :
+                                        MAX(0, (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset));
+
+                        if (!autoscrolling)
+                            autoscrolltime = I_GetTimeMS();
+
+                        autoscrollpos = startpos;
+                        autoscrolltotop = true;
+                        autoscrolling = true;
+                    }
+                    else
+                        C_ScrollToTop();        // scroll to top
+                }
                 else if (caretpos > 0)
                 {
                     // move caret to start
@@ -3629,8 +3661,8 @@ bool C_Responder(event_t *ev)
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
-                else if (outputhistory != -1 && C_CanScrollOutput())
-                    C_ScrollToBottom();     // scroll to bottom
+                else if ((outputhistory != -1 || (autoscrolling && autoscrolltotop)) && C_CanScrollOutput())
+                    C_ScrollToNewOutput();  // scroll to bottom
 
                 break;
 
