@@ -1696,7 +1696,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         || stringtype == playerwarningstring
         || stringtype == playerobituarystring)
     {
-        V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, nearestblack, false, tinttab);
+        V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, -1, false, tinttab);
         x += WARNINGWIDTH;
     }
 
