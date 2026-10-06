@@ -175,7 +175,7 @@ nodeformat_t    nodeformat;
 const char *nodeformats[] =
 {
     [DOOMBSP] = "Regular",
-    [DEEPBSP] = "DeePBSP v4",
+    [DEEPBSP] = ITALICS("DeePBSP v4"),
     [XNOD] = "XNOD",
     [ZNOD] = "ZNOD",
     [XGLN] = "XGLN",
@@ -184,7 +184,7 @@ const char *nodeformats[] =
     [ZGL2] = "ZGL2",
     [XGL3] = "XGL3",
     [ZGL3] = "ZGL3",
-    [NANOBSP] = "NanoBSP"
+    [NANOBSP] = ITALICS("NanoBSP")
 };
 
 bool            boomcompatible = false;

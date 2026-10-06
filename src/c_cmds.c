@@ -6377,6 +6377,9 @@ static void mapstatsfunc2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, INDENT "Format\t%s", nodeformats[nodeformat]);
 
+    if (nodeformat == NANOBSP)
+        C_TabbedOutput(tabs, "Rebuilt\tYes");
+
     if (nodeformat != DOOMBSP)
         C_TabbedOutput(tabs, INDENT "Compressed\t%s",
             (nodeformat == ZNOD || nodeformat == ZGLN || nodeformat == ZGL2 || nodeformat == ZGL3) ? "Yes" : "No");
