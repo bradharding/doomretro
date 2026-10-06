@@ -2688,16 +2688,11 @@ static void P_LoadBlockMap(int lump)
 
     blockmaprebuilt = false;
 
-    if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x010000)
+    if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8
+        || (count = lumplen / 2) >= 0x010000 || M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(2, "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
-    }
-    else if (M_CheckParm("-blockmap"))
-    {
-        P_CreateBlockMap();
-        C_Warning(1, "A " BOLD("-blockmap") " parameter was found on the command-line. "
-            "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
+        C_Warning(2, "The " BOLD("BLOCKMAP") " lump in this map has been rebuilt.");
     }
     else
     {
@@ -3352,11 +3347,7 @@ static nodeformat_t P_CheckNodeFormat(int lumpnum)
         I_Error("Hexen format maps are not supported.");
 
     if (M_CheckParm("-bsp"))
-    {
         format = NANOBSP;
-        C_Output("A " BOLD("-bsp") " parameter was found on the command-line. "
-            "The nodes of all maps will be rebuilt.");
-    }
     else
     {
         int ssectorlump = lumpnum + ML_SSECTORS;
@@ -3631,13 +3622,13 @@ void P_SetupLevel(int ep, int map)
         memset(bloodsplat_blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*bloodsplat_blocklinks));
     }
 
-    if (nodeformat == DOOMBSP)
+    if (nodeformat == DOOMBSP && canmodify && !M_CheckParm("-nobsp"))
     {
-        P_LoadSubsectors(lumpnum + ML_SSECTORS);
-        P_LoadNodes(lumpnum + ML_NODES);
-        P_LoadSegs(lumpnum + ML_SEGS);
+        nodeformat = NANOBSP;
+        C_Warning(2, "The nodes in this map have been rebuilt using " ITALICS("NanoBSP") ".");
     }
-    else if (nodeformat == DEEPBSP)
+
+    if (nodeformat == DEEPBSP)
     {
         P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
         P_LoadNodes_V4(lumpnum + ML_NODES);
@@ -3728,6 +3719,14 @@ void P_Init(void)
 {
     P_InitSwitchList();
     P_InitPicAnims();
+
+    if (M_CheckParm("-blockmap"))
+        C_Output("A " BOLD("-blockmap") " parameter was found on the command-line. "
+            "The " BOLD("BLOCKMAP") " lump of all maps will be rebuilt.");
+
+    if (M_CheckParm("-bsp"))
+        C_Output("A " BOLD("-bsp") " parameter was found on the command-line. "
+            "The nodes of all maps will be rebuilt.");
 
     if (M_CheckParm("-nomapinfo"))
         C_Output("A " BOLD("-nomapinfo") " parameter was found on the command-line. "
