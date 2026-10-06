@@ -3454,13 +3454,26 @@ bool C_Responder(event_t *ev)
                 }
                 else if (caretpos > 0)
                 {
-                    // delete character left of caret
+                    int start = caretpos - 1;
+
+                    // delete word left of caret if CTRL is held, otherwise character left of caret
+                    if (modstate & KMOD_CTRL)
+                    {
+                        start = caretpos;
+
+                        while (start > 0 && consoleinput[start - 1] == ' ')
+                            start--;
+
+                        while (start > 0 && consoleinput[start - 1] != ' ')
+                            start--;
+                    }
+
                     C_AddToUndoHistory();
 
-                    for (i = caretpos - 1; i < len; i++)
-                        consoleinput[i] = consoleinput[i + 1];
+                    for (i = caretpos; i <= len; i++)
+                        consoleinput[start + i - caretpos] = consoleinput[i];
 
-                    selectend = selectstart = --caretpos;
+                    selectend = selectstart = caretpos = start;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                     autocomplete = -1;
