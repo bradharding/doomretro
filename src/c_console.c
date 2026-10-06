@@ -1144,11 +1144,13 @@ static void C_DrawScrollbar(void)
             / ((int64_t)scrollrange * CONSOLELINEHEIGHT));
     else
     {
-        const int   currentrow = (outputhistory == -1 ? scrollrange :
-                        MIN(MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0)),
-                        scrollrange));
+        const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
+        const int   position = (outputhistory == -1 ? maxposition :
+                        MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0))
+                        * CONSOLELINEHEIGHT);
 
-        scrollbarfacestart = (scrollrange > 0 ? facetravel * currentrow / scrollrange : 0);
+        scrollbarfacestart = (scrollrange > 0 ? (int)((int64_t)facetravel
+            * BETWEEN(0, position - scrolloffset, maxposition) / maxposition) : 0);
     }
 
     scrollbarfaceend = MIN(scrollbarfacestart + faceheight, scrollbarheight);
