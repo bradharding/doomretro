@@ -3414,8 +3414,8 @@ bool C_Responder(event_t *ev)
     if (ev->type == ev_keydown)
     {
         static char         currentinput[255];
-        const int           key = ev->data1;
-        const SDL_Keymod    modstate = SDL_GetModState();
+        int                 key = ev->data1;
+        SDL_Keymod          modstate = SDL_GetModState();
 
         if (key == keyboardconsole || key == keyboardconsole2)
         {
@@ -3432,6 +3432,18 @@ bool C_Responder(event_t *ev)
         {
             G_ScreenShot();
             return true;
+        }
+
+        // legacy clipboard shortcuts: CTRL+INSERT, SHIFT+INSERT and SHIFT+DELETE
+        if (key == KEY_INSERT && (modstate & (KMOD_CTRL | KMOD_SHIFT)))
+        {
+            key = ((modstate & KMOD_CTRL) ? 'c' : 'v');
+            modstate |= KMOD_CTRL;
+        }
+        else if (key == KEY_DELETE && (modstate & KMOD_SHIFT) && !(modstate & KMOD_CTRL))
+        {
+            key = 'x';
+            modstate |= KMOD_CTRL;
         }
 
         switch (key)
@@ -3500,11 +3512,24 @@ bool C_Responder(event_t *ev)
                 }
                 else if (caretpos < len)
                 {
-                    // delete character right of caret
+                    int end = caretpos + 1;
+
+                    // delete word right of caret if CTRL is held, otherwise character right of caret
+                    if (modstate & KMOD_CTRL)
+                    {
+                        end = caretpos;
+
+                        while (end < len && consoleinput[end] != ' ')
+                            end++;
+
+                        while (end < len && consoleinput[end] == ' ')
+                            end++;
+                    }
+
                     C_AddToUndoHistory();
 
-                    for (i = caretpos; i < len; i++)
-                        consoleinput[i] = consoleinput[i + 1];
+                    for (i = end; i <= len; i++)
+                        consoleinput[caretpos + i - end] = consoleinput[i];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -3580,9 +3605,23 @@ bool C_Responder(event_t *ev)
                 // move caret left
                 if (caretpos > 0)
                 {
+                    int pos = caretpos - 1;
+
+                    // move left by a word if CTRL is held
+                    if (modstate & KMOD_CTRL)
+                    {
+                        pos = caretpos;
+
+                        while (pos > 0 && consoleinput[pos - 1] == ' ')
+                            pos--;
+
+                        while (pos > 0 && consoleinput[pos - 1] != ' ')
+                            pos--;
+                    }
+
                     if (modstate & KMOD_SHIFT)
                     {
-                        caretpos--;
+                        caretpos = pos;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
 
@@ -3596,7 +3635,7 @@ bool C_Responder(event_t *ev)
                         if (selectstart < selectend)
                             caretpos = selectend = selectstart;
                         else
-                            selectstart = selectend = --caretpos;
+                            selectstart = selectend = caretpos = pos;
 
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
@@ -3611,12 +3650,27 @@ bool C_Responder(event_t *ev)
                 // move caret right
                 if (caretpos < len)
                 {
+                    int pos = caretpos + 1;
+
+                    // move right by a word if CTRL is held
+                    if (modstate & KMOD_CTRL)
+                    {
+                        pos = caretpos;
+
+                        while (pos < len && consoleinput[pos] != ' ')
+                            pos++;
+
+                        while (pos < len && consoleinput[pos] == ' ')
+                            pos++;
+                    }
+
                     if (modstate & KMOD_SHIFT)
                     {
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
+                        caretpos = pos;
 
-                        if (selectend >= ++caretpos)
+                        if (selectend >= caretpos)
                             selectstart = caretpos;
                         else
                             selectend = caretpos;
@@ -3626,7 +3680,7 @@ bool C_Responder(event_t *ev)
                         if (selectstart < selectend)
                             caretpos = selectstart = selectend;
                         else
-                            selectstart = selectend = ++caretpos;
+                            selectstart = selectend = caretpos = pos;
 
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
@@ -3956,25 +4010,28 @@ bool C_Responder(event_t *ev)
                 break;
 
             case 'y':
-                // redo
-                if ((modstate & KMOD_CTRL) && undolevels < maxundolevels)
-                {
-                    M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
-                    caretpos = undohistory[undolevels].caretpos;
-                    selectstart = undohistory[undolevels].selectstart;
-                    selectend = undohistory[undolevels++].selectend;
-                }
-
-                break;
-
             case 'z':
-                // undo
-                if ((modstate & KMOD_CTRL) && undolevels)
+                if (modstate & KMOD_CTRL)
                 {
-                    M_StringCopy(consoleinput, undohistory[--undolevels].input, sizeof(consoleinput));
-                    caretpos = undohistory[undolevels].caretpos;
-                    selectstart = undohistory[undolevels].selectstart;
-                    selectend = undohistory[undolevels].selectend;
+                    // redo (CTRL+Y or CTRL+SHIFT+Z)
+                    if (key == 'y' || (modstate & KMOD_SHIFT))
+                    {
+                        if (undolevels < maxundolevels)
+                        {
+                            M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                            caretpos = undohistory[undolevels].caretpos;
+                            selectstart = undohistory[undolevels].selectstart;
+                            selectend = undohistory[undolevels++].selectend;
+                        }
+                    }
+                    // undo
+                    else if (undolevels)
+                    {
+                        M_StringCopy(consoleinput, undohistory[--undolevels].input, sizeof(consoleinput));
+                        caretpos = undohistory[undolevels].caretpos;
+                        selectstart = undohistory[undolevels].selectstart;
+                        selectend = undohistory[undolevels].selectend;
+                    }
                 }
 
                 break;
