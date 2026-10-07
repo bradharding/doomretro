@@ -545,6 +545,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (D_IsEXTRASWAD(file) && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound") && !legacyofrust)
         {
+            extras = true;
             extraswadadded = true;
 
             if (s_remix)
