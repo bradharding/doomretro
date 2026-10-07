@@ -4209,13 +4209,13 @@ static void deh_procMisc(DEHFILE *fpin, const char *line)
             C_Output("Processing Misc item \"%s\"", key);
 
         if (M_StringCompare(key, deh_misc[0]))                      // Initial Health
-            initial_health = MIN(value, 999);
+            initial_health = value;
         else if (M_StringCompare(key, deh_misc[1]))                 // Initial Bullets
             initial_bullets = value;
         else if (M_StringCompare(key, deh_misc[2]))                 // Max Health
-            maxhealth = MIN(value, 999);
+            maxhealth = value;
         else if (M_StringCompare(key, deh_misc[3]))                 // Max Armor
-            max_armor = MIN(value, 999);
+            max_armor = value;
         else if (M_StringCompare(key, deh_misc[4]))                 // Green Armor Class
             green_armor_class = value;
         else if (M_StringCompare(key, deh_misc[5]))                 // Blue Armor Class
