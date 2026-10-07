@@ -780,8 +780,14 @@ void M_DrawMenuBackground(void)
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
-    if (!takingcleancreenshot && vid_showfps && framespersecond)
-        C_UpdateFPSOverlay();
+    if (!takingcleancreenshot)
+    {
+        if (showclock)
+            C_UpdateClockOverlay();
+
+        if (vid_showfps && framespersecond)
+            C_UpdateFPSOverlay();
+    }
 }
 
 static byte blues[] =
@@ -1851,8 +1857,14 @@ static void M_DrawHelp(void)
         }
     }
 
-    if (!takingcleancreenshot && vid_showfps && framespersecond)
-        C_UpdateFPSOverlay();
+    if (!takingcleancreenshot)
+    {
+        if (showclock)
+            C_UpdateClockOverlay();
+
+        if (vid_showfps && framespersecond)
+            C_UpdateFPSOverlay();
+    }
 }
 
 //
@@ -1898,8 +1910,14 @@ static void M_DrawPalette(void)
             }
         }
 
-    if (!takingcleancreenshot && vid_showfps && framespersecond)
-        C_UpdateFPSOverlay();
+    if (!takingcleancreenshot)
+    {
+        if (showclock)
+            C_UpdateClockOverlay();
+
+        if (vid_showfps && framespersecond)
+            C_UpdateFPSOverlay();
+    }
 }
 
 //

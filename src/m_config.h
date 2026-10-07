@@ -218,6 +218,7 @@ extern int      s_sfxvolume;
 extern bool     s_stereo;
 extern int      savegame;
 extern bool     secretmessages;
+extern bool     showclock;
 extern int      skilllevel;
 extern bool     smoothtransitions;
 extern int      stillbob;
@@ -925,6 +926,8 @@ enum
 #define savegame_max                            (SAVESLOTCOUNT - 1)
 
 #define secretmessages_default                  true
+
+#define showclock_default                       false
 
 #define skilllevel_min                          1
 #define skilllevel_default                      3

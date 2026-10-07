@@ -627,6 +627,9 @@ char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiast
 #define BOOLCVAR(name, alt1, alt2, cond, func, flags, desc) \
     { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), 0, &name, BOOLVALUEALIAS, \
       false, true, "", desc, name##_default, 0 }
+#define BOOLCVARNAMED(name, var, alt1, alt2, cond, func, flags, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_BOOLEAN | flags), 0, &var, BOOLVALUEALIAS, \
+      false, true, "", desc, var##_default, 0 }
 #define INTCVAR(name, alt1, alt2, cond, func, flags, aliases, desc) \
     { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), 0, &name, aliases, \
       name##_min, name##_max, "", desc, name##_default, 0 }
@@ -785,6 +788,8 @@ consolecmd_t consolecmds[] =
         "Toggles hiding everything overlaying the screen when taking screenshots."),
     CCMD(clear, "", "", nullfunc1, clearfunc2, false, "",
         "Clears the console."),
+    BOOLCVARNAMED(clock, showclock, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles showing the current time."),
     CCMD(cmdlist, "", ccmdlist, nullfunc1, cmdlistfunc2, true, CMDLISTFORMAT,
         "Lists all console commands."),
     BOOLCVAR(compresssavegames, "", "", boolfunc1, boolfunc2, 0,

@@ -230,6 +230,7 @@ int         s_sfxvolume = s_sfxvolume_default;
 bool        s_stereo = s_stereo_default;
 int         savegame = savegame_default;
 bool        secretmessages = secretmessages_default;
+bool        showclock = showclock_default;
 int         skilllevel = skilllevel_default;
 bool        smoothtransitions = smoothtransitions_default;
 bool        snapcrosshair = snapcrosshair_default;
@@ -385,6 +386,7 @@ static default_t cvars[] =
     CVAR_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS         ),
     CVAR_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS         ),
     CVAR_BOOL         (cleanscreenshots,                 cleanscreenshots,                      cleanscreenshots,                      BOOLVALUEALIAS         ),
+    CVAR_BOOL         (clock,                            clock,                                 showclock,                             BOOLVALUEALIAS         ),
     CVAR_BOOL         (compresssavegames,                compresssavegames,                     compresssavegames,                     BOOLVALUEALIAS         ),
     CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS    ),
     CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS    ),

@@ -459,12 +459,18 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
-        if (!paused && !menuactive)
+        if (!paused && !menuactive && !takingcleancreenshot)
         {
-            if (!takingcleancreenshot && vid_showfps && !dowipe && !splashscreen && framespersecond)
-                C_UpdateFPSOverlay();
+            if (!dowipe && !splashscreen)
+            {
+                if (showclock)
+                    C_UpdateClockOverlay();
 
-            if (!takingcleancreenshot && gamestate == GS_LEVEL)
+                if (vid_showfps && framespersecond)
+                    C_UpdateFPSOverlay();
+            }
+
+            if (gamestate == GS_LEVEL)
             {
                 gotoverlaytextcolors = false;
 
