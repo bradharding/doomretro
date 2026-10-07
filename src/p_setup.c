@@ -505,7 +505,7 @@ fixed_t P_GetOffset(const vertex_t *v1, const vertex_t *v2)
 // Do nothing if level is the same
 static void *malloc_IfSameLevel(void *p, size_t size)
 {
-    return (!samelevel || !p ? malloc(size) : p);
+    return (!samelevel || !p ? Z_Malloc(size, PU_LEVEL, NULL) : p);
 }
 
 // e6y: Smart calloc
@@ -513,8 +513,8 @@ static void *malloc_IfSameLevel(void *p, size_t size)
 // Clear the memory without allocation if level is the same
 static void *calloc_IfSameLevel(void *p, size_t n1, size_t n2)
 {
-    if (!samelevel)
-        return calloc(n1, n2);
+    if (!samelevel || !p)
+        return Z_Calloc(n1, n2, PU_LEVEL, NULL);
     else
     {
         memset(p, 0, n1 * n2);
@@ -3589,19 +3589,6 @@ void P_SetupLevel(int ep, int map)
     animatedliquidxoffs = 0;
     animatedliquidyoffs = 0;
 
-    if (!samelevel)
-    {
-        free(segs);
-        free(nodes);
-        free(subsectors);
-        free(blocklinks);
-        free(blockmaplump);
-        free(lines);
-        free(sides);
-        free(sectors);
-        free(vertexes);
-    }
-
     // note: most of this ordering is important
     P_LoadVertexes(lumpnum + ML_VERTEXES);
     P_LoadSectors(lumpnum + ML_SECTORS);
@@ -3627,7 +3614,7 @@ void P_SetupLevel(int ep, int map)
         if (canmodify && !M_CheckParm("-nobsp"))
         {
             nodeformat = NANOBSP;
-            C_Warning(2, "The nodes in this map have been rebuilt using " ITALICS("NanoBSP") ".");
+            C_Warning(2, "The nodes in this map have been rebuilt.");
         }
         else
         {
