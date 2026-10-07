@@ -2068,44 +2068,6 @@ static void C_GetOverlayTextColors(void)
     gotoverlaytextcolors = true;
 }
 
-void C_UpdateClockOverlay(void)
-{
-    static int      prevsec = -1;
-    static int      prevformat = -1;
-    static int      clockwidth;
-    static char     buffer[16];
-    static int      hour;
-    const time_t    now = time(NULL);
-    const struct tm *local = localtime(&now);
-    int             x = SCREENWIDTH - OVERLAYTEXTX + 1;
-
-    C_GetOverlayTextColors();
-
-    if (local && (local->tm_sec != prevsec || con_timestampformat != prevformat))
-    {
-        prevsec = local->tm_sec;
-        prevformat = con_timestampformat;
-        hour = local->tm_hour;
-
-        if (con_timestampformat == con_timestampformat_standard)
-            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i",
-                (hour ? hour - 12 * (hour > 12) : 12), local->tm_min, local->tm_sec);
-        else
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i", hour, local->tm_min, local->tm_sec);
-
-        clockwidth = C_OverlayWidth(buffer, true);
-    }
-
-    if (con_timestampformat == con_timestampformat_standard)
-    {
-        V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, (x -= ampmwidth), OVERLAYTEXTY, ampm[hour >= 12],
-            ampmwidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
-        x -= 2;
-    }
-
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - clockwidth, OVERLAYTEXTY, buffer, true);
-}
-
 void C_UpdateFPSOverlay(void)
 {
     const int       x = SCREENWIDTH - fpswidth - OVERLAYTEXTX;
@@ -2122,9 +2084,6 @@ void C_UpdateFPSOverlay(void)
     int             pyvals[OVERLAYFPSGRAPHWIDTH];
 
     C_GetOverlayTextColors();
-
-    if (showclock)
-        graphy += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (now - lastupdate >= 1000)
     {
@@ -2285,6 +2244,48 @@ void C_UpdateFPSOverlay(void)
         fps, fpswidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(temp, true) - 3, graphy, temp, true);
     free(temp);
+}
+
+void C_UpdateClockOverlay(void)
+{
+    static int      prevsec = -1;
+    static int      prevformat = -1;
+    static int      clockwidth;
+    static char     buffer[16];
+    static int      hour;
+    const time_t    now = time(NULL);
+    const struct tm *local = localtime(&now);
+    int             x = SCREENWIDTH - OVERLAYTEXTX + 1;
+    int             y = OVERLAYTEXTY;
+
+    C_GetOverlayTextColors();
+
+    if (vid_showfps && framespersecond)
+        y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (local && (local->tm_sec != prevsec || con_timestampformat != prevformat))
+    {
+        prevsec = local->tm_sec;
+        prevformat = con_timestampformat;
+        hour = local->tm_hour;
+
+        if (con_timestampformat == con_timestampformat_standard)
+            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i",
+                (hour ? hour - 12 * (hour > 12) : 12), local->tm_min, local->tm_sec);
+        else
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i", hour, local->tm_min, local->tm_sec);
+
+        clockwidth = C_OverlayWidth(buffer, true);
+    }
+
+    if (con_timestampformat == con_timestampformat_standard)
+    {
+        V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, (x -= ampmwidth), y, ampm[hour >= 12],
+            ampmwidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
+        //x -= 2;
+    }
+
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - clockwidth, y, buffer, true);
 }
 
 void C_UpdateTimerOverlay(void)
