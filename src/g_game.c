@@ -2076,10 +2076,15 @@ void G_LoadedGameMessage(void)
             timestamp = localtime(&status.st_ctime);
             hour = timestamp->tm_hour;
 
-            C_Output("It was previously saved at %i:%02i%s on %s, %s %i, %i.",
-                (hour ? hour - 12 * (hour > 12) : 12), timestamp->tm_min,
-                (hour < 12 ? "(AM)" : "(PM)"), daynames[timestamp->tm_wday],
-                monthnames[timestamp->tm_mon], timestamp->tm_mday, 1900 + timestamp->tm_year);
+            if (timeformat == timeformat_military)
+                C_Output("It was previously saved at %02i:%02i on %s, %s %i, %i.",
+                    hour, timestamp->tm_min, daynames[timestamp->tm_wday],
+                    monthnames[timestamp->tm_mon], timestamp->tm_mday, 1900 + timestamp->tm_year);
+            else
+                C_Output("It was previously saved at %i:%02i%s on %s, %s %i, %i.",
+                    (hour ? hour - 12 * (hour > 12) : 12), timestamp->tm_min,
+                    (hour < 12 ? "(AM)" : "(PM)"), daynames[timestamp->tm_wday],
+                    monthnames[timestamp->tm_mon], timestamp->tm_mday, 1900 + timestamp->tm_year);
 
             if (prevgameskill != sk_none && gameskill != prevgameskill)
             {
