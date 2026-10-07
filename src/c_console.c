@@ -4633,11 +4633,17 @@ void C_PrintCompileDate(void)
         const char  shortmonthnames[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
         const int   month = (int)(strstr(shortmonthnames, shortmonthname) - shortmonthnames) / 3;
 
-        C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
-            " was built with love by %s at %i:%02i%s on %s, %s %i, %i somewhere in %s.",
-            8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
-            (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "(AM)" : "(PM)"),
-            dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
+        if (timeformat == timeformat_military)
+            C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
+                " was built with love by %s at %i:%02i on %s, %s %i, %i somewhere in %s.",
+                8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
+                hour, minute, dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
+        else
+            C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
+                " was built with love by %s at %i:%02i%s on %s, %s %i, %i somewhere in %s.",
+                8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
+                (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "(AM)" : "(PM)"),
+                dayofweek(day, month + 1, year), monthnames[month], day, year, DOOMRETRO_HOMEOFCREATOR);
     }
 
 #if defined(__INTEL_LLVM_COMPILER)
