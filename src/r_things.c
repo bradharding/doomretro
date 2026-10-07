@@ -1813,7 +1813,8 @@ static void R_ProjectSprite(mobj_t *thing)
 
     vis->liquidrockfactor = ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB) && !heightsec
         && r_liquid_bobsprites && r_liquid_rocksprites ?
-        LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))]) : 0);
+        FixedMul(LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))]),
+            BETWEEN(FRACUNIT / 2, FixedDiv(height, MAX(width, FRACUNIT)), FRACUNIT * 2)) : 0);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)
