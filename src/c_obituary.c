@@ -695,9 +695,7 @@ void C_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source,
     obituaryinfo_t  obituary = { 0 };
     mobj_t          *obituarysource = source;
 
-    if (target && target->type == MT_BARREL
-        && source && (source->flags & MF_MISSILE)
-        && source->target && !source->target->player)
+    if (source && (source->flags & MF_MISSILE) && source->target)
         obituarysource = source->target;
 
     if (target)
