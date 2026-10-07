@@ -390,7 +390,7 @@ static default_t cvars[] =
     CVAR_BOOL         (compresssavegames,                compresssavegames,                     compresssavegames,                     BOOLVALUEALIAS         ),
     CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS    ),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS         ),
-    CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      0                      ),
+    CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      WARNINGLEVELVALUEALIAS ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS    ),
     CVAR_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        0                      ),
     CVAR_BOOL         (discordpresence,                  discordpresence,                       discordpresence,                       BOOLVALUEALIAS         ),
@@ -716,6 +716,9 @@ valuealias_t valuealiases[] =
 #endif
     { "off",               vid_vsync_off,                             VSYNCVALUEALIAS         },
     { "on",                vid_vsync_on,                              VSYNCVALUEALIAS         },
+    { "low",               con_warninglevel_low,                      WARNINGLEVELVALUEALIAS  },
+    { "medium",            con_warninglevel_medium,                   WARNINGLEVELVALUEALIAS  },
+    { "high",              con_warninglevel_high,                     WARNINGLEVELVALUEALIAS  },
     { "fists",             wp_fist,                                   WEAPONVALUEALIAS        },
     { "pistol",            wp_pistol,                                 WEAPONVALUEALIAS        },
     { "shotgun",           wp_shotgun,                                WEAPONVALUEALIAS        },

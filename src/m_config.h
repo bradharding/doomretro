@@ -316,6 +316,13 @@ enum
 
 enum
 {
+    con_warninglevel_low,
+    con_warninglevel_medium,
+    con_warninglevel_high
+};
+
+enum
+{
     crosshair_none,
     crosshair_cross,
     crosshair_angle,
@@ -598,9 +605,9 @@ enum
 
 #define con_timestamps_default                  true
 
-#define con_warninglevel_min                    0
-#define con_warninglevel_default                1
-#define con_warninglevel_max                    2
+#define con_warninglevel_min                    con_warninglevel_low
+#define con_warninglevel_default                con_warninglevel_medium
+#define con_warninglevel_max                    con_warninglevel_high
 
 #define crosshair_min                           crosshair_none
 #define crosshair_default                       crosshair_none
@@ -1327,6 +1334,7 @@ typedef enum
     TIMEFORMATVALUEALIAS,
     UNITSVALUEALIAS,
     VSYNCVALUEALIAS,
+    WARNINGLEVELVALUEALIAS,
     WEAPONVALUEALIAS
 } valuealiastype_t;
 

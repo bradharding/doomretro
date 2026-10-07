@@ -800,8 +800,8 @@ consolecmd_t consolecmds[] =
         "The color of the console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
     BOOLCVAR(con_timestamps, "", "", boolfunc1, boolfunc2, 0,
         "Toggles timestamps in the console."),
-    INTCVAR(con_warninglevel, "", "", intfunc1, intfunc2, 0, 0,
-        "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
+    INTCVAR(con_warninglevel, "", "", intfunc1, intfunc2, 0, WARNINGLEVELVALUEALIAS,
+        "The console's warning level (" BOLD("low") ", " BOLD("medium") " or " BOLD("high") ")."),
     INTCVAR(crosshair, "", "", intfunc1, intfunc2, 0, CROSSHAIRVALUEALIAS,
         "Toggles your crosshair (" BOLD("none") ", " BOLD("cross") ", " BOLD("angle") ", "
         BOLD("dot") ", " BOLD("bigcross") ", " BOLD("circle") ", " BOLD("bigcircle") ", "
