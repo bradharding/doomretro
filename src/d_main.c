@@ -2299,7 +2299,12 @@ static int D_OpenWADLauncher(void)
 #endif
 
                         if (D_IsDEHFile(fullpath))
+                        {
+#if defined(_WIN32)
+                            AddToWadList(leafname(fullpath));
+#endif
                             LoadDEHFile(fullpath, false);
+                        }
 
 #if defined(_WIN32)
                         dehpass = &dehpass[strlen(dehpass) + 1];
