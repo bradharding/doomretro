@@ -105,7 +105,6 @@ bool        centerweapon = centerweapon_default;
 bool        cleanscreenshots = cleanscreenshots_default;
 bool        compresssavegames = compresssavegames_default;
 int         con_edgecolor = con_edgecolor_default;
-int         con_timestampformat = con_timestampformat_default;
 bool        con_timestamps = con_timestamps_default;
 int         con_warninglevel = con_warninglevel_default;
 int         crosshair = crosshair_default;
@@ -236,6 +235,7 @@ bool        smoothtransitions = smoothtransitions_default;
 bool        snapcrosshair = snapcrosshair_default;
 int         stillbob = stillbob_default;
 int         sucktime = sucktime_default;
+int         timeformat = timeformat_default;
 bool        tossdrop = tossdrop_default;
 int         turbo = turbo_default;
 int         units = units_default;
@@ -389,7 +389,6 @@ static default_t cvars[] =
     CVAR_BOOL         (clock,                            clock,                                 showclock,                             BOOLVALUEALIAS         ),
     CVAR_BOOL         (compresssavegames,                compresssavegames,                     compresssavegames,                     BOOLVALUEALIAS         ),
     CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS    ),
-    CVAR_INT          (con_timestampformat,              con_timestampformat,                   con_timestampformat,                   TIMESTAMPVALUEALIAS    ),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS         ),
     CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      0                      ),
     CVAR_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS    ),
@@ -516,7 +515,8 @@ static default_t cvars[] =
     CVAR_BOOL         (smoothtransitions,                fade,                                  smoothtransitions,                     BOOLVALUEALIAS         ),
     CVAR_BOOL         (snapcrosshair,                    snapcrosshair,                         snapcrosshair,                         BOOLVALUEALIAS         ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              0                      ),
-    CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKTIMEVALUEALIAS        ),
+    CVAR_INT          (sucktime,                         sucktime,                              sucktime,                              SUCKTIMEVALUEALIAS     ),
+    CVAR_INT          (timeformat,                       con_timestampformat,                   timeformat,                            TIMEFORMATVALUEALIAS   ),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS         ),
     CVAR_INT_PERCENT  (turbo,                            turbo,                                 turbo,                                 0                      ),
     CVAR_INT          (units,                            units,                                 units,                                 UNITSVALUEALIAS        ),
@@ -707,10 +707,10 @@ valuealias_t valuealiases[] =
     { "linear",            r_skyprojection_linear,                    SKYPROJECTIONVALUEALIAS },
     { "cylindrical",       r_skyprojection_cylindrical,               SKYPROJECTIONVALUEALIAS },
     { "off",               sucktime_off,                              SUCKTIMEVALUEALIAS      },
+    { "military",          timeformat_military,                       TIMEFORMATVALUEALIAS    },
+    { "standard",          timeformat_standard,                       TIMEFORMATVALUEALIAS    },
     { "imperial",          units_imperial,                            UNITSVALUEALIAS         },
     { "metric",            units_metric,                              UNITSVALUEALIAS         },
-    { "military",          con_timestampformat_military,              TIMESTAMPVALUEALIAS     },
-    { "standard",          con_timestampformat_standard,              TIMESTAMPVALUEALIAS     },
 #if !defined (__APPLE__)
     { "adaptive",          vid_vsync_adaptive,                        VSYNCVALUEALIAS         },
 #endif

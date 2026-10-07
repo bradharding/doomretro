@@ -92,7 +92,6 @@ extern bool     centerweapon;
 extern bool     cleanscreenshots;
 extern bool     compresssavegames;
 extern int      con_edgecolor;
-extern int      con_timestampformat;
 extern bool     con_timestamps;
 extern int      con_warninglevel;
 extern int      crosshair;
@@ -223,6 +222,7 @@ extern int      skilllevel;
 extern bool     smoothtransitions;
 extern int      stillbob;
 extern int      sucktime;
+extern int      timeformat;
 extern bool     tossdrop;
 extern int      turbo;
 extern int      units;
@@ -316,12 +316,6 @@ enum
 
 enum
 {
-    con_timestampformat_military,
-    con_timestampformat_standard
-};
-
-enum
-{
     crosshair_none,
     crosshair_cross,
     crosshair_angle,
@@ -387,6 +381,12 @@ enum
     r_skyprojection_vanilla,
     r_skyprojection_linear,
     r_skyprojection_cylindrical
+};
+
+enum
+{
+    timeformat_military,
+    timeformat_standard
 };
 
 enum
@@ -595,10 +595,6 @@ enum
 #define con_edgecolor_min                       con_edgecolor_auto
 #define con_edgecolor_default                   con_edgecolor_auto
 #define con_edgecolor_max                       255
-
-#define con_timestampformat_min                 con_timestampformat_military
-#define con_timestampformat_default             con_timestampformat_standard
-#define con_timestampformat_max                 con_timestampformat_standard
 
 #define con_timestamps_default                  true
 
@@ -945,6 +941,10 @@ enum
 #define sucktime_min                            sucktime_off
 #define sucktime_default                        1
 #define sucktime_max                            24
+
+#define timeformat_min                          timeformat_military
+#define timeformat_default                      timeformat_standard
+#define timeformat_max                          timeformat_standard
 
 #define tossdrop_default                        true
 
@@ -1324,7 +1324,7 @@ typedef enum
     SECRETCOLORVALUEALIAS,
     SKYPROJECTIONVALUEALIAS,
     SUCKTIMEVALUEALIAS,
-    TIMESTAMPVALUEALIAS,
+    TIMEFORMATVALUEALIAS,
     UNITSVALUEALIAS,
     VSYNCVALUEALIAS,
     WEAPONVALUEALIAS

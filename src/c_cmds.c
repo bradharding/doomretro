@@ -798,8 +798,6 @@ consolecmd_t consolecmds[] =
         "Dumps the contents of the console to a file."),
     INTCVAR(con_edgecolor, con_edgecolour, "", intfunc1, intfunc2, CF_COLOR, EDGECOLORVALUEALIAS,
         "The color of the console's bottom edge (" BOLD("auto") ", or "BOLD("0") " to " BOLD("255") ")."),
-    INTCVAR(con_timestampformat, "", "", intfunc1, intfunc2, 0, TIMESTAMPVALUEALIAS,
-        "The format of the timestamps in the console (" BOLD("standard") " or " BOLD("military") ")."),
     BOOLCVAR(con_timestamps, "", "", boolfunc1, boolfunc2, 0,
         "Toggles timestamps in the console."),
     INTCVAR(con_warninglevel, "", "", intfunc1, intfunc2, 0, 0,
@@ -1179,6 +1177,8 @@ consolecmd_t consolecmds[] =
         "the current map."),
     CCMD(thinglist, "", "", ingameccmdfunc1, thinglistfunc2, false, "",
         "Lists all things in the current map."),
+    INTCVAR(timeformat, "", "", intfunc1, intfunc2, 0, TIMEFORMATVALUEALIAS,
+        "The format used when displaying the time (" BOLD("standard") " or " BOLD("military") ")."),
     CCMD(timer, "", "", nullfunc1, timerfunc2, true, TIMERFORMAT,
         "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
     CCMD(toggle, "", "", togglefunc1, togglefunc2, true, TOGGLEFORMAT,
@@ -2997,14 +2997,14 @@ static void condumpfunc2(char *cmd, char *parms)
                     int         spaces = (int)strlen(DIVIDERSTRING) - 10 - outpos;
                     struct tm   timestamp = console[i].timestamp;
 
-                    if (con_timestampformat == con_timestampformat_military)
+                    if (timeformat == timeformat_military)
                         spaces += 2;
 
                     for (int j = 0; j < spaces; j++)
                         if (linepos < (int)sizeof(line) - 1)
                             line[linepos++] = ' ';
 
-                    if (con_timestampformat == con_timestampformat_military)
+                    if (timeformat == timeformat_military)
                         M_snprintf(line + linepos, sizeof(line) - linepos, "%02i:%02i:%02i",
                             timestamp.tm_hour, timestamp.tm_min, timestamp.tm_sec);
                     else

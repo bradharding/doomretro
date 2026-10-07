@@ -2014,7 +2014,7 @@ static void C_DrawTimeStamp(int x, const int y, const int index, const int color
     char        buffer[9];
     struct tm   timestamp = console[index].timestamp;
 
-    if (con_timestampformat == con_timestampformat_standard)
+    if (timeformat == timeformat_standard)
     {
         const int   hour = timestamp.tm_hour;
 
@@ -2263,13 +2263,13 @@ void C_UpdateClockOverlay(void)
     if (vid_showfps && framespersecond)
         y += OVERLAYFPSGRAPHHEIGHT + 3 + OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-    if (local && (local->tm_sec != prevsec || con_timestampformat != prevformat))
+    if (local && (local->tm_sec != prevsec || timeformat != prevformat))
     {
         prevsec = local->tm_sec;
-        prevformat = con_timestampformat;
+        prevformat = timeformat;
         hour = local->tm_hour;
 
-        if (con_timestampformat == con_timestampformat_standard)
+        if (timeformat == timeformat_standard)
             M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i",
                 (hour ? hour - 12 * (hour > 12) : 12), local->tm_min, local->tm_sec);
         else
@@ -2278,7 +2278,7 @@ void C_UpdateClockOverlay(void)
         clockwidth = C_OverlayWidth(buffer, true);
     }
 
-    if (con_timestampformat == con_timestampformat_standard)
+    if (timeformat == timeformat_standard)
     {
         V_DrawOverlayTextPatch(screens[0], SCREENWIDTH, (x -= ampmwidth), y, ampm[hour >= 12],
             ampmwidth, overlaytextcolor, overlaytextshadowcolor, overlaytexttinttab);
