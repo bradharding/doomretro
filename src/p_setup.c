@@ -3622,10 +3622,19 @@ void P_SetupLevel(int ep, int map)
         memset(bloodsplat_blocklinks, 0, (size_t)bmapwidth * bmapheight * sizeof(*bloodsplat_blocklinks));
     }
 
-    if (nodeformat == DOOMBSP && canmodify && !M_CheckParm("-nobsp"))
+    if (nodeformat == DOOMBSP)
     {
-        nodeformat = NANOBSP;
-        C_Warning(2, "The nodes in this map have been rebuilt using " ITALICS("NanoBSP") ".");
+        if (canmodify && !M_CheckParm("-nobsp"))
+        {
+            nodeformat = NANOBSP;
+            C_Warning(2, "The nodes in this map have been rebuilt using " ITALICS("NanoBSP") ".");
+        }
+        else
+        {
+            P_LoadSubsectors(lumpnum + ML_SSECTORS);
+            P_LoadNodes(lumpnum + ML_NODES);
+            P_LoadSegs(lumpnum + ML_SEGS);
+        }
     }
 
     if (nodeformat == DEEPBSP)
