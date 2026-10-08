@@ -203,6 +203,7 @@ extern int      r_skyprojection;
 extern bool     r_sprites_tilt;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
+extern bool     r_voxels;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
@@ -893,6 +894,8 @@ enum
 #define r_sprites_translucency_default          true
 
 #define r_teleportzoom_default                  true
+
+#define r_voxels_default                        true
 
 #define r_textures_default                      true
 

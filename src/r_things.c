@@ -45,7 +45,7 @@
 #include "m_array.h"
 #include "m_config.h"
 #include "r_main.h"
-#include "r_voxel.h"
+#include "r_voxels.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"

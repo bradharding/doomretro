@@ -215,6 +215,7 @@ int         r_skyprojection = r_skyprojection_default;
 bool        r_sprites_tilt = r_sprites_tilt_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_teleportzoom = r_teleportzoom_default;
+bool        r_voxels = r_voxels_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
@@ -497,6 +498,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_sprites_tilt,                   r_sprites_tilt,                        r_sprites_tilt,                        BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,                BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_teleportzoom,                   r_teleportzoom,                        r_teleportzoom,                        BOOLVALUEALIAS         ),
+    CVAR_BOOL         (r_voxels,                         r_voxels,                              r_voxels,                              BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,               BOOLVALUEALIAS         ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                            0                      ),

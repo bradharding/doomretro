@@ -50,7 +50,7 @@
 #include "r_main.h"
 #include "r_state.h"
 #include "r_things.h"
-#include "r_voxel.h"
+#include "r_voxels.h"
 #include "sprites.h"
 #include "tables.h"
 #include "v_video.h"
@@ -493,6 +493,9 @@ static int VX_NewVisVoxel(void)
 
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 {
+    if (!r_voxels)
+        return false;
+
     const int       spr = thing->sprite;
     const int       frame = thing->frame & FF_FRAMEMASK;
     voxelbinding_t  *binding;
