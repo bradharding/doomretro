@@ -83,7 +83,7 @@ static fixed_t VX_ProjectScreenY(fixed_t z, fixed_t scale)
     return (fixed_t)(projected < -limit ? -limit : (projected > limit * 2 ? limit * 2 : projected));
 }
 
-static byte VX_LitColor(const vissprite_t *spr, byte color)
+static byte VX_LitColor(const vissprite_t *spr, byte color, const byte *dither, const int row)
 {
     if (!r_textures)
         color = nearestwhite;
@@ -97,7 +97,7 @@ static byte VX_LitColor(const vissprite_t *spr, byte color)
             color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
     }
 
-    return spr->sectorcolormap[spr->colormap[color]];
+    return spr->sectorcolormap[(dither && dither[R_GetDitherRow(row)] ? spr->nextcolormap : spr->colormap)[color]];
 }
 
 static uint32_t VX_ReadU32(const byte *p)
@@ -546,15 +546,18 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
 
     if (fixedcolormap)
-        vis->colormap = fixedcolormap;
+        vis->colormap = vis->nextcolormap = fixedcolormap;
     else if (vis->fullbright)
-        vis->colormap = fullcolormap;
+        vis->colormap = vis->nextcolormap = fullcolormap;
     else
     {
-        const int light = BETWEEN(0,
-            (thing->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1);
+        const short lightlevel = thing->subsector->sector->lightlevel;
+        const int   light = BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1);
+        const int   nextlight = BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1);
+        const int   scaleindex = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
-        vis->colormap = scalelight[light][MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = scalelight[light][scaleindex];
+        vis->nextcolormap = scalelight[nextlight][scaleindex];
     }
 
     return true;
@@ -635,6 +638,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     {
         fixed_t     scale;
         fixed_t     iscale;
+        const byte  *dither = (r_ditheredlighting ? R_GetDitherColumn(ux >> FRACBITS, (spr->scale >> 5) & 255) : NULL);
         const int   screenx = ux >> FRACBITS;
         const byte  *slab = v->data + offsets1;
         const byte  *slabend = v->data + offsets2;
@@ -729,7 +733,6 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             if ((face & F_TOP) && topz < 0)
             {
                 fixed_t     uy = VX_ProjectScreenY(topz, widescale);
-                const byte  color = VX_LitColor(spr, slab[0]);
 
                 // Start on an exact screen row. Without this ceil operation,
                 // the fractional top-face walk can stop one row before the
@@ -738,15 +741,16 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 uy = MAX(((uy - 1) | FRACMASK) + 1, cliptop);
 
                 for (; uy < uy1; uy += FRACUNIT)
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] = color;
+                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
+                        VX_LitColor(spr, slab[0], dither, uy >> FRACBITS);
             }
             else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
             {
-                fixed_t     uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
-                const byte  color = VX_LitColor(spr, slab[len - 1]);
+                fixed_t uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
 
                 for (; uy > uy2; uy -= FRACUNIT)
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] = color;
+                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
+                        VX_LitColor(spr, slab[len - 1], dither, uy >> FRACBITS);
             }
 
             if (side)
@@ -755,7 +759,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     int source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
                             len - 1);
 
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] = VX_LitColor(spr, slab[source]);
+                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
+                        VX_LitColor(spr, slab[source], dither, uy >> FRACBITS);
                 }
 
             slab += len;

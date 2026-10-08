@@ -215,3 +215,6 @@ void R_FillBackScreen(void);
 
 // If the view size is not fullscreen, draws a border around it.
 void R_DrawViewBorder(void);
+
+const byte *R_GetDitherColumn(const int x, const int z);
+int R_GetDitherRow(const int y);

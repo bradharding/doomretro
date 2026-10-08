@@ -118,6 +118,16 @@ static byte     ditherspan[DITHERSIZE][256][DITHERSIZE];
 static float    radiallightsquared[MAXLIGHTZ + 1];
 static float    radiallightditherstep[MAXLIGHTZ];
 
+const byte *R_GetDitherColumn(const int x, const int z)
+{
+    return dithercolumn[((x + ditherxoffset) / (r_detail == r_detail_low ? lowpixelwidth : 1)) & DITHERMASK][z];
+}
+
+int R_GetDitherRow(const int y)
+{
+    return ((y / (r_detail == r_detail_low ? lowpixelrows : 1)) & DITHERMASK);
+}
+
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
