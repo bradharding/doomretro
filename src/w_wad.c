@@ -40,8 +40,6 @@
 #include <sys/stat.h>
 #endif
 
-#include <ctype.h>
-
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -51,6 +49,7 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_misc.h"
+#include "miniz/miniz.h"
 #include "version.h"
 #include "w_merge.h"
 #include "w_wad.h"
@@ -91,6 +90,138 @@ static int          numwads;
 static wadfile_t    *wadlist[MAXWADS];
 static lumpinfo_t   **lumpblocks;
 static int          numlumpblocks;
+
+static bool W_IsPK3(const char *filename)
+{
+    return (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip"));
+}
+
+static namespace_t W_PK3EntryNamespace(const char *filename)
+{
+    const char  *base = filename;
+    const char  *slash;
+
+    for (const char *p = filename; *p; p++)
+        if (*p == '/' || *p == '\\')
+            base = p + 1;
+
+    if (M_StringCompare(base, "VOXELDEF") || M_StringCompare(base, "VOXELDEF.txt"))
+        return ns_global;
+
+    if (!M_StringEndsWith(base, ".kvx"))
+        return -1;
+
+    slash = base - 1;
+    if (slash <= filename)
+        return -1;
+
+    // Accept voxels/ at the root and inside GZDoom filter directories.
+    return (slash - filename >= 6 && !strncasecmp(slash - 6, "voxels", 6) ? ns_voxels : -1);
+}
+
+static bool W_AddPK3(char *filename, bool autoloaded)
+{
+    mz_zip_archive archive = { 0 };
+    mz_uint        entries;
+    int            count = 0;
+    int            voxelcount = 0;
+    int            startlump;
+    lumpinfo_t     *filelumps;
+    wadfile_t      *wadfile;
+    char           *temp;
+    char           *file = leafname(filename);
+
+    if (!mz_zip_reader_init_file(&archive, filename, MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
+        return false;
+
+    entries = mz_zip_reader_get_num_files(&archive);
+    for (mz_uint i = 0; i < entries; i++)
+    {
+        mz_zip_archive_file_stat stat;
+
+        if (mz_zip_reader_file_stat(&archive, i, &stat) && !stat.m_is_directory)
+        {
+            const namespace_t namespace = W_PK3EntryNamespace(stat.m_filename);
+
+            if (namespace >= 0)
+            {
+                count++;
+                voxelcount += (namespace == ns_voxels);
+            }
+        }
+    }
+
+    wadfile = Z_Calloc(1, sizeof(*wadfile), PU_STATIC, NULL);
+    wadfile->type = PWAD;
+    temp = M_StringDuplicate(filename);
+    M_StringCopy(wadfile->path, GetCorrectCase(temp), sizeof(wadfile->path));
+    free(temp);
+
+    if (numwads < MAXWADS)
+        wadlist[numwads++] = wadfile;
+
+    filelumps = (count ? I_Calloc(count, sizeof(*filelumps)) : NULL);
+    if (filelumps)
+    {
+        lumpblocks = I_Realloc(lumpblocks, (++numlumpblocks) * sizeof(*lumpblocks));
+        lumpblocks[numlumpblocks - 1] = filelumps;
+    }
+
+    startlump = numlumps;
+    numlumps += count;
+    lumpinfo = I_Realloc(lumpinfo, numlumps * sizeof(*lumpinfo));
+
+    for (mz_uint i = 0, lump = 0; i < entries; i++)
+    {
+        mz_zip_archive_file_stat stat;
+        const char               *base;
+        char                     name[9] = { 0 };
+        char                     *dot;
+        lumpinfo_t               *lump_p;
+
+        if (!mz_zip_reader_file_stat(&archive, i, &stat) || stat.m_is_directory
+            || W_PK3EntryNamespace(stat.m_filename) < 0)
+            continue;
+
+        base = stat.m_filename;
+        for (const char *p = stat.m_filename; *p; p++)
+            if (*p == '/' || *p == '\\')
+                base = p + 1;
+
+        M_StringCopy(name, base, sizeof(name));
+        if ((dot = strrchr(name, '.')))
+            *dot = '\0';
+
+        lump_p = &filelumps[lump];
+        lump_p->wadfile = wadfile;
+        lump_p->size = (int)stat.m_uncomp_size;
+        lump_p->namespace = W_PK3EntryNamespace(stat.m_filename);
+        lump_p->data = I_Malloc(lump_p->size);
+        M_CopyLumpName(lump_p->name, name);
+
+        if (!mz_zip_reader_extract_to_mem(&archive, i, lump_p->data, lump_p->size, 0))
+            I_Error("W_AddPK3: Couldn't extract %s from %s.", stat.m_filename, filename);
+
+        lumpinfo[startlump + lump++] = lump_p;
+    }
+
+    mz_zip_reader_end(&archive);
+
+    if (wadsloaded)
+    {
+        temp = wadsloaded;
+        wadsloaded = M_StringJoin(wadsloaded, ", ", file, NULL);
+        free(temp);
+    }
+    else
+        wadsloaded = M_StringDuplicate(file);
+
+    C_Output("%i voxel%s %s been %s from the PK3 " BOLD("%s") ".", voxelcount,
+        (voxelcount == 1 ? "" : "s"), (voxelcount == 1 ? "has" : "have"),
+        (autoloaded ? "automatically added" : "added"), wadfile->path);
+
+    return true;
+}
 
 static bool IsFreedoom(const char *iwadname)
 {
@@ -314,6 +445,9 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     if (!filename || !*filename)
         return false;
+
+    if (W_IsPK3(filename))
+        return W_AddPK3(filename, autoloaded);
 
     // open the file and add to directory
     if (!(wadfile = W_OpenFile(filename)))
@@ -809,6 +943,11 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
     gamemission_t   result = none;
     const char      *leaf = leafname(pwadname);
 
+    // PK3 resource packs generally contain no maps from which an IWAD can
+    // be inferred. Let the caller use its normal Doom II fallback.
+    if (W_IsPK3(pwadname))
+        return none;
+
     if (D_IsFinalDOOMIWAD(pwadname))
         return (M_StringCompare(leaf, "TNT.WAD") ? pack_tnt : pack_plut);
 
@@ -873,6 +1012,9 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 //
 int W_WadType(char *filename)
 {
+    if (W_IsPK3(filename))
+        return PWAD;
+
     if (D_IsDOOMIWAD(filename))
         return IWAD;
     else if (M_StringEndsWith(filename, ".lmp"))
@@ -912,17 +1054,23 @@ int W_WadType(char *filename)
 // just as much work as simply doing the string comparisons with the new
 // algorithm, which minimizes the expected number of comparisons to under 2.
 //
-int W_CheckNumForName(const char *name)
+int W_CheckNumForNameInNamespace(const char *name, namespace_t namespace)
 {
     // Hash function maps the name to one of possibly numlump chains.
     // It has been tuned so that the average chain length never exceeds 2.
     int i = lumpinfo[W_LumpNameHash(name) % numlumps]->index;
 
-    while (i >= 0 && strncasecmp(lumpinfo[i]->name, name, 8))
+    while (i >= 0 && (lumpinfo[i]->namespace != namespace
+        || strncasecmp(lumpinfo[i]->name, name, 8)))
         i = lumpinfo[i]->next;
 
     // Return the matching lump, or -1 if none found.
     return i;
+}
+
+int W_CheckNumForName(const char *name)
+{
+    return W_CheckNumForNameInNamespace(name, ns_global);
 }
 
 bool W_LumpExistsWithName(int lump, char *name)
@@ -1203,6 +1351,12 @@ static void W_ReadLump(int lump, void *dest)
     if (!l->size || !dest)
         return;
 
+    if (l->data)
+    {
+        memcpy(dest, l->data, l->size);
+        return;
+    }
+
     if ((c = W_Read(l->wadfile, l->position, dest, l->size)) < (size_t)l->size)
         I_Error("W_ReadLump: only read %zu of %i on lump %i", c, l->size, lump);
 }
@@ -1245,6 +1399,9 @@ bool W_NoPWADsLoaded(void)
 
 void W_CloseFiles(void)
 {
+    for (int i = 0; i < numlumps; i++)
+        free(lumpinfo[i]->data);
+
     for (int i = 0; i < numwads; i++)
         W_CloseFile(wadlist[i]);
 

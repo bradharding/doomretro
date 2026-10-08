@@ -35,33 +35,9 @@
 
 #pragma once
 
-// Constant arrays used for psprite clipping
-//  and initializing clipping.
-extern int      negonearray[MAXWIDTH];
-extern int      viewheightarray[MAXWIDTH];
+#include "doomdef.h"
 
-// vars for R_DrawMaskedColumn
-extern int      *mfloorclip;
-extern int      *mceilingclip;
-extern fixed_t  spryscale;
-extern int64_t  sprtopscreen;
-
-extern fixed_t  pspritescale;
-extern fixed_t  pspriteiscale;
-
-extern short    firstbloodsplatlump;
-extern int      numbloodsplatlumps;
-
-extern bool     allowwolfensteinss;
-
-extern int      liquidrocktic;
-
-void R_AddSprites(sector_t *sec, int lightlevel);
-lighttable_t *R_GetSectorColormap(sector_t *sector);
-void R_InitSpriteBottomOffsets(void);
-void R_InitSprites(void);
-void R_ClearSprites(void);
-vissprite_t *R_NewVisSprite(void);
-void R_DrawMasked(void);
-void R_AddNearbySprites(sector_t *sec);
-void R_DrawNearbySprites(void);
+void VX_Init(void);
+void VX_ClearVoxels(void);
+bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz);
+void VX_DrawVoxel(const vissprite_t *spr);

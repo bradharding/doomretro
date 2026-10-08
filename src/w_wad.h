@@ -57,6 +57,12 @@
 
 #define W_ReleaseLumpName(name)                 W_ReleaseLumpNum(W_GetNumForName(name))
 
+typedef enum
+{
+    ns_global,
+    ns_voxels
+} namespace_t;
+
 typedef struct
 {
     char        name[9];
@@ -68,6 +74,11 @@ typedef struct
     int         next;
 
     int         position;
+
+    // PK3 entries are decompressed once and retained here. Keeping them
+    // separate from the purgeable zone cache allows lumps to be re-cached.
+    void        *data;
+    namespace_t namespace;
 
     wadfile_t   *wadfile;
 } lumpinfo_t;
@@ -90,6 +101,7 @@ bool W_AutoloadFiles(const char *folder, const bool noexpansions);
 int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);
+int W_CheckNumForNameInNamespace(const char *name, namespace_t namespace);
 
 int W_CheckNumForNameFromTo(int min, int max, const char *name);
 int W_GetNumForName(const char *name);

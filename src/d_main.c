@@ -1069,7 +1069,8 @@ static bool D_IsUnsupportedWAD(char *filename)
 static bool D_IsWADFile(const char *filename)
 {
     return (M_StringEndsWith(filename, ".wad") || M_StringEndsWith(filename, ".iwad")
-        || M_StringEndsWith(filename, ".pwad") || M_StringEndsWith(filename, ".lmp"));
+        || M_StringEndsWith(filename, ".pwad") || M_StringEndsWith(filename, ".lmp")
+        || M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip"));
 }
 
 static bool D_IsCFGFile(const char *filename)
@@ -1629,7 +1630,7 @@ static int D_OpenWADLauncher(void)
     }
 
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.lmp;*.deh;*.bex;*.cfg\0";
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.lmp;*.deh;*.bex;*.cfg;*.pk3;*.zip\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);

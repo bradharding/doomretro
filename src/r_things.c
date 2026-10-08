@@ -45,6 +45,7 @@
 #include "m_array.h"
 #include "m_config.h"
 #include "r_main.h"
+#include "r_voxel.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -163,7 +164,7 @@ static const fixed_t floatbobdiffs[64] =
      138216,  152496,  165304,  176528,  186048,  193776,  199640,  203576
 };
 
-static lighttable_t *R_GetSectorColormap(sector_t *sector)
+lighttable_t *R_GetSectorColormap(sector_t *sector)
 {
     if (sector->floorlightsec && sector->floorlightsec->colormap)
         return colormaps[sector->floorlightsec->colormap];
@@ -452,6 +453,7 @@ void R_InitSprites(void)
     }
 
     R_InitSpriteDefs();
+    VX_Init();
 
     vissprites = I_Malloc(num_vissprite_alloc * sizeof(*vissprites));
 }
@@ -467,12 +469,14 @@ void R_ClearSprites(void)
     viewfixedcolormap = viewplayer->fixedcolormap;
     viewinvulnerabilitycolormap = ISINVULNERABILITYCOLORMAP(viewfixedcolormap);
     viewheightsec = viewplayer->mo->subsector->sector->heightsec;
+
+    VX_ClearVoxels();
 }
 
 //
 // R_NewVisSprite
 //
-static vissprite_t *R_NewVisSprite(void)
+vissprite_t *R_NewVisSprite(void)
 {
     if (num_vissprite >= num_vissprite_alloc)
     {
@@ -1697,6 +1701,9 @@ static void R_ProjectSprite(mobj_t *thing)
     if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
         fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
 
+    if (VX_ProjectVoxel(thing, fx, fy, fz))
+        return;
+
     flip = (flags2 & MF2_MIRRORED);
 
     if (sprframe->rotate)
@@ -1815,6 +1822,8 @@ static void R_ProjectSprite(mobj_t *thing)
         && r_liquid_bobsprites && r_liquid_rocksprites ?
         FixedMul(LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))]),
             BETWEEN(FRACUNIT / 2, FixedDiv(height, MAX(width, FRACUNIT)), FRACUNIT * 2)) : 0);
+
+    vis->voxel_index = -1;
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)

@@ -54,7 +54,9 @@ wadfile_t *W_OpenFile(const char *path)
 
 void W_CloseFile(wadfile_t *wad)
 {
-    fclose(wad->fstream);
+    if (wad->fstream)
+        fclose(wad->fstream);
+
     Z_Free(wad);
 }
 
