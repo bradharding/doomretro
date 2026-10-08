@@ -3439,7 +3439,6 @@ void P_SetupLevel(int ep, int map)
 
     I_Sleep(400);
     S_StopSounds();
-    Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
     if (rejectlump != -1)
     {
@@ -3540,6 +3539,9 @@ void P_SetupLevel(int ep, int map)
     }
 
     prevlumpnum = lumpnum;
+
+    if (!samelevel)
+        Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
     nodeformat = P_CheckNodeFormat(lumpnum);
 
