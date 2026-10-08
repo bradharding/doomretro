@@ -374,8 +374,6 @@ static void VX_ParseVoxelDef(const byte *data, int length)
 
 void VX_Init(void)
 {
-    int found = 0;
-
     bindings = I_Malloc(numsprites * sizeof(*bindings));
     models_by_lump = I_Calloc(numlumps, sizeof(*models_by_lump));
 
@@ -399,10 +397,6 @@ void VX_Init(void)
     for (int i = 0; i < numlumps; i++)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
-
-    for (int spr = 0; spr < numsprites; spr++)
-        for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
-            found += !!bindings[spr][frame].model;
 }
 
 void VX_ClearVoxels(void)
@@ -581,20 +575,29 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 {
     const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
     const voxel_t       *v = vv->model;
-    const int           ofs1 = v->offsets[y * v->x_size + x];
-    const int           ofs2 = v->offsets[(y + 1) * v->x_size + x];
-    int                 qux, quy, quadrant, idx;
+    const int           offsets1 = v->offsets[y * v->x_size + x];
+    const int           offsets2 = v->offsets[(y + 1) * v->x_size + x];
+    int                 qux, quy;
+    int                 quadrant;
+    int                 idx;
     fixed_t             px[4], py[4];
-    fixed_t             ax, ay, bx, by, cx, cy, dx, dy;
-    fixed_t             ascale, bscale, cscale, dscale;
-    byte                aface, bface;
+    fixed_t             ax, ay;
+    fixed_t             bx, by;
+    fixed_t             cx, cy;
+    fixed_t             dx, dy;
+    fixed_t             ascale;
+    fixed_t             bscale;
+    fixed_t             cscale;
+    fixed_t             dscale;
+    byte                aface;
+    byte                bface;
     byte                *dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
     static const int    acorners[9] = { 3, 3, 2, 0, -1, 2, 0, 1, 1 };
     static const byte   afaces[9] = { F_BACK, F_BACK, F_RIGHT, F_LEFT, 0, F_RIGHT, F_LEFT, F_FRONT, F_FRONT };
     static const byte   bfaces[9] = { F_LEFT, 0, F_BACK, 0, 0, 0, F_FRONT, 0, F_RIGHT };
     fixed_t             uxstart, uxend;
 
-    if (ofs1 >= ofs2)
+    if (offsets1 >= offsets2)
         return;
 
     qux = (eye_x < (x << FRACBITS) ? 0 : eye_x < ((x + 1) << FRACBITS) ? 1 : 2);
@@ -641,10 +644,11 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)
     {
-        fixed_t     scale, iscale;
+        fixed_t     scale;
+        fixed_t     iscale;
         const int   screenx = ux >> FRACBITS;
-        const byte  *slab = v->data + ofs1;
-        const byte  *slabend = v->data + ofs2;
+        const byte  *slab = v->data + offsets1;
+        const byte  *slabend = v->data + offsets2;
         fixed_t     cliptop;
         fixed_t     clipbottom;
 
@@ -655,7 +659,6 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             continue;
 
         cliptop = BETWEEN(0, (mceilingclip[screenx] + 1) << FRACBITS, (viewheight << FRACBITS));
-
         clipbottom = BETWEEN(-1, (mfloorclip[screenx] << FRACBITS) - 1, (viewheight << FRACBITS) - 1);
 
         if (cliptop > clipbottom)
@@ -673,9 +676,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
         if (vv->liquidclip)
         {
-            const fixed_t   liquidclip = centeryfrac - FixedMul(vv->liquidclipz - viewz, scale) - 1;
-
-            clipbottom = MIN(clipbottom, liquidclip);
+            clipbottom = MIN(clipbottom, centeryfrac - FixedMul(vv->liquidclipz - viewz, scale) - 1);
 
             if (cliptop > clipbottom)
                 continue;
@@ -760,9 +761,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             if (side)
                 for (fixed_t uy = ((uy1 - 1) | FRACMASK) + 1; uy <= uy2; uy += FRACUNIT)
                 {
-                    int source = (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS);
+                    int source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
+                            len - 1);
 
-                    source = BETWEEN(0, source, len - 1);
                     dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] = VX_LitColor(spr, slab[source]);
                 }
 
