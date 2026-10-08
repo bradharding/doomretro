@@ -34,6 +34,7 @@
 */
 
 #include <ctype.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,6 +64,8 @@ static visvoxel_t      *visvoxels;
 static int             numvisvoxels;
 static int             maxvisvoxels;
 static fixed_t         eye_x, eye_y;
+static uint32_t        *shadowstamps;
+static uint32_t        shadowstamp;
 
 static fixed_t VX_ProjectScreenX(fixed_t x, fixed_t scale)
 {
@@ -527,6 +530,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->c = c;
     vv->s = s;
     vv->liquidclip = false;
+    vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4);
 
     vis = R_NewVisSprite();
     memset(vis, 0, sizeof(*vis));
@@ -809,6 +813,205 @@ static void VX_RecursiveDraw(const vissprite_t *spr, int x, int y, int width, in
     }
 }
 
+static int VX_ClipNear(const vxpoint_t *in, vxpoint_t *out)
+{
+    int n = 0;
+
+    for (int i = 0; i < 4; i++)
+    {
+        const vxpoint_t a = in[i];
+        const vxpoint_t b = in[(i + 1) & 3];
+        const bool      ain = (a.y >= VX_MINZ);
+        const bool      bin = (b.y >= VX_MINZ);
+
+        if (ain)
+            out[n++] = a;
+
+        if (ain != bin)
+        {
+            const int64_t   t = ((int64_t)(VX_MINZ - a.y) << FRACBITS) / (b.y - a.y);
+
+            out[n].x = a.x + (fixed_t)(((int64_t)(b.x - a.x) * t) >> FRACBITS);
+            out[n].y = VX_MINZ;
+            n++;
+        }
+    }
+
+    return n;
+}
+
+// Projects each column of voxels straight down onto the floor beneath it, so
+// the shadow of a voxel hanging over a ledge is split across different heights.
+static void VX_DrawShadow(const vissprite_t *spr)
+{
+    const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
+    const voxel_t       *v = vv->model;
+    const mobj_t        *mobj = spr->mobj;
+    byte                *dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
+    const byte          black = spr->colormap[nearestblack];
+    const byte          *tint = NULL;
+
+    if (r_shadows_translucency)
+    {
+        if (mobj->flags & MF_FUZZ)
+            tint = &tinttab15[black << 8];
+        else if (spr->fullbright)
+            tint = &tinttab25[black << 8];
+        else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
+            tint = &tinttab25[black << 8];
+        else
+            tint = &tinttab40[black << 8];
+    }
+
+    if (!shadowstamps)
+        shadowstamps = I_Calloc(MAXSCREENAREA, sizeof(*shadowstamps));
+
+    if (!(++shadowstamp))
+    {
+        memset(shadowstamps, 0, MAXSCREENAREA * sizeof(*shadowstamps));
+        shadowstamp = 1;
+    }
+
+    for (int x = 0; x < v->x_size; x++)
+        for (int y = 0; y < v->y_size; y++)
+        {
+            const int       offset1 = v->offsets[y * v->x_size + x];
+            const int       offset2 = v->offsets[(y + 1) * v->x_size + x];
+            const byte      *slab = v->data + offset1;
+            const byte      *slabend = v->data + offset2;
+            int             bottom = 0;
+            int             top = INT_MAX;
+            fixed_t         px[4], py[4];
+            fixed_t         cx, cy, wx, wy;
+            fixed_t         floorz, relz;
+            const sector_t  *sector;
+            vxpoint_t       quad[4], clipped[8];
+            int64_t         sx[8], sy[8];
+            int64_t         minx = INT64_MAX, maxx = INT64_MIN;
+            int             n;
+
+            if (offset1 >= offset2)
+                continue;
+
+            while (slab + 3 <= slabend)
+            {
+                const int   len = slab[1];
+
+                if (!len || slab + 3 + len > slabend)
+                    break;
+
+                bottom = MAX(bottom, slab[0] + len);
+                top = MIN(top, slab[0]);
+                slab += 3 + len;
+            }
+
+            if (top == INT_MAX || (vv->liquidclip && spr->gzt - (top << FRACBITS) <= vv->liquidclipz))
+                continue;
+
+            px[0] = vv->tl_x + x * vv->c + y * vv->s;
+            py[0] = vv->tl_y + x * vv->s - y * vv->c;
+            px[1] = px[0] + vv->s;
+            py[1] = py[0] - vv->c;
+            px[2] = px[1] + vv->c;
+            py[2] = py[1] + vv->s;
+            px[3] = px[0] + vv->c;
+            py[3] = py[0] + vv->s;
+
+            cx = px[0] + ((vv->s + vv->c) >> 1);
+            cy = py[0] + ((vv->s - vv->c) >> 1);
+            wx = viewx + FixedMul(cx, viewsin) + FixedMul(cy, viewcos);
+            wy = viewy - FixedMul(cx, viewcos) + FixedMul(cy, viewsin);
+            sector = R_PointInSubsector(wx, wy)->sector;
+            floorz = (sector->heightsec ? sector->heightsec->interpfloorheight : sector->interpfloorheight);
+
+            if (vv->liquidclip && sector == mobj->subsector->sector)
+                floorz = vv->liquidclipz;
+
+            if ((relz = floorz - viewz) >= 0 || floorz > spr->gzt - (bottom << FRACBITS) + 8 * FRACUNIT)
+                continue;
+
+            for (int i = 0; i < 4; i++)
+            {
+                quad[i].x = px[i];
+                quad[i].y = py[i];
+            }
+
+            if ((n = VX_ClipNear(quad, clipped)) < 3)
+                continue;
+
+            for (int i = 0; i < n; i++)
+            {
+                const fixed_t   scale = FixedDiv(projection, clipped[i].y);
+
+                sx[i] = VX_ProjectScreenX(clipped[i].x, scale);
+                sy[i] = VX_ProjectScreenY(relz, scale);
+                minx = MIN64(minx, sx[i]);
+                maxx = MAX64(maxx, sx[i]);
+            }
+
+            for (int screenx = MAX(spr->x1, (int)((minx + FRACMASK) >> FRACBITS));
+                screenx <= MIN(spr->x2, (int)(maxx >> FRACBITS)); screenx++)
+            {
+                const int64_t   ux = (int64_t)screenx << FRACBITS;
+                int64_t         lo = INT64_MAX;
+                int64_t         hi = INT64_MIN;
+                int             yl;
+                int             yh;
+
+                for (int i = 0; i < n; i++)
+                {
+                    const int   j = (i + 1) % n;
+                    int64_t     x0 = sx[i], y0 = sy[i];
+                    int64_t     x1 = sx[j], y1 = sy[j];
+
+                    if (x0 > x1)
+                    {
+                        int64_t temp = x0;
+
+                        x0 = x1;
+                        x1 = temp;
+                        temp = y0;
+                        y0 = y1;
+                        y1 = temp;
+                    }
+
+                    if (ux < x0 || ux > x1)
+                        continue;
+
+                    if (x0 == x1)
+                    {
+                        lo = MIN64(lo, MIN64(y0, y1));
+                        hi = MAX64(hi, MAX64(y0, y1));
+                    }
+                    else
+                    {
+                        int64_t uy = y0 + (y1 - y0) * (ux - x0) / (x1 - x0);
+
+                        lo = MIN64(lo, uy);
+                        hi = MAX64(hi, uy);
+                    }
+                }
+
+                if (lo > hi)
+                    continue;
+
+                yl = (int)MAX64(MAX(0, mceilingclip[screenx] + 1), (lo + FRACMASK) >> FRACBITS);
+                yh = (int)MIN64(MIN(viewheight - 1, mfloorclip[screenx] - 1), hi >> FRACBITS);
+
+                for (int row = yl; row <= yh; row++)
+                {
+                    const int   pixel = row * SCREENWIDTH + screenx;
+
+                    if (shadowstamps[pixel] != shadowstamp)
+                    {
+                        shadowstamps[pixel] = shadowstamp;
+                        dest[pixel] = (tint ? tint[dest[pixel]] : black);
+                    }
+                }
+            }
+        }
+}
+
 void VX_DrawVoxel(const vissprite_t *spr)
 {
     const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
@@ -824,6 +1027,9 @@ void VX_DrawVoxel(const vissprite_t *spr)
     // slabs and must not inherit an index left by another object.
     if (spr->mobj->flags & MF_FUZZ)
         fuzz1pos = 0;
+
+    if (vv->shadow)
+        VX_DrawShadow(spr);
 
     eye_x = v->x_pivot + FixedMul(dx, c) + FixedMul(dy, s);
     eye_y = v->y_pivot + FixedMul(dx, s) - FixedMul(dy, c);

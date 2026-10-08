@@ -74,6 +74,7 @@ typedef struct
     fixed_t c, s;
     fixed_t liquidclipz;
     bool    liquidclip;
+    bool    shadow;
 } visvoxel_t;
 
 typedef struct
