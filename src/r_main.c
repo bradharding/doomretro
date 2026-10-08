@@ -544,6 +544,32 @@ void (*altspanfunc64)(void);
 void (*bloodcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
 
+static void         (*tintfuncs[16])(void);
+static const byte   *tinttabs[16];
+static int          numtints;
+
+static void R_AddColumnTint(void (*func)(void), const byte *tint)
+{
+    if (!r_sprites_translucency || func == basecolfunc || numtints >= (int)arrlen(tintfuncs))
+        return;
+
+    for (int i = 0; i < numtints; i++)
+        if (tintfuncs[i] == func)
+            return;
+
+    tintfuncs[numtints] = func;
+    tinttabs[numtints++] = (func == &R_DrawTranslucent50SolidColorColumn ? tranmap : tint);
+}
+
+const byte *R_GetColumnTint(void (*func)(void))
+{
+    for (int i = 0; i < numtints; i++)
+        if (tintfuncs[i] == func)
+            return tinttabs[i];
+
+    return NULL;
+}
+
 void R_UpdateMobjColfunc(mobj_t *mobj)
 {
     const int   flags = mobj->flags;
@@ -939,6 +965,21 @@ void R_InitColumnFunctions(void)
         altbmapspanfunc64 = &R_DrawSolidColorSpan;
         altspanfunc64 = &R_DrawSolidColorSpan;
     }
+
+    numtints = 0;
+    R_AddColumnTint(tlcolfunc, tinttabadditive);
+    R_AddColumnTint(tl50colfunc, tranmap);
+    R_AddColumnTint(tl33colfunc, tinttab33);
+    R_AddColumnTint(tlgreencolfunc, tinttabgreen);
+    R_AddColumnTint(tlredcolfunc, tinttabred);
+    R_AddColumnTint(tlredwhitecolfunc1, tinttabredwhite1);
+    R_AddColumnTint(tlredwhitecolfunc2, tinttabredwhite2);
+    R_AddColumnTint(tlredwhite50colfunc, tinttabredwhite50);
+    R_AddColumnTint(tlbluecolfunc, tinttabblue);
+    R_AddColumnTint(tlgreen33colfunc, tinttabgreen33);
+    R_AddColumnTint(tlred33colfunc, tinttabred33);
+    R_AddColumnTint(tlblue25colfunc, tinttabblue25);
+    R_AddColumnTint(bloodcolfunc, tinttab33);
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)
     {

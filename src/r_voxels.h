@@ -54,27 +54,29 @@ enum
 
 typedef struct
 {
-    int     x_size, y_size, z_size;
-    fixed_t x_pivot, y_pivot, z_pivot;
-    int     *offsets;
-    byte    *data;
+    int         xsize, ysize, zsize;
+    fixed_t     xpivot, ypivot, zpivot;
+    int         *offsets;
+    byte        *data;
 } voxel_t;
 
 typedef struct
 {
-    voxel_t *model;
-    angle_t angle_offset;
+    voxel_t     *model;
+    angle_t     angleoffset;
 } voxelbinding_t;
 
 typedef struct
 {
-    voxel_t *model;
-    angle_t angle;
-    fixed_t tl_x, tl_y;
-    fixed_t c, s;
-    fixed_t liquidclipz;
-    bool    liquidclip;
-    bool    shadow;
+    voxel_t     *model;
+    angle_t     angle;
+    fixed_t     tlx, tly;
+    fixed_t     c;
+    fixed_t     s;
+    fixed_t     liquidclipz;
+    bool        liquidclip;
+    bool        shadow;
+    const byte  *tint;
 } visvoxel_t;
 
 typedef struct

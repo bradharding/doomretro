@@ -137,6 +137,8 @@ extern void (*altspanfunc64)(void);
 extern void (*bloodcolfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
 
+const byte *R_GetColumnTint(void (*func)(void));
+
 //
 // Utility functions.
 //
