@@ -431,7 +431,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     int             index;
     visvoxel_t      *vv;
     vissprite_t     *vis;
-    angle_t         relative;
+    fixed_t         relative;
     fixed_t         tlx, tly;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
@@ -456,28 +456,12 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
 
-    // Voxels are real 3D objects, so their orientation normally remains fixed
-    // in the world. Voxel Doom's four spheres are the exception: their models
-    // have a deliberately presented face and look wrong edge-on, so aim that
-    // face at the viewer without making ordinary pickups rotate in place.
-    switch (spr)
-    {
-        case SPR_PINV:
-        case SPR_PINS:
-        case SPR_SOUL:
-        case SPR_MEGA:
-            angle = R_PointToAngle(gx, gy) + ANG180 + binding->angle_offset;
-            break;
+    angle = (((thing->flags & MF_SPECIAL) ? R_PointToAngle(gx, gy) + ANG180 : thing->angle)
+        + binding->angle_offset);
+    relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
 
-        default:
-            angle = thing->angle + binding->angle_offset;
-            break;
-    }
-
-    relative = ANG180 - viewangle + angle;
-
-    c = finecosine[relative >> ANGLETOFINESHIFT];
-    s = finesine[relative >> ANGLETOFINESHIFT];
+    c = finecosine[relative];
+    s = finesine[relative];
 
     tlx = tx - FixedMul(v->x_pivot, c) - FixedMul(v->y_pivot, s);
     tly = ty - FixedMul(v->x_pivot, s) + FixedMul(v->y_pivot, c);
