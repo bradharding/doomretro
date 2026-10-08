@@ -735,6 +735,12 @@ bool W_AutoloadFile(const char *filename, const char *folder, const bool noexpan
                 if ((result = W_MergeFile(temp, true)))
                     D_CheckSupportedPWAD(temp);
             }
+            else if (M_StringEndsWith(FindFileData.cFileName, ".pk3")
+                || M_StringEndsWith(FindFileData.cFileName, ".zip"))
+            {
+                W_AddPK3(temp, true);
+                result = true;
+            }
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
             {
