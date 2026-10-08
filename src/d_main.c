@@ -1853,7 +1853,7 @@ static int D_OpenWADLauncher(void)
                         if (legacyofrust)
                             D_AutoloadExtrasWAD();
 
-                        if (IWADRequiredByPWAD(file) != none)
+                        if (PWADHasMaps(file) && IWADRequiredByPWAD(file) != none)
                             D_SetString(&pwadfile, leafname(file));
 
                         LoadCfgFile(file);
@@ -1861,7 +1861,7 @@ static int D_OpenWADLauncher(void)
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(file))
                             LoadDEHFile(file, true);
 
-                        if (W_GetNumLumps("M_DOOM") == 2 && !BTSX)
+                        if (W_GetNumLumps("M_DOOM") == 2 && !BTSX && !PWADHasMaps(file))
                         {
                             if (D_IsDOOM1IWAD(fullpath) && W_GetNumLumps("E1M1") == 1)
                             {
@@ -1904,7 +1904,7 @@ static int D_OpenWADLauncher(void)
                             if (legacyofrust)
                                 D_AutoloadExtrasWAD();
 
-                            if (IWADRequiredByPWAD(file) != none)
+                            if (PWADHasMaps(file) && IWADRequiredByPWAD(file) != none)
                                 D_SetString(&pwadfile, leafname(file));
 
                             LoadCfgFile(file);
@@ -1912,7 +1912,7 @@ static int D_OpenWADLauncher(void)
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(file))
                                 LoadDEHFile(file, true);
 
-                            if (W_GetNumLumps("M_DOOM") == 2)
+                            if (W_GetNumLumps("M_DOOM") == 2 && !PWADHasMaps(file))
                             {
                                 if (D_IsDOOM1IWAD(fullpath) && W_GetNumLumps("E1M1") == 1)
                                 {
@@ -1997,6 +1997,7 @@ static int D_OpenWADLauncher(void)
         {
             // more than one file was selected
             bool    isDOOM2 = false;
+            bool    isUltimateDOOM = false;
             bool    sharewareiwad = false;
 
 #if defined(_WIN32)
@@ -2036,6 +2037,7 @@ static int D_OpenWADLauncher(void)
                         iwadfound = 1;
                         sharewareiwad = M_StringCompare(iwadpass1, "DOOM1.WAD");
                         isDOOM2 = D_IsDOOM2IWAD(iwadpass1);
+                        isUltimateDOOM = (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath));
 
 #if defined(_WIN32)
                         AddToWadList(leafname(fullpath));
@@ -2081,6 +2083,7 @@ static int D_OpenWADLauncher(void)
                             iwadfound = 1;
                             sharewareiwad = M_StringCompare(iwadpass2, "DOOM1.WAD");
                             isDOOM2 = D_IsDOOM2IWAD(iwadpass2);
+                            isUltimateDOOM = (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath));
 
 #if defined(_WIN32)
                             AddToWadList(leafname(fullpath));
@@ -2238,10 +2241,12 @@ static int D_OpenWADLauncher(void)
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex") && !D_IsDEHFile(fullpath))
                                     LoadDEHFile(fullpath, true);
 
-                                if (IWADRequiredByPWAD(fullpath) != none)
+                                if (PWADHasMaps(fullpath))
                                 {
                                     mapspresent = true;
-                                    D_SetString(&pwadfile, leafname(fullpath));
+
+                                    if (IWADRequiredByPWAD(fullpath) != none)
+                                        D_SetString(&pwadfile, leafname(fullpath));
                                 }
                             }
                         }
@@ -2251,12 +2256,18 @@ static int D_OpenWADLauncher(void)
 #endif
                     }
 
-                    // try to autoload NERVE.WAD if DOOM2.WAD is the IWAD and none of the PWADs
-                    // have maps present
-                    if (isDOOM2 && !mapspresent)
+                    if (!mapspresent)
                     {
-                        D_AutoloadNerveWAD();
-                        D_AutoloadMasterLevelsWAD();
+                        if (isUltimateDOOM)
+                        {
+                            D_AutoloadSIGILWAD();
+                            D_AutoloadSIGIL2WAD();
+                        }
+                        else if (isDOOM2)
+                        {
+                            D_AutoloadNerveWAD();
+                            D_AutoloadMasterLevelsWAD();
+                        }
                     }
 
 #if defined(_WIN32)

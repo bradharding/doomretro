@@ -136,5 +136,6 @@ void W_CloseFiles(void);
 
 bool W_NoPWADsLoaded(void);
 
+bool PWADHasMaps(char *pwadname);
 gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);
