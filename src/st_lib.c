@@ -176,7 +176,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     {
         int offset = 0;
 
-        num = viewplayer->negativehealth + healthdiff;
+        num = BETWEEN(-99, viewplayer->negativehealth + healthdiff, 999);
 
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             offset++;
@@ -195,7 +195,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         return;
     }
 
-    if (!(num = MAX(0, *n->num + healthdiff)))
+    if (!(num = BETWEEN(0, *n->num + healthdiff, 999)))
         V_DrawPatch(x - width, y, 0, n->p[0]);
     else
     {

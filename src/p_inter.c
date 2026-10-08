@@ -2362,7 +2362,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
 
         if (tplayer->mo == target)
-            tplayer->attacker = source;
+            P_SetTarget(&tplayer->attacker, source);
 
         if (tplayer->health <= 0)
         {
