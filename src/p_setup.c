@@ -1852,7 +1852,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
                 lines[i].v2 = lines[i].v2 - vertexes + newvertarray;
             }
 
-            free(vertexes);
+            Z_Free(vertexes);
             vertexes = newvertarray;
             numvertexes = orgVerts + newVerts;
         }
