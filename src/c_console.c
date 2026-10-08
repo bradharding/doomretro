@@ -1140,16 +1140,18 @@ static void C_DrawScrollbar(void)
     scrollbarfaceheight = faceheight;
 
     if (dragconsolescrollbaractive && scrollrange > 0)
-        scrollbarfacestart = (int)((int64_t)facetravel * dragconsolescrolltargetposition
-            / ((int64_t)scrollrange * CONSOLELINEHEIGHT));
+    {
+        const int64_t   dragmaxposition = (int64_t)scrollrange * CONSOLELINEHEIGHT;
+
+        scrollbarfacestart = (int)(facetravel * dragconsolescrolltargetposition / dragmaxposition);
+    }
     else
     {
         const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
-        const int   position = (outputhistory == -1 ? maxposition :
-                        MAX(0, C_GetCurrentTopRow() + CONSOLELINES - scrollbarrows + (numvisibleconsolerows > 0))
-                        * CONSOLELINEHEIGHT);
+        const int   position = (outputhistory == -1 ? maxposition : MAX(0, C_GetCurrentTopRow() + CONSOLELINES
+                        - scrollbarrows + (numvisibleconsolerows > 0)) * CONSOLELINEHEIGHT);
 
-        scrollbarfacestart = (scrollrange > 0 ? (int)((int64_t)facetravel
+        scrollbarfacestart = (maxposition > 0 ? (int)((int64_t)facetravel
             * BETWEEN(0, position - scrolloffset, maxposition) / maxposition) : 0);
     }
 
@@ -2863,11 +2865,6 @@ void C_Drawer(void)
     const bool      prevconsoleactive = consoleactive;
     static int      consoleanimdirection;
     static int      prevconsolelines;
-    static int      consoleanimtarget;
-    static int      consoleanimstartheight;
-    static int      consoleanimlastheight;
-    static int      consoleanimduration;
-    static uint64_t consoleanimstarttime;
     const uint64_t  tics = I_GetTimeMS();
     const int       notabs[MAXTABS] = { 0 };
     unsigned char   prevletter = '\0';
@@ -3008,10 +3005,16 @@ void C_Drawer(void)
         consoleanimdirection = 0;
     else
     {
-        const int   target = (consoledirection == 1 ? (consoleshrinktohalf ? CONSOLEHALFHEIGHT : CONSOLEHEIGHT) : 0);
-        float       elapsed;
-        float       progress;
-        float       eased;
+        static int      consoleanimtarget;
+        static int      consoleanimstartheight;
+        static int      consoleanimlastheight;
+        static int      consoleanimduration;
+        static uint64_t consoleanimstarttime;
+        const int       target = (consoledirection == 1 ?
+                            (consoleshrinktohalf ? CONSOLEHALFHEIGHT : CONSOLEHEIGHT) : 0);
+        float           elapsed;
+        float           progress;
+        float           eased;
 
         if (consoledirection != consoleanimdirection || target != consoleanimtarget
             || consoleheight != consoleanimlastheight)
@@ -4445,7 +4448,6 @@ bool C_Responder(event_t *ev)
                     const int   totalrows = MAX(1, numvisibleconsolerows + (numvisibleconsolerows > 0));
                     const int   visiblerows = MIN(C_GetScrollbarRows(), totalrows);
                     const int   scrollrange = MAX(0, totalrows - visiblerows);
-                    const int   facetravel = MAX(0, scrollbartrackheight - scrollbarfaceheight);
                     const int   maxposition = scrollrange * CONSOLELINEHEIGHT;
                     const int   startposition = BETWEEN(0, (C_GetCurrentTopRow() + 1) * CONSOLELINEHEIGHT - scrolloffset,
                                     maxposition);

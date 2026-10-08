@@ -172,7 +172,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     const int   y = n->y;
     const int   width = LITTLESHORT(n->p[0]->width);
 
-    if (negativehealth && minuspatch && viewplayer->negativehealth < 0)
+    if (viewplayer->negativehealth < 0 && negativehealth && minuspatch)
     {
         int offset = 0;
 
