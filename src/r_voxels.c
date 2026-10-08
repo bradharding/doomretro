@@ -693,7 +693,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             fixed_t         uy1 = VX_ProjectScreenY(topz, scale);
             fixed_t         uy2 = VX_ProjectScreenY(topz - (len << FRACBITS), scale);
             const fixed_t   originaluy1 = uy1;
-            const bool      side = !!(face & (ux > bx ? bface : aface));
+            const fixed_t   originaluy2 = uy2;
+            const bool      side = (!!(face & (ux > bx ? bface : aface))
+                                && originaluy2 >= cliptop && originaluy1 <= clipbottom);
             fixed_t         widescale = 0;
 
             if (!len || slab + len > slabend)
