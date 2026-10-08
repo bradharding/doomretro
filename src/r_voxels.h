@@ -82,6 +82,12 @@ typedef struct
     fixed_t x, y;
 } vxpoint_t;
 
+typedef struct
+{
+    fixed_t depth;
+    int     owner;
+} voxeldepth_t;
+
 void VX_Init(void);
 void VX_ClearVoxels(void);
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz);

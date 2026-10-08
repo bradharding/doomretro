@@ -1823,7 +1823,7 @@ static void R_ProjectSprite(mobj_t *thing)
         FixedMul(LIQUIDROCKFACTOR(animatedliquiddiffs[((thing->floatbob + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))]),
             BETWEEN(FRACUNIT / 2, FixedDiv(height, MAX(width, FRACUNIT)), FRACUNIT * 2)) : 0);
 
-    vis->voxel_index = -1;
+    vis->voxelindex = -1;
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && height >= 4 * FRACUNIT)

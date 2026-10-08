@@ -59,13 +59,16 @@
 #include "w_wad.h"
 
 static voxelbinding_t  **bindings;
-static voxel_t         **models_by_lump;
+static voxel_t         **modelsbylump;
 static visvoxel_t      *visvoxels;
 static int             numvisvoxels;
 static int             maxvisvoxels;
-static fixed_t         eye_x, eye_y;
+static fixed_t         eyex, eyey;
 static uint32_t        *shadowstamps;
 static uint32_t        shadowstamp;
+
+static voxeldepth_t    *voxeldepth;
+static bool            voxeldepthcleared;
 
 static fixed_t VX_ProjectScreenX(fixed_t x, fixed_t scale)
 {
@@ -100,6 +103,18 @@ static byte VX_LitColor(const vissprite_t *spr, byte color, const byte *dither, 
     return spr->sectorcolormap[(dither && dither[R_GetDitherRow(row)] ? spr->nextcolormap : spr->colormap)[color]];
 }
 
+static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner)
+{
+    voxeldepth_t    *d = &voxeldepth[pixel];
+
+    if (d->owner && d->owner != owner && d->depth > depth)
+        return false;
+
+    d->depth = depth;
+    d->owner = owner;
+    return true;
+}
+
 static uint32_t VX_ReadU32(const byte *p)
 {
     return ((uint32_t)p[0] | (uint32_t)p[1] << 8 | (uint32_t)p[2] << 16 | (uint32_t)p[3] << 24);
@@ -107,8 +122,6 @@ static uint32_t VX_ReadU32(const byte *p)
 
 static fixed_t VX_ReadPivot(const byte *p)
 {
-    // KVX stores signed pivots as 8.8 fixed point. Convert them to the
-    // engine's 16.16 fixed-point coordinates before projecting the model.
     return (fixed_t)((int64_t)(int32_t)VX_ReadU32(p) * (FRACUNIT >> 8));
 }
 
@@ -219,15 +232,15 @@ static voxel_t *VX_ModelForName(const char *name)
     if (lump < 0)
         return NULL;
 
-    if (!models_by_lump[lump])
+    if (!modelsbylump[lump])
     {
         const byte  *data = W_CacheLumpNum(lump);
 
-        models_by_lump[lump] = VX_Decode(data, W_LumpLength(lump));
+        modelsbylump[lump] = VX_Decode(data, W_LumpLength(lump));
         W_ReleaseLumpNum(lump);
     }
 
-    return models_by_lump[lump];
+    return modelsbylump[lump];
 }
 
 static int VX_FindSprite(const char *name)
@@ -380,7 +393,7 @@ static void VX_ParseVoxelDef(const byte *data, int length)
 void VX_Init(void)
 {
     bindings = I_Malloc(numsprites * sizeof(*bindings));
-    models_by_lump = I_Calloc(numlumps, sizeof(*models_by_lump));
+    modelsbylump = I_Calloc(numlumps, sizeof(*modelsbylump));
 
     for (int spr = 0; spr < numsprites; spr++)
     {
@@ -407,6 +420,7 @@ void VX_Init(void)
 void VX_ClearVoxels(void)
 {
     numvisvoxels = 0;
+    voxeldepthcleared = false;
 }
 
 static int VX_NewVisVoxel(void)
@@ -517,7 +531,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     vis = R_NewVisSprite();
     memset(vis, 0, sizeof(*vis));
-    vis->voxel_index = index;
+    vis->voxelindex = index;
     vis->drawfunc = VX_DrawVoxel;
     vis->mobj = thing;
     vis->heightsec = thing->subsector->sector->heightsec;
@@ -565,10 +579,11 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
 static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 {
-    const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
+    const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
     const voxel_t       *v = vv->model;
     const int           offsets1 = v->offsets[y * v->x_size + x];
     const int           offsets2 = v->offsets[(y + 1) * v->x_size + x];
+    const int           owner = spr->voxelindex + 1;
     int                 qux, quy;
     int                 quadrant;
     int                 idx;
@@ -592,8 +607,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     if (offsets1 >= offsets2)
         return;
 
-    qux = (eye_x < (x << FRACBITS) ? 0 : eye_x < ((x + 1) << FRACBITS) ? 1 : 2);
-    quy = (eye_y < (y << FRACBITS) ? 0 : eye_y < ((y + 1) << FRACBITS) ? 1 : 2);
+    qux = (eyex < (x << FRACBITS) ? 0 : eyex < ((x + 1) << FRACBITS) ? 1 : 2);
+    quy = (eyey < (y << FRACBITS) ? 0 : eyey < ((y + 1) << FRACBITS) ? 1 : 2);
     quadrant = quy * 3 + qux;
 
     if (quadrant == 4)
@@ -732,35 +747,45 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
             if ((face & F_TOP) && topz < 0)
             {
-                fixed_t     uy = VX_ProjectScreenY(topz, widescale);
-
                 // Start on an exact screen row. Without this ceil operation,
                 // the fractional top-face walk can stop one row before the
                 // side-face walk starts, leaving horizontal background-colored
                 // seams between otherwise adjacent voxel faces.
-                uy = MAX(((uy - 1) | FRACMASK) + 1, cliptop);
+                fixed_t uy = MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop);
 
                 for (; uy < uy1; uy += FRACUNIT)
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
-                        VX_LitColor(spr, slab[0], dither, uy >> FRACBITS);
+                {
+                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    if (VX_DepthPass(pixel, widescale, owner))
+                        dest[pixel] = VX_LitColor(spr, slab[0], dither, uy >> FRACBITS);
+                }
             }
             else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
             {
                 fixed_t uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
 
                 for (; uy > uy2; uy -= FRACUNIT)
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
-                        VX_LitColor(spr, slab[len - 1], dither, uy >> FRACBITS);
+                {
+                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    if (VX_DepthPass(pixel, widescale, owner))
+                        dest[pixel] = VX_LitColor(spr, slab[len - 1], dither, uy >> FRACBITS);
+                }
             }
 
             if (side)
                 for (fixed_t uy = ((uy1 - 1) | FRACMASK) + 1; uy <= uy2; uy += FRACUNIT)
                 {
-                    int source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
-                            len - 1);
+                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
 
-                    dest[(uy >> FRACBITS) * SCREENWIDTH + screenx] =
-                        VX_LitColor(spr, slab[source], dither, uy >> FRACBITS);
+                    if (VX_DepthPass(pixel, scale, owner))
+                    {
+                        const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
+                                        len - 1);
+
+                        dest[pixel] = VX_LitColor(spr, slab[source], dither, uy >> FRACBITS);
+                    }
                 }
 
             slab += len;
@@ -781,7 +806,7 @@ static void VX_RecursiveDraw(const vissprite_t *spr, int x, int y, int width, in
         const int   left = width / 2;
         const int   right = width - left;
 
-        if (eye_x < ((x * 2 + width) << (FRACBITS - 1)))
+        if (eyex < ((x * 2 + width) << (FRACBITS - 1)))
         {
             VX_RecursiveDraw(spr, x + left, y, right, height);
             VX_RecursiveDraw(spr, x, y, left, height);
@@ -797,7 +822,7 @@ static void VX_RecursiveDraw(const vissprite_t *spr, int x, int y, int width, in
         const int   top = height / 2;
         const int   bottom = height - top;
 
-        if (eye_y < ((y * 2 + height) << (FRACBITS - 1)))
+        if (eyey < ((y * 2 + height) << (FRACBITS - 1)))
         {
             VX_RecursiveDraw(spr, x, y + top, width, bottom);
             VX_RecursiveDraw(spr, x, y, width, top);
@@ -841,7 +866,7 @@ static int VX_ClipNear(const vxpoint_t *in, vxpoint_t *out)
 // the shadow of a voxel hanging over a ledge is split across different heights.
 static void VX_DrawShadow(const vissprite_t *spr)
 {
-    const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
+    const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
     const voxel_t       *v = vv->model;
     const mobj_t        *mobj = spr->mobj;
     byte                *dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
@@ -999,7 +1024,7 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 {
                     const int   pixel = row * SCREENWIDTH + screenx;
 
-                    if (shadowstamps[pixel] != shadowstamp)
+                    if (shadowstamps[pixel] != shadowstamp && !voxeldepth[pixel].owner)
                     {
                         shadowstamps[pixel] = shadowstamp;
                         dest[pixel] = (tint ? tint[dest[pixel]] : black);
@@ -1011,7 +1036,7 @@ static void VX_DrawShadow(const vissprite_t *spr)
 
 void VX_DrawVoxel(const vissprite_t *spr)
 {
-    const visvoxel_t    *vv = &visvoxels[spr->voxel_index];
+    const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
     const voxel_t       *v = vv->model;
     const unsigned int  angle = (vv->angle + ANG90) >> ANGLETOFINESHIFT;
     const fixed_t       c = finecosine[angle];
@@ -1025,10 +1050,20 @@ void VX_DrawVoxel(const vissprite_t *spr)
     if (spr->mobj->flags & MF_FUZZ)
         fuzz1pos = 0;
 
+    if (!voxeldepthcleared)
+    {
+        if (!voxeldepth)
+            voxeldepth = I_Calloc(MAXSCREENAREA, sizeof(*voxeldepth));
+        else
+            memset(voxeldepth, 0, (size_t)viewheight * SCREENWIDTH * sizeof(*voxeldepth));
+
+        voxeldepthcleared = true;
+    }
+
     if (vv->shadow)
         VX_DrawShadow(spr);
 
-    eye_x = v->x_pivot + FixedMul(dx, c) + FixedMul(dy, s);
-    eye_y = v->y_pivot + FixedMul(dx, s) - FixedMul(dy, c);
+    eyex = v->x_pivot + FixedMul(dx, c) + FixedMul(dy, s);
+    eyey = v->y_pivot + FixedMul(dx, s) - FixedMul(dy, c);
     VX_RecursiveDraw(spr, 0, 0, v->x_size, v->y_size);
 }

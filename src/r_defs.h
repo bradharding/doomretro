@@ -1123,7 +1123,7 @@ typedef struct vissprite_s
 
     bool                flipped;
     bool                fullbright;
-    int                 voxel_index;
+    int                 voxelindex;
 } vissprite_t;
 
 typedef struct
