@@ -498,8 +498,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
 
-    angle = (((thing->flags & MF_SPECIAL) ? R_PointToAngle(gx, gy) + ANG180 : thing->angle)
-        + binding->angleoffset);
+    angle = ((thing->flags & MF_SPECIAL) ? (r_sprites_tilt ? R_PointToAngle(gx, gy) : viewangle) + ANG180 :
+        thing->angle) + binding->angleoffset;
     relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
 
     c = finecosine[relative];
