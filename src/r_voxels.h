@@ -37,6 +37,50 @@
 
 #include "doomdef.h"
 
+#define VX_MAX_FRAMES   29
+#define VX_MINZ         (4 * FRACUNIT)
+#define VX_MAX_DIST     (8192 * FRACUNIT)
+#define FRACMASK        (FRACUNIT - 1)
+
+enum
+{
+    F_LEFT   = 0x01,
+    F_RIGHT  = 0x02,
+    F_BACK   = 0x04,
+    F_FRONT  = 0x08,
+    F_TOP    = 0x10,
+    F_BOTTOM = 0x20
+};
+
+typedef struct
+{
+    int     x_size, y_size, z_size;
+    fixed_t x_pivot, y_pivot, z_pivot;
+    int     *offsets;
+    byte    *data;
+} voxel_t;
+
+typedef struct
+{
+    voxel_t *model;
+    angle_t angle_offset;
+} voxelbinding_t;
+
+typedef struct
+{
+    voxel_t *model;
+    angle_t angle;
+    fixed_t tl_x, tl_y;
+    fixed_t c, s;
+    fixed_t liquidclipz;
+    bool    liquidclip;
+} visvoxel_t;
+
+typedef struct
+{
+    fixed_t x, y;
+} vxpoint_t;
+
 void VX_Init(void);
 void VX_ClearVoxels(void);
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz);

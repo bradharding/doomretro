@@ -40,6 +40,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "i_colors.h"
 #include "i_system.h"
 #include "i_video.h"
 #include "m_config.h"
@@ -55,45 +56,6 @@
 #include "tables.h"
 #include "v_video.h"
 #include "w_wad.h"
-
-#define VX_MAX_FRAMES   29
-#define VX_MINZ         (4 * FRACUNIT)
-#define VX_MAX_DIST     (8192 * FRACUNIT)
-#define FRACMASK        (FRACUNIT - 1)
-
-enum
-{
-    F_LEFT   = 0x01,
-    F_RIGHT  = 0x02,
-    F_BACK   = 0x04,
-    F_FRONT  = 0x08,
-    F_TOP    = 0x10,
-    F_BOTTOM = 0x20
-};
-
-typedef struct
-{
-    int     x_size, y_size, z_size;
-    fixed_t x_pivot, y_pivot, z_pivot;
-    int     *offsets;
-    byte    *data;
-} voxel_t;
-
-typedef struct
-{
-    voxel_t *model;
-    angle_t angle_offset;
-} voxelbinding_t;
-
-typedef struct
-{
-    voxel_t *model;
-    angle_t angle;
-    fixed_t tl_x, tl_y;
-    fixed_t c, s;
-    fixed_t liquidclipz;
-    bool    liquidclip;
-} visvoxel_t;
 
 static voxelbinding_t  **bindings;
 static voxel_t         **models_by_lump;
@@ -122,44 +84,12 @@ static byte VX_LitColor(const vissprite_t *spr, byte color)
 {
     const int   flags = spr->mobj->flags;
 
-    // Blood mobjs inherit the wounded actor's blood color. The sprite path
-    // applies the corresponding CR* translation through bloodcolfunc; do the
-    // same for voxelized BLUD frames so cacodemon blood is blue, baron/knight
-    // blood is green, and custom blood colors continue to work automatically.
     if (spr->mobj->colfunc == bloodcolfunc && spr->mobj->bloodcolor > NOBLOOD)
         color = colortranslation[spr->mobj->bloodcolor - 1][color];
-
-    // DOOM Retro gives preplaced player corpses a random player-color
-    // translation. That works for the original sprite's exact green ramp,
-    // but a KVX model contains many nearby custom shades. Translating only
-    // the exact ramp produces the red/dark horizontal streaks seen across
-    // Voxel Doom corpses, so keep authored corpse colors intact.
-    else if ((flags & MF_TRANSLATION) && !(flags & MF_CORPSE))
+    else if (flags & MF_TRANSLATION)
         color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
 
     return spr->sectorcolormap[spr->colormap[color]];
-}
-
-static int VX_PaletteIndex(const byte *palette, int r, int g, int b)
-{
-    int best = 0;
-    int bestdist = INT32_MAX;
-
-    for (int i = 0; i < 256; i++)
-    {
-        const int   dr = r - palette[i * 3];
-        const int   dg = g - palette[i * 3 + 1];
-        const int   db = b - palette[i * 3 + 2];
-        const int   dist = dr * dr + dg * dg + db * db;
-
-        if (dist < bestdist)
-        {
-            best = i;
-            bestdist = dist;
-        }
-    }
-
-    return best;
 }
 
 static uint32_t VX_ReadU32(const byte *p)
@@ -178,7 +108,7 @@ static voxel_t *VX_Decode(const byte *source, int length)
 {
     const byte  *p = source;
     const byte  *end = source + length;
-    const byte  *playpal;
+    byte        *playpal;
     voxel_t     *v;
     int         xoffsets[257];
     int         minoffset = INT32_MAX;
@@ -239,8 +169,8 @@ static voxel_t *VX_Decode(const byte *source, int length)
     playpal = W_CacheLumpName("PLAYPAL");
 
     for (int i = 0; i < 256; i++)
-        remap[i] = VX_PaletteIndex(playpal, source[length - 768 + i * 3] << 2,
-            source[length - 767 + i * 3] << 2, source[length - 766 + i * 3] << 2);
+        remap[i] = I_GetNearestColor(playpal, (source[length - 768 + i * 3] << 2),
+            (source[length - 767 + i * 3] << 2), (source[length - 766 + i * 3] << 2));
 
     for (int x = 0; x < v->x_size; x++)
         for (int y = 0; y < v->y_size; y++)
@@ -458,7 +388,7 @@ void VX_Init(void)
             if (!sprnames[spr])
                 continue;
 
-            snprintf(name, sizeof(name), "%.4s%c", sprnames[spr], framechar);
+            M_snprintf(name, sizeof(name), "%.4s%c", sprnames[spr], framechar);
             bindings[spr][frame].model = VX_ModelForName(name);
         }
     }
@@ -470,9 +400,6 @@ void VX_Init(void)
     for (int spr = 0; spr < numsprites; spr++)
         for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
             found += !!bindings[spr][frame].model;
-
-    if (found)
-        C_Output("%i voxel model mapping%s initialized.", found, (found == 1 ? "" : "s"));
 }
 
 void VX_ClearVoxels(void)
@@ -493,9 +420,6 @@ static int VX_NewVisVoxel(void)
 
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 {
-    if (!r_voxels)
-        return false;
-
     const int       spr = thing->sprite;
     const int       frame = thing->frame & FF_FRAMEMASK;
     voxelbinding_t  *binding;
