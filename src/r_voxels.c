@@ -85,12 +85,17 @@ static fixed_t VX_ProjectScreenY(fixed_t z, fixed_t scale)
 
 static byte VX_LitColor(const vissprite_t *spr, byte color)
 {
-    const int   flags = spr->mobj->flags;
-
-    if (spr->mobj->colfunc == bloodcolfunc && spr->mobj->bloodcolor > NOBLOOD)
+    if (!r_textures)
+        color = nearestwhite;
+    else if (spr->mobj->colfunc == bloodcolfunc)
         color = colortranslation[spr->mobj->bloodcolor - 1][color];
-    else if (flags & MF_TRANSLATION)
-        color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
+    else
+    {
+        const int   flags = spr->mobj->flags;
+
+        if (flags & MF_TRANSLATION)
+            color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
+    }
 
     return spr->sectorcolormap[spr->colormap[color]];
 }
