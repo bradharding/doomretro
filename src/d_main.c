@@ -2341,6 +2341,11 @@ static int D_OpenWADLauncher(void)
                         dehpass = &dehpass[strlen(dehpass) + 1];
 #endif
                     }
+
+                    if (BTSX)
+                        D_AutoloadOtherBTSXWAD();
+                    else if (KDIKDIZD)
+                        D_AutoloadOtherKDIKDIZDWAD();
                 }
             }
             else
