@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include "c_console.h"
+#include "d_loop.h"
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_system.h"
@@ -487,6 +488,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vissprite_t     *vis;
     fixed_t         relative;
     fixed_t         tlx, tly;
+    bool            spin;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
         return false;
@@ -499,6 +501,9 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     dx = gx - viewx;
     dy = gy - viewy;
 
+    if ((spin = (r_voxels_spinpickups && (thing->flags & MF_SPECIAL) && !(thing->flags2 & MF2_FLOATBOB))))
+        gz += VX_HOVER;
+
     if (ABS(dx) > VX_MAX_DIST || ABS(dy) > VX_MAX_DIST)
         return true;
 
@@ -510,7 +515,17 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
 
-    if (!(thing->flags & MF_SPECIAL))
+    if (spin)
+    {
+        const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
+                            + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
+
+        angle = thing->angle + binding->angleoffset + thing->info->voxelangle
+            - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
+                / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
+        relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
+    }
+    else if (!(thing->flags & MF_SPECIAL))
     {
         angle = thing->angle + binding->angleoffset + thing->info->voxelangle;
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
@@ -594,7 +609,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     // Match DOOM Retro's sprite foot clipping in liquid sectors. Sink the
     // model slightly, then clip it against the animated liquid surface.
     if ((thing->flags2 & MF2_FEETARECLIPPED) && !thing->subsector->sector->heightsec
-        && r_liquid_clipsprites && v->zsize >= 4)
+        && r_liquid_clipsprites && v->zsize >= 4 && !spin)
     {
         vis->gzt -= (MIN(v->zsize / 4, 10) << FRACBITS);
         vv->liquidclip = true;

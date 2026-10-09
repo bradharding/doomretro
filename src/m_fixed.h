@@ -50,6 +50,7 @@
 //
 #define FRACBITS        16
 #define FRACUNIT        (1 << FRACBITS)
+#define FRACMASK        (FRACUNIT - 1)
 #define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX

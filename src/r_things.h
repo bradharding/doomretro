@@ -55,6 +55,7 @@ extern int      numbloodsplatlumps;
 extern bool     allowwolfensteinss;
 
 extern int      liquidrocktic;
+extern bool     interpolatesprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
 lighttable_t *R_GetSectorColormap(sector_t *sector);

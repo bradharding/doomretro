@@ -40,7 +40,8 @@
 #define VX_MAX_FRAMES   29
 #define VX_MINZ         (4 * FRACUNIT)
 #define VX_MAX_DIST     (8192 * FRACUNIT)
-#define FRACMASK        (FRACUNIT - 1)
+#define VX_SPIN_TICS    140
+#define VX_HOVER        (6 * FRACUNIT)
 
 enum
 {

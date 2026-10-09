@@ -120,7 +120,7 @@ static spriteframe_t            sprtemp[MAXSPRITEFRAMES];
 static int                      maxframe;
 
 static bool                     drawshadows;
-static bool                     interpolatesprites;
+bool                            interpolatesprites;
 
 int                             liquidrocktic = -1;
 

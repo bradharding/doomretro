@@ -120,7 +120,6 @@ static byte priorities[256 * 256];
 #define ARROWPATHANCHOR         -57275
 
 #define BLOODSPLATWIDTH         (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
-#define FRACMASK                (FRACUNIT - 1)
 
 #define MINBREADCRUMBDISTANCE   (FRACUNIT * 4)
 

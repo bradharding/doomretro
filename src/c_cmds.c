@@ -1110,6 +1110,8 @@ consolecmd_t consolecmds[] =
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
     BOOLCVAR(r_voxels, "", "", boolfunc1, boolfunc2, 0,
         "Toggles rendering sprites using voxels (if available)."),
+    BOOLCVAR(r_voxels_spinpickups, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles spinning and hovering pickups when rendered as voxels."),
     CCMD(readme, "", "", nullfunc1, readmefunc2, false, "",
         "Shows the accompanying readme file for the currently loaded PWAD."),
     CCMD(regenhealth, "", "", ingameccmdfunc1, regenhealthfunc2, true, REGENHEALTHFORMAT,
