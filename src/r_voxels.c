@@ -50,6 +50,7 @@
 #include "m_fixed.h"
 #include "p_mobj.h"
 #include "p_spec.h"
+#include "r_bsp.h"
 #include "r_data.h"
 #include "r_draw.h"
 #include "r_main.h"
@@ -61,20 +62,23 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-static voxelbinding_t  **bindings;
-static bool            *spritereplaced;
-static voxel_t         **modelsbylump;
-static visvoxel_t      *visvoxels;
-static int             numvisvoxels;
-static int             maxvisvoxels;
-static fixed_t         eyex, eyey;
-static uint32_t        *shadowstamps;
-static uint32_t        shadowstamp;
-static int             shadowcliptop[MAXWIDTH];
-static int             shadowclipbot[MAXWIDTH];
+static voxelbinding_t   **bindings;
+static bool             *spritereplaced;
+static voxel_t          **modelsbylump;
+static visvoxel_t       *visvoxels;
+static int              numvisvoxels;
+static int              maxvisvoxels;
+static fixed_t          eyex, eyey;
+static uint32_t         *shadowstamps;
+static uint32_t         shadowstamp;
+static int              shadowcliptop[MAXWIDTH];
+static int              shadowclipbot[MAXWIDTH];
 
-static voxeldepth_t    *voxeldepth;
-static bool            voxeldepthcleared;
+static voxeldepth_t     *voxeldepth;
+static bool             voxeldepthcleared;
+
+static subsector_t      *lightsubsector;
+static vxlighting_t     lightsubsectorlighting;
 
 static fixed_t VX_ProjectScreenX(fixed_t x, fixed_t scale)
 {
@@ -104,8 +108,8 @@ static const byte *VX_TintForThing(const mobj_t *thing)
         thing->altcolfunc : thing->colfunc);
 }
 
-static byte VX_LitColor(const vissprite_t *spr, byte color, const byte *dither, const int row,
-    const byte *tint, const byte under)
+static byte VX_LitColor(const vissprite_t *spr, const vxlighting_t *light, byte color,
+    const byte *dither, const int row, const byte *tint, const byte under)
 {
     byte    lit;
 
@@ -121,9 +125,37 @@ static byte VX_LitColor(const vissprite_t *spr, byte color, const byte *dither, 
             color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
     }
 
-    lit = (dither && dither[R_GetDitherRow(row)] ? spr->nextcolormap : spr->colormap)[color];
+    lit = (dither && dither[R_GetDitherRow(row)] ? light->nextcolormap : light->colormap)[color];
 
-    return spr->sectorcolormap[(tint ? tint[(under << 8) + lit] : lit)];
+    return light->sectorcolormap[(tint ? tint[(under << 8) + lit] : lit)];
+}
+
+static void VX_UpdateCellLighting(const vissprite_t *spr, const fixed_t wx, const fixed_t wy, vxlighting_t *light)
+{
+    subsector_t *subsector = R_PointInSubsector(wx, wy);
+
+    if (subsector != lightsubsector)
+    {
+        sector_t    *sector = subsector->sector;
+        sector_t    tempsec;
+        int         floorlightlevel;
+        int         ceilinglightlevel;
+        int         lightlevel;
+        const int   scaleindex = MIN(spr->scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+        R_FakeFlat(sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+
+        lightlevel = (floorlightlevel + ceilinglightlevel) >> 1;
+
+        lightsubsectorlighting.colormap =
+            scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][scaleindex];
+        lightsubsectorlighting.nextcolormap =
+            scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][scaleindex];
+        lightsubsectorlighting.sectorcolormap = R_GetSectorColormap(sector);
+        lightsubsector = subsector;
+    }
+
+    *light = lightsubsectorlighting;
 }
 
 static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner)
@@ -449,7 +481,7 @@ void VX_Init(void)
         for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
         {
             char    name[9] = { 0 };
-            char    framechar = (frame == 26 ? '[' : frame == 27 ? '^' : frame == 28 ? ']' : 'A' + frame);
+            char    framechar = (frame == 26 ? '[' : (frame == 27 ? '^' : (frame == 28 ? ']' : 'A' + frame)));
 
             if (!sprnames[spr])
                 continue;
@@ -640,6 +672,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vis->x1 = x1;
     vis->x2 = x2;
     vis->fullbright = !!((thing->frame & FF_FULLBRIGHT) || thing->info->fullbright);
+    vv->percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
+        && (thing->flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)));
     vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
 
     if (fixedcolormap)
@@ -706,6 +740,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     static const byte   afaces[9] = { F_BACK, F_BACK, F_RIGHT, F_LEFT, 0, F_RIGHT, F_LEFT, F_FRONT, F_FRONT };
     static const byte   bfaces[9] = { F_LEFT, 0, F_BACK, 0, 0, 0, F_FRONT, 0, F_RIGHT };
     fixed_t             uxstart, uxend;
+    vxlighting_t        light;
 
     if (offsets1 >= offsets2)
         return;
@@ -763,6 +798,19 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
     uxstart = MAX(((ax - 1) | FRACMASK) + 1, spr->x1 << FRACBITS);
     uxend = MIN(MAX(cx, bx), (spr->x2 + 1) << FRACBITS);
+
+    light.colormap = spr->colormap;
+    light.nextcolormap = spr->nextcolormap;
+    light.sectorcolormap = spr->sectorcolormap;
+
+    if (vv->percolumnlighting)
+    {
+        const fixed_t   centerx = px[0] + ((vv->s + vv->c) >> 1);
+        const fixed_t   centery = py[0] + ((vv->s - vv->c) >> 1);
+
+        VX_UpdateCellLighting(spr, viewx + FixedMul(centerx, viewsin) + FixedMul(centery, viewcos),
+            viewy - FixedMul(centerx, viewcos) + FixedMul(centery, viewsin), &light);
+    }
 
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)
     {
@@ -878,7 +926,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
 
                     if (VX_DepthPass(pixel, widescale, owner))
-                        dest[pixel] = VX_LitColor(spr, slab[0], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                        dest[pixel] = VX_LitColor(spr, &light, slab[0], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
                 }
             }
             else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
@@ -890,7 +938,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
 
                     if (VX_DepthPass(pixel, widescale, owner))
-                        dest[pixel] = VX_LitColor(spr, slab[len - 1], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                        dest[pixel] = VX_LitColor(spr, &light, slab[len - 1], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
                 }
             }
 
@@ -904,7 +952,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                         const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
                                         len - 1);
 
-                        dest[pixel] = VX_LitColor(spr, slab[source], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                        dest[pixel] = VX_LitColor(spr, &light, slab[source], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
                     }
                 }
 
@@ -1181,6 +1229,8 @@ void VX_DrawVoxel(const vissprite_t *spr)
     if (spr->mobj->flags & MF_FUZZ)
         fuzz1pos = 0;
 
+    lightsubsector = NULL;
+
     if (!voxeldepthcleared)
     {
         if (!voxeldepth)
@@ -1196,5 +1246,6 @@ void VX_DrawVoxel(const vissprite_t *spr)
 
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
+
     VX_RecursiveDraw(spr, 0, 0, v->xsize, v->ysize);
 }

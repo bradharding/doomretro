@@ -55,29 +55,30 @@ enum
 
 typedef struct
 {
-    int         xsize, ysize, zsize;
-    fixed_t     xpivot, ypivot, zpivot;
-    int         *offsets;
-    byte        *data;
+    int                 xsize, ysize, zsize;
+    fixed_t             xpivot, ypivot, zpivot;
+    int                 *offsets;
+    byte                *data;
 } voxel_t;
 
 typedef struct
 {
-    voxel_t     *model;
-    angle_t     angleoffset;
+    voxel_t             *model;
+    angle_t             angleoffset;
 } voxelbinding_t;
 
 typedef struct
 {
-    voxel_t     *model;
-    angle_t     angle;
-    fixed_t     tlx, tly;
-    fixed_t     c;
-    fixed_t     s;
-    fixed_t     liquidclipz;
-    bool        liquidclip;
-    bool        shadow;
-    const byte  *tint;
+    voxel_t             *model;
+    angle_t             angle;
+    fixed_t             tlx, tly;
+    fixed_t             c;
+    fixed_t             s;
+    fixed_t             liquidclipz;
+    bool                liquidclip;
+    bool                shadow;
+    bool                percolumnlighting;
+    const byte          *tint;
 } visvoxel_t;
 
 typedef struct
@@ -87,9 +88,16 @@ typedef struct
 
 typedef struct
 {
-    fixed_t depth;
-    int     owner;
+    fixed_t             depth;
+    int                 owner;
 } voxeldepth_t;
+
+typedef struct
+{
+    const lighttable_t  *colormap;
+    const lighttable_t  *nextcolormap;
+    const lighttable_t  *sectorcolormap;
+} vxlighting_t;
 
 void VX_Init(void);
 void VX_ClearVoxels(void);
