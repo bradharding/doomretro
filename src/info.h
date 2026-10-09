@@ -38,6 +38,7 @@
 #include "doomtype.h"
 #include "d_think.h"
 #include "states.h"
+#include "tables.h"
 
 #define NO_ALTSPEED     -1
 
@@ -322,6 +323,8 @@ typedef struct
     char        plural2[64];
     char        name3[64];
     char        plural3[64];
+
+    angle_t     voxelangle;
 
     char        *obituary;
     char        *obituary_melee;

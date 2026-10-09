@@ -473,7 +473,6 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     int             index;
     visvoxel_t      *vv;
     vissprite_t     *vis;
-    fixed_t         relative;
     fixed_t         tlx, tly;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
@@ -498,12 +497,15 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
 
-    angle = ((thing->flags & MF_SPECIAL) ? (r_sprites_tilt ? R_PointToAngle(gx, gy) : viewangle) + ANG180 :
-        thing->angle) + binding->angleoffset;
-    relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
+    angle = binding->angleoffset + thing->info->voxelangle;
 
-    c = finecosine[relative];
-    s = finesine[relative];
+    if (!(thing->flags & MF_SPECIAL))
+        angle += thing->angle + ANG180 - viewangle;
+    else if (r_sprites_tilt)
+        angle += R_PointToAngle(gx, gy) - viewangle;
+
+    c = finecosine[(angle >>= ANGLETOFINESHIFT)];
+    s = finesine[angle];
 
     tlx = tx - FixedMul(v->xpivot, c) - FixedMul(v->ypivot, s);
     tly = ty - FixedMul(v->xpivot, s) + FixedMul(v->ypivot, c);
@@ -544,7 +546,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     index = VX_NewVisVoxel();
     vv = &visvoxels[index];
     vv->model = v;
-    vv->angle = angle;
+    vv->angle = angle + viewangle + ANG180;
     vv->tlx = tlx;
     vv->tly = tly;
     vv->c = c;
