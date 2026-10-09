@@ -793,7 +793,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     widescale = ascale + FixedMul(dscale - ascale, FixedDiv(ux - ax, dx - ax));
             }
 
-            if (spr->mobj->flags & MF_FUZZ)
+            if ((spr->mobj->flags & MF_FUZZ) && r_textures)
             {
                 fixed_t yl = uy1;
                 fixed_t yh = uy2;
