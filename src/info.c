@@ -4675,7 +4675,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ "",
-        /* voxelangle           */ 0
+        /* voxelangle           */ ANG90
     },
 
     // Rocket Launcher (MT_MISC27)
