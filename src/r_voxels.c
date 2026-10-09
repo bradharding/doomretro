@@ -612,6 +612,26 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     return true;
 }
 
+static void VX_DrawFuzz(const int x, const int yl, const int yh)
+{
+    if (yl > yh)
+        return;
+
+    dc_x = x;
+    dc_yl = MAX(0, yl);
+    dc_yh = MIN(viewheight - 1, yh);
+
+    // R_DrawFuzzColumn writes 2x2 blocks. Keep its final block
+    // inside the view at the bottom and right edges. Normal sprite
+    // posts satisfy these assumptions implicitly, but an enlarged
+    // or near-plane-clipped voxel slab can reach the last row.
+    if (!(dc_yl & 1))
+        dc_yh = MIN(dc_yh, viewheight - 2);
+
+    if (dc_x + 1 < viewwidth && dc_yh - dc_yl >= 2)
+        R_DrawFuzzColumn();
+}
+
 static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 {
     const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
@@ -762,26 +782,6 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             uy1 = BETWEEN(cliptop, uy1, clipbottom);
             uy2 = BETWEEN(cliptop, uy2, clipbottom);
 
-            if ((spr->mobj->flags & MF_FUZZ) && side && uy1 <= uy2)
-            {
-                dc_x = screenx;
-                dc_yl = MAX(0, uy1 >> FRACBITS);
-                dc_yh = MIN(viewheight - 1, uy2 >> FRACBITS);
-
-                // R_DrawFuzzColumn writes 2x2 blocks. Keep its final block
-                // inside the view at the bottom and right edges. Normal sprite
-                // posts satisfy these assumptions implicitly, but an enlarged
-                // or near-plane-clipped voxel slab can reach the last row.
-                if (!(dc_yl & 1))
-                    dc_yh = MIN(dc_yh, viewheight - 2);
-
-                if (dc_x + 1 < viewwidth && dc_yh - dc_yl >= 2)
-                    R_DrawFuzzColumn();
-
-                slab += len;
-                continue;
-            }
-
             if ((face & F_TOP) || (face & F_BOTTOM))
             {
                 if (ux > cx && bx != cx)
@@ -790,6 +790,31 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     widescale = dscale + FixedMul(cscale - dscale, FixedDiv(ux - dx, cx - dx));
                 else if (dx != ax)
                     widescale = ascale + FixedMul(dscale - ascale, FixedDiv(ux - ax, dx - ax));
+            }
+
+            if (spr->mobj->flags & MF_FUZZ)
+            {
+                fixed_t yl = uy1;
+                fixed_t yh = uy2;
+
+                if ((face & F_TOP) && topz < 0)
+                    yl = MIN(yl, MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop));
+                else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
+                    yh = MAX(yh, MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom));
+
+                if (side)
+                    VX_DrawFuzz(screenx, yl >> FRACBITS, yh >> FRACBITS);
+                else
+                {
+                    if (yl < uy1)
+                        VX_DrawFuzz(screenx, yl >> FRACBITS, (uy1 - 1) >> FRACBITS);
+
+                    if (yh > uy2)
+                        VX_DrawFuzz(screenx, (uy2 >> FRACBITS) + 1, yh >> FRACBITS);
+                }
+
+                slab += len;
+                continue;
             }
 
             if ((face & F_TOP) && topz < 0)
