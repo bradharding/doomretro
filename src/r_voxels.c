@@ -503,6 +503,9 @@ void VX_Init(void)
     for (int i = 0; i < numlumps; i++)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
+
+    if (bindings[SPR_TRE2][0].model)
+        mobjinfo[MT_MISC76].flags2 |= MF2_CASTSHADOW;
 }
 
 void VX_ClearVoxels(void)
