@@ -505,9 +505,10 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     }
     else if (r_sprites_tilt)
     {
-        angle = R_PointToAngle(gx, gy);
-        relative = (angle - viewangle + binding->angleoffset + thing->info->voxelangle) >> ANGLETOFINESHIFT;
-        angle += ANG180 + binding->angleoffset + thing->info->voxelangle;
+        const angle_t   tilt = (angle_t)((int)(R_PointToAngle(gx, gy) - viewangle) / 2);
+
+        angle = viewangle + tilt + ANG180 + binding->angleoffset + thing->info->voxelangle;
+        relative = (tilt + binding->angleoffset + thing->info->voxelangle) >> ANGLETOFINESHIFT;
     }
     else
     {
