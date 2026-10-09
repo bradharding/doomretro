@@ -41,6 +41,7 @@
 
 #include "c_console.h"
 #include "d_loop.h"
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_system.h"
@@ -49,6 +50,7 @@
 #include "m_fixed.h"
 #include "p_mobj.h"
 #include "p_spec.h"
+#include "r_data.h"
 #include "r_draw.h"
 #include "r_main.h"
 #include "r_state.h"
@@ -60,6 +62,7 @@
 #include "w_wad.h"
 
 static voxelbinding_t  **bindings;
+static bool            *spritereplaced;
 static voxel_t         **modelsbylump;
 static visvoxel_t      *visvoxels;
 static int             numvisvoxels;
@@ -401,7 +404,7 @@ static void VX_ParseVoxelDef(const byte *data, int length)
             else if (key[4] == ']')
                 frame = 28;
 
-            if (spr >= 0 && frame >= 0 && frame < VX_MAX_FRAMES)
+            if (spr >= 0 && frame >= 0 && frame < VX_MAX_FRAMES && !spritereplaced[spr])
             {
                 voxel_t *v = VX_ModelForName(model);
 
@@ -421,10 +424,27 @@ void VX_Init(void)
 {
     bindings = I_Malloc(numsprites * sizeof(*bindings));
     modelsbylump = I_Calloc(numlumps, sizeof(*modelsbylump));
+    spritereplaced = I_Calloc(numsprites, sizeof(*spritereplaced));
+
+    if (!BTSX)
+        for (int i = 0; i < numspritelumps; i++)
+        {
+            const lumpinfo_t    *lump = lumpinfo[firstspritelump + i];
+
+            if (lump->wadfile->type != PWAD || D_IsResourceWAD(lump->wadfile->path))
+                continue;
+
+            for (int spr = 0; spr < numsprites; spr++)
+                if (sprnames[spr] && !strncasecmp(lump->name, sprnames[spr], 4))
+                    spritereplaced[spr] = true;
+        }
 
     for (int spr = 0; spr < numsprites; spr++)
     {
         bindings[spr] = I_Calloc(VX_MAX_FRAMES, sizeof(**bindings));
+
+        if (spritereplaced[spr])
+            continue;
 
         for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
         {
