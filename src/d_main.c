@@ -1083,6 +1083,31 @@ static bool D_IsDEHFile(const char *filename)
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
 
+static bool D_IsMultiWADSelection(const char *filename)
+{
+    char    *copy;
+    char    *token;
+    int     count = 0;
+
+    if (!filename || !*filename)
+        return false;
+
+    copy = M_StringDuplicate(filename);
+    token = strtok(copy, " \t\r\n");
+
+    while (token)
+    {
+        if (D_IsWADFile(token) || D_IsDEHFile(token) || D_IsCFGFile(token))
+            count++;
+
+        token = strtok(NULL, " \t\r\n");
+    }
+
+    free(copy);
+
+    return (count > 1);
+}
+
 void D_CheckSupportedPWAD(char *filename)
 {
     const char  *leaf = leafname(filename);
@@ -1668,24 +1693,18 @@ static int D_OpenWADLauncher(void)
         D_SetString(&wad, "");
 
         if ((onlyoneselected = !ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
-            && (strstr(ofn.lpstrFile, ".wad ")
-                || strstr(ofn.lpstrFile, ".iwad ")
-                || strstr(ofn.lpstrFile, ".pwad ")
-                || strstr(ofn.lpstrFile, ".lmp ")
-                || strstr(ofn.lpstrFile, ".deh ")
-                || strstr(ofn.lpstrFile, ".bex ")
-                || strstr(ofn.lpstrFile, ".cfg ")))
+            && D_IsMultiWADSelection(ofn.lpstrFile))
         {
             char    tempbuf[4096];
             char    *filenames[100];
             int     filecount = 0;
             char    *inputcopy = M_StringDuplicate(ofn.lpstrFile);
-            char    *token = strtok(inputcopy, " ");
+            char    *token = strtok(inputcopy, " \t\r\n");
 
             while (token && filecount < 100)
             {
                 filenames[filecount++] = M_StringDuplicate(token);
-                token = strtok(NULL, " ");
+                token = strtok(NULL, " \t\r\n");
             }
 
             free(inputcopy);
