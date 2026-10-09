@@ -562,7 +562,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     tx = FixedMul(dx, viewsin) - FixedMul(dy, viewcos);
     ty = FixedMul(dx, viewcos) + FixedMul(dy, viewsin);
 
-    if (ty < -64 * FRACUNIT)
+    if (ty < -(v->xsize + v->ysize) * FRACUNIT)
         return true;
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));

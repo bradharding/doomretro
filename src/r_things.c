@@ -1681,6 +1681,12 @@ static void R_ProjectSprite(mobj_t *thing)
         fz = thing->z;
     }
 
+    if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
+        fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
+
+    if (r_voxels && VX_ProjectVoxel(thing, fx, fy, fz))
+        return;
+
     tr_x = fx - viewx;
     tr_y = fy - viewy;
     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
@@ -1697,12 +1703,6 @@ static void R_ProjectSprite(mobj_t *thing)
     // decide which patch to use for sprite relative to player
     frame = thing->frame;
     sprframe = &sprites[thing->sprite].spriteframes[(frame & FF_FRAMEMASK)];
-
-    if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
-        fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
-
-    if (r_voxels && VX_ProjectVoxel(thing, fx, fy, fz))
-        return;
 
     flip = (flags2 & MF2_MIRRORED);
 
