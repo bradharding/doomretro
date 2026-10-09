@@ -104,6 +104,7 @@ bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
 bool        cleanscreenshots = cleanscreenshots_default;
 bool        compresssavegames = compresssavegames_default;
+bool        compressscreenshots = compressscreenshots_default;
 int         con_edgecolor = con_edgecolor_default;
 bool        con_timestamps = con_timestamps_default;
 int         con_warninglevel = con_warninglevel_default;
@@ -390,6 +391,7 @@ static default_t cvars[] =
     CVAR_BOOL         (cleanscreenshots,                 cleanscreenshots,                      cleanscreenshots,                      BOOLVALUEALIAS         ),
     CVAR_BOOL         (clock,                            clock,                                 showclock,                             BOOLVALUEALIAS         ),
     CVAR_BOOL         (compresssavegames,                compresssavegames,                     compresssavegames,                     BOOLVALUEALIAS         ),
+    CVAR_BOOL         (compressscreenshots,              compressscreenshots,                   compressscreenshots,                   BOOLVALUEALIAS         ),
     CVAR_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         EDGECOLORVALUEALIAS    ),
     CVAR_BOOL         (con_timestamps,                   con_timestamps,                        con_timestamps,                        BOOLVALUEALIAS         ),
     CVAR_INT          (con_warninglevel,                 con_warninglevel,                      con_warninglevel,                      WARNINGLEVELVALUEALIAS ),

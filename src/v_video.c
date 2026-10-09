@@ -2833,7 +2833,8 @@ static bool V_SavePNG(SDL_Window *sdlwindow, const char *path)
                     *dest++ = (byte)I_GetNearestColor(palettebytes, src[0], src[1], src[2]);
             }
 
-            if (mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize, MZ_BEST_COMPRESSION) == MZ_OK)
+            if (mz_compress2(compressed, &compressedsize, raw, (mz_ulong)rawsize,
+                (compressscreenshots ? MZ_BEST_COMPRESSION : MZ_NO_COMPRESSION)) == MZ_OK)
             {
                 FILE    *file = fopen(path, "wb");
 
@@ -2954,6 +2955,11 @@ bool V_ScreenShot(void)
     {
         if (!count)
             M_snprintf(lbmname1, sizeof(lbmname1), "%s.png", temp1);
+        else if (count < 1000)
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%d).png", temp1, count);
+        else if (count < 1000000)
+            M_snprintf(lbmname1, sizeof(lbmname1), "%s (%d,%03d).png",
+                temp1, count / 1000, count % 1000);
         else
         {
             temp2 = commify(count);
@@ -2984,6 +2990,11 @@ bool V_ScreenShot(void)
         {
             if (!count)
                 M_StringCopy(lbmname2, "Automap.png", sizeof(lbmname2));
+            else if (count < 1000)
+                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%d).png", count);
+            else if (count < 1000000)
+                M_snprintf(lbmname2, sizeof(lbmname2), "Automap (%d,%03d).png",
+                    count / 1000, count % 1000);
             else
             {
                 temp2 = commify(count);

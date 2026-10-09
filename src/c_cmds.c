@@ -794,6 +794,8 @@ consolecmd_t consolecmds[] =
         "Lists all console commands."),
     BOOLCVAR(compresssavegames, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the compression of savegames."),
+    BOOLCVAR(compressscreenshots, "", "", boolfunc1, boolfunc2, 0,
+        "Toggles the compression of screenshots."),
     CCMD(condump, "", "", condumpfunc1, condumpfunc2, true, CONDUMPFORMAT,
         "Dumps the contents of the console to a file."),
     INTCVAR(con_edgecolor, con_edgecolour, "", intfunc1, intfunc2, CF_COLOR, EDGECOLORVALUEALIAS,

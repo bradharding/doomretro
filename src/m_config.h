@@ -91,6 +91,7 @@ extern bool     autouse;
 extern bool     centerweapon;
 extern bool     cleanscreenshots;
 extern bool     compresssavegames;
+extern bool     compressscreenshots;
 extern int      con_edgecolor;
 extern bool     con_timestamps;
 extern int      con_warninglevel;
@@ -599,6 +600,8 @@ enum
 #define cleanscreenshots_default                false
 
 #define compresssavegames_default               true
+
+#define compressscreenshots_default             false
 
 #define con_edgecolor_auto                      -1
 #define con_edgecolor_min                       con_edgecolor_auto
