@@ -280,7 +280,8 @@ static int VX_FindSprite(const char *name)
         { "VINV", "PINV" },
         { "VOUL", "SOUL" },
         { "VINS", "PINS" },
-        { "VEGA", "MEGA" }
+        { "VEGA", "MEGA" },
+        { "VISL", "MISL" }
     };
 
     for (int alias = 0; alias < arrlen(aliases); alias++)
@@ -434,6 +435,15 @@ void VX_Init(void)
 
             M_snprintf(name, sizeof(name), "%.4s%c", sprnames[spr], framechar);
             bindings[spr][frame].model = VX_ModelForName(name);
+
+            if (!bindings[spr][frame].model && spr == SPR_MISL && frame >= 1 && frame <= 3)
+            {
+                name[0] = 'V';
+                name[1] = 'I';
+                name[2] = 'S';
+                name[3] = 'L';
+                bindings[spr][frame].model = VX_ModelForName(name);
+            }
         }
     }
 
