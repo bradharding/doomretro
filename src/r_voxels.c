@@ -677,7 +677,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vis->fullbright = !!((thing->frame & FF_FULLBRIGHT) || thing->info->fullbright);
     vv->percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
         && (thing->flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)));
-    vis->sectorcolormap = R_GetSectorColormap(thing->subsector->sector);
+    vis->sectorcolormap = (viewplayer && ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
+        fullcolormap : R_GetSectorColormap(thing->subsector->sector));
 
     if (fixedcolormap)
         vis->colormap = vis->nextcolormap = fixedcolormap;
