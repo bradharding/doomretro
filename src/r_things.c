@@ -2540,13 +2540,9 @@ static void R_SortVisSprites(void)
     msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
 }
 
-static void R_DrawSprite(const vissprite_t *spr)
+void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fixed_t gx,
+    const fixed_t gy, int *cliptop, int *clipbot, const bool rendermasked)
 {
-    const int       x1 = spr->x1;
-    const int       x2 = spr->x2;
-    const fixed_t   scale = spr->scale;
-    const fixed_t   gx = spr->gx;
-    const fixed_t   gy = spr->gy;
     const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
 
     // initialize the clipping arrays
@@ -2566,7 +2562,7 @@ static void R_DrawSprite(const vissprite_t *spr)
             int         silhouette;
 
             // determine if the drawseg obscures the sprite
-            if (curr->x1 > spr->x2 || curr->x2 < spr->x1)
+            if (curr->x1 > x2 || curr->x2 < x1)
                 continue;      // does not cover sprite
 
             ds = curr->user;
@@ -2579,7 +2575,7 @@ static void R_DrawSprite(const vissprite_t *spr)
             if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
             {
                 // masked midtexture?
-                if (ds->maskedtexturecol)
+                if (rendermasked && ds->maskedtexturecol)
                     R_RenderMaskedSegRange(ds, MAX(x1, ds->x1), MIN(ds->x2, x2));
 
                 // seg is behind sprite
@@ -2603,6 +2599,15 @@ static void R_DrawSprite(const vissprite_t *spr)
             }
         }
     }
+}
+
+static void R_DrawSprite(const vissprite_t *spr)
+{
+    const int       x1 = spr->x1;
+    const int       x2 = spr->x2;
+    const fixed_t   scale = spr->scale;
+
+    R_ClipToDrawSegs(x1, x2, scale, spr->gx, spr->gy, cliptop, clipbot, true);
 
     // killough 03/27/98:
     // Clip the sprite against deep water and/or fake ceilings.

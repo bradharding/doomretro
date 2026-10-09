@@ -62,6 +62,8 @@ void R_InitSpriteBottomOffsets(void);
 void R_InitSprites(void);
 void R_ClearSprites(void);
 vissprite_t *R_NewVisSprite(void);
+void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fixed_t gx,
+    const fixed_t gy, int *cliptop, int *clipbot, const bool rendermasked);
 void R_DrawMasked(void);
 void R_AddNearbySprites(sector_t *sec);
 void R_DrawNearbySprites(void);

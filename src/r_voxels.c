@@ -66,6 +66,8 @@ static int             maxvisvoxels;
 static fixed_t         eyex, eyey;
 static uint32_t        *shadowstamps;
 static uint32_t        shadowstamp;
+static int             shadowcliptop[MAXWIDTH];
+static int             shadowclipbot[MAXWIDTH];
 
 static voxeldepth_t    *voxeldepth;
 static bool            voxeldepthcleared;
@@ -987,6 +989,7 @@ static void VX_DrawShadow(const vissprite_t *spr)
             int64_t         sx[8], sy[8];
             int64_t         minx = INT64_MAX, maxx = INT64_MIN;
             int             n;
+            int             x1, x2;
 
             if (offset1 >= offset2)
                 continue;
@@ -1047,8 +1050,15 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 maxx = MAX64(maxx, sx[i]);
             }
 
-            for (int screenx = MAX(spr->x1, (int)((minx + FRACMASK) >> FRACBITS));
-                screenx <= MIN(spr->x2, (int)(maxx >> FRACBITS)); screenx++)
+            x1 = MAX(spr->x1, (int)((minx + FRACMASK) >> FRACBITS));
+            x2 = MIN(spr->x2, (int)(maxx >> FRACBITS));
+
+            if (x1 > x2)
+                continue;
+
+            R_ClipToDrawSegs(x1, x2, FixedDiv(projection, MAX(cy, VX_MINZ)), wx, wy, shadowcliptop, shadowclipbot, false);
+
+            for (int screenx = x1; screenx <= x2; screenx++)
             {
                 const int64_t   ux = (int64_t)screenx << FRACBITS;
                 int64_t         lo = INT64_MAX;
@@ -1093,8 +1103,8 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 if (lo > hi)
                     continue;
 
-                yl = (int)MAX64(MAX(0, mceilingclip[screenx] + 1), (lo + FRACMASK) >> FRACBITS);
-                yh = (int)MIN64(MIN(viewheight - 1, mfloorclip[screenx] - 1), hi >> FRACBITS);
+                yl = (int)MAX64(MAX(0, MAX(mceilingclip[screenx], shadowcliptop[screenx]) + 1), (lo + FRACMASK) >> FRACBITS);
+                yh = (int)MIN64(MIN(viewheight - 1, MIN(mfloorclip[screenx], shadowclipbot[screenx]) - 1), hi >> FRACBITS);
 
                 for (int row = yl; row <= yh; row++)
                 {
