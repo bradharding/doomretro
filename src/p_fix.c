@@ -1636,6 +1636,9 @@ thingfix_t thingfix[] =
 {
    // mission,    episode, map, thing, type,                      oldx,    oldy,    newx,    newy,   angle, options
 
+    { doom,             1,   1,    61, Candelabra,                3088,   -4528,    3088,   -4528,      90, DEFAULT                            },
+    { doom,             1,   1,    62, Candelabra,                2928,   -4528,    2928,   -4528,      90, DEFAULT                            },
+
     { doom,             1,   6,    16, Demon,                      800,    -704,     800,    -688, DEFAULT, DEFAULT                            },
     { doom,             1,   6,   403, Spectre,                  -2016,    2096,   -2016,    2080, DEFAULT, DEFAULT                            },
 
