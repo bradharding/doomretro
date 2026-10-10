@@ -1681,6 +1681,51 @@ thingfix_t thingfix[] =
     { doom,             4,   4,   108, Cacodemon,                  320,     -96,     328,     -88, DEFAULT, DEFAULT                            },
     { doom,             4,   4,   109, Cacodemon,                  -16,     -96,      -8,     -88, DEFAULT, DEFAULT                            },
 
+    { doom,             5,   1,    14, EvilEye,                   -544,     480,    -544,     480,     315, DEFAULT                            },
+    { doom,             5,   1,    18, EvilEye,                   -176,    1112,    -176,    1112,     270, DEFAULT                            },
+    { doom,             5,   1,    33, EvilEye,                    440,     496,     440,     496,     112, DEFAULT                            },
+    { doom,             5,   1,    47, EvilEye,                    544,     432,     544,     432,      67, DEFAULT                            },
+    { doom,             5,   1,   101, Candelabra,                1440,     -64,    1440,     -64,     180, DEFAULT                            },
+    { doom,             5,   1,   102, Candelabra,                1440,    -192,    1440,    -192,     180, DEFAULT                            },
+
+    { doom,             5,   2,    12, EvilEye,                   -248,   -1032,    -248,   -1032,     180, DEFAULT                            },
+    { doom,             5,   2,   105, FloatingSkullRock,          840,    -672,     840,    -672,     180, DEFAULT                            },
+    { doom,             5,   2,   106, FloatingSkullRock,         1048,    -232,    1048,    -232,     180, DEFAULT                            },
+    { doom,             5,   2,   108, FloatingSkullRock,         -704,     192,    -704,     192,     315, DEFAULT                            },
+    { doom,             5,   2,   109, FloatingSkullRock,        -1288,    -608,   -1288,    -608,     315, DEFAULT                            },
+    { doom,             5,   2,   110, FloatingSkullRock,         -896,   -1808,    -896,   -1808,      90, DEFAULT                            },
+    { doom,             5,   2,   111, FloatingSkullRock,         -120,   -1776,    -120,   -1776,     135, DEFAULT                            },
+    { doom,             5,   2,   112, FloatingSkullRock,          352,   -1208,     352,   -1208,     112, DEFAULT                            },
+    { doom,             5,   2,   113, FloatingSkullRock,         -352,   -1128,    -352,   -1128,     135, DEFAULT                            },
+    { doom,             5,   2,   114, FloatingSkullRock,         -736,    -984,    -736,    -984,      45, DEFAULT                            },
+
+    { doom,             5,   3,    83, EvilEye,                   -668,   -2208,    -668,   -2208,       0, DEFAULT                            },
+    { doom,             5,   3,   175, SkullOnAPole,              -544,   -2272,    -544,   -2272,      45, DEFAULT                            },
+
+    { doom,             5,   4,    27, EvilEye,                    880,   -1352,     880,   -1352,     315, DEFAULT                            },
+    { doom,             5,   4,    51, EvilEye,                   1260,   -2464,    1260,   -2464,       0, DEFAULT                            },
+
+    { doom,             5,   5,   246, FloatingSkullRock,         -408,    -728,    -408,    -728,      90, DEFAULT                            },
+    { doom,             5,   5,   247, FloatingSkullRock,          784,    -568,     784,    -568,      90, DEFAULT                            },
+    { doom,             5,   5,   249, FloatingSkullRock,        -1264,    -984,   -1264,    -984,      90, DEFAULT                            },
+
+    { doom,             5,   6,   133, FloatingSkullRock,          512,    -848,     512,    -848,       0, DEFAULT                            },
+    { doom,             5,   6,   252, FloatingSkullRock,         2088,    -568,    2088,    -568,     135, DEFAULT                            },
+    { doom,             5,   6,   329, EvilEye,                   1696,   -1296,    1696,   -1296,      90, DEFAULT                            },
+
+    { doom,             5,   7,    68, EvilEye,                    160,    1832,     160,    1832,     337, DEFAULT                            },
+    { doom,             5,   7,    89, EvilEye,                   1096,    2232,    1096,    2232,     315, DEFAULT                            },
+    { doom,             5,   7,    90, EvilEye,                   1312,    1608,    1312,    1608,     337, DEFAULT                            },
+    { doom,             5,   7,   398, EvilEye,                   1344,     436,    1344,     436,     337, DEFAULT                            },
+
+    { doom,             5,   8,     1, EvilEye,                    -24,     -32,     -24,     -32,     180, DEFAULT                            },
+    { doom,             5,   8,    20, EvilEye,                   -352,     -40,    -352,     -40,      90, DEFAULT                            },
+    { doom,             5,   8,   140, EvilEye,                    532,    -356,     532,    -356,       0, DEFAULT                            },
+    { doom,             5,   8,   168, EvilEye,                  -2016,   -2272,   -2016,   -2272,       0, DEFAULT                            },
+
+    { doom,             5,   9,    11, EvilEye,                    960,     944,     960,     944,     315, DEFAULT                            },
+    { doom,             5,   9,    75, EvilEye,                   -640,    1424,    -640,    1424,      45, DEFAULT                            },
+
     { doom2,            1,   2,    69, Barrel,                    2064,    2528,    2064,    2544, DEFAULT, DEFAULT                            },
     { doom2,            1,   2,    69, Barrel,                     464,     784,     464,     800, DEFAULT, DEFAULT                            },
     { doom2,            1,   2,    84, Barrel,                    2592,    2640,    2592,    2648, DEFAULT, DEFAULT                            },
