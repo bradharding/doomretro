@@ -41,7 +41,7 @@
 #define VX_MINZ         (4 * FRACUNIT)
 #define VX_MAX_DIST     (8192 * FRACUNIT)
 #define VX_SPIN_TICS    140
-#define VX_HOVER        (6 * FRACUNIT)
+#define VX_HOVER        (4 * FRACUNIT)
 
 enum
 {
@@ -60,12 +60,6 @@ typedef struct
     int                 *offsets;
     byte                *data;
 } voxel_t;
-
-typedef struct
-{
-    voxel_t             *model;
-    angle_t             angleoffset;
-} voxelbinding_t;
 
 typedef struct
 {

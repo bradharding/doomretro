@@ -62,7 +62,7 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-static voxelbinding_t   **bindings;
+static voxel_t          **bindings;
 static bool             *spritereplaced;
 static voxel_t          **modelsbylump;
 static visvoxel_t       *visvoxels;
@@ -346,7 +346,6 @@ static void VX_ParseVoxelDef(const byte *data, int length)
         char    *lineend;
         int     keylen = 0;
         int     modellen = 0;
-        int     angle = 0;
 
         while (p < end && isspace((unsigned char)*p))
             p++;
@@ -412,18 +411,6 @@ static void VX_ParseVoxelDef(const byte *data, int length)
         while (lineend < end && *lineend != '\n')
             lineend++;
 
-        for (const char *a = p; a + 11 < lineend; a++)
-            if (!strncasecmp(a, "AngleOffset", 11))
-            {
-                a += 11;
-
-                while (a < lineend && (isspace((unsigned char)*a) || *a == '='))
-                    a++;
-
-                angle = (int)strtol(a, NULL, 10);
-                break;
-            }
-
         if (keylen >= 5)
         {
             const int   spr = VX_FindSprite(key);
@@ -441,10 +428,7 @@ static void VX_ParseVoxelDef(const byte *data, int length)
                 voxel_t *v = VX_ModelForName(model);
 
                 if (v)
-                {
-                    bindings[spr][frame].model = v;
-                    bindings[spr][frame].angleoffset = (angle_t)((uint64_t)(angle % 360) * ANG1);
-                }
+                    bindings[spr * VX_MAX_FRAMES + frame] = v;
             }
         }
 
@@ -454,7 +438,7 @@ static void VX_ParseVoxelDef(const byte *data, int length)
 
 void VX_Init(void)
 {
-    bindings = I_Malloc(numsprites * sizeof(*bindings));
+    bindings = I_Calloc((size_t)numsprites * VX_MAX_FRAMES, sizeof(*bindings));
     modelsbylump = I_Calloc(numlumps, sizeof(*modelsbylump));
     spritereplaced = I_Calloc(numsprites, sizeof(*spritereplaced));
 
@@ -473,8 +457,6 @@ void VX_Init(void)
 
     for (int spr = 0; spr < numsprites; spr++)
     {
-        bindings[spr] = I_Calloc(VX_MAX_FRAMES, sizeof(**bindings));
-
         if (spritereplaced[spr])
             continue;
 
@@ -487,15 +469,15 @@ void VX_Init(void)
                 continue;
 
             M_snprintf(name, sizeof(name), "%.4s%c", sprnames[spr], framechar);
-            bindings[spr][frame].model = VX_ModelForName(name);
+            bindings[spr * VX_MAX_FRAMES + frame] = VX_ModelForName(name);
 
-            if (!bindings[spr][frame].model && spr == SPR_MISL && frame >= 1 && frame <= 3)
+            if (!bindings[spr * VX_MAX_FRAMES + frame] && spr == SPR_MISL && frame >= 1 && frame <= 3)
             {
                 name[0] = 'V';
                 name[1] = 'I';
                 name[2] = 'S';
                 name[3] = 'L';
-                bindings[spr][frame].model = VX_ModelForName(name);
+                bindings[spr * VX_MAX_FRAMES + frame] = VX_ModelForName(name);
             }
         }
     }
@@ -504,7 +486,7 @@ void VX_Init(void)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
 
-    if (bindings[SPR_TRE2][0].model)
+    if (bindings[SPR_TRE2 * VX_MAX_FRAMES])
         mobjinfo[MT_MISC76].flags2 |= MF2_CASTSHADOW;
 }
 
@@ -529,10 +511,11 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 {
     const int       spr = thing->sprite;
     const int       frame = thing->frame & FF_FRAMEMASK;
-    voxelbinding_t  *binding;
     voxel_t         *v;
-    fixed_t         dx, dy, tx, ty;
-    fixed_t         c, s;
+    fixed_t         dx, dy;
+    fixed_t         tx, ty;
+    fixed_t         c;
+    fixed_t         s;
     fixed_t         cornersx[4], cornersy[4];
     fixed_t         xscale;
     angle_t         angle;
@@ -548,9 +531,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
         return false;
 
-    binding = &bindings[spr][frame];
-
-    if (!(v = binding->model))
+    if (!(v = bindings[spr * VX_MAX_FRAMES + frame]))
         return false;
 
     dx = gx - viewx;
@@ -575,27 +556,26 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
                             + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
 
-        angle = thing->angle + binding->angleoffset + thing->info->voxelangle
-            - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
+        angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
                 / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     }
     else if (!(thing->flags & MF_SPECIAL))
     {
-        angle = thing->angle + binding->angleoffset + thing->info->voxelangle;
+        angle = thing->angle;
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     }
     else if (r_sprites_tilt)
     {
         const angle_t   tilt = (angle_t)((int)(R_PointToAngle(gx, gy) - viewangle) / 2);
 
-        angle = viewangle + tilt + ANG180 + binding->angleoffset + thing->info->voxelangle;
-        relative = (tilt + binding->angleoffset + thing->info->voxelangle) >> ANGLETOFINESHIFT;
+        angle = viewangle + tilt + ANG180;
+        relative = tilt >> ANGLETOFINESHIFT;
     }
     else
     {
-        angle = viewangle + ANG180 + binding->angleoffset + thing->info->voxelangle;
-        relative = (binding->angleoffset + thing->info->voxelangle) >> ANGLETOFINESHIFT;
+        angle = viewangle + ANG180;
+        relative = thing->angle >> ANGLETOFINESHIFT;
     }
 
     c = finecosine[relative];
@@ -751,9 +731,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
     qux = (eyex < (x << FRACBITS) ? 0 : eyex < ((x + 1) << FRACBITS) ? 1 : 2);
     quy = (eyey < (y << FRACBITS) ? 0 : eyey < ((y + 1) << FRACBITS) ? 1 : 2);
-    quadrant = quy * 3 + qux;
 
-    if (quadrant == 4)
+    if ((quadrant = quy * 3 + qux) == 4)
         return;
 
     px[0] = vv->tlx + x * vv->c + y * vv->s;
@@ -1153,7 +1132,8 @@ static void VX_DrawShadow(const vissprite_t *spr)
             if (x1 > x2)
                 continue;
 
-            R_ClipToDrawSegs(x1, x2, FixedDiv(projection, MAX(cy, VX_MINZ)), wx, wy, shadowcliptop, shadowclipbot, false);
+            R_ClipToDrawSegs(x1, x2, FixedDiv(projection, MAX(cy, VX_MINZ)),
+                wx, wy, shadowcliptop, shadowclipbot, false);
 
             for (int screenx = x1; screenx <= x2; screenx++)
             {
@@ -1227,9 +1207,6 @@ void VX_DrawVoxel(const vissprite_t *spr)
     const fixed_t       dx = viewx - spr->gx;
     const fixed_t       dy = viewy - spr->gy;
 
-    // The regular sprite renderer starts a fresh fuzz sequence per sprite.
-    // Do the same here: a voxel may contain thousands of independently drawn
-    // slabs and must not inherit an index left by another object.
     if (spr->mobj->flags & MF_FUZZ)
         fuzz1pos = 0;
 
