@@ -1661,6 +1661,9 @@ thingfix_t thingfix[] =
     { doom,             2,   7,   195, HangingVictimTwitching,    3360,     320,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
     { doom,             2,   7,   196, HangingVictimOneLegged,    3232,       0,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
 
+    { doom,             3,   1,    62, SkullOnAPole,               320,    -512,     320,    -512,     270, DEFAULT                            },
+    { doom,             3,   1,    63, SkullOnAPole,                64,    -512,      64,    -512,     270, DEFAULT                            },
+
     { doom,             3,   2,   186, HangingLeg,                 -80,    1216,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
 
     { doom,             3,   3,    19, Cell,                      -480,     864,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
