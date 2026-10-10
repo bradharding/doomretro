@@ -2019,11 +2019,14 @@ static void P_LoadThings(int map, int lump)
                     }
                     else
                     {
-                        C_Warning(2, "Thing %s has been moved from (%i, %i) to (%i, %i).",
-                            temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
+                        if (mt.x != thingfix[j].newx || mt.y != thingfix[j].newy)
+                        {
+                            C_Warning(2, "Thing %s has been moved from (%i, %i) to (%i, %i).",
+                                temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
-                        mt.x = thingfix[j].newx;
-                        mt.y = thingfix[j].newy;
+                            mt.x = thingfix[j].newx;
+                            mt.y = thingfix[j].newy;
+                        }
 
                         if (thingfix[j].angle != DEFAULT)
                         {
