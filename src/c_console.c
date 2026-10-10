@@ -645,6 +645,8 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
     unsigned char   prevletter3 = '\0';
     unsigned char   prevletter2 = '\0';
     unsigned char   prevletter = '\0';
+    bool            prevleftdquote = false;
+    bool            prevleftsquote = false;
     int             width = 0;
 
     for (int i = 0; i < len; i++)
@@ -712,11 +714,16 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
 
             if (letter == '\'')
             {
-                if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
-                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
-                    || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
-                        && prevletter2 != '.' && nextletter != '.'))
+                const bool  left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
+                                (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
+                                || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                                || prevletter == '{' || prevletter == '<' || prevletter == '"'
+                                || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                                    && prevletter2 != '.' && nextletter != '.')));
+
+                prevleftsquote = left;
+
+                if (left)
                 {
                     patch = lsquote;
 
@@ -728,11 +735,16 @@ int C_TextWidth(const char *text, const int tabs[MAXTABS], const bool formatting
             }
             else if (letter == '"')
             {
-                if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
-                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
-                    || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
-                        && prevletter2 != '.' && nextletter != '.'))
+                const bool  left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
+                                (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
+                                || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                                || prevletter == '{' || prevletter == '<' || prevletter == '\''
+                                || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                                    && prevletter2 != '.' && nextletter != '.')));
+
+                prevleftdquote = left;
+
+                if (left)
                 {
                     patch = ldquote;
 
@@ -1690,6 +1702,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     const int           len = (int)strlen(text);
     int                 startx = x;
     unsigned char       prevletter3 = '\0';
+    bool                prevleftdquote = false;
+    bool                prevleftsquote = false;
     const stringtype_t  stringtype = console[index].stringtype;
 
     y -= CONSOLEHEIGHT - consoleheight;
@@ -1867,11 +1881,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
-                        || prevletter == '\t' || prevletter == '(' || prevletter == '['
-                        || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                        || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
-                            && prevletter2 != '.' && nextletter != '.'))
+                    const bool  left = (prevletter == '\'' ? (prevleftsquote && nextletter != '\0' && nextletter != ' ') :
+                                    (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '\'')
+                                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                                    || prevletter == '{' || prevletter == '<' || prevletter == '"'
+                                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                                        && prevletter2 != '.' && nextletter != '.')));
+
+                    prevleftsquote = left;
+
+                    if (left)
                     {
                         patch = lsquote;
 
@@ -1883,11 +1902,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    if (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
-                        || prevletter == '\t' || prevletter == '(' || prevletter == '['
-                        || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                        || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
-                            && prevletter2 != '.' && nextletter != '.'))
+                    const bool  left = (prevletter == '"' ? (prevleftdquote && nextletter != '\0' && nextletter != ' ') :
+                                    (prevletter == '\0' || (prevletter == ' ' && prevletter2 != '"')
+                                    || prevletter == '\t' || prevletter == '(' || prevletter == '['
+                                    || prevletter == '{' || prevletter == '<' || prevletter == '\''
+                                    || ((prevletter == BOLDONCHAR || prevletter == ITALICSONCHAR)
+                                        && prevletter2 != '.' && nextletter != '.')));
+
+                    prevleftdquote = left;
+
+                    if (left)
                     {
                         patch = ldquote;
 
