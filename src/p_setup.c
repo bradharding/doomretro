@@ -1831,7 +1831,7 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
             newvertarray = vertexes;
         else
         {
-            newvertarray = calloc((size_t)orgVerts + newVerts, sizeof(vertex_t));
+            newvertarray = Z_Calloc((size_t)orgVerts + newVerts, sizeof(vertex_t), PU_LEVEL, NULL);
             memcpy(newvertarray, vertexes, orgVerts * sizeof(vertex_t));
         }
 
@@ -3539,6 +3539,8 @@ void P_SetupLevel(int ep, int map)
     }
 
     prevlumpnum = lumpnum;
+
+    viewplayer->attacker = NULL;
 
     if (!samelevel)
         Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
