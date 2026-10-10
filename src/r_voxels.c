@@ -579,7 +579,9 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         return true;
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
+
     angleoffset = thing->info->angleoffset;
+    angleoffset = ((angleoffset % 45) ? angleoffset * (ANG45 / 45) : ANG45 * (angleoffset / 45));
 
     if (spin)
     {
@@ -595,13 +597,6 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     {
         angle = thing->angle + angleoffset;
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
-    }
-    else if (r_sprites_tilt)
-    {
-        const angle_t   tilt = (angle_t)((int)(R_PointToAngle(gx, gy) - viewangle) / 2);
-
-        angle = viewangle + tilt + ANG180 + angleoffset;
-        relative = (tilt + angleoffset) >> ANGLETOFINESHIFT;
     }
     else
     {

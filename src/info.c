@@ -4553,7 +4553,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "BFGs",
         /* name3                */ "",
         /* plural3              */ "",
-        /* angleoffset          */ ANG270
+        /* angleoffset          */ 270
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -4675,7 +4675,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ "",
-        /* angleoffset          */ ANG90
+        /* angleoffset          */ 90
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -4736,7 +4736,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ "",
-        /* angleoffset          */ ANG270
+        /* angleoffset          */ 270
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -5590,7 +5590,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ "",
-        /* angleoffset          */ 0
+        /* angleoffset          */ 180
     },
 
     // Torched tree (MT_MISC40)
