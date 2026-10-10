@@ -159,12 +159,17 @@ static void VX_UpdateCellLighting(const vissprite_t *spr, const fixed_t wx, cons
     *light = lightsubsectorlighting;
 }
 
-static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner)
+static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner, byte *under)
 {
     voxeldepth_t    *d = &voxeldepth[pixel];
 
     if (d->owner && d->owner != owner && d->depth > depth)
         return false;
+
+    if (d->owner == owner)
+        *under = d->under;
+    else
+        d->under = *under;
 
     d->depth = depth;
     d->owner = owner;
@@ -933,9 +938,10 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 for (; uy < uy1; uy += FRACUNIT)
                 {
                     const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+                    byte        under = dest[pixel];
 
-                    if (VX_DepthPass(pixel, widescale, owner))
-                        dest[pixel] = VX_LitColor(spr, &light, slab[0], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                    if (VX_DepthPass(pixel, widescale, owner, &under))
+                        dest[pixel] = VX_LitColor(spr, &light, slab[0], dither, uy >> FRACBITS, vv->tint, under);
                 }
             }
             else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
@@ -945,9 +951,10 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 for (; uy > uy2; uy -= FRACUNIT)
                 {
                     const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+                    byte        under = dest[pixel];
 
-                    if (VX_DepthPass(pixel, widescale, owner))
-                        dest[pixel] = VX_LitColor(spr, &light, slab[len - 1], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                    if (VX_DepthPass(pixel, widescale, owner, &under))
+                        dest[pixel] = VX_LitColor(spr, &light, slab[len - 1], dither, uy >> FRACBITS, vv->tint, under);
                 }
             }
 
@@ -955,13 +962,14 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 for (fixed_t uy = ((uy1 - 1) | FRACMASK) + 1; uy <= uy2; uy += FRACUNIT)
                 {
                     const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+                    byte        under = dest[pixel];
 
-                    if (VX_DepthPass(pixel, scale, owner))
+                    if (VX_DepthPass(pixel, scale, owner, &under))
                     {
-                        const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS) * iscale) >> FRACBITS),
-                                        len - 1);
+                        const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS)
+                                        * iscale) >> FRACBITS), len - 1);
 
-                        dest[pixel] = VX_LitColor(spr, &light, slab[source], dither, uy >> FRACBITS, vv->tint, dest[pixel]);
+                        dest[pixel] = VX_LitColor(spr, &light, slab[source], dither, uy >> FRACBITS, vv->tint, under);
                     }
                 }
 
