@@ -832,7 +832,8 @@ static void LoadDEHFile(char *path, bool autoloaded)
 {
     char    *dehpath;
 
-    if (M_StringEndsWith(path, ".lmp"))
+    if (!M_StringEndsWith(path, ".wad") && !M_StringEndsWith(path, ".iwad")
+        && !M_StringEndsWith(path, ".pwad"))
         return;
 
     dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]");
