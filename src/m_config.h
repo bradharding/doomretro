@@ -204,7 +204,7 @@ extern int      r_skyprojection;
 extern bool     r_sprites_tilt;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
-extern bool     r_voxels;
+extern int      r_voxels;
 extern bool     r_voxels_spinpickups;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
@@ -391,6 +391,13 @@ enum
     r_skyprojection_vanilla,
     r_skyprojection_linear,
     r_skyprojection_cylindrical
+};
+
+enum
+{
+    r_voxels_off,
+    r_voxels_auto,
+    r_voxels_on
 };
 
 enum
@@ -899,7 +906,9 @@ enum
 
 #define r_teleportzoom_default                  true
 
-#define r_voxels_default                        true
+#define r_voxels_min                            r_voxels_off
+#define r_voxels_default                        r_voxels_auto
+#define r_voxels_max                            r_voxels_on
 
 #define r_voxels_spinpickups_default            true
 
@@ -1342,6 +1351,7 @@ typedef enum
     SUCKTIMEVALUEALIAS,
     TIMEFORMATVALUEALIAS,
     UNITSVALUEALIAS,
+    VOXELSVALUEALIAS,
     VSYNCVALUEALIAS,
     WARNINGLEVELVALUEALIAS,
     WEAPONVALUEALIAS

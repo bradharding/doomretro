@@ -65,6 +65,7 @@
 static voxel_t          **bindings;
 static bool             *spritereplaced;
 static voxel_t          **modelsbylump;
+static bool             treeshadowset;
 static visvoxel_t       *visvoxels;
 static int              numvisvoxels;
 static int              maxvisvoxels;
@@ -423,7 +424,8 @@ static void VX_ParseVoxelDef(const byte *data, int length)
             else if (key[4] == ']')
                 frame = 28;
 
-            if (spr >= 0 && frame >= 0 && frame < VX_MAX_FRAMES && !spritereplaced[spr])
+            if (spr >= 0 && frame >= 0 && frame < VX_MAX_FRAMES
+                && (!spritereplaced[spr] || r_voxels == r_voxels_on))
             {
                 voxel_t *v = VX_ModelForName(model);
 
@@ -438,26 +440,49 @@ static void VX_ParseVoxelDef(const byte *data, int length)
 
 void VX_Init(void)
 {
+    if (modelsbylump)
+        for (int i = 0; i < numlumps; i++)
+            if (modelsbylump[i])
+            {
+                free(modelsbylump[i]->offsets);
+                free(modelsbylump[i]->data);
+                free(modelsbylump[i]);
+            }
+
+    free(bindings);
+    free(modelsbylump);
+    free(spritereplaced);
+
+    numvisvoxels = 0;
+
+    if (treeshadowset)
+    {
+        mobjinfo[MT_MISC76].flags2 &= ~MF2_CASTSHADOW;
+        treeshadowset = false;
+    }
+
     bindings = I_Calloc((size_t)numsprites * VX_MAX_FRAMES, sizeof(*bindings));
     modelsbylump = I_Calloc(numlumps, sizeof(*modelsbylump));
     spritereplaced = I_Calloc(numsprites, sizeof(*spritereplaced));
 
-    if (!BTSX)
-        for (int i = 0; i < numspritelumps; i++)
-        {
-            const lumpinfo_t    *lump = lumpinfo[firstspritelump + i];
+    if (r_voxels == r_voxels_off)
+        return;
 
-            if (lump->wadfile->type != PWAD || D_IsResourceWAD(lump->wadfile->path))
-                continue;
+    for (int i = 0; i < numspritelumps; i++)
+    {
+        const lumpinfo_t    *lump = lumpinfo[firstspritelump + i];
 
-            for (int spr = 0; spr < numsprites; spr++)
-                if (sprnames[spr] && !strncasecmp(lump->name, sprnames[spr], 4))
-                    spritereplaced[spr] = true;
-        }
+        if (lump->wadfile->type != PWAD || D_IsResourceWAD(lump->wadfile->path))
+            continue;
+
+        for (int spr = 0; spr < numsprites; spr++)
+            if (sprnames[spr] && !strncasecmp(lump->name, sprnames[spr], 4))
+                spritereplaced[spr] = true;
+    }
 
     for (int spr = 0; spr < numsprites; spr++)
     {
-        if (spritereplaced[spr])
+        if (spritereplaced[spr] && r_voxels == r_voxels_auto)
             continue;
 
         for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
@@ -486,8 +511,11 @@ void VX_Init(void)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
 
-    if (bindings[SPR_TRE2 * VX_MAX_FRAMES])
+    if (bindings[SPR_TRE2 * VX_MAX_FRAMES] && !(mobjinfo[MT_MISC76].flags2 & MF2_CASTSHADOW))
+    {
         mobjinfo[MT_MISC76].flags2 |= MF2_CASTSHADOW;
+        treeshadowset = true;
+    }
 }
 
 void VX_ClearVoxels(void)

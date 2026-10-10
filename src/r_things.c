@@ -1684,7 +1684,7 @@ static void R_ProjectSprite(mobj_t *thing)
     if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
         fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
 
-    if (r_voxels && VX_ProjectVoxel(thing, fx, fy, fz))
+    if (r_voxels != r_voxels_off && VX_ProjectVoxel(thing, fx, fy, fz))
         return;
 
     tr_x = fx - viewx;

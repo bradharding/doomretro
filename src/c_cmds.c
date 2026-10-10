@@ -67,6 +67,7 @@
 #include "p_setup.h"
 #include "p_tick.h"
 #include "r_sky.h"
+#include "r_voxels.h"
 #include "s_sound.h"
 #include "sc_man.h"
 #include "st_carousel.h"
@@ -566,6 +567,7 @@ static void r_shadows_translucencyfunc2(char *cmd, char *parms);
 static void r_sprites_translucencyfunc2(char *cmd, char *parms);
 static void r_texturesfunc2(char *cmd, char *parms);
 static void r_textures_translucencyfunc2(char *cmd, char *parms);
+static void r_voxelsfunc2(char *cmd, char *parms);
 static void s_randommusicfunc2(char *cmd, char *parms);
 static void s_remixfunc2(char *cmd, char *parms);
 static bool s_volumecvarsfunc1(char *cmd, char *parms);
@@ -673,7 +675,7 @@ consolecmd_t consolecmds[] =
     BOOLCVAR(am_antialiasing, "", "", boolfunc1, boolfunc2, 0,
         "Toggles anti-aliasing in the automap."),
     BOOLCVAR(am_author, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles displaying the map's author in the automap (if available)."),
+        "Toggles displaying the map's author in the automap if available."),
     COLORCVAR(am_backcolor, am_backcolour,
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
     COLORCVAR(am_bloodsplatcolor, am_bloodsplatcolour,
@@ -1110,8 +1112,8 @@ consolecmd_t consolecmds[] =
         "Toggles showing all textures."),
     BOOLCVAR(r_textures_translucency, "", "", boolfunc1, r_textures_translucencyfunc2, 0,
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
-    BOOLCVAR(r_voxels, "", "", boolfunc1, boolfunc2, 0,
-        "Toggles rendering sprites using voxels (if available)."),
+    INTCVAR(r_voxels, "", "", intfunc1, r_voxelsfunc2, 0, VOXELSVALUEALIAS,
+        "Toggles rendering sprites using voxels if available (" BOLD("on") ", " BOLD("off") " or " BOLD("auto") ")."),
     BOOLCVAR(r_voxels_spinpickups, "", "", boolfunc1, boolfunc2, 0,
         "Toggles spinning and hovering pickups when rendered as voxels."),
     CCMD(readme, "", "", nullfunc1, readmefunc2, false, "",
@@ -12612,6 +12614,19 @@ static void r_textures_translucencyfunc2(char *cmd, char *parms)
             for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                 thing->colfunc = thing->info->colfunc;
     }
+}
+
+//
+// r_voxels CVAR
+//
+static void r_voxelsfunc2(char *cmd, char *parms)
+{
+    const int   r_voxels_old = r_voxels;
+
+    intfunc2(cmd, parms);
+
+    if (r_voxels != r_voxels_old)
+        VX_Init();
 }
 
 //
