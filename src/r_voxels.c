@@ -538,7 +538,7 @@ static int VX_NewVisVoxel(void)
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 {
     const int       spr = thing->sprite;
-    const int       frame = thing->frame & FF_FRAMEMASK;
+    const int       frame = (thing->frame & FF_FRAMEMASK);
     voxel_t         *v;
     fixed_t         dx, dy;
     fixed_t         tx, ty;
@@ -547,6 +547,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     fixed_t         cornersx[4], cornersy[4];
     fixed_t         xscale;
     angle_t         angle;
+    angle_t         angleoffset;
     int             x1 = viewwidth - 1;
     int             x2 = 0;
     int             index;
@@ -578,32 +579,34 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         return true;
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
+    angleoffset = thing->info->angleoffset;
 
     if (spin)
     {
         const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
                             + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
 
-        angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
+        angle = thing->angle + angleoffset
+            - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
                 / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     }
     else if (!(thing->flags & MF_SPECIAL))
     {
-        angle = thing->angle;
+        angle = thing->angle + angleoffset;
         relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     }
     else if (r_sprites_tilt)
     {
         const angle_t   tilt = (angle_t)((int)(R_PointToAngle(gx, gy) - viewangle) / 2);
 
-        angle = viewangle + tilt + ANG180;
-        relative = tilt >> ANGLETOFINESHIFT;
+        angle = viewangle + tilt + ANG180 + angleoffset;
+        relative = (tilt + angleoffset) >> ANGLETOFINESHIFT;
     }
     else
     {
-        angle = viewangle + ANG180;
-        relative = thing->angle >> ANGLETOFINESHIFT;
+        angle = viewangle + ANG180 + angleoffset;
+        relative = angleoffset >> ANGLETOFINESHIFT;
     }
 
     c = finecosine[relative];

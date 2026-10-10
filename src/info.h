@@ -324,6 +324,8 @@ typedef struct
     char        name3[64];
     char        plural3[64];
 
+    angle_t     angleoffset;
+
     char        *obituary;
     char        *obituary_melee;
     char        *obituary_self;
