@@ -1083,27 +1083,101 @@ static bool D_IsDEHFile(const char *filename)
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
 
+static bool D_IsWADListSpace(const char c)
+{
+    return (c == ' ' || c == '\t' || c == '\r' || c == '\n');
+}
+
+static int D_SplitWADList(const char *list, char **tokens, const int maxtokens)
+{
+    int count = 0;
+
+    while (*list && count < maxtokens)
+    {
+        const char  *start;
+        size_t      length;
+
+        while (D_IsWADListSpace(*list))
+            list++;
+
+        if (!*list)
+            break;
+
+        if (*list == '"')
+        {
+            start = ++list;
+
+            while (*list && *list != '"')
+                list++;
+
+            length = (size_t)(list - start);
+
+            if (*list == '"')
+                list++;
+        }
+        else
+        {
+            start = list;
+
+            while (*list)
+            {
+                char    name[MAX_PATH];
+
+                while (*list && !D_IsWADListSpace(*list))
+                    list++;
+
+                length = (size_t)(list - start);
+
+                if (!*list || length >= sizeof(name))
+                    break;
+
+                memcpy(name, start, length);
+                name[length] = '\0';
+
+                if (D_IsWADFile(name) || D_IsDEHFile(name) || D_IsCFGFile(name))
+                    break;
+
+                while (D_IsWADListSpace(*list))
+                    list++;
+            }
+
+            length = (size_t)(list - start);
+        }
+
+        if (length)
+        {
+            char    *token = malloc(length + 1);
+
+            if (!token)
+                break;
+
+            memcpy(token, start, length);
+            token[length] = '\0';
+            tokens[count++] = token;
+        }
+    }
+
+    return count;
+}
+
 static bool D_IsMultiWADSelection(const char *filename)
 {
-    char    *copy;
-    char    *token;
+    char    *tokens[100];
+    int     numtokens;
     int     count = 0;
 
     if (!filename || !*filename)
         return false;
 
-    copy = M_StringDuplicate(filename);
-    token = strtok(copy, " \t\r\n");
+    numtokens = D_SplitWADList(filename, tokens, 100);
 
-    while (token)
+    for (int i = 0; i < numtokens; i++)
     {
-        if (D_IsWADFile(token) || D_IsDEHFile(token) || D_IsCFGFile(token))
+        if (D_IsWADFile(tokens[i]) || D_IsDEHFile(tokens[i]) || D_IsCFGFile(tokens[i]))
             count++;
 
-        token = strtok(NULL, " \t\r\n");
+        free(tokens[i]);
     }
-
-    free(copy);
 
     return (count > 1);
 }
@@ -1606,6 +1680,7 @@ static bool D_CheckParms(void)
 #if defined(_WIN32) || defined(__APPLE__)
 static char *invalidwad;
 static char *collected_wads = NULL;
+static int  numcollectedwads;
 
 static void AddToWadList(const char *filename)
 {
@@ -1615,6 +1690,15 @@ static void AddToWadList(const char *filename)
         return;
 
     wadname = GetCorrectCase(M_StringDuplicate(filename));
+    numcollectedwads++;
+
+    if (strchr(wadname, ' '))
+    {
+        char    *quoted = M_StringJoin("\"", wadname, "\"", NULL);
+
+        free(wadname);
+        wadname = quoted;
+    }
 
     if (!collected_wads)
         collected_wads = wadname;
@@ -1644,7 +1728,19 @@ static int D_OpenWADLauncher(void)
     if (invalidwad)
         M_StringCopy(szFile, invalidwad, sizeof(szFile));
     else if (wad)
-        M_StringCopy(szFile, wad, sizeof(szFile));
+    {
+        char    *tokens[100];
+        int     numtokens = D_SplitWADList(wad, tokens, 100);
+
+        for (int i = 0; i < numtokens; i++)
+        {
+            char    *temp = M_StringJoin(szFile, (i ? " " : ""), tokens[i], NULL);
+
+            M_StringCopy(szFile, temp, sizeof(szFile));
+            free(temp);
+            free(tokens[i]);
+        }
+    }
 
     ofn.lpstrFile = szFile;
 
@@ -1653,6 +1749,8 @@ static int D_OpenWADLauncher(void)
         free(collected_wads);
         collected_wads = NULL;
     }
+
+    numcollectedwads = 0;
 
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.lmp;*.deh;*.bex;*.cfg;*.pk3;*.zip\0";
@@ -1697,17 +1795,7 @@ static int D_OpenWADLauncher(void)
         {
             char    tempbuf[4096];
             char    *filenames[100];
-            int     filecount = 0;
-            char    *inputcopy = M_StringDuplicate(ofn.lpstrFile);
-            char    *token = strtok(inputcopy, " \t\r\n");
-
-            while (token && filecount < 100)
-            {
-                filenames[filecount++] = M_StringDuplicate(token);
-                token = strtok(NULL, " \t\r\n");
-            }
-
-            free(inputcopy);
+            int     filecount = D_SplitWADList(ofn.lpstrFile, filenames, 100);
 
             if (filecount > 1)
             {
@@ -2356,9 +2444,13 @@ static int D_OpenWADLauncher(void)
 #if defined(_WIN32)
     if (collected_wads)
     {
+        if (numcollectedwads == 1)
+            M_StripQuotes(collected_wads);
+
         D_SetString(&wad, collected_wads);
         free(collected_wads);
         collected_wads = NULL;
+        numcollectedwads = 0;
     }
 #endif
 
