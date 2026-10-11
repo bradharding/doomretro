@@ -1253,15 +1253,15 @@ void VX_DrawVoxel(const vissprite_t *spr)
         voxeldepthcleared = true;
     }
 
-    if (vv->shadow)
-        VX_DrawShadow(spr);
-
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
 
     if (eyex >= 0 && eyex < (v->xsize << FRACBITS) && eyey >= 0 && eyey < (v->ysize << FRACBITS)
         && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS))
         return;
+
+    if (vv->shadow)
+        VX_DrawShadow(spr);
 
     VX_RecursiveDraw(spr, 0, 0, v->xsize, v->ysize);
 }
