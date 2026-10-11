@@ -216,9 +216,12 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     else
         wadsloaded = M_StringDuplicate(file);
 
-    C_Output("%i voxel%s %s been %s from the file " BOLD("%s") ".", voxelcount,
-        (voxelcount == 1 ? "" : "s"), (voxelcount == 1 ? "has" : "have"),
-        (autoloaded ? "automatically added" : "added"), wadfile->path);
+    if (voxelcount)
+        C_Output("%i voxel%s %s been %s from the file " BOLD("%s") ".", voxelcount,
+            (voxelcount == 1 ? "" : "s"), (voxelcount == 1 ? "has" : "have"),
+            (autoloaded ? "automatically added" : "added"), wadfile->path);
+    else
+        C_Warning(0, "No voxels were found in the file " BOLD("%s") ".", wadfile->path);
 
     return true;
 }
