@@ -1240,9 +1240,7 @@ void VX_DrawVoxel(const vissprite_t *spr)
     const fixed_t       dx = viewx - spr->gx;
     const fixed_t       dy = viewy - spr->gy;
 
-    if (spr->mobj->flags & MF_FUZZ)
-        fuzz1pos = 0;
-
+    fuzz1pos = 0;
     lightsubsector = NULL;
 
     if (!voxeldepthcleared)
@@ -1260,6 +1258,10 @@ void VX_DrawVoxel(const vissprite_t *spr)
 
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
+
+    if (eyex >= 0 && eyex < (v->xsize << FRACBITS) && eyey >= 0 && eyey < (v->ysize << FRACBITS)
+        && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS))
+        return;
 
     VX_RecursiveDraw(spr, 0, 0, v->xsize, v->ysize);
 }
