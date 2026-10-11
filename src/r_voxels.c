@@ -596,19 +596,18 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         angle = thing->angle + angleoffset
             - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
                 / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
-        relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     }
-    else if (!(thing->flags & MF_SPECIAL))
+    else if (thing->flags & MF_SPECIAL)
     {
-        angle = thing->angle + angleoffset;
-        relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
+        if (spr == SPR_PINV || spr == SPR_PINS || spr == SPR_SOUL || spr == SPR_MEGA)
+            angle = R_PointToAngle(gx, gy) + ANG180 + angleoffset;
+        else
+            angle = viewangle + ANG180 + angleoffset;
     }
     else
-    {
-        angle = viewangle + ANG180 + angleoffset;
-        relative = angleoffset >> ANGLETOFINESHIFT;
-    }
+        angle = thing->angle + angleoffset;
 
+    relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     c = finecosine[relative];
     s = finesine[relative];
 
