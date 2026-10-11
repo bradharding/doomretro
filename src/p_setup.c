@@ -552,7 +552,7 @@ static void P_LoadVertexes(int lump)
                     {
                         char    *temp = commify(vertexfix[j].vertex);
 
-                        C_Warning(2, "Vertex %s has been moved from (%i, %i) to (%i, %i).",
+                        C_Warning(2, "Vertex %s was moved from (%i, %i) to (%i, %i).",
                             temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
 
                         vertexes[i].x = vertexfix[j].newx << FRACBITS;
@@ -693,7 +693,7 @@ static void P_LoadSegs(int lump)
         {
             char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
+            C_Warning(2, "Seg %s has an invalid side. It was changed to 1.", temp);
             side = 1;
             free(temp);
         }
@@ -789,14 +789,14 @@ static void P_LoadSegs(int lump)
                         char    *temp = commify(linedefnum);
 
                         if (!texture)
-                            C_Warning(2, "The unused top texture of linedef %s has been removed.", temp);
+                            C_Warning(2, "The unused top texture of linedef %s was removed.", temp);
                         else
                         {
                             if (!li->sidedef->toptexture)
-                                C_Warning(2, "The missing top texture of linedef %s has been changed to " BOLD("%.8s") ".",
+                                C_Warning(2, "The missing top texture of linedef %s was changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].toptexture);
                             else
-                                C_Warning(2, "The top texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                                C_Warning(2, "The top texture of linedef %s was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                                     temp, textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
                         }
 
@@ -810,14 +810,14 @@ static void P_LoadSegs(int lump)
                         char    *temp = commify(linedefnum);
 
                         if (!texture)
-                            C_Warning(2, "The unused middle texture of linedef %s has been removed.", temp);
+                            C_Warning(2, "The unused middle texture of linedef %s was removed.", temp);
                         else
                         {
                             if (!li->sidedef->midtexture)
-                                C_Warning(2, "The missing middle texture of linedef %s has been changed to " BOLD("%.8s") ".",
+                                C_Warning(2, "The missing middle texture of linedef %s was changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].middletexture);
                             else
-                                C_Warning(2, "The middle texture of linedef %s has been changed from " BOLD("%.8s") " to "
+                                C_Warning(2, "The middle texture of linedef %s was changed from " BOLD("%.8s") " to "
                                     BOLD("%.8s") ".", temp, textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
                         }
 
@@ -831,14 +831,14 @@ static void P_LoadSegs(int lump)
                         char    *temp = commify(linedefnum);
 
                         if (!texture)
-                            C_Warning(2, "The unused bottom texture of linedef %s has been removed.", temp);
+                            C_Warning(2, "The unused bottom texture of linedef %s was removed.", temp);
                         else
                         {
                             if (!li->sidedef->bottomtexture)
-                                C_Warning(2, "The missing bottom texture of linedef %s has been changed to " BOLD("%.8s") ".",
+                                C_Warning(2, "The missing bottom texture of linedef %s was changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].bottomtexture);
                             else
-                                C_Warning(2, "The bottom texture of linedef %s has been changed from " BOLD("%.8s") " to "
+                                C_Warning(2, "The bottom texture of linedef %s was changed from " BOLD("%.8s") " to "
                                     BOLD("%.8s") ".", temp, textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
                         }
 
@@ -852,7 +852,7 @@ static void P_LoadSegs(int lump)
                         char    *temp2 = commify(li->offset >> FRACBITS);
                         char    *temp3 = commify(linefix[j].offset);
 
-                        C_Warning(2, "The horizontal texture offset of linedef %s has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The horizontal texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
 
                         li->offset = linefix[j].offset << FRACBITS;
                         li->sidedef->textureoffset = 0;
@@ -867,7 +867,7 @@ static void P_LoadSegs(int lump)
                         char    *temp2 = commify(li->sidedef->rowoffset >> FRACBITS);
                         char    *temp3 = commify(linefix[j].rowoffset);
 
-                        C_Warning(2, "The vertical texture offset of linedef %s has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The vertical texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
 
                         li->sidedef->rowoffset = linefix[j].rowoffset << FRACBITS;
                         free(temp1);
@@ -881,7 +881,7 @@ static void P_LoadSegs(int lump)
                         char    *temp2 = commify(li->linedef->flags);
                         char    *temp3 = commify(linefix[j].flags);
 
-                        C_Warning(2, "The flags of linedef %s have been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The flags of linedef %s were changed from %s to %s.", temp1, temp2, temp3);
 
                         if (li->linedef->flags & linefix[j].flags)
                             li->linedef->flags &= ~linefix[j].flags;
@@ -905,7 +905,7 @@ static void P_LoadSegs(int lump)
                             {
                                 char    *temp3 = commify(linefix[j].special);
 
-                                C_Warning(2, "%s line special of linedef %s has been changed from %s (\"%s\") to %s (\"%s\").",
+                                C_Warning(2, "%s line special of linedef %s was changed from %s (\"%s\") to %s (\"%s\").",
                                     (special < BOOMLINESPECIALS ? "The" : (special < MBFLINESPECIALS ?
                                     "The " ITALICS("BOOM") "-compatible" : (special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
                                     "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, temp2,
@@ -925,7 +925,7 @@ static void P_LoadSegs(int lump)
                         {
                             char    *temp = commify(linedefnum);
 
-                            C_Warning(2, "%s line special of linedef %s has been removed.",
+                            C_Warning(2, "%s line special of linedef %s was removed.",
                                 (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
                                 "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
                                 "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp);
@@ -944,11 +944,11 @@ static void P_LoadSegs(int lump)
                         {
                             char    *temp3 = commify(linefix[j].tag);
 
-                            C_Warning(2, "Linedef %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
+                            C_Warning(2, "Linedef %s's tag was changed from %s to %s.", temp1, temp2, temp3);
                             free(temp3);
                         }
                         else
-                            C_Warning(2, "Linedef %s's tag of %s has been removed.", temp1, temp2);
+                            C_Warning(2, "Linedef %s's tag of %s was removed.", temp1, temp2);
 
                         li->linedef->tag = linefix[j].tag;
                         free(temp1);
@@ -1009,7 +1009,7 @@ static void P_LoadSegs_V4(int lump)
         {
             char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has an invalid side. It has been changed to 1.", temp);
+            C_Warning(2, "Seg %s has an invalid side. It was changed to 1.", temp);
             side = 1;
             free(temp);
         }
@@ -1410,7 +1410,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The texture of sector %s's floor has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                        C_Warning(2, "The texture of sector %s's floor was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
@@ -1422,7 +1422,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The texture of sector %s's ceiling has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                        C_Warning(2, "The texture of sector %s's ceiling was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
 
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
@@ -1436,7 +1436,7 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->floorheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].floorheight);
 
-                        C_Warning(2, "The height of sector %s's floor has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The height of sector %s's floor was changed from %s to %s.", temp1, temp2, temp3);
 
                         ss->floorheight = sectorfix[j].floorheight << FRACBITS;
                         free(temp1);
@@ -1450,7 +1450,7 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->ceilingheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].ceilingheight);
 
-                        C_Warning(2, "The height of sector %s's ceiling has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The height of sector %s's ceiling was changed from %s to %s.", temp1, temp2, temp3);
 
                         ss->ceilingheight = sectorfix[j].ceilingheight << FRACBITS;
                         free(temp1);
@@ -1476,10 +1476,10 @@ static void P_LoadSectors(int lump)
                         if (ss->special)
                         {
                             if (sectorfix[j].special)
-                                C_Warning(2, "Sector %s's special has been changed from %i (\"%s\") to %i (\"%s\").",
+                                C_Warning(2, "Sector %s's special was changed from %i (\"%s\") to %i (\"%s\").",
                                     temp, ss->special, oldspecial, sectorfix[j].special, newspecial);
                             else
-                                C_Warning(2, "Sector %s's special of %i (\"%s\") has been removed.",
+                                C_Warning(2, "Sector %s's special of %i (\"%s\") was removed.",
                                     temp, ss->special, oldspecial);
                         }
                         else
@@ -1497,9 +1497,9 @@ static void P_LoadSectors(int lump)
                         char    *temp3 = commify(sectorfix[j].newtag);
 
                         if (!sectorfix[j].oldtag)
-                            C_Warning(2, "Sector %s's tag of %s has been removed.", temp1, temp2);
+                            C_Warning(2, "Sector %s's tag of %s was removed.", temp1, temp2);
                         else if (ss->tag)
-                            C_Warning(2, "Sector %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
+                            C_Warning(2, "Sector %s's tag was changed from %s to %s.", temp1, temp2, temp3);
                         else
                             C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
 
@@ -1700,7 +1700,7 @@ static void P_LoadZSegs(const byte *data)
         {
             char    *temp = commify(i);
 
-            C_Warning(2, "Seg %s has an incorrect side of %i. It has been changed to %i.",
+            C_Warning(2, "Seg %s has an incorrect side of %i. It was changed to %i.",
                 temp, ml->side, side);
             free(temp);
         }
@@ -2013,7 +2013,7 @@ static void P_LoadThings(int map, int lump)
 
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
                     {
-                        C_Warning(2, "Thing %s has been removed.", temp);
+                        C_Warning(2, "Thing %s was removed.", temp);
 
                         spawn = false;
                     }
@@ -2021,7 +2021,7 @@ static void P_LoadThings(int map, int lump)
                     {
                         if (mt.x != thingfix[j].newx || mt.y != thingfix[j].newy)
                         {
-                            C_Warning(2, "Thing %s has been moved from (%i, %i) to (%i, %i).",
+                            C_Warning(2, "Thing %s was moved from (%i, %i) to (%i, %i).",
                                 temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
                             mt.x = thingfix[j].newx;
@@ -2030,7 +2030,7 @@ static void P_LoadThings(int map, int lump)
 
                         if (thingfix[j].angle != DEFAULT)
                         {
-                            C_Warning(2, "Thing %s has been turned from %i\xB0 to %i\xB0.",
+                            C_Warning(2, "Thing %s was rotated from %i\xB0 to %i\xB0.",
                                 temp, mt.angle, thingfix[j].angle);
 
                             mt.angle = thingfix[j].angle;
@@ -2038,7 +2038,7 @@ static void P_LoadThings(int map, int lump)
 
                         if (thingfix[j].options != DEFAULT)
                         {
-                            C_Warning(2, "Thing %s's flags have been changed from %i to %i.",
+                            C_Warning(2, "Thing %s's flags were changed from %i to %i.",
                                 temp, mt.options, thingfix[j].options);
 
                             mt.options = thingfix[j].options;
@@ -2695,7 +2695,7 @@ static void P_LoadBlockMap(int lump)
         || (count = lumplen / 2) >= 0x010000 || M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(2, "The " BOLD("BLOCKMAP") " lump in this map has been rebuilt.");
+        C_Warning(2, "The " BOLD("BLOCKMAP") " lump in this map was rebuilt.");
     }
     else
     {
@@ -2729,7 +2729,7 @@ static void P_LoadBlockMap(int lump)
         if (!P_VerifyBlockMap(count))
         {
             P_CreateBlockMap();
-            C_Warning(2, "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
+            C_Warning(2, "The " BOLD("BLOCKMAP") " lump was rebuilt.");
         }
     }
 
@@ -2766,7 +2766,7 @@ static void RejectOverrun(int lump, const byte **matrix)
         // unlock the original lump, it is no longer needed
         W_ReleaseLumpNum(lump);
 
-        C_Warning(2, "The " BOLD("REJECT") " lump has been increased in size.");
+        C_Warning(2, "The " BOLD("REJECT") " lump has increased in size.");
     }
 }
 
@@ -3621,7 +3621,7 @@ void P_SetupLevel(int ep, int map)
         if (canmodify && !M_CheckParm("-nobsp"))
         {
             nodeformat = NANOBSP;
-            C_Warning(2, "The nodes in this map have been rebuilt.");
+            C_Warning(2, "The nodes in this map were rebuilt.");
         }
         else
         {
@@ -3733,7 +3733,7 @@ void P_Init(void)
 
     if (M_CheckParm("-nomapinfo"))
         C_Output("A " BOLD("-nomapinfo") " parameter was found on the command-line. "
-            "No " BOLD("MAPINFO") " lumps have been parsed.");
+            "No " BOLD("MAPINFO") " lumps were parsed.");
     else
     {
         P_InitMapInfo();
