@@ -1684,11 +1684,14 @@ static void R_ProjectSprite(mobj_t *thing)
     if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
         fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
 
-    if (r_voxels != r_voxels_off && VX_ProjectVoxel(thing, fx, fy, fz))
-        return;
-
     tr_x = fx - viewx;
     tr_y = fy - viewy;
+
+    if (r_voxels != r_voxels_off
+        && (int64_t)tr_x * tr_x + (int64_t)tr_y * tr_y <= (int64_t)VX_MAX_DIST * VX_MAX_DIST
+        && VX_ProjectVoxel(thing, fx, fy, fz))
+        return;
+
     tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane or too far away?

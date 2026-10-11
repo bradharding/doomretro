@@ -574,14 +574,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     if ((spin = (r_voxels_spinpickups && (thing->flags & MF_SPECIAL) && !(thing->flags2 & MF2_FLOATBOB))))
         gz += VX_HOVER;
 
-    if (ABS(dx) > VX_MAX_DIST || ABS(dy) > VX_MAX_DIST)
-        return true;
-
     tx = FixedMul(dx, viewsin) - FixedMul(dy, viewcos);
     ty = FixedMul(dx, viewcos) + FixedMul(dy, viewsin);
-
-    if (ty > VX_SPRITE_DIST)
-        return false;
 
     if (ty < -(v->xsize + v->ysize) * FRACUNIT)
         return true;
@@ -659,7 +653,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->c = c;
     vv->s = s;
     vv->liquidclip = false;
-    vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4);
+    vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
+        && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
     vv->tint = VX_TintForThing(thing);
 
     vis = R_NewVisSprite();
