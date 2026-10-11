@@ -73,6 +73,8 @@ typedef struct
     bool                liquidclip;
     bool                shadow;
     bool                percolumnlighting;
+    lighttable_t        *const *lightrows;
+    lighttable_t        *const *nextlightrows;
     const byte          *brightmap;
     const byte          *tint;
 } visvoxel_t;
@@ -95,6 +97,8 @@ typedef struct
     const lighttable_t  *colormap;
     const lighttable_t  *nextcolormap;
     const lighttable_t  *sectorcolormap;
+    lighttable_t        *const *rows;
+    lighttable_t        *const *nextrows;
 } vxlighting_t;
 
 void VX_Init(void);

@@ -158,6 +158,8 @@ static void VX_UpdateCellLighting(const vissprite_t *spr, const fixed_t wx, cons
             scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][scaleindex];
         lightsubsectorlighting.nextcolormap =
             scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][scaleindex];
+        lightsubsectorlighting.rows = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        lightsubsectorlighting.nextrows = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         lightsubsectorlighting.sectorcolormap = R_GetSectorColormap(sector);
         lightsubsector = subsector;
     }
@@ -688,6 +690,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
         && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
     vv->tint = VX_TintForThing(thing);
+    vv->lightrows = vv->nextlightrows = NULL;
     vv->brightmap = NULL;
 
     if (usebrightmaps)
@@ -742,6 +745,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
         vis->colormap = scalelight[light][scaleindex];
         vis->nextcolormap = scalelight[nextlight][scaleindex];
+        vv->lightrows = scalelight[light];
+        vv->nextlightrows = scalelight[nextlight];
     }
 
     return true;
@@ -854,21 +859,23 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     light.colormap = spr->colormap;
     light.nextcolormap = spr->nextcolormap;
     light.sectorcolormap = spr->sectorcolormap;
+    light.rows = vv->lightrows;
+    light.nextrows = vv->nextlightrows;
 
     if (vv->percolumnlighting)
     {
-        const fixed_t   centerx = px[0] + ((vv->s + vv->c) >> 1);
-        const fixed_t   centery = py[0] + ((vv->s - vv->c) >> 1);
+        const fixed_t   cx = px[0] + ((vv->s + vv->c) >> 1);
+        const fixed_t   cy = py[0] + ((vv->s - vv->c) >> 1);
 
-        VX_UpdateCellLighting(spr, viewx + FixedMul(centerx, viewsin) + FixedMul(centery, viewcos),
-            viewy - FixedMul(centerx, viewcos) + FixedMul(centery, viewsin), &light);
+        VX_UpdateCellLighting(spr, viewx + FixedMul(cx, viewsin) + FixedMul(cy, viewcos),
+            viewy - FixedMul(cx, viewcos) + FixedMul(cy, viewsin), &light);
     }
 
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)
     {
         fixed_t     scale;
         fixed_t     iscale;
-        const byte  *dither = (r_ditheredlighting ? R_GetDitherColumn(ux >> FRACBITS, (spr->scale >> 5) & 255) : NULL);
+        const byte  *dither;
         const int   screenx = ux >> FRACBITS;
         const byte  *slab = v->data + offsets1;
         const byte  *slabend = v->data + offsets2;
@@ -897,6 +904,16 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
         if (scale <= 0)
             continue;
+
+        if (light.rows)
+        {
+            const int   scaleindex = MIN(scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+            light.colormap = light.rows[scaleindex];
+            light.nextcolormap = light.nextrows[scaleindex];
+        }
+
+        dither = (r_ditheredlighting ? R_GetDitherColumn(screenx, (scale >> 5) & 255) : NULL);
 
         if (vv->liquidclip)
         {
@@ -1115,9 +1132,8 @@ static void VX_DrawShadow(const vissprite_t *spr)
     {
         if (mobj->flags & MF_FUZZ)
             tint = &tinttab15[black << 8];
-        else if (spr->fullbright)
-            tint = &tinttab25[black << 8];
-        else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
+        else if (spr->fullbright
+            || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
             tint = &tinttab25[black << 8];
         else
             tint = &tinttab40[black << 8];
@@ -1126,7 +1142,7 @@ static void VX_DrawShadow(const vissprite_t *spr)
     if (!shadowstamps)
         shadowstamps = I_Calloc(MAXSCREENAREA, sizeof(*shadowstamps));
 
-    if (!(++shadowstamp))
+    if (!++shadowstamp)
     {
         memset(shadowstamps, 0, MAXSCREENAREA * sizeof(*shadowstamps));
         shadowstamp = 1;
@@ -1233,31 +1249,31 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 for (int i = 0; i < n; i++)
                 {
                     const int   j = (i + 1) % n;
-                    int64_t     x0 = sx[i], y0 = sy[i];
-                    int64_t     x1 = sx[j], y1 = sy[j];
+                    int64_t     xx0 = sx[i], yy0 = sy[i];
+                    int64_t     xx1 = sx[j], yy1 = sy[j];
 
-                    if (x0 > x1)
+                    if (xx0 > xx1)
                     {
-                        int64_t temp = x0;
+                        int64_t temp = xx0;
 
-                        x0 = x1;
-                        x1 = temp;
-                        temp = y0;
-                        y0 = y1;
-                        y1 = temp;
+                        xx0 = xx1;
+                        xx1 = temp;
+                        temp = yy0;
+                        yy0 = yy1;
+                        yy1 = temp;
                     }
 
-                    if (ux < x0 || ux > x1)
+                    if (ux < xx0 || ux > xx1)
                         continue;
 
-                    if (x0 == x1)
+                    if (xx0 == xx1)
                     {
-                        lo = MIN64(lo, MIN64(y0, y1));
-                        hi = MAX64(hi, MAX64(y0, y1));
+                        lo = MIN64(lo, MIN64(yy0, yy1));
+                        hi = MAX64(hi, MAX64(yy0, yy1));
                     }
                     else
                     {
-                        int64_t uy = y0 + (y1 - y0) * (ux - x0) / (x1 - x0);
+                        int64_t uy = yy0 + (yy1 - yy0) * (ux - xx0) / (xx1 - xx0);
 
                         lo = MIN64(lo, uy);
                         hi = MAX64(hi, uy);
@@ -1267,8 +1283,10 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 if (lo > hi)
                     continue;
 
-                yl = (int)MAX64(MAX(0, MAX(mceilingclip[screenx], shadowcliptop[screenx]) + 1), (lo + FRACMASK) >> FRACBITS);
-                yh = (int)MIN64(MIN(viewheight - 1, MIN(mfloorclip[screenx], shadowclipbot[screenx]) - 1), hi >> FRACBITS);
+                yl = (int)MAX64(MAX(0, MAX(mceilingclip[screenx], shadowcliptop[screenx]) + 1),
+                    (lo + FRACMASK) >> FRACBITS);
+                yh = (int)MIN64(MIN(viewheight - 1, MIN(mfloorclip[screenx], shadowclipbot[screenx]) - 1),
+                    hi >> FRACBITS);
 
                 for (int row = yl, pixel = yl * SCREENWIDTH + screenx; row <= yh; row++, pixel += SCREENWIDTH)
                     if (shadowstamps[pixel] != shadowstamp
@@ -1300,7 +1318,8 @@ void VX_DrawVoxel(const vissprite_t *spr)
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
 
-    if (eyex >= 0 && eyex < (v->xsize << FRACBITS) && eyey >= 0 && eyey < (v->ysize << FRACBITS)
+    if (eyex >= 0 && eyex < (v->xsize << FRACBITS)
+        && eyey >= 0 && eyey < (v->ysize << FRACBITS)
         && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS))
         return;
 

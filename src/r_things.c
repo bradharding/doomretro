@@ -2544,13 +2544,13 @@ static void R_SortVisSprites(void)
 }
 
 void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fixed_t gx,
-    const fixed_t gy, int *cliptop, int *clipbot, const bool rendermasked)
+    const fixed_t gy, int *sprtop, int *sprbottom, const bool rendermasked)
 {
     const size_t    clipcount = (size_t)((int64_t)x2 - x1 + 1);
 
     // initialize the clipping arrays
-    memcpy(cliptop + x1, negonearray + x1, clipcount * sizeof(cliptop[0]));
-    memcpy(clipbot + x1, viewheightarray + x1, clipcount * sizeof(clipbot[0]));
+    memcpy(sprtop + x1, negonearray + x1, clipcount * sizeof(sprtop[0]));
+    memcpy(sprbottom + x1, viewheightarray + x1, clipcount * sizeof(sprbottom[0]));
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
@@ -2592,13 +2592,13 @@ void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fix
 
                 if (silhouette & SIL_TOP)
                     for (int i = r1; i <= r2; i++)
-                        if (cliptop[i] < ds->sprtopclip[i])
-                            cliptop[i] = ds->sprtopclip[i];
+                        if (sprtop[i] < ds->sprtopclip[i])
+                            sprtop[i] = ds->sprtopclip[i];
 
                 if (silhouette & SIL_BOTTOM)
                     for (int i = r1; i <= r2; i++)
-                        if (clipbot[i] > ds->sprbottomclip[i])
-                            clipbot[i] = ds->sprbottomclip[i];
+                        if (sprbottom[i] > ds->sprbottomclip[i])
+                            sprbottom[i] = ds->sprbottomclip[i];
             }
         }
     }
