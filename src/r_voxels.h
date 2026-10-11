@@ -73,6 +73,7 @@ typedef struct
     bool                liquidclip;
     bool                shadow;
     bool                percolumnlighting;
+    const byte          *brightmap;
     const byte          *tint;
 } visvoxel_t;
 

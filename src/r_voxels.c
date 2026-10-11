@@ -83,6 +83,7 @@ static subsector_t      *lightsubsector;
 static vxlighting_t     lightsubsectorlighting;
 
 static bool             vxwhite;
+static const byte       *vxbrightmap;
 static const byte       *vxtranslation;
 
 static fixed_t VX_ProjectScreenX(fixed_t x, fixed_t scale)
@@ -120,8 +121,16 @@ static byte VX_LitColor(const vxlighting_t *light, byte color,
 
     if (vxwhite)
         color = nearestwhite;
-    else if (vxtranslation)
-        color = vxtranslation[color];
+    else
+    {
+        const bool  bright = (vxbrightmap && vxbrightmap[color]);
+
+        if (vxtranslation)
+            color = vxtranslation[color];
+
+        if (bright)
+            return light->sectorcolormap[(tint ? tint[(under << 8) + fullcolormap[color]] : fullcolormap[color])];
+    }
 
     lit = (dither && dither[R_GetDitherRow(row)] ? light->nextcolormap : light->colormap)[color];
 
@@ -679,6 +688,15 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
         && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
     vv->tint = VX_TintForThing(thing);
+    vv->brightmap = NULL;
+
+    if (usebrightmaps)
+    {
+        if (thing->state && thing->state->brightmap)
+            vv->brightmap = thing->state->brightmap;
+        else if (frame < sprites[spr].numframes)
+            vv->brightmap = spritebrightmap[sprites[spr].spriteframes[frame].lump[0]];
+    }
 
     vis = R_NewVisSprite();
     memset(vis, 0, sizeof(*vis));
@@ -1302,6 +1320,7 @@ void VX_DrawVoxel(const vissprite_t *spr)
         VX_DrawShadow(spr);
 
     vxwhite = !r_textures;
+    vxbrightmap = (vxwhite ? NULL : vv->brightmap);
     vxtranslation = NULL;
 
     if (!vxwhite)
