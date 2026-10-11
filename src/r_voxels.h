@@ -40,6 +40,7 @@
 #define VX_MAX_FRAMES   29
 #define VX_MINZ         (4 * FRACUNIT)
 #define VX_MAX_DIST     (8192 * FRACUNIT)
+#define VX_SPRITE_DIST  (1024 * FRACUNIT)
 #define VX_SPIN_TICS    140
 #define VX_HOVER        (4 * FRACUNIT)
 
