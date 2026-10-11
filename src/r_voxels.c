@@ -797,7 +797,10 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     static const int    acorners[9] = { 3, 3, 2, 0, -1, 2, 0, 1, 1 };
     static const byte   afaces[9] = { F_BACK, F_BACK, F_RIGHT, F_LEFT, 0, F_RIGHT, F_LEFT, F_FRONT, F_FRONT };
     static const byte   bfaces[9] = { F_LEFT, 0, F_BACK, 0, 0, 0, F_FRONT, 0, F_RIGHT };
-    fixed_t             uxstart, uxend;
+    fixed_t             uxstart;
+    fixed_t             uxend;
+    int64_t             slopeab = 0;
+    int64_t             slopebc = 0;
     vxlighting_t        light;
 
     if (offsets1 >= offsets2)
@@ -856,6 +859,12 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     uxstart = MAX(((ax - 1) | FRACMASK) + 1, drawx1 << FRACBITS);
     uxend = MIN(MAX(cx, bx), (drawx2 + 1) << FRACBITS);
 
+    if (bx != ax)
+        slopeab = ((int64_t)(bscale - ascale) << 16) / (bx - ax);
+
+    if (cx != bx)
+        slopebc = ((int64_t)(cscale - bscale) << 16) / (cx - bx);
+
     light.colormap = spr->colormap;
     light.nextcolormap = spr->nextcolormap;
     light.sectorcolormap = spr->sectorcolormap;
@@ -874,7 +883,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)
     {
         fixed_t     scale;
-        fixed_t     iscale;
+        fixed_t     iscale = 0;
+        fixed_t     widescale = 0;
+        bool        widescaleset = false;
         const byte  *dither;
         const int   screenx = ux >> FRACBITS;
         const byte  *slab = v->data + offsets1;
@@ -896,9 +907,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             continue;
 
         if (ux > bx && cx != bx)
-            scale = bscale + FixedMul(cscale - bscale, FixedDiv(ux - bx, cx - bx));
+            scale = bscale + (fixed_t)((slopebc * (ux - bx)) >> 16);
         else if (bx != ax)
-            scale = ascale + FixedMul(bscale - ascale, FixedDiv(ux - ax, bx - ax));
+            scale = ascale + (fixed_t)((slopeab * (ux - ax)) >> 16);
         else
             scale = bscale;
 
@@ -922,8 +933,6 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             if (cliptop > clipbottom)
                 continue;
         }
-
-        iscale = FixedDiv(FRACUNIT, scale);
 
         while (slab + 3 <= slabend)
         {
@@ -949,7 +958,6 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 const fixed_t   originaluy1 = uy1;
                 const fixed_t   originaluy2 = uy2;
                 const bool      side = (!!(face & sideface) && originaluy2 >= cliptop && originaluy1 <= clipbottom);
-                fixed_t         widescale = 0;
 
                 // Clamp both ends. The top and bottom face loops also use these
                 // values, so one-sided clipping can otherwise write past the
@@ -957,8 +965,10 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 uy1 = BETWEEN(cliptop, uy1, clipbottom);
                 uy2 = BETWEEN(cliptop, uy2, clipbottom);
 
-                if ((face & F_TOP) || (face & F_BOTTOM))
+                if (((face & F_TOP) || (face & F_BOTTOM)) && !widescaleset)
                 {
+                    widescaleset = true;
+
                     if (ux > cx && bx != cx)
                         widescale = cscale + FixedMul(bscale - cscale, FixedDiv(ux - cx, bx - cx));
                     else if (ux > dx && cx != dx)
@@ -1027,6 +1037,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 {
                     fixed_t uy = ((uy1 - 1) | FRACMASK) + 1;
                     int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    if (!iscale)
+                        iscale = FixedDiv(FRACUNIT, scale);
 
                     for (; uy <= uy2; uy += FRACUNIT, pixel += SCREENWIDTH)
                     {
