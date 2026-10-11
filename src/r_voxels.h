@@ -85,6 +85,7 @@ typedef struct
 {
     fixed_t             depth;
     int                 owner;
+    unsigned int        frame;
     byte                under;
 } voxeldepth_t;
 

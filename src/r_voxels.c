@@ -70,16 +70,20 @@ static visvoxel_t       *visvoxels;
 static int              numvisvoxels;
 static int              maxvisvoxels;
 static fixed_t          eyex, eyey;
-static uint32_t         *shadowstamps;
-static uint32_t         shadowstamp;
+static int              drawx1, drawx2;
+static unsigned int     *shadowstamps;
+static unsigned int     shadowstamp;
 static int              shadowcliptop[MAXWIDTH];
 static int              shadowclipbot[MAXWIDTH];
 
 static voxeldepth_t     *voxeldepth;
-static bool             voxeldepthcleared;
+static unsigned int     voxelframe;
 
 static subsector_t      *lightsubsector;
 static vxlighting_t     lightsubsectorlighting;
+
+static bool             vxwhite;
+static const byte       *vxtranslation;
 
 static fixed_t VX_ProjectScreenX(fixed_t x, fixed_t scale)
 {
@@ -109,22 +113,15 @@ static const byte *VX_TintForThing(const mobj_t *thing)
         thing->altcolfunc : thing->colfunc);
 }
 
-static byte VX_LitColor(const vissprite_t *spr, const vxlighting_t *light, byte color,
+static byte VX_LitColor(const vxlighting_t *light, byte color,
     const byte *dither, const int row, const byte *tint, const byte under)
 {
     byte    lit;
 
-    if (!r_textures)
+    if (vxwhite)
         color = nearestwhite;
-    else if (spr->mobj->colfunc == bloodcolfunc)
-        color = colortranslation[spr->mobj->bloodcolor - 1][color];
-    else
-    {
-        const int   flags = spr->mobj->flags;
-
-        if (flags & MF_TRANSLATION)
-            color = translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256 + color];
-    }
+    else if (vxtranslation)
+        color = vxtranslation[color];
 
     lit = (dither && dither[R_GetDitherRow(row)] ? light->nextcolormap : light->colormap)[color];
 
@@ -163,6 +160,12 @@ static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner, 
 {
     voxeldepth_t    *d = &voxeldepth[pixel];
 
+    if (d->frame != voxelframe)
+    {
+        d->frame = voxelframe;
+        d->owner = 0;
+    }
+
     if (d->owner && d->owner != owner && d->depth > depth)
         return false;
 
@@ -176,14 +179,14 @@ static bool VX_DepthPass(const int pixel, const fixed_t depth, const int owner, 
     return true;
 }
 
-static uint32_t VX_ReadU32(const byte *p)
+static unsigned int VX_ReadU32(const byte *p)
 {
-    return ((uint32_t)p[0] | (uint32_t)p[1] << 8 | (uint32_t)p[2] << 16 | (uint32_t)p[3] << 24);
+    return ((unsigned int)p[0] | (unsigned int)p[1] << 8 | (unsigned int)p[2] << 16 | (unsigned int)p[3] << 24);
 }
 
 static fixed_t VX_ReadPivot(const byte *p)
 {
-    return (fixed_t)((int64_t)(int32_t)VX_ReadU32(p) * (FRACUNIT >> 8));
+    return (fixed_t)((int64_t)(signed int)VX_ReadU32(p) * (FRACUNIT >> 8));
 }
 
 static voxel_t *VX_Decode(const byte *source, int length)
@@ -526,7 +529,14 @@ void VX_Init(void)
 void VX_ClearVoxels(void)
 {
     numvisvoxels = 0;
-    voxeldepthcleared = false;
+
+    if (!++voxelframe)
+    {
+        if (voxeldepth)
+            memset(voxeldepth, 0, MAXSCREENAREA * sizeof(*voxeldepth));
+
+        voxelframe = 1;
+    }
 }
 
 static int VX_NewVisVoxel(void)
@@ -542,25 +552,28 @@ static int VX_NewVisVoxel(void)
 
 bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 {
-    const int       spr = thing->sprite;
-    const int       frame = (thing->frame & FF_FRAMEMASK);
-    voxel_t         *v;
-    fixed_t         dx, dy;
-    fixed_t         tx, ty;
-    fixed_t         c;
-    fixed_t         s;
-    fixed_t         cornersx[4], cornersy[4];
-    fixed_t         xscale;
-    angle_t         angle;
-    angle_t         angleoffset;
-    int             x1 = viewwidth - 1;
-    int             x2 = 0;
-    int             index;
-    visvoxel_t      *vv;
-    vissprite_t     *vis;
-    fixed_t         relative;
-    fixed_t         tlx, tly;
-    bool            spin;
+    const int   spr = thing->sprite;
+    const int   frame = (thing->frame & FF_FRAMEMASK);
+    voxel_t     *v;
+    fixed_t     dx, dy;
+    fixed_t     tx, ty;
+    fixed_t     c;
+    fixed_t     s;
+    fixed_t     cornersx[4], cornersy[4];
+    int64_t     rightedge;
+    bool        outsideleft = true;
+    bool        outsideright = true;
+    fixed_t     xscale;
+    angle_t     angle;
+    angle_t     angleoffset;
+    int         x1 = viewwidth - 1;
+    int         x2 = 0;
+    int         index;
+    visvoxel_t  *vv;
+    vissprite_t *vis;
+    fixed_t     relative;
+    fixed_t     tlx, tly;
+    bool        spin;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
         return false;
@@ -620,6 +633,19 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     cornersx[3] = tlx + v->xsize * c;
     cornersy[3] = tly + v->xsize * s;
 
+    rightedge = ((int64_t)viewwidth << FRACBITS) - centerxfrac;
+
+    for (int i = 0; i < 4; i++)
+    {
+        const int64_t   proj = (int64_t)cornersx[i] * projection;
+
+        outsideleft = (outsideleft && proj + (int64_t)centerxfrac * cornersy[i] < 0);
+        outsideright = (outsideright && proj - rightedge * cornersy[i] >= 0);
+    }
+
+    if (outsideleft || outsideright)
+        return true;
+
     for (int i = 0; i < 4; i++)
     {
         int x;
@@ -638,11 +664,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         x2 = MAX(x2, x);
     }
 
-    x1 = MAX(0, x1);
-    x2 = MIN(viewwidth - 1, x2);
-
-    if (x1 > x2)
-        return true;
+    x1 = BETWEEN(0, x1, viewwidth - 1);
+    x2 = BETWEEN(0, x2, viewwidth - 1);
 
     index = VX_NewVisVoxel();
     vv = &visvoxels[index];
@@ -807,8 +830,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     aface = afaces[quadrant];
     bface = bfaces[quadrant];
 
-    uxstart = MAX(((ax - 1) | FRACMASK) + 1, spr->x1 << FRACBITS);
-    uxend = MIN(MAX(cx, bx), (spr->x2 + 1) << FRACBITS);
+    uxstart = MAX(((ax - 1) | FRACMASK) + 1, drawx1 << FRACBITS);
+    uxend = MIN(MAX(cx, bx), (drawx2 + 1) << FRACBITS);
 
     light.colormap = spr->colormap;
     light.nextcolormap = spr->nextcolormap;
@@ -831,13 +854,14 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
         const int   screenx = ux >> FRACBITS;
         const byte  *slab = v->data + offsets1;
         const byte  *slabend = v->data + offsets2;
+        const byte  sideface = (ux > bx ? bface : aface);
         fixed_t     cliptop;
         fixed_t     clipbottom;
 
-        if (screenx > spr->x2)
+        if (screenx > drawx2)
             break;
 
-        if (screenx < spr->x1)
+        if (screenx < drawx1)
             continue;
 
         cliptop = BETWEEN(0, (mceilingclip[screenx] + 1) << FRACBITS, (viewheight << FRACBITS));
@@ -872,105 +896,119 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             const int       len = *slab++;
             const int       face = *slab++;
             const fixed_t   topz = spr->gzt - viewz - (top << FRACBITS);
-            fixed_t         uy1 = VX_ProjectScreenY(topz, scale);
-            fixed_t         uy2 = VX_ProjectScreenY(topz - (len << FRACBITS), scale);
-            const fixed_t   originaluy1 = uy1;
-            const fixed_t   originaluy2 = uy2;
-            const bool      side = (!!(face & (ux > bx ? bface : aface))
-                                && originaluy2 >= cliptop && originaluy1 <= clipbottom);
-            fixed_t         widescale = 0;
 
             if (!len || slab + len > slabend)
                 break;
 
-            // Clamp both ends. The top and bottom face loops also use these
-            // values, so one-sided clipping can otherwise write past the
-            // framebuffer when a voxel crosses a floor or ceiling edge.
-            uy1 = BETWEEN(cliptop, uy1, clipbottom);
-            uy2 = BETWEEN(cliptop, uy2, clipbottom);
-
-            if ((face & F_TOP) || (face & F_BOTTOM))
+            if (!(face & sideface)
+                && !((face & F_TOP) && topz < 0)
+                && !((face & F_BOTTOM) && topz > (len << FRACBITS)))
             {
-                if (ux > cx && bx != cx)
-                    widescale = cscale + FixedMul(bscale - cscale, FixedDiv(ux - cx, bx - cx));
-                else if (ux > dx && cx != dx)
-                    widescale = dscale + FixedMul(cscale - dscale, FixedDiv(ux - dx, cx - dx));
-                else if (dx != ax)
-                    widescale = ascale + FixedMul(dscale - ascale, FixedDiv(ux - ax, dx - ax));
-            }
-
-            if ((spr->mobj->flags & MF_FUZZ) && r_textures)
-            {
-                fixed_t yl = uy1;
-                fixed_t yh = uy2;
-
-                if ((face & F_TOP) && topz < 0)
-                    yl = MIN(yl, MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop));
-                else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
-                    yh = MAX(yh, MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom));
-
-                if (side)
-                    VX_DrawFuzz(screenx, yl >> FRACBITS, yh >> FRACBITS);
-                else
-                {
-                    if (yl < uy1)
-                        VX_DrawFuzz(screenx, yl >> FRACBITS, (uy1 - 1) >> FRACBITS);
-
-                    if (yh > uy2)
-                        VX_DrawFuzz(screenx, (uy2 >> FRACBITS) + 1, yh >> FRACBITS);
-                }
-
                 slab += len;
                 continue;
             }
-
-            if ((face & F_TOP) && topz < 0)
+            else
             {
-                // Start on an exact screen row. Without this ceil operation,
-                // the fractional top-face walk can stop one row before the
-                // side-face walk starts, leaving horizontal background-colored
-                // seams between otherwise adjacent voxel faces.
-                fixed_t uy = MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop);
+                fixed_t         uy1 = VX_ProjectScreenY(topz, scale);
+                fixed_t         uy2 = VX_ProjectScreenY(topz - (len << FRACBITS), scale);
+                const fixed_t   originaluy1 = uy1;
+                const fixed_t   originaluy2 = uy2;
+                const bool      side = (!!(face & sideface) && originaluy2 >= cliptop && originaluy1 <= clipbottom);
+                fixed_t         widescale = 0;
 
-                for (; uy < uy1; uy += FRACUNIT)
+                // Clamp both ends. The top and bottom face loops also use these
+                // values, so one-sided clipping can otherwise write past the
+                // framebuffer when a voxel crosses a floor or ceiling edge.
+                uy1 = BETWEEN(cliptop, uy1, clipbottom);
+                uy2 = BETWEEN(cliptop, uy2, clipbottom);
+
+                if ((face & F_TOP) || (face & F_BOTTOM))
                 {
-                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
-                    byte        under = dest[pixel];
-
-                    if (VX_DepthPass(pixel, widescale, owner, &under))
-                        dest[pixel] = VX_LitColor(spr, &light, slab[0], dither, uy >> FRACBITS, vv->tint, under);
+                    if (ux > cx && bx != cx)
+                        widescale = cscale + FixedMul(bscale - cscale, FixedDiv(ux - cx, bx - cx));
+                    else if (ux > dx && cx != dx)
+                        widescale = dscale + FixedMul(cscale - dscale, FixedDiv(ux - dx, cx - dx));
+                    else if (dx != ax)
+                        widescale = ascale + FixedMul(dscale - ascale, FixedDiv(ux - ax, dx - ax));
                 }
-            }
-            else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
-            {
-                fixed_t uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
 
-                for (; uy > uy2; uy -= FRACUNIT)
+                if ((spr->mobj->flags & MF_FUZZ) && r_textures)
                 {
-                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
-                    byte        under = dest[pixel];
+                    fixed_t yl = uy1;
+                    fixed_t yh = uy2;
 
-                    if (VX_DepthPass(pixel, widescale, owner, &under))
-                        dest[pixel] = VX_LitColor(spr, &light, slab[len - 1], dither, uy >> FRACBITS, vv->tint, under);
-                }
-            }
+                    if ((face & F_TOP) && topz < 0)
+                        yl = MIN(yl, MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop));
+                    else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
+                        yh = MAX(yh, MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom));
 
-            if (side)
-                for (fixed_t uy = ((uy1 - 1) | FRACMASK) + 1; uy <= uy2; uy += FRACUNIT)
-                {
-                    const int   pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
-                    byte        under = dest[pixel];
-
-                    if (VX_DepthPass(pixel, scale, owner, &under))
+                    if (side)
+                        VX_DrawFuzz(screenx, yl >> FRACBITS, yh >> FRACBITS);
+                    else
                     {
-                        const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS)
-                                        * iscale) >> FRACBITS), len - 1);
+                        if (yl < uy1)
+                            VX_DrawFuzz(screenx, yl >> FRACBITS, (uy1 - 1) >> FRACBITS);
 
-                        dest[pixel] = VX_LitColor(spr, &light, slab[source], dither, uy >> FRACBITS, vv->tint, under);
+                        if (yh > uy2)
+                            VX_DrawFuzz(screenx, (uy2 >> FRACBITS) + 1, yh >> FRACBITS);
+                    }
+
+                    slab += len;
+                    continue;
+                }
+
+                if ((face & F_TOP) && topz < 0)
+                {
+                    // Start on an exact screen row. Without this ceil operation,
+                    // the fractional top-face walk can stop one row before the
+                    // side-face walk starts, leaving horizontal background-colored
+                    // seams between otherwise adjacent voxel faces.
+                    fixed_t uy = MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop);
+                    int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    for (; uy < uy1; uy += FRACUNIT, pixel += SCREENWIDTH)
+                    {
+                        byte    under = dest[pixel];
+
+                        if (VX_DepthPass(pixel, widescale, owner, &under))
+                            dest[pixel] = VX_LitColor(&light, slab[0], dither, uy >> FRACBITS, vv->tint, under);
+                    }
+                }
+                else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
+                {
+                    fixed_t uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
+                    int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    for (; uy > uy2; uy -= FRACUNIT, pixel -= SCREENWIDTH)
+                    {
+                        byte    under = dest[pixel];
+
+                        if (VX_DepthPass(pixel, widescale, owner, &under))
+                            dest[pixel] = VX_LitColor(&light, slab[len - 1], dither, uy >> FRACBITS, vv->tint, under);
                     }
                 }
 
-            slab += len;
+                if (side)
+                {
+                    fixed_t uy = ((uy1 - 1) | FRACMASK) + 1;
+                    int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
+
+                    for (; uy <= uy2; uy += FRACUNIT, pixel += SCREENWIDTH)
+                    {
+                        byte    under = dest[pixel];
+
+                        if (VX_DepthPass(pixel, scale, owner, &under))
+                        {
+                            const int   source = BETWEEN(0, (int)(((int64_t)((uy - originaluy1) >> FRACBITS)
+                                * iscale) >> FRACBITS), len - 1);
+
+                            dest[pixel] = VX_LitColor(&light, slab[source], dither, uy >> FRACBITS, vv->tint, under);
+                        }
+                    }
+                }
+
+                slab += len;
+            }
         }
     }
 }
@@ -1214,16 +1252,13 @@ static void VX_DrawShadow(const vissprite_t *spr)
                 yl = (int)MAX64(MAX(0, MAX(mceilingclip[screenx], shadowcliptop[screenx]) + 1), (lo + FRACMASK) >> FRACBITS);
                 yh = (int)MIN64(MIN(viewheight - 1, MIN(mfloorclip[screenx], shadowclipbot[screenx]) - 1), hi >> FRACBITS);
 
-                for (int row = yl; row <= yh; row++)
-                {
-                    const int   pixel = row * SCREENWIDTH + screenx;
-
-                    if (shadowstamps[pixel] != shadowstamp && !voxeldepth[pixel].owner)
+                for (int row = yl, pixel = yl * SCREENWIDTH + screenx; row <= yh; row++, pixel += SCREENWIDTH)
+                    if (shadowstamps[pixel] != shadowstamp
+                        && (voxeldepth[pixel].frame != voxelframe || !voxeldepth[pixel].owner))
                     {
                         shadowstamps[pixel] = shadowstamp;
                         dest[pixel] = (tint ? tint[dest[pixel]] : black);
                     }
-                }
             }
         }
 }
@@ -1241,15 +1276,8 @@ void VX_DrawVoxel(const vissprite_t *spr)
     fuzz1pos = 0;
     lightsubsector = NULL;
 
-    if (!voxeldepthcleared)
-    {
-        if (!voxeldepth)
-            voxeldepth = I_Calloc(MAXSCREENAREA, sizeof(*voxeldepth));
-        else
-            memset(voxeldepth, 0, (size_t)viewheight * SCREENWIDTH * sizeof(*voxeldepth));
-
-        voxeldepthcleared = true;
-    }
+    if (!voxeldepth)
+        voxeldepth = I_Calloc(MAXSCREENAREA, sizeof(*voxeldepth));
 
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
@@ -1258,8 +1286,31 @@ void VX_DrawVoxel(const vissprite_t *spr)
         && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS))
         return;
 
+    drawx1 = spr->x1;
+    drawx2 = spr->x2;
+
+    while (drawx1 <= drawx2 && mfloorclip[drawx1] - mceilingclip[drawx1] < 2)
+        drawx1++;
+
+    while (drawx2 >= drawx1 && mfloorclip[drawx2] - mceilingclip[drawx2] < 2)
+        drawx2--;
+
+    if (drawx1 > drawx2)
+        return;
+
     if (vv->shadow)
         VX_DrawShadow(spr);
+
+    vxwhite = !r_textures;
+    vxtranslation = NULL;
+
+    if (!vxwhite)
+    {
+        if (spr->mobj->colfunc == bloodcolfunc)
+            vxtranslation = colortranslation[spr->mobj->bloodcolor - 1];
+        else if (spr->mobj->flags & MF_TRANSLATION)
+            vxtranslation = &translationtables[((spr->mobj->flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256];
+    }
 
     VX_RecursiveDraw(spr, 0, 0, v->xsize, v->ysize);
 }
