@@ -504,11 +504,25 @@ bool W_AddFile(char *filename, bool autoloaded)
     else
     {
         // WAD file
-        W_Read(wadfile, 0, &header, sizeof(header));
+        memset(&header, 0, sizeof(header));
 
         // Homebrew levels?
-        if (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4))
+        if (W_Read(wadfile, 0, &header, sizeof(header)) != sizeof(header)
+            || (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4)))
+        {
+            if (numlumps > 0)
+            {
+                C_Warning(0, BOLD("%s") " isn't a valid WAD and will be ignored.", filename);
+
+                if (numwads > 0 && wadlist[numwads - 1] == wadfile)
+                    numwads--;
+
+                W_CloseFile(wadfile);
+                return false;
+            }
+
             I_Error("%s doesn't have an IWAD or PWAD id.", filename);
+        }
 
         if (!strncmp(header.id, "IWAD", 4) || D_IsDOOMIWAD(file))
         {
