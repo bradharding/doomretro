@@ -227,6 +227,28 @@ static inline int R_DDACompStep(int64_t *const err, const int64_t rem, const int
     return 0;
 }
 
+static bool R_LiquidBobs(const sector_t *sector)
+{
+    if (!sector->heightsec)
+        return true;
+
+    return ((viewplayer->mo->subsector->sector->heightsec ? viewplayer->mo->z + viewplayer->viewheight : viewz)
+        > sector->heightsec->interpfloorheight);
+}
+
+static fixed_t R_LiquidOffset(const sector_t *sector)
+{
+    if (viewplayer->mo->subsector->sector->heightsec)
+    {
+        const fixed_t   depth = viewplayer->mo->z + viewplayer->viewheight - sector->interpfloorheight;
+
+        if (depth >= 0)
+            return BETWEEN(0, MAX(0, depth - FRACUNIT * 2), animatedliquiddiff);
+    }
+
+    return animatedliquiddiff;
+}
+
 static lighttable_t **GetLightTable(const int lightlevel)
 {
     return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
@@ -778,12 +800,8 @@ void R_StoreWallRange(const int start, const int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (frontsector->terraintype >= LIQUID
-        && (!frontsector->heightsec
-            || viewplayer->mo->z + viewplayer->viewheight > frontsector->heightsec->interpfloorheight)
-        && r_liquid_bob)
-        worldbottom += BETWEEN(0, MAX(0, viewplayer->mo->z + viewplayer->viewheight
-            - frontsector->interpfloorheight - FRACUNIT * 2), animatedliquiddiff);
+    if (frontsector->terraintype >= LIQUID && R_LiquidBobs(frontsector) && r_liquid_bob)
+        worldbottom += R_LiquidOffset(frontsector);
 
     if (!vanilla)
         R_FixWiggle(frontsector);
@@ -879,13 +897,9 @@ void R_StoreWallRange(const int start, const int stop)
         // [BH] animate liquid sectors
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
-            && (!backsector->heightsec
-                || viewplayer->mo->z + viewplayer->viewheight > backsector->heightsec->interpfloorheight)
-            && !sidedef->midtexture
-            && r_liquid_bob)
+            && R_LiquidBobs(backsector) && !sidedef->midtexture && r_liquid_bob)
         {
-            liquidoffset = BETWEEN(0, MAX(0, viewplayer->mo->z + viewplayer->viewheight
-                - backsector->interpfloorheight - FRACUNIT * 2), animatedliquiddiff);
+            liquidoffset = R_LiquidOffset(backsector);
             worldlow += liquidoffset;
         }
 
