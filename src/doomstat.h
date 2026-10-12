@@ -244,6 +244,8 @@ extern int              gametime;
 extern bool             realframe;
 extern bool             updateswirl;
 
+extern char             criticalerror[1024];
+
 // Intermission stats.
 // Parameters for world map/intermission.
 extern wbstartstruct_t  wminfo;

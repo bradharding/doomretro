@@ -512,7 +512,8 @@ bool W_AddFile(char *filename, bool autoloaded)
         {
             if (numlumps > 0)
             {
-                C_Warning(0, BOLD("%s") " isn't a valid WAD and will be ignored.", filename);
+                M_snprintf(criticalerror, sizeof(criticalerror),
+                    "%s isn't a valid WAD and so it wasn't loaded.", filename);
 
                 if (numwads > 0 && wadlist[numwads - 1] == wadfile)
                     numwads--;
@@ -521,7 +522,7 @@ bool W_AddFile(char *filename, bool autoloaded)
                 return false;
             }
 
-            I_Error("%s doesn't have an IWAD or PWAD id.", filename);
+            I_Error("%s isn't a valid WAD.", filename);
         }
 
         if (!strncmp(header.id, "IWAD", 4) || D_IsDOOMIWAD(file))

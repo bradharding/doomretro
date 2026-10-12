@@ -181,6 +181,8 @@ bool        splashscreen = true;
 bool        realframe;
 bool        updateswirl;
 
+char        criticalerror[1024] = "";
+
 static bool error;
 
 //
@@ -705,6 +707,12 @@ void D_DoAdvanceTitle(void)
 
         if (devparm)
         {
+            consolefullscreen = true;
+            C_ShowConsole(false);
+        }
+        else if (*criticalerror)
+        {
+            C_Warning(0, "%s", criticalerror);
             consolefullscreen = true;
             C_ShowConsole(false);
         }
