@@ -35,6 +35,8 @@
 
 #pragma once
 
+#include "doomdata.h"
+#include "doomtype.h"
 #include "m_fixed.h"
 #include "tables.h"
 
@@ -110,3 +112,9 @@ typedef struct
 } thingfix_t;
 
 extern thingfix_t   thingfix[];
+
+void P_FixVertexes(void);
+void P_FixLinedefs(void);
+void P_FixSegs(void);
+void P_FixSectors(void);
+bool P_FixThing(const int thingid, mapthing_t *mt);

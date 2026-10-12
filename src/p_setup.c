@@ -470,28 +470,6 @@ const char *linespecials[NUMLINESPECIALS] =
     "Transfer sky texture to tagged sectors (flipped)"
 };
 
-static const char *sectorspecials[] =
-{
-    "",
-    "Light blinks (randomly)",
-    "Light blinks (0.5 sec.)",
-    "Light blinks (1 sec.)",
-    "Damage -10% or -20% health and light blinks (0.5 sec.)",
-    "Damage -5% or -10% health",
-    "",
-    "Damage -2% or -5% health",
-    "Light glows (1+ sec.)",
-    "Secret",
-    "Door close stay (after 30 sec.)",
-    "Damage -10% or -20% health and end level",
-    "Light blinks (0.5 sec. synchronized)",
-    "Light blinks (1 sec. synchronized)",
-    "Door open close (opens after 5 min.)",
-    "",
-    "Damage -10% or -20% health",
-    "Light flickers (randomly)"
-};
-
 fixed_t P_GetOffset(const vertex_t *v1, const vertex_t *v2)
 {
     const float dx = (float)(v1->x - v2->x) / FRACUNIT;
@@ -542,25 +520,9 @@ static void P_LoadVertexes(int lump)
         {
             vertexes[i].x = LITTLESHORT(data[i].x) << FRACBITS;
             vertexes[i].y = LITTLESHORT(data[i].y) << FRACBITS;
-
-            // Apply any map-specific fixes.
-            if (canmodify && r_fixmaperrors && gamemode != shareware)
-                for (int j = 0; vertexfix[j].mission != -1; j++)
-                    if (gamemission == vertexfix[j].mission && gameepisode == vertexfix[j].episode && gamemap == vertexfix[j].map
-                        && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
-                        && vertexes[i].y == vertexfix[j].oldy << FRACBITS)
-                    {
-                        char    *temp = commify(vertexfix[j].vertex);
-
-                        C_Warning(2, "Vertex %s was moved from (%i, %i) to (%i, %i).",
-                            temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
-
-                        vertexes[i].x = vertexfix[j].newx << FRACBITS;
-                        vertexes[i].y = vertexfix[j].newy << FRACBITS;
-                        free(temp);
-                        break;
-                    }
         }
+
+        P_FixVertexes();
     }
 
     // Free buffer memory.
@@ -667,9 +629,6 @@ static void P_LoadSegs(int lump)
     if (!data || !numsegs)
         I_Error("There are no segs in this map.");
 
-    for (int j = 0; linefix[j].mission != -1; j++)
-        linefix[j].fixed = false;
-
     for (int i = 0; i < numsegs; i++)
     {
         seg_t                   *li = segs + i;
@@ -773,190 +732,6 @@ static void P_LoadSegs(int lump)
 
         li->angle = (LITTLESHORT(ml->angle)) << FRACBITS;
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
-
-        // [BH] Apply any map-specific fixes.
-        if (canmodify && r_fixmaperrors && gamemode != shareware)
-            for (int j = 0; linefix[j].mission != -1; j++)
-                if (gamemission == linefix[j].mission && gameepisode == linefix[j].episode && gamemap == linefix[j].map
-                    && linedefnum == linefix[j].linedef && side == linefix[j].side
-                    && !linefix[j].fixed)
-                {
-                    linefix[j].fixed = true;
-
-                    if (*linefix[j].toptexture)
-                    {
-                        int     texture = R_TextureNumForName(linefix[j].toptexture);
-                        char    *temp = commify(linedefnum);
-
-                        if (!texture)
-                            C_Warning(2, "The unused top texture of linedef %s was removed.", temp);
-                        else
-                        {
-                            if (!li->sidedef->toptexture)
-                                C_Warning(2, "The missing top texture of linedef %s was changed to " BOLD("%.8s") ".",
-                                    temp, linefix[j].toptexture);
-                            else
-                                C_Warning(2, "The top texture of linedef %s was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
-                                    temp, textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
-                        }
-
-                        li->sidedef->toptexture = texture;
-                        free(temp);
-                    }
-
-                    if (*linefix[j].middletexture)
-                    {
-                        int     texture = R_TextureNumForName(linefix[j].middletexture);
-                        char    *temp = commify(linedefnum);
-
-                        if (!texture)
-                            C_Warning(2, "The unused middle texture of linedef %s was removed.", temp);
-                        else
-                        {
-                            if (!li->sidedef->midtexture)
-                                C_Warning(2, "The missing middle texture of linedef %s was changed to " BOLD("%.8s") ".",
-                                    temp, linefix[j].middletexture);
-                            else
-                                C_Warning(2, "The middle texture of linedef %s was changed from " BOLD("%.8s") " to "
-                                    BOLD("%.8s") ".", temp, textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
-                        }
-
-                        li->sidedef->midtexture = texture;
-                        free(temp);
-                    }
-
-                    if (*linefix[j].bottomtexture)
-                    {
-                        int     texture = R_TextureNumForName(linefix[j].bottomtexture);
-                        char    *temp = commify(linedefnum);
-
-                        if (!texture)
-                            C_Warning(2, "The unused bottom texture of linedef %s was removed.", temp);
-                        else
-                        {
-                            if (!li->sidedef->bottomtexture)
-                                C_Warning(2, "The missing bottom texture of linedef %s was changed to " BOLD("%.8s") ".",
-                                    temp, linefix[j].bottomtexture);
-                            else
-                                C_Warning(2, "The bottom texture of linedef %s was changed from " BOLD("%.8s") " to "
-                                    BOLD("%.8s") ".", temp, textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
-                        }
-
-                        li->sidedef->bottomtexture = texture;
-                        free(temp);
-                    }
-
-                    if (linefix[j].offset != DEFAULT)
-                    {
-                        char    *temp1 = commify(linedefnum);
-                        char    *temp2 = commify(li->offset >> FRACBITS);
-                        char    *temp3 = commify(linefix[j].offset);
-
-                        C_Warning(2, "The horizontal texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
-
-                        li->offset = linefix[j].offset << FRACBITS;
-                        li->sidedef->textureoffset = 0;
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    if (linefix[j].rowoffset != DEFAULT)
-                    {
-                        char    *temp1 = commify(linedefnum);
-                        char    *temp2 = commify(li->sidedef->rowoffset >> FRACBITS);
-                        char    *temp3 = commify(linefix[j].rowoffset);
-
-                        C_Warning(2, "The vertical texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
-
-                        li->sidedef->rowoffset = linefix[j].rowoffset << FRACBITS;
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    if (linefix[j].flags != DEFAULT)
-                    {
-                        char    *temp1 = commify(linedefnum);
-                        char    *temp2 = commify(li->linedef->flags);
-                        char    *temp3 = commify(linefix[j].flags);
-
-                        C_Warning(2, "The flags of linedef %s were changed from %s to %s.", temp1, temp2, temp3);
-
-                        if (li->linedef->flags & linefix[j].flags)
-                            li->linedef->flags &= ~linefix[j].flags;
-                        else
-                            li->linedef->flags |= linefix[j].flags;
-
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    if (linefix[j].special != DEFAULT)
-                    {
-                        if (linefix[j].special)
-                        {
-                            char            *temp1 = commify(linedefnum);
-                            char            *temp2 = commify(linefix[j].special);
-                            unsigned short  special = li->linedef->special;
-
-                            if (special > 0 && special < NUMLINESPECIALS)
-                            {
-                                char    *temp3 = commify(linefix[j].special);
-
-                                C_Warning(2, "%s line special of linedef %s was changed from %s (\"%s\") to %s (\"%s\").",
-                                    (special < BOOMLINESPECIALS ? "The" : (special < MBFLINESPECIALS ?
-                                    "The " ITALICS("BOOM") "-compatible" : (special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, temp2,
-                                    linespecials[special], temp3, linespecials[linefix[j].special]);
-                                free(temp3);
-                            }
-                            else
-                                C_Warning(2, "Linedef %s now has %s line special %s (\"%s\").",
-                                    temp1, (linefix[j].special < BOOMLINESPECIALS ? "the" : (linefix[j].special < MBFLINESPECIALS ?
-                                    "The " ITALICS("BOOM") "-compatible" : (linefix[j].special < MBF21LINESPECIALS ? "the " ITALICS("MBF")
-                                    "-compatible" : "the " ITALICS("MBF21") "-compatible"))), temp2, linespecials[linefix[j].special]);
-
-                            free(temp1);
-                            free(temp2);
-                        }
-                        else
-                        {
-                            char    *temp = commify(linedefnum);
-
-                            C_Warning(2, "%s line special of linedef %s was removed.",
-                                (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
-                                "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
-                                "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp);
-                            free(temp);
-                        }
-
-                        li->linedef->special = linefix[j].special;
-                    }
-
-                    if (linefix[j].tag != DEFAULT)
-                    {
-                        char    *temp1 = commify(linedefnum);
-                        char    *temp2 = commify(li->linedef->tag);
-
-                        if (linefix[j].tag)
-                        {
-                            char    *temp3 = commify(linefix[j].tag);
-
-                            C_Warning(2, "Linedef %s's tag was changed from %s to %s.", temp1, temp2, temp3);
-                            free(temp3);
-                        }
-                        else
-                            C_Warning(2, "Linedef %s's tag of %s was removed.", temp1, temp2);
-
-                        li->linedef->tag = linefix[j].tag;
-                        free(temp1);
-                        free(temp2);
-                    }
-
-                    break;
-                }
 
         if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             id24compatible = true;
@@ -1399,120 +1174,15 @@ static void P_LoadSectors(int lump)
         ss->oldfloorgametime = -1;
         ss->oldceilingoffsetgametime = -1;
         ss->oldflooroffsetgametime = -1;
+    }
 
-        // [BH] Apply any level-specific fixes.
-        if (canmodify && r_fixmaperrors && gamemode != shareware)
-            for (int j = 0; sectorfix[j].mission != -1; j++)
-                if (gamemission == sectorfix[j].mission && gameepisode == sectorfix[j].episode && gamemap == sectorfix[j].map
-                    && i == sectorfix[j].sector)
-                {
-                    if (*sectorfix[j].floorpic)
-                    {
-                        char    *temp = commify(sectorfix[j].sector);
+    P_FixSectors();
 
-                        C_Warning(2, "The texture of sector %s's floor was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
-                            temp, lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
+    for (int i = 0; i < numsectors; i++)
+    {
+        sector_t    *ss = sectors + i;
 
-                        ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
-                        ss->floortex = -1;
-                        free(temp);
-                    }
-
-                    if (*sectorfix[j].ceilingpic)
-                    {
-                        char    *temp = commify(sectorfix[j].sector);
-
-                        C_Warning(2, "The texture of sector %s's ceiling was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
-                            temp, lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
-
-                        ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
-                        ss->ceilingtex = -1;
-                        free(temp);
-                    }
-
-                    if (sectorfix[j].floorheight != DEFAULT)
-                    {
-                        char    *temp1 = commify(sectorfix[j].sector);
-                        char    *temp2 = commify(ss->floorheight >> FRACBITS);
-                        char    *temp3 = commify(sectorfix[j].floorheight);
-
-                        C_Warning(2, "The height of sector %s's floor was changed from %s to %s.", temp1, temp2, temp3);
-
-                        ss->floorheight = sectorfix[j].floorheight << FRACBITS;
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    if (sectorfix[j].ceilingheight != DEFAULT)
-                    {
-                        char    *temp1 = commify(sectorfix[j].sector);
-                        char    *temp2 = commify(ss->ceilingheight >> FRACBITS);
-                        char    *temp3 = commify(sectorfix[j].ceilingheight);
-
-                        C_Warning(2, "The height of sector %s's ceiling was changed from %s to %s.", temp1, temp2, temp3);
-
-                        ss->ceilingheight = sectorfix[j].ceilingheight << FRACBITS;
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    if (sectorfix[j].special != DEFAULT)
-                    {
-                        char    *temp = commify(sectorfix[j].sector);
-                        char    oldspecial[18];
-                        char    newspecial[18];
-
-                        M_StringCopy(oldspecial, sectorspecials[ss->special], sizeof(oldspecial));
-                        M_StringCopy(newspecial, sectorspecials[sectorfix[j].special], sizeof(newspecial));
-
-                        if (english == english_british)
-                        {
-                            M_AmericanToBritishEnglish(oldspecial);
-                            M_AmericanToBritishEnglish(newspecial);
-                        }
-
-                        if (ss->special)
-                        {
-                            if (sectorfix[j].special)
-                                C_Warning(2, "Sector %s's special was changed from %i (\"%s\") to %i (\"%s\").",
-                                    temp, ss->special, oldspecial, sectorfix[j].special, newspecial);
-                            else
-                                C_Warning(2, "Sector %s's special of %i (\"%s\") was removed.",
-                                    temp, ss->special, oldspecial);
-                        }
-                        else
-                            C_Warning(2, "Sector %s now has a special of %i (\"%s\").",
-                                temp, sectorfix[j].special, newspecial);
-
-                        ss->special = sectorfix[j].special;
-                        free(temp);
-                    }
-
-                    if (ss->tag == sectorfix[j].oldtag)
-                    {
-                        char    *temp1 = commify(sectorfix[j].sector);
-                        char    *temp2 = commify(ss->tag);
-                        char    *temp3 = commify(sectorfix[j].newtag);
-
-                        if (!sectorfix[j].oldtag)
-                            C_Warning(2, "Sector %s's tag of %s was removed.", temp1, temp2);
-                        else if (ss->tag)
-                            C_Warning(2, "Sector %s's tag was changed from %s to %s.", temp1, temp2, temp3);
-                        else
-                            C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
-
-                        ss->tag = sectorfix[j].newtag;
-                        free(temp1);
-                        free(temp2);
-                        free(temp3);
-                    }
-
-                    break;
-                }
-
-        // [AM] Sector interpolation. Even if we're not running uncapped, the renderer still uses this data.
+        // [AM] Sector interpolation.
         ss->oldfloorheight = ss->floorheight;
         ss->interpfloorheight = ss->floorheight;
         ss->oldceilingheight = ss->ceilingheight;
@@ -2002,52 +1672,7 @@ static void P_LoadThings(int map, int lump)
         mt.type = LITTLESHORT(mt.type);
         mt.options = LITTLESHORT(mt.options);
 
-        // [BH] Apply any level-specific fixes.
-        if (canmodify && r_fixmaperrors && gamemode != shareware)
-            for (int j = 0; thingfix[j].mission != -1; j++)
-                if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].episode && gamemap == thingfix[j].map
-                    && thingid == thingfix[j].thing && mt.type == thingfix[j].type
-                    && mt.x == thingfix[j].oldx && mt.y == thingfix[j].oldy)
-                {
-                    char    *temp = commify(thingid);
-
-                    if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
-                    {
-                        C_Warning(2, "Thing %s was removed.", temp);
-
-                        spawn = false;
-                    }
-                    else
-                    {
-                        if (mt.x != thingfix[j].newx || mt.y != thingfix[j].newy)
-                        {
-                            C_Warning(2, "Thing %s was moved from (%i, %i) to (%i, %i).",
-                                temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
-
-                            mt.x = thingfix[j].newx;
-                            mt.y = thingfix[j].newy;
-                        }
-
-                        if (thingfix[j].angle != DEFAULT)
-                        {
-                            C_Warning(2, "Thing %s was rotated from %i\xB0 to %i\xB0.",
-                                temp, mt.angle, thingfix[j].angle);
-
-                            mt.angle = thingfix[j].angle;
-                        }
-
-                        if (thingfix[j].options != DEFAULT)
-                        {
-                            C_Warning(2, "Thing %s's flags were changed from %i to %i.",
-                                temp, mt.options, thingfix[j].options);
-
-                            mt.options = thingfix[j].options;
-                        }
-                    }
-
-                    free(temp);
-                    break;
-                }
+        spawn = P_FixThing(thingid, &mt);
 
         if (spawn)
         {
@@ -3608,6 +3233,8 @@ void P_SetupLevel(int ep, int map)
 
     P_LoadLineDefs2();
 
+    P_FixLinedefs();
+
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
@@ -3644,6 +3271,7 @@ void P_SetupLevel(int ep, int map)
     else if (nodeformat >= NANOBSP)
         BSP_BuildNodes();
 
+    P_FixSegs();
     P_GroupLines();
     P_LoadReject(lumpnum);
 

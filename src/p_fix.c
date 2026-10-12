@@ -33,8 +33,18 @@
 ==============================================================================
 */
 
+#include <limits.h>
+
+#include "c_console.h"
+#include "doomstat.h"
+#include "m_config.h"
+#include "m_misc.h"
 #include "p_fix.h"
+#include "p_setup.h"
+#include "r_data.h"
 #include "r_defs.h"
+#include "r_state.h"
+#include "w_wad.h"
 
 vertexfix_t vertexfix[] =
 {
@@ -1350,7 +1360,7 @@ linefix_t linefix[] =
 
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                             tag
 
-    { pack_tnt,         1,   1,      47,    0, "",         "",            "",                  8,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { pack_tnt,         1,   1,      47,    0, "",         "",            "",                -16,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
     { pack_tnt,         1,   3,     880,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { pack_tnt,         1,   3,     885,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
@@ -1854,3 +1864,472 @@ thingfix_t thingfix[] =
 
     { -1,               0,   0,     0, 0,                      DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT                            }
 };
+
+static const char *sectorspecials[] =
+{
+    "",
+    "Light blinks (randomly)",
+    "Light blinks (0.5 sec.)",
+    "Light blinks (1 sec.)",
+    "Damage -10% or -20% health and light blinks (0.5 sec.)",
+    "Damage -5% or -10% health",
+    "",
+    "Damage -2% or -5% health",
+    "Light glows (1+ sec.)",
+    "Secret",
+    "Door close stay (after 30 sec.)",
+    "Damage -10% or -20% health and end level",
+    "Light blinks (0.5 sec. synchronized)",
+    "Light blinks (1 sec. synchronized)",
+    "Door open close (opens after 5 min.)",
+    "",
+    "Damage -10% or -20% health",
+    "Light flickers (randomly)"
+};
+
+static bool P_CanFixMap(const int mission, const int episode, const int map)
+{
+    return (canmodify && r_fixmaperrors && gamemode != shareware
+        && gamemission == mission && gameepisode == episode && gamemap == map);
+}
+
+//
+// P_FixVertexes
+//
+void P_FixVertexes(void)
+{
+    for (int i = 0; vertexfix[i].mission != -1; i++)
+    {
+        const vertexfix_t   *fix = &vertexfix[i];
+        vertex_t            *v;
+        char                *temp;
+
+        if (!P_CanFixMap(fix->mission, fix->episode, fix->map)
+            || fix->vertex < 0 || fix->vertex >= numvertexes)
+            continue;
+
+        v = &vertexes[fix->vertex];
+
+        if (v->x != fix->oldx << FRACBITS || v->y != fix->oldy << FRACBITS)
+            continue;
+
+        temp = commify(fix->vertex);
+
+        C_Warning(2, "Vertex %s was moved from (%i, %i) to (%i, %i).",
+            temp, fix->oldx, fix->oldy, fix->newx, fix->newy);
+
+        v->x = fix->newx << FRACBITS;
+        v->y = fix->newy << FRACBITS;
+        free(temp);
+    }
+}
+
+//
+// P_FixLinedefs
+//
+void P_FixLinedefs(void)
+{
+    for (int i = 0; linefix[i].mission != -1; i++)
+        linefix[i].fixed = false;
+
+    for (int i = 0; linefix[i].mission != -1; i++)
+    {
+        linefix_t   *fix = &linefix[i];
+        line_t      *ld;
+        side_t      *sd;
+        int         linedefnum = fix->linedef;
+
+        if (!P_CanFixMap(fix->mission, fix->episode, fix->map)
+            || linedefnum < 0 || linedefnum >= numlines || (fix->side != 0 && fix->side != 1))
+            continue;
+
+        ld = &lines[linedefnum];
+
+        if ((unsigned int)ld->sidenum[fix->side] >= (unsigned int)numsides)
+            continue;
+
+        sd = &sides[ld->sidenum[fix->side]];
+        fix->fixed = true;
+
+        if (*fix->toptexture)
+        {
+            int     texture = R_TextureNumForName(fix->toptexture);
+            char    *temp = commify(linedefnum);
+
+            if (!texture)
+                C_Warning(2, "The unused top texture of linedef %s was removed.", temp);
+            else
+            {
+                if (!sd->toptexture)
+                    C_Warning(2, "The missing top texture of linedef %s was changed to " BOLD("%.8s") ".",
+                        temp, fix->toptexture);
+                else
+                    C_Warning(2, "The top texture of linedef %s was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                        temp, textures[sd->toptexture]->name, fix->toptexture);
+            }
+
+            sd->toptexture = texture;
+            free(temp);
+        }
+
+        if (*fix->middletexture)
+        {
+            int     texture = R_TextureNumForName(fix->middletexture);
+            char    *temp = commify(linedefnum);
+
+            if (!texture)
+                C_Warning(2, "The unused middle texture of linedef %s was removed.", temp);
+            else
+            {
+                if (!sd->midtexture)
+                    C_Warning(2, "The missing middle texture of linedef %s was changed to " BOLD("%.8s") ".",
+                        temp, fix->middletexture);
+                else
+                    C_Warning(2, "The middle texture of linedef %s was changed from " BOLD("%.8s") " to "
+                        BOLD("%.8s") ".", temp, textures[sd->midtexture]->name, fix->middletexture);
+            }
+
+            sd->midtexture = texture;
+            free(temp);
+        }
+
+        if (*fix->bottomtexture)
+        {
+            int     texture = R_TextureNumForName(fix->bottomtexture);
+            char    *temp = commify(linedefnum);
+
+            if (!texture)
+                C_Warning(2, "The unused bottom texture of linedef %s was removed.", temp);
+            else
+            {
+                if (!sd->bottomtexture)
+                    C_Warning(2, "The missing bottom texture of linedef %s was changed to " BOLD("%.8s") ".",
+                        temp, fix->bottomtexture);
+                else
+                    C_Warning(2, "The bottom texture of linedef %s was changed from " BOLD("%.8s") " to "
+                        BOLD("%.8s") ".", temp, textures[sd->bottomtexture]->name, fix->bottomtexture);
+            }
+
+            sd->bottomtexture = texture;
+            free(temp);
+        }
+
+        if (fix->rowoffset != DEFAULT)
+        {
+            char    *temp1 = commify(linedefnum);
+            char    *temp2 = commify(sd->rowoffset >> FRACBITS);
+            char    *temp3 = commify(fix->rowoffset);
+
+            C_Warning(2, "The vertical texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
+
+            sd->rowoffset = fix->rowoffset << FRACBITS;
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        if (fix->flags != DEFAULT)
+        {
+            char    *temp1 = commify(linedefnum);
+            char    *temp2 = commify(ld->flags);
+            char    *temp3 = commify(fix->flags);
+
+            C_Warning(2, "The flags of linedef %s were changed from %s to %s.", temp1, temp2, temp3);
+
+            if (ld->flags & fix->flags)
+                ld->flags &= ~fix->flags;
+            else
+                ld->flags |= fix->flags;
+
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        if (fix->special != DEFAULT)
+        {
+            if (fix->special)
+            {
+                char            *temp1 = commify(linedefnum);
+                char            *temp2 = commify(fix->special);
+                unsigned short  special = ld->special;
+
+                if (special > 0 && special < NUMLINESPECIALS)
+                {
+                    char    *temp3 = commify(fix->special);
+
+                    C_Warning(2, "%s line special of linedef %s was changed from %s (\"%s\") to %s (\"%s\").",
+                        (special < BOOMLINESPECIALS ? "The" : (special < MBFLINESPECIALS ?
+                        "The " ITALICS("BOOM") "-compatible" : (special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                        "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, temp2,
+                        linespecials[special], temp3, linespecials[fix->special]);
+                    free(temp3);
+                }
+                else
+                    C_Warning(2, "Linedef %s now has %s line special %s (\"%s\").",
+                        temp1, (fix->special < BOOMLINESPECIALS ? "the" : (fix->special < MBFLINESPECIALS ?
+                        "The " ITALICS("BOOM") "-compatible" : (fix->special < MBF21LINESPECIALS ? "the " ITALICS("MBF")
+                        "-compatible" : "the " ITALICS("MBF21") "-compatible"))), temp2, linespecials[fix->special]);
+
+                free(temp1);
+                free(temp2);
+            }
+            else
+            {
+                char    *temp = commify(linedefnum);
+
+                C_Warning(2, "%s line special of linedef %s was removed.",
+                    (ld->special < BOOMLINESPECIALS ? "The" : (ld->special < MBFLINESPECIALS ?
+                    "The " ITALICS("BOOM") "-compatible" : (ld->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp);
+                free(temp);
+            }
+
+            ld->special = fix->special;
+        }
+
+        if (fix->tag != DEFAULT)
+        {
+            char    *temp1 = commify(linedefnum);
+            char    *temp2 = commify(ld->tag);
+
+            if (fix->tag)
+            {
+                char    *temp3 = commify(fix->tag);
+
+                C_Warning(2, "Linedef %s's tag was changed from %s to %s.", temp1, temp2, temp3);
+                free(temp3);
+            }
+            else
+                C_Warning(2, "Linedef %s's tag of %s was removed.", temp1, temp2);
+
+            ld->tag = fix->tag;
+            free(temp1);
+            free(temp2);
+        }
+    }
+}
+
+//
+// P_FixSegs
+//
+void P_FixSegs(void)
+{
+    for (int i = 0; linefix[i].mission != -1; i++)
+    {
+        const linefix_t *fix = &linefix[i];
+        const line_t    *ld;
+        const side_t    *sd;
+        fixed_t         base = INT_MAX;
+
+        if (!fix->fixed || fix->offset == DEFAULT || !P_CanFixMap(fix->mission, fix->episode, fix->map))
+            continue;
+
+        ld = &lines[fix->linedef];
+        sd = &sides[ld->sidenum[fix->side]];
+
+        // The segs of a split linedef are offset relative to the one closest to its start.
+        for (int j = 0; j < numsegs; j++)
+            if (segs[j].linedef == ld && segs[j].sidedef == sd && segs[j].offset < base)
+                base = segs[j].offset;
+
+        if (base == INT_MAX)
+            continue;
+
+        {
+            char    *temp1 = commify(fix->linedef);
+            char    *temp2 = commify(base >> FRACBITS);
+            char    *temp3 = commify(fix->offset);
+
+            C_Warning(2, "The horizontal texture offset of linedef %s was changed from %s to %s.", temp1, temp2, temp3);
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        for (int j = 0; j < numsegs; j++)
+            if (segs[j].linedef == ld && segs[j].sidedef == sd)
+                segs[j].offset += (fix->offset << FRACBITS) - base;
+
+        sides[ld->sidenum[fix->side]].textureoffset = 0;
+    }
+}
+
+//
+// P_FixSectors
+//
+void P_FixSectors(void)
+{
+    for (int i = 0; sectorfix[i].mission != -1; i++)
+    {
+        const sectorfix_t   *fix = &sectorfix[i];
+        sector_t            *ss;
+
+        if (!P_CanFixMap(fix->mission, fix->episode, fix->map) || fix->sector < 0 || fix->sector >= numsectors)
+            continue;
+
+        ss = &sectors[fix->sector];
+
+        if (*fix->floorpic)
+        {
+            char    *temp = commify(fix->sector);
+
+            C_Warning(2, "The texture of sector %s's floor was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                temp, lumpinfo[ss->floorpic + firstflat]->name, fix->floorpic);
+
+            ss->floorpic = R_FlatNumForName(fix->floorpic);
+            ss->floortex = -1;
+            free(temp);
+        }
+
+        if (*fix->ceilingpic)
+        {
+            char    *temp = commify(fix->sector);
+
+            C_Warning(2, "The texture of sector %s's ceiling was changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                temp, lumpinfo[ss->ceilingpic + firstflat]->name, fix->ceilingpic);
+
+            ss->ceilingpic = R_FlatNumForName(fix->ceilingpic);
+            ss->ceilingtex = -1;
+            free(temp);
+        }
+
+        if (fix->floorheight != DEFAULT)
+        {
+            char    *temp1 = commify(fix->sector);
+            char    *temp2 = commify(ss->floorheight >> FRACBITS);
+            char    *temp3 = commify(fix->floorheight);
+
+            C_Warning(2, "The height of sector %s's floor was changed from %s to %s.",
+                temp1, temp2, temp3);
+
+            ss->floorheight = fix->floorheight << FRACBITS;
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        if (fix->ceilingheight != DEFAULT)
+        {
+            char    *temp1 = commify(fix->sector);
+            char    *temp2 = commify(ss->ceilingheight >> FRACBITS);
+            char    *temp3 = commify(fix->ceilingheight);
+
+            C_Warning(2, "The height of sector %s's ceiling was changed from %s to %s.",
+                temp1, temp2, temp3);
+
+            ss->ceilingheight = fix->ceilingheight << FRACBITS;
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+
+        if (fix->special != DEFAULT)
+        {
+            char    *temp = commify(fix->sector);
+            char    oldspecial[18];
+            char    newspecial[18];
+
+            M_StringCopy(oldspecial, sectorspecials[ss->special], sizeof(oldspecial));
+            M_StringCopy(newspecial, sectorspecials[fix->special], sizeof(newspecial));
+
+            if (english == english_british)
+            {
+                M_AmericanToBritishEnglish(oldspecial);
+                M_AmericanToBritishEnglish(newspecial);
+            }
+
+            if (ss->special)
+            {
+                if (fix->special)
+                    C_Warning(2, "Sector %s's special was changed from %i (\"%s\") to %i (\"%s\").",
+                        temp, ss->special, oldspecial, fix->special, newspecial);
+                else
+                    C_Warning(2, "Sector %s's special of %i (\"%s\") was removed.",
+                        temp, ss->special, oldspecial);
+            }
+            else
+                C_Warning(2, "Sector %s now has a special of %i (\"%s\").",
+                    temp, fix->special, newspecial);
+
+            ss->special = fix->special;
+            free(temp);
+        }
+
+        if (ss->tag == fix->oldtag)
+        {
+            char    *temp1 = commify(fix->sector);
+            char    *temp2 = commify(ss->tag);
+            char    *temp3 = commify(fix->newtag);
+
+            if (!fix->oldtag)
+                C_Warning(2, "Sector %s's tag of %s was removed.", temp1, temp2);
+            else if (ss->tag)
+                C_Warning(2, "Sector %s's tag was changed from %s to %s.", temp1, temp2, temp3);
+            else
+                C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
+
+            ss->tag = fix->newtag;
+            free(temp1);
+            free(temp2);
+            free(temp3);
+        }
+    }
+}
+
+//
+// P_FixThing
+//
+bool P_FixThing(const int thingid, mapthing_t *mt)
+{
+    for (int i = 0; thingfix[i].mission != -1; i++)
+    {
+        const thingfix_t    *fix = &thingfix[i];
+        char                *temp;
+        bool                spawn = true;
+
+        if (!P_CanFixMap(fix->mission, fix->episode, fix->map)
+            || thingid != fix->thing || mt->type != fix->type || mt->x != fix->oldx || mt->y != fix->oldy)
+            continue;
+
+        temp = commify(thingid);
+
+        if (fix->newx == REMOVE && fix->newy == REMOVE)
+        {
+            C_Warning(2, "Thing %s was removed.", temp);
+            spawn = false;
+        }
+        else
+        {
+            if (mt->x != fix->newx || mt->y != fix->newy)
+            {
+                C_Warning(2, "Thing %s was moved from (%i, %i) to (%i, %i).",
+                    temp, mt->x, mt->y, fix->newx, fix->newy);
+
+                mt->x = fix->newx;
+                mt->y = fix->newy;
+            }
+
+            if (fix->angle != DEFAULT)
+            {
+                C_Warning(2, "Thing %s was rotated from %i\xB0 to %i\xB0.",
+                    temp, mt->angle, fix->angle);
+
+                mt->angle = fix->angle;
+            }
+
+            if (fix->options != DEFAULT)
+            {
+                C_Warning(2, "Thing %s's flags were changed from %i to %i.",
+                    temp, mt->options, fix->options);
+
+                mt->options = fix->options;
+            }
+        }
+
+        free(temp);
+        return spawn;
+    }
+
+    return true;
+}
