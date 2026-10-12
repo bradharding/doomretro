@@ -584,6 +584,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vissprite_t *vis;
     fixed_t     relative;
     fixed_t     tlx, tly;
+    fixed_t     rockx = 0, rocky = 0;
     bool        spin;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
@@ -627,6 +628,19 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     }
     else
         angle = thing->angle + angleoffset;
+
+    if ((thing->flags2 & MF2_FEETARECLIPPED) && !(thing->flags2 & MF2_NOLIQUIDBOB)
+        && !thing->subsector->sector->heightsec && r_liquid_bobsprites && r_liquid_rocksprites && !spin)
+    {
+        const fixed_t       factor = BETWEEN(FRACUNIT / 2, FixedDiv(v->zsize << FRACBITS,
+                                MAX(MAX(v->xsize, v->ysize) << FRACBITS, FRACUNIT)), FRACUNIT * 2);
+        const fixed_t       slope = BETWEEN(-FRACUNIT / 7, FixedMul(animatedliquiddiffs[((thing->floatbob + liquidrocktic)
+                                & (ANIMATEDLIQUIDDIFFS - 1))] * 3 / 2, factor), FRACUNIT / 7);
+        const unsigned int  axis = ((unsigned int)(thing->floatbob * 2654435761u) >> 8) & FINEMASK;
+
+        rockx = FixedMul(slope, finecosine[axis]);
+        rocky = FixedMul(slope, finesine[axis]);
+    }
 
     relative = (ANG180 - viewangle + angle) >> ANGLETOFINESHIFT;
     c = finecosine[relative];
@@ -687,6 +701,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->c = c;
     vv->s = s;
     vv->liquidclip = false;
+    vv->rockx = rockx;
+    vv->rocky = rocky;
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
         && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
     vv->tint = VX_TintForThing(thing);
@@ -772,6 +788,14 @@ static void VX_DrawFuzz(const int x, const int yl, const int yh)
         R_DrawFuzzColumn();
 }
 
+static fixed_t VX_RockHeight(const vissprite_t *spr, const visvoxel_t *vv, const fixed_t cx, const fixed_t cy)
+{
+    const fixed_t   wx = viewx + FixedMul(cx, viewsin) + FixedMul(cy, viewcos) - spr->gx;
+    const fixed_t   wy = viewy - FixedMul(cx, viewcos) + FixedMul(cy, viewsin) - spr->gy;
+
+    return FixedMul(wx, vv->rockx) + FixedMul(wy, vv->rocky);
+}
+
 static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 {
     const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
@@ -801,13 +825,19 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     fixed_t             uxend;
     int64_t             slopeab = 0;
     int64_t             slopebc = 0;
+    fixed_t             rocka = 0;
+    fixed_t             rockb = 0;
+    fixed_t             rockc = 0;
+    fixed_t             rockd = 0;
+    int64_t             rslopeab = 0;
+    int64_t             rslopebc = 0;
     vxlighting_t        light;
 
     if (offsets1 >= offsets2)
         return;
 
-    qux = (eyex < (x << FRACBITS) ? 0 : eyex < ((x + 1) << FRACBITS) ? 1 : 2);
-    quy = (eyey < (y << FRACBITS) ? 0 : eyey < ((y + 1) << FRACBITS) ? 1 : 2);
+    qux = (eyex < (x << FRACBITS) ? 0 : (eyex < ((x + 1) << FRACBITS) ? 1 : 2));
+    quy = (eyey < (y << FRACBITS) ? 0 : (eyey < ((y + 1) << FRACBITS) ? 1 : 2));
 
     if ((quadrant = quy * 3 + qux) == 4)
         return;
@@ -856,6 +886,25 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     aface = afaces[quadrant];
     bface = bfaces[quadrant];
 
+    if (vv->rockx || vv->rocky)
+    {
+        const int   i0 = acorners[quadrant];
+        const int   i1 = (i0 + 1) & 3;
+        const int   i2 = (i1 + 1) & 3;
+        const int   i3 = (i2 + 1) & 3;
+
+        rocka = VX_RockHeight(spr, vv, px[i0], py[i0]);
+        rockb = VX_RockHeight(spr, vv, px[i1], py[i1]);
+        rockc = VX_RockHeight(spr, vv, px[i2], py[i2]);
+        rockd = VX_RockHeight(spr, vv, px[i3], py[i3]);
+
+        if (bx != ax)
+            rslopeab = ((int64_t)(rockb - rocka) << 16) / (bx - ax);
+
+        if (cx != bx)
+            rslopebc = ((int64_t)(rockc - rockb) << 16) / (cx - bx);
+    }
+
     uxstart = MAX(((ax - 1) | FRACMASK) + 1, drawx1 << FRACBITS);
     uxend = MIN(MAX(cx, bx), (drawx2 + 1) << FRACBITS);
 
@@ -885,6 +934,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
         fixed_t     scale;
         fixed_t     iscale = 0;
         fixed_t     widescale = 0;
+        fixed_t     colrock = 0;
+        fixed_t     rockdiff = 0;
         bool        widescaleset = false;
         const byte  *dither;
         const int   screenx = ux >> FRACBITS;
@@ -916,6 +967,16 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
         if (scale <= 0)
             continue;
 
+        if (vv->rockx || vv->rocky)
+        {
+            if (ux > bx && cx != bx)
+                colrock = rockb + (fixed_t)((rslopebc * (ux - bx)) >> 16);
+            else if (bx != ax)
+                colrock = rocka + (fixed_t)((rslopeab * (ux - ax)) >> 16);
+            else
+                colrock = rockb;
+        }
+
         if (light.rows)
         {
             const int   scaleindex = MIN(scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
@@ -939,7 +1000,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             const int       top = *slab++;
             const int       len = *slab++;
             const int       face = *slab++;
-            const fixed_t   topz = spr->gzt - viewz - (top << FRACBITS);
+            const fixed_t   topz = spr->gzt - viewz - (top << FRACBITS) + colrock;
 
             if (!len || slab + len > slabend)
                 break;
@@ -975,6 +1036,20 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                         widescale = dscale + FixedMul(cscale - dscale, FixedDiv(ux - dx, cx - dx));
                     else if (dx != ax)
                         widescale = ascale + FixedMul(dscale - ascale, FixedDiv(ux - ax, dx - ax));
+
+                    if (vv->rockx || vv->rocky)
+                    {
+                        fixed_t widerock = colrock;
+
+                        if (ux > cx && bx != cx)
+                            widerock = rockc + FixedMul(rockb - rockc, FixedDiv(ux - cx, bx - cx));
+                        else if (ux > dx && cx != dx)
+                            widerock = rockd + FixedMul(rockc - rockd, FixedDiv(ux - dx, cx - dx));
+                        else if (dx != ax)
+                            widerock = rocka + FixedMul(rockd - rocka, FixedDiv(ux - ax, dx - ax));
+
+                        rockdiff = widerock - colrock;
+                    }
                 }
 
                 if ((spr->mobj->flags & MF_FUZZ) && r_textures)
@@ -983,9 +1058,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     fixed_t yh = uy2;
 
                     if ((face & F_TOP) && topz < 0)
-                        yl = MIN(yl, MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop));
+                        yl = MIN(yl, MAX(((VX_ProjectScreenY(topz + rockdiff, widescale) - 1) | FRACMASK) + 1, cliptop));
                     else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
-                        yh = MAX(yh, MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom));
+                        yh = MAX(yh, MIN(VX_ProjectScreenY(topz + rockdiff - (len << FRACBITS), widescale), clipbottom));
 
                     if (side)
                         VX_DrawFuzz(screenx, yl >> FRACBITS, yh >> FRACBITS);
@@ -1008,7 +1083,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                     // the fractional top-face walk can stop one row before the
                     // side-face walk starts, leaving horizontal background-colored
                     // seams between otherwise adjacent voxel faces.
-                    fixed_t uy = MAX(((VX_ProjectScreenY(topz, widescale) - 1) | FRACMASK) + 1, cliptop);
+                    fixed_t uy = MAX(((VX_ProjectScreenY(topz + rockdiff, widescale) - 1) | FRACMASK) + 1, cliptop);
                     int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
 
                     for (; uy < uy1; uy += FRACUNIT, pixel += SCREENWIDTH)
@@ -1021,7 +1096,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
                 }
                 else if ((face & F_BOTTOM) && topz > (len << FRACBITS))
                 {
-                    fixed_t uy = MIN(VX_ProjectScreenY(topz - (len << FRACBITS), widescale), clipbottom);
+                    fixed_t uy = MIN(VX_ProjectScreenY(topz + rockdiff - (len << FRACBITS), widescale), clipbottom);
                     int     pixel = (uy >> FRACBITS) * SCREENWIDTH + screenx;
 
                     for (; uy > uy2; uy -= FRACUNIT, pixel -= SCREENWIDTH)

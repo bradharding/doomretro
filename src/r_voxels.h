@@ -40,7 +40,7 @@
 #define VX_MAX_FRAMES   29
 #define VX_MINZ         (4 * FRACUNIT)
 #define VX_MAX_DIST     (1024 * FRACUNIT)
-#define VX_SHADOW_DIST  (512 * FRACUNIT)
+#define VX_SHADOW_DIST  (768 * FRACUNIT)
 #define VX_SPIN_TICS    140
 #define VX_HOVER        (4 * FRACUNIT)
 
@@ -70,6 +70,7 @@ typedef struct
     fixed_t             c;
     fixed_t             s;
     fixed_t             liquidclipz;
+    fixed_t             rockx, rocky;
     bool                liquidclip;
     bool                shadow;
     bool                percolumnlighting;
