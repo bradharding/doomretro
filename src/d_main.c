@@ -1903,8 +1903,23 @@ static int D_OpenWADLauncher(void)
             }
 #endif
 
+            // check if the file exists but isn't actually a WAD
+            if (D_IsWADFile(file) && M_FileExists(file) && !D_IsDOOMIWAD(file) && !W_WadType(file))
+            {
+                char    buffer[MAX_PATH + 64];
+
+                M_snprintf(buffer, sizeof(buffer), "%s isn't a valid WAD.\n", leafname(file));
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
+
+#if defined(_WIN32)
+                if (previouswad)
+                    wad = M_StringDuplicate(previouswad);
+#endif
+
+                error = true;
+            }
             // check if it's a valid and supported IWAD
-            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedWAD(file)))
+            else if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedWAD(file)))
             {
                 D_IdentifyIWADByName(file);
 
