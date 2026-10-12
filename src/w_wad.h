@@ -85,6 +85,7 @@ typedef struct
 
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
+extern int          numvoxels;
 extern char         *wadsloaded;
 
 bool IsUltimateDOOM(const char *iwadname);

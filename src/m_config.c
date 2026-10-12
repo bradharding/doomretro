@@ -217,7 +217,7 @@ bool        r_sprites_tilt = r_sprites_tilt_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_teleportzoom = r_teleportzoom_default;
 int         r_voxels = r_voxels_default;
-bool        r_voxels_spinpickups = r_voxels_spinpickups_default;
+int         r_voxels_pickupangles = r_voxels_pickupangles_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
@@ -502,7 +502,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,                BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_teleportzoom,                   r_teleportzoom,                        r_teleportzoom,                        BOOLVALUEALIAS         ),
     CVAR_INT          (r_voxels,                         r_voxels,                              r_voxels,                              VOXELSVALUEALIAS       ),
-    CVAR_BOOL         (r_voxels_spinpickups,             r_voxels_spinpickups,                  r_voxels_spinpickups,                  BOOLVALUEALIAS         ),
+    CVAR_INT          (r_voxels_pickupangles,            r_voxels_pickupangles,                 r_voxels_pickupangles,                 VOXELPICKUPSVALUEALIAS ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS         ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,               BOOLVALUEALIAS         ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                            0                      ),
@@ -717,6 +717,9 @@ valuealias_t valuealiases[] =
     { "standard",          timeformat_standard,                       TIMEFORMATVALUEALIAS    },
     { "imperial",          units_imperial,                            UNITSVALUEALIAS         },
     { "metric",            units_metric,                              UNITSVALUEALIAS         },
+    { "face",              r_voxels_pickupangles_face,                VOXELPICKUPSVALUEALIAS  },
+    { "smart",             r_voxels_pickupangles_smart,               VOXELPICKUPSVALUEALIAS  },
+    { "spin",              r_voxels_pickupangles_spin,                VOXELPICKUPSVALUEALIAS  },
     { "off",               r_voxels_off,                              VOXELSVALUEALIAS        },
     { "auto",              r_voxels_auto,                             VOXELSVALUEALIAS        },
     { "on",                r_voxels_on,                               VOXELSVALUEALIAS        },

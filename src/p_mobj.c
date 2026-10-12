@@ -1258,6 +1258,150 @@ static void P_SpawnFriend(const mapthing_t *mthing)
     }
 }
 
+// Returns the distance (in map units) from a thing to the nearest wall in the direction (dx, dy),
+// up to MAXWALLDISTANCE, and the wall hit (NULL if none). A wall is either a one-sided line, or a
+// two-sided line whose far sector has a higher floor or lower ceiling than the sector the thing is
+// in (such as a window or a ledge).
+static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, const fixed_t thingy,
+    const int dx, const int dy, const line_t **hit)
+{
+    const double    x = (double)thingx;
+    const double    y = (double)thingy;
+    const double    px = (double)dx * MAXWALLDISTANCE * FRACUNIT;
+    const double    py = (double)dy * MAXWALLDISTANCE * FRACUNIT;
+    double          nearest = 1.0;
+
+    *hit = NULL;
+
+    for (int i = 0; i < numlines; i++)
+    {
+        const line_t    *line = &lines[i];
+        double          ex, ey;
+        double          fx, fy;
+        double          denom;
+        double          t, u;
+
+        if (line->sidenum[1] != NO_INDEX)
+        {
+            const sector_t  *othersector = (P_PointOnLineSide(thingx, thingy, line) ?
+                                line->frontsector : line->backsector);
+
+            if (!othersector
+                || (othersector->floorheight <= sector->floorheight
+                    && othersector->ceilingheight >= sector->ceilingheight))
+                continue;
+        }
+
+        ex = (double)line->dx;
+        ey = (double)line->dy;
+
+        if (!(denom = px * ey - py * ex))
+            continue;
+
+        fx = (double)line->v1->x - x;
+        fy = (double)line->v1->y - y;
+        t = (fx * ey - fy * ex) / denom;
+        u = (fx * py - fy * px) / denom;
+
+        if (t >= 0.0 && t < nearest && u >= 0.0 && u <= 1.0)
+        {
+            nearest = t;
+            *hit = line;
+        }
+    }
+
+    return (nearest * MAXWALLDISTANCE);
+}
+
+// Adds the unit normal of a line, pointing towards the side of the line a thing is on, to (*nx, *ny)
+static void P_AddWallNormal(const fixed_t thingx, const fixed_t thingy, const line_t *line, double *nx, double *ny)
+{
+    const double    length = sqrt((double)line->dx * line->dx + (double)line->dy * line->dy);
+    const double    sign = (P_PointOnLineSide(thingx, thingy, line) ? -1.0 : 1.0);
+
+    if (length > 0.0)
+    {
+        // the front side of a line is to its right
+        *nx += sign * (double)line->dy / length;
+        *ny -= sign * (double)line->dx / length;
+    }
+}
+
+// Measures the distance to walls east, north, west and south of a position, and chooses an angle:
+//   1 to 3 walls nearby:
+//     face away from them by adding together the normals of the walls. So 1 wall faces 
+//     perpendicular to it, 2 walls face equally away from both, and 3 walls face the open direction
+//   otherwise (none, opposite, all) and a wall is fairly close:
+//     face the direction with the most open space
+static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, const fixed_t y, angle_t *angle)
+{
+    double          distance[4];
+    const line_t    *walls[4];
+    const line_t    *unique[4];
+    double          nearest = MAXWALLDISTANCE;
+    int             count = 0;
+    int             farthest = 0;
+    bool            tied = false;
+
+    for (int i = 0; i < 4; i++)
+    {
+        const int   dx = (i == 0) - (i == 2);
+        const int   dy = (i == 1) - (i == 3);
+
+        distance[i] = P_DistanceToWall(sector, x, y, dx, dy, &walls[i]);
+
+        if (walls[i] && distance[i] <= WALLPROBEDISTANCE + 0.5)
+        {
+            bool    found = false;
+
+            // a wall that isn't axis-aligned can be hit by more than one probe
+            for (int j = 0; j < count; j++)
+                if (unique[j] == walls[i])
+                    found = true;
+
+            if (!found)
+                unique[count++] = walls[i];
+        }
+
+        if (distance[i] < nearest)
+            nearest = distance[i];
+    }
+
+    if (count >= 1 && count <= 3)
+    {
+        double  nx = 0.0;
+        double  ny = 0.0;
+
+        for (int i = 0; i < count; i++)
+            P_AddWallNormal(x, y, unique[i], &nx, &ny);
+
+        // opposite walls cancel each other out
+        if (nx * nx + ny * ny > 0.0625)
+        {
+            *angle = R_PointToAngle2(0, 0, (fixed_t)(nx * FRACUNIT), (fixed_t)(ny * FRACUNIT));
+            return true;
+        }
+    }
+
+    if (nearest > WALLPROBEDISTANCE * 2)
+        return false;
+
+    for (int i = 1; i < 4; i++)
+        if (distance[i] > distance[farthest])
+        {
+            farthest = i;
+            tied = false;
+        }
+        else if (distance[i] == distance[farthest])
+            tied = true;
+
+    if (tied)
+        return false;
+
+    *angle = (angle_t)farthest * ANG90;
+    return true;
+}
+
 //
 // P_SpawnMapThing
 // The fields of the mapthing should already be in host byte order.
@@ -1401,6 +1545,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         mobj->tics = M_BigRandom() % mobj->tics + 1;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+
+    if ((flags & MF_SPECIAL) && numvoxels > 0)
+    {
+        angle_t angle;
+
+        if (P_AngleFromNearbyWalls(mobj->subsector->sector, x, y, &angle))
+            mobj->angle = angle;
+    }
 
     // [BH] randomly mirror corpses
     if (flags & MF_CORPSE)

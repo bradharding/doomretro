@@ -2137,8 +2137,9 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         else
             mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, info->droppeditem);
 
-        mo->angle = target->angle + (M_BigSubRandom() << 20);
-        mo->flags |= MF_DROPPED;    // special versions of items
+        mo->angle = R_PointToAngle2(mo->x, mo->y, viewplayer->mo->x, viewplayer->mo->y)
+            + M_BigRandomInt(-10, 10) * ANG1;
+        mo->flags |= MF_DROPPED; 
         mo->geartime = MAXGEARTIME;
         mo->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 

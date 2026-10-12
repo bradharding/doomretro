@@ -596,7 +596,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     dx = gx - viewx;
     dy = gy - viewy;
 
-    if ((spin = (r_voxels_spinpickups && (thing->flags & MF_SPECIAL) && !(thing->flags2 & MF2_FLOATBOB))))
+    if ((spin = (r_voxels_pickupangles == r_voxels_pickupangles_spin
+        && (thing->flags & MF_SPECIAL) && !(thing->flags2 & MF2_FLOATBOB))))
         gz += VX_HOVER;
 
     tx = FixedMul(dx, viewsin) - FixedMul(dy, viewcos);
@@ -623,8 +624,10 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     {
         if (spr == SPR_PINV || spr == SPR_PINS || spr == SPR_SOUL || spr == SPR_MEGA)
             angle = R_PointToAngle(gx, gy) + ANG180 + angleoffset;
-        else
+        else if (r_voxels_pickupangles == r_voxels_pickupangles_face)
             angle = viewangle + ANG180 + angleoffset;
+        else
+            angle = thing->angle + angleoffset;
     }
     else
         angle = thing->angle + angleoffset;

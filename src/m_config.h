@@ -205,7 +205,7 @@ extern bool     r_sprites_tilt;
 extern bool     r_sprites_translucency;
 extern bool     r_teleportzoom;
 extern int      r_voxels;
-extern bool     r_voxels_spinpickups;
+extern int      r_voxels_pickupangles;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
@@ -398,6 +398,13 @@ enum
     r_voxels_off,
     r_voxels_auto,
     r_voxels_on
+};
+
+enum
+{
+    r_voxels_pickupangles_face,
+    r_voxels_pickupangles_smart,
+    r_voxels_pickupangles_spin
 };
 
 enum
@@ -910,7 +917,9 @@ enum
 #define r_voxels_default                        r_voxels_auto
 #define r_voxels_max                            r_voxels_on
 
-#define r_voxels_spinpickups_default            true
+#define r_voxels_pickupangles_min               r_voxels_pickupangles_face
+#define r_voxels_pickupangles_default           r_voxels_pickupangles_smart
+#define r_voxels_pickupangles_max               r_voxels_pickupangles_spin
 
 #define r_textures_default                      true
 
@@ -1351,6 +1360,7 @@ typedef enum
     SUCKTIMEVALUEALIAS,
     TIMEFORMATVALUEALIAS,
     UNITSVALUEALIAS,
+    VOXELPICKUPSVALUEALIAS,
     VOXELSVALUEALIAS,
     VSYNCVALUEALIAS,
     WARNINGLEVELVALUEALIAS,

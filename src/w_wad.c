@@ -83,6 +83,7 @@ typedef struct
 lumpinfo_t          **lumpinfo;
 
 int                 numlumps;
+int                 numvoxels = 0;
 
 char                *wadsloaded;
 
@@ -124,7 +125,6 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     mz_zip_archive archive = { 0 };
     mz_uint        entries;
     int            count = 0;
-    int            voxelcount = 0;
     int            startlump;
     lumpinfo_t     *filelumps;
     wadfile_t      *wadfile;
@@ -146,7 +146,7 @@ static bool W_AddPK3(char *filename, bool autoloaded)
             if (namespace >= 0)
             {
                 count++;
-                voxelcount += (namespace == ns_voxels);
+                numvoxels += (namespace == ns_voxels);
             }
         }
     }
@@ -216,9 +216,9 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     else
         wadsloaded = M_StringDuplicate(file);
 
-    if (voxelcount)
-        C_Output("%i voxel%s %s been %s from the file " BOLD("%s") ".", voxelcount,
-            (voxelcount == 1 ? "" : "s"), (voxelcount == 1 ? "has" : "have"),
+    if (numvoxels)
+        C_Output("%i voxel%s %s been %s from the file " BOLD("%s") ".", numvoxels,
+            (numvoxels == 1 ? "" : "s"), (numvoxels == 1 ? "has" : "have"),
             (autoloaded ? "automatically added" : "added"), wadfile->path);
     else
         C_Warning(0, "No voxels were found in the file " BOLD("%s") ".", wadfile->path);

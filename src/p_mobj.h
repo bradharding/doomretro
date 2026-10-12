@@ -40,13 +40,13 @@
 #include "states.h"
 #include "tables.h"
 
-#define SIGIL2SPIDERHEALTH   9000
+#define SIGIL2SPIDERHEALTH      9000
 
-#define REDBLOODSPLATCOLOR    184
-#define GREENBLOODSPLATCOLOR  122
+#define REDBLOODSPLATCOLOR      184
+#define GREENBLOODSPLATCOLOR    122
 
-#define CORPSEBLOODSPLATS     512
-#define MAXHITBLOOD           128
+#define CORPSEBLOODSPLATS       512
+#define MAXHITBLOOD             128
 
 // killough 11/98:
 // For torque simulation:
@@ -55,6 +55,9 @@
 #define MAXGEARTIME             15
 
 #define MAXFRIENDS              8
+
+#define WALLPROBEDISTANCE       96
+#define MAXWALLDISTANCE         4096
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
