@@ -529,6 +529,26 @@ static void P_LoadVertexes(int lump)
     W_ReleaseLumpNum(lump);
 }
 
+static void P_CheckLinedefCompatibility(void)
+{
+    const line_t    *ld = lines;
+
+    for (int i = numlines; i--; ld++)
+    {
+        if (ld->special >= ID24LINESPECIALS && ld->special < NUMLINESPECIALS)
+            id24compatible = true;
+
+        if (ld->special >= MBF21LINESPECIALS && ld->special < ID24LINESPECIALS)
+            mbf21compatible = true;
+
+        if (ld->special >= MBFLINESPECIALS && ld->special < MBF21LINESPECIALS)
+            mbfcompatible = true;
+
+        if (ld->special >= BOOMLINESPECIALS && ld->special < MBFLINESPECIALS)
+            boomcompatible = true;
+    }
+}
+
 static void P_CheckLinedefs(void)
 {
     line_t  *ld = lines;
@@ -732,23 +752,9 @@ static void P_LoadSegs(int lump)
 
         li->angle = (LITTLESHORT(ml->angle)) << FRACBITS;
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
-
-        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
-            id24compatible = true;
-
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
-            mbf21compatible = true;
-
-        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
-            mbfcompatible = true;
-
-        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
-            boomcompatible = true;
     }
 
     W_ReleaseLumpNum(lump);
-
-    P_CheckLinedefs();
 }
 
 static void P_LoadSegs_V4(int lump)
@@ -864,23 +870,9 @@ static void P_LoadSegs_V4(int lump)
 
         li->angle = (LITTLESHORT(ml->angle)) << FRACBITS;
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
-
-        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
-            id24compatible = true;
-
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
-            mbf21compatible = true;
-
-        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
-            mbfcompatible = true;
-
-        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
-            boomcompatible = true;
     }
 
     W_ReleaseLumpNum(lump);
-
-    P_CheckLinedefs();
 }
 
 static void P_LoadSegs_XGL(byte *data, nodeformat_t format)
@@ -1406,18 +1398,6 @@ static void P_LoadZSegs(const byte *data)
 
         li->angle = R_PointToAngle2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
         li->offset = P_GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
-
-        if (li->linedef->special >= ID24LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
-            id24compatible = true;
-
-        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < ID24LINESPECIALS)
-            mbf21compatible = true;
-
-        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
-            mbfcompatible = true;
-
-        if (li->linedef->special >= BOOMLINESPECIALS && li->linedef->special < MBFLINESPECIALS)
-            boomcompatible = true;
     }
 }
 
@@ -1635,8 +1615,6 @@ static void P_LoadZNodes(int lump, nodeformat_t format)
         free(output);
     else
         W_ReleaseLumpNum(lump);
-
-    P_CheckLinedefs();
 }
 
 //
@@ -1720,10 +1698,6 @@ static void P_LoadLineDefs(int lump)
 
         ld->id = i;
         ld->flags = (unsigned short)LITTLESHORT(mld->flags);
-
-        // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
-        if (E2M7)
-            ld->flags = ((unsigned int)ld->flags & 0x03FF);
 
         ld->special = LITTLESHORT(mld->special);
         ld->tag = LITTLESHORT(mld->tag);
@@ -3272,6 +3246,9 @@ void P_SetupLevel(int ep, int map)
         BSP_BuildNodes();
 
     P_FixSegs();
+    P_CheckLinedefCompatibility();
+    P_CheckLinedefs();
+
     P_GroupLines();
     P_LoadReject(lumpnum);
 

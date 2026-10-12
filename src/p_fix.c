@@ -1929,6 +1929,10 @@ void P_FixVertexes(void)
 //
 void P_FixLinedefs(void)
 {
+    if (E2M7)
+        for (int i = 0; i < numlines; i++)
+            lines[i].flags = ((unsigned int)lines[i].flags & 0x03FF);
+
     for (int i = 0; linefix[i].mission != -1; i++)
         linefix[i].fixed = false;
 
