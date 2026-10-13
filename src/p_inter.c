@@ -2198,6 +2198,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         target->momz = 0;
     }
 
+    if (target == source || target == inflicter)
+    {
+        if (source)
+            damage = FixedMul(damage, source->info->selfdamage);
+        else if (inflicter)
+            damage = FixedMul(damage, inflicter->info->selfdamage);
+    }
+
     if (source)
         splayer = source->player;
 

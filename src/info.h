@@ -309,6 +309,7 @@ typedef struct
     int         id24flags;
     int         minrespawntics;
     int         respawndice;
+    fixed_t     selfdamage;
     int         pickupammotype;
     int         pickupammocategory;
     int         pickupweapontype;

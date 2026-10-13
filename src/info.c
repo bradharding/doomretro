@@ -42,63 +42,64 @@
 
 #define EMPTYMOBJ \
 { \
-    /* doomednum            */ -1,          \
-    /* spawnstate           */ 0,           \
-    /* spawnhealth          */ 0,           \
-    /* gibhealth            */ 0,           \
-    /* giblevel             */ 0,           \
-    /* seestate             */ S_NULL,      \
-    /* seesound             */ sfx_none,    \
-    /* reactiontime         */ 0,           \
-    /* attacksound          */ sfx_none,    \
-    /* painstate            */ S_NULL,      \
-    /* painchance           */ 0,           \
-    /* painsound            */ sfx_none,    \
-    /* meleestate           */ S_NULL,      \
-    /* missilestate         */ S_NULL,      \
-    /* deathstate           */ S_NULL,      \
-    /* xdeathstate          */ S_NULL,      \
-    /* deathsound           */ sfx_none,    \
-    /* droppeditem          */ MT_NULL,     \
-    /* speed                */ 0,           \
-    /* radius               */ 0,           \
-    /* pickupradius         */ 0,           \
-    /* height               */ 0,           \
-    /* projectilepassheight */ 0,           \
-    /* mass                 */ 0,           \
-    /* damage               */ 0,           \
-    /* activesound          */ sfx_none,    \
-    /* flags                */ 0,           \
-    /* flags2               */ 0,           \
-    /* raisestate           */ S_NULL,      \
-    /* frames               */ 0,           \
-    /* fullbright           */ false,       \
-    /* bloodcolor           */ REDBLOOD,    \
-    /* shadowoffset         */ 0,           \
-    /* mbf21flags           */ 0,           \
-    /* infightinggroup      */ IG_DEFAULT,  \
-    /* projectilegroup      */ PG_DEFAULT,  \
-    /* splashgroup          */ SG_DEFAULT,  \
-    /* ripsound             */ sfx_none,    \
-    /* altspeed             */ NO_ALTSPEED, \
-    /* meleerange           */ MELEERANGE,  \
-    /* id24flags            */ 0,           \
-    /* minrespawntics       */ 420,         \
-    /* respawndice          */ 4,           \
-    /* pickupammotype       */ am_noammo,   \
-    /* pickupammocategory   */ PI_NOITEM,   \
-    /* pickupweapontype     */ 0,           \
-    /* pickupitemtype       */ PI_NOITEM,   \
-    /* pickupbonuscount     */ 0,           \
-    /* pickupsound          */ sfx_none,    \
-    /* pickupstringmnemonic */ "",          \
-    /* name1                */ "",          \
-    /* plural1              */ "",          \
-    /* name2                */ "",          \
-    /* plural2              */ "",          \
-    /* name3                */ "",          \
-    /* plural3              */ "",          \
-    /* angleoffset          */ 0            \
+    /* doomednum            */ -1,           \
+    /* spawnstate           */ 0,            \
+    /* spawnhealth          */ 0,            \
+    /* gibhealth            */ 0,            \
+    /* giblevel             */ 0,            \
+    /* seestate             */ S_NULL,       \
+    /* seesound             */ sfx_none,     \
+    /* reactiontime         */ 0,            \
+    /* attacksound          */ sfx_none,     \
+    /* painstate            */ S_NULL,       \
+    /* painchance           */ 0,            \
+    /* painsound            */ sfx_none,     \
+    /* meleestate           */ S_NULL,       \
+    /* missilestate         */ S_NULL,       \
+    /* deathstate           */ S_NULL,       \
+    /* xdeathstate          */ S_NULL,       \
+    /* deathsound           */ sfx_none,     \
+    /* droppeditem          */ MT_NULL,      \
+    /* speed                */ 0,            \
+    /* radius               */ 0,            \
+    /* pickupradius         */ 0,            \
+    /* height               */ 0,            \
+    /* projectilepassheight */ 0,            \
+    /* mass                 */ 0,            \
+    /* damage               */ 0,            \
+    /* activesound          */ sfx_none,     \
+    /* flags                */ 0,            \
+    /* flags2               */ 0,            \
+    /* raisestate           */ S_NULL,       \
+    /* frames               */ 0,            \
+    /* fullbright           */ false,        \
+    /* bloodcolor           */ REDBLOOD,     \
+    /* shadowoffset         */ 0,            \
+    /* mbf21flags           */ 0,            \
+    /* infightinggroup      */ IG_DEFAULT,   \
+    /* projectilegroup      */ PG_DEFAULT,   \
+    /* splashgroup          */ SG_DEFAULT,   \
+    /* ripsound             */ sfx_none,     \
+    /* altspeed             */ NO_ALTSPEED,  \
+    /* meleerange           */ MELEERANGE,   \
+    /* id24flags            */ 0,            \
+    /* minrespawntics       */ 420,          \
+    /* respawndice          */ 4,            \
+    /* selfdamage           */ 1 * FRACUNIT, \
+    /* pickupammotype       */ am_noammo,    \
+    /* pickupammocategory   */ PI_NOITEM,    \
+    /* pickupweapontype     */ 0,            \
+    /* pickupitemtype       */ PI_NOITEM,    \
+    /* pickupbonuscount     */ 0,            \
+    /* pickupsound          */ sfx_none,     \
+    /* pickupstringmnemonic */ "",           \
+    /* name1                */ "",           \
+    /* plural1              */ "",           \
+    /* name2                */ "",           \
+    /* plural2              */ "",           \
+    /* name3                */ "",           \
+    /* plural3              */ "",           \
+    /* angleoffset          */ 0             \
 }
 
 mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
@@ -148,6 +149,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -209,6 +211,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -270,6 +273,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -331,6 +335,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -392,6 +397,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -453,6 +459,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -514,6 +521,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -575,6 +583,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -636,6 +645,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -697,6 +707,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -758,6 +769,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -819,6 +831,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -880,6 +893,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -941,6 +955,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1002,6 +1017,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1063,6 +1079,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1124,6 +1141,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1185,6 +1203,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1246,6 +1265,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1307,6 +1327,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1368,6 +1389,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1429,6 +1451,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1490,6 +1513,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1551,6 +1575,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1612,6 +1637,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1673,6 +1699,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1734,6 +1761,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1795,6 +1823,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1856,6 +1885,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1917,6 +1947,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -1978,6 +2009,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2039,6 +2071,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2100,6 +2133,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2161,6 +2195,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2222,6 +2257,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2283,6 +2319,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2344,6 +2381,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2405,6 +2443,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2466,6 +2505,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2527,6 +2567,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2588,6 +2629,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2649,6 +2691,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2710,6 +2753,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2771,6 +2815,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2832,6 +2877,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2893,6 +2939,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -2954,6 +3001,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3015,6 +3063,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3076,6 +3125,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3137,6 +3187,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3198,6 +3249,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3259,6 +3311,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3320,6 +3373,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ MF_ID24_SPECIALSTAYSCOOP,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3381,6 +3435,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3442,6 +3497,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3503,6 +3559,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3564,6 +3621,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3625,6 +3683,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3686,6 +3745,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3747,6 +3807,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3808,6 +3869,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3869,6 +3931,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3930,6 +3993,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -3991,6 +4055,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_clip,
         /* pickupammocategory   */ PI_CLIPAMMO,
         /* pickupweapontype     */ 0,
@@ -4052,6 +4117,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_clip,
         /* pickupammocategory   */ PI_BOXAMMO,
         /* pickupweapontype     */ 0,
@@ -4113,6 +4179,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_misl,
         /* pickupammocategory   */ PI_CLIPAMMO,
         /* pickupweapontype     */ 0,
@@ -4174,6 +4241,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_misl,
         /* pickupammocategory   */ PI_BOXAMMO,
         /* pickupweapontype     */ 0,
@@ -4235,6 +4303,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_cell,
         /* pickupammocategory   */ PI_CLIPAMMO,
         /* pickupweapontype     */ 0,
@@ -4296,6 +4365,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_cell,
         /* pickupammocategory   */ PI_BOXAMMO,
         /* pickupweapontype     */ 0,
@@ -4357,6 +4427,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_shell,
         /* pickupammocategory   */ PI_CLIPAMMO,
         /* pickupweapontype     */ 0,
@@ -4418,6 +4489,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_shell,
         /* pickupammocategory   */ PI_BOXAMMO,
         /* pickupweapontype     */ 0,
@@ -4479,6 +4551,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -4540,6 +4613,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_bfg,
@@ -4601,6 +4675,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_chaingun,
@@ -4662,6 +4737,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_chainsaw,
@@ -4723,6 +4799,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_missile,
@@ -4784,6 +4861,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_plasma,
@@ -4845,6 +4923,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_shotgun,
@@ -4906,6 +4985,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ wp_supershotgun,
@@ -4967,6 +5047,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5028,6 +5109,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5089,6 +5171,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5150,6 +5233,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5211,6 +5295,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5272,6 +5357,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5333,6 +5419,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5394,6 +5481,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5455,6 +5543,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5516,6 +5605,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5577,6 +5667,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5638,6 +5729,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5699,6 +5791,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5760,6 +5853,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5821,6 +5915,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5882,6 +5977,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -5943,6 +6039,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6004,6 +6101,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6065,6 +6163,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6126,6 +6225,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6187,6 +6287,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6248,6 +6349,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6309,6 +6411,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6370,6 +6473,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6431,6 +6535,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6492,6 +6597,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6553,6 +6659,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6614,6 +6721,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6675,6 +6783,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6736,6 +6845,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6797,6 +6907,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6858,6 +6969,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6919,6 +7031,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -6980,6 +7093,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7041,6 +7155,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7102,6 +7217,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7163,6 +7279,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7224,6 +7341,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7285,6 +7403,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7346,6 +7465,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7407,6 +7527,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7468,6 +7589,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7529,6 +7651,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7590,6 +7713,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7651,6 +7775,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7712,6 +7837,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7773,6 +7899,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7834,6 +7961,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7895,6 +8023,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -7956,6 +8085,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8017,6 +8147,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8078,6 +8209,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8139,6 +8271,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8200,6 +8333,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8261,6 +8395,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8322,6 +8457,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8383,6 +8519,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8444,6 +8581,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8505,6 +8643,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8566,6 +8705,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8627,6 +8767,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8688,6 +8829,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8749,6 +8891,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8810,6 +8953,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8871,6 +9015,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8932,6 +9077,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -8993,6 +9139,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
@@ -9058,6 +9205,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* id24flags            */ 0,
         /* minrespawntics       */ 420,
         /* respawndice          */ 4,
+        /* selfdamage           */ 1 * FRACUNIT,
         /* pickupammotype       */ am_noammo,
         /* pickupammocategory   */ PI_NOITEM,
         /* pickupweapontype     */ 0,
