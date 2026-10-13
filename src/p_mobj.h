@@ -58,6 +58,9 @@
 
 #define WALLPROBEDISTANCE       96
 #define MAXWALLDISTANCE         4096
+#define WALLTALLRISE            96
+#define WALLMINORRISE           9
+#define WALLIGNOREDISTANCE      4
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
