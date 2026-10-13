@@ -117,4 +117,4 @@ void P_FixVertexes(void);
 void P_FixLinedefs(void);
 void P_FixSegs(void);
 void P_FixSectors(void);
-bool P_FixThing(const int thingid, mapthing_t *mt);
+bool P_FixThing(const int thingid, mapthing_t *mt, bool *anglefixed);

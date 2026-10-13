@@ -1642,6 +1642,7 @@ static void P_LoadThings(int map, int lump)
     {
         mapthing_t  mt = data[thingid];
         bool        spawn = true;
+        bool        anglefixed = false;
 
         // Do spawn all other stuff.
         mt.x = LITTLESHORT(mt.x);
@@ -1650,7 +1651,7 @@ static void P_LoadThings(int map, int lump)
         mt.type = LITTLESHORT(mt.type);
         mt.options = LITTLESHORT(mt.options);
 
-        spawn = P_FixThing(thingid, &mt);
+        spawn = P_FixThing(thingid, &mt, &anglefixed);
 
         if (spawn)
         {
@@ -1660,7 +1661,7 @@ static void P_LoadThings(int map, int lump)
             if (mt.type == WolfensteinSS && !allowwolfensteinss)
                 mt.type = Zombieman;
 
-            if ((thing = P_SpawnMapThing(&mt, !nomonsters)))
+            if ((thing = P_SpawnMapThing(&mt, !nomonsters, anglefixed)))
             {
                 if (thing->flags & (MF_TOUCHY | MF_BOUNCES | MF_FRIEND))
                     mbfcompatible = true;

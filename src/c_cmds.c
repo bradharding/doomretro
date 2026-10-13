@@ -9709,7 +9709,7 @@ static void spawnfunc2(char *cmd, char *parms)
                 mthing.type = spawncmdtype;
                 mthing.options = (MTF_EASY | MTF_NORMAL | MTF_HARD);
 
-                if ((thing = P_SpawnMapThing(&mthing, true)))
+                if ((thing = P_SpawnMapThing(&mthing, true, false)))
                 {
                     const int   flags = thing->flags;
                     mobj_t      *fog;

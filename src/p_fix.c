@@ -1799,6 +1799,8 @@ thingfix_t thingfix[] =
     { doom,             6,   9,   223, EvilEye,                  -1568,     944,   -1568,     944,     270, DEFAULT                            },
     { doom,             6,   9,   237, EvilEye,                  -1456,    -684,   -1456,    -684,       0, DEFAULT                            },
 
+    { doom2,            1,   1,    68, Chainsaw,                  -480,     848,    -480,     848,     270, DEFAULT                            },
+
     { doom2,            1,   2,    69, Barrel,                    2064,    2528,    2064,    2544, DEFAULT, DEFAULT                            },
     { doom2,            1,   2,    69, Barrel,                     464,     784,     464,     800, DEFAULT, DEFAULT                            },
     { doom2,            1,   2,    84, Barrel,                    2592,    2640,    2592,    2648, DEFAULT, DEFAULT                            },
@@ -2284,7 +2286,7 @@ void P_FixSectors(void)
 //
 // P_FixThing
 //
-bool P_FixThing(const int id, mapthing_t *mt)
+bool P_FixThing(const int id, mapthing_t *mt, bool *anglefixed)
 {
     for (int i = 0; thingfix[i].mission != -1; i++)
     {
@@ -2320,6 +2322,7 @@ bool P_FixThing(const int id, mapthing_t *mt)
                     temp, mt->angle, fix->angle);
 
                 mt->angle = fix->angle;
+                *anglefixed = true;
             }
 
             if (fix->options != DEFAULT)

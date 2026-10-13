@@ -1556,7 +1556,7 @@ int prevnumframes;
 int prevthingx, prevthingy;
 int prevthingbob;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool anglefixed)
 {
     int         i;
     mobj_t      *mobj;
@@ -1692,7 +1692,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
-    if ((flags & MF_SPECIAL) && numvoxels > 0)
+    if ((flags & MF_SPECIAL) && numvoxels > 0
+        && !(anglefixed && r_voxels_pickupangles == r_voxels_pickupangles_smart))
     {
         angle_t angle;
 
