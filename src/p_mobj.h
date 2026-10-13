@@ -117,6 +117,13 @@ enum
     ORANGEBLOOD
 };
 
+typedef enum
+{
+    WALLMODE_ANY,
+    WALLMODE_SOLID,
+    WALLMODE_TALL
+} wallmode_t;
+
 //
 // NOTES: mobj_t
 //

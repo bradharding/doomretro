@@ -52,11 +52,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-// A solid wall is a one-sided line, or an impassable two-sided line
-#define P_IsSolidWall(line) ((line)->sidenum[1] == NO_INDEX || ((line)->flags & ML_BLOCKING))
-
 bloodsplat_t    *bloodsplats_fifo_head;
 bloodsplat_t    *bloodsplats_fifo_tail;
+
+static bool     closeddoorssolid;
 
 //
 // P_SetMobjState
@@ -1256,9 +1255,19 @@ static void P_SpawnFriend(const mapthing_t *mthing)
             C_Warning(0, "%s followed %s into this map!",
                 mobj->name, C_GetPlayerName());
         else
-            C_Warning(0, "A friendly %s followed %s into this map!",
+            C_Warning(0, "The friendly %s followed %s into this map!",
                 mobjinfo[mobj->type].name1, C_GetPlayerName());
     }
+}
+
+// Returns true if a line is a solid wall (or a closed door, if closeddoorssolid is true)
+static bool P_IsWall(const line_t *line)
+{
+    return (line->sidenum[1] == NO_INDEX
+        || (line->flags & ML_BLOCKING)
+        || (closeddoorssolid && line->frontsector && line->backsector
+            && MIN(line->frontsector->ceilingheight, line->backsector->ceilingheight)
+                <= MAX(line->frontsector->floorheight, line->backsector->floorheight)));
 }
 
 // Returns the distance (in map units) from a thing to the nearest wall in the direction (dx, dy),
@@ -1267,13 +1276,6 @@ static void P_SpawnFriend(const mapthing_t *mthing)
 // in (such as a window or a ledge). Two-sided lines within WALLIGNOREDISTANCE are ignored. With
 // WALLMODE_SOLID, only solid walls count, and with WALLMODE_TALL, only solid walls and
 // two-sided lines whose far floor is at least WALLTALLRISE higher count.
-typedef enum
-{
-    WALLMODE_ANY,
-    WALLMODE_SOLID,
-    WALLMODE_TALL
-} wallmode_t;
-
 static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, const fixed_t thingy,
     const int dx, const int dy, const wallmode_t mode, const line_t **hit)
 {
@@ -1294,12 +1296,12 @@ static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, con
         double          t;
         double          u;
 
-        if (!P_IsSolidWall(line))
+        if (!P_IsWall(line))
         {
-            const sector_t  *othersector = (P_PointOnLineSide(thingx, thingy, line) ?
-                                line->frontsector : line->backsector);
+            sector_t  *othersector;
 
-            if (mode == WALLMODE_SOLID || !othersector)
+            if (mode == WALLMODE_SOLID
+                || !(othersector = (P_PointOnLineSide(thingx, thingy, line) ? line->frontsector : line->backsector)))
                 continue;
 
             if (mode == WALLMODE_TALL)
@@ -1325,7 +1327,7 @@ static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, con
 
         if (t >= 0.0 && t < nearest && u >= 0.0 && u <= 1.0)
         {
-            if (!P_IsSolidWall(line) && t * MAXWALLDISTANCE < WALLIGNOREDISTANCE)
+            if (!P_IsWall(line) && t * MAXWALLDISTANCE < WALLIGNOREDISTANCE)
                 continue;
 
             nearest = t;
@@ -1378,7 +1380,7 @@ static int P_WallRise(const sector_t *sector, const fixed_t x, const fixed_t y, 
 {
     const sector_t  *othersector;
 
-    if (P_IsSolidWall(line))
+    if (P_IsWall(line))
         return INT_MAX;
 
     othersector = (P_PointOnLineSide(x, y, line) ? line->frontsector : line->backsector);
@@ -1446,7 +1448,7 @@ static int P_FindNearbyWalls(const sector_t *sector, const fixed_t x, const fixe
 //                          face the direction with the most open space
 // If the only walls found are small steps or lips (such as the edges of a shallow, curved recess),
 // look again for taller walls in the diagonals too.
-static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, const fixed_t y, angle_t *angle)
+static bool P_AngleFromWalls(const sector_t *sector, const fixed_t x, const fixed_t y, angle_t *angle)
 {
     double          distance[4];
     double          uniquedistance[12];
@@ -1476,12 +1478,12 @@ static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, cons
 
         // find the closest solid wall, and whether it's much closer than any other solid wall
         for (int i = 0; i < count; i++)
-            if (P_IsSolidWall(unique[i]) && (closest < 0 || uniquedistance[i] < uniquedistance[closest]))
+            if (P_IsWall(unique[i]) && (closest < 0 || uniquedistance[i] < uniquedistance[closest]))
                 closest = i;
 
         if (closest >= 0)
             for (int i = 0; i < count; i++)
-                if (i != closest && P_IsSolidWall(unique[i])
+                if (i != closest && P_IsWall(unique[i])
                     && uniquedistance[i] < uniquedistance[closest] * 2.0)
                     dominant = false;
 
@@ -1528,6 +1530,22 @@ static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, cons
 
     *angle = (angle_t)farthest * ANG90;
     return true;
+}
+
+static bool P_AngleFromNearbyWalls(const sector_t *sector, const fixed_t x, const fixed_t y, angle_t *angle)
+{
+    bool    result;
+
+    closeddoorssolid = false;
+
+    if (P_AngleFromWalls(sector, x, y, angle))
+        return true;
+
+    closeddoorssolid = true;
+    result = P_AngleFromWalls(sector, x, y, angle);
+    closeddoorssolid = false;
+
+    return result;
 }
 
 //
