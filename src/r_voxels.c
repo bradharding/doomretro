@@ -585,7 +585,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     fixed_t     relative;
     fixed_t     tlx, tly;
     fixed_t     rockx = 0, rocky = 0;
-    bool        spin;
+    bool        spin = false;
 
     if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
         return false;
@@ -596,10 +596,6 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     dx = gx - viewx;
     dy = gy - viewy;
 
-    if ((spin = (r_voxels_pickupangles == r_voxels_pickupangles_spin
-        && (thing->flags & MF_SPECIAL) && !(thing->flags2 & MF2_FLOATBOB))))
-        gz += VX_HOVER;
-
     tx = FixedMul(dx, viewsin) - FixedMul(dy, viewcos);
     ty = FixedMul(dx, viewcos) + FixedMul(dy, viewsin);
 
@@ -608,29 +604,32 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
     xscale = (ty < VX_MINZ ? 15000 * FRACUNIT - ty : FixedDiv(projection, ty));
 
-    angleoffset = thing->info->angleoffset;
-    angleoffset = ((angleoffset % 45) ? angleoffset * (ANG45 / 45) : ANG45 * (angleoffset / 45));
-
-    if (spin)
-    {
-        const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
-                            + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
-
-        angle = thing->angle + angleoffset
-            - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
-                / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
-    }
-    else if (thing->flags & MF_SPECIAL)
+    if (thing->flags & MF_SPECIAL)
     {
         if (spr == SPR_PINV || spr == SPR_PINS || spr == SPR_SOUL || spr == SPR_MEGA)
-            angle = R_PointToAngle(gx, gy) + ANG180 + angleoffset;
+            angle = R_PointToAngle(gx, gy) + ANG180;
+        else if (r_voxels_pickupangles == r_voxels_pickupangles_spin)
+        {
+            const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
+                                + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
+
+            angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
+                / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
+
+            gz += VX_HOVER;
+            spin = true;
+        }
         else if (r_voxels_pickupangles == r_voxels_pickupangles_face)
-            angle = viewangle + ANG180 + angleoffset;
+            angle = viewangle + ANG180;
         else
-            angle = thing->angle + angleoffset;
+            angle = thing->angle;
     }
     else
-        angle = thing->angle + angleoffset;
+        angle = thing->angle;
+
+    angleoffset = thing->info->angleoffset;
+    angleoffset = ((angleoffset % 45) ? angleoffset * (ANG45 / 45) : ANG45 * (angleoffset / 45));
+    angle += angleoffset;
 
     if ((thing->flags2 & MF2_FEETARECLIPPED) && !(thing->flags2 & MF2_NOLIQUIDBOB)
         && !thing->subsector->sector->heightsec && r_liquid_bobsprites && r_liquid_rocksprites && !spin)
@@ -688,6 +687,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         }
 
         x = VX_ProjectScreenX(cornersx[i], FixedDiv(projection, cornersy[i])) >> FRACBITS;
+
         x1 = MIN(x1, x);
         x2 = MAX(x2, x);
     }
@@ -696,7 +696,9 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     x2 = BETWEEN(0, x2, viewwidth - 1);
 
     index = VX_NewVisVoxel();
+
     vv = &visvoxels[index];
+
     vv->model = v;
     vv->angle = angle;
     vv->tlx = tlx;
@@ -709,7 +711,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
         && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
     vv->tint = VX_TintForThing(thing);
-    vv->lightrows = vv->nextlightrows = NULL;
+    vv->lightrows = NULL;
+    vv->nextlightrows = NULL;
     vv->brightmap = NULL;
 
     if (usebrightmaps)
@@ -721,7 +724,9 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     }
 
     vis = R_NewVisSprite();
+
     memset(vis, 0, sizeof(*vis));
+
     vis->voxelindex = index;
     vis->drawfunc = VX_DrawVoxel;
     vis->mobj = thing;
@@ -746,10 +751,11 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vis->x1 = x1;
     vis->x2 = x2;
     vis->fullbright = !!((thing->frame & FF_FULLBRIGHT) || thing->info->fullbright);
-    vv->percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
-        && (thing->flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)));
     vis->sectorcolormap = (viewplayer && ISINVULNERABILITYCOLORMAP(viewplayer->fixedcolormap) ?
         fullcolormap : R_GetSectorColormap(thing->subsector->sector));
+
+    vv->percolumnlighting = (r_percolumnlighting && !vis->fullbright && !fixedcolormap
+        && (thing->flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)));
 
     if (fixedcolormap)
         vis->colormap = vis->nextcolormap = fixedcolormap;
@@ -764,6 +770,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
 
         vis->colormap = scalelight[light][scaleindex];
         vis->nextcolormap = scalelight[nextlight][scaleindex];
+
         vv->lightrows = scalelight[light];
         vv->nextlightrows = scalelight[nextlight];
     }
@@ -796,7 +803,7 @@ static fixed_t VX_RockHeight(const vissprite_t *spr, const visvoxel_t *vv, const
     const fixed_t   wx = viewx + FixedMul(cx, viewsin) + FixedMul(cy, viewcos) - spr->gx;
     const fixed_t   wy = viewy - FixedMul(cx, viewcos) + FixedMul(cy, viewsin) - spr->gy;
 
-    return FixedMul(wx, vv->rockx) + FixedMul(wy, vv->rocky);
+    return (FixedMul(wx, vv->rockx) + FixedMul(wy, vv->rocky));
 }
 
 static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
@@ -805,7 +812,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     const voxel_t       *v = vv->model;
     const int           offsets1 = v->offsets[y * v->xsize + x];
     const int           offsets2 = v->offsets[(y + 1) * v->xsize + x];
-    const int           owner = spr->voxelindex + 1;
+    int                 owner;
     int                 qux, quy;
     int                 quadrant;
     int                 idx;
@@ -820,7 +827,7 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     fixed_t             dscale;
     byte                aface;
     byte                bface;
-    byte                *dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
+    byte                *dest;
     static const int    acorners[9] = { 3, 3, 2, 0, -1, 2, 0, 1, 1 };
     static const byte   afaces[9] = { F_BACK, F_BACK, F_RIGHT, F_LEFT, 0, F_RIGHT, F_LEFT, F_FRONT, F_FRONT };
     static const byte   bfaces[9] = { F_LEFT, 0, F_BACK, 0, 0, 0, F_FRONT, 0, F_RIGHT };
@@ -869,6 +876,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
     if (ay < VX_MINZ && by < VX_MINZ && cy < VX_MINZ && dy < VX_MINZ)
         return;
+
+    owner = spr->voxelindex + 1;
+    dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
 
     // Clip cells which straddle the view plane instead of dropping the
     // entire cell. Dropped cells were the source of the alternating
