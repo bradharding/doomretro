@@ -71,13 +71,6 @@ static const byte filter[256] =
 #define BLUES   B
 #define EXTRAS  X
 
-typedef struct
-{
-    float   x;
-    float   y;
-    float   z;
-} vector_t;
-
 byte        *tinttab4;
 byte        *tinttab5;
 byte        *tinttab10;
@@ -517,6 +510,34 @@ static void RGBtoHSV(vector_t *rgb, vector_t *hsv)
     hsv->x = h / 360.0f;
     hsv->y = s;
     hsv->z = v;
+}
+
+vector_t I_GetHSV(const byte *rgb)
+{
+    vector_t    r = { rgb[0] / 255.0f, rgb[1] / 255.0f, rgb[2] / 255.0f };
+    vector_t    hsv;
+
+    RGBtoHSV(&r, &hsv);
+
+    return hsv;
+}
+
+bool I_SameColor(const byte *doomcolor, const byte *color)
+{
+    const vector_t  a = I_GetHSV(doomcolor);
+    const vector_t  b = I_GetHSV(color);
+    float           huediff = fabsf(a.x - b.x);
+
+    if (a.z < 0.2f)
+        return (b.z < 0.45f);
+
+    if (a.y < 0.2f)
+        return (b.y < 0.4f && fabsf(a.z - b.z) <= 0.45f);
+
+    if (huediff > 0.5f)
+        huediff = 1.0f - huediff;
+
+    return (b.y >= 0.2f && huediff <= 1.0f / 6.0f && fabsf(a.z - b.z) <= 0.45f);
 }
 
 byte I_GoldTranslation(byte *playpal, byte color)

@@ -35,6 +35,7 @@
 
 #include <ctype.h>
 #include <limits.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -200,6 +201,59 @@ static fixed_t VX_ReadPivot(const byte *p)
     return (fixed_t)((int64_t)(signed int)VX_ReadU32(p) * (FRACUNIT >> 8));
 }
 
+// Remaps a voxel's 6-bit palette to the game's palette
+static void VX_BuildRemap(const byte *playpal, const byte *voxelpalette, byte *remap)
+{
+    static byte cachedpalette[768];
+    static byte cachedplaypal[768];
+    static byte cachedremap[256];
+    static bool cached;
+    byte        *doompal;
+    int         saturated = 0;
+    int         aligned = 0;
+    bool        recolor;
+
+    if (cached && !memcmp(cachedpalette, voxelpalette, 768) && !memcmp(cachedplaypal, playpal, 768))
+    {
+        memcpy(remap, cachedremap, 256);
+        return;
+    }
+
+    doompal = W_CacheLumpNameFromResourceWAD("PLAYPAL");
+
+    for (int i = 0; i < 256; i++)
+    {
+        const vector_t  hsv = I_GetHSV(&doompal[i * 3]);
+
+        if (hsv.y >= 0.4f && hsv.z >= 0.25f)
+        {
+            saturated++;
+            aligned += I_SameColor(&doompal[i * 3], &playpal[i * 3]);
+        }
+    }
+
+    recolor = (aligned * 100 >= saturated * 85);
+
+    for (int i = 0; i < 256; i++)
+    {
+        const int   red = (voxelpalette[i * 3] << 2);
+        const int   green = (voxelpalette[i * 3 + 1] << 2);
+        const int   blue = (voxelpalette[i * 3 + 2] << 2);
+        const int   doomcolor = I_GetNearestColor(doompal, red, green, blue);
+
+        if (recolor && I_SameColor(&doompal[doomcolor * 3], &playpal[doomcolor * 3]))
+            remap[i] = (byte)doomcolor;
+        else
+            remap[i] = (byte)I_GetNearestColor((byte *)playpal, red, green, blue);
+    }
+
+    memcpy(cachedpalette, voxelpalette, 768);
+    memcpy(cachedplaypal, playpal, 768);
+    memcpy(cachedremap, remap, 256);
+
+    cached = true;
+}
+
 static voxel_t *VX_Decode(const byte *source, int length)
 {
     const byte  *p = source;
@@ -270,9 +324,7 @@ static voxel_t *VX_Decode(const byte *source, int length)
 
     playpal = W_CacheLumpName("PLAYPAL");
 
-    for (int i = 0; i < 256; i++)
-        remap[i] = I_GetNearestColor(playpal, (source[length - 768 + i * 3] << 2),
-            (source[length - 767 + i * 3] << 2), (source[length - 766 + i * 3] << 2));
+    VX_BuildRemap(playpal, source + length - 768, remap);
 
     for (int x = 0; x < v->xsize; x++)
         for (int y = 0; y < v->ysize; y++)

@@ -72,6 +72,11 @@
 
 #define CTOLERANCE 0.0001
 
+typedef struct
+{
+    float   x, y, z;
+} vector_t;
+
 extern byte *tinttab4;
 extern byte *tinttab5;
 extern byte *tinttab10;
@@ -135,4 +140,6 @@ int FindBrightDominantColor(patch_t *patch);
 int FindDarkDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch);
 
+vector_t I_GetHSV(const byte *rgb);
+bool I_SameColor(const byte *doomcolor, const byte *color);
 byte I_GoldTranslation(byte *playpal, byte color);
