@@ -226,7 +226,7 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     }
 
     if (numvoxels && r_voxels == r_voxels_off)
-        C_Warning(0, "The voxels won't be rendered though because the " BOLD("r_voxels")
+        C_Warning(0, "The voxels won't be rendered though while the " BOLD("r_voxels")
             " CVAR is " BOLD("off") ".");
 
     return true;

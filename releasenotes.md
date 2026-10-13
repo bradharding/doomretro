@@ -2,7 +2,7 @@
 
 ### DOOM Retro v6.4
 
-* *DOOM Retro* is now built using v18.10.3 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v18.10.4 of [*Microsoft Visual Studio Community 2026*](https://visualstudio.microsoft.com/vs/community/).
 * Several changes have been made to further improve the overall performance and stability of *DOOM Retro*.
 * These changes have been made when the `smoothtransitions` CVAR is `on`:
   * The fade effect while navigating different screens in the menu is now more responsive and no longer affects the menu’s background.
@@ -94,7 +94,7 @@
 * As long as the `secretmessages` CVAR is `on`, secret messages are still displayed  even when the `messages` CVAR is `off`.
 * Pressing the <kbd><b>F8</b></kbd> key now toggles both the `messages` and `secretmessages` CVARs.
 * A bug is fixed whereby some map names wouldn’t be displayed when playing *DOOM II: Hell On Earth* if the [*No Rest For The Living*](https://doomwiki.org/wiki/No_Rest_for_the_Living) and/or [*Master Levels*](https://www.doomwiki.org/wiki/Master_Levels_for_Doom_II) expansions were also loaded.
-* When the player or a monster walks over a corpse and the `r_corpses_nudge` CVAR is `on`, the corpse now nudges in the same general direction the player or monster is going, rather than in a completely random direction.
+* When the player or a monster walks over a corpse and the `r_corpses_nudge` CVAR is `on`, the corpse is now nudged in the same general direction the player or monster is going, rather than in a completely random direction.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

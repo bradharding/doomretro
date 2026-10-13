@@ -694,8 +694,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     {
         const fixed_t       factor = BETWEEN(FRACUNIT / 2, FixedDiv(v->zsize << FRACBITS,
                                 MAX(MAX(v->xsize, v->ysize) << FRACBITS, FRACUNIT)), FRACUNIT * 2);
-        const fixed_t       slope = BETWEEN(-FRACUNIT / 7, FixedMul(animatedliquiddiffs[((thing->floatbob + liquidrocktic)
-                                & (ANIMATEDLIQUIDDIFFS - 1))] * 3 / 2, factor), FRACUNIT / 7);
+        const fixed_t       slope = BETWEEN(-FRACUNIT / 7, FixedMul(animatedliquiddiffs[((thing->floatbob
+                                + liquidrocktic) & (ANIMATEDLIQUIDDIFFS - 1))] * 3 / 2, factor), FRACUNIT / 7);
         const unsigned int  axis = ((unsigned int)(thing->floatbob * 2654435761u) >> 8) & FINEMASK;
 
         rockx = FixedMul(slope, finecosine[axis]);
