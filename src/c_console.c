@@ -2073,7 +2073,8 @@ static void C_GetOverlayTextColors(void)
         return;
 
     if (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
-        && !automapactive && !menuactive && gamestate == GS_LEVEL)
+        && !automapactive && !menuactive && gamestate == GS_LEVEL
+        && (viewplayer->fixedcolormap != INVERSECOLORMAP || I_IsColormapBright(&colormaps[0][INVERSECOLORMAP * 256])))
     {
         overlaytextcolor = nearestblack;
         overlaytextshadowcolor = (r_hud_translucency ? nearestdarkgray : -1);

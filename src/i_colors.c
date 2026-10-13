@@ -165,6 +165,17 @@ byte I_GetContrastingColor(byte backgroundcolor)
     return (luminance[backgroundcolor] < 192 ? nearestwhite : nearestblack);
 }
 
+// Returns true if, on average, the given 256-byte colormap row maps to bright colors
+bool I_IsColormapBright(const byte *colormap)
+{
+    int total = 0;
+
+    for (int i = 0; i < 256; i++)
+        total += luminance[colormap[i]];
+
+    return (total / 256 >= 128);
+}
+
 void I_InitColors(byte *palette)
 {
     byte    *playpal = W_CacheLumpNameFromResourceWAD("PLAYPAL");
