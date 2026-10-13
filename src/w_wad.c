@@ -218,9 +218,12 @@ static bool W_AddPK3(char *filename, bool autoloaded)
         C_Output("1 voxel has been %s from the file " BOLD("%s") ".",
             (autoloaded ? "automatically added" : "added"), wadfile->path);
     else
-        C_Output("%i voxels have been %s from the file " BOLD("%s") ".",
-            numvoxels, (numvoxels == 1 ? "" : "s"), (numvoxels == 1 ? "has" : "have"),
-            (autoloaded ? "automatically added" : "added"), wadfile->path);
+    {
+        temp = commify(numvoxels);
+        C_Output("%s voxels have been %s from the file " BOLD("%s") ".",
+            temp, (autoloaded ? "automatically added" : "added"), wadfile->path);
+        free(temp);
+    }
 
     return true;
 }
