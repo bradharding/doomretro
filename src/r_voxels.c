@@ -925,11 +925,11 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
 
     if (vv->percolumnlighting)
     {
-        const fixed_t   cx = px[0] + ((vv->s + vv->c) >> 1);
-        const fixed_t   cy = py[0] + ((vv->s - vv->c) >> 1);
+        const fixed_t   cxx = px[0] + ((vv->s + vv->c) >> 1);
+        const fixed_t   cyy = py[0] + ((vv->s - vv->c) >> 1);
 
-        VX_UpdateCellLighting(spr, viewx + FixedMul(cx, viewsin) + FixedMul(cy, viewcos),
-            viewy - FixedMul(cx, viewcos) + FixedMul(cy, viewsin), &light);
+        VX_UpdateCellLighting(spr, viewx + FixedMul(cxx, viewsin) + FixedMul(cyy, viewcos),
+            viewy - FixedMul(cxx, viewcos) + FixedMul(cyy, viewsin), &light);
     }
 
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)

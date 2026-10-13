@@ -92,11 +92,6 @@ static wadfile_t    *wadlist[MAXWADS];
 static lumpinfo_t   **lumpblocks;
 static int          numlumpblocks;
 
-static bool W_IsPK3(const char *filename)
-{
-    return (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip"));
-}
-
 static namespace_t W_PK3EntryNamespace(const char *filename)
 {
     const char  *base = filename;
@@ -112,8 +107,7 @@ static namespace_t W_PK3EntryNamespace(const char *filename)
     if (!M_StringEndsWith(base, ".kvx"))
         return -1;
 
-    slash = base - 1;
-    if (slash <= filename)
+    if ((slash = base - 1) <= filename)
         return -1;
 
     // Accept voxels/ at the root and inside GZDoom filter directories.
@@ -122,26 +116,27 @@ static namespace_t W_PK3EntryNamespace(const char *filename)
 
 static bool W_AddPK3(char *filename, bool autoloaded)
 {
-    mz_zip_archive archive = { 0 };
-    mz_uint        entries;
-    int            count = 0;
-    int            startlump;
-    lumpinfo_t     *filelumps;
-    wadfile_t      *wadfile;
-    char           *temp;
-    char           *file = leafname(filename);
+    mz_zip_archive  archive = { 0 };
+    mz_uint         entries;
+    int             count = 0;
+    int             startlump;
+    lumpinfo_t      *filelumps;
+    wadfile_t       *wadfile;
+    char            *temp;
+    char            *file = leafname(filename);
 
     if (!mz_zip_reader_init_file(&archive, filename, MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY))
         return false;
 
     entries = mz_zip_reader_get_num_files(&archive);
+
     for (mz_uint i = 0; i < entries; i++)
     {
-        mz_zip_archive_file_stat stat;
+        mz_zip_archive_file_stat    stat;
 
         if (mz_zip_reader_file_stat(&archive, i, &stat) && !stat.m_is_directory)
         {
-            const namespace_t namespace = W_PK3EntryNamespace(stat.m_filename);
+            const namespace_t   namespace = W_PK3EntryNamespace(stat.m_filename);
 
             if (namespace >= 0)
             {
@@ -160,8 +155,7 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     if (numwads < MAXWADS)
         wadlist[numwads++] = wadfile;
 
-    filelumps = (count ? I_Calloc(count, sizeof(*filelumps)) : NULL);
-    if (filelumps)
+    if ((filelumps = (count ? I_Calloc(count, sizeof(*filelumps)) : NULL)))
     {
         lumpblocks = I_Realloc(lumpblocks, (++numlumpblocks) * sizeof(*lumpblocks));
         lumpblocks[numlumpblocks - 1] = filelumps;
@@ -173,22 +167,24 @@ static bool W_AddPK3(char *filename, bool autoloaded)
 
     for (mz_uint i = 0, lump = 0; i < entries; i++)
     {
-        mz_zip_archive_file_stat stat;
-        const char               *base;
-        char                     name[9] = { 0 };
-        char                     *dot;
-        lumpinfo_t               *lump_p;
+        mz_zip_archive_file_stat    stat;
+        const char                  *base;
+        char                        name[9] = { 0 };
+        char                        *dot;
+        lumpinfo_t                  *lump_p;
 
         if (!mz_zip_reader_file_stat(&archive, i, &stat) || stat.m_is_directory
             || W_PK3EntryNamespace(stat.m_filename) < 0)
             continue;
 
         base = stat.m_filename;
+
         for (const char *p = stat.m_filename; *p; p++)
             if (*p == '/' || *p == '\\')
                 base = p + 1;
 
         M_StringCopy(name, base, sizeof(name));
+
         if ((dot = strrchr(name, '.')))
             *dot = '\0';
 
@@ -216,12 +212,15 @@ static bool W_AddPK3(char *filename, bool autoloaded)
     else
         wadsloaded = M_StringDuplicate(file);
 
-    if (numvoxels)
-        C_Output("%i voxel%s %s been %s from the file " BOLD("%s") ".", numvoxels,
-            (numvoxels == 1 ? "" : "s"), (numvoxels == 1 ? "has" : "have"),
+    if (!numvoxels)
+        C_Warning(0, "No voxels were found in the file " BOLD("%s") ".", wadfile->path);
+    else if (numvoxels == 1)
+        C_Output("1 voxel has been %s from the file " BOLD("%s") ".",
             (autoloaded ? "automatically added" : "added"), wadfile->path);
     else
-        C_Warning(0, "No voxels were found in the file " BOLD("%s") ".", wadfile->path);
+        C_Output("%i voxels have been %s from the file " BOLD("%s") ".",
+            numvoxels, (numvoxels == 1 ? "" : "s"), (numvoxels == 1 ? "has" : "have"),
+            (autoloaded ? "automatically added" : "added"), wadfile->path);
 
     return true;
 }
@@ -449,7 +448,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!filename || !*filename)
         return false;
 
-    if (W_IsPK3(filename))
+    if (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip"))
         return W_AddPK3(filename, autoloaded);
 
     // open the file and add to directory
@@ -965,7 +964,8 @@ bool PWADHasMaps(char *pwadname)
 {
     FILE    *fp;
 
-    if (W_IsPK3(pwadname) || M_StringEndsWith(pwadname, ".lmp"))
+    if (M_StringEndsWith(pwadname, ".pk3") || M_StringEndsWith(pwadname, ".zip")
+        || M_StringEndsWith(pwadname, ".lmp"))
         return false;
 
     if (!(fp = fopen(pwadname, "rb")))
@@ -1012,7 +1012,7 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 
     // PK3 resource packs generally contain no maps from which an IWAD can
     // be inferred. Let the caller use its normal Doom II fallback.
-    if (W_IsPK3(pwadname))
+    if (M_StringEndsWith(pwadname, ".pk3") || M_StringEndsWith(pwadname, ".zip"))
         return none;
 
     if (D_IsFinalDOOMIWAD(pwadname))
@@ -1079,12 +1079,10 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 //
 int W_WadType(char *filename)
 {
-    if (W_IsPK3(filename))
-        return PWAD;
-
     if (D_IsDOOMIWAD(filename))
         return IWAD;
-    else if (M_StringEndsWith(filename, ".lmp"))
+    else if (M_StringEndsWith(filename, ".pk3") || M_StringEndsWith(filename, ".zip")
+        || M_StringEndsWith(filename, ".lmp"))
         return PWAD;
     else
     {

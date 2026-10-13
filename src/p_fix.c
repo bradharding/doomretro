@@ -1887,10 +1887,10 @@ static const char *sectorspecials[] =
     "Light flickers (randomly)"
 };
 
-static bool P_CanFixMap(const int mission, const int episode, const int map)
+static bool P_CanFixMap(const int mission, const int ep, const int map)
 {
     return (canmodify && r_fixmaperrors && gamemode != shareware
-        && gamemission == mission && gameepisode == episode && gamemap == map);
+        && gamemission == mission && gameepisode == ep && gamemap == map);
 }
 
 //
@@ -2284,7 +2284,7 @@ void P_FixSectors(void)
 //
 // P_FixThing
 //
-bool P_FixThing(const int thingid, mapthing_t *mt)
+bool P_FixThing(const int id, mapthing_t *mt)
 {
     for (int i = 0; thingfix[i].mission != -1; i++)
     {
@@ -2293,10 +2293,10 @@ bool P_FixThing(const int thingid, mapthing_t *mt)
         bool                spawn = true;
 
         if (!P_CanFixMap(fix->mission, fix->episode, fix->map)
-            || thingid != fix->thing || mt->type != fix->type || mt->x != fix->oldx || mt->y != fix->oldy)
+            || id != fix->thing || mt->type != fix->type || mt->x != fix->oldx || mt->y != fix->oldy)
             continue;
 
-        temp = commify(thingid);
+        temp = commify(id);
 
         if (fix->newx == REMOVE && fix->newy == REMOVE)
         {

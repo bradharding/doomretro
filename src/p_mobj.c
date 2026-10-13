@@ -1314,14 +1314,14 @@ static double P_DistanceToWall(const sector_t *sector, const fixed_t thingx, con
 }
 
 // Adds the unit normal of a line, pointing towards the side of the line a thing is on, to (*nx, *ny)
-static void P_AddWallNormal(const fixed_t thingx, const fixed_t thingy, const line_t *line, double *nx, double *ny)
+static void P_AddWallNormal(const fixed_t thingx, const fixed_t thingy,
+    const line_t *line, double *nx, double *ny)
 {
     const double    length = sqrt((double)line->dx * line->dx + (double)line->dy * line->dy);
     const double    sign = (P_PointOnLineSide(thingx, thingy, line) ? -1.0 : 1.0);
 
     if (length > 0.0)
     {
-        // the front side of a line is to its right
         *nx += sign * (double)line->dy / length;
         *ny -= sign * (double)line->dx / length;
     }
