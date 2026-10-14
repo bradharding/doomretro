@@ -9559,6 +9559,16 @@ static bool spawnfunc1(char *cmd, char *parms)
         else if (M_StringStartsWith(parm, "unfriendly"))
             M_StringReplaceAll(parm, "unfriendly", "", false);
 
+        if (sscanf(parm, "%10d", &num) == 1)
+        {
+            const char  *minus = strchr(parms, '-');
+
+            if (minus && isdigit((unsigned char)minus[1]))
+                num = -num;
+        }
+        else
+            num = -1;
+
         for (int i = 0; i < nummobjtypes; i++)
         {
             char    *temp1;
@@ -9578,7 +9588,7 @@ static bool spawnfunc1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1))
+                    || (num == spawncmdtype && num != -1))
                 && (!spawncmdfriendly || (mobjinfo[i].flags & MF_SHOOTABLE)))
                 result = true;
 
