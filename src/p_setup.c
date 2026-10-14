@@ -601,7 +601,9 @@ static void P_CheckLinedefs(void)
                 free(temp1);
                 free(temp2);
             }
-            else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+            else if ((ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
+                && (special < ScrollBothFrontAndBackSidedefsTexturesAccordingTheTargetSectorsScrollValuesDividedBy8
+                || special > ScrollBothFrontAndBackSidedefsTexturesAndAccelerateTheScrollValueByTheTargetSectorsMovementDividedBy8))
             {
                 char    *temp1 = commify(ld->id);
                 char    *temp2 = commify(special);
@@ -3370,4 +3372,14 @@ void P_Init(void)
         "Scroll wall with same tag using sidedef offsets when sector changes height";
     linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight] =
         "Scroll wall with same tag using sidedef offsets (accelerates when sector changes height)";
+    linespecials[ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesLeftDirection] =
+        "Scroll both sidedefs left";
+    linespecials[ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesRightDirection] =
+        "Scroll both sidedefs right";
+    linespecials[ScrollBothFrontAndBackSidedefsTexturesAccordingTheTargetSectorsScrollValuesDividedBy8] =
+        "Scroll both sidedefs of lines with same tag using sidedef offsets";
+    linespecials[ScrollBothFrontAndBackSidedefsTexturesAccordingTheTargetSectorsMovementDividedBy8] =
+        "Scroll both sidedefs of lines with same tag using sidedef offsets when sector changes height";
+    linespecials[ScrollBothFrontAndBackSidedefsTexturesAndAccelerateTheScrollValueByTheTargetSectorsMovementDividedBy8] =
+        "Scroll both sidedefs of lines with same tag using sidedef offsets (accelerates when sector changes height)";
 }

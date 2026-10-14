@@ -1345,6 +1345,8 @@ bool P_CheckTag(const line_t *line)
         case SR_SetTheTargetSectorsColormap:
         case G1_SetTheTargetSectorsColormap:
         case GR_SetTheTargetSectorsColormap:
+        case ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesLeftDirection:
+        case ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesRightDirection:
         case W1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
         case WR_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
         case S1_ChangeMusicAndMakeItLoop_ResetToLoopingDefaultIfNoTrackDefined:
@@ -3408,6 +3410,48 @@ static void P_SpawnScrollers(void)
 
                 break;
             }
+
+            // ID24
+            case ScrollBothFrontAndBackSidedefsTexturesAndAccelerateTheScrollValueByTheTargetSectorsMovementDividedBy8:
+                accel = true;
+
+            case ScrollBothFrontAndBackSidedefsTexturesAccordingTheTargetSectorsMovementDividedBy8:
+                control = sides[*line->sidenum].sector->id;
+
+            case ScrollBothFrontAndBackSidedefsTexturesAccordingTheTargetSectorsScrollValuesDividedBy8:
+            {
+                int side = lines[i].sidenum[0];
+
+                dx = -sides[side].textureoffset / 8;
+                dy = sides[side].rowoffset / 8;
+
+                for (side = -1; (side = P_FindLineFromLineTag(line, side)) >= 0; )
+                    if (side != i)
+                    {
+                        Add_Scroller(sc_side, dx, dy, control, lines[side].sidenum[0], accel);
+
+                        if (lines[side].sidenum[1] != NO_INDEX)
+                            Add_Scroller(sc_side, -dx, dy, control, lines[side].sidenum[1], accel);
+                    }
+
+                break;
+            }
+
+            case ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesLeftDirection:
+                Add_Scroller(sc_side, FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
+
+                if (lines[i].sidenum[1] != NO_INDEX)
+                    Add_Scroller(sc_side, -FRACUNIT, 0, -1, lines[i].sidenum[1], accel);
+
+                break;
+
+            case ScrollBothFrontAndBackSidedefsTexturesAccordingToTheLinesRightDirection:
+                Add_Scroller(sc_side, -FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
+
+                if (lines[i].sidenum[1] != NO_INDEX)
+                    Add_Scroller(sc_side, FRACUNIT, 0, -1, lines[i].sidenum[1], accel);
+
+                break;
         }
     }
 }
