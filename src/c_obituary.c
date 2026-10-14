@@ -63,11 +63,11 @@ static const char *liquids[][2] =
 static void C_BuildThingName(char *dest, const int destsize, const mobjtype_t type,
     const bool friendly, const bool corpse, const char *customname, const char *othername)
 {
-    const bool  validtype = (type > MT_NULL && type < NUMMOBJTYPES);
+    const bool  validtype = (type > MT_NULL && (int)type < nummobjtypes);
     char        *name = (validtype ? mobjinfo[type].name1 : "");
     const bool  validname = (name && *name && !M_StringStartsWith(name, "Deh_Actor_"));
     const char  *basename = (validname ? name : "monster");
-    const bool  definite = (friendly && validtype && monstercount[type] == 1);
+    const bool  definite = (friendly && validtype && type < NUMMOBJTYPES && monstercount[type] == 1);
     const bool  vowelstart = (validname && isvowel((unsigned char)basename[0]));
     const bool  sameasother = (othername && *othername && M_StringCompare(basename, othername));
     const char  *article = (definite ? "the" : (sameasother ? "another" :
@@ -385,7 +385,7 @@ void C_BuildObituaryString(const int index)
                 {
                     const mobjtype_t    killer = obituary->barrelinflicter;
                     const char          *othername = (obituary->targetname[0] ? obituary->targetname :
-                                            (target > MT_NULL && target < NUMMOBJTYPES ? mobjinfo[target].name1 : ""));
+                                            (target > MT_NULL && (int)target < nummobjtypes ? mobjinfo[target].name1 : ""));
                     char                killername[128];
 
                     C_BuildThingName(killername, sizeof(killername), killer, false, false, "", othername);
@@ -483,7 +483,7 @@ void C_BuildObituaryString(const int index)
 
                 C_BuildThingName(targetname, sizeof(targetname), target,
                     obituary->targetfriendly, false, obituary->targetname,
-                    (source > MT_NULL && source < NUMMOBJTYPES ? mobjinfo[source].name1 : ""));
+                    (source > MT_NULL && (int)source < nummobjtypes ? mobjinfo[source].name1 : ""));
 
                 M_snprintf(buffer, buffersize, "%s %s %s.",
                     sourcename, C_KillVerb(target, obituary->gibbed), targetname);
