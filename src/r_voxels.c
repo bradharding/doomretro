@@ -682,6 +682,15 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         else
             angle = thing->angle;
     }
+    else if (thing->type == MT_SPAWNSHOT)
+    {
+        const int64_t   phase = (int64_t)maptime * FRACUNIT
+                            + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
+
+        angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
+            / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
+        spin = true;
+    }
     else
         angle = thing->angle;
 
