@@ -4054,7 +4054,7 @@ bool C_Responder(event_t *ev)
                     char    *clipboard = SDL_GetClipboardText();
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, clipboard, temp2);
-                    M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
+                    M_StringReplaceAll(buffer, "(null)", "", true);
 
                     if (C_TextWidth(buffer, NULL, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {
