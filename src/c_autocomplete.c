@@ -11925,6 +11925,7 @@ autocomplete_t autocompletelist[] =
     { "toggle r_teleportzoom",                              DOOM1AND2        },
     { "toggle r_textures",                                  DOOM1AND2        },
     { "toggle r_textures_translucency",                     DOOM1AND2        },
+    { "toggle r_voxels",                                    DOOM1AND2        },
     { "toggle s_fullsfx",                                   DOOM1AND2        },
     { "toggle s_lowermenumusic",                            DOOM1AND2        },
     { "toggle s_musicinbackground",                         DOOM1AND2        },

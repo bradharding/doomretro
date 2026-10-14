@@ -10451,19 +10451,27 @@ static void timerfunc2(char *cmd, char *parms)
 //
 // toggle CCMD
 //
+static bool CanToggle(const consolecmd_t *cmd)
+{
+    if (cmd->type != CT_CVAR || (cmd->flags & CF_READONLY))
+        return false;
+
+    if (cmd->flags & CF_BOOLEAN)
+        return true;
+
+    return ((cmd->flags & CF_INTEGER) && cmd->aliases
+        && C_LookupValueFromAlias("on", cmd->aliases) != INT_MIN
+        && C_LookupValueFromAlias("off", cmd->aliases) != INT_MIN);
+}
+
 static bool togglefunc1(char *cmd, char *parms)
 {
     if (!*parms)
         return true;
     else
         for (int i = 0; *consolecmds[i].name; i++)
-        {
-            const int   flags = consolecmds[i].flags;
-
-            if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
-                && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
+            if (M_StringCompare(parms, consolecmds[i].name) && CanToggle(&consolecmds[i]))
                 return true;
-        }
 
     return false;
 }
@@ -10483,13 +10491,18 @@ static void togglefunc2(char *cmd, char *parms)
 
     for (int i = 0; *consolecmds[i].name; i++)
     {
-        const int   flags = consolecmds[i].flags;
-
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
-            && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
+        if (M_StringCompare(parms, consolecmds[i].name) && CanToggle(&consolecmds[i]))
         {
-            char    *temp1 = C_LookupAliasFromValue(!(*(bool *)consolecmds[i].variable), consolecmds[i].aliases);
-            char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
+            char    *temp1;
+            char    *temp2;
+
+            if (consolecmds[i].flags & CF_BOOLEAN)
+                temp1 = C_LookupAliasFromValue(!(*(bool *)consolecmds[i].variable), consolecmds[i].aliases);
+            else
+                temp1 = M_StringDuplicate(*(int *)consolecmds[i].variable == C_LookupValueFromAlias("off", consolecmds[i].aliases) ?
+                    "on" : "off");
+
+            temp2 = M_StringJoin(parms, " ", temp1, NULL);
 
             C_ValidateInput(temp2);
             C_Output("The " BOLD("%s") " CVAR has been toggled " BOLD("%s") ".", parms, temp1);
