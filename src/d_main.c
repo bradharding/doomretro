@@ -1024,9 +1024,14 @@ gamemission_t D_GetGameMissionForExpansion(void)
     return doom2;
 }
 
+bool D_IsID24RESWAD(char *filename)
+{
+    return M_StringCompare(leafname(filename), DOOMRETRO_ID24RESWAD);
+}
+
 bool D_IsResourceWAD(char *filename)
 {
-    return (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD));
+    return (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || D_IsID24RESWAD(filename));
 }
 
 static bool D_IsUnsupportedWAD(char *filename)
@@ -1306,7 +1311,7 @@ void D_CheckSupportedPWAD(char *filename)
 
 static bool D_IsUnsupportedPWAD(char *filename)
 {
-    return ((error = D_IsResourceWAD(filename)));
+    return ((error = M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
 static void D_AutoloadExtrasWAD(void)

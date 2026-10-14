@@ -56,6 +56,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "id24info.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -3886,7 +3887,7 @@ bool C_Responder(event_t *ev)
                                 || (gamemission == pack_tnt && game == TNTONLY)
                                 || (gamemission == pack_nerve && game == NERVEONLY)
                                 || (gamemission == pack_masterlevels && game == MASTERLEVELSONLY)
-                                || (legacyofrust && game == LEGACYOFRUSTONLY)
+                                || ((legacyofrust || id24res) && game == LEGACYOFRUSTONLY)
                                 || (gamemission == doom && game == DOOM1ONLY)
                                 || (gamemission != doom && game == DOOM2ONLY))
                                 && M_StringStartsWith(output, input)

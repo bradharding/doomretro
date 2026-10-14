@@ -43,10 +43,12 @@
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
+#include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "id24info.h"
 #include "m_argv.h"
 #include "m_misc.h"
 #include "miniz/miniz.h"
@@ -427,6 +429,38 @@ char *W_GuessFilename(char *path, const char *string)
 // LUMP BASED ROUTINES.
 //
 
+// Merge id24res.wad, which provides the sprites and sounds of the ID24 things
+static void W_MergeID24RESWAD(const char *filename)
+{
+    char    *folders[2];
+    char    *path = NULL;
+
+    if (M_CheckParm("-noid24"))
+        return;
+
+    folders[0] = M_ExtractFolder(filename);
+    folders[1] = M_GetResourceFolder();
+
+    for (int i = 0; i < 2 && !path; i++)
+    {
+        char    *temp = M_StringJoin(folders[i], DIR_SEPARATOR_S, DOOMRETRO_ID24RESWAD, NULL);
+
+        if (M_FileExists(temp))
+            path = temp;
+        else
+            free(temp);
+    }
+
+    free(folders[0]);
+    free(folders[1]);
+
+    if (!path)
+        path = D_FindWADByName(DOOMRETRO_ID24RESWAD);
+
+    if (path && W_MergeFile(path, true))
+        id24res = true;
+}
+
 //
 // W_AddFile
 // All files are optional, but at least one file must be
@@ -463,6 +497,9 @@ bool W_AddFile(char *filename, bool autoloaded)
         return false;
 
     file = leafname(filename);
+
+    if (D_IsID24RESWAD(file))
+        id24res = true;
 
     if (numwads < MAXWADS)
         wadlist[numwads++] = wadfile;
@@ -578,7 +615,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
-    if (!D_IsResourceWAD(file))
+    if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD))
     {
         if (wadsloaded)
         {
@@ -593,7 +630,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (M_StringEndsWith(file, ".lmp"))
         C_Output("An additional lump has been added from the file " BOLD("%s") ".",
             wadfile->path);
-    else if (!D_IsResourceWAD(file) || devparm)
+    else if (!M_StringCompare(file, DOOMRETRO_RESOURCEWAD) || devparm)
     {
         const int   count = numlumps - startlump;
         static int  wadcount;
@@ -717,6 +754,8 @@ bool W_AddFile(char *filename, bool autoloaded)
 
         if (!W_MergeFile(resourcewad, true))
             I_Error("%s is invalid.", resourcewad);
+
+        W_MergeID24RESWAD(filename);
     }
 
     return true;

@@ -1030,14 +1030,14 @@ int P_FindDoomedNum(const int type)
         for (int j = 0; j < nummobjtypes; j++)
             if (mobjinfo[j].doomednum != -1)
             {
-                const int   h = mobjinfo[j].doomednum % nummobjtypes;
+                const int   h = (unsigned int)mobjinfo[j].doomednum % nummobjtypes;
 
                 hash[j].next = hash[h].first;
                 hash[h].first = j;
             }
     }
 
-    i = hash[type % nummobjtypes].first;
+    i = hash[(unsigned int)type % nummobjtypes].first;
 
     while (i < nummobjtypes && mobjinfo[i].doomednum != type)
         i = hash[i].next;
@@ -1611,7 +1611,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters, const bool
         return NULL;
 
     // killough 08/23/98: use table for faster lookup
-    if (type < 0 || (i = P_FindDoomedNum(type)) == nummobjtypes)
+    if ((i = P_FindDoomedNum(type)) == nummobjtypes)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp1 = commify(thingid);

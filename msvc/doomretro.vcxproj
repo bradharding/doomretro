@@ -204,6 +204,7 @@
     <ClInclude Include="..\src\i_system.h" />
     <ClInclude Include="..\src\i_timer.h" />
     <ClInclude Include="..\src\i_video.h" />
+    <ClInclude Include="..\src\id24info.h" />
     <ClInclude Include="..\src\info.h" />
     <ClInclude Include="..\src\i_winmusic.h" />
     <ClInclude Include="..\src\md5.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="..\src\i_system.c" />
     <ClCompile Include="..\src\i_timer.c" />
     <ClCompile Include="..\src\i_video.c" />
+    <ClCompile Include="..\src\id24info.c" />
     <ClCompile Include="..\src\info.c" />
     <ClCompile Include="..\src\i_winmusic.c" />
     <ClCompile Include="..\src\md5.c" />

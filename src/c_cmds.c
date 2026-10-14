@@ -56,6 +56,7 @@
 #include "i_controller.h"
 #include "i_system.h"
 #include "i_timer.h"
+#include "id24info.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -9558,15 +9559,22 @@ static bool spawnfunc1(char *cmd, char *parms)
         else if (M_StringStartsWith(parm, "unfriendly"))
             M_StringReplaceAll(parm, "unfriendly", "", false);
 
-        for (int i = 0; i < NUMMOBJTYPES; i++)
+        for (int i = 0; i < nummobjtypes; i++)
         {
-            char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-            char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-            char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+            char    *temp1;
+            char    *temp2;
+            char    *temp3;
+
+            if (i >= NUMMOBJTYPES && !ID24_IsPlaceable(i))
+                continue;
+
+            temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
+            temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+            temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
             spawncmdtype = mobjinfo[i].doomednum;
 
-            if (spawncmdtype >= 0
+            if (spawncmdtype != -1
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))

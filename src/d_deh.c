@@ -43,6 +43,7 @@
 #include "dstrings.h"
 #include "g_game.h"
 #include "i_system.h"
+#include "id24info.h"
 #include "info.h"
 #include "m_cheat.h"
 #include "m_config.h"
@@ -5078,6 +5079,7 @@ void D_PostProcessDeh(void)
     const deh_bexptr    *bexptr_match;
 
     InitRocketTrails();
+    ID24_Init();
 
     for (int i = 0, j; i < numstates; i++)
     {
