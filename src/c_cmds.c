@@ -10459,9 +10459,25 @@ static bool CanToggle(const consolecmd_t *cmd)
     if (cmd->flags & CF_BOOLEAN)
         return true;
 
-    return ((cmd->flags & CF_INTEGER) && cmd->aliases
-        && C_LookupValueFromAlias("on", cmd->aliases) != INT_MIN
-        && C_LookupValueFromAlias("off", cmd->aliases) != INT_MIN);
+    if (!(cmd->flags & CF_INTEGER) || !cmd->aliases || cmd->maximumvalue <= cmd->minimumvalue)
+        return false;
+
+    for (int value = cmd->minimumvalue; value <= cmd->maximumvalue; value++)
+    {
+        bool    found = false;
+
+        for (int i = 0; *valuealiases[i].text; i++)
+            if (valuealiases[i].type == cmd->aliases && valuealiases[i].value == value)
+            {
+                found = true;
+                break;
+            }
+
+        if (!found)
+            return false;
+    }
+
+    return true;
 }
 
 static bool togglefunc1(char *cmd, char *parms)
@@ -10499,8 +10515,12 @@ static void togglefunc2(char *cmd, char *parms)
             if (consolecmds[i].flags & CF_BOOLEAN)
                 temp1 = C_LookupAliasFromValue(!(*(bool *)consolecmds[i].variable), consolecmds[i].aliases);
             else
-                temp1 = M_StringDuplicate(*(int *)consolecmds[i].variable == C_LookupValueFromAlias("off", consolecmds[i].aliases) ?
-                    "on" : "off");
+            {
+                const int   value = *(int *)consolecmds[i].variable;
+
+                temp1 = C_LookupAliasFromValue((value >= consolecmds[i].maximumvalue ? consolecmds[i].minimumvalue :
+                    value + 1), consolecmds[i].aliases);
+            }
 
             temp2 = M_StringJoin(parms, " ", temp1, NULL);
 
