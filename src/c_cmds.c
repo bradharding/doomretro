@@ -5623,10 +5623,10 @@ static const char *TruncateMaplistText(char *dest, size_t destsize, const char *
 {
     M_StringCopy(dest, src, destsize);
 
-    if (strlen(dest) <= 30)
+    if (strlen(dest) <= 29)
         return dest;
 
-    dest[30] = '\0';
+    dest[29] = '\0';
 
     while (strlen(dest) > 0 && dest[strlen(dest) - 1] == ' ')
         dest[strlen(dest) - 1] = '\0';
@@ -5635,11 +5635,29 @@ static const char *TruncateMaplistText(char *dest, size_t destsize, const char *
     return dest;
 }
 
+static int CompareMaplistEntries(const char *a, const char *b, const int groupa, const int groupb)
+{
+    const char  *taba = strchr(a, '\t');
+    const char  *tabb = strchr(b, '\t');
+    const int   lena = (int)(taba ? taba - a : strlen(a));
+    const int   lenb = (int)(tabb ? tabb - b : strlen(b));
+    int         result = strncmp(a, b, MIN(lena, lenb));
+
+    if (!result)
+        result = lena - lenb;
+
+    if (!result)
+        result = groupa - groupb;
+
+    return (result ? result : strcmp(a, b));
+}
+
 static void maplistfunc2(char *cmd, char *parms)
 {
     const int   tabs[MAXTABS] = { 40, 93, 296, 496 };
     int         count = 0;
     char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
+    int         *groups = I_Malloc(numlumps * sizeof(*groups));
     const bool  showallcommercial = (gamemode == commercial && gamestate == GS_TITLESCREEN);
     bool        seencommercialmaps[3][100] = { { false } };
 
@@ -5661,6 +5679,7 @@ static void maplistfunc2(char *cmd, char *parms)
         char            *temp1 = uppercase(lumpinfo[i]->name);
         gamemission_t   listmission = gamemission;
         bool            usemapinfo = true;
+        const int       firstnew = count;
 
         M_StringCopy(lump, temp1, sizeof(lump));
         free(temp1);
@@ -5873,24 +5892,31 @@ static void maplistfunc2(char *cmd, char *parms)
             default:
                 break;
         }
+
+        for (int k = firstnew; k < count; k++)
+            groups[k] = (showallcommercial ? MAX(0, GetCommercialMaplistMissionIndex(listmission)) : 0);
     }
 
     // sort the map list
     for (int i = 0; i < count; i++)
         for (int j = i + 1; j < count; j++)
-            if (strcmp(maps[i], maps[j]) > 0)
+            if (CompareMaplistEntries(maps[i], maps[j], groups[i], groups[j]) > 0)
             {
                 char    temp[256];
+                int     tempgroup = groups[i];
 
                 M_StringCopy(temp, maps[i], sizeof(temp));
                 M_StringCopy(maps[i], maps[j], sizeof(maps[i]));
                 M_StringCopy(maps[j], temp, sizeof(maps[j]));
+                groups[i] = groups[j];
+                groups[j] = tempgroup;
             }
 
     // display the map list
     for (int i = 0; i < count; i++)
         C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s", i + 1, maps[i]);
 
+    free(groups);
     free(maps);
 }
 
