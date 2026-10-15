@@ -86,6 +86,7 @@ static subsector_t      *lightsubsector;
 static vxlighting_t     lightsubsectorlighting;
 
 static bool             vxwhite;
+static bool             vxinsideexplosion;
 static const byte       *vxbrightmap;
 static const byte       *vxtranslation;
 
@@ -1154,6 +1155,9 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y, const bool nearc
             if (!len || slab + len > slabend)
                 break;
 
+            if (vxinsideexplosion)
+                face = (F_LEFT | F_RIGHT | F_BACK | F_FRONT | F_TOP | F_BOTTOM);
+
             if (nearcap)
                 face = F_LEFT;
 
@@ -1577,6 +1581,12 @@ void VX_DrawVoxel(const vissprite_t *spr)
 
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
+
+    vxinsideexplosion = (((spr->mobj->flags2 & MF2_EXPLODING)
+        || ((spr->mobj->flags | spr->mobj->info->flags) & MF_MISSILE))
+        && eyex >= 0 && eyex < (v->xsize << FRACBITS)
+        && eyey >= 0 && eyey < (v->ysize << FRACBITS)
+        && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS));
 
     if (vv->shadow)
         VX_DrawShadow(spr);
