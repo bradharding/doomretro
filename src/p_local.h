@@ -244,6 +244,7 @@ void P_UnsetThingPosition(mobj_t *thing);
 void P_UnsetBloodSplatPosition(bloodsplat_t *splat);
 void P_SetThingPosition(mobj_t *thing);
 void P_SetBloodSplatPosition(bloodsplat_t *splat);
+void P_MoveBloodSplat(bloodsplat_t *splat, const fixed_t dx, const fixed_t dy);
 
 extern bloodsplat_t **bloodsplat_blocklinks;
 

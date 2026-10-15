@@ -1925,8 +1925,8 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat, const fixed_t interpf
     int             x2;
     sector_t        *sector = splat->sector;
     vissplat_t      *vis;
-    const fixed_t   fx = splat->x;
-    const fixed_t   fy = splat->y;
+    fixed_t         fx;
+    fixed_t         fy;
     fixed_t         width;
     fixed_t         tr_x;
     fixed_t         tr_y;
@@ -1937,6 +1937,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat, const fixed_t interpf
 
     if (!sector)
         return;
+
+    fx = splat->x + sector->basefloorxoffset - sector->floorxoffset;
+    fy = splat->y + sector->flooryoffset - sector->baseflooryoffset;
 
     tr_x = fx - viewx;
     tr_y = fy - viewy;

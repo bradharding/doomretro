@@ -248,8 +248,11 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
     bloodsplat_t    **bprev = splat->bprev;
     bloodsplat_t    *bnext = splat->bnext;
 
-    if ((*prev = next))
+    if (prev && (*prev = next))
         next->prev = prev;
+
+    splat->next = NULL;
+    splat->prev = NULL;
 
     if (!bprev)
         return;
@@ -335,10 +338,7 @@ void P_SetThingPosition(mobj_t *thing)
         P_ResetTeleportFromSector(subsector->sector->id);
 }
 
-//
-// P_SetBloodSplatPosition
-//
-void P_SetBloodSplatPosition(bloodsplat_t *splat)
+static void P_LinkBloodSplatPosition(bloodsplat_t *splat)
 {
     bloodsplat_t    **link = &splat->sector->splatlist;
     bloodsplat_t    *next = *link;
@@ -371,6 +371,29 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 
     splat->bprev = blink;
     *blink = splat;
+}
+
+void P_MoveBloodSplat(bloodsplat_t *splat, const fixed_t dx, const fixed_t dy)
+{
+    splat->x += dx;
+    splat->y += dy;
+
+    if (splat->sector != R_PointInSubsector(splat->x, splat->y)->sector)
+        P_UnsetBloodSplatPosition(splat);
+    else if (splat->bx != P_GetSafeBlockX(splat->x - bmaporgx)
+        || splat->by != P_GetSafeBlockY(splat->y - bmaporgy))
+    {
+        P_UnsetBloodSplatPosition(splat);
+        P_LinkBloodSplatPosition(splat);
+    }
+}
+
+//
+// P_SetBloodSplatPosition
+//
+void P_SetBloodSplatPosition(bloodsplat_t *splat)
+{
+    P_LinkBloodSplatPosition(splat);
 
     splat->fifoprev = bloodsplats_fifo_tail;
     splat->fifonext = NULL;

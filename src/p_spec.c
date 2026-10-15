@@ -3179,6 +3179,13 @@ void T_Scroll(scroll_t *scroller)
             sec->baseflooryoffset += dy;
             sec->floorxoffset = sec->basefloorxoffset;
             sec->flooryoffset = sec->baseflooryoffset;
+
+            for (bloodsplat_t *splat = sec->splatlist, *next; splat; splat = next)
+            {
+                next = splat->next;
+                P_MoveBloodSplat(splat, -dx, dy);
+            }
+
             break;
         }
 
@@ -3222,20 +3229,6 @@ void T_Scroll(scroll_t *scroller)
                     thing->momy += dy;
                     thing->flags2 |= MF2_SCROLLING;
                 }
-            }
-
-            dx <<= 3;
-            dy <<= 3;
-
-            for (bloodsplat_t *splat = sec->splatlist, *next; splat; splat = next)
-            {
-                next = splat->next;
-
-                splat->x += dx;
-                splat->y += dy;
-
-                if (sec != R_PointInSubsector(splat->x, splat->y)->sector)
-                    P_UnsetBloodSplatPosition(splat);
             }
 
             break;
