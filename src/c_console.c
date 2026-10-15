@@ -4534,7 +4534,7 @@ bool C_Responder(event_t *ev)
                     {
                         if (consoleedgedragdirection < 0 || consoleheight <= middlebandtop)
                             C_HideConsole();
-                        else
+                        else if (consoleedgedragdirection > 0)
                         {
                             consolefullscreen = true;
                             consoleheight = MAX(1, consoleheight);
