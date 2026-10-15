@@ -36,7 +36,7 @@
 #pragma once
 
 #define SHADOWHEIGHTPERDEPTH    (FRACUNIT * 2)
-#define SHADOWSKEW              (FRACUNIT * 3 / 2)
+#define SHADOWSKEW              (r_radiallighting ? FRACUNIT * 3 / 2 : FRACUNIT)
 
 typedef struct
 {
