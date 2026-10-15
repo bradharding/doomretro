@@ -2649,13 +2649,13 @@ void P_CalcFakeContrast(void)
         else if (r_fakecontrast == r_fakecontrast_smooth)
         {
             if (!li->dy)
-                li->fakecontrast = -LIGHTBRIGHT;
-            else if (ABS(finesine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
                 li->fakecontrast = -LIGHTBRIGHT * 2;
+            else if (ABS(finesine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
+                li->fakecontrast = -LIGHTBRIGHT;
             else if (!li->dx)
-                li->fakecontrast = LIGHTBRIGHT;
-            else if (ABS(finecosine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
                 li->fakecontrast = LIGHTBRIGHT * 2;
+            else if (ABS(finecosine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
+                li->fakecontrast = LIGHTBRIGHT;
             else
                 li->fakecontrast = 0;
         }
