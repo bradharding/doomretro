@@ -74,8 +74,8 @@ typedef struct
     bool                liquidclip;
     bool                shadow;
     bool                percolumnlighting;
-    lighttable_t        *const *lightrows;
-    lighttable_t        *const *nextlightrows;
+    lighttable_t        **lightrows;
+    lighttable_t        **nextlightrows;
     const byte          *brightmap;
     const byte          *tint;
 } visvoxel_t;

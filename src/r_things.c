@@ -2610,7 +2610,13 @@ static void R_DrawSprite(const vissprite_t *spr)
     const int       x2 = spr->x2;
     const fixed_t   scale = spr->scale;
 
-    R_ClipToDrawSegs(x1, x2, scale, spr->gx, spr->gy, cliptop, clipbot, true);
+    if (spr->voxelindex >= 0)
+    {
+        memcpy(cliptop + x1, negonearray + x1, (x2 - x1 + 1) * sizeof(*cliptop));
+        memcpy(clipbot + x1, viewheightarray + x1, (x2 - x1 + 1) * sizeof(*clipbot));
+    }
+    else
+        R_ClipToDrawSegs(x1, x2, scale, spr->gx, spr->gy, cliptop, clipbot, true);
 
     // killough 03/27/98:
     // Clip the sprite against deep water and/or fake ceilings.

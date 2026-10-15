@@ -76,6 +76,8 @@ static unsigned int     *shadowstamps;
 static unsigned int     shadowstamp;
 static int              shadowcliptop[MAXWIDTH];
 static int              shadowclipbot[MAXWIDTH];
+static int              cellcliptop[MAXWIDTH];
+static int              cellclipbot[MAXWIDTH];
 
 static voxeldepth_t     *voxeldepth;
 static unsigned int     voxelframe;
@@ -873,12 +875,14 @@ static fixed_t VX_RockHeight(const vissprite_t *spr, const visvoxel_t *vv, const
     return (FixedMul(wx, vv->rockx) + FixedMul(wy, vv->rocky));
 }
 
-static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
+static void VX_DrawColumn(const vissprite_t *spr, int x, int y, const bool nearcap)
 {
     const visvoxel_t    *vv = &visvoxels[spr->voxelindex];
     const voxel_t       *v = vv->model;
     const int           offsets1 = v->offsets[y * v->xsize + x];
     const int           offsets2 = v->offsets[(y + 1) * v->xsize + x];
+    int                 *sprcliptop = mceilingclip;
+    int                 *sprclipbot = mfloorclip;
     int                 owner;
     int                 qux, quy;
     int                 quadrant;
@@ -909,14 +913,22 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     int64_t             rslopeab = 0;
     int64_t             rslopebc = 0;
     vxlighting_t        light;
+    fixed_t             cellx, celly;
+    fixed_t             worldx, worldy;
+    fixed_t             floorz, ceilingz;
+    fixed_t             capleft = INT_MAX;
+    fixed_t             capright = INT_MIN;
+    const sector_t      *sector;
+    bool                clipfloor;
 
     if (offsets1 >= offsets2)
         return;
 
     qux = (eyex < (x << FRACBITS) ? 0 : (eyex < ((x + 1) << FRACBITS) ? 1 : 2));
     quy = (eyey < (y << FRACBITS) ? 0 : (eyey < ((y + 1) << FRACBITS) ? 1 : 2));
+    quadrant = quy * 3 + qux;
 
-    if ((quadrant = quy * 3 + qux) == 4)
+    if (!nearcap && quadrant == 4)
         return;
 
     px[0] = vv->tlx + x * vv->c + y * vv->s;
@@ -928,21 +940,47 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     px[3] = px[0] + vv->c;
     py[3] = py[0] + vv->s;
 
-    idx = acorners[quadrant];
-    ax = px[idx];
-    ay = py[idx];
-    idx = (idx + 1) & 3;
-    bx = px[idx];
-    by = py[idx];
-    idx = (idx + 1) & 3;
-    cx = px[idx];
-    cy = py[idx];
-    idx = (idx + 1) & 3;
-    dx = px[idx];
-    dy = py[idx];
+    if (nearcap)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            const int   j = (i + 1) & 3;
 
-    if (ay < VX_MINZ && by < VX_MINZ && cy < VX_MINZ && dy < VX_MINZ)
-        return;
+            if ((py[i] < VX_MINZ) != (py[j] < VX_MINZ))
+            {
+                const fixed_t   intersection = px[i] + (fixed_t)((int64_t)(px[j] - px[i])
+                                    * (VX_MINZ - py[i]) / (py[j] - py[i]));
+
+                capleft = MIN(capleft, intersection);
+                capright = MAX(capright, intersection);
+            }
+        }
+
+        if (capleft >= capright)
+            return;
+
+        ax = dx = capleft;
+        bx = cx = capright;
+        ay = by = cy = dy = VX_MINZ;
+    }
+    else
+    {
+        idx = acorners[quadrant];
+        ax = px[idx];
+        ay = py[idx];
+        idx = (idx + 1) & 3;
+        bx = px[idx];
+        by = py[idx];
+        idx = (idx + 1) & 3;
+        cx = px[idx];
+        cy = py[idx];
+        idx = (idx + 1) & 3;
+        dx = px[idx];
+        dy = py[idx];
+
+        if (ay < VX_MINZ && by < VX_MINZ && cy < VX_MINZ && dy < VX_MINZ)
+            return;
+    }
 
     owner = spr->voxelindex + 1;
     dest = screens[0] + viewwindowy * SCREENWIDTH + viewwindowx;
@@ -963,10 +1001,18 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     bx = VX_ProjectScreenX(bx, bscale);
     cx = VX_ProjectScreenX(cx, cscale);
     dx = VX_ProjectScreenX(dx, dscale);
-    aface = afaces[quadrant];
-    bface = bfaces[quadrant];
+    aface = (nearcap ? F_LEFT : afaces[quadrant]);
+    bface = (nearcap ? F_LEFT : bfaces[quadrant]);
 
-    if (vv->rockx || vv->rocky)
+    if (nearcap && (vv->rockx || vv->rocky))
+    {
+        rocka = rockd = VX_RockHeight(spr, vv, capleft, VX_MINZ);
+        rockb = rockc = VX_RockHeight(spr, vv, capright, VX_MINZ);
+
+        if (bx != ax)
+            rslopeab = ((int64_t)(rockb - rocka) << 16) / (bx - ax);
+    }
+    else if (vv->rockx || vv->rocky)
     {
         const int   i0 = acorners[quadrant];
         const int   i1 = (i0 + 1) & 3;
@@ -1000,14 +1046,26 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
     light.rows = vv->lightrows;
     light.nextrows = vv->nextlightrows;
 
-    if (vv->percolumnlighting)
-    {
-        const fixed_t   cxx = px[0] + ((vv->s + vv->c) >> 1);
-        const fixed_t   cyy = py[0] + ((vv->s - vv->c) >> 1);
+    if (uxstart >= uxend)
+        return;
 
-        VX_UpdateCellLighting(spr, viewx + FixedMul(cxx, viewsin) + FixedMul(cyy, viewcos),
-            viewy - FixedMul(cxx, viewcos) + FixedMul(cyy, viewsin), &light);
-    }
+    cellx = (nearcap ? capleft + (capright - capleft) / 2 : px[0] + ((vv->s + vv->c) >> 1));
+    celly = (nearcap ? VX_MINZ : py[0] + ((vv->s - vv->c) >> 1));
+    worldx = viewx + FixedMul(cellx, viewsin) + FixedMul(celly, viewcos);
+    worldy = viewy - FixedMul(cellx, viewcos) + FixedMul(celly, viewsin);
+    sector = R_PointInSubsector(worldx, worldy)->sector;
+    floorz = sector->interpfloorheight - viewz;
+    ceilingz = sector->interpceilingheight - viewz;
+    clipfloor = (sector->terraintype < LIQUID || sector->heightsec);
+
+    R_ClipToDrawSegs(uxstart >> FRACBITS, (uxend - 1) >> FRACBITS,
+        FixedDiv(projection, MAX(celly, VX_MINZ)), worldx, worldy, cellcliptop, cellclipbot, true);
+
+    mceilingclip = sprcliptop;
+    mfloorclip = sprclipbot;
+
+    if (vv->percolumnlighting)
+        VX_UpdateCellLighting(spr, worldx, worldy, &light);
 
     for (fixed_t ux = uxstart; ux < uxend; ux += FRACUNIT)
     {
@@ -1031,8 +1089,10 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
         if (screenx < drawx1)
             continue;
 
-        cliptop = BETWEEN(0, (mceilingclip[screenx] + 1) << FRACBITS, (viewheight << FRACBITS));
-        clipbottom = BETWEEN(-1, (mfloorclip[screenx] << FRACBITS) - 1, (viewheight << FRACBITS) - 1);
+        cliptop = BETWEEN(0, (MAX(mceilingclip[screenx], cellcliptop[screenx]) + 1) << FRACBITS,
+            (viewheight << FRACBITS));
+        clipbottom = BETWEEN(-1, (MIN(mfloorclip[screenx], cellclipbot[screenx]) << FRACBITS) - 1,
+            (viewheight << FRACBITS) - 1);
 
         if (cliptop > clipbottom)
             continue;
@@ -1045,6 +1105,14 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
             scale = bscale;
 
         if (scale <= 0)
+            continue;
+
+        cliptop = MAX(cliptop, VX_ProjectScreenY(ceilingz, scale));
+
+        if (clipfloor)
+            clipbottom = MIN(clipbottom, VX_ProjectScreenY(floorz, scale) - 1);
+
+        if (cliptop > clipbottom)
             continue;
 
         if (vv->rockx || vv->rocky)
@@ -1079,11 +1147,21 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y)
         {
             const int       top = *slab++;
             const int       len = *slab++;
-            const int       face = *slab++;
+            int             face = *slab++;
             const fixed_t   topz = spr->gzt - viewz - (top << FRACBITS) + colrock;
+            const fixed_t   bottomz = topz - (len << FRACBITS);
 
             if (!len || slab + len > slabend)
                 break;
+
+            if (nearcap)
+                face = F_LEFT;
+
+            if (topz > ceilingz || (clipfloor && topz < floorz))
+                face &= ~F_TOP;
+
+            if (bottomz > ceilingz || (clipfloor && bottomz < floorz))
+                face &= ~F_BOTTOM;
 
             if (!(face & sideface)
                 && !((face & F_TOP) && topz < 0)
@@ -1220,7 +1298,7 @@ static void VX_RecursiveDraw(const vissprite_t *spr, int x, int y, int width, in
 {
     if (width == 1 && height == 1)
     {
-        VX_DrawColumn(spr, x, y);
+        VX_DrawColumn(spr, x, y, false);
         return;
     }
 
@@ -1476,6 +1554,8 @@ void VX_DrawVoxel(const vissprite_t *spr)
     const fixed_t       s = finesine[angle];
     const fixed_t       dx = viewx - spr->gx;
     const fixed_t       dy = viewy - spr->gy;
+    fixed_t             depthx, depthy;
+    fixed_t             mindepth, maxdepth;
 
     fuzz1pos = 0;
     lightsubsector = NULL;
@@ -1485,11 +1565,6 @@ void VX_DrawVoxel(const vissprite_t *spr)
 
     eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
     eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
-
-    if (eyex >= 0 && eyex < (v->xsize << FRACBITS)
-        && eyey >= 0 && eyey < (v->ysize << FRACBITS)
-        && spr->gzt - viewz >= 0 && spr->gzt - viewz < (v->zsize << FRACBITS))
-        return;
 
     drawx1 = spr->x1;
     drawx2 = spr->x2;
@@ -1519,4 +1594,14 @@ void VX_DrawVoxel(const vissprite_t *spr)
     }
 
     VX_RecursiveDraw(spr, 0, 0, v->xsize, v->ysize);
+
+    depthx = v->xsize * vv->s;
+    depthy = -v->ysize * vv->c;
+    mindepth = vv->tly + MIN(0, depthx) + MIN(0, depthy);
+    maxdepth = vv->tly + MAX(0, depthx) + MAX(0, depthy);
+
+    if (mindepth < VX_MINZ && maxdepth >= VX_MINZ)
+        for (int x = 0; x < v->xsize; x++)
+            for (int y = 0; y < v->ysize; y++)
+                VX_DrawColumn(spr, x, y, true);
 }
