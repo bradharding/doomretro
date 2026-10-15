@@ -458,7 +458,10 @@ static void W_MergeID24RESWAD(const char *filename)
         path = D_FindWADByName(DOOMRETRO_ID24RESWAD);
 
     if (path && W_MergeFile(path, true))
+    {
         id24res = true;
+        C_Output(ITALICS("ID24") "-compatible things can be spawned.");
+    }
 }
 
 //
