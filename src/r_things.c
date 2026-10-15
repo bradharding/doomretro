@@ -1688,7 +1688,7 @@ static void R_ProjectSprite(mobj_t *thing)
     tr_y = fy - viewy;
 
     if (r_voxels != r_voxels_off
-        && (int64_t)tr_x * tr_x + (int64_t)tr_y * tr_y <= (int64_t)VX_MAX_DIST * VX_MAX_DIST
+        && (int64_t)tr_x * tr_x + (int64_t)tr_y * tr_y <= (int64_t)VX_MAXDISTANCE * VX_MAXDISTANCE
         && VX_ProjectVoxel(thing, fx, fy, fz))
         return;
 

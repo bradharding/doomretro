@@ -498,13 +498,13 @@ static void VX_ParseVoxelDef(const byte *data, int length)
             else if (key[4] == ']')
                 frame = 28;
 
-            if (spr >= 0 && frame >= 0 && frame < VX_MAX_FRAMES
+            if (spr >= 0 && frame >= 0 && frame < VX_MAXFRAMES
                 && (!spritereplaced[spr] || r_voxels == r_voxels_on))
             {
                 voxel_t *v = VX_ModelForName(model);
 
                 if (v)
-                    bindings[spr * VX_MAX_FRAMES + frame] = v;
+                    bindings[spr * VX_MAXFRAMES + frame] = v;
             }
         }
 
@@ -535,7 +535,7 @@ void VX_Init(void)
         treeshadowset = false;
     }
 
-    bindings = I_Calloc((size_t)numsprites * VX_MAX_FRAMES, sizeof(*bindings));
+    bindings = I_Calloc((size_t)numsprites * VX_MAXFRAMES, sizeof(*bindings));
     modelsbylump = I_Calloc(numlumps, sizeof(*modelsbylump));
     spritereplaced = I_Calloc(numsprites, sizeof(*spritereplaced));
 
@@ -559,7 +559,7 @@ void VX_Init(void)
         if (spritereplaced[spr] && r_voxels == r_voxels_auto)
             continue;
 
-        for (int frame = 0; frame < VX_MAX_FRAMES; frame++)
+        for (int frame = 0; frame < VX_MAXFRAMES; frame++)
         {
             char    name[9] = { 0 };
             char    framechar = (frame == 26 ? '[' : (frame == 27 ? '^' : (frame == 28 ? ']' : 'A' + frame)));
@@ -568,15 +568,15 @@ void VX_Init(void)
                 continue;
 
             M_snprintf(name, sizeof(name), "%.4s%c", sprnames[spr], framechar);
-            bindings[spr * VX_MAX_FRAMES + frame] = VX_ModelForName(name);
+            bindings[spr * VX_MAXFRAMES + frame] = VX_ModelForName(name);
 
-            if (!bindings[spr * VX_MAX_FRAMES + frame] && spr == SPR_MISL && frame >= 1 && frame <= 3)
+            if (!bindings[spr * VX_MAXFRAMES + frame] && spr == SPR_MISL && frame >= 1 && frame <= 3)
             {
                 name[0] = 'V';
                 name[1] = 'I';
                 name[2] = 'S';
                 name[3] = 'L';
-                bindings[spr * VX_MAX_FRAMES + frame] = VX_ModelForName(name);
+                bindings[spr * VX_MAXFRAMES + frame] = VX_ModelForName(name);
             }
         }
     }
@@ -585,7 +585,7 @@ void VX_Init(void)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
 
-    if (bindings[SPR_TRE2 * VX_MAX_FRAMES] && !(mobjinfo[MT_MISC76].flags2 & MF2_CASTSHADOW))
+    if (bindings[SPR_TRE2 * VX_MAXFRAMES] && !(mobjinfo[MT_MISC76].flags2 & MF2_CASTSHADOW))
     {
         mobjinfo[MT_MISC76].flags2 |= MF2_CASTSHADOW;
         treeshadowset = true;
@@ -642,10 +642,10 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     fixed_t     rockx = 0, rocky = 0;
     bool        spin = false;
 
-    if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAX_FRAMES)
+    if (!bindings || spr < 0 || spr >= numsprites || frame >= VX_MAXFRAMES)
         return false;
 
-    if (!(v = bindings[spr * VX_MAX_FRAMES + frame]))
+    if (!(v = bindings[spr * VX_MAXFRAMES + frame]))
         return false;
 
     dx = gx - viewx;
@@ -674,10 +674,10 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
             const int64_t   phase = (int64_t)(maptime + thing->floatbob * 2) * FRACUNIT
                                 + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
 
-            angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
-                / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
+            angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPINTICS * FRACUNIT)) << 32)
+                / ((uint64_t)VX_SPINTICS * FRACUNIT));
 
-            gz += MAX(0, VX_HOVER - lift);
+            gz += MAX(0, VX_HOVERZ - lift);
             spin = true;
         }
         else if (r_voxels_pickupangles == r_voxels_pickupangles_face)
@@ -690,8 +690,8 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
         const int64_t   phase = (int64_t)maptime * FRACUNIT
                             + (interpolatesprites && !paused && !menuactive ? fractionaltic : 0);
 
-        angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_SPIN_TICS * FRACUNIT)) << 32)
-            / ((uint64_t)VX_SPIN_TICS * FRACUNIT));
+        angle = thing->angle - (angle_t)(((uint64_t)(phase % ((int64_t)VX_FASTSPINTICS * FRACUNIT)) << 32)
+            / ((uint64_t)VX_FASTSPINTICS * FRACUNIT));
         spin = true;
     }
     else
@@ -779,7 +779,7 @@ bool VX_ProjectVoxel(mobj_t *thing, fixed_t gx, fixed_t gy, fixed_t gz)
     vv->rockx = rockx;
     vv->rocky = rocky;
     vv->shadow = ((thing->flags2 & MF2_CASTSHADOW) && r_shadows && !fixedcolormap && xscale >= FRACUNIT / 4
-        && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOW_DIST * VX_SHADOW_DIST);
+        && (int64_t)dx * dx + (int64_t)dy * dy <= (int64_t)VX_SHADOWDISTANCE * VX_SHADOWDISTANCE);
     vv->tint = VX_TintForThing(thing);
     vv->lightrows = NULL;
     vv->nextlightrows = NULL;
