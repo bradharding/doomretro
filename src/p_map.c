@@ -40,6 +40,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
+#include "id24info.h"
 #include "m_bbox.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -445,7 +446,11 @@ static bool PIT_CheckThing(mobj_t *thing)
         return true;
 
     // [BH] nudge corpse or dropped item when walked over
-    if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && tmthing->z == tmthing->floorz
+    if (((corpse && type != MT_BARREL
+            && (type != MT_VASSAGOFLAME || !legacyofrust)
+            && !(id24nummobjs > 14 && tmtype == id24firstmobj + 14))
+        || (flags & MF_DROPPED))
+        && !thing->nudge && tmthing->z == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
