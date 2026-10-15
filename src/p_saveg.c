@@ -403,7 +403,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     tracers[thingindex] = saveg_read32();
     lastenemies[thingindex] = saveg_read32();
     str->floatbob = saveg_read32();
-    str->shadowoffset = saveg_read32();
+    saveg_read32(); // deprecated
     str->gear = saveg_read16();
     str->bloodsplats = saveg_read32();
     str->bloodcolor = saveg_read32();
@@ -490,7 +490,7 @@ static void saveg_write_mobj_t(const mobj_t *str)
     saveg_write32(P_ThingToIndex(str->tracer));
     saveg_write32(P_ThingToIndex(str->lastenemy));
     saveg_write32(str->floatbob);
-    saveg_write32(str->shadowoffset);
+    saveg_write32(0);   // deprecated
     saveg_write16(str->gear);
     saveg_write32(str->bloodsplats);
     saveg_write32(str->bloodcolor);

@@ -876,7 +876,6 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     mobj->colfunc = info->colfunc;
     mobj->altcolfunc = info->altcolfunc;
     mobj->id = -1;
-    mobj->shadowoffset = info->shadowoffset;
     mobj->bloodcolor = info->bloodcolor;
 
     P_SetShadowColumnFunction(mobj);

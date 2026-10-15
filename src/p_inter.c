@@ -2474,7 +2474,6 @@ void P_ResurrectMobj(mobj_t *target)
     target->flags = (info->flags | (target->flags & MF_FRIEND));
     target->flags2 = info->flags2;
     target->health = info->spawnhealth;
-    target->shadowoffset = info->shadowoffset;
     target->giblevel = 0;
     target->gibtimer = 0;
 

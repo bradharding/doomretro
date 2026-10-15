@@ -295,7 +295,6 @@ typedef struct
     int         frames;
     bool        fullbright;
     int         bloodcolor;
-    int         shadowoffset;
 
     // MBF21
     int         mbf21flags;

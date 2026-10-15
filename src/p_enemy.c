@@ -1514,7 +1514,6 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum
                     corpsehit->flags2 &= ~MF2_MIRRORED;
                     corpsehit->flags2 |= MF2_CASTSHADOW;
                     corpsehit->health = info->spawnhealth;
-                    corpsehit->shadowoffset = info->shadowoffset;
                     corpsehit->colfunc = info->colfunc;
                     corpsehit->altcolfunc = info->altcolfunc;
                     corpsehit->giblevel = 0;
