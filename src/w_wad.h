@@ -59,6 +59,7 @@
 
 typedef enum
 {
+    ns_unknown = -1,
     ns_global,
     ns_voxels
 } namespace_t;

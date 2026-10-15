@@ -1653,9 +1653,7 @@ static void P_LoadThings(int map, int lump)
         mt.type = LITTLESHORT(mt.type);
         mt.options = LITTLESHORT(mt.options);
 
-        spawn = P_FixThing(thingid, &mt, &anglefixed);
-
-        if (spawn)
+        if ((spawn = P_FixThing(thingid, &mt, &anglefixed)))
         {
             mobj_t  *thing;
 

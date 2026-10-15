@@ -216,20 +216,23 @@ static bool W_AddPK3(char *filename, bool autoloaded)
 
     if (!numvoxels)
         C_Warning(0, "No voxels were found in the file " BOLD("%s") ".", wadfile->path);
-    else if (numvoxels == 1)
-        C_Output("1 voxel has been %s from the file " BOLD("%s") ".",
-            (autoloaded ? "automatically added" : "added"), wadfile->path);
     else
     {
-        temp = commify(numvoxels);
-        C_Output("%s voxels have been %s from the file " BOLD("%s") ".",
-            temp, (autoloaded ? "automatically added" : "added"), wadfile->path);
-        free(temp);
-    }
+        if (numvoxels == 1)
+            C_Output("1 voxel has been %s from the file " BOLD("%s") ".",
+                (autoloaded ? "automatically added" : "added"), wadfile->path);
+        else
+        {
+            temp = commify(numvoxels);
+            C_Output("%s voxels have been %s from the file " BOLD("%s") ".",
+                temp, (autoloaded ? "automatically added" : "added"), wadfile->path);
+            free(temp);
+        }
 
-    if (numvoxels && r_voxels == r_voxels_off)
-        C_Warning(0, "The voxels won't be rendered though while the " BOLD("r_voxels")
-            " CVAR is " BOLD("off") ".");
+        if (r_voxels == r_voxels_off)
+            C_Warning(0, "The voxels won't be rendered though while the " BOLD("r_voxels")
+                " CVAR is " BOLD("off") ".");
+    }
 
     return true;
 }
