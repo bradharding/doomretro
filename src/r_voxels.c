@@ -585,6 +585,12 @@ void VX_Init(void)
         if (lumpinfo[i]->namespace == ns_global && !strncasecmp(lumpinfo[i]->name, "VOXELDEF", 8))
             VX_ParseVoxelDef(W_CacheLumpNum(i), W_LumpLength(i));
 
+    for (int frame = 0; frame < VX_MAXFRAMES; frame++)
+    {
+        bindings[SPR_BLUD * VX_MAXFRAMES + frame] = NULL;
+        bindings[SPR_PUFF * VX_MAXFRAMES + frame] = NULL;
+    }
+
     if (bindings[SPR_TRE2 * VX_MAXFRAMES] && !(mobjinfo[MT_MISC76].flags2 & MF2_CASTSHADOW))
     {
         mobjinfo[MT_MISC76].flags2 |= MF2_CASTSHADOW;
