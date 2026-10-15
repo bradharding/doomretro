@@ -1748,9 +1748,9 @@ static void R_ProjectSprite(mobj_t *thing)
     gzt = fz + topoffset;
     xscale = FixedDiv(projection, tz);
 
-    // killough 04/09/98: clip things which are out of view due to height
-    if (fz > (int64_t)viewz + FixedDiv(viewheightfrac, xscale)
-        || gzt < (int64_t)viewz - FixedDiv(viewheightfrac - viewheight, xscale))
+    // [PN] Pitch-aware: distances from centery to top/bottom screen rows.
+    if (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale)
+        || gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale))
         return;
 
     // calculate edges of the shape
