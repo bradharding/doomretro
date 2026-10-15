@@ -1563,9 +1563,6 @@ void VX_DrawVoxel(const vissprite_t *spr)
     if (!voxeldepth)
         voxeldepth = I_Calloc(MAXSCREENAREA, sizeof(*voxeldepth));
 
-    eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
-    eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
-
     drawx1 = spr->x1;
     drawx2 = spr->x2;
 
@@ -1577,6 +1574,9 @@ void VX_DrawVoxel(const vissprite_t *spr)
 
     if (drawx1 > drawx2)
         return;
+
+    eyex = v->xpivot + FixedMul(dx, c) + FixedMul(dy, s);
+    eyey = v->ypivot + FixedMul(dx, s) - FixedMul(dy, c);
 
     if (vv->shadow)
         VX_DrawShadow(spr);
