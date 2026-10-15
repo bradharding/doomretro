@@ -3831,6 +3831,7 @@ bool C_Responder(event_t *ev)
                     char        prefix[255] = "";
                     int         spaces1;
                     bool        endspace1;
+                    bool        cvarvalue = false;
 
                     for (i = len - 1; i >= 0; i--)
                         if ((!singlecommand && consoleinput[i] == ';')
@@ -3867,6 +3868,15 @@ bool C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
+                    if (spaces1 == 1 && endspace1)
+                    {
+                        char    cmd[255];
+
+                        M_StringCopy(cmd, input, sizeof(cmd));
+                        cmd[strlen(cmd) - 1] = '\0';
+                        cvarvalue = (consolecmds[C_GetIndex(cmd)].type == CT_CVAR);
+                    }
+
                     while ((scrolldirection == -1 && autocomplete > 0)
                         || (scrolldirection == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
                     {
@@ -3893,7 +3903,8 @@ bool C_Responder(event_t *ev)
                                 && M_StringStartsWith(output, input)
                                 && input[strlen(input) - 1] != '+'
                                 && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
-                                    || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
+                                    || (spaces1 == 1 && (!endspace1 || cvarvalue)
+                                        && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
                                     || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                     || (spaces1 == 3 && !endspace1)))
                             {
