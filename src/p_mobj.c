@@ -1264,7 +1264,6 @@ static void P_SpawnFriend(const mapthing_t *mthing)
 static bool P_IsWall(const line_t *line)
 {
     return (line->sidenum[1] == NO_INDEX
-        || (line->flags & ML_BLOCKING)
         || (closeddoorssolid && line->frontsector && line->backsector
             && MIN(line->frontsector->ceilingheight, line->backsector->ceilingheight)
                 <= MAX(line->frontsector->floorheight, line->backsector->floorheight)));
