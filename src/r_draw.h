@@ -124,6 +124,7 @@ void R_DrawTranslucentBlue25Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
+void R_DrawShadowPixel(const int x, const int y, const byte *tint, const byte black);
 void R_DrawTranslucentBloodColumn(void);
 void R_DrawBloodSplatColumn(void);
 void R_DrawSolidBloodSplatColumn(void);

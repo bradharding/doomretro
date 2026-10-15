@@ -461,6 +461,13 @@ void R_DrawSolidShadowColumn(void)
     *dest = dc_black;
 }
 
+void R_DrawShadowPixel(const int x, const int y, const byte *tint, const byte black)
+{
+    byte    *dest = ylookup0[y] + x;
+
+    *dest = (tint ? tint[*dest] : black);
+}
+
 void R_DrawBloodSplatColumn(void)
 {
     int     count = dc_yh - dc_yl + 1;

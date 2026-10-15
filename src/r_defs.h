@@ -1119,8 +1119,10 @@ typedef struct vissprite_s
     // killough 03/27/98: height sector for underwater/fake ceiling support
     sector_t            *heightsec;
 
-    int                 shadowz;
+    fixed_t             tx;
+    fixed_t             tz;
 
+    bool                shadow;
     bool                flipped;
     bool                fullbright;
     int                 voxelindex;

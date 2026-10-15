@@ -70,6 +70,9 @@ int                 ceilingclip[MAXWIDTH];      // dropoff overflow
 // texture mapping
 static lighttable_t **planezlight;
 static fixed_t      planeheight;
+static fixed_t      planez;
+static fixed_t      spandepth;
+static bool         spanshadows;
 
 static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
@@ -166,6 +169,7 @@ static void R_MapPlane(const int y, const int x1)
     }
 
     dx = x1 - centerx;
+    spandepth = ds_z;
     ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
     ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
     ds_radiallightdistance = radiallightdistancebase + (float)dx * (float)dx * ds_radiallightstep;
@@ -204,46 +208,46 @@ static void R_MapPlane(const int y, const int x1)
                     else
                         spanfunc();
                 }
-
-                return;
-            }
-
-            ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
-
-            if (ds_colormap[0] == ds_colormap[1])
-            {
-                if (ds_flatwidth == 64 && ds_flatheight == 64)
-                {
-                    if (ds_brightmap)
-                        altbmapspanfunc64();
-                    else
-                        altspanfunc64();
-                }
-                else
-                {
-                    if (ds_brightmap)
-                        altbmapspanfunc();
-                    else
-                        altspanfunc();
-                }
             }
             else
             {
-                ds_z = ((ds_z >> 12) & 255);
+                ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
 
-                if (ds_flatwidth == 64 && ds_flatheight == 64)
+                if (ds_colormap[0] == ds_colormap[1])
                 {
-                    if (ds_brightmap)
-                        bmapspanfunc64();
+                    if (ds_flatwidth == 64 && ds_flatheight == 64)
+                    {
+                        if (ds_brightmap)
+                            altbmapspanfunc64();
+                        else
+                            altspanfunc64();
+                    }
                     else
-                        spanfunc64();
+                    {
+                        if (ds_brightmap)
+                            altbmapspanfunc();
+                        else
+                            altspanfunc();
+                    }
                 }
                 else
                 {
-                    if (ds_brightmap)
-                        bmapspanfunc();
+                    ds_z = ((ds_z >> 12) & 255);
+
+                    if (ds_flatwidth == 64 && ds_flatheight == 64)
+                    {
+                        if (ds_brightmap)
+                            bmapspanfunc64();
+                        else
+                            spanfunc64();
+                    }
                     else
-                        spanfunc();
+                    {
+                        if (ds_brightmap)
+                            bmapspanfunc();
+                        else
+                            spanfunc();
+                    }
                 }
             }
         }
@@ -259,6 +263,9 @@ static void R_MapPlane(const int y, const int x1)
         else
             spanfunc();
     }
+
+    if (spanshadows && planez < viewz)
+        R_DrawSpanShadows(y, x1, ds_x2, spandepth, planez);
 }
 
 //
@@ -450,6 +457,7 @@ static void R_MakeSpans(visplane_t *pl)
     }
 
     rotation = pl->angle;
+    planez = pl->height;
     angle_sin = finesine[(viewangle + rotation) >> ANGLETOFINESHIFT];
     angle_cos = finecosine[(viewangle + rotation) >> ANGLETOFINESHIFT];
 
@@ -658,6 +666,8 @@ void R_DrawPlanes(void)
     xtoskyangle = (r_skyprojection == r_skyprojection_linear ? linearskyangle : xtoviewangle);
     dc_colormap[0] = (fixedcolormap && r_textures ? fixedcolormap : fullcolormap);
     dc_sectorcolormap = fullcolormap;
+
+    spanshadows = R_PrepareShadows();
 
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)

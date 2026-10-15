@@ -33,6 +33,7 @@
 ==============================================================================
 */
 
+#include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -45,6 +46,7 @@
 #include "m_array.h"
 #include "m_config.h"
 #include "r_main.h"
+#include "r_plane.h"
 #include "r_voxels.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -75,18 +77,6 @@ fixed_t                         pspriteiscale;
 static lighttable_t             **spritelights;         // killough 01/25/98 made static
 static lighttable_t             **nextspritelights;
 
-typedef struct
-{
-    short                       x1, x2;
-    drawseg_t                   *user;
-} drawseg_xrange_item_t;
-
-typedef struct
-{
-    drawseg_xrange_item_t       *items;
-    int                         count;
-} drawsegs_xrange_t;
-
 static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
 
 static drawseg_xrange_item_t    *drawsegs_xrange;
@@ -95,6 +85,10 @@ static int                      drawsegs_xrange_count;
 
 static mobj_t                   **nearby_sprites;
 static fixed_t                  *spritebottomoffset;
+
+static shadowcaster_t           *shadowcasters;
+static unsigned int             numshadowcasters;
+static unsigned int             shadowcasters_alloc;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
@@ -1007,550 +1001,106 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 }
 
 //
-// R_DrawVisSpriteWithShadow
+// R_PrepareShadows
 //
-static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
+bool R_PrepareShadows(void)
 {
-    fixed_t         frac = vis->startfrac;
-    const fixed_t   xiscale = vis->xiscale;
-    const fixed_t   x2 = vis->x2;
-    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
-    const mobj_t    *mobj = vis->mobj;
-    const int       flags = mobj->flags;
-    const int       translation = (flags & MF_TRANSLATION);
-    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
-    int             black;
-    int64_t         shadowspryscale;
-    void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
-    const int       patchwidth = patch->width;
-    const fixed_t   gz = vis->gz;
-    byte            *oldtranmap;
+    numshadowcasters = 0;
 
-    spryscale = vis->scale;
+    if (!drawshadows || !num_vissprite)
+        return false;
 
-    dc_colormap[0] = vis->colormap;
-    dc_nextcolormap[0] = vis->nextcolormap;
-    dc_sectorcolormap = vis->sectorcolormap;
-    dc_z = ((spryscale >> 5) & 255);
-    dc_black = dc_colormap[0][nearestblack];
-    black = dc_black << 8;
-
-    if (flags & MF_FUZZ)
-        dc_black33 = &tinttab15[black];
-    else if (vis->fullbright)
+    if (shadowcasters_alloc < num_vissprite)
     {
-        dc_black33 = &tinttab20[black];
-        dc_black40 = &tinttab25[black];
-    }
-    else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
-    {
-        dc_black33 = &tinttab10[black];
-        dc_black40 = &tinttab25[black];
-    }
-    else
-    {
-        dc_black33 = &tinttab33[black];
-        dc_black40 = &tinttab40[black];
+        shadowcasters_alloc = num_vissprite_alloc;
+        shadowcasters = I_Realloc(shadowcasters, shadowcasters_alloc * sizeof(*shadowcasters));
     }
 
-    dc_iscale = FixedDiv(FRACUNIT, spryscale);
-    dc_texturemid = vis->texturemid;
-
-    if (vis->translation)
+    for (unsigned int i = 0; i < num_vissprite; i++)
     {
-        colfunc = translatedcolfunc;
-        dc_translation = vis->translation;
-    }
-    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
-    {
-        colfunc = translatedcolfunc;
-        dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
-    }
-    else
-    {
-        colfunc = vis->colfunc;
+        const vissprite_t   *vis = &vissprites[i];
+        shadowcaster_t      *caster;
+        const mobj_t        *mobj;
+        int                 black;
 
-        if (colfunc == translatedcolfunc && mobj->bloodcolor > NOBLOOD)
-            dc_translation = colortranslation[mobj->bloodcolor - 1];
-    }
+        if (!vis->shadow)
+            continue;
 
-    if (vis->brightmap)
-    {
-        dc_brightmap = vis->brightmap;
+        mobj = vis->mobj;
+        caster = &shadowcasters[numshadowcasters++];
+        caster->vis = vis;
+        caster->patch = R_CachePatchNum(vis->patch + firstspritelump);
+        caster->top = vis->texturemid + viewz;
+        caster->skew = FixedMul(FixedDiv(vis->tx + caster->patch->width * FRACUNIT / 2, vis->tz), SHADOWSKEW);
+        caster->black = vis->colormap[nearestblack];
+        black = caster->black << 8;
 
-        if (colfunc == basecolfunc)
-            colfunc = bmapsegcolfunc;
-        else if (colfunc == tl50colfunc)
-            colfunc = tl50bmapsegcolfunc;
-    }
-
-    oldtranmap = R_ApplyVisSpriteTranmap(vis);
-
-    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-    shadowspryscale = (int64_t)spryscale / 10;
-
-    fuzz1pos = 0;
-
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
-    {
-        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-        fixed_t         offset;
-        fixed_t         pcl_gx, pcl_gy;
-        fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
-        const fixed_t   pcl_cosine = finecosine[angle];
-        const fixed_t   pcl_sine = finesine[angle];
-        const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
-        subsector_t     *lastsubsector = NULL;
-        const fixed_t   basescale = spryscale;
-        const fixed_t   baseiscale = dc_iscale;
-        const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
-        fixed_t         tz = 0;
-        fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
-
-        if (spritetilt)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-            tiltfactor += (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
-        }
-        else if (tiltfactor)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-        }
-
-        if (vis->flipped)
-        {
-            offset = pcl_patchoffset - frac;
-            pcl_dx = FixedMul(-xiscale, pcl_cosine);
-            pcl_dy = FixedMul(-xiscale, pcl_sine);
-        }
+        if (mobj->shadowcolfunc == R_DrawSolidShadowColumn)
+            caster->tint = NULL;
+        else if (mobj->flags & MF_FUZZ)
+            caster->tint = &tinttab15[black];
+        else if (vis->fullbright || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
+            caster->tint = &tinttab25[black];
         else
-        {
-            offset = frac - pcl_patchoffset;
-            pcl_dx = FixedMul(xiscale, pcl_cosine);
-            pcl_dy = FixedMul(xiscale, pcl_sine);
-        }
-
-        pcl_gx = vis->gx + FixedMul(offset, pcl_cosine);
-        pcl_gy = vis->gy + FixedMul(offset, pcl_sine);
-
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale, pcl_gx += pcl_dx, pcl_gy += pcl_dy)
-        {
-            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
-
-            if ((dc_numposts = column->numposts))
-            {
-                const rpost_t   *posts = column->posts;
-                subsector_t     *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
-                const fixed_t   flooratcolumn = subsector->sector->interpfloorheight;
-                int64_t         colshadowspryscale = shadowspryscale;
-
-                if (tz > 0 && tiltfactor)
-                {
-                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
-                    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-                    colshadowspryscale = (int64_t)spryscale / 10;
-                }
-
-                dc_ceilingclip = mceilingclip[dc_x] + 1;
-
-                if (subsector != lastsubsector)
-                {
-                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, true, flags, vis, mobj, &black);
-                    lastsubsector = subsector;
-                }
-
-                if (flooratcolumn >= gz - 8 * FRACUNIT)
-                {
-                    const int64_t   shadowtopscreen = (int64_t)centeryfrac
-                                        - FixedMul(flooratcolumn + mobj->shadowoffset - viewz, spryscale);
-                    int             numposts = dc_numposts;
-
-                    dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
-
-                    while (numposts--)
-                    {
-                        const rpost_t   *post = &posts[numposts];
-                        const int64_t   topscreen = shadowtopscreen + colshadowspryscale * post->topdelta;
-
-                        if ((dc_yh = MIN((int)((topscreen + colshadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-                            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                                shadowcolfunc();
-                    }
-                }
-
-                dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
-                R_BlastSpriteColumn(column);
-            }
-        }
-    }
-    else
-    {
-        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-        const fixed_t   basescale = spryscale;
-        const fixed_t   baseiscale = dc_iscale;
-        const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
-        fixed_t         tz = 0;
-        fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
-
-        if (spritetilt)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-            tiltfactor += (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
-        }
-        else if (tiltfactor)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-        }
-
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        {
-            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
-
-            if ((dc_numposts = column->numposts))
-            {
-                const rpost_t   *posts = column->posts;
-                fixed_t         coloffset;
-                fixed_t         colgx, colgy;
-                fixed_t         flooratcolumn;
-                int64_t         colshadowspryscale = shadowspryscale;
-
-                dc_ceilingclip = mceilingclip[dc_x] + 1;
-
-                if (tz > 0 && tiltfactor)
-                {
-                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
-                    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-                    colshadowspryscale = (int64_t)spryscale / 10;
-                }
-
-                if (vis->flipped)
-                    coloffset = (LITTLESHORT(patch->leftoffset) << FRACBITS) - frac;
-                else
-                    coloffset = frac - (LITTLESHORT(patch->leftoffset) << FRACBITS);
-
-                colgx = vis->gx + FixedMul(coloffset, finecosine[angle]);
-                colgy = vis->gy + FixedMul(coloffset, finesine[angle]);
-
-                if ((flooratcolumn = R_PointInSubsector(colgx, colgy)->sector->interpfloorheight) >= gz - 8 * FRACUNIT)
-                {
-                    const int64_t   shadowtopscreen = (int64_t)centeryfrac
-                                        - FixedMul(flooratcolumn + mobj->shadowoffset - viewz, spryscale);
-                    int             numposts = dc_numposts;
-
-                    dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
-
-                    while (numposts--)
-                    {
-                        const rpost_t   *post = &posts[numposts];
-                        const int64_t   topscreen = shadowtopscreen + colshadowspryscale * post->topdelta;
-
-                        if ((dc_yh = MIN((int)((topscreen + colshadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-                            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                                shadowcolfunc();
-                    }
-                }
-
-                dc_floorclip = MIN(viewheight, mfloorclip[dc_x]) - 1;
-                R_BlastSpriteColumn(column);
-            }
-        }
+            caster->tint = &tinttab40[black];
     }
 
-    tranmap = oldtranmap;
+    return !!numshadowcasters;
 }
 
 //
-// R_DrawVisSpriteClippedWithShadow
+// R_DrawSpanShadows
 //
-static void R_DrawVisSpriteClippedWithShadow(const vissprite_t *vis)
+void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth, const fixed_t planez)
 {
-    fixed_t         frac = vis->startfrac;
-    const fixed_t   xiscale = vis->xiscale;
-    const fixed_t   x2 = vis->x2;
-    const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
-    const mobj_t    *mobj = vis->mobj;
-    const int       flags = mobj->flags;
-    const int       translation = (flags & MF_TRANSLATION);
-    const int       footclip = vis->footclip;
-    int             baseclip;
-    int             black;
-    int64_t         shadowtopscreen;
-    int64_t         shadowspryscale;
-    fixed_t         shadowfootclip;
-    int             shadowbaseclip;
-    void            (*shadowcolfunc)(void) = mobj->shadowcolfunc;
-    const int       patchwidth = patch->width;
-    const bool      spritetilt = (r_sprites_tilt && !vis->liquidrockfactor);
-    byte            *oldtranmap;
+    const float step = (float)depth * FRACUNIT / planenum;
 
-    spryscale = vis->scale;
+    if (step <= 0.0f)
+        return;
 
-    dc_colormap[0] = vis->colormap;
-    dc_nextcolormap[0] = vis->nextcolormap;
-    dc_sectorcolormap = vis->sectorcolormap;
-    dc_z = ((spryscale >> 5) & 255);
-    dc_black = dc_colormap[0][nearestblack];
-    black = dc_black << 8;
-
-    if (flags & MF_FUZZ)
-        dc_black33 = &tinttab15[black];
-    else if (vis->fullbright)
+    for (unsigned int i = 0; i < numshadowcasters; i++)
     {
-        dc_black33 = &tinttab20[black];
-        dc_black40 = &tinttab25[black];
-    }
-    else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
-    {
-        dc_black33 = &tinttab10[black];
-        dc_black40 = &tinttab25[black];
-    }
-    else
-    {
-        dc_black33 = &tinttab33[black];
-        dc_black40 = &tinttab40[black];
-    }
+        const shadowcaster_t    *caster = &shadowcasters[i];
+        const vissprite_t       *vis = caster->vis;
+        const rpatch_t          *patch = caster->patch;
+        const int               patchwidth = patch->width;
+        const fixed_t           behind = depth - vis->tz;
+        fixed_t                 hit;
+        int                     row;
+        float                   left;
+        float                   right;
+        int                     xa;
+        int                     xb;
 
-    dc_iscale = FixedDiv(FRACUNIT, spryscale);
-    dc_texturemid = vis->texturemid;
+        if (behind < 0)
+            continue;
 
-    if (vis->translation)
-    {
-        colfunc = translatedcolfunc;
-        dc_translation = vis->translation;
-    }
-    else if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
-    {
-        colfunc = translatedcolfunc;
-        dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
-    }
-    else
-    {
-        colfunc = vis->colfunc;
+        if ((hit = planez + FixedMul(behind, SHADOWHEIGHTPERDEPTH)) > caster->top)
+            continue;
 
-        if (colfunc == translatedcolfunc && mobj->bloodcolor > NOBLOOD)
-            dc_translation = colortranslation[mobj->bloodcolor - 1];
-    }
+        if ((row = (caster->top - hit) >> FRACBITS) >= patch->height)
+            continue;
 
-    if (vis->brightmap)
-    {
-        dc_brightmap = vis->brightmap;
+        left = (float)(vis->tx + FixedMul(behind, caster->skew));
+        right = left + (float)(patchwidth << FRACBITS);
+        xa = MAX(x1, (int)ceilf(left / step + centerx - 0.5f));
+        xb = MIN(x2 - 1, (int)ceilf(right / step + centerx - 0.5f) - 1);
 
-        if (colfunc == basecolfunc)
-            colfunc = bmapsegcolfunc;
-        else if (colfunc == tl50colfunc)
-            colfunc = tl50bmapsegcolfunc;
-    }
-
-    oldtranmap = R_ApplyVisSpriteTranmap(vis);
-
-    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-    baseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
-
-    shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
-    shadowspryscale = (int64_t)spryscale / 10;
-    shadowfootclip = FixedDiv(FixedMul(footclip, (int)shadowspryscale), spryscale);
-    shadowbaseclip = (int)(shadowtopscreen + shadowfootclip) >> FRACBITS;
-    shadowtopscreen = ((int64_t)baseclip << FRACBITS) - shadowfootclip;
-
-    fuzz1pos = 0;
-
-    if (r_percolumnlighting && !vis->fullbright && !fixedcolormap && (flags & (MF_SHOOTABLE | MF_CORPSE | MF_SPECIAL)))
-    {
-        const int       angle = (viewangle - ANG90) >> ANGLETOFINESHIFT;
-        fixed_t         offset;
-        fixed_t         pcl_gx, pcl_gy;
-        fixed_t         pcl_dx, pcl_dy;
-        const fixed_t   pcl_patchoffset = LITTLESHORT(patch->leftoffset) << FRACBITS;
-        const fixed_t   pcl_cosine = finecosine[angle];
-        const fixed_t   pcl_sine = finesine[angle];
-        const int       pcl_lightindex = MIN((spryscale >> LIGHTSCALESHIFT), MAXLIGHTSCALE - 1);
-        subsector_t     *lastsubsector = NULL;
-        const fixed_t   basescale = spryscale;
-        const fixed_t   baseiscale = dc_iscale;
-        const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
-        fixed_t         tz = 0;
-        fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
-
-        if (spritetilt)
+        for (int x = xa; x <= xb; x++)
         {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
+            const float     u = ((x - centerx + 0.5f) * step - left) / FRACUNIT;
+            const int       c = BETWEEN(0, (int)u, patchwidth - 1);
+            const rcolumn_t *column = &patch->columns[vis->flipped ? patchwidth - 1 - c : c];
+            const rpost_t   *posts = column->posts;
 
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-            tiltfactor += (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
-        }
-        else if (tiltfactor)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-        }
-
-        if (vis->flipped)
-        {
-            offset = pcl_patchoffset - frac;
-            pcl_dx = FixedMul(-xiscale, pcl_cosine);
-            pcl_dy = FixedMul(-xiscale, pcl_sine);
-        }
-        else
-        {
-            offset = frac - pcl_patchoffset;
-            pcl_dx = FixedMul(xiscale, pcl_cosine);
-            pcl_dy = FixedMul(xiscale, pcl_sine);
-        }
-
-        pcl_gx = vis->gx + FixedMul(offset, pcl_cosine);
-        pcl_gy = vis->gy + FixedMul(offset, pcl_sine);
-
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale, pcl_gx += pcl_dx, pcl_gy += pcl_dy)
-        {
-            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
-
-            if ((dc_numposts = column->numposts))
-            {
-                const rpost_t   *posts = column->posts;
-                int             numposts = dc_numposts;
-                subsector_t     *subsector = R_PointInSubsector(pcl_gx, pcl_gy);
-                int64_t         colshadowspryscale = shadowspryscale;
-                int64_t         colshadowtopscreen = shadowtopscreen;
-                int             colbaseclip = baseclip;
-                int             colshadowbaseclip = shadowbaseclip;
-
-                if (tz > 0 && tiltfactor)
+            for (int p = 0; p < column->numposts; p++)
+                if (row >= posts[p].topdelta && row < posts[p].topdelta + posts[p].length)
                 {
-                    fixed_t colshadowfootclip;
-
-                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
-                    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-                    colbaseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
-
-                    colshadowspryscale = (int64_t)spryscale / 10;
-                    colshadowfootclip = FixedDiv(FixedMul(footclip, (int)colshadowspryscale), spryscale);
-                    colshadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
-                    colshadowbaseclip = (int)(colshadowtopscreen + colshadowfootclip) >> FRACBITS;
-                    colshadowtopscreen = ((int64_t)colbaseclip << FRACBITS) - colshadowfootclip;
+                    R_DrawShadowPixel(x, y, caster->tint, caster->black);
+                    break;
                 }
-
-                dc_ceilingclip = mceilingclip[dc_x] + 1;
-                dc_floorclip = MIN(colshadowbaseclip, mfloorclip[dc_x]) - 1;
-
-                if (subsector != lastsubsector)
-                {
-                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, true, flags, vis, mobj, &black);
-                    lastsubsector = subsector;
-                }
-
-                while (numposts--)
-                {
-                    const rpost_t   *post = &posts[numposts];
-                    const int64_t   topscreen = colshadowtopscreen + colshadowspryscale * post->topdelta;
-
-                    if ((dc_yh = MIN((int)((topscreen + colshadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-                        if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                            shadowcolfunc();
-                }
-
-                dc_floorclip = MIN(colbaseclip, mfloorclip[dc_x]) - 1;
-
-                R_BlastSpriteColumn(column);
-            }
         }
     }
-    else
-    {
-        const fixed_t   basescale = spryscale;
-        const fixed_t   baseiscale = dc_iscale;
-        const fixed_t   halfwidth = (patchwidth << (FRACBITS - 1));
-        fixed_t         tz = 0;
-        fixed_t         tiltfactor = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR);
-
-        if (spritetilt)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-            tiltfactor += (tz > 0 ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, tz) / 3, MAXTILTFACTOR) : 0);
-        }
-        else if (tiltfactor)
-        {
-            const fixed_t   tr_x = vis->gx - viewx;
-            const fixed_t   tr_y = vis->gy - viewy;
-
-            tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-        }
-
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        {
-            const rcolumn_t *column = &patch->columns[BETWEEN(0, (frac >> FRACBITS), patchwidth - 1)];
-
-            if ((dc_numposts = column->numposts))
-            {
-                const rpost_t   *posts = column->posts;
-                int             numposts = dc_numposts;
-                int64_t         colshadowspryscale = shadowspryscale;
-                int64_t         colshadowtopscreen = shadowtopscreen;
-                int             colbaseclip = baseclip;
-                int             colshadowbaseclip = shadowbaseclip;
-
-                if (tz > 0 && tiltfactor)
-                {
-                    fixed_t colshadowfootclip;
-
-                    GetSpriteTiltScale(basescale, baseiscale, tz, tiltfactor,
-                        (vis->flipped ? -(frac - halfwidth) : (frac - halfwidth)), &spryscale, &dc_iscale);
-                    sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
-                    colbaseclip = (int)(sprtopscreen + footclip) >> FRACBITS;
-
-                    colshadowspryscale = (int64_t)spryscale / 10;
-                    colshadowfootclip = FixedDiv(FixedMul(footclip, (int)colshadowspryscale), spryscale);
-                    colshadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowz, spryscale);
-                    colshadowbaseclip = (int)(colshadowtopscreen + colshadowfootclip) >> FRACBITS;
-                    colshadowtopscreen = ((int64_t)colbaseclip << FRACBITS) - colshadowfootclip;
-                }
-
-                dc_ceilingclip = mceilingclip[dc_x] + 1;
-                dc_floorclip = MIN(colshadowbaseclip, mfloorclip[dc_x]) - 1;
-
-                while (numposts--)
-                {
-                    const rpost_t   *post = &posts[numposts];
-                    const int64_t   topscreen = colshadowtopscreen + colshadowspryscale * post->topdelta;
-
-                    if ((dc_yh = MIN((int)((topscreen + colshadowspryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-                        if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                            shadowcolfunc();
-                }
-
-                dc_floorclip = MIN(colbaseclip, mfloorclip[dc_x]) - 1;
-
-                R_BlastSpriteColumn(column);
-            }
-        }
-    }
-
-    tranmap = oldtranmap;
 }
 
 //
@@ -1805,17 +1355,10 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->flipped = flip;
     vis->fullbright = (fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright));
 
-    if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
-    {
-        vis->shadowz = (heightsec ? heightsec->interpfloorheight : thing->floorz) + thing->shadowoffset - viewz;
-        vis->drawfunc = &R_DrawVisSpriteWithShadow;
-    }
-    else
-    {
-        vis->shadowz = -1;
-        vis->drawfunc = &R_DrawVisSprite;
-    }
-
+    vis->tz = tz;
+    vis->tx = tx;
+    vis->shadow = ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows);
+    vis->drawfunc = &R_DrawVisSprite;
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     vis->brightmap = (usebrightmaps ? (thing->state->brightmap ? thing->state->brightmap : spritebrightmap[lump]) : NULL);
     vis->tranmap = (thing->state ? thing->state->tranmap : NULL);
@@ -1843,7 +1386,7 @@ static void R_ProjectSprite(mobj_t *thing)
                 clipfeet += animatedliquiddiff;
 
             vis->footclip = FixedMul(MAX(bottomoffset - clipfeet, 0), xscale);
-            vis->drawfunc = (vis->shadowz == -1 ? &R_DrawVisSpriteClipped : &R_DrawVisSpriteClippedWithShadow);
+            vis->drawfunc = &R_DrawVisSpriteClipped;
         }
         else
             vis->texturemid = gzt - FOOTCLIPSIZE - viewz;

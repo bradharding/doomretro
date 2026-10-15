@@ -35,6 +35,31 @@
 
 #pragma once
 
+#define SHADOWHEIGHTPERDEPTH    (FRACUNIT * 2)
+#define SHADOWSKEW              (FRACUNIT * 3 / 2)
+
+typedef struct
+{
+    short                   x1, x2;
+    drawseg_t               *user;
+} drawseg_xrange_item_t;
+
+typedef struct
+{
+    drawseg_xrange_item_t   *items;
+    int                     count;
+} drawsegs_xrange_t;
+
+typedef struct
+{
+    const vissprite_t       *vis;
+    const rpatch_t          *patch;
+    const byte              *tint;
+    fixed_t                 top;
+    fixed_t                 skew;
+    byte                    black;
+} shadowcaster_t;
+
 // Constant arrays used for psprite clipping
 //  and initializing clipping.
 extern int      negonearray[MAXWIDTH];
@@ -68,3 +93,5 @@ void R_ClipToDrawSegs(const int x1, const int x2, const fixed_t scale, const fix
 void R_DrawMasked(void);
 void R_AddNearbySprites(sector_t *sec);
 void R_DrawNearbySprites(void);
+bool R_PrepareShadows(void);
+void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth, const fixed_t planez);
