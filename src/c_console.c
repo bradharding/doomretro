@@ -3848,7 +3848,11 @@ bool C_Responder(event_t *ev)
                     {
                         char    *temp1;
 
-                        i += 1 + (consoleinput[i + 1] == ' ');
+                        i++;
+
+                        while (i < len && isspace((unsigned char)consoleinput[i]))
+                            i++;
+
                         temp1 = M_SubString(consoleinput, 0, i);
                         M_StringCopy(prefix, temp1, sizeof(prefix));
                         free(temp1);
