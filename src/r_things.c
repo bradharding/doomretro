@@ -1830,14 +1830,14 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
     {
         sector_t    *sec = viewplayer->mo->subsector->sector;
 
-        if (r_playerweapon_translucency)
+        if (!r_textures)
         {
-            if (!r_textures)
-            {
-                vis->colfunc = (psp == &viewplayer->psprites[ps_weapon] ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
-                vis->colormap = NULL;
-            }
-            else if (spr == SPR_SHT2)
+            vis->colfunc = &R_DrawSolidColorColumn;
+            vis->colormap = NULL;
+        }
+        else if (r_playerweapon_translucency)
+        {
+            if (spr == SPR_SHT2)
                 vis->colfunc = ((frame & FF_FRAMEMASK) && (frame & FF_FULLBRIGHT)
                     && (!altered || state->translucent || BTSX) ? tlredwhitecolfunc1 : basecolfunc);
             else if (muzzleflash && spr >= SPR_SHTG && spr <= SPR_BFGF && (!altered || state->translucent || BTSX))
@@ -1870,15 +1870,7 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
                 vis->colfunc = basecolfunc;
         }
         else
-        {
-            if (!r_textures)
-            {
-                vis->colfunc = &R_DrawSolidColorColumn;
-                vis->colormap = NULL;
-            }
-            else
-                vis->colfunc = basecolfunc;
-        }
+            vis->colfunc = basecolfunc;
 
         if (fixedcolormap)
         {
