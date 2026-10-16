@@ -84,9 +84,6 @@ byte            *dc_brightmap;
 int             dc_floorclip;
 int             dc_ceilingclip;
 int             dc_numposts;
-byte            dc_black;
-byte            *dc_black33;
-byte            *dc_black40;
 byte            *dc_source;
 byte            *dc_translation;
 
@@ -390,75 +387,6 @@ void R_DrawDitheredSolidColorColumn(void)
     }
 
     *dest = dc_sectorcolormap[colormap[dither[yphase]][NOTEXTURECOLOR]];
-}
-
-void R_DrawShadowColumn(void)
-{
-    int     count = dc_yh - dc_yl;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-
-    if (count)
-    {
-        *dest = *(*dest + dc_black33);
-        dest += SCREENWIDTH;
-
-        while (--count)
-        {
-            *dest = *(*dest + dc_black40);
-            dest += SCREENWIDTH;
-        }
-
-        *dest = *(*dest + (dc_yh == dc_floorclip ? dc_black40 : dc_black33));
-    }
-    else
-        *dest = *(*dest + dc_black33);
-}
-
-void R_DrawFuzzyShadowColumn(void)
-{
-    byte    *dest;
-    int     count;
-
-    if (dc_x & 1)
-        return;
-
-    dest = ylookup0[dc_yl] + dc_x;
-
-    if ((count = dc_yh - dc_yl))
-    {
-        *dest = *(*dest + dc_black33);
-        *(dest + 1) = *(*(dest + 1) + dc_black33);
-        dest += SCREENWIDTH;
-
-        while (--count)
-        {
-            *dest = *(*dest + dc_black33);
-            *(dest + 1) = *(*(dest + 1) + dc_black33);
-            dest += SCREENWIDTH;
-        }
-
-        *dest = *(*dest + dc_black33);
-        *(dest + 1) = *(*(dest + 1) + dc_black33);
-    }
-    else
-    {
-        *dest = *(*dest + dc_black33);
-        *(dest + 1) = *(*(dest + 1) + dc_black33);
-    }
-}
-
-void R_DrawSolidShadowColumn(void)
-{
-    int     count = dc_yh - dc_yl + 1;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
-
-    while (--count)
-    {
-        *dest = dc_black;
-        dest += SCREENWIDTH;
-    }
-
-    *dest = dc_black;
 }
 
 void R_DrawShadowPixel(const int x, const int y, const byte *tint, const byte black)

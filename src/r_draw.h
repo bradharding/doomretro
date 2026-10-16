@@ -62,9 +62,6 @@ extern byte             *dc_brightmap;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
 extern int              dc_numposts;
-extern byte             dc_black;
-extern byte             *dc_black33;
-extern byte             *dc_black40;
 
 // first pixel in a column
 extern byte             *dc_source;
@@ -122,8 +119,6 @@ void R_DrawTranslucentGreen33Column(void);
 void R_DrawTranslucentRed33Column(void);
 void R_DrawTranslucentBlue25Column(void);
 void R_DrawPlayerSpriteColumn(void);
-void R_DrawShadowColumn(void);
-void R_DrawSolidShadowColumn(void);
 void R_DrawShadowPixel(const int x, const int y, const byte *tint, const byte black);
 void R_DrawTranslucentBloodColumn(void);
 void R_DrawBloodSplatColumn(void);
@@ -132,7 +127,6 @@ void R_DrawSolidBloodSplatColumn(void);
 // The spectre/invisibility effect.
 void R_DrawFuzzColumn(void);
 void R_DrawFuzzColumns(void);
-void R_DrawFuzzyShadowColumn(void);
 
 // Draw with color translation tables,
 //  for player sprite rendering,

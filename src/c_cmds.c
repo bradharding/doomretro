@@ -564,7 +564,6 @@ static void r_radiallightingfunc2(char *cmd, char *parms);
 static void r_randomstartframesfunc2(char *cmd, char *parms);
 static void r_rockettrails_translucencyfunc2(char *cmd, char *parms);
 static void r_screensizefunc2(char *cmd, char *parms);
-static void r_shadows_translucencyfunc2(char *cmd, char *parms);
 static void r_sprites_translucencyfunc2(char *cmd, char *parms);
 static void r_texturesfunc2(char *cmd, char *parms);
 static void r_textures_translucencyfunc2(char *cmd, char *parms);
@@ -1093,7 +1092,7 @@ consolecmd_t consolecmds[] =
         "The screen size (" BOLD("0") " to " BOLD("8") ")."),
     BOOLCVAR(r_shadows, "", "", boolfunc1, boolfunc2, 0,
         "Toggles sprites casting shadows."),
-    BOOLCVAR(r_shadows_translucency, "", "", boolfunc1, r_shadows_translucencyfunc2, 0,
+    BOOLCVAR(r_shadows_translucency, "", "", boolfunc1, boolfunc2, 0,
         "Toggles the translucency of shadows cast by sprites."),
     BOOLCVAR(r_shake_barrels, "", "", boolfunc1, boolfunc2, 0,
         "Toggles shaking your view when you are near an exploding barrel."),
@@ -12614,21 +12613,6 @@ static void r_screensizefunc2(char *cmd, char *parms)
 }
 
 //
-// r_shadows_translucency CVAR
-//
-static void r_shadows_translucencyfunc2(char *cmd, char *parms)
-{
-    const bool   r_shadows_translucency_old = r_shadows_translucency;
-
-    boolfunc2(cmd, parms);
-
-    if (r_shadows_translucency != r_shadows_translucency_old)
-        for (int i = 0; i < numsectors; i++)
-            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
-                P_SetShadowColumnFunction(thing);
-}
-
-//
 // r_sprites_translucency CVAR
 //
 static void r_sprites_translucencyfunc2(char *cmd, char *parms)
@@ -12663,10 +12647,7 @@ static void r_texturesfunc2(char *cmd, char *parms)
         for (int i = 0; i < numsectors; i++)
         {
             for (mobj_t *mo = sectors[i].thinglist; mo; mo = mo->snext)
-            {
                 mo->colfunc = mo->info->colfunc;
-                P_SetShadowColumnFunction(mo);
-            }
 
             for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
                 P_SetBloodSplatColor(splat);

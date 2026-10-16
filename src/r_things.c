@@ -575,8 +575,7 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 //
 // R_UpdatePerColumnLighting
 //
-static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int lightindex,
-    const bool updateshadowtints, const int flags, const vissprite_t *vis, const mobj_t *mobj, int *black)
+static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int lightindex)
 {
     sector_t    *sector = subsec->sector;
     sector_t    tempsec;
@@ -591,30 +590,6 @@ static inline void R_UpdatePerColumnLighting(subsector_t *subsec, const int ligh
     dc_colormap[0] = scalelight[BETWEEN(0, ((lightlevel - 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][lightindex];
     dc_nextcolormap[0] = scalelight[BETWEEN(0, ((lightlevel + 2) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)][lightindex];
     dc_sectorcolormap = R_GetSectorColormap(sector);
-
-    if (updateshadowtints)
-    {
-        dc_black = dc_colormap[0][nearestblack];
-        *black = dc_black << 8;
-
-        if (flags & MF_FUZZ)
-            dc_black33 = &tinttab15[*black];
-        else if (vis->fullbright)
-        {
-            dc_black33 = &tinttab20[*black];
-            dc_black40 = &tinttab25[*black];
-        }
-        else if ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency)
-        {
-            dc_black33 = &tinttab10[*black];
-            dc_black40 = &tinttab25[*black];
-        }
-        else
-        {
-            dc_black33 = &tinttab33[*black];
-            dc_black40 = &tinttab40[*black];
-        }
-    }
 }
 
 //
@@ -745,7 +720,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
                 if (subsector != lastsubsector)
                 {
-                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, false, 0, NULL, NULL, NULL);
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex);
                     lastsubsector = subsector;
                 }
 
@@ -937,7 +912,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 
                 if (subsector != lastsubsector)
                 {
-                    R_UpdatePerColumnLighting(subsector, pcl_lightindex, false, 0, NULL, NULL, NULL);
+                    R_UpdatePerColumnLighting(subsector, pcl_lightindex);
                     lastsubsector = subsector;
                 }
 
@@ -1075,11 +1050,12 @@ bool R_PrepareShadows(void)
         shadowmindepth = MIN(shadowmindepth, vis->tz - FixedMul(ABS(tilt), halfwidth));
         mobj = vis->mobj;
 
-        if (mobj->shadowcolfunc == R_DrawSolidShadowColumn)
+        if (!r_shadows_translucency)
             caster->tint = NULL;
         else if (mobj->flags & MF_FUZZ)
             caster->tint = &tinttab15[caster->black << 8];
-        else if (vis->fullbright || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
+        else if (vis->fullbright
+            || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
             caster->tint = &tinttab25[caster->black << 8];
         else
             caster->tint = &tinttab40[caster->black << 8];
@@ -1088,6 +1064,24 @@ bool R_PrepareShadows(void)
     }
 
     return !!numshadowcasters;
+}
+
+//
+// R_DrawCasterShadowPixel
+//
+static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const int x, const int y,
+    const int row, const float u)
+{
+    const int       c = BETWEEN(0, (int)u, caster->width - 1);
+    const rcolumn_t *column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
+    const rpost_t   *posts = column->posts;
+
+    for (int p = 0; p < column->numposts; p++)
+        if (row >= posts[p].topdelta && row < posts[p].topdelta + posts[p].length)
+        {
+            R_DrawShadowPixel(x, y, caster->tint, caster->black);
+            break;
+        }
 }
 
 //
@@ -1109,76 +1103,58 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
         const fixed_t           behind = depth - caster->tz;
         const int64_t           up = ((int64_t)behind * SHADOWHEIGHTPERDEPTH) >> FRACBITS;
         const int64_t           reach = (int64_t)caster->top - planez;
-        const float             tilt = caster->tilt;
         const float             halfwidth = caster->halfwidth;
         const float             origin = caster->center + (float)behind * caster->skew;
         const float             center = origin + caster->edgeshift;
-        float                   dw;
-        float                   u;
-        float                   du;
-        float                   columnbehind;
-        float                   dcolumnbehind;
-        float                   rowf;
-        float                   drowf;
-        float                   w;
-        int                     row;
-        int                     xa;
-        int                     xb;
+        const int               xa = MAX(x1, (int)ceilf((center - caster->extent)
+                                    * invstep + centerx - 0.5f));
+        const int               xb = MIN(x2 - 1, (int)ceilf((center + caster->extent)
+                                    * invstep + centerx - 0.5f) - 1);
 
         if (up + caster->spread < 0 || reach - up + caster->spread < 0
-            || reach - up - caster->spread >= caster->height)
+            || reach - up - caster->spread >= caster->height || xa > xb)
             continue;
 
-        xa = MAX(x1, (int)ceilf((center - caster->extent) * invstep + centerx - 0.5f));
-        xb = MIN(x2 - 1, (int)ceilf((center + caster->extent) * invstep + centerx - 0.5f) - 1);
-
-        if (xa > xb)
-            continue;
-
-        dw = step * caster->invsquash;
-        w = ((xa - centerx + 0.5f) * step - center) * caster->invsquash;
-        u = (w + halfwidth) * (1.0f / FRACUNIT);
-        du = dw * (1.0f / FRACUNIT);
-        columnbehind = (float)behind - tilt * w;
-        dcolumnbehind = -tilt * dw;
-        rowf = ((float)(reach - up) + caster->rowtilt * w) * (1.0f / FRACUNIT);
-        drowf = caster->rowtilt * du;
-        row = (int)rowf;
-
-        for (int x = xa; x <= xb; x++, u += du, columnbehind += dcolumnbehind, rowf += drowf)
+        if (caster->tilt)
         {
-            const rcolumn_t *column;
-            const rpost_t   *posts;
-            int             c;
+            const float tilt = caster->tilt;
 
-            if (tilt)
+            for (int x = xa; x <= xb; x++)
             {
                 const float d = (x - centerx + 0.5f) * step - origin;
                 const float disc = caster->squash * caster->squash + 4.0f * caster->quad * d;
+                float       w;
+                float       columnbehind;
+                float       rowf;
+                int         row;
 
                 if (disc < 0.0f)
                     continue;
 
                 w = 2.0f * d / (caster->squash + sqrtf(disc));
-                u = (w + halfwidth) * (1.0f / FRACUNIT);
                 columnbehind = (float)behind - tilt * w;
                 rowf = ((float)(reach - up) + caster->rowtilt * w) * (1.0f / FRACUNIT);
                 row = (int)rowf;
-            }
 
-            if (columnbehind < 0.0f || rowf < 0.0f || row >= caster->rows)
+                if (columnbehind >= 0.0f && rowf >= 0.0f && row < caster->rows)
+                    R_DrawCasterShadowPixel(caster, x, y, row, (w + halfwidth) * (1.0f / FRACUNIT));
+            }
+        }
+        else
+        {
+            const float rowf = (float)(reach - up) * (1.0f / FRACUNIT);
+            const int   row = (int)rowf;
+            const float du = step * caster->invsquash * (1.0f / FRACUNIT);
+            float       u;
+
+            if (behind < 0 || rowf < 0.0f || row >= caster->rows)
                 continue;
 
-            c = BETWEEN(0, (int)u, caster->width - 1);
-            column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
-            posts = column->posts;
+            u = (((xa - centerx + 0.5f) * step - center) * caster->invsquash + halfwidth)
+                * (1.0f / FRACUNIT);
 
-            for (int p = 0; p < column->numposts; p++)
-                if (row >= posts[p].topdelta && row < posts[p].topdelta + posts[p].length)
-                {
-                    R_DrawShadowPixel(x, y, caster->tint, caster->black);
-                    break;
-                }
+            for (int x = xa; x <= xb; x++, u += du)
+                R_DrawCasterShadowPixel(caster, x, y, row, u);
         }
     }
 }

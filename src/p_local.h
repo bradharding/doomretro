@@ -151,7 +151,6 @@ void P_LookForCards(void);
 void P_InitCards(void);
 
 mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mobjtype_t type);
-void P_SetShadowColumnFunction(mobj_t *mobj);
 int P_FindDoomedNum(const int type);
 
 void P_RemoveMobj(mobj_t *mobj);

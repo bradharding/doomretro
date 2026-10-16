@@ -831,17 +831,6 @@ void P_MobjThinker(mobj_t *mobj)
 }
 
 //
-// P_SetShadowColumnFunction
-//
-void P_SetShadowColumnFunction(mobj_t *mobj)
-{
-    if ((mobj->flags & MF_FUZZ) && r_textures)
-        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawFuzzyShadowColumn : &R_DrawSolidShadowColumn);
-    else
-        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawShadowColumn : &R_DrawSolidShadowColumn);
-}
-
-//
 // P_SpawnMobj
 //
 mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mobjtype_t type)
@@ -877,8 +866,6 @@ mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mob
     mobj->altcolfunc = info->altcolfunc;
     mobj->id = -1;
     mobj->bloodcolor = info->bloodcolor;
-
-    P_SetShadowColumnFunction(mobj);
 
     // set subsector and/or block links
     P_SetThingPosition(mobj);

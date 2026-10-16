@@ -1580,7 +1580,6 @@ void P_UnarchiveThinkers(void)
                 P_AddThinker(&mobj->thinker);
                 mobj->colfunc = mobj->info->colfunc;
                 mobj->altcolfunc = mobj->info->altcolfunc;
-                P_SetShadowColumnFunction(mobj);
                 thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
 
                 if ((mobj->flags & MF_COUNTKILL)
