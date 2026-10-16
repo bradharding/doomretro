@@ -64,6 +64,7 @@ typedef struct
     const byte              *tint;
     fixed_t                 top;
     fixed_t                 tz;
+    fixed_t                 shift;
     fixed_t                 spread;
     int                     height;
     int                     width;

@@ -1040,10 +1040,25 @@ bool R_PrepareShadows(void)
         caster->width = patch->width;
         caster->rows = patch->height;
         caster->clipy = viewheight;
+        caster->shift = 0;
 
         if (vis->drawfunc == &R_DrawVisSpriteClipped)
-            caster->clipy = (int)(((int64_t)centeryfrac - FixedMul(vis->texturemid, vis->scale)
-                + vis->footclip) >> FRACBITS);
+        {
+            const fixed_t   edge = (fixed_t)(((int64_t)centeryfrac - FixedMul(vis->texturemid, vis->scale)
+                                + vis->footclip) >> FRACBITS);
+
+            caster->clipy = edge;
+
+            // start the shadow at the clipped bottom edge of the sprite, rather than at its base on the floor
+            if (edge > centery && vis->gz < viewz)
+            {
+                const fixed_t   floordepth = FixedDiv(FixedMul(projection, viewz - vis->gz),
+                                    (edge << FRACBITS) - centeryfrac);
+                const fixed_t   cutheight = vis->texturemid + viewz - FixedDiv(vis->footclip, vis->scale) - vis->gz;
+
+                caster->shift = MAX(floordepth - vis->tz - cutheight / 2, 0);
+            }
+        }
 
         caster->center = (float)(vis->tx + halfwidth);
         caster->quad = (float)tilt / FRACUNIT / vis->tz;
@@ -1117,7 +1132,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
     for (unsigned int i = 0; i < numshadowcasters; i++)
     {
         const shadowcaster_t    *caster = &shadowcasters[i];
-        const fixed_t           behind = depth - caster->tz;
+        const fixed_t           behind = depth - caster->tz - caster->shift;
         const int64_t           up = ((int64_t)behind * SHADOWHEIGHTPERDEPTH) >> FRACBITS;
         const int64_t           reach = (int64_t)caster->top - planez;
         const float             halfwidth = caster->halfwidth;
