@@ -3210,11 +3210,11 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
     // [BH] Clip feet, cast shadow, don't bob if no "Retro bits" set.
     if (!mobjinfo[indexnum].flags2)
     {
-        mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+        mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_FOOTCLIP);
 
         if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
         {
-            mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
+            mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
 
             if (!(mobjinfo[indexnum].flags & MF_NOBLOOD) && (mobjinfo[indexnum].flags & MF_COUNTKILL))
                 mobjinfo[indexnum].bloodcolor = REDBLOOD;
@@ -3225,10 +3225,10 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
     if (!retrobits && indexnum != MT_PLAYER)
     {
-        mobjinfo[indexnum].flags2 |= MF2_FOOTCLIP;
+        mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_FOOTCLIP);
 
         if (mobjinfo[indexnum].flags & MF_SHOOTABLE)
-            mobjinfo[indexnum].flags2 |= (MF2_CASTSHADOW | MF2_NOLIQUIDBOB);
+            mobjinfo[indexnum].flags2 |= MF2_NOLIQUIDBOB;
         else if (mobjinfo[indexnum].flags & MF_SPECIAL)
             mobjinfo[indexnum].flags2 &= ~MF2_NOLIQUIDBOB;
         else
