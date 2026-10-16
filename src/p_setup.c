@@ -2635,29 +2635,36 @@ void P_CalcFakeContrast(void)
     {
         seg_t   *li = segs + i;
 
-        if (r_fakecontrast == r_fakecontrast_none)
-            li->fakecontrast = 0;
-        else if (r_fakecontrast == r_fakecontrast_vanilla)
+        li->fakecontrast = 0;
+
+        if (r_fakecontrast == r_fakecontrast_vanilla)
         {
             if (!li->dy)
-                li->fakecontrast = -LIGHTBRIGHT * 2;
+                li->fakecontrast = -FAKECONTRAST;
             else if (!li->dx)
-                li->fakecontrast = LIGHTBRIGHT * 2;
-            else
-                li->fakecontrast = 0;
+                li->fakecontrast = FAKECONTRAST;
         }
         else if (r_fakecontrast == r_fakecontrast_smooth)
         {
             if (!li->dy)
-                li->fakecontrast = -LIGHTBRIGHT * 2;
-            else if (ABS(finesine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
-                li->fakecontrast = -LIGHTBRIGHT;
+                li->fakecontrast = -FAKECONTRAST;
             else if (!li->dx)
-                li->fakecontrast = LIGHTBRIGHT * 2;
-            else if (ABS(finecosine[li->angle >> ANGLETOFINESHIFT]) < rightangle)
-                li->fakecontrast = LIGHTBRIGHT;
+                li->fakecontrast = FAKECONTRAST;
             else
-                li->fakecontrast = 0;
+            {
+                const angle_t   shifted = li->angle >> ANGLETOFINESHIFT;
+                const fixed_t   sine = ABS(finesine[shifted]);
+
+                if (sine < rightangle)
+                    li->fakecontrast = -FAKECONTRAST + (FAKECONTRAST * sine / rightangle);
+                else
+                {
+                    const fixed_t   cosine = ABS(finecosine[shifted]);
+
+                    if (cosine < rightangle)
+                        li->fakecontrast = FAKECONTRAST - (FAKECONTRAST * cosine / rightangle);
+                }
+            }
         }
     }
 }

@@ -74,6 +74,7 @@ extern fixed_t  fovtx;
 #define LIGHTSCALESHIFT     12
 #define MAXLIGHTZ           1024
 #define LIGHTZSHIFT         20
+#define FAKECONTRAST        (LIGHTBRIGHT * 2)
 
 #define OLDLIGHTLEVELS      32
 #define OLDLIGHTSEGSHIFT    3
