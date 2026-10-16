@@ -60,6 +60,7 @@ typedef struct
     int                     height;
     int                     width;
     int                     rows;
+    int                     clipy;
     float                   center;
     float                   quad;
     float                   edgeshift;

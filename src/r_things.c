@@ -1022,7 +1022,8 @@ bool R_PrepareShadows(void)
                 MAXTILTFACTOR) : 0);
         }
 
-        if ((squash = 1.0f + (float)tilt / FRACUNIT * (((float)(vis->tx + halfwidth) / vis->tz) - (float)skew / FRACUNIT)) < 0.25f)
+        if ((squash = 1.0f + (float)tilt / FRACUNIT * (((float)(vis->tx + halfwidth) / vis->tz)
+            - (float)skew / FRACUNIT)) < 0.25f)
             continue;
 
         caster = &shadowcasters[numshadowcasters];
@@ -1034,6 +1035,12 @@ bool R_PrepareShadows(void)
         caster->height = patch->height << FRACBITS;
         caster->width = patch->width;
         caster->rows = patch->height;
+        caster->clipy = viewheight;
+
+        if (vis->drawfunc == &R_DrawVisSpriteClipped)
+            caster->clipy = (int)(((int64_t)centeryfrac - FixedMul(vis->texturemid, vis->scale)
+                + vis->footclip) >> FRACBITS);
+
         caster->center = (float)(vis->tx + halfwidth);
         caster->quad = (float)tilt / FRACUNIT / vis->tz;
         caster->edgeshift = caster->quad * (float)halfwidth * halfwidth;
@@ -1112,7 +1119,7 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
                                     * invstep + centerx - 0.5f) - 1);
 
         if (up + caster->spread < 0 || reach - up + caster->spread < 0
-            || reach - up - caster->spread >= caster->height || xa > xb)
+            || reach - up - caster->spread >= caster->height || xa > xb || y >= caster->clipy)
             continue;
 
         if (caster->tilt)
