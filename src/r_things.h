@@ -37,6 +37,14 @@
 
 #define SHADOWHEIGHTPERDEPTH    (FRACUNIT * 2)
 #define SHADOWSKEW              (r_radiallighting ? FRACUNIT * 3 / 2 : FRACUNIT)
+#define SHADOWSWIRLSLACK        (FRACUNIT * 6)
+
+typedef struct
+{
+    fixed_t                 xfrac, yfrac;
+    fixed_t                 xstep, ystep;
+    fixed_t                 sin, cos;
+} shadowswirl_t;
 
 typedef struct
 {
@@ -109,4 +117,5 @@ void R_DrawMasked(void);
 void R_AddNearbySprites(sector_t *sec);
 void R_DrawNearbySprites(void);
 bool R_PrepareShadows(void);
-void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth, const fixed_t planez);
+void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth,
+    const fixed_t planez, const shadowswirl_t *swirl);

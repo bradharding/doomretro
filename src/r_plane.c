@@ -73,6 +73,7 @@ static fixed_t      planeheight;
 static fixed_t      planez;
 static fixed_t      spandepth;
 static bool         spanshadows;
+static bool         planeswirl;
 
 static fixed_t      xoffset, yoffset;           // killough 02/28/98: flat offsets
 
@@ -136,6 +137,7 @@ static void R_MapPlane(const int y, const int x1)
     fixed_t         anglesindistance;
     float           radiallightdistancebase;
     int             dx;
+    fixed_t         spanxfrac, spanyfrac;
 
     if (planeheight != cachedheight[y] || rotation != cachedangle[y] || centery != cachedcentery[y])
     {
@@ -172,6 +174,8 @@ static void R_MapPlane(const int y, const int x1)
     spandepth = ds_z;
     ds_xfrac = viewx_trans + anglecosdistance + dx * ds_xstep;
     ds_yfrac = viewy_trans - anglesindistance + dx * ds_ystep;
+    spanxfrac = ds_xfrac;
+    spanyfrac = ds_yfrac;
     ds_radiallightdistance = radiallightdistancebase + (float)dx * (float)dx * ds_radiallightstep;
     ds_radiallightdistancestep = (2.0f * (float)dx + 1.0f) * ds_radiallightstep;
     ds_y = y;
@@ -265,7 +269,11 @@ static void R_MapPlane(const int y, const int x1)
     }
 
     if (spanshadows && planez < viewz)
-        R_DrawSpanShadows(y, x1, ds_x2, spandepth, planez);
+    {
+        const shadowswirl_t swirl = { spanxfrac, spanyfrac, ds_xstep, ds_ystep, angle_sin, angle_cos };
+
+        R_DrawSpanShadows(y, x1, ds_x2, spandepth, planez, (planeswirl ? &swirl : NULL));
+    }
 }
 
 //
@@ -633,6 +641,16 @@ byte *R_SwirlingFlat(const int flatnum)
     return cache->distortedflat;
 }
 
+void R_GetSwirlOffset(const fixed_t xfrac, const fixed_t yfrac, int *dx, int *dy)
+{
+    const int   x = ((xfrac >> FRACBITS) & (SWIRLSIZE - 1));
+    const int   y = ((yfrac >> FRACBITS) & (SWIRLSIZE - 1));
+    const int   source = swirloffset[(y << 7) + x];
+
+    *dx = ((((source & (FLATSIZE - 1)) - x + FLATSIZE / 2) & (FLATSIZE - 1)) - FLATSIZE / 2);
+    *dy = ((((source >> 6) - y + FLATSIZE / 2) & (FLATSIZE - 1)) - FLATSIZE / 2);
+}
+
 static void DrawSkyTexture(visplane_t *pl, skytexture_t *texture, void func(void))
 {
     const int       texnum = R_TextureNumForName(texture->name);
@@ -674,6 +692,8 @@ void R_DrawPlanes(void)
             if (pl->modified && pl->left <= pl->right)
             {
                 const int   picnum = pl->picnum;
+
+                planeswirl = false;
 
                 if (picnum == skyflatnum)
                 {
@@ -846,6 +866,7 @@ void R_DrawPlanes(void)
                     if (terraintypes[picnum] >= LIQUID && r_liquid_swirl)
                     {
                         ds_source = R_SwirlingFlat(picnum);
+                        planeswirl = true;
                         ds_flatwidth = SWIRLSIZE;
                         ds_flatheight = SWIRLSIZE;
                     }

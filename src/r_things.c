@@ -1018,8 +1018,8 @@ bool R_PrepareShadows(void)
             const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
 
             tilt = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR)
-                + (r_sprites_tilt && !vis->liquidrockfactor ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, vis->tz) / 3,
-                MAXTILTFACTOR) : 0);
+                + (r_sprites_tilt && !vis->liquidrockfactor ? BETWEEN(-MAXTILTFACTOR,
+                -FixedDiv(tx, vis->tz) / 3, MAXTILTFACTOR) : 0);
         }
 
         if ((squash = 1.0f + (float)tilt / FRACUNIT * (((float)(vis->tx + halfwidth) / vis->tz)
@@ -1098,15 +1098,21 @@ static inline void R_DrawCasterShadowPixel(const shadowcaster_t *caster, const i
 //
 // R_DrawSpanShadows
 //
-void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth, const fixed_t planez)
+void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth,
+    const fixed_t planez, const shadowswirl_t *swirl)
 {
-    const float step = (float)depth * FRACUNIT / planenum;
-    float       invstep;
+    const float     step = (float)depth * FRACUNIT / planenum;
+    const fixed_t   slack = (swirl ? SHADOWSWIRLSLACK : 0);
+    float           invstep;
+    int             slackpixels = 0;
 
-    if (step <= 0.0f || depth < shadowmindepth)
+    if (step <= 0.0f || depth + slack < shadowmindepth)
         return;
 
     invstep = 1.0f / step;
+
+    if (swirl)
+        slackpixels = (int)((float)slack * 3.0f * invstep) + 1;
 
     for (unsigned int i = 0; i < numshadowcasters; i++)
     {
@@ -1118,15 +1124,51 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
         const float             origin = caster->center + (float)behind * caster->skew;
         const float             center = origin + caster->edgeshift;
         const int               xa = MAX(x1, (int)ceilf((center - caster->extent)
-                                    * invstep + centerx - 0.5f));
+                                    * invstep + centerx - 0.5f) - slackpixels);
         const int               xb = MIN(x2 - 1, (int)ceilf((center + caster->extent)
-                                    * invstep + centerx - 0.5f) - 1);
+                                    * invstep + centerx - 0.5f) - 1 + slackpixels);
 
-        if (up + caster->spread < 0 || reach - up + caster->spread < 0
-            || reach - up - caster->spread >= caster->height || xa > xb || y >= caster->clipy)
+        if (up + caster->spread + 2 * slack < 0 || reach - up + caster->spread + 2 * slack < 0
+            || reach - up - caster->spread - 2 * slack >= caster->height || xa > xb || y >= caster->clipy)
             continue;
 
-        if (caster->tilt)
+        if (swirl)
+        {
+            const float tilt = caster->tilt;
+
+            for (int x = xa; x <= xb; x++)
+            {
+                const int   dx = x - x1;
+                int         sx, sy;
+                float       lateral;
+                float       shadowbehind;
+                float       d;
+                float       disc;
+                float       w;
+                float       rowf;
+                int         row;
+
+                R_GetSwirlOffset(swirl->xfrac + dx * swirl->xstep, swirl->yfrac + dx * swirl->ystep, &sx, &sy);
+
+                shadowbehind = (float)behind + (float)(swirl->cos * sx - swirl->sin * sy);
+                lateral = (x - centerx + 0.5f) * step + (float)(swirl->sin * sx + swirl->cos * sy);
+                d = lateral - (caster->center + shadowbehind * caster->skew);
+                disc = caster->squash * caster->squash + 4.0f * caster->quad * d;
+
+                if (disc < 0.0f)
+                    continue;
+
+                w = 2.0f * d / (caster->squash + sqrtf(disc));
+                rowf = ((float)reach - shadowbehind * (SHADOWHEIGHTPERDEPTH / (float)FRACUNIT)
+                    + caster->rowtilt * w) * (1.0f / FRACUNIT);
+                row = (int)rowf;
+
+                if (shadowbehind - tilt * w >= 0.0f && rowf >= 0.0f && row < caster->rows
+                    && w >= -halfwidth && w < halfwidth)
+                    R_DrawCasterShadowPixel(caster, x, y, row, (w + halfwidth) * (1.0f / FRACUNIT));
+            }
+        }
+        else if (caster->tilt)
         {
             const float tilt = caster->tilt;
 

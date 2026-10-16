@@ -59,3 +59,4 @@ visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop);
 visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop);
 void R_InitSwirlingFlats(void);
 byte *R_SwirlingFlat(const int flatnum);
+void R_GetSwirlOffset(const fixed_t xfrac, const fixed_t yfrac, int *dx, int *dy);
