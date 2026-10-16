@@ -61,11 +61,14 @@ typedef struct
     int                     width;
     int                     rows;
     float                   center;
+    float                   quad;
+    float                   edgeshift;
     float                   halfwidth;
     float                   extent;
     float                   skew;
     float                   tilt;
     float                   rowtilt;
+    float                   squash;
     float                   invsquash;
     bool                    flipped;
     byte                    black;

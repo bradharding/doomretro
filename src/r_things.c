@@ -1059,12 +1059,15 @@ bool R_PrepareShadows(void)
         caster->height = patch->height << FRACBITS;
         caster->width = patch->width;
         caster->rows = patch->height;
-        caster->center = (float)(vis->tx + halfwidth) + (float)tilt / FRACUNIT * ((float)halfwidth * halfwidth / vis->tz);
+        caster->center = (float)(vis->tx + halfwidth);
+        caster->quad = (float)tilt / FRACUNIT / vis->tz;
+        caster->edgeshift = caster->quad * (float)halfwidth * halfwidth;
         caster->halfwidth = (float)halfwidth;
         caster->extent = (float)halfwidth * squash;
         caster->skew = (float)skew / FRACUNIT;
         caster->tilt = (float)tilt / FRACUNIT;
         caster->rowtilt = (SHADOWHEIGHTPERDEPTH / (float)FRACUNIT) * caster->tilt;
+        caster->squash = squash;
         caster->invsquash = 1.0f / squash;
         caster->flipped = vis->flipped;
         caster->black = vis->colormap[nearestblack];
@@ -1108,7 +1111,8 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
         const int64_t           reach = (int64_t)caster->top - planez;
         const float             tilt = caster->tilt;
         const float             halfwidth = caster->halfwidth;
-        const float             center = caster->center + (float)behind * caster->skew;
+        const float             origin = caster->center + (float)behind * caster->skew;
+        const float             center = origin + caster->edgeshift;
         float                   dw;
         float                   u;
         float                   du;
@@ -1147,13 +1151,22 @@ void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t de
             const rpost_t   *posts;
             int             c;
 
-            if (columnbehind < 0.0f || rowf < 0.0f)
-                continue;
-
             if (tilt)
-                row = (int)rowf;
+            {
+                const float d = (x - centerx + 0.5f) * step - origin;
+                const float disc = caster->squash * caster->squash + 4.0f * caster->quad * d;
 
-            if (row >= caster->rows)
+                if (disc < 0.0f)
+                    continue;
+
+                w = 2.0f * d / (caster->squash + sqrtf(disc));
+                u = (w + halfwidth) * (1.0f / FRACUNIT);
+                columnbehind = (float)behind - tilt * w;
+                rowf = ((float)(reach - up) + caster->rowtilt * w) * (1.0f / FRACUNIT);
+                row = (int)rowf;
+            }
+
+            if (columnbehind < 0.0f || rowf < 0.0f || row >= caster->rows)
                 continue;
 
             c = BETWEEN(0, (int)u, caster->width - 1);
