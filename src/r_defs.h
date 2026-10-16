@@ -1085,6 +1085,8 @@ typedef struct vissprite_s
     fixed_t             gz;
     fixed_t             gzt;
 
+    fixed_t             offground;
+
     // horizontal position of x1
     fixed_t             startfrac;
 

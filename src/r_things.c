@@ -1029,7 +1029,7 @@ bool R_PrepareShadows(void)
         caster = &shadowcasters[numshadowcasters];
 
         caster->columns = patch->columns;
-        caster->top = vis->texturemid + viewz;
+        caster->top = vis->texturemid + viewz - vis->offground;
 
         if ((vis->mobj->flags2 & MF2_FLOATBOB) && r_floatbob)
             caster->top -= floatbobdiffs[((vis->mobj->floatbob + maptime) & 63)];
@@ -1049,7 +1049,6 @@ bool R_PrepareShadows(void)
 
             caster->clipy = edge;
 
-            // start the shadow at the clipped bottom edge of the sprite, rather than at its base on the floor
             if (edge > centery && vis->gz < viewz)
             {
                 const fixed_t   floordepth = FixedDiv(FixedMul(projection, viewz - vis->gz),
@@ -1423,8 +1422,9 @@ static void R_ProjectSprite(mobj_t *thing)
     xscale = FixedDiv(projection, tz);
 
     // [PN] Pitch-aware: distances from centery to top/bottom screen rows.
-    if (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale)
-        || gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale))
+    if (gzt < (int64_t)viewz - FixedDiv((viewheight - centery) << FRACBITS, xscale)
+        || (fz > (int64_t)viewz + FixedDiv(centery << FRACBITS, xscale)
+            && !((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)))
         return;
 
     // calculate edges of the shape
@@ -1475,6 +1475,8 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gy = fy;
     vis->gz = sector->interpfloorheight;
     vis->gzt = gzt;
+    vis->offground = MAX(fz - (((flags2 & MF2_FLOATBOB) && r_floatbob) ?
+        floatbobdiffs[((thing->floatbob + maptime) & 63)] : 0) - vis->gz, 0);
 
     vis->flipped = flip;
     vis->fullbright = (fullbright = ((frame & FF_FULLBRIGHT) || thing->info->fullbright));
