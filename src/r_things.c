@@ -89,6 +89,7 @@ static fixed_t                  *spritebottomoffset;
 static shadowcaster_t           *shadowcasters;
 static unsigned int             numshadowcasters;
 static unsigned int             shadowcasters_alloc;
+static fixed_t                  shadowmindepth;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
@@ -1006,6 +1007,7 @@ static void R_DrawVisSpriteClipped(const vissprite_t *vis)
 bool R_PrepareShadows(void)
 {
     numshadowcasters = 0;
+    shadowmindepth = INT_MAX;
 
     if (!drawshadows || !num_vissprite)
         return false;
@@ -1021,28 +1023,65 @@ bool R_PrepareShadows(void)
         const vissprite_t   *vis = &vissprites[i];
         shadowcaster_t      *caster;
         const mobj_t        *mobj;
-        int                 black;
+        const rpatch_t      *patch;
+        fixed_t             halfwidth;
+        fixed_t             tilt = 0;
+        fixed_t             skew;
+        float               squash;
 
         if (!vis->shadow)
             continue;
 
-        mobj = vis->mobj;
-        caster = &shadowcasters[numshadowcasters++];
-        caster->vis = vis;
-        caster->patch = R_CachePatchNum(vis->patch + firstspritelump);
+        patch = R_CachePatchNum(vis->patch + firstspritelump);
+        halfwidth = patch->width * (FRACUNIT / 2);
+        skew = FixedMul(FixedDiv(vis->tx + halfwidth, vis->tz), SHADOWSKEW);
+
+        if (r_sprites_tilt || vis->liquidrockfactor)
+        {
+            const fixed_t   tr_x = vis->gx - viewx;
+            const fixed_t   tr_y = vis->gy - viewy;
+            const fixed_t   tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
+
+            tilt = BETWEEN(-MAXTILTFACTOR, vis->liquidrockfactor, MAXTILTFACTOR)
+                + (r_sprites_tilt && !vis->liquidrockfactor ? BETWEEN(-MAXTILTFACTOR, -FixedDiv(tx, vis->tz) / 3,
+                MAXTILTFACTOR) : 0);
+        }
+
+        if ((squash = 1.0f + (float)tilt / FRACUNIT * (((float)(vis->tx + halfwidth) / vis->tz) - (float)skew / FRACUNIT)) < 0.25f)
+            continue;
+
+        caster = &shadowcasters[numshadowcasters];
+
+        caster->columns = patch->columns;
         caster->top = vis->texturemid + viewz;
-        caster->skew = FixedMul(FixedDiv(vis->tx + caster->patch->width * FRACUNIT / 2, vis->tz), SHADOWSKEW);
+        caster->tz = vis->tz;
+        caster->spread = FixedMul(FixedMul(ABS(tilt), halfwidth), SHADOWHEIGHTPERDEPTH);
+        caster->height = patch->height << FRACBITS;
+        caster->width = patch->width;
+        caster->rows = patch->height;
+        caster->center = (float)(vis->tx + halfwidth) + (float)tilt / FRACUNIT * ((float)halfwidth * halfwidth / vis->tz);
+        caster->halfwidth = (float)halfwidth;
+        caster->extent = (float)halfwidth * squash;
+        caster->skew = (float)skew / FRACUNIT;
+        caster->tilt = (float)tilt / FRACUNIT;
+        caster->rowtilt = (SHADOWHEIGHTPERDEPTH / (float)FRACUNIT) * caster->tilt;
+        caster->invsquash = 1.0f / squash;
+        caster->flipped = vis->flipped;
         caster->black = vis->colormap[nearestblack];
-        black = caster->black << 8;
+
+        shadowmindepth = MIN(shadowmindepth, vis->tz - FixedMul(ABS(tilt), halfwidth));
+        mobj = vis->mobj;
 
         if (mobj->shadowcolfunc == R_DrawSolidShadowColumn)
             caster->tint = NULL;
         else if (mobj->flags & MF_FUZZ)
-            caster->tint = &tinttab15[black];
+            caster->tint = &tinttab15[caster->black << 8];
         else if (vis->fullbright || ((mobj->flags2 & (MF2_TRANSLUCENT_33 | MF2_EXPLODING)) && r_sprites_translucency))
-            caster->tint = &tinttab25[black];
+            caster->tint = &tinttab25[caster->black << 8];
         else
-            caster->tint = &tinttab40[black];
+            caster->tint = &tinttab40[caster->black << 8];
+
+        numshadowcasters++;
     }
 
     return !!numshadowcasters;
@@ -1054,44 +1093,72 @@ bool R_PrepareShadows(void)
 void R_DrawSpanShadows(const int y, const int x1, const int x2, const fixed_t depth, const fixed_t planez)
 {
     const float step = (float)depth * FRACUNIT / planenum;
+    float       invstep;
 
-    if (step <= 0.0f)
+    if (step <= 0.0f || depth < shadowmindepth)
         return;
+
+    invstep = 1.0f / step;
 
     for (unsigned int i = 0; i < numshadowcasters; i++)
     {
         const shadowcaster_t    *caster = &shadowcasters[i];
-        const vissprite_t       *vis = caster->vis;
-        const rpatch_t          *patch = caster->patch;
-        const int               patchwidth = patch->width;
-        const fixed_t           behind = depth - vis->tz;
-        fixed_t                 hit;
+        const fixed_t           behind = depth - caster->tz;
+        const int64_t           up = ((int64_t)behind * SHADOWHEIGHTPERDEPTH) >> FRACBITS;
+        const int64_t           reach = (int64_t)caster->top - planez;
+        const float             tilt = caster->tilt;
+        const float             halfwidth = caster->halfwidth;
+        const float             center = caster->center + (float)behind * caster->skew;
+        float                   dw;
+        float                   u;
+        float                   du;
+        float                   columnbehind;
+        float                   dcolumnbehind;
+        float                   rowf;
+        float                   drowf;
+        float                   w;
         int                     row;
-        float                   left;
-        float                   right;
         int                     xa;
         int                     xb;
 
-        if (behind < 0)
+        if (up + caster->spread < 0 || reach - up + caster->spread < 0
+            || reach - up - caster->spread >= caster->height)
             continue;
 
-        if ((hit = planez + FixedMul(behind, SHADOWHEIGHTPERDEPTH)) > caster->top)
+        xa = MAX(x1, (int)ceilf((center - caster->extent) * invstep + centerx - 0.5f));
+        xb = MIN(x2 - 1, (int)ceilf((center + caster->extent) * invstep + centerx - 0.5f) - 1);
+
+        if (xa > xb)
             continue;
 
-        if ((row = (caster->top - hit) >> FRACBITS) >= patch->height)
-            continue;
+        dw = step * caster->invsquash;
+        w = ((xa - centerx + 0.5f) * step - center) * caster->invsquash;
+        u = (w + halfwidth) * (1.0f / FRACUNIT);
+        du = dw * (1.0f / FRACUNIT);
+        columnbehind = (float)behind - tilt * w;
+        dcolumnbehind = -tilt * dw;
+        rowf = ((float)(reach - up) + caster->rowtilt * w) * (1.0f / FRACUNIT);
+        drowf = caster->rowtilt * du;
+        row = (int)rowf;
 
-        left = (float)(vis->tx + FixedMul(behind, caster->skew));
-        right = left + (float)(patchwidth << FRACBITS);
-        xa = MAX(x1, (int)ceilf(left / step + centerx - 0.5f));
-        xb = MIN(x2 - 1, (int)ceilf(right / step + centerx - 0.5f) - 1);
-
-        for (int x = xa; x <= xb; x++)
+        for (int x = xa; x <= xb; x++, u += du, columnbehind += dcolumnbehind, rowf += drowf)
         {
-            const float     u = ((x - centerx + 0.5f) * step - left) / FRACUNIT;
-            const int       c = BETWEEN(0, (int)u, patchwidth - 1);
-            const rcolumn_t *column = &patch->columns[vis->flipped ? patchwidth - 1 - c : c];
-            const rpost_t   *posts = column->posts;
+            const rcolumn_t *column;
+            const rpost_t   *posts;
+            int             c;
+
+            if (columnbehind < 0.0f || rowf < 0.0f)
+                continue;
+
+            if (tilt)
+                row = (int)rowf;
+
+            if (row >= caster->rows)
+                continue;
+
+            c = BETWEEN(0, (int)u, caster->width - 1);
+            column = &caster->columns[caster->flipped ? caster->width - 1 - c : c];
+            posts = column->posts;
 
             for (int p = 0; p < column->numposts; p++)
                 if (row >= posts[p].topdelta && row < posts[p].topdelta + posts[p].length)

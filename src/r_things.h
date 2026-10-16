@@ -52,11 +52,22 @@ typedef struct
 
 typedef struct
 {
-    const vissprite_t       *vis;
-    const rpatch_t          *patch;
+    const rcolumn_t         *columns;
     const byte              *tint;
     fixed_t                 top;
-    fixed_t                 skew;
+    fixed_t                 tz;
+    fixed_t                 spread;
+    int                     height;
+    int                     width;
+    int                     rows;
+    float                   center;
+    float                   halfwidth;
+    float                   extent;
+    float                   skew;
+    float                   tilt;
+    float                   rowtilt;
+    float                   invsquash;
+    bool                    flipped;
     byte                    black;
 } shadowcaster_t;
 
