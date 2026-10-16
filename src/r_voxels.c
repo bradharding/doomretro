@@ -893,24 +893,18 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y, const bool nearc
     int                 owner;
     int                 qux, quy;
     int                 quadrant;
-    int                 idx;
     fixed_t             px[4], py[4];
     fixed_t             ax, ay;
     fixed_t             bx, by;
     fixed_t             cx, cy;
     fixed_t             dx, dy;
-    fixed_t             ascale;
-    fixed_t             bscale;
-    fixed_t             cscale;
-    fixed_t             dscale;
-    byte                aface;
-    byte                bface;
+    fixed_t             ascale, bscale, cscale, dscale;
+    byte                aface, bface;
     byte                *dest;
     static const int    acorners[9] = { 3, 3, 2, 0, -1, 2, 0, 1, 1 };
     static const byte   afaces[9] = { F_BACK, F_BACK, F_RIGHT, F_LEFT, 0, F_RIGHT, F_LEFT, F_FRONT, F_FRONT };
     static const byte   bfaces[9] = { F_LEFT, 0, F_BACK, 0, 0, 0, F_FRONT, 0, F_RIGHT };
-    fixed_t             uxstart;
-    fixed_t             uxend;
+    fixed_t             uxstart, uxend;
     int64_t             slopeab = 0;
     int64_t             slopebc = 0;
     fixed_t             rocka = 0;
@@ -972,7 +966,8 @@ static void VX_DrawColumn(const vissprite_t *spr, int x, int y, const bool nearc
     }
     else
     {
-        idx = acorners[quadrant];
+        int idx = acorners[quadrant];
+
         ax = px[idx];
         ay = py[idx];
         idx = (idx + 1) & 3;

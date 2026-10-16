@@ -1643,7 +1643,6 @@ static void P_LoadThings(int map, int lump)
     for (thingid = 0; thingid < numthings; thingid++)
     {
         mapthing_t  mt = data[thingid];
-        bool        spawn = true;
         bool        anglefixed = false;
 
         // Do spawn all other stuff.
@@ -1653,7 +1652,7 @@ static void P_LoadThings(int map, int lump)
         mt.type = LITTLESHORT(mt.type);
         mt.options = LITTLESHORT(mt.options);
 
-        if ((spawn = P_FixThing(thingid, &mt, &anglefixed)))
+        if (P_FixThing(thingid, &mt, &anglefixed))
         {
             mobj_t  *thing;
 

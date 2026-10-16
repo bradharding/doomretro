@@ -3494,7 +3494,7 @@ static bool C_AutocompleteMatchesValue(const consolecmd_t *cvar, const char *tex
         double      current;
         char        buffer[255];
         char        *end;
-        const int   aliases = (cvar->variable == &r_gamma ? GAMMAVALUEALIAS : cvar->aliases);
+        const int   type = (cvar->variable == &r_gamma ? GAMMAVALUEALIAS : cvar->aliases);
 
         if (flags & CF_BOOLEAN)
             current = *(bool *)cvar->variable;
@@ -3527,15 +3527,12 @@ static bool C_AutocompleteMatchesValue(const consolecmd_t *cvar, const char *tex
         }
 
         for (int i = 0; *valuealiases[i].text; i++)
-            if (valuealiases[i].type == aliases && M_StringCompare(text, valuealiases[i].text))
+            if (valuealiases[i].type == type && M_StringCompare(text, valuealiases[i].text))
                 return (current == valuealiases[i].value);
 
         M_StringCopy(buffer, text, sizeof(buffer));
         M_StringReplaceAll(buffer, ",", "", false);
         value = strtod(buffer, &end);
-
-        if (flags & CF_FLOAT)
-            value = (float)value;
 
         return (end != buffer && (!*end || ((flags & CF_PERCENT) && M_StringCompare(end, "%")))
             && value == current);
@@ -3883,7 +3880,7 @@ bool C_Responder(event_t *ev)
                     showcaret = true;
                 }
                 else if ((outputhistory != -1 || (autoscrolling && autoscrolltotop)) && C_CanScrollOutput())
-                    C_ScrollToNewOutput();  // scroll to bottom
+                    C_ScrollToNewOutput();      // scroll to bottom
 
                 break;
 
