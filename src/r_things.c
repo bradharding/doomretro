@@ -1030,6 +1030,10 @@ bool R_PrepareShadows(void)
 
         caster->columns = patch->columns;
         caster->top = vis->texturemid + viewz;
+
+        if ((vis->mobj->flags2 & MF2_FLOATBOB) && r_floatbob)
+            caster->top -= floatbobdiffs[((vis->mobj->floatbob + maptime) & 63)];
+
         caster->tz = vis->tz;
         caster->spread = FixedMul(FixedMul(ABS(tilt), halfwidth), SHADOWHEIGHTPERDEPTH);
         caster->height = patch->height << FRACBITS;
