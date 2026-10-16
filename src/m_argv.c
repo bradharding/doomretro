@@ -39,20 +39,43 @@
 #include "m_misc.h"
 #include "w_file.h"
 
+#define MAXARGVS    100
+
 int     myargc;
 char    **myargv;
+
+static int M_CheckParmCharacter(const char **string)
+{
+    if ((unsigned char)(*string)[0] == 0xE2 && (unsigned char)(*string)[1] == 0x80
+        && ((unsigned char)(*string)[2] == 0x93 || (unsigned char)(*string)[2] == 0x94))
+    {
+        *string += 3;
+        return '-';
+    }
+
+    return tolower((unsigned char)*(*string)++);
+}
+
+static bool M_CheckParmCompare(const char *check, const char *arg)
+{
+    while (*check && *arg)
+        if (M_CheckParmCharacter(&check) != M_CheckParmCharacter(&arg))
+            return false;
+
+    return (!*check && !*arg);
+}
 
 //
 // M_CheckParm
 // Checks for the given parameter
 // in the program's command line arguments.
-// Returns the argument number (1 to argc-1)
+// Returns the argument number (1 to argc - 1)
 // or 0 if not present
 //
 int M_CheckParmWithArgs(const char *check, int start)
 {
     for (int i = start; i < myargc - 1; i++)
-        if (M_StringCompare(check, myargv[i]))
+        if (M_CheckParmCompare(check, myargv[i]))
             return i;
 
     return 0;
@@ -61,9 +84,9 @@ int M_CheckParmWithArgs(const char *check, int start)
 int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int start)
 {
     for (int i = start; i < myargc - 1; i++)
-        if ((*check1 && M_StringCompare(check1, myargv[i]))
-            || (*check2 && M_StringCompare(check2, myargv[i]))
-            || (*check3 && M_StringCompare(check3, myargv[i])))
+        if ((*check1 && M_CheckParmCompare(check1, myargv[i]))
+            || (*check2 && M_CheckParmCompare(check2, myargv[i]))
+            || (*check3 && M_CheckParmCompare(check3, myargv[i])))
             return i;
 
     return 0;
@@ -72,13 +95,11 @@ int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *che
 int M_CheckParm(const char *check)
 {
     for (int i = 1; i < myargc; i++)
-        if (M_StringCompare(check, myargv[i]))
+        if (M_CheckParmCompare(check, myargv[i]))
             return i;
 
     return 0;
 }
-
-#define MAXARGVS    100
 
 static void LoadResponseFile(size_t argv_index, const char *filename)
 {
