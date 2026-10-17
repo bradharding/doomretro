@@ -2536,9 +2536,18 @@ void bindfunc2(char *cmd, char *parms)
             }
             else
             {
+                const size_t    parm2length = strlen(parm2);
+
+                M_StripQuotes(parm2);
+
+                if (strlen(parm2) == parm2length)
+                {
+                    C_Warning(0, BOLD("%s") " isn't a valid action.", parm2);
+                    return;
+                }
+
                 if (controls[i].type == keyboardcontrol)
                 {
-                    M_StripQuotes(parm2);
                     M_StringCopy(keyactionlist[controls[i].value], parm2, sizeof(keyactionlist[0]));
                     M_SaveCVARs();
 
@@ -2554,13 +2563,17 @@ void bindfunc2(char *cmd, char *parms)
                 }
                 else if (controls[i].type == mousecontrol)
                 {
-                    M_StripQuotes(parm2);
                     M_StringCopy(mouseactionlist[controls[i].value], parm2, sizeof(mouseactionlist[0]));
                     M_SaveCVARs();
 
                     if (!nobindoutput)
                         C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.",
                             parm2, controls[i].control);
+                }
+                else
+                {
+                    C_Warning(0, "Only actions can be bound to the " BOLD("%s") " control.", controls[i].control);
+                    return;
                 }
             }
         }
