@@ -1568,19 +1568,25 @@ static void C_DrawBackground(void)
     const bool          inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     const int           height = (consoleheight + 5) * SCREENWIDTH;
     static byte         blurscreen[MAXSCREENAREA];
-    const unsigned int  prevbigseed = bigseed;
+    static byte         noise[MAXSCREENAREA + 1];
+    static int          noisecount;
+    static unsigned int noiseseed = 666;
+    static const int    refraction[4] = { 3, 1, -1, -3 };
+    static const int    shading[4] = { -1, 2, 4, 7 };
+    static const int    dither[4] = { 0, 2, 3, 1 };
+    const byte          *backcolor = (inverted ? consolebackcolor2 : consolebackcolor1);
+    const byte          *highlight = &tinttab5[nearestwhite << 8];
+    const int           glassheight = height - 3 * SCREENWIDTH;
 
-    // apply random noise to background
-    M_BigSeed(666);
+    for (; noisecount <= height && noisecount <= MAXSCREENAREA; noisecount++)
+        noise[noisecount] = (byte)(((noiseseed = 214013 * noiseseed + 2531011) >> 16) & 7);
 
-    for (int i = height; i >= 0; i--)
-        screens[0][i] = colormaps[0][M_BigRandomInt(0, 7) * 256 + screens[0][i]];
+    for (int i = 0; i < height; i++)
+        blurscreen[i] = colormaps[0][noise[height - i] * 256 + screens[0][i]];
 
-    M_BigSeed(prevbigseed);
+    screens[0][height] = colormaps[0][noise[0] * 256 + screens[0][height]];
 
     // blur background
-    memcpy(blurscreen, screens[0], height);
-
     for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
@@ -1618,16 +1624,34 @@ static void C_DrawBackground(void)
             screens[0][i] = consolebackcolor1[blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
+    for (int y = 0, row = 0; y < height; y += SCREENWIDTH, row++)
     {
-        for (int x = y + 2; x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+        byte        *dest = &screens[0][y];
+        byte        *src = &blurscreen[y];
+        const int   gradient = row * 12 / SCREENHEIGHT;
 
-        for (int x = (y += SCREENWIDTH) + 1; x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+        if (y >= glassheight)
+        {
+            for (int x = 0; x < SCREENWIDTH; x++)
+                dest[x] = backcolor[src[x]];
 
-        for (int x = (y += SCREENWIDTH); x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+            continue;
+        }
+
+        for (int x = 0; x < SCREENWIDTH; x++)
+        {
+            const int   phase = (x + row - consoleheight) & 3;
+            const int   sx = BETWEEN(0, x + refraction[phase], SCREENWIDTH - 1);
+            byte        color = backcolor[src[sx]];
+            int         shade = (gradient >> 2) + ((gradient & 3) > dither[(x & 1) | ((row & 1) << 1)]);
+
+            if (shading[phase] < 0)
+                color = highlight[color];
+            else
+                shade += shading[phase];
+
+            dest[x] = (shade ? colormaps[0][MIN(shade, 31) * 256 + color] : color);
+        }
     }
 
     // draw bottom edge
