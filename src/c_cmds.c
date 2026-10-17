@@ -419,6 +419,7 @@ action_t actions[] =
     { "+pistol",         "+pistol",         true,  false, pistolactionfunc,         &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
     { "+plasmarifle",    "+plasmarifle",    true,  false, plasmarifleactionfunc,    &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
     { "+prevweapon",     "+prevweapon",     true,  false, prevweaponactionfunc,     &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
+    { "+quickmelee",     "+quickmelee",     true,  false, NULL,                     &keyboardquickmelee,     &keyboardquickmelee2,     &mousequickmelee,     &controllerquickmelee,     NULL            },
     { "+quickswitch",    "+quickswitch",    true,  false, quickswitchactionfunc,    &keyboardquickswitch,    &keyboardquickswitch2,    &mousequickswitch,    &controllerquickswitch,    NULL            },
     { "+right",          "+right",          true,  false, rightactionfunc,          &keyboardright,          &keyboardright2,          &mouseright,          &controllerright,          NULL            },
     { "+rocketlauncher", "+rocketlauncher", true,  false, rocketlauncheractionfunc, &keyboardrocketlauncher, &keyboardrocketlauncher2, &mouserocketlauncher, &controllerrocketlauncher, NULL            },

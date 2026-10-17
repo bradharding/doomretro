@@ -15,6 +15,7 @@
 * Animated flats visible in the menu’s background no longer stop animating when the console is open over the menu, nor as the screen fades to black when quitting.
 * When opening the console using the <kbd><b>~</b></kbd> key, you may now hold the key down slightly longer for the console to cover the entire screen. Also, when the `m_pointer` CVAR is `on` and the console is open halfway, you may now click and drag the console’s edge downwards with the mouse to cover the entire screen.
 * Improvements have been made to wrapping long lines of text in the console.
+* A new `+quickmelee` action has been added that, while held down, switches to the player’s chainsaw (or fists if they don’t have one) and attacks with it, and then switches back to the weapon they had equipped once released. It is unbound by default, but can be bound to a control using the `bind` CCMD.
 * Individual lump files (with the extension `.lmp`) can now be loaded, either using the command-line, the `autoload` folder or the WAD launcher.
 * A text caret better resembling the text is now displayed when editing a savegame description in the save game menu.
 * When selecting a savegame description in the save game menu with the mouse, the text caret is now positioned at the end of the description if it is updated to the name of the current map.

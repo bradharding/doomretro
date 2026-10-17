@@ -342,6 +342,91 @@ void G_LastWeapon(void)
     }
 }
 
+static weapontype_t quickmeleeweapon = wp_nochange;     // weapon to return to
+static weapontype_t quickmeleelastweapon = wp_nochange;
+static bool         quickmeleereturning;
+
+void G_ResetQuickMelee(void)
+{
+    quickmeleeweapon = wp_nochange;
+    quickmeleelastweapon = wp_nochange;
+    quickmeleereturning = false;
+}
+
+//
+// G_QuickMelee
+// While the quick melee control is held, switch to the chainsaw or fists (if a melee weapon isn't
+// already equipped) and attack with it. Once released, switch back to the previous weapon.
+//
+static void G_QuickMelee(ticcmd_t *cmd, const bool held)
+{
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  currentweapon = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+
+    if (viewplayer->health <= 0)
+    {
+        G_ResetQuickMelee();
+        return;
+    }
+
+    if (quickmeleereturning)
+    {
+        if (held)
+            G_ResetQuickMelee();
+        else if (pendingweapon != wp_nochange)
+            return;
+        else
+        {
+            if (readyweapon == quickmeleeweapon)
+                viewplayer->lastweapon = quickmeleelastweapon;
+
+            G_ResetQuickMelee();
+            return;
+        }
+    }
+
+    if (quickmeleeweapon != wp_nochange)
+    {
+        if (!held)
+        {
+            if (readyweapon == quickmeleeweapon)
+            {
+                // the melee weapon hasn't come up yet, so just cancel the switch
+                viewplayer->pendingweapon = wp_nochange;
+                viewplayer->lastweapon = quickmeleelastweapon;
+                G_ResetQuickMelee();
+            }
+            else
+            {
+                // switch back to the weapon that was equipped before
+                cmd->buttons |= (BT_CHANGE | BT_NOBEST | (quickmeleeweapon << BT_WEAPONSHIFT));
+                quickmeleereturning = true;
+            }
+
+            return;
+        }
+
+        // another weapon was selected, so don't switch back
+        if (cmd->buttons & BT_CHANGE)
+        {
+            G_ResetQuickMelee();
+            return;
+        }
+    }
+    else if (held && !(cmd->buttons & BT_CHANGE) && currentweapon != wp_fist && currentweapon != wp_chainsaw)
+    {
+        quickmeleeweapon = currentweapon;
+        quickmeleelastweapon = viewplayer->lastweapon;
+        cmd->buttons |= (BT_CHANGE | BT_NOBEST
+            | ((viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist) << BT_WEAPONSHIFT));
+        return;
+    }
+
+    if (held && (readyweapon == wp_fist || readyweapon == wp_chainsaw))
+        cmd->buttons |= BT_ATTACK;
+}
+
 //
 // G_CheckAutoFire
 // Check if there's a monster in front of the player that can be targeted
@@ -727,6 +812,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
     }
 
+    if (!(viewplayer->cheats & CF_FREEZE))
+        G_QuickMelee(cmd, (gamekeydown[keyboardquickmelee] || gamekeydown[keyboardquickmelee2]
+            || mousebuttons[mousequickmelee] || (controllerbuttons & controllerquickmelee)));
+
     if (m_doubleclick_use)
     {
         bool    bstrafe;
@@ -854,6 +943,7 @@ static void G_SetInitialWeapon(void)
         wp_fist : wp_pistol);
     viewplayer->pendingweapon = viewplayer->readyweapon;
     viewplayer->lastweapon = wp_nochange;
+    G_ResetQuickMelee();
 
     for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = maxammo[i];

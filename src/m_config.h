@@ -1157,7 +1157,9 @@ enum
 #define KEYGRID2_DEFAULT                        0
 #define KEYJUMP_DEFAULT                         0
 #define KEYJUMP2_DEFAULT                        0
+#define KEYQUICKMELEE_DEFAULT                   0
 #define KEYQUICKSWITCH_DEFAULT                  0
+#define KEYQUICKMELEE2_DEFAULT                  0
 #define KEYQUICKSWITCH2_DEFAULT                 0
 #define KEYLEFT_DEFAULT                         KEY_LEFTARROW
 #define KEYLEFT2_DEFAULT                        0
@@ -1245,6 +1247,7 @@ enum
 #define MOUSEFULLZOOM_DEFAULT                   -1
 #define MOUSEGRID_DEFAULT                       -1
 #define MOUSEJUMP_DEFAULT                       -1
+#define MOUSEQUICKMELEE_DEFAULT                 -1
 #define MOUSEQUICKSWITCH_DEFAULT                -1
 #define MOUSELEFT_DEFAULT                       -1
 #define MOUSEMARK_DEFAULT                       -1
@@ -1296,6 +1299,7 @@ enum
 #define CONTROLLERFULLZOOM_DEFAULT              0
 #define CONTROLLERGRID_DEFAULT                  0
 #define CONTROLLERJUMP_DEFAULT                  0
+#define CONTROLLERQUICKMELEE_DEFAULT            0
 #define CONTROLLERQUICKSWITCH_DEFAULT           0
 #define CONTROLLERLEFT_DEFAULT                  0
 #define CONTROLLERMARK_DEFAULT                  0

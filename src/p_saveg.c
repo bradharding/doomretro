@@ -719,6 +719,7 @@ static void saveg_read_player_t(void)
     viewplayer->itemspickedup_ammo_fuel = saveg_read32();
     viewplayer->lastweapon = (P_SaveGameVersionAtLeast(savegameversion_6_4) ?
         (weapontype_t)saveg_read_enum() : wp_nochange);
+    G_ResetQuickMelee();
 }
 
 static void saveg_write_player_t(void)
