@@ -450,7 +450,7 @@ static bool PIT_CheckThing(mobj_t *thing)
             && (type != MT_VASSAGOFLAME || !legacyofrust)
             && !(id24nummobjs > 14 && tmtype == id24firstmobj + 14))
         || (flags & MF_DROPPED))
-        && !thing->nudge && tmthing->z == tmthing->floorz
+        && !thing->nudge && tmthing->z == tmthing->floorz && !(corpse && (tmflags & MF_CORPSE))
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
