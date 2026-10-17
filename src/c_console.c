@@ -1380,8 +1380,6 @@ void C_Init(void)
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00.00", true);
-
-    M_TranslateAutocomplete();
 }
 
 void C_ShowConsole(bool reset)
@@ -3525,77 +3523,10 @@ bool C_ValidateInput(char *input)
     return false;
 }
 
-static bool C_AutocompleteMatchesValue(const consolecmd_t *cvar, const char *text)
-{
-    const int   flags = cvar->flags;
-
-    if (flags & (CF_STRING | CF_OTHER))
-    {
-        const char      *value = *(char **)cvar->variable;
-        const size_t    len = strlen(text);
-
-        return (M_StringCompare(text, value)
-            || (len >= 2 && text[0] == '"' && text[len - 1] == '"'
-                && strlen(value) == len - 2 && !strncasecmp(text + 1, value, len - 2)));
-    }
-    else if (flags & (CF_BOOLEAN | CF_INTEGER | CF_FLOAT))
-    {
-        double      value;
-        double      current;
-        char        buffer[255];
-        char        *end;
-        const int   type = (cvar->variable == &r_gamma ? GAMMAVALUEALIAS : cvar->aliases);
-
-        if (flags & CF_BOOLEAN)
-            current = *(bool *)cvar->variable;
-        else if (flags & CF_FLOAT)
-            current = *(float *)cvar->variable;
-        else
-        {
-            int integer = *(int *)cvar->variable;
-
-            if (gamestate == GS_LEVEL)
-            {
-                if (M_StringCompare(cvar->name, "ammo"))
-                {
-                    const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
-
-                    integer = (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
-                }
-                else if (M_StringCompare(cvar->name, "armor"))
-                    integer = viewplayer->armor;
-                else if (M_StringCompare(cvar->name, "armortype"))
-                    integer = viewplayer->armortype;
-                else if (M_StringCompare(cvar->name, "health"))
-                    integer = (negativehealth && minuspatch && !viewplayer->health ?
-                        viewplayer->negativehealth : viewplayer->health);
-                else if (M_StringCompare(cvar->name, "weapon"))
-                    integer = viewplayer->readyweapon;
-            }
-
-            current = integer;
-        }
-
-        for (int i = 0; *valuealiases[i].text; i++)
-            if (valuealiases[i].type == type && M_StringCompare(text, valuealiases[i].text))
-                return (current == valuealiases[i].value);
-
-        M_StringCopy(buffer, text, sizeof(buffer));
-        M_StringReplaceAll(buffer, ",", "", false);
-        value = strtod(buffer, &end);
-
-        return (end != buffer && (!*end || ((flags & CF_PERCENT) && M_StringCompare(end, "%")))
-            && value == current);
-    }
-
-    return false;
-}
-
 bool C_Responder(event_t *ev)
 {
-    static int  autocomplete = -1;
-    int         i;
-    int         len;
+    int i;
+    int len;
 
     if (ev->type == ev_keyup && (ev->data1 == keyboardconsole || ev->data1 == keyboardconsole2))
     {
@@ -3660,7 +3591,6 @@ bool C_Responder(event_t *ev)
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-                    autocomplete = -1;
                     inputhistory = -1;
                 }
                 else if (caretpos > 0)
@@ -3687,7 +3617,6 @@ bool C_Responder(event_t *ev)
                     selectend = selectstart = caretpos = start;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-                    autocomplete = -1;
                     inputhistory = -1;
                 }
 
@@ -3706,7 +3635,6 @@ bool C_Responder(event_t *ev)
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-                    autocomplete = -1;
                     inputhistory = -1;
                 }
                 else if (caretpos < len)
@@ -3732,7 +3660,6 @@ bool C_Responder(event_t *ev)
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
-                    autocomplete = -1;
                     inputhistory = -1;
                 }
 
@@ -3782,7 +3709,6 @@ bool C_Responder(event_t *ev)
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         undolevels = 0;
-                        autocomplete = -1;
                         inputhistory = -1;
 
                         if (!autoscrolling)
@@ -3938,125 +3864,20 @@ bool C_Responder(event_t *ev)
                 // autocomplete
                 if (consoleinput[0] != '\0' && caretpos == len)
                 {
-                    const int       scrolldirection = ((modstate & KMOD_SHIFT) ? -1 : 1);
-                    const int       start = autocomplete;
-                    const bool      singlecommand = (M_StringStartsWith(consoleinput, "bind ")
-                                        || M_StringStartsWith(consoleinput, "unbind ")
-                                        || M_StringStartsWith(consoleinput, "alias "));
-                    static char     input[255];
-                    char            prefix[255] = "";
-                    int             spaces1;
-                    bool            endspace1;
-                    bool            cvarvalue = false;
-                    consolecmd_t    *cvar = NULL;
+                    char    buffer[255];
+                    int     newcaret;
 
-                    for (i = len - 1; i >= 0; i--)
-                        if ((!singlecommand && consoleinput[i] == ';')
-                            || (consoleinput[i] == '"'
-                                && M_StringStartsWith(consoleinput, "bind ")))
-                            break;
+                    M_StringCopy(buffer, consoleinput, sizeof(buffer));
 
-                    if (i == len)
+                    if (C_Autocomplete(buffer, sizeof(buffer), &newcaret, (modstate & KMOD_SHIFT)))
                     {
-                        if (autocomplete == -1)
-                            M_StringCopy(input, consoleinput, sizeof(input));
+                        C_AddToUndoHistory();
+                        M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                        caretpos = selectstart = selectend = newcaret;
+                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                        showcaret = true;
+                        return true;
                     }
-                    else
-                    {
-                        char    *temp1;
-
-                        i++;
-
-                        while (i < len && isspace((unsigned char)consoleinput[i]))
-                            i++;
-
-                        temp1 = M_SubString(consoleinput, 0, i);
-                        M_StringCopy(prefix, temp1, sizeof(prefix));
-                        free(temp1);
-
-                        if (autocomplete == -1)
-                        {
-                            char    *temp2 = M_SubString(consoleinput, i, (size_t)len - i);
-
-                            M_StringCopy(input, temp2, sizeof(input));
-                            free(temp2);
-
-                            if (!*input)
-                                break;
-                        }
-                    }
-
-                    spaces1 = numspaces(input);
-                    endspace1 = (input[strlen(input) - 1] == ' ');
-
-                    if (spaces1 == 1 && endspace1)
-                    {
-                        char    cmd[255];
-
-                        M_StringCopy(cmd, input, sizeof(cmd));
-                        cmd[strlen(cmd) - 1] = '\0';
-                        cvar = &consolecmds[C_GetIndex(cmd)];
-                        cvarvalue = (cvar->type == CT_CVAR);
-                    }
-
-                    while ((scrolldirection == -1 && autocomplete > 0)
-                        || (scrolldirection == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
-                    {
-                        static char output[255];
-
-                        autocomplete += scrolldirection;
-                        M_StringCopy(output, autocompletelist[autocomplete].text, sizeof(output));
-
-                        if (!M_StringCompare(output, input))
-                        {
-                            const int   game = autocompletelist[autocomplete].game;
-                            const int   len2 = (int)strlen(output);
-                            const int   spaces2 = numspaces(output);
-                            const bool  endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
-
-                            if ((game == DOOM1AND2
-                                || (gamemission == pack_plut && game == PLUTONIAONLY)
-                                || (gamemission == pack_tnt && game == TNTONLY)
-                                || (gamemission == pack_nerve && game == NERVEONLY)
-                                || (gamemission == pack_masterlevels && game == MASTERLEVELSONLY)
-                                || ((legacyofrust || id24res) && game == LEGACYOFRUSTONLY)
-                                || (gamemission == doom && game == DOOM1ONLY)
-                                || (gamemission != doom && game == DOOM2ONLY))
-                                && M_StringStartsWith(output, input)
-                                && input[strlen(input) - 1] != '+'
-                                && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
-                                    || (spaces1 == 1 && (!endspace1 || cvarvalue)
-                                        && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
-                                    || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
-                                    || (spaces1 == 3 && !endspace1)))
-                            {
-                                char    *temp;
-
-                                if (start == -1 && cvarvalue
-                                    && C_AutocompleteMatchesValue(cvar, output + strlen(input)))
-                                    continue;
-
-                                if (isuppercase(input))
-                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(uppercase(output), input, input),
-                                        NULL);
-                                else if (islowercase(input))
-                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(lowercase(output), input, input),
-                                        NULL);
-                                else
-                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
-
-                                C_AddToUndoHistory();
-                                M_StringCopy(consoleinput, temp, sizeof(consoleinput));
-                                caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
-                                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                                showcaret = true;
-                                free(temp);
-                                return true;
-                            }
-                        }
-                    }
-
-                    autocomplete = start;
                 }
 
                 break;
@@ -4290,7 +4111,6 @@ bool C_Responder(event_t *ev)
                 caretpos = selectstart = selectend = pos + 2;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
-                autocomplete = -1;
                 inputhistory = -1;
             }
 
@@ -4332,7 +4152,6 @@ bool C_Responder(event_t *ev)
             selectstart = selectend = caretpos;
             caretwait = I_GetTimeMS() + CARETBLINKTIME;
             showcaret = true;
-            autocomplete = -1;
             inputhistory = -1;
         }
 

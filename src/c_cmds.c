@@ -11597,7 +11597,6 @@ static void englishfunc2(char *cmd, char *parms)
     {
         ST_InitStatBar();
         D_TranslateDehStrings();
-        M_TranslateAutocomplete();
     }
 }
 

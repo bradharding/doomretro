@@ -208,12 +208,6 @@ typedef struct
     const int       adjust;
 } kern_t;
 
-typedef struct
-{
-    char            text[255];
-    const int       game;
-} autocomplete_t;
-
 extern patch_t          *consolefont[CONSOLEFONTSIZE];
 extern patch_t          *lsquote;
 extern patch_t          *ldquote;
@@ -262,8 +256,7 @@ extern bool             gotoverlaytextcolors;
 extern const kern_t     kern[];
 extern const kern_t     altkern[];
 
-extern autocomplete_t   autocompletelist[];
-
+bool C_Autocomplete(char *input, const size_t size, int *caret, const bool reverse);
 void C_CreateTimeStamp(const int index);
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);

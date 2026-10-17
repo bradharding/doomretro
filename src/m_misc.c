@@ -1358,16 +1358,6 @@ void M_BritishToAmericanEnglish(char *string)
         M_Translate(string, words[i][1], words[i][0]);
 }
 
-void M_TranslateAutocomplete(void)
-{
-    if (english == english_american)
-        for (int i = 0; *autocompletelist[i].text; i++)
-            M_BritishToAmericanEnglish(autocompletelist[i].text);
-    else
-        for (int i = 0; *autocompletelist[i].text; i++)
-            M_AmericanToBritishEnglish(autocompletelist[i].text);
-}
-
 const char *dayofweek(int day, int month, int year)
 {
     const int   adjustment = (14 - month) / 12;

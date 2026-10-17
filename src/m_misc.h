@@ -131,5 +131,4 @@ const char *pronoun(const pronoun_t type);
 bool isdefaultplayername(void);
 void M_AmericanToBritishEnglish(char *string);
 void M_BritishToAmericanEnglish(char *string);
-void M_TranslateAutocomplete(void);
 const char *dayofweek(int day, int month, int year);
