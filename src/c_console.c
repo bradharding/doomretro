@@ -144,6 +144,7 @@ bool                    pathoverlay;
 
 char                    consolecheat[255];
 char                    consolecheatparm[3];
+bool                    consoleparmsquoted;
 
 static int              inputhistory = -1;
 int                     outputhistory = -1;
@@ -473,15 +474,9 @@ void C_Warning(const int warninglevel, const char *string, ...)
     C_ScrollToNewOutput();
 }
 
-void C_PlayerMessage(const char *string, ...)
+static void C_AddPlayerMessage(char *buffer, const bool capitalize)
 {
-    va_list     args;
-    char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = (numconsolestrings > 0 ? numconsolestrings - 1 : 0);
-
-    va_start(args, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
-    va_end(args);
 
     if (numconsolestrings > 0 && console[i].stringtype == playermessagestring
         && M_StringCompare(console[i].string, buffer) && groupmessages)
@@ -502,7 +497,10 @@ void C_PlayerMessage(const char *string, ...)
         C_StoreConsoleString(console[numconsolestrings].string, buffer, sizeof(console[0].string));
         console[numconsolestrings].stringtype = playermessagestring;
         C_CreateTimeStamp(numconsolestrings);
-        console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
+
+        if (capitalize)
+            console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
+
         console[numconsolestrings].indent = 0;
         memset(console[numconsolestrings].wrap, 0, sizeof(console[0].wrap));
         console[numconsolestrings].wrapwidth = 0;
@@ -510,6 +508,30 @@ void C_PlayerMessage(const char *string, ...)
     }
 
     C_ScrollToNewOutput();
+}
+
+void C_PlayerMessage(const char *string, ...)
+{
+    va_list args;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
+
+    C_AddPlayerMessage(buffer, true);
+}
+
+void C_PlayerMessageAsIs(const char *string, ...)
+{
+    va_list args;
+    char    buffer[CONSOLETEXTMAXLENGTH];
+
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
+
+    C_AddPlayerMessage(buffer, false);
 }
 
 void C_PlayerWarning(const char *string, ...)
@@ -3447,9 +3469,13 @@ bool C_ValidateInput(char *input)
 
             if (sscanf(input, "%127s %127[^\n]", cmd, parms) > 0)
             {
-                char    *temp = M_StringDuplicate(parms);
+                char            *temp = M_StringDuplicate(parms);
+                const size_t    parmslength = strlen(temp);
 
-                if (!(strlen(temp) == 2 && temp[0] == '"' && temp[1] == '"'))
+                consoleparmsquoted = (parmslength >= 2
+                    && (temp[0] == '"' || temp[0] == '\x93') && (temp[parmslength - 1] == '"' || temp[parmslength - 1] == '\x94'));
+
+                if (!(parmslength == 2 && temp[0] == '"' && temp[1] == '"'))
                     M_StripQuotes(temp);
 
                 if ((M_StringCompare(cmd, consolecmds[i].name)

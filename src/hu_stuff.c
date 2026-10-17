@@ -2241,7 +2241,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, bool group, bool external)
+static void HU_AddPlayerMessage(char *message, bool group, bool external, const bool capitalize)
 {
     char        buffer[256] = "";
     const int   len = (int)strlen(message);
@@ -2264,13 +2264,28 @@ void HU_PlayerMessage(char *message, bool group, bool external)
             buffer[j++] = message[i];
         }
 
-    buffer[0] = toupper(buffer[0]);
-    C_PlayerMessage(buffer);
+    if (capitalize)
+    {
+        buffer[0] = toupper(buffer[0]);
+        C_PlayerMessage(buffer);
+    }
+    else
+        C_PlayerMessageAsIs(buffer);
 
     if (gamestate == GS_LEVEL && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, group, external);
 
     viewplayer->prevmessagetics = gametime;
+}
+
+void HU_PlayerMessage(char *message, bool group, bool external)
+{
+    HU_AddPlayerMessage(message, group, external, true);
+}
+
+void HU_PlayerMessageAsIs(char *message, bool group, bool external)
+{
+    HU_AddPlayerMessage(message, group, external, false);
 }
 
 void HU_ClearMessages(void)

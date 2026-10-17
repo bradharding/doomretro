@@ -252,6 +252,7 @@ extern bool             pathoverlay;
 
 extern char             consolecheat[255];
 extern char             consolecheatparm[3];
+extern bool             consoleparmsquoted;
 extern int              outputhistory;
 
 extern bool             dontrestoremousepointeronshow;
@@ -275,6 +276,7 @@ void C_TabbedOutput(const int tabs[MAXTABS], const char *string, ...);
 void C_Header(const int tabs[MAXTABS], patch_t *header, const char *string);
 void C_Warning(const int warninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
+void C_PlayerMessageAsIs(const char *string, ...);
 void C_PlayerWarning(const char *string, ...);
 char *C_GetPlayerName(void);
 void C_ResetWrappedLines(void);

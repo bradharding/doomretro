@@ -107,7 +107,7 @@
 #define PISTOLSTARTFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
 #define PLAYFORMAT                      BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
 #define NAMEFORMAT                      "[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTFORMAT                     "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
+#define PRINTFORMAT                     BOLD("\x93") BOLDITALICS("message") BOLD("\x94") "|" BOLDITALICS("CVAR")
 #define REGENHEALTHFORMAT               "[" BOLD("on") "|" BOLD("off") "]"
 #define REMOVEFORMAT                    BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
                                         BOLDITALICS("item") "|" BOLD("everything")
@@ -973,7 +973,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", "", nullfunc1, playerstatsfunc2, false, "",
         "Shows stats about you."),
     CCMD(print, "", "", ingameccmdfunc1, printfunc2, true, PRINTFORMAT,
-        "Prints a player " BOLDITALICS("\"message\"") "."),
+        "Prints a player " BOLDITALICS("\"message\"") " or the value of a " BOLDITALICS("CVAR") "."),
     CCMD(quit, "", exit, nullfunc1, quitfunc2, false, "",
         "Quits to the " DESKTOP "."),
     BOOLCVAR(r_antialiasing, "", "", boolfunc1, r_antialiasingfunc2, 0,
@@ -8530,8 +8530,100 @@ static void palettefunc2(char *cmd, char *parms)
 //
 // print CCMD
 //
+static bool C_GetCVARValueString(const int index, char *buffer, const int size)
+{
+    const consolecmd_t  *cvar = &consolecmds[index];
+    const int           flags = cvar->flags;
+    const char          *name = cvar->name;
+
+    if (flags & CF_BOOLEAN)
+    {
+        char    *temp = C_LookupAliasFromValue(*(bool *)cvar->variable, cvar->aliases);
+
+        M_StringCopy(buffer, temp, size);
+        free(temp);
+    }
+    else if (flags & CF_INTEGER)
+    {
+        int     value = *(int *)cvar->variable;
+        char    *temp;
+
+        if (gamestate == GS_LEVEL)
+        {
+            if (M_StringCompare(name, stringize(ammo)))
+            {
+                const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+
+                value = (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
+            }
+            else if (M_StringCompare(name, stringize(armor)))
+                value = viewplayer->armor;
+            else if (M_StringCompare(name, stringize(armortype)))
+                value = viewplayer->armortype;
+            else if (M_StringCompare(name, stringize(health)))
+                value = (negativehealth && minuspatch && !viewplayer->health ?
+                    viewplayer->negativehealth : viewplayer->health);
+            else if (M_StringCompare(name, stringize(weapon)))
+                value = viewplayer->readyweapon;
+        }
+
+        temp = C_LookupAliasFromValue(value, cvar->aliases);
+        M_snprintf(buffer, size, "%s%s", temp, ((flags & CF_PERCENT) ? "%" : ""));
+        free(temp);
+    }
+    else if (flags & CF_FLOAT)
+    {
+        const float value = *(float *)cvar->variable;
+
+        if (M_StringCompare(name, stringize(r_gamma)))
+        {
+            int len;
+
+            M_snprintf(buffer, size, "%.2f", value);
+            len = (int)strlen(buffer);
+
+            if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+                buffer[len - 1] = '\0';
+        }
+        else
+        {
+            char    *temp = striptrailingzero(value, 1);
+
+            M_snprintf(buffer, size, "%s%s", temp, ((flags & CF_PERCENT) ? "%" : ""));
+            free(temp);
+        }
+    }
+    else if (flags & CF_TIME)
+    {
+        int         seconds = *(int *)cvar->variable / TICRATE;
+        const int   milliseconds = (*(int *)cvar->variable % TICRATE) * (1000 / TICRATE);
+        const int   hours = seconds / 3600;
+        const int   minutes = ((seconds %= 3600)) / 60;
+
+        if (hours)
+            M_snprintf(buffer, size, "%i:%02i:%02i.%02i", hours, minutes, seconds % 60, milliseconds / 10);
+        else
+            M_snprintf(buffer, size, "%02i:%02i.%02i", minutes, seconds % 60, milliseconds / 10);
+    }
+    else if (flags & (CF_STRING | CF_OTHER))
+    {
+        const char  *value = *(char **)cvar->variable;
+
+        M_StringCopy(buffer, (value && *value ? value : EMPTYVALUE), size);
+
+        if ((flags & CF_OTHER) && english == english_british)
+            M_AmericanToBritishEnglish(buffer);
+    }
+    else
+        return false;
+
+    return true;
+}
+
 static void printfunc2(char *cmd, char *parms)
 {
+    const bool  quoted = consoleparmsquoted;
+
     if (!*parms)
     {
         const int   i = C_GetIndex(cmd);
@@ -8539,8 +8631,29 @@ static void printfunc2(char *cmd, char *parms)
         C_ShowFormat(i);
         C_ShowDescription(i);
     }
+    else if (quoted)
+    {
+        if (!M_StringCompare(parms, EMPTYVALUE))
+            HU_PlayerMessageAsIs(parms, true, false);
+    }
     else
-        HU_PlayerMessage(parms, true, false);
+    {
+        for (int i = 0; *consolecmds[i].name; i++)
+            if (consolecmds[i].type == CT_CVAR)
+            {
+                const char  *name = (english == english_american
+                                || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
+                                consolecmds[i].name : consolecmds[i].altspelling);
+                char        value[255];
+
+                if ((M_StringCompare(parms, consolecmds[i].name) || M_StringCompare(parms, name))
+                    && C_GetCVARValueString(i, value, (int)sizeof(value)))
+                {
+                    HU_PlayerMessageAsIs(value, true, false);
+                    return;
+                }
+            }
+    }
 }
 
 //
