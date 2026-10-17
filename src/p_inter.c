@@ -2143,7 +2143,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
             mo->angle = R_PointToAngle2(mo->x, mo->y, viewplayer->mo->x, viewplayer->mo->y)
                 + M_BigRandomInt(-10, 10) * ANG1;
 
-        mo->flags |= MF_DROPPED; 
+        mo->flags |= MF_DROPPED;
         mo->geartime = MAXGEARTIME;
         mo->floatbob = (M_BigRandom() & (ANIMATEDLIQUIDDIFFS - 1));
 

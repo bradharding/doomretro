@@ -33,7 +33,6 @@
 ==============================================================================
 */
 
-
 #include "d_player.h"
 #include "i_system.h"
 #include "id24info.h"
@@ -57,50 +56,50 @@
 #define NUMID24STATES   465
 #define NUMID24MOBJS    61
 
-#define I24SPR_BSH1  I24SPR(0)
-#define I24SPR_BSH2  I24SPR(1)
-#define I24SPR_BSHE  I24SPR(2)
-#define I24SPR_CBR2  I24SPR(3)
-#define I24SPR_CHR1  I24SPR(4)
-#define I24SPR_CSPI  I24SPR(5)
-#define I24SPR_CYB2  I24SPR(6)
-#define I24SPR_FLMF  I24SPR(7)
-#define I24SPR_FLMG  I24SPR(8)
-#define I24SPR_GBAL  I24SPR(9)
-#define I24SPR_GHUL  I24SPR(10)
-#define I24SPR_GOR6  I24SPR(11)
-#define I24SPR_GOR7  I24SPR(12)
-#define I24SPR_GOR8  I24SPR(13)
-#define I24SPR_GORA  I24SPR(14)
-#define I24SPR_HBB2  I24SPR(15)
-#define I24SPR_HBBQ  I24SPR(16)
-#define I24SPR_HDB7  I24SPR(17)
-#define I24SPR_HDB8  I24SPR(18)
-#define I24SPR_HETB  I24SPR(19)
-#define I24SPR_HETC  I24SPR(20)
-#define I24SPR_HETF  I24SPR(21)
-#define I24SPR_HETG  I24SPR(22)
-#define I24SPR_IFLM  I24SPR(23)
-#define I24SPR_LAMP  I24SPR(24)
-#define I24SPR_PHED  I24SPR(25)
-#define I24SPR_POB6  I24SPR(26)
-#define I24SPR_POL7  I24SPR(27)
-#define I24SPR_POLA  I24SPR(28)
-#define I24SPR_PPOS  I24SPR(29)
-#define I24SPR_STC1  I24SPR(30)
-#define I24SPR_STC2  I24SPR(31)
-#define I24SPR_STC3  I24SPR(32)
-#define I24SPR_STG1  I24SPR(33)
-#define I24SPR_STG2  I24SPR(34)
-#define I24SPR_STG3  I24SPR(35)
-#define I24SPR_STMI  I24SPR(36)
-#define I24SPR_TLP6  I24SPR(37)
-#define I24SPR_VASS  I24SPR(38)
-#define I24SPR_VFLM  I24SPR(39)
-#define I24SPR_INCN  I24SPR(40)
-#define I24SPR_CBLD  I24SPR(41)
-#define I24SPR_FCPU  I24SPR(42)
-#define I24SPR_FTNK  I24SPR(43)
+#define I24SPR_BSH1     I24SPR(0)
+#define I24SPR_BSH2     I24SPR(1)
+#define I24SPR_BSHE     I24SPR(2)
+#define I24SPR_CBR2     I24SPR(3)
+#define I24SPR_CHR1     I24SPR(4)
+#define I24SPR_CSPI     I24SPR(5)
+#define I24SPR_CYB2     I24SPR(6)
+#define I24SPR_FLMF     I24SPR(7)
+#define I24SPR_FLMG     I24SPR(8)
+#define I24SPR_GBAL     I24SPR(9)
+#define I24SPR_GHUL     I24SPR(10)
+#define I24SPR_GOR6     I24SPR(11)
+#define I24SPR_GOR7     I24SPR(12)
+#define I24SPR_GOR8     I24SPR(13)
+#define I24SPR_GORA     I24SPR(14)
+#define I24SPR_HBB2     I24SPR(15)
+#define I24SPR_HBBQ     I24SPR(16)
+#define I24SPR_HDB7     I24SPR(17)
+#define I24SPR_HDB8     I24SPR(18)
+#define I24SPR_HETB     I24SPR(19)
+#define I24SPR_HETC     I24SPR(20)
+#define I24SPR_HETF     I24SPR(21)
+#define I24SPR_HETG     I24SPR(22)
+#define I24SPR_IFLM     I24SPR(23)
+#define I24SPR_LAMP     I24SPR(24)
+#define I24SPR_PHED     I24SPR(25)
+#define I24SPR_POB6     I24SPR(26)
+#define I24SPR_POL7     I24SPR(27)
+#define I24SPR_POLA     I24SPR(28)
+#define I24SPR_PPOS     I24SPR(29)
+#define I24SPR_STC1     I24SPR(30)
+#define I24SPR_STC2     I24SPR(31)
+#define I24SPR_STC3     I24SPR(32)
+#define I24SPR_STG1     I24SPR(33)
+#define I24SPR_STG2     I24SPR(34)
+#define I24SPR_STG3     I24SPR(35)
+#define I24SPR_STMI     I24SPR(36)
+#define I24SPR_TLP6     I24SPR(37)
+#define I24SPR_VASS     I24SPR(38)
+#define I24SPR_VFLM     I24SPR(39)
+#define I24SPR_INCN     I24SPR(40)
+#define I24SPR_CBLD     I24SPR(41)
+#define I24SPR_FCPU     I24SPR(42)
+#define I24SPR_FTNK     I24SPR(43)
 
 void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -147,7 +146,7 @@ static const char *const id24_sprnames[NUMID24SPRITES] =
 
 static const char *const id24_sfxnames[NUMID24SFX] =
 {
-    "banact", "bandth", "banpai", "break", "cspact", "cspdth", "cspsit", "cspwlk",
+    "banact", "bandth", "banpai", "break",  "cspact", "cspdth", "cspsit", "cspwlk",
     "gatcls", "gatlop", "gatopn", "ghlact", "ghldth", "ghlpai", "ghlsit", "hetchg",
     "hetsht", "hetxpl", "incbrn", "incfi1", "incfi2", "incht1", "incht2", "incht3",
     "klaxon", "ppoact", "ppodth", "ppohed", "ppopai", "tyrdth", "tyrsit", "tyrwlk",

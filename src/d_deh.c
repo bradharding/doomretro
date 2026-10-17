@@ -1823,7 +1823,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 53 
+#define DEH_MOBJINFOMAX 53
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
