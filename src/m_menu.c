@@ -2651,9 +2651,13 @@ static void M_ChangeMessages(int choice)
 // M_EndGame
 //
 static bool endinggame;
+static bool endgamefromconsole;
 
 static void M_EndGameResponse(int key)
 {
+    const bool  fromconsole = endgamefromconsole;
+
+    endgamefromconsole = false;
     messagetoprint = false;
 
     if (consoleactive)
@@ -2661,7 +2665,13 @@ static void M_EndGameResponse(int key)
 
     if (key != 'y')
     {
-        if (functionkey == KEY_F7)
+        if (fromconsole)
+        {
+            M_CloseMenu();
+            C_ShowConsole(false);
+            consoleheight = CONSOLEHEIGHT;
+        }
+        else if (functionkey == KEY_F7)
             M_CloseMenu();
         else
             M_SetupNextMenu(&OptionsDef);
@@ -2697,6 +2707,14 @@ void M_EndGame(int choice)
 {
     if (gamestate != GS_LEVEL && gamestate != GS_INTERMISSION)
         return;
+
+    endgamefromconsole = consoleactive;
+
+    if (endgamefromconsole)
+    {
+        C_HideConsoleFast();
+        M_OpenMainMenu();
+    }
 
     M_StringCopy(quitmessage, s_ENDGAME, sizeof(quitmessage));
 
@@ -3590,13 +3608,13 @@ static void M_TakeScreenshot(bool flash)
 static bool M_CanOpenConsoleWithMouseDrag(void)
 {
     return (smoothtransitions && m_pointer && usingmouse && !usingcontroller && !consoleheight
-        && (gamestate != GS_LEVEL || menuactive));
+        && !messagetoprint && (gamestate != GS_LEVEL || menuactive));
 }
 
 void M_UpdateOpenConsoleEdge(int y)
 {
     openconsoleedgewait = (smoothtransitions && m_pointer && usingmouse && !usingcontroller
-        && (gamestate != GS_LEVEL || menuactive) ? y : -1);
+        && !messagetoprint && (gamestate != GS_LEVEL || menuactive) ? y : -1);
 }
 
 static bool M_CanDrawOpenConsoleEdge(void)
@@ -3749,7 +3767,7 @@ bool M_Responder(event_t *ev)
             }
 
             // open console
-            else if ((controllerbuttons & controllerconsole) && controllerwait < I_GetTime())
+            else if ((controllerbuttons & controllerconsole) && controllerwait < I_GetTime() && !messagetoprint)
             {
                 controllerwait = I_GetTime() + 2;
                 usingcontroller = true;
@@ -4262,7 +4280,7 @@ bool M_Responder(event_t *ev)
                 return true;
             }
 
-            if (!paused && !splashscreen && !savestringenter)
+            if (!paused && !splashscreen && !savestringenter && !messagetoprint)
             {
                 if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
                 {
@@ -4303,7 +4321,7 @@ bool M_Responder(event_t *ev)
     {
         keydown = key;
 
-        if (ignoreconsolekey)
+        if (ignoreconsolekey || messagetoprint)
             return true;
 
         consolekeydowntime = I_GetTimeMS();

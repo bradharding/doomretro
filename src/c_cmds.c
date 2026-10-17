@@ -8844,6 +8844,7 @@ static void resetfunc2(char *cmd, char *parms)
 static void C_VerifyResetAll(const int key)
 {
     messagetoprint = false;
+    M_CloseMenu();
     C_ShowConsole(false);
     consoleheight = CONSOLEHEIGHT;
 
@@ -9157,7 +9158,8 @@ static void resetallfunc2(char *cmd, char *parms)
 
     M_StringCopy(resetallstring, "Are you sure you want to reset all CVARs\nand controls to their defaults?",
         sizeof(resetallstring));
-    C_HideConsoleAndMenu();
+    C_HideConsoleFast();
+    M_OpenMainMenu();
     M_StartButtonMessage(resetallstring, &C_VerifyResetAll, false);
 
     SDL_StopTextInput();
