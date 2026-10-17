@@ -107,6 +107,12 @@ extern byte *tinttabredwhite50;
 extern byte *tinttabgreen33;
 extern byte *tinttabblue25;
 
+extern byte translucentreds[256];
+extern byte translucentredwhites1[256];
+extern byte translucentredwhites2[256];
+extern byte translucentgreens[256];
+extern byte translucentblues[256];
+
 extern byte nearestcolors[256];
 extern byte samecolors[256];
 

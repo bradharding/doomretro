@@ -1062,6 +1062,151 @@ void R_DrawDitheredTranslucent50SolidColorColumn(void)
     *dest = dc_sectorcolormap[tranmap[(*dest << 8) + colormap[dither[yphase]][NOTEXTURECOLOR]]];
 }
 
+// Draws a sprite in a solid color, but only translucent where the sprite's pixels are set in mask
+static inline void R_DrawPartialTranslucentSolidColorColumn(const byte *mask)
+{
+    int         count = dc_yh - dc_yl + 1;
+    byte        *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t     frac = dc_texturefrac;
+    const byte  color = dc_colormap[0][NOTEXTURECOLOR];
+
+    while (--count)
+    {
+        *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+}
+
+static inline void R_DrawLowResDitheredPartialTranslucentSolidColorColumn(const byte *mask)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const byte          *dither = dithercolumn[((dc_x + ditherxoffset) / lowpixelwidth) & DITHERMASK][dc_z];
+    int                 yphase = (dc_yl / lowpixelrows) & DITHERMASK;
+    int                 lowy = dc_yl % lowpixelrows;
+    byte                color;
+
+    while (--count)
+    {
+        color = colormap[dither[yphase]][NOTEXTURECOLOR];
+        *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+
+        if (++lowy == lowpixelrows)
+        {
+            lowy = 0;
+            yphase = (yphase + 1) & DITHERMASK;
+        }
+    }
+
+    color = colormap[dither[yphase]][NOTEXTURECOLOR];
+    *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+}
+
+static inline void R_DrawDitheredPartialTranslucentSolidColorColumn(const byte *mask)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const byte          *dither = dithercolumn[(dc_x + ditherxoffset) & DITHERMASK][dc_z];
+    int                 yphase = dc_yl & DITHERMASK;
+    byte                color;
+
+    while (--count)
+    {
+        color = colormap[dither[yphase]][NOTEXTURECOLOR];
+        *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+        yphase = (yphase + 1) & DITHERMASK;
+    }
+
+    color = colormap[dither[yphase]][NOTEXTURECOLOR];
+    *dest = dc_sectorcolormap[mask[dc_source[frac >> FRACBITS]] ? tranmap[(*dest << 8) + color] : color];
+}
+
+void R_DrawTranslucentRedSolidColorColumn(void)
+{
+    R_DrawPartialTranslucentSolidColorColumn(translucentreds);
+}
+
+void R_DrawTranslucentRedWhite1SolidColorColumn(void)
+{
+    R_DrawPartialTranslucentSolidColorColumn(translucentredwhites1);
+}
+
+void R_DrawTranslucentRedWhite2SolidColorColumn(void)
+{
+    R_DrawPartialTranslucentSolidColorColumn(translucentredwhites2);
+}
+
+void R_DrawTranslucentGreenSolidColorColumn(void)
+{
+    R_DrawPartialTranslucentSolidColorColumn(translucentgreens);
+}
+
+void R_DrawTranslucentBlueSolidColorColumn(void)
+{
+    R_DrawPartialTranslucentSolidColorColumn(translucentblues);
+}
+
+void R_DrawLowResDitheredTranslucentRedSolidColorColumn(void)
+{
+    R_DrawLowResDitheredPartialTranslucentSolidColorColumn(translucentreds);
+}
+
+void R_DrawLowResDitheredTranslucentRedWhite1SolidColorColumn(void)
+{
+    R_DrawLowResDitheredPartialTranslucentSolidColorColumn(translucentredwhites1);
+}
+
+void R_DrawLowResDitheredTranslucentRedWhite2SolidColorColumn(void)
+{
+    R_DrawLowResDitheredPartialTranslucentSolidColorColumn(translucentredwhites2);
+}
+
+void R_DrawLowResDitheredTranslucentGreenSolidColorColumn(void)
+{
+    R_DrawLowResDitheredPartialTranslucentSolidColorColumn(translucentgreens);
+}
+
+void R_DrawLowResDitheredTranslucentBlueSolidColorColumn(void)
+{
+    R_DrawLowResDitheredPartialTranslucentSolidColorColumn(translucentblues);
+}
+
+void R_DrawDitheredTranslucentRedSolidColorColumn(void)
+{
+    R_DrawDitheredPartialTranslucentSolidColorColumn(translucentreds);
+}
+
+void R_DrawDitheredTranslucentRedWhite1SolidColorColumn(void)
+{
+    R_DrawDitheredPartialTranslucentSolidColorColumn(translucentredwhites1);
+}
+
+void R_DrawDitheredTranslucentRedWhite2SolidColorColumn(void)
+{
+    R_DrawDitheredPartialTranslucentSolidColorColumn(translucentredwhites2);
+}
+
+void R_DrawDitheredTranslucentGreenSolidColorColumn(void)
+{
+    R_DrawDitheredPartialTranslucentSolidColorColumn(translucentgreens);
+}
+
+void R_DrawDitheredTranslucentBlueSolidColorColumn(void)
+{
+    R_DrawDitheredPartialTranslucentSolidColorColumn(translucentblues);
+}
+
 void R_DrawTranslucent33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;

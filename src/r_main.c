@@ -865,6 +865,8 @@ void R_InitColumnFunctions(void)
     }
     else
     {
+        const bool  partialtl = (r_sprites_translucency && !incompatiblepalette);
+
         skycolfunc = &R_DrawSolidColorColumn;
 
         if (r_ditheredlighting)
@@ -887,15 +889,15 @@ void R_InitColumnFunctions(void)
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
                 tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
-                tlgreencolfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlredcolfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlredwhitecolfunc1 = &R_DrawLowResDitheredSolidColorColumn;
-                tlredwhitecolfunc2 = &R_DrawLowResDitheredSolidColorColumn;
-                tlredwhite50colfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlbluecolfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlgreen33colfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlred33colfunc = &R_DrawLowResDitheredSolidColorColumn;
-                tlblue25colfunc = &R_DrawLowResDitheredSolidColorColumn;
+                tlgreencolfunc = (partialtl ? &R_DrawLowResDitheredTranslucentGreenSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlredcolfunc = (partialtl ? &R_DrawLowResDitheredTranslucentRedSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlredwhitecolfunc1 = (partialtl ? &R_DrawLowResDitheredTranslucentRedWhite1SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlredwhitecolfunc2 = (partialtl ? &R_DrawLowResDitheredTranslucentRedWhite2SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlredwhite50colfunc = (partialtl ? &R_DrawLowResDitheredTranslucentRedWhite1SolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlbluecolfunc = (partialtl ? &R_DrawLowResDitheredTranslucentBlueSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlgreen33colfunc = (partialtl ? &R_DrawLowResDitheredTranslucentGreenSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlred33colfunc = (partialtl ? &R_DrawLowResDitheredTranslucentRedSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
+                tlblue25colfunc = (partialtl ? &R_DrawLowResDitheredTranslucentBlueSolidColorColumn : &R_DrawLowResDitheredSolidColorColumn);
             }
             else
             {
@@ -915,15 +917,15 @@ void R_InitColumnFunctions(void)
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
                 tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
                 tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawDitheredSolidColorColumn);
-                tlgreencolfunc = &R_DrawDitheredSolidColorColumn;
-                tlredcolfunc = &R_DrawDitheredSolidColorColumn;
-                tlredwhitecolfunc1 = &R_DrawDitheredSolidColorColumn;
-                tlredwhitecolfunc2 = &R_DrawDitheredSolidColorColumn;
-                tlredwhite50colfunc = &R_DrawDitheredSolidColorColumn;
-                tlbluecolfunc = &R_DrawDitheredSolidColorColumn;
-                tlgreen33colfunc = &R_DrawDitheredSolidColorColumn;
-                tlred33colfunc = &R_DrawDitheredSolidColorColumn;
-                tlblue25colfunc = &R_DrawDitheredSolidColorColumn;
+                tlgreencolfunc = (partialtl ? &R_DrawDitheredTranslucentGreenSolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlredcolfunc = (partialtl ? &R_DrawDitheredTranslucentRedSolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlredwhitecolfunc1 = (partialtl ? &R_DrawDitheredTranslucentRedWhite1SolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlredwhitecolfunc2 = (partialtl ? &R_DrawDitheredTranslucentRedWhite2SolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlredwhite50colfunc = (partialtl ? &R_DrawDitheredTranslucentRedWhite1SolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlbluecolfunc = (partialtl ? &R_DrawDitheredTranslucentBlueSolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlgreen33colfunc = (partialtl ? &R_DrawDitheredTranslucentGreenSolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlred33colfunc = (partialtl ? &R_DrawDitheredTranslucentRedSolidColorColumn : &R_DrawDitheredSolidColorColumn);
+                tlblue25colfunc = (partialtl ? &R_DrawDitheredTranslucentBlueSolidColorColumn : &R_DrawDitheredSolidColorColumn);
             }
         }
         else
@@ -944,15 +946,15 @@ void R_InitColumnFunctions(void)
             tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
             tl50colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
             tl33colfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
-            tlgreencolfunc = &R_DrawSolidColorColumn;
-            tlredcolfunc = &R_DrawSolidColorColumn;
-            tlredwhitecolfunc1 = &R_DrawSolidColorColumn;
-            tlredwhitecolfunc2 = &R_DrawSolidColorColumn;
-            tlredwhite50colfunc = &R_DrawSolidColorColumn;
-            tlbluecolfunc = &R_DrawSolidColorColumn;
-            tlgreen33colfunc = &R_DrawSolidColorColumn;
-            tlred33colfunc = &R_DrawSolidColorColumn;
-            tlblue25colfunc = &R_DrawSolidColorColumn;
+            tlgreencolfunc = (partialtl ? &R_DrawTranslucentGreenSolidColorColumn : &R_DrawSolidColorColumn);
+            tlredcolfunc = (partialtl ? &R_DrawTranslucentRedSolidColorColumn : &R_DrawSolidColorColumn);
+            tlredwhitecolfunc1 = (partialtl ? &R_DrawTranslucentRedWhite1SolidColorColumn : &R_DrawSolidColorColumn);
+            tlredwhitecolfunc2 = (partialtl ? &R_DrawTranslucentRedWhite2SolidColorColumn : &R_DrawSolidColorColumn);
+            tlredwhite50colfunc = (partialtl ? &R_DrawTranslucentRedWhite1SolidColorColumn : &R_DrawSolidColorColumn);
+            tlbluecolfunc = (partialtl ? &R_DrawTranslucentBlueSolidColorColumn : &R_DrawSolidColorColumn);
+            tlgreen33colfunc = (partialtl ? &R_DrawTranslucentGreenSolidColorColumn : &R_DrawSolidColorColumn);
+            tlred33colfunc = (partialtl ? &R_DrawTranslucentRedSolidColorColumn : &R_DrawSolidColorColumn);
+            tlblue25colfunc = (partialtl ? &R_DrawTranslucentBlueSolidColorColumn : &R_DrawSolidColorColumn);
         }
 
         bloodcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50SolidColorColumn : &R_DrawSolidColorColumn);
@@ -970,15 +972,20 @@ void R_InitColumnFunctions(void)
     R_AddColumnTint(tlcolfunc, tinttabadditive);
     R_AddColumnTint(tl50colfunc, tranmap);
     R_AddColumnTint(tl33colfunc, tinttab33);
-    R_AddColumnTint(tlgreencolfunc, tinttabgreen);
-    R_AddColumnTint(tlredcolfunc, tinttabred);
-    R_AddColumnTint(tlredwhitecolfunc1, tinttabredwhite1);
-    R_AddColumnTint(tlredwhitecolfunc2, tinttabredwhite2);
-    R_AddColumnTint(tlredwhite50colfunc, tinttabredwhite50);
-    R_AddColumnTint(tlbluecolfunc, tinttabblue);
-    R_AddColumnTint(tlgreen33colfunc, tinttabgreen33);
-    R_AddColumnTint(tlred33colfunc, tinttabred33);
-    R_AddColumnTint(tlblue25colfunc, tinttabblue25);
+
+    if (r_textures || menuactive)
+    {
+        R_AddColumnTint(tlgreencolfunc, tinttabgreen);
+        R_AddColumnTint(tlredcolfunc, tinttabred);
+        R_AddColumnTint(tlredwhitecolfunc1, tinttabredwhite1);
+        R_AddColumnTint(tlredwhitecolfunc2, tinttabredwhite2);
+        R_AddColumnTint(tlredwhite50colfunc, tinttabredwhite50);
+        R_AddColumnTint(tlbluecolfunc, tinttabblue);
+        R_AddColumnTint(tlgreen33colfunc, tinttabgreen33);
+        R_AddColumnTint(tlred33colfunc, tinttabred33);
+        R_AddColumnTint(tlblue25colfunc, tinttabblue25);
+    }
+
     R_AddColumnTint(bloodcolfunc, tinttab33);
 
     for (mobjtype_t i = 0; i < nummobjtypes; i++)

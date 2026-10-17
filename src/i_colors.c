@@ -103,6 +103,12 @@ byte        *tinttabredwhite50;
 byte        *tinttabgreen33;
 byte        *tinttabblue25;
 
+byte        translucentreds[256];
+byte        translucentredwhites1[256];
+byte        translucentredwhites2[256];
+byte        translucentgreens[256];
+byte        translucentblues[256];
+
 byte        nearestcolors[256];
 byte        samecolors[256];
 byte        nearestblack;
@@ -410,6 +416,15 @@ void I_InitTintTables(byte *palette)
     tinttabredwhite50 = GenerateTintTable(palette, 50, (REDS | WHITES));
     tinttabgreen33 = GenerateTintTable(palette, 33, GREENS);
     tinttabblue25 = GenerateTintTable(palette, 25, BLUES);
+
+    for (int i = 0; i < 256; i++)
+    {
+        translucentreds[i] = !!(filter[i] & REDS);
+        translucentredwhites1[i] = !!(filter[i] & (REDS | WHITES));
+        translucentredwhites2[i] = !!(filter[i] & (REDS | WHITES | EXTRAS));
+        translucentgreens[i] = !!(filter[i] & GREENS);
+        translucentblues[i] = !!(filter[i] & BLUES);
+    }
 }
 
 static void HSVtoRGB(vector_t *hsv, vector_t *rgb)
