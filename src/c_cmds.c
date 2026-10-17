@@ -4061,18 +4061,22 @@ static char *findelse(char *str)
 
 static void runcommands(char *commands)
 {
-    char    *strings[255] = { "" };
-    int     j = 0;
+    char    *command;
 
     M_StripQuotes(commands);
-    strings[0] = strtok(commands, ";");
+    command = commands;
 
-    while (strings[j])
+    while (command)
     {
-        if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
+        char    *end = strchr(command, ';');
+
+        if (end)
+            *end = '\0';
+
+        if (!C_ValidateInput(trimleadingwhitespace(command)))
             break;
 
-        strings[++j] = strtok(NULL, ";");
+        command = (end ? end + 1 : NULL);
     }
 }
 
@@ -4158,8 +4162,13 @@ static void iffunc2(char *cmd, char *parms)
                 else if (consolecmds[i].flags & CF_FLOAT)
                 {
                     float   value = FLT_MIN;
+                    int     alias = C_LookupValueFromAlias(parm2,
+                                (consolecmds[i].variable == &r_gamma ? GAMMAVALUEALIAS : consolecmds[i].aliases));
 
-                    if (sscanf(parm2, "%10f", &value) == 1)
+                    if (alias != INT_MIN)
+                        value = (float)alias;
+
+                    if (alias != INT_MIN || sscanf(parm2, "%10f", &value) == 1)
                         condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
                 }
                 else
