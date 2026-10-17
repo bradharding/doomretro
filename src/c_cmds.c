@@ -93,7 +93,9 @@
 #define GIVEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define IFFORMAT                        BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
+                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "][" \
+                                        BOLD("else") " [" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
+                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
 #define INFINITEAMMOFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
 #define KILLFORMAT                      BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
@@ -872,7 +874,7 @@ consolecmd_t consolecmds[] =
     CHEATCCMD(idspispopd, false),
     CCMD(if, "", "", nullfunc1, iffunc2, true, IFFORMAT,
         "Executes a string of " BOLDITALICS("commands") " if a " BOLDITALICS("CVAR") " equals a "
-        BOLDITALICS("value") "."),
+        BOLDITALICS("value") ", or optionally a different string of " BOLDITALICS("commands") " if it doesn't."),
     BOOLCVAR(infighting, "", "", boolfunc1, boolfunc2, 0,
         "Toggles infighting amongst monsters once you die."),
     CCMD(infiniteammo, "", "", ingameccmdfunc1, infiniteammofunc2, true, INFINITEAMMOFORMAT,
@@ -4032,20 +4034,72 @@ static bool match(bool value, const char *toggle)
     return ((value && M_StringCompare(toggle, "on")) || (!value && M_StringCompare(toggle, "off")));
 }
 
+static char *findelse(char *str)
+{
+    bool    inquotes = false;
+    char    quote = '\0';
+
+    for (; *str; str++)
+    {
+        if (inquotes)
+        {
+            if (*str == quote)
+                inquotes = false;
+        }
+        else if (*str == '"' || *str == '\'')
+        {
+            inquotes = true;
+            quote = *str;
+        }
+        else if (isspace((unsigned char)*str) && !strncasecmp(str + 1, "else", 4)
+            && isspace((unsigned char)str[5]))
+            return str;
+    }
+
+    return NULL;
+}
+
+static void runcommands(char *commands)
+{
+    char    *strings[255] = { "" };
+    int     j = 0;
+
+    M_StripQuotes(commands);
+    strings[0] = strtok(commands, ";");
+
+    while (strings[j])
+    {
+        if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
+            break;
+
+        strings[++j] = strtok(NULL, ";");
+    }
+}
+
 static void iffunc2(char *cmd, char *parms)
 {
     char    parm1[64] = "";
     char    parm2[64] = "";
-    char    parm3[128] = "";
+    char    parm3[256] = "";
+    char    *elseparms;
 
-    if (sscanf(parms, "%63s is %63s then %127[^\n]", parm1, parm2, parm3) != 3
-        && sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
+    if (sscanf(parms, "%63s is %63s then %255[^\n]", parm1, parm2, parm3) != 3
+        && sscanf(parms, "%63s %63s then %255[^\n]", parm1, parm2, parm3) != 3)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowFormat(i);
         C_ShowDescription(i);
         return;
+    }
+
+    if ((elseparms = findelse(parm3)))
+    {
+        *elseparms = '\0';
+        elseparms += 6;
+
+        while (isspace((unsigned char)*elseparms))
+            elseparms++;
     }
 
     M_StripQuotes(parm1);
@@ -4061,7 +4115,7 @@ static void iffunc2(char *cmd, char *parms)
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10d", &value) == 1)
+                if (sscanf(parm2, "%10d", &value) == 1)
                     condition = (value != INT_MIN
                         && value == viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype]);
             }
@@ -4069,21 +4123,21 @@ static void iffunc2(char *cmd, char *parms)
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10d", &value) == 1)
+                if (sscanf(parm2, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->armor);
             }
             else if (M_StringCompare(parm1, "armortype") || M_StringCompare(parm1, "armourtype"))
             {
                 int value = C_LookupValueFromAlias(parm2, ARMORTYPEVALUEALIAS);
 
-                if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
+                if (value != INT_MIN || sscanf(parm2, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->armortype);
             }
             else if (M_StringCompare(parm1, "health"))
             {
                 int value = INT_MIN;
 
-                if (sscanf(parms, "%10d", &value) == 1)
+                if (sscanf(parm2, "%10d", &value) == 1)
                     condition = (value != INT_MIN && value == viewplayer->health);
             }
             else if (consolecmds[i].type == CT_CVAR)
@@ -4098,14 +4152,14 @@ static void iffunc2(char *cmd, char *parms)
                 {
                     int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
-                    if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
+                    if (value != INT_MIN || sscanf(parm2, "%10d", &value) == 1)
                         condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
                 }
                 else if (consolecmds[i].flags & CF_FLOAT)
                 {
                     float   value = FLT_MIN;
 
-                    if (sscanf(parms, "%10f", &value) == 1)
+                    if (sscanf(parm2, "%10f", &value) == 1)
                         condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
                 }
                 else
@@ -4137,21 +4191,9 @@ static void iffunc2(char *cmd, char *parms)
                 condition = match(vanilla, parm2);
 
             if (condition)
-            {
-                char    *strings[255] = { "" };
-                int     j = 0;
-
-                M_StripQuotes(parm3);
-                strings[0] = strtok(parm3, ";");
-
-                while (strings[j])
-                {
-                    if (!C_ValidateInput(trimleadingwhitespace(strings[j])))
-                        break;
-
-                    strings[++j] = strtok(NULL, ";");
-                }
-            }
+                runcommands(parm3);
+            else if (elseparms && *elseparms)
+                runcommands(elseparms);
 
             break;
         }
