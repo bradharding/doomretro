@@ -324,6 +324,24 @@ void G_PrevWeapon(void)
         G_RemoveChoppers();
 }
 
+void G_LastWeapon(void)
+{
+    const weapontype_t  lastweapon = viewplayer->lastweapon;
+
+    if (viewplayer->health <= 0 || lastweapon == wp_nochange)
+        return;
+
+    P_ChangeWeapon(lastweapon, false);
+
+    if (viewplayer->pendingweapon == lastweapon)
+    {
+        if (lastweapon == wp_fist || lastweapon == wp_chainsaw)
+            viewplayer->fistorchainsaw = lastweapon;
+        else if (lastweapon == wp_shotgun || lastweapon == wp_supershotgun)
+            viewplayer->preferredshotgun = lastweapon;
+    }
+}
+
 //
 // G_CheckAutoFire
 // Check if there's a monster in front of the player that can be targeted
@@ -835,6 +853,7 @@ static void G_SetInitialWeapon(void)
     viewplayer->readyweapon = (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo ?
         wp_fist : wp_pistol);
     viewplayer->pendingweapon = viewplayer->readyweapon;
+    viewplayer->lastweapon = wp_nochange;
 
     for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = maxammo[i];
@@ -1151,6 +1170,9 @@ bool G_Responder(const event_t *ev)
             else if ((key == keyboardnextweapon || key == keyboardnextweapon2) && !menuactive && !paused
                 && !(viewplayer->cheats & CF_FREEZE))
                 G_NextWeapon();
+            else if ((key == keyboardquickswitch || key == keyboardquickswitch2) && !menuactive && !paused
+                && !(viewplayer->cheats & CF_FREEZE))
+                G_LastWeapon();
             else if (key == KEY_PAUSE && !menuactive && !keydown && !idclevtics)
             {
                 keydown = KEY_PAUSE;
@@ -1212,6 +1234,9 @@ bool G_Responder(const event_t *ev)
                 else if (mouseprevweapon < MAXMOUSEBUTTONS && mousebuttons[mouseprevweapon]
                     && !oldmousebuttons[mouseprevweapon])
                     G_PrevWeapon();
+                else if (mousequickswitch < MAXMOUSEBUTTONS && mousebuttons[mousequickswitch]
+                    && !oldmousebuttons[mousequickswitch])
+                    G_LastWeapon();
             }
 
             if (!automapactive || am_followmode)
@@ -1232,6 +1257,8 @@ bool G_Responder(const event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELDOWN)
                         G_PrevWeapon();
+                    else if (mousequickswitch == MOUSE_WHEELDOWN)
+                        G_LastWeapon();
                     else if (mouseactionlist[MOUSE_WHEELDOWN][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELDOWN]);
                     else
@@ -1243,6 +1270,8 @@ bool G_Responder(const event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELUP)
                         G_PrevWeapon();
+                    else if (mousequickswitch == MOUSE_WHEELUP)
+                        G_LastWeapon();
                     else if (mouseactionlist[MOUSE_WHEELUP][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELUP]);
                     else
@@ -1255,6 +1284,8 @@ bool G_Responder(const event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELLEFT)
                         G_PrevWeapon();
+                    else if (mousequickswitch == MOUSE_WHEELLEFT)
+                        G_LastWeapon();
                     else if (mouseactionlist[MOUSE_WHEELLEFT][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELLEFT]);
                     else
@@ -1266,6 +1297,8 @@ bool G_Responder(const event_t *ev)
                         G_NextWeapon();
                     else if (mouseprevweapon == MOUSE_WHEELRIGHT)
                         G_PrevWeapon();
+                    else if (mousequickswitch == MOUSE_WHEELRIGHT)
+                        G_LastWeapon();
                     else if (mouseactionlist[MOUSE_WHEELRIGHT][0])
                         C_ExecuteInputString(mouseactionlist[MOUSE_WHEELRIGHT]);
                     else
@@ -1298,6 +1331,16 @@ bool G_Responder(const event_t *ev)
                     if (!controllerpress || controllerwait < time)
                     {
                         G_PrevWeapon();
+                        controllerpress = false;
+                    }
+                }
+                else if ((controllerbuttons & controllerquickswitch) && wait < time && !(viewplayer->cheats & CF_FREEZE))
+                {
+                    wait = time + 7;
+
+                    if (!controllerpress || controllerwait < time)
+                    {
+                        G_LastWeapon();
                         controllerpress = false;
                     }
                 }

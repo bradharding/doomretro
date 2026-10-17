@@ -358,6 +358,7 @@ static void lookupactionfunc(void);
 static void fullzoomactionfunc(void);
 static void gridactionfunc(void);
 static void jumpactionfunc(void);
+static void quickswitchactionfunc(void);
 static void leftactionfunc(void);
 static void markactionfunc(void);
 static void menuactionfunc(void);
@@ -418,6 +419,7 @@ action_t actions[] =
     { "+pistol",         "+pistol",         true,  false, pistolactionfunc,         &keyboardpistol,         &keyboardpistol2,         &mousepistol,         &controllerpistol,         NULL            },
     { "+plasmarifle",    "+plasmarifle",    true,  false, plasmarifleactionfunc,    &keyboardplasmarifle,    &keyboardplasmarifle2,    &mouseplasmarifle,    &controllerplasmarifle,    NULL            },
     { "+prevweapon",     "+prevweapon",     true,  false, prevweaponactionfunc,     &keyboardprevweapon,     &keyboardprevweapon2,     &mouseprevweapon,     &controllerprevweapon,     NULL            },
+    { "+quickswitch",    "+quickswitch",    true,  false, quickswitchactionfunc,    &keyboardquickswitch,    &keyboardquickswitch2,    &mousequickswitch,    &controllerquickswitch,    NULL            },
     { "+right",          "+right",          true,  false, rightactionfunc,          &keyboardright,          &keyboardright2,          &mouseright,          &controllerright,          NULL            },
     { "+rocketlauncher", "+rocketlauncher", true,  false, rocketlauncheractionfunc, &keyboardrocketlauncher, &keyboardrocketlauncher2, &mouserocketlauncher, &controllerrocketlauncher, NULL            },
     { "+rotatemode",     "+rotatemode",     true,  true,  rotatemodeactionfunc,     &keyboardrotatemode,     &keyboardrotatemode2,     &mouserotatemode,     &controllerrotatemode,     NULL            },
@@ -1448,6 +1450,12 @@ static void jumpactionfunc(void)
 {
     if (gamestate == GS_LEVEL && !nojump)
         viewplayer->cmd.buttons |= BT_JUMP;
+}
+
+static void quickswitchactionfunc(void)
+{
+    if (gamestate == GS_LEVEL)
+        G_LastWeapon();
 }
 
 static void leftactionfunc(void)
@@ -9101,6 +9109,8 @@ static void C_VerifyResetAll(const int key)
         keyboardgrid2 = KEYGRID2_DEFAULT;
         keyboardjump = KEYJUMP_DEFAULT;
         keyboardjump2 = KEYJUMP2_DEFAULT;
+        keyboardquickswitch = KEYQUICKSWITCH_DEFAULT;
+        keyboardquickswitch2 = KEYQUICKSWITCH2_DEFAULT;
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardleft2 = KEYLEFT2_DEFAULT;
         keyboardlookcenter = KEYLOOKCENTER_DEFAULT;
@@ -9182,6 +9192,7 @@ static void C_VerifyResetAll(const int key)
         mousefullzoom = MOUSEFULLZOOM_DEFAULT;
         mousegrid = MOUSEGRID_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
+        mousequickswitch = MOUSEQUICKSWITCH_DEFAULT;
         mouseleft = MOUSELEFT_DEFAULT;
         mouselookcenter = MOUSELOOKCENTER_DEFAULT;
         mouselookdown = MOUSELOOKDOWN_DEFAULT;
@@ -9231,6 +9242,7 @@ static void C_VerifyResetAll(const int key)
         controllerfullzoom = CONTROLLERFULLZOOM_DEFAULT;
         controllergrid = CONTROLLERGRID_DEFAULT;
         controllerjump = CONTROLLERJUMP_DEFAULT;
+        controllerquickswitch = CONTROLLERQUICKSWITCH_DEFAULT;
         controllerleft = CONTROLLERLEFT_DEFAULT;
         controllerlookcenter = CONTROLLERLOOKCENTER_DEFAULT;
         controllerlookdown = CONTROLLERLOOKDOWN_DEFAULT;

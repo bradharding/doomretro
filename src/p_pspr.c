@@ -368,7 +368,12 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
     // The old weapon has been lowered off the screen,
     // so change the weapon and start raising it
     if (player->pendingweapon != wp_nochange)
+    {
+        if (player->pendingweapon != player->readyweapon)
+            player->lastweapon = player->readyweapon;
+
         player->readyweapon = player->pendingweapon;
+    }
 
     P_BringUpWeapon();
 }

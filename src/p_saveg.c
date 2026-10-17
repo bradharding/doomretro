@@ -717,6 +717,8 @@ static void saveg_read_player_t(void)
     viewplayer->shotsfired_incinerator = saveg_read32();
     viewplayer->shotsfired_calamityblade = saveg_read32();
     viewplayer->itemspickedup_ammo_fuel = saveg_read32();
+    viewplayer->lastweapon = (P_SaveGameVersionAtLeast(savegameversion_6_4) ?
+        (weapontype_t)saveg_read_enum() : wp_nochange);
 }
 
 static void saveg_write_player_t(void)
@@ -827,6 +829,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->shotsfired_incinerator);
     saveg_write32(viewplayer->shotsfired_calamityblade);
     saveg_write32(viewplayer->itemspickedup_ammo_fuel);
+    saveg_write_enum(viewplayer->lastweapon);
 }
 
 //

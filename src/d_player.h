@@ -148,6 +148,9 @@ typedef struct player_s
     // Is wp_nochange if not changing.
     weapontype_t    pendingweapon;
 
+    // Weapon that was ready before the current one, or wp_nochange if none.
+    weapontype_t    lastweapon;
+
     int             weaponowned[NUMWEAPONS];
     int             ammo[NUMAMMO];
     int             maxammo[NUMAMMO];

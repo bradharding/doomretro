@@ -101,6 +101,7 @@ void G_ToggleAlwaysRun(evtype_t type);
 
 void G_NextWeapon(void);
 void G_PrevWeapon(void);
+void G_LastWeapon(void);
 void G_RemoveChoppers(void);
 
 void G_LoadedGameMessage(void);
