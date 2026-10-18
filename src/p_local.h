@@ -97,6 +97,7 @@ void P_SetupPlayerSprites(void);
 void P_MovePlayerSprites(void);
 void P_FireWeapon(void);
 void P_DropWeapon(void);
+void P_QuickSwitchWeapon(void);
 void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 
 //

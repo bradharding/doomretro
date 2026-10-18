@@ -339,6 +339,8 @@ void G_LastWeapon(void)
             viewplayer->fistorchainsaw = lastweapon;
         else if (lastweapon == wp_shotgun || lastweapon == wp_supershotgun)
             viewplayer->preferredshotgun = lastweapon;
+
+        P_QuickSwitchWeapon();
     }
 }
 

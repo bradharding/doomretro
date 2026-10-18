@@ -47,8 +47,10 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-bool    successfulshot;
-int     skippsprinterp = 0;
+bool                successfulshot;
+int                 skippsprinterp = 0;
+
+static weapontype_t quickswitchweapon = wp_nochange;
 
 //
 // A_Recoil
@@ -345,7 +347,10 @@ void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    psp->sy += LOWERSPEED;
+    if (player->pendingweapon != quickswitchweapon || player->health <= 0)
+        quickswitchweapon = wp_nochange;
+
+    psp->sy += LOWERSPEED * (quickswitchweapon != wp_nochange ? 2 : 1);
 
     // Is already down.
     if (psp->sy < WEAPONBOTTOM)
@@ -383,13 +388,28 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    psp->sy -= RAISESPEED;
+    if (player->readyweapon != quickswitchweapon || player->health <= 0
+        || (player->pendingweapon != wp_nochange && player->pendingweapon != quickswitchweapon))
+        quickswitchweapon = wp_nochange;
+
+    psp->sy -= RAISESPEED * (quickswitchweapon != wp_nochange ? 2 : 1);
 
     if (psp->sy > WEAPONTOP)
         return;
 
+    quickswitchweapon = wp_nochange;
     psp->sy = WEAPONTOP;
     P_SetPlayerSprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
+}
+
+void P_QuickSwitchWeapon(void)
+{
+    const state_t   *state = viewplayer->psprites[ps_weapon].state;
+
+    quickswitchweapon = viewplayer->pendingweapon;
+
+    if (state && state->action == &A_Raise)
+        P_DropWeapon();
 }
 
 //
@@ -935,6 +955,8 @@ void A_BFGSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void P_SetupPlayerSprites(void)
 {
+    quickswitchweapon = wp_nochange;
+
     // remove all psprites
     viewplayer->psprites[ps_weapon].state = NULL;
     viewplayer->psprites[ps_weapon].tics = -1;
