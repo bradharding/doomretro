@@ -739,9 +739,15 @@ void P_PlayerThink(void)
         // A special event has no other buttons.
         cmd->buttons = 0;
     else if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
+    {
         // Check for weapon change.
-        P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT,
-            !(cmd->buttons & BT_NOBEST));
+        const weapontype_t  newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
+
+        P_ChangeWeapon(newweapon, !(cmd->buttons & BT_NOBEST));
+
+        if ((cmd->buttons & BT_QUICKSWITCH) && viewplayer->pendingweapon == newweapon)
+            P_QuickSwitchWeapon();
+    }
 
     // check for use
     if (autouse && !(viewplayer->cheats & CF_NOCLIP))

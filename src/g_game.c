@@ -395,14 +395,15 @@ static void G_QuickMelee(ticcmd_t *cmd, const bool held)
             if (readyweapon == quickmeleeweapon)
             {
                 // the melee weapon hasn't come up yet, so just cancel the switch
-                viewplayer->pendingweapon = wp_nochange;
+                viewplayer->pendingweapon = readyweapon;
+                P_QuickSwitchWeapon();
                 viewplayer->lastweapon = quickmeleelastweapon;
                 G_ResetQuickMelee();
             }
             else
             {
                 // switch back to the weapon that was equipped before
-                cmd->buttons |= (BT_CHANGE | BT_NOBEST | (quickmeleeweapon << BT_WEAPONSHIFT));
+                cmd->buttons |= (BT_CHANGE | BT_NOBEST | BT_QUICKSWITCH | (quickmeleeweapon << BT_WEAPONSHIFT));
                 quickmeleereturning = true;
             }
 
@@ -420,7 +421,7 @@ static void G_QuickMelee(ticcmd_t *cmd, const bool held)
     {
         quickmeleeweapon = currentweapon;
         quickmeleelastweapon = viewplayer->lastweapon;
-        cmd->buttons |= (BT_CHANGE | BT_NOBEST
+        cmd->buttons |= (BT_CHANGE | BT_NOBEST | BT_QUICKSWITCH
             | ((viewplayer->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist) << BT_WEAPONSHIFT));
         return;
     }

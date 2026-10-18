@@ -102,6 +102,7 @@ enum
     BT_NOBEST      =  2048,
 
     BT_JUMP         = 4096,
+    BT_QUICKSWITCH  = 8192,
 
     // Pause the game.
     BTS_PAUSE       = 1,
