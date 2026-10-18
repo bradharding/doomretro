@@ -94,7 +94,7 @@
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define IFFORMAT                        BOLDITALICS("CVAR") " [" BOLD("is") " [" BOLD("not") "]] " \
                                         BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") "..." BOLD("\"") "][" \
+                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") "..." BOLD("\"") "][ " \
                                         BOLD("else") " [" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
                                         BOLDITALICS("command") "..." BOLD("\"") "]]"
 #define INFINITEAMMOFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
