@@ -79,9 +79,9 @@
 #include "w_wad.h"
 
 #define ALIASFORMAT                     BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
-                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
+                                        BOLDITALICS("command") "..." BOLD("\"") "]]"
 #define BINDFORMAT                      BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
-                                        BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
+                                        BOLD(";") " " BOLDITALICS("command") "..." BOLD("\"") "]]"
 #define CMDLISTFORMAT                   "[" BOLDITALICS("searchstring") "]"
 #define CONDUMPFORMAT                   "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]"
 #define CVARLISTFORMAT                  "[" BOLDITALICS("searchstring") "]"
@@ -92,10 +92,11 @@
 #define GODFORMAT                       "[" BOLD("on") "|" BOLD("off") "]"
 #define GIVEFORMAT                      BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                         BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
-#define IFFORMAT                        BOLDITALICS("CVAR") " " BOLD("is") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
-                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "][" \
+#define IFFORMAT                        BOLDITALICS("CVAR") " [" BOLD("is") " [" BOLD("not") "]] " \
+                                        BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+                                        BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") "..." BOLD("\"") "][" \
                                         BOLD("else") " [" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
-                                        BOLDITALICS("command") " ..." BOLD("\"") "]]"
+                                        BOLDITALICS("command") "..." BOLD("\"") "]]"
 #define INFINITEAMMOFORMAT              "[" BOLD("on") "|" BOLD("off") "]"
 #define KILLFORMAT                      BOLD("player") "|" BOLD("all") "|[[" BOLD("un") "]" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADFORMAT                      BOLD("1") ".." BOLD("8") "|" BOLDITALICS("filename") "[" BOLD(".save") "]"
@@ -4082,13 +4083,45 @@ static void runcommands(char *commands)
 
 static void iffunc2(char *cmd, char *parms)
 {
-    char    parm1[64] = "";
-    char    parm2[64] = "";
-    char    parm3[256] = "";
-    char    *elseparms;
+    char        parm1[64] = "";
+    char        parm2[64] = "";
+    char        parm3[256] = "";
+    char        *elseparms;
+    bool        negate = false;
+    char        word[64] = "";
+    int         length = 0;
+    const char  *rest;
+    bool        parsed = false;
 
-    if (sscanf(parms, "%63s is %63s then %255[^\n]", parm1, parm2, parm3) != 3
-        && sscanf(parms, "%63s %63s then %255[^\n]", parm1, parm2, parm3) != 3)
+    if (sscanf(parms, "%63s%n", parm1, &length) == 1)
+    {
+        rest = parms + length;
+
+        if (sscanf(rest, "%63s%n", word, &length) == 1)
+        {
+            if (M_StringCompare(word, "is"))
+            {
+                const char  *next = rest + length;
+
+                rest = next;
+
+                if (sscanf(next, "%63s%n", word, &length) == 1 && M_StringCompare(word, "not"))
+                {
+                    negate = true;
+                    rest = next + length;
+                }
+            }
+            else if (M_StringCompare(word, "isn't"))
+            {
+                negate = true;
+                rest += length;
+            }
+        }
+
+        parsed = (sscanf(rest, "%63s then %255[^\n]", parm2, parm3) == 2);
+    }
+
+    if (!parsed)
     {
         const int   i = C_GetIndex(cmd);
 
@@ -4199,7 +4232,7 @@ static void iffunc2(char *cmd, char *parms)
             else if (M_StringCompare(parm1, "vanilla"))
                 condition = match(vanilla, parm2);
 
-            if (condition)
+            if (condition != negate)
                 runcommands(parm3);
             else if (elseparms && *elseparms)
                 runcommands(elseparms);

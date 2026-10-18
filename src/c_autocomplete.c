@@ -1049,10 +1049,26 @@ static void ResolveIf(const char (*w)[WORDLEN], const int a)
     {
         AddCVARValues(cvar, false, true);
         AddWord("is", 1, true);
+        AddWord("isn't", 1, true);
         return;
     }
 
-    value = (M_StringCompare(w[1], "is") ? 2 : 1);
+    if (M_StringCompare(w[1], "is"))
+    {
+        value = 2;
+
+        if (a == 2)
+        {
+            AddCVARValues(cvar, false, true);
+            AddWord("not", 1, true);
+            return;
+        }
+
+        if (M_StringCompare(w[2], "not"))
+            value = 3;
+    }
+    else
+        value = (M_StringCompare(w[1], "isn't") ? 2 : 1);
 
     if (a == value)
         AddCVARValues(cvar, false, true);
